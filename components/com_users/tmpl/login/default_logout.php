@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 ?>
@@ -33,7 +32,7 @@ use Joomla\CMS\Router\Route;
 	<?php endif; ?>
 
 	<?php if ($this->params->get('logout_image') != '') : ?>
-		<?php echo LayoutHelper::render('joomla.html.image', ['src' => $this->params->get('logout_image'), 'class' => 'com-users-logout__image thumbnail float-end logout-image', 'alt' => empty($this->params->get('logout_image_alt')) && empty($this->params->get('logout_image_alt_empty')) ? false : $this->params->get('logout_image_alt')]); ?>
+		<?php echo HTMLHelper::_('image', $this->params->get('logout_image'), empty($this->params->get('logout_image_alt')) && empty($this->params->get('logout_image_alt_empty')) ? false : $this->params->get('logout_image_alt'), ['class' => 'com-users-logout__image thumbnail float-end logout-image']); ?>
 	<?php endif; ?>
 
 	<?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '')|| $this->params->get('logout_image') != '') : ?>
