@@ -28,14 +28,13 @@ class NotifyActionLog extends AbstractImmutableEvent
 		'onComUsersCaptiveValidateFailed',
 		'onComUsersCaptiveValidateInvalidMethod',
 		'onComUsersCaptiveValidateSuccess',
-		'onComUsersControllerMethodAfterRegenbackupcodes',
+		'onComUsersControllerMethodAfterRegenerateBackupCodes',
 		'onComUsersControllerMethodBeforeAdd',
 		'onComUsersControllerMethodBeforeDelete',
 		'onComUsersControllerMethodBeforeEdit',
 		'onComUsersControllerMethodBeforeSave',
 		'onComUsersControllerMethodsBeforeDisable',
-		'onComUsersControllerMethodsBeforeDontshowthisagain',
-		'onComUsersControllerConvertAfterConvert',
+		'onComUsersControllerMethodsBeforeDoNotShowThisAgain',
 	];
 
 	/**
