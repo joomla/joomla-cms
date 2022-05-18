@@ -17,6 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\Twofactorauth\Webauthn\CredentialRepository;
+use Joomla\Plugin\Twofactorauth\Webauthn\Hotfix\Server;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use ReflectionClass;
@@ -30,7 +31,6 @@ use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
-use Webauthn\Server;
 
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)

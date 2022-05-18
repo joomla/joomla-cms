@@ -27,6 +27,16 @@
     return output;
   };
 
+  const displayError = (message) => {
+    try {
+      Joomla.renderMessages({
+        error: message
+      });
+    } catch (e) {
+      alert(message);
+    }
+  };
+
   const handleError = (message) => {
     try {
       document.getElementById('plg_twofactorauth_webauthn_validate_button').style.disabled = 'null';
@@ -34,9 +44,7 @@
       // Do nothing
     }
 
-    Joomla.renderMessages({
-      error: message,
-    });
+    displayError(message);
   };
 
   const setUp = (e) => {
@@ -44,9 +52,7 @@
 
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      Joomla.renderMessages({
-        error: Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'),
-      });
+      displayError(Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return false;
     }
@@ -104,9 +110,7 @@
   const validate = () => {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      Joomla.renderMessages({
-        error: Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'),
-      });
+      displayError(Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return;
     }
