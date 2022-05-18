@@ -132,7 +132,7 @@ class PlgUserJoomla extends CMSPlugin
 			// Do nothing.
 		}
 
-		// Delete Two Factor Authentication user profile records
+		// Delete Multi-factor Authentication user profile records
 		$profileKey = 'mfa.%';
 		$query      = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__user_profiles'))
@@ -150,7 +150,7 @@ class PlgUserJoomla extends CMSPlugin
 			// Do nothing
 		}
 
-		// Delete Two Factor Authentication records
+		// Delete Multi-factor Authentication records
 		$query = $this->db->getQuery(true)
 			->delete($this->db->qn('#__user_mfa'))
 			->where($this->db->quoteName('user_id') . ' = :userId')
@@ -428,8 +428,8 @@ class PlgUserJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Hooks on the Joomla! login event. Detects silent logins and disables the Two Factor
-	 * Authentication Captive page in this case.
+	 * Hooks on the Joomla! login event. Detects silent logins and disables the Multi-Factor
+	 * Authentication page in this case.
 	 *
 	 * Moreover, it will save the redirection URL and the Captive URL which is necessary in Joomla 4. You see, in Joomla
 	 * 4 having unified sessions turned on makes the backend login redirect you to the frontend of the site AFTER

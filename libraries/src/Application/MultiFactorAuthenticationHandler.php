@@ -25,7 +25,7 @@ use Joomla\Database\ParameterType;
 use RuntimeException;
 
 /**
- * Implements the code required for integrating with Joomla's Two Factor Authentication.
+ * Implements the code required for integrating with Joomla's Multi-factor Authentication.
  *
  * Please keep in mind that Joomla's MFA, like any MFA method, is designed to be user-interactive.
  * Moreover, it's meant to be used in an HTML- and JavaScript-aware execution environment i.e. a web
@@ -46,15 +46,15 @@ use RuntimeException;
 trait MultiFactorAuthenticationHandler
 {
 	/**
-	 * Handle the redirection to the Two Factor Authentication captive login or setup page.
+	 * Handle the redirection to the Multi-factor Authentication captive login or setup page.
 	 *
-	 * @return  boolean  True if we are currently handling a Two Factor Authentication captive page.
+	 * @return  boolean  True if we are currently handling a Multi-factor Authentication captive page.
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function isHandlingMultiFactorAuthentication(): bool
 	{
-		// Two Factor Authentication checks take place only for logged in users.
+		// Multi-factor Authentication checks take place only for logged in users.
 		try
 		{
 			$user = $this->getIdentity() ?? null;
@@ -82,7 +82,7 @@ trait MultiFactorAuthenticationHandler
 		 * for practical reasons. On a site with hundreds or thousands of users the migration could
 		 * take several minutes, causing Joomla Update to time out.
 		 *
-		 * Instead, every time we are in a captive Two Factor Authentication page (captive MFA login
+		 * Instead, every time we are in a captive Multi-factor Authentication page (captive MFA login
 		 * or captive forced MFA setup) we spend a few milliseconds to check if a migration is
 		 * necessary. If it's necessary, we perform it.
 		 *
@@ -238,7 +238,7 @@ trait MultiFactorAuthenticationHandler
 	}
 
 	/**
-	 * Check whether we'll need to do a redirection to the Two Factor Authentication captive page.
+	 * Check whether we'll need to do a redirection to the Multi-factor Authentication captive page.
 	 *
 	 * @return  boolean
 	 * @since __DEPLOY_VERSION__
@@ -312,7 +312,7 @@ trait MultiFactorAuthenticationHandler
 	}
 
 	/**
-	 * Is this a page concerning the Two Factor Authentication feature?
+	 * Is this a page concerning the Multi-factor Authentication feature?
 	 *
 	 * @return boolean
 	 * @since  __DEPLOY_VERSION__

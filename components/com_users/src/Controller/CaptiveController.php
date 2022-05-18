@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Site\Controller;
 use Joomla\Component\Users\Administrator\Controller\CaptiveController as AdminCaptiveController;
 
 /**
- * Captive Two Factor Authentication page controller
+ * Captive Multi-factor Authentication page controller
  *
  * @since __DEPLOY_VERSION__
  */

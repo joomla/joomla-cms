@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Site\Controller;
 use Joomla\Component\Users\Administrator\Controller\MethodsController as AdminMethodsController;
 
 /**
- * Two Factor Authentication methods selection and management controller
+ * Multi-factor Authentication methods selection and management controller
  *
  * @since __DEPLOY_VERSION__
  */

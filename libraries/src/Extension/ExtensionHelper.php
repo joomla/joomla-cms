@@ -300,7 +300,7 @@ class ExtensionHelper
 		array('plugin', 'requests', 'task', 0),
 		array('plugin', 'sitestatus', 'task', 0),
 
-		// Core plugin extensions - two factor authentication
+		// Core plugin extensions - Multi-factor Authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
 		array('plugin', 'yubikey', 'twofactorauth', 0),
 

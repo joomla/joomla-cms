@@ -24,7 +24,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Event\Event;
 
 /**
- * Captive Two Factor Authentication page's model
+ * Captive Multi-factor Authentication page's model
  *
  * @since __DEPLOY_VERSION__
  */

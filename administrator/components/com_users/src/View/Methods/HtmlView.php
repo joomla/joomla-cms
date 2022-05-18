@@ -23,7 +23,7 @@ use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
 
 /**
- * View for Two Factor Authentication methods list page
+ * View for Multi-factor Authentication methods list page
  *
  * @since __DEPLOY_VERSION__
  */

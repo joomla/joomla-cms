@@ -24,7 +24,7 @@ use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
 use stdClass;
 
 /**
- * View for Two Factor Authentication captive page
+ * View for Multi-factor Authentication captive page
  *
  * @since __DEPLOY_VERSION__
  */

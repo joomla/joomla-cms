@@ -23,7 +23,7 @@ use Joomla\Database\ParameterType;
 use RuntimeException;
 
 /**
- * Two Factor Authentication Methods list page's model
+ * Multi-factor Authentication Methods list page's model
  *
  * @since __DEPLOY_VERSION__
  */
@@ -82,7 +82,7 @@ class MethodsModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Delete all Two Factor Authentication Methods for the given user.
+	 * Delete all Multi-factor Authentication Methods for the given user.
 	 *
 	 * @param   User|null  $user  The user object to reset MFA for. Null to use the current user.
 	 *

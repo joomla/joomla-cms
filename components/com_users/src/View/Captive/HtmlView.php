@@ -10,7 +10,7 @@
 namespace Joomla\Component\Users\Site\View\Captive;
 
 /**
- * View for Two Factor Authentication captive page
+ * View for Multi-factor Authentication captive page
  *
  * @since __DEPLOY_VERSION__
  */

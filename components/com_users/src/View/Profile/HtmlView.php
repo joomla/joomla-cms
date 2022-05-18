@@ -76,7 +76,7 @@ class HtmlView extends BaseHtmlView
 	protected $pageclass_sfx = '';
 
 	/**
-	 * The Two Factor Authentication configuration interface for the user.
+	 * The Multi-factor Authentication configuration interface for the user.
 	 *
 	 * @var   string|null
 	 * @since __DEPLOY_VERSION__

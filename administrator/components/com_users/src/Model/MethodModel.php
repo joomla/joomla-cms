@@ -22,7 +22,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 
 /**
- * Two Factor Authentication management model
+ * Multi-factor Authentication management model
  *
  * @since __DEPLOY_VERSION__
  */

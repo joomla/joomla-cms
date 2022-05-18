@@ -28,7 +28,7 @@ use ReflectionObject;
 use RuntimeException;
 
 /**
- * Two Factor Authentication methods selection and management controller
+ * Multi-factor Authentication methods selection and management controller
  *
  * @since __DEPLOY_VERSION__
  */
@@ -53,7 +53,7 @@ class MethodsController extends BaseController
 	}
 
 	/**
-	 * Disable Two Factor Authentication for the current user
+	 * Disable Multi-factor Authentication for the current user
 	 *
 	 * @param   bool   $cachable     Can this view be cached
 	 * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
@@ -113,7 +113,7 @@ class MethodsController extends BaseController
 	}
 
 	/**
-	 * List all available Two Factor Authentication Methods available and guide the user to setting them up
+	 * List all available Multi-factor Authentication Methods available and guide the user to setting them up
 	 *
 	 * @param   bool   $cachable     Can this view be cached
 	 * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
@@ -152,7 +152,7 @@ class MethodsController extends BaseController
 	}
 
 	/**
-	 * Disable Two Factor Authentication for the current user
+	 * Disable Multi-factor Authentication for the current user
 	 *
 	 * @param   bool   $cachable     Can this view be cached
 	 * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see

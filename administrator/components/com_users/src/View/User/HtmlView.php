@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * The Two Factor Authentication configuration interface for the user.
+	 * The Multi-factor Authentication configuration interface for the user.
 	 *
 	 * @var   string|null
 	 * @since __DEPLOY_VERSION__

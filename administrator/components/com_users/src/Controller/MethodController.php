@@ -29,7 +29,7 @@ use Joomla\Input\Input;
 use RuntimeException;
 
 /**
- * Two Factor Authentication method controller
+ * Multi-factor Authentication method controller
  *
  * @since __DEPLOY_VERSION__
  */

@@ -27,13 +27,13 @@ use Joomla\Input\Input;
 use RuntimeException;
 
 /**
- * TJoomla! Two Factor Authentication using a fixed code.
+ * TJoomla! Multi-factor Authentication using a fixed code.
  *
  * Requires a static string (password), different for each user. It effectively works as a second
  * password. The fixed code is stored hashed, like a regular password.
  *
  * This is NOT to be used on production sites. It serves as a demonstration plugin and as a template
- * for developers to create their own custom Two Factor Authentication plugins.
+ * for developers to create their own custom Multi-factor Authentication plugins.
  *
  * @since __DEPLOY_VERSION__
  */
@@ -253,7 +253,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Validates the Two Factor Authentication code submitted by the user in the Captive Two Factor
+	 * Validates the Multi-factor Authentication code submitted by the user in the Multi-Factor
 	 * Authentication. If the record does not correspond to your plugin return FALSE.
 	 *
 	 * @param   Validate  $event  The event we are handling

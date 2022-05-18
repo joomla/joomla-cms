@@ -32,7 +32,7 @@ use Joomla\Input\Input;
 use RuntimeException;
 
 /**
- * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
+ * Joomla! Multi-factor Authentication using Google Authenticator TOTP Plugin
  *
  * @since  3.2
  */
@@ -320,7 +320,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Validates the Two Factor Authentication code submitted by the user in the Captive Two Factor
+	 * Validates the Multi-factor Authentication code submitted by the user in the Multi-Factor
 	 * Authentication page. If the record does not correspond to your plugin return FALSE.
 	 *
 	 * @param   Validate  $event  The event we are handling

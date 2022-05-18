@@ -2,7 +2,7 @@
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "plg_twofactorauth_webauthn",
   "version": "6.0.4",
-  "description": "WebAuthn integration for Joomla Two Factor Authentication",
+  "description": "WebAuthn integration for Joomla Multi-factor Authentication",
   "license": "GPL-3.0-or-later",
   "assets": [
     {

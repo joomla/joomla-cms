@@ -52,7 +52,7 @@ abstract class Mfa
 	protected static $isAdmin = null;
 
 	/**
-	 * Get the HTML for the Two Factor Authentication configuration interface for a user.
+	 * Get the HTML for the Multi-factor Authentication configuration interface for a user.
 	 *
 	 * This helper method uses a sort of primitive HMVC to display the com_users' Methods page which
 	 * renders the MFA configuration interface.
@@ -117,7 +117,7 @@ abstract class Mfa
 			@ob_end_clean();
 
 			/**
-			 * This is intentional! When you are developing a Two Factor Authentication plugin you
+			 * This is intentional! When you are developing a Multi-factor Authentication plugin you
 			 * will inevitably mess something up and end up with an error. This would cause the
 			 * entire MFA configuration page to dissappear. No problem! Set Debug System to Yes in
 			 * Global Configuration and you can see the error exception which will help you solve

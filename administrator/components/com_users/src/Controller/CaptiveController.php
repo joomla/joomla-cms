@@ -30,7 +30,7 @@ use ReflectionObject;
 use RuntimeException;
 
 /**
- * Captive Two Factor Authentication page controller
+ * Captive Multi-factor Authentication page controller
  *
  * @since __DEPLOY_VERSION__
  */

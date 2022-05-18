@@ -19,7 +19,7 @@ use Joomla\Input\Input;
 use RuntimeException;
 
 /**
- * Two Factor Authentication plugins' AJAX callback controller
+ * Multi-factor Authentication plugins' AJAX callback controller
  *
  * @since __DEPLOY_VERSION__
  */

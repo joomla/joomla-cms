@@ -17,7 +17,7 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
 
 /**
- * View for Two Factor Authentication method add/edit page
+ * View for Multi-factor Authentication method add/edit page
  *
  * @since __DEPLOY_VERSION__
  */

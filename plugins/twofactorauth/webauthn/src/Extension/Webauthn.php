@@ -35,7 +35,7 @@ use RuntimeException;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 /**
- * Joomla Two Factor Authentication plugin for WebAuthn
+ * Joomla Multi-factor Authentication plugin for WebAuthn
  *
  * @since __DEPLOY_VERSION__
  */
@@ -395,7 +395,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Validates the Two Factor Authentication code submitted by the user in the Two Factor
+	 * Validates the Multi-factor Authentication code submitted by the user in the Multi-Factor
 	 * Authentication page. If the record does not correspond to your plugin return FALSE.
 	 *
 	 * @param   Validate  $event  The event we are handling

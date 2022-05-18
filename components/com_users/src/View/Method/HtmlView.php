@@ -10,7 +10,7 @@
 namespace Joomla\Component\Users\Site\View\Method;
 
 /**
- * View for Two Factor Authentication method add/edit page
+ * View for Multi-factor Authentication method add/edit page
  *
  * @since __DEPLOY_VERSION__
  */

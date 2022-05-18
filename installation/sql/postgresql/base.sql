@@ -1057,7 +1057,7 @@ CREATE TABLE IF NOT EXISTS "#__user_tfa" (
 
 CREATE INDEX "#__user_tfa_idx_user_id" ON "#__user_tfa" ("user_id");
 
-COMMENT ON TABLE "#__user_tfa" IS 'Two Factor Authentication settings';
+COMMENT ON TABLE "#__user_tfa" IS 'Multi-factor Authentication settings';
 
 --
 -- Table structure for table `#__user_usergroup_map`

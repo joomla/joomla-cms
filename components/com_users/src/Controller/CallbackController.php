@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Site\Controller;
 use Joomla\Component\Users\Administrator\Controller\CallbackController as AdminCallbackController;
 
 /**
- * Two Factor Authentication plugins' AJAX callback controller
+ * Multi-factor Authentication plugins' AJAX callback controller
  *
  * @since __DEPLOY_VERSION__
  */

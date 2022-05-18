@@ -10,7 +10,7 @@
 namespace Joomla\Component\Users\Site\Model;
 
 /**
- * Two Factor Authentication Method management model
+ * Multi-factor Authentication Method management model
  *
  * @since __DEPLOY_VERSION__
  */

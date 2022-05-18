@@ -40,7 +40,7 @@ use RuntimeException;
 use function count;
 
 /**
- * Joomla! Two Factor Authentication using a Validation Code sent by Email.
+ * Joomla! Multi-factor Authentication using a Validation Code sent by Email.
  *
  * Requires entering a 6-digit code sent to the user through email. These codes change automatically
  * on a frequency set in the plugin options (30 seconds to 5 minutes, default 2 minutes).
@@ -358,7 +358,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Validates the Two Factor Authentication code submitted by the user in the Captive Two Factor
+	 * Validates the Multi-factor Authentication code submitted by the user in the Multi-Factor
 	 * Authentication page. If the record does not correspond to your plugin return FALSE.
 	 *
 	 * @param   Validate  $event  The event we are handling

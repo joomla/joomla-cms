@@ -1033,7 +1033,7 @@ CREATE TABLE IF NOT EXISTS `#__user_tfa` (
   `last_used` datetime,
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Two Factor Authentication settings';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Multi-factor Authentication settings';
 
 -- --------------------------------------------------------
 
