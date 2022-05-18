@@ -70,6 +70,7 @@ export default {
   },
   mounted() {
     /* Listen to keydown events on the document */
+    document.addEventListener('keydown', this.onKeyDown);
     this.focusableElements = 'button:not([disabled]), [href], input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
     this.modal = document.querySelector('.modal-dialog');
     this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
@@ -86,6 +87,7 @@ export default {
     this.observer.observe(this.targetNode, this.config);
   },
   beforeUnmount() {
+    document.removeEventListener('keydown', this.onKeyDown);
     /* Disconnect the mutation observer */
     this.observer.disconnect();
 
@@ -114,9 +116,6 @@ export default {
       if (!isTabPressed) {
         return;
       }
-      if (e.keyCode === 27 || e.key === 'Escape') {
-        this.close();
-      }
       if (e.shiftKey) { // if shift key pressed for shift + tab combination
         if (document.activeElement === this.firstFocusableElement) {
           this.lastFocusableElement.focus(); // add focus for the last focusable element
@@ -125,6 +124,11 @@ export default {
       } else if (document.activeElement === this.lastFocusableElement) {
         this.firstFocusableElement.focus();
         e.preventDefault();
+      }
+    },
+    onKeyDown(event) {
+      if (event.keyCode === 27) {
+        this.close();
       }
     },
     /* Close the modal instance */
