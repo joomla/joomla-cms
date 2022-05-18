@@ -264,60 +264,6 @@ class ProfileModel extends FormModel
 		// Unset block and sendEmail so they do not get overwritten
 		unset($data['block'], $data['sendEmail']);
 
-		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
-		{
-			$model = $this->bootComponent('com_users')->getMVCFactory()
-				->createModel('User', 'Administrator');
-
-			$twoFactorMethod = $data['twofactor']['method'];
-
-			// Get the current One Time Password (two factor auth) configuration
-			$otpConfig = $model->getOtpConfig($userId);
-
-			if ($twoFactorMethod !== 'none')
-			{
-				// Run the plugins
-				PluginHelper::importPlugin('twofactorauth');
-				$otpConfigReplies = Factory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
-
-				// Look for a valid reply
-				foreach ($otpConfigReplies as $reply)
-				{
-					if (!is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
-					{
-						continue;
-					}
-
-					$otpConfig->method = $reply->method;
-					$otpConfig->config = $reply->config;
-
-					break;
-				}
-
-				// Save OTP configuration.
-				$model->setOtpConfig($userId, $otpConfig);
-
-				// Generate one time emergency passwords if required (depleted or not set)
-				if (empty($otpConfig->otep))
-				{
-					$model->generateOteps($userId);
-				}
-			}
-			else
-			{
-				$otpConfig->method = 'none';
-				$otpConfig->config = array();
-				$model->setOtpConfig($userId, $otpConfig);
-			}
-
-			// Unset the raw data
-			unset($data['twofactor']);
-
-			// Reload the user record with the updated OTP configuration
-			$user->load($userId);
-		}
-
 		// Bind the data.
 		if (!$user->bind($data))
 		{
