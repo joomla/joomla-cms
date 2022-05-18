@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Text;
 			<dl class="row">
 				<?php foreach ($this->item as $key => $value) : ?>
 				<dt class="col-sm-3"><?php echo $key; ?></dt>
-				<dd class="col-sm-9"><?php echo $value; ?></dd>
+				<dd class="col-sm-9<?php echo $key == 'object' ? ' text-break' : '';?>"><?php echo $value; ?></dd>
 				<?php endforeach; ?>
 			</dl>
 		</div>
