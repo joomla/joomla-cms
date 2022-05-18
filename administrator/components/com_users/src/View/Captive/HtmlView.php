@@ -10,9 +10,8 @@
 namespace Joomla\Component\Users\Administrator\View\Captive;
 
 use Exception;
-use Joomla\CMS\Event\GenericEvent;
-use Joomla\CMS\Event\TwoFactor\BeforeDisplayMethods;
-use Joomla\CMS\Event\TwoFactor\NotifyActionLog;
+use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
+use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;

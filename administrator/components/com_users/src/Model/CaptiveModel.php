@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\TwoFactor\Captive;
+use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;

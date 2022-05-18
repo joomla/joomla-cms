@@ -11,7 +11,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Exception;
 use Joomla\CMS\Event\GenericEvent;
-use Joomla\CMS\Event\TwoFactor\GetSetup;
+use Joomla\CMS\Event\MultiFactor\GetSetup;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;

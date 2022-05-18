@@ -6,7 +6,7 @@
  * @license        GNU General Public License version 2 or later; see LICENSE
  */
 
-namespace Joomla\CMS\Event\TwoFactor;
+namespace Joomla\CMS\Event\MultiFactor;
 
 \defined('JPATH_PLATFORM') or die;
 

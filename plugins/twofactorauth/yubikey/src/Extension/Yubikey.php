@@ -11,11 +11,11 @@ namespace Joomla\Plugin\Twofactorauth\Yubikey\Extension;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\TwoFactor\Captive;
-use Joomla\CMS\Event\TwoFactor\GetMethod;
-use Joomla\CMS\Event\TwoFactor\GetSetup;
-use Joomla\CMS\Event\TwoFactor\SaveSetup;
-use Joomla\CMS\Event\TwoFactor\Validate;
+use Joomla\CMS\Event\MultiFactor\Captive;
+use Joomla\CMS\Event\MultiFactor\GetMethod;
+use Joomla\CMS\Event\MultiFactor\GetSetup;
+use Joomla\CMS\Event\MultiFactor\SaveSetup;
+use Joomla\CMS\Event\MultiFactor\Validate;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;

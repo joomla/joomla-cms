@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Users\Administrator\View\Methods;
 
-use Joomla\CMS\Event\TwoFactor\NotifyActionLog;
+use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
