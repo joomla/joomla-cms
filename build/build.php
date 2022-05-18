@@ -115,6 +115,8 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name .pullapprove.yml | xargs rm -rf -');
 	system('find libraries/vendor -name phpstan.neon | xargs rm -rf -');
 	system('find libraries/vendor -name _config.yml | xargs rm -rf -');
+	system('find libraries/vendor -name .bowerrc | xargs rm -rf -');
+	system('find libraries/vendor -name bower.json | xargs rm -rf -');
 	system('rm -rf libraries/vendor/bin');
 
 	// aldo26-matthias/idna-convert
@@ -132,6 +134,12 @@ function clean_checkout(string $dir)
 	// google/recaptcha
 	system('rm -rf libraries/vendor/google/recaptcha/examples');
 	system('rm -rf libraries/vendor/google/recaptcha/tests');
+
+	// maximebf/debugbar
+	system('rm -rf libraries/vendor/maximebf/debugbar/build');
+	system('rm -rf libraries/vendor/maximebf/debugbar/demo');
+	system('rm -rf libraries/vendor/maximebf/debugbar/docs');
+	system('rm -rf libraries/vendor/maximebf/debugbar/tests');
 
 	// jakeasmith/http_build_url
 	system ('rm -rf libraries/vendor/jakeasmith/http_build_url/tests');
