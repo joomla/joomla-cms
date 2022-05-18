@@ -285,7 +285,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		 *
 		 * What we normally want to do is save the authentication data returned by getAuthenticateData into the session.
 		 * This is what is sent to the authenticator through the Javascript API and signed. The signature is posted back
-		 * to the form as the "code" which is read by onUserTwofactorauthValidate. That Method will read the authentication
+		 * to the form as the "code" which is read by onUserMultifactorauthValidate. That Method will read the authentication
 		 * data from the session and pass it along with the key registration data (from the database) and the
 		 * authentication response (the "code" submitted in the form) to the WebAuthn library for validation.
 		 *
@@ -304,7 +304,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		 * second, "invisible", request will just reuse the same data as the first request, fixing the observed issue in
 		 * a way that doesn't compromise security.
 		 *
-		 * In case you are wondering, yes, the data is removed from the session in the onUserTwofactorauthValidate Method.
+		 * In case you are wondering, yes, the data is removed from the session in the onUserMultifactorauthValidate Method.
 		 * In fact it's the first thing we do after reading it, preventing constant reuse of the same set of challenges.
 		 *
 		 * That was fun to debug - for "poke your eyes with a rusty fork" values of fun.

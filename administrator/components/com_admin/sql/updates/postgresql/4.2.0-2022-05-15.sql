@@ -31,6 +31,22 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_multifactorauth_email', 'plugin', 'email', 'multifactorauth', 0, 0, 1, 0, 1, '', '', '', 4, 0);
 
 --
+-- Update MFA plugins' publish status
+--
+UPDATE "#__extensions" AS "a"
+SET "a"."enabled" = "b"."enabled"
+FROM "#__extensions"
+WHERE "a"."element" = "b"."element"
+	AND "a"."folder" = 'multifactorauth'
+	AND "a"."folder" = 'twofactorauth';
+
+--
+-- Remove legacy TFA plugins
+--
+DELETE FROM "#__extensions"
+WHERE "type" = 'plugin' AND "folder" = 'twofactorauth' AND "element" IN ('totp', 'yubikey');
+
+--
 -- Add post-installation message
 --
 INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled")
