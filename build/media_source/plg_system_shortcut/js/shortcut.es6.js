@@ -26,30 +26,30 @@ class Shortcut {
           callback.call();
         });
       };
+
       document.addEventListener('DOMContentLoaded', ()=> {
         const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
 
-        options.forEach((callback, hotkey) {
+        options.forEach((callback, hotkey) => {
           Joomla.addShortcut(hotkey, callback);
         });
-      })
+      });
 
-        if (window.navigator.platform.match('Mac') ? e.metaKey : e.altKey) {
-        // On Press ALT + S
-          const ch = e.key.toLowerCase();
-          const list = [{ c: 'joomla-toolbar-button button.button-save-copy' },
-            { h: 'joomla-toolbar-button button.button-help' },
-            { q: 'joomla-toolbar-button button.button-cancel' },
-            { s: 'joomla-toolbar-button button.button-apply' },
-            { n: 'joomla-toolbar-button button.button-new' },
-            { w: 'joomla-toolbar-button button.button-save' },
-            { n: 'joomla-toolbar-button button.button-save-new' },
-          ];
+      if (window.navigator.platform.match('Mac') ? e.metaKey : e.altKey) {
+      // On Press ALT + S
+        const ch = e.key.toLowerCase();
+        const list = [{ c: 'joomla-toolbar-button button.button-save-copy' },
+          { h: 'joomla-toolbar-button button.button-help' },
+          { q: 'joomla-toolbar-button button.button-cancel' },
+          { s: 'joomla-toolbar-button button.button-apply' },
+          { n: 'joomla-toolbar-button button.button-new' },
+          { w: 'joomla-toolbar-button button.button-save' },
+          { n: 'joomla-toolbar-button button.button-save-new' },
+        ];
 
-          list.map((l) => {
-            if (ch == l.first) { Joomla.addShortcut(e, l.second); }
-          });
-        }
+        list.map((l) => {
+          if (ch == l.first) { Joomla.addShortcut(e, l.second); }
+        });
       }
 
       window.addEventListener('DOMContentLoaded', () => {
@@ -68,6 +68,6 @@ class Shortcut {
         } catch (e) {}
       });
     })(window, document, Joomla);
-  }
+  };
 }
 new Shortcut();

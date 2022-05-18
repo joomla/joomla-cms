@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>__DEPLOY_VERSION__</version>
 	<description>PLG_SYSTEM_SHORTCUT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Shortcut</namespace>
 	<media destination="plg_system_shortcut" folder="media">
 	  <folder>js</folder>
 	</media>
@@ -22,242 +23,65 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset 
+			<fieldset
 				name="buttons" 
-				label="PLG_SYSTEM_SHORTCUT_BUTTONS_LBL" 
-				addfieldpath="/plugins/system/shortcut/fields"
+				label="PLG_SYSTEM_SHORTCUT_CORE_SHORTCUTS_TAB"
+				addfieldprefix="Joomla\Plugin\System\Shortcut\Field"
 				>
+				<fieldset
+					name="generic_buttons"
+					label="PLG_SYSTEM_SHORTCUT_GENERIC_BUTTONS_FIELDSET_LABEL"
+				>
+					<field
+						name="help_key"
+						type="keyselect" 
+						default="ALT + X"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL"
+					/>
+				</fieldset>
+				<fieldset
+					name="list_buttons"
+					label="PLG_SYSTEM_SHORTCUT_LIST_BUTTONS_FIELDSET_LABEL"
+				>
+					<field
+						name="new_key"
+						type="keyselect"
+						default="ALT + N"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL" 
+					/>
+				</fieldset>
+				<fieldset
+					name="form_buttons"
+					label="PLG_SYSTEM_SHORTCUT_FORM_BUTTONS_FIELDSET_LABEL"
+				>
+					<field
+						name="apply_key"
+						type="keyselect" 
+						default="ALT + S"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL"
+					/>
 
-				<field 
-					name="new_keySelect" 
-					type="keyselect" 
-					default="ALT + N" 
-					class="new" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL" 
-				/>
+					<field
+						name="save_key"
+						type="keyselect"
+						default="ALT + W"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL"
+					/>
 
-				<field 
-					type="hidden" 
-					name="new_keyEvent" 
-					default="n" 
-				/>
+					<field
+						name="saveNew_key"
+						type="keyselect" 
+						default="SHIFT + ALT + N"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" 
+					/>
 
-				<field 
-					type="hidden" 
-					name="new_hasShift" 
-					default="0" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="new_hasAlt" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="new_hasControl" 
-					default="0" 
-				/>
-
-				<field 
-					name="apply_keySelect" 
-					type="keyselect" 
-					default="ALT + S" 
-					class="apply" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="apply_keyEvent" 
-					default="s" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="apply_hasShift"
-					default="0" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="apply_hasAlt" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="apply_hasControl" 
-					default="0" 
-				/>
-
-				<field 
-					name="save_keySelect" 
-					type="keyselect" 
-					default="ALT + W" 
-					class="save" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="save_keyEvent" 
-					default="w" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="save_hasShift" 
-					default="0" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="save_hasAlt" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="save_hasControl" 
-					default="0" 
-				/>
-
-				<field 
-					name="saveNew_keySelect" 
-					type="keyselect" 
-					default="SHIFT + ALT + N" 
-					class="saveNew" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="saveNew_keyEvent" 
-					default="n" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="saveNew_hasShift" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="saveNew_hasAlt" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="saveNew_hasControl" 
-					default="0" 
-				/>
-			
-				<field 
-					name="help_keySelect" 
-					type="keyselect" 
-					default="ALT + X" 
-					class="help" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="help_keyEvent" 
-					default="x" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="help_hasShift" 
-					default="0" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="help_hasAlt" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="help_hasControl" 
-					default="0" 
-				/>
-			
-				<field 
-					name="cancel_keySelect" 
-					type="keyselect" 
-					default="ALT + Q" 
-					class="cancel" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="cancel_keyEvent" 
-					default="q" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="cancel_hasShift" 
-					default="0" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="cancel_hasAlt" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="cancel_hasControl" 
-					default="0" 
-				/>
-			
-				<field 
-					name="copy_keySelect" 
-					type="keyselect" 
-					default="SHIFT + ALT + C"
-					class="copy" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_COPY_LBL" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="copy_keyEvent" 
-					default="c" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="copy_hasShift" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="copy_hasAlt" 
-					default="1" 
-				/>
-
-				<field 
-					type="hidden" 
-					name="copy_hasControl" 
-					default="0" 
-				/>
-			
-				<field type="spacer" />
-				<field 
-					type="restoredefaults" 
-					label="PLG_SYSTEM_SHORTCUT_BUTTON_RESTORE_DEFAULTS_LBL" 
-					class="buttons" 
-				/>
+					<field
+						name="cancel_key"
+						type="keyselect" 
+						default="ALT + Q"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL"
+					/>
+				</fieldset>
 			</fieldset>
 			<fieldset 
 				name="editor" 
