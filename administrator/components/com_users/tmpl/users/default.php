@@ -30,7 +30,7 @@ $wa->useScript('table.columns')
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = Factory::getUser();
-$tfa        = PluginHelper::isEnabled('twofactorauth');
+$tfa        = PluginHelper::isEnabled('multifactorauth');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">

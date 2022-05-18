@@ -65,7 +65,7 @@ $this->useCoreUI = true;
 		?>
 
 		<?php if (!empty($this->tfaConfigurationUI)) : ?>
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'multifactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 			<fieldset class="options-form">
 				<legend><?php echo Text::_('COM_USERS_USER_TWO_FACTOR_AUTH'); ?></legend>
 				<?php echo $this->tfaConfigurationUI ?>

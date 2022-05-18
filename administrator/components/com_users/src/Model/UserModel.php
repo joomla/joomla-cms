@@ -988,7 +988,7 @@ class UserModel extends AdminModel
 	{
 		@trigger_error(
 			sprintf(
-				'%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the twofactorauth folder.',
+				'%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
 				__METHOD__
 			),
 			E_USER_DEPRECATED
@@ -1085,7 +1085,7 @@ class UserModel extends AdminModel
 	{
 		@trigger_error(
 			sprintf(
-				'%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the twofactorauth folder.',
+				'%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
 				__METHOD__
 			),
 			E_USER_DEPRECATED
@@ -1110,7 +1110,7 @@ class UserModel extends AdminModel
 	{
 		@trigger_error(
 			sprintf(
-				'%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the twofactorauth folder.',
+				'%s() is deprecated. Multi-factor Authentication actions are handled by plugins in the multifactorauth folder.',
 				__METHOD__
 			),
 			E_USER_DEPRECATED

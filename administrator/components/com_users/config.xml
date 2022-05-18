@@ -213,9 +213,9 @@
 	</fieldset>
 
 	<fieldset
-		name="twofactorauth"
-		label="COM_USERS_CONFIG_TWOFACTORAUTH_SETTINGS_LABEL"
-		description="COM_USERS_CONFIG_TWOFACTORAUTH_SETTINGS_DESC"
+		name="multifactorauth"
+		label="COM_USERS_CONFIG_MULTIFACTORAUTH_SETTINGS_LABEL"
+		description="COM_USERS_CONFIG_MULTIFACTORAUTH_SETTINGS_DESC"
 		addfieldprefix="Joomla\Component\Users\Administrator\Field"
 	>
 		<field

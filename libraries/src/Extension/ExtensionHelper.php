@@ -301,8 +301,11 @@ class ExtensionHelper
 		array('plugin', 'sitestatus', 'task', 0),
 
 		// Core plugin extensions - Multi-factor Authentication
-		array('plugin', 'totp', 'twofactorauth', 0),
-		array('plugin', 'yubikey', 'twofactorauth', 0),
+		array('plugin', 'email', 'multifactorauth', 0),
+		array('plugin', 'fixed', 'multifactorauth', 0),
+		array('plugin', 'totp', 'multifactorauth', 0),
+		array('plugin', 'webauthn', 'multifactorauth', 0),
+		array('plugin', 'yubikey', 'multifactorauth', 0),
 
 		// Core plugin extensions - user
 		array('plugin', 'contactcreator', 'user', 0),

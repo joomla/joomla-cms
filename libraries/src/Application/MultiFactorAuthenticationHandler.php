@@ -70,7 +70,7 @@ trait MultiFactorAuthenticationHandler
 		}
 
 		// If there is no need for a redirection I must not proceed
-		if (!$this->needsTwoFactorAuthenticationRedirection())
+		if (!$this->needsMultiFactorAuthenticationRedirection())
 		{
 			return false;
 		}
@@ -138,7 +138,7 @@ trait MultiFactorAuthenticationHandler
 
 			if (empty($returnUrl) || !Uri::isInternal($returnUrl))
 			{
-				$returnUrl = $this->isTwoFactorAuthenticationPage()
+				$returnUrl = $this->isMultiFactorAuthenticationPage()
 					? Uri::base()
 					: Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment']);
 				$session->set('com_users.return_url', $returnUrl);
@@ -161,7 +161,7 @@ trait MultiFactorAuthenticationHandler
 			$session->set('com_users.mandatory_mfa_setup', 1);
 
 			// Then redirect them to the setup page
-			if (!$this->isTwoFactorAuthenticationPage())
+			if (!$this->isMultiFactorAuthenticationPage())
 			{
 				$url = Route::_('index.php?option=com_users&view=methods');
 				$this->redirect($url, 307);
@@ -170,7 +170,7 @@ trait MultiFactorAuthenticationHandler
 
 		// Do I need to redirect the user to the MFA setup page after they have fully logged in?
 		if (!$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
-			&& !$user->guest  && !$this->hasRejectedTwoFactorAuthenticationSetup())
+			&& !$user->guest  && !$this->hasRejectedMultiFactorAuthenticationSetup())
 		{
 			$this->redirect(
 				$userOptions->get('mfaredirecturl', '') ?:
@@ -243,7 +243,7 @@ trait MultiFactorAuthenticationHandler
 	 * @return  boolean
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function needsTwoFactorAuthenticationRedirection(): bool
+	private function needsMultiFactorAuthenticationRedirection(): bool
 	{
 		$isAdmin = $this->isClient('administrator');
 
@@ -288,7 +288,7 @@ trait MultiFactorAuthenticationHandler
 		}
 
 		// Do not redirect if we are already in a MFA management or captive page
-		if ($this->isTwoFactorAuthenticationPage())
+		if ($this->isMultiFactorAuthenticationPage())
 		{
 			return false;
 		}
@@ -317,7 +317,7 @@ trait MultiFactorAuthenticationHandler
 	 * @return boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function isTwoFactorAuthenticationPage(): bool
+	private function isMultiFactorAuthenticationPage(): bool
 	{
 		$option = $this->input->get('option');
 		$task   = $this->input->get('task');
@@ -344,7 +344,7 @@ trait MultiFactorAuthenticationHandler
 	 * @return  boolean
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function hasRejectedTwoFactorAuthenticationSetup(): bool
+	private function hasRejectedMultiFactorAuthenticationSetup(): bool
 	{
 		$user       = $this->getIdentity();
 		$profileKey = 'mfa.dontshow';
@@ -407,12 +407,12 @@ trait MultiFactorAuthenticationHandler
 			switch ($otpMethod)
 			{
 				case 'totp':
-					$this->getLanguage()->load('plg_twofactorauth_totp', JPATH_ADMINISTRATOR);
+					$this->getLanguage()->load('plg_multifactorauth_totp', JPATH_ADMINISTRATOR);
 
 					(new MfaTable($db))->save(
 						[
 							'user_id'    => $user->id,
-							'title'      => Text::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE'),
+							'title'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
 							'method'     => 'totp',
 							'default'    => 0,
 							'created_on' => Date::getInstance()->toSql(),
@@ -423,12 +423,12 @@ trait MultiFactorAuthenticationHandler
 					break;
 
 				case 'yubikey':
-					$this->getLanguage()->load('plg_twofactorauth_yubikey', JPATH_ADMINISTRATOR);
+					$this->getLanguage()->load('plg_multifactorauth_yubikey', JPATH_ADMINISTRATOR);
 
 					(new MfaTable($db))->save(
 						[
 							'user_id'    => $user->id,
-							'title'      => sprintf("%s %s", Text::_('PLG_TWOFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
+							'title'      => sprintf("%s %s", Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'), $config['yubikey']),
 							'method'     => 'yubikey',
 							'default'    => 0,
 							'created_on' => Date::getInstance()->toSql(),

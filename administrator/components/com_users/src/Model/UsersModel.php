@@ -296,7 +296,7 @@ class UsersModel extends ListModel
 		$query->from($db->quoteName('#__users') . ' AS a');
 
 		// Include MFA information
-		if (PluginHelper::isEnabled('twofactorauth'))
+		if (PluginHelper::isEnabled('multifactorauth'))
 		{
 			$subQuery = $db->getQuery(true)
 				->select(

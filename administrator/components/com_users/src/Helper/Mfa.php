@@ -142,7 +142,7 @@ abstract class Mfa
 	 */
 	public static function getMfaMethods(): array
 	{
-		PluginHelper::importPlugin('twofactorauth');
+		PluginHelper::importPlugin('multifactorauth');
 
 		if (is_null(self::$allMFAs))
 		{
@@ -321,7 +321,7 @@ abstract class Mfa
 	private static function canShowConfigurationInterface(?User $user = null): bool
 	{
 		// I need at least one MFA method plugin for the setup interface to make any sense.
-		$plugins = PluginHelper::getPlugin('twofactorauth');
+		$plugins = PluginHelper::getPlugin('multifactorauth');
 
 		if (count($plugins) < 1)
 		{

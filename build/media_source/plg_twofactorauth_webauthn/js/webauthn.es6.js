@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Plugin
- * @subpackage  Twofactorauth.webauthn
+ * @subpackage  Multifactorauth.webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -39,7 +39,7 @@
 
   const handleError = (message) => {
     try {
-      document.getElementById('plg_twofactorauth_webauthn_validate_button').style.disabled = 'null';
+      document.getElementById('plg_multifactorauth_webauthn_validate_button').style.disabled = 'null';
     } catch (e) {
       // Do nothing
     }
@@ -52,7 +52,7 @@
 
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      displayError(Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
+      displayError(Joomla.JText._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return false;
     }
@@ -94,7 +94,7 @@
         };
 
         // Store the WebAuthn reply
-        document.getElementById('twofactorauth-method-code').value = btoa(JSON.stringify(publicKeyCredential));
+        document.getElementById('multifactorauth-method-code').value = btoa(JSON.stringify(publicKeyCredential));
 
         // Submit the form
         document.forms['com-users-method-edit'].submit();
@@ -110,7 +110,7 @@
   const validate = () => {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      displayError(Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
+      displayError(Joomla.JText._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return;
     }
@@ -118,7 +118,7 @@
     const publicKey = authData;
 
     if (!publicKey.challenge) {
-      handleError(Joomla.JText._('PLG_TWOFACTORAUTH_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
+      handleError(Joomla.JText._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
 
       return;
     }
@@ -157,7 +157,7 @@
           },
         };
 
-        document.getElementById('twofactorauthCode').value = btoa(JSON.stringify(publicKeyCredential));
+        document.getElementById('multifactorauthCode').value = btoa(JSON.stringify(publicKeyCredential));
         document.getElementById('users-tfa-captive-form').submit();
       }, (error) => {
         // Example: timeout, interaction refused...
@@ -170,32 +170,32 @@
 
     authData = JSON.parse(window.atob(Joomla.getOptions('com_users.authData')));
 
-    document.getElementById('plg_twofactorauth_webauthn_validate_button').style.disabled = 'disabled';
+    document.getElementById('plg_multifactorauth_webauthn_validate_button').style.disabled = 'disabled';
     validate();
 
     return false;
   };
 
-  document.getElementById('twofactorauth-webauthn-missing').style.display = 'none';
+  document.getElementById('multifactorauth-webauthn-missing').style.display = 'none';
 
   if (typeof (navigator.credentials) === 'undefined') {
-    document.getElementById('twofactorauth-webauthn-missing').style.display = 'block';
-    document.getElementById('twofactorauth-webauthn-controls').style.display = 'none';
+    document.getElementById('multifactorauth-webauthn-missing').style.display = 'block';
+    document.getElementById('multifactorauth-webauthn-controls').style.display = 'none';
   }
 
   window.addEventListener('DOMContentLoaded', () => {
     if (Joomla.getOptions('com_users.pagetype') === 'validate') {
-      document.getElementById('plg_twofactorauth_webauthn_validate_button')
+      document.getElementById('plg_multifactorauth_webauthn_validate_button')
         .addEventListener('click', onValidateClick);
 
       document.getElementById('users-tfa-captive-button-submit')
         .addEventListener('click', onValidateClick);
     } else {
-      document.getElementById('plg_twofactorauth_webauthn_register_button')
+      document.getElementById('plg_multifactorauth_webauthn_register_button')
         .addEventListener('click', setUp);
     }
 
-    document.querySelectorAll('.twofactorauth_webauthn_setup').forEach((btn) => {
+    document.querySelectorAll('.multifactorauth_webauthn_setup').forEach((btn) => {
       btn.addEventListener('click', setUp);
     });
   });

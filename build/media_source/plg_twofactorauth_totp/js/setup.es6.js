@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Plugin
- * @subpackage  Twofactorauth.webauthn
+ * @subpackage  Multifactorauth.webauthn
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -11,7 +11,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const elTarget = document.getElementById('users-tfa-totp-qrcode');
-    const qrData = Joomla.getOptions('plg_twofactorauth_totp.totp.qr');
+    const qrData = Joomla.getOptions('plg_multifactorauth_totp.totp.qr');
 
     if (!elTarget || !qrData) {
       return;
