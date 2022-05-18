@@ -6387,10 +6387,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_users/src/Field/PrimaryauthprovidersField.php',
 			// From 4.1.2 to 4.1.3
 			'/libraries/vendor/webmozart/assert/.php_cs',
-			// From 4.1.1 to 4.1.2
-			'/administrator/components/com_users/src/Field/PrimaryauthprovidersField.php',
-			// From 4.1.1 to 4.2.0
-			'/libraries/src/Service/Provider/ApiRouter.php'
+			// From 4.1 to 4.2.0
+			'/libraries/src/Service/Provider/ApiRouter.php',
 		);
 
 		$folders = array(
@@ -7724,7 +7722,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/tobscure/json-api/.git/hooks',
 			'/libraries/vendor/tobscure/json-api/.git/branches',
 			'/libraries/vendor/tobscure/json-api/.git',
-			// From 4.1.1 to __DEPLOY_VERSION__
+			// From 4.1.1 to 4.2
 			'/plugins/twofactorauth/totp',
 			'/plugins/twofactorauth/yubikey',
 		);
