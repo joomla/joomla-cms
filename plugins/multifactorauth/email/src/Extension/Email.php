@@ -433,7 +433,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		// Get second factor Methods for this user
+		// Get MFA Methods for this user
 		$userMfaRecords = MfaHelper::getUserMfaRecords($user->id);
 
 		// If there are no Methods go back

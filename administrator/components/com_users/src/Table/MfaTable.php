@@ -26,7 +26,7 @@ use RuntimeException;
 use Throwable;
 
 /**
- * Table for the Two-Step Verification second factor records
+ * Table for the Multi-Factor Authentication records
  *
  * @property int    $id          Record ID.
  * @property int    $user_id     User ID
