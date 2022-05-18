@@ -11,6 +11,7 @@ namespace Joomla\CMS\Event;
 \defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
+use Joomla\Event\Event;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
 
@@ -36,6 +37,8 @@ use Joomla\String\Normalise;
  */
 abstract class AbstractEvent extends BaseEvent
 {
+	use CoreEventAware;
+
 	/**
 	 * Creates a new CMS event object for a given event name and subject. The following arguments must be given:
 	 * subject		object	The subject of the event. This is the core object you are going to manipulate.
@@ -83,6 +86,18 @@ abstract class AbstractEvent extends BaseEvent
 
 		// Create and return the event object
 		if (class_exists($eventClassName, true))
+		{
+			return new $eventClassName($eventName, $arguments);
+		}
+
+		/**
+		 * The detection code above failed. This is to be expected, it was written back when we only
+		 * had the Table events. It does not address most other core events. So, let's use our
+		 * fancier detection instead.
+		 */
+		$eventClassName = self::getEventClassByEventName($eventName);
+
+		if (!empty($eventClassName) && ($eventClassName !== Event::class))
 		{
 			return new $eventClassName($eventName, $arguments);
 		}
