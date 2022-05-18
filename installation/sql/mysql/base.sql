@@ -1019,10 +1019,10 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__user_tfa`
+-- Table structure for table `#__user_mfa`
 --
 
-CREATE TABLE IF NOT EXISTS `#__user_tfa` (
+CREATE TABLE IF NOT EXISTS `#__user_mfa` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int unsigned NOT NULL,
   `title` varchar(255) NOT NULL DEFAULT '',

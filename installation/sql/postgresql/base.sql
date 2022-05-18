@@ -1040,10 +1040,10 @@ CREATE TABLE IF NOT EXISTS "#__user_profiles" (
 COMMENT ON TABLE "#__user_profiles" IS 'Simple user profile storage table';
 
 --
--- Table structure for table `#__user_tfa`
+-- Table structure for table `#__user_mfa`
 --
 
-CREATE TABLE IF NOT EXISTS "#__user_tfa" (
+CREATE TABLE IF NOT EXISTS "#__user_mfa" (
   "id" serial NOT NULL,
   "user_id" bigint NOT NULL,
   "title" varchar(255) DEFAULT '' NOT NULL,
@@ -1055,9 +1055,9 @@ CREATE TABLE IF NOT EXISTS "#__user_tfa" (
   PRIMARY KEY ("id")
 );
 
-CREATE INDEX "#__user_tfa_idx_user_id" ON "#__user_tfa" ("user_id");
+CREATE INDEX "#__user_mfa_idx_user_id" ON "#__user_mfa" ("user_id");
 
-COMMENT ON TABLE "#__user_tfa" IS 'Multi-factor Authentication settings';
+COMMENT ON TABLE "#__user_mfa" IS 'Multi-factor Authentication settings';
 
 --
 -- Table structure for table `#__user_usergroup_map`

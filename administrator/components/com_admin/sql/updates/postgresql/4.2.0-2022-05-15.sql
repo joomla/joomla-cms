@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS "#__user_mfa" (
   PRIMARY KEY ("id")
 );
 
-CREATE INDEX "#__user_tfa_idx_user_id" ON "#__user_tfa" ("user_id") /** CAN FAIL **/;
+CREATE INDEX "#__user_mfa_idx_user_id" ON "#__user_mfa" ("user_id") /** CAN FAIL **/;
 
-COMMENT ON TABLE "#__user_tfa" IS 'Multi-factor Authentication settings';
+COMMENT ON TABLE "#__user_mfa" IS 'Multi-factor Authentication settings';
 
 --
 -- Remove obsolete postinstallation message
