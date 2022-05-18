@@ -110,7 +110,6 @@ export default {
     },
     /* Handle KeyDown events */
     onKeyPress(e) {
-      console.log(this.firstFocusableElement);
       const isTabPressed = e.key === 'Tab' || e.keyCode === 9;
       if (!isTabPressed) {
         return;
