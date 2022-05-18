@@ -39,7 +39,7 @@ return new class implements ServiceProviderInterface {
 					$container->get(DispatcherInterface::class),
 					(array) PluginHelper::getPlugin('api-authentication', 'token'),
 					$container->get(UserFactoryInterface::class),
-					new InputFilter()
+					new InputFilter
 				);
 				$plugin->setDatabase($container->get(DatabaseInterface::class));
 
