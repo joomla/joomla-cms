@@ -49,7 +49,8 @@ class ItemModel extends BaseDatabaseModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_links', 'l'))
-			->where($db->quoteName('l.link_id') . ' = ' . $link_id);
+			->where($db->quoteName('l.link_id') . ' = :link_id')
+			->bind(':link_id', $link_id);
 
 		$db->setQuery($query);
 
@@ -71,8 +72,9 @@ class ItemModel extends BaseDatabaseModel
 			->select('t.*, l.*')
 			->from($db->quoteName('#__finder_links_terms', 'l'))
 			->leftJoin($db->quoteName('#__finder_terms', 't') . ' ON ' . $db->quoteName('t.term_id') . ' = ' . $db->quoteName('l.term_id'))
-			->where($db->quoteName('l.link_id') . ' = ' . $link_id)
-			->order('l.weight');
+			->where($db->quoteName('l.link_id') . ' = :link_id')
+			->order('l.weight')
+			->bind(':link_id', $link_id);
 
 		$db->setQuery($query);
 
@@ -94,8 +96,9 @@ class ItemModel extends BaseDatabaseModel
 			->select('t.*, m.*')
 			->from($db->quoteName('#__finder_taxonomy_map', 'm'))
 			->leftJoin($db->quoteName('#__finder_taxonomy', 't') . ' ON ' . $db->quoteName('t.id') . ' = ' . $db->quoteName('m.node_id'))
-			->where($db->quoteName('m.link_id') . ' = ' . $link_id)
-			->order('t.title');
+			->where($db->quoteName('m.link_id') . ' = :link_id')
+			->order('t.title')
+			->bind(':link_id', $link_id);
 
 		$db->setQuery($query);
 
