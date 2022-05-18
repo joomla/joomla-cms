@@ -91,11 +91,11 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 										</div>
 									<?php endif; ?>
 
-									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-evenly text-muted w-100">
-										<span class="com-users-methods-list-method-record-createdon w-50">
+									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-start gap-5 text-muted w-100">
+										<span class="com-users-methods-list-method-record-createdon">
 											<?php echo Text::sprintf('COM_USERS_MFA_LBL_CREATEDON', $model->formatRelative($record->created_on)) ?>
 										</span>
-										<span class="com-users-methods-list-method-record-lastused-date w-50">
+										<span class="com-users-methods-list-method-record-lastused-date">
 											<?php echo Text::sprintf('COM_USERS_MFA_LBL_LASTUSED', $model->formatRelative($record->last_used)) ?>
 										</span>
 									</div>
