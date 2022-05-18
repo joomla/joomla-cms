@@ -62,19 +62,6 @@
 				</field>
 
 				<field
-					name="ignore_reqcert_tls"
-					type="radio"
-					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
-					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
-					default="0"
-					filter="integer"
-					layout="joomla.form.field.radio.switcher"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
 					name="no_referrals"
 					type="radio"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
