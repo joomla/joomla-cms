@@ -19,7 +19,7 @@ use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 /**
- * Concrete Event class for the onUserTwofactorGetSetup event
+ * Concrete Event class for the onUserMultifactorGetSetup event
  *
  * @since __DEPLOY_VERSION__
  */
@@ -37,7 +37,7 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	 */
 	public function __construct(MfaTable $record)
 	{
-		parent::__construct('onUserTwofactorGetSetup', ['record' => $record]);
+		parent::__construct('onUserMultifactorGetSetup', ['record' => $record]);
 
 		$this->resultIsNullable        = true;
 		$this->resultAcceptableClasses = [

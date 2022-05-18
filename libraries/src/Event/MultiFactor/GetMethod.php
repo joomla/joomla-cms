@@ -17,7 +17,7 @@ use Joomla\CMS\Event\Result\ResultTypeObjectAware;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 
 /**
- * Concrete Event class for the onUserTwofactorGetMethod event
+ * Concrete Event class for the onUserMultifactorGetMethod event
  *
  * @since __DEPLOY_VERSION__
  */
@@ -33,7 +33,7 @@ class GetMethod extends AbstractImmutableEvent implements ResultAwareInterface
 	 */
 	public function __construct()
 	{
-		parent::__construct('onUserTwofactorGetMethod', []);
+		parent::__construct('onUserMultifactorGetMethod', []);
 
 		$this->resultIsNullable        = true;
 		$this->resultAcceptableClasses = [

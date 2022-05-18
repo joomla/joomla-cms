@@ -14,7 +14,7 @@ use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 /**
- * Concrete Event class for the onUserTwofactorCallback event
+ * Concrete Event class for the onUserMultifactorCallback event
  *
  * @since __DEPLOY_VERSION__
  */
@@ -29,7 +29,7 @@ class Callback extends AbstractImmutableEvent
 	 */
 	public function __construct(string $method)
 	{
-		parent::__construct('onUserTwofactorCallback', ['method' => $method]);
+		parent::__construct('onUserMultifactorCallback', ['method' => $method]);
 	}
 
 	/**

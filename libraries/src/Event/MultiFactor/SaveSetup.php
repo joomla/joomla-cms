@@ -19,7 +19,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 
 /**
- * Concrete Event class for the onUserTwofactorSaveSetup event
+ * Concrete Event class for the onUserMultifactorSaveSetup event
  *
  * @since __DEPLOY_VERSION__
  */
@@ -39,7 +39,7 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	public function __construct(MfaTable $record, Input $input)
 	{
 		parent::__construct(
-			'onUserTwofactorSaveSetup',
+			'onUserMultifactorSaveSetup',
 			[
 				'record' => $record,
 				'input'  => $input,

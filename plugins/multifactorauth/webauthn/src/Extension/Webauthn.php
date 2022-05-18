@@ -75,11 +75,11 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onUserTwofactorGetMethod' => 'onUserTwofactorGetMethod',
-			'onUserTwofactorCaptive'   => 'onUserTwofactorCaptive',
-			'onUserTwofactorGetSetup'  => 'onUserTwofactorGetSetup',
-			'onUserTwofactorSaveSetup' => 'onUserTwofactorSaveSetup',
-			'onUserTwofactorValidate'  => 'onUserTwofactorValidate',
+			'onUserMultifactorGetMethod' => 'onUserMultifactorGetMethod',
+			'onUserMultifactorCaptive'   => 'onUserMultifactorCaptive',
+			'onUserMultifactorGetSetup'  => 'onUserMultifactorGetSetup',
+			'onUserMultifactorSaveSetup' => 'onUserMultifactorSaveSetup',
+			'onUserMultifactorValidate'  => 'onUserMultifactorValidate',
 		];
 	}
 
@@ -91,7 +91,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorGetMethod(GetMethod $event): void
+	public function onUserMultifactorGetMethod(GetMethod $event): void
 	{
 		$event->addResult(
 			new MethodDescriptor(
@@ -118,7 +118,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorGetSetup(GetSetup $event): void
+	public function onUserMultifactorGetSetup(GetSetup $event): void
 	{
 		/**
 		 * @var   MfaTable $record The record currently selected by the user.
@@ -198,7 +198,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @return  void The configuration data to save to the database
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorSaveSetup(SaveSetup $event): void
+	public function onUserMultifactorSaveSetup(SaveSetup $event): void
 	{
 		/**
 		 * @var   MfaTable $record The record currently selected by the user.
@@ -267,7 +267,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @throws Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorCaptive(Captive $event): void
+	public function onUserMultifactorCaptive(Captive $event): void
 	{
 		/**
 		 * @var   MfaTable $record The record currently selected by the user.
@@ -343,6 +343,10 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			$pkRequest = Credentials::requestAssertion($record->user_id);
 		}
 
+		$document = $this->app->getDocument();
+		$wam      = $document->getWebAssetManager();
+		$wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
+
 		try
 		{
 			/** @var CMSApplication $app */
@@ -357,10 +361,6 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		{
 			return;
 		}
-
-		$document = $this->app->getDocument();
-		$wam      = $document->getWebAssetManager();
-		$wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
 		// Load JS translations
 		Text::script('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD');
@@ -403,7 +403,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorValidate(Validate $event): void
+	public function onUserMultifactorValidate(Validate $event): void
 	{
 		/**
 		 * @var   MfaTable $record The MFA Method's record you're validatng against

@@ -19,7 +19,7 @@ use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 /**
- * Concrete Event class for the onUserTwofactorCaptive event
+ * Concrete Event class for the onUserMultifactorCaptive event
  *
  * @since __DEPLOY_VERSION__
  */
@@ -37,7 +37,7 @@ class Captive extends AbstractImmutableEvent implements ResultAwareInterface
 	 */
 	public function __construct(MfaTable $record)
 	{
-		parent::__construct('onUserTwofactorCaptive', ['record' => $record]);
+		parent::__construct('onUserMultifactorCaptive', ['record' => $record]);
 
 		$this->resultIsNullable        = true;
 		$this->resultAcceptableClasses = [

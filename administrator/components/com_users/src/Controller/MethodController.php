@@ -313,7 +313,7 @@ class MethodController extends BaseControllerAlias
 		/** @var MethodModel $model */
 		$model = $this->getModel('Method');
 
-		// Ask the plugin to validate the input by calling onUserTwofactorSaveSetup
+		// Ask the plugin to validate the input by calling onUserMultifactorSaveSetup
 		$result = [];
 		$input  = $this->app->input;
 

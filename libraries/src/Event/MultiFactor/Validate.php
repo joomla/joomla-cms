@@ -19,7 +19,7 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
 /**
- * Concrete Event class for the onUserTwofactorValidate event
+ * Concrete Event class for the onUserMultifactorValidate event
  *
  * @since __DEPLOY_VERSION__
  */
@@ -40,7 +40,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
 	public function __construct(MfaTable $record, User $user, string $code)
 	{
 		parent::__construct(
-			'onUserTwofactorValidate',
+			'onUserMultifactorValidate',
 			[
 				'record' => $record,
 				'user'   => $user,

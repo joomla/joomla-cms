@@ -167,7 +167,7 @@ class HtmlView extends BaseHtmlView
 				$this->allowEntryBatching = 1;
 
 				$event = new NotifyActionLog('onComUsersCaptiveShowSelect', []);
-				$this->app->getDispatcher()->dispatch($event->getName(), $event);
+				Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 				break;
 
 			case 'default':

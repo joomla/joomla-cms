@@ -16,7 +16,7 @@ use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\User\User;
 
 /**
- * Concrete Event class for the onUserTwofactorBeforeDisplayMethods event
+ * Concrete Event class for the onUserMultifactorBeforeDisplayMethods event
  *
  * @since __DEPLOY_VERSION__
  */
@@ -33,7 +33,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
 	 */
 	public function __construct(User $user)
 	{
-		parent::__construct('onUserTwofactorBeforeDisplayMethods', ['user' => $user]);
+		parent::__construct('onUserMultifactorBeforeDisplayMethods', ['user' => $user]);
 	}
 
 	/**
