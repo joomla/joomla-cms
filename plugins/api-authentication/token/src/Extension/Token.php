@@ -7,20 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Plugin\APIAuthentication\Token;
+namespace Joomla\Plugin\APIAuthentication\Token\Extension;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Filter\InputFilter;
 use Joomla\Registry\Registry;
 
 /**
@@ -66,6 +66,15 @@ final class Token extends CMSPlugin
 	private $userFactory;
 
 	/**
+	 * The input filter
+	 *
+	 * @var    InputFilter
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $filter;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   DispatcherInterface   $dispatcher   The dispatcher
@@ -74,11 +83,12 @@ final class Token extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
+	public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InputFilter $filter)
 	{
 		parent::__construct($dispatcher, $config);
 
 		$this->userFactory = $userFactory;
+		$this->filter      = $filter;
 	}
 
 	/**
@@ -116,8 +126,7 @@ final class Token extends CMSPlugin
 
 			if (array_key_exists('authorization', $apacheHeaders))
 			{
-				$filter = InputFilter::getInstance();
-				$authHeader = $filter->clean($apacheHeaders['authorization'], 'STRING');
+				$authHeader = $this->filter->clean($apacheHeaders['authorization'], 'STRING');
 			}
 		}
 
@@ -125,8 +134,7 @@ final class Token extends CMSPlugin
 		{
 			$parts       = explode(' ', $authHeader, 2);
 			$tokenString = trim($parts[1]);
-			$filter      = InputFilter::getInstance();
-			$tokenString = $filter->clean($tokenString, 'BASE64');
+			$tokenString = $this->filter->clean($tokenString, 'BASE64');
 		}
 
 		if (empty($tokenString))

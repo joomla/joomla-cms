@@ -16,7 +16,8 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\APIAuthentication\Token\Token;
+use Joomla\Filter\InputFilter;
+use Joomla\Plugin\APIAuthentication\Token\Extension\Token;
 
 return new class implements ServiceProviderInterface {
 	/**
@@ -37,7 +38,8 @@ return new class implements ServiceProviderInterface {
 				$plugin = new Token(
 					$container->get(DispatcherInterface::class),
 					(array) PluginHelper::getPlugin('api-authentication', 'token'),
-					$container->get(UserFactoryInterface::class)
+					$container->get(UserFactoryInterface::class),
+					new InputFilter()
 				);
 				$plugin->setDatabase($container->get(DatabaseInterface::class));
 
