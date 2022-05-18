@@ -11,6 +11,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Exception;
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\GetSetup;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Helper\Tfa as TfaHelper;
@@ -95,10 +96,11 @@ class MethodModel extends BaseDatabaseModel
 
 		$renderOptions = new SetupRenderOptions;
 
-		$results = Factory::getApplication()->triggerEvent(
-			'onUserTwofactorGetSetup',
-			new GenericEvent('onUserTwofactorGetSetup', ['record' => $this->getRecord($user)])
-		);
+		$event    = new GetSetup($this->getRecord($user));
+		$results = Factory::getApplication()
+			->getDispatcher()
+			->dispatch($event->getName(), $event)
+			->getArgument('result');
 
 		if (empty($results))
 		{

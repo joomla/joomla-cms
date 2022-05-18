@@ -10,6 +10,7 @@
 namespace Joomla\Component\Users\Administrator\View\Methods;
 
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -176,10 +177,8 @@ class HtmlView extends BaseHtmlView
 		// Display the view
 		parent::display($tpl);
 
-		$app->triggerEvent(
-			'onComUsersViewMethodsAfterDisplay',
-			new GenericEvent('onComUsersViewMethodsAfterDisplay', [$this])
-		);
+		$event = new NotifyActionLog('onComUsersViewMethodsAfterDisplay', [$this]);
+		Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		Text::script('JGLOBAL_CONFIRM_DELETE');
 	}

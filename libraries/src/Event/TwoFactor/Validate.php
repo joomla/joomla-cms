@@ -1,0 +1,101 @@
+<?php
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE
+ */
+
+namespace Joomla\CMS\Event\TwoFactor;
+
+\defined('JPATH_PLATFORM') or die;
+
+use DomainException;
+use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\Event\Result\ResultAware;
+use Joomla\CMS\Event\Result\ResultAwareInterface;
+use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
+use Joomla\CMS\User\User;
+use Joomla\Component\Users\Administrator\Table\TfaTable;
+
+/**
+ * Concrete Event class for the onUserTwofactorValidate event
+ *
+ * @since __DEPLOY_VERSION__
+ */
+class Validate extends AbstractImmutableEvent implements ResultAwareInterface
+{
+	use ResultAware;
+	use ResultTypeBooleanAware;
+
+	/**
+	 * Public cosntructor
+	 *
+	 * @param   TfaTable  $record  The TFA record to validate against
+	 * @param   User      $user    The user currently logged into the site
+	 * @param   string    $code    The TFA code we are validating
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(TfaTable $record, User $user, string $code)
+	{
+		parent::__construct(
+			'onUserTwofactorValidate',
+			[
+				'record' => $record,
+				'user'   => $user,
+				'code'   => $code,
+			]
+		);
+	}
+
+	/**
+	 * Validate the value of the 'record' named parameter
+	 *
+	 * @param   TfaTable  $value  The value to validate
+	 *
+	 * @return  TfaTable
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setRecord(TfaTable $value): TfaTable
+	{
+		if (empty($value))
+		{
+			throw new DomainException(sprintf('Argument \'record\' of event %s must be a TfaTable object', $this->name));
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Validate the value of the 'user' named parameter
+	 *
+	 * @param   User  $value  The value to validate
+	 *
+	 * @return  User
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setUser(User $value): User
+	{
+		if (empty($value) || ($value->id <= 0) || ($value->guest == 1))
+		{
+			throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object', $this->name));
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Validate the value of the 'code' named parameter
+	 *
+	 * @param   string|null  $value  The value to validate
+	 *
+	 * @return  string|null
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setCode(?string $value): ?string
+	{
+		// No validation necessary, the type check in the method options is enough
+		return $value;
+	}
+}

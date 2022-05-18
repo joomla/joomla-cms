@@ -9,14 +9,19 @@
 
 namespace Joomla\Plugin\Twofactorauth\Fixed\Extension;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Event\TwoFactor\Captive;
+use Joomla\CMS\Event\TwoFactor\GetMethod;
+use Joomla\CMS\Event\TwoFactor\GetSetup;
+use Joomla\CMS\Event\TwoFactor\SaveSetup;
+use Joomla\CMS\Event\TwoFactor\Validate;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Table\TfaTable;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\User;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
@@ -90,14 +95,14 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Gets the identity of this TFA Method
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorGetMethod(Event $event): void
+	public function onUserTwofactorGetMethod(GetMethod $event): void
 	{
-		$this->setResult($event,
+		$event->addResult(
 			new MethodDescriptor(
 				[
 					'name'      => $this->tfaMethodName,
@@ -113,12 +118,12 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * Returns the information which allows Joomla to render the Captive TFA page. This is the page
 	 * which appears right after you log in and asks you to validate your login with TFA.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   Captive  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorCaptive(Event $event): void
+	public function onUserTwofactorCaptive(Captive $event): void
 	{
 		/**
 		 * @var   TfaTable $record The record currently selected by the user.
@@ -131,8 +136,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$this->setResult(
-			$event,
+		$event->addResult(
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the TFA form
@@ -159,12 +163,12 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * which allows the user to add or modify a TFA Method for their user account. If the record
 	 * does not correspond to your plugin return an empty array.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   GetSetup  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorGetSetup(Event $event): void
+	public function onUserTwofactorGetSetup(GetSetup $event): void
 	{
 		/** @var TfaTable $record The record currently selected by the user. */
 		$record = $event['record'];
@@ -189,8 +193,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 		 * BUT set field_type=custom, set html='' and show_submit=false to effectively hide the setup form from the
 		 * user.
 		 */
-		$this->setResult(
-			$event,
+		$event->addResult(
 			new SetupRenderOptions(
 				[
 					'default_title' => Text::_('PLG_TWOFACTORAUTH_FIXED_LBL_DEFAULTTITLE'),
@@ -213,12 +216,12 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * message of the exception will be displayed to the user. If the record does not correspond to your plugin return
 	 * an empty array.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   SaveSetup  $event  The event we are handling
 	 *
 	 * @return  void The configuration data to save to the database
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorSaveSetup(Event $event): void
+	public function onUserTwofactorSaveSetup(SaveSetup $event): void
 	{
 		/**
 		 * @var TfaTable $record The record currently selected by the user.
@@ -247,19 +250,19 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Return the configuration to be serialized
-		$this->setResult($event, ['fixed_code' => $code]);
+		$event->addResult(['fixed_code' => $code]);
 	}
 
 	/**
 	 * Validates the Two Factor Authentication code submitted by the user in the Captive Two Factor
 	 * Authentication. If the record does not correspond to your plugin return FALSE.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   Validate  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorValidate(Event $event): void
+	public function onUserTwofactorValidate(Validate $event): void
 	{
 		/**
 		 * @var   TfaTable    $record The TFA Method's record you're validating against
@@ -273,7 +276,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 		// Make sure we are actually meant to handle this Method
 		if ($record->method != $this->tfaMethodName)
 		{
-			$this->setResult($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -285,14 +288,14 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 		// phpcs:ignore
 		if ($user->id != $record->user_id)
 		{
-			$this->setResult($event, false);
+			$event->addResult(false);
 
 			return;
 		}
 
 		// Check the TFA code for validity
 		// phpcs:ignore
-		$this->setResult($event, hash_equals($options->fixed_code, $code ?? ''));
+		$event->addResult(hash_equals($options->fixed_code, $code ?? ''));
 	}
 
 	/**
@@ -317,22 +320,5 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 		}
 
 		return (object) $options;
-	}
-
-	/**
-	 * Add a result to an event
-	 *
-	 * @param   Event  $event   The event to add a result to
-	 * @param   mixed  $return  The result value to add to the event
-	 *
-	 * @return void
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function setResult(Event $event, $return)
-	{
-		$result   = $event->getArgument('result', []) ?: [];
-		$result[] = $return;
-
-		$event->setArgument('result', $result);
 	}
 }

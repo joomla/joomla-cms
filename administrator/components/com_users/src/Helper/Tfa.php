@@ -13,7 +13,7 @@ use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\HtmlDocument;
-use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\GetMethod;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -27,7 +27,6 @@ use Joomla\Component\Users\Administrator\Table\TfaTable;
 use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
-use Joomla\Event\Event;
 
 /**
  * Helper functions for captive TFA handling
@@ -148,10 +147,11 @@ abstract class Tfa
 		if (is_null(self::$allTFAs))
 		{
 			// Get all the plugin results
-			$temp = Factory::getApplication()->triggerEvent(
-				'onUserTwofactorGetMethod',
-				new GenericEvent('onUserTwofactorGetMethod', [])
-			);
+			$event = new GetMethod;
+			$temp  = Factory::getApplication()
+				->getDispatcher()
+				->dispatch($event->getName(), $event)
+				->getArgument('result');
 
 			// Normalize the results
 			self::$allTFAs = [];

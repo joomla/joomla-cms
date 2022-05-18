@@ -13,6 +13,7 @@ use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -85,10 +86,8 @@ class MethodsController extends BaseController
 		$type    = null;
 		$message = null;
 
-		$this->app->triggerEvent(
-			'onComUsersControllerMethodsBeforeDisable',
-			new GenericEvent('onComUsersControllerMethodsBeforeDisable', [$user])
-		);
+		$event = new NotifyActionLog('onComUsersControllerMethodsBeforeDisable', [$user]);
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		try
 		{
@@ -180,10 +179,8 @@ class MethodsController extends BaseController
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$this->app->triggerEvent(
-			'onComUsersControllerMethodsBeforeDoNotShowThisAgain',
-			new GenericEvent('onComUsersControllerMethodsBeforeDoNotShowThisAgain', [$user])
-		);
+		$event = new NotifyActionLog('onComUsersControllerMethodsBeforeDoNotShowThisAgain', [$user]);
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		/** @var MethodsModel $model */
 		$model = $this->getModel('Methods');

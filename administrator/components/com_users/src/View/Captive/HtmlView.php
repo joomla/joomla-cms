@@ -11,6 +11,8 @@ namespace Joomla\Component\Users\Administrator\View\Captive;
 
 use Exception;
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\BeforeDisplayMethods;
+use Joomla\CMS\Event\TwoFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -105,15 +107,8 @@ class HtmlView extends BaseHtmlView
 		$user = Factory::getApplication()->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		$app->triggerEvent(
-			'onUserTwofactorBeforeDisplayMethods',
-			new GenericEvent(
-				'onUserTwofactorBeforeDisplayMethods',
-				[
-					'user' => $user,
-				]
-			)
-		);
+		$event = new BeforeDisplayMethods($user);
+		$app->getDispatcher()->dispatch($event->getName(), $event);
 
 		/** @var CaptiveModel $model */
 		$model = $this->getModel();
@@ -172,10 +167,8 @@ class HtmlView extends BaseHtmlView
 			case 'select':
 				$this->allowEntryBatching = 1;
 
-				$app->triggerEvent(
-					'onComUsersCaptiveShowSelect',
-					new GenericEvent('onComUsersCaptiveShowSelect', [])
-				);
+				$event = new NotifyActionLog('onComUsersCaptiveShowSelect', []);
+				$this->app->getDispatcher()->dispatch($event->getName(), $event);
 				break;
 
 			case 'default':
@@ -183,15 +176,13 @@ class HtmlView extends BaseHtmlView
 				$this->renderOptions      = $model->loadCaptiveRenderOptions($this->record);
 				$this->allowEntryBatching = $this->renderOptions['allowEntryBatching'] ?? 0;
 
-				$app->triggerEvent(
+				$event = new NotifyActionLog(
 					'onComUsersCaptiveShowCaptive',
-					new GenericEvent(
-						'onComUsersCaptiveShowCaptive',
-						[
-							$this->escape($this->record->title),
-						]
-					)
+					[
+						$this->escape($this->record->title),
+					]
 				);
+				Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 				break;
 		}
 

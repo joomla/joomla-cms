@@ -13,6 +13,11 @@ use Exception;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Event\TwoFactor\Captive;
+use Joomla\CMS\Event\TwoFactor\GetMethod;
+use Joomla\CMS\Event\TwoFactor\GetSetup;
+use Joomla\CMS\Event\TwoFactor\SaveSetup;
+use Joomla\CMS\Event\TwoFactor\Validate;
 use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\CMS\Language\Text;
@@ -82,15 +87,14 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Gets the identity of this TFA Method
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorGetMethod(Event $event): void
+	public function onUserTwofactorGetMethod(GetMethod $event): void
 	{
-		$this->setResult(
-			$event,
+		$event->addResult(
 			new MethodDescriptor(
 				[
 					'name'               => $this->tfaMethodName,
@@ -109,13 +113,13 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * which allows the user to add or modify a TFA Method for their user account. If the record
 	 * does not correspond to your plugin return an empty array.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   GetSetup  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorGetSetup(Event $event): void
+	public function onUserTwofactorGetSetup(GetSetup $event): void
 	{
 		/**
 		 * @var   TfaTable $record The record currently selected by the user.
@@ -168,8 +172,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			$preMessage = Text::_('PLG_TWOFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS');
 		}
 
-		$this->setResult(
-			$event,
+		$event->addResult(
 			new SetupRenderOptions(
 				[
 					'default_title' => Text::_('PLG_TWOFACTORAUTH_WEBAUTHN_LBL_DISPLAYEDAS'),
@@ -191,12 +194,12 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * message of the exception will be displayed to the user. If the record does not correspond to your plugin return
 	 * an empty array.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   SaveSetup  $event  The event we are handling
 	 *
 	 * @return  void The configuration data to save to the database
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorSaveSetup(Event $event): void
+	public function onUserTwofactorSaveSetup(SaveSetup $event): void
 	{
 		/**
 		 * @var   TfaTable $record The record currently selected by the user.
@@ -224,7 +227,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		// If there is no registration request (and there isn't a registration response) we are just saving the title.
 		if (empty($registrationRequest))
 		{
-			$this->setResult($event, $record->options);
+			$event->addResult($record->options);
 
 			return;
 		}
@@ -246,8 +249,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Return the configuration to be serialized
-		$this->setResult(
-			$event,
+		$event->addResult(
 			[
 				'credentialId' => base64_encode($publicKeyCredentialSource->getAttestedCredentialData()->getCredentialId()),
 				'pubkeysource' => json_encode($publicKeyCredentialSource),
@@ -260,13 +262,13 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * Returns the information which allows Joomla to render the Captive TFA page. This is the page
 	 * which appears right after you log in and asks you to validate your login with TFA.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   Captive  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @throws  Exception
+	 * @throws Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorCaptive(Event $event): void
+	public function onUserTwofactorCaptive(Captive $event): void
 	{
 		/**
 		 * @var   TfaTable $record The record currently selected by the user.
@@ -367,8 +369,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
 		$document->addScriptOptions('com_users.pagetype', 'validate', false);
 
-		$this->setResult(
-			$event,
+		$event->addResult(
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the TFA form
@@ -398,12 +399,12 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * Validates the Two Factor Authentication code submitted by the user in the Two Factor
 	 * Authentication page. If the record does not correspond to your plugin return FALSE.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   Validate  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onUserTwofactorValidate(Event $event): void
+	public function onUserTwofactorValidate(Validate $event): void
 	{
 		/**
 		 * @var   TfaTable $record The TFA Method's record you're validatng against
@@ -417,7 +418,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		// Make sure we are actually meant to handle this Method
 		if ($record->method != $this->tfaMethodName)
 		{
-			$this->setResult($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -426,7 +427,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		// phpcs:ignore
 		if ($user->id != $record->user_id)
 		{
-			$this->setResult($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -445,28 +446,11 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			{
 			}
 
-			$this->setResult($event, false);
+			$event->addResult(false);
 
 			return;
 		}
 
-		$this->setResult($event, true);
-	}
-
-	/**
-	 * Add a result to an event
-	 *
-	 * @param   Event  $event   The event to add a result to
-	 * @param   mixed  $return  The result value to add to the event
-	 *
-	 * @return void
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function setResult(Event $event, $return)
-	{
-		$result   = $event->getArgument('result', []) ?: [];
-		$result[] = $return;
-
-		$event->setArgument('result', $result);
+		$event->addResult(true);
 	}
 }

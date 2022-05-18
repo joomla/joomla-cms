@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\Captive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -228,10 +228,11 @@ class CaptiveModel extends BaseDatabaseModel
 			return $renderOptions;
 		}
 
-		$results = Factory::getApplication()->triggerEvent(
-			'onUserTwofactorCaptive',
-			new GenericEvent('onUserTwofactorCaptive', ['record' => $record])
-		);
+		$event   = new Captive($record);
+		$results = Factory::getApplication()
+			->getDispatcher()
+			->dispatch($event->getName(), $event)
+			->getArgument('result');
 
 		if (empty($results))
 		{

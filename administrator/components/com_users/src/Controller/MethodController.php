@@ -12,6 +12,8 @@ namespace Joomla\Component\Users\Administrator\Controller;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\NotifyActionLog;
+use Joomla\CMS\Event\TwoFactor\SaveSetup;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController as BaseControllerAlias;
@@ -112,10 +114,8 @@ class MethodController extends BaseControllerAlias
 
 		$view->setModel($model, true);
 
-		$this->app->triggerEvent(
-			'onComUsersControllerMethodBeforeAdd',
-			new GenericEvent('onComUsersControllerMethodBeforeAdd', [$user, $method])
-		);
+		$event = new NotifyActionLog('onComUsersControllerMethodBeforeAdd', [$user, $method]);
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		$view->display();
 	}
@@ -164,10 +164,8 @@ class MethodController extends BaseControllerAlias
 
 		$view->setModel($model, true);
 
-		$this->app->triggerEvent(
-			'onComUsersControllerMethodBeforeEdit',
-			new GenericEvent('onComUsersControllerMethodBeforeEdit', [$id, $user])
-		);
+		$event = new NotifyActionLog('onComUsersControllerMethodBeforeEdit', [$id, $user]);
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		$view->display();
 	}
@@ -210,10 +208,8 @@ class MethodController extends BaseControllerAlias
 
 		$this->setRedirect(Route::_($redirectUrl, false));
 
-		$this->app->triggerEvent(
-			'onComUsersControllerMethodAfterRegenerateBackupCodes',
-			new GenericEvent('onComUsersControllerMethodAfterRegenerateBackupCodes')
-		);
+		$event = new NotifyActionLog('onComUsersControllerMethodAfterRegenerateBackupCodes');
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 	}
 
 	/**
@@ -248,10 +244,8 @@ class MethodController extends BaseControllerAlias
 		$type    = null;
 		$message = null;
 
-		$this->app->triggerEvent(
-			'onComUsersControllerMethodBeforeDelete',
-			new GenericEvent('onComUsersControllerMethodBeforeDelete', [$id, $user])
-		);
+		$event = new NotifyActionLog('onComUsersControllerMethodBeforeDelete', [$id, $user]);
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		try
 		{
@@ -323,22 +317,16 @@ class MethodController extends BaseControllerAlias
 		$result = [];
 		$input  = $this->app->input;
 
-		$this->app->triggerEvent(
-			'onComUsersControllerMethodBeforeSave',
-			new GenericEvent('onComUsersControllerMethodBeforeSave', [$id, $user])
-		);
+		$event = new NotifyActionLog('onComUsersControllerMethodBeforeSave', [$id, $user]);
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		try
 		{
-			$pluginResults = $this->app->triggerEvent(
-				'onUserTwofactorSaveSetup',
-				new GenericEvent('onUserTwofactorSaveSetup',
-					[
-						'record' => $record,
-						'input'  => $input
-					]
-				)
-			);
+			$event          = new SaveSetup($record, $input);
+			$pluginResults = $this->app
+				->getDispatcher()
+				->dispatch($event->getName(), $event)
+				->getArgument('result');
 
 			foreach ($pluginResults as $pluginResult)
 			{

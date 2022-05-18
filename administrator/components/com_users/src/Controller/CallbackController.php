@@ -11,6 +11,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\TwoFactor\Callback;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -67,10 +68,8 @@ class CallbackController extends BaseController
 
 		PluginHelper::importPlugin('twofactorauth');
 
-		$this->app->triggerEvent(
-			'onUserTwofactorCallback',
-			new GenericEvent('onUserTwofactorCallback', ['method' => $method])
-		);
+		$event = new Callback($method);
+		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		/**
 		 * The first plugin to handle the request should either redirect or close the application. If we are still here
