@@ -15,13 +15,12 @@ use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Filter\InputFilter;
-use Joomla\Registry\Registry;
 
 /**
  * Joomla Token Authentication plugin
@@ -344,26 +343,17 @@ final class Token extends CMSPlugin
 	 */
 	private function getPluginParameter(string $folder, string $plugin, string $param, $default = null)
 	{
-		if (!PluginHelper::isEnabled($folder, $plugin))
+		/** @var PluginModel $model */
+		$model = $this->app->bootComponent('plugins')->getMVCFactory()->createModel('Plugin', 'Administrator', ['ignore_request' => true]);
+
+		$pluginObject = $model->getItem(['folder' => $folder, 'element' => $plugin]);
+
+		if (!is_object($pluginObject) || !$pluginObject->enabled || !array_key_exists($param, $pluginObject->params))
 		{
 			return $default;
 		}
 
-		$pluginObject = PluginHelper::getPlugin($folder, $plugin);
-
-		if (empty($pluginObject))
-		{
-			return $default;
-		}
-
-		if (!is_object($pluginObject) || !isset($pluginObject->params))
-		{
-			return $default;
-		}
-
-		$params = new Registry($pluginObject->params);
-
-		return $params->get($param, $default);
+		return $pluginObject->params[$param];
 	}
 
 	/**
