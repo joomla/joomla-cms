@@ -461,14 +461,33 @@ steps:
       - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22
       - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
 
-trigger:
-  event:
-    - cron
-    - custom
-  cron:
-    - nightly
-  repo:
-    - joomla/joomla-cms
+  - name: success-situation
+      image: joomlaprojects/docker-images:packager
+      environment:
+        RINGCENTRAL_WEBHOOK:
+          from_secret: RINGCENTRAL_WEBHOOK
+      commands:
+        - /bin/notify
+
+  - name: failure-situation
+    image: joomlaprojects/docker-images:packager
+    environment:
+      RINGCENTRAL_WEBHOOK:
+        from_secret: RINGCENTRAL_WEBHOOK
+    commands:
+      - /bin/notify
+    when:
+      status:
+        - failure
+
+#trigger:
+#  event:
+#    - cron
+#    - custom
+#  cron:
+#    - nightly
+#  repo:
+#    - joomla/joomla-cms
 
 ---
 kind: signature
