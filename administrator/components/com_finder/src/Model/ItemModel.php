@@ -51,7 +51,7 @@ class ItemModel extends BaseDatabaseModel
 			->select('*')
 			->from($db->quoteName('#__finder_links', 'l'))
 			->where($db->quoteName('l.link_id') . ' = :link_id')
-			->bind(':link_id', $link_id);
+			->bind(':link_id', $link_id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
