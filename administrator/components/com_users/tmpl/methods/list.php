@@ -29,7 +29,7 @@ $model = $this->getModel();
 $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 ?>
-<div id="com-users-methods-list-container" class="p-1">
+<div id="com-users-methods-list-container">
 	<?php foreach($this->methods as $methodName => $method):
 		$methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
 			. ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
@@ -38,7 +38,7 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 			<div class="com-users-methods-list-method-header d-flex flex-wrap align-items-center gap-2">
 				<div class="com-users-methods-list-method-image pt-1 px-3 pb-2">
 					<img src="<?php echo Uri::root() . $method['image'] ?>"
-						 alt="<?php echo $this->escape($method['name']) ?>"
+						 alt="<?php echo $this->escape($method['display']) ?>"
 						 class="img-fluid"
 					>
 				</div>
@@ -104,16 +104,17 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 								<?php if ($methodName !== 'backupcodes'): ?>
 								<div class="com-users-methods-list-method-record-actions my-2 d-flex flex-row flex-wrap justify-content-center align-content-center align-items-start">
-									<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1"
-									   href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>">
+									<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1 hasTooltip"
+									   href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
+									   title="<?php echo Text::_('JACTION_EDIT') ?>">
 										<span class="icon icon-pencil" aria-hidden="true"></span>
 										<span class="visually-hidden"><?php echo Text::_('JACTION_EDIT') ?></span>
 									</a>
 
 									<?php if ($method['canDisable']): ?>
-										<a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1"
+										<a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1 hasTooltip"
 										   href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
-										>
+										   title="<?php echo Text::_('JACTION_DELETE') ?>">
 											<span class="icon icon-trash" aria-hidden="true"></span>
 											<span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?></span>
 										</a>
