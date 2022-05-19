@@ -114,6 +114,7 @@ OR (`type` = 'plugin' AND
 		OR (`folder` = 'quickicon' AND `element` IN ('downloadkey', 'extensionupdate', 'joomlaupdate', 'overridecheck', 'phpversioncheck', 'privacycheck'))
 		OR (`folder` = 'sampledata' AND `element` IN ('blog', 'multilang', 'testing'))
 		OR (`folder` = 'system' AND `element` IN ('accessibility', 'actionlogs', 'cache', 'debug', 'fields', 'highlight', 'httpheaders', 'languagecode', 'languagefilter', 'log', 'logout', 'logrotation', 'privacyconsent', 'redirect', 'remember', 'sef', 'sessiongc', 'skipto', 'stats', 'updatenotification', 'webauthn'))
+		OR (`folder` = 'twofactorauth' AND `element` IN ('totp', 'yubikey'))
 		OR (`folder` = 'user' AND `element` IN ('contactcreator', 'joomla', 'profile', 'terms', 'token'))
 		OR (`folder` = 'webservices' AND `element` IN ('banners', 'config', 'contact', 'content', 'languages', 'menus', 'messages', 'modules', 'newsfeeds', 'plugins', 'privacy', 'redirect', 'tags', 'templates', 'users'))
 	)
