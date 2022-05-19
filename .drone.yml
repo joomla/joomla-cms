@@ -456,10 +456,13 @@ steps:
         from_secret: nightly_user
       ssh_host:
         from_secret: nightly_host
+      RINGCENTRAL_WEBHOOK:
+        from_secret: notification_url
     commands:
       - apt update && apt install -y rclone openssh-client
       - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22
       - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
+      - /bin/notify
 
   - name: buildfailure
     image: joomlaprojects/docker-images:packager
@@ -484,6 +487,6 @@ steps:
 
 ---
 kind: signature
-hmac: 29e61134efc4e29a615cb5580d70db7c951844d8a6cdc671733ff4f400ceea10
+hmac: 2521fdb659bac5d19bd38bdd14ed0e5b2b1423a46ed4914cb3d35f31f99486b7
 
 ...
