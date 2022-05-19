@@ -130,7 +130,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
 
 					<!-- Last runs -->
 					<th scope="col" class="d-none d-lg-table-cell">
-						<?php echo Text::_('COM_SCHEDULER_LAST_RUN_DATE'); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_LAST_RUN_DATE', 'a.last_execution', $listDirn, $listOrder) ?>
 					</th>
 
 					<!-- Test task -->
