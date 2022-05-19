@@ -13,7 +13,6 @@ steps:
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
-      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -390,6 +389,9 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
+  - name: selenium-chrome
+    image: selenium/standalone-chrome
+
 ---
 kind: pipeline
 name: package
@@ -425,6 +427,6 @@ steps:
 
 ---
 kind: signature
-hmac: 3bfefc0b9a940b069c4d33465e5abead3bae0761fb22b0b619b0d9c85bfd82f8
+hmac: eb04a6a5d2303015d7e5f8574dbea8650ed99b701107da4c26e7cc7967218e82
 
 ...

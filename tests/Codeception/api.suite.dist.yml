@@ -10,6 +10,7 @@ modules:
             password: 'joomla_ut'
             prefix: 'jos_'
         Helper\Api:
+            host: 'selenium-chrome'
             MicrosoftEdgeInsiders: false           # set this to true, if you are on Windows Insiders       # ; If you want to setup your test website (document root) in a different folder, you can do that here.
             localUser: 'www-data'
 
