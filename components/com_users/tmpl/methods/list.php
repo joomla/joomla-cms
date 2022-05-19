@@ -29,7 +29,7 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 ?>
-<div id="com-users-methods-list-container" class="p-1">
+<div id="com-users-methods-list-container">
 	<?php foreach($this->methods as $methodName => $method):
 		$methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
 			. ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
