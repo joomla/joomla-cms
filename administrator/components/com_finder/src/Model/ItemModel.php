@@ -99,7 +99,7 @@ class ItemModel extends BaseDatabaseModel
 			->leftJoin($db->quoteName('#__finder_taxonomy', 't') . ' ON ' . $db->quoteName('t.id') . ' = ' . $db->quoteName('m.node_id'))
 			->where($db->quoteName('m.link_id') . ' = :link_id')
 			->order('t.title')
-			->bind(':link_id', $link_id);
+			->bind(':link_id', $link_id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
