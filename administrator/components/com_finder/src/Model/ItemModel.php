@@ -75,7 +75,7 @@ class ItemModel extends BaseDatabaseModel
 			->leftJoin($db->quoteName('#__finder_terms', 't') . ' ON ' . $db->quoteName('t.term_id') . ' = ' . $db->quoteName('l.term_id'))
 			->where($db->quoteName('l.link_id') . ' = :link_id')
 			->order('l.weight')
-			->bind(':link_id', $link_id);
+			->bind(':link_id', $link_id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
