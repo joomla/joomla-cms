@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Database\ParameterType;
 
 \defined('_JEXEC') or die;
 
