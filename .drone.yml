@@ -461,24 +461,17 @@ steps:
       - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22
       - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
 
-  - name: success-situation
-      image: joomlaprojects/docker-images:packager
-      environment:
-        RINGCENTRAL_WEBHOOK:
-          from_secret: RINGCENTRAL_WEBHOOK
-      commands:
-        - /bin/notify
-
-  - name: failure-situation
+  - name: buildfailure
     image: joomlaprojects/docker-images:packager
     environment:
       RINGCENTRAL_WEBHOOK:
-        from_secret: RINGCENTRAL_WEBHOOK
+        from_secret: notification_url
     commands:
       - /bin/notify
     when:
       status:
         - failure
+
 
 #trigger:
 #  event:
@@ -491,6 +484,6 @@ steps:
 
 ---
 kind: signature
-hmac: 88205246bbb13177f258935c1cb5e20a528a1dc5748334c0d1a23c66be7ec0c8
+hmac: 29e61134efc4e29a615cb5580d70db7c951844d8a6cdc671733ff4f400ceea10
 
 ...
