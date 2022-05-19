@@ -163,9 +163,16 @@ steps:
     commands:
       - npm run lint:js
 
-  - name: phpmin-api-mysql
+  - name: prepare_codeception_tests
     depends_on:
       - javascript-cs
+    image: joomlaprojects/docker-images:systemtests
+    commands:
+      - php libraries/vendor/bin/codecept build
+
+  - name: phpmin-api-mysql
+    depends_on:
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -194,7 +201,7 @@ steps:
 
   - name: phpmin-api-postgres
     depends_on:
-      - javascript-cs
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -418,6 +425,6 @@ steps:
 
 ---
 kind: signature
-hmac: e1b2861248632c4412ce24482a29ce5b9760481ddf46ac8d4a87aa8c0008cf89
+hmac: 3bfefc0b9a940b069c4d33465e5abead3bae0761fb22b0b619b0d9c85bfd82f8
 
 ...

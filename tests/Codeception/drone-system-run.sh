@@ -29,5 +29,4 @@ echo "Waiting 6 seconds till Selenium is ready..."
 sleep 6
 
 echo "[RUNNER] Run Codeception"
-php libraries/vendor/bin/codecept build
 php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/
