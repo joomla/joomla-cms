@@ -236,6 +236,16 @@ class CaptiveModel extends BaseDatabaseModel
 
 		if (empty($results))
 		{
+			if ($record->method === 'backupcodes')
+			{
+				return $renderOptions->merge(
+					[
+						'input_type' => 'number',
+						'label' => Text::_('COM_USERS_USER_OTEP'),
+					]
+				);
+			}
+
 			return $renderOptions;
 		}
 
