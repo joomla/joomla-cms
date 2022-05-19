@@ -458,12 +458,13 @@ steps:
         from_secret: nightly_host
     commands:
       - apt update && apt install -y rclone openssh-client
-      - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22 use_insecure_cipher true disable_hashcheck true
+      - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22
       - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
 
 trigger:
   event:
     - cron
+    - custom
   cron:
     - nightly
   repo:
