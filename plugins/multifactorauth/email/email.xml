@@ -22,24 +22,24 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-						name="force_enable"
-						type="radio"
-						layout="joomla.form.field.radio.switcher"
-						label="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_FORCE_ENABLE_LABEL"
-						description="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_FORCE_ENABLE_DESC"
-						default="0"
-				>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
+					name="force_enable"
+					type="radio"
+					layout="joomla.form.field.radio.switcher"
+					label="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_FORCE_ENABLE_LABEL"
+					description="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_FORCE_ENABLE_DESC"
+					default="0"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
-						name="timestep"
-						type="list"
-						label="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_LABEL"
-						description="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_DESC"
-						default="120"
-				>
+					name="timestep"
+					type="list"
+					label="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_LABEL"
+					description="PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_DESC"
+					default="120"
+					>
 					<option value="30">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_30</option>
 					<option value="60">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_60</option>
 					<option value="120">PLG_MULTIFACTORAUTH_EMAIL_CONFIG_TIMESTEP_120</option>
