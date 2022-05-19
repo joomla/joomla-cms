@@ -68,7 +68,10 @@ abstract class Credentials
 		// Save data in the session
 		$session = Factory::getApplication()->getSession();
 
-		$session->set('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', base64_encode(serialize($publicKeyCredentialCreationOptions)));
+		$session->set(
+			'plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions',
+			base64_encode(serialize($publicKeyCredentialCreationOptions))
+		);
 		$session->set('plg_multifactorauth_webauthn.registration_user_id', $user->id);
 
 		return json_encode($publicKeyCredentialCreationOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
