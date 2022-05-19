@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7441f6c81395c6d749ed02654f49a37",
+    "content-hash": "dba327d3779bd7b7be77d15a8e49a831",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2147,16 +2147,16 @@
         },
         {
             "name": "joomla/uri",
-            "version": "2.0.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270"
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/743136489c0f94c13ee2ab54aa14232063a98270",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/755f1cf80e2463d9a162563e607154c64083184b",
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b",
                 "shasum": ""
             },
             "require": {
@@ -2190,7 +2190,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/2.0.0"
+                "source": "https://github.com/joomla-framework/uri/tree/2.0.2"
             },
             "funding": [
                 {
@@ -2202,7 +2202,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-16T20:12:11+00:00"
+            "time": "2022-04-21T09:39:04+00:00"
         },
         {
             "name": "joomla/utilities",
@@ -2425,16 +2425,16 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.18.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6"
+                "reference": "c2e310320b7751a959f1590bb76530abbcfd2ce6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6",
-                "reference": "0d44b75f3b5d6d41ae83b79c7a4bceae7fbc78b6",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/c2e310320b7751a959f1590bb76530abbcfd2ce6",
+                "reference": "c2e310320b7751a959f1590bb76530abbcfd2ce6",
                 "shasum": ""
             },
             "require": {
@@ -2451,10 +2451,11 @@
                 "monolog/monolog": "Log using Monolog",
                 "predis/predis": "Redis storage"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 }
             },
             "autoload": {
@@ -2485,9 +2486,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.18.0"
+                "source": "https://github.com/maximebf/php-debugbar/tree/master"
             },
-            "time": "2021-12-27T18:49:48+00:00"
+            "time": "2022-02-11T11:14:20+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -10637,6 +10638,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "maximebf/debugbar": 20,
         "tobscure/json-api": 20,
         "joomla/cms-coding-standards": 20,
         "joomla/coding-standards": 20,
