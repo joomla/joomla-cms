@@ -26,7 +26,7 @@ fi
 echo "[RUNNER] Start Selenium"
 selenium-standalone start > tests/Codeception/_output/selenium.$DB_ENGINE.log 2>&1 &
 echo "Waiting 6 seconds till Selenium is ready..."
-sleep 10
+sleep 6
 
 echo "[RUNNER] Run Codeception"
 cd /tests/www/$DB_ENGINE
