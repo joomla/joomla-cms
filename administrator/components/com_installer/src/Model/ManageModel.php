@@ -80,6 +80,7 @@ class ManageModel extends InstallerModel
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.package_id', $this->getUserStateFromRequest($this->context . '.filter.package_id', 'filter_package_id', null, 'int'));
 		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
@@ -329,11 +330,12 @@ class ManageModel extends InstallerModel
 			->where('state = 0');
 
 		// Process select filters.
-		$status   = $this->getState('filter.status', '');
-		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id', '');
-		$folder   = $this->getState('filter.folder');
-		$core     = $this->getState('filter.core', '');
+		$status    = $this->getState('filter.status', '');
+		$type      = $this->getState('filter.type');
+		$clientId  = $this->getState('filter.client_id', '');
+		$folder    = $this->getState('filter.folder');
+		$core      = $this->getState('filter.core', '');
+		$packageId = $this->getState('filter.package_id', '');
 
 		if ($status !== '')
 		{
@@ -365,6 +367,17 @@ class ManageModel extends InstallerModel
 			$clientId = (int) $clientId;
 			$query->where($db->quoteName('client_id') . ' = :clientid')
 				->bind(':clientid', $clientId, ParameterType::INTEGER);
+		}
+
+		if ($packageId !== '')
+		{
+			$packageId = (int) $packageId;
+			$query->where(
+				'((' . $db->quoteName('package_id') . ' = :package_id) OR '
+				. '(' . $db->quoteName('extension_id') . ' = :package_id_2))'
+			)
+				->bind(':package_id', $packageId, ParameterType::INTEGER)
+				->bind(':package_id_2', $packageId, ParameterType::INTEGER);
 		}
 
 		if ($folder)
