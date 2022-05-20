@@ -32,7 +32,7 @@
 			name="package_id"
 			type="package"
 			label="COM_INSTALLER_MANAGE_FILTER_PACKAGE_ID_LABEL"
-			desc="COM_INSTALLER_MANAGE_FILTER_PACKAGE_ID_DESC"
+			description="COM_INSTALLER_MANAGE_FILTER_PACKAGE_ID_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_PACKAGE_ID_SELECT</option>
