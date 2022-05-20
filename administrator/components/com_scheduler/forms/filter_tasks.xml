@@ -45,7 +45,7 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
-			default="a.title DESC"
+			default="a.title ASC"
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
