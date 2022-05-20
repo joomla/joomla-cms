@@ -90,8 +90,8 @@ class HtmlView extends BaseHtmlView
 			$app->redirect('index.php?option=com_users&view=users');
 		}
 
-		$this->form                     = $this->get('Form');
-		$this->state                    = $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

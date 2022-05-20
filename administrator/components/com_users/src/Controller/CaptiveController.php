@@ -137,7 +137,7 @@ class CaptiveController extends BaseController
 
 		// Get the MFA parameters from the request
 		$recordId  = $this->input->getInt('record_id', null);
-		$code       = $this->input->get('code', null, 'raw');
+		$code      = $this->input->get('code', null, 'raw');
 		/** @var CaptiveModel $model */
 		$model = $this->getModel('Captive');
 
@@ -157,7 +157,7 @@ class CaptiveController extends BaseController
 		$user = $this->app->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		$event    = new Validate($record, $user, $code);
+		$event   = new Validate($record, $user, $code);
 		$results = $this->app
 			->getDispatcher()
 			->dispatch($event->getName(), $event)

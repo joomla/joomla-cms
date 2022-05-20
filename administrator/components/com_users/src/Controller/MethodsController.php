@@ -127,11 +127,11 @@ class MethodsController extends BaseController
 		$this->assertLoggedInUser();
 
 		// Make sure I am allowed to edit the specified user
-		$userId  = $this->input->getInt('user_id', null);
-		$user    = ($userId === null)
+		$userId = $this->input->getInt('user_id', null);
+		$user   = ($userId === null)
 			? $this->app->getIdentity()
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-		$user    = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+		$user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
 		if (!MfaHelper::canEditUser($user))
 		{
@@ -168,11 +168,11 @@ class MethodsController extends BaseController
 		$this->checkToken($this->input->getMethod());
 
 		// Make sure I am allowed to edit the specified user
-		$userId  = $this->input->getInt('user_id', null);
-		$user    = ($userId === null)
+		$userId = $this->input->getInt('user_id', null);
+		$user   = ($userId === null)
 			? $this->app->getIdentity()
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-		$user    = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+		$user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
 		if (!MfaHelper::canEditUser($user))
 		{

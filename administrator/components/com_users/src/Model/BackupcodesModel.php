@@ -301,5 +301,4 @@ class BackupcodesModel extends BaseDatabaseModel
 		// Finally return the result
 		return $result;
 	}
-
 }

@@ -20,7 +20,7 @@ use Joomla\Component\Users\Administrator\View\Captive\HtmlView;
  * @var HtmlView     $this  View object
  * @var CaptiveModel $model The model
  */
-$model           = $this->getModel();
+$model = $this->getModel();
 
 if ($this->renderOptions['field_type'] !== 'custom')
 {
