@@ -67,7 +67,6 @@ final class Token extends CMSPlugin
 	 * The input filter
 	 *
 	 * @var    InputFilter
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $filter;
