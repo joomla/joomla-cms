@@ -163,7 +163,7 @@ class PluginModel extends AdminModel
 
 		$cacheId = $pk;
 
-		if (is_array($cacheId))
+		if (\is_array($cacheId))
 		{
 			$cacheId = serialize($cacheId);
 		}
