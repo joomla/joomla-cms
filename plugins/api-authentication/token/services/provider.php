@@ -17,7 +17,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Filter\InputFilter;
-use Joomla\Plugin\APIAuthentication\Token\Extension\Token;
+use Joomla\Plugin\ApiAuthentication\Token\Extension\Token;
 
 return new class implements ServiceProviderInterface
 {
