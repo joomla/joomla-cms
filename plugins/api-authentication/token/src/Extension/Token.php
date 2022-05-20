@@ -77,6 +77,7 @@ final class Token extends CMSPlugin
 	 * @param   DispatcherInterface   $dispatcher   The dispatcher
 	 * @param   array                 $config       An optional associative array of configuration settings
 	 * @param   UserFactoryInterface  $userFactory  The user factory
+	 * @param   InputFilter           $filter       The input filter
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
