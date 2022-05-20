@@ -75,10 +75,12 @@ export default {
     this.modal = document.querySelector('.modal-dialog');
     this.focusableContent = this.modal.querySelectorAll(this.focusableElements);
     this.focusableArray = Array.from(this.focusableContent);
-    [this.firstFocusableElement] = this.focusableArray;
+    [this.firstFocusableElement, this.secondFocusableElement] = this.focusableArray;
     [this.lastFocusableElement] = this.focusableArray.slice(-1);
     document.addEventListener('keydown', this.onKeyPress);
-    this.firstFocusableElement.focus();
+    
+    /* The Text field should be in focus on opening */
+    this.secondFocusableElement.focus();
 
     /* Setting up the MutationObserver on the modal-footer */
     this.targetNode = document.querySelector('.modal-footer');
@@ -87,11 +89,11 @@ export default {
     this.observer.observe(this.targetNode, this.config);
   },
   beforeUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown);
     /* Disconnect the mutation observer */
     this.observer.disconnect();
 
-    /* Remove the keydown event listener */
+    /* Remove the keydown event listeners */
+    document.removeEventListener('keydown', this.onKeyDown);
     document.removeEventListener('keydown', this.onKeyPress);
   },
   methods: {
