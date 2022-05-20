@@ -347,7 +347,7 @@ final class Token extends CMSPlugin
 
 		$pluginObject = $model->getItem(['folder' => $folder, 'element' => $plugin]);
 
-		if (!is_object($pluginObject) || !$pluginObject->enabled || !array_key_exists($param, $pluginObject->params))
+		if (!\is_object($pluginObject) || !$pluginObject->enabled || !\array_key_exists($param, $pluginObject->params))
 		{
 			return $default;
 		}
