@@ -322,7 +322,7 @@ class MethodController extends BaseControllerAlias
 
 		try
 		{
-			$event          = new SaveSetup($record, $input);
+			$event         = new SaveSetup($record, $input);
 			$pluginResults = $this->app
 				->getDispatcher()
 				->dispatch($event->getName(), $event)
