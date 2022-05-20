@@ -13,7 +13,6 @@ steps:
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
-      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -163,9 +162,16 @@ steps:
     commands:
       - npm run lint:js
 
+  - name: prepare_codeception_tests
+    depends_on:
+      - npm
+    image: joomlaprojects/docker-images:systemtests
+    commands:
+      - php libraries/vendor/bin/codecept build
+
   - name: phpmin-api-mysql
     depends_on:
-      - javascript-cs
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -194,7 +200,7 @@ steps:
 
   - name: phpmin-api-postgres
     depends_on:
-      - javascript-cs
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
     failure: ignore
     environment:
@@ -418,6 +424,6 @@ steps:
 
 ---
 kind: signature
-hmac: e1b2861248632c4412ce24482a29ce5b9760481ddf46ac8d4a87aa8c0008cf89
+hmac: a97a38d569f1f6ee9edf79060905561e9017e73ff781d62d152cfe2a6887c046
 
 ...

@@ -26,8 +26,8 @@ fi
 echo "[RUNNER] Start Selenium"
 selenium-standalone start > tests/Codeception/_output/selenium.$DB_ENGINE.log 2>&1 &
 echo "Waiting 6 seconds till Selenium is ready..."
-sleep 6
+sleep 10
 
 echo "[RUNNER] Run Codeception"
-php libraries/vendor/bin/codecept build
-php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/
+cd /tests/www/$DB_ENGINE
+php libraries/vendor/bin/codecept run acceptance --fail-fast --steps --debug --env $DB_ENGINE
