@@ -441,8 +441,8 @@ class MfaTable extends Table
 	 */
 	private function getNumRecords(int $userId): int
 	{
-		$db            = $this->getDbo();
-		$query         = $db->getQuery(true)
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__user_mfa'))
 			->where($db->quoteName('user_id') . ' = :user_id')
