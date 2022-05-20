@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>PLG_API-AUTHENTICATION_TOKEN_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Plugin\APIAuthentication\Token</namespace>
+	<namespace path="src">Joomla\Plugin\ApiAuthentication\Token</namespace>
 	<files>
 		<folder plugin="token">services</folder>
 		<folder>src</folder>
