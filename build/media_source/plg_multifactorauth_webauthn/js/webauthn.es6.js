@@ -30,7 +30,7 @@
   const displayError = (message) => {
     try {
       Joomla.renderMessages({
-        error: message
+        error: message,
       });
     } catch (e) {
       alert(message);
