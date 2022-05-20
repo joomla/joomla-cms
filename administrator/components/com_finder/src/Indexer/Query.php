@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -1357,23 +1358,28 @@ class Query
 
 			$searchTerm = $token->term;
 			$searchStem = $token->stem;
+			$term = $query->quoteName('t.term');
+			$stem = $query->quoteName('t.stem');
 
 			if ($this->wordmode === 'begin')
 			{
 				$searchTerm .= '%';
 				$searchStem .= '%';
-				$query->where('(t.term LIKE ' . $db->quote($searchTerm) . ' OR t.stem LIKE ' . $db->quote($searchStem) . ')');
+				$query->where('(' . $term . ' LIKE :searchTerm OR ' . $stem . ' LIKE :searchStem)');
 			}
 			elseif ($this->wordmode === 'fuzzy')
 			{
 				$searchTerm = '%' . $searchTerm . '%';
 				$searchStem = '%' . $searchStem . '%';
-				$query->where('(t.term LIKE ' . $db->quote($searchTerm) . ' OR t.stem LIKE ' . $db->quote($searchStem) . ')');
+				$query->where('(' . $term . ' LIKE :searchTerm OR ' . $stem . ' LIKE :searchStem)');
 			}
 			else
 			{
-				$query->where('(t.term = ' . $db->quote($searchTerm) . ' OR t.stem = ' . $db->quote($searchStem) . ')');
+				$query->where('(' . $term . ' = :searchTerm OR ' . $stem . ' = :searchStem)');
 			}
+
+			$query->bind(':searchTerm', $searchTerm, ParameterType::STRING)
+				->bind(':searchStem', $searchStem, ParameterType::STRING);
 
 			$query->where('t.phrase = 0')
 				->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
