@@ -91,6 +91,12 @@ class StringsModel extends BaseDatabaseModel
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
 		{
+			// Only process if language file is for selected language
+			if (strpos($file, $language, strlen($base)) === false)
+			{
+				continue;
+			}
+
 			$strings = LanguageHelper::parseIniFile($file);
 
 			if ($strings)
