@@ -36,7 +36,7 @@ UPDATE `#__extensions` AS `a`
 	INNER JOIN `#__extensions` AS `b` on `a`.`element` = `b`.`element`
 SET `a`.enabled = `b`.enabled
 WHERE `a`.folder = 'multifactorauth'
-	AND `a`.folder = 'twofactorauth';
+	AND `b`.folder = 'twofactorauth';
 
 --
 -- Remove legacy TFA plugins
