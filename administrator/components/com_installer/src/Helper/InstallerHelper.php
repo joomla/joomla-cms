@@ -134,11 +134,13 @@ class InstallerHelper
 		$db         = Factory::getContainer()->get(DatabaseDriver::class);
 		$query      = $db->getQuery(true)
 			->select(
-				[
-					$db->quoteName('extension_id'),
-					$db->quoteName('name'),
-					$db->quoteName('element')
-				]
+				$db->quoteName(
+					[
+						'extension_id',
+						'name',
+						'element',
+					]
+				)
 			)
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('package'));
