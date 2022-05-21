@@ -26,9 +26,11 @@ DELETE FROM "#__postinstall_messages" WHERE "condition_file" = 'site://plugins/m
 -- Add new MFA plugins
 --
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
-(0, 'plg_multifactorauth_fixed', 'plugin', 'fixed', 'multifactorauth', 0, 0, 1, 0, 1, '', '', '', 5, 0),
-(0, 'plg_multifactorauth_webauthn', 'plugin', 'webauthn', 'multifactorauth', 0, 0, 1, 0, 1, '', '', '', 3, 0),
-(0, 'plg_multifactorauth_email', 'plugin', 'email', 'multifactorauth', 0, 0, 1, 0, 1, '', '', '', 4, 0);
+(0, 'plg_multifactorauth_totp', 'plugin', 'totp', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 1, 0),
+(0, 'plg_multifactorauth_yubikey', 'plugin', 'yubikey', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 2, 0),
+(0, 'plg_multifactorauth_webauthn', 'plugin', 'webauthn', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 3, 0),
+(0, 'plg_multifactorauth_email', 'plugin', 'email', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 4, 0),
+(0, 'plg_multifactorauth_fixed', 'plugin', 'fixed', 'multifactorauth', 0, 0, 1, 0, 1, '', '', '', 5, 0);
 
 --
 -- Update MFA plugins' publish status
