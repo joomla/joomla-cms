@@ -15,6 +15,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -40,6 +41,7 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 	protected const TASKS_MAP = [
 		'plg_task_checkin_task_get' => [
 			'langConstPrefix' => 'PLG_TASK_CHECKIN',
+			'form'            => 'checkin_params',
 			'method'          => 'makeCheckin',
 		],
 	];
@@ -60,8 +62,9 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onTaskOptionsList'    => 'advertiseRoutines',
-			'onExecuteTask'        => 'standardRoutineHandler'
+			'onTaskOptionsList' => 'advertiseRoutines',
+			'onExecuteTask'     => 'standardRoutineHandler',
+			'onContentPrepareForm' => 'enhanceTaskItemForm',
 		];
 	}
 
@@ -79,8 +82,8 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 	{
 		$tables = $this->db->getTableList();
 		$prefix = Factory::getApplication()->get('dbprefix');
-
-		$results = array();
+		$delay = (int) $event->getArgument('params')->delay ?? 1;
+		$failed = false;
 
 		foreach ($tables as $tn)
 		{
@@ -98,8 +101,10 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 			}
 
 			$query = $this->db->getQuery(true)
-				->select('COUNT(*)')
-				->from($this->db->quoteName($tn));
+				->update($this->db->quoteName($tn))
+				->set($this->db->quoteName('checked_out') . ' = NULL')
+				->set($this->db->quoteName('checked_out_time') . ' = NULL')
+			;
 
 			if ($fields['checked_out']->Null === 'YES')
 			{
@@ -110,27 +115,27 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 				$query->where($this->db->quoteName('checked_out') . ' > 0');
 			}
 
-			$this->db->setQuery($query);
-			$count = $this->db->loadResult();
-
-			if ($count)
+			if ($delay > 0)
 			{
-				$results[] = $tn;
+				$delayTime = JDate::getInstance()->sub(new DateInterval('PT1H'));
+				$query->where(
+					$this->db->quoteName('checked_out_time') . ' < ' . $this->db->quote($delayTime)
+				);
+			}
+
+			$this->db->setQuery($query);
+
+			try
+			{
+				$this->db->execute();
+			}
+			catch (ExecutionFailureException $e)
+			{
+				// This failure isn't critical, don't care too much
+				$failed = true;
 			}
 		}
 
-		if (empty($results))
-		{
-			return TaskStatus::OK;
-		}
-
-		// Get the model.
-		/** @var \Joomla\Component\Checkin\Administrator\Model\CheckinModel $model */
-		$model = Factory::getApplication()->bootComponent('checkin')
-			->getMVCFactory()->createModel('checkin', 'Administrator', ['ignore_request' => true]);
-
-		$model->checkin($results);
-
-		return TaskStatus::OK;
+		return $failed ? TaskStatus::INVALID_EXIT : TaskStatus::OK;
 	}
 }
