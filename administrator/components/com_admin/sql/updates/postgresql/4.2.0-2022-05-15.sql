@@ -20,7 +20,7 @@ COMMENT ON TABLE "#__user_mfa" IS 'Multi-factor Authentication settings';
 --
 -- Remove obsolete postinstallation message
 --
-DELETE FROM "#__postinstall_messages" WHERE "condition_file" = 'site://plugins/multifactorauth/totp/postinstall/actions.php';
+DELETE FROM "#__postinstall_messages" WHERE "condition_file" = 'site://plugins/twofactorauth/totp/postinstall/actions.php';
 
 --
 -- Add new MFA plugins
