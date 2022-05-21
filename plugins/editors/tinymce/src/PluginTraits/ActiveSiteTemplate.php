@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
 use RuntimeException;
 
 /**
@@ -30,7 +31,7 @@ trait ActiveSiteTemplate
 	 */
 	protected function getActiveSiteTemplate()
 	{
-		$db    = Factory::getContainer()->get('db');
+		$db    = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__template_styles'))
