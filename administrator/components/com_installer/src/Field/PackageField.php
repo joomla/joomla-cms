@@ -33,5 +33,4 @@ class PackageField extends ListField
 
 		return array_merge($options, parent::getOptions());
 	}
-
 }
