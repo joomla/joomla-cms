@@ -373,11 +373,10 @@ class ManageModel extends InstallerModel
 		{
 			$packageId = (int) $packageId;
 			$query->where(
-				'((' . $db->quoteName('package_id') . ' = :package_id) OR '
-				. '(' . $db->quoteName('extension_id') . ' = :package_id_2))'
+				'((' . $db->quoteName('package_id') . ' = :packageId1) OR '
+				. '(' . $db->quoteName('extension_id') . ' = :packageId2))'
 			)
-				->bind(':package_id', $packageId, ParameterType::INTEGER)
-				->bind(':package_id_2', $packageId, ParameterType::INTEGER);
+				->bind([':packageId1',':packageId2'], $packageId, ParameterType::INTEGER);
 		}
 
 		if ($folder)
