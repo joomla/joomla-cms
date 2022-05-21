@@ -31,6 +31,6 @@ class PackageField extends ListField
 	{
 		$options = InstallerHelper::getPackageOptions();
 
-		return array_merge($options, parent::getOptions());
+		return array_merge(parent::getOptions(), $options);
 	}
 }
