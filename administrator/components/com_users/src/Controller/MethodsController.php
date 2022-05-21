@@ -144,11 +144,15 @@ class MethodsController extends BaseController
 		$view->setLayout($viewLayout);
 		$view->returnURL = $returnURL;
 		$view->user      = $user;
+		$view->document = $this->app->getDocument();
+
+		$methodsModel = $this->getModel('Methods');
+		$view->setModel($methodsModel, true);
 
 		$backupCodesModel = $this->getModel('Backupcodes');
 		$view->setModel($backupCodesModel, false);
 
-		parent::display($cachable, $urlparams);
+		$view->display();
 	}
 
 	/**

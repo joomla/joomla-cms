@@ -11,6 +11,9 @@ namespace Joomla\Component\Users\Administrator\DataShape;
 
 use InvalidArgumentException;
 
+// This line is required because of the PHP 8 attributes which are necessary to prevent PHP notices
+//phpcs:ignoreFile
+
 /**
  * Generic helper for handling data shapes in com_users
  *
@@ -139,6 +142,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @return  boolean  Does it exist in the object?
 	 * @since __DEPLOY_VERSION__
 	 */
+	#[\ReturnTypeWillChange]
 	public function __isset($name)
 	{
 		$methodName = 'get' . ucfirst($name);
@@ -154,6 +158,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @return  boolean
 	 * @since __DEPLOY_VERSION__
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return isset($this->{$offset});
@@ -167,6 +172,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @return  mixed
 	 * @since __DEPLOY_VERSION__
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return $this->{$offset};
@@ -181,6 +187,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @return void
 	 * @since __DEPLOY_VERSION__
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
 	{
 		$this->{$offset} = $value;
@@ -194,6 +201,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @return  mixed
 	 * @since __DEPLOY_VERSION__
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		throw new \LogicException(sprintf('You cannot unset members of %s', __CLASS__));
