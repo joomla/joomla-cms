@@ -46,7 +46,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource
 	{
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = Factory::getContainer()->get(DatabaseDriver::class);
 		$credentialId = base64_encode($publicKeyCredentialId);
 		$query        = $db->getQuery(true)
 			->select($db->qn('credential'))
@@ -86,7 +86,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
 	{
 		/** @var DatabaseDriver $db */
-		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$db         = Factory::getContainer()->get(DatabaseDriver::class);
 		$userHandle = $publicKeyCredentialUserEntity->getId();
 		$query      = $db->getQuery(true)
 			->select('*')
@@ -188,7 +188,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		$update = false;
 
 		/** @var DatabaseDriver $db */
-		$db     = Factory::getContainer()->get('DatabaseDriver');
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 
 		// Try to find an existing record
 		try
@@ -259,7 +259,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function getAll(int $userId): array
 	{
 		/** @var DatabaseDriver $db */
-		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$db         = Factory::getContainer()->get(DatabaseDriver::class);
 		$userHandle = $this->getHandleFromUserId($userId);
 		$query      = $db->getQuery(true)
 			->select('*')
@@ -296,7 +296,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function has(string $credentialId): bool
 	{
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = Factory::getContainer()->get(DatabaseDriver::class);
 		$credentialId = base64_encode($credentialId);
 		$query        = $db->getQuery(true)
 			->select('COUNT(*)')
@@ -329,7 +329,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	public function setLabel(string $credentialId, string $label): void
 	{
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = Factory::getContainer()->get(DatabaseDriver::class);
 		$credentialId = base64_encode($credentialId);
 		$o            = (object) [
 			'id'    => $credentialId,
@@ -356,7 +356,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		}
 
 		/** @var DatabaseDriver $db */
-		$db           = Factory::getContainer()->get('DatabaseDriver');
+		$db           = Factory::getContainer()->get(DatabaseDriver::class);
 		$credentialId = base64_encode($credentialId);
 		$query        = $db->getQuery(true)
 			->delete($db->qn('#__webauthn_credentials'))

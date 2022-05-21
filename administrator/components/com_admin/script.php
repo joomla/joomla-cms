@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -8707,7 +8708,7 @@ class JoomlaInstallerScript
 	 */
 	protected function fixTemplateMode(): void
 	{
-		$db = Factory::getContainer()->get('DatabaseDriver');
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 
 		array_map(
 			function ($template) use ($db)
@@ -8743,7 +8744,7 @@ class JoomlaInstallerScript
 	 */
 	protected function addUserAuthProviderColumn(): void
 	{
-		$db = Factory::getContainer()->get('DatabaseDriver');
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 
 		// Check if the column already exists
 		$fields = $db->getTableColumns('#__users');

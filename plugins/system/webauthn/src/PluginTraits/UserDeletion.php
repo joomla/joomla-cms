@@ -54,7 +54,7 @@ trait UserDeletion
 			Joomla::log('system', "Removing WebAuthn Passwordless Login information for deleted user #{$userId}");
 
 			/** @var DatabaseDriver $db */
-			$db = Factory::getContainer()->get('DatabaseDriver');
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__webauthn_credentials'))
