@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Plugins
- * @subpackage  Task.Requests
+ * @subpackage  Task.Checkin
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,13 +16,11 @@ use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
 use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
- * Task plugin with routines to make HTTP requests.
- * At the moment, offers a single routine for GET requests.
+ * Task plugin with routines to check in check out item.
  *
- * @since  4.1.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 {
@@ -31,7 +29,7 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 	/**
 	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @since  3.3
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
@@ -48,7 +46,7 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var boolean
-	 * @since 4.1.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -57,7 +55,7 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return string[]
 	 *
-	 * @since 4.1.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -74,7 +72,7 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return integer  The exit code
 	 *
-	 * @since 4.1.0
+	 * @since __DEPLOY_VERSION__
 	 * @throws Exception
 	 */
 	protected function makeCheckin(ExecuteTaskEvent $event): int
