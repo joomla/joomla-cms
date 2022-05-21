@@ -40,7 +40,7 @@ SET "a"."enabled" = "b"."enabled"
 FROM "#__extensions"
 WHERE "a"."element" = "b"."element"
 	AND "a"."folder" = 'multifactorauth'
-	AND "a"."folder" = 'twofactorauth';
+	AND "b"."folder" = 'twofactorauth';
 
 --
 -- Remove legacy TFA plugins
