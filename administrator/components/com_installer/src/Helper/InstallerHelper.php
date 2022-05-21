@@ -131,7 +131,7 @@ class InstallerHelper
 		$options = [];
 
 		/** @var DatabaseDriver $db The application's database driver object */
-		$db         = Factory::getContainer()->get('DatabaseDriver');
+		$db         = Factory::getContainer()->get(DatabaseDriver::class);
 		$query      = $db->getQuery(true)
 			->select(
 				[
