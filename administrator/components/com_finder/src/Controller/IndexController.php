@@ -52,9 +52,8 @@ class IndexController extends AdminController
 		$this->checkToken();
 
 		// Optimise the index by first running the garbage collection
-		$app = Factory::getApplication();
 		PluginHelper::importPlugin('finder');
-		$app->triggerEvent('onFinderGarbageCollection');
+		$this->app->triggerEvent('onFinderGarbageCollection');
 
 		// Now run the optimisation method from the indexer
 		$indexer = new Indexer;

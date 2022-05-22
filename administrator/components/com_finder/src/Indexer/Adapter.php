@@ -271,7 +271,7 @@ abstract class Adapter extends CMSPlugin
 	 */
 	public function onFinderGarbageCollection()
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 		$type_id = $this->getTypeId();
 
 		$query = $db->getQuery(true);
@@ -396,7 +396,7 @@ abstract class Adapter extends CMSPlugin
 		// Check the items.
 		if (empty($items))
 		{
-			Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+			$this->app->triggerEvent('onFinderIndexAfterDelete', array($id));
 
 			return true;
 		}
