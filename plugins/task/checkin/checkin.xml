@@ -9,6 +9,9 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.2.0</version>
 	<description>PLG_TASK_CHECKIN_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="checkin">checkin.php</filename>
+	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_task_checkin.ini</language>
 		<language tag="en-GB">language/en-GB/plg_task_checkin.sys.ini</language>
