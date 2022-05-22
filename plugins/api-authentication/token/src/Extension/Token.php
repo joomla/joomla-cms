@@ -7,27 +7,30 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\DatabaseInterface;
+use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Component\Plugins\Administrator\Model\PluginModel;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
-use Joomla\Registry\Registry;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Filter\InputFilter;
 
 /**
  * Joomla Token Authentication plugin
  *
  * @since  4.0.0
  */
-class PlgApiAuthenticationToken extends CMSPlugin
+final class Token extends CMSPlugin
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The application object
 	 *
@@ -35,14 +38,6 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @since  4.0.0
 	 */
 	protected $app;
-
-	/**
-	 * The application object
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0.0
-	 */
-	protected $db;
 
 	/**
 	 * The prefix of the user profile keys, without the dot.
@@ -61,6 +56,40 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	private $allowedAlgos = ['sha256', 'sha512'];
 
 	/**
+	 * The user factory
+	 *
+	 * @var    UserFactoryInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $userFactory;
+
+	/**
+	 * The input filter
+	 *
+	 * @var    InputFilter
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $filter;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   DispatcherInterface   $dispatcher   The dispatcher
+	 * @param   array                 $config       An optional associative array of configuration settings
+	 * @param   UserFactoryInterface  $userFactory  The user factory
+	 * @param   InputFilter           $filter       The input filter
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InputFilter $filter)
+	{
+		parent::__construct($dispatcher, $config);
+
+		$this->userFactory = $userFactory;
+		$this->filter      = $filter;
+	}
+
+	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @param   array   $credentials  Array holding the user credentials
@@ -76,7 +105,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		// Default response is authentication failure.
 		$response->type          = 'Token';
 		$response->status        = Authentication::STATUS_FAILURE;
-		$response->error_message = Text::_('JGLOBAL_AUTH_FAIL');
+		$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_FAIL');
 
 		/**
 		 * First look for an HTTP Authorization header with the following format:
@@ -95,8 +124,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 
 			if (array_key_exists('authorization', $apacheHeaders))
 			{
-				$filter = \Joomla\CMS\Filter\InputFilter::getInstance();
-				$authHeader = $filter->clean($apacheHeaders['authorization'], 'STRING');
+				$authHeader = $this->filter->clean($apacheHeaders['authorization'], 'STRING');
 			}
 		}
 
@@ -104,8 +132,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		{
 			$parts       = explode(' ', $authHeader, 2);
 			$tokenString = trim($parts[1]);
-			$filter      = InputFilter::getInstance();
-			$tokenString = $filter->clean($tokenString, 'BASE64');
+			$tokenString = $this->filter->clean($tokenString, 'BASE64');
 		}
 
 		if (empty($tokenString))
@@ -157,7 +184,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		{
 			$siteSecret = $this->app->get('secret');
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return;
 		}
@@ -217,7 +244,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		}
 
 		// Get the actual user record
-		$user = Factory::getUser($userId);
+		$user = $this->userFactory->loadUserById($userId);
 
 		// Disallow login for blocked, inactive or password reset required users
 		if ($user->block || !empty(trim($user->activation)) || $user->requireReset)
@@ -249,12 +276,12 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	{
 		try
 		{
-			$db    = $this->db;
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
-				->select($db->qn('profile_value'))
-				->from($db->qn('#__user_profiles'))
-				->where($db->qn('profile_key') . ' = :profileKey')
-				->where($db->qn('user_id') . ' = :userId');
+				->select($db->quoteName('profile_value'))
+				->from($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('profile_key') . ' = :profileKey')
+				->where($db->quoteName('user_id') . ' = :userId');
 
 			$profileKey = $this->profileKeyPrefix . '.token';
 			$query->bind(':profileKey', $profileKey, ParameterType::STRING);
@@ -262,7 +289,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 
 			return $db->setQuery($query)->loadResult();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return null;
 		}
@@ -281,12 +308,12 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	{
 		try
 		{
-			$db    = $this->db;
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
-				->select($db->qn('profile_value'))
-				->from($db->qn('#__user_profiles'))
-				->where($db->qn('profile_key') . ' = :profileKey')
-				->where($db->qn('user_id') . ' = :userId');
+				->select($db->quoteName('profile_value'))
+				->from($db->quoteName('#__user_profiles'))
+				->where($db->quoteName('profile_key') . ' = :profileKey')
+				->where($db->quoteName('user_id') . ' = :userId');
 
 			$profileKey = $this->profileKeyPrefix . '.enabled';
 			$query->bind(':profileKey', $profileKey, ParameterType::STRING);
@@ -296,7 +323,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 
 			return $value == 1;
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			return false;
 		}
@@ -313,30 +340,19 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @return  mixed
 	 * @since   4.0.0
 	 */
-	private function getPluginParameter(string $folder, string $plugin, string $param,
-		$default = null
-	)
+	private function getPluginParameter(string $folder, string $plugin, string $param, $default = null)
 	{
-		if (!PluginHelper::isEnabled($folder, $plugin))
+		/** @var PluginModel $model */
+		$model = $this->app->bootComponent('plugins')->getMVCFactory()->createModel('Plugin', 'Administrator', ['ignore_request' => true]);
+
+		$pluginObject = $model->getItem(['folder' => $folder, 'element' => $plugin]);
+
+		if (!\is_object($pluginObject) || !$pluginObject->enabled || !\array_key_exists($param, $pluginObject->params))
 		{
 			return $default;
 		}
 
-		$pluginObject = PluginHelper::getPlugin($folder, $plugin);
-
-		if (empty($pluginObject))
-		{
-			return $default;
-		}
-
-		if (!is_object($pluginObject) || !isset($pluginObject->params))
-		{
-			return $default;
-		}
-
-		$params = new Registry($pluginObject->params);
-
-		return $params->get($param, $default);
+		return $pluginObject->params[$param];
 	}
 
 	/**
@@ -347,9 +363,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 */
 	private function getAllowedUserGroups(): array
 	{
-		$userGroups = $this->getPluginParameter('user', 'token',
-			'allowedUserGroups', [8]
-		);
+		$userGroups = $this->getPluginParameter('user', 'token', 'allowedUserGroups', [8]);
 
 		if (empty($userGroups))
 		{
@@ -376,7 +390,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	{
 		$allowedUserGroups = $this->getAllowedUserGroups();
 
-		$user = Factory::getUser($userId);
+		$user = $this->userFactory->loadUserById($userId);
 
 		if ($user->id != $userId)
 		{

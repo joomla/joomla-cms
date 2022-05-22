@@ -130,6 +130,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $authenticationPluginType = 'authentication';
 
 	/**
+	 * Menu instances container.
+	 *
+	 * @var    AbstractMenu[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $menus = [];
+
+	/**
 	 * The menu factory
 	 *
 	 * @var   MenuFactoryInterface
@@ -525,12 +533,23 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$options['app'] = $this;
 		}
 
+		if (array_key_exists($name, $this->menus))
+		{
+			return $this->menus[$name];
+		}
+
 		if ($this->menuFactory === null)
 		{
+			@trigger_error('Menu factory must be set in 5.0', E_USER_DEPRECATED);
 			$this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
 		}
 
-		return $this->menuFactory->createMenu($name, $options);
+		$this->menus[$name] = $this->menuFactory->createMenu($name, $options);
+
+		// Make sure the abstract menu has the instance too, is needed for BC and will be removed with version 5
+		AbstractMenu::$instances[$name] = $this->menus[$name];
+
+		return $this->menus[$name];
 	}
 
 	/**
