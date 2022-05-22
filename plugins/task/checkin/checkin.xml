@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.2</version>
+	<version>4.2.0</version>
 	<description>PLG_TASK_CHECKIN_XML_DESCRIPTION</description>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_task_checkin.ini</language>
