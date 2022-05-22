@@ -256,7 +256,7 @@ class FieldsHelper
 				$field->value = $value;
 
 				// Assign the render value
-				$field->content = $value;
+				$field->content = &$field->value;
 			}
 
 			$fields = $new;
