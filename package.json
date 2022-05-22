@@ -10,7 +10,7 @@
   "__engines_upgrades__": "Dockerfiles @ github.com/joomla-projects/docker-images need also upgrade",
   "engines": {
     "node": ">=16",
-    "npm": ">=8.6.0"
+    "npm": ">=8.5.5"
   },
   "scripts": {
     "build:js": "node build/build.js --compile-js",
