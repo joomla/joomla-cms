@@ -501,66 +501,7 @@ class PlgSystemFields extends CMSPlugin
 			$item->jcfields[$field->id] = $field;
 		}
 	}
-
-	/**
-	 * @param   \Joomla\Component\Finder\Administrator\Indexer\Result  $item  The item
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.0
-	 */
-	public function onPrepareFinderContent($item)
-	{
-		$section = strtolower($item->layout);
-		$tax     = $item->getTaxonomy('Type');
-
-		if ($tax)
-		{
-			foreach ($tax as $context => $value)
-			{
-				// This is only a guess, needs to be improved
-				$component = strtolower($context);
-
-				if (strpos($context, 'com_') !== 0)
-				{
-					$component = 'com_' . $component;
-				}
-
-				// Transform com_article to com_content
-				if ($component === 'com_article')
-				{
-					$component = 'com_content';
-				}
-
-				// Create a dummy object with the required fields
-				$tmp     = new stdClass;
-				$tmp->id = $item->__get('id');
-
-				if ($item->__get('catid'))
-				{
-					$tmp->catid = $item->__get('catid');
-				}
-
-				// Getting the fields for the constructed context
-				$fields = FieldsHelper::getFields($component . '.' . $section, $tmp, true);
-
-				if (is_array($fields))
-				{
-					foreach ($fields as $field)
-					{
-						// Adding the instructions how to handle the text
-						$item->addInstruction(Indexer::TEXT_CONTEXT, $field->name);
-
-						// Adding the field value as a field
-						$item->{$field->name} = $field->value;
-					}
-				}
-			}
-		}
-
-		return true;
-	}
-
+	
 	/**
 	 * Prepares a tag item to be ready for com_fields.
 	 *
