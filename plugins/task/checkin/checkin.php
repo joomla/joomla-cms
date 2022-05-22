@@ -103,8 +103,7 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 			$query = $this->db->getQuery(true)
 				->update($this->db->quoteName($tn))
 				->set($this->db->quoteName('checked_out') . ' = NULL')
-				->set($this->db->quoteName('checked_out_time') . ' = NULL')
-			;
+				->set($this->db->quoteName('checked_out_time') . ' = NULL');
 
 			if ($fields['checked_out']->Null === 'YES')
 			{
