@@ -10,11 +10,12 @@
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Event\SubscriberInterface;
 
@@ -25,14 +26,16 @@ use Joomla\Event\SubscriberInterface;
  */
 class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 {
+	use DatabaseAwareTrait;
 	use TaskPluginTrait;
 
 	/**
-	 * @var    \Joomla\Database\DatabaseDriver
+	 * The application object
 	 *
+	 * @var    ApiApplication
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $db;
+	protected $app;
 
 	/**
 	 * @var string[]
@@ -80,8 +83,9 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function makeCheckin(ExecuteTaskEvent $event): int
 	{
-		$tables = $this->db->getTableList();
-		$prefix = Factory::getApplication()->get('dbprefix');
+		$db = $this->getDatabase();
+		$tables = $db->getTableList();
+		$prefix = $this->app->get('dbprefix');
 		$delay = (int) $event->getArgument('params')->delay ?? 1;
 		$failed = false;
 
@@ -93,40 +97,40 @@ class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			$fields = $this->db->getTableColumns($tn, false);
+			$fields = $db->getTableColumns($tn, false);
 
 			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
 			{
 				continue;
 			}
 
-			$query = $this->db->getQuery(true)
-				->update($this->db->quoteName($tn))
-				->set($this->db->quoteName('checked_out') . ' = NULL')
-				->set($this->db->quoteName('checked_out_time') . ' = NULL');
+			$query = $db->getQuery(true)
+				->update($db->quoteName($tn))
+				->set($db->quoteName('checked_out') . ' = NULL')
+				->set($db->quoteName('checked_out_time') . ' = NULL');
 
 			if ($fields['checked_out']->Null === 'YES')
 			{
-				$query->where($this->db->quoteName('checked_out') . ' IS NOT NULL');
+				$query->where($db->quoteName('checked_out') . ' IS NOT NULL');
 			}
 			else
 			{
-				$query->where($this->db->quoteName('checked_out') . ' > 0');
+				$query->where($db->quoteName('checked_out') . ' > 0');
 			}
 
 			if ($delay > 0)
 			{
 				$delayTime = JDate::getInstance()->sub(new DateInterval('PT1H'));
 				$query->where(
-					$this->db->quoteName('checked_out_time') . ' < ' . $this->db->quote($delayTime)
+					$db->quoteName('checked_out_time') . ' < ' . $db->quote($delayTime)
 				);
 			}
 
-			$this->db->setQuery($query);
+			$db->setQuery($query);
 
 			try
 			{
-				$this->db->execute();
+				$db->execute();
 			}
 			catch (ExecutionFailureException $e)
 			{
