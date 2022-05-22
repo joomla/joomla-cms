@@ -474,7 +474,7 @@ class Browser
 	 */
 	public function __construct($userAgent = null, $accept = null)
 	{
-		$this->match($userAgent, $accept);
+		$this->_match($userAgent, $accept);
 	}
 
 	/**
@@ -511,7 +511,7 @@ class Browser
 	 *
 	 * @since   1.7.0
 	 */
-	public function match($userAgent = null, $accept = null)
+	public function _match($userAgent = null, $accept = null)
 	{
 		// Set our agent string.
 		if (\is_null($userAgent))
