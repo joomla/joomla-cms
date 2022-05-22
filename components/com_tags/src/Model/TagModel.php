@@ -186,7 +186,7 @@ class TagModel extends ListModel
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = (array) $app->input->get('id', array());
+		$ids = (array) $app->input->get('id', array(),'int');
 
 		if (count($ids) == 1)
 		{
