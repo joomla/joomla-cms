@@ -6451,6 +6451,8 @@ class JoomlaInstallerScript
 			'/libraries/src/Service/Provider/ApiRouter.php',
 			'/libraries/vendor/nyholm/psr7/doc/final.md',
 			'/modules/mod_articles_news/mod_articles_news.php',
+			'/plugins/api-authentication/basic/basic.php',
+			'/plugins/api-authentication/token/token.php',
 			'/plugins/system/cache/cache.php',
 		);
 
