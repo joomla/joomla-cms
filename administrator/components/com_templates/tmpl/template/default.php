@@ -365,7 +365,6 @@ if ($this->type == 'font')
 		<?php echo $this->loadTemplate('updated_files'); ?>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>
-	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 	<div class="row mt-2">
@@ -373,6 +372,7 @@ if ($this->type == 'font')
 			<?php echo $this->loadTemplate('description'); ?>
 		</div>
 	</div>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
