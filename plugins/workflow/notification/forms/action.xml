@@ -23,7 +23,6 @@
 				showon="notification_send_mail:1"
 				multiple="true"
 				default="messages"
-				required="true"
 				>
 					<option value="messages">PLG_WORKFLOW_NOTIFICATION_TYPE_MESSAGES</option>
 					<option value="email">PLG_WORKFLOW_NOTIFICATION_TYPE_EMAIL</option>
