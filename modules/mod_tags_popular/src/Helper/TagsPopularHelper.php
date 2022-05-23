@@ -52,6 +52,7 @@ abstract class TagsPopularHelper
 					'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
 					'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
 					'MAX(' . $db->quoteName('t.params') . ') AS ' . $db->quoteName('params'),
+					'MAX(' . $db->quoteName('t.language') . ') AS ' . $db->quoteName('language'),
 				]
 			)
 			->group($db->quoteName(['tag_id', 't.title', 't.access', 't.alias']))
@@ -158,6 +159,7 @@ abstract class TagsPopularHelper
 								'a.title',
 								'a.access',
 								'a.alias',
+								'a.language',
 							]
 						)
 					)
