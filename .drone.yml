@@ -425,12 +425,12 @@ steps:
     image: joomlaprojects/docker-images:packager
     commands:
       - export MINORVERSION=${DRONE_BRANCH%-*}
-      - composer --version
-      - mkdir -p transfer
-      - date +%s > transfer/$MINORVERSION-time.txt
-      - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
-      - mv build/tmp/packages/* transfer/
+ #     - composer --version
+ #     - mkdir -p transfer
+ #     - date +%s > transfer/$MINORVERSION-time.txt
+ #     - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
+ #     - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+ #     - mv build/tmp/packages/* transfer/
 
   - name: upload
     image: joomlaprojects/docker-images:packager
@@ -445,7 +445,7 @@ steps:
         from_secret: notification_url
     commands:
       - export MINORVERSION=${DRONE_BRANCH%-*}
-      - rclone config create nightly sftp host $ssh_host user $ssh_user port 22
+      - rclone config create nightly sftp host $SSH_HOST user $SSH_USER key_pem $SSH_KEY port 22
       - rclone --dry-run delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone --dry-run delete nightly:/home/devj/public_html/cache/com_content/"
       - rclone --dry-run copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
@@ -474,6 +474,6 @@ steps:
 
 ---
 kind: signature
-hmac: b37f802aa604b235da9f5c4d388f0ccc422065c73cf1e980c290f1be1d44f3f4
+hmac: 0c277ffa3746d59b242db42fdb6d512a46743a8f7b4cd30bd8a96ed867f543d1
 
 ...
