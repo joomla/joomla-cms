@@ -36,8 +36,8 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 -- Update MFA plugins' publish status
 --
 UPDATE "#__extensions" AS "a"
-SET "a"."enabled" = "b"."enabled"
-FROM "#__extensions"
+SET "enabled" = "b"."enabled"
+FROM "#__extensions" AS "b"
 WHERE "a"."element" = "b"."element"
 	AND "a"."folder" = 'multifactorauth'
 	AND "b"."folder" = 'twofactorauth';
