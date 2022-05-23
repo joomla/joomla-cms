@@ -501,7 +501,7 @@ class PlgSystemFields extends CMSPlugin
 			$item->jcfields[$field->id] = $field;
 		}
 	}
-	
+
 	/**
 	 * Prepares a tag item to be ready for com_fields.
 	 *
