@@ -228,8 +228,8 @@ steps:
 
   - name: phpmin-system-mysql
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -238,8 +238,8 @@ steps:
 
   - name: phpmax-system-mysql
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -258,8 +258,8 @@ steps:
 
   - name: phpmin-system-postgres
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -268,8 +268,8 @@ steps:
 
   - name: phpmax-system-postgres
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -288,8 +288,8 @@ steps:
 
   - name: phpmin-system-mysql8
     depends_on:
-      - phpmax-system-mysql
-      - phpmax-system-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -298,8 +298,8 @@ steps:
 
   - name: phpmax-system-mysql8
     depends_on:
-      - phpmax-system-mysql
-      - phpmax-system-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -419,6 +419,6 @@ steps:
 
 ---
 kind: signature
-hmac: 05e889910b8d071dee00ed4a93a0aef40a712dc9b589b7b08e901687a0839221
+hmac: c42730cd0a74aebd49163ee397b7bf15e4ac996694ea50aefe59452652b8be95
 
 ...
