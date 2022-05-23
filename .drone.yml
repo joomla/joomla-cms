@@ -167,6 +167,7 @@ steps:
       - npm
     image: joomlaprojects/docker-images:systemtests
     commands:
+      - sed -i "s/tests\/Codeception\/_output/\/drone\/src\/tests\/Codeception\/_output/" codeception.yml
       - php libraries/vendor/bin/codecept build
 
   - name: phpmin-api-mysql
