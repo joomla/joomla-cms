@@ -32,8 +32,8 @@ return new class implements ServiceProviderInterface
 			PluginInterface::class,
 			function (Container $container)
 			{
-				$plugin                 = PluginHelper::getPlugin('task', 'checkin');
-				$dispatcher             = $container->get(DispatcherInterface::class);
+				$plugin     = PluginHelper::getPlugin('task', 'checkin');
+				$dispatcher = $container->get(DispatcherInterface::class);
 
 				$checkin = new Checkin(
 					$dispatcher,
