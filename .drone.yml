@@ -432,20 +432,6 @@ steps:
       - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
       - mv build/tmp/packages/* transfer/
 
-  - name: cleanup
-    image: appleboy/drone-ssh
-    environment:
-      ssh_password:
-        from_secret: nightly_password
-      ssh_user:
-        from_secret: nightly_user
-      ssh_host:
-        from_secret: nightly_host
-    commands:
-      - export MINORVERSION=${DRONE_BRANCH%-*}
-      - rm -f public_html/nightlies/Joomla_$MINORVERSION.*
-      - rm -rf public_html/cache/com_content
-
   - name: upload
     image: joomlaprojects/docker-images:packager
     environment:
@@ -458,8 +444,11 @@ steps:
       RINGCENTRAL_WEBHOOK:
         from_secret: notification_url
     commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
       - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22
-      - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v --dry-run
+      - rclone --dry-run delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
+      - rclone --dry-run delete nightly:/home/devj/public_html/cache/com_content/"
+      - rclone --dry-run copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
       - /bin/notify
 
   - name: buildfailure
@@ -485,6 +474,6 @@ steps:
 
 ---
 kind: signature
-hmac: 40726ddee042b6940dcefaa91924f4ac9f40a2b67e7f4f8d4d67ba54ec6b4dd3
+hmac: db621671c79bccf62216602f3a744faccb182e14ec10b4e2aaf1e63d2ebb71a8
 
 ...
