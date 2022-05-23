@@ -454,7 +454,7 @@ steps:
       - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
       - rclone --dry-run delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone --dry-run delete nightly:/home/devj/public_html/cache/com_content/
-      - rclone --dry-run copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
+      - rclone --dry-run copy ./transfer/ nightly:/home/devj/public_html/nightlies/
       - /bin/notify
 
   - name: buildfailure
@@ -480,6 +480,6 @@ steps:
 
 ---
 kind: signature
-hmac: 38905df229ec04785626e5a62dc00fe512221f893b1a867ca7ff29f79d2555a3
+hmac: d62c87d18c4fe895d32e0be0dc501d16d9688078eea82fb33a3937a9c6613ad6
 
 ...
