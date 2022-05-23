@@ -81,7 +81,6 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 	 * @return integer  The exit code
 	 *
 	 * @since __DEPLOY_VERSION__
-	 * @throws Exception
 	 */
 	protected function makeCheckin(ExecuteTaskEvent $event): int
 	{
@@ -122,7 +121,7 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 
 			if ($delay > 0)
 			{
-				$delayTime = JDate::getInstance()->sub(new DateInterval('PT1H'));
+				$delayTime = (new \DateTime())->sub(new DateInterval('PT' . $delay . 'H'));
 				$query->where(
 					$db->quoteName('checked_out_time') . ' < ' . $db->quote($delayTime)
 				);
