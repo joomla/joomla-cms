@@ -255,8 +255,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Send a message to com_messages when a stage changes transition.
 	 *
-	 * @param   \Joomla\CMS\User\User  $receiver        The user receiving the message
-	 * @param   string                 $performer       The user making the transition
+	 * @param   \Joomla\CMS\User\User  $recipient       The user receiving the message
+	 * @param   string                 $user            The user making the transition
 	 * @param   string                 $title           The title of the item transitioned
 	 * @param   string                 $transitionName  The name of the transition executed
 	 * @param   string                 $toStage         The stage moving to
@@ -268,22 +268,22 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function sendMessages(
-		\Joomla\CMS\User\User $receiver,
-		string $performer,
+		\Joomla\CMS\User\User $recipient,
+		string $user,
 		string $title,
 		string $transitionName,
 		string $toStage,
 		Language $language,
 		string $extraText
 	): void {
-		if ($receiver->authorise('core.manage', 'com_message'))
+		if ($recipient->authorise('core.manage', 'com_message'))
 		{
 			// Get the model for private messages
 			$modelMessage = $this->app->bootComponent('com_messages')
 				->getMVCFactory()->createModel('Message', 'Administrator');
 
 			// Remove users with locked input box from the list of receivers
-			if ($this->isMessageBoxLocked($receiver->id))
+			if ($this->isMessageBoxLocked($recipient->id))
 			{
 				return;
 			}
@@ -292,14 +292,14 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			$messageText = sprintf($language->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
 				$title,
 				$transitionName,
-				$performer,
+				$user,
 				$toStage
 			);
 			$messageText .= $extraText;
 
 			$message = [
 				'id'         => 0,
-				'user_id_to' => $receiver->id,
+				'user_id_to' => $recipient->id,
 				'subject'    => $subject,
 				'message'    => $messageText,
 			];
@@ -312,7 +312,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 * Send an email when a stage changes transition.
 	 *
 	 * @param   \Joomla\CMS\User\User  $recipient       The user receiving the message
-	 * @param   string                 $performer       The user making the transition
+	 * @param   string                 $user            The user making the transition
 	 * @param   string                 $title           The title of the item transitioned
 	 * @param   string                 $transitionName  The name of the transition executed
 	 * @param   string                 $toStage         The stage moving to
@@ -326,7 +326,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	 */
 	private function sendEmail(
 		\Joomla\CMS\User\User $recipient,
-		string $performer,
+		string $user,
 		string $title,
 		string $transitionName,
 		string $toStage,
@@ -336,7 +336,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		$data                   = [];
 		$data['siteurl']        = Uri::base();
 		$data['title']          = $title;
-		$data['performer']      = $performer;
+		$data['user']           = $user;
 		$data['transitionName'] = $transitionName;
 		$data['toStage']        = $toStage;
 		$data['extraText']      = $extraText;
