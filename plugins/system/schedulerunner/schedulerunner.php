@@ -375,7 +375,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		[$context, $table] = $event->getArguments();
 
 		if ($context !== 'com_config.component'
-			|| ($table->name ?? '') !== 'COM_SCHEDULER')
+			|| ($table->name ?? '') !== 'com_scheduler')
 		{
 			return;
 		}
