@@ -23,6 +23,7 @@ until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/
     printf '.'
     sleep 2
 done
+echo .
 
 echo "[RUNNER] Run Codeception"
 cd /tests/www/$DB_ENGINE
