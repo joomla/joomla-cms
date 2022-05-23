@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.2.0</version>
 	<description>PLG_TASK_CHECKIN_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\Checkin</namespace>
 	<files>
 		<filename plugin="checkin">checkin.php</filename>
 	</files>

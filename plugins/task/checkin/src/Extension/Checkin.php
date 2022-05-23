@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Task\Checkin\Extension;
+
 // Restrict direct access
 defined('_JEXEC') or die;
 
@@ -24,7 +26,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgTaskCheckin extends CMSPlugin implements SubscriberInterface
+class Checkin extends CMSPlugin implements SubscriberInterface
 {
 	use DatabaseAwareTrait;
 	use TaskPluginTrait;
