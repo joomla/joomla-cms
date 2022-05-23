@@ -288,8 +288,8 @@ steps:
 
   - name: phpmin-system-mysql8
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpmax-system-mysql
+      - phpmax-system-postgres
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -298,8 +298,8 @@ steps:
 
   - name: phpmax-system-mysql8
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpmax-system-mysql
+      - phpmax-system-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -419,6 +419,6 @@ steps:
 
 ---
 kind: signature
-hmac: 5355d7c68fed609e6630f282a763e9e18e4e1ef821ecadcf37f06f6dd6658ae4
+hmac: 05e889910b8d071dee00ed4a93a0aef40a712dc9b589b7b08e901687a0839221
 
 ...
