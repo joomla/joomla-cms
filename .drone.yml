@@ -167,7 +167,7 @@ steps:
       - npm
     image: joomlaprojects/docker-images:systemtests
     commands:
-      - sed -i "s/tests\/Codeception\/_output/\/drone\/src\/tests\/Codeception\/_output/" codeception.yml
+      - sed -i 's/tests\/Codeception\/_output/\/drone\/src\/tests\/Codeception\/_output/' codeception.yml
       - php libraries/vendor/bin/codecept build
 
   - name: phpmin-api-mysql
@@ -419,6 +419,6 @@ steps:
 
 ---
 kind: signature
-hmac: aed61d0cac85fed30ee8c213ce1e74045bf090b0bbe01daf176fdcad96253de0
+hmac: 4551f12b0e4e332185938fc5db6e4553ac3985816ea26afac9ed8714ed023f64
 
 ...
