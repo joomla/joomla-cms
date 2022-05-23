@@ -178,7 +178,7 @@ class TagsModelTag extends JModelList
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = (array) $app->input->get('id', array(), 'int');
+		$ids = (array) $app->input->get('id', array(), 'string');
 
 		if (count($ids) == 1)
 		{
