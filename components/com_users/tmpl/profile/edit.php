@@ -63,7 +63,7 @@ $wa->useScript('keepalive')
 		<?php endforeach; ?>
 
 		<?php if ($this->mfaConfigurationUI): ?>
-			<fieldset class="com-users-profile__twofactor">
+			<fieldset class="com-users-profile__multifactor">
 				<legend><?php echo Text::_('COM_USERS_PROFILE_MULTIFACTOR_AUTH'); ?></legend>
 				<?php echo $this->mfaConfigurationUI ?>
 			</fieldset>
