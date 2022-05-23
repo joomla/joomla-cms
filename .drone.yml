@@ -459,7 +459,7 @@ steps:
         from_secret: notification_url
     commands:
       - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22
-      - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
+      - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v --dry-run
       - /bin/notify
 
   - name: buildfailure
@@ -474,17 +474,17 @@ steps:
         - failure
 
 
-#trigger:
-#  event:
-#    - cron
-#    - custom
-#  cron:
-#    - nightly
-#  repo:
-#    - joomla/joomla-cms
+trigger:
+  event:
+    - cron
+    - custom
+  cron:
+    - nightly
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: signature
-hmac: cc0ace4bc9d4342f424e480bc4dad0c9ef2bf452492a9a6811624751cd4e7c16
+hmac: 40726ddee042b6940dcefaa91924f4ac9f40a2b67e7f4f8d4d67ba54ec6b4dd3
 
 ...
