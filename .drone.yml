@@ -453,7 +453,7 @@ steps:
       - ssh-add
       - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
       - rclone --dry-run delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
-      - rclone --dry-run delete nightly:/home/devj/public_html/cache/com_content/"
+      - rclone --dry-run delete nightly:/home/devj/public_html/cache/com_content/
       - rclone --dry-run copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
       - /bin/notify
 
@@ -480,6 +480,6 @@ steps:
 
 ---
 kind: signature
-hmac: f61878854e4d81af65aef142b6bbcfe8ae804488cb08ea162c3913dd6455199f
+hmac: 38905df229ec04785626e5a62dc00fe512221f893b1a867ca7ff29f79d2555a3
 
 ...
