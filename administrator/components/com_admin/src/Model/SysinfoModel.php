@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -450,7 +449,7 @@ class SysinfoModel extends BaseDatabaseModel
 	public function getExtensions(): array
 	{
 		$installed = [];
-		$db = Factory::getContainer()->get(DatabaseInterface::class);
+		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'));
