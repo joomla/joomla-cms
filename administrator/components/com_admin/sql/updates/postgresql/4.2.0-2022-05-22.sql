@@ -1,3 +1,3 @@
 INSERT INTO "#__mail_templates" ("template_id", "extension", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
-('plg_workflow_notification.mail', 'plg_workflow_notification', '', 'PLG_WORKFLOW_NOTIFICATION_EMAIL_ON_TRANSITION_SUBJECT', 'PLG_WORKFLOW_NOTIFICATION_EMAIL_ON_TRANSITION_MSG', '', '', '{"tags":["siteurl","title","user","transitionName","toStage","extraText"]}')
+('plg_workflow_notification.mail', 'plg_workflow_notification', '', 'PLG_WORKFLOW_NOTIFICATION_EMAIL_ON_TRANSITION_SUBJECT', 'PLG_WORKFLOW_NOTIFICATION_EMAIL_ON_TRANSITION_MSG', '', '', '{"tags":["siteurl","title","user","transitionname","tostage","extratext"]}')
 ON CONFLICT DO NOTHING;
