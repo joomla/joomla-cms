@@ -462,7 +462,7 @@ trait MultiFactorAuthenticationHandler
 			(new MfaTable($db))->save(
 				[
 					'user_id'    => $user->id,
-					'title'      => Text::_('COM_USERS_USER_OTEPS'),
+					'title'      => Text::_('COM_USERS_USER_BACKUPCODES'),
 					'method'     => 'backupcodes',
 					'default'    => 0,
 					'created_on' => Date::getInstance()->toSql(),

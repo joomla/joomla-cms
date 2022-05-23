@@ -241,7 +241,7 @@ class CaptiveModel extends BaseDatabaseModel
 				return $renderOptions->merge(
 					[
 						'input_type' => 'number',
-						'label' => Text::_('COM_USERS_USER_OTEP'),
+						'label' => Text::_('COM_USERS_USER_BACKUPCODE'),
 					]
 				);
 			}
@@ -310,7 +310,7 @@ class CaptiveModel extends BaseDatabaseModel
 
 		if ($name == 'backupcodes')
 		{
-			return Text::_('COM_USERS_USER_OTEPS');
+			return Text::_('COM_USERS_USER_BACKUPCODES');
 		}
 
 		return $map[$name] ?? $name;

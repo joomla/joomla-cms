@@ -35,11 +35,11 @@ if ($this->record->method != 'backupcodes')
 
 ?>
 <h3>
-	<?php echo Text::_('COM_USERS_USER_OTEPS') ?>
+	<?php echo Text::_('COM_USERS_USER_BACKUPCODES') ?>
 </h3>
 
 <div class="alert alert-info">
-	<?php echo Text::_('COM_USERS_USER_OTEPS_DESC') ?>
+	<?php echo Text::_('COM_USERS_USER_BACKUPCODES_DESC') ?>
 </div>
 
 <table class="table table-striped">
@@ -64,12 +64,12 @@ if ($this->record->method != 'backupcodes')
 </table>
 
 <p>
-	<?php echo Text::_('COM_USERS_MFA_OTEPS_RESET_INFO'); ?>
+	<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_RESET_INFO'); ?>
 </p>
 
 <a class="btn btn-danger" href="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1%s", $this->user->id, Factory::getApplication()->getFormToken(), empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL)) ?>">
 	<span class="icon icon-refresh" aria-hidden="true"></span>
-	<?php echo Text::_('COM_USERS_MFA_OTEPS_RESET'); ?>
+	<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_RESET'); ?>
 </a>
 
 <a href="<?php echo $cancelURL ?>"

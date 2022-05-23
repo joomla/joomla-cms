@@ -154,8 +154,8 @@ class HtmlView extends BaseHtmlView
 			$this->methods['backupcodes'] = new MethodDescriptor(
 				[
 					'name'       => 'backupcodes',
-					'display'    => Text::_('COM_USERS_USER_OTEPS'),
-					'shortinfo'  => Text::_('COM_USERS_USER_OTEPS_DESC'),
+					'display'    => Text::_('COM_USERS_USER_BACKUPCODES'),
+					'shortinfo'  => Text::_('COM_USERS_USER_BACKUPCODES_DESC'),
 					'image'      => 'media/com_users/images/emergency.svg',
 					'canDisable' => false,
 					'active'     => [$backupCodesRecord],

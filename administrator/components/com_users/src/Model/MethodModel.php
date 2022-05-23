@@ -263,8 +263,8 @@ class MethodModel extends BaseDatabaseModel
 		// We also need to add the backup codes Method
 		$this->mfaMethods['backupcodes'] = [
 			'name'          => 'backupcodes',
-			'display'       => Text::_('COM_USERS_USER_OTEPS'),
-			'shortinfo'     => Text::_('COM_USERS_USER_OTEPS_DESC'),
+			'display'       => Text::_('COM_USERS_USER_BACKUPCODES'),
+			'shortinfo'     => Text::_('COM_USERS_USER_BACKUPCODES_DESC'),
 			'image'         => 'media/com_users/images/emergency.svg',
 			'canDisable'    => false,
 			'allowMultiple' => false,

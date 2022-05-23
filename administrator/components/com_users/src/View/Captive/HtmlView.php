@@ -126,7 +126,7 @@ class HtmlView extends BaseHtmlView
 
 			if (!is_null($backupCodesRecord))
 			{
-				$backupCodesRecord->title = Text::_('COM_USERS_USER_OTEPS');
+				$backupCodesRecord->title = Text::_('COM_USERS_USER_BACKUPCODES');
 				$this->records[]          = $backupCodesRecord;
 			}
 		}

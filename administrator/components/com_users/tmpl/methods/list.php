@@ -69,10 +69,10 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 										<div class="alert alert-info mt-1">
 											<h3 class="alert-heading">
 												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
-												<?php echo Text::sprintf('COM_USERS_MFA_OTEP_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
+												<?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
 											</h3>
 											<p class="text-muted">
-												<?php echo Text::_('COM_USERS_MFA_OTEP_PRINT_PROMPT') ?>
+												<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT') ?>
 											</p>
 										</div>
 									<?php else: ?>
