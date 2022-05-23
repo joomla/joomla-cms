@@ -67,9 +67,4 @@
 
 	</fieldset>
 
-	<!-- Used to get the Multi-factor Authentication configuration -->
-	<field
-		name="twofactor"
-		type="hidden"
-	/>
 </form>
