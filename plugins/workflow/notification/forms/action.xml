@@ -15,16 +15,16 @@
 			</field>
 
 			<field
-					name="notification_type"
-					type="list"
-					label="PLG_WORKFLOW_NOTIFICATION_TYPE_LABEL"
-					description="PLG_WORKFLOW_NOTIFICATION_TYPE_DESC"
-					layout="joomla.form.field.list-fancy-select"
-					showon="notification_send_mail:1"
-					multiple="true"
-					default="messages"
-					required="true"
-			>
+				name="notification_type"
+				type="list"
+				label="PLG_WORKFLOW_NOTIFICATION_TYPE_LABEL"
+				description="PLG_WORKFLOW_NOTIFICATION_TYPE_DESC"
+				layout="joomla.form.field.list-fancy-select"
+				showon="notification_send_mail:1"
+				multiple="true"
+				default="messages"
+				required="true"
+				>
 					<option value="messages">PLG_WORKFLOW_NOTIFICATION_TYPE_MESSAGES</option>
 					<option value="email">PLG_WORKFLOW_NOTIFICATION_TYPE_EMAIL</option>
 			</field>
