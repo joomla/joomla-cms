@@ -14,7 +14,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Exception;
 use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Utilities\ArrayHelper;
 
@@ -53,8 +53,8 @@ trait UserDeletion
 		{
 			Joomla::log('system', "Removing WebAuthn Passwordless Login information for deleted user #{$userId}");
 
-			/** @var DatabaseDriver $db */
-			$db = Factory::getContainer()->get(DatabaseDriver::class);
+			/** @var DatabaseInterface $db */
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
 
 			$query = $db->getQuery(true)
 				->delete($db->qn('#__webauthn_credentials'))
