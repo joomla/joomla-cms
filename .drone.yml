@@ -180,7 +180,7 @@ steps:
 
   - name: phpmax-api-mysql
     depends_on:
-      - phpmin-api-mysql
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -208,7 +208,7 @@ steps:
 
   - name: phpmax-api-postgres
     depends_on:
-      - phpmin-api-postgres
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -247,8 +247,7 @@ steps:
 
   - name: phpnext-system-mysql
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpmax-system-mysql
     image: joomlaprojects/docker-images:systemtests8.2
     failure: ignore
     environment:
@@ -278,8 +277,7 @@ steps:
 
   - name: phpnext-system-postgres
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpmax-system-postgres
     image: joomlaprojects/docker-images:systemtests8.2
     failure: ignore
     environment:
@@ -309,8 +307,7 @@ steps:
 
   - name: phpnext-system-mysql8
     depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
+      - phpmax-system-mysql8
     image: joomlaprojects/docker-images:systemtests8.2
     failure: ignore
     environment:
@@ -421,6 +418,6 @@ steps:
 
 ---
 kind: signature
-hmac: ec64e260ba72745f559b5e69b4c9c8c804b5823c2ecdf96a1b00c6cffae8a931
+hmac: 1075f1d2365e6059d96165f5830171a8e661a82e7489a0f6cbaf3fb96fa9d811
 
 ...
