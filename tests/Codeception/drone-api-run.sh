@@ -18,8 +18,8 @@ google-chrome --version
 
 echo "[RUNNER] Start Selenium"
 selenium-standalone start > selenium.api.$DB_ENGINE.log 2>&1 &
-echo "Waiting 6 seconds till Selenium is ready..."
-sleep 6
+echo "Waiting 10 seconds till Selenium is ready..."
+sleep 10
 
 echo "[RUNNER] Run Codeception"
 cd /tests/www/$DB_ENGINE
