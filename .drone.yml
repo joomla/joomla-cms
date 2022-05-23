@@ -186,7 +186,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
 
   - name: phpnext-api-mysql
     depends_on:
@@ -214,7 +214,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
 
   - name: phpnext-api-postgres
     depends_on:
@@ -419,6 +419,6 @@ steps:
 
 ---
 kind: signature
-hmac: 258ccae7b57b7f0504e7ace21a86635a47733f3a601733204faafef9ab20ab59
+hmac: 5355d7c68fed609e6630f282a763e9e18e4e1ef821ecadcf37f06f6dd6658ae4
 
 ...
