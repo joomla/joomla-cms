@@ -121,7 +121,8 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 
 			if ($delay > 0)
 			{
-				$delayTime = (new \DateTime())->sub(new DateInterval('PT' . $delay . 'H'));
+				$date = new \DateTime();
+				$delayTime = $date->sub(new DateInterval('PT' . $delay . 'H'));
 				$query->where(
 					$db->quoteName('checked_out_time') . ' < ' . $db->quote($delayTime)
 				);
