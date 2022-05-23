@@ -41,7 +41,7 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var string[]
-	 * @since 4.1.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected const TASKS_MAP = [
 		'plg_task_checkin_task_get' => [
