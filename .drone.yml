@@ -448,7 +448,7 @@ steps:
       - rm -rf public_html/cache/com_content
 
   - name: upload
-    image: debian:stable-slim
+    image: joomlaprojects/docker-images:packager
     environment:
       ssh_password:
         from_secret: nightly_password
@@ -459,7 +459,6 @@ steps:
       RINGCENTRAL_WEBHOOK:
         from_secret: notification_url
     commands:
-      - apt update && apt install -y rclone openssh-client
       - rclone config create nightly sftp host $nightly_host user $nightly_user pass $nightly_password port 22
       - rclone copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
       - /bin/notify
@@ -487,6 +486,6 @@ steps:
 
 ---
 kind: signature
-hmac: 2521fdb659bac5d19bd38bdd14ed0e5b2b1423a46ed4914cb3d35f31f99486b7
+hmac: 496d2d34970d9799dfa788bb4f8ddab80c5c7959f74306493feba60a03c69066
 
 ...
