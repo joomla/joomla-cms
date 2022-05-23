@@ -64,8 +64,11 @@ else
 
 	if ($feed !== false)
 	{
+		$modId = 'mod-feed' . $module->id;
+		$app->getDocument()->getWebAssetManager()
+			->addInlineStyle('#' . $modId . '{direction: ' . ($rssrtl ? 'rtl' :'ltr') . '};');
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>;" class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed">
+		<div class="text-<?php echo $rssrtl ? 'right' : 'left'; ?> feed" id="<?php echo $modId; ?>">
 		<?php
 		// Feed title
 		if ($feed->title !== null && $params->get('rsstitle', 1))
