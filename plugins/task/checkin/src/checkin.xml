@@ -11,7 +11,8 @@
 	<description>PLG_TASK_CHECKIN_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Task\Checkin</namespace>
 	<files>
-		<filename plugin="checkin">checkin.php</filename>
+		<folder plugin="checkin">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_task_checkin.ini</language>
