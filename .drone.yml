@@ -182,59 +182,54 @@ steps:
     depends_on:
       - phpmin-api-mysql
     image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
 
-#  - name: phpnext-api-mysql
-#    depends_on:
-#      - phpmin-api-mysql
-#    image: joomlaprojects/docker-images:systemtests8.2
-#    failure: ignore
-#    environment:
-#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-#    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+  - name: phpnext-api-mysql
+    depends_on:
+      - phpmax-api-mysql
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
 
   - name: phpmin-api-postgres
     depends_on:
       - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
-
-#  - name: phpnext-api-postgres
-#    depends_on:
-#      - phpmin-api-postgres
-#    image: joomlaprojects/docker-images:systemtests8.2
-#    failure: ignore
-#    environment:
-#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-#    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
 
   - name: phpmax-api-postgres
     depends_on:
-#      - phpnext-api-postgres
       - phpmin-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+
+  - name: phpnext-api-postgres
+    depends_on:
+      - phpmin-api-postgres
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
 
   - name: phpmin-system-mysql
     depends_on:
       - phpmax-api-mysql
       - phpmax-api-postgres
     image: joomlaprojects/docker-images:systemtests
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -242,24 +237,22 @@ steps:
 
   - name: phpmax-system-mysql
     depends_on:
-#      - phpnext-system-mysql
       - phpmin-system-mysql
     image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
 
-  #  - name: phpnext-system-mysql
-  #    depends_on:
-  #      - phpmin-system-mysql
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
+  - name: phpnext-system-mysql
+    depends_on:
+      - phpmax-system-mysql
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
 
   - name: phpmin-system-postgres
     depends_on:
@@ -275,21 +268,20 @@ steps:
     depends_on:
       - phpmin-system-postgres
     image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
 
-  #  - name: phpnext-system-postgres
-  #    depends_on:
-  #      - phpmax-system-mysql8
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
+  - name: phpnext-system-postgres
+    depends_on:
+      - phpmax-system-mysql8
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
 
   - name: phpmin-system-mysql8
     depends_on:
@@ -305,36 +297,35 @@ steps:
     depends_on:
       - phpmin-system-mysql8
     image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpmax
 
-  #  - name: phpnext-system-mysql8
-  #    depends_on:
-  #      - phpmax-system-mysql
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
+  - name: phpnext-system-mysql8
+    depends_on:
+      - phpmax-system-mysql
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
-#      - phpnext-system-mysql
-#      - phpnext-system-mysql8
-#      - phpnext-system-postgres
+      - phpnext-system-mysql
+      - phpnext-system-mysql8
+      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-mysql8
       - phpmax-system-postgres
       - phpmin-system-mysql
       - phpmin-system-mysql8
       - phpmin-system-postgres
-#      - phpnext-api-mysql
-#      - phpnext-api-postgres
+      - phpnext-api-mysql
+      - phpnext-api-postgres
       - phpmax-api-mysql
       - phpmax-api-postgres
       - phpmin-api-mysql
@@ -424,6 +415,6 @@ steps:
 
 ---
 kind: signature
-hmac: a97a38d569f1f6ee9edf79060905561e9017e73ff781d62d152cfe2a6887c046
+hmac: 14b1ec115a42acecb8350c2b626c8b0ab46f7873148b109ebff25bef733c9fef
 
 ...
