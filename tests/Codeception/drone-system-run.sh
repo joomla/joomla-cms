@@ -25,7 +25,7 @@ fi
 
 echo "[RUNNER] Start Selenium"
 selenium-standalone start > tests/Codeception/_output/selenium.$DB_ENGINE.log 2>&1 &
-echo "Waiting until Selenium is ready..."
+echo -n "Waiting until Selenium is ready"
 until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/hub/status); do
     printf '.'
     sleep 2
