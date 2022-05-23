@@ -435,17 +435,17 @@ steps:
   - name: upload
     image: joomlaprojects/docker-images:packager
     environment:
-      ssh_key:
+      nightly_key:
         from_secret: nightly_key
-      ssh_user:
+      nightly_user:
         from_secret: nightly_user
-      ssh_host:
+      nightly_host:
         from_secret: nightly_host
       RINGCENTRAL_WEBHOOK:
         from_secret: notification_url
     commands:
       - export MINORVERSION=${DRONE_BRANCH%-*}
-      - rclone config create nightly sftp host $SSH_HOST user $SSH_USER key_pem $SSH_KEY port 22
+      - rclone config create nightly sftp host $nightly_host user $nightly_user key_pem $nightly_key port 22
       - rclone --dry-run delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone --dry-run delete nightly:/home/devj/public_html/cache/com_content/"
       - rclone --dry-run copy ./build/tmp/packages/ nightly:/home/devj/public_html/nightlies/ -v
@@ -474,6 +474,6 @@ steps:
 
 ---
 kind: signature
-hmac: 0c277ffa3746d59b242db42fdb6d512a46743a8f7b4cd30bd8a96ed867f543d1
+hmac: 2513b965a476b739d008c272ca4944b3cf05061b46a528757d60f0bff3958527
 
 ...
