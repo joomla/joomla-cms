@@ -474,14 +474,14 @@ steps:
         - failure
 
 
-trigger:
-  event:
-    - cron
-    - custom
-  cron:
-    - nightly
-  repo:
-    - joomla/joomla-cms
+#trigger:
+#  event:
+#    - cron
+#    - custom
+#  cron:
+#    - nightly
+#  repo:
+#    - joomla/joomla-cms
 
 ---
 kind: signature
