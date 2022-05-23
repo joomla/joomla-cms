@@ -24,8 +24,8 @@
 				multiple="true"
 				default="messages"
 				>
-					<option value="messages">PLG_WORKFLOW_NOTIFICATION_TYPE_MESSAGES</option>
-					<option value="email">PLG_WORKFLOW_NOTIFICATION_TYPE_EMAIL</option>
+				<option value="messages">PLG_WORKFLOW_NOTIFICATION_TYPE_MESSAGES</option>
+				<option value="email">PLG_WORKFLOW_NOTIFICATION_TYPE_EMAIL</option>
 			</field>
 
 			<field
