@@ -12,9 +12,9 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 // Protect from unauthorized access
 \defined('_JEXEC') or die();
 
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
-use Joomla\Event\Event;
 
 /**
  * Ajax handler for akaction=initcreate
@@ -28,19 +28,20 @@ trait AjaxHandlerInitCreate
 	/**
 	 * Returns the Public Key Creation Options to start the attestation ceremony on the browser.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   AjaxInitCreate  $event  The event we are handling
 	 *
 	 * @return  void
+	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAjaxWebauthnInitcreate(Event $event): void
+	public function onAjaxWebauthnInitcreate(AjaxInitCreate $event): void
 	{
 		// Make sure I have a valid user
 		$user = Factory::getApplication()->getIdentity();
 
 		if (!($user instanceof User) || $user->guest)
 		{
-			$this->returnFromEvent($event, []);
+			$event->addResult(new \stdClass);
 
 			return;
 		}
@@ -48,7 +49,7 @@ trait AjaxHandlerInitCreate
 		// I need the server to have either GMP or BCComp support to attest new authenticators
 		if (function_exists('gmp_intval') === false && function_exists('bccomp') === false)
 		{
-			$this->returnFromEvent($event, []);
+			$event->addResult(new \stdClass);
 
 			return;
 		}
@@ -56,6 +57,6 @@ trait AjaxHandlerInitCreate
 		$session = $this->app->getSession();
 		$session->set('plg_system_webauthn.registration_user_id', $user->id);
 
-		$this->returnFromEvent($event, $this->authenticationHelper->getPubKeyCreationOptions($user));
+		$event->addResult($this->authenticationHelper->getPubKeyCreationOptions($user));
 	}
 }

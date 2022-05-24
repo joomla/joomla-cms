@@ -15,6 +15,8 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax;
+use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -43,7 +45,7 @@ trait AjaxHandler
 	 * @throws  Exception
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthn(Event $event): void
+	public function onAjaxWebauthn(Ajax $event): void
 	{
 		$input = $this->app->input;
 
@@ -76,16 +78,19 @@ trait AjaxHandler
 			}
 
 			// Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
-			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
-			$event     = AbstractEvent::create($eventName, []);
-			$result    = $this->app->getDispatcher()->dispatch($eventName, $event);
-			$results   = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
-			$result    = null;
-			$reducer   = function ($carry, $result)
-			{
-				return $carry ?? $result;
-			};
-			$result    = array_reduce($results, $reducer, null);
+			/** @var AbstractEvent|ResultAwareInterface $triggerEvent */
+			$eventName    = 'onAjaxWebauthn' . ucfirst($akaction);
+			$triggerEvent = AbstractEvent::create($eventName, []);
+			$result       = $this->app->getDispatcher()->dispatch($eventName, $triggerEvent);
+			$results      = ($result instanceof ResultAwareInterface) ? ($result['result'] ?? []) : [];
+			$result       = array_reduce(
+				$results,
+				function ($carry, $result)
+				{
+					return $carry ?? $result;
+				},
+				null
+			);
 		}
 		catch (Exception $e)
 		{

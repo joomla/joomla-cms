@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 \defined('_JEXEC') or die();
 
 use Exception;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete;
 use Joomla\CMS\User\User;
 use Joomla\Event\Event;
 
@@ -28,12 +29,12 @@ trait AjaxHandlerDelete
 	/**
 	 * Handle the callback to remove an authenticator
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   AjaxDelete  $event  The event we are handling
 	 *
 	 * @return  void
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthnDelete(Event $event): void
+	public function onAjaxWebauthnDelete(AjaxDelete $event): void
 	{
 		// Initialize objects
 		$input      = $this->app->input;
@@ -45,7 +46,7 @@ trait AjaxHandlerDelete
 		// Is this a valid credential?
 		if (empty($credentialId))
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -54,7 +55,7 @@ trait AjaxHandlerDelete
 
 		if (empty($credentialId) || !$repository->has($credentialId))
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -68,14 +69,14 @@ trait AjaxHandlerDelete
 		}
 		catch (Exception $e)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
 
 		if ($credentialHandle !== $myHandle)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -87,11 +88,11 @@ trait AjaxHandlerDelete
 		}
 		catch (Exception $e)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
 
-		$this->returnFromEvent($event, true);
+		$event->addResult(true);
 	}
 }

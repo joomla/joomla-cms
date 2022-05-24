@@ -13,8 +13,8 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 \defined('_JEXEC') or die();
 
 use Exception;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel;
 use Joomla\CMS\User\User;
-use Joomla\Event\Event;
 
 /**
  * Ajax handler for akaction=savelabel
@@ -28,14 +28,13 @@ trait AjaxHandlerSaveLabel
 	/**
 	 * Handle the callback to rename an authenticator
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   AjaxSaveLabel  $event  The event we are handling
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthnSavelabel(Event $event): void
+	public function onAjaxWebauthnSavelabel(AjaxSaveLabel $event): void
 	{
 		// Initialize objects
 		$input      = $this->app->input;
@@ -48,7 +47,7 @@ trait AjaxHandlerSaveLabel
 		// Is this a valid credential?
 		if (empty($credentialId))
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -57,7 +56,7 @@ trait AjaxHandlerSaveLabel
 
 		if (empty($credentialId) || !$repository->has($credentialId))
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -71,14 +70,14 @@ trait AjaxHandlerSaveLabel
 		}
 		catch (Exception $e)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
 
 		if ($credentialHandle !== $myHandle)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -86,7 +85,7 @@ trait AjaxHandlerSaveLabel
 		// Make sure the new label is not empty
 		if (empty($newLabel))
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -98,11 +97,11 @@ trait AjaxHandlerSaveLabel
 		}
 		catch (Exception $e)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
 
-		$this->returnFromEvent($event, true);
+		$event->addResult(true);
 	}
 }

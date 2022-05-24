@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 \defined('_JEXEC') or die();
 
 use Exception;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -33,14 +34,14 @@ trait AjaxHandlerCreate
 	/**
 	 * Handle the callback to add a new WebAuthn authenticator
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   AjaxCreate  $event  The event we are handling
 	 *
 	 * @return  void
 	 *
 	 * @throws  Exception
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthnCreate(Event $event): void
+	public function onAjaxWebauthnCreate(AjaxCreate $event): void
 	{
 		/**
 		 * Fundamental sanity check: this callback is only allowed after a Public Key has been created server-side and
@@ -114,6 +115,6 @@ trait AjaxHandlerCreate
 
 		$layout = new FileLayout('plugins.system.webauthn.manage', JPATH_SITE . '/plugins/system/webauthn/layout');
 
-		$this->returnFromEvent($event, $layout->render($layoutParameters));
+		$event->addResult($layout->render($layoutParameters));
 	}
 }

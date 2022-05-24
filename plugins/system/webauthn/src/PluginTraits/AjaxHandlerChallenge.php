@@ -13,6 +13,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 \defined('_JEXEC') or die();
 
 use Exception;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -34,14 +35,14 @@ trait AjaxHandlerChallenge
 	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
 	 * JSON.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   AjaxChallenge  $event  The event we are handling
 	 *
-	 * @return void A JSON-encoded object or JSON-encoded false if the username is invalid or no credentials stored
+	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthnChallenge(Event $event): void
+	public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
 	{
 		// Initialize objects
 		$session    = $this->app->getSession();
@@ -67,7 +68,7 @@ trait AjaxHandlerChallenge
 		// Do I have a username?
 		if (empty($username))
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -84,7 +85,7 @@ trait AjaxHandlerChallenge
 
 		if ($userId <= 0)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -100,7 +101,7 @@ trait AjaxHandlerChallenge
 
 		if ($myUser->id != $userId || $myUser->guest)
 		{
-			$this->returnFromEvent($event, false);
+			$event->addResult(false);
 
 			return;
 		}
@@ -110,6 +111,6 @@ trait AjaxHandlerChallenge
 		$session->set('plg_system_webauthn.userId', $userId);
 
 		// Return the JSON encoded data to the caller
-		$this->returnFromEvent($event, json_encode($publicKeyCredentialRequestOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+		$event->addResult(json_encode($publicKeyCredentialRequestOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 	}
 }

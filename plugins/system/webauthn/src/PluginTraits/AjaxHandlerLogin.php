@@ -16,6 +16,7 @@ use Exception;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -23,7 +24,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Event\Event;
 use RuntimeException;
 use Throwable;
 
@@ -40,14 +40,13 @@ trait AjaxHandlerLogin
 	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
 	 * JSON.
 	 *
-	 * @param   Event  $event  The event we are handling
+	 * @param   AjaxLogin  $event  The event we are handling
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception
 	 * @since   4.0.0
 	 */
-	public function onAjaxWebauthnLogin(Event $event): void
+	public function onAjaxWebauthnLogin(AjaxLogin $event): void
 	{
 		$session   = $this->app->getSession();
 		$returnUrl = $session->get('plg_system_webauthn.returnUrl', Uri::base());
