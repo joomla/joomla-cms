@@ -14,7 +14,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -77,7 +77,7 @@ trait AjaxHandler
 
 			// Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
 			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
-			$event     = new GenericEvent($eventName, []);
+			$event     = AbstractEvent::create($eventName, []);
 			$result    = $this->app->getDispatcher()->dispatch($eventName, $event);
 			$results   = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 			$result    = null;

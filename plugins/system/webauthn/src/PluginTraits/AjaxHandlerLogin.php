@@ -15,7 +15,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
-use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -214,7 +214,7 @@ trait AjaxHandlerLogin
 
 		// Run the user plugins. They CAN block login by returning boolean false and setting $response->error_message.
 		PluginHelper::importPlugin('user');
-		$event   = new GenericEvent('onUserLogin', [(array) $response, $options]);
+		$event   = AbstractEvent::create('onUserLogin', [(array) $response, $options]);
 		$result  = $this->app->getDispatcher()->dispatch($event->getName(), $event);
 		$results = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 
@@ -229,14 +229,14 @@ trait AjaxHandlerLogin
 			$options['responseType'] = $response->type;
 
 			// The user is successfully logged in. Run the after login events
-			$event = new GenericEvent('onUserAfterLogin', [$options]);
+			$event = AbstractEvent::create('onUserAfterLogin', [$options]);
 			$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 			return;
 		}
 
 		// If we are here the plugins marked a login failure. Trigger the onUserLoginFailure Event.
-		$event = new GenericEvent('onUserLoginFailure', [(array) $response]);
+		$event = AbstractEvent::create('onUserLoginFailure', [(array) $response]);
 		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		// Log the failure
@@ -280,7 +280,7 @@ trait AjaxHandlerLogin
 		// Trigger onUserLoginFailure Event.
 		Log::add('Calling onUserLoginFailure plugin event', Log::INFO, 'plg_system_webauthn');
 
-		$event = new GenericEvent('onUserLoginFailure', [(array) $response]);
+		$event = AbstractEvent::create('onUserLoginFailure', [(array) $response]);
 		$this->app->getDispatcher()->dispatch($event->getName(), $event);
 
 		// If status is success, any error will have been raised by the user plugin
