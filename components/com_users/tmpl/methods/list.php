@@ -43,7 +43,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 					>
 				</div>
 				<div class="com-users-methods-list-method-title flex-grow-1 d-flex flex-column">
-					<h4 class="fs-4 p-0 m-0 d-flex gap-3 align-items-center">
+					<h3 class="fs-4 p-0 m-0 d-flex gap-3 align-items-center">
 						<span class="me-1 flex-grow-1">
 							<?php echo $method['display'] ?>
 						</span>
@@ -52,7 +52,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 								<?php echo Text::_('COM_USERS_MFA_LIST_DEFAULTTAG') ?>
 							</span>
 						<?php endif; ?>
-					</h4>
+					</h3>
 					<div class="com-users-methods-list-method-info my-1 small text-muted">
 						<?php echo $method['shortinfo'] ?>
 					</div>
@@ -67,10 +67,10 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 								<div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
 									<?php if ($methodName === 'backupcodes'): ?>
 										<div class="alert alert-info mt-1">
-											<h3 class="alert-heading fs-6">
+											<h4 class="alert-heading fs-6">
 												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
 												<?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
-											</h3>
+											</h4>
 											<p class="text-muted">
 												<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT') ?>
 											</p>
