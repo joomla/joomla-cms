@@ -228,7 +228,6 @@
 			size="7"
 			client="site"
 			multiple="1"
-			class="input-large"
 		/>
 
 		<field
@@ -253,7 +252,6 @@
 			layout="joomla.form.field.list-fancy-select"
 			client="administrator"
 			multiple="1"
-			class="input-large"
 		/>
 
 		<field

@@ -86,7 +86,7 @@ if ($this->renderOptions['field_type'] !== 'custom')
 								placeholder="<?php echo $this->renderOptions['placeholder'] ?>"
 							<?php endif; ?>
 							   id="users-mfa-code"
-							   class="form-control input-large"
+							   class="form-control"
 						>
 					</div>
 				</div>
