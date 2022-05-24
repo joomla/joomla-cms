@@ -41,7 +41,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getArticles(Registry $params, SiteApplication $app)
 	{

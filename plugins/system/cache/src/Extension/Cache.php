@@ -53,7 +53,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * The application's document factory interface
 	 *
 	 * @var   DocumentFactoryInterface
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $documentFactory;
 
@@ -61,7 +61,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * Cache controller factory interface
 	 *
 	 * @var    CacheControllerFactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $cacheControllerFactory;
 
@@ -69,7 +69,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * The application profiler, used when Debug Site is set to Yes in Global Configuration.
 	 *
 	 * @var    Profiler|null
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $profiler;
 
@@ -77,7 +77,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * The frontend router, injected by the service provider.
 	 *
 	 * @var   SiteRouter|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $router;
 
@@ -99,7 +99,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * @param   Profiler|null                    $profiler                The application profiler
 	 * @param   SiteRouter|null                  $router                  The frontend router
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(
 		&$subject,
@@ -123,7 +123,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -213,7 +213,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * application's lifetime.
 	 *
 	 * @return  boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function appStateSupportsCaching(): bool
 	{
@@ -238,7 +238,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	 * Get the cache controller
 	 *
 	 * @return  CacheController
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function getCacheController(): CacheController
 	{

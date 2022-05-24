@@ -20,7 +20,7 @@ use InvalidArgumentException;
  *
  * If you do not set a list of acceptable result classes any PHP object will satisfy this type check.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait ResultTypeObjectAware
 {
@@ -28,7 +28,7 @@ trait ResultTypeObjectAware
 	 * Can the result attribute values also be NULL?
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $resultIsNullable = false;
 
@@ -36,7 +36,7 @@ trait ResultTypeObjectAware
 	 * Can the result attribute values also be boolean FALSE?
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 *
 	 * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
 	 */
@@ -46,7 +46,7 @@ trait ResultTypeObjectAware
 	 * Acceptable class names for result values.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $resultAcceptableClasses = [];
 
@@ -59,7 +59,7 @@ trait ResultTypeObjectAware
 	 * @throws  InvalidArgumentException
 	 *
 	 * @internal
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function typeCheckResult($data): void
 	{
