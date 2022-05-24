@@ -25,6 +25,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -127,6 +128,23 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  4.0.0
 	 */
 	protected $authenticationPluginType = 'authentication';
+
+	/**
+	 * Menu instances container.
+	 *
+	 * @var    AbstractMenu[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $menus = [];
+
+	/**
+	 * The menu factory
+	 *
+	 * @var   MenuFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $menuFactory;
 
 	/**
 	 * Class constructor.
@@ -515,7 +533,23 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$options['app'] = $this;
 		}
 
-		return AbstractMenu::getInstance($name, $options);
+		if (array_key_exists($name, $this->menus))
+		{
+			return $this->menus[$name];
+		}
+
+		if ($this->menuFactory === null)
+		{
+			@trigger_error('Menu factory must be set in 5.0', E_USER_DEPRECATED);
+			$this->menuFactory = $this->getContainer()->get(MenuFactoryInterface::class);
+		}
+
+		$this->menus[$name] = $this->menuFactory->createMenu($name, $options);
+
+		// Make sure the abstract menu has the instance too, is needed for BC and will be removed with version 5
+		AbstractMenu::$instances[$name] = $this->menus[$name];
+
+		return $this->menus[$name];
 	}
 
 	/**
@@ -1449,5 +1483,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 			Log::addLogger(['text_file' => 'custom-logging.php'], $priority, $categories, $mode);
 		}
+	}
+
+	/**
+	 * Sets the internal menu factory.
+	 *
+	 * @param  MenuFactoryInterface  $menuFactory  The menu factory
+	 *
+	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function setMenuFactory(MenuFactoryInterface $menuFactory): void
+	{
+		$this->menuFactory = $menuFactory;
 	}
 }
