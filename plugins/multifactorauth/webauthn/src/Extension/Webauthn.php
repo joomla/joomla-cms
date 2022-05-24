@@ -146,7 +146,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		{
 			$document = $this->app->getDocument();
 			$wam      = $document->getWebAssetManager();
-			$wam->getRegistry()->addExtensionRegistryFile('PLG_MULTIFACTORAUTH_WEBAUTHN');
+			$wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
 			$layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn', 'register');
 			ob_start();
