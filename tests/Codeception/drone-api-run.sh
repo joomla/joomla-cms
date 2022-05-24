@@ -18,8 +18,12 @@ google-chrome --version
 
 echo "[RUNNER] Start Selenium"
 selenium-standalone start > selenium.api.$DB_ENGINE.log 2>&1 &
-echo "Waiting 6 seconds till Selenium is ready..."
-sleep 6
+echo -n "Waiting until Selenium is ready"
+until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/hub/status); do
+    printf '.'
+    sleep 2
+done
+echo .
 
 echo "[RUNNER] Run Codeception"
 cd /tests/www/$DB_ENGINE
