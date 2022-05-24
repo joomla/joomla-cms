@@ -148,7 +148,7 @@ $userId   = (int) $this->user->id ?? 0;
 				<?php endif; ?>
 
 				<a href="<?php echo $cancelURL ?>"
-				   class="btn btn-small btn-sm btn-danger">
+				   class="btn btn-sm btn-danger">
 					<span class="icon icon-cancel-2" aria-hidden="true"></span>
 					<?php echo Text::_('JCANCEL'); ?>
 				</a>
