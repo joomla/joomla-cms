@@ -452,9 +452,9 @@ steps:
       - chmod 600 ~/.ssh/id_rsa
       - ssh-add
       - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
-      - rclone --dry-run delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
-      - rclone --dry-run delete nightly:/home/devj/public_html/cache/com_content/
-      - rclone --dry-run copy ./transfer/ nightly:/home/devj/public_html/nightlies/
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
+      - rclone delete nightly:/home/devj/public_html/cache/com_content/
+      - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
       - /bin/notify
 
   - name: buildfailure
@@ -469,17 +469,17 @@ steps:
         - failure
 
 
-#trigger:
-#  event:
-#    - cron
-#    - custom
-#  cron:
-#    - nightly
-#  repo:
-#    - joomla/joomla-cms
+trigger:
+  event:
+    - cron
+    - custom
+  cron:
+    - nightly
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: signature
-hmac: d62c87d18c4fe895d32e0be0dc501d16d9688078eea82fb33a3937a9c6613ad6
+hmac: 73b22639a751521377b1e8f8b51e3af794e81b073bf5bc9157f8ba079b27f44d
 
 ...
