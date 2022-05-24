@@ -157,11 +157,15 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
 								<td class="text-center d-none d-md-table-cell">
 									<span class="tbody-icon">
 									<?php if ($item->mfaRecords > 0) : ?>
-										<span class="icon-check" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_MFA_ACTIVE'); ?></span>
+										<span class="icon-check" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
+										<div role="tooltip" id="tip-mfa<?php echo $i; ?>">
+											<?php echo Text::_('COM_USERS_MFA_ACTIVE'); ?>
+										</div>
 									<?php else : ?>
-										<span class="icon-times" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_MFA_NOTACTIVE'); ?></span>
+										<span class="icon-times" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
+										<div role="tooltip" id="tip-mfa<?php echo $i; ?>">
+											<?php echo Text::_('COM_USERS_MFA_NOTACTIVE'); ?>
+										</div>
 									<?php endif; ?>
 									</span>
 								</td>
