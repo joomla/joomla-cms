@@ -696,7 +696,68 @@ steps:
     HTTP_ROOT: https://ci.joomla.org/artifacts
 
 ---
+kind: pipeline
+name: nightly_build
+
+steps:
+  - name: prepare
+    image: joomlaprojects/docker-images:packager
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - composer --version
+      - mkdir -p transfer
+      - date +%s > transfer/$MINORVERSION-time.txt
+      - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+      - mv build/tmp/packages/* transfer/
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      nightly_key:
+        from_secret: nightly_key
+      nightly_user:
+        from_secret: nightly_user
+      nightly_host:
+        from_secret: nightly_host
+      RINGCENTRAL_WEBHOOK:
+        from_secret: notification_url
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$nightly_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
+      - rclone delete nightly:/home/devj/public_html/cache/com_content/
+      - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
+      - /bin/notify
+
+  - name: buildfailure
+    image: joomlaprojects/docker-images:packager
+    environment:
+      RINGCENTRAL_WEBHOOK:
+        from_secret: notification_url
+    commands:
+      - /bin/notify
+    when:
+      status:
+        - failure
+
+trigger:
+  event:
+    - cron
+    - custom
+  cron:
+    - nightly
+  repo:
+    - joomla/joomla-cms
+
+---
 kind: signature
-hmac: 3c5994d3c3278a6443da81dbed98b9f3d0abfdfa1dba4c1f20a2372bb6c3cfa5
+hmac: 8410b4d3a6c741f73de04d45fea882ddb4e6a2053ae5e53a2ae2f65a738d05c9
 
 ...
