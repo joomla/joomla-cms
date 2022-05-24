@@ -22,7 +22,7 @@ $this->app->getDocument()->getWebAssetManager()->useScript('plg_multifactorauth_
 	<input name="code" value="" id="multifactorauthCode" class="form-control input-lg" type="hidden">
 
 	<a id="plg_multifactorauth_webauthn_validate_button"
-	   class="btn btn-primary btn-lg btn-big"
+	   class="btn btn-primary btn-lg"
 	>
 		<span class="icon icon-lock" aria-hidden="true"></span>
 		<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY'); ?>

@@ -22,7 +22,7 @@ $this->app->getDocument()->getWebAssetManager()->useScript('plg_multifactorauth_
 	<input id="multifactorauth-method-code" name="code" value="" placeholder="" type="hidden">
 
 	<a id="plg_multifactorauth_webauthn_register_button"
-		class="btn btn-primary btn-lg btn-big"
+		class="btn btn-primary btn-lg"
 	>
 		<span class="icon icon-lock" aria-hidden="true"></span>
 		<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_REGISTERKEY'); ?>
