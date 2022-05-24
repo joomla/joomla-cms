@@ -45,4 +45,4 @@ return new class implements ServiceProviderInterface
 			}
 		);
 	}
-};
+}
