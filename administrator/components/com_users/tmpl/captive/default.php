@@ -33,7 +33,7 @@ if ($this->renderOptions['field_type'] !== 'custom')
 	<h3 id="users-mfa-title">
 		<?php if (!empty($this->renderOptions['help_url'])): ?>
 			<span class="float-end">
-			<a href="<?php echo  $this->renderOptions['help_url'] ?>"
+			<a href="<?php echo $this->renderOptions['help_url'] ?>"
 				class="btn btn-sm btn-secondary"
 				target="_blank"
 			>
@@ -43,12 +43,12 @@ if ($this->renderOptions['field_type'] !== 'custom')
 		</span>
 		<?php endif;?>
 		<?php if (!empty($this->title)): ?>
-			<?php echo  $this->title ?> <small> &ndash;
+			<?php echo $this->title ?> <small> &ndash;
 		<?php endif; ?>
 		<?php if (!$this->allowEntryBatching): ?>
-			<?php echo  $this->escape($this->record->title) ?>
+			<?php echo $this->escape($this->record->title) ?>
 		<?php else: ?>
-			<?php echo  $this->escape($this->getModel()->translateMethodName($this->record->method)) ?>
+			<?php echo $this->escape($this->getModel()->translateMethodName($this->record->method)) ?>
 		<?php endif; ?>
 		<?php if (!empty($this->title)): ?>
 		</small>
@@ -57,16 +57,16 @@ if ($this->renderOptions['field_type'] !== 'custom')
 
 	<?php if ($this->renderOptions['pre_message']): ?>
 		<div class="users-mfa-captive-pre-message text-muted">
-			<?php echo  $this->renderOptions['pre_message'] ?>
+			<?php echo $this->renderOptions['pre_message'] ?>
 		</div>
 	<?php endif; ?>
 
-	<form action="<?php echo  Route::_('index.php?option=com_users&task=captive.validate&record_id=' . ((int) $this->record->id)) ?>"
+	<form action="<?php echo Route::_('index.php?option=com_users&task=captive.validate&record_id=' . ((int) $this->record->id)) ?>"
 			id="users-mfa-captive-form"
 			method="post"
 			class="form-horizontal"
 	>
-		<?php echo  HTMLHelper::_('form.token') ?>
+		<?php echo HTMLHelper::_('form.token') ?>
 
 		<div id="users-mfa-captive-form-method-fields">
 			<?php if ($this->renderOptions['field_type'] == 'custom'): ?>
@@ -75,15 +75,15 @@ if ($this->renderOptions['field_type'] !== 'custom')
 				<div class="row mb-3">
 					<?php if ($this->renderOptions['label']): ?>
 					<label for="users-mfa-code" class="col-sm-3 col-form-label">
-						<?php echo  $this->renderOptions['label'] ?>
+						<?php echo $this->renderOptions['label'] ?>
 					</label>
 					<?php endif; ?>
-					<div class="col-sm-9 <?php echo  $this->renderOptions['label'] ? '' : 'offset-sm-3' ?>">
-						<input type="<?php echo  $this->renderOptions['input_type'] ?>"
+					<div class="col-sm-9 <?php echo $this->renderOptions['label'] ? '' : 'offset-sm-3' ?>">
+						<input type="<?php echo $this->renderOptions['input_type'] ?>"
 							   name="code"
 							   value=""
 							<?php if (!empty($this->renderOptions['placeholder'])): ?>
-								placeholder="<?php echo  $this->renderOptions['placeholder'] ?>"
+								placeholder="<?php echo $this->renderOptions['placeholder'] ?>"
 							<?php endif; ?>
 							   id="users-mfa-code"
 							   class="form-control input-large"
@@ -99,30 +99,30 @@ if ($this->renderOptions['field_type'] !== 'custom')
 			<div class="col-sm-9 offset-sm-3">
 				<button class="btn btn-lg btn-primary me-3"
 						id="users-mfa-captive-button-submit"
-						style="<?php echo  $this->renderOptions['hide_submit'] ? 'display: none' : '' ?>"
+						style="<?php echo $this->renderOptions['hide_submit'] ? 'display: none' : '' ?>"
 						type="submit">
 					<span class="icon icon-rightarrow icon-arrow-right" aria-hidden="true"></span>
-					<?php echo  Text::_('COM_USERS_MFA_VALIDATE'); ?>
+					<?php echo Text::_('COM_USERS_MFA_VALIDATE'); ?>
 				</button>
 
 				<?php if ($this->isAdmin): ?>
-					<a href="<?php echo  Route::_('index.php?option=com_login&task=logout&' . Factory::getApplication()->getFormToken() . '=1') ?>"
+					<a href="<?php echo Route::_('index.php?option=com_login&task=logout&' . Factory::getApplication()->getFormToken() . '=1') ?>"
 					   class="btn btn-danger"
 					   id="users-mfa-captive-button-logout">
 						<span class="icon icon-lock" aria-hidden="true"></span>
-						<?php echo  Text::_('COM_USERS_MFA_LOGOUT'); ?>
+						<?php echo Text::_('COM_USERS_MFA_LOGOUT'); ?>
 					</a>
 				<?php else: ?>
-					<a href="<?php echo  Route::_('index.php?option=com_users&task=user.logout&' . Factory::getApplication()->getFormToken() . '=1') ?>"
+					<a href="<?php echo Route::_('index.php?option=com_users&task=user.logout&' . Factory::getApplication()->getFormToken() . '=1') ?>"
 					   class="btn btn-danger" id="users-mfa-captive-button-logout">
 						<span class="icon icon-lock" aria-hidden="true"></span>
-						<?php echo  Text::_('COM_USERS_MFA_LOGOUT'); ?>
+						<?php echo Text::_('COM_USERS_MFA_LOGOUT'); ?>
 					</a>
 				<?php endif; ?>
 				<?php if (count($this->records) > 1): ?>
 					<div id="users-mfa-captive-form-choose-another" class="my-3">
-						<a href="<?php echo  Route::_('index.php?option=com_users&view=captive&task=select') ?>">
-							<?php echo  Text::_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
+						<a href="<?php echo Route::_('index.php?option=com_users&view=captive&task=select') ?>">
+							<?php echo Text::_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
 						</a>
 					</div>
 				<?php endif; ?>
@@ -132,7 +132,7 @@ if ($this->renderOptions['field_type'] !== 'custom')
 
 	<?php if ($this->renderOptions['post_message']): ?>
 		<div class="users-mfa-captive-post-message">
-			<?php echo  $this->renderOptions['post_message'] ?>
+			<?php echo $this->renderOptions['post_message'] ?>
 		</div>
 	<?php endif; ?>
 
