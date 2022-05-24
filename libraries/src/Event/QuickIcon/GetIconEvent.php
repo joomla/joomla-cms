@@ -21,7 +21,7 @@ use Joomla\CMS\Event\Result\ResultTypeArrayAware;
 /**
  * Event class for the onGetIcon event.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -35,7 +35,7 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 * @throws  BadMethodCallException
 	 */
 	public function __construct(string $name, array $arguments = [])
@@ -52,7 +52,7 @@ class GetIconEvent extends AbstractImmutableEvent implements ResultAwareInterfac
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setContext(string $value)
 	{
