@@ -75,7 +75,6 @@ class Webcronstart extends CMSPlugin implements SubscriberInterface
 	 */
 	protected function webcronStart(ExecuteTaskEvent $event): int
 	{
-		//
 		$params = $event->getArgument('params');
 		$response = '';
 		$options  = new Registry;
@@ -85,7 +84,7 @@ class Webcronstart extends CMSPlugin implements SubscriberInterface
 		try
 		{
 			$response = HttpFactory::getHttp($options)->get($params->url, [], 300);
-		}	
+		}
 		catch (\Exception $e)
 		{
 			return TaskStatus::KNOCKOUT;
