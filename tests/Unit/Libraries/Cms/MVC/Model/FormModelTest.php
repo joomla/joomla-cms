@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       4.2.0
+ * @since       __DEPLOY_VERSION__
  */
 class FormModelTest extends UnitTestCase
 {
@@ -32,7 +32,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testSucessfullCheckin()
+	public function testSuccessfulCheckin()
 	{
 		$table              = $this->createStub(Table::class);
 		$table->checked_out = 0;
@@ -62,7 +62,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testSucessfullCheckinWithEmptyRecord()
+	public function testSuccessfulCheckinWithEmptyRecord()
 	{
 		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel
 		{
@@ -139,7 +139,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testSuccessfullCheckinFieldNotAvailableCheck()
+	public function testSuccessfulCheckinFieldNotAvailableCheck()
 	{
 		$table              = $this->createStub(Table::class);
 		$table->checked_out = 0;
@@ -167,7 +167,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testSuccessfullCheckinWhenCurrentUserIsNotAdmin()
+	public function testSuccessfulCheckinWhenCurrentUserIsNotAdmin()
 	{
 		$table              = $this->createStub(Table::class);
 		$table->checked_out = 1;
@@ -201,7 +201,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testSuccessfullCheckinWhenCurrentUserAdmin()
+	public function testSuccessfulCheckinWhenCurrentUserAdmin()
 	{
 		$table              = $this->createStub(Table::class);
 		$table->checked_out = 1;
