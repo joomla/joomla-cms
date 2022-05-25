@@ -10,8 +10,10 @@
 namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\HttpDriverInterface;
+use Joomla\Application\SessionAwareWebApplicationInterface;
 use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Session\Session;
 
 /**
  * Joomla HTTP driver for DebugBar
@@ -28,6 +30,20 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	private $app;
 
 	/**
+	 * @var Session
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $session;
+
+	/**
+	 * @var array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private $dummySession = [];
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   CMSApplicationInterface  $app
@@ -37,6 +53,11 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	public function __construct(CMSApplicationInterface $app)
 	{
 		$this->app = $app;
+
+		if ($app instanceof SessionAwareWebApplicationInterface)
+		{
+			$this->session = $app->getSession();
+		}
 	}
 
 	/**
@@ -66,7 +87,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 */
 	public function isSessionStarted()
 	{
-		return $this->app->getSession()->isStarted();
+		return $this->session ? $this->session->isStarted() : true;
 	}
 
 	/**
@@ -79,7 +100,14 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 */
 	public function setSessionValue($name, $value)
 	{
-		$this->app->getSession()->set($name, $value);
+		if ($this->session)
+		{
+			$this->session->set($name, $value);
+		}
+		else
+		{
+			$this->dummySession[$name] = $value;
+		}
 	}
 
 	/**
@@ -93,7 +121,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 */
 	public function hasSessionValue($name)
 	{
-		return $this->app->getSession()->has($name);
+		return $this->session ? $this->session->has($name) : array_key_exists($name, $this->dummySession);
 	}
 
 	/**
@@ -107,7 +135,14 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 */
 	public function getSessionValue($name)
 	{
-		return $this->app->getSession()->get($name);
+		if ($this->session)
+		{
+			return $this->session->get($name);
+		}
+		else
+		{
+			return $this->dummySession[$name] ?? null;
+		}
 	}
 
 	/**
@@ -119,6 +154,13 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 */
 	public function deleteSessionValue($name)
 	{
-		$this->app->getSession()->remove($name);
+		if ($this->session)
+		{
+			$this->session->remove($name);
+		}
+		else
+		{
+			unset($this->dummySession[$name]);
+		}
 	}
 }
