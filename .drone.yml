@@ -473,13 +473,11 @@ trigger:
   event:
     - cron
     - custom
-  cron:
-    - nightly
   repo:
     - joomla/joomla-cms
 
 ---
 kind: signature
-hmac: 73b22639a751521377b1e8f8b51e3af794e81b073bf5bc9157f8ba079b27f44d
+hmac: 234ae9e7e2fbfa114ba754c68056dec518c76a93de2f5b098f569e355b50cc1b
 
 ...
