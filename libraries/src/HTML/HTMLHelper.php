@@ -654,7 +654,7 @@ abstract class HTMLHelper
 			'height' => 0,
 		];
 
-		if (!strpos($url, '?'))
+		if (!$url || !strpos($url, '?'))
 		{
 			$obj->url = $url;
 
