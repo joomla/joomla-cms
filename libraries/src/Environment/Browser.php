@@ -514,7 +514,7 @@ class Browser
 	 */
 	public function match($userAgent = null, $accept = null)
 	{
-		$this->_match($userAgent, $accept);	
+		$this->_match($userAgent, $accept);
 	}
 	public function _match($userAgent = null, $accept = null)
 	{
