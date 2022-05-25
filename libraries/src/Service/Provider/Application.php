@@ -36,6 +36,7 @@ use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
@@ -82,6 +83,7 @@ class Application implements ServiceProviderInterface
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
 					$app->setUserFactory($container->get(UserFactoryInterface::class));
+					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
 					return $app;
 				},
@@ -105,6 +107,7 @@ class Application implements ServiceProviderInterface
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
 					$app->setUserFactory($container->get(UserFactoryInterface::class));
+					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
 					return $app;
 				},
@@ -192,6 +195,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
 					return $app;
 				},

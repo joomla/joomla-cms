@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -98,7 +99,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$context = $this->contextAliases[$context];
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -164,7 +165,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -216,7 +217,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -513,7 +514,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -570,7 +571,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -1169,5 +1170,26 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'oldversion'  => $oldVersion,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
+	}
+
+	/**
+	 * Returns the action log params for the given context.
+	 *
+	 * @param   string  $context  The context of the action log
+	 *
+	 * @return  stdClass  The params
+	 *
+	 * @since   4.2.0
+	 */
+	private function getActionLogParams($context): ?stdClass
+	{
+		$component = $this->app->bootComponent('actionlogs');
+
+		if (!$component instanceof MVCFactoryServiceInterface)
+		{
+			return null;
+		}
+
+		return $component->getMVCFactory()->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 	}
 }
