@@ -12,14 +12,23 @@
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('bootstrap.modal');
+
+Text::script('PLG_SYSTEM_SHORTCUT_SET_SHORTCUT');
+Text::script('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION');
+Text::script('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION');
+Text::script('PLG_SYSTEM_SHORTCUT_CANCEL');
+Text::script('PLG_SYSTEM_SHORTCUT_SAVE_CHANGES');
 
 $app = Factory::getApplication();
 $wa = $app->getDocument()->getWebAssetManager();
-
-if (!$wa->assetExists('script', 'restoredefaults')) {
-	$wa->registerScript('restoredefaults', 'media/plg_system_shortcut/js/restoredefaults.js', [], ['defer' => true, 'type' => 'module']);
+if (!$wa->assetExists('script', 'keyselectmodal')) {
+	$document = $app->getDocument();
+	$wa->registerScript('keyselectmodal', 'media/plg_system_shortcut/js/keyselect.js', [], ['defer' => true, 'type' => 'module']);
 }
-$wa->useScript('restoredefaults');
+$wa->useScript('keyselectmodal');
 
 extract($displayData);
 
@@ -52,4 +61,5 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 ?>
-<button class="restoreDefaultsBtn btn btn-secondary" type="button" data-class="<?php echo $class; ?>"><?php echo Text::_('PLG_SYSTEM_SHORTCUT_BUTTON_RESET_LBL'); ?></button>
+<input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $value; ?>" />
+<button id="<?php echo $id; ?>_btn" data-bs-toggle="modal" data-bs-target="#keySelectModal" class="keySelectBtn btn btn-secondary <?php echo $class; ?>" type="button" data-class="<?php echo $class; ?>"><?php echo $value; ?></button>

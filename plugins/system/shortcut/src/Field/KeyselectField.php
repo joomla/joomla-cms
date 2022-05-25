@@ -9,6 +9,8 @@
 
 namespace Joomla\Plugin\System\Shortcut\Field;
 
+use Joomla\CMS\Form\FormField;
+
 \defined('_JEXEC') or die;
 
 /**
@@ -16,13 +18,13 @@ namespace Joomla\Plugin\System\Shortcut\Field;
  *
  * @since  3.5
  */
-class KeyselectField extends AbstractShortcutField
+class KeyselectField extends FormField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'Keyselect';
 
@@ -30,7 +32,19 @@ class KeyselectField extends AbstractShortcutField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $layout = 'field.keyselect';
+	protected $layout = 'joomla.form.field.keyselect';
+
+	/**
+	 * Allow to override renderer include paths in child fields
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutPaths()
+	{
+		return array_merge(parent::getLayoutPaths(), [JPATH_PLUGINS . '/system/shortcut/layouts']);
+	}
 }
