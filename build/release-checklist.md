@@ -45,7 +45,7 @@ git push upstream --tags
 - [ ] Upload the packages to the GitHub release
 - [ ] Publish GitHub release (remember to mark it as a pre-release!)
 - [ ] `git push upstream 3.10-dev`
-- [ ] Trigger new nightly build: [https://build.joomla.org](https://build.joomla.org:8443/job/cms_packaging/)
+- [ ] Trigger new nightly build: [https://ci.joomla.org/joomla/joomla-cms](https://ci.joomla.org/joomla/joomla-cms)
 - [ ] Wait for `.org Build Notifications` to report back
 - [ ] Merge the [joomla/update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 - [ ] Wait for `.org Build Notifications` to report back
