@@ -62,7 +62,7 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 			<div class="com-users-methods-list-method-records-container">
 				<?php if (count($method['active'])): ?>
 					<div class="com-users-methods-list-method-records border-top border-dark pt-2 my-2">
-						<?php  foreach($method['active'] as $record): ?>
+						<?php foreach($method['active'] as $record): ?>
 							<div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start">
 								<div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
 									<?php if ($methodName === 'backupcodes'): ?>
