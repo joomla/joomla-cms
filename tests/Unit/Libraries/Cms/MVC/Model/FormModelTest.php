@@ -229,32 +229,6 @@ class FormModelTest extends UnitTestCase
 		$this->assertTrue($model->checkin(1));
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * @testdox  Test that the FormModel can checkout a record
 	 *
