@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Actionlog
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class ActionlogConfigModelTest extends UnitTestCase
 {
@@ -28,7 +28,7 @@ class ActionlogConfigModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetLogContentTypeParams()
 	{
@@ -47,7 +47,7 @@ class ActionlogConfigModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetNullLogContentTypeParams()
 	{
