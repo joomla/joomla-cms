@@ -510,13 +510,11 @@ class Browser
 	 * @return  void
 	 *
 	 * @since   1.7.0
-	 * 
 	 * @deprecated 5.0
 	 */
 	public function match($userAgent = null, $accept = null)
 	{
-		$this->_match($userAgent, $accept);
-		
+		$this->_match($userAgent, $accept);	
 	}
 	public function _match($userAgent = null, $accept = null)
 	{
