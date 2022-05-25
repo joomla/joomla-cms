@@ -139,10 +139,8 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 		{
 			return $this->session->get($name);
 		}
-		else
-		{
-			return $this->dummySession[$name] ?? null;
-		}
+
+		return $this->dummySession[$name] ?? null;
 	}
 
 	/**
