@@ -56,7 +56,7 @@
 			/>
 		</form>
 	</field>
-	<fields name="params" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
+	<fields name="params" label="COM_MAILS_FIELD_BASIC_LABEL">
 
 		<fieldset name="basic">
 

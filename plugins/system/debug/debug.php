@@ -13,6 +13,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
+use Joomla\Application\ApplicationEvents;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Log\Log;
@@ -129,6 +130,23 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $timeInOnAfterDisconnect = 0;
+
+	/**
+	 * @return  array
+	 *
+	 * @since   4.1.3
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onBeforeCompileHead' => 'onBeforeCompileHead',
+			'onAjaxDebug'         => 'onAjaxDebug',
+			'onBeforeRespond'     => 'onBeforeRespond',
+			'onAfterRespond'      => 'onAfterRespond',
+			ApplicationEvents::AFTER_RESPOND => 'onAfterRespond',
+			'onAfterDisconnect'   => 'onAfterDisconnect',
+		];
+	}
 
 	/**
 	 * Constructor.
@@ -258,8 +276,8 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onAfterRespond()
 	{
-		$endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
-		$endMemory  = memory_get_peak_usage(false);
+		// Do not collect data if debugging or language debug is not enabled.
+		if (!JDEBUG && !$this->debugLang || $this->isAjax)
 
 		// Do not render if debugging or language debug is not enabled.
 		if ((!JDEBUG && !$this->debugLang) || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
@@ -369,11 +387,13 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	/**
 	 * AJAX handler
 	 *
+	 * @param Joomla\Event\Event $event
+	 *
 	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function onAjaxDebug(Event $event)
+	public function onAjaxDebug($event)
 	{
 		// Do not render if debugging or language debug is not enabled.
 		if (!JDEBUG && !$this->debugLang)
@@ -390,10 +410,11 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 		switch ($this->app->input->get('action'))
 		{
 			case 'openhandler':
+				$result  = $event['result'] ?: [];
 				$handler = new OpenHandler($this->debugBar);
 
-				$event['result'] = $handler->handle($this->app->input->request->getArray(), false, false);
-				break;
+				$result[] = $handler->handle($this->app->input->request->getArray(), false, false);
+				$event['result'] = $result;
 		}
 	}
 
@@ -701,7 +722,9 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$metrics = '';
+		$metrics    = '';
+		$moduleTime = 0;
+		$accessTime = 0;
 
 		foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark)
 		{
@@ -711,12 +734,37 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 				continue;
 			}
 
-			$desc = $mark->label;
-			$desc = str_ireplace('after', '', $desc);
+			// Collect the module render time
+			if (strpos($mark->label, 'mod_') !== false)
+			{
+				$moduleTime += $mark->time;
+				continue;
+			}
 
+			// Collect the access render time
+			if (strpos($mark->label, 'Access:') !== false)
+			{
+				$accessTime += $mark->time;
+				continue;
+			}
+
+			$desc     = str_ireplace('after', '', $mark->label);
 			$name     = preg_replace('/[^\da-z]/i', '', $desc);
-			$metrics .= sprintf('%s;dur=%f;desc="%s:", ', $index . $name, $mark->time, $desc);
+			$metrics .= sprintf('%s;dur=%f;desc="%s", ', $index . $name, $mark->time, $desc);
+
+			// Do not create too large headers, some web servers don't love them
+			if (strlen($metrics) > 3000)
+			{
+				$metrics .= 'System;dur=0;desc="Data truncated to 3000 characters", ';
+				break;
+			}
 		}
+
+		// Add the module entry
+		$metrics .= 'Modules;dur=' . $moduleTime . ';desc="Modules", ';
+
+		// Add the access entry
+		$metrics .= 'Access;dur=' . $accessTime . ';desc="Access"';
 
 		$this->app->setHeader('Server-Timing', $metrics);
 	}

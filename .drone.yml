@@ -6,14 +6,13 @@ clone:
 
 steps:
   - name: composer
-    image: joomlaprojects/docker-images:php7.3
+    image: joomlaprojects/docker-images:php7.4
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
-      - composer install --no-progress --no-suggest
-      - patch -N -p0 < tests/patch/phpunit8_php8_match.patch || echo "Ignore this error."
+      - composer install --no-progress
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -24,7 +23,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:14-alpine
+    image: node:16-alpine
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
@@ -420,6 +419,6 @@ steps:
 
 ---
 kind: signature
-hmac: a6f3f2ed21261b612d052724e5f43a5dd55168f98cbaa48eeaa358816bb255df
+hmac: c34b8c98013a4c7f604f5c650875d03f4291e4fa42ba9ceb730993172d965aff
 
 ...

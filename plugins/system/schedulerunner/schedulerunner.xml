@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension version="4.1" type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_SCHEDULERUNNER</name>
+	<name>plg_system_schedulerunner</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2021</creationDate>
 	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
