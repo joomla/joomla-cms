@@ -25,7 +25,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
@@ -142,8 +141,14 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 			'onBeforeCompileHead' => 'onBeforeCompileHead',
 			'onAjaxDebug'         => 'onAjaxDebug',
 			'onBeforeRespond'     => 'onBeforeRespond',
-			'onAfterRespond'      => 'onAfterRespond',
-			ApplicationEvents::AFTER_RESPOND => 'onAfterRespond',
+			'onAfterRespond'      => [
+				'onAfterRespond',
+				PHP_INT_MIN,
+			],
+			ApplicationEvents::AFTER_RESPOND => [
+				'onAfterRespond',
+				PHP_INT_MIN,
+			],
 			'onAfterDisconnect'   => 'onAfterDisconnect',
 		];
 	}
@@ -211,26 +216,6 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Returns an array of events this subscriber will listen to.
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getSubscribedEvents(): array
-	{
-		return [
-			'onBeforeCompileHead' => 'onBeforeCompileHead',
-			'onAjaxDebug'         => 'onAjaxDebug',
-			'onAfterDisconnect'   => 'onAfterDisconnect',
-			'onAfterRespond'      => [
-				'onAfterRespond',
-				PHP_INT_MIN,
-			],
-		];
-	}
-
-	/**
 	 * Add an assets for debugger.
 	 *
 	 * @return  void
@@ -276,11 +261,11 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onAfterRespond()
 	{
-		// Do not collect data if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax)
+		$endTime    = microtime(true) - $this->timeInOnAfterDisconnect;
+		$endMemory  = memory_get_peak_usage(false);
 
-		// Do not render if debugging or language debug is not enabled.
-		if ((!JDEBUG && !$this->debugLang) || $this->isAjax || !($this->app->getDocument() instanceof HtmlDocument))
+		// Do not collect data if debugging or language debug is not enabled.
+		if ((!JDEBUG && !$this->debugLang) || $this->isAjax)
 		{
 			return;
 		}
@@ -415,6 +400,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 				$result[] = $handler->handle($this->app->input->request->getArray(), false, false);
 				$event['result'] = $result;
+				break;
 		}
 	}
 
