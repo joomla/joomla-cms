@@ -44,7 +44,7 @@ class Webcronstart extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * @var boolean
-	 * @since 4.1.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
