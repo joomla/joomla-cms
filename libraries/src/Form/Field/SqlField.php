@@ -199,7 +199,7 @@ class SqlField extends ListField
 	protected function processQuery($conditions, $filters, $defaults)
 	{
 		// Get the database object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Get the query object
 		$query = $db->getQuery(true);
@@ -279,7 +279,7 @@ class SqlField extends ListField
 		if ($this->query)
 		{
 			// Get the database object.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 
 			// Set the query and get the result list.
 			$db->setQuery($this->query);
