@@ -411,17 +411,19 @@ class MailTemplate
 	 * @param   string  $body      A default body (normally a translatable string)
 	 * @param   array   $tags      Associative array of tags to replace
 	 * @param   string  $htmlbody  A default htmlbody (normally a translatable string)
+	 * @param   string  $extension The extension to which the template belongs
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   4.0.0
 	 */
-	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
+	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '',$extension = null)
 	{
 		$db = Factory::getDbo();
 
 		$template = new \stdClass;
 		$template->template_id = $key;
+		$template->extension = $extension??(explode('.', $key)[0]);
 		$template->language = '';
 		$template->subject = $subject;
 		$template->body = $body;
