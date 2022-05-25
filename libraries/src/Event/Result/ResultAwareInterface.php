@@ -23,7 +23,7 @@ use InvalidArgumentException;
  * trait and one of the ResultType*Aware traits. For example, if your event returns boolean results
  * you need to use the ResultAware and ResultTypeBooleanAware traits in your event.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 interface ResultAwareInterface
 {
@@ -33,7 +33,7 @@ interface ResultAwareInterface
 	 * @param   mixed  $data  What to add to the result array.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function addResult($data): void;
 
@@ -46,7 +46,7 @@ interface ResultAwareInterface
 	 * @throws  InvalidArgumentException
 	 *
 	 * @internal
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function typeCheckResult($data): void;
 }

@@ -1,42 +1,64 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Authentication.joomla
+ * @subpackage  Apiauthentication.basic
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\ApiAuthentication\Basic\Extension;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Joomla Authentication plugin
  *
  * @since  4.0.0
  */
-class PlgApiAuthenticationBasic extends CMSPlugin
+final class Basic extends CMSPlugin
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The application object
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
 
 	/**
-	 * The application object
+	 * The user factory
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
-	 * @since  4.0.0
+	 * @var    UserFactoryInterface
+	 * @since  4.2.0
 	 */
-	protected $db;
+	private $userFactory;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   DispatcherInterface   $dispatcher   The dispatcher
+	 * @param   array                 $config       An optional associative array of configuration settings
+	 * @param   UserFactoryInterface  $userFactory  The user factory
+	 *
+	 * @since   4.2.0
+	 */
+	public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
+	{
+		parent::__construct($dispatcher, $config);
+
+		$this->userFactory = $userFactory;
+	}
 
 	/**
 	 * This method should handle any authentication and report back to the subject
@@ -59,12 +81,12 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 		if ($password === '')
 		{
 			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+			$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
 			return;
 		}
 
-		$db    = $this->db;
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['id', 'password']))
 			->from($db->quoteName('#__users'))
@@ -81,7 +103,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 			if ($match === true)
 			{
 				// Bring this in line with the rest of the system
-				$user               = User::getInstance($result->id);
+				$user               = $this->userFactory->loadUserById($result->id);
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
 				$response->username = $username;
@@ -103,7 +125,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 			{
 				// Invalid password
 				$response->status        = Authentication::STATUS_FAILURE;
-				$response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+				$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
@@ -114,7 +136,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 
 			// Invalid user
 			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
+			$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
 		}
 	}
 }

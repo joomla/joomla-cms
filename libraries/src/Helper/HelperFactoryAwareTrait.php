@@ -13,7 +13,7 @@ namespace Joomla\CMS\Helper;
 /**
  * Defines the trait for a HelperFactory Aware Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait HelperFactoryAwareTrait
 {
@@ -22,7 +22,7 @@ trait HelperFactoryAwareTrait
 	 *
 	 * @var    HelperFactory
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $helperFactory;
 
@@ -31,7 +31,7 @@ trait HelperFactoryAwareTrait
 	 *
 	 * @return  HelperFactory
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @throws  \UnexpectedValueException May be thrown if the HelperFactory has not been set.
 	 */
@@ -52,7 +52,7 @@ trait HelperFactoryAwareTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setHelperFactory(HelperFactory $helperFactory)
 	{
