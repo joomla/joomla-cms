@@ -175,7 +175,7 @@ class BrowserTest extends UnitTestCase
 	 */
 	public function testBrowserMatching($userAgent, $expectedBrowser, $expectedPlatform, $expectedMajorVersion, $expectedMobile)
 	{
-		$this->browser->_match($userAgent);
+		$this->browser->match($userAgent);
 
 		$this->assertSame($expectedBrowser, $this->browser->getBrowser());
 		$this->assertSame($expectedPlatform, $this->browser->getPlatform());

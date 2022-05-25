@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Environment;
 
+use JetBrains\PhpStorm\Deprecated;
+
 \defined('JPATH_PLATFORM') or die;
 
 /**
@@ -474,7 +476,7 @@ class Browser
 	 */
 	public function __construct($userAgent = null, $accept = null)
 	{
-		$this->_match($userAgent, $accept);
+		$this->match($userAgent, $accept);
 	}
 
 	/**
@@ -510,7 +512,14 @@ class Browser
 	 * @return  void
 	 *
 	 * @since   1.7.0
+	 * 
+	 * @deprecated 5.0
 	 */
+	public function match($userAgent = null, $accept = null)
+	{
+		$this->_match($userAgent, $accept);
+		
+	}
 	public function _match($userAgent = null, $accept = null)
 	{
 		// Set our agent string.
