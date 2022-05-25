@@ -8,8 +8,6 @@
 
 namespace Joomla\CMS\Environment;
 
-use JetBrains\PhpStorm\Deprecated;
-
 \defined('JPATH_PLATFORM') or die;
 
 /**
