@@ -14,6 +14,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -210,6 +211,98 @@ class DatabaseModelTest extends UnitTestCase
 		};
 
 		$this->assertEquals(5, $model->_getListCount('query'));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel can't determine the checked out state of an item that has not the required field
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function testCheckedOutWithoutField()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$this->assertFalse($model->isCheckedOut(new \stdClass));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel can determine the checked out state of an item with the same user
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function testCheckedOutWithCheckedOutUser()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$user = new User;
+		$user->id = 1;
+		$model->setCurrentUser($user);
+
+		$this->assertFalse($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel can determine the checked out state of an item with a different user
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function testCheckedOutWithNotCheckedOutUser()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$user = new User;
+		$user->id = 2;
+		$model->setCurrentUser($user);
+
+		$this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel can determine the checked out state of an item when the user is not set
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function testCheckedOutWitFieldNoUserSet()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
 	}
 
 	/**
