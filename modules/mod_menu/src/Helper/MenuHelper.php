@@ -42,13 +42,15 @@ class MenuHelper
 		$base   = self::getBase($params);
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
-		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
+
+		// Compose cache key
+		$cacheKey = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 
 		/** @var OutputController $cache */
 		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
 			->createCacheController('output', ['defaultgroup' => 'mod_menu']);
 
-		if (false === $items = $cache->get($key))
+		if (false === $items = $cache->get($cacheKey))
 		{
 			$path           = $base->tree;
 			$start          = (int) $params->get('startLevel', 1);
@@ -182,7 +184,7 @@ class MenuHelper
 				}
 			}
 
-			$cache->store($items, $key);
+			$cache->store($items, $cacheKey);
 		}
 
 		return $items;
