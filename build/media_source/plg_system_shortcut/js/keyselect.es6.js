@@ -1,4 +1,6 @@
 ((document, Joomla) => {
+  'use strict';
+
   if (!Joomla) {
     throw new Error('Joomla API is not properly initialised');
   }

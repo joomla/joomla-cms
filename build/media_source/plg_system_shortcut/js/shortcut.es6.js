@@ -1,73 +1,36 @@
-class Shortcut {
-  constructor() {
-    if (!Joomla) {
-      throw new Error('Joomla API is not properly initialised');
-    }
+((document, Joomla) => {
+  'use strict';
 
-    ((window, document, Joomla) => {
-      'use strict';
+  if (!Joomla) {
+    throw new Error('Joomla API is not properly initialised');
+  }
 
-      Joomla.addClickButtonShortcut = (hotkey, selector) => {
-        Joomla.addShortcut(hotkey, () => {
-          const actionBtn = document.querySelector(selector);
-          if (actionBtn) {
-            actionBtn.click();
-          }
-        });
-      };
+  Joomla.addShortcut = (hotkey, callback) => {
+    hotkeys(hotkey, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
 
-      Joomla.addShortcut = (hotkey, callback) => {
-        if (prevent) {
-          event.preventDefault();
-        }
-        hotkeys(hotkey, (event, handler) => {
-          event.preventDefault();
-
-          callback.call();
-        });
-      };
-
-      document.addEventListener('DOMContentLoaded', ()=> {
-        const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
-
-        options.forEach((callback, hotkey) => {
-          Joomla.addShortcut(hotkey, callback);
-        });
-      });
-
-      if (window.navigator.platform.match('Mac') ? e.metaKey : e.altKey) {
-      // On Press ALT + S
-        const ch = e.key.toLowerCase();
-        const list = [{ c: 'joomla-toolbar-button button.button-save-copy' },
-          { h: 'joomla-toolbar-button button.button-help' },
-          { q: 'joomla-toolbar-button button.button-cancel' },
-          { s: 'joomla-toolbar-button button.button-apply' },
-          { n: 'joomla-toolbar-button button.button-new' },
-          { w: 'joomla-toolbar-button button.button-save' },
-          { n: 'joomla-toolbar-button button.button-save-new' },
-        ];
-
-        list.map((l) => {
-          if (ch == l.first) { Joomla.addShortcut(e, l.second); }
-        });
+      if (typeof callback === 'function') {
+        callback.call();
       }
-
-      window.addEventListener('DOMContentLoaded', () => {
-        document.addEventListener(
-          'keydown',
-          (e) => {
-            handleKeyPressEvent(e);
-          },
-          false,
-        );
-
-        try {
-          tinyMCE.activeEditor.on('keydown', (e) => {
-            handleKeyPressEvent(e);
-          });
-        } catch (e) {}
-      });
-    })(window, document, Joomla);
+    });
   };
-}
-new Shortcut();
+
+  Joomla.addClickButtonShortcut = (hotkey, selector) => {
+    Joomla.addShortcut(hotkey, () => {
+      const actionBtn = document.querySelector(selector);
+      if (actionBtn) {
+        actionBtn.click();
+      }
+    });
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
+
+    Object.entries(options).forEach((option) => {
+      Joomla.addShortcut(option[0], () => eval(option[1]));
+    });
+  });
+})(document, Joomla);

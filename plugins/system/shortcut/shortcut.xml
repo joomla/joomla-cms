@@ -33,7 +33,7 @@
 					label="PLG_SYSTEM_SHORTCUT_GENERIC_BUTTONS_FIELDSET_LABEL"
 				>
 					<field
-						name="help_key"
+						name="helpKey"
 						type="keySelect"
 						default="ALT + X"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL"
@@ -44,10 +44,16 @@
 					label="PLG_SYSTEM_SHORTCUT_LIST_BUTTONS_FIELDSET_LABEL"
 				>
 					<field
-						name="new_key"
+						name="newKey"
 						type="keySelect"
 						default="ALT + N"
-						label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL" 
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL"
+					/>
+					<field
+						name="optionKey"
+						type="keySelect"
+						default="ALT + O"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_OPTION_LBL"
 					/>
 				</fieldset>
 				<fieldset
@@ -55,28 +61,28 @@
 					label="PLG_SYSTEM_SHORTCUT_FORM_BUTTONS_FIELDSET_LABEL"
 				>
 					<field
-						name="apply_key"
+						name="applyKey"
 						type="Keyselect"
 						default="ALT + S"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL"
 					/>
 
 					<field
-						name="save_key"
+						name="saveKey"
 						type="keySelect"
 						default="ALT + W"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL"
 					/>
 
 					<field
-						name="saveNew_key"
+						name="saveNewKey"
 						type="keySelect" 
 						default="SHIFT + ALT + N"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" 
 					/>
 
 					<field
-						name="cancel_key"
+						name="cancelKey"
 						type="keySelect" 
 						default="ALT + Q"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL"
@@ -90,7 +96,7 @@
 				>
 
 				<field 
-					name="article_keySelect" 
+					name="editorArticleKey"
 					type="keySelect" 
 					default="CTRL + ALT + A" 
 					class="article" 
@@ -98,7 +104,7 @@
 				/>
 			
 				<field 
-					name="contact_keySelect" 
+					name="editorContactKey"
 					type="keySelect" 
 					default="CTRL + ALT + C" 
 					class="contact" 
@@ -106,7 +112,7 @@
 				/>
 
 				<field 
-					name="fields_keySelect" 
+					name="editorFieldsKey"
 					type="keySelect" 
 					default="CTRL + ALT + F" 
 					class="fields" 
@@ -114,7 +120,7 @@
 				/>
 
 				<field 
-					name="image_keySelect" 
+					name="editorImageKey"
 					type="keySelect" 
 					default="CTRL + ALT + I" 
 					class="image" 
@@ -122,7 +128,7 @@
 				/>
 
 				<field 
-					name="menu_keySelect" 
+					name="editorMenuKey"
 					type="keySelect" 
 					default="CTRL + ALT + M" 
 					class="menu" 
@@ -130,7 +136,7 @@
 				/>
 
 				<field 
-					name="module_keySelect" 
+					name="editorModuleKey"
 					type="keySelect" 
 					default="CTRL + SHIFT + ALT + M" 
 					class="module" 
@@ -138,7 +144,7 @@
 				/>
 
 				<field 
-					name="pagebreak_keySelect" 
+					name="editorPagebreakKey"
 					type="keySelect" 
 					default="CTRL + ALT + P" 
 					class="pagebreak" 
@@ -146,7 +152,7 @@
 				/>
 
 				<field 
-					name="readmore_keySelect" 
+					name="editorReadmoreKey"
 					type="keySelect" 
 					default="CTRL + ALT + R" 
 					class="readmore" 
