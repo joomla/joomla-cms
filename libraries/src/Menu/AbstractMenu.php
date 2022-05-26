@@ -55,8 +55,10 @@ abstract class AbstractMenu
 	 * @var    AbstractMenu[]
 	 *
 	 * @since  1.7
+	 *
+	 * @deprecated 5.0 Use the MenuFactoryInterface from the container instead
 	 */
-	protected static $instances = array();
+	public static $instances = array();
 
 	/**
 	 * User object to check access levels for

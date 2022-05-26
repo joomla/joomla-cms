@@ -305,4 +305,24 @@ class DiscoverModel extends InstallerModel
 
 		return $query;
 	}
+
+	/**
+	 * Checks for not installed extensions in extensions table.
+	 *
+	 * @return  boolean  True if there are discovered extensions in the database.
+	 *
+	 * @since   4.2.0
+	 */
+	public function checkExtensions()
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('state') . ' = -1');
+		$db->setQuery($query);
+		$discoveredExtensions = $db->loadObjectList();
+
+		return count($discoveredExtensions) > 0;
+	}
 }
