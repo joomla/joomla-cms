@@ -108,15 +108,7 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 	 */
 	public function addShortcuts(Event $event)
 	{
-		$context = $event->getArgument('context');
-
-		/**
-		 * Here we could add JS functions
-		 *
-		 * $shortcuts = $event->getArgument('shortcuts');
-		 * $shortcuts['alt + a] => "alert('Joomla! rocks');";
-		 * $event->setArgument('shortcuts', $shortcuts);
-		 */
+		$shortcuts = $event->getArgument('shortcuts');
 
 		$keys = [
 			'helpKey'            => 'joomla-toolbar-button button.button-help',
@@ -131,23 +123,19 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 			'editorFieldsKey'    => 'joomla-editor-option ~ fields_modal',
 			'editorImageKey'     => 'joomla-editor-option ~ image_modal',
 			'editorMenuKey'      => 'joomla-editor-option ~ menu_modal',
-			'editorModuleKey'    => 'oomla-editor-option ~ module_modal',
+			'editorModuleKey'    => 'joomla-editor-option ~ module_modal',
 			'editorPagebreakKey' => 'joomla-editor-option ~ pagebreak_modal',
 			'editorReadmoreKey'  => 'joomla-editor-option ~ read_more',
 		];
-
-		$js = "document.addEventListener('DOMContentLoaded', () => {";
 
 		foreach ($keys as $key => $selector)
 		{
 			if ($this->params->get($key))
 			{
-				$js .= "Joomla.addClickButtonShortcut('" . $this->params->get($key) . "', '" . $selector . "');";
+				$shortcuts[$this->params->get($key)] = $selector;
 			}
 		}
 
-		$js .= "});";
-
-		$this->app->getDocument()->getWebAssetManager()->addInlineScript($js);
+		$event->setArgument('shortcuts', $shortcuts);
 	}
 }

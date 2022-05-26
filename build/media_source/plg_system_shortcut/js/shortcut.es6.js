@@ -30,7 +30,7 @@
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
 
     Object.entries(options).forEach((option) => {
-      Joomla.addShortcut(option[0], () => eval(option[1]));
+      Joomla.addClickButtonShortcut(option[0], option[1]);
     });
   });
 })(document, Joomla);
