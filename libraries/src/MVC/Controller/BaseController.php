@@ -796,7 +796,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 			}
 
 			// Let's get the application object and set menu information if it's available
-			$menu = Factory::getApplication()->getMenu();
+			$menu = $this->app->getMenu();
 
 			if (\is_object($menu) && $item = $menu->getActive())
 			{
