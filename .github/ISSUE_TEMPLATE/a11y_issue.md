@@ -18,6 +18,9 @@ about: Did you find an accessibility issue in the Joomla CMS? Please report it h
 
 ### Device and system info
 
+* What version of Joomla were you using?
+
+
 * What device were you using? (eg, phone, laptop)
 
 
