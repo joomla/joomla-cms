@@ -34,7 +34,7 @@ trait CurrentUserTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getCurrentUser(): User
+	protected function getCurrentUser(): User
 	{
 		if (!$this->currentUser)
 		{

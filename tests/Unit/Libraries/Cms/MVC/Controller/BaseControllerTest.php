@@ -128,6 +128,11 @@ class BaseControllerTest extends UnitTestCase
 		$model      = new class(['dbo' => $this->createStub(DatabaseInterface::class), 'name' => 'test'], $mvcFactory) extends BaseDatabaseModel
 		{
 			protected $option = 'test';
+
+			public function getUser(): User
+			{
+				return $this->getCurrentUser();
+			}
 		};
 		$mvcFactory->method('createModel')->willReturn($model);
 
@@ -143,7 +148,7 @@ class BaseControllerTest extends UnitTestCase
 		) extends BaseController
 		{};
 
-		$this->assertEquals($user, $controller->getModel()->getCurrentUser());
+		$this->assertEquals($user, $controller->getModel()->getUser());
 	}
 
 	/**
@@ -213,6 +218,11 @@ class BaseControllerTest extends UnitTestCase
 
 			public function display($tpl = null)
 			{}
+
+			public function getUser(): User
+			{
+				return $this->getCurrentUser();
+			}
 		};
 		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
 		$mvcFactory->method('createView')->willReturn($view);
@@ -229,6 +239,6 @@ class BaseControllerTest extends UnitTestCase
 		) extends BaseController
 		{};
 
-		$this->assertEquals($user, $controller->getView('testGetViewWithIdentity')->getCurrentUser());
+		$this->assertEquals($user, $controller->getView('testGetViewWithIdentity')->getUser());
 	}
 }
