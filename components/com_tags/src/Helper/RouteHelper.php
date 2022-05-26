@@ -11,6 +11,7 @@ namespace Joomla\Component\Tags\Site\Helper;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -87,6 +88,7 @@ class RouteHelper extends CMSRouteHelper
 	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.1
+	 * @throws  Exception
 	 */
 	public static function getTagRoute($id, string $language = '*')
 	{
@@ -127,15 +129,19 @@ class RouteHelper extends CMSRouteHelper
 	/**
 	 * Tries to load the router for the tags view.
 	 *
+	 * @param   string  $language  The language of the tag
+	 *
 	 * @return  string  URL link to pass to the router
 	 *
 	 * @since   3.7
+	 * @throws  Exception
 	 */
-	public static function getTagsRoute()
+	public static function getTagsRoute(string $language = '*')
 	{
-		$needles = array(
-			'tags'  => array(0)
-		);
+		$needles = [
+			'tag'      => [0],
+			'language' => $language,
+		];
 
 		$link = 'index.php?option=com_tags&view=tags';
 
@@ -154,7 +160,7 @@ class RouteHelper extends CMSRouteHelper
 	 *
 	 * @return null
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	protected static function _findItem($needles = null)
 	{
