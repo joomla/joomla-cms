@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Components\Actionlogs;
+namespace Joomla\Tests\Unit\Component\Actionlogs\Administrator\Model;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogConfigModel;
