@@ -100,7 +100,7 @@ class MethodModel extends BaseDatabaseModel
 		$results = Factory::getApplication()
 			->getDispatcher()
 			->dispatch($event->getName(), $event)
-			->getArgument('result');
+			->getArgument('result', []);
 
 		if (empty($results))
 		{

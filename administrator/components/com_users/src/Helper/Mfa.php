@@ -151,7 +151,7 @@ abstract class Mfa
 			$temp  = Factory::getApplication()
 				->getDispatcher()
 				->dispatch($event->getName(), $event)
-				->getArgument('result');
+				->getArgument('result', []);
 
 			// Normalize the results
 			self::$allMFAs = [];

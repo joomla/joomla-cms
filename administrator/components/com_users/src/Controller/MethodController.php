@@ -326,7 +326,7 @@ class MethodController extends BaseControllerAlias
 			$pluginResults = $this->app
 				->getDispatcher()
 				->dispatch($event->getName(), $event)
-				->getArgument('result');
+				->getArgument('result', []);
 
 			foreach ($pluginResults as $pluginResult)
 			{

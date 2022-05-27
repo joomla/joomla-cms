@@ -161,7 +161,7 @@ class CaptiveController extends BaseController
 		$results = $this->app
 			->getDispatcher()
 			->dispatch($event->getName(), $event)
-			->getArgument('result');
+			->getArgument('result', []);
 
 		$isValidCode = false;
 
@@ -188,18 +188,14 @@ class CaptiveController extends BaseController
 			$record = $model->getRecord();
 		}
 
-		if (is_array($results) && !empty($results))
-		{
-			foreach ($results as $result)
+		$isValidCode = array_reduce(
+			$results,
+			function (bool $carry, $result)
 			{
-				if ($result)
-				{
-					$isValidCode = true;
-
-					break;
-				}
-			}
-		}
+				return $carry || boolval($result);
+			},
+			false
+		);
 
 		if (!$isValidCode)
 		{
