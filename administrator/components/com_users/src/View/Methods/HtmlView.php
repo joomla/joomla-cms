@@ -164,12 +164,15 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Back-end: always show a title in the 'title' module position, not in the page body
-		if ($this->isAdmin && $this->getLayout() !== 'firsttime')
+		if ($this->isAdmin)
 		{
 			ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
 			$this->title = '';
 
-			ToolbarHelper::back('JTOOLBAR_BACK', Route::_('index.php?option=com_users'));
+			if (Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users'))
+			{
+				ToolbarHelper::back('JTOOLBAR_BACK', Route::_('index.php?option=com_users'));
+			}
 		}
 
 		// Display the view
