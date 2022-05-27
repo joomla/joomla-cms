@@ -49,7 +49,7 @@ use DomainException;
  * be using concrete event classes with named arguments, removing legacy listeners and their
  * positional arguments headaches.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  *
  * @deprecated 5.0
  */
@@ -64,7 +64,7 @@ trait ReshapeArgumentsAware
 	 *
 	 * @return  array  The reshaped arguments.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function reshapeArguments(array $arguments, array $argumentNames, array $defaults = [])
 	{

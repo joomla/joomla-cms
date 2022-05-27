@@ -46,7 +46,7 @@ use Joomla\Event\Event;
 /**
  * Returns the most suitable event class for a Joomla core event name
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 trait CoreEventAware
 {
@@ -57,7 +57,7 @@ trait CoreEventAware
 	 * PHP logic in the getEventClassByEventName class.
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private static $eventNameToConcreteClass = [
 		// Model
@@ -108,7 +108,7 @@ trait CoreEventAware
 	 * @param   string  $eventName  The event name
 	 *
 	 * @return  string The event class name
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected static function getEventClassByEventName(string $eventName): string
 	{

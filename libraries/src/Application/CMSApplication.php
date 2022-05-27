@@ -133,7 +133,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * Menu instances container.
 	 *
 	 * @var    AbstractMenu[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $menus = [];
 
@@ -142,7 +142,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @var   MenuFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $menuFactory;
 
@@ -1492,7 +1492,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public function setMenuFactory(MenuFactoryInterface $menuFactory): void
 	{
