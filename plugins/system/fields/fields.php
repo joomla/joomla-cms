@@ -14,7 +14,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Registry\Registry;
 
 /**
