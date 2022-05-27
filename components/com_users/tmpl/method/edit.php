@@ -18,8 +18,6 @@ use Joomla\Component\Users\Site\View\Method\HtmlView;
 // phpcs:ignoreFile
 /** @var  HtmlView  $this */
 
-HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
-
 $cancelURL = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
 if (!empty($this->returnURL))
@@ -62,10 +60,9 @@ $userId   = (int) $this->user->id ?? 0;
 		</h3>
 		<?php endif; ?>
 
-		<div class="row mb-3">
-			<label class="col-sm-3 col-form-label hasTooltip"
-				for="com-users-method-edit-title"
-				title="<?php echo $this->escape(Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC')) ?>">
+		<div class="row">
+			<label class="col-sm-3 col-form-label"
+				for="com-users-method-edit-title">
 				<?php echo Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE'); ?>
 			</label>
 			<div class="col-sm-9">
@@ -74,11 +71,15 @@ $userId   = (int) $this->user->id ?? 0;
 						id="com-users-method-edit-title"
 						name="title"
 						value="<?php echo $this->escape($this->record->title) ?>"
-						placeholder="<?php echo Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC') ?>">
+						placeholder="<?php echo Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC') ?>"
+					    aria-describedby="com-users-method-edit-help">
+				<p class="form-text" id="com-users-method-edit-help">
+					<?php echo $this->escape(Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC')) ?>
+				</p>
 			</div>
 		</div>
 
-		<div class="row mb-3">
+		<div class="row">
 			<div class="col-sm-9 offset-sm-3">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="com-users-is-default-method" <?php echo $this->record->default ? 'checked="checked"' : ''; ?> name="default">
@@ -124,7 +125,7 @@ $userId   = (int) $this->user->id ?? 0;
 		<?php else: ?>
 		<div class="row mb-3">
 			<?php if ($this->renderOptions['label']): ?>
-			<label class="col-sm-3 col-form-label hasTooltip" for="com-users-method-edit-code">
+			<label class="col-sm-3 col-form-label" for="com-users-method-edit-code">
 				<?php echo $this->renderOptions['label']; ?>
 			</label>
 			<?php endif; ?>
