@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Components\Actionlogs;
+namespace Joomla\Tests\Unit\Component\Actionlogs\Administrator\Model;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogConfigModel;
@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Actionlog
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class ActionlogConfigModelTest extends UnitTestCase
 {
@@ -28,7 +28,7 @@ class ActionlogConfigModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetLogContentTypeParams()
 	{
@@ -47,7 +47,7 @@ class ActionlogConfigModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetNullLogContentTypeParams()
 	{
