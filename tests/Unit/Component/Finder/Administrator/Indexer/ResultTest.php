@@ -6,7 +6,7 @@
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Tests\Unit\Administrator\Components\Finder\Indexer;
+namespace Joomla\Tests\Unit\Component\Finder\Administrator\Indexer;
 
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -19,24 +19,6 @@ use ReflectionClass;
  */
 class ResultTest extends UnitTestCase
 {
-	/**
-	 * Include non-autoloaded files as Namespace in the files that don't implement PSR-4
-	 *
-	 * @return void
-	 *
-	 * @since  4.1.3
-	 */
-	protected function setUp(): void
-	{
-		// Can be removed once we have autoloading working in Unit Tests
-		// @see https://github.com/joomla/joomla-cms/pull/36486
-		if (!class_exists(Result::class))
-		{
-			require_once JPATH_ADMINISTRATOR . '/components/com_finder/src/Indexer/Indexer.php';
-			require_once JPATH_ADMINISTRATOR . '/components/com_finder/src/Indexer/Result.php';
-		}
-	}
-
 	/**
 	 * @return void
 	 *

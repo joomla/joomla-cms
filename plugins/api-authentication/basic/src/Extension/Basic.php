@@ -40,7 +40,7 @@ final class Basic extends CMSPlugin
 	 * The user factory
 	 *
 	 * @var    UserFactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $userFactory;
 
@@ -51,7 +51,7 @@ final class Basic extends CMSPlugin
 	 * @param   array                 $config       An optional associative array of configuration settings
 	 * @param   UserFactoryInterface  $userFactory  The user factory
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
 	{

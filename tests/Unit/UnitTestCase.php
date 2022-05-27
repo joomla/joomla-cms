@@ -26,7 +26,7 @@ abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  QueryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function getQueryStub(DatabaseInterface $db): QueryInterface
 	{

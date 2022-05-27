@@ -13,7 +13,7 @@ namespace Joomla\CMS\Helper;
 /**
  * Interface to be implemented by classes depending on a helper factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 interface HelperFactoryAwareInterface
 {
@@ -24,7 +24,7 @@ interface HelperFactoryAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setHelperFactory(HelperFactory $helper);
 }
