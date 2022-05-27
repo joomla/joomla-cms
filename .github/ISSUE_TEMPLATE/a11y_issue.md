@@ -1,6 +1,7 @@
 ---
 name: Accessibility issue
 about: Did you find an accessibility issue in the Joomla CMS? Please report it here.
+labels: a11y
 
 ---
 
