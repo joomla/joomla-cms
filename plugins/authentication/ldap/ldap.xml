@@ -2,7 +2,7 @@
 <extension type="plugin" group="authentication" method="upgrade">
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
+	<creationDate>2005-11</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -53,19 +53,6 @@
 					name="negotiate_tls"
 					type="radio"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-					default="0"
-					filter="integer"
-					layout="joomla.form.field.radio.switcher"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="ignore_reqcert_tls"
-					type="radio"
-					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
-					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
 					default="0"
 					filter="integer"
 					layout="joomla.form.field.radio.switcher"

@@ -386,6 +386,31 @@ class Taxonomy
 	}
 
 	/**
+	 * Method to remove orphaned taxonomy maps
+	 *
+	 * @return  integer  The number of deleted rows.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException on database error.
+	 */
+	public static function removeOrphanMaps()
+	{
+		// Delete all orphaned maps
+		$db = Factory::getDbo();
+		$query2 = $db->getQuery(true)
+			->select($db->quoteName('link_id'))
+			->from($db->quoteName('#__finder_links'));
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_taxonomy_map'))
+			->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
+		$db->setQuery($query);
+		$db->execute();
+		$count = $db->getAffectedRows();
+
+		return $count;
+	}
+
+	/**
 	 * Method to remove orphaned taxonomy nodes and branches.
 	 *
 	 * @return  integer  The number of deleted rows.

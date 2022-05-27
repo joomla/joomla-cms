@@ -243,7 +243,7 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		$this->checkToken('request');
 
 		// Purge updates
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */

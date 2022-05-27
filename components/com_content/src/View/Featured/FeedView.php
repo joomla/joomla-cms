@@ -14,10 +14,10 @@ namespace Joomla\Component\Content\Site\View\Featured;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
@@ -63,12 +63,10 @@ class FeedView extends AbstractView
 
 			$description = '';
 			$obj = json_decode($row->images);
-			$introImage = $obj->{'image_intro'} ?? '';
 
-			if (isset($introImage) && ($introImage != ''))
+			if (!empty($obj->image_intro))
 			{
-				$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
-				$description = '<p><img src="' . $image . '"></p>';
+				$description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
 			}
 
 			$description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);

@@ -292,7 +292,7 @@ class EditorField extends TextareaField
 				$types = $this->editorType;
 
 				// Get the database object.
-				$db = Factory::getDbo();
+				$db = $this->getDatabase();
 
 				// Build the query.
 				$query = $db->getQuery(true)
