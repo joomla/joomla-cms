@@ -38,6 +38,10 @@
           position: relative;
         }
 
+        &:first-of-type {
+          padding-inline-start: 0;
+        }
+
         > ul {
           position: absolute;
           top: 100%;
