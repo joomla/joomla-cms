@@ -23,6 +23,7 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -71,7 +72,49 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 		return [
 			'onContentPrepareForm'      => 'onContentPrepareForm',
 			'onWorkflowAfterTransition' => 'onWorkflowAfterTransition',
+			'onContentBeforeSave'       => 'onContentBeforeSave',
 		];
+	}
+
+	/**
+	 * Check if a transition is being saved and all fields are set correctly.
+	 *
+	 * @param   Event  $data  The event data ($context, $table, $isNew, $data)
+	 *
+	 * @return  boolean  True if all necessary fields are filled.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 */
+	public function onContentBeforeSave(Event $data): bool
+	{
+		$context = $data->getArgument(0);
+
+		if ($context !== 'com_workflow.transition')
+		{
+			return true;
+		}
+
+		$values = $data->getArgument(3);
+
+		if ($values['options']['notification_send_mail'] === false)
+		{
+			return true;
+		}
+
+		if (empty($values['options']['notification_type']))
+		{
+			throw new InvalidArgumentException(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_NOTIFICATION_TYPE_SELECTED'));
+		}
+
+		if (!isset($values['options']['notification_receivers']) && !isset($values['options']['notification_groups'])
+			|| (empty($values['options']['notification_receivers']) && empty($values['options']['notification_groups']))
+		)
+		{
+			throw new InvalidArgumentException(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_RECIPIENTS_SELECTED'));
+		}
+
+		return true;
 	}
 
 	/**
