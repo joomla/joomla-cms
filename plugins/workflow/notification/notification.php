@@ -223,7 +223,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 				if (!empty($transition->options['notification_text']))
 				{
-					$extraText = '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+					$extraText = htmlspecialchars($lang->_($transition->options['notification_text']));
 				}
 
 				foreach ($notificationTypes as $type)
@@ -295,7 +295,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 				$user,
 				$toStage
 			);
-			$messageText .= $extraText;
+			$messageText .= '<br>' . $extraText;
 
 			$message = [
 				'id'         => 0,
