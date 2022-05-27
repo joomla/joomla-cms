@@ -170,7 +170,7 @@ trait MultiFactorAuthenticationHandler
 
 		// Do I need to redirect the user to the MFA setup page after they have fully logged in?
 		if (!$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
-			&& !$user->guest  && !$this->hasRejectedMultiFactorAuthenticationSetup())
+			&& !$user->guest  && !$this->hasRejectedMultiFactorAuthenticationSetup() && !empty(MfaHelper::getMfaMethods()))
 		{
 			$this->redirect(
 				$userOptions->get('mfaredirecturl', '') ?:
