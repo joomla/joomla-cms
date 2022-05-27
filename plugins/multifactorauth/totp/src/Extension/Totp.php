@@ -222,7 +222,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 					'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_INSTRUCTIONS'),
 					'table_heading' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_HEADING'),
 					'tabular_data'  => [
-						'' => '<h5>' . Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_SUBHEAD') . '</h5>',
+						'' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_SUBHEAD'),
 						Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_KEY')  => $key,
 						Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_QR')   => "<span id=\"users-mfa-totp-qrcode\" />",
 						Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_LINK')
