@@ -105,7 +105,7 @@ class HtmlView extends BaseHtmlView
 		/** @var MethodsModel $model */
 		$model = $this->getModel();
 
-		if ($this->getLayout() != 'firsttime')
+		if ($this->getLayout() !== 'firsttime')
 		{
 			$this->setLayout('default');
 		}
@@ -164,7 +164,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Back-end: always show a title in the 'title' module position, not in the page body
-		if ($this->isAdmin)
+		if ($this->isAdmin && $this->getLayout() !== 'firsttime')
 		{
 			ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
 			$this->title = '';
