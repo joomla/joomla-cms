@@ -167,7 +167,6 @@ class HtmlView extends BaseHtmlView
 		if ($this->isAdmin)
 		{
 			ToolbarHelper::title(Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'), 'users user-lock');
-			$this->title = '';
 
 			if (Factory::getApplication()->getIdentity()->authorise('core.manage', 'com_users'))
 			{
