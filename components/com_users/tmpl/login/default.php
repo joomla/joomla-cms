@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $cookieLogin */
+/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
 
 $cookieLogin = $this->user->get('cookieLogin');
 
