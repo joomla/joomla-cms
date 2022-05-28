@@ -66,6 +66,7 @@ class UsersModel extends ListModel
 				'range',
 				'lastvisitrange',
 				'state',
+				'mfa'
 			);
 		}
 
@@ -142,6 +143,11 @@ class UsersModel extends ListModel
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . $this->getState('filter.range');
+
+		if (PluginHelper::isEnabled('multifactorauth'))
+		{
+			$id .= ':' . $this->getState('filter.mfa');
+		}
 
 		return parent::getStoreId($id);
 	}
@@ -273,6 +279,29 @@ class UsersModel extends ListModel
 	}
 
 	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  Form|null  The \JForm object or null if the form can't be found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFilterForm($data = [], $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		if (empty($form) || PluginHelper::isEnabled('multifactorauth'))
+		{
+			return $form;
+		}
+
+		$form->removeField('mfa', 'filter');
+	}
+
+
+	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  DatabaseQuery
@@ -313,6 +342,31 @@ class UsersModel extends ListModel
 					'(' . $subQuery . ') AS ' . $db->quoteName('mfa'),
 					$db->quoteName('mfa.uid') . ' = ' . $db->quoteName('a.id')
 				);
+
+			$mfaState = $this->getState('filter.mfa');
+
+			if (is_numeric($mfaState))
+			{
+				$mfaState = (int) $mfaState;
+
+				if ($mfaState === 1)
+				{
+					$query->where(
+						'((' . $db->quoteName('mfa.mfaRecords') . ' > 0) OR (' .
+						$db->quoteName('a.otpKey') . ' IS NOT NULL AND ' .
+						$db->quoteName('a.otpKey') . ' != ' . $db->quote('') . '))'
+					);
+				}
+				else
+				{
+					$query->where(
+						'((' . $db->quoteName('mfa.mfaRecords') . ' = 0 OR ' .
+						$db->quoteName('mfa.mfaRecords') . ' IS NULL) AND (' .
+						$db->quoteName('a.otpKey') . ' IS NULL OR ' .
+						$db->quoteName('a.otpKey') . ' = ' . $db->quote('') . '))'
+					);
+				}
+			}
 		}
 
 		// If the model is set to check item state, add to the query.
