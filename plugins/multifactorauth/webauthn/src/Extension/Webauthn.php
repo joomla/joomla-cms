@@ -214,6 +214,14 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
+		// Editing an existing authenticator: only the title is saved
+		if (is_array($record->options) && !empty($record->options['credentialId'] ?? ''))
+		{
+			$event->addResult($record->options);
+
+			return;
+		}
+
 		$code                = $input->get('code', null, 'base64');
 		$session             = $this->app->getSession();
 		$registrationRequest = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', null);
