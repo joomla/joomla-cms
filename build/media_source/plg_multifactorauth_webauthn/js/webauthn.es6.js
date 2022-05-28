@@ -52,7 +52,7 @@
 
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      displayError(Joomla.JText._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
+      displayError(Joomla.Text._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return false;
     }
@@ -110,7 +110,7 @@
   const validate = () => {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      displayError(Joomla.JText._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
+      displayError(Joomla.Text._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'));
 
       return;
     }
@@ -118,7 +118,7 @@
     const publicKey = authData;
 
     if (!publicKey.challenge) {
-      handleError(Joomla.JText._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
+      handleError(Joomla.Text._('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NO_STORED_CREDENTIAL'));
 
       return;
     }
