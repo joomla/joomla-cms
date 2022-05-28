@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -35,7 +36,7 @@ return new class implements ServiceProviderInterface
 				$plugin     = PluginHelper::getPlugin('task', 'checkin');
 				$dispatcher = $container->get(DispatcherInterface::class);
 
-				$checkin = new Checkin(
+				$checkin = new Checkin (
 					$dispatcher,
 					(array) $plugin,
 				);
