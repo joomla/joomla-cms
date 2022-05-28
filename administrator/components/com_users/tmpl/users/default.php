@@ -156,7 +156,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
 								<?php if ($mfa) : ?>
 								<td class="text-center d-none d-md-table-cell">
 									<span class="tbody-icon">
-									<?php if ($item->mfaRecords > 0) : ?>
+									<?php if ($item->mfaRecords > 0 || !empty($item->otpKey)) : ?>
 										<span class="icon-check" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
 										<div role="tooltip" id="tip-mfa<?php echo $i; ?>">
 											<?php echo Text::_('COM_USERS_MFA_ACTIVE'); ?>
