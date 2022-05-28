@@ -18,6 +18,8 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 
 /**
@@ -111,7 +113,17 @@ class HtmlView extends BaseHtmlView
 		$this->form->setValue('password', null);
 		$this->form->setValue('password2', null);
 
-		$this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
+		/** @var User $userBeingEdited */
+		$userBeingEdited = Factory::getContainer()
+			->get(UserFactoryInterface::class)
+			->loadUserById($this->item->id);
+
+		if ($this->item->id > 0 && (int) $userBeingEdited->id == (int) $this->item->id)
+		{
+			$this->mfaConfigurationUI = Mfa::getConfigurationInterface(
+				$userBeingEdited
+			);
+		}
 
 		parent::display($tpl);
 		$this->addToolbar();
