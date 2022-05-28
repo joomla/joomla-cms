@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field">
+		<config>         
+			<inlinehelp button="show"/>     
+		</config>
 		<field
 			name="id"
 			type="number"

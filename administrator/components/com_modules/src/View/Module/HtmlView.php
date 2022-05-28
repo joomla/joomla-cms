@@ -165,5 +165,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help($help->key, false, $url);
+		ToolbarHelper::inlinehelp();
 	}
 }
