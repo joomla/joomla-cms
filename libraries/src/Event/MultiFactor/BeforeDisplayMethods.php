@@ -48,7 +48,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
 	{
 		if (empty($value) || ($value->id <= 0) || ($value->guest == 1))
 		{
-			throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object', $this->name));
+			throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
 		}
 
 		return $value;
