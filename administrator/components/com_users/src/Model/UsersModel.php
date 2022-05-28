@@ -305,7 +305,8 @@ class UsersModel extends ListModel
 						'COUNT(*) AS ' . $db->quoteName('mfaRecords')
 					]
 				)
-				->from($db->quoteName('#__user_mfa'));
+				->from($db->quoteName('#__user_mfa'))
+				->group($db->quoteName('user_id'));
 			$query->select($db->quoteName('mfa.mfaRecords'))
 				->join(
 					'left',
