@@ -225,7 +225,6 @@
 			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
 			default=""
 			layout="joomla.form.field.list-fancy-select"
-			size="7"
 			client="site"
 			multiple="1"
 		/>
@@ -248,7 +247,6 @@
 			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
 			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
 			default=""
-			size="7"
 			layout="joomla.form.field.list-fancy-select"
 			client="administrator"
 			multiple="1"
@@ -287,7 +285,7 @@
 			description="COM_USERS_CONFIG_FRONTEND_CAPTIVE_TEMPLATE_DESC"
 			client="site"
 			>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="">JOPTION_USE_DEFAULT</option>
 		</field>
 
 		<field
