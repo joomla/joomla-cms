@@ -1,10 +1,10 @@
 <?php
 /**
- * @package    Joomla.Administrator
- * @subpackage com_users
+ * @package        Joomla.Administrator
+ * @subpackage     com_users
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Users\Administrator\Helper;
@@ -77,7 +77,10 @@ abstract class Mfa
 		if (!$app->input->getCmd('option', '') === 'com_users')
 		{
 			$app->getLanguage()->load('com_users');
-			$app->getDocument()->getWebAssetManager()->getRegistry()->addExtensionRegistryFile('com_users');
+			$app->getDocument()
+				->getWebAssetManager()
+				->getRegistry()
+				->addExtensionRegistryFile('com_users');
 		}
 
 		// Get a model
@@ -163,7 +166,8 @@ abstract class Mfa
 					continue;
 				}
 
-				$method = $method instanceof MethodDescriptor ? $method : new MethodDescriptor($method);
+				$method = $method instanceof MethodDescriptor
+					? $method : new MethodDescriptor($method);
 
 				if (empty($method['name']))
 				{
@@ -178,9 +182,11 @@ abstract class Mfa
 	}
 
 	/**
-	 * Is the current user allowed to edit the MFA configuration of $user? To do so I must either be editing my own
-	 * account OR I have to be a Super User editing a non-superuser's account. Important to note: nobody can edit the
-	 * accounts of Super Users except themselves. Therefore make damn sure you keep those backup codes safe!
+	 * Is the current user allowed to add/edit MFA methods for $user?
+	 *
+	 * This is only allowed if I am adding / editing methods for myself.
+	 *
+	 * If the target user is a member of any group disallowed to use MFA this will return false.
 	 *
 	 * @param   User|null  $user  The user you want to know if we're allowed to edit
 	 *
@@ -188,44 +194,60 @@ abstract class Mfa
 	 * @throws  Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	public static function canEditUser(?User $user = null): bool
+	public static function canAddEditMethod(?User $user = null): bool
 	{
-		// I can edit myself
-		if (is_null($user))
-		{
-			return true;
-		}
-
-		// Guests can't have MFA
-		if ($user->guest)
+		// Cannot do MFA operations on no user or a guest user.
+		if (is_null($user) || $user->guest)
 		{
 			return false;
 		}
 
-		// Get the currently logged in user
+		// If the user is in a user group which disallows MFA we cannot allow adding / editing methods.
+		$neverMFAGroups = ComponentHelper::getParams('com_users')->get('neverMFAUserGroups', []);
+		$neverMFAGroups = is_array($neverMFAGroups) ? $neverMFAGroups : [];
+
+		if (count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups)))
+		{
+			return false;
+		}
+
+		// Check if this is the same as the logged-in user.
 		$myUser = Factory::getApplication()->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		// Same user? I can edit myself
-		if ($myUser->id === $user->id)
-		{
-			return true;
-		}
+		return $myUser->id === $user->id;
+	}
 
-		// To edit a different user I must be a Super User myself. If I'm not, I can't edit another user!
-		if (!$myUser->authorise('core.admin'))
+	/**
+	 * Is the current user allowed to delete MFA methods / disable MFA for $user?
+	 *
+	 * This is allowed if:
+	 * - The user being queried is the same as the logged-in user
+	 * - The logged-in user is a Super User AND the queried user is NOT a Super User.
+	 *
+	 * Note that Super Users can be edited by their own user only for security reasons. If a Super
+	 * User gets locked out they must use the Backup Codes to regain access. If that's not possible,
+	 * they will need to delete their records from the `#__user_mfa` table.
+	 *
+	 * @param   User|null  $user  The user being queried.
+	 *
+	 * @return  boolean
+	 * @throws  Exception
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function canDeleteMethod(?User $user = null): bool
+	{
+		// Cannot do MFA operations on no user or a guest user.
+		if (is_null($user) || $user->guest)
 		{
 			return false;
 		}
 
-		// Even if I am a Super User I must not be able to edit another Super User.
-		if ($user->authorise('core.admin'))
-		{
-			return false;
-		}
+		$myUser = Factory::getApplication()->getIdentity()
+			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		// I am a Super User trying to edit a non-superuser. That's allowed.
-		return true;
+		return $myUser->id === $user->id
+			|| ($myUser->authorise('core.admin') && !$user->authorise('core.admin'));
 	}
 
 	/**
@@ -273,7 +295,8 @@ abstract class Mfa
 
 		// Map all results to MFA table objects
 		$records = array_map(
-			function ($id) use ($factory) {
+			function ($id) use ($factory)
+			{
 				/** @var MfaTable $record */
 				$record = $factory->createTable('Mfa', 'Administrator');
 				$loaded = $record->load($id);
@@ -288,7 +311,8 @@ abstract class Mfa
 
 		$records = array_filter(
 			$records,
-			function ($record) use (&$hasBackupCodes) {
+			function ($record) use (&$hasBackupCodes)
+			{
 				$isValid = !is_null($record) && (!empty($record->options));
 
 				if ($isValid && ($record->method === 'backupcodes'))
@@ -318,8 +342,14 @@ abstract class Mfa
 	 * @throws  Exception
 	 * @since __DEPLOY_VERSION__
 	 */
-	private static function canShowConfigurationInterface(?User $user = null): bool
+	public static function canShowConfigurationInterface(?User $user = null): bool
 	{
+		// If I have no user to check against that's all the checking I can do.
+		if (empty($user))
+		{
+			return false;
+		}
+
 		// I need at least one MFA method plugin for the setup interface to make any sense.
 		$plugins = PluginHelper::getPlugin('multifactorauth');
 
@@ -343,27 +373,7 @@ abstract class Mfa
 			return false;
 		}
 
-		// If I have no user to check against that's all the checking I can do.
-		if (empty($user))
-		{
-			return true;
-		}
-
-		// I must be able to edit the user's MFA settings
-		if (!self::canEditUser($user))
-		{
-			return false;
-		}
-
-		// If the user is in a user group which disallows MFA we won't show the setup page either.
-		$neverMFAGroups = ComponentHelper::getParams('com_users')->get('neverMFAUserGroups', []);
-		$neverMFAGroups = is_array($neverMFAGroups) ? $neverMFAGroups : [];
-
-		if (count(array_intersect($user->getAuthorisedGroups(), $neverMFAGroups)))
-		{
-			return false;
-		}
-
-		return true;
+		// I must be able to add, edit or delete the user's MFA settings
+		return self::canAddEditMethod($user) || self::canDeleteMethod($user);
 	}
 }

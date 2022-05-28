@@ -120,12 +120,21 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->item->id > 0 && (int) $userBeingEdited->id == (int) $this->item->id)
 		{
-			$this->mfaConfigurationUI = Mfa::getConfigurationInterface(
-				$userBeingEdited
-			);
+			try
+			{
+				$this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
+					? Mfa::getConfigurationInterface($userBeingEdited)
+					: '';
+			}
+			catch (\Exception $e)
+			{
+				// In case something goes really wrong with the plugins; prevents hard breaks.
+				$this->mfaConfigurationUI = null;
+			}
 		}
 
 		parent::display($tpl);
+
 		$this->addToolbar();
 	}
 

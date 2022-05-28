@@ -75,7 +75,7 @@ class MethodsController extends BaseController
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 		$user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		if (!MfaHelper::canEditUser($user))
+		if (!MfaHelper::canDeleteMethod($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -133,7 +133,7 @@ class MethodsController extends BaseController
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 		$user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		if (!MfaHelper::canEditUser($user))
+		if (!MfaHelper::canShowConfigurationInterface($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -178,7 +178,7 @@ class MethodsController extends BaseController
 			: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 		$user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
-		if (!MfaHelper::canEditUser($user))
+		if (!MfaHelper::canAddEditMethod($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

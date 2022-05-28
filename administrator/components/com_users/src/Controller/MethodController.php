@@ -230,7 +230,7 @@ class MethodController extends BaseControllerAlias
 		// Make sure I am allowed to edit the specified user
 		$userId = $this->input->getInt('user_id', null);
 		$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-		$this->assertCanEdit($user);
+		$this->assertCanDelete($user);
 
 		// Also make sure the Method really does exist
 		$id     = $this->input->getInt('id');
@@ -443,23 +443,34 @@ class MethodController extends BaseControllerAlias
 	}
 
 	/**
-	 * Assert that the user is logged in.
+	 * Assert that the user can add / edit MFA methods.
 	 *
 	 * @param   User|null  $user  User record. Null to use current user.
 	 *
 	 * @return  void
-	 * @throws  RuntimeException|Exception  When the user is a guest (not logged in)
+	 * @throws  RuntimeException|Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private function assertCanEdit(?User $user = null): void
 	{
-		if (is_null($user))
+		if (!MfaHelper::canAddEditMethod($user))
 		{
-			$user = $this->app->getIdentity()
-				?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
+	}
 
-		if (!MfaHelper::canEditUser($user))
+	/**
+	 * Assert that the user can delete MFA records / disable MFA.
+	 *
+	 * @param   User|null  $user  User record. Null to use current user.
+	 *
+	 * @return  void
+	 * @throws  RuntimeException|Exception
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function assertCanDelete(?User $user = null): void
+	{
+		if (!MfaHelper::canDeleteMethod($user))
 		{
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

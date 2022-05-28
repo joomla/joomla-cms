@@ -15,6 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Site\Model\MethodsModel;
 use Joomla\Component\Users\Site\View\Methods\HtmlView;
 
@@ -28,6 +29,8 @@ $this->document->getWebAssetManager()->useScript('com_users.two-factor-list');
 
 HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
+$canAddEdit = MfaHelper::canAddEditMethod($this->user);
+$canDelete  = MfaHelper::canDeleteMethod($this->user);
 ?>
 <div id="com-users-methods-list-container">
 	<?php foreach($this->methods as $methodName => $method):
@@ -67,10 +70,12 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 								<div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
 									<?php if ($methodName === 'backupcodes'): ?>
 										<div class="alert alert-info mt-1 w-100">
+											<?php if ($canAddEdit): ?>
 											<h3 class="alert-heading fs-6">
 												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
 												<?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
 											</h3>
+											<?php endif ?>
 											<p class="text-muted">
 												<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT') ?>
 											</p>
@@ -102,22 +107,24 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 
 								</div>
 
-								<?php if ($methodName !== 'backupcodes'): ?>
+								<?php if ($methodName !== 'backupcodes' && ($canAddEdit || $canDelete)): ?>
 								<div class="com-users-methods-list-method-record-actions my-2 d-flex flex-row flex-wrap justify-content-center align-content-center align-items-start">
-										<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1 hasTooltip"
+									<?php if ($canAddEdit): ?>
+									<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1 hasTooltip"
 									   href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
 									   title="<?php echo Text::_('JACTION_EDIT') ?>">
 										<span class="icon icon-pencil" aria-hidden="true"></span>
 										<span class="visually-hidden"><?php echo Text::_('JACTION_EDIT') ?></span>
 									</a>
+									<?php endif ?>
 
-									<?php if ($method['canDisable']): ?>
-										<a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1 hasTooltip"
-										   href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
-										   title="<?php echo Text::_('JACTION_DELETE') ?>">
-											<span class="icon icon-trash" aria-hidden="true"></span>
-											<span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?></span>
-										</a>
+									<?php if ($method['canDisable'] && $canDelete): ?>
+									<a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1 hasTooltip"
+									   href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
+									   title="<?php echo Text::_('JACTION_DELETE') ?>">
+										<span class="icon icon-trash" aria-hidden="true"></span>
+										<span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?></span>
+									</a>
 									<?php endif; ?>
 								</div>
 								<?php endif; ?>
@@ -126,7 +133,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 					</div>
 				<?php endif; ?>
 
-				<?php if (empty($method['active']) || $method['allowMultiple']): ?>
+				<?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])): ?>
 					<div class="com-users-methods-list-method-addnew-container">
 						<a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
 						   class="com-users-methods-list-method-addnew btn btn-primary"

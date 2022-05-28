@@ -260,13 +260,6 @@ class MfaTable extends Table
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		// You can only delete your own records, unless you're a super user or have delete privileges on this component
-		// phpcs:ignore
-		if (($record->user_id !== $user->id) && !MfaHelper::canEditUser($user))
-		{
-			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-
 		// Save flags used onAfterDelete
 		$this->deleteFlags[$record->id] = [
 			'default'    => $record->default,
