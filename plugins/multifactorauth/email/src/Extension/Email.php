@@ -4,7 +4,7 @@
  * @subpackage      Multifactorauth.email
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license         GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\Multifactorauth\Email\Extension;
@@ -579,7 +579,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 			{
 				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
 			}
-			catch (\RuntimeException $exception)
+			catch (RuntimeException $exception)
 			{
 				$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 			}
