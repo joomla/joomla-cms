@@ -34,9 +34,9 @@ if ($this->record->method != 'backupcodes')
 }
 
 ?>
-<h3>
+<h2>
 	<?php echo Text::_('COM_USERS_USER_BACKUPCODES') ?>
-</h3>
+</h2>
 
 <div class="alert alert-info">
 	<?php echo Text::_('COM_USERS_USER_BACKUPCODES_DESC') ?>

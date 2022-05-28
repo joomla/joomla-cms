@@ -30,7 +30,7 @@ if ($this->renderOptions['field_type'] !== 'custom')
 
 ?>
 <div class="users-mfa-captive card card-body">
-	<h3 id="users-mfa-title">
+	<h2 id="users-mfa-title">
 		<?php if (!empty($this->renderOptions['help_url'])): ?>
 			<span class="float-end">
 			<a href="<?php echo $this->renderOptions['help_url'] ?>"
@@ -53,7 +53,7 @@ if ($this->renderOptions['field_type'] !== 'custom')
 		<?php if (!empty($this->title)): ?>
 		</small>
 		<?php endif; ?>
-	</h3>
+	</h2>
 
 	<?php if ($this->renderOptions['pre_message']): ?>
 		<div class="users-mfa-captive-pre-message text-muted">

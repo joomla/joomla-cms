@@ -18,18 +18,19 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
 // phpcs:ignoreFile
 /** @var HtmlView $this */
 
+$headingLevel = 2;
 ?>
 <div id="com-users-methods-list">
 	<?php if (!$this->isAdmin): ?>
-	<h3 id="com-users-methods-list-head">
-		<?php echo Text::_('COM_USERS_MFA_FIRSTTIME_PAGE_HEAD'); ?>
-	</h3>
+		<h<?php echo $headingLevel ?> id="com-users-methods-list-head">
+			<?php echo Text::_('COM_USERS_MFA_FIRSTTIME_PAGE_HEAD'); ?>
+		</h<?php echo $headingLevel++ ?>>
 	<?php endif; ?>
 	<div id="com-users-methods-list-instructions" class="alert alert-info">
-		<h2 class="alert-heading">
+		<h<?php echo $headingLevel ?> class="alert-heading">
 			<span class="fa fa-shield-alt" aria-hidden="true"></span>
 			<?php echo Text::_('COM_USERS_MFA_FIRSTTIME_INSTRUCTIONS_HEAD'); ?>
-		</h2>
+		</h<?php echo $headingLevel ?>>
 		<p>
 			<?php echo Text::_('COM_USERS_MFA_FIRSTTIME_INSTRUCTIONS_WHATITDOES'); ?>
 		</p>

@@ -10,10 +10,10 @@
 // Prevent direct access
 defined('_JEXEC') or die;
 
-use Joomla\Component\Users\Administrator\View\Method\HtmlView;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Users\Administrator\View\Method\HtmlView;
 
 // phpcs:ignoreFile
 /** @var  HtmlView  $this */
@@ -25,9 +25,10 @@ if (!empty($this->returnURL))
 	$cancelURL = $this->escape(base64_decode($this->returnURL));
 }
 
-$recordId = (int) $this->record->id ?? 0;
-$method   = $this->record->method ?? $this->getModel()->getState('method');
-$userId   = (int) $this->user->id ?? 0;
+$recordId     = (int)$this->record->id ?? 0;
+$method       = $this->record->method ?? $this->getModel()->getState('method');
+$userId       = (int)$this->user->id ?? 0;
+$headingLevel = 2;
 ?>
 <div class="card card-body">
 	<form action="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.save&id=%d&method=%s&user_id=%d", $recordId, $method, $userId)) ?>"
@@ -44,20 +45,21 @@ $userId   = (int) $this->user->id ?? 0;
 		<?php endif; ?>
 
 		<?php if (!empty($this->title)): ?>
-		<?php if (!empty($this->renderOptions['help_url'])): ?>
-		<span class="float-end">
-			<a href="<?php echo $this->renderOptions['help_url'] ?>"
-			   class="btn btn-sm btn-default btn-inverse btn-dark"
-			   target="_blank"
-			>
-				<span class="icon icon-question-sign" aria-hidden="true"></span>
-				<span class="visually-hidden"><?php echo Text::_('JHELP') ?></span>
-			</a>
-		</span>
-		<?php endif;?>
-		<h3 id="com-users-method-edit-head">
-			<?php echo Text::_($this->title) ?>
-		</h3>
+			<?php if (!empty($this->renderOptions['help_url'])): ?>
+			<span class="float-end">
+				<a href="<?php echo $this->renderOptions['help_url'] ?>"
+				   class="btn btn-sm btn-default btn-inverse btn-dark"
+				   target="_blank"
+				>
+					<span class="icon icon-question-sign" aria-hidden="true"></span>
+					<span class="visually-hidden"><?php echo Text::_('JHELP') ?></span>
+				</a>
+			</span>
+			<?php endif;?>
+			<h<?php echo $headingLevel ?> id="com-users-method-edit-head">
+				<?php echo Text::_($this->title) ?>
+			</h<?php echo $headingLevel ?>>
+			<?php $headingLevel++ ?>
 		<?php endif; ?>
 
 		<div class="row">
@@ -98,9 +100,9 @@ $userId   = (int) $this->user->id ?? 0;
 		<?php if (!empty($this->renderOptions['tabular_data'])): ?>
 		<div class="com-users-method-edit-tabular-container">
 			<?php if (!empty($this->renderOptions['table_heading'])): ?>
-			<h4 class="h3 border-bottom mb-3">
-				<?php echo $this->renderOptions['table_heading'] ?>
-			</h4>
+				<h<?php echo $headingLevel ?> class="h3 border-bottom mb-3">
+					<?php echo $this->renderOptions['table_heading'] ?>
+				</h<?php echo $headingLevel ?>>
 			<?php endif; ?>
 			<table class="table table-striped">
 				<tbody>

@@ -34,9 +34,9 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
 	</div>
 
 	<?php if (!$this->get('forHMVC', false)): ?>
-	<h3 id="com-users-methods-list-head">
+	<h2 id="com-users-methods-list-head">
 		<?php echo Text::_('COM_USERS_MFA_LIST_PAGE_HEAD'); ?>
-	</h3>
+	</h2>
 	<?php endif ?>
 
 	<?php if (!count($this->methods)): ?>
