@@ -13,14 +13,14 @@ defined('_JEXEC') || die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<div id="multifactorauth-webauthn-missing" class="my-2">
+<div id="multifactorauth-webauthn-nothttps" class="my-2">
 	<div class="alert alert-danger">
 		<h2 class="alert-heading">
 			<span class="fa fa-times-circle" aria-hidden="true"></span>
-			<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'); ?>
+			<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTHTTPS_HEAD'); ?>
 		</h2>
 		<p>
-			<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_BODY'); ?>
+			<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTHTTPS_BODY'); ?>
 		</p>
 	</div>
 </div>

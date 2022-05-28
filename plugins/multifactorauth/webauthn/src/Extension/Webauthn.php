@@ -22,6 +22,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
@@ -405,6 +406,14 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onUserMultifactorValidate(Validate $event): void
 	{
+		// This method is only available on HTTPS
+		if (Uri::getInstance()->getScheme() !== 'https')
+		{
+			$event->addResult(false);
+
+			return;
+		}
+
 		/**
 		 * @var   MfaTable $record The MFA Method's record you're validatng against
 		 * @var   User     $user   The user record

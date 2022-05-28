@@ -12,6 +12,15 @@ defined('_JEXEC') || die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+
+// This method is only available on HTTPS
+if (Uri::getInstance()->getScheme() !== 'https')
+{
+	include PluginHelper::getLayoutPath('multifactorauth', 'webauthn', 'nothttps');
+
+	return;
+}
 
 include PluginHelper::getLayoutPath('multifactorauth', 'webauthn', 'error');
 
