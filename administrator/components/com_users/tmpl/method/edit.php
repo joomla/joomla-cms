@@ -71,7 +71,6 @@ $userId   = (int) $this->user->id ?? 0;
 						id="com-users-method-edit-title"
 						name="title"
 						value="<?php echo $this->escape($this->record->title) ?>"
-						placeholder="<?php echo Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC') ?>"
 					    aria-describedby="com-users-method-edit-help">
 				<p class="form-text" id="com-users-method-edit-help">
 					<?php echo $this->escape(Text::_('COM_USERS_MFA_EDIT_FIELD_TITLE_DESC')) ?>
@@ -134,7 +133,10 @@ $userId   = (int) $this->user->id ?? 0;
 					   class="form-control" id="com-users-method-code"
 					   name="code"
 					   value="<?php echo $this->escape($this->renderOptions['input_value']) ?>"
-					   placeholder="<?php echo $this->escape($this->renderOptions['placeholder']) ?>">
+					   aria-describedby="com-users-method-code-help">
+				<p class="form-text" id="com-users-method-code-help">
+					<?php echo $this->escape($this->renderOptions['placeholder']) ?>
+				</p>
 			</div>
 		</div>
 		<?php endif; ?>
