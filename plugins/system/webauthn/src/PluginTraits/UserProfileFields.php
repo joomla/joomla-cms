@@ -68,7 +68,7 @@ trait UserProfileFields
 		}
 
 		// Check that we really are in the edit form
-		if (!$layout = Factory::getApplication()->input->get('layout'))
+		if ($layout = Factory::getApplication()->input->get('layout') !== 'edit')
 		{
 			return true;
 		}
