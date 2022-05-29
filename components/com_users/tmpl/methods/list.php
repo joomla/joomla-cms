@@ -136,7 +136,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 				<?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])): ?>
 					<div class="com-users-methods-list-method-addnew-container">
 						<a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
-						   class="com-users-methods-list-method-addnew btn btn-primary"
+						   class="com-users-methods-list-method-addnew btn btn-secondary btn-sm"
 						>
 							<?php echo Text::sprintf('COM_USERS_MFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>
 						</a>
