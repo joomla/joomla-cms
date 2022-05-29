@@ -48,38 +48,6 @@ trait UserProfileFields
 	private static $userFromFormData = null;
 
 	/**
-	 * HTMLHelper method to render the WebAuthn user profile field in the profile view page.
-	 *
-	 * Instead of showing a nonsensical "Website default" label next to the field, this method
-	 * displays the number and names of authenticators already registered by the user.
-	 *
-	 * This static method is set up for use in the onContentPrepareData method of this plugin.
-	 *
-	 * @param   mixed  $value  Ignored. The WebAuthn profile field is virtual, it doesn't have a
-	 *                         stored value. We only use it as a proxy to render a sub-form.
-	 *
-	 * @return  string
-	 */
-	public static function renderWebauthnProfileField($value): string
-	{
-		if (\is_null(self::$userFromFormData))
-		{
-			return '';
-		}
-
-		$credentialRepository = new CredentialRepository;
-		$credentials          = $credentialRepository->getAll(self::$userFromFormData->id);
-		$authenticators       = array_map(
-			function (array $credential) {
-				return $credential['label'];
-			},
-			$credentials
-		);
-
-		return Text::plural('PLG_SYSTEM_WEBAUTHN_FIELD_N_AUTHENTICATORS_REGISTERED', \count($authenticators), implode(', ', $authenticators));
-	}
-
-	/**
 	 * Adds additional fields to the user editing form
 	 *
 	 * @param   Form   $form  The form to be altered.
@@ -95,6 +63,12 @@ trait UserProfileFields
 	{
 		// This feature only applies to HTTPS sites.
 		if (!Uri::getInstance()->isSsl())
+		{
+			return true;
+		}
+
+		// Check that we really are in the edit form
+		if (!$layout = Factory::getApplication()->input->get('layout'))
 		{
 			return true;
 		}
