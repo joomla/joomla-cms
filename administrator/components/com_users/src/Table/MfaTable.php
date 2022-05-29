@@ -270,6 +270,17 @@ class MfaTable extends Table
 			'method'     => $record->method,
 		];
 
+		if (\is_null($pk))
+		{
+			// phpcs:ignore
+			$pk = [$this->_tbl_key => $this->id];
+		}
+		elseif (!\is_array($pk))
+		{
+			// phpcs:ignore
+			$pk = [$this->_tbl_key => $pk];
+		}
+
 		$isDeleted = parent::delete($pk);
 
 		if ($isDeleted)
@@ -370,7 +381,8 @@ class MfaTable extends Table
 	{
 		if (is_array($pk))
 		{
-			$pk = array_shift($pk);
+			// phpcs:ignore
+			$pk = $pk[$this->_tbl_key] ?? array_shift($pk);
 		}
 
 		if (!isset($this->deleteFlags[$pk]))
