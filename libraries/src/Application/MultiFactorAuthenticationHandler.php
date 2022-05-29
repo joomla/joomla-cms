@@ -107,13 +107,14 @@ trait MultiFactorAuthenticationHandler
 				is_array($neverMFAUserGroups) ? $neverMFAUserGroups : [],
 				$user->getAuthorisedGroups()
 			)
-		) > 1;
+		) >= 1;
 		$isMFAMandatory     = count(
 			array_intersect(
 				is_array($forceMFAUserGroups) ? $forceMFAUserGroups : [],
 				$user->getAuthorisedGroups()
 			)
-		) > 1;
+		) >= 1;
+		$isMFADisallowed = $isMFADisallowed && !$isMFAMandatory;
 		$isMFAPending    = $this->isMultiFactorAuthenticationPending();
 		$session         = $this->getSession();
 		$isNonHtml       = $this->input->getCmd('format', 'html') !== 'html';
@@ -163,14 +164,16 @@ trait MultiFactorAuthenticationHandler
 			// Then redirect them to the setup page
 			if (!$this->isMultiFactorAuthenticationPage())
 			{
-				$url = Route::_('index.php?option=com_users&view=methods');
+				$url = Route::_('index.php?option=com_users&view=methods', false);
 				$this->redirect($url, 307);
 			}
 		}
 
 		// Do I need to redirect the user to the MFA setup page after they have fully logged in?
+		$hasRejectedMultiFactorAuthenticationSetup = $this->hasRejectedMultiFactorAuthenticationSetup() && !$isMFAMandatory;
+
 		if (!$isMFAPending && !$isMFADisallowed && ($userOptions->get('mfaredirectonlogin', 0) == 1)
-			&& !$user->guest  && !$this->hasRejectedMultiFactorAuthenticationSetup() && !empty(MfaHelper::getMfaMethods()))
+			&& !$user->guest  && !$hasRejectedMultiFactorAuthenticationSetup && !empty(MfaHelper::getMfaMethods()))
 		{
 			$this->redirect(
 				$userOptions->get('mfaredirecturl', '') ?:
