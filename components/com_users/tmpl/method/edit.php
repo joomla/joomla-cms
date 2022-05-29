@@ -126,7 +126,7 @@ $headingLevel = 2;
 		<?php else: ?>
 		<div class="row mb-3">
 			<?php if ($this->renderOptions['label']): ?>
-			<label class="col-sm-3 col-form-label" for="com-users-method-edit-code">
+			<label class="col-sm-3 col-form-label" for="com-users-method-code">
 				<?php echo $this->renderOptions['label']; ?>
 			</label>
 			<?php endif; ?>
