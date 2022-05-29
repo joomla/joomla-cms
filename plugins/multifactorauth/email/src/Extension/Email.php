@@ -569,9 +569,44 @@ class Email extends CMSPlugin implements SubscriberInterface
 		{
 			$jLanguage = $this->app->getLanguage();
 			$mailer = new MailTemplate('plg_multifactorauth_email.mail', $jLanguage->getTag());
-			$mailer->addRecipient($user->email);
+			$mailer->addRecipient($user->email, $user->name);
 			$mailer->addTemplateData($replacements);
-			$mailer->send();
+
+			$didSend = $mailer->send();
+		}
+		catch (MailDisabledException | phpMailerException $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+			}
+			catch (RuntimeException $exception)
+			{
+				$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+			}
+		}
+
+		try
+		{
+			// The user somehow managed to not install the mail template. I'll send the email the traditional way.
+			if (isset($didSend) && !$didSend)
+			{
+				$subject = Text::_('PLG_MULTIFACTORAUTH_EMAIL_EMAIL_SUBJECT');
+				$body    = Text::_('PLG_MULTIFACTORAUTH_EMAIL_EMAIL_BODY');
+
+				foreach ($replacements as $key => $value)
+				{
+					$subject = str_replace('{' . strtoupper($key) . '}', $value, $subject);
+					$body    = str_replace('{' . strtoupper($key) . '}', $value, $body);
+				}
+
+				$mailer = Factory::getMailer();
+				$mailer->setSubject($subject);
+				$mailer->setBody($body);
+				$mailer->addRecipient($user->email, $user->name);
+
+				$mailer->Send();
+			}
 		}
 		catch (MailDisabledException | phpMailerException $exception)
 		{
