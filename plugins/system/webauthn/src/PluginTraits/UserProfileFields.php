@@ -16,11 +16,9 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Registry\Registry;
 
