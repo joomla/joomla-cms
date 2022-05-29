@@ -80,6 +80,14 @@ class HtmlView extends BaseHtmlView
 	public $user = null;
 
 	/**
+	 * Is this page part of the mandatory Multi-factor Authentication setup?
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	public $isMandatoryMFASetup = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -167,6 +175,8 @@ class HtmlView extends BaseHtmlView
 				$this->methods
 			);
 		}
+
+		$this->isMandatoryMFASetup = $activeRecords === 0 && $app->getSession()->get('com_users.mandatory_mfa_setup', 0) === 1;
 
 		// Back-end: always show a title in the 'title' module position, not in the page body
 		if ($this->isAdmin)

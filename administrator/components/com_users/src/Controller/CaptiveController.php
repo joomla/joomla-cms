@@ -220,6 +220,7 @@ class CaptiveController extends BaseController
 		// Flag the user as fully logged in
 		$session = $this->app->getSession();
 		$session->set('com_users.mfa_checked', 1);
+		$session->set('com_users.mandatory_mfa_setup', 0);
 
 		// Get the return URL stored by the plugin in the session
 		$returnUrl = $session->get('com_users.return_url', '');

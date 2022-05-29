@@ -38,6 +38,15 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 			<span class="icon icon-info-circle" aria-hidden="true"></span>
 			<?php echo Text::_('COM_USERS_MFA_LIST_INSTRUCTIONS'); ?>
 		</div>
+	<?php elseif ($this->isMandatoryMFASetup): ?>
+		<div class="alert alert-info">
+			<h3 class="alert-heading">
+				<?php echo Text::_('COM_USERS_MFA_MANDATORY_NOTICE_HEAD') ?>
+			</h3>
+			<p>
+				<?php echo Text::_('COM_USERS_MFA_MANDATORY_NOTICE_BODY') ?>
+			</p>
+		</div>
 	<?php endif ?>
 
 	<?php $this->setLayout('list'); echo $this->loadTemplate(); ?>
