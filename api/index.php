@@ -23,7 +23,7 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 
 /**
  * Constant that is checked in included files to prevent direct access.
- * define() is used rather than "const" to not error for PHP 5.2 and lower
+ * define() is used rather than "const" to not cause an error for PHP 5.2 and lower
  */
 define('_JEXEC', 1);
 
