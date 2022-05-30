@@ -42,55 +42,55 @@ class ExtensionRemoveCommand extends AbstractCommand
 
 	/**
 	 * @var InputInterface
-	 * @since version
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * @var SymfonyStyle
-	 * @since version
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Exit Code for extensions remove abort
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_ABORT = 3;
 
 	/**
 	 * Exit Code for extensions remove failure
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_FAILED = 1;
 
 	/**
 	 * Exit Code for invalid response
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_INVALID_RESPONSE = 5;
 
 	/**
 	 * Exit Code for invalid type
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_INVALID_TYPE = 6;
 
 	/**
 	 * Exit Code for extensions locked remove failure
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_LOCKED = 4;
 
 	/**
 	 * Exit Code for extensions not found
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_NOT_FOUND = 2;
 
 	/**
 	 * Exit Code for extensions remove success
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_SUCCESSFUL = 0;
 

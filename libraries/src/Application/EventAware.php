@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\CoreEventAware;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Psr\Log\LoggerInterface;
@@ -21,6 +22,8 @@ use Psr\Log\LoggerInterface;
  */
 trait EventAware
 {
+	use CoreEventAware;
+
 	/**
 	 * Get the event dispatcher.
 	 *
@@ -101,7 +104,8 @@ trait EventAware
 		}
 		elseif (\is_array($args))
 		{
-			$event = new Event($eventName, $args);
+			$className = self::getEventClassByEventName($eventName);
+			$event     = new $className($eventName, $args);
 		}
 		else
 		{

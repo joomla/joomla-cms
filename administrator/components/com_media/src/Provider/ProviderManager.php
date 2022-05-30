@@ -11,6 +11,7 @@ namespace Joomla\Component\Media\Administrator\Provider;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 
 /**
@@ -96,7 +97,7 @@ class ProviderManager
 	{
 		if (!isset($this->providers[$id]))
 		{
-			throw new \Exception("Media Provider not found");
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_MEDIA_PROVIDER_NOT_FOUND'));
 		}
 
 		return $this->providers[$id];
@@ -119,14 +120,14 @@ class ProviderManager
 
 		if ($account == null)
 		{
-			throw new \Exception('Account was not set');
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));
 		}
 
 		$adapters = $this->getProvider($provider)->getAdapters();
 
 		if (!isset($adapters[$account]))
 		{
-			throw new \Exception("The account was not found");
+			throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_FOUND'));
 		}
 
 		return $adapters[$account];

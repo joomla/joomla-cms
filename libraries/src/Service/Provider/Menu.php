@@ -12,6 +12,7 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Menu\MenuFactory;
 use Joomla\CMS\Menu\MenuFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -39,7 +40,10 @@ class Menu implements ServiceProviderInterface
 				MenuFactoryInterface::class,
 				function (Container $container)
 				{
-					return new MenuFactory;
+					$factory = new MenuFactory;
+					$factory->setDatabase($container->get(DatabaseInterface::class));
+
+					return $factory;
 				},
 				true
 			);
