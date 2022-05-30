@@ -367,7 +367,7 @@ final class Joomla extends ActionLogPlugin
 			return;
 		}
 
-		$manifest      = $installer->get('manifest');
+		$manifest = $installer->get('manifest');
 
 		if ($manifest === null)
 		{
@@ -425,7 +425,7 @@ final class Joomla extends ActionLogPlugin
 			return;
 		}
 
-		$manifest      = $installer->get('manifest');
+		$manifest = $installer->get('manifest');
 
 		if ($manifest === null)
 		{
