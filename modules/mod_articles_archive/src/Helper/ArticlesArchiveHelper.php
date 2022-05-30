@@ -11,33 +11,39 @@ namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_articles_archive
  *
  * @since  1.5
  */
-class ArticlesArchiveHelper
+class ArticlesArchiveHelper implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
 	/**
-	 * Retrieve list of archived articles
+
+	 * Retrieve list of archived articles.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   Registry         $params  Object holding the module parameters
+	 * @param   SiteApplication  $app     The app
 	 *
 	 * @return  array
 	 *
-	 * @since   1.5
+	 * @since 4.2.0
 	 */
-	public static function getList(&$params)
+	public function getArticles(Registry $params, SiteApplication $app)
 	{
-		$app       = Factory::getApplication();
-		$db        = Factory::getDbo();
+		$db        = $this->getDatabase();
 		$query     = $db->getQuery(true);
 
 		$query->select($query->month($db->quoteName('created')) . ' AS created_month')
@@ -51,10 +57,10 @@ class ArticlesArchiveHelper
 		// Filter by language
 		if ($app->getLanguageFilter())
 		{
-			$query->whereIn($db->quoteName('language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+			$query->whereIn($db->quoteName('language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
-		$query->setLimit((int) $params->get('count'));
+		$query->setLimit((int) $params->def('count', 10));
 		$db->setQuery($query);
 
 		try
@@ -94,5 +100,21 @@ class ArticlesArchiveHelper
 		}
 
 		return $lists;
+	}
+
+	/**
+	 * Retrieve list of archived articles
+	 *
+	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 *
+	 * @return  array
+	 *
+	 * @since   1.5
+	 *
+	 * @deprecated 5.0 Use the none static function getArticles
+	 */
+	public static function getList(&$params)
+	{
+		return (new self)->getArticles($params, Factory::getApplication());
 	}
 }
