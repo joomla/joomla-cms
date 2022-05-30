@@ -21,7 +21,7 @@ if (Uri::getInstance()->getScheme() !== 'https'): ?>
 	<div id="multifactorauth-webauthn-nothttps" class="my-2">
 		<div class="alert alert-danger">
 			<h2 class="alert-heading">
-				<span class="fa fa-times-circle" aria-hidden="true"></span>
+				<span class="icon-cancel-circle" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTHTTPS_HEAD'); ?>
 			</h2>
 			<p>
@@ -39,7 +39,7 @@ $this->app->getDocument()->getWebAssetManager()->useScript('plg_multifactorauth_
 <div id="multifactorauth-webauthn-missing" class="my-2">
 	<div class="alert alert-danger">
 		<h2 class="alert-heading">
-			<span class="fa fa-times-circle" aria-hidden="true"></span>
+			<span class="icon-cancel-circle" aria-hidden="true"></span>
 			<?php echo Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_ERR_NOTAVAILABLE_HEAD'); ?>
 		</h2>
 		<p>
