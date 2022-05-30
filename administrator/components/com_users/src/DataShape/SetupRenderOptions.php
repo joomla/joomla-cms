@@ -177,6 +177,24 @@ class SetupRenderOptions extends DataShapeObject
 	protected $submit_class = '';
 
 	/**
+	 * Icon class to use for the submit button
+	 *
+	 * @var    string
+	 * @since __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected $submit_icon = 'icon icon-ok';
+
+	/**
+	 * Language key to use for the text on the submit button
+	 *
+	 * @var    string
+	 * @since __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected $submit_text = 'JSAVE';
+
+	/**
 	 * Custom HTML to display below the MFA setup form
 	 *
 	 * @var   string

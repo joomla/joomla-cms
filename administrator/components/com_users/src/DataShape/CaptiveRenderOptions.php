@@ -120,6 +120,33 @@ class CaptiveRenderOptions extends DataShapeObject
 	protected $hide_submit = false;
 
 	/**
+	 * Additional CSS classes for the submit button (apply the MFA setup)
+	 *
+	 * @var   string
+	 * @since __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected $submit_class = '';
+
+	/**
+	 * Icon class to use for the submit button
+	 *
+	 * @var    string
+	 * @since __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected $submit_icon = 'icon icon-rightarrow icon-arrow-right';
+
+	/**
+	 * Language key to use for the text on the submit button
+	 *
+	 * @var    string
+	 * @since __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected $submit_text = 'COM_USERS_MFA_VALIDATE';
+
+	/**
 	 * Is this MFA method validating against all configured authenticators of the same type?
 	 *
 	 * @var   boolean

@@ -94,7 +94,7 @@
         };
 
         // Store the WebAuthn reply
-        document.getElementById('multifactorauth-method-code').value = btoa(JSON.stringify(publicKeyCredential));
+        document.getElementById('com-users-method-code').value = btoa(JSON.stringify(publicKeyCredential));
 
         // Submit the form
         document.forms['com-users-method-edit'].submit();
@@ -170,7 +170,7 @@
 
     authData = JSON.parse(window.atob(Joomla.getOptions('com_users.authData')));
 
-    document.getElementById('plg_multifactorauth_webauthn_validate_button').style.disabled = 'disabled';
+    document.getElementById('users-mfa-captive-button-submit').style.disabled = 'disabled';
     validate();
 
     return false;
@@ -185,18 +185,12 @@
 
   window.addEventListener('DOMContentLoaded', () => {
     if (Joomla.getOptions('com_users.pagetype') === 'validate') {
-      document.getElementById('plg_multifactorauth_webauthn_validate_button')
-        .addEventListener('click', onValidateClick);
-
       document.getElementById('users-mfa-captive-button-submit')
         .addEventListener('click', onValidateClick);
     } else {
-      document.getElementById('plg_multifactorauth_webauthn_register_button')
-        .addEventListener('click', setUp);
+      document.querySelectorAll('.multifactorauth_webauthn_setup').forEach((btn) => {
+        btn.addEventListener('click', setUp);
+      });
     }
-
-    document.querySelectorAll('.multifactorauth_webauthn_setup').forEach((btn) => {
-      btn.addEventListener('click', setUp);
-    });
   });
 })(Joomla, document);

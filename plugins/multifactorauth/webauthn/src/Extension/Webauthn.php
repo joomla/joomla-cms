@@ -134,6 +134,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
 		// Get some values assuming that we are NOT setting up U2F (the key is already registered)
 		$submitClass = '';
+		$submitIcon  = 'icon icon-ok';
+		$submitText  = 'JSAVE';
 		$preMessage  = Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_CONFIGURED');
 		$type        = 'input';
 		$html        = '';
@@ -149,7 +151,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			$wam      = $document->getWebAssetManager();
 			$wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
-			$layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn', 'register');
+			$layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn');
 			ob_start();
 			include $layoutPath;
 			$html = ob_get_clean();
@@ -167,6 +169,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
 			// Special button handling
 			$submitClass = "multifactorauth_webauthn_setup";
+			$submitIcon  = 'icon icon-lock';
+			$submitText  = 'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_REGISTERKEY';
 
 			// Message to display
 			$preMessage = Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS');
@@ -181,8 +185,10 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 					'field_type'    => $type,
 					'input_type'    => 'hidden',
 					'html'          => $html,
-					'show_submit'   => false,
+					'show_submit'   => true,
 					'submit_class'  => $submitClass,
+					'submit_icon'   => $submitIcon,
+					'submit_text'   => $submitText,
 				]
 			)
 		);
@@ -361,7 +367,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			/** @var CMSApplication $app */
 			$app = Factory::getApplication();
 			$app->getDocument()->addScriptOptions('com_users.authData', base64_encode($pkRequest), false);
-			$layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn', 'validate');
+			$layoutPath = PluginHelper::getLayoutPath('multifactorauth', 'webauthn');
 			ob_start();
 			include $layoutPath;
 			$html = ob_get_clean();
@@ -380,23 +386,16 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new CaptiveRenderOptions(
 				[
-					// Custom HTML to display above the MFA form
 					'pre_message'        => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS'),
-					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'custom',
-					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
 					'input_type'         => 'hidden',
-					// Placeholder text for the HTML input box. Leave empty if you don't need it.
 					'placeholder'        => '',
-					// Label to show above the HTML input box. Leave empty if you don't need it.
 					'label'              => '',
-					// Custom HTML. Only used when field_type = custom.
 					'html'               => $html,
-					// Custom HTML to display below the MFA form
 					'post_message'       => '',
-					// Should I hide the submit button?
-					'hide_submit'        => true,
-					// Allow authentication against all entries of this MFA Method.
+					'hide_submit'        => false,
+					'submit_icon'        => 'icon icon-lock',
+					'submit_text'        => 'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY',
 					'allowEntryBatching' => true,
 				]
 			)

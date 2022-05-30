@@ -30,6 +30,7 @@ $recordId     = (int)$this->record->id ?? 0;
 $method       = $this->record->method ?? $this->getModel()->getState('method');
 $userId       = (int)$this->user->id ?? 0;
 $headingLevel = 2;
+$hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
 ?>
 <div class="card card-body">
 	<form action="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.save&id=%d&method=%s&user_id=%d", $recordId, $method, $userId)) ?>"
@@ -124,8 +125,8 @@ $headingLevel = 2;
 
 		<?php if ($this->renderOptions['field_type'] == 'custom'): ?>
 			<?php echo $this->renderOptions['html']; ?>
-		<?php else: ?>
-		<div class="row mb-3">
+		<?php endif; ?>
+		<div class="row mb-3 <?php echo $this->renderOptions['input_type'] === 'hidden' ? 'd-none' : '' ?>">
 			<?php if ($this->renderOptions['label']): ?>
 			<label class="col-sm-3 col-form-label" for="com-users-method-code">
 				<?php echo $this->renderOptions['label']; ?>
@@ -157,16 +158,13 @@ $headingLevel = 2;
 				</p>
 			</div>
 		</div>
-		<?php endif; ?>
 
 		<div class="row mb-3">
 			<div class="col-sm-9 offset-sm-3">
-				<?php if ($this->renderOptions['show_submit'] || $this->isEditExisting): ?>
-				<button type="submit" class="btn btn-primary me-3">
-					<span class="icon icon-ok" aria-hidden="true"></span>
-					<?php echo Text::_('JSAVE'); ?>
+				<button type="submit" class="btn btn-primary me-3 <?php echo $hideSubmit ? 'd-none' : '' ?> <?php echo $this->renderOptions['submit_class'] ?>">
+					<span class="<?php echo $this->renderOptions['submit_icon'] ?>" aria-hidden="true"></span>
+					<?php echo Text::_($this->renderOptions['submit_text']); ?>
 				</button>
-				<?php endif; ?>
 
 				<a href="<?php echo $cancelURL ?>"
 				   class="btn btn-sm btn-danger">
