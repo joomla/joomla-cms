@@ -59,7 +59,7 @@ final class Token extends CMSPlugin
 	 * The user factory
 	 *
 	 * @var    UserFactoryInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $userFactory;
 
@@ -67,7 +67,7 @@ final class Token extends CMSPlugin
 	 * The input filter
 	 *
 	 * @var    InputFilter
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $filter;
 
@@ -79,7 +79,7 @@ final class Token extends CMSPlugin
 	 * @param   UserFactoryInterface  $userFactory  The user factory
 	 * @param   InputFilter           $filter       The input filter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InputFilter $filter)
 	{

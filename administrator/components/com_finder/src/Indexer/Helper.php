@@ -441,7 +441,7 @@ class Helper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function addCustomFields(Result $item, $context)
 	{

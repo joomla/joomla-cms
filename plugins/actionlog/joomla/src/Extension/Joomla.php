@@ -1198,7 +1198,7 @@ final class Joomla extends ActionLogPlugin
 	 *
 	 * @return  stdClass  The params
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function getActionLogParams($context): ?stdClass
 	{

@@ -398,7 +398,7 @@ class MenuModel extends FormModel
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public function getExtensionElementsForMenuItems(array $itemIds): array
 	{
