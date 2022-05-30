@@ -434,8 +434,7 @@ class TagsHelper extends CMSHelper
 
 		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 
-		$user = Factory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$groups = Factory::getUser()->getAuthorisedViewLevels();
 
 		$query->whereIn($db->quoteName('t.access'), $groups);
 

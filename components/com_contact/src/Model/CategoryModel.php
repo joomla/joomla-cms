@@ -167,7 +167,6 @@ class CategoryModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$app = Factory::getApplication();
 		$user   = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
 
@@ -244,7 +243,7 @@ class CategoryModel extends ListModel
 		// Filter on the language.
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Set sortname ordering if selected

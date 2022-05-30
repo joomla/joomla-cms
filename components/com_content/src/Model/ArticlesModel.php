@@ -190,7 +190,6 @@ class ArticlesModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$app = Factory::getApplication();
 		$user = Factory::getUser();
 
 		// Create a new query object.
@@ -633,7 +632,7 @@ class ArticlesModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [$app->getLanguage()->getTag(), '*'], ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Filter by a single or group of tags.
@@ -700,12 +699,11 @@ class ArticlesModel extends ListModel
 	{
 		$items  = parent::getItems();
 
-		$app = Factory::getApplication();
 		$user = Factory::getUser();
 		$userId = $user->get('id');
 		$guest = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
-		$input = $app->input;
+		$input = Factory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);
