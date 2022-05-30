@@ -320,7 +320,9 @@ class GroupModel extends AdminModel
 			if (!$data->id)
 			{
 				// Check for which context the Field Group Manager is used and get selected fields
-				$context = substr($app->getUserState('com_fields.groups.filter.context'), 4);
+				$context = $app->getUserState('com_fields.groups.filter.context') ?? '';
+				$context = substr($context, 4);
+
 				$filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
 				$data->set(
