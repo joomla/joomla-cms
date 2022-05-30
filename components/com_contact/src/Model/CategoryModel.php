@@ -306,7 +306,7 @@ class CategoryModel extends ListModel
 		else
 		{
 			$limit = $app->getUserStateFromRequest(
-				'com_contact.category.list',
+				'com_contact.category.list.limit',
 				'limit',
 				$mergedParams->get('contacts_display_num', $app->get('list_limit')),
 				'uint'
