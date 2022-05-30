@@ -39,7 +39,7 @@ use Joomla\Component\Users\Administrator\View\Methods\HtmlView;
 			<?php echo Text::_('COM_USERS_MFA_LIST_INSTRUCTIONS'); ?>
 		</div>
 	<?php elseif ($this->isMandatoryMFASetup): ?>
-		<div class="alert alert-info">
+		<div class="alert alert-info my-3">
 			<h3 class="alert-heading">
 				<?php echo Text::_('COM_USERS_MFA_MANDATORY_NOTICE_HEAD') ?>
 			</h3>

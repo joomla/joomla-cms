@@ -10,6 +10,7 @@
 namespace Joomla\Component\Users\Administrator\DataShape;
 
 use InvalidArgumentException;
+use Joomla\Database\ParameterType;
 
 /**
  * Data shape for Method Setup Render Options
@@ -116,6 +117,15 @@ class SetupRenderOptions extends DataShapeObject
 	protected $input_type = 'text';
 
 	/**
+	 * Attributes other than type and id which will be added to the HTML input box.
+	 *
+	 * @var    array
+	 * @@since __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected $input_attributes = [];
+
+	/**
 	 * Pre-filled value for the HTML input box. Typically used for fixed codes, the fixed YubiKey ID etc.
 	 *
 	 * @var   string
@@ -199,5 +209,33 @@ class SetupRenderOptions extends DataShapeObject
 		{
 			throw new InvalidArgumentException('Invalid value for property field_type.');
 		}
+
+		// phpcs:ignore
+		$this->field_type = $value;
+	}
+
+	/**
+	 * Setter for the input_attributes property.
+	 *
+	 * @param   array  $value  The value to set
+	 *
+	 * @return  void
+	 * @@since  __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected function setInput_attributes(array $value)
+	{
+		$forbiddenAttributes = ['id', 'type', 'name', 'value'];
+
+		foreach ($forbiddenAttributes as $key)
+		{
+			if (isset($value[$key]))
+			{
+				unset($value[$key]);
+			}
+		}
+
+		// phpcs:ignore
+		$this->input_attributes = $value;
 	}
 }

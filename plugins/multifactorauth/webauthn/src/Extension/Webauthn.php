@@ -385,7 +385,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'custom',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-					'input_type'         => '',
+					'input_type'         => 'hidden',
 					// Placeholder text for the HTML input box. Leave empty if you don't need it.
 					'placeholder'        => '',
 					// Label to show above the HTML input box. Leave empty if you don't need it.

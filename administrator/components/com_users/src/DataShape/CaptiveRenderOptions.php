@@ -69,6 +69,15 @@ class CaptiveRenderOptions extends DataShapeObject
 	protected $input_type = '';
 
 	/**
+	 * Attributes other than type and id which will be added to the HTML input box.
+	 *
+	 * @var    array
+	 * @@since __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected $input_attributes = [];
+
+	/**
 	 * Placeholder text for the HTML input box. Leave empty if you don't need it.
 	 *
 	 * @var   string
@@ -142,5 +151,33 @@ class CaptiveRenderOptions extends DataShapeObject
 		{
 			throw new InvalidArgumentException('Invalid value for property field_type.');
 		}
+
+		// phpcs:ignore
+		$this->field_type = $value;
+	}
+
+	/**
+	 * Setter for the input_attributes property.
+	 *
+	 * @param   array  $value  The value to set
+	 *
+	 * @return  void
+	 * @@since  __DEPLOY_VERSION__
+	 */
+	// phpcs:ignore
+	protected function setInput_attributes(array $value)
+	{
+		$forbiddenAttributes = ['id', 'type', 'name', 'value'];
+
+		foreach ($forbiddenAttributes as $key)
+		{
+			if (isset($value[$key]))
+			{
+				unset($value[$key]);
+			}
+		}
+
+		// phpcs:ignore
+		$this->input_attributes = $value;
 	}
 }

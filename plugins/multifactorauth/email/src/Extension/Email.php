@@ -185,7 +185,11 @@ class Email extends CMSPlugin implements SubscriberInterface
 					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-					'input_type'         => 'number',
+					'input_type'         => 'text',
+					// The attributes for the HTML input box.
+					'input_attributes'   => [
+						'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+					],
 					// Placeholder text for the HTML input box. Leave empty if you don't need it.
 					'placeholder'        => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
 					// Label to show above the HTML input box. Leave empty if you don't need it.
@@ -255,16 +259,19 @@ class Email extends CMSPlugin implements SubscriberInterface
 			$event->addResult(
 				new SetupRenderOptions(
 					[
-						'default_title' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
-						'hidden_data'   => [
+						'default_title'    => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
+						'hidden_data'      => [
 							'key' => $key,
 						],
-						'field_type'    => 'input',
-						'input_type'    => 'number',
-						'input_value'   => '',
-						'placeholder'   => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
-						'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
-						'label'         => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
+						'field_type'       => 'input',
+						'input_type'       => 'text',
+						'input_attributes' => [
+							'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+						],
+						'input_value'      => '',
+						'placeholder'      => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_SETUP_PLACEHOLDER'),
+						'pre_message'      => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_PRE_MESSAGE'),
+						'label'            => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_LABEL'),
 					]
 				)
 			);

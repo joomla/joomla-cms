@@ -26,7 +26,6 @@ use Joomla\Component\Users\Administrator\DataShape\CaptiveRenderOptions;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
-use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
@@ -138,19 +137,23 @@ class Totp extends CMSPlugin implements SubscriberInterface
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the MFA form
-					'pre_message'  => '',
+					'pre_message'      => '',
 					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
-					'field_type'   => 'input',
+					'field_type'       => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
-					'input_type'   => 'number',
+					'input_type'       => 'text',
+					// The attributes for the HTML input box.
+					'input_attributes' => [
+						'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+					],
 					// Placeholder text for the HTML input box. Leave empty if you don't need it.
-					'placeholder'  => '',
+					'placeholder'      => '',
 					// Label to show above the HTML input box. Leave empty if you don't need it.
-					'label'        => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
+					'label'            => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
 					// Custom HTML. Only used when field_type = custom.
-					'html'         => '',
+					'html'             => '',
 					// Custom HTML to display below the MFA form
-					'post_message' => '',
+					'post_message'     => '',
 				]
 			)
 		);
@@ -218,10 +221,10 @@ class Totp extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new SetupRenderOptions(
 				[
-					'default_title' => Text::_('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
-					'pre_message'   => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_INSTRUCTIONS'),
-					'table_heading' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_HEADING'),
-					'tabular_data'  => [
+					'default_title'    => Text::_('PLG_MULTIFACTORAUTH_TOTP_METHOD_TITLE'),
+					'pre_message'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_INSTRUCTIONS'),
+					'table_heading'    => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_HEADING'),
+					'tabular_data'     => [
 						'' => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_SUBHEAD'),
 						Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_KEY')  => $key,
 						Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_TABLE_QR')   => "<span id=\"users-mfa-totp-qrcode\" />",
@@ -232,11 +235,14 @@ class Totp extends CMSPlugin implements SubscriberInterface
 					'hidden_data'   => [
 						'key' => $key,
 					],
-					'field_type'    => $isConfigured ? 'custom' : 'input',
-					'input_type'    => 'number',
-					'input_value'   => '',
-					'placeholder'   => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_PLACEHOLDER'),
-					'label'         => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
+					'field_type'       => $isConfigured ? 'custom' : 'input',
+					'input_type'       => 'text',
+					'input_attributes' => [
+						'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
+					],
+					'input_value'      => '',
+					'placeholder'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_PLACEHOLDER'),
+					'label'            => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
 				]
 			)
 		);

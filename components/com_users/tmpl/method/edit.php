@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Site\View\Method\HtmlView;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:ignoreFile
 /** @var  HtmlView  $this */
@@ -131,11 +132,26 @@ $headingLevel = 2;
 			</label>
 			<?php endif; ?>
 			<div class="col-sm-9" <?php echo $this->renderOptions['label'] ? '' : 'offset-sm-3' ?>>
-				<input type="<?php echo $this->renderOptions['input_type']; ?>"
-					   class="form-control" id="com-users-method-code"
-					   name="code"
-					   value="<?php echo $this->escape($this->renderOptions['input_value']) ?>"
-					   aria-describedby="com-users-method-code-help">
+				<?php
+				$attributes = array_merge(
+					[
+						'type'             => $this->renderOptions['input_type'],
+						'name'             => 'code',
+						'value'            => $this->escape($this->renderOptions['input_value']),
+						'id'               => 'com-users-method-code',
+						'class'            => 'form-control',
+						'aria-describedby' => 'com-users-method-code-help',
+					],
+					$this->renderOptions['input_attributes']
+				);
+
+				if (strpos($attributes['class'], 'form-control') === false)
+				{
+					$attributes['class'] .= ' form-control';
+				}
+				?>
+				<input <?php echo ArrayHelper::toString($attributes) ?>>
+
 				<p class="form-text" id="com-users-method-code-help">
 					<?php echo $this->escape($this->renderOptions['placeholder']) ?>
 				</p>

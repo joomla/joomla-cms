@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Users\Site\Model\CaptiveModel;
 use Joomla\Component\Users\Site\View\Captive\HtmlView;
+use Joomla\Utilities\ArrayHelper;
 
 // phpcs:ignoreFile
 
@@ -79,15 +80,25 @@ if ($this->renderOptions['field_type'] !== 'custom')
 					</label>
 					<?php endif; ?>
 					<div class="col-sm-9 <?php echo $this->renderOptions['label'] ? '' : 'offset-sm-3' ?>">
-						<input type="<?php echo $this->renderOptions['input_type'] ?>"
-							   name="code"
-							   value=""
-							<?php if (!empty($this->renderOptions['placeholder'])): ?>
-								placeholder="<?php echo $this->renderOptions['placeholder'] ?>"
-							<?php endif; ?>
-							   id="users-mfa-code"
-							   class="form-control"
-						>
+						<?php
+						$attributes = array_merge(
+							[
+								'type'        => $this->renderOptions['input_type'],
+								'name'        => 'code',
+								'value'       => '',
+								'placeholder' => $this->renderOptions['placeholder'] ?? null,
+								'id'          => 'users-mfa-code',
+								'class'       => 'form-control'
+							],
+							$this->renderOptions['input_attributes']
+						);
+
+						if (strpos($attributes['class'], 'form-control') === false)
+						{
+							$attributes['class'] .= ' form-control';
+						}
+						?>
+						<input <?php echo ArrayHelper::toString($attributes) ?>>
 					</div>
 				</div>
 
