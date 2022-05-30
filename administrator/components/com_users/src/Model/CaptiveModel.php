@@ -434,6 +434,7 @@ class CaptiveModel extends BaseDatabaseModel
 		if ($isAdmin)
 		{
 			$res[] = 'title';
+			$res[] = 'toolbar';
 		}
 
 		return $res;

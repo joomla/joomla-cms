@@ -157,7 +157,7 @@
           },
         };
 
-        document.getElementById('multifactorauthCode').value = btoa(JSON.stringify(publicKeyCredential));
+        document.getElementById('users-mfa-code').value = btoa(JSON.stringify(publicKeyCredential));
         document.getElementById('users-mfa-captive-form').submit();
       }, (error) => {
         // Example: timeout, interaction refused...

@@ -23,26 +23,12 @@ use Joomla\Utilities\ArrayHelper;
  */
 $model = $this->getModel();
 
-if ($this->renderOptions['field_type'] !== 'custom')
-{
-	$this->document->getWebAssetManager()
-			->useScript('com_users.two-factor-focus');
-}
+$this->document->getWebAssetManager()
+		->useScript('com_users.two-factor-focus');
 
 ?>
 <div class="users-mfa-captive card card-body">
 	<h2 id="users-mfa-title">
-		<?php if (!empty($this->renderOptions['help_url'])): ?>
-			<span class="float-end">
-			<a href="<?php echo $this->renderOptions['help_url'] ?>"
-				class="btn btn-sm btn-secondary"
-				target="_blank"
-			>
-				<span class="icon icon-question-sign" aria-hidden="true"></span>
-				<span class="visually-hidden"><?php echo Text::_('JHELP') ?></span>
-			</a>
-		</span>
-		<?php endif;?>
 		<?php if (!empty($this->title)): ?>
 			<?php echo $this->title ?> <small> &ndash;
 		<?php endif; ?>
@@ -54,6 +40,17 @@ if ($this->renderOptions['field_type'] !== 'custom')
 		<?php if (!empty($this->title)): ?>
 		</small>
 		<?php endif; ?>
+		<?php if (!empty($this->renderOptions['help_url'])): ?>
+			<span class="float-end">
+			<a href="<?php echo $this->renderOptions['help_url'] ?>"
+			   class="btn btn-sm btn-secondary"
+			   target="_blank"
+			>
+				<span class="icon icon-question-sign" aria-hidden="true"></span>
+				<span class="visually-hidden"><?php echo Text::_('JHELP') ?></span>
+			</a>
+		</span>
+		<?php endif;?>
 	</h2>
 
 	<?php if ($this->renderOptions['pre_message']): ?>
@@ -69,42 +66,39 @@ if ($this->renderOptions['field_type'] !== 'custom')
 	>
 		<?php echo HTMLHelper::_('form.token') ?>
 
-		<div id="users-mfa-captive-form-method-fields">
+		<div id="users-mfa-captive-form-method-fields" class="container">
 			<?php if ($this->renderOptions['field_type'] == 'custom'): ?>
 				<?php echo $this->renderOptions['html']; ?>
-			<?php else: ?>
-				<div class="row mb-3">
-					<?php if ($this->renderOptions['label']): ?>
-					<label for="users-mfa-code" class="col-sm-3 col-form-label">
-						<?php echo $this->renderOptions['label'] ?>
-					</label>
-					<?php endif; ?>
-					<?php
-					$attributes = array_merge(
-						[
-							'type'        => $this->renderOptions['input_type'],
-							'name'        => 'code',
-							'value'       => '',
-							'placeholder' => $this->renderOptions['placeholder'] ?? null,
-							'id'          => 'users-mfa-code',
-							'class'       => 'form-control'
-						],
-						$this->renderOptions['input_attributes']
-					);
+			<?php endif; ?>
+			<div class="row mb-3 <?php echo $this->renderOptions['input_type'] === 'hidden' ? 'd-none' : '' ?>">
+				<?php if ($this->renderOptions['label']): ?>
+				<label for="users-mfa-code" class="col-sm-3 col-form-label">
+					<?php echo $this->renderOptions['label'] ?>
+				</label>
+				<?php endif; ?>
+				<?php
+				$attributes = array_merge(
+					[
+						'type'        => $this->renderOptions['input_type'],
+						'name'        => 'code',
+						'value'       => '',
+						'placeholder' => $this->renderOptions['placeholder'] ?? null,
+						'id'          => 'users-mfa-code',
+						'class'       => 'form-control'
+					],
+					$this->renderOptions['input_attributes']
+				);
 
-					if (strpos($attributes['class'], 'form-control') === false)
-					{
-						$attributes['class'] .= ' form-control';
-					}
-					?>
-					<input <?php echo ArrayHelper::toString($attributes) ?>>
-				</div>
-
-			<?php endif;?>
-
+				if (strpos($attributes['class'], 'form-control') === false)
+				{
+					$attributes['class'] .= ' form-control';
+				}
+				?>
+				<input <?php echo ArrayHelper::toString($attributes) ?>>
+			</div>
 		</div>
 
-		<div id="users-mfa-captive-form-standard-buttons" class="row my-3">
+		<div id="users-mfa-captive-form-standard-buttons" class="row my-3 d-md-none">
 			<div class="col-sm-9 offset-sm-3">
 				<button class="btn btn-primary me-3 <?php echo $this->renderOptions['submit_class'] ?>"
 						id="users-mfa-captive-button-submit"
@@ -122,11 +116,11 @@ if ($this->renderOptions['field_type'] !== 'custom')
 				</a>
 
 				<?php if (count($this->records) > 1): ?>
-					<div id="users-mfa-captive-form-choose-another" class="my-3">
-						<a href="<?php echo Route::_('index.php?option=com_users&view=captive&task=select') ?>">
-							<?php echo Text::_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
-						</a>
-					</div>
+					<a id="users-mfa-captive-form-choose-another"
+					   class="btn btn-link"
+					   href="<?php echo Route::_('index.php?option=com_users&view=captive&task=select') ?>">
+						<?php echo Text::_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>
+					</a>
 				<?php endif; ?>
 			</div>
 		</div>
