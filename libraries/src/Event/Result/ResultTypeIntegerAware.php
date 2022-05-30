@@ -18,7 +18,7 @@ use InvalidArgumentException;
  * Events using this Trait (and the ResultAware trait) will expect event handlers to set results
  * of an Integer type.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait ResultTypeIntegerAware
 {
@@ -26,7 +26,7 @@ trait ResultTypeIntegerAware
 	 * Can the result attribute values also be NULL?
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $resultIsNullable = false;
 
@@ -34,7 +34,7 @@ trait ResultTypeIntegerAware
 	 * Can the result attribute values also be boolean FALSE?
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 *
 	 * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
 	 */
@@ -49,7 +49,7 @@ trait ResultTypeIntegerAware
 	 * @throws  InvalidArgumentException
 	 *
 	 * @internal
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function typeCheckResult($data): void
 	{

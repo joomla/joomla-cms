@@ -311,7 +311,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * @return  boolean  True if there are discovered extensions in the database.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function checkExtensions()
 	{

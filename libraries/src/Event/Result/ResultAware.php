@@ -19,18 +19,18 @@ use Joomla\Event\Event as BaseEvent;
  * You must additionally implement the typeCheckResult method or use one of the ResultType*Aware
  * traits in your Event handler.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait ResultAware
 {
 	/**
 	 * Disallow setting the result argument directly with setArgument() instead of going through addResult().
 	 *
-	 * You should set this to true ONLY for event names which did NOT exist before Joomla __DEPLOY_VERSION__
+	 * You should set this to true ONLY for event names which did NOT exist before Joomla 4.2.0
 	 * or if you are a third party developer introducing new event names for use only in your software.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 *
 	 * @deprecated 5.0 Using setArgument() for the result argument will always be disallowed.
 	 */
@@ -42,7 +42,7 @@ trait ResultAware
 	 * @param   mixed  $data  What to add to the result array.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function addResult($data): void
 	{
@@ -83,7 +83,7 @@ trait ResultAware
 	 * @param   array  $value  The new result array.
 	 *
 	 * @return  array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function setResult(array $value)
 	{
