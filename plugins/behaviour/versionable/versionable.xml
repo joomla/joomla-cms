@@ -9,8 +9,10 @@
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_BEHAVIOUR_VERSIONABLE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Behaviour\Versionable</namespace>
 	<files>
-		<filename plugin="versionable">versionable.php</filename>
+		<folder plugin="versionable">services</folder>
+		<folder>src</folder>
 	</files>
 	<config />
 </extension>
