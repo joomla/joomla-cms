@@ -35,7 +35,7 @@ return new class implements ServiceProviderInterface {
 			{
 				$plugin = new Joomla(
 					$container->get(DispatcherInterface::class),
-					(array) PluginHelper::getPlugin('system', 'cache')
+					(array) PluginHelper::getPlugin('actionlog', 'joomla')
 				);
 				$plugin->setDatabase($container->get(DatabaseInterface::class));
 
