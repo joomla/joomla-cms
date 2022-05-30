@@ -173,7 +173,10 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			$submitText  = 'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_REGISTERKEY';
 
 			// Message to display
-			$preMessage = Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS');
+			$preMessage = Text::sprintf(
+				'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS',
+				Text::_($submitText)
+			);
 		}
 
 		$event->addResult(
@@ -386,7 +389,10 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		$event->addResult(
 			new CaptiveRenderOptions(
 				[
-					'pre_message'        => Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS'),
+					'pre_message'        => Text::sprintf(
+						'PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_INSTRUCTIONS',
+						Text::_('PLG_MULTIFACTORAUTH_WEBAUTHN_LBL_VALIDATEKEY')
+					),
 					'field_type'         => 'custom',
 					'input_type'         => 'hidden',
 					'placeholder'        => '',
