@@ -291,7 +291,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testCheckedOutWitFieldNoUserSet()
+	public function testCheckedOutWitFieldEmptyUserSet()
 	{
 		$table = $this->createStub(Table::class);
 		$table->method('getColumnAlias')->willReturn('checked_out');
@@ -301,6 +301,7 @@ class DatabaseModelTest extends UnitTestCase
 
 		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
 		{};
+		$model->setCurrentUser(new User);
 
 		$this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
 	}
