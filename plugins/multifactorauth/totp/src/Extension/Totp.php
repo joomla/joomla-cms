@@ -235,8 +235,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 					'hidden_data'   => [
 						'key' => $key,
 					],
-					'field_type'       => $isConfigured ? 'custom' : 'input',
-					'input_type'       => 'text',
+					'input_type'       => $isConfigured ? 'hidden' : 'text',
 					'input_attributes' => [
 						'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
 					],

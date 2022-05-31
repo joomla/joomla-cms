@@ -282,7 +282,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 				new SetupRenderOptions(
 					[
 						'default_title' => Text::_('PLG_MULTIFACTORAUTH_EMAIL_LBL_DISPLAYEDAS'),
-						'field_type'    => 'custom',
+						'input_type'    => 'hidden',
 						'html'          => '',
 					]
 				)

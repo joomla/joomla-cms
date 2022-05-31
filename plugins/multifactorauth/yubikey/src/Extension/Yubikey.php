@@ -209,8 +209,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 					[
 						'default_title' => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_METHOD_TITLE'),
 						'pre_message'   => Text::sprintf('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_AFTERSETUP_INSTRUCTIONS', $keyID),
-						'field_type'    => 'custom',
-						'html'          => '',
+						'input_type'    => 'hidden',
 					]
 				)
 			);
