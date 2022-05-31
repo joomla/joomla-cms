@@ -47,7 +47,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
 		$db   = $this->getDatabase();
 		$user = $app->getIdentity();
 
-		/* @var ArticlesModel $model */
+		/** @var ArticlesModel $model */
 		$model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
