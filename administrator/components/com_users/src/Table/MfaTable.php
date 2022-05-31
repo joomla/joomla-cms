@@ -417,6 +417,7 @@ class MfaTable extends Table
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__user_mfa'))
 				->where($db->quoteName('user_id') . ' = :user_id')
+				->where($db->quoteName('method') . ' != ' . $db->quote('backupcodes'))
 				->bind(':user_id', $this->deleteFlags[$pk]['user_id'], ParameterType::INTEGER);
 			$ids   = $db->setQuery($query)->loadColumn();
 
