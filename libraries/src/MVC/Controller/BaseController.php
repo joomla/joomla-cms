@@ -24,6 +24,7 @@ use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
@@ -594,6 +595,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 			return false;
 		}
 
+		if ($model instanceof CurrentUserInterface && $this->app->getIdentity())
+		{
+			$model->setCurrentUser($this->app->getIdentity());
+		}
+
 		return $model;
 	}
 
@@ -619,7 +625,14 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 	{
 		$config['paths'] = $this->paths['view'];
 
-		return $this->factory->createView($name, $prefix, $type, $config);
+		$view = $this->factory->createView($name, $prefix, $type, $config);
+
+		if ($view instanceof CurrentUserInterface && $this->app->getIdentity())
+		{
+			$view->setCurrentUser($this->app->getIdentity());
+		}
+
+		return $view;
 	}
 
 	/**
@@ -783,7 +796,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 			}
 
 			// Let's get the application object and set menu information if it's available
-			$menu = Factory::getApplication()->getMenu();
+			$menu = $this->app->getMenu();
 
 			if (\is_object($menu) && $item = $menu->getActive())
 			{
