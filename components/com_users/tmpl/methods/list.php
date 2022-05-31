@@ -107,18 +107,18 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 									<?php if ($canAddEdit): ?>
 									<a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1 hasTooltip"
 									   href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
-									   title="<?php echo Text::_('JACTION_EDIT') ?>">
+									   title="<?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?>">
 										<span class="icon icon-pencil" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('JACTION_EDIT') ?></span>
+										<span class="visually-hidden"><?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?></span>
 									</a>
 									<?php endif ?>
 
 									<?php if ($method['canDisable'] && $canDelete): ?>
 									<a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1 hasTooltip"
 									   href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
-									   title="<?php echo Text::_('JACTION_DELETE') ?>">
+									   title="<?php echo Text::_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?>">
 										<span class="icon icon-trash" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?></span>
+										<span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?></span>
 									</a>
 									<?php endif; ?>
 								</div>
