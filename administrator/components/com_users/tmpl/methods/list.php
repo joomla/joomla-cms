@@ -37,51 +37,46 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 		$methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
 			. ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
 		?>
-		<div class="com-users-methods-list-method <?php echo $methodClass?> my-3 p-2 border border-1">
-			<div class="com-users-methods-list-method-header d-flex flex-wrap align-items-center gap-2">
-				<div class="com-users-methods-list-method-image pt-1 px-3 pb-2">
+		<div class="com-users-methods-list-method <?php echo $methodClass?> mx-1 mt-3 mb-4 card <?php echo count($method['active']) ? 'border-secondary' : '' ?>">
+			<div class="com-users-methods-list-method-header card-header <?php echo count($method['active']) ? 'border-secondary bg-secondary text-white' : 'bg-light' ?> d-flex flex-wrap align-items-center gap-2">
+				<div class="com-users-methods-list-method-image pt-1 px-3 pb-2 bg-light rounded-2">
 					<img src="<?php echo Uri::root() . $method['image'] ?>"
 						 alt="<?php echo $this->escape($method['display']) ?>"
 						 class="img-fluid"
 					>
 				</div>
 				<div class="com-users-methods-list-method-title flex-grow-1 d-flex flex-column">
-					<h2 class="h4 p-0 m-0 d-flex gap-3 align-items-center">
+					<h3 class="<?php echo count($method['active']) ? 'text-white' : '' ?> fs-2 p-0 m-0 d-flex gap-3 align-items-center">
 						<span class="me-1 flex-grow-1">
 							<?php echo $method['display'] ?>
 						</span>
 						<?php if ($this->defaultMethod == $methodName): ?>
-							<span id="com-users-methods-list-method-default-tag" class="badge bg-info me-1">
+							<span id="com-users-methods-list-method-default-tag" class="badge bg-info p-2 fs-4 me-1">
 								<?php echo Text::_('COM_USERS_MFA_LIST_DEFAULTTAG') ?>
 							</span>
 						<?php endif; ?>
-					</h2>
-					<div class="com-users-methods-list-method-info my-1 small text-muted">
-						<?php echo $method['shortinfo'] ?>
-					</div>
+					</h3>
 				</div>
 			</div>
 
-			<div class="com-users-methods-list-method-records-container">
+			<div class="com-users-methods-list-method-records-container card-body">
+				<div class="com-users-methods-list-method-info my-1 pb-1 text-muted">
+					<?php echo $method['shortinfo'] ?>
+				</div>
+
 				<?php if (count($method['active'])): ?>
-					<div class="com-users-methods-list-method-records border-top border-dark pt-2 my-2">
+					<div class="com-users-methods-list-method-records pt-2 my-2">
 						<?php foreach($method['active'] as $record): ?>
-							<div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start">
+							<div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start border-top py-2">
 								<div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
 									<?php if ($methodName === 'backupcodes'): ?>
 										<div class="alert alert-info mt-1 w-100">
 											<?php if ($canAddEdit): ?>
-											<h3 class="alert-heading fs-4">
-												<span class="icon icon-info-circle icon-info-sign" aria-hidden="true"></span>
 												<?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
-											</h3>
 											<?php endif ?>
-											<p class="text-muted">
-												<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT') ?>
-											</p>
 										</div>
 									<?php else: ?>
-										<div class="com-users-methods-list-method-record-title-container mb-1">
+										<h4 class="com-users-methods-list-method-record-title-container mb-1 fs-3">
 											<?php if ($record->default): ?>
 												<span id="com-users-methods-list-method-default-badge-small"
 													  class="text-warning me-1 hasTooltip"
@@ -90,10 +85,10 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 													<span class="visually-hidden"><?php echo $this->escape(Text::_('COM_USERS_MFA_LIST_DEFAULTTAG')) ?></span>
 												</span>
 											<?php endif; ?>
-											<span class="com-users-methods-list-method-record-title fs-4 fw-bold">
+											<span class="com-users-methods-list-method-record-title fw-bold">
 												<?php echo $this->escape($record->title); ?>
 											</span>
-										</div>
+										</h4>
 									<?php endif; ?>
 
 									<div class="com-users-methods-list-method-record-lastused my-1 d-flex flex-row flex-wrap justify-content-start gap-5 text-muted w-100">
@@ -134,10 +129,11 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 				<?php endif; ?>
 
 				<?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])): ?>
-					<div class="com-users-methods-list-method-addnew-container">
+					<div class="com-users-methods-list-method-addnew-container border-top pt-2">
 						<a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
-						   class="com-users-methods-list-method-addnew btn btn-secondary btn-sm"
+						   class="com-users-methods-list-method-addnew btn btn-outline-primary btn-sm"
 						>
+							<span class="icon-plus-2" aria-hidden="true"></span>
 							<?php echo Text::sprintf('COM_USERS_MFA_ADD_AUTHENTICATOR_OF_TYPE', $method['display']) ?>
 						</a>
 					</div>
