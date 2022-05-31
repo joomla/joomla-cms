@@ -72,38 +72,35 @@ if ($this->renderOptions['field_type'] !== 'custom')
 		<div id="users-mfa-captive-form-method-fields">
 			<?php if ($this->renderOptions['field_type'] == 'custom'): ?>
 				<?php echo $this->renderOptions['html']; ?>
-			<?php else: ?>
-				<div class="row mb-3">
-					<?php if ($this->renderOptions['label']): ?>
-					<label for="users-mfa-code" class="col-sm-3 col-form-label">
-						<?php echo $this->renderOptions['label'] ?>
-					</label>
-					<?php endif; ?>
-					<div class="col-sm-9 <?php echo $this->renderOptions['label'] ? '' : 'offset-sm-3' ?>">
-						<?php
-						$attributes = array_merge(
-							[
-								'type'        => $this->renderOptions['input_type'],
-								'name'        => 'code',
-								'value'       => '',
-								'placeholder' => $this->renderOptions['placeholder'] ?? null,
-								'id'          => 'users-mfa-code',
-								'class'       => 'form-control'
-							],
-							$this->renderOptions['input_attributes']
-						);
+			<?php endif; ?>
+			<div class="row mb-3">
+				<?php if ($this->renderOptions['label']): ?>
+				<label for="users-mfa-code" class="col-sm-3 col-form-label">
+					<?php echo $this->renderOptions['label'] ?>
+				</label>
+				<?php endif; ?>
+				<div class="col-sm-9 <?php echo $this->renderOptions['label'] ? '' : 'offset-sm-3' ?>">
+					<?php
+					$attributes = array_merge(
+						[
+							'type'        => $this->renderOptions['input_type'],
+							'name'        => 'code',
+							'value'       => '',
+							'placeholder' => $this->renderOptions['placeholder'] ?? null,
+							'id'          => 'users-mfa-code',
+							'class'       => 'form-control'
+						],
+						$this->renderOptions['input_attributes']
+					);
 
-						if (strpos($attributes['class'], 'form-control') === false)
-						{
-							$attributes['class'] .= ' form-control';
-						}
-						?>
-						<input <?php echo ArrayHelper::toString($attributes) ?>>
-					</div>
+					if (strpos($attributes['class'], 'form-control') === false)
+					{
+						$attributes['class'] .= ' form-control';
+					}
+					?>
+					<input <?php echo ArrayHelper::toString($attributes) ?>>
 				</div>
-
-			<?php endif;?>
-
+			</div>
 		</div>
 
 		<div id="users-mfa-captive-form-standard-buttons" class="row my-3">
