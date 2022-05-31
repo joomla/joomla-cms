@@ -196,9 +196,10 @@ class HtmlView extends BaseHtmlView
 		{
 			$bar = Toolbar::getInstance();
 
+			$arrow  = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 			$button = (new LinkButton('user-mfa-edit-cancel'))
 				->text('JTOOLBAR_BACK')
-				->icon('icon-chevron-left')
+				->icon('icon-' . $arrow)
 				->url($returnUrl);
 			$bar->appendButton($button);
 

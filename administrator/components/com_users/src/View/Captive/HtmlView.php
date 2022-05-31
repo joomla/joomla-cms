@@ -214,9 +214,10 @@ class HtmlView extends BaseHtmlView
 
 			if (count($this->records) > 1)
 			{
+				$arrow  = Factory::getApplication()->getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 				$button = (new BasicButton('user-mfa-choose-another'))
 					->text('COM_USERS_MFA_USE_DIFFERENT_METHOD')
-					->icon('icon-chevron-left');
+					->icon('icon-' . $arrow);
 				$bar->appendButton($button);
 			}
 		}
