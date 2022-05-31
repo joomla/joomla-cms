@@ -12,11 +12,14 @@ namespace Joomla\Module\ArticlesLatest\Site\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -25,8 +28,9 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-abstract class ArticlesLatestHelper
+class ArticlesLatestHelper implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
 	/**
 	 * Retrieve a list of article
 	 *
@@ -35,18 +39,19 @@ abstract class ArticlesLatestHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @since   1.6
+	 * @since   4.2.0
 	 */
-	public static function getList(Registry $params, ArticlesModel $model)
+	public function getArticles(Registry $params, SiteApplication $app)
 	{
 		// Get the Dbo and User object
-		$db   = Factory::getDbo();
-		$user = Factory::getUser();
+		$db   = $this->getDatabase();
+		$user = $app->getIdentity();
+
+		/* @var ArticlesModel $model */
+		$model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$app       = Factory::getApplication();
-		$appParams = $app->getParams();
-		$model->setState('params', $appParams);
+		$model->setState('params', $app->getParams());
 
 		$model->setState('list.start', 0);
 		$model->setState('filter.published', 1);
@@ -145,5 +150,22 @@ abstract class ArticlesLatestHelper
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Retrieve a list of article
+	 *
+	 * @param   Registry       $params  The module parameters.
+	 * @param   ArticlesModel  $model   The model.
+	 *
+	 * @return  mixed
+	 *
+	 * @since   1.6
+	 *
+	 * @deprecated 5.0 Use the none static function getArticles
+	 */
+	public static function getList(Registry $params, ArticlesModel $model)
+	{
+		return (new self)->getArticles($params, Factory::getApplication());
 	}
 }
