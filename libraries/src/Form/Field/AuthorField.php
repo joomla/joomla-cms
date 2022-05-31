@@ -33,7 +33,7 @@ class AuthorField extends ListField
 	 * @var    array
 	 * @since  3.2
 	 */
-	protected static $options = array();
+	protected static $options = [];
 
 	/**
 	 * Method to get the options to populate list
