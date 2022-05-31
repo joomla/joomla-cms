@@ -28,7 +28,8 @@ trait CurrentUserTrait
 	private $currentUser;
 
 	/**
-	 * Returns the current user, if none is set an object with id 0 is returned.
+	 * Returns the current user, if none is set the identity of the global app
+	 * is returned. This will change in 5.0 and an empty user will be returned.
 	 *
 	 * @return  User
 	 *
@@ -38,7 +39,11 @@ trait CurrentUserTrait
 	{
 		if (!$this->currentUser)
 		{
-			$this->currentUser = new User;
+			@trigger_error(
+				sprintf('User must be set in %s. This will not be caught anymore in 5.0', __METHOD__),
+				E_USER_DEPRECATED
+			);
+			$this->currentUser = Factory::getApplication()->getIdentity() ?: new User;
 		}
 
 		return $this->currentUser;

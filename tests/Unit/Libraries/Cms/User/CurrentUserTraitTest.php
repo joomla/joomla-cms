@@ -47,25 +47,4 @@ class CurrentUserTraitTest extends UnitTestCase
 
 		$this->assertEquals($user, $trait->getUser());
 	}
-
-	/**
-	 * @testdox  That getCurrentUser() returns an empty user object
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function testGetEmptyUser(): void
-	{
-		$trait = new class {
-			use CurrentUserTrait;
-
-			public function getUser(): User
-			{
-				return $this->getCurrentUser();
-			}
-		};
-
-		$this->assertEmpty($trait->getUser()->id);
-	}
 }

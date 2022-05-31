@@ -156,6 +156,7 @@ class FormModelTest extends UnitTestCase
 				return null;
 			}
 		};
+		$model->setCurrentUser(new User);
 
 		$this->assertTrue($model->checkin(1));
 	}
@@ -255,6 +256,7 @@ class FormModelTest extends UnitTestCase
 				return null;
 			}
 		};
+		$model->setCurrentUser(new User);
 
 		$this->assertTrue($model->checkout(1));
 	}
@@ -305,6 +307,7 @@ class FormModelTest extends UnitTestCase
 				return null;
 			}
 		};
+		$model->setCurrentUser(new User);
 
 		$this->assertFalse($model->checkout(1));
 	}
