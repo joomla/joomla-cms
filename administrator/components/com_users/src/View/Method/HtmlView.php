@@ -169,6 +169,9 @@ class HtmlView extends BaseHtmlView
 			$this->title = '';
 		}
 
+		$returnUrl = empty($this->returnURL) ? '' : base64_decode($this->returnURL);
+		$returnUrl = $returnUrl ?: Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
+
 		if ($this->isAdmin && $this->getLayout() === 'edit')
 		{
 			$bar = Toolbar::getInstance();
@@ -186,14 +189,12 @@ class HtmlView extends BaseHtmlView
 				->text('JCANCEL')
 				->buttonClass('btn btn-danger')
 				->icon('icon-cancel-2')
-				->url(Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id));
+				->url($returnUrl);
 			$bar->appendButton($button);
 		}
 		elseif ($this->isAdmin && $this->getLayout() === 'backupcodes')
 		{
 			$bar = Toolbar::getInstance();
-
-			$returnUrl = $this->returnURL ?: Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
 			$button = (new LinkButton('user-mfa-edit-cancel'))
 				->text('JTOOLBAR_BACK')
@@ -208,10 +209,10 @@ class HtmlView extends BaseHtmlView
 				->url(
 					Route::_(
 						sprintf(
-							"index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1%s",
+							"index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1&returnurl=%s",
 							$this->user->id,
 							Factory::getApplication()->getFormToken(),
-							empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL
+							base64_encode($returnUrl)
 						)
 					)
 				);
