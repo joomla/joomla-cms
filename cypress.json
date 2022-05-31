@@ -1,0 +1,12 @@
+{
+  "baseUrl": "http://localhost/j42cypress",
+"fixturesFolder": "tests/cypress/fixtures",
+"integrationFolder": "tests/cypress/integration",
+"supportFile": "tests/cypress/support/index.js",
+"videosFolder": "tests/cypress/videos",
+"screenshotsFolder": "tests/cypress/screenshots",
+"pluginsFile": false,
+  "env": {
+    "JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK": 1
+  }
+}

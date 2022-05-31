@@ -33,6 +33,8 @@ composer.phar
 /tests/Codeception/acceptance.suite.yml
 /tests/Codeception/_output/
 /tests/Codeception/api.suite.yml
+/tests/cypress/screenshots/
+/tests/cypress/videos/
 
 
 # Vendor directory handling
