@@ -25,7 +25,7 @@ use Joomla\Input\Input;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for \Joomla\CMS\MVC\Controller\BaseDatabaseModel
+ * Test class for \Joomla\CMS\MVC\Controller\BaseController
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
@@ -107,7 +107,54 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseModel executes a task
+	 * @testdox  Test that the BaseController lists the correct tasks
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testAvailableTasks()
+	{
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$this->createStub(CMSApplication::class)
+		) extends BaseController
+		{
+			public function unit()
+			{}
+		};
+
+		$this->assertEquals(['unit', 'display'], $controller->getTasks());
+	}
+
+	/**
+	 * @testdox  Test that the BaseController executes a task
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testUnregisterTask()
+	{
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$this->createStub(CMSApplication::class)
+		) extends BaseController
+		{
+			public function list()
+			{
+				return $this->taskMap;
+			}
+		};
+		$controller->unregisterTask('list');
+
+		$this->assertNotContains('list', $controller->list());
+	}
+
+	/**
+	 * @testdox  Test that the BaseController executes a task
 	 *
 	 * @return  void
 	 *
@@ -128,6 +175,7 @@ class BaseControllerTest extends UnitTestCase
 		};
 
 		$this->assertEquals('unit test', $controller->execute('unit'));
+		$this->assertEquals('unit', $controller->getTask());
 	}
 
 	/**
@@ -152,10 +200,11 @@ class BaseControllerTest extends UnitTestCase
 		};
 
 		$this->assertEquals('unit test', $controller->execute('unit'));
+		$this->assertEquals('unit', $controller->getTask());
 	}
 
 	/**
-	 * @testdox  Test that the BaseModel executes the display default task
+	 * @testdox  Test that the BaseController executes the display default task
 	 *
 	 * @return  void
 	 *
@@ -176,10 +225,11 @@ class BaseControllerTest extends UnitTestCase
 		};
 
 		$this->assertEquals('unit test', $controller->execute(''));
+		$this->assertEquals('', $controller->getTask());
 	}
 
 	/**
-	 * @testdox  Test that the BaseModel executes a task
+	 * @testdox  Test that the BaseController executes a task
 	 *
 	 * @return  void
 	 *
@@ -236,13 +286,7 @@ class BaseControllerTest extends UnitTestCase
 	public function testGetModelWithInjectedPrefix()
 	{
 		$mvcFactory = $this->createStub(LegacyFactory::class);
-		$model      = new class(['dbo' => $this->createStub(DatabaseInterface::class), 'name' => 'test'], $mvcFactory) extends BaseDatabaseModel
-		{
-			protected $option = 'test';
-		};
-		$mvcFactory->method('createModel')->willReturnCallback(function($name, $prefix) use($model) {
-			return $prefix === 'Test' ? $model : null;
-		});
+		$mvcFactory->expects($this->once())->method('createModel')->with($this->equalTo('Unit'), $this->equalTo('Test'));
 
 		$controller = new class(
 			['model_prefix' => 'Test', 'base_path' => __DIR__],
@@ -251,8 +295,7 @@ class BaseControllerTest extends UnitTestCase
 			$this->createStub(Input::class)
 		) extends BaseController
 		{};
-
-		$this->assertEquals($model, $controller->getModel('Unit'));
+		$controller->getModel('Unit');
 	}
 
 	/**
@@ -264,14 +307,8 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testGetModelWithAppNamePrefix()
 	{
-		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
-		$model      = new class(['dbo' => $this->createStub(DatabaseInterface::class), 'name' => 'test'], $mvcFactory) extends BaseDatabaseModel
-		{
-			protected $option = 'test';
-		};
-		$mvcFactory->method('createModel')->willReturnCallback(function($name, $prefix) use($model) {
-			return $prefix === 'Test' ? $model : null;
-		});
+		$mvcFactory = $this->createMock(MVCFactoryInterface::class);
+		$mvcFactory->expects($this->once())->method('createModel')->with($this->equalTo('Unit'), $this->equalTo('Test'));
 
 		$app = $this->createStub(CMSApplication::class);
 		$app->method('getName')->willReturn('Test');
@@ -283,8 +320,7 @@ class BaseControllerTest extends UnitTestCase
 			$this->createStub(Input::class)
 		) extends BaseController
 		{};
-
-		$this->assertEquals($model, $controller->getModel('Unit'));
+		$controller->getModel('Unit');
 	}
 
 	/**
@@ -330,7 +366,7 @@ class BaseControllerTest extends UnitTestCase
 		};
 		$mvcFactory->method('createModel')->willReturn($model);
 
-		$user = new User();
+		$user = new User;
 		$app = $this->createStub(CMSApplication::class);
 		$app->method('getIdentity')->willReturn($user);
 
@@ -421,7 +457,7 @@ class BaseControllerTest extends UnitTestCase
 		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
 		$mvcFactory->method('createView')->willReturn($view);
 
-		$user = new User();
+		$user = new User;
 		$app = $this->createStub(CMSApplication::class);
 		$app->method('getIdentity')->willReturn($user);
 
@@ -437,6 +473,33 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
+	 * @testdox  Test that the BaseController gets the injected name
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testAddViewPath()
+	{
+		$controller = new class(
+			['name' => 'unit test', 'base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$this->createStub(CMSApplication::class)
+		) extends BaseController
+		{
+			public function getPaths()
+			{
+				return $this->paths;
+			}
+		};
+
+		$controller->addViewPath(__DIR__ . '/');
+
+		$this->arrayHasKey('view', $controller->getPaths());
+		$this->assertContains(__DIR__ . '/', $controller->getPaths()['view']);
+	}
+
+	/**
 	 * @testdox  Test that the BaseController can display
 	 *
 	 * @return  void
@@ -445,15 +508,16 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testDisplay()
 	{
-		$document = new Document;
-		$app      = $this->createStub(CMSApplication::class);
-		$app->method('getDocument')->willReturn($document);
+		$app = $this->createStub(CMSApplication::class);
+		$app->method('getDocument')->willReturn(new Document);
 
 		$view = new class(['name' => 'test']) extends AbstractView
 		{
+			public $value = null;
+
 			public function display($tpl = null)
 			{
-				$this->document->setBuffer('unit test');
+				$this->value = 'unit test';
 			}
 		};
 		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
@@ -469,6 +533,354 @@ class BaseControllerTest extends UnitTestCase
 
 		$controller->display(false);
 
-		$this->assertEquals('unit test', $document->getBuffer());
+		$this->assertEquals('unit test', $view->value);
+	}
+
+	/**
+	 * @testdox  Test that the BaseController can check the edit id when it exists in user state
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCheckEditIdExist()
+	{
+		$app = $this->createStub(CMSApplication::class);
+		$app->method('getUserState')->willReturn([1]);
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function checkEditId($context, $id)
+			{
+				return parent::checkEditId($context, $id);
+			}
+		};
+
+		$this->assertTrue($controller->checkEditId('', 1));
+	}
+
+	/**
+	 * @testdox  Test that the BaseController cannot check the edit id when it doesn't exists in user state
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCheckEditIdNotExist()
+	{
+		$app = $this->createStub(CMSApplication::class);
+		$app->method('getUserState')->willReturn([1]);
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function checkEditId($context, $id)
+			{
+				return parent::checkEditId($context, $id);
+			}
+		};
+
+		$this->assertFalse($controller->checkEditId('', 2));
+	}
+
+	/**
+	 * @testdox  Test that the BaseController cannot check the edit id when it it is empty
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCheckEditEmptyId()
+	{
+		$app = $this->createStub(CMSApplication::class);
+		$app->method('getUserState')->willReturn([1]);
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function checkEditId($context, $id)
+			{
+				return parent::checkEditId($context, $id);
+			}
+		};
+
+		$this->assertTrue($controller->checkEditId('', 0));
+	}
+
+	/**
+	 * @testdox  Test that the BaseController can hold the edit id in app user state
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testHoldEditId()
+	{
+		$app = $this->createMock(CMSApplication::class);
+		$app->expects($this->once())->method('setUserState')->with($this->equalTo('unit.id'), $this->equalTo([1]));
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function holdEditId($context, $id)
+			{
+				return parent::holdEditId($context, $id);
+			}
+		};
+		$controller->holdEditId('unit', 1);
+	}
+
+	/**
+	 * @testdox  Test that the BaseController cannot hold the edit id in app user state
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testHoldEditEmptyId()
+	{
+		$app = $this->createMock(CMSApplication::class);
+		$app->expects($this->never())->method('setUserState');
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function holdEditId($context, $id)
+			{
+				return parent::holdEditId($context, $id);
+			}
+		};
+		$controller->holdEditId('unit', 0);
+	}
+
+	/**
+	 * @testdox  Test that the BaseController can release the edit id from app user state
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testReleaseEditId()
+	{
+		$app = $this->createMock(CMSApplication::class);
+		$app->method('getUserState')->willReturn([1, 2]);
+		$app->expects($this->once())->method('setUserState')->with($this->equalTo('unit.id'), $this->equalTo([1 => 2]));
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function releaseEditId($context, $id)
+			{
+				return parent::releaseEditId($context, $id);
+			}
+		};
+		$controller->releaseEditId('unit', 1);
+	}
+
+	/**
+	 * @testdox  Test that the BaseController cannot release the edit id from app user state when it doesn't exist
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testReleaseInvalidEditId()
+	{
+		$app = $this->createMock(CMSApplication::class);
+		$app->method('getUserState')->willReturn([2]);
+		$app->expects($this->never())->method('setUserState');
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function releaseEditId($context, $id)
+			{
+				return parent::releaseEditId($context, $id);
+			}
+		};
+		$controller->releaseEditId('unit', 1);
+	}
+
+	/**
+	 * @testdox  Test that the BaseController sets the correct redirect, message and type
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testSetRedirect()
+	{
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$this->createStub(CMSApplication::class),
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function getRedirect()
+			{
+				return $this->redirect;
+			}
+
+			public function getMessage()
+			{
+				return $this->message;
+			}
+
+			public function getMessageType()
+			{
+				return $this->messageType;
+			}
+		};
+		$controller->setRedirect('unit/test', 'unit', 'test');
+
+		$this->assertEquals('unit/test', $controller->getRedirect());
+		$this->assertEquals('unit', $controller->getMessage());
+		$this->assertEquals('test', $controller->getMessageType());
+	}
+
+	/**
+	 * @testdox  Test that the BaseController sets the correct redirect and has the default type 'message'
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testSetRedirectWithEmptyType()
+	{
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$this->createStub(CMSApplication::class),
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function getMessageType()
+			{
+				return $this->messageType;
+			}
+		};
+		$controller->setRedirect('unit/test');
+
+		$this->assertEquals('message', $controller->getMessageType());
+	}
+
+	/**
+	 * @testdox  Test that the BaseController redirects on the app
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testRedirect()
+	{
+		$app = $this->createMock(CMSApplication::class);
+		$app->expects($this->once())->method('redirect')->with($this->equalTo('unit/test'));
+		$app->expects($this->once())->method('enqueueMessage')->with($this->equalTo('unit test'));
+
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$app,
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function redirect()
+			{
+				$this->redirect = 'unit/test';
+				$this->message = 'unit test';
+
+				return parent::redirect();
+			}
+		};
+
+		$this->assertFalse($controller->redirect());
+	}
+
+	/**
+	 * @testdox  Test that the BaseController sets the correct message and type
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testSetMessage()
+	{
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$this->createStub(CMSApplication::class),
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function getMessage()
+			{
+				return $this->message;
+			}
+
+			public function getMessageType()
+			{
+				return $this->messageType;
+			}
+		};
+
+		$this->assertEmpty($controller->setMessage('unit', 'test'));
+		$this->assertEquals('unit', $controller->getMessage());
+		$this->assertEquals('test', $controller->getMessageType());
+	}
+
+	/**
+	 * @testdox  Test that the BaseController redirects on the app
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testSetMessageTwice()
+	{
+		$controller = new class(
+			['base_path' => __DIR__],
+			$this->createStub(MVCFactoryInterface::class),
+			$this->createStub(CMSApplication::class),
+			$this->createStub(Input::class)
+		) extends BaseController
+		{
+			public function getMessage()
+			{
+				return $this->message;
+			}
+		};
+		$controller->setMessage('unit');
+
+		$this->assertEquals('unit', $controller->setMessage('test'));
 	}
 }
