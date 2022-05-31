@@ -11,6 +11,10 @@ namespace Joomla\Component\Users\Administrator\View\Method;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Button\BasicButton;
+use Joomla\CMS\Toolbar\Button\LinkButton;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -163,6 +167,55 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$this->title = '';
+		}
+
+		if ($this->isAdmin && $this->getLayout() === 'edit')
+		{
+			$bar = Toolbar::getInstance();
+			$button = (new BasicButton('user-mfa-edit-save'))
+				->text($this->renderOptions['submit_text'])
+				->icon($this->renderOptions['submit_icon'])
+				->onclick('document.getElementById(\'user-mfa-edit-save\').click()');
+
+			if ($this->renderOptions['show_submit'] || $this->isEditExisting)
+			{
+				$bar->appendButton($button);
+			}
+
+			$button = (new LinkButton('user-mfa-edit-cancel'))
+				->text('JCANCEL')
+				->buttonClass('btn btn-danger')
+				->icon('icon-cancel-2')
+				->url(Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id));
+			$bar->appendButton($button);
+		}
+		elseif ($this->isAdmin && $this->getLayout() === 'backupcodes')
+		{
+			$bar = Toolbar::getInstance();
+
+			$returnUrl = $this->returnURL ?: Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
+
+			$button = (new LinkButton('user-mfa-edit-cancel'))
+				->text('JTOOLBAR_BACK')
+				->icon('icon-chevron-left')
+				->url($returnUrl);
+			$bar->appendButton($button);
+
+			$button = (new LinkButton('user-mfa-edit-cancel'))
+				->text('COM_USERS_MFA_BACKUPCODES_RESET')
+				->buttonClass('btn btn-danger')
+				->icon('icon-refresh')
+				->url(
+					Route::_(
+						sprintf(
+							"index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1%s",
+							$this->user->id,
+							Factory::getApplication()->getFormToken(),
+							empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL
+						)
+					)
+				);
+			$bar->appendButton($button);
 		}
 
 		// Display the view

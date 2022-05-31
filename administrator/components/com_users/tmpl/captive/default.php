@@ -98,7 +98,7 @@ $this->document->getWebAssetManager()
 			</div>
 		</div>
 
-		<div id="users-mfa-captive-form-standard-buttons" class="row my-3 d-md-none">
+		<div id="users-mfa-captive-form-standard-buttons" class="row my-3 d-sm-none">
 			<div class="col-sm-9 offset-sm-3">
 				<button class="btn btn-primary me-3 <?php echo $this->renderOptions['submit_class'] ?>"
 						id="users-mfa-captive-button-submit"

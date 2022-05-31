@@ -38,9 +38,9 @@ if ($this->record->method != 'backupcodes')
 	<?php echo Text::_('COM_USERS_USER_BACKUPCODES') ?>
 </h2>
 
-<div class="alert alert-info">
+<p class="text-muted">
 	<?php echo Text::_('COM_USERS_USER_BACKUPCODES_DESC') ?>
-</div>
+</p>
 
 <table class="table table-striped">
 	<?php for ($i = 0; $i < (count($this->backupCodes) / 2); $i++): ?>
@@ -63,17 +63,20 @@ if ($this->record->method != 'backupcodes')
 	<?php endfor; ?>
 </table>
 
-<p>
+<div class="alert alert-info">
+	<span class="icon-info-circle" aria-hidden="true"></span>
 	<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_RESET_INFO'); ?>
-</p>
+</div>
 
-<a class="btn btn-danger" href="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1%s", $this->user->id, Factory::getApplication()->getFormToken(), empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL)) ?>">
-	<span class="icon icon-refresh" aria-hidden="true"></span>
-	<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_RESET'); ?>
-</a>
+<div class="d-sm-none">
+	<a class="btn btn-danger" href="<?php echo Route::_(sprintf("index.php?option=com_users&task=method.regenerateBackupCodes&user_id=%s&%s=1%s", $this->user->id, Factory::getApplication()->getFormToken(), empty($this->returnURL) ? '' : '&returnurl=' . $this->returnURL)) ?>">
+		<span class="icon icon-refresh" aria-hidden="true"></span>
+		<?php echo Text::_('COM_USERS_MFA_BACKUPCODES_RESET'); ?>
+	</a>
 
-<a href="<?php echo $cancelURL ?>"
-   class="btn btn-secondary">
-	<span class="icon icon-cancel-2 icon-ban-circle"></span>
-	<?php echo Text::_('JCANCEL'); ?>
-</a>
+	<a href="<?php echo $cancelURL ?>"
+	   class="btn btn-secondary">
+		<span class="icon icon-cancel-2 icon-ban-circle"></span>
+		<?php echo Text::_('JCANCEL'); ?>
+	</a>
+</div>

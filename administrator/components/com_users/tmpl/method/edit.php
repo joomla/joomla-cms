@@ -158,18 +158,23 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
 			</div>
 		</div>
 
-		<div class="row mb-3">
-			<div class="col-sm-9 offset-sm-3">
-				<button type="submit" class="btn btn-primary me-3 <?php echo $hideSubmit ? 'd-none' : '' ?> <?php echo $this->renderOptions['submit_class'] ?>">
-					<span class="<?php echo $this->renderOptions['submit_icon'] ?>" aria-hidden="true"></span>
-					<?php echo Text::_($this->renderOptions['submit_text']); ?>
-				</button>
+		<div class="container d-sm-none">
+			<div class="row mb-3">
+				<div class="col-sm-9 offset-sm-3">
+					<button type="submit"
+							id="user-mfa-edit-save"
+							class="btn btn-primary me-3 <?php echo $hideSubmit ? 'd-none' : '' ?> <?php echo $this->renderOptions['submit_class'] ?>">
+						<span class="<?php echo $this->renderOptions['submit_icon'] ?>" aria-hidden="true"></span>
+						<?php echo Text::_($this->renderOptions['submit_text']); ?>
+					</button>
 
-				<a href="<?php echo $cancelURL ?>"
-				   class="btn btn-sm btn-danger">
-					<span class="icon icon-cancel-2" aria-hidden="true"></span>
-					<?php echo Text::_('JCANCEL'); ?>
-				</a>
+					<a href="<?php echo $cancelURL ?>"
+					   id="user-mfa-edit-cancel"
+					   class="btn btn-sm btn-danger">
+						<span class="icon icon-cancel-2" aria-hidden="true"></span>
+						<?php echo Text::_('JCANCEL'); ?>
+					</a>
+				</div>
 			</div>
 		</div>
 
