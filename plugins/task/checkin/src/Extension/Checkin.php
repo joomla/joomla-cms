@@ -12,6 +12,7 @@ namespace Joomla\Plugin\Task\Checkin\Extension;
 // Restrict direct access
 defined('_JEXEC') or die;
 
+use DateInterval;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
@@ -124,7 +125,7 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 				$date = new \DateTime;
 				$delayTime = $date->sub(new DateInterval('PT' . $delay . 'H'));
 				$query->where(
-					$db->quoteName('checked_out_time') . ' < ' . $db->quote($delayTime)
+					$db->quoteName('checked_out_time') . ' < ' . $db->quote($delayTime->format('c'))
 				);
 			}
 
