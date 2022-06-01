@@ -130,7 +130,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The state can be overwritten when is already populated
+	 * @testdox  The state can be overwritten when it is already populated
 	 *
 	 * @return  void
 	 *
