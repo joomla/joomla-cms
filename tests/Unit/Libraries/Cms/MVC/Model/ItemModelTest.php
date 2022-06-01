@@ -24,7 +24,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 class ItemModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the ItemModel store id is not empty
+	 * @testdox  The ItemModel store id is not empty
 	 *
 	 * @return  void
 	 *
@@ -47,7 +47,7 @@ class ItemModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the ItemModel store id is not empty on an empty id
+	 * @testdox  The ItemModel store id is not empty on an empty id
 	 *
 	 * @return  void
 	 *
@@ -70,7 +70,7 @@ class ItemModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the ItemModel store id is different with different ids
+	 * @testdox  The ItemModel store id is different with different ids
 	 *
 	 * @return  void
 	 *
@@ -93,7 +93,7 @@ class ItemModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the ItemModel store id is the same with same ids
+	 * @testdox  The ItemModel store id is the same with same ids
 	 *
 	 * @return  void
 	 *

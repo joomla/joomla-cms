@@ -23,7 +23,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 class StateBehaviorTraitTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the full empty state can be fetched
+	 * @testdox  The full empty state can be fetched
 	 *
 	 * @return  void
 	 *
@@ -40,7 +40,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the state is populated
+	 * @testdox  The state is populated
 	 *
 	 * @return  void
 	 *
@@ -62,7 +62,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the state is not populated when already set
+	 * @testdox  The state is not populated when already set
 	 *
 	 * @return  void
 	 *
@@ -89,7 +89,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the state can be set correctly
+	 * @testdox  The state can be set correctly
 	 *
 	 * @return  void
 	 *
@@ -107,7 +107,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the state gets overwritten when is not populated
+	 * @testdox  The state gets overwritten when is not populated
 	 *
 	 * @return  void
 	 *
@@ -130,7 +130,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the state can be overwritten when is already populated
+	 * @testdox  The state can be overwritten when is already populated
 	 *
 	 * @return  void
 	 *

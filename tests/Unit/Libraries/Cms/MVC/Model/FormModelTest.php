@@ -26,7 +26,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 class FormModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the FormModel can checkin a record
+	 * @testdox  The FormModel can checkin a record
 	 *
 	 * @return  void
 	 *
@@ -57,7 +57,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when the id is 0
+	 * @testdox  The FormModel can checkin a record when the id is 0
 	 *
 	 * @return  void
 	 *
@@ -77,7 +77,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record
+	 * @testdox  The FormModel can't checkin a record
 	 *
 	 * @return  void
 	 *
@@ -108,7 +108,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record when load of the table fails
+	 * @testdox  The FormModel can't checkin a record when load of the table fails
 	 *
 	 * @return  void
 	 *
@@ -136,7 +136,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when the table has not the required fields
+	 * @testdox  The FormModel can checkin a record when the table has not the required fields
 	 *
 	 * @return  void
 	 *
@@ -165,7 +165,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record when is checked out as different user and current user is not admin
+	 * @testdox  The FormModel can't checkin a record when is checked out as different user and current user is not admin
 	 *
 	 * @return  void
 	 *
@@ -199,7 +199,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when is checked out as different user and current user is admin
+	 * @testdox  The FormModel can checkin a record when is checked out as different user and current user is admin
 	 *
 	 * @return  void
 	 *
@@ -234,7 +234,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record
+	 * @testdox  The FormModel can checkout a record
 	 *
 	 * @return  void
 	 *
@@ -265,7 +265,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record when the id is 0
+	 * @testdox  The FormModel can checkout a record when the id is 0
 	 *
 	 * @return  void
 	 *
@@ -285,7 +285,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record
+	 * @testdox  The FormModel can't checkout a record
 	 *
 	 * @return  void
 	 *
@@ -316,7 +316,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record when load of the table fails
+	 * @testdox  The FormModel can't checkout a record when load of the table fails
 	 *
 	 * @return  void
 	 *
@@ -343,7 +343,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record when the table has not the required fields
+	 * @testdox  The FormModel can checkout a record when the table has not the required fields
 	 *
 	 * @return  void
 	 *
@@ -371,7 +371,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record when is checked out as different user
+	 * @testdox  The FormModel can't checkout a record when is checked out as different user
 	 *
 	 * @return  void
 	 *

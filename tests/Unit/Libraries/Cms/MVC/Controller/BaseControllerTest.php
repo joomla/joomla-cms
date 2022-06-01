@@ -35,7 +35,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 class BaseControllerTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the BaseController contains the right dependencies
+	 * @testdox  The BaseController contains the right dependencies
 	 *
 	 * @return  void
 	 *
@@ -70,7 +70,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController gets the injected name
+	 * @testdox  The BaseController gets the injected name
 	 *
 	 * @return  void
 	 *
@@ -89,7 +89,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController compiles it's own name
+	 * @testdox  The BaseController compiles it's own name
 	 *
 	 * @return  void
 	 *
@@ -108,7 +108,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController lists the correct tasks
+	 * @testdox  The BaseController lists the correct tasks
 	 *
 	 * @return  void
 	 *
@@ -130,7 +130,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController executes a task
+	 * @testdox  The BaseController executes a task
 	 *
 	 * @return  void
 	 *
@@ -155,7 +155,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController executes a task
+	 * @testdox  The BaseController executes a task
 	 *
 	 * @return  void
 	 *
@@ -180,7 +180,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController can execute the injected default task
+	 * @testdox  The BaseController can execute the injected default task
 	 *
 	 * @return  void
 	 *
@@ -205,7 +205,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController executes the display default task
+	 * @testdox  The BaseController executes the display default task
 	 *
 	 * @return  void
 	 *
@@ -230,7 +230,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController executes a task
+	 * @testdox  The BaseController executes a task
 	 *
 	 * @return  void
 	 *
@@ -251,7 +251,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns the correct model
+	 * @testdox  The BaseController returns the correct model
 	 *
 	 * @return  void
 	 *
@@ -278,7 +278,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns the correct model with an injected prefix
+	 * @testdox  The BaseController returns the correct model with an injected prefix
 	 *
 	 * @return  void
 	 *
@@ -300,7 +300,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns the correct model with the app name prefix
+	 * @testdox  The BaseController returns the correct model with the app name prefix
 	 *
 	 * @return  void
 	 *
@@ -325,7 +325,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns false when no model is available
+	 * @testdox  The BaseController returns false when no model is available
 	 *
 	 * @return  void
 	 *
@@ -347,7 +347,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns the correct model with the identity from the app
+	 * @testdox  The BaseController returns the correct model with the identity from the app
 	 *
 	 * @return  void
 	 *
@@ -383,7 +383,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns the correct view
+	 * @testdox  The BaseController returns the correct view
 	 *
 	 * @return  void
 	 *
@@ -411,7 +411,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns the correct view with an injected prefix
+	 * @testdox  The BaseController returns the correct view with an injected prefix
 	 *
 	 * @return  void
 	 *
@@ -434,7 +434,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController throws an exception when no view is available
+	 * @testdox  The BaseController throws an exception when no view is available
 	 *
 	 * @return  void
 	 *
@@ -458,7 +458,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController returns the correct view with the identity from the app
+	 * @testdox  The BaseController returns the correct view with the identity from the app
 	 *
 	 * @return  void
 	 *
@@ -497,7 +497,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController gets the injected name
+	 * @testdox  The BaseController gets the injected name
 	 *
 	 * @return  void
 	 *
@@ -523,7 +523,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController gets the injected name
+	 * @testdox  The BaseController gets the injected name
 	 *
 	 * @return  void
 	 *
@@ -550,7 +550,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController can display
+	 * @testdox  The BaseController can display
 	 *
 	 * @return  void
 	 *
@@ -587,7 +587,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController can display and sets a model on the view
+	 * @testdox  The BaseController can display and sets a model on the view
 	 *
 	 * @return  void
 	 *
@@ -624,7 +624,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController can check the edit id when it exists in user state
+	 * @testdox  The BaseController can check the edit id when it exists in user state
 	 *
 	 * @return  void
 	 *
@@ -652,7 +652,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController cannot check the edit id when it doesn't exists in user state
+	 * @testdox  The BaseController cannot check the edit id when it doesn't exists in user state
 	 *
 	 * @return  void
 	 *
@@ -680,7 +680,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController cannot check the edit id when it it is empty
+	 * @testdox  The BaseController cannot check the edit id when it it is empty
 	 *
 	 * @return  void
 	 *
@@ -708,7 +708,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController can hold the edit id in app user state
+	 * @testdox  The BaseController can hold the edit id in app user state
 	 *
 	 * @return  void
 	 *
@@ -735,7 +735,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController cannot hold the edit id in app user state
+	 * @testdox  The BaseController cannot hold the edit id in app user state
 	 *
 	 * @return  void
 	 *
@@ -762,7 +762,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController can release the edit id from app user state
+	 * @testdox  The BaseController can release the edit id from app user state
 	 *
 	 * @return  void
 	 *
@@ -790,7 +790,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController cannot release the edit id from app user state when it doesn't exist
+	 * @testdox  The BaseController cannot release the edit id from app user state when it doesn't exist
 	 *
 	 * @return  void
 	 *
@@ -818,7 +818,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController sets the correct redirect, message and type
+	 * @testdox  The BaseController sets the correct redirect, message and type
 	 *
 	 * @return  void
 	 *
@@ -856,7 +856,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController sets the correct redirect and has the default type 'message'
+	 * @testdox  The BaseController sets the correct redirect and has the default type 'message'
 	 *
 	 * @return  void
 	 *
@@ -882,7 +882,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController redirects on the app
+	 * @testdox  The BaseController redirects on the app
 	 *
 	 * @return  void
 	 *
@@ -914,7 +914,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController sets the correct message and type
+	 * @testdox  The BaseController sets the correct message and type
 	 *
 	 * @return  void
 	 *
@@ -946,7 +946,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseController redirects on the app
+	 * @testdox  The BaseController redirects on the app
 	 *
 	 * @return  void
 	 *

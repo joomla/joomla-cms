@@ -22,7 +22,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 class BaseModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the BaseModel gets the injected name
+	 * @testdox  The BaseModel gets the injected name
 	 *
 	 * @return  void
 	 *
@@ -37,7 +37,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseModel compiles it's own name
+	 * @testdox  The BaseModel compiles it's own name
 	 *
 	 * @return  void
 	 *
@@ -52,7 +52,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseModel gets the injected state
+	 * @testdox  The BaseModel gets the injected state
 	 *
 	 * @return  void
 	 *
@@ -68,7 +68,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseModel gets the injected state
+	 * @testdox  The BaseModel gets the injected state
 	 *
 	 * @return  void
 	 *
@@ -88,7 +88,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseModel gets the injected state
+	 * @testdox  The BaseModel gets the injected state
 	 *
 	 * @return  void
 	 *
