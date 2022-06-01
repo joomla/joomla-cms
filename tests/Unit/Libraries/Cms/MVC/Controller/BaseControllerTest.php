@@ -946,7 +946,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController redirects on the app
+	 * @testdox  The BaseController returns the old message when a second time set
 	 *
 	 * @return  void
 	 *
