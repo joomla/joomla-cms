@@ -151,9 +151,9 @@ trait TaskPluginTrait
 		// Service provider based plugins need a different path lookup
 		if (!file_exists($enhancementFormFile))
 		{
-            $path                = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
-            $enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
-        }
+			$path                = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
+			$enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
+		}
 
 		try
 		{
