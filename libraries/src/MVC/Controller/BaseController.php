@@ -674,8 +674,6 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
 			if (\is_array($urlparams))
 			{
-				$this->app = Factory::getApplication();
-
 				if (!empty($this->app->registeredurlparams))
 				{
 					$registeredurlparams = $this->app->registeredurlparams;
