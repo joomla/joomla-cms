@@ -15,8 +15,10 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-import 'joomla-cypress'
 
+// Import Joomla-Cypress package
+const { registerCommands } = require('joomla-cypress')
+registerCommands()
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
@@ -25,7 +27,4 @@ before(function() {
   cy.fixture('setup').then(function(joomlaconfig) {
     this.joomlaconfig = joomlaconfig
   })
-  const {registerCommands} = require('../../../node_modules/joomla-cypress/src/index.js')
-
-  registerCommands()
 })
