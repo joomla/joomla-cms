@@ -78,7 +78,7 @@ class Requests extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The http factory
 	 *
-	 * @var    HttpHttpFactory
+	 * @var    HttpFactory
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $httpFactory;
@@ -88,7 +88,7 @@ class Requests extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   DispatcherInterface  $dispatcher   The dispatcher
 	 * @param   array                $config       An optional associative array of configuration settings
-	 * @param   HttpHttpFactory      $httpFactory  The user factory
+	 * @param   HttpFactory      $httpFactory  The user factory
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
