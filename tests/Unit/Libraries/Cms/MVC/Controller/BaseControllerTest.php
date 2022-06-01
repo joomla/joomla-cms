@@ -680,7 +680,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController cannot check the edit id when it it is empty
+	 * @testdox  The BaseController cannot check the edit id when it is empty
 	 *
 	 * @return  void
 	 *
