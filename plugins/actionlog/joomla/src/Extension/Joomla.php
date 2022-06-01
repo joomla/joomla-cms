@@ -1,30 +1,49 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.actionlogs
+ * @subpackage  Actionlog.joomla
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Actionlog\Joomla\Extension;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\Plugin\ActionLogPlugin;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\ArrayHelper;
+use RuntimeException;
+use stdClass;
 
 /**
  * Joomla! Users Actions Logging Plugin.
  *
  * @since  3.9.0
  */
-class PlgActionlogJoomla extends ActionLogPlugin
+final class Joomla extends ActionLogPlugin
 {
+	use DatabaseAwareTrait;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
 	/**
 	 * Array of loggable extensions.
 	 *
@@ -60,14 +79,14 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher
+	 * @param   array                $config      An optional associative array of configuration settings
 	 *
 	 * @since   3.9.0
 	 */
-	public function __construct(&$subject, $config)
+	public function __construct(DispatcherInterface $dispatcher, array $config)
 	{
-		parent::__construct($subject, $config);
+		parent::__construct($dispatcher, $config);
 
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
@@ -98,7 +117,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$context = $this->contextAliases[$context];
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -164,7 +183,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -216,7 +235,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -261,7 +280,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			$messageLanguageKey = $defaultLanguageKey;
 		}
 
-		$db    = $this->db;
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName([$params->title_holder, $params->id_holder]))
 			->from($db->quoteName($params->table_name))
@@ -348,7 +367,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$manifest      = $installer->get('manifest');
+		$manifest = $installer->get('manifest');
 
 		if ($manifest === null)
 		{
@@ -406,7 +425,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$manifest      = $installer->get('manifest');
+		$manifest = $installer->get('manifest');
 
 		if ($manifest === null)
 		{
@@ -457,7 +476,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$manifest      = $installer->get('manifest');
+		$manifest = $installer->get('manifest');
 
 		if ($manifest === null)
 		{
@@ -513,7 +532,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -570,7 +589,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$params = ActionlogsHelper::getLogContentTypeParams($context);
+		$params = $this->getActionLogParams($context);
 
 		// Not found a valid content type, don't process further
 		if ($params === null)
@@ -839,17 +858,19 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		}
 
 		// Get the user id for the given username
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName(array('id', 'username')))
-			->from($this->db->quoteName('#__users'))
-			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($response['username']));
-		$this->db->setQuery($query);
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'username']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $response['username']);
+		$db->setQuery($query);
 
 		try
 		{
-			$loggedInUser = $this->db->loadObject();
+			$loggedInUser = $db->loadObject();
 		}
-		catch (\Joomla\Database\Exception\ExecutionFailureException $e)
+		catch (ExecutionFailureException $e)
 		{
 			return;
 		}
@@ -992,7 +1013,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'table'       => str_replace($this->db->getPrefix(), '#__', $table),
+			'table'       => str_replace($this->getDatabase()->getPrefix(), '#__', $table),
 		);
 
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
@@ -1153,7 +1174,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		if (empty($oldVersion))
 		{
-			$oldVersion = \Joomla\CMS\Language\Text::_('JLIB_UNKNOWN');
+			$oldVersion = $this->app->getLanguage()->_('JLIB_UNKNOWN');
 		}
 
 		$message = array(
@@ -1169,5 +1190,26 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'oldversion'  => $oldVersion,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_UPDATE', $context, $user->id);
+	}
+
+	/**
+	 * Returns the action log params for the given context.
+	 *
+	 * @param   string  $context  The context of the action log
+	 *
+	 * @return  stdClass  The params
+	 *
+	 * @since   4.2.0
+	 */
+	private function getActionLogParams($context): ?stdClass
+	{
+		$component = $this->app->bootComponent('actionlogs');
+
+		if (!$component instanceof MVCFactoryServiceInterface)
+		{
+			return null;
+		}
+
+		return $component->getMVCFactory()->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 	}
 }

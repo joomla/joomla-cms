@@ -14,9 +14,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\DatabaseQuery;
-use Joomla\Database\QueryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -215,6 +214,99 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
+	 * @testdox  Test that the BaseDatabaseModel can't determine the checked out state of an item that has not the required field
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCheckedOutWithoutField()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$this->assertFalse($model->isCheckedOut(new \stdClass));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel can determine the checked out state of an item with the same user
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCheckedOutWithCheckedOutUser()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$user = new User;
+		$user->id = 1;
+		$model->setCurrentUser($user);
+
+		$this->assertFalse($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel can determine the checked out state of an item with a different user
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCheckedOutWithNotCheckedOutUser()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$user = new User;
+		$user->id = 2;
+		$model->setCurrentUser($user);
+
+		$this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
+	 * @testdox  Test that the BaseDatabaseModel can determine the checked out state of an item when the user is not set
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testCheckedOutWitFieldEmptyUserSet()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+		$model->setCurrentUser(new User);
+
+		$this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
 	 * @testdox  Test that the BaseDatabaseModel still can use the old trait
 	 *
 	 * @return  void
@@ -248,35 +340,17 @@ class DatabaseModelTest extends UnitTestCase
 	{
 		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
 		{
-			public function initVariable($value)
+			public function cache($key, $value)
 			{
-				$this->test[$value] = $value;
+				if (!isset($this->test[$key]))
+				{
+					$this->test[$key] = $value;
+				}
 
-				return $this->test[$value];
+				return $this->test[$key];
 			}
 		};
 
-		$this->assertEquals(1, $model->initVariable(1));
-	}
-
-	/**
-	 * Returns a database query instance.
-	 *
-	 * @param   DatabaseInterface  $db  The database
-	 *
-	 * @return  QueryInterface
-	 *
-	 * @since   4.2.0
-	 */
-	private function getQueryStub(DatabaseInterface $db): QueryInterface
-	{
-		return new class($db) extends DatabaseQuery
-		{
-			public function groupConcat($expression, $separator = ',')
-			{}
-
-			public function processLimit($query, $limit, $offset = 0)
-			{}
-		};
+		$this->assertEquals('test', $model->cache(1, 'test'));
 	}
 }
