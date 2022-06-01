@@ -43,7 +43,7 @@ Joomla.toggleInlineHelp = (toggleClass) => {
     const toggleClass = elToggler.dataset.class ?? 'hide-aware-inline-help';
     const collection = document.getElementsByClassName(toggleClass);
 
-     // no description => hide inlinehelp button
+    // no description => hide inlinehelp button
     if (collection.length === 0) {
       elToggler.classList.add('d-none');
       return;
