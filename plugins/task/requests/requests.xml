@@ -9,9 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1</version>
 	<description>PLG_TASK_REQUESTS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\Requests</namespace>
 	<files>
-		<filename plugin="requests">requests.php</filename>
-		<folder>language</folder>
+		<folder plugin="requests">services</folder>
+		<folder>src</folder>
 		<folder>forms</folder>
 	</files>
 	<languages>
