@@ -89,7 +89,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController compiles it's own name
+	 * @testdox  The BaseController compiles its own name
 	 *
 	 * @return  void
 	 *
@@ -497,7 +497,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController gets the injected name
+	 * @testdox  The BaseController gets the injected view path
 	 *
 	 * @return  void
 	 *
@@ -523,7 +523,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController gets the injected name
+	 * @testdox  The BaseController gets can add a view path
 	 *
 	 * @return  void
 	 *
