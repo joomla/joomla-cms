@@ -37,7 +37,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseModel compiles it's own name
+	 * @testdox  The BaseModel compiles its own name
 	 *
 	 * @return  void
 	 *
@@ -68,7 +68,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseModel gets the injected state
+	 * @testdox  The BaseModel does populate the state before accessing it
 	 *
 	 * @return  void
 	 *
@@ -88,7 +88,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseModel gets the injected state
+	 * @testdox  The BaseModel does ignore to populate the state before accessing it
 	 *
 	 * @return  void
 	 *

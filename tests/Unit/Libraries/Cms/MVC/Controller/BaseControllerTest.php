@@ -882,7 +882,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController redirects on the app
+	 * @testdox  The BaseController does a redirect on the internal app instance
 	 *
 	 * @return  void
 	 *
