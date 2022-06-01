@@ -194,7 +194,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
-			ToolbarHelper::deleteList('', 'fields.delete', 'JTOOLBAR_EMPTY_TRASH');
+			$toolbar->delete('fields.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

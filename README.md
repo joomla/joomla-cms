@@ -1,11 +1,11 @@
-Joomla! CMS™ 
+Joomla! CMS™
 ====================
 
 Build Status
 ---------------------
 | Drone-CI      | AppVeyor      | PHP           |  Node         | npm           |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
-| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.1-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.1-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V7.2.5-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V12.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v6.13.4-green)](https://nodejs.org/en/) |
+| [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg?branch=4.1-dev)](https://ci.joomla.org/joomla/joomla-cms) | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/4.1-dev?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms) | [![PHP](https://img.shields.io/badge/PHP-V7.2.5-green)](https://www.php.net/) | [![node-lts](https://img.shields.io/badge/Node-V16.0-green)](https://nodejs.org/en/) | [![npm](https://img.shields.io/badge/npm-v8.6.0-green)](https://nodejs.org/en/) |
 
 Overview
 ---------------------
@@ -39,7 +39,7 @@ You will need:
 **Steps to setup the local environment:**
 - Clone the repository:
 ```bash
-git clone git@github.com:joomla/joomla-cms.git
+git clone https://github.com/joomla/joomla-cms.git
 ```
 - Go to the joomla-cms folder:
 ```bash

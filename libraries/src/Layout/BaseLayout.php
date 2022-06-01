@@ -116,7 +116,7 @@ class BaseLayout implements LayoutInterface
 	 */
 	public function escape($output)
 	{
-		return htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
+		return $output === null ? '' : htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
