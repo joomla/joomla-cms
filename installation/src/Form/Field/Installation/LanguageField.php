@@ -41,7 +41,7 @@ class LanguageField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -109,7 +109,7 @@ class LanguageField extends ListField
 	 *
 	 * @return  string  The native language to use
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function getNativeLanguage()
 	{
