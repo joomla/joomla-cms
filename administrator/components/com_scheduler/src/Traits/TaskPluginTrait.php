@@ -145,15 +145,8 @@ trait TaskPluginTrait
 		}
 
 		// We expect the form XML in "{PLUGIN_PATH}/forms/{FORM_NAME}.xml"
-		$path                = \dirname((new \ReflectionClass(static::class))->getFileName());
+		$path                = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
 		$enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
-
-		// Service provider based plugins need a different path lookup
-		if (!file_exists($enhancementFormFile))
-		{
-			$path                = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
-			$enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
-		}
 
 		try
 		{
