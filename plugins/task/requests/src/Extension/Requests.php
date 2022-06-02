@@ -88,7 +88,7 @@ class Requests extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   DispatcherInterface  $dispatcher   The dispatcher
 	 * @param   array                $config       An optional associative array of configuration settings
-	 * @param   HttpFactory      $httpFactory  The user factory
+	 * @param   HttpFactory          $httpFactory  The http factory
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
