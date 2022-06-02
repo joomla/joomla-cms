@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bc051f8327d43f2ea9ff9aca3cccef3",
+    "content-hash": "dba327d3779bd7b7be77d15a8e49a831",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -485,6 +485,51 @@
             "time": "2020-11-24T19:55:57+00:00"
         },
         {
+            "name": "enshrined/svg-sanitize",
+            "version": "0.15.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/darylldoyle/svg-sanitizer.git",
+                "reference": "e50b83a2f1f296ca61394fe88fbfe3e896a84cf4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/e50b83a2f1f296ca61394fe88fbfe3e896a84cf4",
+                "reference": "e50b83a2f1f296ca61394fe88fbfe3e896a84cf4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": "^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5 || ^8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "enshrined\\svgSanitize\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Daryll Doyle",
+                    "email": "daryll@enshrined.co.uk"
+                }
+            ],
+            "description": "An SVG sanitizer for PHP",
+            "support": {
+                "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.15.4"
+            },
+            "time": "2022-02-21T09:13:59+00:00"
+        },
+        {
             "name": "fgrosse/phpasn1",
             "version": "v2.4.0",
             "source": {
@@ -799,21 +844,21 @@
         },
         {
             "name": "joomla/archive",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/archive.git",
-                "reference": "dd1c76d6ff37789297e275ce822e1b24deb33274"
+                "reference": "cedda2cf21c388c590b8a110df25db6197765b8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/dd1c76d6ff37789297e275ce822e1b24deb33274",
-                "reference": "dd1c76d6ff37789297e275ce822e1b24deb33274",
+                "url": "https://api.github.com/repos/joomla-framework/archive/zipball/cedda2cf21c388c590b8a110df25db6197765b8c",
+                "reference": "cedda2cf21c388c590b8a110df25db6197765b8c",
                 "shasum": ""
             },
             "require": {
-                "joomla/filesystem": "^2.0@rc",
-                "php": "^7.2.5"
+                "joomla/filesystem": "^2.0",
+                "php": "^7.2.5|^8.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "^3.0@dev",
@@ -849,7 +894,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/archive/issues",
-                "source": "https://github.com/joomla-framework/archive/tree/2.0.0"
+                "source": "https://github.com/joomla-framework/archive/tree/2.0.1"
             },
             "funding": [
                 {
@@ -861,7 +906,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-10T19:12:57+00:00"
+            "time": "2022-03-29T13:03:06+00:00"
         },
         {
             "name": "joomla/authentication",
@@ -1349,16 +1394,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "c8490f062a3764920d5cd784484e6495d975debe"
+                "reference": "d991e618da69e557a84ea97e6a601afec28ae8cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/c8490f062a3764920d5cd784484e6495d975debe",
-                "reference": "c8490f062a3764920d5cd784484e6495d975debe",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d991e618da69e557a84ea97e6a601afec28ae8cf",
+                "reference": "d991e618da69e557a84ea97e6a601afec28ae8cf",
                 "shasum": ""
             },
             "require": {
@@ -1394,7 +1439,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filesystem/issues",
-                "source": "https://github.com/joomla-framework/filesystem/tree/2.0.0"
+                "source": "https://github.com/joomla-framework/filesystem/tree/2.0.1"
             },
             "funding": [
                 {
@@ -1406,20 +1451,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-10T18:51:15+00:00"
+            "time": "2022-03-29T12:43:57+00:00"
         },
         {
             "name": "joomla/filter",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filter.git",
-                "reference": "8e75093af3e1614ba774cd94fd39517c19ed0444"
+                "reference": "137ca3f8925c4529a113735404b873fad0a1305f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/8e75093af3e1614ba774cd94fd39517c19ed0444",
-                "reference": "8e75093af3e1614ba774cd94fd39517c19ed0444",
+                "url": "https://api.github.com/repos/joomla-framework/filter/zipball/137ca3f8925c4529a113735404b873fad0a1305f",
+                "reference": "137ca3f8925c4529a113735404b873fad0a1305f",
                 "shasum": ""
             },
             "require": {
@@ -1461,7 +1506,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/filter/issues",
-                "source": "https://github.com/joomla-framework/filter/tree/2.0.0"
+                "source": "https://github.com/joomla-framework/filter/tree/2.0.1"
             },
             "funding": [
                 {
@@ -1473,7 +1518,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-10T18:51:02+00:00"
+            "time": "2022-02-15T21:33:06+00:00"
         },
         {
             "name": "joomla/http",
@@ -1545,16 +1590,16 @@
         },
         {
             "name": "joomla/input",
-            "version": "2.0.1",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/input.git",
-                "reference": "f68ee0bb888f4cce554e8d656cf1fb930b24a366"
+                "reference": "147229d2e0c5ac7db6f972d19c9faa922575e5c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/input/zipball/f68ee0bb888f4cce554e8d656cf1fb930b24a366",
-                "reference": "f68ee0bb888f4cce554e8d656cf1fb930b24a366",
+                "url": "https://api.github.com/repos/joomla-framework/input/zipball/147229d2e0c5ac7db6f972d19c9faa922575e5c2",
+                "reference": "147229d2e0c5ac7db6f972d19c9faa922575e5c2",
                 "shasum": ""
             },
             "require": {
@@ -1591,7 +1636,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/input/issues",
-                "source": "https://github.com/joomla-framework/input/tree/2.0.1"
+                "source": "https://github.com/joomla-framework/input/tree/2.0.3"
             },
             "funding": [
                 {
@@ -1603,7 +1648,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-12-10T11:51:35+00:00"
+            "time": "2022-04-06T20:02:40+00:00"
         },
         {
             "name": "joomla/ldap",
@@ -2102,16 +2147,16 @@
         },
         {
             "name": "joomla/uri",
-            "version": "2.0.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270"
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/743136489c0f94c13ee2ab54aa14232063a98270",
-                "reference": "743136489c0f94c13ee2ab54aa14232063a98270",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/755f1cf80e2463d9a162563e607154c64083184b",
+                "reference": "755f1cf80e2463d9a162563e607154c64083184b",
                 "shasum": ""
             },
             "require": {
@@ -2145,7 +2190,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/2.0.0"
+                "source": "https://github.com/joomla-framework/uri/tree/2.0.2"
             },
             "funding": [
                 {
@@ -2157,7 +2202,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-16T20:12:11+00:00"
+            "time": "2022-04-21T09:39:04+00:00"
         },
         {
             "name": "joomla/utilities",
@@ -2380,35 +2425,37 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.17.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "e8ac3499af0ea5b440908e06cc0abe5898008b3c"
+                "reference": "c2e310320b7751a959f1590bb76530abbcfd2ce6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/e8ac3499af0ea5b440908e06cc0abe5898008b3c",
-                "reference": "e8ac3499af0ea5b440908e06cc0abe5898008b3c",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/c2e310320b7751a959f1590bb76530abbcfd2ce6",
+                "reference": "c2e310320b7751a959f1590bb76530abbcfd2ce6",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1|^8",
                 "psr/log": "^1|^2|^3",
-                "symfony/var-dumper": "^2.6|^3|^4|^5"
+                "symfony/var-dumper": "^2.6|^3|^4|^5|^6"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5.20 || ^9.4.2"
+                "phpunit/phpunit": "^7.5.20 || ^9.4.2",
+                "twig/twig": "^1.38|^2.7|^3.0"
             },
             "suggest": {
                 "kriswallsmith/assetic": "The best way to manage assets",
                 "monolog/monolog": "Log using Monolog",
                 "predis/predis": "Redis storage"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 }
             },
             "autoload": {
@@ -2439,9 +2486,9 @@
             ],
             "support": {
                 "issues": "https://github.com/maximebf/php-debugbar/issues",
-                "source": "https://github.com/maximebf/php-debugbar/tree/v1.17.3"
+                "source": "https://github.com/maximebf/php-debugbar/tree/master"
             },
-            "time": "2021-10-19T12:33:27+00:00"
+            "time": "2022-02-11T11:14:20+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -10591,6 +10638,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "maximebf/debugbar": 20,
         "tobscure/json-api": 20,
         "joomla/cms-coding-standards": 20,
         "joomla/coding-standards": 20,
@@ -10608,5 +10656,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

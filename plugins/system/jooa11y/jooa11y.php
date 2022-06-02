@@ -95,6 +95,16 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 		// Load language.
 		$this->loadLanguage();
 
+		// Add plugin settings from the xml
+		$document->addScriptOptions(
+			'jooa11yOptions',
+			[
+				'checkRoot'       => $this->params->get('checkRoot', 'main'),
+				'readabilityRoot' => $this->params->get('readabilityRoot', 'main'),
+				'containerIgnore' => $this->params->get('containerIgnore'),
+			]
+		);
+
 		// Add the language constants
 		$constants = [
 			'PLG_SYSTEM_JOOA11Y_ALERT_CLOSE',
@@ -222,7 +232,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			'PLG_SYSTEM_JOOA11Y_TABLES_SEMANTIC_HEADING',
 			'PLG_SYSTEM_JOOA11Y_TABLES_SEMANTIC_HEADING_INFO',
 			'PLG_SYSTEM_JOOA11Y_TEXT_UNDERLINE_WARNING',
-			'PLG_SYSTEM_JOOA11Y_TEXT_UNDERLINE_WARNING_INFO',
+			'PLG_SYSTEM_JOOA11Y_TEXT_UNDERLINE_WARNING_TIP',
 			'PLG_SYSTEM_JOOA11Y_TOTAL_WORDS',
 			'PLG_SYSTEM_JOOA11Y_VERY_DIFFICULT_READABILITY',
 			'PLG_SYSTEM_JOOA11Y_WARNING',

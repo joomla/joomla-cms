@@ -37,12 +37,11 @@ class TasksModel extends ListModel
 	 * Constructor.
 	 *
 	 * @param   array                     $config   An optional associative array of configuration settings.
-	 *
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
-	 * @since  4.1.0
-	 * @throws \Exception
-	 * @see    \JControllerLegacy
+	 * @since   4.1.0
+	 * @throws  \Exception
+	 * @see     \JControllerLegacy
 	 */
 	public function __construct($config = [], MVCFactoryInterface $factory = null)
 	{
@@ -121,13 +120,34 @@ class TasksModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code, a.locked' .
-				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.asset_id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.type'),
+					$db->quoteName('a.execution_rules'),
+					$db->quoteName('a.state'),
+					$db->quoteName('a.last_exit_code'),
+					$db->quoteName('a.locked'),
+					$db->quoteName('a.last_execution'),
+					$db->quoteName('a.next_execution'),
+					$db->quoteName('a.times_executed'),
+					$db->quoteName('a.times_failed'),
+					$db->quoteName('a.priority'),
+					$db->quoteName('a.ordering'),
+					$db->quoteName('a.note'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+				]
 			)
-		);
-
-		// From the #__scheduler_tasks table as 'a'
-		$query->from($db->quoteName('#__scheduler_tasks', 'a'));
+		)
+			->select(
+				[
+					$db->quoteName('uc.name', 'editor'),
+				]
+			)
+			->from($db->quoteName('#__scheduler_tasks', 'a'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Filters go below
 		$filterCount = 0;
@@ -185,7 +205,7 @@ class TasksModel extends ListModel
 			$activeRoutines = array_map(
 				static function (TaskOption $taskOption): string
 				{
-					return $taskOption->type;
+					return $taskOption->id;
 				},
 				$taskOptions->options
 			);
@@ -331,7 +351,7 @@ class TasksModel extends ListModel
 		if (!$multiOrdering || !\is_array($multiOrdering))
 		{
 			$orderCol = $this->state->get('list.ordering', 'a.title');
-			$orderDir = $this->state->get('list.direction', 'desc');
+			$orderDir = $this->state->get('list.direction', 'asc');
 
 			// Type title ordering is handled exceptionally in _getList()
 			if ($orderCol !== 'j.type_title')
@@ -370,10 +390,9 @@ class TasksModel extends ListModel
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
 	{
-
 		// Get stuff from the model state
 		$listOrder      = $this->getState('list.ordering', 'a.title');
-		$listDirectionN = strtolower($this->getState('list.direction', 'desc')) == 'desc' ? -1 : 1;
+		$listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
 
 		// Set limit parameters and get object list
 		$query->setLimit($limit, $limitstart);
@@ -445,7 +464,7 @@ class TasksModel extends ListModel
 	 * @return void
 	 * @since  4.1.0
 	 */
-	protected function populateState($ordering = 'a.id', $direction = 'ASC'): void
+	protected function populateState($ordering = 'a.title', $direction = 'ASC'): void
 	{
 		// Call the parent method
 		parent::populateState($ordering, $direction);
