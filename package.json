@@ -26,8 +26,8 @@
     "gzip": "node build/build.js --gzip",
     "versioning": "node build/build.js --versioning",
     "cypress:install": "$(npm bin)/cypress install",
-    "cypress:open": "$(npm bin)/cypress open",
-    "cypress:run": "$(npm bin)/cypress run"
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "browserslist": [
     "last 1 version",
@@ -79,7 +79,7 @@
     "commander": "^8.3.0",
     "core-js": "^3.19.3",
     "cssnano": "^5.0.12",
-    "cypress": "^9.7.0",
+    "cypress": "^10.0.0",
     "eslint": "^8.4.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",

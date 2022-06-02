@@ -4,5 +4,6 @@
 describe('Install Joomla', () => {
   it('Install Joomla', function () {
     cy.installJoomla(this.joomlaconfig)
+    cy.doAdministratorLogin(this.joomlaconfig.username, this.joomlaconfig.password)
   })
 })
