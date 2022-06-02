@@ -44,18 +44,20 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 		// Only trigger in frontend
 		if (Factory::getApplication()->isClient('site'))
 		{
-			$mapping['onAfterRoute'] = 'checkJooa11y';
+			$mapping['onBeforeCompileHead'] = 'initJooa11y';
 		}
 
 		return $mapping;
 	}
 
 	/**
+	 * Add the checker.
+	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
-	public function checkJooa11y()
+	public function initJooa11y()
 	{
 		// Check if we are in a preview modal or the plugin has enforced loading
 		$showJooa11y = $this->app->input->get('jooa11y', $this->params->get('showAlways', 0));
@@ -76,19 +78,6 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
 			}
 		);
 
-		// Register actual init.
-		$this->app->registerEvent('onBeforeCompileHead', [$this, 'initJooa11y']);
-	}
-
-	/**
-	 * Add the checker.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 */
-	public function initJooa11y()
-	{
 		// Get the document object.
 		$document = $this->app->getDocument();
 
