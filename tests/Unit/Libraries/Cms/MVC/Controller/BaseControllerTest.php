@@ -501,7 +501,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testInjectViewPath()
 	{
-		$path       = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+		$path       = dirname(__DIR__);
 		$controller = new class(
 			['view_path' => $path, 'base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
@@ -515,7 +515,7 @@ class BaseControllerTest extends UnitTestCase
 		};
 
 		$this->arrayHasKey('view', $controller->getPaths());
-		$this->assertEquals([$path], $controller->getPaths()['view']);
+		$this->assertEquals([$path . '/'], $controller->getPaths()['view']);
 	}
 
 	/**
@@ -539,10 +539,10 @@ class BaseControllerTest extends UnitTestCase
 			}
 		};
 
-		$controller->addViewPath(__DIR__ . DIRECTORY_SEPARATOR);
+		$controller->addViewPath(__DIR__);
 
 		$this->arrayHasKey('view', $controller->getPaths());
-		$this->assertContains(__DIR__ . DIRECTORY_SEPARATOR, $controller->getPaths()['view']);
+		$this->assertContains(__DIR__ . '/', $controller->getPaths()['view']);
 	}
 
 	/**
