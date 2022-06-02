@@ -153,8 +153,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 			</div>
 		<?php endif; ?>
 
+		<div class="container-brand-nav">
 		<?php if ($this->params->get('brand', 1)) : ?>
-			<div class="grid-child">
+			<div class="grid-child container-brand">
 				<div class="navbar-brand">
 					<a class="brand-logo" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
@@ -178,6 +179,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
+		</div>
 	</header>
 
 	<div class="site-grid">
