@@ -58,7 +58,7 @@ class AbstractViewTest extends UnitTestCase
 			{}
 		};
 
-		$this->assertStringContainsStringIgnoringCase('abstractviewtest', $view->getName());
+		$this->assertStringContainsStringIgnoringCase('view', $view->getName());
 	}
 
 	/**
