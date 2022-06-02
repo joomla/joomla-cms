@@ -2,7 +2,7 @@
 <extension type="plugin" group="installer" method="upgrade">
 	<name>plg_installer_webinstaller</name>
 	<author>Joomla! Project</author>
-	<creationDate>April 2017</creationDate>
+	<creationDate>2017-04</creationDate>
 	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>https://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>

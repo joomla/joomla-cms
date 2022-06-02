@@ -40,7 +40,7 @@ class UserMessagesField extends UserField
 	protected function getGroups()
 	{
 		// Compute usergroups
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('id')
 			->from('#__usergroups');

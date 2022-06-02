@@ -13,6 +13,7 @@ namespace Joomla\CMS\Service\Provider;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Menu\MenuFactory;
 use Joomla\CMS\Menu\MenuFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -40,10 +41,11 @@ class Menu implements ServiceProviderInterface
 				MenuFactoryInterface::class,
 				function (Container $container)
 				{
-					$menu = new MenuFactory;
-					$menu->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+					$factory = new MenuFactory;
+					$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+					$factory->setDatabase($container->get(DatabaseInterface::class));
 
-					return $menu;
+					return $factory;
 				},
 				true
 			);

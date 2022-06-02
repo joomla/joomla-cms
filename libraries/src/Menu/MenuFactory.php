@@ -13,6 +13,7 @@ namespace Joomla\CMS\Menu;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Default factory for creating Menu objects
@@ -22,6 +23,7 @@ use Joomla\CMS\Language\Text;
 class MenuFactory implements MenuFactoryInterface
 {
 	use CacheControllerFactoryAwareTrait;
+	use DatabaseAwareTrait;
 
 	/**
 	 * Creates a new Menu object for the requested format.
@@ -42,6 +44,11 @@ class MenuFactory implements MenuFactoryInterface
 		if (!class_exists($classname))
 		{
 			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+		}
+
+		if (!array_key_exists('db', $options))
+		{
+			$options['db'] = $this->getDatabase();
 		}
 
 		$instance = new $classname($options);

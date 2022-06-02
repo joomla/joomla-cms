@@ -13,6 +13,7 @@ namespace Joomla\CMS\Extension;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
+use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Input\Input;
 
@@ -68,7 +69,14 @@ class Module implements ModuleInterface, HelperFactoryInterface
 	 */
 	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
-		return $this->dispatcherFactory->createDispatcher($module, $application, $input);
+		$dispatcher = $this->dispatcherFactory->createDispatcher($module, $application, $input);
+
+		if ($dispatcher instanceof HelperFactoryAwareInterface)
+		{
+			$dispatcher->setHelperFactory($this->helperFactory);
+		}
+
+		return $dispatcher;
 	}
 
 	/**
