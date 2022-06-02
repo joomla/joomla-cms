@@ -15,13 +15,11 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\CMS\User\User;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Input\Input;
 use Joomla\Tests\Unit\UnitTestCase;
 
@@ -260,10 +258,8 @@ class BaseControllerTest extends UnitTestCase
 	public function testGetModel()
 	{
 		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
-		$model      = new class(['dbo' => $this->createStub(DatabaseInterface::class), 'name' => 'test'], $mvcFactory) extends BaseDatabaseModel
-		{
-			protected $option = 'test';
-		};
+		$model      = new class(['name' => 'test']) extends BaseModel
+		{};
 		$mvcFactory->method('createModel')->willReturn($model);
 
 		$controller = new class(
@@ -356,9 +352,9 @@ class BaseControllerTest extends UnitTestCase
 	public function testGetModelWithIdentity()
 	{
 		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
-		$model      = new class(['dbo' => $this->createStub(DatabaseInterface::class), 'name' => 'test'], $mvcFactory) extends BaseDatabaseModel
+		$model      = new class(['name' => 'test']) extends BaseModel implements CurrentUserInterface
 		{
-			protected $option = 'test';
+			use CurrentUserTrait;
 
 			public function getUser(): User
 			{

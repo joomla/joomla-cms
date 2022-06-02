@@ -45,7 +45,7 @@ class BaseModelTest extends UnitTestCase
 	 */
 	public function testGetCompiledName()
 	{
-		$model = new class() extends BaseModel
+		$model = new class extends BaseModel
 		{};
 
 		$this->assertStringContainsStringIgnoringCase('basetest', $model->getName());
