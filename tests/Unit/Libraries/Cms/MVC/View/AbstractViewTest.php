@@ -21,12 +21,15 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
+ *
+ * @testdox     The AbstractView
+ *
  * @since       __DEPLOY_VERSION__
  */
 class AbstractViewTest extends UnitTestCase
 {
 	/**
-	 * @testdox  The AbstractView gets the injected name
+	 * @testdox  gets the injected name
 	 *
 	 * @return  void
 	 *
@@ -44,7 +47,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView compiles its own name
+	 * @testdox  compiles its own name
 	 *
 	 * @return  void
 	 *
@@ -62,7 +65,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView has the injected option
+	 * @testdox  has the injected option
 	 *
 	 * @return  void
 	 *
@@ -85,7 +88,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView can set a model and get it by name
+	 * @testdox  can set a model and get it by name
 	 *
 	 * @return  void
 	 *
@@ -107,7 +110,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView can set a default model and get it with no name
+	 * @testdox  can set a default model and get it with no name
 	 *
 	 * @return  void
 	 *
@@ -129,7 +132,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView can get data
+	 * @testdox  can get data
 	 *
 	 * @return  void
 	 *
@@ -148,7 +151,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView can get data
+	 * @testdox  can get data
 	 *
 	 * @return  void
 	 *
@@ -166,7 +169,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView can get data from model
+	 * @testdox  can get data from model
 	 *
 	 * @return  void
 	 *
@@ -193,7 +196,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView can get data from default model
+	 * @testdox  can get data from default model
 	 *
 	 * @return  void
 	 *
@@ -220,7 +223,7 @@ class AbstractViewTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The AbstractView can dispatch an event
+	 * @testdox  can dispatch an event
 	 *
 	 * @return  void
 	 *

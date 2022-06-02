@@ -17,12 +17,15 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
+ *
+ * @testdox     The BaseModel
+ *
  * @since       __DEPLOY_VERSION__
  */
 class BaseModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  The BaseModel gets the injected name
+	 * @testdox  gets the injected name
 	 *
 	 * @return  void
 	 *
@@ -37,7 +40,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseModel compiles its own name
+	 * @testdox  compiles its own name
 	 *
 	 * @return  void
 	 *
@@ -52,7 +55,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseModel gets the injected state
+	 * @testdox  gets the injected state
 	 *
 	 * @return  void
 	 *
@@ -68,7 +71,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseModel does populate the state before accessing it
+	 * @testdox  does populate the state before accessing it
 	 *
 	 * @return  void
 	 *
@@ -88,7 +91,7 @@ class BaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseModel does ignore to populate the state before accessing it
+	 * @testdox  does ignore to populate the state before accessing it
 	 *
 	 * @return  void
 	 *

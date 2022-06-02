@@ -19,12 +19,15 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
+ *
+ * @testdox     The FormModel
+ *
  * @since       __DEPLOY_VERSION__
  */
 class ItemModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  The ItemModel store id is not empty
+	 * @testdox  store id is not empty
 	 *
 	 * @return  void
 	 *
@@ -47,7 +50,7 @@ class ItemModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The ItemModel store id is not empty on an empty id
+	 * @testdox  store id is not empty on an empty id
 	 *
 	 * @return  void
 	 *
@@ -70,7 +73,7 @@ class ItemModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The ItemModel store id is different with different ids
+	 * @testdox  store id is different with different ids
 	 *
 	 * @return  void
 	 *
@@ -93,7 +96,7 @@ class ItemModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The ItemModel store id is the same with same ids
+	 * @testdox  store id is the same with same ids
 	 *
 	 * @return  void
 	 *

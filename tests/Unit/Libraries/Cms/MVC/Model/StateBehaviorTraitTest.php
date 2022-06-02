@@ -18,12 +18,15 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
+ *
+ * @testdox     The StateBehaviorTrait
+ *
  * @since       __DEPLOY_VERSION__
  */
 class StateBehaviorTraitTest extends UnitTestCase
 {
 	/**
-	 * @testdox  The full empty state can be fetched
+	 * @testdox  can fetch an empty state
 	 *
 	 * @return  void
 	 *
@@ -40,7 +43,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The state is populated
+	 * @testdox  does populate the state when a state is requested
 	 *
 	 * @return  void
 	 *
@@ -62,7 +65,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The state is not populated when already set
+	 * @testdox  does not populated the state when already set
 	 *
 	 * @return  void
 	 *
@@ -89,7 +92,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The state can be set correctly
+	 * @testdox  sets the state correctly
 	 *
 	 * @return  void
 	 *
@@ -107,7 +110,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The state gets overwritten when it is not populated
+	 * @testdox  overwrites the state when it is not populated
 	 *
 	 * @return  void
 	 *
@@ -130,7 +133,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The state can be overwritten when it is already populated
+	 * @testdox  does not overwrite the state when it is already populated
 	 *
 	 * @return  void
 	 *
