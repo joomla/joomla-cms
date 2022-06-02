@@ -98,16 +98,16 @@ trait DisplayTrait
 				$options['tinyMCE'][$fieldName]['height'] = $height;
 			}
 
+			// Set editor to readonly mode
+			if (!empty($params['readonly']))
+			{
+				$options['tinyMCE'][$fieldName]['readonly'] = 1;
+			}
+
 			// The ext-buttons
 			if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
 			{
 				$btns = $this->tinyButtons($id, $buttons);
-
-				// Set editor to readonly mode
-				if (!empty($params['readonly']))
-				{
-					$options['tinyMCE'][$fieldName]['readonly'] = 1;
-				}
 
 				$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
 				$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
