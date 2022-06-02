@@ -50,15 +50,15 @@
 				</field>
 
 				<field
-					name="negotiate_tls"
-					type="radio"
-					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
-					default="0"
-					filter="integer"
-					layout="joomla.form.field.radio.switcher"
+					name="encryption"
+					type="list"
+					label="PLG_LDAP_FIELD_ENCRYPTION_LABEL"
+					default="none"
+					validate="options"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="none">PLG_LDAP_FIELD_VALUE_ENCRYPTIONNONE</option>
+					<option value="tls">PLG_LDAP_FIELD_VALUE_ENCRYPTIONTLS</option>
+					<option value="ssl">PLG_LDAP_FIELD_VALUE_ENCRYPTIONSSL</option>
 				</field>
 
 				<field
