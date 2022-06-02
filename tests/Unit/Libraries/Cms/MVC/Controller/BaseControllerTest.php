@@ -130,7 +130,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController executes a task
+	 * @testdox  The BaseController can unregister a task
 	 *
 	 * @return  void
 	 *
@@ -230,7 +230,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController executes a task
+	 * @testdox  The BaseController throws an exception when a task doesn't exist
 	 *
 	 * @return  void
 	 *
@@ -523,7 +523,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController gets can add a view path
+	 * @testdox  The BaseController can add a view path
 	 *
 	 * @return  void
 	 *
@@ -735,7 +735,7 @@ class BaseControllerTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  The BaseController cannot hold the edit id in app user state
+	 * @testdox  The BaseController cannot hold an empty edit id in app user state
 	 *
 	 * @return  void
 	 *
