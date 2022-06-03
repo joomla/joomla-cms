@@ -1166,7 +1166,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function setUserState($key, $value)
 	{
-		$session = Factory::getSession();
+		$session  = $this->getSession();
 		$registry = $session->get('registry');
 
 		if ($registry !== null)
