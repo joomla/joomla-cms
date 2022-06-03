@@ -72,3 +72,6 @@ installation/tmpl/* @chmst
 
 # Translation GitHub Actions
 .github/workflows/create-translation-pull-request-v4.yml @hleithner
+
+# Libraries
+libraries/src/* @laoneo
