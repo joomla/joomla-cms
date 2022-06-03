@@ -101,7 +101,7 @@ $wa->useScript('keepalive')
 					</div>
 				<?php else : ?>
 					<details>
-						<summary>Details</summary>
+						<summary><?php echo Text::_('COM_USERS_PROFILE_OTEPS_DETAILS_DESC'); ?></summary>
 					<?php foreach ($this->otpConfig->otep as $otep) : ?>
 						<?php echo wordwrap($otep, 4, '-', true); ?><br>
 					<?php endforeach; ?>
