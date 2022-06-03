@@ -23,7 +23,7 @@ use Joomla\Tests\Unit\UnitTestCase;
 class CurrentUserTraitTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the current user can be set with setCurrentUser()
+	 * @testdox  The current user can be set with setCurrentUser()
 	 *
 	 * @return  void
 	 *

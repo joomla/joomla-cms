@@ -21,12 +21,15 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
+ *
+ * @testdox     The FormModel
+ *
  * @since       __DEPLOY_VERSION__
  */
 class FormModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the FormModel can checkin a record
+	 * @testdox  can checkin a record
 	 *
 	 * @return  void
 	 *
@@ -51,13 +54,13 @@ class FormModelTest extends UnitTestCase
 				return null;
 			}
 		};
-		$model->setCurrentUser(new User());
+		$model->setCurrentUser(new User);
 
 		$this->assertTrue($model->checkin(1));
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when the id is 0
+	 * @testdox  can checkin a record when the id is 0
 	 *
 	 * @return  void
 	 *
@@ -77,7 +80,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record
+	 * @testdox  can't checkin a record
 	 *
 	 * @return  void
 	 *
@@ -108,7 +111,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record when load of the table fails
+	 * @testdox  can't checkin a record when load of the table fails
 	 *
 	 * @return  void
 	 *
@@ -136,7 +139,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when the table has not the required fields
+	 * @testdox  can checkin a record when the table has not the required fields
 	 *
 	 * @return  void
 	 *
@@ -165,7 +168,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record when is checked out as different user and current user is not admin
+	 * @testdox  can't checkin a record when is checked out as different user and current user is not admin
 	 *
 	 * @return  void
 	 *
@@ -199,7 +202,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when is checked out as different user and current user is admin
+	 * @testdox  can checkin a record when is checked out as different user and current user is admin
 	 *
 	 * @return  void
 	 *
@@ -234,7 +237,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record
+	 * @testdox  can checkout a record
 	 *
 	 * @return  void
 	 *
@@ -265,7 +268,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record when the id is 0
+	 * @testdox  can checkout a record when the id is 0
 	 *
 	 * @return  void
 	 *
@@ -285,7 +288,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record
+	 * @testdox  can't checkout a record
 	 *
 	 * @return  void
 	 *
@@ -316,7 +319,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record when load of the table fails
+	 * @testdox  can't checkout a record when load of the table fails
 	 *
 	 * @return  void
 	 *
@@ -343,7 +346,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record when the table has not the required fields
+	 * @testdox  can checkout a record when the table has not the required fields
 	 *
 	 * @return  void
 	 *
@@ -371,7 +374,7 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record when is checked out as different user
+	 * @testdox  can't checkout a record when is checked out as different user
 	 *
 	 * @return  void
 	 *
