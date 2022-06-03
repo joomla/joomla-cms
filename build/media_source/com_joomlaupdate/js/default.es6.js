@@ -53,6 +53,7 @@ Joomla = window.Joomla || {};
     const form = installButton ? installButton.closest('form') : null;
     const task = form ? form.querySelector('[name=task]', form) : null;
     if (uploadButton) {
+      uploadButton.disabled = !updateCheck.checked;
       uploadButton.addEventListener('click', Joomla.submitbuttonUpload);
       updateCheck.addEventListener('change', () => {
         uploadButton.disabled = !updateCheck.checked;
@@ -80,11 +81,11 @@ Joomla = window.Joomla || {};
         } else if (fileSize <= allowedSize && !updateCheck.disabled && !updateCheck.checked) {
           updateCheck.disabled = false;
         } else if (fileSize <= allowedSize && updateCheck.checked) {
-          updateCheck.checked = false;
+          updateCheck.checked = updateCheck.classList.contains('d-none');
           uploadButton.disabled = true;
         } else if (fileSize > allowedSize && !updateCheck.disabled) {
           updateCheck.disabled = !updateCheck.disabled;
-          updateCheck.checked = false;
+          updateCheck.checked = updateCheck.classList.contains('d-none');
           uploadButton.disabled = true;
         }
       });
