@@ -35,7 +35,7 @@ trait CacheControllerFactoryAwareTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getCacheControllerFactory(): CacheControllerFactoryInterface
+	protected function getCacheControllerFactory(): CacheControllerFactoryInterface
 	{
 		if ($this->cacheControllerFactory)
 		{
