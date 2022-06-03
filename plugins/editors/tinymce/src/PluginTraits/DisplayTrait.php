@@ -65,8 +65,6 @@ trait DisplayTrait
 		$externalPlugins = [];
 		$options         = $doc->getScriptOptions('plg_editor_tinymce');
 		$theme           = 'silver';
-		$width           = is_numeric($width) ? $width . 'px' : $width;
-		$height          = is_numeric($height) ? $height . 'px' : $height;
 
 		// Data object for the layout
 		$textarea           = new stdClass;
@@ -75,8 +73,8 @@ trait DisplayTrait
 		$textarea->class    = 'mce_editable joomla-editor-tinymce';
 		$textarea->cols     = $col;
 		$textarea->rows     = $row;
-		$textarea->width    = $width;
-		$textarea->height   = $height;
+		$textarea->width    = is_numeric($width) ? $width . 'px' : $width;
+		$textarea->height   = is_numeric($height) ? $height . 'px' : $height;
 		$textarea->content  = $content;
 		$textarea->readonly = !empty($params['readonly']);
 
@@ -237,12 +235,6 @@ trait DisplayTrait
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
 
-		$html_height = $this->params->get('html_height', '550');
-		$html_width  = $this->params->get('html_width', '');
-		$html_width  = $html_width == 750 ? '' : $html_width;
-		$html_width  = is_numeric($html_width) ? $html_width . 'px' : $html_width;
-		$html_height = is_numeric($html_height) ? $html_height . 'px' : $html_height;
-
 		// The param is true for vertical resizing only, false or both
 		$resizing          = (bool) $levelParams->get('resizing', true);
 		$resize_horizontal = (bool) $levelParams->get('resize_horizontal', true);
@@ -381,7 +373,7 @@ trait DisplayTrait
 		{
 			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, 0, 'UTF-8', 0) : $uploadUrl;
+			$uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
 
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('ERROR');
@@ -479,8 +471,8 @@ trait DisplayTrait
 				'document_base_url'  => Uri::root(true) . '/',
 				'image_caption'      => true,
 				'importcss_append'   => true,
-				'height'             => $html_height,
-				'width'              => $html_width,
+				'height'             => $height ?: $this->params->get('html_height', '550px'),
+				'width'              => $width ?: $this->params->get('html_width', ''),
 				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,

@@ -64,7 +64,7 @@ class ContactComponent extends MVCComponent implements
 	public function boot(ContainerInterface $container)
 	{
 		$this->getRegistry()->register('contactadministrator', new AdministratorService);
-		$this->getRegistry()->register('contacticon', new Icon($container->get(SiteApplication::class)));
+		$this->getRegistry()->register('contacticon', new Icon);
 	}
 
 	/**
