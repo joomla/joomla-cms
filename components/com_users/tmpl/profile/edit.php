@@ -100,9 +100,12 @@ $wa->useScript('keepalive')
 						<?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?>
 					</div>
 				<?php else : ?>
+					<details>
+						<summary>Details</summary>
 					<?php foreach ($this->otpConfig->otep as $otep) : ?>
 						<?php echo wordwrap($otep, 4, '-', true); ?><br>
 					<?php endforeach; ?>
+					</details>
 					<div class="clearfix"></div>
 				<?php endif; ?>
 			</fieldset>
