@@ -35,7 +35,7 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The application object
 	 *
-	 * @var    ApiApplication
+	 * @var    CMSApplicationInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
