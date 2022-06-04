@@ -33,7 +33,7 @@ use RuntimeException;
  *
  * @since  4.0.0
  */
-class Taggable extends CMSPlugin implements SubscriberInterface
+final class Taggable extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Returns an array of events this subscriber will listen to.
