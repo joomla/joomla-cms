@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
@@ -114,6 +115,7 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 			'saveNewKey'         => 'joomla-toolbar-button .button-save-new',
 			'cancelKey'          => 'joomla-toolbar-button .button-cancel',
 			'optionKey'          => 'joomla-toolbar-button .button-options',
+			'searchKey'					 => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']',
 			'editorArticleKey'   => 'joomla-editor-option ~ article_modal',
 			'editorContactKey'   => 'joomla-editor-option ~ contact_modal',
 			'editorFieldsKey'    => 'joomla-editor-option ~ fields_modal',

@@ -6,22 +6,29 @@
   }
 
   Joomla.addShortcut = (hotkey, callback) => {
-    hotkeys(hotkey, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
+    hotkeys(hotkey, (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
 
-      if (typeof callback === 'function') {
-        callback.call();
+      callback.call();
+    });
+  };
+
+  Joomla.addClickShortcut = (hotkey, selector) => {
+    Joomla.addShortcut(hotkey, () => {
+      const element = document.querySelector(selector);
+      if (element) {
+        element.click();
       }
     });
   };
 
-  Joomla.addClickButtonShortcut = (hotkey, selector) => {
+  Joomla.addFocusShortcut = (hotkey, selector) => {
     Joomla.addShortcut(hotkey, () => {
-      const actionBtn = document.querySelector(selector);
-      if (actionBtn) {
-        actionBtn.click();
+      const element = document.querySelector(selector);
+      if (element) {
+        element.focus();
       }
     });
   };
@@ -29,8 +36,14 @@
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
 
-    Object.entries(options).forEach((option) => {
-      Joomla.addClickButtonShortcut(option[0], option[1]);
-    });
+    for (let hotkey in options) {
+      const selector = options[hotkey];
+
+      if (selector.includes('input')) {
+        Joomla.addFocusShortcut(hotkey, selector);
+      } else {
+        Joomla.addClickShortcut(hotkey, selector);
+      }
+    };
   });
 })(document, Joomla);
