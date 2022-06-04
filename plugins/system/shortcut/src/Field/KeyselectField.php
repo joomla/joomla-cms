@@ -3,7 +3,7 @@
  * @package     Joomla.Plugins
  * @subpackage  System.shortcut
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,9 @@ use Joomla\CMS\Form\FormField;
 \defined('_JEXEC') or die;
 
 /**
- * Unique ID Field class for the Shortcut Plugin.
+ * Supports a modal shortcut key selector
  *
- * @since  3.5
+ * @since  __DEPLOY_VERSION__
  */
 class KeyselectField extends FormField
 {

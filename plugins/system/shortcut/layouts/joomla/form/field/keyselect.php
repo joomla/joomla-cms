@@ -1,10 +1,9 @@
 <?php
-
 /**
  * @package     Joomla.Plugins
  * @subpackage  System.shortcut
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +11,6 @@
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::_('bootstrap.modal');
 
 Text::script('PLG_SYSTEM_SHORTCUT_SET_SHORTCUT');
 Text::script('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION');
@@ -28,7 +24,8 @@ if (!$wa->assetExists('script', 'keyselectmodal')) {
 	$document = $app->getDocument();
 	$wa->registerScript('keyselectmodal', 'media/plg_system_shortcut/js/keyselect.js', [], ['defer' => true, 'type' => 'module']);
 }
-$wa->useScript('keyselectmodal');
+$wa->useScript('keyselectmodal')
+	->useScript('bootstrap.modal');
 
 extract($displayData);
 

@@ -2,8 +2,8 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_shortcut</name>
 	<author>Joomla! Project</author>
-	<creationDate>Jun 2021</creationDate>
-	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<creationDate>Jun 2022</creationDate>
+	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -18,145 +18,144 @@
 		<filename plugin="shortcut">shortcut.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_shortcut.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_shortcut.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_shortcut.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
 			<fieldset
-				name="buttons" 
+				name="buttons"
 				label="PLG_SYSTEM_SHORTCUT_CORE_SHORTCUTS_TAB"
 				addfieldprefix="Joomla\Plugin\System\Shortcut\Field"
 				>
 				<fieldset
 					name="generic_buttons"
 					label="PLG_SYSTEM_SHORTCUT_GENERIC_BUTTONS_FIELDSET_LABEL"
-				>
+					>
 					<field
 						name="helpKey"
 						type="keySelect"
-						default="ALT + X"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL"
+						default="ALT + X"
 					/>
 				</fieldset>
 				<fieldset
 					name="list_buttons"
 					label="PLG_SYSTEM_SHORTCUT_LIST_BUTTONS_FIELDSET_LABEL"
-				>
+					>
 					<field
 						name="newKey"
 						type="keySelect"
-						default="ALT + N"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL"
+						default="ALT + N"
 					/>
 					<field
 						name="optionKey"
 						type="keySelect"
-						default="ALT + O"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_OPTION_LBL"
+						default="ALT + O"
 					/>
 				</fieldset>
 				<fieldset
 					name="form_buttons"
 					label="PLG_SYSTEM_SHORTCUT_FORM_BUTTONS_FIELDSET_LABEL"
-				>
+					>
 					<field
 						name="applyKey"
 						type="Keyselect"
-						default="ALT + S"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL"
+						default="ALT + S"
 					/>
 
 					<field
 						name="saveKey"
 						type="keySelect"
-						default="ALT + W"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL"
+						default="ALT + W"
 					/>
 
 					<field
 						name="saveNewKey"
-						type="keySelect" 
+						type="keySelect"
+						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL"
 						default="SHIFT + ALT + N"
-						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL" 
 					/>
 
 					<field
 						name="cancelKey"
-						type="keySelect" 
-						default="ALT + Q"
+						type="keySelect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL"
+						default="ALT + Q"
 					/>
 				</fieldset>
 			</fieldset>
-			<fieldset 
-				name="editor" 
-				label="PLG_SYSTEM_SHORTCUT_EDITOR_LBL" 
+			<fieldset
+				name="editor"
+				label="PLG_SYSTEM_SHORTCUT_EDITOR_LBL"
 				addfieldpath="/plugins/system/shortcut/fields"
 				>
-
-				<field 
+				<field
 					name="editorArticleKey"
-					type="keySelect" 
-					default="CTRL + ALT + A" 
-					class="article" 
-					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_ARTICLE_LBL" 
+					type="keySelect"
+					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_ARTICLE_LBL"
+					default="CTRL + ALT + A"
+					class="article"
 				/>
-			
-				<field 
+
+				<field
 					name="editorContactKey"
-					type="keySelect" 
-					default="CTRL + ALT + C" 
-					class="contact" 
-					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_CONTACT_LBL" 
+					type="keySelect"
+					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_CONTACT_LBL"
+					default="CTRL + ALT + C"
+					class="contact"
 				/>
 
-				<field 
+				<field
 					name="editorFieldsKey"
-					type="keySelect" 
-					default="CTRL + ALT + F" 
-					class="fields" 
-					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_FIELDS_LBL" 
+					type="keySelect"
+					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_FIELDS_LBL"
+					default="CTRL + ALT + F"
+					class="fields"
 				/>
 
-				<field 
+				<field
 					name="editorImageKey"
-					type="keySelect" 
-					default="CTRL + ALT + I" 
-					class="image" 
-					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_IMAGE_LBL" 
+					type="keySelect"
+					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_IMAGE_LBL"
+					default="CTRL + ALT + I"
+					class="image"
 				/>
 
-				<field 
+				<field
 					name="editorMenuKey"
-					type="keySelect" 
-					default="CTRL + ALT + M" 
-					class="menu" 
-					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MENU_LBL" 
+					type="keySelect"
+					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MENU_LBL"
+					default="CTRL + ALT + M"
+					class="menu"
 				/>
 
-				<field 
+				<field
 					name="editorModuleKey"
-					type="keySelect" 
-					default="CTRL + SHIFT + ALT + M" 
-					class="module" 
-					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MODULE_LBL" 
+					type="keySelect"
+					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MODULE_LBL"
+					default="CTRL + SHIFT + ALT + M"
+					class="module"
 				/>
 
-				<field 
+				<field
 					name="editorPagebreakKey"
-					type="keySelect" 
-					default="CTRL + ALT + P" 
-					class="pagebreak" 
-					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_PAGEBREAK_LBL" 
+					type="keySelect"
+					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_PAGEBREAK_LBL"
+					default="CTRL + ALT + P"
+					class="pagebreak"
 				/>
 
-				<field 
+				<field
 					name="editorReadmoreKey"
-					type="keySelect" 
-					default="CTRL + ALT + R" 
-					class="readmore" 
+					type="keySelect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_READMORE_LBL"
+					default="CTRL + ALT + R"
+					class="readmore"
 				/>
 			</fieldset>
 		</fields>

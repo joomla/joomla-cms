@@ -3,7 +3,7 @@
  * @package     Joomla.Plugins
  * @subpackage  System.shortcut
  *
- * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * Shortcut plugin to add accessible keyboard navigation to the site and administrator templates.
+ * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.
  *
  * @since  __DEPLOY_VERSION__
  */
