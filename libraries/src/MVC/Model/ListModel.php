@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 \defined('JPATH_PLATFORM') or die;
 
 use Exception;
+use Joomla\CMS\Event\Model\ListQueryEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -122,6 +123,14 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	protected $listForbiddenList = array('select');
 
 	/**
+	 * The event to trigger on list query
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_list_query;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
@@ -156,6 +165,15 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		if (!empty($this->listBlacklist))
 		{
 			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
+		}
+
+		if (isset($config['event_list_query']))
+		{
+			$this->event_list_query = $config['event_list_query'];
+		}
+		elseif (empty($this->event_list_query))
+		{
+			$this->event_list_query = 'onContentListQuery';
 		}
 	}
 
@@ -216,6 +234,16 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		{
 			$this->lastQueryStoreId = $currentStoreId;
 			$this->query            = $this->getListQuery();
+
+			$event = new ListQueryEvent(
+				$this->event_list_query,
+				[
+					'subject' => $this,
+					'context' => $this->context,
+					'query' => $this->query,
+				]
+			);
+			$this->dispatchEvent($event);
 		}
 
 		return $this->query;
