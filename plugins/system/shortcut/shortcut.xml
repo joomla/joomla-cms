@@ -34,9 +34,15 @@
 					>
 					<field
 						name="helpKey"
-						type="keySelect"
+						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL"
 						default="ALT + X"
+					/>
+					<field
+						name="searchKey"
+						type="Keyselect"
+						label="PLG_SYSTEM_SHORTCUT_SEARCH_LBL"
+						default="S"
 					/>
 				</fieldset>
 				<fieldset
@@ -45,13 +51,13 @@
 					>
 					<field
 						name="newKey"
-						type="keySelect"
+						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL"
 						default="ALT + N"
 					/>
 					<field
 						name="optionKey"
-						type="keySelect"
+						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_OPTION_LBL"
 						default="ALT + O"
 					/>
@@ -69,94 +75,82 @@
 
 					<field
 						name="saveKey"
-						type="keySelect"
+						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL"
 						default="ALT + W"
 					/>
 
 					<field
 						name="saveNewKey"
-						type="keySelect"
+						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL"
 						default="SHIFT + ALT + N"
 					/>
 
 					<field
 						name="cancelKey"
-						type="keySelect"
+						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL"
 						default="ALT + Q"
-					/>
-				</fieldset>
-				<fieldset
-					name="other_actions"
-					label="PLG_SYSTEM_SHORTCUT_OTHER_ACTIONS_FIELDSET_LABEL"
-					>
-					<field
-						name="searchKey"
-						type="keySelect"
-						label="PLG_SYSTEM_SHORTCUT_SEARCH_LBL"
-						default="S"
 					/>
 				</fieldset>
 			</fieldset>
 			<fieldset
 				name="editor"
 				label="PLG_SYSTEM_SHORTCUT_EDITOR_LBL"
-				addfieldpath="/plugins/system/shortcut/fields"
 				>
 				<field
 					name="editorArticleKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_ARTICLE_LBL"
 					default="CTRL + ALT + A"
 				/>
 
 				<field
 					name="editorContactKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_CONTACT_LBL"
 					default="CTRL + ALT + C"
 				/>
 
 				<field
 					name="editorFieldsKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_FIELDS_LBL"
 					default="CTRL + ALT + F"
 				/>
 
 				<field
 					name="editorImageKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_IMAGE_LBL"
 					default="CTRL + ALT + I"
 				/>
 
 				<field
 					name="editorMenuKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MENU_LBL"
 					default="CTRL + ALT + M"
 				/>
 
 				<field
 					name="editorModuleKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_MODULE_LBL"
 					default="CTRL + SHIFT + ALT + M"
 				/>
 
 				<field
 					name="editorPagebreakKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_PAGEBREAK_LBL"
 					default="CTRL + ALT + P"
 				/>
 
 				<field
 					name="editorReadmoreKey"
-					type="keySelect"
+					type="Keyselect"
 					label="PLG_SYSTEM_SHORTCUT_CMS_CONTENT_READMORE_LBL"
 					default="CTRL + ALT + R"
 				/>
