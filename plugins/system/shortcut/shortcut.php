@@ -10,9 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\GenericEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
@@ -95,8 +93,6 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeys.js']]);
 
 		$this->app->getDocument()->addScriptOptions('plg_system_shortcut.shortcuts', $shortcuts);
-
-		return true;
 	}
 
 	/**
@@ -111,13 +107,13 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$shortcuts = $event->getArgument('shortcuts');
 
 		$keys = [
-			'helpKey'            => 'joomla-toolbar-button button.button-help',
-			'newKey'             => 'joomla-toolbar-button button.button-new',
-			'applyKey'           => 'joomla-toolbar-button button.button-apply',
-			'saveKey'            => 'joomla-toolbar-button button.button-save',
-			'saveNewKey'         => 'joomla-toolbar-button button.button-save-new',
-			'cancelKey'          => 'joomla-toolbar-button button.button-cancel',
-			'optionKey'          => 'joomla-toolbar-button a.button-options',
+			'helpKey'            => 'joomla-toolbar-button .button-help',
+			'newKey'             => 'joomla-toolbar-button .button-new',
+			'applyKey'           => 'joomla-toolbar-button .button-apply',
+			'saveKey'            => 'joomla-toolbar-button .button-save',
+			'saveNewKey'         => 'joomla-toolbar-button .button-save-new',
+			'cancelKey'          => 'joomla-toolbar-button .button-cancel',
+			'optionKey'          => 'joomla-toolbar-button .button-options',
 			'editorArticleKey'   => 'joomla-editor-option ~ article_modal',
 			'editorContactKey'   => 'joomla-editor-option ~ contact_modal',
 			'editorFieldsKey'    => 'joomla-editor-option ~ fields_modal',
@@ -130,9 +126,10 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 
 		foreach ($keys as $key => $selector)
 		{
-			if ($this->params->get($key))
+			$shortcut = $this->params->get($key);
+			if ($shortcut)
 			{
-				$shortcuts[$this->params->get($key)] = $selector;
+				$shortcuts[$shortcut] = $selector;
 			}
 		}
 
