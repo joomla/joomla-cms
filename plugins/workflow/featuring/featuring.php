@@ -285,7 +285,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			AbstractEvent::create(
 				'onContentBeforeChangeFeatured',
 				[
-					'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+					'eventClass' => FeatureEvent::class,
 					'subject'    => $this,
 					'extension'  => $context,
 					'pks'        => $pks,

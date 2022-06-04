@@ -34,6 +34,7 @@ use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -809,7 +810,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 			if ($data['title'] == $origTable->title)
 			{
-				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				[$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
@@ -840,7 +841,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					$msg = Text::_('COM_CONTENT_SAVE_WARNING');
 				}
 
-				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				[$title, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 				$data['alias'] = $alias;
 
 				if (isset($msg))
@@ -923,7 +924,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			AbstractEvent::create(
 				$this->event_before_change_featured,
 				[
-					'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+					'eventClass' => FeatureEvent::class,
 					'subject'    => $this,
 					'extension'  => $context,
 					'pks'        => $pks,
@@ -1038,7 +1039,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			AbstractEvent::create(
 				$this->event_after_change_featured,
 				[
-					'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
+					'eventClass' => FeatureEvent::class,
 					'subject'    => $this,
 					'extension'  => $context,
 					'pks'        => $pks,
