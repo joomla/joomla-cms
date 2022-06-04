@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 \defined('JPATH_PLATFORM') or die;
 
 use Exception;
+use Joomla\CMS\Event\Model\AfterGetListEvent;
 use Joomla\CMS\Event\Model\ListQueryEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -19,6 +20,7 @@ use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseQuery;
 
 /**
@@ -131,6 +133,14 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	protected $event_list_query;
 
 	/**
+	 * The event to trigger after get list
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_after_get_list;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
@@ -175,6 +185,24 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		{
 			$this->event_list_query = 'onContentListQuery';
 		}
+
+		if (isset($config['event_after_get_list']))
+		{
+			$this->event_after_get_list = $config['event_after_get_list'];
+		}
+		elseif (empty($this->event_after_get_list))
+		{
+			$this->event_after_get_list = 'onContentAfterGetList';
+		}
+
+		$config['events_map'] = $config['events_map'] ?? array();
+
+		$this->events_map = array_merge(
+			array(
+				'list_query' => 'content',
+				'event_after_get_list' => 'content',
+			), $config['events_map']
+		);
 	}
 
 	/**
@@ -235,6 +263,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 			$this->lastQueryStoreId = $currentStoreId;
 			$this->query            = $this->getListQuery();
 
+			PluginHelper::importPlugin($this->events_map['list_query']);
+
 			$event = new ListQueryEvent(
 				$this->event_list_query,
 				[
@@ -247,6 +277,37 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		}
 
 		return $this->query;
+	}
+
+	/**
+	 * Gets an array of objects from the results of database query.
+	 *
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitstart  Offset.
+	 * @param   integer  $limit       The number of records.
+	 *
+	 * @return  object[]  An array of results.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function _getList($query, $limitstart = 0, $limit = 0)
+	{
+		$list = parent::_getList($query, $limitstart, $limit);
+
+		PluginHelper::importPlugin($this->events_map['event_after_get_list']);
+
+		$event = new AfterGetListEvent(
+			$this->event_after_get_list,
+			[
+				'subject' => $this,
+				'context' => $this->context,
+				'list' => $list,
+			]
+		);
+		$this->dispatchEvent($event);
+
+		return $list;
 	}
 
 	/**
