@@ -235,7 +235,12 @@ class UpdateModel extends ListModel
 		{
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
+
+			// Apply plugins
+			$result = $this->afterGetList($result);
+
 			$this->translate($result);
+
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
 			$total = count($result);
 
