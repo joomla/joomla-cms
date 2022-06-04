@@ -339,7 +339,7 @@ class Taggable extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Runs when an existing table object has been loaded
 	 *
-	 * @param   BeforeBatchEvent $event The event to handle
+	 * @param   BeforeBatchEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
