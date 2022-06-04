@@ -125,6 +125,10 @@ class PluginsModel extends ListModel
 		{
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
+
+			// Apply plugins
+			$result = $this->afterGetList($result);
+
 			$this->translate($result);
 
 			if (!empty($search))

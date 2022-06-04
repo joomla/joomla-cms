@@ -81,6 +81,10 @@ class InstallerModel extends ListModel
 			// Get results from database and translate them.
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
+
+			// Apply plugins
+			$result = $this->afterGetList($result);
+
 			$this->translate($result);
 
 			// Process searching.
