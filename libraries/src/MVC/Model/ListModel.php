@@ -295,6 +295,37 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	{
 		$list = parent::_getList($query, $limitstart, $limit);
 
+		PluginHelper::importPlugin($this->events_map['event_after_get_list']);
+
+		$event = new AfterGetListEvent(
+			$this->event_after_get_list,
+			[
+				'subject' => $this,
+				'context' => $this->context,
+				'list' => $list,
+			]
+		);
+		$this->dispatchEvent($event);
+
+		return $list;
+	}
+
+	/**
+	 * Gets an array of objects from the results of database query.
+	 *
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitstart  Offset.
+	 * @param   integer  $limit       The number of records.
+	 *
+	 * @return  object[]  An array of results.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	protected function _getList($query, $limitstart = 0, $limit = 0)
+	{
+		$list = parent::_getList($query, $limitstart, $limit);
+
 		// Apply plugins
 		$list = $this->afterGetList($list);
 
