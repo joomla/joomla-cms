@@ -12,6 +12,7 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
@@ -210,9 +211,9 @@ class HtmlView extends AbstractView
 			AbstractEvent::create(
 				'onBeforeDisplay',
 				[
-					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'eventClass' => DisplayEvent::class,
 					'subject'    => $this,
-					'extension'  => $context
+					'extension'  => $context,
 				]
 			)
 		);
@@ -224,17 +225,17 @@ class HtmlView extends AbstractView
 			AbstractEvent::create(
 				'onAfterDisplay',
 				[
-					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'eventClass' => DisplayEvent::class,
 					'subject'    => $this,
 					'extension'  => $context,
-					'source'     => $result
+					'source'     => $result,
 				]
 			)
 		);
 
 		$eventResult->getArgument('used', false);
 
-		echo $result;
+		echo $eventResult->getArgument('source');
 	}
 
 	/**
