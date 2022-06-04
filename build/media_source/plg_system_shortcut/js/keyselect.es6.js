@@ -34,14 +34,13 @@
     }
   };
 
-  const openModal = (e) => {
-    button = null;
-    if (!e.relatedTarget) {
-      return;
+  const openModal = (event) => {
+    if (event.relatedTarget) {
+      button = event.relatedTarget;
+      document.getElementById('currentKeyCombination').innerText = event.relatedTarget.innerText;
+    } else {
+      button = null;
     }
-
-    button = e.relatedTarget;
-    document.getElementById('currentKeyCombination').value = e.relatedTarget.innerText;
   };
 
   const closeDModal = () => {
@@ -69,20 +68,18 @@
               <h3 class="modal-title" id="keySelectModalLabel">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_SET_SHORTCUT')}</h3>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-              <div class="p-3">
-                <div class="mb-3">
-                  <label>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION')}</label>
-                  <input type="text" class="form-control" readonly id="currentKeyCombination">
-                </div>
-                <div class="mb-3">
-                  <label>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION')}</label>
-                  <input type="text" class="form-control" id="newKeyCombination">
-                </div>
+            <div class="modal-body p-3">
+              <div class="mb-3">
+                <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION')}</p>
+                <p id="currentKeyCombination"></p>
+              </div>
+              <div class="mb-3">
+                <label>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION')}</label>
+                <input type="text" class="form-control" id="newKeyCombination">
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CANCEL')}</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CANCEL')}</button>
               <button type="button" class="btn btn-success" id="saveKeyCombination">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_SAVE_CHANGES')}</button>
             </div>
           </div>
