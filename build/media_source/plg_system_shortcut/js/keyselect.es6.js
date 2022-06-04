@@ -77,7 +77,7 @@
                 </div>
                 <div class="mb-3">
                   <label>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION')}</label>
-                  <input type="text" class="form-control" readonly id="newKeyCombination">
+                  <input type="text" class="form-control" id="newKeyCombination">
                 </div>
               </div>
             </div>
