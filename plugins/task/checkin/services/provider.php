@@ -36,7 +36,7 @@ return new class implements ServiceProviderInterface
 				$plugin     = PluginHelper::getPlugin('task', 'checkin');
 				$dispatcher = $container->get(DispatcherInterface::class);
 
-				$checkin = new Checkin (
+				$checkin = new Checkin(
 					$dispatcher,
 					(array) $plugin,
 				);
