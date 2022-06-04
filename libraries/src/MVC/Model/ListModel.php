@@ -200,7 +200,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		$this->events_map = array_merge(
 			array(
 				'list_query' => 'content',
-				'event_after_get_list' => 'content',
+				'after_get_list' => 'content',
 			), $config['events_map']
 		);
 	}
@@ -295,7 +295,24 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	{
 		$list = parent::_getList($query, $limitstart, $limit);
 
-		PluginHelper::importPlugin($this->events_map['event_after_get_list']);
+		// Apply plugins
+		$list = $this->afterGetList($list);
+
+		return $list;
+	}
+
+	/**
+	 * Applies plugins for the list loaded from database.
+	 *
+	 * @param   object[]  $list  The list of item.
+	 *
+	 * @return  object[]  An array of results.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function afterGetList($list)
+	{
+		PluginHelper::importPlugin($this->events_map['after_get_list']);
 
 		$event = new AfterGetListEvent(
 			$this->event_after_get_list,

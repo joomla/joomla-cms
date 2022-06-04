@@ -421,6 +421,9 @@ class TasksModel extends ListModel
 			$responseList = $this->getDbo()->loadObjectList();
 		}
 
+		// Apply plugins
+		$responseList = $this->afterGetList($responseList);
+
 		// Attach TaskOptions objects and a safe type title
 		$this->attachTaskOptions($responseList);
 

@@ -185,6 +185,9 @@ class ModulesModel extends ListModel
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 
+			// Apply plugins
+			$result = $this->afterGetList($result);
+
 			// Translate the results.
 			$this->translate($result);
 
