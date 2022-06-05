@@ -108,29 +108,6 @@
       }
     },
     {
-      "name": "com_finder.index.es5",
-      "type": "script",
-      "uri": "com_finder/index-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
-      "name": "com_finder.index",
-      "type": "script",
-      "uri": "com_finder/index.min.js",
-      "dependencies": [
-        "com_finder.index.es5"
-      ],
-      "attributes": {
-        "type": "module"
-      }
-    },
-    {
       "name": "com_finder.indexer",
       "type": "style",
       "uri": "com_finder/indexer.min.css"

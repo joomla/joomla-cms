@@ -19,14 +19,15 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Cache\Extension\Cache;
 
-return new class implements ServiceProviderInterface {
+return new class implements ServiceProviderInterface
+{
 	/**
 	 * Registers the service provider with a DI container.
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function register(Container $container)
 	{

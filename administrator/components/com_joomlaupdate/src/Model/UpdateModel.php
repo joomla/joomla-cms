@@ -1484,7 +1484,7 @@ ENDDATA;
 	 *
 	 * @since   3.10.0
 	 */
-	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','twofactorauth'])
+	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);

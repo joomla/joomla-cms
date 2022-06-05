@@ -11,8 +11,11 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
 /**
  * Index controller class for Finder.
@@ -35,6 +38,31 @@ class IndexController extends AdminController
 	public function getModel($name = 'Index', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Method to optimise the index by removing orphaned entries.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function optimise()
+	{
+		$this->checkToken();
+
+		// Optimise the index by first running the garbage collection
+		PluginHelper::importPlugin('finder');
+		$this->app->triggerEvent('onFinderGarbageCollection');
+
+		// Now run the optimisation method from the indexer
+		$indexer = new Indexer;
+		$indexer->optimize();
+
+		$message = Text::_('COM_FINDER_INDEX_OPTIMISE_FINISHED');
+		$this->setRedirect('index.php?option=com_finder&view=index', $message);
+
+		return true;
 	}
 
 	/**
