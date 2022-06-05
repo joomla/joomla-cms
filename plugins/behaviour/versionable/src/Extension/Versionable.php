@@ -102,7 +102,7 @@ class Versionable extends CMSPlugin implements SubscriberInterface
 	{
 		// Extract arguments
 		/** @var VersionableTableInterface $table */
-		$table = $event['subject'];
+		$table  = $event['subject'];
 		$result = $event['result'];
 
 		if (!$result)
