@@ -202,13 +202,27 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.delete'))
 			{
-				ToolbarHelper::deleteList('', 'index.delete');
-				ToolbarHelper::divider();
+				$toolbar->confirmButton('', 'JTOOLBAR_DELETE', 'index.delete')
+					->icon('icon-delete')
+					->message('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')
+					->listCheck(true);
+				$toolbar->divider();
 			}
 
 			if ($canDo->get('core.edit.state'))
 			{
-				ToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
+				$dropdown = $toolbar->dropdownButton('maintenance-group');
+				$dropdown->text('COM_FINDER_INDEX_TOOLBAR_MAINTENANCE')
+					->toggleSplit(false)
+					->icon('icon-wrench')
+					->buttonClass('btn btn-action');
+
+				$childBar = $dropdown->getChildToolbar();
+
+				$childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise',  false);
+				$childBar->confirmButton('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', 'index.purge')
+					->icon('icon-trash')
+					->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 			}
 		}
 

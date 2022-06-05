@@ -6447,6 +6447,13 @@ class JoomlaInstallerScript
 			'/libraries/vendor/maximebf/debugbar/tests/DebugBar/Tests/TracedStatementTest.php',
 			'/libraries/vendor/maximebf/debugbar/tests/DebugBar/Tests/full_init.html',
 			'/libraries/vendor/maximebf/debugbar/tests/bootstrap.php',
+			// From 4.1 to 4.2.0
+			'/libraries/src/Service/Provider/ApiRouter.php',
+			'/libraries/vendor/nyholm/psr7/doc/final.md',
+			'/modules/mod_articles_news/mod_articles_news.php',
+			'/plugins/api-authentication/basic/basic.php',
+			'/plugins/api-authentication/token/token.php',
+			'/plugins/system/cache/cache.php',
 		);
 
 		$folders = array(
@@ -7800,6 +7807,10 @@ class JoomlaInstallerScript
 			'/libraries/vendor/maximebf/debugbar/demo/bridge',
 			'/libraries/vendor/maximebf/debugbar/demo',
 			'/libraries/vendor/maximebf/debugbar/build',
+			// From 4.1 to 4.2.0
+			'/libraries/vendor/nyholm/psr7/doc',
+			'/plugins/twofactorauth/totp',
+			'/plugins/twofactorauth/yubikey',
 		);
 
 		$status['files_checked'] = $files;

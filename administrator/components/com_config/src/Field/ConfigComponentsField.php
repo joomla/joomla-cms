@@ -41,7 +41,7 @@ class ConfigComponentsField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('name AS text, element AS value')
 			->from('#__extensions')
