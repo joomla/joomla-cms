@@ -34,7 +34,7 @@ class AfterGetListEvent extends AbstractEvent
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct($name, array $arguments = [])
 	{
 		if (!\array_key_exists('subject', $arguments))
 		{
