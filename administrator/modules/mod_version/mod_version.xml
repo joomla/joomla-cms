@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_version</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2012</creationDate>
+	<creationDate>2012-01</creationDate>
 	<copyright>(C) 2012 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
