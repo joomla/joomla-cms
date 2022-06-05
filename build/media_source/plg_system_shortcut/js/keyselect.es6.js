@@ -77,6 +77,7 @@
                 <label>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION')}</label>
                 <input type="text" class="form-control" id="newKeyCombination">
               </div>
+              <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_DESCRIPTION')}</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CANCEL')}</button>

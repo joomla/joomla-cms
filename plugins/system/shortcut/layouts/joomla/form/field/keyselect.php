@@ -12,11 +12,12 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-Text::script('PLG_SYSTEM_SHORTCUT_SET_SHORTCUT');
-Text::script('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION');
-Text::script('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION');
 Text::script('PLG_SYSTEM_SHORTCUT_CANCEL');
+Text::script('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION');
+Text::script('PLG_SYSTEM_SHORTCUT_DESCRIPTION');
+Text::script('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION');
 Text::script('PLG_SYSTEM_SHORTCUT_SAVE_CHANGES');
+Text::script('PLG_SYSTEM_SHORTCUT_SET_SHORTCUT');
 
 $app = Factory::getApplication();
 $wa = $app->getDocument()->getWebAssetManager();
