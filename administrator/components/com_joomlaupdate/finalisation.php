@@ -75,6 +75,13 @@ namespace
 			{
 				(new JoomlaInstallerScript)->deleteUnexistingFiles();
 			}
+
+			$namespaceMapFile = JPATH_ROOT . '/administrator/cache/autoload_psr4.php';
+
+			if (\Joomla\CMS\Filesystem\File::exists($namespaceMapFile))
+			{
+				\Joomla\CMS\Filesystem\File::delete($namespaceMapFile);
+			}
 		}
 	}
 }
