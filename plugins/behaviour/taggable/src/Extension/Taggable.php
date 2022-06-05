@@ -347,7 +347,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
 	 */
 	public function onBeforeBatch(BeforeBatchEvent $event)
 	{
-		/** @var TableInterface $oldTable */
+		/** @var TableInterface $sourceTable */
 		$sourceTable = $event['src'];
 
 		if (!($sourceTable instanceof TaggableTableInterface))
