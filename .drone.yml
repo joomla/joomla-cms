@@ -164,7 +164,7 @@ steps:
 
   - name: new-phpmin-system-mysql
     depends_on:
-      - phpmin-system-mysql
+      - javascript-cs
     image: joomlaprojects/docker-images:cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -178,12 +178,7 @@ steps:
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
-      - phpmax-system-mysql
-      - phpmin-system-mysql
-      - phpmax-api-mysql
-      - phpmax-api-postgres
-      - phpmin-api-mysql
-      - phpmin-api-postgres
+      - new-phpmin-system-mysql
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -328,6 +323,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 4955fb64cc1d4c6773762776e4f4acc3c0bdad63c5f907f65f142296ded42f99
+hmac: 5cd761ad539bea5658fb8ba74460685c8644b0e15acb05c1a55ef54d0560bd21
 
 ...
