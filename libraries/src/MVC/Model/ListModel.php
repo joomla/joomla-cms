@@ -130,7 +130,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $event_list_query;
+	protected $eventListQuery;
 
 	/**
 	 * The event to trigger after get list
@@ -138,7 +138,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $event_after_get_list;
+	protected $eventAfterGetList;
 
 	/**
 	 * Constructor
@@ -177,23 +177,8 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
 		}
 
-		if (isset($config['event_list_query']))
-		{
-			$this->event_list_query = $config['event_list_query'];
-		}
-		elseif (empty($this->event_list_query))
-		{
-			$this->event_list_query = 'onContentListQuery';
-		}
-
-		if (isset($config['event_after_get_list']))
-		{
-			$this->event_after_get_list = $config['event_after_get_list'];
-		}
-		elseif (empty($this->event_after_get_list))
-		{
-			$this->event_after_get_list = 'onContentAfterGetList';
-		}
+		$this->eventListQuery = $config['eventListQuery'] ?? $this->eventListQuery ?? 'onContentListQuery';
+		$this->eventAfterGetList = $config['eventAfterGetList'] ?? $this->eventAfterGetList ?? 'onContentAfterGetList';
 
 		$config['events_map'] = $config['events_map'] ?? array();
 
@@ -266,7 +251,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 			PluginHelper::importPlugin($this->events_map['list_query']);
 
 			$event = new ListQueryEvent(
-				$this->event_list_query,
+				$this->eventListQuery,
 				[
 					'subject' => $this,
 					'context' => $this->context,
@@ -315,7 +300,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		PluginHelper::importPlugin($this->events_map['after_get_list']);
 
 		$event = new AfterGetListEvent(
-			$this->event_after_get_list,
+			$this->eventAfterGetList,
 			[
 				'subject' => $this,
 				'context' => $this->context,
@@ -363,7 +348,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		PluginHelper::importPlugin($this->events_map['after_get_list']);
 
 		$event = new AfterGetListEvent(
-			$this->event_after_get_list,
+			$this->eventAfterGetList,
 			[
 				'subject' => $this,
 				'context' => $this->context,
