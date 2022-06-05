@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\MVC\Model;
+namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 
 use Joomla\CMS\MVC\Model\StateBehaviorTrait;
 use Joomla\CMS\Object\CMSObject;

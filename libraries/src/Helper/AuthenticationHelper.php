@@ -25,39 +25,16 @@ use Joomla\CMS\Plugin\PluginHelper;
 abstract class AuthenticationHelper
 {
 	/**
-	 * Get the Two Factor Authentication Methods available.
+	 * No longer used
 	 *
-	 * @return  array  Two factor authentication methods.
+	 * @return  array  Always empty
 	 *
 	 * @since   3.6.3
+	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0.
 	 */
 	public static function getTwoFactorMethods()
 	{
-		// Get all the Two Factor Authentication plugins.
-		PluginHelper::importPlugin('twofactorauth');
-
-		// Trigger onUserTwofactorIdentify event and return the two factor enabled plugins.
-		$identities = Factory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
-
-		// Generate array with two factor auth methods.
-		$options = array(
-			HTMLHelper::_('select.option', 'none', Text::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
-		);
-
-		if (!empty($identities))
-		{
-			foreach ($identities as $identity)
-			{
-				if (!\is_object($identity))
-				{
-					continue;
-				}
-
-				$options[] = HTMLHelper::_('select.option', $identity->method, $identity->title, 'value', 'text');
-			}
-		}
-
-		return $options;
+		return [];
 	}
 
 	/**

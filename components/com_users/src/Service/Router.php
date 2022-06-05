@@ -41,11 +41,46 @@ class Router extends RouterView
 		$this->registerView(new RouterViewConfiguration('registration'));
 		$this->registerView(new RouterViewConfiguration('remind'));
 		$this->registerView(new RouterViewConfiguration('reset'));
+		$this->registerView(new RouterViewConfiguration('callback'));
+		$this->registerView(new RouterViewConfiguration('captive'));
+		$this->registerView(new RouterViewConfiguration('methods'));
+
+		$method = new RouterViewConfiguration('method');
+		$method->setKey('id');
+		$this->registerView($method);
 
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new MenuRules($this));
 		$this->attachRule(new StandardRules($this));
 		$this->attachRule(new NomenuRules($this));
+	}
+
+	/**
+	 * Get the method ID from a URL segment
+	 *
+	 * @param   string  $segment  The URL segment
+	 * @param   array   $query    The URL query parameters
+	 *
+	 * @return integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getMethodId($segment, $query)
+	{
+		return (int) $segment;
+	}
+
+	/**
+	 * Get a segment from a method ID
+	 *
+	 * @param   integer  $id     The method ID
+	 * @param   array    $query  The URL query parameters
+	 *
+	 * @return int[]
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getMethodSegment($id, $query)
+	{
+		return [$id => (int) $id];
 	}
 }
