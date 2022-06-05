@@ -341,7 +341,7 @@ class HtmlView extends BaseHtmlView
 		$offset = $state->get('list.offset');
 
 		// Fix for where some plugins require a text attribute
-		$item->text = null;
+		$item->text = '';
 
 		if (!empty($item->misc))
 		{

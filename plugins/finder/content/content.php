@@ -352,6 +352,7 @@ class PlgFinderContent extends Adapter
 
 		// Get content extras.
 		Helper::getContentExtras($item);
+		Helper::addCustomFields($item, 'com_content.article');
 
 		// Index the item.
 		$this->indexer->index($item);

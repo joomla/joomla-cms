@@ -18,6 +18,16 @@
 			<option value="">COM_USERS_FILTER_STATE</option>
 		</field>
 		<field
+			name="mfa"
+			type="list"
+			label="COM_USERS_HEADING_MFA"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERS_FILTER_MFA</option>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+		</field>
+		<field
 			name="active"
 			type="useractive"
 			label="COM_USERS_HEADING_ACTIVATED"
