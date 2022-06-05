@@ -115,6 +115,8 @@ class MenusController extends BaseController
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  5.0 Will be removed without replacement as it was only used for the 1.5 to 1.6 upgrade
 	 */
 	public function resync()
 	{

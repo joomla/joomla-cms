@@ -53,6 +53,7 @@ class ManageModel extends InstallerModel
 				'folder', 'folder_translated',
 				'package_id',
 				'extension_id',
+				'creationDate',
 			);
 		}
 
