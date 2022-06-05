@@ -392,6 +392,29 @@ class MenuModel extends FormModel
 	}
 
 	/**
+	 * Returns the extension elements for the given items
+	 *
+	 * @param  array  $itemIds  The item ids
+	 *
+	 * @return array
+	 *
+	 * @since  4.2.0
+	 */
+	public function getExtensionElementsForMenuItems(array $itemIds): array
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true);
+
+		$query
+			->select($db->quoteName('e.element'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->join('INNER', $db->quoteName('#__menu', 'm'), $db->quoteName('m.component_id') . ' = ' . $db->quoteName('e.extension_id'))
+			->whereIn($db->quoteName('m.id'), ArrayHelper::toInteger($itemIds));
+
+		return $db->setQuery($query)->loadColumn();
+	}
+
+	/**
 	 * Custom clean the cache
 	 *
 	 * @param   string   $group     Cache group name.

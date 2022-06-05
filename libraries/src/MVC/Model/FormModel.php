@@ -80,7 +80,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = Factory::getUser();
+			$user = $this->getCurrentUser();
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
@@ -158,7 +158,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 				return true;
 			}
 
-			$user            = Factory::getUser();
+			$user            = $this->getCurrentUser();
 			$checkedOutField = $table->getColumnAlias('checked_out');
 
 			// Check if this is the user having previously checked out the row.
@@ -215,8 +215,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		Factory::getApplication()->triggerEvent('onContentBeforeValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
-		$data = $form->filter($data);
-		$return = $form->validate($data, $group);
+		$return = $form->process($data, $group);
 
 		// Check for an error.
 		if ($return instanceof \Exception)
@@ -237,6 +236,8 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
 			return false;
 		}
+
+		$data = $return;
 
 		// Tags B/C break at 3.1.2
 		if (!isset($data['tags']) && isset($data['metadata']['tags']))

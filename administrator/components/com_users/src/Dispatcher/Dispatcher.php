@@ -46,6 +46,29 @@ class Dispatcher extends ComponentDispatcher
 			}
 		}
 
+		/**
+		 * Special case: Multi-factor Authentication
+		 *
+		 * We allow access to all MFA views and tasks. Access control for MFA tasks is performed in
+		 * the Controllers since what is allowed depends on who is logged in and whose account you
+		 * are trying to modify. Implementing these checks in the Dispatcher would violate the
+		 * separation of concerns.
+		 */
+		$allowedViews  = ['callback', 'captive', 'method', 'methods'];
+		$isAllowedTask = array_reduce(
+			$allowedViews,
+			function ($carry, $taskPrefix) use ($task)
+			{
+				return $carry || strpos($task, $taskPrefix . '.') === 0;
+			},
+			false
+		);
+
+		if (in_array(strtolower($view), $allowedViews) || $isAllowedTask)
+		{
+			return;
+		}
+
 		parent::checkAccess();
 	}
 }

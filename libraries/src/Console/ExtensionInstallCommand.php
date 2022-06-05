@@ -49,13 +49,13 @@ class ExtensionInstallCommand extends AbstractCommand
 
 	/**
 	 * Exit Code For installation failure
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const INSTALLATION_FAILED = 1;
 
 	/**
 	 * Exit Code For installation Success
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const INSTALLATION_SUCCESSFUL = 0;
 
