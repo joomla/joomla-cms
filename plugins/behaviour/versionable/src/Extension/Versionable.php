@@ -30,7 +30,7 @@ use Joomla\Filter\InputFilter;
  *
  * @since  4.0.0
  */
-class Versionable extends CMSPlugin implements SubscriberInterface
+final class Versionable extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Returns an array of events this subscriber will listen to.
