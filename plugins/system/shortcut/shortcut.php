@@ -99,9 +99,11 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Add default shortcuts to the document
 	 *
-	 * @param Event $event The event
+	 * @param   Event $event The event
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addShortcuts(Event $event)
 	{

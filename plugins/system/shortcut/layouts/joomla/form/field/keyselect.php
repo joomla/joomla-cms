@@ -59,4 +59,4 @@ extract($displayData);
  */
 ?>
 <input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $value; ?>" />
-<button id="<?php echo $id; ?>_btn" data-bs-toggle="modal" data-bs-target="#keySelectModal" class="btn btn-secondary <?php echo $class; ?>" type="button" class="<?php echo $class; ?>"><?php echo $value; ?></button>
+<button id="<?php echo $id; ?>_btn" data-bs-toggle="modal" data-bs-target="#keySelectModal" class="btn btn-secondary <?php echo $class; ?>" type="button"><?php echo $value; ?></button>
