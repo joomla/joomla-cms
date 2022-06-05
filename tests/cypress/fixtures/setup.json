@@ -1,0 +1,13 @@
+{
+  "sitename": "Joomla CMS test",
+  "name": "jane doe",
+  "username": "ci-admin",
+  "password":"joomla-17082005",
+  "email": "admin@example.org",
+  "db_type": "MySQLi",
+  "db_host": "localhost",
+  "db_user": "root",
+  "db_password": "",
+  "db_name": "test_joomla",
+  "db_prefix": "jos_"
+}
