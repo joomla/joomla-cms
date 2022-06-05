@@ -226,6 +226,19 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
 
+  - name: new-phpmin-system-mysql
+    depends_on:
+      - phpmin-system-mysql
+    image: joomlaprojects/docker-images:cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+      cypress_db_host: mysql
+      cypress_db_password: joomla_ut
+
+    commands:
+      - bash tests/cypress/cypress-system-run.sh "$(pwd)" cmysql
+
+
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
@@ -379,6 +392,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 62ffb78f9f9895f0c191e1c00aa85367aaeeae8247248abf382d3ae31d41edc1
+hmac: 06598201f36b99bdfc203c7ead82813d16bacbfedf1efd432d3a8babc55b59e6
 
 ...
