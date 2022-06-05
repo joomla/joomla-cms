@@ -13,6 +13,9 @@
 	<files>
 		<folder plugin="versionable">services</folder>
 		<folder>src</folder>
-	</files>
+	</files><languages>
+		<language tag="en-GB">language/en-GB/plg_behaviour_versionable.ini</language>
+		<language tag="en-GB">language/en-GB/plg_behaviour_versionable.sys.ini</language>
+	</languages>
 	<config />
 </extension>
