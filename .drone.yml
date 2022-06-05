@@ -162,70 +162,6 @@ steps:
     commands:
       - npm run lint:js
 
-  - name: prepare_codeception_tests
-    depends_on:
-      - npm
-    image: joomlaprojects/docker-images:systemtests
-    commands:
-      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
-      - php libraries/vendor/bin/codecept build
-
-  - name: phpmin-api-mysql
-    depends_on:
-      - prepare_codeception_tests
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
-
-  - name: phpmax-api-mysql
-    depends_on:
-      - prepare_codeception_tests
-    image: joomlaprojects/docker-images:systemtests8.1
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
-
-  - name: phpmin-api-postgres
-    depends_on:
-      - prepare_codeception_tests
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
-
-  - name: phpmax-api-postgres
-    depends_on:
-      - prepare_codeception_tests
-    image: joomlaprojects/docker-images:systemtests8.1
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
-
-  - name: phpmin-system-mysql
-    depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
-
-  - name: phpmax-system-mysql
-    depends_on:
-      - phpmax-api-mysql
-      - phpmax-api-postgres
-    image: joomlaprojects/docker-images:systemtests8.1
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
-
   - name: new-phpmin-system-mysql
     depends_on:
       - phpmin-system-mysql
@@ -392,6 +328,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 06598201f36b99bdfc203c7ead82813d16bacbfedf1efd432d3a8babc55b59e6
+hmac: 4955fb64cc1d4c6773762776e4f4acc3c0bdad63c5f907f65f142296ded42f99
 
 ...
