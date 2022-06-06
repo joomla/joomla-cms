@@ -5,8 +5,13 @@
     throw new Error('Joomla API is not properly initialised');
   }
 
-  let button = null;
+  let modalTriggerButton = null;
   let pressedKeys = [];
+  let confirmButton;
+  let currentShortcutText;
+  let currentShortcutMacText;
+  let newShortcutText;
+  let newShortcutMacText;
 
   const pushKey = (key) => {
     if (pressedKeys.indexOf(key) === -1) {
@@ -41,13 +46,17 @@
   }
 
   const updateMacKeys = (shortcut, current) => {
-    const elementId = current ? 'currentKeyCombinationMac' : 'newKeyCombinationMac';
+    const element = current ? currentShortcutMacText : newShortcutMacText;
 
     if (shortcut.indexOf('ALT') === -1) {
-      document.getElementById(elementId).innerText = '';
+      element.innerText = '';
     } else {
-      document.getElementById(elementId).innerText = shortcut.replace('ALT', '⌥');
+      element.innerText = shortcut.replace('ALT', '⌥');
     }
+  }
+
+  const disableConfirmButton = (disabled) => {
+    confirmButton.disabled = disabled;
   }
 
   const onKeyDown = (e) => {
@@ -63,31 +72,32 @@
   const onKeyUp = (e) => {
     if (isKeyAllowed(e) && pressedKeys.length) {
       const shortcut = pressedKeys.join(' + ');
-      document.getElementById('newKeyCombination').innerText = shortcut;
+      newShortcutText.innerText = shortcut;
       updateMacKeys(shortcut);
       pressedKeys = [];
+      disableConfirmButton(false);
     }
   };
 
   const openModal = (event) => {
+    modalTriggerButton = event.relatedTarget;
+
     if (event.relatedTarget) {
-      button = event.relatedTarget;
-      document.getElementById('currentKeyCombination').innerText = event.relatedTarget.innerText;
+      currentShortcutText.innerText = event.relatedTarget.innerText;
       updateMacKeys(event.relatedTarget.innerText, true);
-      document.getElementById('newKeyCombination').innerText = '';
-      document.getElementById('newKeyCombinationMac').innerText = '';
-    } else {
-      button = null;
+      newShortcutText.innerText = '';
+      newShortcutMacText.innerText = '';
+      disableConfirmButton(true);
     }
   };
 
   const confirmKeys = () => {
     const modal = document.getElementById('keySelectModal');
     const modalInstance = bootstrap.Modal.getInstance(modal);
-    const value = Joomla.sanitizeHtml(document.getElementById('newKeyCombination').innerText);
-    if (button && value) {
-      button.innerText = value;
-      button.previousElementSibling.value = value;
+    const value = Joomla.sanitizeHtml(newShortcutText.innerText);
+    if (modalTriggerButton && value) {
+      modalTriggerButton.innerText = value;
+      modalTriggerButton.previousElementSibling.value = value;
     }
 
     modalInstance.hide();
@@ -105,19 +115,19 @@
             <div class="modal-body p-3">
               <div class="mb-3">
                 <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION')}</p>
-                <p id="currentKeyCombination"></p>
-                <p id="currentKeyCombinationMac"></p>
+                <p id="currentShortcut"></p>
+                <p id="currentShortcutForMac"></p>
               </div>
               <div class="mb-3">
                 <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION')}</p>
-                <p id="newKeyCombination"></p>
-                <p id="newKeyCombinationMac"></p>
+                <p id="newShortcut"></p>
+                <p id="newShortcutForMac"></p>
               </div>
               <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_DESCRIPTION')}</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CANCEL')}</button>
-              <button type="button" class="btn btn-success" id="saveKeyCombination">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_SAVE_CHANGES')}</button>
+              <button type="button" class="btn btn-success" id="confirmButton">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CONFIRM_SHORTCUT')}</button>
             </div>
           </div>
         </div>
@@ -131,8 +141,13 @@
     keySelectModal.addEventListener('keyup', onKeyUp, false);
     keySelectModal.addEventListener('show.bs.modal', openModal, false);
 
-    const saveKeyButton = document.getElementById('saveKeyCombination');
-    saveKeyButton.addEventListener('click', confirmKeys, false);
+    confirmButton = document.getElementById('confirmButton');
+    confirmButton.addEventListener('click', confirmKeys, false);
+
+    currentShortcutText = document.getElementById('currentShortcut');
+    currentShortcutMacText = document.getElementById('currentShortcutForMac');
+    newShortcutText = document.getElementById('newShortcut');
+    newShortcutMacText = document.getElementById('newShortcutForMac');
   };
 
   document.addEventListener('DOMContentLoaded', initialize);
