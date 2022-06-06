@@ -14,157 +14,15 @@ steps:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
 
-  - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
-    depends_on: [ composer ]
-    commands:
-      - echo $(date)
-      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
-      - echo $(date)
-
   - name: npm
     image: node:16-alpine
-    depends_on: [ phpcs ]
+    depends_on: [ composer ]
     commands:
       - npm ci --unsafe-perm
 
-  - name: php72-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php73-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php74-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php80-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.0
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php81-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.1
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php72-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php73-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php74-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php80-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php81-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.1
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php82-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php72-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php73-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php74-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php80-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    failure: ignore
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php81-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.1
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php82-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: scss-cs
-    depends_on: [ npm ]
-    image: node:current-alpine
-    commands:
-      - npm run lint:css
-
-  - name: javascript-cs
-    depends_on: [ npm ]
-    image: node:current-alpine
-    commands:
-      - npm run lint:js
-
   - name: new-phpmin-system-mysql
     depends_on:
-      - javascript-cs
+      - npm
     image: joomlaprojects/docker-images:cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -173,7 +31,6 @@ steps:
 
     commands:
       - bash tests/cypress/cypress-system-run.sh "$(pwd)" cmysql
-
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
@@ -323,6 +180,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 5cd761ad539bea5658fb8ba74460685c8644b0e15acb05c1a55ef54d0560bd21
+hmac: 2b17f3bc0c147bfbc585b19396a148b339456d6e2ff39dfe1fd080cf84735f0c
 
 ...
