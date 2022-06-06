@@ -30,7 +30,7 @@ steps:
       cypress_db_password: joomla_ut
 
     commands:
-      - bash tests/cypress/cypress-system-run.sh "$(pwd)" cmysql
+      - npm run cypress:run
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
@@ -180,6 +180,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 2b17f3bc0c147bfbc585b19396a148b339456d6e2ff39dfe1fd080cf84735f0c
+hmac: 25bd5062f3b766484e565974854f629d9727bc4bebb581ddf0f950c5386c75c1
 
 ...
