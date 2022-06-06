@@ -6,31 +6,66 @@
   }
 
   let button = null;
+  let pressedKeys = [];
 
-  const keyDown = (e) => {
-    if (e.keyCode >= 65 && e.keyCode <= 90) {
+  const pushKey = (key) => {
+    if (pressedKeys.indexOf(key) === -1) {
+      pressedKeys.push(key);
+    }
+  }
+
+  const addKey = (event) => {
+    if (event.shiftKey) {
+      pushKey('SHIFT');
+    }
+    if (event.ctrlKey) {
+      pushKey('CTRL');
+    }
+    if (event.metaKey) {
+      pushKey('⌘',);
+    }
+    if (event.altKey) {
+      pushKey('ALT');
+    }
+    const key = event.key.toUpperCase();
+    // Some fresh keydown events have 'control' and 'ctrl' which is superfluous
+    if (key !== 'CONTROL') {
+      pushKey(key);
+    }
+  }
+
+  const isKeyAllowed = (event) => {
+    // Allowed are alt, ctrl, shift, numbers (48 = 0) and chars (z = 90)
+    const allowed = [16, 17, 18];
+    return allowed.includes(event.keyCode) || event.keyCode >= 48 && event.keyCode <= 90;
+  }
+
+  const updateMacKeys = (shortcut, current) => {
+    const elementId = current ? 'currentKeyCombinationMac' : 'newKeyCombinationMac';
+
+    if (shortcut.indexOf('ALT') === -1) {
+      document.getElementById(elementId).innerText = '';
+    } else {
+      document.getElementById(elementId).innerText = shortcut.replace('ALT', '⌥');
+    }
+  }
+
+  const onKeyDown = (e) => {
+    if (isKeyAllowed(e)) {
       e.preventDefault();
       e.stopPropagation();
       e.stopImmediatePropagation();
+
+      addKey(e);
     }
   };
 
-  const keyUp = (e) => {
-    if (e.keyCode >= 65 && e.keyCode <= 90) {
-      const pressedKeys = [];
-      if (e.ctrlKey) {
-        pressedKeys.push('CTRL');
-      }
-      if (e.shiftKey) {
-        pressedKeys.push('SHIFT');
-      }
-      if (navigator.platform.match('Mac') ? e.metaKey : e.altKey) {
-        pressedKeys.push('ALT');
-      }
-
-      pressedKeys.push(e.key.toUpperCase());
-
-      document.getElementById('newKeyCombination').value = pressedKeys.join(' + ');
+  const onKeyUp = (e) => {
+    if (isKeyAllowed(e) && pressedKeys.length) {
+      const shortcut = pressedKeys.join(' + ');
+      document.getElementById('newKeyCombination').innerText = shortcut;
+      updateMacKeys(shortcut);
+      pressedKeys = [];
     }
   };
 
@@ -38,19 +73,18 @@
     if (event.relatedTarget) {
       button = event.relatedTarget;
       document.getElementById('currentKeyCombination').innerText = event.relatedTarget.innerText;
+      updateMacKeys(event.relatedTarget.innerText, true);
+      document.getElementById('newKeyCombination').innerText = '';
+      document.getElementById('newKeyCombinationMac').innerText = '';
     } else {
       button = null;
     }
   };
 
-  const closeDModal = () => {
-    document.getElementById('newKeyCombination').value = '';
-  };
-
   const confirmKeys = () => {
     const modal = document.getElementById('keySelectModal');
     const modalInstance = bootstrap.Modal.getInstance(modal);
-    const value = Joomla.sanitizeHtml(document.getElementById('newKeyCombination').value);
+    const value = Joomla.sanitizeHtml(document.getElementById('newKeyCombination').innerText);
     if (button && value) {
       button.innerText = value;
       button.previousElementSibling.value = value;
@@ -72,10 +106,12 @@
               <div class="mb-3">
                 <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CURRENT_COMBINATION')}</p>
                 <p id="currentKeyCombination"></p>
+                <p id="currentKeyCombinationMac"></p>
               </div>
               <div class="mb-3">
-                <label>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION')}</label>
-                <input type="text" class="form-control" id="newKeyCombination">
+                <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_NEW_COMBINATION')}</p>
+                <p id="newKeyCombination"></p>
+                <p id="newKeyCombinationMac"></p>
               </div>
             </div>
             <div class="modal-footer">
@@ -88,14 +124,14 @@
     `;
 
     document.body.insertAdjacentHTML('beforeend', modal);
-    const keySelectModal = document.getElementById('keySelectModal');
 
-    keySelectModal.addEventListener('keydown', keyDown, false);
-    keySelectModal.addEventListener('keyup', keyUp, false);
+    const keySelectModal = document.getElementById('keySelectModal');
+    keySelectModal.addEventListener('keydown', onKeyDown, false);
+    keySelectModal.addEventListener('keyup', onKeyUp, false);
     keySelectModal.addEventListener('show.bs.modal', openModal, false);
-    keySelectModal.addEventListener('hidden.bs.modal', closeDModal, false);
-    const saveKeyCombination = document.getElementById('saveKeyCombination');
-    saveKeyCombination.addEventListener('click', confirmKeys, false);
+
+    const saveKeyButton = document.getElementById('saveKeyCombination');
+    saveKeyButton.addEventListener('click', confirmKeys, false);
   };
 
   document.addEventListener('DOMContentLoaded', initialize);
