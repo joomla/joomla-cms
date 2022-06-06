@@ -971,7 +971,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 					$asset->rules = (string) $this->_rules;
 				}
 
-				if (!$asset->check() || !$asset->store($updateNulls))
+				if (!$asset->check() || !$asset->store())
 				{
 					$this->setError($asset->getError());
 
