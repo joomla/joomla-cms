@@ -36,6 +36,7 @@ use Joomla\String\StringHelper;
 final class SiteApplication extends CMSApplication
 {
 	use CacheControllerFactoryAwareTrait;
+	use MultiFactorAuthenticationHandler;
 
 	/**
 	 * Option to filter by language
@@ -234,14 +235,17 @@ final class SiteApplication extends CMSApplication
 		// Mark afterRoute in the profiler.
 		JDEBUG ? $this->profiler->mark('afterRoute') : null;
 
-		/*
-		 * Check if the user is required to reset their password
-		 *
-		 * Before $this->route(); "option" and "view" can't be safely read using:
-		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
-		 * ex: due of the sef urls
-		 */
-		$this->checkUserRequireReset('com_users', 'profile', 'edit', 'com_users/profile.save,com_users/profile.apply,com_users/user.logout');
+		if (!$this->isHandlingMultiFactorAuthentication())
+		{
+			/*
+			 * Check if the user is required to reset their password
+			 *
+			 * Before $this->route(); "option" and "view" can't be safely read using:
+			 * $this->input->getCmd('option'); or $this->input->getCmd('view');
+			 * ex: due of the sef urls
+			 */
+			$this->checkUserRequireReset('com_users', 'profile', 'edit', 'com_users/profile.save,com_users/profile.apply,com_users/user.logout');
+		}
 
 		// Dispatch the application
 		$this->dispatch();
@@ -870,11 +874,6 @@ final class SiteApplication extends CMSApplication
 		foreach ($result as $key => $value)
 		{
 			$this->input->def($key, $value);
-		}
-
-		if ($this->isTwoFactorAuthenticationRequired())
-		{
-			$this->redirectIfTwoFactorAuthenticationRequired();
 		}
 
 		// Trigger the onAfterRoute event.
