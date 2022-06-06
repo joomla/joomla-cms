@@ -65,7 +65,7 @@ class UsersController extends ApiController
 
 		if (isset($data['password']) && $this->task !== 'add')
 		{
-			unset($data['password']);
+			$data['password2'] = $data['password'];
 		}
 
 		return $data;
