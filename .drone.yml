@@ -30,6 +30,7 @@ steps:
       cypress_db_password: joomla_ut
 
     commands:
+      - npm run cypress:install
       - npm run cypress:run
 
   - name: artifacts-system-tests
@@ -180,6 +181,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 25bd5062f3b766484e565974854f629d9727bc4bebb581ddf0f950c5386c75c1
+hmac: ec7209706b07b138c6a4d006770e938812b4d9194dc2f253fb566198872e982e
 
 ...
