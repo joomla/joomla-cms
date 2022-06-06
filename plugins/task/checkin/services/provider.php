@@ -38,7 +38,7 @@ return new class implements ServiceProviderInterface
 
 				$checkin = new Checkin(
 					$dispatcher,
-					(array) $plugin,
+					(array) $plugin
 				);
 				$checkin->setDatabase($container->get(DatabaseInterface::class));
 
