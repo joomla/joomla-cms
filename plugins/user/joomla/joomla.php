@@ -125,6 +125,39 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			// Do nothing.
 		}
+
+		// Delete Multi-factor Authentication user profile records
+		$profileKey = 'mfa.%';
+		$query      = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__user_profiles'))
+			->where($this->db->quoteName('user_id') . ' = :userId')
+			->where($this->db->quoteName('profile_key') . ' LIKE :profileKey')
+			->bind(':userId', $userId, ParameterType::INTEGER)
+			->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			// Do nothing
+		}
+
+		// Delete Multi-factor Authentication records
+		$query = $this->db->getQuery(true)
+			->delete($this->db->qn('#__user_mfa'))
+			->where($this->db->quoteName('user_id') . ' = :userId')
+			->bind(':userId', $userId, ParameterType::INTEGER);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			// Do nothing
+		}
 	}
 
 	/**
@@ -386,6 +419,74 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Hooks on the Joomla! login event. Detects silent logins and disables the Multi-Factor
+	 * Authentication page in this case.
+	 *
+	 * Moreover, it will save the redirection URL and the Captive URL which is necessary in Joomla 4. You see, in Joomla
+	 * 4 having unified sessions turned on makes the backend login redirect you to the frontend of the site AFTER
+	 * logging in, something which would cause the Captive page to appear in the frontend and redirect you to the public
+	 * frontend homepage after successfully passing the Two Step verification process.
+	 *
+	 * @param   array  $options  Passed by Joomla. user: a User object; responseType: string, authentication response type.
+	 *
+	 * @return void
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function onUserAfterLogin(array $options): void
+	{
+		if (!($this->app->isClient('administrator')) && !($this->app->isClient('site')))
+		{
+			return;
+		}
+
+		$this->disableMfaOnSilentLogin($options);
+	}
+
+	/**
+	 * Detect silent logins and disable MFA if the relevant com_users option is set.
+	 *
+	 * @param   array  $options  The array of login options and login result
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function disableMfaOnSilentLogin(array $options): void
+	{
+		$userParams         = ComponentHelper::getParams('com_users');
+		$doMfaOnSilentLogin = $userParams->get('mfaonsilent', 0) == 1;
+
+		// Should I show MFA even on silent logins? Default: 1 (yes, show)
+		if ($doMfaOnSilentLogin)
+		{
+			return;
+		}
+
+		// Make sure I have a valid user
+		/** @var User $user */
+		$user = $options['user'];
+
+		if (!is_object($user) || !($user instanceof User) || $user->guest)
+		{
+			return;
+		}
+
+		$silentResponseTypes = array_map(
+			'trim',
+			explode(',', $userParams->get('silentresponses', '') ?: '')
+		);
+		$silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
+
+		// Only proceed if this is not a silent login
+		if (!in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes))
+		{
+			return;
+		}
+
+		// Set the flag indicating that MFA is already checked.
+		$this->app->getSession()->set('com_users.mfa_checked', 1);
 	}
 
 	/**
