@@ -113,6 +113,7 @@
                 <p id="newKeyCombination"></p>
                 <p id="newKeyCombinationMac"></p>
               </div>
+              <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_DESCRIPTION')}</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">${Joomla.Text._('PLG_SYSTEM_SHORTCUT_CANCEL')}</button>

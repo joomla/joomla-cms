@@ -110,30 +110,31 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$shortcuts = $event->getArgument('shortcuts');
 
 		$keys = [
-			'helpKey'            => 'joomla-toolbar-button .button-help',
-			'newKey'             => 'joomla-toolbar-button .button-new',
-			'applyKey'           => 'joomla-toolbar-button .button-apply',
-			'saveKey'            => 'joomla-toolbar-button .button-save',
-			'saveNewKey'         => 'joomla-toolbar-button .button-save-new',
-			'cancelKey'          => 'joomla-toolbar-button .button-cancel',
-			'optionKey'          => 'joomla-toolbar-button .button-options',
-			'searchKey'					 => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']',
-			'editorArticleKey'   => 'joomla-editor-option ~ article_modal',
-			'editorContactKey'   => 'joomla-editor-option ~ contact_modal',
-			'editorFieldsKey'    => 'joomla-editor-option ~ fields_modal',
-			'editorImageKey'     => 'joomla-editor-option ~ image_modal',
-			'editorMenuKey'      => 'joomla-editor-option ~ menu_modal',
-			'editorModuleKey'    => 'joomla-editor-option ~ module_modal',
-			'editorPagebreakKey' => 'joomla-editor-option ~ pagebreak_modal',
-			'editorReadmoreKey'  => 'joomla-editor-option ~ read_more',
+			'helpKey'            => (object) ['selector' => 'joomla-toolbar-button .button-help', 'default' => 'ALT + X'],
+			'newKey'             => (object) ['selector' => 'joomla-toolbar-button .button-new', 'default' => 'ALT + N'],
+			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'default' => 'ALT + S'],
+			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'default' => 'ALT + W'],
+			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'default' => 'SHIFT + ALT + N'],
+			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'default' => 'ALT + Q'],
+			'optionKey'          => (object) ['selector' => 'joomla-toolbar-button .button-options', 'default' => 'ALT + O'],
+			'searchKey'          => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'default' => 'S'],
+			'editorArticleKey'   => (object) ['selector' => 'joomla-editor-option ~ article_modal', 'default' => 'CTRL + ALT + A'],
+			'editorContactKey'   => (object) ['selector' => 'joomla-editor-option ~ contact_modal', 'default' => 'CTRL + ALT + C'],
+			'editorFieldsKey'    => (object) ['selector' => 'joomla-editor-option ~ fields_modal', 'default' => 'CTRL + ALT + F'],
+			'editorImageKey'     => (object) ['selector' => 'joomla-editor-option ~ image_modal', 'default' => 'CTRL + ALT + I'],
+			'editorMenuKey'      => (object) ['selector' => 'joomla-editor-option ~ menu_modal', 'default' => 'CTRL + ALT + M'],
+			'editorModuleKey'    => (object) ['selector' => 'joomla-editor-option ~ module_modal', 'default' => 'CTRL + SHIFT + ALT + M'],
+			'editorPagebreakKey' => (object) ['selector' => 'joomla-editor-option ~ pagebreak_modal', 'default' => 'CTRL + ALT + P'],
+			'editorReadmoreKey'  => (object) ['selector' => 'joomla-editor-option ~ read_more', 'default' => 'CTRL + ALT + R'],
 		];
 
-		foreach ($keys as $key => $selector)
+		foreach ($keys as $name => $key)
 		{
-			$shortcut = $this->params->get($key);
+			$shortcut = $this->params->get($name, $key->default);
+
 			if ($shortcut)
 			{
-				$shortcuts[$shortcut] = $selector;
+				$shortcuts[$shortcut] = $key->selector;
 			}
 		}
 
