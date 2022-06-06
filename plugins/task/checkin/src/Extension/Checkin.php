@@ -79,9 +79,9 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event
 	 *
-	 * @return integer  The exit code
+	 * @return  integer  The exit code
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function makeCheckin(ExecuteTaskEvent $event): int
 	{
