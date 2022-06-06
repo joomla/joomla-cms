@@ -68,8 +68,8 @@ class Checkin extends CMSPlugin implements SubscriberInterface
 	public static function getSubscribedEvents(): array
 	{
 		return [
-			'onTaskOptionsList' => 'advertiseRoutines',
-			'onExecuteTask'     => 'standardRoutineHandler',
+			'onTaskOptionsList'    => 'advertiseRoutines',
+			'onExecuteTask'        => 'standardRoutineHandler',
 			'onContentPrepareForm' => 'enhanceTaskItemForm',
 		];
 	}
