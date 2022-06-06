@@ -7809,6 +7809,8 @@ class JoomlaInstallerScript
 			'/libraries/vendor/maximebf/debugbar/build',
 			// From 4.1 to 4.2.0
 			'/libraries/vendor/nyholm/psr7/doc',
+			'/plugins/twofactorauth/totp',
+			'/plugins/twofactorauth/yubikey',
 		);
 
 		$status['files_checked'] = $files;
