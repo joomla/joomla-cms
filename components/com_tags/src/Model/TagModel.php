@@ -271,7 +271,7 @@ class TagModel extends ListModel
 	 *
 	 * @param   integer  $pk  An optional ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -279,7 +279,7 @@ class TagModel extends ListModel
 	{
 		if (!isset($this->item))
 		{
-			$this->item = false;
+			$this->item = [];
 
 			if (empty($pk))
 			{
