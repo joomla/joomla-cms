@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Installer:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="preferences"
 		label="COM_INSTALLER_PREFERENCES_LABEL"
