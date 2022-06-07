@@ -2,14 +2,15 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
   fixturesFolder: 'tests/cypress/fixtures',
-  videosFolder: 'tests/cypress/videos',
-  screenshotsFolder: 'tests/cypress/screenshots',
+  videosFolder: 'tests/cypress/output/videos',
+  screenshotsFolder: 'tests/cypress/output/screenshots',
   e2e: {
     setupNodeEvents(on, config) {},
     baseUrl: 'http://localhost',
     specPattern: 'tests/cypress/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'tests/cypress/support/index.js',
-    scrollBehavior: 'center'
+    scrollBehavior: 'center',
+    browser: 'chrome'
   },
   env: {
     sitename: 'Joomla CMS Test',

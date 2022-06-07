@@ -3,7 +3,7 @@
 
 describe('Test com_content List features', () => {
   before(function () {
-    cy.doAdministratorLogin(this.joomlaconfig.username, this.joomlaconfig.password)
+    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
   })
 
   it('loads without PHP notices and warnings', function () {

@@ -3,7 +3,7 @@
 
 describe('Test com_content Category features', () => {
   before(() => {
-    cy.doAdministratorLogin(this.joomlaconfig.username, this.joomlaconfig.password)
+    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
   })
 
   it('Category', function () {

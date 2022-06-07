@@ -3,7 +3,7 @@
 
 describe('Test general features of Joomla Backend', () => {
   it('Login/Logout in Frontend', function () {
-    cy.doAdministratorLogin(this.joomlaconfig.username, this.joomlaconfig.password)
+    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
     cy.doAdministratorLogout()
   })
 })
