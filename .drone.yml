@@ -31,8 +31,8 @@ steps:
 
     commands:
       - apache2ctl -D FOREGROUND &
-      - npm run cypress:install
-      - npm run cypress:run --browser=chrome
+      - cypress install
+      - cypress run --browser=chrome
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
@@ -182,6 +182,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 11f6fd3946948f2e72f4ccd96419cf11463bc1edac7d2c1d7c08b11b35d0bcfc
+hmac: ac533892e4f6491604054a05b1f3b11649aa26cc9d0fed49aa199de351b57ba4
 
 ...
