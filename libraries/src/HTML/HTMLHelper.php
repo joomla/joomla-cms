@@ -287,7 +287,7 @@ abstract class HTMLHelper
 	protected static function call(callable $function, $args)
 	{
 		// Workaround to allow calling helper methods have arguments passed by reference
-		$temp = array();
+		$temp = [];
 
 		foreach ($args as &$arg)
 		{
