@@ -63,7 +63,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'beta1';
+	const EXTRA_VERSION = 'beta2-dev';
 
 	/**
 	 * Development status.
@@ -71,7 +71,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Beta';
+	const DEV_STATUS = 'Development';
 
 	/**
 	 * Code name.
@@ -95,7 +95,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '16:42';
+	const RELTIME = '16:53';
 
 	/**
 	 * Release timezone.
