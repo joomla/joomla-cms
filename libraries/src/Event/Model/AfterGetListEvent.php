@@ -23,9 +23,9 @@ class AfterGetListEvent extends AbstractEvent
 {
 	/**
 	 * Mandatory arguments:
-	 * subject		ListModelInterface	The model instance we are operating on.
-	 * context		string			    The model context.
-	 * list			\stdClass[]			Item list.
+	 * subject  ListModelInterface  The model instance we are operating on.
+	 * context  string              The model context.
+	 * list     \stdClass[]         Item list.
 	 *
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
