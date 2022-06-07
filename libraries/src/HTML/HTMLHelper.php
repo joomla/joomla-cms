@@ -286,7 +286,15 @@ abstract class HTMLHelper
 	 */
 	protected static function call(callable $function, $args)
 	{
-		return \call_user_func_array($function, $args);
+		// PHP 5.3 workaround
+		$temp = array();
+
+		foreach ($args as &$arg)
+		{
+			$temp[] = &$arg;
+		}
+
+		return \call_user_func_array($function, $temp);
 	}
 
 	/**
