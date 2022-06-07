@@ -313,54 +313,6 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	}
 
 	/**
-	 * Gets an array of objects from the results of database query.
-	 *
-	 * @param   string   $query       The query.
-	 * @param   integer  $limitstart  Offset.
-	 * @param   integer  $limit       The number of records.
-	 *
-	 * @return  object[]  An array of results.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \RuntimeException
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
-		$list = parent::_getList($query, $limitstart, $limit);
-
-		// Apply plugins
-		$list = $this->afterGetList($list);
-
-		return $list;
-	}
-
-	/**
-	 * Applies plugins for the list loaded from database.
-	 *
-	 * @param   object[]  $list  The list of item.
-	 *
-	 * @return  object[]  An array of results.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function afterGetList($list)
-	{
-		PluginHelper::importPlugin($this->events_map['after_get_list']);
-
-		$event = new AfterGetListEvent(
-			$this->eventAfterGetList,
-			[
-				'subject' => $this,
-				'context' => $this->context,
-				'list' => $list,
-			]
-		);
-		$this->dispatchEvent($event);
-
-		return $list;
-	}
-
-	/**
 	 * Function to get the active filters
 	 *
 	 * @return  array  Associative array in the format: array('filter_published' => 0)
@@ -566,7 +518,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		// Try to locate the filter form automatically. Example: ContentModelArticles => "filter_articles"
 		if (empty($this->filterFormName))
 		{
-			$classNameParts = explode('Model', \get_called_class());
+			$classNameParts = explode('Model', static::class);
 
 			if (\count($classNameParts) >= 2)
 			{
