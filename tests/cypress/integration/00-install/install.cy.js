@@ -4,6 +4,8 @@
 describe('Install Joomla', () => {
   it('Install Joomla', function () {
 
+    cy.exec('rm configuration.php', {failOnNonZeroExit: false})
+
     let config = {
       "sitename": Cypress.env('sitename'),
       "name": Cypress.env('name'),
