@@ -38,7 +38,7 @@ use Webauthn\PublicKeyCredentialRequestOptions;
 /**
  * Joomla Multi-factor Authentication plugin for WebAuthn
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Webauthn extends CMSPlugin implements SubscriberInterface
 {
@@ -46,7 +46,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * The application object
 	 *
 	 * @var    CMSApplication|SiteApplication|AdministratorApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $app;
 
@@ -54,7 +54,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * Auto-load the plugin's language files
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -62,7 +62,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $mfaMethodName = 'webauthn';
 
@@ -71,7 +71,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -90,7 +90,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetMethod(GetMethod $event): void
 	{
@@ -117,7 +117,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetSetup(GetSetup $event): void
 	{
@@ -206,7 +206,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @param   SaveSetup  $event  The event we are handling
 	 *
 	 * @return  void The configuration data to save to the database
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorSaveSetup(SaveSetup $event): void
 	{
@@ -283,7 +283,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorCaptive(Captive $event): void
 	{
@@ -415,7 +415,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @param   Validate  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorValidate(Validate $event): void
 	{

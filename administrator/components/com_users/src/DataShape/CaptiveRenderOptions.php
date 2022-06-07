@@ -23,21 +23,21 @@ use InvalidArgumentException;
  * @property  bool   $allowEntryBatching  Is this method validating against all configured authenticators of this type?
  * @property  string $help_url            URL for help content
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CaptiveRenderOptions extends DataShapeObject
 {
 	/**
 	 * Display a standard HTML5 input field. Use the input_type, placeholder and label properties to set it up.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public const FIELD_INPUT = 'input';
 
 	/**
 	 * Display a custom HTML document. Use the html property to set it up.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public const FIELD_CUSTOM = 'custom';
 
@@ -45,7 +45,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Custom HTML to display above the MFA form
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $pre_message = '';
@@ -54,7 +54,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $field_type = 'input';
@@ -63,7 +63,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $input_type = '';
@@ -72,7 +72,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Attributes other than type and id which will be added to the HTML input box.
 	 *
 	 * @var    array
-	 * @@since __DEPLOY_VERSION__
+	 * @@since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $input_attributes = [];
@@ -81,7 +81,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Placeholder text for the HTML input box. Leave empty if you don't need it.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $placeholder = '';
 
@@ -89,7 +89,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Label to show above the HTML input box. Leave empty if you don't need it.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $label = '';
 
@@ -97,7 +97,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Custom HTML. Only used when field_type = custom.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $html = '';
 
@@ -105,7 +105,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Custom HTML to display below the MFA form
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $post_message = '';
@@ -114,7 +114,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Should I hide the default Submit button?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $hide_submit = false;
@@ -123,7 +123,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Additional CSS classes for the submit button (apply the MFA setup)
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $submit_class = '';
@@ -132,7 +132,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Icon class to use for the submit button
 	 *
 	 * @var    string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $submit_icon = 'icon icon-rightarrow icon-arrow-right';
@@ -141,7 +141,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Language key to use for the text on the submit button
 	 *
 	 * @var    string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $submit_text = 'COM_USERS_MFA_VALIDATE';
@@ -150,7 +150,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * Is this MFA method validating against all configured authenticators of the same type?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $allowEntryBatching = true;
 
@@ -158,7 +158,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * URL for help content
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $help_url = '';
@@ -168,7 +168,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 *
 	 * @param   string  $value  One of self::FIELD_INPUT, self::FIELD_CUSTOM
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 * @throws  InvalidArgumentException
 	 */
 	// phpcs:ignore
@@ -189,7 +189,7 @@ class CaptiveRenderOptions extends DataShapeObject
 	 * @param   array  $value  The value to set
 	 *
 	 * @return  void
-	 * @@since  __DEPLOY_VERSION__
+	 * @@since  4.2.0
 	 */
 	// phpcs:ignore
 	protected function setInput_attributes(array $value)

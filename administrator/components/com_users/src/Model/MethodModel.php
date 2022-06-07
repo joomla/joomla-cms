@@ -24,7 +24,7 @@ use Joomla\CMS\User\UserFactoryInterface;
 /**
  * Multi-factor Authentication management model
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MethodModel extends BaseDatabaseModel
 {
@@ -32,7 +32,7 @@ class MethodModel extends BaseDatabaseModel
 	 * List of MFA Methods
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $mfaMethods = null;
 
@@ -42,7 +42,7 @@ class MethodModel extends BaseDatabaseModel
 	 * @param   string  $method  The Method to retrieve.
 	 *
 	 * @return  array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getMethod(string $method): array
 	{
@@ -67,7 +67,7 @@ class MethodModel extends BaseDatabaseModel
 	 * @param   string  $method  The Method to check.
 	 *
 	 * @return  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function methodExists(string $method): bool
 	{
@@ -85,7 +85,7 @@ class MethodModel extends BaseDatabaseModel
 	 * @return  array
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getRenderOptions(?User $user = null): SetupRenderOptions
 	{
@@ -128,7 +128,7 @@ class MethodModel extends BaseDatabaseModel
 	 * @return  MfaTable
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getRecord(User $user = null): MfaTable
 	{
@@ -173,7 +173,7 @@ class MethodModel extends BaseDatabaseModel
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getPageTitle(): string
 	{
@@ -199,7 +199,7 @@ class MethodModel extends BaseDatabaseModel
 	 * @return  MfaTable
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected function getDefaultRecord(?User $user = null): MfaTable
 	{
@@ -243,7 +243,7 @@ class MethodModel extends BaseDatabaseModel
 	 * Populate the list of MFA Methods
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function populateMfaMethods(): void
 	{
