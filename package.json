@@ -27,7 +27,7 @@
     "versioning": "node build/build.js --versioning",
     "cypress:install": "$(npm bin)/cypress install",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run-chrome": "cypress run --browser=chrome"
   },
   "browserslist": [
     "last 1 version",
