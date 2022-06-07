@@ -23,9 +23,9 @@ class ListQueryEvent extends AbstractEvent
 {
 	/**
 	 * Mandatory arguments:
-	 * subject		ListModelInterface	The model instance we are operating on.
-	 * context		string			    The model context.
-	 * query		QueryInterface		Database query.
+	 * subject  ListModelInterface  The model instance we are operating on.
+	 * context  string              The model context.
+	 * query    QueryInterface      Database query.
 	 *
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
