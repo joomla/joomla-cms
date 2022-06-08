@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 /**
@@ -72,7 +73,7 @@ abstract class JHtmlIcon
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		throw new \Exception('Sorry, Joomla 4 no longer supports print_popup');
+		throw new \Exception(Text::_('COM_CONTENT_ERROR_PRINT_POPUP'));
 	}
 
 	/**
