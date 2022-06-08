@@ -10,7 +10,9 @@ module.exports = defineConfig({
     specPattern: 'tests/cypress/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'tests/cypress/support/index.js',
     scrollBehavior: 'center',
-    browser: 'chrome'
+    browser: 'chrome',
+    screenshotOnRunFailure: false,
+    video: false
   },
   env: {
     sitename: 'Joomla CMS Test',
