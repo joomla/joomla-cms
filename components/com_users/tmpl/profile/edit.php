@@ -61,7 +61,7 @@ $wa->useScript('keepalive')
 			<?php endif; ?>
 		<?php endforeach; ?>
 
-		<?php if (count($this->twofactormethods) > 1) : ?>
+		<?php if (count($this->twofactormethods) > 1 && !empty($this->twofactorform)) : ?>
 			<fieldset class="com-users-profile__twofactor">
 				<legend><?php echo Text::_('COM_USERS_PROFILE_TWO_FACTOR_AUTH'); ?></legend>
 
@@ -101,9 +101,7 @@ $wa->useScript('keepalive')
 					</div>
 				<?php else : ?>
 					<?php foreach ($this->otpConfig->otep as $otep) : ?>
-						<span class="col-md-3">
-							<?php echo substr($otep, 0, 4); ?>-<?php echo substr($otep, 4, 4); ?>-<?php echo substr($otep, 8, 4); ?>-<?php echo substr($otep, 12, 4); ?>
-						</span>
+						<?php echo wordwrap($otep, 4, '-', true); ?><br>
 					<?php endforeach; ?>
 					<div class="clearfix"></div>
 				<?php endif; ?>
