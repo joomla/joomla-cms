@@ -690,9 +690,6 @@ ENDDATA;
 			return false;
 		}
 
-		// Re-create namespace map. It is needed when updating to a Joomla! version has new extension added
-		(new \JNamespacePsr4Map)->create();
-
 		$installer->manifest = $manifest;
 
 		$installer->setUpgrade(true);
@@ -1484,7 +1481,7 @@ ENDDATA;
 	 *
 	 * @since   3.10.0
 	 */
-	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','twofactorauth'])
+	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
