@@ -83,14 +83,59 @@ class RouteHelper extends CMSRouteHelper
 	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
 	 *
 	 * @param   integer  $id        The ID of the tag
+	 *
+	 * @return  string  URL link to pass to the router
+	 *
+	 * @since      3.1
+	 * @throws     Exception
+	 * @deprecated 5.0.0 Use getComponentTagRoute() instead
+	 */
+	public static function getTagRoute($id)
+	{
+		@trigger_error('This function is replaced by the getComponentTagRoute()', E_USER_DEPRECATED);
+
+		$needles = array(
+			'tag'  => array((int) $id)
+		);
+
+		if ($id < 1)
+		{
+			$link = '';
+		}
+		else
+		{
+			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+
+			if ($item = self::_findItem($needles))
+			{
+				$link .= '&Itemid=' . $item;
+			}
+			else
+			{
+				$needles = array('tags' => array(1, 0));
+
+				if ($item = self::_findItem($needles))
+				{
+					$link .= '&Itemid=' . $item;
+				}
+			}
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
+	 *
+	 * @param   integer  $id        The ID of the tag
 	 * @param   string   $language  The language of the tag
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public static function getTagRoute($id, string $language = '*')
+	public static function getComponentTagRoute($id, string $language = '*')
 	{
 		$needles = [
 			'tag'      => [(int) $id],
@@ -129,14 +174,41 @@ class RouteHelper extends CMSRouteHelper
 	/**
 	 * Tries to load the router for the tags view.
 	 *
+	 * @return  string  URL link to pass to the router
+	 *
+	 * @since      3.7
+	 * @throws     Exception
+	 * @deprecated 5.0.0
+	 */
+	public static function getTagsRoute()
+	{
+		@trigger_error('This function is replaced by the getComponentTagsRoute()', E_USER_DEPRECATED);
+
+		$needles = array(
+			'tags'  => array(0)
+		);
+
+		$link = 'index.php?option=com_tags&view=tags';
+
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Tries to load the router for the tags view.
+	 *
 	 * @param   string  $language  The language of the tag
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public static function getTagsRoute(string $language = '*')
+	public static function getComponentTagsRoute(string $language = '*')
 	{
 		$needles = [
 			'tag'      => [0],

@@ -24,7 +24,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 	<ul>
 	<?php foreach ($list as $item) : ?>
 	<li>
-		<a href="<?php echo Route::_(RouteHelper::getTagRoute($item->tag_id . ':' . $item->alias, $item->language)); ?>">
+		<a href="<?php echo Route::_(RouteHelper::getComponentTagRoute($item->tag_id . ':' . $item->alias, $item->language)); ?>">
 			<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?></a>
 		<?php if ($display_count) : ?>
 			<span class="tag-count badge bg-info"><?php echo $item->count; ?></span>

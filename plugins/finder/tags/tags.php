@@ -229,7 +229,7 @@ class PlgFinderTags extends Adapter
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 
 		// Build the necessary route and path information.
-		$item->route = RouteHelper::getTagRoute($item->slug, $item->language);
+		$item->route = RouteHelper::getComponentTagRoute($item->slug, $item->language);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
