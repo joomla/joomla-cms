@@ -211,7 +211,7 @@ trait TaskPluginTrait
 		 * Depending on when the form is loaded, the ID may either be in $data or the data already bound to the form.
 		 * $data can also either be an object or an array.
 		 */
-		$routineId = $data->taskOption->type ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->type ?? '';
+		$routineId = $data->taskOption->id ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->id ?? '';
 
 		// If we're unable to find a routineId, it might be in the form input.
 		if (empty($routineId))
