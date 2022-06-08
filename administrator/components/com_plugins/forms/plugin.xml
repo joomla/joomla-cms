@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Joomla\Component\Plugins\Administrator\Field">
+	<config>         
+		<inlinehelp button="show"/>     
+	</config>
 	<fieldset>
-		<config>         
-			<inlinehelp button="show"/>     
-		</config>
 		<field
 			name="extension_id"
 			type="text"
