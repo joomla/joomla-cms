@@ -21,6 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Scheduler\Administrator\Model\TasksModel;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Database\DatabaseInterface;
@@ -55,14 +56,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 * @since  4.1.0
 	 */
 	protected $app;
-
-	/**
-	 * Database object.
-	 *
-	 * @var    DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $db;
 
 	/**
 	 * @inheritDoc
@@ -129,23 +122,13 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		$now = Factory::getDate('now', 'UTC')->toSql();
+		/** @var TasksModel $model */
+		$model = $this->app->bootComponent('com_scheduler')
+			->getMVCFactory()->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
 
-		$query = $this->db->getQuery(true)
-			// Count due tasks
-			->select('SUM(CASE WHEN ' . $this->db->quoteName('a.next_execution') . ' <= :now THEN 1 ELSE 0 END) AS due_count')
-			// Count locked tasks
-			->select('SUM(CASE WHEN ' . $this->db->quoteName('a.locked') . ' IS NULL THEN 0 ELSE 1 END) AS locked_count')
-			->from($this->db->quoteName('#__scheduler_tasks', 'a'))
-			->where($this->db->quoteName('a.state') . ' = 1')
-			->bind(':now', $now);
+		$now = Factory::getDate('now', 'UTC');
 
-		$this->db->setQuery($query);
-
-		$taskDetails = $this->db->loadObject();
-
-		// Break if we don't have due tasks, or we have locked tasks
-		if (!$taskDetails || !$taskDetails->due_count || $taskDetails->locked_count)
+		if (!$model->hasDueTasks($now))
 		{
 			return;
 		}
@@ -234,7 +217,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		if (!strlen($hash) || $hash !== $this->app->input->get('hash'))
+		if ($hash === '' || $hash !== $this->app->input->get('hash'))
 		{
 			throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -294,7 +277,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 			]
 		);
 
-		if (!is_null($task))
+		if ($task)
 		{
 			$task->run();
 			$event->addArgument('result', $task->getContent());
