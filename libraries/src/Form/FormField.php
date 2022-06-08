@@ -120,14 +120,6 @@ abstract class FormField
 	protected $hiddenDescription = false;
 
 	/**
-	 * Should the description be hidden/shown with toggle button when rendering the form field?
-	 *
-	 * @var    boolean
-	 * @since  4.1.4
-	 */
-	protected $inlineHelp = false;
-
-	/**
 	 * True to translate the field label string.
 	 *
 	 * @var    boolean
@@ -1075,19 +1067,9 @@ abstract class FormField
 			}
 		}
 
-		if (empty($options['inlineHelp']))
-		{
-			if ($this->getAttribute('inlineHelp'))
-			{
-				$options['inlineHelp'] = $this->getAttribute('inlineHelp') == 'true';
-			}
-			else
-			{
-				$options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
-					? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
-					: $this->inlineHelp;
-			}
-		}
+		$options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
+			? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
+			: false;
 
 		if ($this->showon)
 		{
