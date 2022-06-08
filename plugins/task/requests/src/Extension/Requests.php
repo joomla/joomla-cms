@@ -7,19 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Task\Requests\Extension;
+
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Http\HttpFactory;
-use Joomla\CMS\Language\Text;
+use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Registry\Registry;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
+use Joomla\Http\HttpFactory;
 
 /**
  * Task plugin with routines to make HTTP requests.
@@ -27,7 +29,7 @@ use Joomla\Registry\Registry;
  *
  * @since  4.1.0
  */
-class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
+class Requests extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
@@ -44,13 +46,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
-	 * @var boolean
-	 * @since 4.1.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
-	 * @inheritDoc
+	 * Returns an array of events this subscriber will listen to.
 	 *
 	 * @return string[]
 	 *
@@ -63,6 +59,44 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 			'onExecuteTask'        => 'standardRoutineHandler',
 			'onContentPrepareForm' => 'enhanceTaskItemForm',
 		];
+	}
+
+	/**
+	 * @var boolean
+	 * @since 4.1.0
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * The application object
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
+	 * The http factory
+	 *
+	 * @var    HttpFactory
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $httpFactory;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   DispatcherInterface  $dispatcher   The dispatcher
+	 * @param   array                $config       An optional associative array of configuration settings
+	 * @param   HttpFactory          $httpFactory  The http factory
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DispatcherInterface $dispatcher, array $config, HttpFactory $httpFactory)
+	{
+		parent::__construct($dispatcher, $config);
+
+		$this->httpFactory = $httpFactory;
 	}
 
 	/**
@@ -92,15 +126,13 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 			$headers = [$authType => $authKey];
 		}
 
-		$options = new Registry;
-
 		try
 		{
-			$response = HttpFactory::getHttp($options)->get($url, $headers, $timeout);
+			$response = $this->httpFactory->getHttp([])->get($url, $headers, $timeout);
 		}
 		catch (Exception $e)
 		{
-			$this->logTask(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
+			$this->logTask($this->app->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
 
 			return TaskStatus::TIMEOUT;
 		}
@@ -118,7 +150,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 		}
 		else
 		{
-			$this->logTask('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT', 'error');
+			$this->logTask($this->app->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
 			$responseStatus = 'NOT_SAVED';
 		}
 
@@ -129,7 +161,7 @@ class PlgTaskRequests extends CMSPlugin implements SubscriberInterface
 > Response: $responseStatus
 EOF;
 
-		$this->logTask(Text::sprintf('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE', $responseCode));
+		$this->logTask(sprintf($this->app->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
 
 		if ($response->code !== 200)
 		{
