@@ -27,7 +27,10 @@
     "versioning": "node build/build.js --versioning",
     "cypress:install": "$(npm bin)/cypress install",
     "cypress:open": "cypress open",
-    "cypress:run-chrome": "cypress run --browser=chrome"
+    "cypress:run": "cypress run --e2e",
+    "cypress:run-chrome": "cypress run --browser=chrome --e2e",
+    "cypress:run-firefox": "cypress run --browser=firefox --e2e",
+    "cypress:run-edge": "cypress run --browser=edge --e2e"
   },
   "browserslist": [
     "last 1 version",
