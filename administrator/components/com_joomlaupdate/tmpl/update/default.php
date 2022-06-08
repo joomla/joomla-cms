@@ -91,7 +91,7 @@ $helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
 	</div>
 </div>
 
-<div class="px-4 py-5 my-5 d-none" id="joomlaupdate-error">
+<div class="px-4 d-none" id="joomlaupdate-error">
 	<div class="card border-danger">
 		<h1 class="card-header bg-danger text-white" id="errorDialogLabel"></h1>
 		<div class="card-body">
