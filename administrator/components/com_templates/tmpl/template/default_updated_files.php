@@ -18,7 +18,7 @@ $input = Factory::getApplication()->input;
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="updateForm" id="updateForm">
-	<div class="row mt-3">
+	<div class="row mt-2">
 		<div class="col-md-12">
 			<?php if (count($this->updatedList) !== 0) : ?>
 				<table class="table">
