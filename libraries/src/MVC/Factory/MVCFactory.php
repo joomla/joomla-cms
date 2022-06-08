@@ -17,6 +17,7 @@ use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Router\SiteRouterAwareInterface;
 use Joomla\CMS\Router\SiteRouterAwareTrait;
+use Joomla\CMS\User\CurrentUserInterface;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -86,6 +87,11 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 		$this->setFormFactoryOnObject($controller);
 		$this->setDispatcherOnObject($controller);
 		$this->setRouterOnObject($controller);
+
+		if ($controller instanceof CurrentUserInterface && $app->getIdentity())
+		{
+			$controller->setCurrentUser($app->getIdentity());
+		}
 
 		return $controller;
 	}
