@@ -38,7 +38,7 @@
 					validate="options"
 					>
 					<option value="true">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_TRUE</option>
-					<option value="true">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_FALSE</option>
+					<option value="false">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_FALSE</option>
 				</field>
 			</fieldset>
 		</fields>
