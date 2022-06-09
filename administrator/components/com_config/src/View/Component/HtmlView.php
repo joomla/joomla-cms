@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
 			}
 
 			$form = $this->get('form');
-			$user = Factory::getUser();
+			$user = $this->getCurrentUser();
 		}
 		catch (\Exception $e)
 		{
