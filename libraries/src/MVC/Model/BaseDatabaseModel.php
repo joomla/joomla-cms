@@ -313,7 +313,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		try
 		{
-			 /** @var CallbackController $cache */
+			/** @var CallbackController $cache */
 			$cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
 			$cache->clean();
 		}
