@@ -94,34 +94,7 @@ class RouteHelper extends CMSRouteHelper
 	{
 		@trigger_error('This function is replaced by the getComponentTagRoute()', E_USER_DEPRECATED);
 
-		$needles = array(
-			'tag'  => array((int) $id)
-		);
-
-		if ($id < 1)
-		{
-			$link = '';
-		}
-		else
-		{
-			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
-
-			if ($item = self::_findItem($needles))
-			{
-				$link .= '&Itemid=' . $item;
-			}
-			else
-			{
-				$needles = array('tags' => array(1, 0));
-
-				if ($item = self::_findItem($needles))
-				{
-					$link .= '&Itemid=' . $item;
-				}
-			}
-		}
-
-		return $link;
+		return self::getComponentTagRoute((int) $id);
 	}
 
 	/**
@@ -135,10 +108,10 @@ class RouteHelper extends CMSRouteHelper
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public static function getComponentTagRoute($id, string $language = '*')
+	public static function getComponentTagRoute(int $id, string $language = '*'): string
 	{
 		$needles = [
-			'tag'      => [(int) $id],
+			'tag'      => [$id],
 			'language' => $language,
 		];
 
@@ -184,18 +157,7 @@ class RouteHelper extends CMSRouteHelper
 	{
 		@trigger_error('This function is replaced by the getComponentTagsRoute()', E_USER_DEPRECATED);
 
-		$needles = array(
-			'tags'  => array(0)
-		);
-
-		$link = 'index.php?option=com_tags&view=tags';
-
-		if ($item = self::_findItem($needles))
-		{
-			$link .= '&Itemid=' . $item;
-		}
-
-		return $link;
+		return self::getComponentTagsRoute();
 	}
 
 	/**
@@ -208,7 +170,7 @@ class RouteHelper extends CMSRouteHelper
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public static function getComponentTagsRoute(string $language = '*')
+	public static function getComponentTagsRoute(string $language = '*'): string
 	{
 		$needles = [
 			'tag'      => [0],
