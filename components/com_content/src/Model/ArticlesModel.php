@@ -120,6 +120,7 @@ class ArticlesModel extends ListModel
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
+
 		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
@@ -189,11 +190,12 @@ class ArticlesModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		// Get the current user for authorisation checks
 		$user = Factory::getUser();
 
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db = $this->getDbo();
+
+		/** @var \Joomla\Database\DatabaseQuery $query */
 		$query = $db->getQuery(true);
 
 		$nowDate = Factory::getDate()->toSql();
@@ -446,7 +448,7 @@ class ArticlesModel extends ListModel
 
 				// Add the subquery to the main query
 				$query->where(
-					'(' . $db->quoteName('a.catid') . $type . ':categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . (string) $subQuery . '))'
+					'(' . $db->quoteName('a.catid') . $type . ':categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . $subQuery . '))'
 				);
 				$query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
@@ -516,11 +518,7 @@ class ArticlesModel extends ListModel
 		{
 			$query->where('(' . $authorWhere . ' OR ' . $authorAliasWhere . ')');
 		}
-		elseif (empty($authorWhere) && empty($authorAliasWhere))
-		{
-			// If both are empty we don't want to add to the query
-		}
-		else
+		elseif (!empty($authorWhere) || !empty($authorAliasWhere))
 		{
 			// One of these is empty, the other is not so we just add both
 			$query->where($authorWhere . $authorAliasWhere);
@@ -634,7 +632,7 @@ class ArticlesModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Filter by a single or group of tags.
@@ -663,7 +661,7 @@ class ArticlesModel extends ListModel
 
 				$query->join(
 					'INNER',
-					'(' . (string) $subQuery . ') AS ' . $db->quoteName('tagmap'),
+					'(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
 					$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 				);
 			}
@@ -700,17 +698,20 @@ class ArticlesModel extends ListModel
 	public function getItems()
 	{
 		$items  = parent::getItems();
-		$user   = Factory::getUser();
+
+		$user = Factory::getUser();
 		$userId = $user->get('id');
-		$guest  = $user->get('guest');
+		$guest = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
-		$input  = Factory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = ComponentHelper::getParams('com_content', true);
 
+		$taggedItems = [];
+
 		// Convert the parameter fields into objects.
-		foreach ($items as &$item)
+		foreach ($items as $item)
 		{
 			$articleParams = new Registry($item->attribs);
 
@@ -829,12 +830,24 @@ class ArticlesModel extends ListModel
 			if ($this->getState('load_tags', $item->params->get('show_tags', '1')))
 			{
 				$item->tags = new TagsHelper;
-				$item->tags->getItemTags('com_content.article', $item->id);
+				$taggedItems[$item->id] = $item;
 			}
 
 			if (Associations::isEnabled() && $item->params->get('show_associations'))
 			{
 				$item->associations = AssociationHelper::displayAssociations($item->id);
+			}
+		}
+
+		// Load tags of all items.
+		if ($taggedItems)
+		{
+			$tagsHelper = new TagsHelper;
+			$itemIds = \array_keys($taggedItems);
+
+			foreach ($tagsHelper->getMultipleItemTags('com_content.article', $itemIds) as $id => $tags)
+			{
+				$taggedItems[$id]->tags->itemTags = $tags;
 			}
 		}
 
