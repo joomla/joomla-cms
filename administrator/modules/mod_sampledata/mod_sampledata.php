@@ -16,7 +16,7 @@ $items = array_filter($items);
 
 if ($params->get('automatic_title', 0))
 {
-	$module->title = SampledataHelper::getTitle($params);
+	$module->title = Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper::getTitle($params);
 }
 
 require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));
