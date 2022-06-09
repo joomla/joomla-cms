@@ -21,8 +21,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\CurrentUserInterface;
-use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Input\Input;
 
 /**
@@ -31,9 +29,9 @@ use Joomla\Input\Input;
  * @since  1.6
  * @todo   Add ability to set redirect manually to better cope with frontend usage.
  */
-class FormController extends BaseController implements FormFactoryAwareInterface, CurrentUserInterface
+class FormController extends BaseController implements FormFactoryAwareInterface
 {
-	use FormFactoryAwareTrait, CurrentUserTrait;
+	use FormFactoryAwareTrait;
 
 	/**
 	 * The context for storing internal data, e.g. record.
@@ -202,9 +200,14 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   1.6
 	 */
-	protected function allowAdd($data = array())
+	protected function allowAdd($data = [])
 	{
-		$user = $this->getCurrentUser();
+		$user = $this->app->getIdentity();
+
+		if (!$user)
+		{
+			return false;
+		}
 
 		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
@@ -221,9 +224,14 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   1.6
 	 */
-	protected function allowEdit($data = array(), $key = 'id')
+	protected function allowEdit($data = [], $key = 'id')
 	{
-		return $this->getCurrentUser()->authorise('core.edit', $this->option);
+		if (!$this->app->getIdentity())
+		{
+			return false;
+		}
+
+		return $this->app->getIdentity()->authorise('core.edit', $this->option);
 	}
 
 	/**
