@@ -204,11 +204,6 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	{
 		$user = $this->app->getIdentity();
 
-		if (!$user)
-		{
-			return false;
-		}
-
 		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
 
@@ -226,11 +221,6 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 */
 	protected function allowEdit($data = [], $key = 'id')
 	{
-		if (!$this->app->getIdentity())
-		{
-			return false;
-		}
-
 		return $this->app->getIdentity()->authorise('core.edit', $this->option);
 	}
 
