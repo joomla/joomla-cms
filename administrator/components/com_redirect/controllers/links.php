@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Redirect link list controller class.
  *
@@ -30,9 +28,10 @@ class RedirectControllerLinks extends JControllerAdmin
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids     = $this->input->get('cid', array(), 'array');
-		$newUrl  = $this->input->getString('new_url');
-		$comment = $this->input->getString('comment');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -40,10 +39,11 @@ class RedirectControllerLinks extends JControllerAdmin
 		}
 		else
 		{
+			$newUrl  = $this->input->getString('new_url');
+			$comment = $this->input->getString('comment');
+
 			// Get the model.
 			$model = $this->getModel();
-
-			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment))
@@ -71,9 +71,10 @@ class RedirectControllerLinks extends JControllerAdmin
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids     = $this->input->get('cid', array(), 'array');
-		$newUrl  = $this->input->getString('new_url');
-		$comment = $this->input->getString('comment');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -81,10 +82,11 @@ class RedirectControllerLinks extends JControllerAdmin
 		}
 		else
 		{
+			$newUrl  = $this->input->getString('new_url');
+			$comment = $this->input->getString('comment');
+
 			// Get the model.
 			$model = $this->getModel();
-
-			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->duplicateUrls($ids, $newUrl, $comment))

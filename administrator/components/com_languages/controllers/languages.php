@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Languages controller Class.
  *
@@ -46,12 +44,18 @@ class LanguagesControllerLanguages extends JControllerAdmin
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$pks   = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
+		$pks   = (array) $this->input->post->get('cid', array(), 'int');
+		$order = (array) $this->input->post->get('order', array(), 'int');
 
-		// Sanitize the input.
-		$pks   = ArrayHelper::toInteger($pks);
-		$order = ArrayHelper::toInteger($order);
+		// Remove zero PK's and corresponding order values resulting from input filter for PK
+		foreach ($pks as $i => $pk)
+		{
+			if ($pk === 0)
+			{
+				unset($pks[$i]);
+				unset($order[$i]);
+			}
+		}
 
 		// Get the model.
 		$model = $this->getModel();

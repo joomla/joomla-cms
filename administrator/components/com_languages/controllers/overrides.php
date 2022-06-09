@@ -37,9 +37,12 @@ class LanguagesControllerOverrides extends JControllerAdmin
 		$this->checkToken();
 
 		// Get items to delete from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'string');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			$this->setMessage(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
 		}

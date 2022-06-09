@@ -250,7 +250,13 @@ abstract class Folder
 		// Is this really a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Remove all the files in folder if they exist; disable all filtering
@@ -365,7 +371,13 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Compute the excludefilter string
@@ -412,7 +424,13 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Compute the excludefilter string
