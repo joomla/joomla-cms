@@ -851,7 +851,7 @@ CREATE TABLE IF NOT EXISTS `#__tuf_metadata` (
   `id` int NOT NULL AUTO_INCREMENT,
   `extension_id` int DEFAULT 0,
   `root_json` text DEFAULT NULL,
-  `target_json` text DEFAULT NULL,
+  `targets_json` text DEFAULT NULL,
   `snapshot_json` text DEFAULT NULL,
   `timestamp_json` text DEFAULT NULL,
   `mirrors_json` text DEFAULT NULL,

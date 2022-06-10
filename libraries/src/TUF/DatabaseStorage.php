@@ -47,7 +47,7 @@ class DatabaseStorage implements \ArrayAccess
 	{
         $column = $this->getCleanColumn($offset);
 
-        return substr($offset, -5) === '.json' && $this->table->hasField($column) && strlen($this->table->$column);
+        return substr($offset, -5) === '_json' && $this->table->hasField($column) && strlen($this->table->$column);
 	}
 
 	/**
