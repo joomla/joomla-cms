@@ -91,7 +91,7 @@ class TracksModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -206,7 +206,7 @@ class TracksModel extends ListModel
 		if ($allow)
 		{
 			// Delete tracks from this banner
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__banner_tracks'));
 
@@ -381,7 +381,7 @@ class TracksModel extends ListModel
 
 		if ($categoryId)
 		{
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__categories'))
@@ -419,7 +419,7 @@ class TracksModel extends ListModel
 
 		if ($clientId)
 		{
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__banner_clients'))

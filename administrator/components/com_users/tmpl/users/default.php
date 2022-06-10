@@ -18,6 +18,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
+/** @var \Joomla\Component\Users\Administrator\View\Users\HtmlView $this */
+
+// phpcs:ignoreFile
+
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
@@ -26,7 +30,7 @@ $wa->useScript('table.columns')
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = Factory::getUser();
-$tfa        = PluginHelper::isEnabled('twofactorauth');
+$mfa        = PluginHelper::isEnabled('multifactorauth');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
@@ -66,9 +70,9 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" class="w-5 text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($tfa) : ?>
+								<?php if ($mfa) : ?>
 								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
-									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
+									<?php echo Text::_('COM_USERS_HEADING_MFA'); ?>
 								</th>
 								<?php endif; ?>
 								<th scope="col" class="w-12 d-none d-md-table-cell">
@@ -149,15 +153,19 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
-								<?php if ($tfa) : ?>
+								<?php if ($mfa) : ?>
 								<td class="text-center d-none d-md-table-cell">
 									<span class="tbody-icon">
-									<?php if (!empty($item->otpKey)) : ?>
-										<span class="icon-check" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
+									<?php if ($item->mfaRecords > 0 || !empty($item->otpKey)) : ?>
+										<span class="icon-check" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
+										<div role="tooltip" id="tip-mfa<?php echo $i; ?>">
+											<?php echo Text::_('COM_USERS_MFA_ACTIVE'); ?>
+										</div>
 									<?php else : ?>
-										<span class="icon-times" aria-hidden="true"></span>
-										<span class="visually-hidden"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
+										<span class="icon-times" aria-hidden="true" aria-describedby="tip-mfa<?php echo $i; ?>"></span>
+										<div role="tooltip" id="tip-mfa<?php echo $i; ?>">
+											<?php echo Text::_('COM_USERS_MFA_NOTACTIVE'); ?>
+										</div>
 									<?php endif; ?>
 									</span>
 								</td>

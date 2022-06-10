@@ -87,7 +87,7 @@ class ActionlogsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
@@ -243,7 +243,7 @@ class ActionlogsModel extends ListModel
 	public function getLogsForItem($extension, $itemId)
 	{
 		$itemId = (int) $itemId;
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
@@ -279,7 +279,7 @@ class ActionlogsModel extends ListModel
 	 */
 	public function getLogsData($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $this->getLogDataQuery($pks);
 
 		$db->setQuery($query);
@@ -298,7 +298,7 @@ class ActionlogsModel extends ListModel
 	 */
 	public function getLogDataAsIterator($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $this->getLogDataQuery($pks);
 
 		$db->setQuery($query);
@@ -317,7 +317,7 @@ class ActionlogsModel extends ListModel
 	 */
 	private function getLogDataQuery($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
@@ -345,7 +345,7 @@ class ActionlogsModel extends ListModel
 	public function delete(&$pks)
 	{
 		$keys  = ArrayHelper::toInteger($pks);
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__action_logs'))
 			->whereIn($db->quoteName('id'), $keys);
@@ -378,7 +378,7 @@ class ActionlogsModel extends ListModel
 	{
 		try
 		{
-			$this->getDbo()->truncateTable('#__action_logs');
+			$this->getDatabase()->truncateTable('#__action_logs');
 		}
 		catch (Exception $e)
 		{
