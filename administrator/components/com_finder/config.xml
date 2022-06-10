@@ -4,8 +4,18 @@
 	<fieldset
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
-		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION"
 		>
+		<field
+			name="word_match"
+			type="list"
+			label="COM_FINDER_CONFIG_WORD_MATCH_LABEL"
+			description="COM_FINDER_CONFIG_WORD_MATCH_DESC"
+			default="exact"
+			>
+			<option value="exact">COM_FINDER_CONFIG_WORD_MATCH_OPTION_EXACT</option>
+			<option value="begin">COM_FINDER_CONFIG_WORD_MATCH_OPTION_BEGIN</option>
+			<option value="fuzzy">COM_FINDER_CONFIG_WORD_MATCH_OPTION_FUZZY</option>
+		</field>
 
 		<field
 			name="show_taxonomy"
@@ -393,7 +403,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

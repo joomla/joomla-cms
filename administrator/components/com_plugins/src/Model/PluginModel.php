@@ -161,13 +161,20 @@ class PluginModel extends AdminModel
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
 
-		if (!isset($this->_cache[$pk]))
+		$cacheId = $pk;
+
+		if (\is_array($cacheId))
+		{
+			$cacheId = serialize($cacheId);
+		}
+
+		if (!isset($this->_cache[$cacheId]))
 		{
 			// Get a row instance.
 			$table = $this->getTable();
 
 			// Attempt to load the row.
-			$return = $table->load(array('extension_id' => $pk, 'type' => 'plugin'));
+			$return = $table->load(\is_array($pk) ? $pk : ['extension_id' => $pk, 'type' => 'plugin']);
 
 			// Check for a table object error.
 			if ($return === false)
@@ -177,26 +184,26 @@ class PluginModel extends AdminModel
 
 			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+			$this->_cache[$cacheId] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
-			$this->_cache[$pk]->params = $registry->toArray();
+			$this->_cache[$cacheId]->params = $registry->toArray();
 
 			// Get the plugin XML.
 			$path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
+				$this->_cache[$cacheId]->xml = simplexml_load_file($path);
 			}
 			else
 			{
-				$this->_cache[$pk]->xml = null;
+				$this->_cache[$cacheId]->xml = null;
 			}
 		}
 
-		return $this->_cache[$pk];
+		return $this->_cache[$cacheId];
 	}
 
 	/**
@@ -254,7 +261,7 @@ class PluginModel extends AdminModel
 		$lang    = Factory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))

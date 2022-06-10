@@ -360,19 +360,19 @@ if ($this->type == 'font')
 	</div>
 	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
-	<div class="row mt-3">
-		<div class="col-12">
-			<?php echo $this->loadTemplate('description'); ?>
-		</div>
-	</div>
-	<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
 	<?php if ($this->pluginState) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'files', Text::_('COM_TEMPLATES_TAB_UPDATED_FILES')); ?>
 		<?php echo $this->loadTemplate('updated_files'); ?>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 	<?php endif; ?>
+
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
+	<div class="row mt-2">
+		<div class="col-12">
+			<?php echo $this->loadTemplate('description'); ?>
+		</div>
+	</div>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
@@ -387,7 +387,7 @@ if ($this->type == 'font')
 		'body' => $this->loadTemplate('modal_' . $taskName . '_body')
 	);
 	?>
-	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.' . $taskName . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.' . $taskName . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
 		<?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $copyModalData); ?>
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>

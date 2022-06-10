@@ -25,7 +25,9 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
-	->useScript('multiselect');
+	->useScript('multiselect')
+	->useScript('com_scheduler.test-task')
+	->useStyle('com_scheduler.admin-view-tasks-css');
 
 Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
 Text::script('COM_SCHEDULER_TEST_RUN_TASK');
@@ -65,12 +67,6 @@ if ($saveOrder && !empty($this->items))
 }
 
 $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
-
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect')
-	->useScript('com_scheduler.test-task')
-	->useStyle('com_scheduler.admin-view-tasks-css');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
@@ -134,16 +130,16 @@ $wa->useScript('multiselect')
 
 					<!-- Last runs -->
 					<th scope="col" class="d-none d-lg-table-cell">
-						<?php echo Text::_('COM_SCHEDULER_LAST_RUN_DATE'); ?>
+						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_LAST_RUN_DATE', 'a.last_execution', $listDirn, $listOrder) ?>
 					</th>
 
 					<!-- Test task -->
-					<th scope="col">
+					<th scope="col" class="d-none d-md-table-cell">
 						<?php echo Text::_('COM_SCHEDULER_TEST_TASK'); ?>
 					</th>
 
 					<!-- Priority -->
-					<th scope="col">
+					<th scope="col" class="d-none d-lg-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SCHEDULER_TASK_PRIORITY', 'a.priority', $listDirn, $listOrder) ?>
 					</th>
 

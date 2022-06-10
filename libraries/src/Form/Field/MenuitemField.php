@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
@@ -180,7 +179,7 @@ class MenuitemField extends GroupedlistField
 		if ($menuType)
 		{
 			// If the menutype is empty, group the items by menutype.
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
