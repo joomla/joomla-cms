@@ -37,7 +37,7 @@ class DatabaseStorage implements \ArrayAccess
 	{
 		$this->table = new Tuf($db);
 
-        $this->table->load($extensionId);
+		$this->table->load($extensionId);
 	}
 
 	/**
@@ -45,9 +45,9 @@ class DatabaseStorage implements \ArrayAccess
 	 */
 	public function offsetExists(mixed $offset): bool
 	{
-        $column = $this->getCleanColumn($offset);
+		$column = $this->getCleanColumn($offset);
 
-        return substr($offset, -5) === '_json' && $this->table->hasField($column) && strlen($this->table->$column);
+		return substr($offset, -5) === '_json' && $this->table->hasField($column) && strlen($this->table->$column);
 	}
 
 	/**
@@ -55,14 +55,14 @@ class DatabaseStorage implements \ArrayAccess
 	 */
 	public function offsetGet($offset): mixed
 	{
-        if (!$this->offsetExists($offset))
-        {
-            throw new RoleNotFoundException;
-        }
+		if (!$this->offsetExists($offset))
+		{
+			throw new RoleNotFoundException;
+		}
 
-        $column = $this->getCleanColumn($offset);
+		$column = $this->getCleanColumn($offset);
 
-        return $this->table->$column;
+		return $this->table->$column;
 	}
 
 	/**
@@ -70,14 +70,14 @@ class DatabaseStorage implements \ArrayAccess
 	 */
 	public function offsetSet($offset, $value): void
 	{
-        if (!$this->offsetExists($offset))
-        {
-            throw new RoleNotFoundException;
-        }
+		if (!$this->offsetExists($offset))
+		{
+			throw new RoleNotFoundException;
+		}
 
 		$this->table->$offset = $value;
 
-        $this->table->store();
+		$this->table->store();
 	}
 
 	/**
@@ -85,25 +85,25 @@ class DatabaseStorage implements \ArrayAccess
 	 */
 	public function offsetUnset($offset): void
 	{
-        if (!$this->offsetExists($offset))
-        {
-            throw new RoleNotFoundException;
-        }
+		if (!$this->offsetExists($offset))
+		{
+			throw new RoleNotFoundException;
+		}
 
-        $this->table->$offset = '';
+		$this->table->$offset = '';
 
-        $this->table->store();
+		$this->table->store();
 	}
 
-    /**
-     * Convert file names to table columns
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    protected function getCleanColumn($name): string
-    {
-        return str_replace('.', '_', $name);
-    }
+	/**
+	 * Convert file names to table columns
+	 *
+	 * @param   string $name
+	 *
+	 * @return string
+	 */
+	protected function getCleanColumn($name): string
+	{
+		return str_replace('.', '_', $name);
+	}
 }
