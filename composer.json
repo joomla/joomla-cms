@@ -94,6 +94,7 @@
         "web-auth/webauthn-lib": "2.1.*",
         "composer/ca-bundle": "^1.2",
         "dragonmantank/cron-expression": "^3.1",
+        "symfony/validator": "^5.4",
         "enshrined/svg-sanitize": "^0.15.4"
     },
     "require-dev": {
