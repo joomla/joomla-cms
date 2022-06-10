@@ -30,8 +30,8 @@ class DatabaseStorage implements \ArrayAccess
 	/**
 	 * Initialize the DatabaseStorage class
 	 *
-	 * @param   DatabaseDriver $db
-	 * @param   integer $extensionId
+	 * @param   DatabaseDriver  $db           A database connector object
+	 * @param   integer         $extensionId  The extension ID where the storage should be implemented for
 	 */
 	public function __construct(DatabaseDriver $db, int $extensionId)
 	{
@@ -41,7 +41,11 @@ class DatabaseStorage implements \ArrayAccess
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Check if an offset/table column exists
+	 *
+	 * @param   mixed  $offset  The offset/database column to check for
+	 *
+	 * @return boolean
 	 */
 	public function offsetExists(mixed $offset): bool
 	{
@@ -51,7 +55,11 @@ class DatabaseStorage implements \ArrayAccess
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Get the value of a table column
+	 *
+	 * @param   mixed  $offset  The column name to get the value for
+	 *
+	 * @return  mixed
 	 */
 	public function offsetGet($offset): mixed
 	{
@@ -66,7 +74,12 @@ class DatabaseStorage implements \ArrayAccess
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Set a value in a column
+	 *
+	 * @param   [type] $offset  The table column to set the value
+	 * @param   [type] $value   The value to set
+	 *
+	 * @return void
 	 */
 	public function offsetSet($offset, $value): void
 	{
@@ -81,7 +94,11 @@ class DatabaseStorage implements \ArrayAccess
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Reset the value to a
+	 *
+	 * @param   mixed  $offset  The table column to reset the value to null
+	 *
+	 * @return void
 	 */
 	public function offsetUnset($offset): void
 	{
@@ -98,7 +115,7 @@ class DatabaseStorage implements \ArrayAccess
 	/**
 	 * Convert file names to table columns
 	 *
-	 * @param   string $name
+	 * @param   string  $name  The original file name
 	 *
 	 * @return string
 	 */

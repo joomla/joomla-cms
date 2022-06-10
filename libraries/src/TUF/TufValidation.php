@@ -46,9 +46,8 @@ class TufValidation
 	/**
 	 * Validating updates with TUF
 	 *
-	 * @param   integer $extensionId  The ID of the extension to be checked
-	 * @param   mixed  $params  The parameters containing the Base-URI, the Metadata- and Targets-Path and mirrors for
-	 * the update
+	 * @param   integer  $extensionId  The ID of the extension to be checked
+	 * @param   mixed    $params       The parameters containing the Base-URI, the Metadata- and Targets-Path and mirrors for the update
 	 */
 	public function __construct(int $extensionId, mixed $params)
 	{
@@ -60,7 +59,7 @@ class TufValidation
 		{
 			$this->configureTufOptions($resolver);
 		}
-		catch (\Exception)
+		catch (\Exception $e)
 		{
 		}
 
