@@ -135,7 +135,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Check if the article was featured and update the #__content_frontpage table
 		if ($table->featured == 1)
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select(
 					[
@@ -430,7 +430,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				if ($item->featured)
 				{
 					// Get featured dates.
-					$db = $this->getDbo();
+					$db = $this->getDatabase();
 					$query = $db->getQuery(true)
 						->select(
 							[
@@ -941,7 +941,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		try
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__content'))
 				->set($db->quoteName('featured') . ' = :featured')
@@ -1186,7 +1186,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if ($return)
 		{
 			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__content_frontpage'))
 				->whereIn($db->quoteName('content_id'), $pks);

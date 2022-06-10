@@ -100,7 +100,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
 			->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -186,7 +186,7 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function getCheckForSelfUpdate()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -264,7 +264,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		// Fetch the update information from the database.
 		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__updates'))
@@ -325,7 +325,7 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Modify the database record
 		$update_site = new \stdClass;
@@ -695,7 +695,7 @@ ENDDATA;
 		$installer->setUpgrade(true);
 		$installer->setOverwrite(true);
 
-		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDatabase());
 		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
@@ -732,7 +732,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Get a database connector object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		/*
 		 * Check to see if a file extension by the same name is already installed.
@@ -762,7 +762,7 @@ ENDDATA;
 		}
 
 		$id = $db->loadResult();
-		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row = new \Joomla\CMS\Table\Extension($this->getDatabase());
 
 		if ($id)
 		{
@@ -855,7 +855,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Clobber any possible pending updates.
-		$update = new \Joomla\CMS\Table\Update($this->getDbo());
+		$update = new \Joomla\CMS\Table\Update($this->getDatabase());
 		$uid = $update->find(
 			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
@@ -1432,7 +1432,7 @@ ENDDATA;
 	 */
 	public function getNonCoreExtensions()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1483,7 +1483,7 @@ ENDDATA;
 	 */
 	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1591,7 +1591,7 @@ ENDDATA;
 	private function getUpdateSitesInfo($extensionID)
 	{
 		$id = (int) $extensionID;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1782,7 +1782,7 @@ ENDDATA;
 	 */
 	public function isTemplateActive($template)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
