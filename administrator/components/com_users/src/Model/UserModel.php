@@ -708,7 +708,7 @@ class UserModel extends AdminModel
 		}
 
 		// Get the DB object
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$userIds = ArrayHelper::toInteger($userIds);
 
@@ -771,7 +771,7 @@ class UserModel extends AdminModel
 		}
 
 		// Get the DB object
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		switch ($action)
 		{
