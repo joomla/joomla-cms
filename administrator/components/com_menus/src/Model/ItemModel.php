@@ -155,7 +155,7 @@ class ItemModel extends AdminModel
 		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table  = $this->getTable();
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true);
 		$newIds = array();
 
@@ -367,7 +367,7 @@ class ItemModel extends AdminModel
 		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table = $this->getTable();
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 
 		// Check that the parent exists.
 		if ($parentId)
@@ -607,6 +607,13 @@ class ItemModel extends AdminModel
 	{
 		// Check the session for previously entered form data, providing it has an ID and it is the same.
 		$itemData = (array) $this->getItem();
+
+		// When a new item is requested, unset the access as it will be set later from the filter
+		if (empty($itemData['id']))
+		{
+			unset($itemData['access']);
+		}
+
 		$sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', array());
 
 		// Only merge if there is a session and itemId or itemid is null.
@@ -621,14 +628,14 @@ class ItemModel extends AdminModel
 		}
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
-		if ($this->getItem()->id == 0)
+		if (empty($data['id']))
 		{
 			// Get selected fields
 			$filters = Factory::getApplication()->getUserState('com_menus.items.filter');
-			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
-			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
-			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getApplication()->get('access'));
+			$data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
+			$data['published'] = $data['published'] ?? ($filters['published'] ?? null);
+			$data['language']  = $data['language'] ?? ($filters['language'] ?? null);
+			$data['access']    = $data['access'] ?? ($filters['access'] ?? Factory::getApplication()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -716,7 +723,16 @@ class ItemModel extends AdminModel
 				$table->component_id = 0;
 				$args = array();
 
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				if ($table->link)
+				{
+					$q = parse_url($table->link, PHP_URL_QUERY);
+
+					if ($q)
+					{
+						parse_str($q, $args);
+					}
+				}
+
 				break;
 
 			case 'separator':
@@ -732,8 +748,17 @@ class ItemModel extends AdminModel
 				$table->type = 'component';
 
 				// Ensure the integrity of the component_id field is maintained, particularly when changing the menu item type.
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				$args = [];
+
+				if ($table->link)
+				{
+					$q = parse_url($table->link, PHP_URL_QUERY);
+
+					if ($q)
+					{
+						parse_str($q, $args);
+					}
+				}
 
 				if (isset($args['option']))
 				{
@@ -835,7 +860,7 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		/**
@@ -914,7 +939,7 @@ class ItemModel extends AdminModel
 	 */
 	public function getViewLevels()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Get all the available view levels
@@ -1138,11 +1163,15 @@ class ItemModel extends AdminModel
 		// Initialise form with component view params if available.
 		if ($type == 'component')
 		{
-			$link = htmlspecialchars_decode($link);
+			$link = $link ? htmlspecialchars_decode($link) : '';
 
 			// Parse the link arguments.
-			$args = array();
-			parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			$args = [];
+
+			if ($link)
+			{
+				parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			}
 
 			// Confirm that the option is defined.
 			$option = '';
@@ -1327,7 +1356,7 @@ class ItemModel extends AdminModel
 	public function rebuild()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
@@ -1418,9 +1447,9 @@ class ItemModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
-		$isNew      = true;
-		$db      = $this->getDbo();
+		$pk      = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
+		$isNew   = true;
+		$db      = $this->getDatabase();
 		$query   = $db->getQuery(true);
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
@@ -1497,13 +1526,24 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		// Alter the title & alias for save as copy.  Also, unset the home record.
-		if (!$isNew && $data['id'] == 0)
+		// Alter the title & alias for save2copy when required. Also, unset the home record.
+		if (Factory::getApplication()->input->get('task') === 'save2copy' && $data['id'] === 0)
 		{
-			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+			$origTable = $this->getTable();
+			$origTable->load($this->getState('item.id'));
 
-			$table->title     = $title;
-			$table->alias     = $alias;
+			if ($table->title === $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+				$table->title = $title;
+				$table->alias = $alias;
+			}
+
+			if ($table->alias === $origTable->alias)
+			{
+				$table->alias = '';
+			}
+
 			$table->published = 0;
 			$table->home      = 0;
 		}
@@ -1594,7 +1634,7 @@ class ItemModel extends AdminModel
 			}
 
 			// Get associationskey for edited item
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))

@@ -290,7 +290,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	 */
 	protected function getListQuery()
 	{
-		return $this->getDbo()->getQuery(true);
+		return $this->getDatabase()->getQuery(true);
 	}
 
 	/**
@@ -631,7 +631,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 				// Check if the ordering direction is valid, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-				if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				if (!$value || !\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 				{
 					$value = $direction;
 					$app->setUserState($this->context . '.orderdirn', $value);

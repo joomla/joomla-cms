@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<config>
+		<inlinehelp button="show"/>
+	</config>
 	<fieldset addfieldprefix="Joomla\Component\Content\Administrator\Field">
 		<field
 			name="id"
@@ -708,7 +711,8 @@
 				type="hidden"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				useglobal="true"
-				extension="com_content" view="article"
+				extension="com_content"
+				view="article"
 			/>
 		</fieldset>
 	</fields>
@@ -738,6 +742,8 @@
 				name="float_intro"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
+				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
+				useglobal="true"
 			/>
 
 			<field
@@ -773,6 +779,7 @@
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CLASS_LABEL"
 				description="COM_CONTENT_FIELD_IMAGE_CLASS_DESC"
+				useglobal="true"
 			/>
 
 			<field

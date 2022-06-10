@@ -16,6 +16,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 
 /**
  * Base class for a Joomla Html View
@@ -24,8 +26,10 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  2.5.5
  */
-class HtmlView extends AbstractView
+class HtmlView extends AbstractView implements CurrentUserInterface
 {
+	use CurrentUserTrait;
+
 	/**
 	 * The base path of the view
 	 *
@@ -253,6 +257,11 @@ class HtmlView extends AbstractView
 	 */
 	public function escape($var)
 	{
+		if ($var === null)
+		{
+			return '';
+		}
+
 		return htmlspecialchars($var, ENT_QUOTES, $this->_charset);
 	}
 

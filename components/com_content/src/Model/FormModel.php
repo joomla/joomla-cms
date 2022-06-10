@@ -68,7 +68,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 
 		$this->setState('article.catid', $app->input->getInt('catid', $catId));
 
-		$return = $app->input->get('return', null, 'base64');
+		$return = $app->input->get('return', '', 'base64');
 		$this->setState('return_page', base64_decode($return));
 
 		$this->setState('layout', $app->input->getString('layout'));
@@ -178,7 +178,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	 */
 	public function getReturnPage()
 	{
-		return base64_encode($this->getState('return_page'));
+		return base64_encode($this->getState('return_page', ''));
 	}
 
 	/**
@@ -287,7 +287,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			{
 				$categoryId = (int) $params->get('catid');
 
-				$db    = $this->getDbo();
+				$db    = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__categories'))

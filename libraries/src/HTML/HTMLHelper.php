@@ -286,8 +286,8 @@ abstract class HTMLHelper
 	 */
 	protected static function call(callable $function, $args)
 	{
-		// PHP 5.3 workaround
-		$temp = array();
+		// Workaround to allow calling helper methods have arguments passed by reference
+		$temp = [];
 
 		foreach ($args as &$arg)
 		{
@@ -714,32 +714,84 @@ abstract class HTMLHelper
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $returnPath = 0)
 	{
+		// Ensure is an integer
 		$returnPath = (int) $returnPath;
 
-		if (strpos($file, '?') !== false)
+		// The path of the file
+		$path = $file;
+
+		// The arguments of the file path
+		$arguments = '';
+
+		// Get the arguments positions
+		$pos1 = strpos($file, '?');
+		$pos2 = strpos($file, '#');
+
+		// Check if there are arguments
+		if ($pos1 !== false || $pos2 !== false)
 		{
-			$file = (static::cleanImageURL($file))->url;
+			// Get the path only
+			$path = substr($file, 0, min($pos1, $pos2));
+
+			// Determine the arguments is mostly the part behind the #
+			$arguments = str_replace($path, '', $file);
 		}
 
+		// Get the relative file name when requested
 		if ($returnPath !== -1)
 		{
-			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
-			$file = \count($includes) ? $includes[0] : null;
+			// Search for relative file names
+			$includes = static::includeRelativeFiles('images', $path, $relative, false, false);
+
+			// Grab the first found path and if none exists default to null
+			$path = \count($includes) ? $includes[0] : null;
 		}
 
-		// If only path is required
+		// Compile the file name
+		$file = ($path === null ? null : $path . $arguments);
+
+		// If only the file is required, return here
 		if ($returnPath === 1)
 		{
 			return $file;
 		}
 
 		// Ensure we have a valid default for concatenating
-		if ($attribs === null)
+		if ($attribs === null || $attribs === false)
 		{
-			$attribs = '';
+			$attribs = [];
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
+		// When it is a string, we need convert it to an array
+		if (is_string($attribs))
+		{
+			$attributes = [];
+
+			// Go through each argument
+			foreach (explode(' ', $attribs) as $attribute)
+			{
+				// When an argument without a value, default to an empty string
+				if (strpos($attribute, '=') === false)
+				{
+					$attributes[$attribute] = '';
+					continue;
+				}
+
+				// Set the attribute
+				list($key, $value) = explode('=', $attribute);
+				$attributes[$key]  = trim($value, '"');
+			}
+
+			// Add the attributes from the string to the original attributes
+			$attribs = $attributes;
+		}
+
+		// Fill the attributes with the file and alt text
+		$attribs['src'] = $file;
+		$attribs['alt'] = $alt;
+
+		// Render the layout with the attributes
+		return LayoutHelper::render('joomla.html.image', $attribs);
 	}
 
 	/**
