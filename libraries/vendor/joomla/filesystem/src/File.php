@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,7 +79,13 @@ class File
 		// Check src path
 		if (!is_readable($src))
 		{
-			throw new \UnexpectedValueException(__METHOD__ . ': Cannot find or read file: ' . $src);
+			throw new \UnexpectedValueException(
+				sprintf(
+					"%s: Cannot find or read file: %s",
+					__METHOD__,
+					Path::removeRoot($src)
+				)
+			);
 		}
 
 		if ($useStreams)
@@ -226,7 +232,7 @@ class File
 		// Set the required flag to only append to the file and not overwrite it
 		if ($appendToFile === true)
 		{
-			return \is_int(file_put_contents($file, $buffer, FILE_APPEND));
+			return \is_int(file_put_contents($file, $buffer, \FILE_APPEND));
 		}
 
 		return \is_int(file_put_contents($file, $buffer));

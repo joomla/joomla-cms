@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.9"
-	client="installation">
+<metafile version="3.9" client="installation">
 	<name>English (United States)</name>
-	<version>3.9.12</version>
-	<creationDate>September 2019</creationDate>
+	<version>3.9.23</version>
+	<creationDate>November 2020</creationDate>
 	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2008 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>en-US.ini</filename>

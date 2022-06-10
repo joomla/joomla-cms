@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ function modChrome_well($module, &$params, &$attribs)
 
 	if ($module->content)
 	{
-		echo '<' . $moduleTag . ' class="well ' . htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass . '">';
+		echo '<' . $moduleTag . ' class="well ' . htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_COMPAT, 'UTF-8') . $moduleClass . '">';
 
 			if ($module->showtitle)
 			{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,7 +184,7 @@ class JFormFieldFolderList extends JFormFieldList
 	{
 		$options = array();
 
-		$path = ltrim($this->directory, '/');
+		$path = $this->directory;
 
 		if (!is_dir($path))
 		{
@@ -219,6 +219,9 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			foreach ($folders as $folder)
 			{
+				// Remove the root part and the leading /
+				$folder = trim(str_replace($path, '', $folder), '/');
+
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
@@ -227,9 +230,6 @@ class JFormFieldFolderList extends JFormFieldList
 						continue;
 					}
 				}
-
-				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), '/');
 
 				$options[] = JHtml::_('select.option', $folder, $folder);
 			}

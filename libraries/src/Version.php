@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const MINOR_VERSION = 9;
+	const MINOR_VERSION = 10;
 
 	/**
 	 * Patch release version.
@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 16;
+	const PATCH_VERSION = 10;
 
 	/**
 	 * Extra release version info.
@@ -69,7 +69,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const RELEASE = '3.9';
+	const RELEASE = '3.10';
 
 	/**
 	 * Maintenance version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '16-dev';
+	const DEV_LEVEL = '10-dev';
 
 	/**
 	 * Development status.
@@ -103,7 +103,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Amani';
+	const CODENAME = 'Daraja';
 
 	/**
 	 * Release date.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '27-January-2020';
+	const RELDATE = '7-May-2022';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '17:50';
+	const RELTIME = '17:18';
 
 	/**
 	 * Release timezone.
@@ -135,7 +135,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>';
 
 	/**
 	 * Link text.
@@ -253,34 +253,34 @@ final class Version
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component    Name of the component.
-	 * @param   bool    $mask         Mask as Mozilla/5.0 or not.
-	 * @param   bool    $add_version  Add version afterwards to component.
+	 * @param   string  $suffix      String to append to resulting user agent.
+	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
+	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
 	 * @return  string  User Agent.
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent($component = null, $mask = false, $add_version = true)
+	public function getUserAgent($suffix = null, $mask = false, $addVersion = true)
 	{
-		if ($component === null)
+		if ($suffix === null)
 		{
-			$component = 'Framework';
+			$suffix = 'Framework';
 		}
 
-		if ($add_version)
+		if ($addVersion)
 		{
-			$component .= '/' . self::RELEASE;
+			$suffix .= '/' . self::RELEASE;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
 		if ($mask)
 		{
-			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($suffix ? ' ' . $suffix : '');
 		}
 		else
 		{
-			return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+			return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($suffix ? ' ' . $suffix : '');
 		}
 	}
 

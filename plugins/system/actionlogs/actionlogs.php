@@ -3,7 +3,7 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,9 +126,9 @@ class PlgSystemActionLogs extends JPlugin
 			return true;
 		}
 
-		Form::addFormPath(dirname(__FILE__) . '/forms');
+		Form::addFormPath(__DIR__ . '/forms');
 
-		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isAdmin()))
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isClient('administrator')))
 		{
 			$form->loadFile('information', false);
 
@@ -266,7 +266,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 		catch (Exception $exc)
 		{
-			// If we failed to execite
+			// If we failed to execute
 			$db->unlockTables();
 			$result = false;
 		}
@@ -481,7 +481,7 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @return  string  The rendered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.16
 	 */
 	public static function renderActionlogsNotify($value)
 	{
@@ -495,7 +495,7 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @return  string  The rendered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.16
 	 */
 	public static function renderActionlogsExtensions($extensions)
 	{

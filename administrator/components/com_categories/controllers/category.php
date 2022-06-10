@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,6 +103,47 @@ class CategoriesControllerCategory extends JControllerForm
 		}
 
 		return false;
+	}
+
+	/**
+	 * Override parent save method to store form data with right key as expected by edit category page
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.10.3
+	 */
+	public function save($key = null, $urlVar = null)
+	{
+		$result = parent::save($key, $urlVar);
+
+		$oldKey = $this->option . '.edit.category.data';
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		$app    = JFactory::getApplication();
+		$app->setUserState($newKey, $app->getUserState($oldKey));
+
+		return $result;
+	}
+
+	/**
+	 * Override cancel method to clear form data for a failed edit action
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   3.10.3
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel($key);
+
+		$newKey = $this->option . '.edit.category.' . substr($this->extension, 4) . '.data';
+		JFactory::getApplication()->setUserState($newKey, null);
+
+		return $result;
 	}
 
 	/**

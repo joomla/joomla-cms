@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Archive Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -100,10 +100,10 @@ class Tar implements ExtractableInterface
 	 */
 	public function extract($archive, $destination)
 	{
-		$this->data     = null;
-		$this->metadata = null;
+		$destination = Path::resolve($destination);
 
-		$this->data = file_get_contents($archive);
+		$this->metadata = null;
+		$this->data     = file_get_contents($archive);
 
 		if (!$this->data)
 		{
@@ -116,10 +116,15 @@ class Tar implements ExtractableInterface
 		{
 			$type = strtolower($this->metadata[$i]['type']);
 
-			if ($type == 'file' || $type == 'unix file')
+			if ($type === 'file' || $type === 'unix file')
 			{
 				$buffer = $this->metadata[$i]['data'];
-				$path   = Path::clean($destination . '/' . $this->metadata[$i]['name']);
+				$path = Path::clean($destination . '/' . $this->metadata[$i]['name']);
+
+				if (!$this->isBelow($destination, $path))
+				{
+					throw new \OutOfBoundsException('Unable to write outside of destination path', 100);
+				}
 
 				// Make sure the destination folder exists
 				if (!Folder::create(\dirname($path)))
@@ -175,17 +180,19 @@ class Tar implements ExtractableInterface
 
 		while ($position < \strlen($data))
 		{
-			if (version_compare(PHP_VERSION, '5.5', '>='))
+			if (version_compare(\PHP_VERSION, '5.5', '>='))
 			{
 				$info = @unpack(
-					'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',
+					'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag'
+					. '/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',
 					substr($data, $position)
 				);
 			}
 			else
 			{
 				$info = @unpack(
-					'a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor',
+					'a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag'
+					. '/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor',
 					substr($data, $position)
 				);
 			}
@@ -237,7 +244,7 @@ class Tar implements ExtractableInterface
 						. (($mode & 0x002) ? 'w' : '-')
 						. (($mode & 0x001) ? 'x' : '-');
 				}
-				elseif (\chr($info['typeflag']) == 'L' && $info['filename'] == '././@LongLink')
+				elseif (\chr($info['typeflag']) === 'L' && $info['filename'] === '././@LongLink')
 				{
 					// GNU tar ././@LongLink support - the filename is actually in the contents, set a variable here so we can test in the next loop
 					$longlinkfilename = $contents;
@@ -253,5 +260,23 @@ class Tar implements ExtractableInterface
 		$this->metadata = $returnArray;
 
 		return true;
+	}
+
+	/**
+	 * Check if a path is below a given destination path
+	 *
+	 * @param   string  $destination  Root path
+	 * @param   string  $path         Path to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.1.12
+	 */
+	private function isBelow($destination, $path)
+	{
+		$absoluteRoot = Path::clean(Path::resolve($destination));
+		$absolutePath = Path::clean(Path::resolve($path));
+
+		return strpos($absolutePath, $absoluteRoot) === 0;
 	}
 }

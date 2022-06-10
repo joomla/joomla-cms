@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -170,7 +170,7 @@ class UsersModelRegistration extends JModelForm
 			{
 				$usercreator = JFactory::getUser($row->id);
 
-				if ($usercreator->authorise('core.create', 'com_users'))
+				if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users'))
 				{
 					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
@@ -318,7 +318,7 @@ class UsersModelRegistration extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
@@ -613,7 +613,7 @@ class UsersModelRegistration extends JModelForm
 
 			// Get all admin users
 			$query->clear()
-				->select($db->quoteName(array('name', 'email', 'sendEmail')))
+				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')
 				->where($db->quoteName('block') . ' = 0');
@@ -631,17 +631,22 @@ class UsersModelRegistration extends JModelForm
 				return false;
 			}
 
-			// Send mail to all superadministrators id
+			// Send mail to all users with user creating permissions and receiving system emails
 			foreach ($rows as $row)
 			{
-				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				$usercreator = JFactory::getUser($row->id);
 
-				// Check for an error.
-				if ($return !== true)
+				if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users'))
 				{
-					$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
 
-					return false;
+					// Check for an error.
+					if ($return !== true)
+					{
+						$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+
+						return false;
+					}
 				}
 			}
 		}

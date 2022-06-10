@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 $data = $displayData;
 
@@ -83,7 +83,7 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 	<div class="clearfix">
 		<?php if ($data['options']['showSelector']) : ?>
 		<div class="js-stools-container-selector">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
+			<?php echo $this->sublayout('selector', $data); ?>
 		</div>
 		<?php endif; ?>
 		<div class="js-stools-container-bar">

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -49,15 +50,16 @@ class AdminController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		// Define standard task mappings.
 
@@ -114,9 +116,12 @@ class AdminController extends BaseController
 		$this->checkToken();
 
 		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			\JLog::add(\JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), \JLog::WARNING, 'jerror');
 		}
@@ -124,9 +129,6 @@ class AdminController extends BaseController
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))
@@ -173,10 +175,13 @@ class AdminController extends BaseController
 		$this->checkToken();
 
 		// Get items to publish from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		if (empty($cid))
 		{
@@ -186,9 +191,6 @@ class AdminController extends BaseController
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			try
@@ -249,8 +251,11 @@ class AdminController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = $this->input->post->get('cid', array(), 'array');
+		$ids = (array) $this->input->post->get('cid', array(), 'int');
 		$inc = $this->getTask() === 'orderup' ? -1 : 1;
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
@@ -286,12 +291,18 @@ class AdminController extends BaseController
 		$this->checkToken();
 
 		// Get the input
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
+		$pks   = (array) $this->input->post->get('cid', array(), 'int');
+		$order = (array) $this->input->post->get('order', array(), 'int');
 
-		// Sanitize the input
-		$pks = ArrayHelper::toInteger($pks);
-		$order = ArrayHelper::toInteger($order);
+		// Remove zero PK's and corresponding order values resulting from input filter for PK
+		foreach ($pks as $i => $pk)
+		{
+			if ($pk === 0)
+			{
+				unset($pks[$i]);
+				unset($order[$i]);
+			}
+		}
 
 		// Get the model
 		$model = $this->getModel();
@@ -329,7 +340,10 @@ class AdminController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = $this->input->post->get('cid', array(), 'array');
+		$ids = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
@@ -361,13 +375,22 @@ class AdminController extends BaseController
 	 */
 	public function saveOrderAjax()
 	{
-		// Get the input
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
+		// Check for request forgeries.
+		$this->checkToken();
 
-		// Sanitize the input
-		$pks = ArrayHelper::toInteger($pks);
-		$order = ArrayHelper::toInteger($order);
+		// Get the input
+		$pks   = (array) $this->input->post->get('cid', array(), 'int');
+		$order = (array) $this->input->post->get('order', array(), 'int');
+
+		// Remove zero PK's and corresponding order values resulting from input filter for PK
+		foreach ($pks as $i => $pk)
+		{
+			if ($pk === 0)
+			{
+				unset($pks[$i]);
+				unset($order[$i]);
+			}
+		}
 
 		// Get the model
 		$model = $this->getModel();

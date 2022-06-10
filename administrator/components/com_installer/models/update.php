@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -245,17 +245,17 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Finds updates for an extension.
 	 *
-	 * @param   int  $eid                Extension identifier to look for
-	 * @param   int  $cache_timeout      Cache timout
-	 * @param   int  $minimum_stability  Minimum stability for updates {@see JUpdater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
+	 * @param   int  $eid               Extension identifier to look for
+	 * @param   int  $cacheTimeout      Cache timeout
+	 * @param   int  $minimumStability  Minimum stability for updates {@see JUpdater} (0=dev, 1=alpha, 2=beta, 3=rc, 4=stable)
 	 *
 	 * @return  boolean Result
 	 *
 	 * @since   1.6
 	 */
-	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = JUpdater::STABILITY_STABLE)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimumStability = JUpdater::STABILITY_STABLE)
 	{
-		JUpdater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
+		JUpdater::getInstance()->findUpdates($eid, $cacheTimeout, $minimumStability);
 
 		return true;
 	}
@@ -292,6 +292,10 @@ class InstallerModelUpdate extends JModelList
 			->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 		$db->setQuery($query);
 		$db->execute();
+
+		// Clear the administrator cache
+		$this->cleanCache('_system', 1);
+
 		$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
 
 		return true;
@@ -337,14 +341,14 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * Sets the "result" state with the result of the operation.
 	 *
-	 * @param   array  $uids               Array[int] List of updates to apply
-	 * @param   int    $minimum_stability  The minimum allowed stability for installed updates {@see JUpdater}
+	 * @param   array  $uids              Array[int] List of updates to apply
+	 * @param   int    $minimumStability  The minimum allowed stability for installed updates {@see JUpdater}
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function update($uids, $minimum_stability = JUpdater::STABILITY_STABLE)
+	public function update($uids, $minimumStability = JUpdater::STABILITY_STABLE)
 	{
 		$result = true;
 
@@ -353,8 +357,16 @@ class InstallerModelUpdate extends JModelList
 			$update = new JUpdate;
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
-			$update->loadFromXml($instance->detailsurl, $minimum_stability);
-			$update->set('extra_query', $instance->extra_query);
+			$update->loadFromXml($instance->detailsurl, $minimumStability);
+			
+			// Find and use extra_query from update_site if available
+			$updateSiteInstance = JTable::getInstance('Updatesite');
+			$updateSiteInstance->load($instance->update_site_id);
+
+			if ($updateSiteInstance->extra_query)
+			{
+				$update->set('extra_query', $updateSiteInstance->extra_query);
+			}
 
 			$this->preparePreUpdate($update, $instance);
 
@@ -441,6 +453,13 @@ class InstallerModelUpdate extends JModelList
 
 		// Unpack the downloaded package file
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
+
+		if (empty($package))
+		{
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_UNPACK_ERROR', $p_file), 'error');
+
+			return false;
+		}
 
 		// Get an installer instance
 		$installer = JInstaller::getInstance();

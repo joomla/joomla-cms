@@ -249,6 +249,7 @@
 				label="COM_FIELDS_FIELD_CLASS_LABEL"
 				description="COM_FIELDS_FIELD_CLASS_DESC"
 				class="input-xxlarge"
+				validate="CssIdentifierSubstring"
 				size="40"
 			/>
 
@@ -258,6 +259,7 @@
 				label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
 				description="COM_FIELDS_FIELD_LABEL_FORM_CLASS_DESC"
 				class="input-xxlarge"
+				validate="CssIdentifierSubstring"
 				size="40"
 			/>
 
@@ -286,6 +288,17 @@
 				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 				description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
 				class="input-xxlarge"
+				validate="CssIdentifierSubstring"
+				size="40"
+			/>
+			
+			<field
+				name="value_render_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_VALUE_RENDER_CLASS_DESC"
+				class="input-xxlarge"
+				validate="CssIdentifierSubstring"
 				size="40"
 			/>
 
@@ -308,6 +321,7 @@
 				description="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_DESC"
 				class="input-xxlarge"
 				size="40"
+				validate="CssIdentifierSubstring"
 				showon="showlabel:1"
 			/>
 

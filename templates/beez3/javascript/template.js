@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.2
  */
@@ -11,7 +11,7 @@ jQuery(function($) {
 
 	$(document).on('click', ".btn-group label:not(.active)", function() {
 			var $label = $(this);
-			var $input = $('#' + $label.attr('for'));
+			var $input = $(document.getElementById($label.attr('for')));
 
 			if ($input.prop('checked'))
 			{
@@ -54,7 +54,7 @@ jQuery(function($) {
 		// Setup coloring for buttons
 		$container.find('.btn-group input:checked').each(function() {
 			var $input  = $(this);
-			var $label = $('label[for=' + $input.attr('id') + ']');
+			var $label = $(document.querySelector('label[for=' + $input.attr('id') + ']'));
 			var btnClass = 'primary';
 
 			if ($input.val() != '')

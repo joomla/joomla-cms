@@ -1,16 +1,17 @@
 <?php
 /**
- *  @package     FrameworkOnFramework
- *  @subpackage  config
+ * @package     FrameworkOnFramework
+ * @subpackage  config
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
- *  @license     GNU General Public License version 2, or later
+ * @license     GNU General Public License version 2, or later
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 defined('FOF_INCLUDED') or die();
 
 /**
  * The Interface of an FOFConfigDomain class. The methods are used to parse and
- * privision sensible information to consumers. FOFConfigProvider acts as an
+ * provision sensible information to consumers. FOFConfigProvider acts as an
  * adapter to the FOFConfigDomain classes.
  *
  * @package  FrameworkOnFramework
