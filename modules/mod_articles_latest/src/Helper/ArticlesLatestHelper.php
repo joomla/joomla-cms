@@ -153,7 +153,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
 	}
 
 	/**
-	 * Retrieve a list of article
+	 * Retrieve a list of articles
 	 *
 	 * @param   Registry       $params  The module parameters.
 	 * @param   ArticlesModel  $model   The model.
