@@ -24,6 +24,9 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -161,7 +164,7 @@ class FieldModel extends AdminModel
 		}
 
 		// Save the assigned categories into #__fields_categories
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $this->getState('field.id');
 
 		/**
@@ -301,7 +304,9 @@ class FieldModel extends AdminModel
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new Form($data['context'])));
+		$form = new Form($data['context']);
+		$form->setDatabase($this->getDatabase());
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -319,6 +324,19 @@ class FieldModel extends AdminModel
 		if (!$rule)
 		{
 			return true;
+		}
+
+		if ($rule instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$rule->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+				$rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+			}
 		}
 
 		try
@@ -392,7 +410,7 @@ class FieldModel extends AdminModel
 				$result->fieldparams = $registry->toArray();
 			}
 
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 			$fieldId = (int) $result->id;
 			$query->select($db->quoteName('category_id'))
@@ -478,20 +496,20 @@ class FieldModel extends AdminModel
 			if (!empty($pks))
 			{
 				// Delete Values
-				$query = $this->getDbo()->getQuery(true);
+				$query = $this->getDatabase()->getQuery(true);
 
 				$query->delete($query->quoteName('#__fields_values'))
 					->whereIn($query->quoteName('field_id'), $pks);
 
-				$this->getDbo()->setQuery($query)->execute();
+				$this->getDatabase()->setQuery($query)->execute();
 
 				// Delete Assigned Categories
-				$query = $this->getDbo()->getQuery(true);
+				$query = $this->getDatabase()->getQuery(true);
 
 				$query->delete($query->quoteName('#__fields_categories'))
 					->whereIn($query->quoteName('field_id'), $pks);
 
-				$this->getDbo()->setQuery($query)->execute();
+				$this->getDatabase()->setQuery($query)->execute();
 			}
 		}
 
@@ -655,7 +673,7 @@ class FieldModel extends AdminModel
 			$fieldId = (int) $fieldId;
 
 			// Deleting the existing record as it is a reset
-			$query = $this->getDbo()->getQuery(true);
+			$query = $this->getDatabase()->getQuery(true);
 
 			$query->delete($query->quoteName('#__fields_values'))
 				->where($query->quoteName('field_id') . ' = :fieldid')
@@ -663,7 +681,7 @@ class FieldModel extends AdminModel
 				->bind(':fieldid', $fieldId, ParameterType::INTEGER)
 				->bind(':itemid', $itemId);
 
-			$this->getDbo()->setQuery($query)->execute();
+			$this->getDatabase()->setQuery($query)->execute();
 		}
 
 		if ($needsInsert)
@@ -677,7 +695,7 @@ class FieldModel extends AdminModel
 			{
 				$newObj->value = $v;
 
-				$this->getDbo()->insertObject('#__fields_values', $newObj);
+				$this->getDatabase()->insertObject('#__fields_values', $newObj);
 			}
 		}
 
@@ -689,7 +707,7 @@ class FieldModel extends AdminModel
 			$updateObj->item_id  = $itemId;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
+			$this->getDatabase()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
 		}
 
 		$this->valueCache = array();
@@ -744,7 +762,7 @@ class FieldModel extends AdminModel
 		if (!array_key_exists($key, $this->valueCache))
 		{
 			// Create the query
-			$query = $this->getDbo()->getQuery(true);
+			$query = $this->getDatabase()->getQuery(true);
 
 			$query->select($query->quoteName(['field_id', 'value']))
 				->from($query->quoteName('#__fields_values'))
@@ -753,7 +771,7 @@ class FieldModel extends AdminModel
 				->bind(':itemid', $itemId);
 
 			// Fetch the row from the database
-			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
+			$rows = $this->getDatabase()->setQuery($query)->loadObjectList();
 
 			$data = array();
 
@@ -801,12 +819,12 @@ class FieldModel extends AdminModel
 	public function cleanupValues($context, $itemId)
 	{
 		// Delete with inner join is not possible so we need to do a subquery
-		$fieldsQuery = $this->getDbo()->getQuery(true);
+		$fieldsQuery = $this->getDatabase()->getQuery(true);
 		$fieldsQuery->select($fieldsQuery->quoteName('id'))
 			->from($fieldsQuery->quoteName('#__fields'))
 			->where($fieldsQuery->quoteName('context') . ' = :context');
 
-		$query = $this->getDbo()->getQuery(true);
+		$query = $this->getDatabase()->getQuery(true);
 
 		$query->delete($query->quoteName('#__fields_values'))
 			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
@@ -814,7 +832,7 @@ class FieldModel extends AdminModel
 			->bind(':itemid', $itemId)
 			->bind(':context', $context);
 
-		$this->getDbo()->setQuery($query)->execute();
+		$this->getDatabase()->setQuery($query)->execute();
 	}
 
 	/**

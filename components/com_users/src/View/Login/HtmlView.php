@@ -63,12 +63,13 @@ class HtmlView extends BaseHtmlView
 	protected $pageclass_sfx = '';
 
 	/**
-	 * Array containing the available two factor authentication methods
+	 * No longer used
 	 *
-	 * @var    string
+	 * @var    boolean
 	 * @since  4.0.0
+	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0.
 	 */
-	protected $tfa = '';
+	protected $tfa = false;
 
 	/**
 	 * Additional buttons to show on the login page
@@ -91,7 +92,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->user   = Factory::getUser();
+		$this->user   = $this->getCurrentUser();
 		$this->form   = $this->get('Form');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
@@ -109,9 +110,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->setLayout($active->query['layout']);
 		}
-
-		$tfa = AuthenticationHelper::getTwoFactorMethods();
-		$this->tfa = is_array($tfa) && count($tfa) > 1;
 
 		$this->extraButtons = AuthenticationHelper::getLoginButtons('com-users-login__form');
 
@@ -133,7 +131,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$login = Factory::getUser()->get('guest') ? true : false;
+		$login = $this->getCurrentUser()->get('guest') ? true : false;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

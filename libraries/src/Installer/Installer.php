@@ -1331,7 +1331,6 @@ class Installer extends Adapter
 		}
 
 		Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
-		Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
 
 		$files = str_replace('.sql', '', $files);
 		usort($files, 'version_compare');
@@ -1360,6 +1359,8 @@ class Installer extends Adapter
 		{
 			$version = '0.0.0';
 		}
+
+		Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
 
 		foreach ($files as $file)
 		{

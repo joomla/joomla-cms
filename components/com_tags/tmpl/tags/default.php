@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 $description      = $this->params->get('all_tags_description');
@@ -23,7 +23,7 @@ $descriptionImage = $this->params->get('all_tags_description_image');
 	<?php endif; ?>
 	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)) : ?>
 		<div class="com-tags__image">
-			<?php echo LayoutHelper::render('joomla.html.image', ['src' => $descriptionImage, 'alt' => empty($this->params->get('all_tags_description_image_alt')) && empty($this->params->get('all_tags_description_image_alt_empty')) ? false : $this->params->get('all_tags_description_image_alt')]); ?>
+			<?php echo HTMLHelper::_('image', $descriptionImage, empty($this->params->get('all_tags_description_image_alt')) && empty($this->params->get('all_tags_description_image_alt_empty')) ? false : $this->params->get('all_tags_description_image_alt')); ?>
 		</div>
 	<?php endif; ?>
 	<?php if (!empty($description)) : ?>
