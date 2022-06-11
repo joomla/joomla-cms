@@ -114,10 +114,13 @@ class TufValidation
 		// $db = Factory::getDbo();
 
 		$fileFetcher = GuzzleFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
+
+		$storage = new DatabaseStorage($db, $this->extensionId);
+
 		$updater = new Updater(
 			$fileFetcher,
 			$this->params['mirrors'],
-			new DatabaseStorage($db, $this->extensionId)
+			$storage
 		);
 
 		try
@@ -125,16 +128,8 @@ class TufValidation
 			// Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
 			// the caller
 			$updater->refresh();
-			$query = $db->getQuery(true)
-				->select('targets_json')
-				->from($db->quoteName('#__tuf_metadata', 'map'))
-				->where($db->quoteName('map.id') . ' = :id')
-				->bind(':id', $this->extensionId, ParameterType::INTEGER);
-			$db->setQuery($query);
 
-			$resultArray = (array) $db->loadObject();
-
-			return JsonNormalizer::decode($resultArray['targets_json']);
+			return $storage['targets.json'];
 		}
 		catch (FreezeAttackException | MetadataException | SignatureThresholdException | RollbackAttackException $e)
 		{
