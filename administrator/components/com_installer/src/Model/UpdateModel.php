@@ -361,6 +361,8 @@ class UpdateModel extends ListModel
 				continue;
 			}
 
+			// TODO Load Type based on #__updates_site.type
+			// if type tuf loadFromTuf
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
 
 			// Find and use extra_query from update_site if available

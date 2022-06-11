@@ -3,7 +3,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Updater\Adapter;
@@ -20,6 +20,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
 use Joomla\CMS\TUF\TufValidation;
 use Joomla\Database\ParameterType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Extension class for updater
@@ -28,6 +29,13 @@ use Joomla\Database\ParameterType;
  */
 class TufAdapter extends UpdateAdapter
 {
+	private $clientId = [
+		'site'          => 0,
+		'administrator' => 1,
+		'installation'  => 2,
+		'api'           => 3,
+		'cli'           => 4
+	];
 
 	/**
 	 * Finds an update.
@@ -40,6 +48,36 @@ class TufAdapter extends UpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
+		$updates = [];
+		$targets = $this->getUpdateTargets($options);
+
+		foreach ($targets as $target)
+		{
+			$updateTable = Table::getInstance('update');
+			$updateTable->set('update_site_id', $options['update_site_id']);
+
+			$updateTable->bind($target);
+
+			$updates[] = $updateTable;
+		}
+
+		return array('update_sites' => array(), 'updates' => $updates);
+	}
+
+	public function getUpdateTargets($options)
+	{
+		$versions = array();
+		$resolver = new OptionsResolver;
+
+		try
+		{
+			$this->configureUpdateOptions($resolver);
+			$keys = $resolver->getDefinedOptions();
+		}
+		catch (\Exception $e)
+		{
+		}
+
 		// Get extension_id for TufValidation
 		$db = $this->parent->getDbo();
 
@@ -60,250 +98,107 @@ class TufAdapter extends UpdateAdapter
 		}
 
 		$params = [
-			'url_prefix' => 'https://raw.githubusercontent.com',
+			'url_prefix'    => 'https://raw.githubusercontent.com',
 			'metadata_path' => '/joomla/updates/test/repository/',
-			'targets_path' => '/targets/',
-			'mirrors' => []
+			'targets_path'  => '/targets/',
+			'mirrors'       => []
 		];
 
 		$TufValidation = new TufValidation($extension_id, $params);
-		$metaData = $TufValidation->getValidUpdate();
-
-		if ($metaData === false)
-		{
-			return false;
-		}
+		$metaData      = $TufValidation->getValidUpdate();
 
 		$metaData = json_decode($metaData);
 
-		$b = $metaData['signed']['targets'];
-
 		if (isset($metaData->signed->targets))
 		{
-			$targets = $metaData->signed->targets;
-			foreach ($targets as $filename => $target)
+			foreach ($metaData->signed->targets as $filename => $target)
 			{
+				$values = [];
 
-			}
-			$c = $metaData->signed->targets;
-		}
-
-
-
-		//print_r($metaData->version);
-		var_dump($metaData);die();
-
-		$table = Table::getInstance('Update');
-
-		// Evaluate Data
-
-
-		$this->currentUpdate->update_site_id = $this->updateSiteId;
-		$this->currentUpdate->detailsurl = $this->_url;
-		$this->currentUpdate->folder = '';
-		$this->currentUpdate->client_id = 1;
-		$this->currentUpdate->infourl = '';
-		/**
-		if (\in_array($name, $this->updatecols))
-		{
-		$name = strtolower($name);
-		$this->currentUpdate->$name = '';
-		}
-
-		if ($name === 'TARGETPLATFORM')
-		{
-		$this->currentUpdate->targetplatform = $attrs;
-		}
-
-		if ($name === 'PHP_MINIMUM')
-		{
-		$this->currentUpdate->php_minimum = '';
-		}
-
-		if ($name === 'SUPPORTED_DATABASES')
-		{
-		$this->currentUpdate->supported_databases = $attrs;
-		}
-		 **/
-		// Lower case and remove the exclamation mark
-		$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
-		print_r($product);
-
-		// Check that the product matches and that the version matches (optionally a regexp)
-		if ($product == $this->currentUpdate->targetplatform['NAME']
-			&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION))
-		{
-			// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-			if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
-			{
-				$phpMatch = true;
-			}
-			else
-			{
-				// Notify the user of the potential update
-				$msg = Text::sprintf(
-					'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
-					$this->currentUpdate->name,
-					$this->currentUpdate->version,
-					$this->currentUpdate->php_minimum,
-					PHP_VERSION
-				);
-
-				Factory::getApplication()->enqueueMessage($msg, 'warning');
-
-				$phpMatch = false;
-			}
-
-			$dbMatch = false;
-
-			// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
-			if (isset($this->currentUpdate->supported_databases))
-			{
-				$db           = Factory::getDbo();
-				$dbType       = strtoupper($db->getServerType());
-				$dbVersion    = $db->getVersion();
-				$supportedDbs = $this->currentUpdate->supported_databases;
-
-				// MySQL and MariaDB use the same database driver but not the same version numbers
-				if ($dbType === 'mysql')
+				foreach ($keys as $key)
 				{
-					// Check whether we have a MariaDB version string and extract the proper version from it
-					if (stripos($dbVersion, 'mariadb') !== false)
+					if (isset($target->custom->$key))
 					{
-						// MariaDB: Strip off any leading '5.5.5-', if present
-						$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-						$dbType    = 'mariadb';
+						$values[$key] = $target->custom->$key;
 					}
 				}
 
-				// Do we have an entry for the database?
-				if (\array_key_exists($dbType, $supportedDbs))
+
+				if (isset($values['client']) && is_string($values['client'])
+					&& key_exists(strtolower($values['client']), $this->clientId))
 				{
-					$minimumVersion = $supportedDbs[$dbType];
-					$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
-
-					if (!$dbMatch)
-					{
-						// Notify the user of the potential update
-						$dbMsg = Text::sprintf(
-							'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
-							$this->currentUpdate->name,
-							$this->currentUpdate->version,
-							Text::_($db->name),
-							$dbVersion,
-							$minimumVersion
-						);
-
-						Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
-					}
+					$values['client'] = $this->clientId[strtolower($values['client'])];
 				}
-				else
+
+				if (isset($values['infourl']) && isset($values['infourl']->url))
 				{
-					// Notify the user of the potential update
-					$dbMsg = Text::sprintf(
-						'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
-						$this->currentUpdate->name,
-						$this->currentUpdate->version,
-						Text::_($db->name)
-					);
-
-					Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
+					$values['infourl'] = $values['infourl']->url;
 				}
-			}
-			else
-			{
-				// Set to true if the <supported_databases> tag is not set
-				$dbMatch = true;
-			}
 
-			// Check minimum stability
-			$stabilityMatch = true;
-
-			if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
-			{
-				$stabilityMatch = false;
-			}
-
-			// Some properties aren't valid fields in the update table so unset them to prevent J! from trying to store them
-			unset($this->currentUpdate->targetplatform);
-
-			if (isset($this->currentUpdate->php_minimum))
-			{
-				unset($this->currentUpdate->php_minimum);
-			}
-
-			if (isset($this->currentUpdate->supported_databases))
-			{
-				unset($this->currentUpdate->supported_databases);
-			}
-
-			if (isset($this->currentUpdate->stability))
-			{
-				unset($this->currentUpdate->stability);
-			}
-
-			// If the PHP version and minimum stability checks pass, consider this version as a possible update
-			if ($phpMatch && $stabilityMatch && $dbMatch)
-			{
-				if (isset($this->latest))
+				try
 				{
-					// We already have a possible update. Check the version.
-					if (version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
-					{
-						$this->latest = $this->currentUpdate;
-					}
+					$values = $resolver->resolve($values);
 				}
-				else
+				catch (\Exception $e)
 				{
-					// We don't have any possible updates yet, assume this is an available update.
-					$this->latest = $this->currentUpdate;
+					continue;
 				}
+
+				$versions[$values['version']] = $values;
 			}
+
+			usort($versions, function ($a, $b) {
+				return version_compare($a['version'], $b['version']);
+			});
+
+			// TODO ConstraintsCheck
 		}
 
-		if (\array_key_exists('minimum_stability', $options))
-		{
-			$this->minimum_stability = $options['minimum_stability'];
-		}
-//$this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId);
-		if (isset($this->latest))
-		{
-			if (isset($this->latest->client) && \strlen($this->latest->client))
-			{
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
-
-				unset($this->latest->client);
-			}
-
-			$updates = array($this->latest);
-		}
-		else
-		{
-			$updates = array();
-		}
-
-		return array('update_sites' => array(), 'updates' => $updates);
+		return $versions;
 	}
 
 	/**
-	 * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
-	 * dev, alpha, beta, rc, stable) it is ignored.
+	 * Configures default values or pass arguments to params
 	 *
-	 * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+	 * @param   OptionsResolver  $resolver  The OptionsResolver for the params
 	 *
-	 * @return  integer
-	 *
-	 * @since   3.4
+	 * @return void
 	 */
-	protected function stabilityTagToInteger($tag)
+	protected function configureUpdateOptions(OptionsResolver $resolver)
 	{
-		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
-
-		if (\defined($constant))
-		{
-			return \constant($constant);
-		}
-
-		return Updater::STABILITY_STABLE;
+		$resolver->setDefaults(
+			[
+				'version'             => "1",
+				'name'                => null,
+				'client'              => 1,
+				'description'           => '',
+				'element'             => '',
+				'detailsurl'          => '',
+				'data'          => '',
+				'infourl'             => '',
+				'type'                => null,
+				'tags'                => new \StdClass,
+				'targetplatform'      => new \StdClass,
+				'supported_databases' => new \StdClass,
+				'downloads'           => [],
+				'php_minimum'         => null
+			]
+		)
+			->setAllowedTypes('version', 'string')
+			->setAllowedTypes('name', 'string')
+			->setAllowedTypes('element', 'string')
+			->setAllowedTypes('data', 'string')
+			->setAllowedTypes('description', 'string')
+			->setAllowedTypes('type', 'string')
+			->setAllowedTypes('detailsurl', 'string')
+			->setAllowedTypes('infourl', 'string')
+			->setAllowedTypes('client', 'int')
+			->setAllowedTypes('php_minimum', 'string')
+			->setAllowedTypes('downloads', 'array')
+			->setAllowedTypes('tags', 'object')
+			->setAllowedTypes('targetplatform', 'object')
+			->setAllowedTypes('supported_databases', 'object')
+			->setAllowedTypes('targetplatform', 'object')
+			->setRequired(['version']);
 	}
 }

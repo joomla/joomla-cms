@@ -42,7 +42,7 @@ class TufValidation
 	 *
 	 * @var mixed
 	 */
-	private mixed $params;
+	private $params;
 
 	/**
 	 * Validating updates with TUF
@@ -61,7 +61,7 @@ class TufValidation
 		{
 			$this->configureTufOptions($resolver);
 		}
-		catch (\Exception)
+		catch (\Exception $e)
 		{
 		}
 
