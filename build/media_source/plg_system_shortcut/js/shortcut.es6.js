@@ -5,6 +5,7 @@
     throw new Error('Joomla API is not properly initialised');
   }
 
+  /* global hotkeys */
   Joomla.addShortcut = (hotkey, callback) => {
     hotkeys(hotkey, (event) => {
       event.preventDefault();
