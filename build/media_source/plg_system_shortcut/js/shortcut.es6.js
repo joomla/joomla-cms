@@ -37,9 +37,9 @@
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
     Object.values(options).forEach((value) => {
       if (value.selector.includes('input')) {
-        Joomla.addFocusShortcut(value.default, value.selector);
+        Joomla.addFocusShortcut(value.shortcut, value.selector);
       } else {
-        Joomla.addClickShortcut(value.default, value.selector);
+        Joomla.addClickShortcut(value.shortcut, value.selector);
       }
     });
   });

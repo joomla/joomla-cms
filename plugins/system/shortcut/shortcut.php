@@ -82,8 +82,7 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$event = new GenericEvent('onLoadShortcuts', [
 			'context' => $context,
 			'shortcuts' => $shortcuts
-			]
-		);
+		]);
 
 		$this->app->getDispatcher()->dispatch('onLoadShortcuts', $event);
 
@@ -110,22 +109,22 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$shortcuts = $event->getArgument('shortcuts');
 
 		$keys = [
-			'helpKey'            => (object) ['selector' => 'joomla-toolbar-button .button-help', 'default' => 'J + H'],
-			'newKey'             => (object) ['selector' => 'joomla-toolbar-button .button-new', 'default' => 'J + N'],
-			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'default' => 'J + S'],
-			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'default' => 'J + W'],
-			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'default' => 'J + N'],
-			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'default' => 'J + Q'],
-			'optionKey'          => (object) ['selector' => 'joomla-toolbar-button .button-options', 'default' => 'J + O'],
-			'searchKey'          => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'default' => 'J + S'],
-			'editorArticleKey'   => (object) ['selector' => 'joomla-editor-option ~ article_modal', 'default' => 'CTRL + ALT + A'],
-			'editorContactKey'   => (object) ['selector' => 'joomla-editor-option ~ contact_modal', 'default' => 'CTRL + ALT + C'],
-			'editorFieldsKey'    => (object) ['selector' => 'joomla-editor-option ~ fields_modal', 'default' => 'CTRL + ALT + F'],
-			'editorImageKey'     => (object) ['selector' => 'joomla-editor-option ~ image_modal', 'default' => 'CTRL + ALT + I'],
-			'editorMenuKey'      => (object) ['selector' => 'joomla-editor-option ~ menu_modal', 'default' => 'CTRL + ALT + M'],
-			'editorModuleKey'    => (object) ['selector' => 'joomla-editor-option ~ module_modal', 'default' => 'CTRL + SHIFT + ALT + M'],
-			'editorPagebreakKey' => (object) ['selector' => 'joomla-editor-option ~ pagebreak_modal', 'default' => 'CTRL + ALT + P'],
-			'editorReadmoreKey'  => (object) ['selector' => 'joomla-editor-option ~ read_more', 'default' => 'CTRL + ALT + R'],
+			'helpKey'            => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'J + H'],
+			'newKey'             => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'J + N'],
+			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'J + S'],
+			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + W'],
+			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'J + N'],
+			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'J + Q'],
+			'optionKey'          => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'J + O'],
+			'searchKey'          => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + S'],
+			'editorArticleKey'   => (object) ['selector' => 'joomla-editor-option ~ article_modal', 'shortcut' => 'CTRL + ALT + A'],
+			'editorContactKey'   => (object) ['selector' => 'joomla-editor-option ~ contact_modal', 'shortcut' => 'CTRL + ALT + C'],
+			'editorFieldsKey'    => (object) ['selector' => 'joomla-editor-option ~ fields_modal', 'shortcut' => 'CTRL + ALT + F'],
+			'editorImageKey'     => (object) ['selector' => 'joomla-editor-option ~ image_modal', 'shortcut' => 'CTRL + ALT + I'],
+			'editorMenuKey'      => (object) ['selector' => 'joomla-editor-option ~ menu_modal', 'shortcut' => 'CTRL + ALT + M'],
+			'editorModuleKey'    => (object) ['selector' => 'joomla-editor-option ~ module_modal', 'shortcut' => 'CTRL + SHIFT + ALT + M'],
+			'editorPagebreakKey' => (object) ['selector' => 'joomla-editor-option ~ pagebreak_modal', 'shortcut' => 'CTRL + ALT + P'],
+			'editorReadmoreKey'  => (object) ['selector' => 'joomla-editor-option ~ read_more', 'shortcut' => 'CTRL + ALT + R'],
 		];
 
 		$event->setArgument('shortcuts', $keys);
