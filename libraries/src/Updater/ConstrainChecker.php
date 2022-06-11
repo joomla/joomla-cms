@@ -32,7 +32,7 @@ class ConstrainChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function check($constraints)
+	public function check(array $constraints)
 	{
 		if (!isset($constraints['targetplatform']))
 		{
@@ -76,7 +76,7 @@ class ConstrainChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkTargetplatform($targetPlatform)
+	protected function checkTargetplatform(stdClass $targetPlatform)
 	{
 		// Lower case and remove the exclamation mark
 		$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
@@ -100,7 +100,7 @@ class ConstrainChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkPhpMinimum($phpMinimum)
+	protected function checkPhpMinimum(string $phpMinimum)
 	{
 		// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 		return version_compare(PHP_VERSION, $phpMinimum, '>=');
@@ -115,7 +115,7 @@ class ConstrainChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkSupportedDatabases($supportedDatabases)
+	protected function checkSupportedDatabases(stdClass $supportedDatabases)
 	{
 			$db           = Factory::getDbo();
 			$dbType       = strtoupper($db->getServerType());
@@ -153,21 +153,23 @@ class ConstrainChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkStability($stabilityTags)
+	protected function checkStability(array $stabilityTags)
 	{
 		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
 
+		$stabilityMatch = false;
+
 		foreach ($stabilityTags as $tag)
 		{
-			$stability = $this->stabilityTagToInteger($stability);
+			$stability = $this->stabilityTagToInteger($tag);
 
-			if (($stability < $minimumStability))
+			if (($stability >= $minimumStability))
 			{
-				return false;
+				$stabilityMatch = true;
 			}
-
-			return true;
 		}
+
+		return $stabilityMatch;
 	}
 
 	/**
