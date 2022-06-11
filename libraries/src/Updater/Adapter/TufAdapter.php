@@ -85,7 +85,7 @@ class TufAdapter extends UpdateAdapter
 			{
 
 			}
-			$c = $metaData->signed->targets
+			$c = $metaData->signed->targets;
 		}
 
 
