@@ -59,7 +59,7 @@ class ConstrainChecker
 		}
 
 		// Check stability
-		if (isset($constraints['stability']) && !$this->checkStability($constraints['stability']))
+		if (isset($constraints['stability']) && !$this->checkStability($constraints['stability']['tags']))
 		{
 			return false;
 		}
@@ -103,10 +103,7 @@ class ConstrainChecker
 	protected function checkPhpMinimum($phpMinimum)
 	{
 		// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-		if (version_compare(PHP_VERSION, $phpMinimum, '>='))
-		{
-			return true;
-		}
+		return version_compare(PHP_VERSION, $phpMinimum, '>=');
 	}
 
 	/**
@@ -150,24 +147,27 @@ class ConstrainChecker
 	/**
 	 * Check the stability
 	 *
-	 * @param   string  $stability  Stability tag to check
+	 * @param   array  $stabilityTags  Stability tags to check
 	 *
 	 * @return  bool
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkStability($stability)
+	protected function checkStability($stabilityTags)
 	{
 		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
 
-		$stability = $this->stabilityTagToInteger($stability);
-
-		if (($stability < $minimumStability))
+		foreach ($stabilityTags as $tag)
 		{
-			return false;
-		}
+			$stability = $this->stabilityTagToInteger($stability);
 
-		return true;
+			if (($stability < $minimumStability))
+			{
+				return false;
+			}
+
+			return true;
+		}
 	}
 
 	/**
