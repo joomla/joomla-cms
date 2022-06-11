@@ -174,6 +174,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
+			'current'   => JVERSION, // This is deprecated please use 'installed' or JVERSION directly
 		);
 
 		// Fetch the update information from the database.
@@ -201,15 +202,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest']    = $updateObject->version;
-		$this->updateInformation['current']   = JVERSION;
-
-		// Check whether this is an update or not.
-		if (version_compare($updateObject->version, JVERSION, '>'))
-		{
-			$this->updateInformation['hasUpdate'] = true;
-		}
-
 		$minimumStability      = JUpdater::STABILITY_STABLE;
 		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
 
@@ -223,7 +215,15 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
 
+		// Make sure we use the current information we got from the detailsurl
 		$this->updateInformation['object'] = $update;
+		$this->updateInformation['latest'] = $updateObject->version;
+
+		// Check whether we have got an update from the detailsurl or not.
+		if (version_compare($this->updateInformation['latest'], JVERSION, '>'))
+		{
+			$this->updateInformation['hasUpdate'] = true;
+		}
 
 		return $this->updateInformation;
 	}
