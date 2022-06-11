@@ -26,7 +26,7 @@ class ConstrainChecker
 	/**
 	 * Checks whether the passed constraints are matched
 	 *
-	 * @param   array  $constraints
+	 * @param   array  $constraints  The provided constraints to be checked
 	 *
 	 * @return  bool
 	 *
@@ -40,32 +40,31 @@ class ConstrainChecker
 			return false;
 		}
 
-		// check targetplatform -> true/false
+		// Check targetplatform
 		if (!$this->checkTargetplatform($constraints['targetplatform']))
 		{
 			return false;
 		}
 
-		// check php_minimum
+		// Check php_minimum
 		if (isset($constraints['phpMinimum']) && !$this->checkPhpMinimum($constraints['phpMinimum']))
 		{
 			return false;
 		}
 
-		// check supported databases
+		// Check supported databases
 		if (isset($constraints['supportedDatabases']) && !$this->checkSupportedDatabases($constraints['supportedDatabases']))
 		{
 			return false;
 		}
 
-		// check stability
+		// Check stability
 		if (isset($constraints['stability']) && !$this->checkStability($constraints['stability']))
 		{
 			return false;
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -73,7 +72,7 @@ class ConstrainChecker
 	 *
 	 * @param   object  $targetPlatform
 	 *
-	 * @return  void
+	 * @return  bool
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -93,9 +92,9 @@ class ConstrainChecker
 	}
 
 	/**
-	 * Character Parser Function
+	 * Check the minimum PHP version
 	 *
-	 * @param   string  $phpMinimum  The minimum php version
+	 * @param   string  $phpMinimum  The minimum php version to check
 	 *
 	 * @return  bool
 	 *
@@ -111,9 +110,9 @@ class ConstrainChecker
 	}
 
 	/**
-	 * Character Parser Function
+	 * Check the supported databases and versions
 	 *
-	 * @param   object  $supportedDatabases  stdClass of supporte databases and versions
+	 * @param   object  $supportedDatabases  stdClass of supported databases and versions
 	 *
 	 * @return  bool
 	 *
@@ -149,9 +148,9 @@ class ConstrainChecker
 	}
 
 	/**
-	 * Character Parser Function
+	 * Check the stability
 	 *
-	 * @param   string  $stability  Stability to check
+	 * @param   string  $stability  Stability tag to check
 	 *
 	 * @return  bool
 	 *
