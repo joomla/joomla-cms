@@ -47,19 +47,19 @@ class ConstrainChecker
 		}
 
 		// Check php_minimum
-		if (isset($constraints['phpMinimum']) && !$this->checkPhpMinimum($constraints['phpMinimum']))
+		if (isset($constraints['php_minimum']) && !$this->checkPhpMinimum($constraints['php_minimum']))
 		{
 			return false;
 		}
 
 		// Check supported databases
-		if (isset($constraints['supportedDatabases']) && !$this->checkSupportedDatabases($constraints['supportedDatabases']))
+		if (isset($constraints['supported_databases']) && !$this->checkSupportedDatabases($constraints['supported_databases']))
 		{
 			return false;
 		}
 
 		// Check stability
-		if (isset($constraints['stability']) && !$this->checkStability($constraints['stability']['tags']))
+		if (isset($constraints['tags']) && !$this->checkStability($constraints['tags']))
 		{
 			return false;
 		}
@@ -134,7 +134,7 @@ class ConstrainChecker
 			}
 
 			// Do we have an entry for the database?
-			if (\property_exists($dbType, $supportedDatabases))
+			if (\property_exists($supportedDatabases, $dbType))
 			{
 				$minimumVersion = $supportedDatabases[$dbType];
 
