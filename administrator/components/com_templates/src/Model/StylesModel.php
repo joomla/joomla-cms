@@ -119,7 +119,7 @@ class StylesModel extends ListModel
 		$clientId = (int) $this->getState('client_id');
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
