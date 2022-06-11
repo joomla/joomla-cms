@@ -64,7 +64,7 @@ class Dispatcher extends ComponentDispatcher
 			false
 		);
 
-		if (in_array(strtolower($view), $allowedViews) || $isAllowedTask)
+		if (in_array(strtolower($view ?? ''), $allowedViews) || $isAllowedTask)
 		{
 			return;
 		}
