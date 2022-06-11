@@ -577,6 +577,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *    perform: true,        Perform the request immediately
    *              or return XMLHttpRequest instance and perform it later
    *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+   *    promise: false        Whether return a Promise instance.
+   *              When true then next options is ignored: perform, onSuccess, onError, onComplete
    *
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
@@ -598,18 +600,18 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
    */
   Joomla.request = (options) => {
-    let xhr;
     // Prepare the options
     const newOptions = Joomla.extend({
       url: '',
       method: 'GET',
       data: null,
       perform: true,
+      promise: false,
     }, options);
 
-    // Set up XMLHttpRequest instance
-    try {
-      xhr = new XMLHttpRequest();
+    // Setup XMLHttpRequest instance
+    const createRequest = (onSuccess, onError) => {
+      const xhr = new XMLHttpRequest();
 
       xhr.open(newOptions.method, newOptions.url, true);
 
@@ -650,14 +652,17 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
         // Request finished and response is ready
         if (xhr.status === 200) {
-          if (newOptions.onSuccess) {
-            newOptions.onSuccess.call(window, xhr.responseText, xhr);
+          if (newOptions.promise) {
+            // A Promise accepts only one argument
+            onSuccess.call(window, xhr);
+          } else {
+            onSuccess.call(window, xhr.responseText, xhr);
           }
-        } else if (newOptions.onError) {
-          newOptions.onError.call(window, xhr);
+        } else {
+          onError.call(window, xhr);
         }
 
-        if (newOptions.onComplete) {
+        if (newOptions.onComplete && !newOptions.promise) {
           newOptions.onComplete.call(window, xhr);
         }
       };
@@ -666,18 +671,34 @@ window.Joomla.Modal = window.Joomla.Modal || {
       if (newOptions.perform) {
         if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
           // Request interrupted
+          if (newOptions.promise) {
+            onSuccess.call(window, xhr);
+          }
           return xhr;
         }
 
         xhr.send(newOptions.data);
       }
-    } catch (error) {
-      // eslint-disable-next-line no-unused-expressions,no-console
-      window.console ? console.log(error) : null;
-      return false;
+
+      return xhr;
+    };
+
+    // Return a Promise
+    if (newOptions.promise) {
+      return new Promise((resolve, reject) => {
+        newOptions.perform = true;
+        createRequest(resolve, reject);
+      });
     }
 
-    return xhr;
+    // Return a Request
+    try {
+      return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
+    } catch (error) {
+      // eslint-disable-next-line no-unused-expressions,no-console
+      console.error(error);
+      return false;
+    }
   };
 
   /**
