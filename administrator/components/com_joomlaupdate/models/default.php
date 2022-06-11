@@ -217,7 +217,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		// Make sure we use the current information we got from the detailsurl
 		$this->updateInformation['object'] = $update;
-		$this->updateInformation['latest'] = $update->get('version')->_data;
+		$this->updateInformation['latest'] = $updateObject->version;
 
 		// Check whether we have got an update from the detailsurl or not.
 		if (version_compare($this->updateInformation['latest'], JVERSION, '>'))
