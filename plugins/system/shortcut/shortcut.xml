@@ -36,13 +36,13 @@
 						name="helpKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_HELP_LBL"
-						default="ALT + X"
+						default="J + H"
 					/>
 					<field
 						name="searchKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_SEARCH_LBL"
-						default="S"
+						default="J + S"
 					/>
 				</fieldset>
 				<fieldset
@@ -53,13 +53,13 @@
 						name="newKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_NEW_LBL"
-						default="ALT + N"
+						default="J + N"
 					/>
 					<field
 						name="optionKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_OPTION_LBL"
-						default="ALT + O"
+						default="J + O"
 					/>
 				</fieldset>
 				<fieldset
@@ -70,28 +70,28 @@
 						name="applyKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_APPLY_LBL"
-						default="ALT + S"
+						default="J + S"
 					/>
 
 					<field
 						name="saveKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVE_LBL"
-						default="ALT + W"
+						default="J + W"
 					/>
 
 					<field
 						name="saveNewKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_SAVENEW_LBL"
-						default="SHIFT + ALT + N"
+						default="J + N"
 					/>
 
 					<field
 						name="cancelKey"
 						type="Keyselect"
 						label="PLG_SYSTEM_SHORTCUT_BUTTON_CANCEL_LBL"
-						default="ALT + Q"
+						default="J + Q"
 					/>
 				</fieldset>
 			</fieldset>

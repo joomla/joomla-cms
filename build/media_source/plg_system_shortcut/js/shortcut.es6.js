@@ -35,15 +35,12 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
-
-    for (let hotkey in options) {
-      const selector = options[hotkey];
-
-      if (selector.includes('input')) {
-        Joomla.addFocusShortcut(hotkey, selector);
+    Object.values(options).forEach((value) => {
+      if (value.selector.includes('input')) {
+        Joomla.addFocusShortcut(value.default, value.selector);
       } else {
-        Joomla.addClickShortcut(hotkey, selector);
+        Joomla.addClickShortcut(value.default, value.selector);
       }
-    };
+    });
   });
 })(document, Joomla);

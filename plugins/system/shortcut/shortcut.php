@@ -110,14 +110,14 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$shortcuts = $event->getArgument('shortcuts');
 
 		$keys = [
-			'helpKey'            => (object) ['selector' => 'joomla-toolbar-button .button-help', 'default' => 'ALT + X'],
-			'newKey'             => (object) ['selector' => 'joomla-toolbar-button .button-new', 'default' => 'ALT + N'],
-			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'default' => 'ALT + S'],
-			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'default' => 'ALT + W'],
-			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'default' => 'SHIFT + ALT + N'],
-			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'default' => 'ALT + Q'],
-			'optionKey'          => (object) ['selector' => 'joomla-toolbar-button .button-options', 'default' => 'ALT + O'],
-			'searchKey'          => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'default' => 'S'],
+			'helpKey'            => (object) ['selector' => 'joomla-toolbar-button .button-help', 'default' => 'J + H'],
+			'newKey'             => (object) ['selector' => 'joomla-toolbar-button .button-new', 'default' => 'J + N'],
+			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'default' => 'J + S'],
+			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'default' => 'J + W'],
+			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'default' => 'J + N'],
+			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'default' => 'J + Q'],
+			'optionKey'          => (object) ['selector' => 'joomla-toolbar-button .button-options', 'default' => 'J + O'],
+			'searchKey'          => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'default' => 'J + S'],
 			'editorArticleKey'   => (object) ['selector' => 'joomla-editor-option ~ article_modal', 'default' => 'CTRL + ALT + A'],
 			'editorContactKey'   => (object) ['selector' => 'joomla-editor-option ~ contact_modal', 'default' => 'CTRL + ALT + C'],
 			'editorFieldsKey'    => (object) ['selector' => 'joomla-editor-option ~ fields_modal', 'default' => 'CTRL + ALT + F'],
@@ -128,16 +128,6 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 			'editorReadmoreKey'  => (object) ['selector' => 'joomla-editor-option ~ read_more', 'default' => 'CTRL + ALT + R'],
 		];
 
-		foreach ($keys as $name => $key)
-		{
-			$shortcut = $this->params->get($name, $key->default);
-
-			if ($shortcut)
-			{
-				$shortcuts[$shortcut] = $key->selector;
-			}
-		}
-
-		$event->setArgument('shortcuts', $shortcuts);
+		$event->setArgument('shortcuts', $keys);
 	}
 }
