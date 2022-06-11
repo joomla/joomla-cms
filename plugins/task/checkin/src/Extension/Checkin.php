@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Task\Checkin\Extension;
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use DateInterval;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
