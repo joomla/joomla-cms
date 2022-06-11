@@ -21,7 +21,7 @@ use Joomla\CMS\Version;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ConstrainChecker
+class ConstraintChecker
 {
 	/**
 	 * Checks whether the passed constraints are matched
@@ -76,7 +76,7 @@ class ConstrainChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkTargetplatform(stdClass $targetPlatform)
+	protected function checkTargetplatform(\stdClass $targetPlatform)
 	{
 		// Lower case and remove the exclamation mark
 		$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
@@ -115,10 +115,10 @@ class ConstrainChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkSupportedDatabases(stdClass $supportedDatabases)
+	protected function checkSupportedDatabases(\stdClass $supportedDatabases)
 	{
 			$db           = Factory::getDbo();
-			$dbType       = strtoupper($db->getServerType());
+			$dbType       = strtolower($db->getServerType());
 			$dbVersion    = $db->getVersion();
 
 			// MySQL and MariaDB use the same database driver but not the same version numbers
@@ -136,7 +136,7 @@ class ConstrainChecker
 			// Do we have an entry for the database?
 			if (\property_exists($supportedDatabases, $dbType))
 			{
-				$minimumVersion = $supportedDatabases[$dbType];
+				$minimumVersion = $supportedDatabases->$dbType;
 
 				return version_compare($dbVersion, $minimumVersion, '>=');
 			}
