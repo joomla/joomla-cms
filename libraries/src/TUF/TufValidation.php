@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Client\GuzzleFileFetcher;
+use Tuf\Client\HttpFileFetcher;
 use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
@@ -113,7 +114,7 @@ class TufValidation
 
 		// $db = Factory::getDbo();
 
-		$fileFetcher = GuzzleFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
+		$fileFetcher = HttpFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
 
 		$storage = new DatabaseStorage($db, $this->extensionId);
 
