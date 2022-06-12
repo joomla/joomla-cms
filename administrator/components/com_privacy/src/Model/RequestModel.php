@@ -261,7 +261,7 @@ class RequestModel extends AdminModel
 
 		$lang = Factory::getLanguage();
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
@@ -421,7 +421,7 @@ class RequestModel extends AdminModel
 		}
 
 		// Check for an active request for this email address
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
