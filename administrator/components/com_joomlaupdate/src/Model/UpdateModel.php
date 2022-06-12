@@ -307,7 +307,7 @@ class UpdateModel extends BaseDatabaseModel
 		$this->updateInformation['current'] = JVERSION;
 
 		// Check whether this is an update or not.
-		if (version_compare($updateObject->version, JVERSION, '>'))
+		if (version_compare($this->updateInformation['latest'], JVERSION, '>'))
 		{
 			$this->updateInformation['hasUpdate'] = true;
 		}
