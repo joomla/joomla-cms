@@ -190,7 +190,7 @@ class IndexModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('l.*')
 			->select($db->quoteName('t.title', 't_title'))
@@ -276,7 +276,7 @@ class IndexModel extends ListModel
 	 */
 	public function getPluginState()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('name, enabled')
 			->from($db->quoteName('#__extensions'))
@@ -321,7 +321,7 @@ class IndexModel extends ListModel
 	 */
 	public function getTotalIndexed()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('COUNT(link_id)')
 			->from($db->quoteName('#__finder_links'));
@@ -356,7 +356,7 @@ class IndexModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Truncate the links table.
 		$db->truncateTable('#__finder_links');

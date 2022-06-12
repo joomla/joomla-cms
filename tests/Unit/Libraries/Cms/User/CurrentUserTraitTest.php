@@ -18,16 +18,16 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class CurrentUserTraitTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the current user can be set with setCurrentUser()
+	 * @testdox  The current user can be set with setCurrentUser()
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetCurrentUser()
 	{

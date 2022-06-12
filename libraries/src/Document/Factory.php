@@ -10,6 +10,9 @@ namespace Joomla\CMS\Document;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
+
 /**
  * Default factory for creating Document objects
  *
@@ -17,6 +20,8 @@ namespace Joomla\CMS\Document;
  */
 class Factory implements FactoryInterface
 {
+	use CacheControllerFactoryAwareTrait;
+
 	/**
 	 * Creates a new Document object for the requested format.
 	 *
@@ -60,6 +65,11 @@ class Factory implements FactoryInterface
 			$instance->setType($ntype);
 		}
 
+		if ($instance instanceof CacheControllerFactoryAwareInterface)
+		{
+			$instance->setCacheControllerFactory($this->getCacheControllerFactory());
+		}
+
 		return $instance;
 	}
 
@@ -97,6 +107,13 @@ class Factory implements FactoryInterface
 			}
 		}
 
-		return new $class($document);
+		$instance = new $class($document);
+
+		if ($instance instanceof CacheControllerFactoryAwareInterface)
+		{
+			$instance->setCacheControllerFactory($this->getCacheControllerFactory());
+		}
+
+		return $instance;
 	}
 }
