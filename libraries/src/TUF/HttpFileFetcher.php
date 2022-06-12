@@ -27,7 +27,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 *
 	 * @var \Joomla\Http\Http
 	 *
-	 *  @since  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $client;
 
@@ -45,7 +45,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 *
 	 * @var string|null
 	 *
-	 *  @since  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $metadataPrefix;
 
@@ -54,7 +54,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 *
 	 * @var string|null
 	 *
-	 *  @since  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $targetsPrefix;
 
@@ -65,7 +65,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * @param   string             $metadataPrefix  The path prefix for metadata.
 	 * @param   string             $targetsPrefix   The path prefix for targets.
 	 *
-	 *  @since  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(Http $client, string $metadataPrefix, string $targetsPrefix, $baseUri)
 	{
@@ -84,7 +84,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 *
 	 * @return  static  A new instance of this class.
 	 *
-	 *  @since  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static function createFromUri(
 		string $baseUri,
@@ -118,7 +118,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 *
 	 * @return  PromiseInterface
 	 *
-	 *  @since  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function fetchTarget(
 		string $fileName,
@@ -139,20 +139,10 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 *
 	 * @return  PromiseInterface    A promise representing the eventual result of the operation.
 	 *
-	 *  @since  __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function fetchFile(string $url, int $maxBytes, array $options = []): PromiseInterface
 	{
-		// Create a progress callback to abort the download if it exceeds
-		// $maxBytes. This will only work with cURL, so we also verify the
-		// download size when request is finished.
-		$progress = function (int $expectedBytes, int $downloadedBytes) use ($url, $maxBytes) {
-			if ($expectedBytes > $maxBytes || $downloadedBytes > $maxBytes)
-			{
-				throw new DownloadSizeException("$url exceeded $maxBytes bytes");
-			}
-		};
-
 		$headers = (!empty($options['headers'])) ? $options['headers'] : [];
 
 		/** @var Response $response */
