@@ -11,6 +11,8 @@ namespace Joomla\CMS\MVC\Factory;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
@@ -32,7 +34,7 @@ use Joomla\Input\Input;
  */
 class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, SiteRouterAwareInterface
 {
-	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait, SiteRouterAwareTrait;
+	use FormFactoryAwareTrait, DispatcherAwareTrait, DatabaseAwareTrait, SiteRouterAwareTrait, CacheControllerFactoryAwareTrait;
 
 	/**
 	 * The namespace to create the objects from.
@@ -86,6 +88,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 		$this->setFormFactoryOnObject($controller);
 		$this->setDispatcherOnObject($controller);
 		$this->setRouterOnObject($controller);
+		$this->setCacheControllerOnObject($controller);
 
 		return $controller;
 	}
@@ -132,6 +135,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 		$this->setFormFactoryOnObject($model);
 		$this->setDispatcherOnObject($model);
 		$this->setRouterOnObject($model);
+		$this->setCacheControllerOnObject($model);
 
 		if ($model instanceof DatabaseAwareInterface)
 		{
@@ -193,6 +197,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 		$this->setFormFactoryOnObject($view);
 		$this->setDispatcherOnObject($view);
 		$this->setRouterOnObject($view);
+		$this->setCacheControllerOnObject($view);
 
 		return $view;
 	}
@@ -347,6 +352,32 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 		try
 		{
 			$object->setSiteRouter($this->getSiteRouter());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			// Ignore it
+		}
+	}
+
+	/**
+	 * Sets the internal cache controller on the given object.
+	 *
+	 * @param   object  $object  The object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function setCacheControllerOnObject($object): void
+	{
+		if (!$object instanceof CacheControllerFactoryAwareInterface)
+		{
+			return;
+		}
+
+		try
+		{
+			$object->setCacheControllerFactory($this->getCacheControllerFactory());
 		}
 		catch (\UnexpectedValueException $e)
 		{
