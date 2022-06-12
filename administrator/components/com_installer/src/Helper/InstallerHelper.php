@@ -124,7 +124,7 @@ class InstallerHelper
 	 * Get a list of filter options for extensions of the "package" type.
 	 *
 	 * @return  array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getPackageOptions(): array
 	{

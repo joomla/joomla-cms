@@ -155,7 +155,7 @@ class ItemModel extends AdminModel
 		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table  = $this->getTable();
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true);
 		$newIds = array();
 
@@ -367,7 +367,7 @@ class ItemModel extends AdminModel
 		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table = $this->getTable();
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 
 		// Check that the parent exists.
 		if ($parentId)
@@ -860,7 +860,7 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		/**
@@ -939,7 +939,7 @@ class ItemModel extends AdminModel
 	 */
 	public function getViewLevels()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Get all the available view levels
@@ -1356,7 +1356,7 @@ class ItemModel extends AdminModel
 	public function rebuild()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
@@ -1449,7 +1449,7 @@ class ItemModel extends AdminModel
 	{
 		$pk      = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew   = true;
-		$db      = $this->getDbo();
+		$db      = $this->getDatabase();
 		$query   = $db->getQuery(true);
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
@@ -1634,7 +1634,7 @@ class ItemModel extends AdminModel
 			}
 
 			// Get associationskey for edited item
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))

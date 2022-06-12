@@ -200,9 +200,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   1.6
 	 */
-	protected function allowAdd($data = array())
+	protected function allowAdd($data = [])
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
@@ -219,9 +219,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   1.6
 	 */
-	protected function allowEdit($data = array(), $key = 'id')
+	protected function allowEdit($data = [], $key = 'id')
 	{
-		return Factory::getUser()->authorise('core.edit', $this->option);
+		return $this->app->getIdentity()->authorise('core.edit', $this->option);
 	}
 
 	/**
