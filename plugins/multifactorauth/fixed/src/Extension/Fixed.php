@@ -35,7 +35,7 @@ use RuntimeException;
  * This is NOT to be used on production sites. It serves as a demonstration plugin and as a template
  * for developers to create their own custom Multi-factor Authentication plugins.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Fixed extends CMSPlugin implements SubscriberInterface
 {
@@ -43,7 +43,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * The application we are running under.
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $app;
 
@@ -51,7 +51,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -59,7 +59,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $mfaMethodName = 'fixed';
 
@@ -67,7 +67,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * Should I try to detect and register legacy event listeners?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 *
 	 * @deprecated
 	 */
@@ -78,7 +78,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -97,7 +97,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetMethod(GetMethod $event): void
 	{
@@ -120,7 +120,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * @param   Captive  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorCaptive(Captive $event): void
 	{
@@ -165,7 +165,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * @param   GetSetup  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetSetup(GetSetup $event): void
 	{
@@ -218,7 +218,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * @param   SaveSetup  $event  The event we are handling
 	 *
 	 * @return  void The configuration data to save to the database
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorSaveSetup(SaveSetup $event): void
 	{
@@ -259,7 +259,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * @param   Validate  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorValidate(Validate $event): void
 	{
@@ -303,7 +303,7 @@ class Fixed extends CMSPlugin implements SubscriberInterface
 	 * @param   MfaTable  $record  The record to decode options for
 	 *
 	 * @return  object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function decodeRecordOptions(MfaTable $record): object
 	{

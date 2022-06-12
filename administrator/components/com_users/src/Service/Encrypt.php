@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Data encryption service.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Encrypt
 {
@@ -23,14 +23,14 @@ class Encrypt
 	 * The encryption engine used by this service
 	 *
 	 * @var    Aes
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $aes;
 
 	/**
 	 * EncryptService constructor.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct()
 	{
@@ -44,7 +44,7 @@ class Encrypt
 	 *
 	 * @return  string  The ciphertext, prefixed by ###AES128###
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function encrypt(string $data): string
 	{
@@ -67,7 +67,7 @@ class Encrypt
 	 *
 	 * @return  string  The plaintext data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function decrypt(string $data, bool $legacy = false): string
 	{
@@ -94,7 +94,7 @@ class Encrypt
 	 * Initialize the AES cryptography object
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function initialize(): void
 	{
@@ -119,7 +119,7 @@ class Encrypt
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function getPassword(): string
 	{

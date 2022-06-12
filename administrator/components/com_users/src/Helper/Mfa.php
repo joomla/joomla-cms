@@ -31,7 +31,7 @@ use Joomla\Database\ParameterType;
 /**
  * Helper functions for captive MFA handling
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 abstract class Mfa
 {
@@ -39,7 +39,7 @@ abstract class Mfa
 	 * Cache of all currently active MFAs
 	 *
 	 * @var   array|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected static $allMFAs = null;
 
@@ -47,7 +47,7 @@ abstract class Mfa
 	 * Are we inside the administrator application
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected static $isAdmin = null;
 
@@ -61,7 +61,7 @@ abstract class Mfa
 	 *
 	 * @return  string|null  The HTML of the UI; null if we cannot / must not show it.
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getConfigurationInterface(User $user): ?string
 	{
@@ -141,7 +141,7 @@ abstract class Mfa
 	 * Get a list of all of the MFA Methods
 	 *
 	 * @return  MethodDescriptor[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public static function getMfaMethods(): array
 	{
@@ -192,7 +192,7 @@ abstract class Mfa
 	 *
 	 * @return  boolean
 	 * @throws  Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public static function canAddEditMethod(?User $user = null): bool
 	{
@@ -233,7 +233,7 @@ abstract class Mfa
 	 *
 	 * @return  boolean
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function canDeleteMethod(?User $user = null): bool
 	{
@@ -258,7 +258,7 @@ abstract class Mfa
 	 * @return  MfaTable[]
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public static function getUserMfaRecords(?int $userId): array
 	{
@@ -340,7 +340,7 @@ abstract class Mfa
 	 *
 	 * @return  boolean
 	 * @throws  Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public static function canShowConfigurationInterface(?User $user = null): bool
 	{
