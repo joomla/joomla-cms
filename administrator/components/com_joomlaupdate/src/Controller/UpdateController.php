@@ -594,7 +594,7 @@ class UpdateController extends BaseController
 		if (!Session::checkToken('get'))
 		{
 			$this->app->setHeader('status', 403, true);
-			$app->sendHeaders();
+			$this->app->sendHeaders();
 			echo Text::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
