@@ -3,6 +3,11 @@ The following document is intended to be a checklist for each release for use by
 
 At all stages here it is assumed you have a copy of the joomla-cms repo downloaded. Your release branch is clean and in the code snippets below that you have two remotes - an `upstream` remote that points to this repo and a `security` remote which points to the security private repository. You should also ensure all your commits and tags are signed by a GPG key that GitHub recognises.
 
+## Checklist (Beta 1 - Preparation)
+
+- [ ] Update Composer dependencies to their latest version
+- [ ] Update NPM dependencies to their latest version
+
 ## Checklist (Release Candidate - Preparation)
 
 - [ ] Agree Stable Announcement URL with the marketing team
@@ -45,7 +50,7 @@ git push upstream --tags
 - [ ] Upload the packages to the GitHub release
 - [ ] Publish GitHub release (remember to mark it as a pre-release!)
 - [ ] `git push upstream 3.10-dev`
-- [ ] Trigger new nightly build: [https://build.joomla.org](https://build.joomla.org:8443/job/cms_packaging/)
+- [ ] Trigger new nightly build: [https://ci.joomla.org/joomla/joomla-cms](https://ci.joomla.org/joomla/joomla-cms) -> New Build -> "<branch-dev>"
 - [ ] Wait for `.org Build Notifications` to report back
 - [ ] Merge the [joomla/update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 - [ ] Wait for `.org Build Notifications` to report back

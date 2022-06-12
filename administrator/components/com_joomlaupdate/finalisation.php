@@ -75,6 +75,17 @@ namespace
 			{
 				(new JoomlaInstallerScript)->deleteUnexistingFiles();
 			}
+
+			/**
+			 * Remove autoload_psr4.php so that namespace map is re-generated on the next request. This is needed
+			 * when there are new classes added to extensions on new Joomla! release.
+			 */
+			$namespaceMapFile = JPATH_ROOT . '/administrator/cache/autoload_psr4.php';
+
+			if (\Joomla\CMS\Filesystem\File::exists($namespaceMapFile))
+			{
+				\Joomla\CMS\Filesystem\File::delete($namespaceMapFile);
+			}
 		}
 	}
 }

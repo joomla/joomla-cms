@@ -70,7 +70,7 @@ class SuggestionsModel extends ListModel
 		$lang   = Helper::getPrimaryLanguage($this->getState('language'));
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$termIdQuery = $db->getQuery(true);
 		$termQuery = $db->getQuery(true);
 

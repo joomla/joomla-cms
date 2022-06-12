@@ -21,16 +21,19 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       __DEPLOY_VERSION__
+ *
+ * @testdox     The FormModel
+ *
+ * @since       4.2.0
  */
 class FormModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the FormModel can checkin a record
+	 * @testdox  can checkin a record
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckin()
 	{
@@ -51,17 +54,17 @@ class FormModelTest extends UnitTestCase
 				return null;
 			}
 		};
-		$model->setCurrentUser(new User());
+		$model->setCurrentUser(new User);
 
 		$this->assertTrue($model->checkin(1));
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when the id is 0
+	 * @testdox  can checkin a record when the id is 0
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinWithEmptyRecord()
 	{
@@ -77,11 +80,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record
+	 * @testdox  can't checkin a record
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckin()
 	{
@@ -108,11 +111,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record when load of the table fails
+	 * @testdox  can't checkin a record when load of the table fails
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckinLoad()
 	{
@@ -136,11 +139,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when the table has not the required fields
+	 * @testdox  can checkin a record when the table has not the required fields
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinFieldNotAvailableCheck()
 	{
@@ -165,11 +168,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkin a record when is checked out as different user and current user is not admin
+	 * @testdox  can't checkin a record when is checked out as different user and current user is not admin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinWhenCurrentUserIsNotAdmin()
 	{
@@ -199,11 +202,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkin a record when is checked out as different user and current user is admin
+	 * @testdox  can checkin a record when is checked out as different user and current user is admin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinWhenCurrentUserAdmin()
 	{
@@ -234,11 +237,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record
+	 * @testdox  can checkout a record
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSucessfullCheckout()
 	{
@@ -265,11 +268,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record when the id is 0
+	 * @testdox  can checkout a record when the id is 0
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSucessfullCheckoutWithEmptyRecord()
 	{
@@ -285,11 +288,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record
+	 * @testdox  can't checkout a record
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckout()
 	{
@@ -316,11 +319,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record when load of the table fails
+	 * @testdox  can't checkout a record when load of the table fails
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckoutLoad()
 	{
@@ -343,11 +346,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can checkout a record when the table has not the required fields
+	 * @testdox  can checkout a record when the table has not the required fields
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfullCheckoutFieldNotAvailableCheck()
 	{
@@ -371,11 +374,11 @@ class FormModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the FormModel can't checkout a record when is checked out as different user
+	 * @testdox  can't checkout a record when is checked out as different user
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfullCheckoutWhenCurrentUserIsDifferent()
 	{

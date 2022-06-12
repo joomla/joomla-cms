@@ -40,7 +40,7 @@ final class Joomla extends ActionLogPlugin
 	 * Application object.
 	 *
 	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $app;
 
@@ -860,9 +860,10 @@ final class Joomla extends ActionLogPlugin
 		// Get the user id for the given username
 		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'username')))
+			->select($db->quoteName(['id', 'username']))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = ' . $db->quote($response['username']));
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $response['username']);
 		$db->setQuery($query);
 
 		try
