@@ -28,7 +28,6 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
-use Symfony\Component\OptionsResolver\Exception\NoSuchOptionException;
 
 /**
  * Installer Update Model
