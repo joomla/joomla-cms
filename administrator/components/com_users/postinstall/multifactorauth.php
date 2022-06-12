@@ -20,7 +20,7 @@ use Joomla\Database\ParameterType;
  * Returns true if neither of the two new core MFA plugins are enabled.
  *
  * @return  boolean
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  */
 // phpcs:ignore
 function com_users_postinstall_mfa_condition(): bool
@@ -34,7 +34,7 @@ function com_users_postinstall_mfa_condition(): bool
  * Enables the core MFA plugins.
  *
  * @return  void
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  */
 // phpcs:ignore
 function com_users_postinstall_mfa_action(): void

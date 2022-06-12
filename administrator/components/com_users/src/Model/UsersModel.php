@@ -286,7 +286,7 @@ class UsersModel extends ListModel
 	 *
 	 * @return  Form|null  The \JForm object or null if the form can't be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function getFilterForm($data = [], $loadData = true)
 	{

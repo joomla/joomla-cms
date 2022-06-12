@@ -26,7 +26,7 @@ use Joomla\Event\Event;
 /**
  * Captive Multi-factor Authentication page's model
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CaptiveModel extends BaseDatabaseModel
 {
@@ -34,7 +34,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * Cache of the names of the currently active MFA Methods
 	 *
 	 * @var  array|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $activeMFAMethodNames = null;
 
@@ -54,7 +54,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function suppressAllModules(CMSApplication $app = null): void
 	{
@@ -75,7 +75,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @return  array
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getRecords(User $user = null, bool $includeBackupCodes = false): array
 	{
@@ -130,7 +130,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * Return all the active MFA Methods' names
 	 *
 	 * @return  array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function getActiveMethodNames(): ?array
 	{
@@ -170,7 +170,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @return  MfaTable|null
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getRecord(?User $user = null): ?MfaTable
 	{
@@ -217,7 +217,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @param   MfaTable  $record  The MFA record to process
 	 *
 	 * @return  CaptiveRenderOptions  The rendering options
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function loadCaptiveRenderOptions(?MfaTable $record): CaptiveRenderOptions
 	{
@@ -266,7 +266,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * Returns the title to display in the Captive login page, or an empty string if no title is to be displayed.
 	 *
 	 * @return  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getPageTitle(): string
 	{
@@ -288,7 +288,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @param   string  $name  The internal MFA Method name
 	 *
 	 * @return  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function translateMethodName(string $name): string
 	{
@@ -322,7 +322,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @param   string  $name  The internal MFA Method name
 	 *
 	 * @return  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getMethodImage(string $name): string
 	{
@@ -364,7 +364,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function onAfterModuleList(Event $event): void
 	{
@@ -387,7 +387,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @param   array  $modules  The list of the site's modules. Passed by reference.
 	 *
 	 * @return  void  The by-reference value is modified instead.
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 * @throws  Exception
 	 */
 	private function filterModules(array &$modules): void
@@ -420,7 +420,7 @@ class CaptiveModel extends BaseDatabaseModel
 	 * @return  array
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function getAllowedModulePositions(): array
 	{

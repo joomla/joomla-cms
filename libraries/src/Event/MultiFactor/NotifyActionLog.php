@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  * Concrete event class for the custom events used to notify the User Action Log plugin about Two
  * Factor Authentication actions.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class NotifyActionLog extends AbstractImmutableEvent
 {
@@ -43,7 +43,7 @@ class NotifyActionLog extends AbstractImmutableEvent
 	 * @param   string  $name       Event name. Must belong in self::ACCEPTABLE_EVENTS
 	 * @param   array   $arguments  Event arguments (different for each event).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(string $name, array $arguments = [])
 	{
