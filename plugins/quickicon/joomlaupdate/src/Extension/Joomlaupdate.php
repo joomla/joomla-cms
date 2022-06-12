@@ -117,7 +117,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
-				'ajaxUrl' => Uri::base() . 'index.php?option=com_joomlaupdate&view=update&task=update.ajax&'
+				'ajaxUrl' => Uri::base() . 'index.php?option=com_joomlaupdate&task=update.ajax&'
 					. Session::getFormToken() . '=1',
 				'version' => JVERSION,
 			]
