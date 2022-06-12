@@ -304,6 +304,7 @@ class UpdateModel extends BaseDatabaseModel
 		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
 
 		// Make sure we use the current information we got from the detailsurl
+		$this->updateInformation['object'] = $update;
 		$this->updateInformation['latest']  = $updateObject->version;
 		$this->updateInformation['current'] = JVERSION;
 
