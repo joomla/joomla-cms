@@ -47,19 +47,22 @@ class ConstraintChecker
 		}
 
 		// Check php_minimumm, assume true when not set
-		if (isset($constraints['php_minimum']) && !$this->checkPhpMinimum($constraints['php_minimum']))
+		if (isset($constraints['php_minimum'])
+			&& !$this->checkPhpMinimum($constraints['php_minimum']))
 		{
 			return false;
 		}
 
 		// Check supported databases, assume true when not set
-		if (isset($constraints['supported_databases']) && !$this->checkSupportedDatabases($constraints['supported_databases']))
+		if (isset($constraints['supported_databases'])
+			&& !$this->checkSupportedDatabases($constraints['supported_databases']))
 		{
 			return false;
 		}
 
 		// Check stability, assume true when not set
-		if (isset($constraints['stability']) && !$this->checkStability($constraints['stability']))
+		if (isset($constraints['stability'])
+			&& !$this->checkStability($constraints['stability']))
 		{
 			return false;
 		}
@@ -102,7 +105,7 @@ class ConstraintChecker
 	 */
 	protected function checkPhpMinimum(string $phpMinimum)
 	{
-		// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+		// Check if PHP version supported via <php_minimum> tag
 		return version_compare(PHP_VERSION, $phpMinimum, '>=');
 	}
 

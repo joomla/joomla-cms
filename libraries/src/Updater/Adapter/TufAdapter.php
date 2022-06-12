@@ -30,6 +30,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TufAdapter extends UpdateAdapter
 {
+	/**
+	 * The client ID mapping array
+	 *
+	 * @var  array
+	 */
 	private $clientId = [
 		'site'          => 0,
 		'administrator' => 1,
@@ -180,6 +185,8 @@ class TufAdapter extends UpdateAdapter
 	 * @param   OptionsResolver  $resolver  The OptionsResolver for the params
 	 *
 	 * @return void
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function configureUpdateOptions(OptionsResolver $resolver)
 	{
