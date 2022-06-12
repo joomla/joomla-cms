@@ -108,7 +108,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 */
 	public function fetchMetadata(string $fileName, int $maxBytes): PromiseInterface
 	{
-		return $this->fetchFile($this->metadataPrefix . $fileName, $maxBytes);
+		return $this->fetchFile($this->baseUri . $this->metadataPrefix . $fileName, $maxBytes);
 	}
 
 	/**
@@ -129,7 +129,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 		array $options = [],
 		string $url = null
 	): PromiseInterface {
-		$location = $url ?: $this->targetsPrefix . $fileName;
+		$location = $url ?: $this->baseUri . $this->targetsPrefix . $fileName;
 
 		return $this->fetchFile($location, $maxBytes, $options);
 	}
@@ -150,7 +150,7 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 		$headers = (!empty($options['headers'])) ? $options['headers'] : [];
 
 		/** @var Response $response */
-		$response = $this->client->get($this->baseUri . $url, $headers);
+		$response = $this->client->get($url, $headers);
 		$response->getBody()->rewind();
 
 		if ($response->getStatusCode() === 404)
