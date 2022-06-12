@@ -608,6 +608,6 @@ class UpdateController extends BaseController
 
 		echo json_encode($updates);
 
-		$app->close();
+		$this->app->close();
 	}
 }
