@@ -18,28 +18,28 @@ use Joomla\CMS\Session\Session;
 /**
  * Joomla HTTP driver for DebugBar
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.1.5
  */
 final class JoomlaHttpDriver implements HttpDriverInterface
 {
 	/**
 	 * @var CMSApplicationInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	private $app;
 
 	/**
 	 * @var Session
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	private $session;
 
 	/**
 	 * @var array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	private $dummySession = [];
 
@@ -48,7 +48,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @param   CMSApplicationInterface  $app
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	public function __construct(CMSApplicationInterface $app)
 	{
@@ -65,7 +65,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @param   array  $headers
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	public function setHeaders(array $headers)
 	{
@@ -83,7 +83,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	public function isSessionStarted()
 	{
@@ -96,7 +96,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 * @param   string  $name
 	 * @param   string  $value
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	public function setSessionValue($name, $value)
 	{
@@ -117,7 +117,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	public function hasSessionValue($name)
 	{
@@ -131,7 +131,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	public function getSessionValue($name)
 	{
@@ -148,7 +148,7 @@ final class JoomlaHttpDriver implements HttpDriverInterface
 	 *
 	 * @param string $name
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	public function deleteSessionValue($name)
 	{
