@@ -596,7 +596,7 @@ class UpdateController extends BaseController
 			$this->app->setHeader('status', 403, true);
 			$this->app->sendHeaders();
 			echo Text::_('JINVALID_TOKEN_NOTICE');
-			$app->close();
+			$this->app->close();
 		}
 
 		/** @var UpdateModel $model */
