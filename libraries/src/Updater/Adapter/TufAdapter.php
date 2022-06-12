@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
+use Joomla\CMS\Updater\ConstraintChecker;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Version;
 use Joomla\CMS\TUF\TufValidation;
@@ -23,9 +24,9 @@ use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Extension class for updater
+ * TUF Update Adapter Class
  *
- * @since  1.7.0
+ * @since   __DEPLOY_VERSION__
  */
 class TufAdapter extends UpdateAdapter
 {
@@ -44,7 +45,7 @@ class TufAdapter extends UpdateAdapter
 	 *
 	 * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function findUpdate($options)
 	{
@@ -64,6 +65,15 @@ class TufAdapter extends UpdateAdapter
 		return array('update_sites' => array(), 'updates' => $updates);
 	}
 
+	/**
+	 * Finds targets.
+	 *
+	 * @param   array  $options  Update options.
+	 *
+	 * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function getUpdateTargets($options)
 	{
 		$versions = array();
@@ -148,13 +158,21 @@ class TufAdapter extends UpdateAdapter
 			}
 
 			usort($versions, function ($a, $b) {
-				return version_compare($a['version'], $b['version']);
+				return version_compare($b['version'], $a['version']);
 			});
 
-			// TODO ConstraintsCheck
+			$checker = new ConstraintChecker;
+
+			foreach ($versions as $version)
+			{
+				if ($checker->check((array) $version))
+				{
+					return array($version);
+				}
+			}
 		}
 
-		return $versions;
+		return false;
 	}
 
 	/**
@@ -168,20 +186,20 @@ class TufAdapter extends UpdateAdapter
 	{
 		$resolver->setDefaults(
 			[
-				'version'             => "1",
 				'name'                => null,
-				'client'              => 1,
-				'description'           => '',
+				'description'         => '',
 				'element'             => '',
-				'detailsurl'          => '',
-				'data'          => '',
-				'infourl'             => '',
 				'type'                => null,
-				'tags'                => new \StdClass,
-				'targetplatform'      => new \StdClass,
-				'supported_databases' => new \StdClass,
+				'client'              => 1,
+				'version'             => "1",
+				'data'                => '',
+				'detailsurl'          => '',
+				'infourl'             => '',
 				'downloads'           => [],
-				'php_minimum'         => null
+				'targetplatform'      => new \StdClass,
+				'php_minimum'         => null,
+				'supported_databases' => new \StdClass,
+				'stability'           => null
 			]
 		)
 			->setAllowedTypes('version', 'string')
@@ -193,12 +211,11 @@ class TufAdapter extends UpdateAdapter
 			->setAllowedTypes('detailsurl', 'string')
 			->setAllowedTypes('infourl', 'string')
 			->setAllowedTypes('client', 'int')
-			->setAllowedTypes('php_minimum', 'string')
 			->setAllowedTypes('downloads', 'array')
-			->setAllowedTypes('tags', 'object')
 			->setAllowedTypes('targetplatform', 'object')
+			->setAllowedTypes('php_minimum', 'string')
 			->setAllowedTypes('supported_databases', 'object')
-			->setAllowedTypes('targetplatform', 'object')
+			->setAllowedTypes('stability', 'string')
 			->setRequired(['version']);
 	}
 }

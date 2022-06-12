@@ -112,8 +112,6 @@ class TufValidation
 	{
 		$db = Factory::getContainer()->get(DatabaseDriver::class);
 
-		// $db = Factory::getDbo();
-
 		$fileFetcher = HttpFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
 
 		$storage = new DatabaseStorage($db, $this->extensionId);
