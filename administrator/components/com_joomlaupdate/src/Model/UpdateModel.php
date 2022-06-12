@@ -260,7 +260,7 @@ class UpdateModel extends BaseDatabaseModel
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
-			'current'   => \JVERSION
+			'current'   => JVERSION // This is deprecated please use 'installed' or JVERSION directly
 		);
 
 		// Fetch the update information from the database.
