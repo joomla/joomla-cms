@@ -15,7 +15,15 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax;
+use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxDelete;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -80,7 +88,43 @@ trait AjaxHandler
 			// Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
 			/** @var AbstractEvent|ResultAwareInterface $triggerEvent */
 			$eventName    = 'onAjaxWebauthn' . ucfirst($akaction);
-			$triggerEvent = AbstractEvent::create($eventName, []);
+
+			switch ($eventName)
+			{
+				case 'onAjaxWebauthn':
+					$eventClass = PlgSystemWebauthnAjax::class;
+					break;
+
+				case 'onAjaxWebauthnChallenge':
+					$eventClass = PlgSystemWebauthnAjaxChallenge::class;
+					break;
+
+				case 'onAjaxWebauthnCreate':
+					$eventClass = PlgSystemWebauthnAjaxCreate::class;
+					break;
+
+				case 'onAjaxWebauthnDelete':
+					$eventClass = PlgSystemWebauthnAjaxDelete::class;
+					break;
+
+				case 'onAjaxWebauthnInitcreate':
+					$eventClass = PlgSystemWebauthnAjaxInitCreate::class;
+					break;
+
+				case 'onAjaxWebauthnLogin':
+					$eventClass = PlgSystemWebauthnAjaxLogin::class;
+					break;
+
+				case 'onAjaxWebauthnSavelabel':
+					$eventClass = PlgSystemWebauthnAjaxSaveLabel::class;
+					break;
+
+				default:
+					$eventClass = GenericEvent::class;
+					break;
+			}
+
+			$triggerEvent = new $eventClass($eventName, []);
 			$result       = $this->app->getDispatcher()->dispatch($eventName, $triggerEvent);
 			$results      = ($result instanceof ResultAwareInterface) ? ($result['result'] ?? []) : [];
 			$result       = array_reduce(
