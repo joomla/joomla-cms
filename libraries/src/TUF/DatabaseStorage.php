@@ -41,7 +41,7 @@ class DatabaseStorage implements \ArrayAccess
 	}
 
 	/**
-	 * Check if an offset/table column exists and is not null
+	 * Check if an offset/table column exists
 	 *
 	 * @param   mixed  $offset  The offset/database column to check for
 	 *

@@ -29,12 +29,12 @@
         {
             "type": "vcs",
             "url": "https://github.com/joomla-backports/json-api-php.git",
-            "no-api":  true
+            "no-api": true
         },
         {
             "type": "vcs",
             "url": "https://github.com/joomla-projects/php-tuf.git",
-            "no-api":  true
+            "no-api": true
         }
     ],
     "autoload": {
@@ -100,7 +100,8 @@
         "composer/ca-bundle": "^1.2",
         "dragonmantank/cron-expression": "^3.1",
         "enshrined/svg-sanitize": "^0.15.4",
-        "php-tuf/php-tuf": "dev-joomla-cfhack2022"
+        "symfony/validator": "^5.4",
+        "php-tuf/php-tuf": "dev-joomla-tuf-combined"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
