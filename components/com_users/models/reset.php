@@ -3,9 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\User\UserHelper;
 
 defined('_JEXEC') or die;
 
@@ -22,7 +24,7 @@ class UsersModelReset extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm  A JForm object on success, false on failure
@@ -223,6 +225,9 @@ class UsersModelReset extends JModelForm
 		{
 			return new JException(JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
+
+		// Destroy all active sessions for the user
+		UserHelper::destroyUserSessions($user->id);
 
 		// Flush the user data from the session.
 		$app->setUserState('com_users.reset.token', null);

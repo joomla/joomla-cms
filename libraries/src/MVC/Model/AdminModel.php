@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -125,7 +126,7 @@ abstract class AdminModel extends FormModel
 	protected $user = null;
 
 	/**
-	 * A JTable instance (of appropropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
+	 * A JTable instance (of appropriate type) to manage the DB records (re-usable in batch methods & saveorder(), initialized via initBatch())
 	 *
 	 * @var     object
 	 * @since   3.8.2
@@ -168,14 +169,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JModelLegacy
 	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		if (isset($config['event_after_delete']))
 		{
@@ -523,7 +525,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   \JTableInterface  $table  The table object containing the newly created item
 	 * @param   integer           $newId  The id of the new item
@@ -925,15 +927,15 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $alias       The alias.
+	 * @param   string   $title       The title.
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
 	 * @since	1.7
 	 */
-	protected function generateNewTitle($category_id, $alias, $title)
+	protected function generateNewTitle($categoryId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table      = $this->getTable();
@@ -941,7 +943,7 @@ abstract class AdminModel extends FormModel
 		$catidField = $table->getColumnAlias('catid');
 		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $categoryId)))
 		{
 			if ($title === $table->$titleField)
 			{

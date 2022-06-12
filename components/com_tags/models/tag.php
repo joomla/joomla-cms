@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -178,7 +178,7 @@ class TagsModelTag extends JModelList
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = $app->input->get('id', array(), 'array');
+		$ids = (array) $app->input->get('id', array(), 'string');
 
 		if (count($ids) == 1)
 		{
@@ -186,6 +186,9 @@ class TagsModelTag extends JModelList
 		}
 
 		$ids = ArrayHelper::toInteger($ids);
+
+		// Remove zero values resulting from bad input
+		$ids = array_filter($ids);
 
 		$pkString = implode(',', $ids);
 

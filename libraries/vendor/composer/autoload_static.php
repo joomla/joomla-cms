@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
+class ComposerStaticInitc14bde14f8c86840049f5c1809c453dd
 {
     public static $files = array (
         '2fb9d6f23c8e8faefc193a4cde0cab4f' => __DIR__ . '/..' . '/joomla/string/src/phputf8/utf8.php',
@@ -209,8 +209,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     );
 
     public static $classMap = array (
+        'Brumann\\Polyfill\\DisallowedClassesSubstitutor' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/DisallowedClassesSubstitutor.php',
         'Brumann\\Polyfill\\Unserialize' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/Unserialize.php',
         'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'Joomla\\Application\\AbstractApplication' => __DIR__ . '/..' . '/joomla/application/src/AbstractApplication.php',
         'Joomla\\Application\\AbstractCliApplication' => __DIR__ . '/..' . '/joomla/application/src/AbstractCliApplication.php',
@@ -227,6 +229,8 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Application\\Web\\WebClient' => __DIR__ . '/..' . '/joomla/application/src/Web/WebClient.php',
         'Joomla\\Archive\\Archive' => __DIR__ . '/..' . '/joomla/archive/src/Archive.php',
         'Joomla\\Archive\\Bzip2' => __DIR__ . '/..' . '/joomla/archive/src/Bzip2.php',
+        'Joomla\\Archive\\Exception\\UnknownArchiveException' => __DIR__ . '/..' . '/joomla/archive/src/Exception/UnknownArchiveException.php',
+        'Joomla\\Archive\\Exception\\UnsupportedArchiveException' => __DIR__ . '/..' . '/joomla/archive/src/Exception/UnsupportedArchiveException.php',
         'Joomla\\Archive\\ExtractableInterface' => __DIR__ . '/..' . '/joomla/archive/src/ExtractableInterface.php',
         'Joomla\\Archive\\Gzip' => __DIR__ . '/..' . '/joomla/archive/src/Gzip.php',
         'Joomla\\Archive\\Tar' => __DIR__ . '/..' . '/joomla/archive/src/Tar.php',
@@ -424,10 +428,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc14bde14f8c86840049f5c1809c453dd::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc14bde14f8c86840049f5c1809c453dd::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc14bde14f8c86840049f5c1809c453dd::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitc14bde14f8c86840049f5c1809c453dd::$classMap;
 
         }, null, ClassLoader::class);
     }

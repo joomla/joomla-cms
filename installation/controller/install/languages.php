@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,13 +47,15 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Get array of selected languages
-		$lids = $this->input->get('cid', array(), 'array');
-		JArrayHelper::toInteger($lids, array());
+		$lids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$lids = array_filter($lids);
 
 		// Get the languages model.
 		$model = new InstallationModelLanguages;
 
-		if (!$lids)
+		if (empty($lids))
 		{
 			// No languages have been selected
 			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');

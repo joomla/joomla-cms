@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -692,7 +692,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 				$q->$type
 			);
 
-			// Now check the claues have not been affected.
+			// Now check the clauses have not been affected.
 			foreach ($clauses as $clause)
 			{
 				$this->assertEquals(

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.9" client="installation">
+<metafile version="3.10" client="installation">
 	<name>German (Switzerland)</name>
-	<version>3.9.17</version>
-	<creationDate>21.04.2020</creationDate>
+	<version>3.10.7</version>
+	<creationDate>2022-03-29</creationDate>
 	<author>J!German</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>de-CH.ini</filename>
