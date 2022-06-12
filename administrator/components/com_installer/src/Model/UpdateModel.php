@@ -363,6 +363,7 @@ class UpdateModel extends ListModel
 				continue;
 			}
 
+			$app = Factory::getApplication();
 			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$query = $db->getQuery(true)
 				->select('type')
@@ -374,7 +375,9 @@ class UpdateModel extends ListModel
 
 			if ($updateSiteType == 'tuf')
 			{
-				throw new NoSuchOptionException("TUF updates are not yet supported");
+				$app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_NOT_AVAILABLE'), 'error');
+
+				return;
 			}
 			else
 			{
