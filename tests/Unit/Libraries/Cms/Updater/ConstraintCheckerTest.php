@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	    Joomla.UnitTest
- * @subpackage  Version
+ * @package     Joomla.UnitTest
+ * @subpackage  Updater
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
- * @license	    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms;
@@ -18,14 +18,14 @@ use Joomla\Tests\Unit\UnitTestCase;
  * Test class for Version.
  *
  * @package     Joomla.UnitTest
- * @subpackage  Version
+ * @subpackage  Updater
  * @since       __DEPLOY_VERSION__
  */
 class ConstraintCheckerTest extends UnitTestCase
 {
 	/**
 	 * @var    ConstraintChecker
-	 * @since  3.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $checker;
 
