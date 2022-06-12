@@ -598,7 +598,7 @@ class UpdateController extends BaseController
 		}
 
 		/** @var UpdateModel $model */
-		$model = $this->getModel('default');
+		$model = $this->getModel('Update');
 		$updateInfo = $model->getUpdateInformation();
 
 		$update   = [];
