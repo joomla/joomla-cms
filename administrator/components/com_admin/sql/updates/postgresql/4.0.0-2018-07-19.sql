@@ -21,8 +21,10 @@ CREATE TABLE IF NOT EXISTS "#__template_overrides" (
   "modified_date" timestamp without time zone,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__template_overrides_idx_template" ON "#__template_overrides" ("template");
-CREATE INDEX "#__template_overrides_idx_extension_id" ON "#__template_overrides" ("extension_id");
+-- The following two statements were modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156
+CREATE INDEX "#__template_overrides_idx_template" ON "#__template_overrides" ("template") /** CAN FAIL **/;
+CREATE INDEX "#__template_overrides_idx_extension_id" ON "#__template_overrides" ("extension_id") /** CAN FAIL **/;
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', '', 0, '1970-01-01 00:00:00', 4, 0),

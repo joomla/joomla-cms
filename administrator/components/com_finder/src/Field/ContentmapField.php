@@ -44,7 +44,7 @@ class ContentmapField extends GroupedlistField
 		$groups = array();
 
 		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Main query.
 		$query = $db->getQuery(true)
@@ -102,7 +102,7 @@ class ContentmapField extends GroupedlistField
 	 *
 	 * @return  array  The indented list of entries for this branch
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.5
 	 */
 	private function prepareLevel($parent, $parents)
 	{
