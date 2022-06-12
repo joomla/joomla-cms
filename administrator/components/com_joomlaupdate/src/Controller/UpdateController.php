@@ -583,9 +583,9 @@ class UpdateController extends BaseController
 	/**
 	 * Fetch and report updates in \JSON format, for AJAX requests
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.10.10
+	 * @since   3.10.10
 	 */
 	public function ajax()
 	{
