@@ -604,7 +604,7 @@ class UpdateController extends BaseController
 		$update   = [];
 		$update[] = ['version' => $updateInfo['latest']];
 
-		echo json_encode($updates);
+		echo json_encode($update);
 
 		$this->app->close();
 	}
