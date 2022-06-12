@@ -29,7 +29,7 @@
         {
             "type": "vcs",
             "url": "https://github.com/joomla-backports/json-api-php.git",
-            "no-api":  true
+            "no-api": true
         },
         {
             "type": "vcs",
