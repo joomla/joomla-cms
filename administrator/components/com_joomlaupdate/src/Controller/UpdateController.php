@@ -603,7 +603,7 @@ class UpdateController extends BaseController
 		$model = $this->getModel('default');
 		$updateInfo = $model->getUpdateInformation();
 		
-		$update   = array();
+		$update   = [];
 		$update[] = ['version' => $updateInfo['latest']];
 
 		echo json_encode($updates);
