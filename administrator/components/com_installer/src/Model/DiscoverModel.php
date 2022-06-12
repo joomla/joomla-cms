@@ -301,7 +301,7 @@ class DiscoverModel extends InstallerModel
 	{
 		$query = parent::getEmptyStateQuery();
 
-		$query->where($this->_db->quoteName('state') . ' = -1');
+		$query->where($this->getDatabase()->quoteName('state') . ' = -1');
 
 		return $query;
 	}

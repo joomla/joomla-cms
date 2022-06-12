@@ -511,7 +511,7 @@ class CategoriesModel extends ListModel
 		// Get the extension from the filter
 		$extension = $this->getState('filter.extension');
 
-		$query->where($this->_db->quoteName('extension') . ' = :extension')
+		$query->where($this->getDatabase()->quoteName('extension') . ' = :extension')
 			->bind(':extension', $extension);
 
 		return $query;
