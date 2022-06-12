@@ -383,7 +383,7 @@ class NewsfeedModel extends AdminModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->getDatabase()->quoteName('catid') . ' = ' . (int) $table->catid,
 		];
 	}
 

@@ -921,8 +921,10 @@ class FieldModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('context') . ' = ' . $this->_db->quote($table->context),
+			$db->quoteName('context') . ' = ' . $db->quote($table->context),
 		];
 	}
 

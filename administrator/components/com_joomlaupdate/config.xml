@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Joomla_Update:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="sources"
 		label="COM_JOOMLAUPDATE_CONFIG_SOURCES_LABEL"

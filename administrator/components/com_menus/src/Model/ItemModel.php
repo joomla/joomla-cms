@@ -992,8 +992,10 @@ class ItemModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($table->menutype),
+			$db->quoteName('menutype') . ' = ' . $db->quote($table->menutype),
 		];
 	}
 

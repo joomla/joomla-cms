@@ -1185,9 +1185,11 @@ class ModuleModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('client_id') . ' = ' . (int) $table->client_id,
-			$this->_db->quoteName('position') . ' = ' . $this->_db->quote($table->position),
+			$db->quoteName('client_id') . ' = ' . (int) $table->client_id,
+			$db->quoteName('position') . ' = ' . $db->quote($table->position),
 		];
 	}
 
