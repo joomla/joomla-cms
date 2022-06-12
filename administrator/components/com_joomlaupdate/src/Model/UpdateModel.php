@@ -313,7 +313,6 @@ class UpdateModel extends BaseDatabaseModel
 			$this->updateInformation['hasUpdate'] = true;
 		}
 
-		$this->updateInformation['object'] = $update;
 
 		return $this->updateInformation;
 	}
