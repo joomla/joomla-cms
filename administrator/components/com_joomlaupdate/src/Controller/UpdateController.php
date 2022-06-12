@@ -589,7 +589,6 @@ class UpdateController extends BaseController
 	 */
 	public function ajax()
 	{
-
 		if (!Session::checkToken('get'))
 		{
 			$this->app->setHeader('status', 403, true);
