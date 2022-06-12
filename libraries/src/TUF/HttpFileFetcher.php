@@ -26,6 +26,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * The HTTP client.
 	 *
 	 * @var \Joomla\Http\Http
+	 *
+	 *  @since  __DEPLOY_VERSION__
 	 */
 	private $client;
 
@@ -40,6 +42,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * The path prefix for metadata.
 	 *
 	 * @var string|null
+	 *
+	 *  @since  __DEPLOY_VERSION__
 	 */
 	private $metadataPrefix;
 
@@ -47,6 +51,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * The path prefix for targets.
 	 *
 	 * @var string|null
+	 *
+	 *  @since  __DEPLOY_VERSION__
 	 */
 	private $targetsPrefix;
 
@@ -56,6 +62,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * @param   \Joomla\Http\Http  $client          The HTTP client.
 	 * @param   string             $metadataPrefix  The path prefix for metadata.
 	 * @param   string             $targetsPrefix   The path prefix for targets.
+	 *
+	 *  @since  __DEPLOY_VERSION__
 	 */
 	public function __construct(Http $client, string $metadataPrefix, string $targetsPrefix, $baseUri)
 	{
@@ -73,6 +81,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * @param   string  $targetsPrefix   (optional) The path prefix for targets. Defaults to '/targets/'.
 	 *
 	 * @return  static  A new instance of this class.
+	 *
+	 *  @since  __DEPLOY_VERSION__
 	 */
 	public static function createFromUri(
 		string $baseUri,
@@ -105,6 +115,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * @param   string  $url      An arbitrary URL from which the target should be downloaded.
 	 *
 	 * @return  PromiseInterface
+	 *
+	 *  @since  __DEPLOY_VERSION__
 	 */
 	public function fetchTarget(
 		string $fileName,
@@ -124,6 +136,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * @param   array    $options   Additional request options to pass to the http client
 	 *
 	 * @return  PromiseInterface    A promise representing the eventual result of the operation.
+	 *
+	 *  @since  __DEPLOY_VERSION__
 	 */
 	protected function fetchFile(string $url, int $maxBytes, array $options = []): PromiseInterface
 	{
