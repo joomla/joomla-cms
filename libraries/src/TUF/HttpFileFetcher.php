@@ -1,4 +1,10 @@
 <?php
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 namespace Joomla\CMS\TUF;
 
@@ -12,7 +18,7 @@ use Tuf\Exception\DownloadSizeException;
 use Tuf\Exception\RepoFileNotFound;
 
 /**
- * Defines a file fetcher that uses joomla/http to read a file over HTTPS.
+ * @since  __DEPLOY_VERSION__
  */
 class HttpFileFetcher implements RepoFileFetcherInterface
 {
@@ -22,6 +28,13 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * @var \Joomla\Http\Http
 	 */
 	private $client;
+
+	/**
+	 * The base URI for requests
+	 *
+	 * @var string|null
+	 */
+	private $baseUri;
 
 	/**
 	 * The path prefix for metadata.
@@ -39,32 +52,27 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 
 	/**
 	 * JHttpFileFetcher constructor.
-	 * @param \Joomla\Http\Http $client
-	 *   The HTTP client.
-	 * @param string $metadataPrefix
-	 *   The path prefix for metadata.
-	 * @param string $targetsPrefix
-	 *   The path prefix for targets.
+	 *
+	 * @param   \Joomla\Http\Http  $client          The HTTP client.
+	 * @param   string             $metadataPrefix  The path prefix for metadata.
+	 * @param   string             $targetsPrefix   The path prefix for targets.
 	 */
-	public function __construct(Http $client, string $metadataPrefix, string $targetsPrefix)
+	public function __construct(Http $client, string $metadataPrefix, string $targetsPrefix, $baseUri)
 	{
 		$this->client = $client;
 		$this->metadataPrefix = $metadataPrefix;
 		$this->targetsPrefix = $targetsPrefix;
+		$this->baseUri = $baseUri;
 	}
 
 	/**
 	 * Creates an instance of this class with a specific base URI.
 	 *
-	 * @param string $baseUri
-	 *   The base URI from which to fetch files.
-	 * @param string $metadataPrefix
-	 *   (optional) The path prefix for metadata. Defaults to '/metadata/'.
-	 * @param string $targetsPrefix
-	 *   (optional) The path prefix for targets. Defaults to '/targets/'.
+	 * @param   string  $baseUri         The base URI from which to fetch files.
+	 * @param   string  $metadataPrefix  (optional) The path prefix for metadata. Defaults to '/metadata/'.
+	 * @param   string  $targetsPrefix   (optional) The path prefix for targets. Defaults to '/targets/'.
 	 *
-	 * @return static
-	 *   A new instance of this class.
+	 * @return  static  A new instance of this class.
 	 */
 	public static function createFromUri(
 		string $baseUri,
@@ -74,11 +82,16 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 		$httpFactory = new HttpFactory();
 		$client = $httpFactory->getHttp([], 'curl');
 
-		return new static($client, $metadataPrefix, $targetsPrefix);
+		return new static($client, $metadataPrefix, $targetsPrefix, $baseUri);
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Fetches a metadata file from the remote repo.
+	 *
+	 * @param  string   $fileName  The name of the metadata file to fetch.
+	 * @param  integer  $maxBytes  The maximum number of bytes to download.
+	 *
+	 * @return  \GuzzleHttp\Promise\PromiseInterface  A promise wrapping a StreamInterface instanfe
 	 */
 	public function fetchMetadata(string $fileName, int $maxBytes): PromiseInterface
 	{
@@ -86,14 +99,12 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Fetches a target file from the remote repo.
 	 *
-	 * @param array $options
-	 *   (optional) Additional request options to pass to the Guzzle client.
-	 *   See \GuzzleHttp\RequestOptions.
-	 * @param string $url
-	 *   (optional) An arbitrary URL from which the target should be downloaded.
-	 *   If passed, takes precedence over $fileName.
+	 * @param   array   $options  (optional) Additional request options to pass to the http client
+	 * @param   string  $url      An arbitrary URL from which the target should be downloaded.
+	 *
+	 * @return  PromiseInterface
 	 */
 	public function fetchTarget(
 		string $fileName,
@@ -108,18 +119,13 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	/**
 	 * Fetches a file from a URL.
 	 *
-	 * @param string $url
-	 *   The URL of the file to fetch.
-	 * @param integer $maxBytes
-	 *   The maximum number of bytes to download.
-	 * @param array $options
-	 *   (optional) Additional request options to pass to the Guzzle client.
-	 *   See \GuzzleHttp\RequestOptions.
+	 * @param   string   $url       The URL of the file to fetch.
+	 * @param   integer  $maxBytes  The maximum number of bytes to download.
+	 * @param   array    $options   Additional request options to pass to the http client
 	 *
-	 * @return \Psr\Http\Message\StreamInterface
-	 *   A promise representing the eventual result of the operation.
+	 * @return  PromiseInterface    A promise representing the eventual result of the operation.
 	 */
-	protected function fetchFile(string $url, int $maxBytes, array $headers = []): PromiseInterface
+	protected function fetchFile(string $url, int $maxBytes, array $options = []): PromiseInterface
 	{
 		// Create a progress callback to abort the download if it exceeds
 		// $maxBytes. This will only work with cURL, so we also verify the
@@ -130,8 +136,10 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 			}
 		};
 
+		$headers = (!empty($options['headers'])) ? $options['headers'] : [];
+
 		/** @var Response $response */
-		$response = $this->client->get($url, $headers);
+		$response = $this->client->get($this->baseUri . $url, $headers);
 		$response->getBody()->rewind();
 
 		if ($response->getStatusCode() === 404) {
@@ -145,11 +153,16 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 			);
 		}
 
-		return new FulfilledPromise($response->getBody()->getContents());
+		return new FulfilledPromise($response->getBody());
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Gets a file if it exists in the remote repo.
+	 *
+	 * @param   string   $fileName   The file name to fetch.
+	 * @param   integer  $maxBytes   The maximum number of bytes to download.
+	 *
+	 * @return  string|null  The contents of the file or null if it does not exist.
 	 */
 	public function fetchMetadataIfExists(string $fileName, int $maxBytes): ?string
 	{

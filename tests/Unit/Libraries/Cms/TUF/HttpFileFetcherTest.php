@@ -40,7 +40,7 @@ class HttpFileFetcherTest extends UnitTestCase
 	 */
 	private function getFetcher($clientMock): HttpFileFetcher
 	{
-		return new HttpFileFetcher($clientMock, '/metadata/', '/targets/');
+		return new HttpFileFetcher($clientMock, '/metadata/', '/targets/', "");
 	}
 
 	/**
@@ -164,7 +164,7 @@ class HttpFileFetcherTest extends UnitTestCase
 
 		$this->assertSame(
 			$this->testContent,
-			$this->getFetcher($clientMock)->fetchMetadata('test.json', 256)->wait()
+			$this->getFetcher($clientMock)->fetchMetadata('test.json', 256)->wait()->getContents()
 		);
 	}
 
@@ -176,7 +176,8 @@ class HttpFileFetcherTest extends UnitTestCase
 	public function testFetchMetadataIfExistsReturnsCorrectResponseOnSuccessfulFetch(): void
 	{
 		$clientBodyMock = $this->getMockBuilder(StreamInterface::class)->getMock();
-		$clientBodyMock->method('getContents')->willReturn($this->testContent);
+		$clientBodyMock->method('rewind')->willReturnSelf();
+		$clientBodyMock->method('__toString')->willReturn($this->testContent);
 
 		$clientResponseMock = $this->getMockBuilder(\Joomla\Http\Response::class)->getMock();
 		$clientResponseMock->method('getStatusCode')->willReturn(200);
