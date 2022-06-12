@@ -6474,6 +6474,8 @@ class JoomlaInstallerScript
 			'/plugins/twofactorauth/yubikey/tmpl/form.php',
 			'/plugins/twofactorauth/yubikey/yubikey.php',
 			'/plugins/twofactorauth/yubikey/yubikey.xml',
+			// From 4.2.0-beta1 to 4.2.0-beta2
+			'/plugins/task/requests/requests.php',
 		);
 
 		$folders = array(
