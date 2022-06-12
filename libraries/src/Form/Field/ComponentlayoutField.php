@@ -90,7 +90,7 @@ class ComponentlayoutField extends FormField
 			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
 
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Build the query.
