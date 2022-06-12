@@ -59,7 +59,7 @@ class ConstraintChecker
 		}
 
 		// Check stability
-		if (isset($constraints['tags']) && !$this->checkStability($constraints['tags']))
+		if (isset($constraints['stability']) && !$this->checkStability($constraints['stability']))
 		{
 			return false;
 		}
@@ -147,29 +147,24 @@ class ConstraintChecker
 	/**
 	 * Check the stability
 	 *
-	 * @param   array  $stabilityTags  Stability tags to check
+	 * @param   string  $stability  Stability to check
 	 *
 	 * @return  bool
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function checkStability(array $stabilityTags)
+	protected function checkStability(string $stability)
 	{
 		$minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
 
-		$stabilityMatch = false;
+		$stabilityInt = $this->stabilityToInteger($stability);
 
-		foreach ($stabilityTags as $tag)
+		if (($stabilityInt < $minimumStability))
 		{
-			$stability = $this->stabilityTagToInteger($tag);
-
-			if (($stability >= $minimumStability))
-			{
-				$stabilityMatch = true;
-			}
+			return false;
 		}
 
-		return $stabilityMatch;
+		return true;
 	}
 
 	/**
@@ -182,7 +177,7 @@ class ConstraintChecker
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function stabilityTagToInteger($tag)
+	protected function stabilityToInteger($tag)
 	{
 		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
