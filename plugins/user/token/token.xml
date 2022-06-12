@@ -2,7 +2,7 @@
 <extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_token</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2019</creationDate>
+	<creationDate>2019-11</creationDate>
 	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

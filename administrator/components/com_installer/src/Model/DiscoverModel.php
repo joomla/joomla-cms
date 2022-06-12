@@ -93,7 +93,7 @@ class DiscoverModel extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'))
@@ -158,7 +158,7 @@ class DiscoverModel extends InstallerModel
 		$results = Installer::getInstance()->discover();
 
 		// Get all templates, including discovered ones
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
 			->from($db->quoteName('#__extensions'));
@@ -268,7 +268,7 @@ class DiscoverModel extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where($db->quoteName('state') . ' = -1');
@@ -301,8 +301,28 @@ class DiscoverModel extends InstallerModel
 	{
 		$query = parent::getEmptyStateQuery();
 
-		$query->where($this->_db->quoteName('state') . ' = -1');
+		$query->where($this->getDatabase()->quoteName('state') . ' = -1');
 
 		return $query;
+	}
+
+	/**
+	 * Checks for not installed extensions in extensions table.
+	 *
+	 * @return  boolean  True if there are discovered extensions in the database.
+	 *
+	 * @since   4.2.0
+	 */
+	public function checkExtensions()
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('state') . ' = -1');
+		$db->setQuery($query);
+		$discoveredExtensions = $db->loadObjectList();
+
+		return count($discoveredExtensions) > 0;
 	}
 }

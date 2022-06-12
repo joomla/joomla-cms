@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$state      = $this->get('State');
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');

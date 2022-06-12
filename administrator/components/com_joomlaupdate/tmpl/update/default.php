@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -56,36 +57,7 @@ $this->document->addScriptOptions(
 $helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
 ?>
 
-<div class="modal fade"
-	 id="errorDialog"
-	 tabindex="-1"
-	 role="dialog"
-	 aria-labelledby="errorDialogLabel"
-	 aria-hidden="true"
->
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3 class="modal-title" id="errorDialogLabel"></h3>
-				<button type="button" class="btn-close novalidate" data-bs-dismiss="modal"
-						aria-label="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE') ?>">
-			</div>
-			<div class="modal-body p-3">
-				<div id="errorDialogMessage"></div>
-				<div>
-					<a href="<?php echo $helpUrl ?>"
-					   target="_blank"
-					   class="btn btn-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span>
-						<?php echo Text::_('COM_JOOMLAUPDATE_ERRORMODAL_BTN_HELP') ?>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="px-4 py-5 my-5 text-center">
+<div class="px-4 py-5 my-5 text-center" id="joomlaupdate-progress">
 	<span class="fa-8x mb-4 icon-loop joomlaupdate" aria-hidden="true"></span>
 	<h1 class="display-5 fw-bold"><?php echo Text::_('COM_JOOMLAUPDATE_UPDATING_HEAD') ?></h1>
 	<div class="col-lg-6 mx-auto">
@@ -116,9 +88,47 @@ $helpUrl = Help::createUrl('JHELP_COMPONENTS_JOOMLA_UPDATE', false);
 				</div>
 			</div>
 		</div>
-		<div class="d-none justify-content-sm-center" id="update-help">
-			<a href="<?php echo $helpUrl; ?>" target="_blank"
-			   class="btn btn-outline-secondary btn-lg px-4"><?php echo Text::_('JGLOBAL_LEARN_MORE'); ?></a>
+	</div>
+</div>
+
+<div class="px-4 d-none" id="joomlaupdate-error">
+	<div class="card border-danger">
+		<h1 class="card-header bg-danger text-white" id="errorDialogLabel"></h1>
+		<div class="card-body">
+			<div id="errorDialogMessage"></div>
+		</div>
+		<div class="card-footer">
+			<div class="d-flex flex-row flex-wrap gap-2 align-items-center">
+				<div>
+					<a href="<?php echo $helpUrl ?>"
+					   target="_blank"
+					   class="btn btn-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span>
+						<?php echo Text::_('COM_JOOMLAUPDATE_ERRORMODAL_BTN_HELP') ?>
+					</a>
+				</div>
+				<div>
+					<button type="button" id="joomlaupdate-resume"
+							class="btn btn-primary">
+						<span class="fa fa-play" aria-hidden="true"></span>
+						<?php echo Text::_('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RETRY') ?>
+					</button>
+				</div>
+				<div>
+					<button type="button" id="joomlaupdate-restart"
+							class="btn btn-warning">
+						<span class="fa fa-redo" aria-hidden="true"></span>
+						<?php echo Text::_('COM_JOOMLAUPDATE_ERRORSTATE_BTN_RESTART') ?>
+					</button>
+				</div>
+				<div class="flex-grow-1"></div>
+				<div>
+					<a href="<?php echo Route::_('index.php?option=com_joomlaupdate') ?>"
+					   class="btn btn-danger btn-sm ms-3">
+						<?php echo Text::_('JCANCEL') ?>
+					</a>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -113,7 +113,7 @@ class TransitionsModel extends ListModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
+			$this->getDatabase()->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
 		];
 	}
 
@@ -126,7 +126,7 @@ class TransitionsModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query
@@ -223,7 +223,7 @@ class TransitionsModel extends ListModel
 
 		if ($form)
 		{
-			$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
+			$where = $this->getDatabase()->quoteName('workflow_id') . ' = ' . $id . ' AND ' . $this->getDatabase()->quoteName('published') . ' = 1';
 
 			$form->setFieldAttribute('from_stage', 'sql_where', $where, 'filter');
 			$form->setFieldAttribute('to_stage', 'sql_where', $where, 'filter');

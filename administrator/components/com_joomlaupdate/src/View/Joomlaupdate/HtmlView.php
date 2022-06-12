@@ -278,7 +278,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add toolbar buttons.
-		if (Factory::getUser()->authorise('core.admin'))
+		if ($this->getCurrentUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::preferences('com_joomlaupdate');
 		}
