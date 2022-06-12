@@ -28,7 +28,7 @@ class ConstraintChecker
 	 *
 	 * @param   array  $constraints  The provided constraints to be checked
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -46,19 +46,19 @@ class ConstraintChecker
 			return false;
 		}
 
-		// Check php_minimum
+		// Check php_minimumm, assume true when not set
 		if (isset($constraints['php_minimum']) && !$this->checkPhpMinimum($constraints['php_minimum']))
 		{
 			return false;
 		}
 
-		// Check supported databases
+		// Check supported databases, assume true when not set
 		if (isset($constraints['supported_databases']) && !$this->checkSupportedDatabases($constraints['supported_databases']))
 		{
 			return false;
 		}
 
-		// Check stability
+		// Check stability, assume true when not set
 		if (isset($constraints['stability']) && !$this->checkStability($constraints['stability']))
 		{
 			return false;
@@ -72,7 +72,7 @@ class ConstraintChecker
 	 *
 	 * @param   object  $targetPlatform
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -96,7 +96,7 @@ class ConstraintChecker
 	 *
 	 * @param   string  $phpMinimum  The minimum php version to check
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -111,37 +111,37 @@ class ConstraintChecker
 	 *
 	 * @param   object  $supportedDatabases  stdClass of supported databases and versions
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function checkSupportedDatabases(\stdClass $supportedDatabases)
 	{
-			$db           = Factory::getDbo();
-			$dbType       = strtolower($db->getServerType());
-			$dbVersion    = $db->getVersion();
+		$db        = Factory::getDbo();
+		$dbType    = strtolower($db->getServerType());
+		$dbVersion = $db->getVersion();
 
-			// MySQL and MariaDB use the same database driver but not the same version numbers
-			if ($dbType === 'mysql')
+		// MySQL and MariaDB use the same database driver but not the same version numbers
+		if ($dbType === 'mysql')
+		{
+			// Check whether we have a MariaDB version string and extract the proper version from it
+			if (stripos($dbVersion, 'mariadb') !== false)
 			{
-				// Check whether we have a MariaDB version string and extract the proper version from it
-				if (stripos($dbVersion, 'mariadb') !== false)
-				{
-					// MariaDB: Strip off any leading '5.5.5-', if present
-					$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-					$dbType    = 'mariadb';
-				}
+				// MariaDB: Strip off any leading '5.5.5-', if present
+				$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+				$dbType    = 'mariadb';
 			}
+		}
 
-			// Do we have an entry for the database?
-			if (\property_exists($supportedDatabases, $dbType))
-			{
-				$minimumVersion = $supportedDatabases->$dbType;
+		// Do we have an entry for the database?
+		if (\property_exists($supportedDatabases, $dbType))
+		{
+			$minimumVersion = $supportedDatabases->$dbType;
 
-				return version_compare($dbVersion, $minimumVersion, '>=');
-			}
+			return version_compare($dbVersion, $minimumVersion, '>=');
+		}
 
-			return false;
+		return false;
 	}
 
 	/**
@@ -149,7 +149,7 @@ class ConstraintChecker
 	 *
 	 * @param   string  $stability  Stability to check
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
