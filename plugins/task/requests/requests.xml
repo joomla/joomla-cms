@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<extension version="4.1" type="plugin" group="task" method="upgrade">
+<extension type="plugin" group="task" method="upgrade">
 	<name>plg_task_requests</name>
 	<author>Joomla! Project</author>
 	<creationDate>2021-08</creationDate>
@@ -9,9 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.1</version>
 	<description>PLG_TASK_REQUESTS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\Requests</namespace>
 	<files>
-		<filename plugin="requests">requests.php</filename>
-		<folder>language</folder>
+		<folder plugin="requests">services</folder>
+		<folder>src</folder>
 		<folder>forms</folder>
 	</files>
 	<languages>

@@ -73,7 +73,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 		$app  = Factory::getApplication();
 
 		// Get model data.

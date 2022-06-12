@@ -95,7 +95,7 @@ class ArticleModel extends ItemModel
 		{
 			try
 			{
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true);
 
 				$query->select(
@@ -342,7 +342,7 @@ class ArticleModel extends ItemModel
 			$userIP = IpHelper::getIp();
 
 			// Initialize variables.
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Create the base select statement.

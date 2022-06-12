@@ -171,7 +171,7 @@ class MapsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Select all fields from the table.
 		$query = $db->getQuery(true)
@@ -247,7 +247,7 @@ class MapsModel extends ListModel
 		$query = clone $query;
 		$query->clear('select')->clear('join')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-		return (int) $this->getDbo()->setQuery($query)->loadResult();
+		return (int) $this->getDatabase()->setQuery($query)->loadResult();
 	}
 
 	/**
@@ -385,7 +385,7 @@ class MapsModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' > 1');
