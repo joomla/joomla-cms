@@ -100,7 +100,8 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getContext();
 
-		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_joomlaupdate'))
+		if ($context !== $this->params->get('context', 'update_quickicon')
+			|| !$this->app->getIdentity()->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			return;
 		}
