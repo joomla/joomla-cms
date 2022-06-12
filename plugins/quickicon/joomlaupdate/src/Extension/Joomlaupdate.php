@@ -100,7 +100,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getContext();
 
-		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			return;
 		}
@@ -117,8 +117,8 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
-				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
-					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
+				'ajaxUrl' => Uri::base() . 'index.php?option=com_joomlaupdate&view=update&task=update.ajax&'
+					. Session::getFormToken() . '=1',
 				'version' => JVERSION,
 			]
 		);

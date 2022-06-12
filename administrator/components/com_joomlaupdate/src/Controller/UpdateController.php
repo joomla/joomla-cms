@@ -579,4 +579,35 @@ class UpdateController extends BaseController
 
 		$this->app->close();
 	}
+
+	/**
+	 * Fetch and report updates in \JSON format, for AJAX requests
+	 *
+	 * @return void
+	 *
+	 * @since 3.10.10
+	 */
+	public function ajax()
+	{
+		$app = $this->app;
+
+		if (!Session::checkToken('get'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo Text::_('JINVALID_TOKEN_NOTICE');
+			$app->close();
+		}
+
+		/** @var UpdateModel $model */
+		$model = $this->getModel('default');
+        $updateInfo = $model->getUpdateInformation();
+		
+		$update   = array();
+		$update[] = array('version' => $updateInfo['latest']);
+
+		echo json_encode($updates);
+
+		$app->close();
+	}
 }

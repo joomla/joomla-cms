@@ -260,6 +260,7 @@ class UpdateModel extends BaseDatabaseModel
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
+			'current'   => \JVERSION
 		);
 
 		// Fetch the update information from the database.
@@ -290,15 +291,6 @@ class UpdateModel extends BaseDatabaseModel
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest']  = $updateObject->version;
-		$this->updateInformation['current'] = JVERSION;
-
-		// Check whether this is an update or not.
-		if (version_compare($updateObject->version, JVERSION, '>'))
-		{
-			$this->updateInformation['hasUpdate'] = true;
-		}
-
 		$minimumStability      = Updater::STABILITY_STABLE;
 		$comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
@@ -310,6 +302,15 @@ class UpdateModel extends BaseDatabaseModel
 		// Fetch the full update details from the update details URL.
 		$update = new Update;
 		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
+
+		$this->updateInformation['latest']  = $updateObject->version;
+		$this->updateInformation['current'] = JVERSION;
+
+		// Check whether this is an update or not.
+		if (version_compare($updateObject->version, JVERSION, '>'))
+		{
+			$this->updateInformation['hasUpdate'] = true;
+		}
 
 		$this->updateInformation['object'] = $update;
 
