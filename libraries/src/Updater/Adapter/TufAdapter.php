@@ -133,7 +133,6 @@ class TufAdapter extends UpdateAdapter
 					}
 				}
 
-
 				if (isset($values['client']) && is_string($values['client'])
 					&& key_exists(strtolower($values['client']), $this->clientId))
 				{
@@ -199,7 +198,7 @@ class TufAdapter extends UpdateAdapter
 				'targetplatform'      => new \StdClass,
 				'php_minimum'         => null,
 				'supported_databases' => new \StdClass,
-				'stability'           => null
+				'stability'           => ''
 			]
 		)
 			->setAllowedTypes('version', 'string')

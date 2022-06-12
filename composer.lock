@@ -2966,12 +2966,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/php-tuf.git",
-                "reference": "2d71b4039686196adab273c59d1fd4ea4468e511"
+                "reference": "9f4725a4a95ee1c2833140144c3b681778aa0bde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/php-tuf/zipball/2d71b4039686196adab273c59d1fd4ea4468e511",
-                "reference": "2d71b4039686196adab273c59d1fd4ea4468e511",
+                "url": "https://api.github.com/repos/joomla-projects/php-tuf/zipball/9f4725a4a95ee1c2833140144c3b681778aa0bde",
+                "reference": "9f4725a4a95ee1c2833140144c3b681778aa0bde",
                 "shasum": ""
             },
             "require": {
@@ -3021,7 +3021,7 @@
                 "MIT"
             ],
             "description": "PHP implementation of The Update Framework (TUF)",
-            "time": "2022-06-12T09:53:53+00:00"
+            "time": "2022-06-12T12:05:25+00:00"
         },
         {
             "name": "phpmailer/phpmailer",

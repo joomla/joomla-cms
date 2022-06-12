@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Client\GuzzleFileFetcher;
-use Tuf\Client\HttpFileFetcher;
+use Joomla\CMS\TUF\HttpFileFetcher;
 use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
