@@ -105,7 +105,7 @@ class MethodsModel extends BaseDatabaseModel
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__user_mfa'))
 			->where($db->quoteName('user_id') . ' = :user_id')
@@ -201,7 +201,7 @@ class MethodsModel extends BaseDatabaseModel
 	 */
 	public function setFlag(User $user, bool $flag = true): void
 	{
-		$db         = $this->getDbo();
+		$db         = $this->getDatabase();
 		$profileKey = 'mfa.dontshow';
 		$query      = $db->getQuery(true)
 			->select($db->quoteName('profile_value'))

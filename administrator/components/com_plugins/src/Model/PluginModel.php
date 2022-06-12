@@ -261,7 +261,7 @@ class PluginModel extends AdminModel
 		$lang    = Factory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))

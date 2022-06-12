@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		// Get the view data.
 		$this->data               = $this->get('Data');
@@ -169,7 +169,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($menu)
 		{
-			$this->params->def('page_heading', $this->params->get('page_title', Factory::getUser()->name));
+			$this->params->def('page_heading', $this->params->get('page_title', $this->getCurrentUser()->name));
 		}
 		else
 		{

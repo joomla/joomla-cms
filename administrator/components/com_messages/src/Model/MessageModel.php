@@ -149,7 +149,7 @@ class MessageModel extends AdminModel
 					if ($replyId = (int) $this->getState('reply.id'))
 					{
 						// If replying to a message, preload some data.
-						$db    = $this->getDbo();
+						$db    = $this->getDatabase();
 						$query = $db->getQuery(true)
 							->select($db->quoteName(['subject', 'user_id_from', 'user_id_to']))
 							->from($db->quoteName('#__messages'))
@@ -192,7 +192,7 @@ class MessageModel extends AdminModel
 				else
 				{
 					// Mark message read
-					$db    = $this->getDbo();
+					$db    = $this->getDatabase();
 					$query = $db->getQuery(true)
 						->update($db->quoteName('#__messages'))
 						->set($db->quoteName('state') . ' = 1')
@@ -467,7 +467,7 @@ class MessageModel extends AdminModel
 	 */
 	public function notifySuperUsers($subject, $message, $fromUser = null)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		try
 		{

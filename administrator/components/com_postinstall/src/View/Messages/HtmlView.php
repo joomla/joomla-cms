@@ -81,7 +81,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Options button.
-		if (Factory::getUser()->authorise('core.admin', 'com_postinstall'))
+		if ($this->getCurrentUser()->authorise('core.admin', 'com_postinstall'))
 		{
 			$toolbar->preferences('com_postinstall');
 			$toolbar->help('Post-installation_Messages_for_Joomla_CMS');
