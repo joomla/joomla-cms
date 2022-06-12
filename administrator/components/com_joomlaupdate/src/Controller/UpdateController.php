@@ -589,7 +589,6 @@ class UpdateController extends BaseController
 	 */
 	public function ajax()
 	{
-		$app = $this->app;
 
 		if (!Session::checkToken('get'))
 		{
