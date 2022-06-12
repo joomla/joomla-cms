@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	    Joomla.UnitTest
+ * @package     Joomla.UnitTest
  * @subpackage  TUF
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license	    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Tests\Unit\Libraries\Cms\TUF;
@@ -30,7 +30,6 @@ class HttpFileFetcherTest extends UnitTestCase
 	 * @var string
 	 */
 	private $testContent = 'Zombie ipsum reversus ab viral inferno, nam rick grimes malum cerebro.';
-
 
 	/**
 	 * Returns an instance of the file fetcher under test.
@@ -223,6 +222,9 @@ class HttpFileFetcherTest extends UnitTestCase
 	 */
 	public function testCreateFromUri(): void
 	{
-		$this->assertInstanceOf(HttpFileFetcher::class, HttpFileFetcher::createFromUri('https://example.com'));
+		$this->assertInstanceOf(
+			HttpFileFetcher::class,
+			HttpFileFetcher::createFromUri('https://example.com')
+		);
 	}
 }
