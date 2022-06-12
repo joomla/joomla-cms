@@ -602,7 +602,7 @@ class UpdateController extends BaseController
 		/** @var UpdateModel $model */
 		$model = $this->getModel('default');
 		$updateInfo = $model->getUpdateInformation();
-		
+
 		$update   = [];
 		$update[] = ['version' => $updateInfo['latest']];
 
