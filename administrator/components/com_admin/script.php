@@ -6475,6 +6475,9 @@ class JoomlaInstallerScript
 			'/plugins/twofactorauth/yubikey/yubikey.php',
 			'/plugins/twofactorauth/yubikey/yubikey.xml',
 			// From 4.2.0-beta1 to 4.2.0-beta2
+			'/modules/mod_articles_latest/mod_articles_latest.php',
+			'/plugins/behaviour/taggable/taggable.php',
+			'/plugins/behaviour/versionable/versionable.php',
 			'/plugins/task/requests/requests.php',
 		);
 
