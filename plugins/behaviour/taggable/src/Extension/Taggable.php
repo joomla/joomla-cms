@@ -1,20 +1,30 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Taggable
+ * @subpackage  Behaviour.taggable
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Behaviour\Taggable\Extension;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Event as CmsEvent;
+use Joomla\CMS\Event\Model\BeforeBatchEvent;
+use Joomla\CMS\Event\Table\AfterLoadEvent;
+use Joomla\CMS\Event\Table\AfterResetEvent;
+use Joomla\CMS\Event\Table\AfterStoreEvent;
+use Joomla\CMS\Event\Table\BeforeDeleteEvent;
+use Joomla\CMS\Event\Table\BeforeStoreEvent;
+use Joomla\CMS\Event\Table\ObjectCreateEvent;
+use Joomla\CMS\Event\Table\SetNewTagsEvent;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
-use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
+use RuntimeException;
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
@@ -23,39 +33,43 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  4.0.0
  */
-class PlgBehaviourTaggable extends CMSPlugin
+final class Taggable extends CMSPlugin implements SubscriberInterface
 {
 	/**
-	 * Constructor
+	 * Returns an array of events this subscriber will listen to.
 	 *
-	 * @param   DispatcherInterface  &$subject  The object to observe
-	 * @param   array                $config    An optional associative array of configuration settings.
-	 *                                          Recognized key values include 'name', 'group', 'params', 'language'
-	 *                                          (this list is not meant to be comprehensive).
+	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(&$subject, $config = array())
+	public static function getSubscribedEvents(): array
 	{
-		$this->allowLegacyListeners = false;
-
-		parent::__construct($subject, $config);
+		return [
+			'onTableObjectCreate' => 'onTableObjectCreate',
+			'onTableBeforeStore'  => 'onTableBeforeStore',
+			'onTableAfterStore'   => 'onTableAfterStore',
+			'onTableBeforeDelete' => 'onTableBeforeDelete',
+			'onTableSetNewTags'   => 'onTableSetNewTags',
+			'onTableAfterReset'   => 'onTableAfterReset',
+			'onTableAfterLoad'    => 'onTableAfterLoad',
+			'onBeforeBatch'       => 'onBeforeBatch',
+		];
 	}
 
 	/**
 	 * Runs when a new table object is being created
 	 *
-	 * @param   CmsEvent\Table\ObjectCreateEvent  $event  The event to handle
+	 * @param   ObjectCreateEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
+	public function onTableObjectCreate(ObjectCreateEvent $event)
 	{
 		// Extract arguments
 		/** @var TableInterface $table */
-		$table			= $event['subject'];
+		$table = $event['subject'];
 
 		// If the tags table doesn't implement the interface bail
 		if (!($table instanceof TaggableTableInterface))
@@ -86,17 +100,17 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Pre-processor for $table->store($updateNulls)
 	 *
-	 * @param   CmsEvent\Table\BeforeStoreEvent  $event  The event to handle
+	 * @param   BeforeStoreEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableBeforeStore(CmsEvent\Table\BeforeStoreEvent $event)
+	public function onTableBeforeStore(BeforeStoreEvent $event)
 	{
 		// Extract arguments
 		/** @var TableInterface $table */
-		$table			= $event['subject'];
+		$table = $event['subject'];
 
 		// If the tags table doesn't implement the interface bail
 		if (!($table instanceof TaggableTableInterface))
@@ -129,13 +143,13 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Post-processor for $table->store($updateNulls)
 	 *
-	 * @param   CmsEvent\Table\AfterStoreEvent  $event  The event to handle
+	 * @param   AfterStoreEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
+	public function onTableAfterStore(AfterStoreEvent $event)
 	{
 		// Extract arguments
 		/** @var TableInterface $table */
@@ -187,18 +201,18 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Pre-processor for $table->delete($pk)
 	 *
-	 * @param   CmsEvent\Table\BeforeDeleteEvent  $event  The event to handle
+	 * @param   BeforeDeleteEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableBeforeDelete(CmsEvent\Table\BeforeDeleteEvent $event)
+	public function onTableBeforeDelete(BeforeDeleteEvent $event)
 	{
 		// Extract arguments
 		/** @var TableInterface $table */
-		$table			= $event['subject'];
-		$pk				= $event['pk'];
+		$table = $event['subject'];
+		$pk    = $event['pk'];
 
 		// If the tags table doesn't implement the interface bail
 		if (!($table instanceof TaggableTableInterface))
@@ -221,19 +235,19 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Handles the tag setting in $table->batchTag($value, $pks, $contexts)
 	 *
-	 * @param   CmsEvent\Table\SetNewTagsEvent  $event  The event to handle
+	 * @param   SetNewTagsEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableSetNewTags(CmsEvent\Table\SetNewTagsEvent $event)
+	public function onTableSetNewTags(SetNewTagsEvent $event)
 	{
 		// Extract arguments
 		/** @var TableInterface $table */
-		$table			= $event['subject'];
-		$newTags		= $event['newTags'];
-		$replaceTags	= $event['replaceTags'];
+		$table       = $event['subject'];
+		$newTags     = $event['newTags'];
+		$replaceTags = $event['replaceTags'];
 
 		// If the tags table doesn't implement the interface bail
 		if (!($table instanceof TaggableTableInterface))
@@ -261,17 +275,17 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Runs when an existing table object is reset
 	 *
-	 * @param   CmsEvent\Table\AfterResetEvent  $event  The event to handle
+	 * @param   AfterResetEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableAfterReset(CmsEvent\Table\AfterResetEvent $event)
+	public function onTableAfterReset(AfterResetEvent $event)
 	{
 		// Extract arguments
 		/** @var TableInterface $table */
-		$table			= $event['subject'];
+		$table = $event['subject'];
 
 		// If the tags table doesn't implement the interface bail
 		if (!($table instanceof TaggableTableInterface))
@@ -288,17 +302,17 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Runs when an existing table object has been loaded
 	 *
-	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
+	 * @param   AfterLoadEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)
+	public function onTableAfterLoad(AfterLoadEvent $event)
 	{
 		// Extract arguments
 		/** @var TableInterface $table */
-		$table			= $event['subject'];
+		$table = $event['subject'];
 
 		// If the tags table doesn't implement the interface bail
 		if (!($table instanceof TaggableTableInterface))
@@ -325,15 +339,15 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Runs when an existing table object has been loaded
 	 *
-	 * @param   CmsEvent\Model\BeforeBatchEvent $event The event to handle
+	 * @param   BeforeBatchEvent  $event  The event to handle
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onBeforeBatch(CmsEvent\Model\BeforeBatchEvent $event)
+	public function onBeforeBatch(BeforeBatchEvent $event)
 	{
-		/** @var TableInterface $oldTable */
+		/** @var TableInterface $sourceTable */
 		$sourceTable = $event['src'];
 
 		if (!($sourceTable instanceof TaggableTableInterface))

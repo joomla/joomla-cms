@@ -67,7 +67,7 @@ use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
  *
  * This is marked as deprecated because we'll be able to upgrade the WebAuthn library on Joomla 5.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  *
  * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
@@ -75,73 +75,73 @@ class Server extends \Webauthn\Server
 {
 	/**
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $timeout = 60000;
 
 	/**
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $challengeSize = 32;
 
 	/**
 	 * @var   PublicKeyCredentialRpEntity
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $rpEntity;
 
 	/**
 	 * @var   ManagerFactory
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $coseAlgorithmManagerFactory;
 
 	/**
 	 * @var   PublicKeyCredentialSourceRepository
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $publicKeyCredentialSourceRepository;
 
 	/**
 	 * @var   TokenBindingNotSupportedHandler
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $tokenBindingHandler;
 
 	/**
 	 * @var   ExtensionOutputCheckerHandler
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $extensionOutputCheckerHandler;
 
 	/**
 	 * @var   string[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $selectedAlgorithms;
 
 	/**
 	 * @var   MetadataStatementRepository|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $metadataStatementRepository;
 
 	/**
 	 * @var   ClientInterface
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $httpClient;
 
 	/**
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $googleApiKey;
 
 	/**
 	 * @var   RequestFactoryInterface
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $requestFactory;
 
@@ -152,7 +152,7 @@ class Server extends \Webauthn\Server
 	 * @param   PublicKeyCredentialSourceRepository  $publicKeyCredentialSourceRepository Obvious
 	 * @param   MetadataStatementRepository|null     $metadataStatementRepository         Obvious
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(
 		PublicKeyCredentialRpEntity $relayingParty,
@@ -187,7 +187,7 @@ class Server extends \Webauthn\Server
 	 * @param   string[]  $selectedAlgorithms  Obvious
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setSelectedAlgorithms(array $selectedAlgorithms): void
 	{
@@ -198,7 +198,7 @@ class Server extends \Webauthn\Server
 	 * @param   TokenBindingNotSupportedHandler  $tokenBindingHandler Obvious
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setTokenBindingHandler(TokenBindingNotSupportedHandler $tokenBindingHandler): void
 	{
@@ -210,7 +210,7 @@ class Server extends \Webauthn\Server
 	 * @param   Algorithm  $algorithm  Obvious
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function addAlgorithm(string $alias, Algorithm $algorithm): void
 	{
@@ -223,7 +223,7 @@ class Server extends \Webauthn\Server
 	 * @param   ExtensionOutputCheckerHandler  $extensionOutputCheckerHandler Obvious
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setExtensionOutputCheckerHandler(ExtensionOutputCheckerHandler $extensionOutputCheckerHandler): void
 	{
@@ -237,7 +237,7 @@ class Server extends \Webauthn\Server
 	 *
 	 * @return PublicKeyCredentialRequestOptions
 	 * @throws \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function generatePublicKeyCredentialRequestOptions(
 		?string $userVerification = PublicKeyCredentialRequestOptions::USER_VERIFICATION_REQUIREMENT_PREFERRED,
@@ -264,7 +264,7 @@ class Server extends \Webauthn\Server
 	 *
 	 * @return  PublicKeyCredentialCreationOptions
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function generatePublicKeyCredentialCreationOptions(
 		PublicKeyCredentialUserEntity $userEntity,
@@ -309,7 +309,7 @@ class Server extends \Webauthn\Server
 	 *
 	 * @return  PublicKeyCredentialSource
 	 * @throws  \Assert\AssertionFailedException
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function loadAndCheckAttestationResponse(
 		string $data,
@@ -343,7 +343,7 @@ class Server extends \Webauthn\Server
 	 *
 	 * @return  PublicKeyCredentialSource
 	 * @throws  \Assert\AssertionFailedException
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function loadAndCheckAssertionResponse(
 		string $data,
@@ -383,7 +383,7 @@ class Server extends \Webauthn\Server
 	 * @param   RequestFactoryInterface  $requestFactory  Obvious
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function enforceAndroidSafetyNetVerification(
 		ClientInterface $client,
@@ -398,7 +398,7 @@ class Server extends \Webauthn\Server
 
 	/**
 	 * @return  AttestationStatementSupportManager
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function getAttestationStatementSupportManager(): AttestationStatementSupportManager
 	{

@@ -392,7 +392,7 @@ class ContactModel extends AdminModel
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from($db->quoteName('#__contact_details'));
@@ -511,7 +511,7 @@ class ContactModel extends AdminModel
 
 		try
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 
 			$query = $db->getQuery(true);
 			$query->update($db->quoteName('#__contact_details'));

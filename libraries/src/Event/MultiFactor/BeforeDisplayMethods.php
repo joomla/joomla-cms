@@ -18,7 +18,7 @@ use Joomla\CMS\User\User;
 /**
  * Concrete Event class for the onUserMultifactorBeforeDisplayMethods event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class BeforeDisplayMethods extends AbstractImmutableEvent
 {
@@ -29,7 +29,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
 	 *
 	 * @param   User  $user  The user the MFA methods are displayed for
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(User $user)
 	{
@@ -42,7 +42,7 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
 	 * @param   User  $value  The value to validate
 	 *
 	 * @return  User
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setUser(User $value): User
 	{

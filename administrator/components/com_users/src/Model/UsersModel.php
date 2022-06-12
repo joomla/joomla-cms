@@ -205,7 +205,7 @@ class UsersModel extends ListModel
 			}
 
 			// Get the counts from the database only for the users in the list.
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Join over the group mapping table.
@@ -286,7 +286,7 @@ class UsersModel extends ListModel
 	 *
 	 * @return  Form|null  The \JForm object or null if the form can't be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function getFilterForm($data = [], $loadData = true)
 	{
@@ -311,7 +311,7 @@ class UsersModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -645,7 +645,7 @@ class UsersModel extends ListModel
 	 */
 	protected function getUserDisplayedGroups($userId)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups', 'ug'))
