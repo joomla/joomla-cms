@@ -10,8 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-
 /**
  * Form Field to load a list of content authors
  *
@@ -51,7 +49,7 @@ class AuthorField extends ListField
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 
 			// Construct the query
 			$query = $db->getQuery(true)

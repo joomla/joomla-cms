@@ -32,6 +32,8 @@ use Joomla\Registry\Registry;
  */
 class AdministratorApplication extends CMSApplication
 {
+	use MultiFactorAuthenticationHandler;
+
 	/**
 	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
 	 *
@@ -197,7 +199,8 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @return  Router
 	 *
-	 * @since	3.2
+	 * @since      3.2
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = 'administrator', array $options = array())
 	{
@@ -537,10 +540,7 @@ class AdministratorApplication extends CMSApplication
 			$this->redirect((string) $uri, 301);
 		}
 
-		if ($this->isTwoFactorAuthenticationRequired())
-		{
-			$this->redirectIfTwoFactorAuthenticationRequired();
-		}
+		$this->isHandlingMultiFactorAuthentication();
 
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');

@@ -101,7 +101,7 @@ class TransitionField extends ListField
 		$jinput = Factory::getApplication()->input;
 
 		// Initialise variable.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$extension = $this->extension;
 		$workflowStage = (int) $this->workflowStage;
 
