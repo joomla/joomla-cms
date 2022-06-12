@@ -25,7 +25,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @var Table
 	 */
-	protected   $table;
+	protected $table;
 
 	/**
 	 * Initialize the DatabaseStorage class
