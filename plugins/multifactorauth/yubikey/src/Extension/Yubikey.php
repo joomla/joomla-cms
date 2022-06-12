@@ -33,7 +33,7 @@ use RuntimeException;
 /**
  * Joomla! Multi-factor Authentication using Yubikey Plugin
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Yubikey extends CMSPlugin implements SubscriberInterface
 {
@@ -41,7 +41,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * The application we are running under.
 	 *
 	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $app;
 
@@ -57,7 +57,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $mfaMethodName = 'yubikey';
 
@@ -65,7 +65,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * Should I try to detect and register legacy event listeners?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 *
 	 * @deprecated
 	 */
@@ -76,7 +76,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -96,7 +96,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetMethod(GetMethod $event): void
 	{
@@ -120,7 +120,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * @param   Captive  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorCaptive(Captive $event): void
 	{
@@ -167,7 +167,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * @param   GetSetup  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetSetup(GetSetup $event): void
 	{
@@ -226,7 +226,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void The configuration data to save to the database
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorSaveSetup(SaveSetup $event): void
 	{
@@ -290,7 +290,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorValidate(Validate $event): void
 	{
@@ -356,7 +356,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean  True if it's a valid OTP
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function validateYubikeyOtp(string $otp): bool
 	{
@@ -513,7 +513,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * @param   string  $secret  The secret key to sign with
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @see     https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
 	 */
@@ -603,7 +603,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 * @param   MfaTable  $record  The record to decode
 	 *
 	 * @return  array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function decodeRecordOptions(MfaTable $record): array
 	{
@@ -627,7 +627,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function validateAgainstRecord(MfaTable $record, string $code): bool
 	{

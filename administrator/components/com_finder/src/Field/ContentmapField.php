@@ -102,7 +102,7 @@ class ContentmapField extends GroupedlistField
 	 *
 	 * @return  array  The indented list of entries for this branch
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function prepareLevel($parent, $parents)
 	{

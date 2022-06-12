@@ -14,6 +14,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -286,18 +287,18 @@ class UsersModel extends ListModel
 	 *
 	 * @return  Form|null  The \JForm object or null if the form can't be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function getFilterForm($data = [], $loadData = true)
 	{
 		$form = parent::getFilterForm($data, $loadData);
 
-		if (empty($form) || PluginHelper::isEnabled('multifactorauth'))
+		if ($form && !PluginHelper::isEnabled('multifactorauth'))
 		{
-			return $form;
+			$form->removeField('mfa', 'filter');
 		}
 
-		$form->removeField('mfa', 'filter');
+		return $form;
 	}
 
 
