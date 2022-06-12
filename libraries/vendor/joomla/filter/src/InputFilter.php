@@ -410,7 +410,7 @@ class InputFilter
 
 			if (($tagOpenNested !== false) && ($tagOpenNested < $tagOpenEnd))
 			{
-				$preTag       .= StringHelper::substr($postTag, 0, ($tagOpenNested + 1));
+				$preTag       .= StringHelper::substr($postTag, 1, $tagOpenNested);
 				$postTag      = StringHelper::substr($postTag, ($tagOpenNested + 1));
 				$tagOpenStart = StringHelper::strpos($postTag, '<');
 
@@ -1016,21 +1016,60 @@ class InputFilter
 	 */
 	private function cleanPath($source)
 	{
-		$linuxPattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/]+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+		// Linux and other Unixoids
+		$filePattern          = '(?:[^\x00\/:*?]{1,255})';
+		$pathSeparatorPattern = '(?:\/+)';
+		$rootPattern          = '(?:\/)';
 
-		if (preg_match($linuxPattern, $source))
+		if ($this->pathMatches($source, $rootPattern, $pathSeparatorPattern, $filePattern, '/'))
 		{
-			return preg_replace('~/+~', '/', $source);
+			return $source;
 		}
 
-		$windowsPattern = '/^([A-Za-z]:(\\\\|\/))?[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*((\\\\|\/)+[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+		// Windows
+		$filePattern          = '(?:[^\x00\\\\\/:*"?<>|]{1,255})';
+		$pathSeparatorPattern = '(?:[\\\\\/])';
+		$rootPattern          = '(?:[A-Za-z]:(\\\\|\/))';
 
-		if (preg_match($windowsPattern, $source))
+		if ($this->pathMatches($source, $rootPattern, $pathSeparatorPattern, $filePattern, '\\'))
 		{
-			return preg_replace('~(\\\\|\/)+~', '\\', $source);
+			return $source;
 		}
 
 		return '';
+	}
+
+	/**
+	 * Fix a path, if and only if it matches the provided patterns.
+	 *
+	 * If a path matches but is longer than 4095 bytes, it is cleared.
+	 *
+	 * @param   string  $source                The path as provided; it gets cleaned in place, if possible.
+	 * @param   string  $rootPattern           The pattern to identify an absolute path (e.g., '/' on Linux, 'C:\' on Windows),
+	 * @param   string  $pathSeparatorPattern  The pattern for valid path separators
+	 * @param   string  $filePattern           The pattern for valid file and directory names
+	 * @param   string  $pathSeparator         The native path separator
+	 *
+	 * @return boolean
+	 */
+	private function pathMatches(&$source, $rootPattern, $pathSeparatorPattern, $filePattern, $pathSeparator)
+	{
+		$pathPattern = "/^{$rootPattern}?(?:{$filePattern}{$pathSeparatorPattern})*{$filePattern}?$/u";
+
+		if (preg_match($pathPattern, $source))
+		{
+			$source = preg_replace("/{$pathSeparatorPattern}/", $pathSeparator, $source);
+
+			if (strlen($source) > 4095)
+			{
+				// Path is too long
+				$source = '';
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

@@ -1215,7 +1215,7 @@ class FtpClient
 		// Close the data connection port [Data transfer complete]
 		fclose($this->dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			throw new FilesystemException(

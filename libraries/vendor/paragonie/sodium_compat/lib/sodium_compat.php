@@ -1,6 +1,8 @@
 <?php
 namespace Sodium;
 
+require_once dirname(dirname(__FILE__)) . '/autoload.php';
+
 use ParagonIE_Sodium_Compat;
 
 /**
@@ -45,16 +47,14 @@ if (!is_callable('\\Sodium\\crypto_aead_aes256gcm_decrypt')) {
      * @param string $nonce
      * @param string $key
      * @return string|bool
-     * @throws \SodiumException
-     * @throws \TypeError
      */
     function crypto_aead_aes256gcm_decrypt($message, $assocData, $nonce, $key)
     {
         try {
             return ParagonIE_Sodium_Compat::crypto_aead_aes256gcm_decrypt($message, $assocData, $nonce, $key);
-        } catch (Error $ex) {
+        } catch (\TypeError $ex) {
             return false;
-        } catch (Exception $ex) {
+        } catch (\SodiumException $ex) {
             return false;
         }
     }
@@ -93,16 +93,14 @@ if (!is_callable('\\Sodium\\crypto_aead_chacha20poly1305_decrypt')) {
      * @param string $nonce
      * @param string $key
      * @return string|bool
-     * @throws \SodiumException
-     * @throws \TypeError
      */
     function crypto_aead_chacha20poly1305_decrypt($message, $assocData, $nonce, $key)
     {
         try {
             return ParagonIE_Sodium_Compat::crypto_aead_chacha20poly1305_decrypt($message, $assocData, $nonce, $key);
-        } catch (Error $ex) {
+        } catch (\TypeError $ex) {
             return false;
-        } catch (Exception $ex) {
+        } catch (\SodiumException $ex) {
             return false;
         }
     }
@@ -131,16 +129,14 @@ if (!is_callable('\\Sodium\\crypto_aead_chacha20poly1305_ietf_decrypt')) {
      * @param string $nonce
      * @param string $key
      * @return string|bool
-     * @throws \SodiumException
-     * @throws \TypeError
      */
     function crypto_aead_chacha20poly1305_ietf_decrypt($message, $assocData, $nonce, $key)
     {
         try {
             return ParagonIE_Sodium_Compat::crypto_aead_chacha20poly1305_ietf_decrypt($message, $assocData, $nonce, $key);
-        } catch (Error $ex) {
+        } catch (\TypeError $ex) {
             return false;
-        } catch (Exception $ex) {
+        } catch (\SodiumException $ex) {
             return false;
         }
     }
@@ -238,16 +234,14 @@ if (!is_callable('\\Sodium\\crypto_box_open')) {
      * @param string $nonce
      * @param string $kp
      * @return string|bool
-     * @throws \SodiumException
-     * @throws \TypeError
      */
     function crypto_box_open($message, $nonce, $kp)
     {
         try {
             return ParagonIE_Sodium_Compat::crypto_box_open($message, $nonce, $kp);
-        } catch (Error $ex) {
+        } catch (\TypeError $ex) {
             return false;
-        } catch (Exception $ex) {
+        } catch (\SodiumException $ex) {
             return false;
         }
     }
@@ -298,15 +292,14 @@ if (!is_callable('\\Sodium\\crypto_box_seal_open')) {
      * @param string $message
      * @param string $kp
      * @return string|bool
-     * @throws \TypeError
      */
     function crypto_box_seal_open($message, $kp)
     {
         try {
             return ParagonIE_Sodium_Compat::crypto_box_seal_open($message, $kp);
-        } catch (\Error $ex) {
+        } catch (\TypeError $ex) {
             return false;
-        } catch (\Exception $ex) {
+        } catch (\SodiumException $ex) {
             return false;
         }
     }
@@ -398,7 +391,8 @@ if (!is_callable('\\Sodium\\crypto_kx')) {
             $my_secret,
             $their_public,
             $client_public,
-            $server_public
+            $server_public,
+            true
         );
     }
 }
@@ -543,16 +537,14 @@ if (!is_callable('\\Sodium\\crypto_secretbox_open')) {
      * @param string $nonce
      * @param string $key
      * @return string|bool
-     * @throws \SodiumException
-     * @throws \TypeError
      */
     function crypto_secretbox_open($message, $nonce, $key)
     {
         try {
             return ParagonIE_Sodium_Compat::crypto_secretbox_open($message, $nonce, $key);
-        } catch (Error $ex) {
+        } catch (\TypeError $ex) {
             return false;
-        } catch (Exception $ex) {
+        } catch (\SodiumException $ex) {
             return false;
         }
     }
@@ -622,9 +614,9 @@ if (!is_callable('\\Sodium\\crypto_sign_open')) {
     {
         try {
             return ParagonIE_Sodium_Compat::crypto_sign_open($signedMessage, $pk);
-        } catch (\Error $ex) {
+        } catch (\TypeError $ex) {
             return false;
-        } catch (\Exception $ex) {
+        } catch (\SodiumException $ex) {
             return false;
         }
     }
@@ -810,7 +802,7 @@ if (!is_callable('\\Sodium\\randombytes_uniform')) {
      * @see ParagonIE_Sodium_Compat::randombytes_uniform()
      * @param int $upperLimit
      * @return int
-     * @throws \Exception
+     * @throws \SodiumException
      * @throws \Error
      */
     function randombytes_uniform($upperLimit)

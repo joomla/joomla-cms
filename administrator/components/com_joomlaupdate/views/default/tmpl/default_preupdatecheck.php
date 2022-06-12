@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 // JText::script doesn't have a sprintf equivalent so work around this
 JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_MORE_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-right small"></span>', true) . "';");
 JFactory::getDocument()->addScriptDeclaration("var COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION = '" . JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_SHOW_LESS_COMPATIBILITY_INFORMATION', '<span class="icon-chevron-up small"></span>', true) . "';");
-JFactory::getDocument()->addScriptDeclaration("var nonCoreCriticalPlugins = '" . json_encode($this->nonCoreCriticalPlugins) . "';");
+JFactory::getDocument()->addScriptOptions('nonCoreCriticalPlugins', array_values($this->nonCoreCriticalPlugins));
 
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
@@ -43,6 +43,16 @@ $compatibilityTypes = array(
 		'group' => 3
 	)
 );
+
+if (version_compare($this->updateInfo['latest'], '4', '>=') && $this->isBackendTemplateIsis === false)
+{
+	JFactory::getApplication()->enqueueMessage(
+		JText::_(
+			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE'
+		),
+		'info'
+	);
+}
 
 ?>
 <h2>
@@ -200,7 +210,7 @@ $compatibilityTypes = array(
 								<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 							</th>
 							<th class="upcomp hidden">
-								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION); ?>
+								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION); ?>
 							</th>
 							<th class="currcomp hidden">
 								<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->updateInfo['latest']); ?>

@@ -509,34 +509,59 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('default');
-		$upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
-		$currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+		$upgradeCompatibilityStatus  = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$currentCompatibilityStatus  = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+		$upgradeUpdateVersion        = false;
+		$currentUpdateVersion        = false;
 
 		$upgradeWarning = 0;
-	
-		if ($upgradeCompatibilityStatus->state == 1 && $upgradeCompatibilityStatus->compatibleVersion !== false)
+
+		if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions))
 		{
-			if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $extensionVersion, 'gt'))
+			$upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions))
+		{
+			$currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
+		}
+
+		if ($upgradeUpdateVersion !== false)
+		{
+			$upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
+
+			if ($currentUpdateVersion !== false)
 			{
-				// Extension needs upgrade before upgrading Joomla
+				// If there are updates compatible with both CMS versions use these
+				$bothCompatibleVersions = array_values(
+					array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+				);
+
+				if (!empty($bothCompatibleVersions))
+				{
+					$upgradeOldestVersion = $bothCompatibleVersions[0];
+					$upgradeUpdateVersion = end($bothCompatibleVersions);
+				}
+			}
+
+			if (version_compare($upgradeOldestVersion, $extensionVersion, '>'))
+			{
+				// Installed version is empty or older than the oldest compatible update: Update required
 				$resultGroup = 2;
 			}
 			else
 			{
-				// Current version is up to date and compatible
+				// Current version is compatible
 				$resultGroup = 3;
 			}
 
-			if ($currentCompatibilityStatus->state == 1)
+			if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<'))
 			{
-				if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $currentCompatibilityStatus->compatibleVersion, 'lt'))
-				{
-					// Special case warning when version compatible with target is lower than current
-					$upgradeWarning = 2;
-				}
+				// Special case warning when version compatible with target is lower than current
+				$upgradeWarning = 2;
 			}
 		}
-		elseif ($currentCompatibilityStatus->state == 1)
+		elseif ($currentUpdateVersion !== false)
 		{
 			// No compatible version for target version but there is a compatible version for current version
 			$resultGroup = 1;
@@ -549,8 +574,14 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		// Do we need to capture
 		$combinedCompatibilityStatus = array(
-			'upgradeCompatibilityStatus' => $upgradeCompatibilityStatus,
-			'currentCompatibilityStatus' => $currentCompatibilityStatus,
+			'upgradeCompatibilityStatus' => (object) array(
+				'state' => $upgradeCompatibilityStatus->state,
+				'compatibleVersion' => $upgradeUpdateVersion
+			),
+			'currentCompatibilityStatus' => (object) array(
+				'state' => $currentCompatibilityStatus->state,
+				'compatibleVersion' => $currentUpdateVersion
+			),
 			'resultGroup' => $resultGroup,
 			'upgradeWarning' => $upgradeWarning,
 		);
@@ -571,5 +602,35 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		}
 
 		$this->app->close();
+	}
+
+	/**
+	 * Fetch and report updates in JSON format, for AJAX requests
+	 *
+	 * @return  void
+	 *
+	 * @since   3.10.10
+	 */
+	public function ajax()
+	{
+		$app = JFactory::getApplication();
+
+		if (!JSession::checkToken('get'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo JText::_('JINVALID_TOKEN_NOTICE');
+			$app->close();
+		}
+
+		$model = $this->getModel('default');
+		$updateInfo = $model->getUpdateInformation();
+
+		$update   = array();
+		$update[] = array('version' => $updateInfo['latest']);
+
+		echo json_encode($update);
+
+		$app->close();
 	}
 }

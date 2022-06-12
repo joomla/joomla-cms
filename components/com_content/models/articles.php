@@ -268,7 +268,7 @@ class ContentModelArticles extends JModelList
 		{
 			/**
 			 * If category is archived then article has to be published or archived.
-			 * Or categogy is published then article has to be archived.
+			 * Or category is published then article has to be archived.
 			 */
 			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
 		}

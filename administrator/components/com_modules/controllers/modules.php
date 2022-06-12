@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Modules list controller class.
  *
@@ -30,8 +28,10 @@ class ModulesControllerModules extends JControllerAdmin
 		// Check for request forgeries
 		$this->checkToken();
 
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$pks = ArrayHelper::toInteger($pks);
+		$pks = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$pks = array_filter($pks);
 
 		try
 		{

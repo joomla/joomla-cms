@@ -28,11 +28,16 @@ class PrivacyControllerConsents extends JControllerForm
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
-			$this->setError(JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$message = JText::_('JERROR_NO_ITEMS_SELECTED');
+
+			$this->setError($message);
 		}
 		else
 		{

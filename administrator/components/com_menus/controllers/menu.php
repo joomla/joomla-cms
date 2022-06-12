@@ -193,9 +193,22 @@ class MenusControllerMenu extends JControllerForm
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$cid   = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
+
+		// We know the first element is the one we need because we don't allow multi selection of rows
+		$id = empty($cid) ? 0 : reset($cid);
+
+		if ($id === 0)
+		{
+			$this->setMessage(JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), 'warning');
+
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
+
+			return false;
+		}
+
 		$model = $this->getModel('Menu');
-		$item  = $model->getItem(reset($cid));
+		$item  = $model->getItem($id);
 
 		if (!$item->menutype)
 		{

@@ -44,9 +44,9 @@ services:
 ## Install PHP and composer, and run the appropriate composer command
 install:
     - IF EXIST C:\tools\php (SET PHP=0)
-    # TODO: This is a workaround for https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
-    #       should go back to latest version in appveyor saving ourselves test time
-    - ps: choco upgrade chocolatey -y --version 0.10.13 --allow-downgrade --no-progress
+    # TODO: Ensure we are on a 0.11 version to work around https://github.com/chocolatey/choco/issues/1843. Once appveyor ships
+    #       0.11.1 or higher by default then we can remove this to decrease the time to run the tests
+    - ps: choco upgrade chocolatey --no-progress
     - ps: >-
         If ($env:php_ver_target -eq "5.6") {
           appveyor-retry cinst --no-progress --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y --forcex86 php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')

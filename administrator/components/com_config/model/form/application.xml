@@ -68,7 +68,7 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			showon="cache_handler:memcache"
-			min="1"
+			min="0"
 			max="65535"
 			default="11211"
 			filter="integer"
@@ -121,7 +121,7 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			showon="cache_handler:memcached"
-			min="1"
+			min="0"
 			max="65535"
 			default="11211"
 			filter="integer"
@@ -1206,19 +1206,6 @@
 			<option value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NO_EMAIL</option>
 
-		</field>
-
-		<field
-			name="block_floc"
-			type="radio"
-			label="COM_CONFIG_FIELD_FLOC_BLOCKER_LABEL"
-			description="COM_CONFIG_FIELD_FLOC_BLOCKER_DESC"
-			class="btn-group btn-group-yesno"
-			default="1"
-			filter="integer"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
 		</field>
 
 	</fieldset>

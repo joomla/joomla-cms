@@ -697,33 +697,65 @@ steps:
 
 ---
 kind: pipeline
-name: Rips
-
-platform:
-  os: linux
-  arch: amd64
+name: nightly_build
 
 steps:
-- name: analysis310x
-  image: rips/rips-cli:3.2.2
-  commands:
-  - export RIPS_BASE_URI='https://api.rips.joomla.org'
-  - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-  - rips-cli rips:scan:start --progress --application=3 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
-  environment:
-    RIPS_EMAIL:
-      from_secret: RIPS_EMAIL
-    RIPS_PASSWORD:
-      from_secret: RIPS_PASSWORD
-  when:
-    branch:
-    - 3.10-dev
-    repo:
+  - name: prepare
+    image: joomlaprojects/docker-images:packager
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - composer --version
+      - mkdir -p transfer
+      - date +%s > transfer/$MINORVERSION-time.txt
+      - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+      - mv build/tmp/packages/* transfer/
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      nightly_key:
+        from_secret: nightly_key
+      nightly_user:
+        from_secret: nightly_user
+      nightly_host:
+        from_secret: nightly_host
+      RINGCENTRAL_WEBHOOK:
+        from_secret: notification_url
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$nightly_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
+      - rclone delete nightly:/home/devj/public_html/cache/com_content/
+      - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
+      - /bin/notify
+
+  - name: buildfailure
+    image: joomlaprojects/docker-images:packager
+    environment:
+      RINGCENTRAL_WEBHOOK:
+        from_secret: notification_url
+    commands:
+      - /bin/notify
+    when:
+      status:
+        - failure
+
+trigger:
+  event:
+    - cron
+    - custom
+  repo:
     - joomla/joomla-cms
-    - joomla/cms-security
 
 ---
 kind: signature
-hmac: 5692462a9c53cd5937db302a216ba95f3367ff58c2269565a215587198352276
+hmac: 7faf58a144635c1e74b08ec4a5260ed3b6fda898e10540550e64ed0fb3c64e2d
 
 ...

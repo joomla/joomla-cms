@@ -176,7 +176,7 @@ class TagsViewTag extends JViewLegacy
 		$this->item       = $item;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
@@ -292,8 +292,8 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		$this->document->setTitle($title);
-		
-		$pathway->addItem($title);	
+
+		$pathway->addItem($title);
 
 		foreach ($this->item as $itemElement)
 		{

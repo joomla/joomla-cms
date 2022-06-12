@@ -29,7 +29,7 @@ JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIR
 JText::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
+$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 
 JFactory::getDocument()->addScriptDeclaration(
 <<<JS
