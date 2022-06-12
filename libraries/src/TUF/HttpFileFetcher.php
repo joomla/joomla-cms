@@ -35,6 +35,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 * The base URI for requests
 	 *
 	 * @var string|null
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $baseUri;
 
@@ -145,7 +147,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 		// $maxBytes. This will only work with cURL, so we also verify the
 		// download size when request is finished.
 		$progress = function (int $expectedBytes, int $downloadedBytes) use ($url, $maxBytes) {
-			if ($expectedBytes > $maxBytes || $downloadedBytes > $maxBytes) {
+			if ($expectedBytes > $maxBytes || $downloadedBytes > $maxBytes)
+			{
 				throw new DownloadSizeException("$url exceeded $maxBytes bytes");
 			}
 		};
@@ -156,11 +159,13 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 		$response = $this->client->get($this->baseUri . $url, $headers);
 		$response->getBody()->rewind();
 
-		if ($response->getStatusCode() === 404) {
+		if ($response->getStatusCode() === 404)
+		{
 			throw new RepoFileNotFound();
 		}
 
-		if ($response->getStatusCode() !== 200) {
+		if ($response->getStatusCode() !== 200)
+		{
 			throw new \RuntimeException(
 				"Invalid TUF repo response: " . $response->getBody()->getContents(),
 				$response->getStatusCode()
@@ -180,9 +185,12 @@ class HttpFileFetcher implements RepoFileFetcherInterface
 	 */
 	public function fetchMetadataIfExists(string $fileName, int $maxBytes): ?string
 	{
-		try {
+		try
+		{
 			return $this->fetchMetadata($fileName, $maxBytes)->wait();
-		} catch (RepoFileNotFound $exception) {
+		}
+		catch (RepoFileNotFound $exception)
+		{
 			return null;
 		}
 	}
