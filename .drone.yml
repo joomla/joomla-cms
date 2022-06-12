@@ -14,15 +14,15 @@ steps:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
 
-  - name: npm
-    image: node:16-alpine
-    depends_on: [ composer ]
-    commands:
-      - npm ci --unsafe-perm
+#  - name: npm
+#    image: node:16-alpine
+#    depends_on: [ composer ]
+#    commands:
+#      - npm ci --unsafe-perm
 
   - name: new-phpmin-system-mysql
     depends_on:
-      - npm
+      - composer
     image: joomlaprojects/docker-images:cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1

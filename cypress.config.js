@@ -10,7 +10,7 @@ module.exports = defineConfig({
     specPattern: 'tests/cypress/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'tests/cypress/support/index.js',
     scrollBehavior: 'center',
-    browser: 'chrome',
+    browser: 'firefox',
     screenshotOnRunFailure: false,
     video: false
   },
