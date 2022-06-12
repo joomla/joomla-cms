@@ -23,10 +23,12 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use Symfony\Component\OptionsResolver\Exception\NoSuchOptionException;
 
 /**
  * Installer Update Model
@@ -361,7 +363,23 @@ class UpdateModel extends ListModel
 				continue;
 			}
 
-			$update->loadFromXml($instance->detailsurl, $minimumStability);
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
+			$query = $db->getQuery(true)
+				->select('type')
+				->from('#__update_sites')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $instance->update_site_id, ParameterType::INTEGER);
+			$db->setQuery($query);
+			$updateSiteType = (string) $db->loadObject();
+
+			if ($updateSiteType == 'tuf')
+			{
+				throw new NoSuchOptionException("TUF updates are not yet supported");
+			}
+			else
+			{
+				$update->loadFromXml($instance->detailsurl, $minimumStability);
+			}
 
 			// Find and use extra_query from update_site if available
 			$updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDatabase());
