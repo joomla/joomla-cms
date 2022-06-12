@@ -601,7 +601,7 @@ class UpdateController extends BaseController
 
 		/** @var UpdateModel $model */
 		$model = $this->getModel('default');
-        $updateInfo = $model->getUpdateInformation();
+		$updateInfo = $model->getUpdateInformation();
 		
 		$update   = array();
 		$update[] = array('version' => $updateInfo['latest']);
