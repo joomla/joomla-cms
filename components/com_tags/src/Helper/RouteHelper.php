@@ -94,7 +94,7 @@ class RouteHelper extends CMSRouteHelper
 	{
 		@trigger_error('This function is replaced by the getComponentTagRoute()', E_USER_DEPRECATED);
 
-		return self::getComponentTagRoute((int) $id);
+		return self::getComponentTagRoute($id);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class RouteHelper extends CMSRouteHelper
 	public static function getComponentTagRoute(string $id, string $language = '*'): string
 	{
 		$needles = [
-			'tag'      => [$id],
+			'tag'      => [(int) $id],
 			'language' => $language,
 		];
 
