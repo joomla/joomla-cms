@@ -17,7 +17,7 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
  *
  * Selects the extension ID of an extension of the "package" type.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class PackageField extends ListField
 {
@@ -25,7 +25,7 @@ class PackageField extends ListField
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function getOptions()
 	{
