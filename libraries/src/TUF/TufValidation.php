@@ -35,7 +35,7 @@ class TufValidation
 	 *
 	 * @var integer
 	 */
-	private int $extensionId;
+	private $extensionId;
 
 	/**
 	 * The params of the validator
@@ -50,7 +50,7 @@ class TufValidation
 	 * @param   integer  $extensionId  The ID of the extension to be checked
 	 * @param   mixed    $params       The parameters containing the Base-URI, the Metadata- and Targets-Path and mirrors for the update
 	 */
-	public function __construct(int $extensionId, mixed $params)
+	public function __construct(int $extensionId, $params)
 	{
 		$this->extensionId = $extensionId;
 
@@ -107,7 +107,7 @@ class TufValidation
 	 *
 	 * @return mixed Returns the targets.json if the validation is successful, otherwise null
 	 */
-	public function getValidUpdate(): mixed
+	public function getValidUpdate()
 	{
 		$db = Factory::getContainer()->get(DatabaseDriver::class);
 

@@ -25,7 +25,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @var Table
 	 */
-	protected Table $table;
+	protected   $table;
 
 	/**
 	 * Initialize the DatabaseStorage class
@@ -47,7 +47,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @return boolean
 	 */
-	public function offsetExists(mixed $offset): bool
+	public function offsetExists($offset): bool
 	{
 		$column = $this->getCleanColumn($offset);
 
@@ -61,7 +61,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @return boolean
 	 */
-	public function tableColumnExists(mixed $offset): bool
+	public function tableColumnExists($offset): bool
 	{
 		$column = $this->getCleanColumn($offset);
 
@@ -75,7 +75,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @return  mixed
 	 */
-	public function offsetGet($offset): mixed
+	public function offsetGet($offset)
 	{
 		if (!$this->offsetExists($offset))
 		{
@@ -95,7 +95,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @return void
 	 */
-	public function offsetSet($offset, $value): void
+	public function offsetSet($offset, $value)
 	{
 		if (!$this->tableColumnExists($offset))
 		{
