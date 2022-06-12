@@ -100,7 +100,7 @@ class RouteHelper extends CMSRouteHelper
 	/**
 	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
 	 *
-	 * @param   integer  $id        The ID of the tag
+	 * @param   string   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
 	 * @param   string   $language  The language of the tag
 	 *
 	 * @return  string  URL link to pass to the router
@@ -108,7 +108,7 @@ class RouteHelper extends CMSRouteHelper
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
-	public static function getComponentTagRoute(int $id, string $language = '*'): string
+	public static function getComponentTagRoute(string $id, string $language = '*'): string
 	{
 		$needles = [
 			'tag'      => [$id],
@@ -173,7 +173,7 @@ class RouteHelper extends CMSRouteHelper
 	public static function getComponentTagsRoute(string $language = '*'): string
 	{
 		$needles = [
-			'tag'      => [0],
+			'tags'     => [0],
 			'language' => $language,
 		];
 
