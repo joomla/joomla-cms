@@ -34,7 +34,7 @@
         {
             "type": "vcs",
             "url": "https://github.com/joomla-projects/php-tuf.git",
-            "no-api":  true
+            "no-api": true
         }
     ],
     "autoload": {
