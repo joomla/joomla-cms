@@ -35,7 +35,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 abstract class Credentials
 {
@@ -48,7 +48,7 @@ abstract class Credentials
 	 *
 	 * @return  string
 	 * @throws  Exception  On error
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function requestAttestation(User $user): string
 	{
@@ -89,7 +89,7 @@ abstract class Credentials
 	 *
 	 * @return  AttestedCredentialData|null
 	 * @throws  Exception  When something does not check out
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function verifyAttestation(string $data): ?PublicKeyCredentialSource
 	{
@@ -142,7 +142,7 @@ abstract class Credentials
 	 *
 	 * @return  string
 	 * @throws  Exception  On error
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function requestAssertion(int $userId): string
 	{
@@ -172,7 +172,7 @@ abstract class Credentials
 	 *
 	 * @return  void
 	 * @throws  Exception  When something does not check out.
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function verifyAssertion(string $response): void
 	{
@@ -240,7 +240,7 @@ abstract class Credentials
 	 *
 	 * @return  string  The URL to the user's avatar
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private static function getAvatar(User $user, int $size = 64)
 	{
@@ -256,7 +256,7 @@ abstract class Credentials
 	 * @param   User   $user  The user to get an entity for
 	 *
 	 * @return  PublicKeyCredentialUserEntity
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private static function getUserEntity(User $user): PublicKeyCredentialUserEntity
 	{
@@ -274,7 +274,7 @@ abstract class Credentials
 	 * @param   int|null  $userId  The user ID holding the list of valid authenticators
 	 *
 	 * @return  Server
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private static function getWebauthnServer(?int $userId): Server
 	{
@@ -329,7 +329,7 @@ abstract class Credentials
 	 * @param   User   $user  The user to get the descriptors for
 	 *
 	 * @return  PublicKeyCredentialDescriptor[]
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private static function getPubKeyDescriptorsForUser(User $user): array
 	{

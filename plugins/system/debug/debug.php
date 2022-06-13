@@ -35,6 +35,7 @@ use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
 use Joomla\Plugin\System\Debug\JavascriptRenderer;
+use Joomla\Plugin\System\Debug\JoomlaHttpDriver;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -194,6 +195,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
 		$this->debugBar = new DebugBar;
 		$this->debugBar->setStorage(new FileStorage($storagePath));
+		$this->debugBar->setHttpDriver(new JoomlaHttpDriver($this->app));
 
 		$this->isAjax = $this->app->input->get('option') === 'com_ajax'
 			&& $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';

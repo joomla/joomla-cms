@@ -141,7 +141,7 @@ class GroupsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -199,7 +199,7 @@ class GroupsModel extends ListModel
 
 		$groupIds = array_keys($groupsByKey);
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Get total enabled users in group.
 		$query = $db->getQuery(true);

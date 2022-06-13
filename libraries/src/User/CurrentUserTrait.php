@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Trait for classes which require a user to work with.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait CurrentUserTrait
 {
@@ -23,7 +23,7 @@ trait CurrentUserTrait
 	 * The current user object.
 	 *
 	 * @var    User
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $currentUser;
 
@@ -33,7 +33,7 @@ trait CurrentUserTrait
 	 *
 	 * @return  User
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function getCurrentUser(): User
 	{
@@ -56,7 +56,7 @@ trait CurrentUserTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setCurrentUser(User $currentUser): void
 	{

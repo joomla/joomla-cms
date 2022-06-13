@@ -41,7 +41,7 @@ use RuntimeException;
  * authorised at the highest level, whereas the ApiApplication encourages the use of tokens for
  * authentication.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 trait MultiFactorAuthenticationHandler
 {
@@ -50,7 +50,7 @@ trait MultiFactorAuthenticationHandler
 	 *
 	 * @return  boolean  True if we are currently handling a Multi-factor Authentication captive page.
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function isHandlingMultiFactorAuthentication(): bool
 	{
@@ -189,7 +189,7 @@ trait MultiFactorAuthenticationHandler
 	 *
 	 * @return  boolean
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function isMultiFactorAuthenticationPending(): bool
 	{
@@ -244,7 +244,7 @@ trait MultiFactorAuthenticationHandler
 	 * Check whether we'll need to do a redirection to the Multi-factor Authentication captive page.
 	 *
 	 * @return  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function needsMultiFactorAuthenticationRedirection(): bool
 	{
@@ -324,7 +324,7 @@ trait MultiFactorAuthenticationHandler
 	 * Is this a page concerning the Multi-factor Authentication feature?
 	 *
 	 * @return boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private function isMultiFactorAuthenticationPage(): bool
 	{
@@ -351,7 +351,7 @@ trait MultiFactorAuthenticationHandler
 	 * Does the user have a "don't show this again" flag?
 	 *
 	 * @return  boolean
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function hasRejectedMultiFactorAuthenticationSetup(): bool
 	{
@@ -383,7 +383,7 @@ trait MultiFactorAuthenticationHandler
 	 * Automatically migrates a user's legacy MFA records into the new Captive MFA format.
 	 *
 	 * @return  void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function migrateFromLegacyMFA(): void
 	{
@@ -499,7 +499,7 @@ trait MultiFactorAuthenticationHandler
 	 * @return  string  Decrypted, but JSON-encoded, information
 	 *
 	 * @see     https://github.com/joomla/joomla-cms/pull/12497
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function decryptLegacyTFAString(string $secret, string $stringToDecrypt): string
 	{

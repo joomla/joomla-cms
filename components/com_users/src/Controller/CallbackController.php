@@ -14,7 +14,7 @@ use Joomla\Component\Users\Administrator\Controller\CallbackController as AdminC
 /**
  * Multi-factor Authentication plugins' AJAX callback controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CallbackController extends AdminCallbackController
 {
