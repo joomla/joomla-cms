@@ -94,7 +94,7 @@ class FeaturedModel extends ArticlesModel
 	{
 		$query = parent::getListQuery();
 
-		$query->select($this->getDbo()->quoteName('fp.ordering'));
+		$query->select($this->getDatabase()->quoteName('fp.ordering'));
 
 		return $query;
 	}

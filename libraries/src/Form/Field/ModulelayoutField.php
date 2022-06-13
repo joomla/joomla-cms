@@ -88,7 +88,7 @@ class ModulelayoutField extends FormField
 				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module);
 
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Build the query.
