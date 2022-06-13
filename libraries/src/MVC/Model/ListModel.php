@@ -255,7 +255,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 				[
 					'subject' => $this,
 					'context' => $this->context,
-					'query' => $this->query,
+					'query'   => $this->query,
 				]
 			);
 			$this->dispatchEvent($event);
