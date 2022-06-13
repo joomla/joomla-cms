@@ -87,7 +87,7 @@ class NewsfeedModel extends ItemModel
 		{
 			try
 			{
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select(
 						[

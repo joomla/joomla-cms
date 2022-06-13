@@ -18,6 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 /**
  * The Joomla! update controller for the Update view
@@ -715,6 +716,35 @@ class UpdateController extends BaseController
 		{
 			echo $e;
 		}
+
+		$this->app->close();
+	}
+
+	/**
+	 * Fetch and report updates in \JSON format, for AJAX requests
+	 *
+	 * @return  void
+	 *
+	 * @since   3.10.10
+	 */
+	public function ajax()
+	{
+		if (!Session::checkToken('get'))
+		{
+			$this->app->setHeader('status', 403, true);
+			$this->app->sendHeaders();
+			echo Text::_('JINVALID_TOKEN_NOTICE');
+			$this->app->close();
+		}
+
+		/** @var UpdateModel $model */
+		$model = $this->getModel('Update');
+		$updateInfo = $model->getUpdateInformation();
+
+		$update   = [];
+		$update[] = ['version' => $updateInfo['latest']];
+
+		echo json_encode($update);
 
 		$this->app->close();
 	}

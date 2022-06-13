@@ -29,7 +29,7 @@ use stdClass;
 /**
  * View for Multi-factor Authentication captive page
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -39,7 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * The MFA Method records for the current user which correspond to enabled plugins
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $records = [];
 
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	 * The currently selected MFA Method record against which we'll be authenticating
 	 *
 	 * @var   null|stdClass
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $record = null;
 
@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	 * The Captive MFA page's rendering options
 	 *
 	 * @var   array|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $renderOptions = null;
 
@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 	 * The title to display at the top of the page
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $title = '';
 
@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this an administrator page?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $isAdmin = false;
 
@@ -79,7 +79,7 @@ class HtmlView extends BaseHtmlView
 	 * Does the currently selected Method allow authenticating against all of its records?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $allowEntryBatching = false;
 
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
 	 * All enabled MFA Methods (plugins)
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $mfaMethods;
 
@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  void  A string if successful, otherwise an Error object.
 	 *
 	 * @throws  Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function display($tpl = null)
 	{

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Redirect:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"

@@ -16,7 +16,7 @@ defined('_JEXEC') || die();
  *
  * Reuses the same field from com_modules. Don't lose it; reuse it!
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class ModulesPositionField extends \Joomla\Component\Modules\Administrator\Field\ModulesPositionField
 {

@@ -25,7 +25,7 @@ use Joomla\Component\Users\Administrator\View\SiteTemplateTrait;
 /**
  * View for Multi-factor Authentication methods list page
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this an administrator page?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $isAdmin = false;
 
@@ -43,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	 * The MFA Methods available for this user
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $methods = [];
 
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	 * The return URL to use for all links and forms
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $returnURL = null;
 
@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * Are there any active MFA Methods at all?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $mfaActive = false;
 
@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
 	 * Which Method has the default record?
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $defaultMethod = '';
 
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	 * The user object used to display this page
 	 *
 	 * @var   User
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $user = null;
 
@@ -83,7 +83,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this page part of the mandatory Multi-factor Authentication setup?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $isMandatoryMFASetup = false;
 
@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @throws  \Exception
 	 * @see     \JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function display($tpl = null): void
 	{

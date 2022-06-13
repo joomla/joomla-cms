@@ -61,7 +61,7 @@ class BannersModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db         = $this->getDbo();
+		$db         = $this->getDatabase();
 		$query      = $db->getQuery(true);
 		$ordering   = $this->getState('filter.ordering');
 		$tagSearch  = $this->getState('filter.tag_search');
@@ -315,7 +315,7 @@ class BannersModel extends ListModel
 		$trackDate = Factory::getDate()->format('Y-m-d H:00:00');
 		$trackDate = Factory::getDate($trackDate)->toSql();
 		$items     = $this->getItems();
-		$db        = $this->getDbo();
+		$db        = $this->getDatabase();
 		$bid       = [];
 
 		if (!count($items))

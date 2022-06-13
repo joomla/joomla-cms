@@ -40,7 +40,7 @@ final class Joomla extends ActionLogPlugin
 	 * Application object.
 	 *
 	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $app;
 

@@ -96,7 +96,7 @@ class StagesModel extends ListModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
+			$this->getDatabase()->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
 		];
 	}
 
@@ -125,7 +125,7 @@ class StagesModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query
