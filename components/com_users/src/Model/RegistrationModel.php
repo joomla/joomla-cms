@@ -76,7 +76,7 @@ class RegistrationModel extends FormModel
 	 */
 	public function getUserIdFromToken($token)
 	{
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 
 		// Get the user id based on the token.
 		$query = $db->getQuery(true);
@@ -153,7 +153,7 @@ class RegistrationModel extends FormModel
 			$user->setParam('activate', 1);
 
 			// Get all admin users
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
@@ -498,7 +498,7 @@ class RegistrationModel extends FormModel
 		}
 
 		$app = Factory::getApplication();
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Compile the notification mail values.
@@ -647,7 +647,7 @@ class RegistrationModel extends FormModel
 			$this->setError(Text::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query->clear()
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))

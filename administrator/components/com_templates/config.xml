@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Template:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="templates"
 		label="COM_TEMPLATES_SUBMENU_TEMPLATES"
@@ -66,7 +67,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 		<field
 			name="rules"

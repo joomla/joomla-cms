@@ -14,8 +14,12 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -63,6 +67,7 @@ class UsersModel extends ListModel
 				'range',
 				'lastvisitrange',
 				'state',
+				'mfa'
 			);
 		}
 
@@ -140,6 +145,11 @@ class UsersModel extends ListModel
 		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . $this->getState('filter.range');
 
+		if (PluginHelper::isEnabled('multifactorauth'))
+		{
+			$id .= ':' . $this->getState('filter.mfa');
+		}
+
 		return parent::getStoreId($id);
 	}
 
@@ -187,13 +197,16 @@ class UsersModel extends ListModel
 			foreach ($items as $item)
 			{
 				$userIds[] = (int) $item->id;
+				// phpcs:ignore
 				$item->group_count = 0;
+				// phpcs:ignore
 				$item->group_names = '';
+				// phpcs:ignore
 				$item->note_count = 0;
 			}
 
 			// Get the counts from the database only for the users in the list.
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Join over the group mapping table.
@@ -244,14 +257,17 @@ class UsersModel extends ListModel
 			{
 				if (isset($userGroups[$item->id]))
 				{
+					// phpcs:ignore
 					$item->group_count = $userGroups[$item->id]->group_count;
 
 					// Group_concat in other databases is not supported
-					$item->group_names = $this->_getUserDisplayedGroups($item->id);
+					// phpcs:ignore
+					$item->group_names = $this->getUserDisplayedGroups($item->id);
 				}
 
 				if (isset($userNotes[$item->id]))
 				{
+					// phpcs:ignore
 					$item->note_count = $userNotes[$item->id]->note_count;
 				}
 			}
@@ -264,6 +280,29 @@ class UsersModel extends ListModel
 	}
 
 	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  Form|null  The \JForm object or null if the form can't be found
+	 *
+	 * @since   4.2.0
+	 */
+	public function getFilterForm($data = [], $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		if ($form && !PluginHelper::isEnabled('multifactorauth'))
+		{
+			$form->removeField('mfa', 'filter');
+		}
+
+		return $form;
+	}
+
+
+	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  DatabaseQuery
@@ -273,7 +312,7 @@ class UsersModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -285,6 +324,51 @@ class UsersModel extends ListModel
 		);
 
 		$query->from($db->quoteName('#__users') . ' AS a');
+
+		// Include MFA information
+		if (PluginHelper::isEnabled('multifactorauth'))
+		{
+			$subQuery = $db->getQuery(true)
+				->select(
+					[
+						'MIN(' . $db->quoteName('user_id') . ') AS ' . $db->quoteName('uid'),
+						'COUNT(*) AS ' . $db->quoteName('mfaRecords')
+					]
+				)
+				->from($db->quoteName('#__user_mfa'))
+				->group($db->quoteName('user_id'));
+			$query->select($db->quoteName('mfa.mfaRecords'))
+				->join(
+					'left',
+					'(' . $subQuery . ') AS ' . $db->quoteName('mfa'),
+					$db->quoteName('mfa.uid') . ' = ' . $db->quoteName('a.id')
+				);
+
+			$mfaState = $this->getState('filter.mfa');
+
+			if (is_numeric($mfaState))
+			{
+				$mfaState = (int) $mfaState;
+
+				if ($mfaState === 1)
+				{
+					$query->where(
+						'((' . $db->quoteName('mfa.mfaRecords') . ' > 0) OR (' .
+						$db->quoteName('a.otpKey') . ' IS NOT NULL AND ' .
+						$db->quoteName('a.otpKey') . ' != ' . $db->quote('') . '))'
+					);
+				}
+				else
+				{
+					$query->where(
+						'((' . $db->quoteName('mfa.mfaRecords') . ' = 0 OR ' .
+						$db->quoteName('mfa.mfaRecords') . ' IS NULL) AND (' .
+						$db->quoteName('a.otpKey') . ' IS NULL OR ' .
+						$db->quoteName('a.otpKey') . ' = ' . $db->quote('') . '))'
+					);
+				}
+			}
+		}
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
@@ -560,9 +644,9 @@ class UsersModel extends ListModel
 	 *
 	 * @return  string   Groups titles imploded :$
 	 */
-	protected function _getUserDisplayedGroups($userId)
+	protected function getUserDisplayedGroups($userId)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups', 'ug'))
