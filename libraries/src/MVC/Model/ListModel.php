@@ -183,10 +183,11 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		$config['events_map'] = $config['events_map'] ?? array();
 
 		$this->events_map = array_merge(
-			array(
-				'list_query' => 'content',
+			[
+				'list_query'     => 'content',
 				'after_get_list' => 'content',
-			), $config['events_map']
+			],
+			$config['events_map']
 		);
 	}
 
