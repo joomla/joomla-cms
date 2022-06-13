@@ -1406,6 +1406,12 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 			return $this->getDatabase();
 		}
 
+		// Default the variable
+		if (!isset($this->$name))
+		{
+			$this->$name = null;
+		}
+
 		return $this->$name;
 	}
 }
