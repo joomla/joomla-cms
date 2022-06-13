@@ -22,6 +22,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -29,8 +31,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-class LanguagesModel extends BaseInstallationModel
+class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * @var    object  Client object.
 	 * @since  3.1
@@ -74,13 +78,6 @@ class LanguagesModel extends BaseInstallationModel
 			Factory::getApplication()->setConfiguration(new Registry(new \JConfig));
 		}
 
-		/*
-		 * Factory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
-		 * correctly at that point.  So, we have to reset the factory database object here so that we can get a valid database configuration.
-		 * The day we have proper dependency injection will be a glorious one.
-		 */
-		Factory::$database = null;
-
 		parent::__construct();
 	}
 
@@ -94,7 +91,7 @@ class LanguagesModel extends BaseInstallationModel
 	public function getItems()
 	{
 		// Get the extension_id of the en-GB package.
-		$db        = Factory::getDbo();
+		$db        = $this->getDatabase();
 		$extQuery  = $db->getQuery(true);
 
 		$extQuery->select($db->quoteName('extension_id'))
@@ -398,7 +395,7 @@ class LanguagesModel extends BaseInstallationModel
 	protected function getLanguageList($clientId = 1)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.

@@ -311,11 +311,11 @@ final class InstallationApplication extends CMSApplication
 			list($controllerName, $task) = explode('.', $task, 2);
 		}
 
-		// Compile the class name
-		$class = 'Joomla\\CMS\\Installation\\Controller\\' . ucfirst($controllerName) . 'Controller';
+		$factory = new MVCFactory('Joomla\\CMS', $this);
+		$factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
 		// Create the instance
-		$controller = new $class([], new MVCFactory('Joomla\\CMS', $this), $this, $this->input);
+		$controller = $factory->createController($controllerName, 'Installation',[], $this, $this->input);
 
 		// Execute the task
 		$controller->execute($task);
