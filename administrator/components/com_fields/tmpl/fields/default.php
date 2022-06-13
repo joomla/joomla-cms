@@ -158,8 +158,7 @@ if (count($this->filterForm->getField('context')->options) > 1)
 												<div class="small badge bg-secondary">
 													<?php echo Text::_('COM_FIELDS_FIELD_ONLY_USE_IN_SUBFORM_BADGE'); ?>
 												</div>
-											<?php endif; ?>
-											<?php if ($category) : ?>
+											<?php elseif ($category) : ?>
 												<div class="small">
 													<?php echo Text::_('JCATEGORY') . ': '; ?>
 													<?php $categories = FieldsHelper::getAssignedCategoriesTitles($item->id); ?>

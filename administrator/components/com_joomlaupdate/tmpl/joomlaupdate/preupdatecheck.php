@@ -75,7 +75,7 @@ $compatibilityTypes = array(
 );
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
+$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 
 $updatePossible = true;
 
@@ -279,7 +279,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 										</th>
 										<th class="currcomp hidden" scope="col">
-											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->escape($this->updateInfo['current']) : JVERSION); ?>
+											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['installed']) ? $this->escape($this->updateInfo['installed']) : JVERSION); ?>
 										</th>
 										<th class="upcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
@@ -353,7 +353,9 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 
 	<?php if (Factory::getUser()->authorise('core.admin')) : ?>
 		<div class="text-center">
-		<?php echo HTMLHelper::_('link', Route::_('index.php?option=com_joomlaupdate&view=upload'), Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')); ?>
+			<a href="<?php echo Route::_('index.php?option=com_joomlaupdate&view=upload'); ?>" class="btn btn-sm btn-outline-secondary">
+				<?php echo Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND'); ?>
+			</a>
 		</div>
 	<?php endif; ?>
 </div>
