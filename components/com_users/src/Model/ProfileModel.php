@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -263,60 +264,6 @@ class ProfileModel extends FormModel
 		// Unset block and sendEmail so they do not get overwritten
 		unset($data['block'], $data['sendEmail']);
 
-		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
-		{
-			$model = $this->bootComponent('com_users')->getMVCFactory()
-				->createModel('User', 'Administrator');
-
-			$twoFactorMethod = $data['twofactor']['method'];
-
-			// Get the current One Time Password (two factor auth) configuration
-			$otpConfig = $model->getOtpConfig($userId);
-
-			if ($twoFactorMethod !== 'none')
-			{
-				// Run the plugins
-				PluginHelper::importPlugin('twofactorauth');
-				$otpConfigReplies = Factory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
-
-				// Look for a valid reply
-				foreach ($otpConfigReplies as $reply)
-				{
-					if (!is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
-					{
-						continue;
-					}
-
-					$otpConfig->method = $reply->method;
-					$otpConfig->config = $reply->config;
-
-					break;
-				}
-
-				// Save OTP configuration.
-				$model->setOtpConfig($userId, $otpConfig);
-
-				// Generate one time emergency passwords if required (depleted or not set)
-				if (empty($otpConfig->otep))
-				{
-					$model->generateOteps($userId);
-				}
-			}
-			else
-			{
-				$otpConfig->method = 'none';
-				$otpConfig->config = array();
-				$model->setOtpConfig($userId, $otpConfig);
-			}
-
-			// Unset the raw data
-			unset($data['twofactor']);
-
-			// Reload the user record with the updated OTP configuration
-			$user->load($userId);
-		}
-
 		// Bind the data.
 		if (!$user->bind($data))
 		{
@@ -358,38 +305,37 @@ class ProfileModel extends FormModel
 	 * @return  array
 	 *
 	 * @since   3.2
+	 * @deprecated 4.2.0 Will be removed in 5.0.
 	 */
 	public function getTwofactorform($userId = null)
 	{
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
-		$model = $this->bootComponent('com_users')->getMVCFactory()
-			->createModel('User', 'Administrator');
-
-		$otpConfig = $model->getOtpConfig($userId);
-
-		PluginHelper::importPlugin('twofactorauth');
-
-		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $userId));
+		return [];
 	}
 
 	/**
-	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
-	 * configuration for a particular user.
+	 * No longer used
 	 *
-	 * @param   integer  $userId  The numeric ID of the user
+	 * @param   integer  $userId  Ignored
 	 *
-	 * @return  \stdClass  An object holding the OTP configuration for this user
+	 * @return  \stdClass
 	 *
 	 * @since   3.2
+	 * @deprecated 4.2.0  Will be removed in 5.0
 	 */
 	public function getOtpConfig($userId = null)
 	{
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
 
+		/** @var UserModel $model */
 		$model = $this->bootComponent('com_users')
 			->getMVCFactory()->createModel('User', 'Administrator');
 
-		return $model->getOtpConfig($userId);
+		return $model->getOtpConfig();
 	}
 }

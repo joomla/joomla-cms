@@ -38,7 +38,7 @@ class ComponentsField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[
