@@ -449,7 +449,7 @@ class SysinfoModel extends BaseDatabaseModel
 	public function getExtensions(): array
 	{
 		$installed = [];
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'));

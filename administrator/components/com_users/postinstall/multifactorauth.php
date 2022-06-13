@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 
 /**
@@ -39,8 +39,8 @@ function com_users_postinstall_mfa_condition(): bool
 // phpcs:ignore
 function com_users_postinstall_mfa_action(): void
 {
-	/** @var DatabaseDriver $db */
-	$db             = Factory::getContainer()->get('DatabaseDriver');
+	/** @var DatabaseInterface $db */
+	$db             = Factory::getContainer()->get(DatabaseInterface::class);
 	$coreMfaPlugins = ['email', 'totp', 'webauthn', 'yubikey'];
 
 	$query = $db->getQuery(true)

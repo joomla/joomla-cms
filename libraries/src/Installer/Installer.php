@@ -21,7 +21,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
@@ -1452,8 +1452,8 @@ class Installer extends Adapter
 	 */
 	protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
 	{
-		/** @var DatabaseDriver $db */
-		$db    = Factory::getContainer()->get('DatabaseDriver');
+		/** @var DatabaseInterface $db */
+		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 
 		$o = (object) [
 			'extension_id' => $eid,
