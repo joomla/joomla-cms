@@ -319,8 +319,10 @@ class CategoryModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('extension') . ' = ' . $this->_db->quote($table->extension),
+			$db->quoteName('extension') . ' = ' . $db->quote($table->extension),
 		];
 	}
 
@@ -652,7 +654,7 @@ class CategoryModel extends AdminModel
 			}
 
 			// Get associationskey for edited item
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$id    = (int) $table->id;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
@@ -879,7 +881,7 @@ class CategoryModel extends AdminModel
 	{
 		$successful = array();
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		/**
@@ -937,7 +939,7 @@ class CategoryModel extends AdminModel
 		$parts = explode('.', $value);
 		$parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$extension = Factory::getApplication()->input->get('extension', '', 'word');
 		$newIds = array();
 
@@ -1164,7 +1166,7 @@ class CategoryModel extends AdminModel
 		$type = new UCMType;
 		$this->type = $type->getTypeByAlias($this->typeAlias);
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$extension = Factory::getApplication()->input->get('extension', '', 'word');
 

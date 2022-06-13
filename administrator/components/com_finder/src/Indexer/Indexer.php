@@ -720,7 +720,35 @@ class Indexer
 		$db->setQuery($query);
 		$db->execute();
 
-		// Remove the orphaned taxonomy nodes.
+		// Delete all broken links. (Links missing the object)
+		$query = $db->getQuery(true)
+			->delete('#__finder_links')
+			->where($db->quoteName('object') . ' = ' . $db->quote(''));
+		$db->setQuery($query);
+		$db->execute();
+
+		// Delete all orphaned mappings of terms to links
+		$query2 = $db->getQuery(true)
+			->select($db->quoteName('link_id'))
+			->from($db->quoteName('#__finder_links'));
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		// Delete all orphaned terms
+		$query2 = $db->getQuery(true)
+			->select($db->quoteName('term_id'))
+			->from($db->quoteName('#__finder_links_terms'));
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('term_id') . ' NOT IN (' . $query2 . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		// Delete all orphaned taxonomies
+		Taxonomy::removeOrphanMaps();
 		Taxonomy::removeOrphanNodes();
 
 		// Optimize the tables.

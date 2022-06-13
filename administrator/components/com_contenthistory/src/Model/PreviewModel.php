@@ -75,7 +75,7 @@ class PreviewModel extends ItemModel
 			'publish_down',
 		);
 
-		$nullDate = $this->getDbo()->getNullDate();
+		$nullDate = $this->getDatabase()->getNullDate();
 
 		foreach ($dateProperties as $dateProperty)
 		{

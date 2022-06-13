@@ -181,7 +181,7 @@ class DebuggroupModel extends ListModel
 	{
 		$groupId = (int) $this->getState('group_id');
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['id', 'title']))
 			->from($db->quoteName('#__usergroups'))
@@ -214,7 +214,7 @@ class DebuggroupModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
