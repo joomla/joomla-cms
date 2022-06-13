@@ -48,7 +48,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	 * @var    string
 	 * @since  1.6
 	 */
-	protected $context = null;
+	protected $context;
 
 	/**
 	 * Valid filter fields or ordering.
@@ -72,7 +72,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	 * @var   null|string
 	 * @since 3.10.4
 	 */
-	protected $lastQueryStoreId = null;
+	protected $lastQueryStoreId;
 
 	/**
 	 * Name of the filter form to load
@@ -80,7 +80,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $filterFormName = null;
+	protected $filterFormName;
 
 	/**
 	 * Associated HTML form
@@ -123,6 +123,14 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	 * @since  4.0.0
 	 */
 	protected $listForbiddenList = array('select');
+
+	/**
+	 * Maps events to plugin groups.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $events_map;
 
 	/**
 	 * The event to trigger on list query

@@ -54,7 +54,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $option = null;
+	protected $option;
 
 	/**
 	 * The event to trigger when cleaning cache.
@@ -62,15 +62,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $event_clean_cache = null;
-
-	/**
-	 * Maps events to plugin groups.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $events_map;
+	protected $event_clean_cache;
 
 	/**
 	 * Constructor
