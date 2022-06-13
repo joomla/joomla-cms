@@ -113,8 +113,8 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 						 title="<?php echo $authMetadata->description ?>">
 				</td>
 				<?php endif; ?>
-				<th scope="row" class="plg_system_webauthn-cell"><?php echo htmlentities($method['label']) ?></th>
-				<td class="plg_system_webauthn-cell">
+				<th scope="row" class="webauthnManagementCell"><?php echo htmlentities($method['label']) ?></th>
+				<td class="webauthnManagementCell">
 					<button class="plg_system_webauthn-manage-edit btn btn-secondary">
 						<span class="icon-edit" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>

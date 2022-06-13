@@ -22,7 +22,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The FormModel
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class ItemModelTest extends UnitTestCase
 {
@@ -31,7 +31,7 @@ class ItemModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetStoreId()
 	{
@@ -54,7 +54,7 @@ class ItemModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetEmptyStoreId()
 	{
@@ -77,7 +77,7 @@ class ItemModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testStoreIdWithDifferentIds()
 	{
@@ -100,7 +100,7 @@ class ItemModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testStoreIdWithSameIds()
 	{

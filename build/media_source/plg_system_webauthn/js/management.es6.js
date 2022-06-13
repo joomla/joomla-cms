@@ -207,7 +207,7 @@ window.Joomla = window.Joomla || {};
     // Find the UI elements
     const elTR = that.parentElement.parentElement;
     const credentialId = elTR.dataset.credential_id;
-    const elTDs = elTR.querySelectorAll('.plg_system_webauthn-cell');
+    const elTDs = elTR.querySelectorAll('.webauthnManagementCell');
     const elLabelTD = elTDs[0];
     const elButtonsTD = elTDs[1];
     const elButtons = elButtonsTD.querySelectorAll('button');
@@ -310,7 +310,7 @@ window.Joomla = window.Joomla || {};
     // Find the UI elements
     const elTR = that.parentElement.parentElement;
     const credentialId = elTR.dataset.credential_id;
-    const elTDs = elTR.querySelectorAll('.plg_system_webauthn-cell');
+    const elTDs = elTR.querySelectorAll('.webauthnManagementCell');
     const elButtonsTD = elTDs[1];
     const elButtons = elButtonsTD.querySelectorAll('button');
     const elEdit = elButtons[0];
