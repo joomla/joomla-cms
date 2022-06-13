@@ -131,7 +131,7 @@ class PluginsModel extends ListModel
 			// Apply plugins
 			$result = $this->afterGetList($result);
 
-      $this->translate($result);
+            $this->translate($result);
 
 			if (!empty($search))
 			{
