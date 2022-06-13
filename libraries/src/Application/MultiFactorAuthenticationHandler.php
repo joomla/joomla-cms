@@ -311,6 +311,12 @@ trait MultiFactorAuthenticationHandler
 			return false;
 		}
 
+		// Allow the Joomla update finalisation to run
+		if ($isAdmin && $option === 'com_joomlaupdate' && in_array($task, ['update.finalise', 'update.cleanup']))
+		{
+			return false;
+		}
+
 		return true;
 	}
 
