@@ -12,6 +12,7 @@ namespace Joomla\Module\ArticlesNews\Site\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -19,30 +20,33 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_articles_news
  *
  * @since  1.6
  */
-abstract class ArticlesNewsHelper
+class ArticlesNewsHelper implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
-	 * Get a list of the latest articles from the article model
+	 * Get a list of the latest articles from the article model.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+	 * @param   Registry         $params  Object holding the models parameters
+	 * @param   SiteApplication  $app     The app
 	 *
 	 * @return  mixed
 	 *
-	 * @since 1.6
+	 * @since 4.2.0
 	 */
-	public static function getList(&$params)
+	public function getArticles(Registry $params, SiteApplication $app)
 	{
-		$app = Factory::getApplication();
-
 		/** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
-		$model = $app->bootComponent('com_content')
-			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
+		$model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
 		$appParams = $app->getParams();
@@ -59,7 +63,7 @@ abstract class ArticlesNewsHelper
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
+		$authorised = Access::getAuthorisedViewLevels($app->getIdentity() ? $app->getIdentity()->id : 0);
 		$model->setState('filter.access', $access);
 
 		// Category filter
@@ -103,7 +107,7 @@ abstract class ArticlesNewsHelper
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
+			$model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
 		}
 		else
 		{
@@ -197,5 +201,21 @@ abstract class ArticlesNewsHelper
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Get a list of the latest articles from the article model
+	 *
+	 * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+	 *
+	 * @return  mixed
+	 *
+	 * @since 1.6
+	 *
+	 * @deprecated 5.0 Use the none static function getArticles
+	 */
+	public static function getList(&$params)
+	{
+		return (new self)->getArticles($params, Factory::getApplication());
 	}
 }

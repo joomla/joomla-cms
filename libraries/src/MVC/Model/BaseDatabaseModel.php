@@ -10,7 +10,8 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -22,6 +23,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
@@ -40,9 +43,10 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DatabaseAwareInterface, DispatcherAwareInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface, CurrentUserInterface,
+	CacheControllerFactoryAwareInterface
 {
-	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait;
+	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait, CurrentUserTrait, CacheControllerFactoryAwareTrait;
 
 	/**
 	 * The URL option for the component.
@@ -96,6 +100,9 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			@trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
 			$this->setDatabase($db);
+
+			// Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
+			$this->setDbo($db);
 		}
 
 		// Set the default view search path
@@ -277,7 +284,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		$table = $this->getTable();
 		$checkedOutField = $table->getColumnAlias('checked_out');
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id)
 		{
 			return true;
 		}
@@ -307,7 +314,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
 			$cache->clean();
 		}
 		catch (CacheExceptionInterface $exception)
@@ -359,12 +366,12 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @return  DatabaseInterface  The database driver.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 * @throws  \UnexpectedValueException
 	 *
 	 * @deprecated  5.0 Use getDatabase() instead
 	 */
-	public function getDbo(): DatabaseInterface
+	public function getDbo()
 	{
 		try
 		{
@@ -383,11 +390,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 Use setDatabase() instead
 	 */
-	public function setDbo(DatabaseInterface $db = null): void
+	public function setDbo(DatabaseInterface $db = null)
 	{
 		if ($db === null)
 		{
@@ -404,7 +411,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * @return  mixed  The value of the element if set, null otherwise
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
 	 */
@@ -413,6 +420,12 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		if ($name === '_db')
 		{
 			return $this->getDatabase();
+		}
+
+		// Default the variable
+		if (!isset($this->$name))
+		{
+			$this->$name = null;
 		}
 
 		return $this->$name;

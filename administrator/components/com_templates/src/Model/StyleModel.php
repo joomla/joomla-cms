@@ -545,7 +545,7 @@ class StyleModel extends AdminModel
 		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
 		{
 			$n       = 0;
-			$db      = $this->getDbo();
+			$db      = $this->getDatabase();
 			$user    = Factory::getUser();
 			$tableId = (int) $table->id;
 			$userId  = (int) $user->id;
@@ -618,7 +618,7 @@ class StyleModel extends AdminModel
 	public function setHome($id = 0)
 	{
 		$user = Factory::getUser();
-		$db   = $this->getDbo();
+		$db   = $this->getDatabase();
 
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))
@@ -681,7 +681,7 @@ class StyleModel extends AdminModel
 	public function unsetHome($id = 0)
 	{
 		$user = Factory::getUser();
-		$db   = $this->getDbo();
+		$db   = $this->getDatabase();
 
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates'))

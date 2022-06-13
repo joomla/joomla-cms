@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Users:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
@@ -109,33 +110,6 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
-		<field
-			name="enforce_2fa_options"
-			type="list"
-			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
-			description="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_DESC"
-			default="0"
-			filter="integer"
-			validate="options"
-			>
-			<option value="0">JNO</option>
-			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>
-			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
-			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
-		</field>
-
-		<field
-			name="enforce_2fa_usergroups"
-			type="usergrouplist"
-			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_GROUPS_LABEL"
-			layout="joomla.form.field.list-fancy-select"
-			multiple="true"
-			filter="int_array"
-			size="10"
-			showon="enforce_2fa_options!:0"
-		/>
-
 	</fieldset>
 
 	<fieldset
@@ -239,6 +213,125 @@
 	</fieldset>
 
 	<fieldset
+		name="multifactorauth"
+		label="COM_USERS_CONFIG_MULTIFACTORAUTH_SETTINGS_LABEL"
+		description="COM_USERS_CONFIG_MULTIFACTORAUTH_SETTINGS_DESC"
+		addfieldprefix="Joomla\Component\Users\Administrator\Field"
+	>
+		<field
+			name="allowed_positions_frontend"
+			type="modulesposition"
+			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
+			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
+			default=""
+			layout="joomla.form.field.list-fancy-select"
+			client="site"
+			multiple="1"
+		/>
+
+		<field
+			name="frontend_show_title"
+			type="radio"
+			label="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_LABEL"
+			description="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="allowed_positions_backend"
+			type="modulesposition"
+			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
+			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
+			default=""
+			layout="joomla.form.field.list-fancy-select"
+			client="administrator"
+			multiple="1"
+		/>
+
+		<field
+			name="neverMFAUserGroups"
+			type="UserGroupList"
+			label="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_LABEL"
+			description="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_DESC"
+			layout="joomla.form.field.list-fancy-select"
+			checksuperusergroup="1"
+			default=""
+			multiple="1"
+			>
+			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
+		</field>
+
+		<field
+			name="forceMFAUserGroups"
+			type="UserGroupList"
+			label="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_LABEL"
+			description="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_DESC"
+			layout="joomla.form.field.list-fancy-select"
+			checksuperusergroup="1"
+			default=""
+			multiple="1"
+			>
+			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
+		</field>
+
+		<field
+			name="captive_template"
+			type="templatestyle"
+			label="COM_USERS_CONFIG_FRONTEND_CAPTIVE_TEMPLATE_LABEL"
+			description="COM_USERS_CONFIG_FRONTEND_CAPTIVE_TEMPLATE_DESC"
+			client="site"
+			>
+			<option value="">JOPTION_USE_DEFAULT</option>
+		</field>
+
+		<field
+			name="mfaonsilent"
+			type="radio"
+			label="COM_USERS_CONFIG_MFAONSILENT_LABEL"
+			description="COM_USERS_CONFIG_MFAONSILENT_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="silentresponses"
+			type="text"
+			label="COM_USERS_CONFIG_SILENTRESPONSES_LABEL"
+			description="COM_USERS_CONFIG_SILENTRESPONSES_DESC"
+			default="cookie, passwordless"
+			showon="mfaonsilent:0"
+		/>
+
+		<field
+			name="mfaredirectonlogin"
+			type="radio"
+			label="COM_USERS_CONFIG_REDIRECTONLOGIN_LABEL"
+			description="COM_USERS_CONFIG_REDIRECTONLOGIN_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="mfaredirecturl"
+			type="text"
+			label="COM_USERS_CONFIG_REDIRECTURL_LABEL"
+			description="COM_USERS_CONFIG_REDIRECTURL_DESC"
+			default=""
+			showon="redirectonlogin:1"
+		/>
+	</fieldset>
+
+	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
 
@@ -264,23 +357,23 @@
 
 	</fieldset>
 
- 	<fieldset
+	<fieldset
 		name="massmail"
 		label="COM_USERS_MASS_MAIL"
 		description="COM_USERS_MASS_MAIL_DESC">
 
 		<field
- 			name="mailSubjectPrefix"
- 			type="text"
+			name="mailSubjectPrefix"
+			type="text"
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
 		/>
 
- 		<field
- 			name="mailBodySuffix"
+		<field
+			name="mailBodySuffix"
 			type="textarea"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
- 			rows="5"
- 			cols="30"
+			rows="5"
+			cols="30"
 		/>
 
 	</fieldset>
@@ -308,7 +401,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

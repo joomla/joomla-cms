@@ -168,7 +168,7 @@ $version = array(
 	'reldate'    => date('j-F-Y'),
 	'reltime'    => date('H:i'),
 	'reltz'      => 'GMT',
-	'credate'    => date('F Y'),
+	'credate'    => date('Y-m'),
 );
 
 // Version Codename.
