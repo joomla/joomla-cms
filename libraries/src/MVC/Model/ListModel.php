@@ -177,7 +177,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
 		}
 
-		$this->eventListQuery = $config['eventListQuery'] ?? $this->eventListQuery ?? 'onContentListQuery';
+		$this->eventListQuery    = $config['eventListQuery'] ?? $this->eventListQuery ?? 'onContentListQuery';
 		$this->eventAfterGetList = $config['eventAfterGetList'] ?? $this->eventAfterGetList ?? 'onContentAfterGetList';
 
 		$config['events_map'] = $config['events_map'] ?? array();
