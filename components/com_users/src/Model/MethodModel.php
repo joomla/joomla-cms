@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Site\Model;
 /**
  * Multi-factor Authentication Method management model
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MethodModel extends \Joomla\Component\Users\Administrator\Model\MethodModel
 {

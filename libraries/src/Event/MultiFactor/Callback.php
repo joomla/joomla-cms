@@ -16,7 +16,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Concrete Event class for the onUserMultifactorCallback event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Callback extends AbstractImmutableEvent
 {
@@ -25,7 +25,7 @@ class Callback extends AbstractImmutableEvent
 	 *
 	 * @param   string  $method  The MFA method name
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct(string $method)
 	{
@@ -39,7 +39,7 @@ class Callback extends AbstractImmutableEvent
 	 *
 	 * @return  string
 	 * @throws  DomainException
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setMethod(string $value): string
 	{

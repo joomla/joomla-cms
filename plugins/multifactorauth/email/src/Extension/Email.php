@@ -45,21 +45,21 @@ use function count;
  * Requires entering a 6-digit code sent to the user through email. These codes change automatically
  * on a frequency set in the plugin options (30 seconds to 5 minutes, default 2 minutes).
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Email extends CMSPlugin implements SubscriberInterface
 {
 	/**
 	 * Generated OTP length. Constant: 6 numeric digits.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private const CODE_LENGTH = 6;
 
 	/**
 	 * Length of the secret key used for generating the OTPs. Constant: 20 characters.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private const SECRET_KEY_LENGTH = 20;
 
@@ -67,7 +67,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * The CMS application we are running under
 	 *
 	 * @var   CMSApplication
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $app;
 
@@ -75,7 +75,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * Forbid registration of legacy (Joomla 3) event listeners.
 	 *
 	 * @var    boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 *
 	 * @deprecated
 	 */
@@ -85,7 +85,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * Autoload this plugin's language files
 	 *
 	 * @var    boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -93,7 +93,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $mfaMethodName = 'email';
 
@@ -102,7 +102,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -122,7 +122,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetMethod(GetMethod $event): void
 	{
@@ -145,7 +145,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * @param   Captive  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorCaptive(Captive $event): void
 	{
@@ -216,7 +216,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetSetup(GetSetup $event): void
 	{
@@ -299,7 +299,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * @param   SaveSetup  $event  The event we are handling
 	 *
 	 * @return  void The configuration data to save to the database
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorSaveSetup(SaveSetup $event): void
 	{
@@ -371,7 +371,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * @param   Validate  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorValidate(Validate $event): void
 	{
@@ -427,7 +427,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorBeforeDisplayMethods(BeforeDisplayMethods $event): void
 	{
@@ -511,7 +511,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * @param   MfaTable  $record  The record to decode
 	 *
 	 * @return  array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function decodeRecordOptions(MfaTable $record): array
 	{
@@ -537,7 +537,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function sendCode(string $key, ?User $user = null)
 	{

@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Site\Model;
 /**
  * Model for managing backup codes
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class BackupcodesModel extends \Joomla\Component\Users\Administrator\Model\BackupcodesModel
 {

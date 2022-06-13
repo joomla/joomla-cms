@@ -17,7 +17,7 @@ use InvalidArgumentException;
 /**
  * Generic helper for handling data shapes in com_users
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 abstract class DataShapeObject implements \ArrayAccess
 {
@@ -26,7 +26,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 *
 	 * @param   array  $array  The data to initialise this object with
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct(array $array = [])
 	{
@@ -46,7 +46,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function asArray(): array
 	{
@@ -60,7 +60,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 *
 	 * @return  $this
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function merge($newValues): self
 	{
@@ -89,7 +89,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 *
 	 * @return  mixed
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __get($name)
 	{
@@ -115,7 +115,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @param   mixed   $value  The property value to set it to
 	 *
 	 * @return mixed
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __set($name, $value)
 	{
@@ -140,7 +140,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @param   string  $name  Property name
 	 *
 	 * @return  boolean  Does it exist in the object?
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	#[\ReturnTypeWillChange]
 	public function __isset($name)
@@ -156,7 +156,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @param   string  $offset  Property name
 	 *
 	 * @return  boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetExists($offset)
@@ -170,7 +170,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @param   string  $offset  Property name
 	 *
 	 * @return  mixed
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetGet($offset)
@@ -185,7 +185,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @param   mixed   $value   Property value
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetSet($offset, $value)
@@ -199,7 +199,7 @@ abstract class DataShapeObject implements \ArrayAccess
 	 * @param   string  $offset  Property name
 	 *
 	 * @return  mixed
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	#[\ReturnTypeWillChange]
 	public function offsetUnset($offset)

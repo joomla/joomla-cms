@@ -34,7 +34,7 @@ final class Token extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @var    ApiApplication
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
