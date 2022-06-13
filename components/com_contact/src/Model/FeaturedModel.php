@@ -87,7 +87,7 @@ class FeaturedModel extends ListModel
 		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.

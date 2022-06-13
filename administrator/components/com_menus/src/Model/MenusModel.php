@@ -79,7 +79,7 @@ class MenusModel extends ListModel
 		// Faster to do three queries for very large menu trees.
 
 		// Get the menu types of menus in the list.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$menuTypes = array_column((array) $items, 'menutype');
 
 		$query = $db->getQuery(true)
@@ -160,7 +160,7 @@ class MenusModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 		$query    = $db->getQuery(true);
 		$clientId = (int) $this->getState('client_id');
 
@@ -241,7 +241,7 @@ class MenusModel extends ListModel
 	public function getModMenuId()
 	{
 		$clientId = (int) $this->getState('client_id');
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 		$query    = $db->getQuery(true)
 			->select($db->quoteName('e.extension_id'))
 			->from($db->quoteName('#__extensions', 'e'))

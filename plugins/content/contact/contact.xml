@@ -2,7 +2,7 @@
 <extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_contact</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2014</creationDate>
+	<creationDate>2014-01</creationDate>
 	<copyright>(C) 2014 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

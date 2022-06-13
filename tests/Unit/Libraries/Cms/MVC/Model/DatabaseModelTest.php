@@ -12,10 +12,10 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Model;
 use Exception;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\DatabaseAwareTrait;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\DatabaseQuery;
-use Joomla\Database\QueryInterface;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
@@ -23,16 +23,19 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  MVC
- * @since       __DEPLOY_VERSION__
+ *
+ * @testdox     The BaseDatabaseModel
+ *
+ * @since       4.2.0
  */
 class DatabaseModelTest extends UnitTestCase
 {
 	/**
-	 * @testdox  Test that the BaseDatabaseModel contains the right db and MVC factory
+	 * @testdox  contains the right db and MVC factory
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedDatabaseAndMVCFactory()
 	{
@@ -57,11 +60,11 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseDatabaseModel returns the right table
+	 * @testdox  returns the right table
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetTable()
 	{
@@ -76,11 +79,11 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseDatabaseModel throws an exception when no table can be created
+	 * @testdox  throws an exception when no table can be created
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetTableWhenNull()
 	{
@@ -95,11 +98,11 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseDatabaseModel returns the right list when the query is an object
+	 * @testdox  returns the right list when the query is an object
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListFromObject()
 	{
@@ -118,11 +121,11 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseDatabaseModel returns the right list when the query is a string
+	 * @testdox  returns the right list when the query is a string
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListFromString()
 	{
@@ -142,11 +145,11 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseDatabaseModel returns the right list count from a query object
+	 * @testdox  returns the right list count from a query object
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromObject()
 	{
@@ -165,11 +168,11 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseDatabaseModel returns the right list count from a query object
+	 * @testdox  returns the right list count from a query object
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromObjectTypeSelect()
 	{
@@ -191,11 +194,11 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  Test that the BaseDatabaseModel returns the right list count from a query string
+	 * @testdox  returns the right list count from a query string
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetListCountFromString()
 	{
@@ -214,23 +217,143 @@ class DatabaseModelTest extends UnitTestCase
 	}
 
 	/**
-	 * Returns a database query instance.
+	 * @testdox  can't determine the checked out state of an item that has not the required field
 	 *
-	 * @param   DatabaseInterface  $db  The database
+	 * @return  void
 	 *
-	 * @return  QueryInterface
-	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
-	private function getQueryStub(DatabaseInterface $db): QueryInterface
+	public function testCheckedOutWithoutField()
 	{
-		return new class($db) extends DatabaseQuery
-		{
-			public function groupConcat($expression, $separator = ',')
-			{}
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
 
-			public function processLimit($query, $limit, $offset = 0)
-			{}
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$this->assertFalse($model->isCheckedOut(new \stdClass));
+	}
+
+	/**
+	 * @testdox  can determine the checked out state of an item with the same user
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function testCheckedOutWithCheckedOutUser()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$user = new User;
+		$user->id = 1;
+		$model->setCurrentUser($user);
+
+		$this->assertFalse($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
+	 * @testdox  can determine the checked out state of an item with a different user
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function testCheckedOutWithNotCheckedOutUser()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+
+		$user = new User;
+		$user->id = 2;
+		$model->setCurrentUser($user);
+
+		$this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
+	 * @testdox  can determine the checked out state of an item when the user is not set
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function testCheckedOutWitFieldEmptyUserSet()
+	{
+		$table = $this->createStub(Table::class);
+		$table->method('getColumnAlias')->willReturn('checked_out');
+
+		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
+		$mvcFactory->method('createTable')->willReturn($table);
+
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends BaseDatabaseModel
+		{};
+		$model->setCurrentUser(new User);
+
+		$this->assertTrue($model->isCheckedOut((object)['checked_out' => 1]));
+	}
+
+	/**
+	 * @testdox  still can use the old trait
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 *
+	 * @deprecated  5.0 Must be removed when trait gets deleted
+	 */
+	public function testUseOldMVCTrait()
+	{
+		$db = $this->createStub(DatabaseInterface::class);
+
+		$model = new class(['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
+		{
+			use DatabaseAwareTrait;
 		};
+
+		$this->assertEquals($db, $model->getDbo());
+	}
+
+	/**
+	 * @testdox  operates normally even when no variable is declared
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 *
+	 * @deprecated  5.0 This has to be removed when we do not support the MVC Trait anymore
+	 */
+	public function testNotDeclaredVariable()
+	{
+		$model = new class(['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
+		{
+			public function cache($key, $value)
+			{
+				if (!isset($this->test[$key]))
+				{
+					$this->test[$key] = $value;
+				}
+
+				return $this->test[$key];
+			}
+		};
+
+		$this->assertEquals('test', $model->cache(1, 'test'));
 	}
 }

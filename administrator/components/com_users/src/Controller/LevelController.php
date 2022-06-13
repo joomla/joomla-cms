@@ -13,11 +13,9 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\Database\ParameterType;
 
 /**
  * User view level controller class.
@@ -64,22 +62,10 @@ class LevelController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		// Check for if Super Admin can edit
-		$data['id'] = (int) $data['id'];
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__viewlevels'))
-			->where($db->quoteName('id') . ' = :id')
-			->bind(':id', $data['id'], ParameterType::INTEGER);
-		$db->setQuery($query);
-
-		$viewlevel = $db->loadAssoc();
-
-		// Decode level groups
-		$groups = json_decode($viewlevel['rules']);
+		$viewLevel = $this->getModel('Level', 'Administrator')->getItem((int) $data['id']);
 
 		// If this group is super admin and this user is not super admin, canEdit is false
-		if (!$this->app->getIdentity()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin') && $viewLevel->rules && Access::checkGroup($viewLevel->rules[0], 'core.admin'))
 		{
 			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 

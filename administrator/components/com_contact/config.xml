@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Contacts:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
@@ -838,22 +839,22 @@
 		</field>
 
 		<field
- 			name="contacts_display_num"
- 			type="list"
- 			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
- 			default="10"
+			name="contacts_display_num"
+			type="list"
+			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+			default="10"
 			validate="options"
- 			>
- 			<option value="5">J5</option>
- 			<option value="10">J10</option>
- 			<option value="15">J15</option>
- 			<option value="20">J20</option>
- 			<option value="25">J25</option>
- 			<option value="30">J30</option>
- 			<option value="50">J50</option>
- 			<option value="100">J100</option>
- 			<option value="0">JALL</option>
- 		</field>
+			>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="100">J100</option>
+			<option value="0">JALL</option>
+		</field>
 
 		<field
 			name="initial_sort"
@@ -1026,7 +1027,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 		<field
 			name="rules"
