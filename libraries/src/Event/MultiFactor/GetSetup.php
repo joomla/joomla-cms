@@ -21,7 +21,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 /**
  * Concrete Event class for the onUserMultifactorGetSetup event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -33,7 +33,7 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	 *
 	 * @param   MfaTable  $record  The record to display the setup page for
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(MfaTable $record)
 	{
@@ -51,7 +51,7 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
 	 * @param   MfaTable  $value  The value to validate
 	 *
 	 * @return  MfaTable
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setRecord(MfaTable $value): MfaTable
 	{

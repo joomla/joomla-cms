@@ -97,7 +97,7 @@ class UpdateModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Grab updates ignoring new installs
 		$query = $db->getQuery(true)
@@ -226,7 +226,7 @@ class UpdateModel extends ListModel
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$listOrder = $this->getState('list.ordering', 'u.name');
 		$listDirn  = $this->getState('list.direction', 'asc');
 
@@ -272,7 +272,7 @@ class UpdateModel extends ListModel
 	 */
 	public function getDisabledUpdateSites()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
@@ -311,7 +311,7 @@ class UpdateModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		try
 		{
@@ -358,7 +358,7 @@ class UpdateModel extends ListModel
 		foreach ($uids as $uid)
 		{
 			$update = new Update;
-			$instance = new \Joomla\CMS\Table\Update($this->getDbo());
+			$instance = new \Joomla\CMS\Table\Update($this->getDatabase());
 
 			if (!$instance->load($uid))
 			{
@@ -369,7 +369,7 @@ class UpdateModel extends ListModel
 			$update->loadFromXml($instance->detailsurl, $minimumStability);
 
 			// Find and use extra_query from update_site if available
-			$updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
+			$updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDatabase());
 			$updateSiteInstance->load($instance->update_site_id);
 
 			if ($updateSiteInstance->extra_query)
@@ -653,7 +653,7 @@ class UpdateModel extends ListModel
 	{
 		$query = parent::getEmptyStateQuery();
 
-		$query->where($this->_db->quoteName('extension_id') . ' != 0');
+		$query->where($this->getDatabase()->quoteName('extension_id') . ' != 0');
 
 		return $query;
 	}

@@ -305,7 +305,7 @@ class ProfileModel extends FormModel
 	 * @return  array
 	 *
 	 * @since   3.2
-	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0.
+	 * @deprecated 4.2.0 Will be removed in 5.0.
 	 */
 	public function getTwofactorform($userId = null)
 	{
@@ -320,7 +320,7 @@ class ProfileModel extends FormModel
 	 * @return  \stdClass
 	 *
 	 * @since   3.2
-	 * @deprecated __DEPLOY_VERSION__  Will be removed in 5.0
+	 * @deprecated 4.2.0  Will be removed in 5.0
 	 */
 	public function getOtpConfig($userId = null)
 	{

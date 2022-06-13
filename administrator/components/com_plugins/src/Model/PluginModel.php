@@ -261,7 +261,7 @@ class PluginModel extends AdminModel
 		$lang    = Factory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
@@ -336,9 +336,11 @@ class PluginModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('type') . ' = ' . $this->_db->quote($table->type),
-			$this->_db->quoteName('folder') . ' = ' . $this->_db->quote($table->folder),
+			$db->quoteName('type') . ' = ' . $db->quote($table->type),
+			$db->quoteName('folder') . ' = ' . $db->quote($table->folder),
 		];
 	}
 

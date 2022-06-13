@@ -303,9 +303,11 @@ class BannerModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
-			$this->_db->quoteName('state') . ' >= 0',
+			$db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$db->quoteName('state') . ' >= 0',
 		];
 	}
 
@@ -332,7 +334,7 @@ class BannerModel extends AdminModel
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select('MAX(' . $db->quoteName('ordering') . ')')
 					->from($db->quoteName('#__banners'));

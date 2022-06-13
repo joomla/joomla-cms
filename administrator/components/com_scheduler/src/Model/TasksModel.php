@@ -109,7 +109,7 @@ class TasksModel extends ListModel
 	protected function getListQuery(): QueryInterface
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		/**
@@ -396,7 +396,7 @@ class TasksModel extends ListModel
 
 		// Set limit parameters and get object list
 		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+		$this->getDatabase()->setQuery($query);
 
 		// Return optionally an extended class.
 		// @todo: Use something other than CMSObject..
@@ -413,12 +413,12 @@ class TasksModel extends ListModel
 
 					return $o;
 				},
-				$this->getDbo()->loadAssocList() ?: []
+				$this->getDatabase()->loadAssocList() ?: []
 			);
 		}
 		else
 		{
-			$responseList = $this->getDbo()->loadObjectList();
+			$responseList = $this->getDatabase()->loadObjectList();
 		}
 
 		// Apply plugins

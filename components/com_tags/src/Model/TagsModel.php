@@ -99,7 +99,7 @@ class TagsModel extends ListModel
 		$language       = $this->getState('tag.language');
 
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select required fields from the tags.

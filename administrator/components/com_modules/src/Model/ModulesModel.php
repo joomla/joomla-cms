@@ -178,12 +178,14 @@ class ModulesModel extends ListModel
 		$listOrder = $this->getState('list.ordering', 'a.position');
 		$listDirn  = $this->getState('list.direction', 'asc');
 
+		$db = $this->getDatabase();
+
 		// If ordering by fields that need translate we need to sort the array of objects after translating them.
 		if (in_array($listOrder, array('pages', 'name')))
 		{
 			// Fetch the results.
-			$this->_db->setQuery($query);
-			$result = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
 
 			// Apply plugins
 			$result = $this->afterGetList($result);
@@ -210,17 +212,17 @@ class ModulesModel extends ListModel
 		// If ordering by fields that doesn't need translate just order the query.
 		if ($listOrder === 'a.ordering')
 		{
-			$query->order($this->_db->quoteName('a.position') . ' ASC')
-				->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn));
+			$query->order($db->quoteName('a.position') . ' ASC')
+				->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 		}
 		elseif ($listOrder === 'a.position')
 		{
-			$query->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn))
-				->order($this->_db->quoteName('a.ordering') . ' ASC');
+			$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn))
+				->order($db->quoteName('a.ordering') . ' ASC');
 		}
 		else
 		{
-			$query->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn));
+			$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 		}
 
 		// Process pagination.
@@ -279,7 +281,7 @@ class ModulesModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields.
@@ -477,7 +479,7 @@ class ModulesModel extends ListModel
 
 		$clientId = (int) $this->getState('client_id');
 
-		$query->where($this->_db->quoteName('a.client_id') . ' = :client_id')
+		$query->where($this->getDatabase()->quoteName('a.client_id') . ' = :client_id')
 			->bind(':client_id', $clientId, ParameterType::INTEGER);
 
 		return $query;

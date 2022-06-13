@@ -10,7 +10,8 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -42,9 +43,10 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DatabaseAwareInterface, DispatcherAwareInterface, CurrentUserInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface, CurrentUserInterface,
+	CacheControllerFactoryAwareInterface
 {
-	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait, CurrentUserTrait;
+	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait, CurrentUserTrait, CacheControllerFactoryAwareTrait;
 
 	/**
 	 * The URL option for the component.
@@ -320,7 +322,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
 			$cache->clean();
 		}
 		catch (CacheExceptionInterface $exception)
