@@ -57,7 +57,7 @@ class FiltersModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.

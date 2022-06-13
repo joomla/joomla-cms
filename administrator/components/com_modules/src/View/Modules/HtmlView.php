@@ -180,7 +180,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_modules');
-		$user  = Factory::getUser();
+		$user  = $this->getCurrentUser();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
@@ -200,7 +200,7 @@ class HtmlView extends BaseHtmlView
 				->onclick("location.href='index.php?option=com_modules&amp;view=select&amp;client_id=" . $this->state->get('client_id', 0) . "'");
 		}
 
-		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')))
+		if (!$this->isEmptyState && ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin')))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -218,7 +218,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->unpublish('modules.unpublish')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if ($this->getCurrentUser()->authorise('core.admin'))
 			{
 				$childBar->checkin('modules.checkin')->listCheck(true);
 			}
