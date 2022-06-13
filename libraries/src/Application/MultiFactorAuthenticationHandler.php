@@ -312,7 +312,7 @@ trait MultiFactorAuthenticationHandler
 		}
 
 		// Allow the Joomla update finalisation to run
-		if ($isAdmin && $option === 'com_joomlaupdate' && in_array($task, ['update.finalise', 'update.cleanup']))
+		if ($isAdmin && $option === 'com_joomlaupdate' && in_array($task, ['update.finalise', 'update.cleanup', 'update.finaliseconfirm']))
 		{
 			return false;
 		}
