@@ -186,7 +186,7 @@ class TagModel extends ListModel
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = (array) $app->input->get('id', array());
+		$ids = (array) $app->input->get('id', array(), 'string');
 
 		if (count($ids) == 1)
 		{
@@ -271,7 +271,7 @@ class TagModel extends ListModel
 	 *
 	 * @param   integer  $pk  An optional ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -279,7 +279,7 @@ class TagModel extends ListModel
 	{
 		if (!isset($this->item))
 		{
-			$this->item = false;
+			$this->item = [];
 
 			if (empty($pk))
 			{

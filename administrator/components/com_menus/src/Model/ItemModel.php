@@ -723,7 +723,16 @@ class ItemModel extends AdminModel
 				$table->component_id = 0;
 				$args = array();
 
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				if ($table->link)
+				{
+					$q = parse_url($table->link, PHP_URL_QUERY);
+
+					if ($q)
+					{
+						parse_str($q, $args);
+					}
+				}
+
 				break;
 
 			case 'separator':
@@ -743,7 +752,12 @@ class ItemModel extends AdminModel
 
 				if ($table->link)
 				{
-					parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+					$q = parse_url($table->link, PHP_URL_QUERY);
+
+					if ($q)
+					{
+						parse_str($q, $args);
+					}
 				}
 
 				if (isset($args['option']))
