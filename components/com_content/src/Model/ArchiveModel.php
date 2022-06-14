@@ -71,7 +71,7 @@ class ArchiveModel extends ArticlesModel
 		$articleOrderDate = $params->get('order_date');
 
 		// No category ordering
-		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo());
+		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDatabase());
 
 		$this->setState('list.ordering', $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
@@ -94,7 +94,7 @@ class ArchiveModel extends ArticlesModel
 		$articleOrderDate = $params->get('order_date');
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = parent::getListQuery();
 
 		// Add routing for archive
@@ -107,7 +107,7 @@ class ArchiveModel extends ArticlesModel
 
 		// Filter on month, year
 		// First, get the date field
-		$queryDate = QueryHelper::getQueryDate($articleOrderDate, $this->getDbo());
+		$queryDate = QueryHelper::getQueryDate($articleOrderDate, $this->getDatabase());
 
 		if ($month = (int) $this->getState('filter.month'))
 		{
@@ -166,7 +166,7 @@ class ArchiveModel extends ArticlesModel
 	 */
 	public function getYears()
 	{
-		$db      = $this->getDbo();
+		$db      = $this->getDatabase();
 		$nowDate = Factory::getDate()->toSql();
 		$query   = $db->getQuery(true);
 		$years   = $query->year($db->quoteName('c.created'));
@@ -212,7 +212,7 @@ class ArchiveModel extends ArticlesModel
 	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		return 'CASE WHEN '
 			. $query->charLength($db->quoteName($alias), '!=', '0')

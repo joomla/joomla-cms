@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Mail_Templates:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="mails_options"
 		label="COM_MAILS_CONFIG_MAIL_OPTIONS" >
@@ -53,7 +54,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field
