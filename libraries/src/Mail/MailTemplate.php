@@ -423,7 +423,7 @@ class MailTemplate
 
 		$template = new \stdClass;
 		$template->template_id = $key;
-		$template->extension = $extension??(explode('.', $key)[0]);
+		$template->extension = $extension ?? (explode('.', $key)[0]);
 		$template->language = '';
 		$template->subject = $subject;
 		$template->body = $body;
