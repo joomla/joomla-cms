@@ -83,7 +83,7 @@ if ($saveOrder && !empty($this->items))
 							$groups = json_decode($item->rules);
 
 							// If this group is super admin and this user is not super admin, $canEdit is false
-							if (!Factory::getUser()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
+							if (!Factory::getUser()->authorise('core.admin') && $groups && Access::checkGroup($groups[0], 'core.admin'))
 							{
 								$canEdit   = false;
 								$canChange = false;

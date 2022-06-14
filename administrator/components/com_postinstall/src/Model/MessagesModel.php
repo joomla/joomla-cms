@@ -64,7 +64,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItem($id)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $id;
 
 		$query = $db->getQuery(true);
@@ -106,7 +106,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function unpublishMessage($id)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $id;
 
 		$query = $db->getQuery(true);
@@ -136,7 +136,7 @@ class MessagesModel extends BaseDatabaseModel
 		// Build a cache ID for the resulting data object
 		$cacheId = $eid . '.' . $published;
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -168,8 +168,7 @@ class MessagesModel extends BaseDatabaseModel
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
 			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
@@ -215,7 +214,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItemsCount()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -268,7 +267,7 @@ class MessagesModel extends BaseDatabaseModel
 	public function getExtensionName($eid)
 	{
 		// Load the extension's information from the database
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
@@ -319,7 +318,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function resetMessages($eid)
 	{
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
@@ -346,7 +345,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function hideMessages($eid)
 	{
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
@@ -436,7 +435,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getComponentOptions()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -673,7 +672,7 @@ class MessagesModel extends BaseDatabaseModel
 		$tableName   = $table->getTableName();
 		$extensionId = (int) $options['extension_id'];
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName($tableName))
