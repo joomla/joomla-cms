@@ -82,7 +82,7 @@
     "commander": "^8.3.0",
     "core-js": "^3.19.3",
     "cssnano": "^5.0.12",
-    "cypress": "^10.0.2",
+    "cypress": "^10.1.0",
     "eslint": "^8.4.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
