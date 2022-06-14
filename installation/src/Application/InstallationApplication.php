@@ -315,7 +315,7 @@ final class InstallationApplication extends CMSApplication
 		$factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
 		// Create the instance
-		$controller = $factory->createController($controllerName, 'Installation',[], $this, $this->input);
+		$controller = $factory->createController($controllerName, 'Installation', [], $this, $this->input);
 
 		// Execute the task
 		$controller->execute($task);
