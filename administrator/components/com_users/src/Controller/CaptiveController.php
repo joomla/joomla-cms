@@ -32,7 +32,7 @@ use RuntimeException;
 /**
  * Captive Multi-factor Authentication page controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CaptiveController extends BaseController
 {
@@ -44,7 +44,7 @@ class CaptiveController extends BaseController
 	 * @param   CMSApplication|null       $app      CMS application object
 	 * @param   Input|null                $input    Joomla CMS input object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
@@ -61,7 +61,7 @@ class CaptiveController extends BaseController
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function display($cachable = false, $urlparams = false): void
 	{
@@ -128,7 +128,7 @@ class CaptiveController extends BaseController
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function validate($cachable = false, $urlparameters = [])
 	{

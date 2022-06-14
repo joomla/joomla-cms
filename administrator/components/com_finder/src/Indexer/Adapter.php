@@ -267,7 +267,7 @@ abstract class Adapter extends CMSPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onFinderGarbageCollection()
 	{

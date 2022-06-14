@@ -63,7 +63,7 @@ class Router extends RouterView
 	 * @param   array   $query    The URL query parameters
 	 *
 	 * @return integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getMethodId($segment, $query)
 	{
@@ -77,7 +77,7 @@ class Router extends RouterView
 	 * @param   array    $query  The URL query parameters
 	 *
 	 * @return int[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getMethodSegment($id, $query)
 	{

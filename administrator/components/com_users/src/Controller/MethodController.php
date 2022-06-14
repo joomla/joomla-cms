@@ -31,7 +31,7 @@ use RuntimeException;
 /**
  * Multi-factor Authentication method controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MethodController extends BaseControllerAlias
 {
@@ -43,7 +43,7 @@ class MethodController extends BaseControllerAlias
 	 * @param   CMSApplication|null       $app      CMS application object
 	 * @param   Input|null                $input    Joomla CMS input object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
@@ -63,7 +63,7 @@ class MethodController extends BaseControllerAlias
 	 * @return  mixed   The value returned by the called Method.
 	 *
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function execute($task)
 	{
@@ -83,7 +83,7 @@ class MethodController extends BaseControllerAlias
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function add($cachable = false, $urlparams = []): void
 	{
@@ -128,7 +128,7 @@ class MethodController extends BaseControllerAlias
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function edit($cachable = false, $urlparams = []): void
 	{
@@ -178,7 +178,7 @@ class MethodController extends BaseControllerAlias
 	 *
 	 * @return  void
 	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function regenerateBackupCodes($cachable = false, $urlparams = []): void
 	{
@@ -219,7 +219,7 @@ class MethodController extends BaseControllerAlias
 	 * @param   boolean|array  $urlparams  Ignored. This page is never cached.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function delete($cachable = false, $urlparams = []): void
 	{
@@ -276,7 +276,7 @@ class MethodController extends BaseControllerAlias
 	 * @param   boolean|array  $urlparams  Ignored. This page is never cached.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function save($cachable = false, $urlparams = []): void
 	{
@@ -416,7 +416,7 @@ class MethodController extends BaseControllerAlias
 	 * @param   User|null  $user  User record. Null to use current user.
 	 *
 	 * @return  MfaTable  The loaded record
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function assertValidRecordId($id, ?User $user = null): MfaTable
 	{
@@ -449,7 +449,7 @@ class MethodController extends BaseControllerAlias
 	 *
 	 * @return  void
 	 * @throws  RuntimeException|Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function assertCanEdit(?User $user = null): void
 	{
@@ -466,7 +466,7 @@ class MethodController extends BaseControllerAlias
 	 *
 	 * @return  void
 	 * @throws  RuntimeException|Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function assertCanDelete(?User $user = null): void
 	{
@@ -482,7 +482,7 @@ class MethodController extends BaseControllerAlias
 	 * @param   string|null  $method  The Method to check
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function assertMethodExists(?string $method): void
 	{
@@ -499,7 +499,7 @@ class MethodController extends BaseControllerAlias
 	 * Assert that there is a logged in user.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function assertLoggedInUser(): void
 	{
