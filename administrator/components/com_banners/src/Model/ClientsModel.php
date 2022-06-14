@@ -97,7 +97,7 @@ class ClientsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$defaultPurchase = (int) ComponentHelper::getParams('com_banners')->get('purchase_type', 3);
@@ -232,7 +232,7 @@ class ClientsModel extends ListModel
 		// Faster to do three queries for very large banner trees.
 
 		// Get the clients in the list.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$clientIds = array_column($items, 'id');
 
 		$query = $db->getQuery(true)

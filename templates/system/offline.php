@@ -31,8 +31,6 @@ if ($this->direction === 'rtl')
 
 $wa->registerAndUseStyle('template.system.general', 'media/system/css/system-site-general.css');
 
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -68,12 +66,6 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<label for="passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 			<input type="password" name="password" class="inputbox" alt="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" id="passwd" />
 		</p>
-		<?php if (count($twofactormethods) > 1) : ?>
-			<p id="form-login-secretkey">
-				<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-				<input type="text" name="secretkey" autocomplete="one-time-code" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
-			</p>
-		<?php endif; ?>
 		<p id="submit-button">
 			<button type="submit" name="Submit" class="button login"><?php echo Text::_('JLOGIN'); ?></button>
 		</p>

@@ -158,7 +158,8 @@ class TagModel extends ListModel
 
 		if ($this->state->get('list.filter'))
 		{
-			$query->where($this->_db->quoteName('c.core_title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
+			$db = $this->getDatabase();
+			$query->where($db->quoteName('c.core_title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
 		}
 
 		return $query;

@@ -35,49 +35,49 @@ class CategoryModel extends ListModel
 	 *
 	 * @var array
 	 */
-	protected $_item = null;
+	protected $_item;
 
 	/**
 	 * Array of newsfeeds in the category
 	 *
 	 * @var    \stdClass[]
 	 */
-	protected $_articles = null;
+	protected $_articles;
 
 	/**
 	 * Category left and right of this one
 	 *
 	 * @var    CategoryNode[]|null
 	 */
-	protected $_siblings = null;
+	protected $_siblings;
 
 	/**
 	 * Array of child-categories
 	 *
 	 * @var    CategoryNode[]|null
 	 */
-	protected $_children = null;
+	protected $_children;
 
 	/**
 	 * Parent category of the current one
 	 *
 	 * @var    CategoryNode|null
 	 */
-	protected $_parent = null;
+	protected $_parent;
 
 	/**
 	 * The category that applies.
 	 *
 	 * @var    object
 	 */
-	protected $_category = null;
+	protected $_category;
 
 	/**
 	 * The list of other newsfeed categories.
 	 *
 	 * @var    array
 	 */
-	protected $_categories = null;
+	protected $_categories;
 
 	/**
 	 * Constructor.
@@ -114,21 +114,33 @@ class CategoryModel extends ListModel
 		// Invoke the parent getItems method to get the main list
 		$items = parent::getItems();
 
+		$taggedItems = [];
+
 		// Convert the params field into an object, saving original in _params
 		foreach ($items as $item)
 		{
 			if (!isset($this->_params))
 			{
-				$params = new Registry;
-				$item->params = $params;
-				$params->loadString($item->params);
+				$item->params = new Registry($item->params);
 			}
 
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', true))
 			{
 				$item->tags = new TagsHelper;
-				$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+				$taggedItems[$item->id] = $item;
+			}
+		}
+
+		// Load tags of all items.
+		if ($taggedItems)
+		{
+			$tagsHelper = new TagsHelper;
+			$itemIds = \array_keys($taggedItems);
+
+			foreach ($tagsHelper->getMultipleItemTags('com_newsfeeds.newsfeed', $itemIds) as $id => $tags)
+			{
+				$taggedItems[$id]->tags->itemTags = $tags;
 			}
 		}
 
@@ -138,7 +150,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string    An SQL query
+	 * @return  \Joomla\Database\DatabaseQuery    An SQL query
 	 *
 	 * @since   1.6
 	 */
@@ -148,7 +160,9 @@ class CategoryModel extends ListModel
 		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db = $this->getDatabase();
+
+		/** @var \Joomla\Database\DatabaseQuery $query */
 		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.
@@ -214,7 +228,7 @@ class CategoryModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Add the list ordering clause.

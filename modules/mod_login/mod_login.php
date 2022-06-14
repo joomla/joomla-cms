@@ -21,7 +21,6 @@ $formId           = 'login-form-' . $module->id;
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
 $registerLink     = LoginHelper::getRegistrationUrl($params);
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $extraButtons     = AuthenticationHelper::getLoginButtons($formId);
 $user             = Factory::getUser();
 $layout           = $params->get('layout', 'default');

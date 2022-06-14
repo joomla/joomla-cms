@@ -121,10 +121,12 @@ class PluginsModel extends ListModel
 			$ordering = 'name';
 		}
 
+		$db = $this->getDatabase();
+
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
-			$this->_db->setQuery($query);
-			$result = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
 			$this->translate($result);
 
 			if (!empty($search))
@@ -164,7 +166,7 @@ class PluginsModel extends ListModel
 				$ordering = 'a.ordering';
 			}
 
-			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
 
 			if ($ordering == 'folder')
 			{
@@ -207,7 +209,7 @@ class PluginsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.

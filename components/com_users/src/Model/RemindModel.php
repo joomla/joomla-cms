@@ -133,7 +133,7 @@ class RemindModel extends FormModel
 		}
 
 		// Find the user id for the given email address.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__users'))

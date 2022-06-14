@@ -22,6 +22,13 @@ use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect')
+	->useScript('com_scheduler.test-task')
+	->useStyle('com_scheduler.admin-view-tasks-css');
+
 Text::script('COM_SCHEDULER_TEST_RUN_TITLE');
 Text::script('COM_SCHEDULER_TEST_RUN_TASK');
 Text::script('COM_SCHEDULER_TEST_RUN_DURATION');
@@ -60,12 +67,6 @@ if ($saveOrder && !empty($this->items))
 }
 
 $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getFormToken());
-
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect')
-	->useScript('com_scheduler.test-task')
-	->useStyle('com_scheduler.admin-view-tasks-css');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_scheduler&view=tasks'); ?>" method="post" name="adminForm"
