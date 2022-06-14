@@ -417,7 +417,7 @@ class MailTemplate
 	 *
 	 * @since   4.0.0
 	 */
-	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '',$extension = null)
+	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '', $extension = null)
 	{
 		$db = Factory::getDbo();
 
