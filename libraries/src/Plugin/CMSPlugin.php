@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
@@ -76,6 +77,14 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	protected $allowLegacyListeners = true;
 
 	/**
+	 * The application object
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $application;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe
@@ -120,6 +129,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		if (property_exists($this, 'app'))
 		{
+			@trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
 			$reflection = new \ReflectionClass($this);
 			$appProperty = $reflection->getProperty('app');
 
@@ -131,6 +141,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		if (property_exists($this, 'db'))
 		{
+			@trigger_error('The database should be injected through the DatabaseAwareInterface and trait.', E_USER_DEPRECATED);
 			$reflection = new \ReflectionClass($this);
 			$dbProperty = $reflection->getProperty('db');
 
@@ -358,5 +369,31 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the internal application.
+	 *
+	 * @return  CMSApplicationInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getApplication(): CMSApplicationInterface
+	{
+		return $this->application;
+	}
+
+	/**
+	 * Sets the application to use.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setApplication(CMSApplicationInterface $application): void
+	{
+		$this->application = $application;
 	}
 }

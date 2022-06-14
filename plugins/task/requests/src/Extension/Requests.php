@@ -68,14 +68,6 @@ class Requests extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
-	 * The application object
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
 	 * The http factory
 	 *
 	 * @var    HttpFactory
@@ -132,7 +124,7 @@ class Requests extends CMSPlugin implements SubscriberInterface
 		}
 		catch (Exception $e)
 		{
-			$this->logTask($this->app->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
+			$this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
 
 			return TaskStatus::TIMEOUT;
 		}
@@ -150,7 +142,7 @@ class Requests extends CMSPlugin implements SubscriberInterface
 		}
 		else
 		{
-			$this->logTask($this->app->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
+			$this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
 			$responseStatus = 'NOT_SAVED';
 		}
 
@@ -161,7 +153,7 @@ class Requests extends CMSPlugin implements SubscriberInterface
 > Response: $responseStatus
 EOF;
 
-		$this->logTask(sprintf($this->app->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
+		$this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
 
 		if ($response->code !== 200)
 		{

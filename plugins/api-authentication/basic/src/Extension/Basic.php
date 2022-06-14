@@ -11,7 +11,6 @@ namespace Joomla\Plugin\ApiAuthentication\Basic\Extension;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -27,14 +26,6 @@ use Joomla\Event\DispatcherInterface;
 final class Basic extends CMSPlugin
 {
 	use DatabaseAwareTrait;
-
-	/**
-	 * The application object
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  4.0.0
-	 */
-	protected $app;
 
 	/**
 	 * The user factory
@@ -75,13 +66,13 @@ final class Basic extends CMSPlugin
 	{
 		$response->type = 'Basic';
 
-		$username = $this->app->input->server->get('PHP_AUTH_USER', '', 'USERNAME');
-		$password = $this->app->input->server->get('PHP_AUTH_PW', '', 'RAW');
+		$username = $this->getApplication()->input->server->get('PHP_AUTH_USER', '', 'USERNAME');
+		$password = $this->getApplication()->input->server->get('PHP_AUTH_PW', '', 'RAW');
 
 		if ($password === '')
 		{
 			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+			$response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
 			return;
 		}
@@ -108,7 +99,7 @@ final class Basic extends CMSPlugin
 				$response->fullname = $user->name;
 				$response->username = $username;
 
-				if ($this->app->isClient('administrator'))
+				if ($this->getApplication()->isClient('administrator'))
 				{
 					$response->language = $user->getParam('admin_language');
 				}
@@ -125,7 +116,7 @@ final class Basic extends CMSPlugin
 			{
 				// Invalid password
 				$response->status        = Authentication::STATUS_FAILURE;
-				$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
+				$response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
@@ -136,7 +127,7 @@ final class Basic extends CMSPlugin
 
 			// Invalid user
 			$response->status        = Authentication::STATUS_FAILURE;
-			$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
+			$response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
 		}
 	}
 }
