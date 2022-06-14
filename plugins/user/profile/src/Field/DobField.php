@@ -58,7 +58,7 @@ class DobField extends CalendarField
 			{
 				$layout = new FileLayout('plugins.user.profile.fields.dob');
 				$info   = $layout->render(array('text' => $text));
-				$label  = $info . $label;
+				$label  = $label . $info;
 			}
 		}
 
