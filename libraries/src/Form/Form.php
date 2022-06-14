@@ -570,7 +570,7 @@ class Form
 	 * @param   mixed   $default  The optional default value of the field value is empty.
 	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since   3.2.3
 	 */
@@ -592,7 +592,7 @@ class Form
 	 * @param   string  $name     The name of the fieldset for which to get the values.
 	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
-	 * @return  string  A string containing the html for the control goups
+	 * @return  string  A string containing the html for the control groups
 	 *
 	 * @since   3.2.3
 	 */
