@@ -17,8 +17,6 @@ extract($displayData);
  * @var   string  $text  infotext to be displayed
  */
 
-// Closing the opening .control-group and .control-label div so we can add our info text on own line ?>
-</div></div>
-<div class="controls"><?php echo $text; ?></div>
-<?php // Creating new .control-group and .control-label for the actual field ?>
-<div class="control-group"><div class="control-label">
+?>
+
+<div class="small"><?php echo $text; ?></div>
