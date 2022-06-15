@@ -26,7 +26,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
 </form>
 
 <?php foreach ($this->items as $item) : ?>
-	<?php if($item->enabled === 1) : ?>
+	<?php if ($item->enabled === 1) : ?>
 		<div class="card card-outline-secondary mb-3">
 			<div class="card-body">
 				<h3><?php echo Text::_($item->title_key); ?></h3>
@@ -51,7 +51,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
 				</div>
 			</div>
 		</div>
-		<?php elseif($item->enabled === 2) : ?>
+	<?php elseif ($item->enabled === 2) : ?>
 		<div class="card card-outline-secondary mb-3">
 			<div class="card-body">
 				<h3><?php echo Text::_($item->title_key); ?></h3>
