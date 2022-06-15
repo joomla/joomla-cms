@@ -495,6 +495,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 						'key' => ($totp)->generateSecret(),
 					],
 					'default' => 0,
+					'user_id' => $user->id,
 				]
 			);
 		}

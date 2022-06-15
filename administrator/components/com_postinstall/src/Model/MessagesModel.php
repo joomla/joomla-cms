@@ -121,6 +121,56 @@ class MessagesModel extends BaseDatabaseModel
 	}
 
 	/**
+	 * Archives specified post-install message
+	 *
+	 * @param    integer  $id  The message id
+	 *
+	 * @return   void
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function archiveMessage($id)
+	{
+		$db = $this->getDbo();
+		$id = (int) $id;
+
+		$query = $db->getQuery(true);
+		$query
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 2')
+			->where($db->quoteName('postinstall_message_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+		Factory::getCache()->clean('com_postinstall');
+	}
+
+	/**
+	 * Republishes specified post-install message
+	 *
+	 * @param    integer  $id  The message id
+	 *
+	 * @return   void
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function republishMessage($id)
+	{
+		$db = $this->getDbo();
+		$id = (int) $id;
+
+		$query = $db->getQuery(true);
+		$query
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 1')
+			->where($db->quoteName('postinstall_message_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+		Factory::getCache()->clean('com_postinstall');
+	}
+
+	/**
 	 * Returns a list of messages from the #__postinstall_messages table
 	 *
 	 * @return  array
@@ -131,10 +181,9 @@ class MessagesModel extends BaseDatabaseModel
 	{
 		// Add a forced extension filtering to the list
 		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
-		$published = (int) $this->getState('published', 1);
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $eid . '.' . $published;
+		$cacheId = 'postinstall_messages.' . $eid;
 
 		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
@@ -161,8 +210,7 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		// Force filter only enabled messages
-		$query->where($db->quoteName('enabled') . ' = :published')
-			->bind(':published', $published, ParameterType::INTEGER);
+		$query->where($db->quoteName('enabled') . ' IN (1,2)');
 		$db->setQuery($query);
 
 		try
