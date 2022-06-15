@@ -13,10 +13,12 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\Dispatcher;
+use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
+use stdClass;
 
 /**
  * Test class for \Joomla\CMS\Plugin\CMSPlugin
@@ -72,7 +74,7 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  has null para,ms when not set
+	 * @testdox  has null params when not set
 	 *
 	 * @return  void
 	 *
@@ -235,7 +237,7 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  that the listeners can be registered when is SubscriberInterface
+	 * @testdox  can register the listeners when is SubscriberInterface
 	 *
 	 * @return  void
 	 *
@@ -261,7 +263,7 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  that the listeners can be registered when is legacy
+	 * @testdox  can register the listeners when is legacy
 	 *
 	 * @return  void
 	 *
@@ -282,7 +284,7 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  that the listeners can be registered with event interface
+	 * @testdox  can register the listeners with event interface
 	 *
 	 * @return  void
 	 *
@@ -303,7 +305,7 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  that the listeners must be registered with event interface
+	 * @testdox  must register the listeners with event interface
 	 *
 	 * @return  void
 	 *
@@ -326,7 +328,7 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  that the listeners can be registered when has normal arguments
+	 * @testdox  can register the listeners when has typed arguments
 	 *
 	 * @return  void
 	 *
@@ -347,13 +349,55 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  that a single method can be registered
+	 * @testdox  can register the listeners when has untyped arguments
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testRegisterListener()
+	public function testRegisterListenersNotTyped()
+	{
+		$dispatcher = new Dispatcher;
+
+		$plugin = new class($dispatcher, []) extends CMSPlugin
+		{
+			public function onTest($event)
+			{}
+		};
+		$plugin->registerListeners();
+
+		$this->assertCount(1, $dispatcher->getListeners('onTest'));
+	}
+
+	/**
+	 * @testdox  can register the listeners when has nullable arguments
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testRegisterListenersNullable()
+	{
+		$dispatcher = new Dispatcher;
+
+		$plugin = new class($dispatcher, []) extends CMSPlugin
+		{
+			public function onTest(stdClass $event = null)
+			{}
+		};
+		$plugin->registerListeners();
+
+		$this->assertCount(1, $dispatcher->getListeners('onTest'));
+	}
+
+	/**
+	 * @testdox  can dispatch a legacy listener
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDispatchLegacyListener()
 	{
 		$dispatcher = new Dispatcher;
 
@@ -361,14 +405,73 @@ class CMSPluginTest extends UnitTestCase
 		{
 			public function registerTestListener()
 	    	{
-	        	parent::registerListener('onTest');
+	        	parent::registerLegacyListener('onTest');
+	    	}
+
+			public function onTest()
+			{
+				return 'unit';
+			}
+		};
+		$plugin->registerTestListener();
+		$event = $dispatcher->dispatch('onTest');
+
+		$this->assertEquals(['unit'], $event->getArgument('result'));
+	}
+
+	/**
+	 * @testdox  can dispatch a legacy listener with null result
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDispatchLegacyListenerWhenNullIsReturned()
+	{
+		$dispatcher = new Dispatcher;
+
+		$plugin = new class($dispatcher, []) extends CMSPlugin
+		{
+			public function registerTestListener()
+	    	{
+	        	parent::registerLegacyListener('onTest');
 	    	}
 
 			public function onTest()
 			{}
 		};
 		$plugin->registerTestListener();
+		$event = $dispatcher->dispatch('onTest');
 
-		$this->assertCount(1, $dispatcher->getListeners('onTest'));
+		$this->assertEquals(null, $event->getArgument('result'));
+	}
+
+	/**
+	 * @testdox  can dispatch a legacy listener and contains the result from the event and the plugin
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testDispatchLegacyListenerWhenEventHasResult()
+	{
+		$dispatcher = new Dispatcher;
+
+		$plugin = new class($dispatcher, []) extends CMSPlugin
+		{
+			public function registerTestListener()
+	    	{
+	        	parent::registerLegacyListener('onTest');
+	    	}
+
+			public function onTest()
+			{
+				return 'unit';
+			}
+		};
+		$plugin->registerTestListener();
+		$event = $dispatcher->dispatch('onTest', new Event('onTest', ['result' => ['test']]));
+
+		$this->assertEquals(['test', 'unit'], $event->getArgument('result'));
 	}
 }
