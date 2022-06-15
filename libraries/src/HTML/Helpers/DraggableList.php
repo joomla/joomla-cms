@@ -57,16 +57,17 @@ abstract class DraggableList
 		// Please consider using data attributes instead of passing arguments here!
 		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir))
 		{
-			$doc->addScriptOptions(
-				'draggable-list',
-				[
+			$options = $doc->getScriptOptions('draggable-list');
+
+			$options[] = [
 					'id'        => '#' . $tableId . ' tbody',
 					'formId'    => $formId,
 					'direction' => $sortDir,
 					'url'       => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
 					'nested'    => $nestedList,
-				]
-			);
+				];
+
+			$doc->addScriptOptions('draggable-list', $options);
 		}
 
 		$doc->getWebAssetManager()
