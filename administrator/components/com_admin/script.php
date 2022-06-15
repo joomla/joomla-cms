@@ -6474,9 +6474,6 @@ class JoomlaInstallerScript
 			'/plugins/twofactorauth/yubikey/tmpl/form.php',
 			'/plugins/twofactorauth/yubikey/yubikey.php',
 			'/plugins/twofactorauth/yubikey/yubikey.xml',
-			// From 4.2
-			'/plugins/user/profile/src/Field/DobField.php',
-			'/layouts/plugins/user/profile/fields/dob.php',
 		);
 
 		$folders = array(
@@ -7838,10 +7835,6 @@ class JoomlaInstallerScript
 			'/plugins/twofactorauth/totp',
 			'/plugins/twofactorauth',
 			'/libraries/vendor/nyholm/psr7/doc',
-			// From 4.2
-			'/layouts/plugins/user/profile/fields',
-			'/layouts/plugins/user/profile',
-			'/layouts/plugins/user/',
 		);
 
 		$status['files_checked'] = $files;
