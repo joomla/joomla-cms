@@ -11,7 +11,6 @@ namespace Joomla\Component\Finder\Administrator\Field;
 
 \defined('_JEXEC') or die();
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -41,7 +40,7 @@ class SearchfilterField extends ListField
 	public function getOptions()
 	{
 		// Build the query.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('f.title AS text, f.filter_id AS value')
 			->from($db->quoteName('#__finder_filters') . ' AS f')

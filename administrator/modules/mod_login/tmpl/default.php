@@ -65,26 +65,6 @@ Text::script('JHIDEPASSWORD');
 		</div>
 
 		<div class="mt-4">
-			<?php if (count($twofactormethods) > 1): ?>
-				<div class="form-group">
-					<label for="mod-login-secretkey">
-						<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
-						<span class="form-control-hint">
-							<?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
-						</span>
-					</label>
-					<div class="input-group">
-
-						<input
-							name="secretkey"
-							autocomplete="one-time-code"
-							id="mod-login-secretkey"
-							type="text"
-							class="form-control"
-						>
-					</div>
-				</div>
-			<?php endif; ?>
 			<?php if (!empty($langs)) : ?>
 				<div class="form-group">
 					<label for="lang">
