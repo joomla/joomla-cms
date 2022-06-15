@@ -1411,8 +1411,6 @@ class Form
 	 */
 	protected function &findFieldsByFieldset($name)
 	{
-		$false = false;
-
 		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
@@ -1444,7 +1442,6 @@ class Form
 	 */
 	protected function &findFieldsByGroup($group = null, $nested = false)
 	{
-		$false = false;
 		$fields = [];
 
 		// Make sure there is a valid Form XML document.
@@ -1517,7 +1514,6 @@ class Form
 	 */
 	protected function &findGroup($group)
 	{
-		$false = false;
 		$groups = [];
 		$tmp = [];
 
