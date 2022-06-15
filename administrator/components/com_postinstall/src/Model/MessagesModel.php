@@ -128,7 +128,7 @@ class MessagesModel extends BaseDatabaseModel
 	 * @return   void
 	 *
 	 * @since    __DEPLOY_VERSION__
- 	 */
+	 */
 	public function archiveMessage($id)
 	{
 		$db = $this->getDbo();
