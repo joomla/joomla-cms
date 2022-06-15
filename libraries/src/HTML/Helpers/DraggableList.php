@@ -47,7 +47,7 @@ abstract class DraggableList
 	)
 	{
 		// Only load once
-		if (isset(static::$loaded[$tableId]))
+		if (isset(static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl]))
 		{
 			return;
 		}
@@ -74,6 +74,6 @@ abstract class DraggableList
 			->useScript('joomla.draggable');
 
 		// Set static array
-		static::$loaded[$tableId] = true;
+		static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl] = true;
 	}
 }
