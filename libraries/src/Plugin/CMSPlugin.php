@@ -173,7 +173,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		}
 
 		$extension = strtolower($extension);
-		$lang      = Factory::getLanguage();
+		$lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
 
 		// If language already loaded, don't load it again.
 		if ($lang->getPaths($extension))
@@ -372,13 +372,13 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	}
 
 	/**
-	 * Returns the internal application.
+	 * Returns the internal application or null when not set.
 	 *
-	 * @return  CMSApplicationInterface
+	 * @return  CMSApplicationInterface|null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getApplication(): CMSApplicationInterface
+	protected function getApplication(): ?CMSApplicationInterface
 	{
 		return $this->application;
 	}

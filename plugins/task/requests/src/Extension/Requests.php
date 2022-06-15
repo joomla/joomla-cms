@@ -29,7 +29,7 @@ use Joomla\Http\HttpFactory;
  *
  * @since  4.1.0
  */
-class Requests extends CMSPlugin implements SubscriberInterface
+final class Requests extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
