@@ -12,7 +12,6 @@ namespace Joomla\CMS\MVC\Model;
 
 use Exception;
 use Joomla\CMS\Event\Model\AfterGetListEvent;
-use Joomla\CMS\Event\Model\ListQueryEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
@@ -133,14 +132,6 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 	protected $events_map;
 
 	/**
-	 * The event to trigger on list query
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $eventListQuery;
-
-	/**
 	 * The event to trigger after get list
 	 *
 	 * @var    string
@@ -185,14 +176,12 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 			$this->listForbiddenList = array_merge($this->listBlacklist, $this->listForbiddenList);
 		}
 
-		$this->eventListQuery    = $config['eventListQuery'] ?? $this->eventListQuery ?? 'onContentListQuery';
 		$this->eventAfterGetList = $config['eventAfterGetList'] ?? $this->eventAfterGetList ?? 'onContentAfterGetList';
 
 		$config['events_map'] = $config['events_map'] ?? array();
 
 		$this->events_map = array_merge(
 			[
-				'list_query'     => 'content',
 				'after_get_list' => 'content',
 			],
 			$config['events_map']
@@ -256,18 +245,6 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
 		{
 			$this->lastQueryStoreId = $currentStoreId;
 			$this->query            = $this->getListQuery();
-
-			PluginHelper::importPlugin($this->events_map['list_query']);
-
-			$event = new ListQueryEvent(
-				$this->eventListQuery,
-				[
-					'subject' => $this,
-					'context' => $this->context,
-					'query'   => $this->query,
-				]
-			);
-			$this->dispatchEvent($event);
 		}
 
 		return $this->query;
