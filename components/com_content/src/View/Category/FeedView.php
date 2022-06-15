@@ -56,8 +56,8 @@ class FeedView extends CategoryFeedView
 		if (!empty($obj->{'image_intro'}))
 		{
 			$itemImage = $obj->{'image_intro'};
-
-		} elseif (!empty($obj->{'image_fulltext'}))
+		}
+		elseif (!empty($obj->{'image_fulltext'}))
 		{
 			$itemImage = $obj->{'image_fulltext'};
 		}
