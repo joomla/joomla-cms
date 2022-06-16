@@ -11,8 +11,6 @@ namespace Joomla\Tests\Unit\Libraries\Cms\Cache;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
-use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\CMS\User\User;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
