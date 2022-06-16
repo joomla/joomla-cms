@@ -80,6 +80,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 * The application object
 	 *
 	 * @var    CMSApplicationInterface
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $application;
