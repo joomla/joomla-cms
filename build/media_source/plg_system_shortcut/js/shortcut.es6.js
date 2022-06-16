@@ -36,7 +36,8 @@
 
   const addOverviewHint = () => {
     const iconElement = document.createElement('span');
-    iconElement.className = 'icon-info me-2';
+    iconElement.className = 'icon-keyboard fa-keyboard me-2';
+    iconElement.setAttribute('aria-hidden', true);
     const textElement = document.createElement('span');
     textElement.innerText = Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
     const hintElement = document.createElement('p');
@@ -62,25 +63,34 @@
             <div class="modal-body p-3">
               <div class="mb-3">
                 <h4>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_ACTIONS_GENERAL_LABEL')}</h4>
-                <ul>
-                  <li>${Joomla.Text._('JHELP')}: J + H</li>
-                  <li>${Joomla.Text._('JOPTIONS')}: J + O</li>
-                  <li>${Joomla.Text._('JSEARCH_FILTER')}: J + S</li>
-                </ul>
+                <dl>
+                  <dt>${Joomla.Text._('JHELP')}</dt>
+                  <dd>J + H</dd>
+                  <dt>${Joomla.Text._('JOPTIONS')}</dt>
+                  <dd>J + O</dd>
+                  <dt>${Joomla.Text._('JSEARCH_FILTER')}</dt>
+                  <dd>J + S</dd>
+                </dl>
 
                 <h4>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_ACTIONS_LIST_LABEL')}</h4>
-                <ul>
-                  <li>${Joomla.Text._('JTOOLBAR_NEW')}: J + N</li>
-                  <li>${Joomla.Text._('JCANCEL')}: J + Q</li>
-                </ul>
+                <dl>
+                  <dt>${Joomla.Text._('JTOOLBAR_NEW')}</dt>
+                  <dd>J + N</dd>
+                  <dt>${Joomla.Text._('JCANCEL')}</dt>
+                  <dd>J + Q</dd>
+                </dl>
 
                 <h4>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_ACTIONS_FORM_LABEL')}</h4>
-                <ul>
-                  <li>${Joomla.Text._('JAPPLY')}: J + A</li>
-                  <li>${Joomla.Text._('JTOOLBAR_SAVE')}: J + S</li>
-                  <li>${Joomla.Text._('JTOOLBAR_SAVE_AND_NEW')}: J + N</li>
-                  <li>${Joomla.Text._('JTOOLBAR_CLOSE')}: J + Q</li>
-                </ul>
+                <dl>
+                  <dt>${Joomla.Text._('JAPPLY')}</dt>
+                  <dd>J + A</dd>
+                  <dt>${Joomla.Text._('JTOOLBAR_SAVE')}</dt>
+                  <dd>J + S</dd>
+                  <dt>${Joomla.Text._('JTOOLBAR_SAVE_AND_NEW')}</dt>
+                  <dd>J + N</dd>
+                  <dt>${Joomla.Text._('JTOOLBAR_CLOSE')}</dt>
+                  <dd>J + Q</dd>
+                </dl>
               </div>
             </div>
           </div>
