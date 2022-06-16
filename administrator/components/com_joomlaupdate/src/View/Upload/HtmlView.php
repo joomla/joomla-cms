@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$params = ComponentHelper::getParams('com_joomlaupdate');
-		$this->noBackupCheck  = $params->get('backupcheck', 0) == 0;
+		$this->noBackupCheck  = $params->get('backupcheck', 1) == 0;
 
 		$this->addToolbar();
 

@@ -260,7 +260,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->noVersionCheck = $params->get('versioncheck', 1) == 0;
-		$this->noBackupCheck  = $params->get('backupcheck', 0) == 0;
+		$this->noBackupCheck  = $params->get('backupcheck', 1) == 0;
 
 		// Remove temporary files
 		$this->getModel()->removePackageFiles();
