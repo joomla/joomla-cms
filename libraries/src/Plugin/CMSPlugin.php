@@ -187,6 +187,31 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	}
 
 	/**
+	 * Translates the given key with the local applications language. If arguments are available, then
+	 * injects them into the translated string.
+	 *
+	 * @param   string   $key        The key to translate
+	 * @param   mixed[]  $arguments  The arguments
+	 *
+	 * @return  string  The translated string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @see     sprintf
+	 */
+	protected function translate(string $key, ...$arguments): string
+	{
+		$language = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getApplication()->getLanguage();
+
+		if ($arguments)
+		{
+			return sprintf($language->_($key), ...$arguments);
+		}
+
+		return $language->_($key);
+	}
+
+	/**
 	 * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
 	 *
 	 * By default, this method will look for all public methods whose name starts with "on". It will register

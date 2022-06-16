@@ -214,13 +214,13 @@ class CMSPluginTest extends UnitTestCase
 	}
 
 	/**
-	 * @testdox  does not load the language whien the path exists
+	 * @testdox  does not load the language when the path exists
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function testNotLoadWhenExists()
+	public function testNotLoadLanguageWhenExists()
 	{
 		$dispatcher = new Dispatcher;
 		$language = $this->createMock(Language::class);
@@ -234,6 +234,62 @@ class CMSPluginTest extends UnitTestCase
 		{};
 		$plugin->setApplication($app);
 		$plugin->loadLanguage();
+	}
+
+	/**
+	 * @testdox  can translate a string without arguments
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testTranslateWithoutArguments()
+	{
+		$dispatcher = new Dispatcher;
+		$language = $this->createMock(Language::class);
+		$language->method('_')->willReturn('test');
+
+		$app = $this->createStub(CMSApplicationInterface::class);
+		$app->method('getLanguage')->willReturn($language);
+
+		$plugin = new class($dispatcher, []) extends CMSPlugin
+		{
+			public function test(): string
+			{
+				return parent::translate('unit');
+			}
+		};
+		$plugin->setApplication($app);
+
+		$this->assertEquals('test', $plugin->test());
+	}
+
+	/**
+	 * @testdox  can translate a string with arguments
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testTranslateWithArguments()
+	{
+		$dispatcher = new Dispatcher;
+		$language = $this->createMock(Language::class);
+		$language->method('_')->willReturn('test %s in %s');
+
+		$app = $this->createStub(CMSApplicationInterface::class);
+		$app->method('getLanguage')->willReturn($language);
+
+		$plugin = new class($dispatcher, []) extends CMSPlugin
+		{
+			public function test(): string
+			{
+				return parent::translate('unit', 1, 'two');
+			}
+		};
+		$plugin->setApplication($app);
+
+		$this->assertEquals('test 1 in two', $plugin->test());
 	}
 
 	/**

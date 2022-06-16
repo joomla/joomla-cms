@@ -17,6 +17,7 @@ use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 use Joomla\Event\Dispatcher;
+use Joomla\Filesystem\Folder;
 use Joomla\Http\HttpFactory;
 use Joomla\Http\TransportInterface;
 use Joomla\Plugin\Task\Requests\Extension\Requests;
@@ -44,9 +45,9 @@ class RequestsPluginTest extends UnitTestCase
 	 */
 	public function setUp(): void
     {
-		if (file_exists(JPATH_ROOT . '/tmp/task_1_response.html'))
+		if (is_dir(__DIR__ . '/tmp'))
 		{
-			unlink(JPATH_ROOT . '/tmp/task_1_response.html');
+			Folder::delete(__DIR__ . '/tmp');
 		}
     }
 
@@ -59,9 +60,9 @@ class RequestsPluginTest extends UnitTestCase
 	 */
 	public function tearDown(): void
     {
-		if (file_exists(JPATH_ROOT . '/tmp/task_1_response.html'))
+		if (is_dir(__DIR__ . '/tmp'))
 		{
-			unlink(JPATH_ROOT . '/tmp/task_1_response.html');
+			Folder::delete(__DIR__ . '/tmp');
 		}
     }
 
@@ -98,7 +99,7 @@ class RequestsPluginTest extends UnitTestCase
 		$app = $this->createStub(CMSApplicationInterface::class);
 		$app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
-		$plugin = new Requests(new Dispatcher, [], $factory);
+		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
 		$plugin->setApplication($app);
 
 		$task = $this->createStub(Task::class);
@@ -114,8 +115,9 @@ class RequestsPluginTest extends UnitTestCase
 		$plugin->standardRoutineHandler($event);
 
 		$this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+		$this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
 		$this->assertEquals('http://example.com', $transport->url);
-		$this->assertStringEqualsFile(JPATH_ROOT . '/tmp/task_1_response.html', 'test');
+		$this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
 	}
 
 	/**
@@ -151,7 +153,7 @@ class RequestsPluginTest extends UnitTestCase
 		$app = $this->createStub(CMSApplicationInterface::class);
 		$app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
-		$plugin = new Requests(new Dispatcher, [], $factory);
+		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
 		$plugin->setApplication($app);
 
 		$task = $this->createStub(Task::class);
@@ -167,8 +169,9 @@ class RequestsPluginTest extends UnitTestCase
 		$plugin->standardRoutineHandler($event);
 
 		$this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
+		$this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
 		$this->assertEquals('http://example.com', $transport->url);
-		$this->assertStringEqualsFile(JPATH_ROOT . '/tmp/task_1_response.html', 'test');
+		$this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
 	}
 
 	/**
@@ -204,7 +207,7 @@ class RequestsPluginTest extends UnitTestCase
 		$app = $this->createStub(CMSApplicationInterface::class);
 		$app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
-		$plugin = new Requests(new Dispatcher, [], $factory);
+		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
 		$plugin->setApplication($app);
 
 		$task = $this->createStub(Task::class);
@@ -254,7 +257,7 @@ class RequestsPluginTest extends UnitTestCase
 		$app = $this->createStub(CMSApplicationInterface::class);
 		$app->method('getLanguage')->willReturn($language);
 
-		$plugin = new Requests(new Dispatcher, [], $factory);
+		$plugin = new Requests(new Dispatcher, [], $factory, __DIR__ . '/tmp');
 		$plugin->setApplication($app);
 
 		$task = $this->createStub(Task::class);
@@ -270,5 +273,55 @@ class RequestsPluginTest extends UnitTestCase
 		$plugin->standardRoutineHandler($event);
 
 		$this->assertEquals(Status::TIMEOUT, $event->getResultSnapshot()['status']);
+	}
+	/**
+	 * @testdox  can handle an invalid file location
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testInvalidFileToWrite()
+	{
+		$transport = new class implements TransportInterface
+		{
+			public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
+			{
+				return (object)['code' => 200, 'body' => 'test'];
+			}
+
+			public static function isSupported()
+			{
+				return true;
+			}
+		};
+
+		$http = new Http([], $transport);
+		$factory = $this->createStub(HttpFactory::class);
+		$factory->method('getHttp')->willReturn($http);
+
+		$language = $this->createStub(Language::class);
+		$language->method('_')->willReturn('test');
+
+		$app = $this->createStub(CMSApplicationInterface::class);
+		$app->method('getLanguage')->willReturn($language);
+
+		$plugin = new Requests(new Dispatcher, [], $factory, '/invalid');
+		$plugin->setApplication($app);
+
+		$task = $this->createStub(Task::class);
+		$task->method('get')->willReturnMap([['id', null, 1], ['type', null, 'plg_task_requests_task_get']]);
+
+		$event = new ExecuteTaskEvent(
+			'test',
+			[
+				'subject' => $task,
+				'params' => (object)['url' => 'http://example.com', 'timeout' => 0, 'auth' => 0, 'authType' => '', 'authKey' => '']
+			]
+		);
+		$plugin->standardRoutineHandler($event);
+
+		$this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
+		$this->assertStringContainsString('NOT_SAVED', $event->getResultSnapshot()['output']);
 	}
 }

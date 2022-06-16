@@ -38,7 +38,8 @@ return new class implements ServiceProviderInterface
 				$plugin = new Requests(
 					$container->get(DispatcherInterface::class),
 					(array) PluginHelper::getPlugin('task', 'requests'),
-					new HttpFactory
+					new HttpFactory,
+					JPATH_ROOT . '/tmp'
 				);
 				$plugin->setApplication(Factory::getApplication());
 
