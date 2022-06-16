@@ -96,7 +96,7 @@ final class Token extends CMSPlugin
 		// Default response is authentication failure.
 		$response->type          = 'Token';
 		$response->status        = Authentication::STATUS_FAILURE;
-		$response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_FAIL');
+		$response->error_message = $this->translate('JGLOBAL_AUTH_FAIL');
 
 		/**
 		 * First look for an HTTP Authorization header with the following format:

@@ -201,7 +201,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 */
 	protected function translate(string $key, ...$arguments): string
 	{
-		$language = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getApplication()->getLanguage();
+		$language = $this->getApplication()->getLanguage();
 
 		if ($arguments)
 		{
