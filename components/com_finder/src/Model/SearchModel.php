@@ -287,7 +287,7 @@ class SearchModel extends ListModel
 		}
 
 		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
-		$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
+		$query->join('INNER', $db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
 			->where('m.term_id IN (' . implode(',', $included) . ')');
 
 		// Check if there are any excluded terms to deal with.
@@ -295,7 +295,7 @@ class SearchModel extends ListModel
 		{
 			$query2 = $db->getQuery(true);
 			$query2->select('e.link_id')
-				->from($this->_db->quoteName('#__finder_links_terms', 'e'))
+				->from($db->quoteName('#__finder_links_terms', 'e'))
 				->where('e.term_id IN (' . implode(',', $this->excludedTerms) . ')');
 			$query->where('l.link_id NOT IN (' . $query2 . ')');
 		}

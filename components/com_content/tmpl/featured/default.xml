@@ -19,10 +19,10 @@
 				extension="com_content"
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
-				default=""
+				default=" "
 				parentclass="stack span-3"
 				>
-				<option value="">JOPTION_ALL_CATEGORIES</option>
+				<option value=" ">JOPTION_ALL_CATEGORIES</option>
 			</field>
 
 			<field

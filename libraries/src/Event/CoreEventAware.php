@@ -93,7 +93,7 @@ trait CoreEventAware
 		// View
 		'onBeforeDisplay'             => DisplayEvent::class,
 		'onAfterDisplay'              => DisplayEvent::class,
-		// Worflow
+		// Workflow
 		'onWorkflowFunctionalityUsed' => WorkflowFunctionalityUsedEvent::class,
 		'onWorkflowAfterTransition'   => WorkflowTransitionEvent::class,
 		'onWorkflowBeforeTransition'  => WorkflowTransitionEvent::class,
