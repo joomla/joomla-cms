@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms\User;
+namespace Joomla\Tests\Unit\Libraries\Cms\Cache;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
