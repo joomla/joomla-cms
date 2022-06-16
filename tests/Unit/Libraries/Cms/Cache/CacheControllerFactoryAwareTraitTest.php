@@ -7,21 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms\User;
+namespace Joomla\Tests\Unit\Libraries\Cms\Cache;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
-use Joomla\CMS\User\CurrentUserTrait;
-use Joomla\CMS\User\User;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModel
+ * Test class for \Joomla\CMS\Cache\CacheControllerFactoryAwareTrait
  *
  * @package     Joomla.UnitTest
- * @subpackage  MVC
+ * @subpackage  Cache
  *
- * @testdoc    The CacheControllerFactoryAwareTrait
+ * @testdoc     The CacheControllerFactoryAwareTrait
  *
  * @since       __DEPLOY_VERSION__
  */
