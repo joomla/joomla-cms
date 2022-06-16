@@ -18,6 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 /**
  * The Joomla! update controller for the Update view
@@ -472,7 +473,8 @@ class UpdateController extends BaseController
 	 * Prints a JSON string.
 	 * Called from JS.
 	 *
-	 * @since   3.10.0
+	 * @since       3.10.0
+	 * @deprecated  5.0  Use batchextensioncompatibility instead.
 	 *
 	 * @return void
 	 */
@@ -571,6 +573,143 @@ class UpdateController extends BaseController
 		try
 		{
 			echo new JsonResponse($combinedCompatibilityStatus);
+		}
+		catch (\Exception $e)
+		{
+			echo $e;
+		}
+
+		$this->app->close();
+	}
+
+	/**
+	 * Determines the compatibility information for a number of extensions.
+	 *
+	 * Called by the Joomla Update JavaScript (PreUpdateChecker.checkNextChunk).
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 */
+	public function batchextensioncompatibility()
+	{
+		$joomlaTargetVersion = $this->input->post->get('joomla-target-version', '', 'DEFAULT');
+		$joomlaCurrentVersion = $this->input->post->get('joomla-current-version', JVERSION);
+		$extensionInformation = $this->input->post->get('extensions', []);
+
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		$model = $this->getModel('Update');
+
+		$extensionResults = [];
+		$leftover = [];
+		$startTime = microtime(true);
+
+		foreach ($extensionInformation as $information)
+		{
+			// Only process an extension if we have spent less than 5 seconds already
+			$currentTime = microtime(true);
+
+			if ($currentTime - $startTime > 5.0)
+			{
+				$leftover[] = $information;
+
+				continue;
+			}
+
+			// Get the extension information and fetch its compatibility information
+			$extensionID                = $information['eid'] ?: '';
+			$extensionVersion           = $information['version'] ?: '';
+			$upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+			$currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+			$upgradeUpdateVersion       = false;
+			$currentUpdateVersion       = false;
+			$upgradeWarning             = 0;
+
+			if ($upgradeCompatibilityStatus->state == 1 && !empty($upgradeCompatibilityStatus->compatibleVersions))
+			{
+				$upgradeUpdateVersion = end($upgradeCompatibilityStatus->compatibleVersions);
+			}
+
+			if ($currentCompatibilityStatus->state == 1 && !empty($currentCompatibilityStatus->compatibleVersions))
+			{
+				$currentUpdateVersion = end($currentCompatibilityStatus->compatibleVersions);
+			}
+
+			if ($upgradeUpdateVersion !== false)
+			{
+				$upgradeOldestVersion = $upgradeCompatibilityStatus->compatibleVersions[0];
+
+				if ($currentUpdateVersion !== false)
+				{
+					// If there are updates compatible with both CMS versions use these
+					$bothCompatibleVersions = array_values(
+						array_intersect($upgradeCompatibilityStatus->compatibleVersions, $currentCompatibilityStatus->compatibleVersions)
+					);
+
+					if (!empty($bothCompatibleVersions))
+					{
+						$upgradeOldestVersion = $bothCompatibleVersions[0];
+						$upgradeUpdateVersion = end($bothCompatibleVersions);
+					}
+				}
+
+				if (version_compare($upgradeOldestVersion, $extensionVersion, '>'))
+				{
+					// Installed version is empty or older than the oldest compatible update: Update required
+					$resultGroup = 2;
+				}
+				else
+				{
+					// Current version is compatible
+					$resultGroup = 3;
+				}
+
+				if ($currentUpdateVersion !== false && version_compare($upgradeUpdateVersion, $currentUpdateVersion, '<'))
+				{
+					// Special case warning when version compatible with target is lower than current
+					$upgradeWarning = 2;
+				}
+			}
+			elseif ($currentUpdateVersion !== false)
+			{
+				// No compatible version for target version but there is a compatible version for current version
+				$resultGroup = 1;
+			}
+			else
+			{
+				// No update server available
+				$resultGroup = 1;
+			}
+
+			// Do we need to capture
+			$extensionResults[] = [
+				'id'                         => $extensionID,
+				'upgradeCompatibilityStatus' => (object) [
+					'state'             => $upgradeCompatibilityStatus->state,
+					'compatibleVersion' => $upgradeUpdateVersion
+				],
+				'currentCompatibilityStatus' => (object) [
+					'state'             => $currentCompatibilityStatus->state,
+					'compatibleVersion' => $currentUpdateVersion
+				],
+				'resultGroup'                => $resultGroup,
+				'upgradeWarning'             => $upgradeWarning,
+			];
+		}
+
+		$this->app->mimeType = 'application/json';
+		$this->app->charSet = 'utf-8';
+		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
+		$this->app->sendHeaders();
+
+		try
+		{
+			$return = [
+				'compatibility' => $extensionResults,
+				'extensions'    => $leftover,
+			];
+
+			echo new JsonResponse($return);
 		}
 		catch (\Exception $e)
 		{
