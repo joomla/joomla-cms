@@ -7842,6 +7842,7 @@ class JoomlaInstallerScript
 			'/plugins/twofactorauth/totp',
 			'/plugins/twofactorauth',
 			'/libraries/vendor/nyholm/psr7/doc',
+			// From 4.2.0-beta1 to 4.2.0-beta2
 			'/layouts/plugins/user/profile/fields',
 			'/layouts/plugins/user/profile',
 		);
