@@ -342,7 +342,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 		<?php if (!$this->noVersionCheck): ?>
 		<div id="preupdatecheckbox">
 			<div class="form-check d-flex justify-content-center mb-3">
-				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
+				<input type="checkbox" class="form-check-input me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
 				<label class="form-check-label" for="noncoreplugins">
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 				</label>
