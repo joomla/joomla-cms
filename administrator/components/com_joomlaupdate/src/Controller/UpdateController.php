@@ -697,7 +697,6 @@ class UpdateController extends BaseController
 			];
 		}
 
-		$this->app = $this->app ?? Factory::getApplication();
 		$this->app->mimeType = 'application/json';
 		$this->app->charSet = 'utf-8';
 		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
