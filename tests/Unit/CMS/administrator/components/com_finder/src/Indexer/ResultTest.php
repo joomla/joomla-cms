@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Test class for \Joomla\Component\Finder\Administrator\Indexer\Result
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.3
  */
 class ResultTest extends UnitTestCase
 {
@@ -24,7 +24,7 @@ class ResultTest extends UnitTestCase
 	 *
 	 * @return void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	protected function setUp(): void
 	{
@@ -47,7 +47,7 @@ class ResultTest extends UnitTestCase
 	 * @covers Result::__serialize
 	 * @covers Result::__unserialize
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.3
 	 */
 	public function testSerialize(): void
 	{
@@ -84,7 +84,7 @@ class ResultTest extends UnitTestCase
 	 *
 	 * @throws \ReflectionException
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	private function createNoConstructorMock($class = Result::class): object
 	{
