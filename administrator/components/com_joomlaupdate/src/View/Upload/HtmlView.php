@@ -11,6 +11,7 @@ namespace Joomla\Component\Joomlaupdate\Administrator\View\Upload;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -51,6 +52,14 @@ class HtmlView extends BaseHtmlView
 	protected $warnings = [];
 
 	/**
+	 * Should I disable the confirmation checkbox for taking a backup before updating?
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $noBackupCheck = false;
+
+	/**
 	 * Renders the view.
 	 *
 	 * @param   string  $tpl  Template name.
@@ -73,6 +82,9 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->warnings = $this->get('Items', 'warnings');
 		}
+
+		$params = ComponentHelper::getParams('com_joomlaupdate');
+		$this->noBackupCheck  = $params->get('backupcheck', 1) == 0;
 
 		$this->addToolbar();
 
