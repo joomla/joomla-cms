@@ -14,12 +14,12 @@ use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\Tests\Unit\UnitTestCase;
 
 /**
- * Test class for \Joomla\CMS\MVC\Model\BaseDatabaseModel
+ * Test class for \Joomla\CMS\Cache\CacheControllerFactoryAwareTrait
  *
  * @package     Joomla.UnitTest
- * @subpackage  MVC
+ * @subpackage  Cache
  *
- * @testdoc    The CacheControllerFactoryAwareTrait
+ * @testdoc     The CacheControllerFactoryAwareTrait
  *
  * @since       __DEPLOY_VERSION__
  */
