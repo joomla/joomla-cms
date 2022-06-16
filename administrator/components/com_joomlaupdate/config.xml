@@ -67,7 +67,7 @@
 			label="COM_JOOMLAUPDATE_CONFIG_BACKUPCHECK_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_BACKUPCHECK_DESC"
 			layout="joomla.form.field.radio.switcher"
-			default="0"
+			default="1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
