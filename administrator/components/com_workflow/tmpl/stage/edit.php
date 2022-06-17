@@ -33,12 +33,23 @@ $lang     = Factory::getLanguage()->getTag();
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_workflow&view=stage&workflow_id=' . $input->getCmd('workflow_id') . '&extension=' . $input->getCmd('extension') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="workflow-form" aria-label="<?php echo Text::_('COM_WORKFLOW_STAGE_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true); ?>" class="form-validate">
+<form action="<?php echo
+				Route::_(
+					'index.php?option=com_workflow&view=stage&workflow_id='
+						. $input->getCmd('workflow_id') . '&extension=' . $input->getCmd('extension')
+						. '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id
+				); ?>" method="post" name="adminForm" id="workflow-form" aria-label="<?php echo
+																						Text::_('COM_WORKFLOW_STAGE_FORM_' . ((int) $this->item->id === 0 ? 'NEW' : 'EDIT'), true);
+																						?>" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<?php // Add the translation of the workflow item title when client is administrator ?>
-	<?php if ($clientId === 0 && $this->item->id != 0) : ?>
+
+	<?php // Add the translation of the workflow item title when client is administrator
+	?>
+	<?php if ($clientId === 0 && $this->item->id != 0) :
+	?>
+
 		<div class="row title-alias form-vertical mb-3">
 			<div class="col-12">
 				<div class="control-group">

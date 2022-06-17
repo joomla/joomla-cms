@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+	<name>COM_GUIDEDTOURS</name>
+	<creationDate>June 2022</creationDate>
+	<author>Joomla! Project</author>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>4.1.0</version>
+	<description>COM_GUIDEDTOURS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Guidedtours</namespace>
+	<administration>
+		<filename>access.xml</filename>
+		<filename>config.xml</filename>
+		<filename>guidedtours.xml</filename>
+		<folder>forms</folder>
+		<folder>services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
+		<languages folder="administrator">
+			<language tag="en-GB">language/en-GB/com_guidedtours.ini</language>
+			<language tag="en-GB">language/en-GB/com_guidedtours.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

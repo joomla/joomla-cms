@@ -1,116 +1,92 @@
 <?php
+
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_workflow
- *
- * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package       Joomla.Administrator
+ * @subpackage    com_guidedtours
+ * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Stage;
+
+namespace Joomla\Component\Guidedtours\Administrator\View\Step;
 
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
 
 /**
- * View class to add or edit a stage of a workflow
+ * View to edit an Step
  *
- * @since  4.0.0
+ * @since __DEPLOY_VERSION__
  */
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The model state
+	 * The \JForm object
 	 *
-	 * @var     object
-	 * @since   4.0.0
-	 */
-	protected $state;
-
-	/**
-	 * From object to generate fields
-	 *
-	 * @var    \Joomla\CMS\Form\Form
-	 *
-	 * @since  4.0.0
+	 * @var \JForm
 	 */
 	protected $form;
 
 	/**
-	 * Items array
+	 * The active item
 	 *
-	 * @var    object
-	 * @since  4.0.0
+	 * @var object
 	 */
 	protected $item;
 
 	/**
-	 * The name of current extension
+	 * The model state
 	 *
-	 * @var     string
-	 * @since   4.0.0
+	 * @var object
 	 */
-	protected $extension;
+	protected $state;
 
 	/**
-	 * The section of the current extension
+	 * The actions the user is authorised to perform
 	 *
-	 * @var    string
-	 * @since  4.0.0
+	 * @var \JObject
 	 */
-	protected $section;
+	protected $canDo;
 
 	/**
-	 * Display item view
+	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since  4.0.0
+	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
-		// Get the Data
-		$this->state      = $this->get('State');
-		$this->form       = $this->get('Form');
-		$this->item       = $this->get('Item');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$extension = $this->state->get('filter.extension');
-
-		$parts = explode('.', $extension);
-
-		$this->extension = array_shift($parts);
-
-		if (!empty($parts))
-		{
-			$this->section = array_shift($parts);
-		}
-
-		// Set the toolbar
 		$this->addToolbar();
 
-		// Display the template
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return  void
+	 * @return void
 	 *
-	 * @since  4.0.0
+	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{
@@ -120,9 +96,13 @@ class HtmlView extends BaseHtmlView
 		$userId     = $user->id;
 		$isNew      = empty($this->item->id);
 
-		$canDo = StepHelper::getActions($this->extension, 'step', $this->item->id);
+		$canDo = ContentHelper::getActions('com_guidedtours');
 
-		ToolbarHelper::title(empty($this->item->id) ? Text::_('COM_WORKFLOW_STEP_ADD') : Text::_('COM_WORKFLOW_STEP_EDIT'), 'address');
+		$toolbar = Toolbar::getInstance();
+
+		ToolbarHelper::title(
+			Text::_('Guided Tours - ' . ($isNew ? 'Add Step' : 'Edit Step'))
+		);
 
 		$toolbarButtons = [];
 
@@ -132,7 +112,7 @@ class HtmlView extends BaseHtmlView
 			if ($canDo->get('core.create'))
 			{
 				ToolbarHelper::apply('step.apply');
-				$toolbarButtons = [['save', 'step.save'], ['save2new', 'step.save2new']];
+				$toolbarButtons = [['save', 'step.save'], ['save2new', 'tour.save2new']];
 			}
 
 			ToolbarHelper::saveGroup(
@@ -172,7 +152,5 @@ class HtmlView extends BaseHtmlView
 						'JTOOLBAR_CLOSE'
 					);
 		}
-
-		ToolbarHelper::divider();
 	}
 }

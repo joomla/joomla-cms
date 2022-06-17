@@ -682,6 +682,45 @@
           }
         ]
       },
+      "shepherd.js": {
+        "name": "shepherdjs",
+        "js": {
+          "dist/js/shepherd.js": "js/shepherd.js",
+          "dist/js/shepherd.min.js": "js/shepherd.min.js"
+        },
+        "css": {
+          "dist/css/shepherd.css": "css/shepherd.css"
+        },
+        "filesExtra": {
+          "dist/js/shepherd.js.map": "js/shepherd.js.map",
+          "dist/js/shepherd.min.js.map": "js/shepherd.min.js.map"
+        },
+        "provideAssets": [
+          {
+            "name": "shepherdjs",
+            "type": "style",
+            "uri": "shepherd.css"
+          },
+          {
+            "name": "shepherdjs",
+            "type": "script",
+            "uri": "shepherd.min.js",
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "shepherdjs",
+            "type": "preset",
+            "dependencies": [
+              "shepherdjs#style",
+              "shepherdjs#script"
+            ]
+          }
+        ],
+        "dependencies": ["popperjs"],
+        "licenseFilename": "LICENSE"
+      },
       "short-and-sweet": {
         "name": "short-and-sweet",
         "licenseFilename": "LICENSE",
