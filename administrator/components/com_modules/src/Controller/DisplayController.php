@@ -11,9 +11,6 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -78,45 +75,12 @@ class DisplayController extends BaseController
 			return false;
 		}
 
-		// Check custom administrator menu modules
-		if (ModuleHelper::isAdminMultilang())
+		// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
+		$factory = $this->app->bootComponent('menus')->getMVCFactory();
+
+		if ($langMissing = $factory->createModel('Menus', 'Administrator')->getMissingModuleLanguages())
 		{
-			$languages = LanguageHelper::getInstalledLanguages(1, true);
-			$langCodes = array();
-
-			foreach ($languages as $language)
-			{
-				if (isset($language->metadata['nativeName']))
-				{
-					$languageName = $language->metadata['nativeName'];
-				}
-				else
-				{
-					$languageName = $language->metadata['name'];
-				}
-
-				$langCodes[$language->metadata['tag']] = $languageName;
-			}
-
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select($db->quoteName('m.language'))
-				->from($db->quoteName('#__modules', 'm'))
-				->where($db->quoteName('m.module') . ' = ' . $db->quote('mod_menu'))
-				->where($db->quoteName('m.published') . ' = 1')
-				->where($db->quoteName('m.client_id') . ' = 1')
-				->group($db->quoteName('m.language'));
-
-			$mLanguages = $db->setQuery($query)->loadColumn();
-
-			// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
-			if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages)))
-			{
-				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
-
-				$this->app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
-			}
+			$this->app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
 		}
 
 		return parent::display();
