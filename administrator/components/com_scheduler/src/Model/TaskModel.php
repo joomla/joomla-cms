@@ -321,8 +321,8 @@ class TaskModel extends AdminModel
 		}
 
 		// Parent call leaves `execution_rules` and `cron_rules` JSON encoded
-		$item->set('execution_rules', json_decode($item->get('execution_rules')));
-		$item->set('cron_rules', json_decode($item->get('cron_rules')));
+		$item->set('execution_rules', json_decode($item->get('execution_rules', '')));
+		$item->set('cron_rules', json_decode($item->get('cron_rules', '')));
 
 		$taskOption = SchedulerHelper::getTaskOptions()->findOption(
 			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
@@ -399,11 +399,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 
 			if ($runningCount !== 0)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 		}
@@ -418,7 +422,7 @@ class TaskModel extends AdminModel
 		$activeRoutines = array_map(
 			static function (TaskOption $taskOption): string
 			{
-				return $taskOption->type;
+				return $taskOption->id;
 			},
 			SchedulerHelper::getTaskOptions()->options
 		);
@@ -470,6 +474,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
+				return null;
+			}
+
+			if (count($ids) === 0)
+			{
+				$db->unlockTables();
+
 				return null;
 			}
 
@@ -485,10 +498,12 @@ class TaskModel extends AdminModel
 		}
 		finally
 		{
+			$affectedRows = $db->getAffectedRows();
+
 			$db->unlockTables();
 		}
 
-		if ($db->getAffectedRows() != 1)
+		if ($affectedRows != 1)
 		{
 			/*
 			 // @todo
@@ -539,7 +554,7 @@ class TaskModel extends AdminModel
 				'includeCliExclusive' => true,
 			]
 		)
-			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('id', 'numeric')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('bypassScheduling', 'bool')
 			->setAllowedTypes('allowConcurrent', 'bool')
@@ -665,7 +680,7 @@ class TaskModel extends AdminModel
 			$buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
 		}
 
-		if ($ruleClass === 'cron')
+		if ($ruleClass === 'cron-expression')
 		{
 			// ! custom matches are disabled in the form
 			$matches         = $executionRules['cron-expression'];

@@ -29,6 +29,7 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -259,6 +260,7 @@ class UpdateModel extends BaseDatabaseModel
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
+			'current'   => JVERSION // This is deprecated please use 'installed' or JVERSION directly
 		);
 
 		// Fetch the update information from the database.
@@ -289,15 +291,6 @@ class UpdateModel extends BaseDatabaseModel
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest']  = $updateObject->version;
-		$this->updateInformation['current'] = JVERSION;
-
-		// Check whether this is an update or not.
-		if (version_compare($updateObject->version, JVERSION, '>'))
-		{
-			$this->updateInformation['hasUpdate'] = true;
-		}
-
 		$minimumStability      = Updater::STABILITY_STABLE;
 		$comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
@@ -310,7 +303,15 @@ class UpdateModel extends BaseDatabaseModel
 		$update = new Update;
 		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
 
+		// Make sure we use the current information we got from the detailsurl
 		$this->updateInformation['object'] = $update;
+		$this->updateInformation['latest'] = $updateObject->version;
+
+		// Check whether this is an update or not.
+		if (version_compare($this->updateInformation['latest'], JVERSION, '>'))
+		{
+			$this->updateInformation['hasUpdate'] = true;
+		}
 
 		return $this->updateInformation;
 	}
@@ -364,13 +365,39 @@ class UpdateModel extends BaseDatabaseModel
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
-		$headers    = get_headers($packageURL, 1);
+
+		// We have to manually follow the redirects here so we set the option to false.
+		$httpOptions = new Registry;
+		$httpOptions->set('follow_location', false);
+
+		try
+		{
+			$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+		}
+		catch (\RuntimeException $e)
+		{
+			// Passing false here -> download failed message
+			$response['basename'] = false;
+
+			return $response;
+		}
 
 		// Follow the Location headers until the actual download URL is known
-		while (isset($headers['Location']))
+		while (isset($head->headers['location']))
 		{
-			$packageURL = $headers['Location'];
-			$headers    = get_headers($packageURL, 1);
+			$packageURL = (string) $head->headers['location'][0];
+
+			try
+			{
+				$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+			}
+			catch (\RuntimeException $e)
+			{
+				// Passing false here -> download failed message
+				$response['basename'] = false;
+
+				return $response;
+			}
 		}
 
 		// Remove protocol, path and query string from URL

@@ -68,7 +68,7 @@ class Task implements LoggerAwareInterface
 	/**
 	 * Map state enumerations to logical language adjectives.
 	 *
-	 * @since __DEPLOY__VERSION__
+	 * @since 4.1.0
 	 */
 	public const STATE_MAP = [
 		self::STATE_TRASHED  => 'trashed',
@@ -409,11 +409,6 @@ class Task implements LoggerAwareInterface
 				->bind(':nextExec', $nextExec)
 				->bind(':times_executed', $timesExecuted)
 				->bind(':times_failed', $timesFailed);
-
-			if (!in_array($exitCode, [Status::OK, Status::WILL_RESUME]))
-			{
-				$query->set('times_failed = t.times_failed + 1');
-			}
 		}
 
 		try

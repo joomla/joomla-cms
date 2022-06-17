@@ -93,7 +93,7 @@ else
 		// Feed image
 		if ($feed->image && $params->get('rssimage', 1)) :
 		?>
-			<img src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
+			<?php echo HTMLHelper::_('image', $feed->image->uri, $feed->image->title); ?>
 		<?php endif; ?>
 
 
