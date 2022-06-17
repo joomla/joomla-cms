@@ -176,7 +176,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		}
 
 		// Clear the record edit information from the session.
-		Factory::getApplication()->setUserState($context . '.data', null);
+		$this->app->setUserState($context . '.data', null);
 
 		// Redirect to the edit screen.
 		$this->setRedirect(
@@ -200,9 +200,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   1.6
 	 */
-	protected function allowAdd($data = array())
+	protected function allowAdd($data = [])
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
@@ -219,9 +219,9 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *
 	 * @since   1.6
 	 */
-	protected function allowEdit($data = array(), $key = 'id')
+	protected function allowEdit($data = [], $key = 'id')
 	{
-		return Factory::getUser()->authorise('core.edit', $this->option);
+		return $this->app->getIdentity()->authorise('core.edit', $this->option);
 	}
 
 	/**
@@ -335,7 +335,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		// Clean the session data and redirect.
 		$this->releaseEditId($context, $recordId);
-		Factory::getApplication()->setUserState($context . '.data', null);
+		$this->app->setUserState($context . '.data', null);
 
 		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
 			. $this->getRedirectToListAppend();
@@ -368,7 +368,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function edit($key = null, $urlVar = null)
 	{
 		// Do not cache the response to this, its a redirect, and mod_expires and google chrome browser bugs cache it forever!
-		Factory::getApplication()->allowCache(false);
+		$this->app->allowCache(false);
 
 		$model = $this->getModel();
 		$table = $model->getTable();
@@ -425,7 +425,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		{
 			// Check-out succeeded, push the new record id into the session.
 			$this->holdEditId($context, $recordId);
-			Factory::getApplication()->setUserState($context . '.data', null);
+			$this->app->setUserState($context . '.data', null);
 
 			$this->setRedirect(
 				Route::_(
@@ -559,7 +559,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$app   = Factory::getApplication();
+		$app   = $this->app;
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data  = $this->input->post->get('jform', array(), 'array');
@@ -743,7 +743,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		}
 
 		$langKey = $this->text_prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS';
-		$prefix  = Factory::getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
+		$prefix  = $this->app->getLanguage()->hasKey($langKey) ? $this->text_prefix : 'JLIB_APPLICATION';
 
 		$this->setMessage(Text::_($prefix . ($recordId === 0 && $app->isClient('site') ? '_SUBMIT' : '') . '_SAVE_SUCCESS'));
 
@@ -822,7 +822,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$app     = Factory::getApplication();
+		$app     = $this->app;
 		$model   = $this->getModel();
 		$data    = $this->input->post->get('jform', array(), 'array');
 
@@ -914,7 +914,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	public function editAssociations()
 	{
 		// Initialise variables.
-		$app   = Factory::getApplication();
+		$app   = $this->app;
 		$input = $app->input;
 		$model = $this->getModel();
 

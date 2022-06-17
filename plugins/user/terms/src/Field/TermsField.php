@@ -81,7 +81,7 @@ class TermsField extends RadioField
 
 		if ($termsArticle && Factory::getApplication()->isClient('site'))
 		{
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))

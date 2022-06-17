@@ -229,7 +229,7 @@ class ArticlesModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$user  = Factory::getUser();
 
@@ -281,6 +281,7 @@ class ArticlesModel extends ListModel
 					$db->quoteName('c.title', 'category_title'),
 					$db->quoteName('c.created_user_id', 'category_uid'),
 					$db->quoteName('c.level', 'category_level'),
+					$db->quoteName('c.published', 'category_published'),
 					$db->quoteName('parent.title', 'parent_category_title'),
 					$db->quoteName('parent.id', 'parent_category_id'),
 					$db->quoteName('parent.created_user_id', 'parent_category_uid'),
@@ -599,7 +600,7 @@ class ArticlesModel extends ListModel
 			return $this->cache[$store];
 		}
 
-		$db   = $this->getDbo();
+		$db   = $this->getDatabase();
 		$user = Factory::getUser();
 
 		$items = $this->getItems();
