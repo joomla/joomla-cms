@@ -204,9 +204,11 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		$language = $this->getApplication()->getLanguage();
 
 		$arguments = \func_get_args();
+
 		if (count($arguments) > 1)
 		{
 			$arguments[0] = $language->_($key);
+
 			return \call_user_func_array('sprintf', $arguments);
 		}
 
