@@ -426,7 +426,7 @@
         ],
         "licenseFilename": "LICENSE.txt"
       },
-      "joomla-a11y-checker": {
+      "@joomla/joomla-a11y-checker": {
         "name": "joomla-a11y-checker",
         "licenseFilename": "LICENSE.md"
       },
@@ -703,9 +703,9 @@
         "name": "skipto",
         "licenseFilename": "LICENSE.md",
         "js": {
-          "compiled/js/skipto.js": "js/skipto.js",
-          "compiled/js/skipto.min.js": "js/skipto.min.js",
-          "compiled/js/skipto.min.js.map": "js/skipto.min.js.map"
+          "downloads/js/skipto.js": "js/skipto.js",
+          "downloads/js/skipto.min.js": "js/skipto.min.js",
+          "downloads/js/skipto.min.js.map": "js/skipto.min.js.map"
         },
         "provideAssets": [
           {

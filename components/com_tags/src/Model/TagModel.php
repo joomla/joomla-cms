@@ -158,7 +158,8 @@ class TagModel extends ListModel
 
 		if ($this->state->get('list.filter'))
 		{
-			$query->where($this->_db->quoteName('c.core_title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
+			$db = $this->getDatabase();
+			$query->where($db->quoteName('c.core_title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
 		}
 
 		return $query;
@@ -186,7 +187,7 @@ class TagModel extends ListModel
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = $app->input->get('id', array(), 'array');
+		$ids = (array) $app->input->get('id', array(), 'string');
 
 		if (count($ids) == 1)
 		{
@@ -194,6 +195,9 @@ class TagModel extends ListModel
 		}
 
 		$ids = ArrayHelper::toInteger($ids);
+
+		// Remove zero values resulting from bad input
+		$ids = array_filter($ids);
 
 		$pkString = implode(',', $ids);
 
@@ -268,7 +272,7 @@ class TagModel extends ListModel
 	 *
 	 * @param   integer  $pk  An optional ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -276,7 +280,7 @@ class TagModel extends ListModel
 	{
 		if (!isset($this->item))
 		{
-			$this->item = false;
+			$this->item = [];
 
 			if (empty($pk))
 			{

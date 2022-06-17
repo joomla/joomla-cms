@@ -261,6 +261,7 @@ class SysinfoModel extends BaseDatabaseModel
 			'zlib'                => \extension_loaded('zlib'),
 			'zip'                 => \function_exists('zip_open') && \function_exists('zip_read'),
 			'mbstring'            => \extension_loaded('mbstring'),
+			'fileinfo'            => \extension_loaded('fileinfo'),
 			'gd'                  => \extension_loaded('gd'),
 			'iconv'               => \function_exists('iconv'),
 			'intl'                => \function_exists('transliterator_transliterate'),
@@ -314,7 +315,7 @@ class SysinfoModel extends BaseDatabaseModel
 			return $this->info;
 		}
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$this->info = [
 			'php'                    => php_uname(),

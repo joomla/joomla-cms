@@ -71,7 +71,7 @@ class LevelModel extends AdminModel
 			// Populate the list once.
 			$this->levelsInUse = array();
 
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select('DISTINCT access');
 

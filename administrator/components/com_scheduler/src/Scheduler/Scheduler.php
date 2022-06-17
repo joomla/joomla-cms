@@ -112,9 +112,9 @@ class Scheduler
 		// ? Sure about inferring scheduling bypass?
 		$task = $this->getTask(
 			[
-				'id'                  => $options['id'],
+				'id'                  => (int) $options['id'],
 				'allowDisabled'       => $options['allowDisabled'],
-				'bypassScheduling'    => $options['id'] !== 0,
+				'bypassScheduling'    => (int) $options['id'] !== 0,
 				'allowConcurrent'     => $options['allowConcurrent'],
 				'includeCliExclusive' => ($app->isClient('cli')),
 			]
@@ -192,7 +192,7 @@ class Scheduler
 				'allowConcurrent' => false,
 			]
 		)
-			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('id', 'numeric')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('allowConcurrent', 'bool');
 	}
@@ -246,7 +246,7 @@ class Scheduler
 
 		if (!isset($model))
 		{
-			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$task = $model->getTask($options);
@@ -327,10 +327,10 @@ class Scheduler
 
 		if (!$model)
 		{
-			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
-		$model->setState('list.select', '*');
+		$model->setState('list.select', 'a.*');
 
 		// Default to only enabled tasks
 		if (!isset($filters['state']))

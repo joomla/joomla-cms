@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app        = Factory::getApplication();
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$state      = $this->get('State');
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
@@ -140,14 +140,6 @@ class HtmlView extends BaseHtmlView
 		$temp = clone $params;
 
 		$active = $app->getMenu()->getActive();
-
-		// Get submitted values
-		$data = $app->getUserState('com_contact.contact.data', []);
-
-		// Add catid for selecting custom fields
-		$data['catid'] = $item->catid;
-
-		$app->setUserState('com_contact.contact.data', $data);
 
 		// If the current view is the active item and a contact view for this contact, then the menu item params take priority
 		if ($active
@@ -349,7 +341,7 @@ class HtmlView extends BaseHtmlView
 		$offset = $state->get('list.offset');
 
 		// Fix for where some plugins require a text attribute
-		$item->text = null;
+		$item->text = '';
 
 		if (!empty($item->misc))
 		{

@@ -145,7 +145,7 @@ class DatabaseModel extends InstallerModel
 				}
 			}
 
-			$db        = $this->getDbo();
+			$db        = $this->getDatabase();
 
 			if ($result->type === 'component')
 			{
@@ -303,7 +303,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function fix($cids = array())
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		foreach ($cids as $i => $cid)
 		{
@@ -365,7 +365,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
@@ -476,7 +476,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function getSchemaVersion($extensionId)
 	{
-		$db          = $this->getDbo();
+		$db          = $this->getDatabase();
 		$extensionId = (int) $extensionId;
 		$query       = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
@@ -513,7 +513,7 @@ class DatabaseModel extends InstallerModel
 
 		// Delete old row.
 		$extensionId = (int) $extensionId;
-		$db          = $this->getDbo();
+		$db          = $this->getDatabase();
 		$query       = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
 			->where($db->quoteName('extension_id') . ' = :extensionid')
@@ -634,7 +634,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function fixUpdateVersion($extensionId)
 	{
-		$table = new Extension($this->getDbo());
+		$table = new Extension($this->getDatabase());
 		$table->load($extensionId);
 		$cache = new Registry($table->manifest_cache);
 		$updateVersion = $cache->get('version');
@@ -646,7 +646,12 @@ class DatabaseModel extends InstallerModel
 		}
 		else
 		{
-			$installationXML  = InstallerHelper::getInstallationXML($table->get('element'), $table->get('type'));
+			$installationXML = InstallerHelper::getInstallationXML(
+				$table->get('element'),
+				$table->get('type'),
+				$table->get('client_id'),
+				$table->get('type') === 'plugin' ? $table->get('folder') : null
+			);
 			$extensionVersion = (string) $installationXML->version;
 		}
 
@@ -676,7 +681,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function getDefaultTextFilters()
 	{
-		$table = new Extension($this->getDbo());
+		$table = new Extension($this->getDatabase());
 		$table->load($table->find(array('name' => 'com_config')));
 
 		return $table->params;
@@ -692,7 +697,7 @@ class DatabaseModel extends InstallerModel
 	 */
 	private function fixDefaultTextFilters()
 	{
-		$table = new Extension($this->getDbo());
+		$table = new Extension($this->getDatabase());
 		$table->load($table->find(array('name' => 'com_config')));
 
 		// Check for empty $config and non-empty content filters.

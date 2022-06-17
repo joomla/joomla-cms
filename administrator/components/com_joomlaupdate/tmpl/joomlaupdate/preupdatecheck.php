@@ -29,6 +29,7 @@ $wa->useScript('core')
 // Text::script doesn't have a sprintf equivalent so work around this
 $this->document->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
+// Push Joomla! Update client-side error messages
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
@@ -40,6 +41,13 @@ Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
+
+// Push Joomla! core Joomla.Request error messages
+Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('JLIB_JS_AJAX_ERROR_PARSE');
+Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
@@ -75,7 +83,7 @@ $compatibilityTypes = array(
 );
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
+$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 
 $updatePossible = true;
 
@@ -279,7 +287,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 										</th>
 										<th class="currcomp hidden" scope="col">
-											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->escape($this->updateInfo['current']) : JVERSION); ?>
+											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['installed']) ? $this->escape($this->updateInfo['installed']) : JVERSION); ?>
 										</th>
 										<th class="upcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
@@ -301,7 +309,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 												<?php echo $extension->version; ?>
 											</td>
 											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"></td>
-											<td
+											<td id="preUpdateCheck_<?php echo $extension->extension_id; ?>"
 												class="extension-check upcomp hidden"
 												data-extension-id="<?php echo $extension->extension_id; ?>"
 												data-extension-current-version="<?php echo $extension->version; ?>"
@@ -331,16 +339,19 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 
 	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate&layout=update'); ?>" method="post" class="d-flex flex-column mb-5">
 
+		<?php if (!$this->noVersionCheck): ?>
 		<div id="preupdatecheckbox">
 			<div class="form-check d-flex justify-content-center mb-3">
-				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
+				<input type="checkbox" class="form-check-input me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
 				<label class="form-check-label" for="noncoreplugins">
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 				</label>
 			</div>
 		</div>
+		<?php endif; ?>
 
-		<button class="btn btn-lg btn-warning disabled submitupdate mx-auto" type="submit" disabled>
+		<button class="btn btn-lg btn-warning <?php echo $this->noVersionCheck ? '' : 'disabled' ?> submitupdate mx-auto"
+				type="submit" <?php echo $this->noVersionCheck ? '' : 'disabled' ?>>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 		</button>
 	</form>
@@ -353,7 +364,9 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
 
 	<?php if (Factory::getUser()->authorise('core.admin')) : ?>
 		<div class="text-center">
-		<?php echo HTMLHelper::_('link', Route::_('index.php?option=com_joomlaupdate&view=upload'), Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')); ?>
+			<a href="<?php echo Route::_('index.php?option=com_joomlaupdate&view=upload'); ?>" class="btn btn-sm btn-outline-secondary">
+				<?php echo Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND'); ?>
+			</a>
 		</div>
 	<?php endif; ?>
 </div>

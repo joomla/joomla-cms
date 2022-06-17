@@ -2,7 +2,7 @@
 <extension type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_article</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2009</creationDate>
+	<creationDate>2009-10</creationDate>
 	<copyright>(C) 2009 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

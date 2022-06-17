@@ -64,7 +64,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItem($id)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $id;
 
 		$query = $db->getQuery(true);
@@ -106,13 +106,63 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function unpublishMessage($id)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $id;
 
 		$query = $db->getQuery(true);
 		$query
 			->update($db->quoteName('#__postinstall_messages'))
 			->set($db->quoteName('enabled') . ' = 0')
+			->where($db->quoteName('postinstall_message_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+		Factory::getCache()->clean('com_postinstall');
+	}
+
+	/**
+	 * Archives specified post-install message
+	 *
+	 * @param    integer  $id  The message id
+	 *
+	 * @return   void
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function archiveMessage($id)
+	{
+		$db = $this->getDbo();
+		$id = (int) $id;
+
+		$query = $db->getQuery(true);
+		$query
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 2')
+			->where($db->quoteName('postinstall_message_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
+		$db->setQuery($query);
+		$db->execute();
+		Factory::getCache()->clean('com_postinstall');
+	}
+
+	/**
+	 * Republishes specified post-install message
+	 *
+	 * @param    integer  $id  The message id
+	 *
+	 * @return   void
+	 *
+	 * @since    __DEPLOY_VERSION__
+	 */
+	public function republishMessage($id)
+	{
+		$db = $this->getDbo();
+		$id = (int) $id;
+
+		$query = $db->getQuery(true);
+		$query
+			->update($db->quoteName('#__postinstall_messages'))
+			->set($db->quoteName('enabled') . ' = 1')
 			->where($db->quoteName('postinstall_message_id') . ' = :id')
 			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
@@ -131,12 +181,11 @@ class MessagesModel extends BaseDatabaseModel
 	{
 		// Add a forced extension filtering to the list
 		$eid = (int) $this->getState('eid', $this->getJoomlaFilesExtensionId());
-		$published = (int) $this->getState('published', 1);
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $eid . '.' . $published;
+		$cacheId = 'postinstall_messages.' . $eid;
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -161,15 +210,13 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		// Force filter only enabled messages
-		$query->where($db->quoteName('enabled') . ' = :published')
-			->bind(':published', $published, ParameterType::INTEGER);
+		$query->where($db->quoteName('enabled') . ' IN (1,2)');
 		$db->setQuery($query);
 
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-				->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
 			$result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
@@ -198,7 +245,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getItemsCount()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -251,7 +298,7 @@ class MessagesModel extends BaseDatabaseModel
 	public function getExtensionName($eid)
 	{
 		// Load the extension's information from the database
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
@@ -302,7 +349,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function resetMessages($eid)
 	{
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
@@ -329,7 +376,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function hideMessages($eid)
 	{
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$eid = (int) $eid;
 
 		$query = $db->getQuery(true)
@@ -419,7 +466,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getComponentOptions()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -656,7 +703,7 @@ class MessagesModel extends BaseDatabaseModel
 		$tableName   = $table->getTableName();
 		$extensionId = (int) $options['extension_id'];
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName($tableName))
