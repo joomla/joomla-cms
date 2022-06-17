@@ -193,15 +193,13 @@ class MessagesModel extends ListModel
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
+		// Default is 7 days
+		$purge = 7;
+
 		// Check if auto_purge value set
 		if (\is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
-		}
-		else
-		{
-			// If no value set, default is 7 days
-			$purge = 7;
 		}
 
 		// If purge value is not 0, then allow purging of old messages
