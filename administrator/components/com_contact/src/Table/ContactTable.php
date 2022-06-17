@@ -121,13 +121,11 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			// Is the existing contact trashed?
+			$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+
 			if ($table->published === -2)
 			{
 				$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS_TRASHED'));
-			}
-			else
-			{
-				$this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 			}
 
 			return false;

@@ -269,13 +269,11 @@ class Menu extends Nested
 				$url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
 
 				// Is the existing menu item trashed?
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
+
 				if ($table->published === -2)
 				{
 					$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url));
-				}
-				else
-				{
-					$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
 				}
 
 				return false;
