@@ -26,7 +26,7 @@ $js = "
 			var qr = qrcode(0, 'H');
 			qr.addData('" . $url . "');
 			qr.make();
-	
+
 			totpQrCodeElement.innerHTML = qr.createImgTag(4);
 		}
 	});
