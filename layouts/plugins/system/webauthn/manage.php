@@ -74,6 +74,8 @@ if ($allow_add && function_exists('gmp_intval') === false && function_exists('bc
 	$allow_add = false;
 }
 
+Text::script('JGLOBAL_CONFIRM_DELETE');
+
 HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">

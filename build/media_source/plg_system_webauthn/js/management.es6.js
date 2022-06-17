@@ -309,6 +309,10 @@ window.Joomla = window.Joomla || {};
    */
   // eslint-disable-next-line no-unused-vars
   Joomla.plgSystemWebauthnDelete = (that) => {
+    if (!window.confirm(Joomla.Text._('JGLOBAL_CONFIRM_DELETE'))) {
+      return;
+    }
+
     const paths = Joomla.getOptions('system.paths');
     const postURL = `${paths ? `${paths.base}/index.php` : window.location.pathname}`;
 
