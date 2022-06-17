@@ -22,6 +22,12 @@
 # gzipping css and js files and you should comment out the GZIP section of this file.
 ##
 
+## OPENLITESPEED
+#
+# If you are using an OpenLiteSpeed web server then any changes made to this file will
+# not take effect until you have restarted the web server.
+##
+
 ## Can be commented out if causes errors, see notes above.
 Options +FollowSymlinks
 Options -Indexes
