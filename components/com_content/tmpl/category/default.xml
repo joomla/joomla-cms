@@ -32,6 +32,7 @@
 				label="JTAG"
 				multiple="true"
 				mode="nested"
+				custom="deny"
 			/>
 		</fieldset>
 	</fields>
