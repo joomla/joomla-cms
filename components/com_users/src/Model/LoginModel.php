@@ -125,6 +125,10 @@ class LoginModel extends FormModel
 	 * Returns the language for the given menu id.
 	 *
 	 * @param  int  $id  The menu id
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getMenuLanguage(int $id): string
 	{
