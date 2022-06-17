@@ -217,10 +217,14 @@ window.Joomla = window.Joomla || {};
     // Show the editor
     const oldLabel = elLabelTD.innerText;
 
+    const elContainer = document.createElement('div');
+    elContainer.className = 'webauthnManagementEditorRow d-flex gap-2';
+
     const elInput = document.createElement('input');
     elInput.type = 'text';
     elInput.name = 'label';
     elInput.defaultValue = oldLabel;
+    elInput.className = 'form-control';
 
     const elSave = document.createElement('button');
     elSave.className = 'btn btn-success btn-sm';
@@ -288,9 +292,10 @@ window.Joomla = window.Joomla || {};
     }, false);
 
     elLabelTD.innerHTML = '';
-    elLabelTD.appendChild(elInput);
-    elLabelTD.appendChild(elSave);
-    elLabelTD.appendChild(elCancel);
+    elContainer.appendChild(elInput);
+    elContainer.appendChild(elSave);
+    elContainer.appendChild(elCancel);
+    elLabelTD.appendChild(elContainer);
     elEdit.disabled = true;
     elDelete.disabled = true;
 
