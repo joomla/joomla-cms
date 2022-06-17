@@ -16,6 +16,12 @@
 # set it here.
 ##
 
+## MISSING CSS OR JAVASCRIPT ERRORS
+#
+# If your site lookS strange after enabling this, then your server is probably already
+# gzipping css and js files and you should comment out the GZIP section of this file.
+##
+
 ## Can be commented out if causes errors, see notes above.
 Options +FollowSymlinks
 Options -Indexes
@@ -124,6 +130,7 @@ Options -Indexes
 	</IfModule>
 </IfModule>
 
+## GZIP
 ## These directives are only enabled if the Apache mod_headers module is enabled.
 ## This section will check if a .gz file exists and if so will stream it
 ##     directly or fallback to gzip any asset on the fly
