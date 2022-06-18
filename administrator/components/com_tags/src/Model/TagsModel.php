@@ -145,7 +145,7 @@ class TagsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$user  = Factory::getUser();
 
@@ -336,7 +336,9 @@ class TagsModel extends ListModel
 	{
 		$query = parent::getEmptyStateQuery();
 
-		$query->where($this->_db->quoteName('alias') . ' != ' . $this->_db->quote('root'));
+		$db = $this->getDatabase();
+
+		$query->where($db->quoteName('alias') . ' != ' . $db->quote('root'));
 
 		return $query;
 	}

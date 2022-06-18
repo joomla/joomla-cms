@@ -242,7 +242,7 @@ class ConsentBoxField extends CheckboxesField
 	 */
 	private function getAssignedArticleUrl()
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Get the info from the article
 		$query = $db->getQuery(true)
@@ -331,7 +331,7 @@ class ConsentBoxField extends CheckboxesField
 
 			if (Multilanguage::isEnabled())
 			{
-				$db    = Factory::getDbo();
+				$db    = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select($db->quoteName(['id', 'language']))
 					->from($db->quoteName('#__menu'))
