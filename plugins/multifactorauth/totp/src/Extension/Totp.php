@@ -128,7 +128,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the MFA form
-					'pre_message'      => '',
+					'pre_message'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_CAPTIVE_PROMPT'),
 					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'       => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
