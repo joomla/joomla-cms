@@ -10,9 +10,10 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filter\InputFilter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
@@ -29,6 +30,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AddUserCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -95,6 +98,20 @@ class AddUserCommand extends AbstractCommand
 	 * @since  4.0.0
 	 */
 	private $userGroups = [];
+
+	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
 
 	/**
 	 * Internal function to execute the command.
@@ -169,7 +186,7 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
@@ -219,7 +236,7 @@ class AddUserCommand extends AbstractCommand
 	protected function getUserGroups(): array
 	{
 		$groups = $this->getApplication()->getConsoleInput()->getOption('usergroup');
-		$db = Factory::getDbo();
+		$db     = $this->getDatabase();
 
 		$groupList = [];
 

@@ -57,7 +57,7 @@ if ($this->renderOptions['field_type'] !== 'custom')
 	</h2>
 
 	<?php if ($this->renderOptions['pre_message']): ?>
-		<div class="users-mfa-captive-pre-message text-muted">
+		<div class="users-mfa-captive-pre-message text-muted mb-3">
 			<?php echo $this->renderOptions['pre_message'] ?>
 		</div>
 	<?php endif; ?>

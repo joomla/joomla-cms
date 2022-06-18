@@ -10,7 +10,6 @@
 namespace Joomla\Plugin\Multifactorauth\Yubikey\Extension;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -37,14 +36,6 @@ use RuntimeException;
  */
 class Yubikey extends CMSPlugin implements SubscriberInterface
 {
-	/**
-	 * The application we are running under.
-	 *
-	 * @var    CMSApplication
-	 * @since  4.2.0
-	 */
-	protected $app;
-
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
@@ -139,7 +130,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the MFA form
-					'pre_message'        => '',
+					'pre_message'        => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CAPTIVE_PROMPT'),
 					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'         => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -386,7 +377,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
 		$gotResponse = false;
 
 		$http     = HttpFactory::getHttp();
-		$token    = $this->app->getFormToken();
+		$token    = $this->getApplication()->getFormToken();
 		$nonce    = md5($token . uniqid(random_int(0, mt_getrandmax())));
 		$response = null;
 
