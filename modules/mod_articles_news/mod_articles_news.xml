@@ -42,6 +42,7 @@
 					multiple="true"
 					filter="intarray"
 					class="multipleTags"
+					custom="deny"
 				/>
 
 				<field

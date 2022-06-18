@@ -96,7 +96,7 @@ $itemImage = $currentParams->get('menu_image');
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
-$ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="icon-spin icon-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
+$ajax      = !empty($current->ajaxbadge) ? '<span class="menu-badge"><span class="icon-spin icon-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
 $iconImage = $current->icon;
 $homeImage = '';
 
@@ -176,7 +176,7 @@ if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew',
 	}
 }
 
-if ($current->dashboard)
+if (!empty($current->dashboard))
 {
 	$titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
 	echo '<span class="menu-dashboard"><a href="'
