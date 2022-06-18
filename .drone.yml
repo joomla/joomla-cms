@@ -12,7 +12,7 @@ steps:
         path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
-      - composer install --no-progress
+      - composer install --no-progress --no-suggest
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
@@ -56,13 +56,13 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
-#  - name: php81-unit
-#    depends_on: [ phpcs ]
-#    image: joomlaprojects/docker-images:php8.1
-#    failure: ignore
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Unit
+  - name: php81-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.1
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php72-integration
     depends_on: [ npm ]
@@ -162,9 +162,17 @@ steps:
     commands:
       - npm run lint:js
 
+  - name: prepare_codeception_tests
+    depends_on:
+      - npm
+    image: joomlaprojects/docker-images:systemtests
+    commands:
+      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
+      - php libraries/vendor/bin/codecept build
+
   - name: phpmin-api-mysql
     depends_on:
-      - javascript-cs
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -173,17 +181,16 @@ steps:
 
   - name: phpmax-api-mysql
     depends_on:
-      - phpmin-api-mysql
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
 
 #  - name: phpnext-api-mysql
 #    depends_on:
-#      - phpmin-api-mysql
+#      - phpmax-api-mysql
 #    image: joomlaprojects/docker-images:systemtests8.2
 #    failure: ignore
 #    environment:
@@ -193,14 +200,21 @@ steps:
 
   - name: phpmin-api-postgres
     depends_on:
- #     - phpnext-api-mysql
-      - phpmin-api-mysql
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+
+  - name: phpmax-api-postgres
+    depends_on:
+      - prepare_codeception_tests
+    image: joomlaprojects/docker-images:systemtests8.1
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -212,50 +226,27 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
 
-  - name: phpmax-api-postgres
-    depends_on:
-#      - phpnext-api-postgres
-      - phpmin-api-postgres
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
-
   - name: phpmin-system-mysql
     depends_on:
-      - javascript-cs
+      - phpmax-api-mysql
       - phpmax-api-postgres
     image: joomlaprojects/docker-images:systemtests
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
-#  - name: phpnext-system-mysql
-#    depends_on:
-#      - phpmin-system-mysql
-#    image: joomlaprojects/docker-images:systemtests8.2
-#    failure: ignore
-#    environment:
-#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-#    commands:
-#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
-
   - name: phpmax-system-mysql
     depends_on:
-#      - phpnext-system-mysql
-      - phpmin-system-mysql
+      - phpmax-api-mysql
+      - phpmax-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpmax
 
-#  - name: phpnext-system-mysql8
+#  - name: phpnext-system-mysql
 #    depends_on:
 #      - phpmax-system-mysql
 #    image: joomlaprojects/docker-images:systemtests8.2
@@ -263,22 +254,31 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
 
-  - name: phpmax-system-mysql8
+  - name: phpmin-system-postgres
     depends_on:
-#      - phpnext-system-mysql
-      - phpmax-system-mysql
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpmax
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+
+  - name: phpmax-system-postgres
+    depends_on:
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:systemtests8.1
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
 
 #  - name: phpnext-system-postgres
 #    depends_on:
-#      - phpmax-system-mysql8
+#      - phpmax-system-postgres
 #    image: joomlaprojects/docker-images:systemtests8.2
 #    failure: ignore
 #    environment:
@@ -286,32 +286,35 @@ steps:
 #    commands:
 #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
 
-  - name: phpmax-system-postgres
-    depends_on:
-#      - phpnext-system-mysql8
-      - phpmax-system-mysql8
-    image: joomlaprojects/docker-images:systemtests8.1
-    failure: ignore
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpmax
-
   - name: phpmin-system-mysql8
-    depends_on: [ phpmax-system-postgres ]
+    depends_on:
+      - phpmax-system-mysql
+      - phpmax-system-postgres
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
 
-  - name: phpmin-system-postgres
-    depends_on: [ phpmin-system-mysql8 ]
-    image: joomlaprojects/docker-images:systemtests
+  - name: phpmax-system-mysql8
+    depends_on:
+      - phpmax-system-mysql
+      - phpmax-system-postgres
+    image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpmax
+
+#  - name: phpnext-system-mysql8
+#    depends_on:
+#      - phpmax-system-mysql8
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
@@ -348,9 +351,6 @@ steps:
     when:
       status:
         - failure
-
-branches:
-  exclude: [ l10n_* ]
 
 volumes:
   - name: composer-cache
@@ -414,7 +414,7 @@ steps:
         path: /reference
     when:
       branch:
-        - 4.1-dev
+        - 4.2-dev
 
 ---
 kind: pipeline
@@ -478,6 +478,6 @@ trigger:
 
 ---
 kind: signature
-hmac: e803744a300d47d73d1a7f693bcd0a72e7d9e2c7830bd246baf8dff482913949
+hmac: 234ae9e7e2fbfa114ba754c68056dec518c76a93de2f5b098f569e355b50cc1b
 
 ...

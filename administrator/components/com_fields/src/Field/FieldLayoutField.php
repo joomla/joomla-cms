@@ -11,7 +11,6 @@ namespace Joomla\Component\Fields\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
@@ -49,7 +48,7 @@ class FieldLayoutField extends FormField
 		if ($extension)
 		{
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Build the query.

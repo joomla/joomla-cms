@@ -47,8 +47,10 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
 endif;
 
 // Confirm backup and check
-$displayData['content'] .= '<div class="form-check d-flex justify-content-center">
-		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup">
+$classVisibility = $this->noBackupCheck ? 'd-none' : '';
+$checked = $this->noBackupCheck ? 'checked' : '';
+$displayData['content'] .= '<div class="form-check d-flex justify-content-center ' . $classVisibility . '">
+		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup" ' . $checked . '>
 		<label class="form-check-label" for="joomlaupdate-confirm-backup">
 		' . Text::_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP') . '
 		</label>

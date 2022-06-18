@@ -11,6 +11,8 @@ namespace Joomla\Component\Menus\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
@@ -77,7 +79,7 @@ class MenusModel extends ListModel
 		// Faster to do three queries for very large menu trees.
 
 		// Get the menu types of menus in the list.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$menuTypes = array_column((array) $items, 'menutype');
 
 		$query = $db->getQuery(true)
@@ -158,7 +160,7 @@ class MenusModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 		$query    = $db->getQuery(true);
 		$clientId = (int) $this->getState('client_id');
 
@@ -239,7 +241,7 @@ class MenusModel extends ListModel
 	public function getModMenuId()
 	{
 		$clientId = (int) $this->getState('client_id');
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 		$query    = $db->getQuery(true)
 			->select($db->quoteName('e.extension_id'))
 			->from($db->quoteName('#__extensions', 'e'))
@@ -270,5 +272,62 @@ class MenusModel extends ListModel
 		$result = $model->getModules();
 
 		return $result;
+	}
+
+	/**
+	 * Returns the missing module languages.
+	 *
+	 * @return  array
+	 *
+	 * @since   _DEPLOY_VERSION__
+	 */
+	public function getMissingModuleLanguages(): array
+	{
+		// Check custom administrator menu modules
+		if (!ModuleHelper::isAdminMultilang())
+		{
+			return [];
+		}
+
+		$languages = LanguageHelper::getInstalledLanguages(1, true);
+		$langCodes = [];
+
+		foreach ($languages as $language)
+		{
+			if (isset($language->metadata['nativeName']))
+			{
+				$languageName = $language->metadata['nativeName'];
+			}
+			else
+			{
+				$languageName = $language->metadata['name'];
+			}
+
+			$langCodes[$language->metadata['tag']] = $languageName;
+		}
+
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('m.language'))
+			->from($db->quoteName('#__modules', 'm'))
+			->where(
+				[
+					$db->quoteName('m.module') . ' = ' . $db->quote('mod_menu'),
+					$db->quoteName('m.published') . ' = 1',
+					$db->quoteName('m.client_id') . ' = 1',
+				]
+			)
+			->group($db->quoteName('m.language'));
+
+		$mLanguages = $db->setQuery($query)->loadColumn();
+
+		// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
+		if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages)))
+		{
+			return array_intersect_key($langCodes, array_flip($langMissing));
+		}
+
+		return [];
 	}
 }
