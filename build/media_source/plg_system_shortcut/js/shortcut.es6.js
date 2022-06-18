@@ -34,6 +34,20 @@
     });
   };
 
+  const setShortcutFilter = () => {
+    hotkeys.filter = (event) => {
+      const target = event.target || event.srcElement;
+      const { tagName } = target;
+
+      // Checkboxes should not block a shortcut event
+      if (target.type === 'checkbox') {
+        return true;
+      }
+      // Default hotkeys filter behavior
+      return !(target.isContentEditable || tagName === 'INPUT' || tagName === 'SELECT' || tagName === 'TEXTAREA');
+    };
+  };
+
   const addOverviewHint = () => {
     const iconElement = document.createElement('span');
     iconElement.className = 'icon-keyboard fa-keyboard me-2';
@@ -114,5 +128,6 @@
       initOverviewModal(options);
       addOverviewHint();
     }
+    setShortcutFilter();
   });
 })(document, Joomla);
