@@ -62,34 +62,22 @@
             </div>
             <div class="modal-body p-3">
               <div class="mb-3">
-                <h4>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_ACTIONS_GENERAL_LABEL')}</h4>
                 <dl>
                   <dt>${Joomla.Text._('JHELP')}</dt>
                   <dd>J + H</dd>
                   <dt>${Joomla.Text._('JOPTIONS')}</dt>
                   <dd>J + O</dd>
                   <dt>${Joomla.Text._('JSEARCH_FILTER')}</dt>
-                  <dd>J + S</dd>
-                </dl>
-
-                <h4>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_ACTIONS_LIST_LABEL')}</h4>
-                <dl>
-                  <dt>${Joomla.Text._('JTOOLBAR_NEW')}</dt>
-                  <dd>J + N</dd>
-                  <dt>${Joomla.Text._('JCANCEL')}</dt>
-                  <dd>J + Q</dd>
-                </dl>
-
-                <h4>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_ACTIONS_FORM_LABEL')}</h4>
-                <dl>
-                  <dt>${Joomla.Text._('JAPPLY')}</dt>
-                  <dd>J + A</dd>
                   <dt>${Joomla.Text._('JTOOLBAR_SAVE')}</dt>
                   <dd>J + S</dd>
+                  <dt>${Joomla.Text._('JTOOLBAR_NEW')}</dt>
                   <dt>${Joomla.Text._('JTOOLBAR_SAVE_AND_NEW')}</dt>
                   <dd>J + N</dd>
+                  <dt>${Joomla.Text._('JCANCEL')}</dt>
                   <dt>${Joomla.Text._('JTOOLBAR_CLOSE')}</dt>
                   <dd>J + Q</dd>
+                  <dt>${Joomla.Text._('JAPPLY')}</dt>
+                  <dd>J + A</dd>
                 </dl>
               </div>
             </div>
@@ -116,7 +104,10 @@
         Joomla.addClickShortcut(value.shortcut, value.selector);
       }
     });
-    addOverviewHint();
-    initOverviewModal();
+    // Show hint and overview on logged in backend only (not login page)
+    if (document.querySelector('nav')) {
+      initOverviewModal();
+      addOverviewHint();
+    }
   });
 })(document, Joomla);

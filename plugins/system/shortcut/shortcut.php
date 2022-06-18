@@ -132,13 +132,13 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$shortcuts = $event->getArgument('shortcuts');
 
 		$keys = [
+			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'J + A'],
+			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'J + Q'],
 			'helpKey'            => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'J + H'],
 			'newKey'             => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'J + N'],
-			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'J + S'],
-			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + W'],
-			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'J + N'],
-			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'J + Q'],
 			'optionKey'          => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'J + O'],
+			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + S'],
+			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'J + N'],
 			'searchKey'          => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + S'],
 		];
 
