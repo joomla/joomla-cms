@@ -49,7 +49,28 @@
     document.querySelector('.container-main').appendChild(containerElement);
   };
 
-  const initOverviewModal = () => {
+  const initOverviewModal = (options) => {
+    const dlItems = new Map();
+    Object.values(options).forEach((value) => {
+      let titles = [];
+      if (dlItems.has(value.shortcut)) {
+        titles = dlItems.get(value.shortcut);
+        titles.push(value.title);
+      } else {
+        titles = [value.title];
+      }
+      dlItems.set(value.shortcut, titles);
+    });
+
+    let dl = '<dl>';
+    dlItems.forEach((titles, shortcut) => {
+      titles.forEach((title) => {
+        dl += `<dt>${title}</dt>`;
+      });
+      dl += `<dd>${shortcut}</dd>`;
+    });
+    dl += '</dl>';
+
     const modal = `
       <div class="modal fade" id="shortcutOverviewModal" tabindex="-1" role="dialog" data-bs-backdrop="static" aria-labelledby="shortcutOverviewModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -62,23 +83,7 @@
             </div>
             <div class="modal-body p-3">
               <div class="mb-3">
-                <dl>
-                  <dt>${Joomla.Text._('JHELP')}</dt>
-                  <dd>J + H</dd>
-                  <dt>${Joomla.Text._('JOPTIONS')}</dt>
-                  <dd>J + O</dd>
-                  <dt>${Joomla.Text._('JSEARCH_FILTER')}</dt>
-                  <dt>${Joomla.Text._('JTOOLBAR_SAVE')}</dt>
-                  <dd>J + S</dd>
-                  <dt>${Joomla.Text._('JTOOLBAR_NEW')}</dt>
-                  <dt>${Joomla.Text._('JTOOLBAR_SAVE_AND_NEW')}</dt>
-                  <dd>J + N</dd>
-                  <dt>${Joomla.Text._('JCANCEL')}</dt>
-                  <dt>${Joomla.Text._('JTOOLBAR_CLOSE')}</dt>
-                  <dd>J + Q</dd>
-                  <dt>${Joomla.Text._('JAPPLY')}</dt>
-                  <dd>J + A</dd>
-                </dl>
+                ${dl}
               </div>
             </div>
           </div>
@@ -106,7 +111,7 @@
     });
     // Show hint and overview on logged in backend only (not login page)
     if (document.querySelector('nav')) {
-      initOverviewModal();
+      initOverviewModal(options);
       addOverviewHint();
     }
   });

@@ -132,14 +132,14 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 		$shortcuts = $event->getArgument('shortcuts');
 
 		$keys = [
-			'applyKey'           => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'J + A'],
-			'cancelKey'          => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'J + Q'],
-			'helpKey'            => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'J + H'],
-			'newKey'             => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'J + N'],
-			'optionKey'          => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'J + O'],
-			'saveKey'            => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + S'],
-			'saveNewKey'         => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'J + N'],
-			'searchKey'          => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + S'],
+			'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'J + A', 'title' => Text::_('JAPPLY')],
+			'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'J + Q', 'title' => Text::_('JCANCEL')],
+			'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'J + H', 'title' => Text::_('JHELP')],
+			'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'J + N', 'title' => Text::_('JTOOLBAR_NEW')],
+			'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'J + O', 'title' => Text::_('JOPTIONS')],
+			'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + S', 'title' => Text::_('JTOOLBAR_SAVE')],
+			'saveNewKey' => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'J + N', 'title' => Text::_('JTOOLBAR_SAVE_AND_NEW')],
+			'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + S', 'title' => Text::_('JSEARCH_FILTER')],
 		];
 
 		$event->setArgument('shortcuts', $keys);
