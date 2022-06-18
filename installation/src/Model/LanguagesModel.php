@@ -287,7 +287,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+			$app->enqueueMessage(Text::_('INSTL_ERROR_INVALID_URL'), 'warning');
 
 			return false;
 		}

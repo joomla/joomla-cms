@@ -180,6 +180,12 @@ class ScriptsRenderer extends DocumentRenderer
 			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 		}
 
+		// Add "nonce" attribute if exist
+		if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce))
+		{
+			$attribs['nonce'] = $this->_doc->cspNonce;
+		}
+
 		// To prevent double rendering
 		$this->renderedSrc[$src] = true;
 
@@ -248,7 +254,7 @@ class ScriptsRenderer extends DocumentRenderer
 		}
 
 		// Add "nonce" attribute if exist
-		if ($this->_doc->cspNonce)
+		if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce))
 		{
 			$attribs['nonce'] = $this->_doc->cspNonce;
 		}
