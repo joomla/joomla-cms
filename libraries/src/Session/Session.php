@@ -115,7 +115,7 @@ class Session extends BaseSession
 	{
 		$connectors = [];
 
-		// Get an iterator and loop trough the handler classes.
+		// Get an iterator and loop through the handler classes.
 		$iterator = new \DirectoryIterator(JPATH_LIBRARIES . '/vendor/joomla/session/src/Handler');
 
 		foreach ($iterator as $file)
