@@ -27,7 +27,7 @@ There are three options here:
 - Legacy Javascript files must have an extension `.es5.js`.
   This instructs ESLint to skip checking this file.
   Also, it instructs the tools to create a minified version (production code WILL NOT have the `.es5` part)
-  
+
 - Javascript files with only an extension `.js`.
   These files will be ignored by the build tools.
 
@@ -57,7 +57,7 @@ There are three options here:
 
 Usually, the scope of a single contribution to the project should be limited. For example: fixing a CSS bug, a Javascript bug, some Markup, or a bug that involves changes in all these areas. The build tools were created so that you spend less time on compiling assets than testing a possible solution.
 
-*Embrace the watchers*  
+*Embrace the watchers*
 Let the computer help you succeed faster and safer. There are 2 watchers at the moment: one for the Media Manager (client app based on VueJS) and another one that handles templates and the source (build) folder.
 
 Assuming that you are working on the Media Manager, you can run in your terminal (already in the root folder of the Joomla repo) `npm run watch:com_media`. This watcher will automatically recompile the app on every save (there is a debounce of 0.3s, so if you have autosave it will be a clever way to minimise the wait).

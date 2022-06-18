@@ -1461,7 +1461,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 *
 	 * If the row is checked out by the same user, then it is considered not checked out -- as the user can still edit it.
 	 *
-	 * @param   integer  $with     The user ID to preform the match with, if an item is checked out by this user the function will return false.
+	 * @param   integer  $with     The user ID to perform the match with, if an item is checked out by this user the function will return false.
 	 * @param   integer  $against  The user ID to perform the match against when the function is used as a static function.
 	 *
 	 * @return  boolean  True if checked out.
