@@ -31,6 +31,7 @@ use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -153,7 +154,7 @@ class Console implements ServiceProviderInterface
 			ExtensionRemoveCommand::class,
 			function (Container $container)
 			{
-				return new ExtensionRemoveCommand;
+				return new ExtensionRemoveCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
