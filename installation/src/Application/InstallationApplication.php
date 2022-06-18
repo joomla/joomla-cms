@@ -311,7 +311,7 @@ final class InstallationApplication extends CMSApplication
 			list($controllerName, $task) = explode('.', $task, 2);
 		}
 
-		$factory = new MVCFactory('Joomla\\CMS', $this);
+		$factory = new MVCFactory('Joomla\\CMS');
 		$factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
 		// Create the instance
