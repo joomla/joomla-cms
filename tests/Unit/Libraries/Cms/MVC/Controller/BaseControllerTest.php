@@ -11,6 +11,8 @@ namespace Joomla\Tests\Unit\Libraries\Cms\MVC\Controller;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
@@ -45,7 +47,7 @@ class BaseControllerTest extends UnitTestCase
 	public function testInjectedDependencies()
 	{
 		$mvcFactory = $this->createStub(MVCFactoryInterface::class);
-		$app        = $this->createStub(CMSApplication::class);
+		$app        = $this->createStub(CMSApplicationInterface::class);
 		$input      = new Input;
 
 		$controller = new class(['base_path' => __DIR__], $mvcFactory, $app, $input) extends BaseController
@@ -82,7 +84,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['name' => 'unit test', 'base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{};
 
@@ -101,7 +103,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{};
 
@@ -120,7 +122,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{
 			public function unit()
@@ -142,7 +144,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{
 			public function list()
@@ -167,7 +169,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{
 			public function unit()
@@ -192,7 +194,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['default_task' => 'unit', 'base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{
 			public function unit()
@@ -217,7 +219,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{
 			public function display($cachable = false, $urlparams = array())
@@ -242,7 +244,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['default_task' => 'invalid', 'base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{};
 
@@ -268,7 +270,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$mvcFactory,
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{};
@@ -291,7 +293,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['model_prefix' => 'Test', 'base_path' => __DIR__],
 			$mvcFactory,
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{};
@@ -310,7 +312,7 @@ class BaseControllerTest extends UnitTestCase
 		$mvcFactory = $this->createMock(MVCFactoryInterface::class);
 		$mvcFactory->expects($this->once())->method('createModel')->with($this->equalTo('Unit'), $this->equalTo('Test'));
 
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSApplicationInterface::class);
 		$app->method('getName')->willReturn('Test');
 
 		$controller = new class(
@@ -337,7 +339,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$mvcFactory,
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{};
@@ -367,7 +369,7 @@ class BaseControllerTest extends UnitTestCase
 		$mvcFactory->method('createModel')->willReturn($model);
 
 		$user = new User;
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSApplicationInterface::class);
 		$app->method('getIdentity')->willReturn($user);
 
 		$controller = new class(
@@ -401,7 +403,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$mvcFactory,
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{};
@@ -425,7 +427,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['name' => 'Test', 'base_path' => __DIR__],
 			$mvcFactory,
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{};
@@ -446,7 +448,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$mvcFactory,
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{};
@@ -481,7 +483,7 @@ class BaseControllerTest extends UnitTestCase
 		$mvcFactory->method('createView')->willReturn($view);
 
 		$user = new User;
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSApplicationInterface::class);
 		$app->method('getIdentity')->willReturn($user);
 
 		$controller = new class(
@@ -508,7 +510,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['view_path' => $path, 'base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{
 			public function getPaths()
@@ -533,7 +535,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['name' => 'unit test', 'base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class)
+			$this->createStub(CMSApplicationInterface::class)
 		) extends BaseController
 		{
 			public function getPaths()
@@ -557,7 +559,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testDisplay()
 	{
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSWebApplicationInterface::class);
 		$app->method('getDocument')->willReturn(new Document);
 
 		$view = new class(['name' => 'test']) extends AbstractView
@@ -594,7 +596,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testDisplayWithModel()
 	{
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSWebApplicationInterface::class);
 		$app->method('getDocument')->willReturn(new Document);
 
 		$model = new class(['name' => 'test']) extends BaseModel
@@ -631,7 +633,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testCheckEditIdExist()
 	{
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSWebApplicationInterface::class);
 		$app->method('getUserState')->willReturn([1]);
 
 		$controller = new class(
@@ -659,7 +661,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testCheckEditIdNotExist()
 	{
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSWebApplicationInterface::class);
 		$app->method('getUserState')->willReturn([1]);
 
 		$controller = new class(
@@ -687,7 +689,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testCheckEditEmptyId()
 	{
-		$app = $this->createStub(CMSApplication::class);
+		$app = $this->createStub(CMSWebApplicationInterface::class);
 		$app->method('getUserState')->willReturn([1]);
 
 		$controller = new class(
@@ -715,7 +717,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testHoldEditId()
 	{
-		$app = $this->createMock(CMSApplication::class);
+		$app = $this->createMock(CMSWebApplicationInterface::class);
 		$app->expects($this->once())->method('setUserState')->with($this->equalTo('unit.id'), $this->equalTo([1]));
 
 		$controller = new class(
@@ -742,7 +744,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testHoldEditEmptyId()
 	{
-		$app = $this->createMock(CMSApplication::class);
+		$app = $this->createMock(CMSWebApplicationInterface::class);
 		$app->expects($this->never())->method('setUserState');
 
 		$controller = new class(
@@ -769,7 +771,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testReleaseEditId()
 	{
-		$app = $this->createMock(CMSApplication::class);
+		$app = $this->createMock(CMSWebApplicationInterface::class);
 		$app->method('getUserState')->willReturn([1, 2]);
 		$app->expects($this->once())->method('setUserState')->with($this->equalTo('unit.id'), $this->equalTo([1 => 2]));
 
@@ -797,7 +799,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testReleaseInvalidEditId()
 	{
-		$app = $this->createMock(CMSApplication::class);
+		$app = $this->createMock(CMSWebApplicationInterface::class);
 		$app->method('getUserState')->willReturn([2]);
 		$app->expects($this->never())->method('setUserState');
 
@@ -828,7 +830,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{
@@ -866,7 +868,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{
@@ -889,7 +891,7 @@ class BaseControllerTest extends UnitTestCase
 	 */
 	public function testRedirect()
 	{
-		$app = $this->createMock(CMSApplication::class);
+		$app = $this->createMock(CMSWebApplicationInterface::class);
 		$app->expects($this->once())->method('redirect')->with($this->equalTo('unit/test'));
 		$app->expects($this->once())->method('enqueueMessage')->with($this->equalTo('unit test'));
 
@@ -924,7 +926,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{
@@ -956,7 +958,7 @@ class BaseControllerTest extends UnitTestCase
 		$controller = new class(
 			['base_path' => __DIR__],
 			$this->createStub(MVCFactoryInterface::class),
-			$this->createStub(CMSApplication::class),
+			$this->createStub(CMSApplicationInterface::class),
 			new Input
 		) extends BaseController
 		{
