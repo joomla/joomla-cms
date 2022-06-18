@@ -320,8 +320,15 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
-					// Append the nonce
-					$cspValue->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $cspValue->value);
+					/**
+					 * That line is for B/C we do no longer require to add the nonce tag
+					 * but add it once the setting is enabled so this line here is needed
+					 * to remove the outdated tag that was required until __DEPLOY_VERSION__
+					 */
+					$cspValue->value = str_replace('{nonce}', '', $cspValue->value);
+
+					// Append the nonce when the nonce setting is enabled
+					$cspValue->value = "'nonce-" . $this->cspNonce . "' " . $cspValue->value;
 				}
 
 				// Append the script hashes placeholder
@@ -346,7 +353,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					&& $cspValue->directive === 'script-src'
 					&& strpos($cspValue->value, 'strict-dynamic') === false)
 				{
-					$cspValue->value .= " 'strict-dynamic' ";
+					$cspValue->value = "'strict-dynamic' " . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);

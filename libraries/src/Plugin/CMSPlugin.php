@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
@@ -76,6 +77,15 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	protected $allowLegacyListeners = true;
 
 	/**
+	 * The application object
+	 *
+	 * @var    CMSApplicationInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $application;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DispatcherInterface  &$subject  The object to observe
@@ -120,6 +130,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		if (property_exists($this, 'app'))
 		{
+			@trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
 			$reflection = new \ReflectionClass($this);
 			$appProperty = $reflection->getProperty('app');
 
@@ -131,6 +142,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		if (property_exists($this, 'db'))
 		{
+			@trigger_error('The database should be injected through the DatabaseAwareInterface and trait.', E_USER_DEPRECATED);
 			$reflection = new \ReflectionClass($this);
 			$dbProperty = $reflection->getProperty('db');
 
@@ -162,7 +174,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		}
 
 		$extension = strtolower($extension);
-		$lang      = Factory::getLanguage();
+		$lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
 
 		// If language already loaded, don't load it again.
 		if ($lang->getPaths($extension))
@@ -172,6 +184,35 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		return $lang->load($extension, $basePath)
 			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
+	}
+
+	/**
+	 * Translates the given key with the local applications language. If arguments are available, then
+	 * injects them into the translated string.
+	 *
+	 * @param   string   $key        The key to translate
+	 * @param   mixed[]  $arguments  The arguments
+	 *
+	 * @return  string  The translated string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @see     sprintf
+	 */
+	protected function translate(string $key): string
+	{
+		$language = $this->getApplication()->getLanguage();
+
+		$arguments = \func_get_args();
+
+		if (count($arguments) > 1)
+		{
+			$arguments[0] = $language->_($key);
+
+			return \call_user_func_array('sprintf', $arguments);
+		}
+
+		return $language->_($key);
 	}
 
 	/**
@@ -358,5 +399,31 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the internal application or null when not set.
+	 *
+	 * @return  CMSApplicationInterface|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getApplication(): ?CMSApplicationInterface
+	{
+		return $this->application;
+	}
+
+	/**
+	 * Sets the application to use.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setApplication(CMSApplicationInterface $application): void
+	{
+		$this->application = $application;
 	}
 }

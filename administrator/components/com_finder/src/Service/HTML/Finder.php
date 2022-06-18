@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -24,6 +25,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Finder
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Creates a list of types to filter on.
 	 *
@@ -34,7 +37,7 @@ class Finder
 	public function typeslist()
 	{
 		// Load the finder types.
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('DISTINCT t.title AS text, t.id AS value')
 			->from($db->quoteName('#__finder_types') . ' AS t')
@@ -75,7 +78,7 @@ class Finder
 	public function mapslist()
 	{
 		// Load the finder types.
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title', 'text'))
 			->select($db->quoteName('id', 'value'))
