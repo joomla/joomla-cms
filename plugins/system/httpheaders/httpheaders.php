@@ -138,8 +138,15 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		parent::__construct($subject, $config);
 
-		// Nonce generation
-		$this->cspNonce = base64_encode(bin2hex(random_bytes(64)));
+		$nonceEnabled = (int) $this->params->get('nonce_enabled', 0);
+
+		// Nonce generation when it's enabled
+		if ($nonceEnabled)
+		{
+			$this->cspNonce = base64_encode(bin2hex(random_bytes(64)));
+		}
+
+		// Set the nonce, when not set we set it to NULL which is checked down the line
 		$this->app->set('csp_nonce', $this->cspNonce);
 	}
 
