@@ -10,6 +10,7 @@
 defined('_JEXEC') || die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -35,7 +36,10 @@ return new class implements ServiceProviderInterface
 				$config  = (array) PluginHelper::getPlugin('multifactorauth', 'totp');
 				$subject = $container->get(DispatcherInterface::class);
 
-				return new Totp($subject, $config);
+				$plugin = new Totp($subject, $config);
+				$plugin->setApplication(Factory::getApplication());
+
+				return $plugin;
 			}
 		);
 	}
