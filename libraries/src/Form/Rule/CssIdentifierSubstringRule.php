@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
 class CssIdentifierSubstringRule extends FormRule
 {
 	/**
-	 * Method to test if a string is a valid CSS identifer substring
+	 * Method to test if a string is a valid CSS identifier substring
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed              $value    The form field value to validate.
