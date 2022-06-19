@@ -35,7 +35,7 @@ class MessageController extends BaseController
 		$this->checkToken('get');
 
 		/** @var MessagesModel $model */
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))
@@ -57,7 +57,7 @@ class MessageController extends BaseController
 	 */
 	public function unpublish()
 	{
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
 		$id = $this->input->get('id');
 
@@ -83,7 +83,7 @@ class MessageController extends BaseController
 	 */
 	public function republish()
 	{
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
 		$id = $this->input->get('id');
 
@@ -109,7 +109,7 @@ class MessageController extends BaseController
 	 */
 	public function archive()
 	{
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
 		$id = $this->input->get('id');
 
@@ -137,7 +137,7 @@ class MessageController extends BaseController
 	{
 		$this->checkToken('get');
 
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
 		$id = $this->input->get('id');
 
@@ -178,7 +178,7 @@ class MessageController extends BaseController
 		$this->checkToken();
 
 		/** @var MessagesModel $model */
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))
