@@ -81,7 +81,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The old config
 	 *
-	 * @var    string
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $oldConfig;
