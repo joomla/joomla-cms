@@ -460,9 +460,9 @@ class CMSPluginTest extends UnitTestCase
 		$plugin = new class($dispatcher, []) extends CMSPlugin
 		{
 			public function registerTestListener()
-	    	{
-	        	parent::registerLegacyListener('onTest');
-	    	}
+			{
+				parent::registerLegacyListener('onTest');
+			}
 
 			public function onTest()
 			{
@@ -489,9 +489,9 @@ class CMSPluginTest extends UnitTestCase
 		$plugin = new class($dispatcher, []) extends CMSPlugin
 		{
 			public function registerTestListener()
-	    	{
-	        	parent::registerLegacyListener('onTest');
-	    	}
+			{
+				parent::registerLegacyListener('onTest');
+			}
 
 			public function onTest()
 			{}
