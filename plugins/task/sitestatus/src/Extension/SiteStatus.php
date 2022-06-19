@@ -7,20 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Task\SiteStatus\Extension;
+
 // Restrict direct access
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Language\Text;
+use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Path;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Task plugin with routines to change the offline status of the site. These routines can be used to control planned
@@ -28,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  4.1.0
  */
-class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
+final class SiteStatus extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
@@ -55,14 +56,6 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
-	 * The application object.
-	 *
-	 * @var  CMSApplication
-	 * @since 4.1.0
-	 */
-	protected $app;
-
-	/**
 	 * Autoload the language file.
 	 *
 	 * @var boolean
@@ -86,6 +79,40 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
+	 * The old config
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $oldConfig;
+
+	/**
+	 * The config file
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $configFile;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   DispatcherInterface  $dispatcher  The dispatcher
+	 * @param   array                $config      An optional associative array of configuration settings
+	 * @param   string               $oldConfig   The old config
+	 * @param   string               $configFile  The config
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DispatcherInterface $dispatcher, array $config, array $oldConfig, string $configFile)
+	{
+		parent::__construct($dispatcher, $config);
+
+		$this->oldConfig  = $oldConfig;
+		$this->configFile = $configFile;
+	}
+
+	/**
 	 * @param   ExecuteTaskEvent  $event  The onExecuteTask event
 	 *
 	 * @return void
@@ -102,7 +129,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 
 		$this->startRoutine($event);
 
-		$config = ArrayHelper::fromObject(new JConfig);
+		$config = $this->oldConfig;
 
 		$toggle    = self::TASKS_MAP[$event->getRoutineId()]['toggle'];
 		$oldStatus = $config['offline'] ? 'offline' : 'online';
@@ -113,13 +140,12 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 		}
 		else
 		{
-			$offline           = self::TASKS_MAP[$event->getRoutineId()]['offline'];
-			$config['offline'] = $offline;
+			$config['offline'] = self::TASKS_MAP[$event->getRoutineId()]['offline'];
 		}
 
 		$newStatus = $config['offline'] ? 'offline' : 'online';
 		$exit      = $this->writeConfigFile(new Registry($config));
-		$this->logTask(Text::sprintf('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS', $oldStatus, $newStatus));
+		$this->logTask($this->translate('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS', $oldStatus, $newStatus));
 
 		$this->endRoutine($event, $exit);
 	}
@@ -137,20 +163,23 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 	private function writeConfigFile(Registry $config): int
 	{
 		// Set the configuration file path.
-		$file = JPATH_CONFIGURATION . '/configuration.php';
+		$file = $this->configFile;
 
 		// Attempt to make the file writeable.
-		if (Path::isOwner($file) && !Path::setPermissions($file))
+		if (file_exists($file) && Path::isOwner($file) && !Path::setPermissions($file))
 		{
-			$this->logTask(Text::_('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+			$this->logTask($this->translate('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
 
-		// Attempt to write the configuration file as a PHP class named JConfig.
-		$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
-
-		if (!File::write($file, $configuration))
+		try
 		{
-			$this->logTask(Text::_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
+			// Attempt to write the configuration file as a PHP class named JConfig.
+			$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+			File::write($file, $configuration);
+		}
+		catch (Exception $e)
+		{
+			$this->logTask($this->translate('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
 			return Status::KNOCKOUT;
 		}
@@ -164,7 +193,7 @@ class PlgTaskSitestatus extends CMSPlugin implements SubscriberInterface
 		// Attempt to make the file un-writeable.
 		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
-			$this->logTask(Text::_('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+			$this->logTask($this->translate('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
 
 		return Status::OK;
