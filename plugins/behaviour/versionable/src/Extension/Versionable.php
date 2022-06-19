@@ -11,7 +11,6 @@ namespace Joomla\Plugin\Behaviour\Versionable\Extension;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Table\AfterStoreEvent;
 use Joomla\CMS\Event\Table\BeforeDeleteEvent;
@@ -46,14 +45,6 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 			'onTableBeforeDelete' => 'onTableBeforeDelete',
 		];
 	}
-
-	/**
-	 * The application object
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
 
 	/**
 	 * The input filter
@@ -126,7 +117,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 
 		$id     = $table->getId();
 		$data   = $this->helper->getDataObject($table);
-		$input  = $this->app->input;
+		$input  = $this->getApplication()->input;
 		$jform  = $input->get('jform', array(), 'array');
 		$versionNote = '';
 

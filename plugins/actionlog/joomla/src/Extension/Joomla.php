@@ -11,7 +11,6 @@ namespace Joomla\Plugin\Actionlog\Joomla\Extension;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
@@ -35,14 +34,6 @@ use stdClass;
 final class Joomla extends ActionLogPlugin
 {
 	use DatabaseAwareTrait;
-
-	/**
-	 * Application object.
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  4.2.0
-	 */
-	protected $app;
 
 	/**
 	 * Array of loggable extensions.
@@ -144,7 +135,7 @@ final class Joomla extends ActionLogPlugin
 		}
 
 		// If the content type doesn't have its own language key, use default language key
-		if (!$this->app->getLanguage()->hasKey($messageLanguageKey))
+		if (!$this->getApplication()->getLanguage()->hasKey($messageLanguageKey))
 		{
 			$messageLanguageKey = $defaultLanguageKey;
 		}
@@ -176,7 +167,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onContentAfterDelete($context, $article): void
 	{
-		$option = $this->app->input->get('option');
+		$option = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($option))
 		{
@@ -192,7 +183,7 @@ final class Joomla extends ActionLogPlugin
 		}
 
 		// If the content type has its own language key, use it, otherwise, use default language key
-		if ($this->app->getLanguage()->hasKey(strtoupper($params->text_prefix . '_' . $params->type_title . '_DELETED')))
+		if ($this->getApplication()->getLanguage()->hasKey(strtoupper($params->text_prefix . '_' . $params->type_title . '_DELETED')))
 		{
 			$messageLanguageKey = $params->text_prefix . '_' . $params->type_title . '_DELETED';
 		}
@@ -228,7 +219,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
-		$option = $this->app->input->getCmd('option');
+		$option = $this->getApplication()->input->getCmd('option');
 
 		if (!$this->checkLoggable($option))
 		{
@@ -275,7 +266,7 @@ final class Joomla extends ActionLogPlugin
 		}
 
 		// If the content type doesn't have its own language key, use default language key
-		if (!$this->app->getLanguage()->hasKey($messageLanguageKey))
+		if (!$this->getApplication()->getLanguage()->hasKey($messageLanguageKey))
 		{
 			$messageLanguageKey = $defaultLanguageKey;
 		}
@@ -326,7 +317,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onApplicationAfterSave($config): void
 	{
-		$option = $this->app->input->getCmd('option');
+		$option = $this->getApplication()->input->getCmd('option');
 
 		if (!$this->checkLoggable($option))
 		{
@@ -360,7 +351,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -377,7 +368,7 @@ final class Joomla extends ActionLogPlugin
 		$extensionType = $manifest->attributes()->type;
 
 		// If the extension type has its own language key, use it, otherwise, use default language key
-		if ($this->app->getLanguage()->hasKey(strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_INSTALLED')))
+		if ($this->getApplication()->getLanguage()->hasKey(strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_INSTALLED')))
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_INSTALLED';
 		}
@@ -412,7 +403,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -435,7 +426,7 @@ final class Joomla extends ActionLogPlugin
 		$extensionType = $manifest->attributes()->type;
 
 		// If the extension type has its own language key, use it, otherwise, use default language key
-		if ($this->app->getLanguage()->hasKey(strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UNINSTALLED')))
+		if ($this->getApplication()->getLanguage()->hasKey(strtoupper('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UNINSTALLED')))
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UNINSTALLED';
 		}
@@ -469,7 +460,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -486,7 +477,7 @@ final class Joomla extends ActionLogPlugin
 		$extensionType = $manifest->attributes()->type;
 
 		// If the extension type has its own language key, use it, otherwise, use default language key
-		if ($this->app->getLanguage()->hasKey('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED'))
+		if ($this->getApplication()->getLanguage()->hasKey('PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED'))
 		{
 			$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_' . $extensionType . '_UPDATED';
 		}
@@ -520,7 +511,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onExtensionAfterSave($context, $table, $isNew): void
 	{
-		$option = $this->app->input->getCmd('option');
+		$option = $this->getApplication()->input->getCmd('option');
 
 		if ($table->get('module') != null)
 		{
@@ -554,7 +545,7 @@ final class Joomla extends ActionLogPlugin
 		}
 
 		// If the extension type doesn't have it own language key, use default language key
-		if (!$this->app->getLanguage()->hasKey($messageLanguageKey))
+		if (!$this->getApplication()->getLanguage()->hasKey($messageLanguageKey))
 		{
 			$messageLanguageKey = $defaultLanguageKey;
 		}
@@ -584,7 +575,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onExtensionAfterDelete($context, $table): void
 	{
-		if (!$this->checkLoggable($this->app->input->get('option')))
+		if (!$this->checkLoggable($this->getApplication()->input->get('option')))
 		{
 			return;
 		}
@@ -625,8 +616,8 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
-		$context = $this->app->input->get('option');
-		$task    = $this->app->input->post->get('task');
+		$context = $this->getApplication()->input->get('option');
+		$task    = $this->getApplication()->input->post->get('task');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -704,7 +695,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onUserAfterDelete($user, $success, $msg): void
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -739,7 +730,7 @@ final class Joomla extends ActionLogPlugin
 	public function onUserAfterSaveGroup($context, $table, $isNew): void
 	{
 		// Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -783,7 +774,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onUserAfterDeleteGroup($group, $success, $msg): void
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -833,7 +824,7 @@ final class Joomla extends ActionLogPlugin
 			'userid'      => $loggedInUser->id,
 			'username'    => $loggedInUser->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $loggedInUser->id,
-			'app'         => 'PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->app->getName(),
+			'app'         => 'PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->getApplication()->getName(),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context, $loggedInUser->id);
@@ -889,7 +880,7 @@ final class Joomla extends ActionLogPlugin
 			'userid'      => $loggedInUser->id,
 			'username'    => $loggedInUser->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $loggedInUser->id,
-			'app'         => 'PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->app->getName(),
+			'app'         => 'PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->getApplication()->getName(),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context, $loggedInUser->id);
@@ -929,7 +920,7 @@ final class Joomla extends ActionLogPlugin
 			'userid'      => $loggedOutUser->id,
 			'username'    => $loggedOutUser->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $loggedOutUser->id,
-			'app'         => 'PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->app->getName(),
+			'app'         => 'PLG_ACTIONLOG_JOOMLA_APPLICATION_' . $this->getApplication()->getName(),
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -962,7 +953,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onUserAfterRemind($user)
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -1032,7 +1023,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onAfterLogPurge($group = '')
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 		$user    = Factory::getUser();
 		$message = array(
 			'action'      => 'actionlogs',
@@ -1060,7 +1051,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onAfterLogExport($group = '')
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 		$user    = Factory::getUser();
 		$message = array(
 			'action'      => 'actionlogs',
@@ -1088,7 +1079,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onAfterPurge($group = 'all')
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 		$user    = Factory::getUser();
 
 		if (!$this->checkLoggable($context))
@@ -1121,7 +1112,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		if (!$this->app->isClient('api'))
+		if (!$this->getApplication()->isClient('api'))
 		{
 			return;
 		}
@@ -1131,27 +1122,27 @@ final class Joomla extends ActionLogPlugin
 			return;
 		}
 
-		$verb = $this->app->input->getMethod();
+		$verb = $this->getApplication()->input->getMethod();
 
 		if (!in_array($verb, $this->loggableVerbs))
 		{
 			return;
 		}
 
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 
 		if (!$this->checkLoggable($context))
 		{
 			return;
 		}
 
-		$user = $this->app->getIdentity();
+		$user = $this->getApplication()->getIdentity();
 		$message = array(
 			'action'      => 'API',
 			'verb'        => $verb,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'url'         => htmlspecialchars(urldecode($this->app->get('uri.route')), ENT_QUOTES, 'UTF-8'),
+			'url'         => htmlspecialchars(urldecode($this->getApplication()->get('uri.route')), ENT_QUOTES, 'UTF-8'),
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
 	}
@@ -1169,12 +1160,12 @@ final class Joomla extends ActionLogPlugin
 	 */
 	public function onJoomlaAfterUpdate($oldVersion = null)
 	{
-		$context = $this->app->input->get('option');
+		$context = $this->getApplication()->input->get('option');
 		$user    = Factory::getUser();
 
 		if (empty($oldVersion))
 		{
-			$oldVersion = $this->app->getLanguage()->_('JLIB_UNKNOWN');
+			$oldVersion = $this->getApplication()->getLanguage()->_('JLIB_UNKNOWN');
 		}
 
 		$message = array(
@@ -1203,7 +1194,7 @@ final class Joomla extends ActionLogPlugin
 	 */
 	private function getActionLogParams($context): ?stdClass
 	{
-		$component = $this->app->bootComponent('actionlogs');
+		$component = $this->getApplication()->bootComponent('actionlogs');
 
 		if (!$component instanceof MVCFactoryServiceInterface)
 		{
