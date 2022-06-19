@@ -1372,7 +1372,7 @@ class CategoryModel extends AdminModel
 			return $this->hasAssociation;
 		}
 
-		$extension = $this->getState('category.extension');
+		$extension = $this->getState('category.extension', '');
 
 		$this->hasAssociation = Associations::isEnabled();
 		$extension = explode('.', $extension);
