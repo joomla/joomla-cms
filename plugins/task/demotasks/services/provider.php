@@ -16,8 +16,6 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\Task\DemoTasks\Extension\DemoTasks;
-use Joomla\Plugin\Task\SiteStatus\Extension\SiteStatus;
-use Joomla\Utilities\ArrayHelper;
 
 return new class implements ServiceProviderInterface
 {
