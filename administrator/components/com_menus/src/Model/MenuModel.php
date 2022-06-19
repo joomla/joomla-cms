@@ -54,7 +54,7 @@ class MenuModel extends FormModel
 	 */
 	protected function canDelete($record)
 	{
-		return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
+		return $this->getCurrentUser()->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -68,7 +68,7 @@ class MenuModel extends FormModel
 	 */
 	protected function canEditState($record)
 	{
-		return Factory::getUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
+		return $this->getCurrentUser()->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
@@ -220,7 +220,7 @@ class MenuModel extends FormModel
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		if (!Factory::getUser()->authorise('core.admin', 'com_menus'))
+		if (!$this->getCurrentUser()->authorise('core.admin', 'com_menus'))
 		{
 			if (isset($data['rules']))
 			{

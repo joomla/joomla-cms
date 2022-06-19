@@ -167,7 +167,7 @@ class TagModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
 		{

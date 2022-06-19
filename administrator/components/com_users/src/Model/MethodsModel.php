@@ -96,7 +96,7 @@ class MethodsModel extends BaseDatabaseModel
 		// Make sure we have a user object
 		if (is_null($user))
 		{
-			$user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
+			$user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
 		}
 
 		// If the user object is a guest (who can't have MFA) we abort with an error

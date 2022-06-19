@@ -83,7 +83,7 @@ class FeaturedModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
@@ -197,7 +197,7 @@ class FeaturedModel extends ListModel
 
 		$this->setState('list.direction', $listOrder);
 
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
 		{

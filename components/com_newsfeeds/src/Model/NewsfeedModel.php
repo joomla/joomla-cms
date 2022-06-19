@@ -56,7 +56,7 @@ class NewsfeedModel extends ItemModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds')))
 		{
@@ -191,7 +191,7 @@ class NewsfeedModel extends ItemModel
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user   = Factory::getUser();
+					$user   = $this->getCurrentUser();
 					$groups = $user->getAuthorisedViewLevels();
 					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 				}

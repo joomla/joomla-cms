@@ -206,7 +206,7 @@ class OverridesModel extends ListModel
 	public function delete($cids)
 	{
 		// Check permissions first.
-		if (!Factory::getUser()->authorise('core.delete', 'com_languages'))
+		if (!$this->getCurrentUser()->authorise('core.delete', 'com_languages'))
 		{
 			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 

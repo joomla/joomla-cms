@@ -59,7 +59,7 @@ class ArticleModel extends ItemModel
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		// If $pk is set then authorise on complete asset, else on component only
 		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
@@ -82,7 +82,7 @@ class ArticleModel extends ItemModel
 	 */
 	public function getItem($pk = null)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		$pk = (int) ($pk ?: $this->getState('article.id'));
 
@@ -268,7 +268,7 @@ class ArticleModel extends ItemModel
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user = Factory::getUser();
+					$user = $this->getCurrentUser();
 					$groups = $user->getAuthorisedViewLevels();
 
 					if ($data->catid == 0 || $data->category_access === null)

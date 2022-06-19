@@ -73,7 +73,7 @@ class ConfirmModel extends AdminModel
 		}
 
 		// Get the user email address
-		$email = Factory::getUser()->email;
+		$email = $this->getCurrentUser()->email;
 
 		// Search for the information request
 		/** @var RequestTable $table */

@@ -309,7 +309,7 @@ class TagModel extends ListModel
 						}
 					}
 
-					if (!in_array($table->access, Factory::getUser()->getAuthorisedViewLevels()))
+					if (!in_array($table->access, $this->getCurrentUser()->getAuthorisedViewLevels()))
 					{
 						continue;
 					}

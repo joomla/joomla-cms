@@ -83,7 +83,7 @@ class ContactModel extends FormModel
 
 		$this->setState('params', $app->getParams());
 
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact')))
 		{
@@ -283,7 +283,7 @@ class ContactModel extends FormModel
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user = Factory::getUser();
+					$user = $this->getCurrentUser();
 					$groups = $user->getAuthorisedViewLevels();
 
 					if ($data->catid == 0 || $data->category_access === null)
@@ -332,7 +332,7 @@ class ContactModel extends FormModel
 	{
 		$db        = $this->getDatabase();
 		$nowDate   = Factory::getDate()->toSql();
-		$user      = Factory::getUser();
+		$user      = $this->getCurrentUser();
 		$groups    = $user->getAuthorisedViewLevels();
 		$published = $this->getState('filter.published');
 		$query     = $db->getQuery(true);

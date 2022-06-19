@@ -190,7 +190,7 @@ class TracksModel extends ListModel
 	 */
 	public function delete()
 	{
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$categoryId = (int) $this->getState('category_id');
 
 		// Access checks.

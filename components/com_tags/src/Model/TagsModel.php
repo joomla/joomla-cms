@@ -67,7 +67,7 @@ class TagsModel extends ListModel
 		$this->setState('filter.published', 1);
 		$this->setState('filter.access', true);
 
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
 		{
@@ -90,7 +90,7 @@ class TagsModel extends ListModel
 	protected function getListQuery()
 	{
 		$app            = Factory::getApplication();
-		$user           = Factory::getUser();
+		$user           = $this->getCurrentUser();
 		$groups         = $user->getAuthorisedViewLevels();
 		$pid            = (int) $this->getState('tag.parent_id');
 		$orderby        = $this->state->params->get('all_tags_orderby', 'title');

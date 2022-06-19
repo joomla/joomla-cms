@@ -162,7 +162,7 @@ class StageModel extends AdminModel
 
 		$component = reset($parts);
 
-		if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default)
+		if (!$this->getCurrentUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default)
 		{
 			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
@@ -183,7 +183,7 @@ class StageModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 		$app = Factory::getApplication();
 		$context = $this->option . '.' . $this->name;
 		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');

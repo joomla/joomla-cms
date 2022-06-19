@@ -119,7 +119,7 @@ class StyleModel extends AdminModel
 	public function delete(&$pks)
 	{
 		$pks        = (array) $pks;
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
@@ -182,7 +182,7 @@ class StyleModel extends AdminModel
 	 */
 	public function duplicate(&$pks)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
@@ -540,13 +540,13 @@ class StyleModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
 		{
 			$n       = 0;
 			$db      = $this->getDatabase();
-			$user    = Factory::getUser();
+			$user    = $this->getCurrentUser();
 			$tableId = (int) $table->id;
 			$userId  = (int) $user->id;
 
@@ -617,7 +617,7 @@ class StyleModel extends AdminModel
 	 */
 	public function setHome($id = 0)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 		$db   = $this->getDatabase();
 
 		// Access checks.
@@ -680,7 +680,7 @@ class StyleModel extends AdminModel
 	 */
 	public function unsetHome($id = 0)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 		$db   = $this->getDatabase();
 
 		// Access checks.

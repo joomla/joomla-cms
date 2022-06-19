@@ -79,7 +79,7 @@ class HistoryModel extends ListModel
 		 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 		 * for the content item, not delete permissions for the content history row.
 		 */
-		$user   = Factory::getUser();
+		$user   = $this->getCurrentUser();
 
 		if ($user->authorise('core.edit', $record->item_id))
 		{
@@ -209,7 +209,7 @@ class HistoryModel extends ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		if ($items === false)
 		{
