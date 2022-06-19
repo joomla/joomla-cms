@@ -87,10 +87,13 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 
 		$shortcuts = [];
 
-		$event = new GenericEvent('onLoadShortcuts', [
-			'context' => $context,
-			'shortcuts' => $shortcuts
-		]);
+		$event = new GenericEvent(
+			'onLoadShortcuts',
+			[
+				'context'   => $context,
+				'shortcuts' => $shortcuts,
+			]
+		);
 
 		$this->app->getDispatcher()->dispatch('onLoadShortcuts', $event);
 
