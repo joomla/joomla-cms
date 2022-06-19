@@ -13,6 +13,7 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -48,7 +49,30 @@ class CleanCacheCommand extends AbstractCommand
 
 		$symfonyStyle->title('Cleaning System Cache');
 
-		Factory::getCache()->gc();
+		$cache = Factory::getApplication()->bootComponent('com_cache')->getMVCFactory();
+		/** @var Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+		$model = $cache->createModel('Cache', 'Administrator', ['ignore_request' => true]);
+
+		if ($input->getArgument('expired'))
+		{
+			if (!$model->purge())
+			{
+				$symfonyStyle->error('Expired Cache not cleaned');
+
+				return Command::FAILURE;
+			}
+
+			$symfonyStyle->success('Expired Cache cleaned');
+
+			return Command::SUCCESS;
+		}
+
+		if (!$model->clean())
+		{
+			$symfonyStyle->error('Cache not cleaned');
+
+			return Command::FAILURE;
+		}
 
 		$symfonyStyle->success('Cache cleaned');
 
