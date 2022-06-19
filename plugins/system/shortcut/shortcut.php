@@ -96,18 +96,6 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 
 		$shortcuts = $event->getArgument('shortcuts');
 
-		Text::script('JAPPLY');
-		Text::script('JCANCEL');
-		Text::script('JHELP');
-		Text::script('JOPTIONS');
-		Text::script('JSEARCH_FILTER');
-		Text::script('JTOOLBAR_CLOSE');
-		Text::script('JTOOLBAR_NEW');
-		Text::script('JTOOLBAR_SAVE');
-		Text::script('JTOOLBAR_SAVE_AND_NEW');
-		Text::script('PLG_SYSTEM_SHORTCUT_ACTIONS_FORM_LABEL');
-		Text::script('PLG_SYSTEM_SHORTCUT_ACTIONS_GENERAL_LABEL');
-		Text::script('PLG_SYSTEM_SHORTCUT_ACTIONS_LIST_LABEL');
 		Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
 		Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_TITLE');
 
