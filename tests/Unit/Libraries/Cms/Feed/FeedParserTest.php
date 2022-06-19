@@ -203,9 +203,8 @@ class FeedParserTest extends UnitTestCase
 	{
 		$prefix        = 'my-namespace';
 		$namespaceMock = $this->createMock(NamespaceParserInterface::class);
-		$readerMock    = $this->createMock(XMLReader::class);
 
-		$parser         = new FeedParserStub($readerMock);
+		$parser         = new FeedParserStub(new \XMLReader);
 		$returnedParser = $parser->registerNamespace($prefix, $namespaceMock);
 
 		$this->assertInstanceOf(FeedParserStub::class, $returnedParser);
