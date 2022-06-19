@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,6 +26,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionsListCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -55,14 +58,6 @@ class ExtensionsListCommand extends AbstractCommand
 	protected $ioStyle;
 
 	/**
-	 * Database connector
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0.0
-	 */
-	private $db;
-
-	/**
 	 * Instantiate the command.
 	 *
 	 * @param   DatabaseInterface  $db  Database connector
@@ -71,8 +66,9 @@ class ExtensionsListCommand extends AbstractCommand
 	 */
 	public function __construct(DatabaseInterface $db)
 	{
-		$this->db = $db;
 		parent::__construct();
+
+		$this->setDatabase($db);
 	}
 
 	/**
@@ -160,7 +156,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 */
 	private function getAllExtensionsFromDB(): array
 	{
-		$db    = $this->db;
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from('#__extensions');

@@ -36,11 +36,14 @@ return new class implements ServiceProviderInterface
 				// @Todo This needs to be changed to a proper factory
 				$plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'joomlaupdate');
 
-				return new Joomlaupdate(
+				$plugin = new Joomlaupdate(
 					$container->get(DispatcherInterface::class),
 					Factory::getApplication()->getDocument(),
 					(array) $plugin
 				);
+				$plugin->setApplication(Factory::getApplication());
+
+				return $plugin;
 			}
 		);
 	}

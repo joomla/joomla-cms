@@ -414,7 +414,7 @@ class SearchModel extends ListModel
 		$options['when2'] = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
-		$this->searchquery = new Query($options);
+		$this->searchquery = new Query($options, $this->getDatabase());
 
 		// Load the query token data.
 		$this->excludedTerms = $this->searchquery->getExcludedTermIds();
