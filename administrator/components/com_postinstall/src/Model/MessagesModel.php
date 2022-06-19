@@ -131,7 +131,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function archiveMessage($id)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $id;
 
 		$query = $db->getQuery(true);
@@ -156,7 +156,7 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function republishMessage($id)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $id;
 
 		$query = $db->getQuery(true);
