@@ -151,7 +151,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
 		$this->default_con = (int) $this->default_con;
 
-		if (InputFilter::checkAttribute(array('href', $this->webpage)))
+		if ($this->webpage !== null && InputFilter::checkAttribute(array('href', $this->webpage)))
 		{
 			$this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
