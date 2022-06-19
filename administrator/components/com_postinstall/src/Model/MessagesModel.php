@@ -210,7 +210,7 @@ class MessagesModel extends BaseDatabaseModel
 			->bind(':eid', $eid, ParameterType::INTEGER);
 
 		// Force filter only enabled messages
-		$query->where($db->quoteName('enabled') . ' IN (1,2)');
+		$query->whereIn($db->quoteName('enabled'), [1, 2]);
 		$db->setQuery($query);
 
 		try
