@@ -99,7 +99,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @param   DispatcherInterface  $dispatcher  The dispatcher
 	 * @param   array                $config      An optional associative array of configuration settings
-	 * @param   string               $oldConfig   The old config
+	 * @param   array                $oldConfig   The old config
 	 * @param   string               $configFile  The config
 	 *
 	 * @since   __DEPLOY_VERSION__
