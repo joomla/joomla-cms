@@ -110,10 +110,16 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 		}
 
 		// Store utf8 email as punycode
-		$this->email_to = PunycodeHelper::emailToPunycode($this->email_to);
+		if ($this->email_to !== null)
+		{
+			$this->email_to = PunycodeHelper::emailToPunycode($this->email_to);
+		}
 
 		// Convert IDN urls to punycode
-		$this->webpage = PunycodeHelper::urlToPunycode($this->webpage);
+		if ($this->webpage !== null)
+		{
+			$this->webpage = PunycodeHelper::urlToPunycode($this->webpage);
+		}
 
 		// Verify that the alias is unique
 		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
