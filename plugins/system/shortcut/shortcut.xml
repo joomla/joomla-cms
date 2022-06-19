@@ -11,7 +11,7 @@
 	<description>PLG_SYSTEM_SHORTCUT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\System\Shortcut</namespace>
 	<media destination="plg_system_shortcut" folder="media">
-	  <folder>js</folder>
+		<folder>js</folder>
 	</media>
 	<files>
 		<filename plugin="shortcut">shortcut.php</filename>
