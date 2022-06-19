@@ -66,6 +66,9 @@
   const initOverviewModal = (options) => {
     const dlItems = new Map();
     Object.values(options).forEach((value) => {
+      if (!value.shortcut || !value.title) {
+        return;
+      }
       let titles = [];
       if (dlItems.has(value.shortcut)) {
         titles = dlItems.get(value.shortcut);
@@ -117,6 +120,9 @@
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
     Object.values(options).forEach((value) => {
+      if (!value.shortcut || !value.selector) {
+        return;
+      }
       if (value.selector.includes('input')) {
         Joomla.addFocusShortcut(value.shortcut, value.selector);
       } else {
