@@ -135,9 +135,6 @@ abstract class Adapter extends CMSPlugin
 	 */
 	public function __construct(&$subject, $config)
 	{
-		// Get the database object.
-		$this->db = Factory::getDbo();
-
 		// Call the parent constructor.
 		parent::__construct($subject, $config);
 
@@ -157,7 +154,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = new Indexer;
+		$this->indexer = new Indexer($this->db);
 	}
 
 	/**
@@ -260,6 +257,38 @@ abstract class Adapter extends CMSPlugin
 		Indexer::setState($iState);
 
 		return true;
+	}
+
+	/**
+	 * Method to remove outdated index entries
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.2.0
+	 */
+	public function onFinderGarbageCollection()
+	{
+		$db = $this->db;
+		$type_id = $this->getTypeId();
+
+		$query = $db->getQuery(true);
+		$subquery = $db->getQuery(true);
+		$subquery->select('CONCAT(' . $db->quote($this->getUrl('', $this->extension, $this->layout)) . ', id)')
+			->from($db->quoteName($this->table));
+		$query->select($db->quoteName('l.link_id'))
+			->from($db->quoteName('#__finder_links', 'l'))
+			->where($db->quoteName('l.type_id') . ' = ' . $type_id)
+			->where($db->quoteName('l.url') . ' LIKE ' . $db->quote($this->getUrl('%', $this->extension, $this->layout)))
+			->where($db->quoteName('l.url') . ' NOT IN (' . $subquery . ')');
+		$db->setQuery($query);
+		$items = $db->loadColumn();
+
+		foreach ($items as $item)
+		{
+			$this->indexer->remove($item);
+		}
+
+		return count($items);
 	}
 
 	/**

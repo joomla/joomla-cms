@@ -31,39 +31,39 @@ class ExtensionDiscoverCommandTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the processDiscover method
-	 * Ensure that the return value is an integer. 
+	 * Ensure that the return value is an integer.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function testProcessDiscoverReturnIsInt()
 	{
 		$command = $this->createMock(ExtensionDiscoverCommand::class);
-		
+
 		$countOfDiscoveredExtensions = $command->processDiscover();
-		
+
 		$this->assertIsInt($countOfDiscoveredExtensions);
 	}
 
 	/**
 	 * Tests the getNote method
-	 * Ensure that the note is correct. 
-	 * 
+	 * Ensure that the note is correct.
+	 *
 	 * @param   int  $count   Number of extensions to discover
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function testGetNote()
 	{
 		$command = $this->createExtensionDiscoverCommand();
-		
+
 		$note0 = $command->getNote(0);
 		$note1 = $command->getNote(1);
 		$note2 = $command->getNote(2);
-		
+
 		$this->assertSame($note0, 'No extensions were discovered.');
 		$this->assertSame($note1, '1 extension has been discovered.');
 		$this->assertSame($note2, '2 extensions have been discovered.');

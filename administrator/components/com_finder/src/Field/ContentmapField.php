@@ -46,30 +46,15 @@ class ContentmapField extends GroupedlistField
 		// Get the database object and a new query object.
 		$db = $this->getDatabase();
 
-		// Levels subquery.
-		$levelQuery = $db->getQuery(true);
-		$levelQuery->select('title AS branch_title, 1 as level')
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = 1');
-		$levelQuery2 = $db->getQuery(true);
-		$levelQuery2->select('b.title AS branch_title, 2 as level')
-			->select($db->quoteName('a.id'))
-			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->quoteName('a.parent_id') . ' = ' . $db->quoteName('b.id'))
-			->where($db->quoteName('a.parent_id') . ' NOT IN (0, 1)');
-
-		$levelQuery->union($levelQuery2);
-
 		// Main query.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('a.title', 'text'))
 			->select($db->quoteName('a.id', 'value'))
-			->select($db->quoteName('d.level'))
+			->select($db->quoteName('a.parent_id'))
+			->select($db->quoteName('a.level'))
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->join('LEFT', '(' . $levelQuery . ') AS d ON ' . $db->quoteName('d.id') . ' = ' . $db->quoteName('a.id'))
 			->where($db->quoteName('a.parent_id') . ' <> 0')
-			->order('d.branch_title ASC, d.level ASC, a.title ASC');
+			->order('a.title ASC');
 
 		$db->setQuery($query);
 
@@ -85,37 +70,21 @@ class ContentmapField extends GroupedlistField
 		// Build the grouped list array.
 		if ($contentMap)
 		{
-			$lang = Factory::getLanguage();
-			$name = '';
+			$parents = [];
 
-			foreach ($contentMap as $branch)
+			foreach ($contentMap as $item)
 			{
-				if ((int) $branch->level === 1)
+				if (!isset($parents[$item->parent_id]))
 				{
-					$name = $branch->text;
+					$parents[$item->parent_id] = [];
 				}
-				else
-				{
-					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
 
-					if (trim($name, '*') === 'Language')
-					{
-						$text = LanguageHelper::branchLanguageTitle($branch->text);
-					}
-					else
-					{
-						$key = LanguageHelper::branchSingular($branch->text);
-						$text = $lang->hasKey($key) ? Text::_($key) : $branch->text;
-					}
+				$parents[$item->parent_id][] = $item;
+			}
 
-					// Initialize the group if necessary.
-					if (!isset($groups[$name]))
-					{
-						$groups[$name] = array();
-					}
-
-					$groups[$name][] = HTMLHelper::_('select.option', $branch->value, $levelPrefix . $text);
-				}
+			foreach ($parents[1] as $branch)
+			{
+				$groups[$branch->text] = $this->prepareLevel($branch->value, $parents);
 			}
 		}
 
@@ -123,5 +92,45 @@ class ContentmapField extends GroupedlistField
 		$groups = array_merge(parent::getGroups(), $groups);
 
 		return $groups;
+	}
+
+	/**
+	 * Indenting and translating options for the list
+	 *
+	 * @param   int    $parent   Parent ID to process
+	 * @param   array  $parents  Array of arrays of items with parent IDs as keys
+	 *
+	 * @return  array  The indented list of entries for this branch
+	 *
+	 * @since   4.1.5
+	 */
+	private function prepareLevel($parent, $parents)
+	{
+		$lang = Factory::getLanguage();
+		$entries = [];
+
+		foreach ($parents[$parent] as $item)
+		{
+			$levelPrefix = str_repeat('- ', $item->level - 1);
+
+			if (trim($item->text, '*') === 'Language')
+			{
+				$text = LanguageHelper::branchLanguageTitle($item->text);
+			}
+			else
+			{
+				$key = LanguageHelper::branchSingular($item->text);
+				$text = $lang->hasKey($key) ? Text::_($key) : $item->text;
+			}
+
+			$entries[] = HTMLHelper::_('select.option', $item->value, $levelPrefix . $text);
+
+			if (isset($parents[$item->value]))
+			{
+				$entries = array_merge($entries, $this->prepareLevel($item->value, $parents));
+			}
+		}
+
+		return $entries;
 	}
 }

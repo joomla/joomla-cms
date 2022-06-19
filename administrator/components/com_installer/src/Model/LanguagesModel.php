@@ -63,7 +63,7 @@ class LanguagesModel extends ListModel
 	 */
 	private function getUpdateSite()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us.location'))
 			->from($db->quoteName('#__extensions', 'e'))

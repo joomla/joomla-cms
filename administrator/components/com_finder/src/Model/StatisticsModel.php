@@ -33,7 +33,7 @@ class StatisticsModel extends BaseDatabaseModel
 	public function getData()
 	{
 		// Initialise
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$data = new CMSObject;
 

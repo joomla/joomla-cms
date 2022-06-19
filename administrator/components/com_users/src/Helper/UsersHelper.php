@@ -110,37 +110,18 @@ class UsersHelper extends ContentHelper
 	}
 
 	/**
-	 * Creates a list of two factor authentication methods used in com_users
-	 * on user view
+	 * No longer used.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.2.0
 	 * @throws  \Exception
+	 *
+	 * @deprecated 4.2.0 Will be removed in 5.0
 	 */
 	public static function getTwoFactorMethods()
 	{
-		PluginHelper::importPlugin('twofactorauth');
-		$identities = Factory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
-
-		$options = array(
-			HTMLHelper::_('select.option', 'none', Text::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
-		);
-
-		if (!empty($identities))
-		{
-			foreach ($identities as $identity)
-			{
-				if (!is_object($identity))
-				{
-					continue;
-				}
-
-				$options[] = HTMLHelper::_('select.option', $identity->method, $identity->title, 'value', 'text');
-			}
-		}
-
-		return $options;
+		return [];
 	}
 
 	/**

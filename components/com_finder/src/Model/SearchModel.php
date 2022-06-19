@@ -132,7 +132,7 @@ class SearchModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -287,7 +287,7 @@ class SearchModel extends ListModel
 		}
 
 		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
-		$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
+		$query->join('INNER', $db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
 			->where('m.term_id IN (' . implode(',', $included) . ')');
 
 		// Check if there are any excluded terms to deal with.
@@ -295,7 +295,7 @@ class SearchModel extends ListModel
 		{
 			$query2 = $db->getQuery(true);
 			$query2->select('e.link_id')
-				->from($this->_db->quoteName('#__finder_links_terms', 'e'))
+				->from($db->quoteName('#__finder_links_terms', 'e'))
 				->where('e.term_id IN (' . implode(',', $this->excludedTerms) . ')');
 			$query->where('l.link_id NOT IN (' . $query2 . ')');
 		}
@@ -402,6 +402,9 @@ class SearchModel extends ListModel
 		// Get the query language.
 		$options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
 
+		// Set the word match mode
+		$options['word_match'] = $params->get('word_match', 'exact');
+
 		// Get the start date and start date modifier filters.
 		$options['date1'] = $request->getString('d1', $params->get('d1', ''));
 		$options['when1'] = $request->getString('w1', $params->get('w1', ''));
@@ -411,7 +414,7 @@ class SearchModel extends ListModel
 		$options['when2'] = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
-		$this->searchquery = new Query($options);
+		$this->searchquery = new Query($options, $this->getDatabase());
 
 		// Load the query token data.
 		$this->excludedTerms = $this->searchquery->getExcludedTermIds();
@@ -486,66 +489,5 @@ class SearchModel extends ListModel
 		// Load the user state.
 		$this->setState('user.id', (int) $user->get('id'));
 		$this->setState('user.groups', $user->getAuthorisedViewLevels());
-	}
-
-	/**
-	 * Method to retrieve data from cache.
-	 *
-	 * @param   string   $id          The cache store id.
-	 * @param   boolean  $persistent  Flag to enable the use of external cache. [optional]
-	 *
-	 * @return  mixed  The cached data if found, null otherwise.
-	 *
-	 * @since   2.5
-	 */
-	protected function retrieve($id, $persistent = true)
-	{
-		$data = null;
-
-		// Use the internal cache if possible.
-		if (isset($this->cache[$id]))
-		{
-			return $this->cache[$id];
-		}
-
-		// Use the external cache if data is persistent.
-		if ($persistent)
-		{
-			$data = Factory::getCache($this->context, 'output')->get($id);
-			$data = $data ? unserialize($data) : null;
-		}
-
-		// Store the data in internal cache.
-		if ($data)
-		{
-			$this->cache[$id] = $data;
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Method to store data in cache.
-	 *
-	 * @param   string   $id          The cache store id.
-	 * @param   mixed    $data        The data to cache.
-	 * @param   boolean  $persistent  Flag to enable the use of external cache. [optional]
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   2.5
-	 */
-	protected function store($id, $data, $persistent = true)
-	{
-		// Store the data in internal cache.
-		$this->cache[$id] = $data;
-
-		// Store the data in external cache if data is persistent.
-		if ($persistent)
-		{
-			return Factory::getCache($this->context, 'output')->store(serialize($data), $id);
-		}
-
-		return true;
 	}
 }

@@ -11,10 +11,11 @@ namespace Joomla\CMS\Console;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,6 +31,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class DeleteUserCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -62,6 +65,20 @@ class DeleteUserCommand extends AbstractCommand
 	private $username;
 
 	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -80,7 +97,7 @@ class DeleteUserCommand extends AbstractCommand
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 
 		$userId = UserHelper::getUserId($this->username);
-		$db = Factory::getDbo();
+		$db     = $this->getDatabase();
 
 		if (empty($userId))
 		{
