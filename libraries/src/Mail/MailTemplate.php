@@ -263,7 +263,7 @@ class MailTemplate
 				$htmlBody = nl2br($plainBody, false);
 			}
 
-			if (!$app->isClient('Cli'))
+			if (!$app->isClient('cli'))
 			{
 				$htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
 			}
