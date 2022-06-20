@@ -49,7 +49,7 @@ class CleanCacheCommand extends AbstractCommand
 
 		$symfonyStyle->title('Cleaning System Cache');
 
-		$cache = Factory::getApplication()->bootComponent('com_cache')->getMVCFactory();
+		$cache = $this->getApplication()->bootComponent('com_cache')->getMVCFactory();
 		/** @var Joomla\Component\Cache\Administrator\Model\CacheModel $model */
 		$model = $cache->createModel('Cache', 'Administrator', ['ignore_request' => true]);
 
