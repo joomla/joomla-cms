@@ -61,7 +61,7 @@
 
       hotkeys.setScope('joomla');
 
-      // Leave the scrope after x milliseconds
+      // Leave the scope after x milliseconds
       setTimeout(() => {
         hotkeys.setScope(false);
       }, Joomla.getOptions('plg_system_shortcut.timeout', 2000));
@@ -135,7 +135,7 @@
       keyboard: true,
       backdrop: true,
     });
-    hotkeys('H', 'joomla', () => bootstrapModal.show());
+    hotkeys('X', 'joomla', () => bootstrapModal.show());
   };
 
   document.addEventListener('DOMContentLoaded', () => {
