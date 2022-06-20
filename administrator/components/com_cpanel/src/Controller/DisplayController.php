@@ -78,8 +78,8 @@ class DisplayController extends BaseController
 			$position = 'cpanel';
 		}
 
-		Factory::getApplication()->setUserState('com_modules.modules.filter.position', $position);
-		Factory::getApplication()->setUserState('com_modules.modules.client_id', '1');
+		$this->app->setUserState('com_modules.modules.filter.position', $position);
+		$this->app->setUserState('com_modules.modules.client_id', '1');
 
 		$this->setRedirect(Route::_('index.php?option=com_modules&view=select&tmpl=component&layout=modal' . $appendLink, false));
 	}

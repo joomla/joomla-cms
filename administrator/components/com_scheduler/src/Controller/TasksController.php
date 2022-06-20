@@ -84,8 +84,7 @@ class TasksController extends AdminController
 
 				if ($errors)
 				{
-					Factory::getApplication()
-						->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
+					$this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
 				}
 				else
 				{

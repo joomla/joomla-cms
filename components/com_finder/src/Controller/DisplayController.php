@@ -35,7 +35,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$input = Factory::getApplication()->input;
+		$input = $this->app->input;
 		$cachable = true;
 
 		// Load plugin language files.
