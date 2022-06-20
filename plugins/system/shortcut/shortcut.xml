@@ -14,7 +14,8 @@
 		<folder>js</folder>
 	</media>
 	<files>
-		<filename plugin="shortcut">shortcut.php</filename>
+		<folder plugin="shortcut">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_shortcut.ini</language>

@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Joomla.Plugins
+ * @package     Joomla.Plugin
  * @subpackage  System.shortcut
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\System\Shortcut\Extension;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -22,17 +23,8 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
+final class Shortcut extends CMSPlugin implements SubscriberInterface
 {
-	/**
-	 * Application object.
-	 *
-	 * @var    AdministratorApplication
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -62,10 +54,9 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onBeforeCompileHead' => 'initialize',
-			'onLoadShortcuts' => 'addShortcuts'
+			'onLoadShortcuts'     => 'addShortcuts',
 		];
 	}
-
 
 	/**
 	 * Add the javascript for the shortcuts
@@ -76,14 +67,14 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 	 */
 	public function initialize()
 	{
-		if (!$this->app->isClient('administrator'))
+		if (!$this->getApplication()->isClient('administrator'))
 		{
 			return;
 		}
 
 		PluginHelper::importPlugin('shortcut');
 
-		$context = $this->app->input->get('option') . '.' . $this->app->input->get('view');
+		$context = $this->getApplication()->input->get('option') . '.' . $this->getApplication()->input->get('view');
 
 		$shortcuts = [];
 
@@ -95,24 +86,25 @@ class PlgSystemShortcut extends CMSPlugin implements SubscriberInterface
 			]
 		);
 
-		$this->app->getDispatcher()->dispatch('onLoadShortcuts', $event);
+		$this->getDispatcher()->dispatch('onLoadShortcuts', $event);
 
 		$shortcuts = $event->getArgument('shortcuts');
 
 		Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
 		Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_TITLE');
 
-		$wa = $this->app->getDocument()->getWebAssetManager();
+		$document = $this->getApplication()->getDocument();
+		$wa       = $document->getWebAssetManager();
 		$wa->useScript('bootstrap.modal');
 		$wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeys.js']]);
 
-		$this->app->getDocument()->addScriptOptions('plg_system_shortcut.shortcuts', $shortcuts);
+		$document->addScriptOptions('plg_system_shortcut.shortcuts', $shortcuts);
 	}
 
 	/**
 	 * Add default shortcuts to the document
 	 *
-	 * @param   Event $event The event
+	 * @param   Event  $event  The event
 	 *
 	 * @return  void
 	 *
