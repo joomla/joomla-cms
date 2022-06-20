@@ -45,8 +45,8 @@ trait AjaxHandlerChallenge
 	public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
 	{
 		// Initialize objects
-		$session    = $this->app->getSession();
-		$input      = $this->app->input;
+		$session    = $this->getApplication()->getSession();
+		$input      = $this->getApplication()->input;
 
 		// Retrieve data from the request
 		$username  = $input->getUsername('username', '');

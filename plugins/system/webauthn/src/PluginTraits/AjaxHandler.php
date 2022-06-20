@@ -55,17 +55,17 @@ trait AjaxHandler
 	 */
 	public function onAjaxWebauthn(Ajax $event): void
 	{
-		$input = $this->app->input;
+		$input = $this->getApplication()->input;
 
 		// Get the return URL from the session
-		$returnURL = $this->app->getSession()->get('plg_system_webauthn.returnUrl', Uri::base());
+		$returnURL = $this->getApplication()->getSession()->get('plg_system_webauthn.returnUrl', Uri::base());
 		$result    = null;
 
 		try
 		{
 			Log::add("Received AJAX callback.", Log::DEBUG, 'webauthn.system');
 
-			if (!($this->app instanceof CMSApplication))
+			if (!($this->getApplication() instanceof CMSApplication))
 			{
 				Log::add("This is not a CMS application", Log::NOTICE, 'webauthn.system');
 
@@ -74,7 +74,7 @@ trait AjaxHandler
 
 			$akaction = $input->getCmd('akaction');
 
-			if (!$this->app->checkToken('request'))
+			if (!$this->getApplication()->checkToken('request'))
 			{
 				throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
 			}
@@ -125,7 +125,7 @@ trait AjaxHandler
 			}
 
 			$triggerEvent = new $eventClass($eventName, []);
-			$result       = $this->app->getDispatcher()->dispatch($eventName, $triggerEvent);
+			$result       = $this->getApplication()->getDispatcher()->dispatch($eventName, $triggerEvent);
 			$results      = ($result instanceof ResultAwareInterface) ? ($result['result'] ?? []) : [];
 			$result       = array_reduce(
 				$results,
@@ -139,9 +139,9 @@ trait AjaxHandler
 		catch (Exception $e)
 		{
 			Log::add("Callback failure, redirecting to $returnURL.", Log::DEBUG, 'webauthn.system');
-			$this->app->getSession()->set('plg_system_webauthn.returnUrl', null);
-			$this->app->enqueueMessage($e->getMessage(), 'error');
-			$this->app->redirect($returnURL);
+			$this->getApplication()->getSession()->set('plg_system_webauthn.returnUrl', null);
+			$this->getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->getApplication()->redirect($returnURL);
 
 			return;
 		}
@@ -162,7 +162,7 @@ trait AjaxHandler
 					if (isset($result['message']))
 					{
 						$type = $result['type'] ?? 'info';
-						$this->app->enqueueMessage($result['message'], $type);
+						$this->getApplication()->enqueueMessage($result['message'], $type);
 
 						$modifiers = " and setting a system message of type $type";
 					}
@@ -170,11 +170,11 @@ trait AjaxHandler
 					if (isset($result['url']))
 					{
 						Log::add("Callback complete, performing redirection to {$result['url']}{$modifiers}.", Log::DEBUG, 'webauthn.system');
-						$this->app->redirect($result['url']);
+						$this->getApplication()->redirect($result['url']);
 					}
 
 					Log::add("Callback complete, performing redirection to {$result}{$modifiers}.", Log::DEBUG, 'webauthn.system');
-					$this->app->redirect($result);
+					$this->getApplication()->redirect($result);
 
 					return;
 
@@ -185,12 +185,12 @@ trait AjaxHandler
 					break;
 			}
 
-			$this->app->close(200);
+			$this->getApplication()->close(200);
 		}
 
 		Log::add("Null response from AJAX callback, redirecting to $returnURL", Log::DEBUG, 'webauthn.system');
-		$this->app->getSession()->set('plg_system_webauthn.returnUrl', null);
+		$this->getApplication()->getSession()->set('plg_system_webauthn.returnUrl', null);
 
-		$this->app->redirect($returnURL);
+		$this->getApplication()->redirect($returnURL);
 	}
 }

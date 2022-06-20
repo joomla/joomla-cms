@@ -30,7 +30,7 @@ use function defined;
  * @see   https://fidoalliance.org/metadata/
  * @since __DEPLOY_VERSION__
  */
-class MetadataRepository implements MetadataStatementRepository
+final class MetadataRepository implements MetadataStatementRepository
 {
 	/**
 	 * Cache of authenticator metadata statements

@@ -107,19 +107,19 @@ trait AdditionalLoginButtons
 	private function mustDisplayButton(): bool
 	{
 		// We must have a valid application
-		if (!($this->app instanceof CMSApplication))
+		if (!($this->getApplication() instanceof CMSApplication))
 		{
 			return false;
 		}
 
 		// This plugin only applies to the frontend and administrator applications
-		if (!$this->app->isClient('site') && !$this->app->isClient('administrator'))
+		if (!$this->getApplication()->isClient('site') && !$this->getApplication()->isClient('administrator'))
 		{
 			return false;
 		}
 
 		// We must have a valid user
-		if (empty($this->app->getIdentity()))
+		if (empty($this->getApplication()->getIdentity()))
 		{
 			return false;
 		}
@@ -131,7 +131,7 @@ trait AdditionalLoginButtons
 			/**
 			 * Do not add a WebAuthn login button if we are already logged in
 			 */
-			if (!$this->app->getIdentity()->guest)
+			if (!$this->getApplication()->getIdentity()->guest)
 			{
 				return false;
 			}
@@ -141,7 +141,7 @@ trait AdditionalLoginButtons
 			 */
 			try
 			{
-				$document = $this->app->getDocument();
+				$document = $this->getApplication()->getDocument();
 			}
 			catch (Exception $e)
 			{
@@ -187,7 +187,7 @@ trait AdditionalLoginButtons
 		$this->injectedCSSandJS = true;
 
 		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = $this->app->getDocument()->getWebAssetManager();
+		$wa = $this->getApplication()->getDocument()->getWebAssetManager();
 
 		if (!$wa->assetExists('style', 'plg_system_webauthn.button'))
 		{
@@ -208,7 +208,7 @@ trait AdditionalLoginButtons
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME');
 
 		// Store the current URL as the default return URL after login (or failure)
-		$this->app->getSession()->set('plg_system_webauthn.returnUrl', Uri::current());
+		$this->getApplication()->getSession()->set('plg_system_webauthn.returnUrl', Uri::current());
 	}
 
 }

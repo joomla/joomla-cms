@@ -13,9 +13,12 @@ namespace Joomla\Plugin\System\Webauthn\Extension;
 defined('_JEXEC') or die();
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
@@ -41,24 +44,8 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  *
  * @since  4.0.0
  */
-class Webauthn extends CMSPlugin implements SubscriberInterface
+final class Webauthn extends CMSPlugin implements SubscriberInterface
 {
-	/**
-	 * The CMS application we are running in
-	 *
-	 * @var   CMSApplication
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
-	 * The application's database driver object
-	 *
-	 * @var   DatabaseDriver
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $db;
-
 	/**
 	 * Autoload the language files
 	 *

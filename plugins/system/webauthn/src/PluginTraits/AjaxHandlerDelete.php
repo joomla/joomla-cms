@@ -37,7 +37,7 @@ trait AjaxHandlerDelete
 	public function onAjaxWebauthnDelete(AjaxDelete $event): void
 	{
 		// Initialize objects
-		$input      = $this->app->input;
+		$input      = $this->getApplication()->input;
 		$repository = $this->authenticationHelper->getCredentialsRepository();
 
 		// Retrieve data from the request
@@ -63,7 +63,7 @@ trait AjaxHandlerDelete
 		// Make sure I am editing my own key
 		try
 		{
-			$user             = $this->app->getIdentity() ?? new User;
+			$user             = $this->getApplication()->getIdentity() ?? new User;
 			$credentialHandle = $repository->getUserHandleFor($credentialId);
 			$myHandle         = $repository->getHandleFromUserId($user->id);
 		}

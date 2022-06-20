@@ -54,7 +54,7 @@ trait AjaxHandlerInitCreate
 			return;
 		}
 
-		$session = $this->app->getSession();
+		$session = $this->getApplication()->getSession();
 		$session->set('plg_system_webauthn.registration_user_id', $user->id);
 
 		$event->addResult($this->authenticationHelper->getPubKeyCreationOptions($user));

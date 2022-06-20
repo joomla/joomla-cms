@@ -37,7 +37,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  *
  * @since   4.0.0
  */
-class CredentialRepository implements PublicKeyCredentialSourceRepository, DatabaseAwareInterface
+final class CredentialRepository implements PublicKeyCredentialSourceRepository, DatabaseAwareInterface
 {
 	use DatabaseAwareTrait;
 
@@ -48,9 +48,9 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository, Datab
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(?DatabaseInterface $db = null)
+	public function __construct(DatabaseInterface $db = null)
 	{
-		$this->setDatabase($db ?? Factory::getContainer()->get('DatabaseDriver'));
+		$this->setDatabase($db);
 	}
 
 	/**

@@ -48,7 +48,7 @@ trait AjaxHandlerLogin
 	 */
 	public function onAjaxWebauthnLogin(AjaxLogin $event): void
 	{
-		$session   = $this->app->getSession();
+		$session   = $this->getApplication()->getSession();
 		$returnUrl = $session->get('plg_system_webauthn.returnUrl', Uri::base());
 		$userId    = $session->get('plg_system_webauthn.userId', 0);
 
@@ -138,7 +138,7 @@ trait AjaxHandlerLogin
 			$session->set('plg_system_webauthn.userId', null);
 
 			// Redirect back to the page we were before.
-			$this->app->redirect($returnUrl);
+			$this->getApplication()->redirect($returnUrl);
 		}
 	}
 
@@ -157,7 +157,7 @@ trait AjaxHandlerLogin
 		class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
 
 		// Fake a successful login message
-		$isAdmin = $this->app->isClient('administrator');
+		$isAdmin = $this->getApplication()->isClient('administrator');
 		$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
 		// Does the user account have a pending activation?
@@ -214,14 +214,14 @@ trait AjaxHandlerLogin
 		// Run the user plugins. They CAN block login by returning boolean false and setting $response->error_message.
 		PluginHelper::importPlugin('user');
 		$event   = AbstractEvent::create('onUserLogin', [(array) $response, $options]);
-		$result  = $this->app->getDispatcher()->dispatch($event->getName(), $event);
+		$result  = $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 		$results = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 
 		// If there is no boolean FALSE result from any plugin the login is successful.
 		if (in_array(false, $results, true) === false)
 		{
 			// Set the user in the session, letting Joomla! know that we are logged in.
-			$this->app->getSession()->set('user', $user);
+			$this->getApplication()->getSession()->set('user', $user);
 
 			// Trigger the onUserAfterLogin event
 			$options['user']         = $user;
@@ -229,14 +229,14 @@ trait AjaxHandlerLogin
 
 			// The user is successfully logged in. Run the after login events
 			$event = AbstractEvent::create('onUserAfterLogin', [$options]);
-			$this->app->getDispatcher()->dispatch($event->getName(), $event);
+			$this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 			return;
 		}
 
 		// If we are here the plugins marked a login failure. Trigger the onUserLoginFailure Event.
 		$event = AbstractEvent::create('onUserLoginFailure', [(array) $response]);
-		$this->app->getDispatcher()->dispatch($event->getName(), $event);
+		$this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		// Log the failure
 		// phpcs:ignore
@@ -280,7 +280,7 @@ trait AjaxHandlerLogin
 		Log::add('Calling onUserLoginFailure plugin event', Log::INFO, 'plg_system_webauthn');
 
 		$event = AbstractEvent::create('onUserLoginFailure', [(array) $response]);
-		$this->app->getDispatcher()->dispatch($event->getName(), $event);
+		$this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		// If status is success, any error will have been raised by the user plugin
 		$expectedStatus = Authentication::STATUS_SUCCESS;
@@ -317,7 +317,7 @@ trait AjaxHandlerLogin
 	{
 		// Retrieve data from the request and session
 		$pubKeyCredentialSource = $this->authenticationHelper->validateAssertionResponse(
-			$this->app->input->getBase64('data', ''),
+			$this->getApplication()->input->getBase64('data', ''),
 			$user
 		);
 

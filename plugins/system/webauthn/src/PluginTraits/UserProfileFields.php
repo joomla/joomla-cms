@@ -230,7 +230,7 @@ trait UserProfileFields
 		}
 
 		// Get the currently logged in used
-		$myUser = $this->app->getIdentity() ?? new User;
+		$myUser = $this->getApplication()->getIdentity() ?? new User;
 
 		// I can edit myself. If I'm a Super user I can edit other users too.
 		return ($myUser->id == $user->id) || $myUser->authorise('core.admin');

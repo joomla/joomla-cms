@@ -49,9 +49,17 @@ return new class implements ServiceProviderInterface {
 				$credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
 					? $container->get(PublicKeyCredentialSourceRepository::class)
 					: new CredentialRepository($db);
-				$metadataRepository    = $container->has(MetadataStatementRepository::class)
-					? $container->get(MetadataStatementRepository::class)
-					: new MetadataRepository;
+
+				$metadataRepository = null;
+				$params             = new Joomla\Registry\Registry($config['params'] ?? '{}');
+
+				if ($params->get('attestationSupport', 1) == 1)
+				{
+					$metadataRepository    = $container->has(MetadataStatementRepository::class)
+						? $container->get(MetadataStatementRepository::class)
+						: new MetadataRepository;
+				}
+
 				$authenticationHelper  = $container->has(Authentication::class)
 					? $container->get(Authentication::class)
 					: new Authentication($app, $session, $credentialsRepository, $metadataRepository);

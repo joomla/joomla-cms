@@ -42,7 +42,7 @@ use Webauthn\PublicKeyCredentialUserEntity;
  * @since   __DEPLOY_VERSION__
  * @internal
  */
-class Authentication
+final class Authentication
 {
 	/**
 	 * The credentials repository
@@ -96,32 +96,16 @@ class Authentication
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(
-		?ApplicationInterface                $app = null,
-		SessionInterface                     $session = null,
-		?PublicKeyCredentialSourceRepository $credRepo = null,
-		?MetadataStatementRepository         $mdsRepo = null
+		ApplicationInterface                $app = null,
+		SessionInterface                    $session = null,
+		PublicKeyCredentialSourceRepository $credRepo = null,
+		?MetadataStatementRepository        $mdsRepo = null
 	)
 	{
-		try
-		{
-			$this->app = $app ?? Factory::getApplication();
-		}
-		catch (\Throwable $e)
-		{
-			$this->app = null;
-		}
-
-		try
-		{
-			$this->session = $session ?? (($this->app instanceof CMSApplication) ? $this->app->getSession() : null);
-		}
-		catch (\Throwable $e)
-		{
-			$this->session = null;
-		}
-
-		$this->credentialsRepository = $credRepo ?? new CredentialRepository;
-		$this->metadataRepository    = $mdsRepo ?? new MetadataRepository;
+		$this->app                   = $app;
+		$this->session               = $session;
+		$this->credentialsRepository = $credRepo;
+		$this->metadataRepository    = $mdsRepo;
 	}
 
 	/**
