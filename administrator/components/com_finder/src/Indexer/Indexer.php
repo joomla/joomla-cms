@@ -315,7 +315,7 @@ class Indexer
 		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : null;
 
 		// Prepare the item description.
-		$item->description = Helper::parse($item->summary);
+		$item->description = Helper::parse($item->summary ?? '');
 
 		/*
 		 * Now, we need to enter the item into the links table. If the item
