@@ -14,8 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.
@@ -89,13 +91,19 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 
 		Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
 		Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_TITLE');
+		Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC');
 
 		$document = $this->getApplication()->getDocument();
 		$wa       = $document->getWebAssetManager();
 		$wa->useScript('bootstrap.modal');
 		$wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeys.js']]);
 
+		$plugin = PluginHelper::getPlugin('system', 'shortcut');
+
+		$timeout = (new Registry($plugin->params))->get('timeout', 5000);
+
 		$document->addScriptOptions('plg_system_shortcut.shortcuts', $shortcuts);
+		$document->addScriptOptions('plg_system_shortcut.timeout', $timeout);
 	}
 
 	/**
@@ -109,16 +117,19 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 	 */
 	public function addShortcuts(Event $event)
 	{
-		$shortcuts = [
-			'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'J + A', 'title' => Text::_('JAPPLY')],
-			'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'J + Q', 'title' => Text::_('JCANCEL')],
-			'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'J + H', 'title' => Text::_('JHELP')],
-			'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'J + N', 'title' => Text::_('JTOOLBAR_NEW')],
-			'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'J + O', 'title' => Text::_('JOPTIONS')],
-			'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + S', 'title' => Text::_('JTOOLBAR_SAVE')],
-			'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + F', 'title' => Text::_('JSEARCH_FILTER')],
-			'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'J + M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
-		];
+		$shortcuts = $event->getArgument('shortcuts', []);
+
+		$shortcuts = array_merge($shortcuts, [
+			'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => Text::_('JAPPLY')],
+			'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => Text::_('JCANCEL')],
+			'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
+			'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_NEW')],
+			'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
+			'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => Text::_('JTOOLBAR_SAVE')],
+			'saveNewKey' => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_SAVE_AND_NEW')],
+			'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'S', 'title' => Text::_('JSEARCH_FILTER')],
+			'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
+		]);
 
 		$event->setArgument('shortcuts', $shortcuts);
 	}

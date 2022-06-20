@@ -21,4 +21,20 @@
 		<language tag="en-GB">language/en-GB/plg_system_shortcut.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_shortcut.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="timeout"
+					type="number"
+					label="PLG_SYSTEM_SHORTCUT_TIMEOUT_LABEL"
+					description="PLG_SYSTEM_SHORTCUT_TIMEOUT_DESC"
+					required="true"
+					start="1"
+					step="1"
+					default="5000"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

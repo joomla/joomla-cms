@@ -7,7 +7,7 @@
 
   /* global hotkeys */
   Joomla.addShortcut = (hotkey, callback) => {
-    hotkeys(hotkey, (event) => {
+    hotkeys(hotkey, 'joomla', (event) => {
       event.preventDefault();
       event.stopPropagation();
       event.stopImmediatePropagation();
@@ -48,6 +48,26 @@
     };
   };
 
+  const startupShortcuts = () => {
+    hotkeys('J', (event) => {
+      // If we're already in the scope, it's a normal shortkey
+      if (hotkeys.getScope() === 'joomla') {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+
+      hotkeys.setScope('joomla');
+
+      // Leave the scrope after x milliseconds
+      setTimeout(() => {
+        hotkeys.setScope(false);
+      }, Joomla.getOptions('plg_system_shortcut.timeout', 5000));
+    });
+  };
+
   const addOverviewHint = () => {
     const iconElement = document.createElement('span');
     iconElement.className = 'icon-keyboard fa-keyboard me-2';
@@ -84,7 +104,7 @@
       titles.forEach((title) => {
         dl += `<dt>${title}</dt>`;
       });
-      dl += `<dd>${shortcut}</dd>`;
+      dl += `<dd><span class="badge bg-dark px-2">J</span> <span class="badge bg-dark px-2">${shortcut}</span></dd>`;
     });
     dl += '</dl>';
 
@@ -99,6 +119,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-3">
+              <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC')}</p>
               <div class="mb-3">
                 ${dl}
               </div>
@@ -114,7 +135,7 @@
       keyboard: true,
       backdrop: true,
     });
-    hotkeys('J + X', () => bootstrapModal.show());
+    hotkeys('H', 'joomla', () => bootstrapModal.show());
   };
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -135,5 +156,6 @@
       addOverviewHint();
     }
     setShortcutFilter();
+    startupShortcuts();
   });
 })(document, Joomla);
