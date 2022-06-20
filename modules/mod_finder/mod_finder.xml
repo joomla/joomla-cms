@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_finder</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2011</creationDate>
+	<creationDate>2011-08</creationDate>
 	<copyright>(C) 2011 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -108,7 +108,6 @@
 					name="set_itemid"
 					type="menuitem"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
-					default="0"
 					filter="integer"
 					>
 					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>
