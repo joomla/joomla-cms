@@ -112,9 +112,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 	 */
 	public function addShortcuts(Event $event)
 	{
-		$shortcuts = $event->getArgument('shortcuts');
-
-		$keys = [
+		$shortcuts = [
 			'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'J + A', 'title' => Text::_('JAPPLY')],
 			'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'J + Q', 'title' => Text::_('JCANCEL')],
 			'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'J + H', 'title' => Text::_('JHELP')],
@@ -122,9 +120,10 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 			'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'J + O', 'title' => Text::_('JOPTIONS')],
 			'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + S', 'title' => Text::_('JTOOLBAR_SAVE')],
 			'saveNewKey' => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'J + N', 'title' => Text::_('JTOOLBAR_SAVE_AND_NEW')],
-			'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + S', 'title' => Text::_('JSEARCH_FILTER')],
+			'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + F', 'title' => Text::_('JSEARCH_FILTER')],
+			'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'J + M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
 		];
 
-		$event->setArgument('shortcuts', $keys);
+		$event->setArgument('shortcuts', $shortcuts);
 	}
 }
