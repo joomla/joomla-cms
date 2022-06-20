@@ -116,7 +116,6 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 			'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'J + N', 'title' => Text::_('JTOOLBAR_NEW')],
 			'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'J + O', 'title' => Text::_('JOPTIONS')],
 			'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'J + S', 'title' => Text::_('JTOOLBAR_SAVE')],
-			'saveNewKey' => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'J + N', 'title' => Text::_('JTOOLBAR_SAVE_AND_NEW')],
 			'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'J + F', 'title' => Text::_('JSEARCH_FILTER')],
 			'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'J + M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
 		];
