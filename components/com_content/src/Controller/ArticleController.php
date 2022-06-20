@@ -12,7 +12,6 @@ namespace Joomla\Component\Content\Site\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
