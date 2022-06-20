@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
@@ -71,8 +70,6 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 		{
 			return;
 		}
-
-		PluginHelper::importPlugin('shortcut');
 
 		$context = $this->getApplication()->input->get('option') . '.' . $this->getApplication()->input->get('view');
 
