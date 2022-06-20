@@ -81,8 +81,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 			{
 				try
 				{
-					$dn = str_replace('[username]', $this->params->get('username', ''), $this->params->get('users_dn', ''));
-
+					$dn = $this->params->get('username', '');
 					$ldap->bind($dn, $this->params->get('password', ''));
 				}
 				catch (ConnectionException | LdapException $exception)
