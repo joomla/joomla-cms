@@ -6480,6 +6480,7 @@ class JoomlaInstallerScript
 			'/plugins/behaviour/taggable/taggable.php',
 			'/plugins/behaviour/versionable/versionable.php',
 			'/plugins/task/requests/requests.php',
+			'/plugins/task/sitestatus/sitestatus.php',
 			'/plugins/user/profile/src/Field/DobField.php',
 		);
 
