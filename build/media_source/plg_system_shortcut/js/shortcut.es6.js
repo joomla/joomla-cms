@@ -64,7 +64,7 @@
       // Leave the scrope after x milliseconds
       setTimeout(() => {
         hotkeys.setScope(false);
-      }, Joomla.getOptions('plg_system_shortcut.timeout', 5000));
+      }, Joomla.getOptions('plg_system_shortcut.timeout', 2000));
     });
   };
 

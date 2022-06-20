@@ -32,7 +32,7 @@
 					required="true"
 					start="1"
 					step="1"
-					default="5000"
+					default="2000"
 				/>
 			</fieldset>
 		</fields>

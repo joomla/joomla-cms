@@ -100,7 +100,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 
 		$plugin = PluginHelper::getPlugin('system', 'shortcut');
 
-		$timeout = (new Registry($plugin->params))->get('timeout', 5000);
+		$timeout = (new Registry($plugin->params))->get('timeout', 2000);
 
 		$document->addScriptOptions('plg_system_shortcut.shortcuts', $shortcuts);
 		$document->addScriptOptions('plg_system_shortcut.timeout', $timeout);
