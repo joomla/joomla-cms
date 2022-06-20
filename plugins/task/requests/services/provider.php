@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -37,8 +38,10 @@ return new class implements ServiceProviderInterface
 				$plugin = new Requests(
 					$container->get(DispatcherInterface::class),
 					(array) PluginHelper::getPlugin('task', 'requests'),
-					new HttpFactory
+					new HttpFactory,
+					JPATH_ROOT . '/tmp'
 				);
+				$plugin->setApplication(Factory::getApplication());
 
 				return $plugin;
 			}
