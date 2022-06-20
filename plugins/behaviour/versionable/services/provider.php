@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\CMSHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
@@ -42,6 +43,7 @@ return new class implements ServiceProviderInterface
 					new InputFilter,
 					new CMSHelper
 				);
+				$plugin->setApplication(Factory::getApplication());
 
 				return $plugin;
 			}

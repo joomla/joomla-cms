@@ -27,6 +27,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use stdClass;
 
 /**
  * Template style model.
@@ -733,6 +734,86 @@ class StyleModel extends AdminModel
 	public function getHelp()
 	{
 		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+	}
+
+	/**
+	 * Returns the back end template for the given style.
+	 *
+	 * @param   int  $styleId  The style id
+	 *
+	 * @return  stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAdminTemplate(int $styleId): stdClass
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['s.template', 's.params', 's.inheritable', 's.parent']))
+			->from($db->quoteName('#__template_styles', 's'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.type') . ' = ' . $db->quote('template')
+					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+			)
+			->where(
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
+				]
+			);
+
+		if ($styleId)
+		{
+			$query->extendWhere(
+				'OR',
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.id') . ' = :style',
+					$db->quoteName('e.enabled') . ' = 1',
+				]
+			)
+				->bind(':style', $styleId, ParameterType::INTEGER);
+		}
+
+		$query->order($db->quoteName('s.home'));
+		$db->setQuery($query);
+
+		return $db->loadObject();
+	}
+
+	/**
+	 * Returns the front end templates.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getSiteTemplates(): array
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'home', 'template', 's.params', 'inheritable', 'parent']))
+			->from($db->quoteName('#__template_styles', 's'))
+			->where(
+				[
+					$db->quoteName('s.client_id') . ' = 0',
+					$db->quoteName('e.enabled') . ' = 1',
+				]
+			)
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+					. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+			);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList('id');
 	}
 
 	/**

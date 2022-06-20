@@ -9,7 +9,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Totp\Extension;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Encrypt\Totp as TotpHelper;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
@@ -37,14 +36,6 @@ use RuntimeException;
  */
 class Totp extends CMSPlugin implements SubscriberInterface
 {
-	/**
-	 * The application we are running under.
-	 *
-	 * @var    CMSApplication
-	 * @since  4.2.0
-	 */
-	protected $app;
-
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
@@ -137,7 +128,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the MFA form
-					'pre_message'      => '',
+					'pre_message'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_CAPTIVE_PROMPT'),
 					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'       => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -187,7 +178,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 		// Load the options from the record (if any)
 		$options      = $this->decodeRecordOptions($record);
 		$key          = $options['key'] ?? '';
-		$session      = $this->app->getSession();
+		$session      = $this->getApplication()->getSession();
 		$isConfigured = !empty($key);
 
 		// If there's a key in the session use that instead.
@@ -210,7 +201,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 		$user     = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
 		$hostname = Uri::getInstance()->toString(['host']);
 		$otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
-		$document = $this->app->getDocument();
+		$document = $this->getApplication()->getDocument();
 		$wam      = $document->getWebAssetManager();
 
 		$document->addScriptOptions('plg_multifactorauth_totp.totp.qr', $otpURL);
@@ -277,7 +268,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 		$options    = $this->decodeRecordOptions($record);
 		$optionsKey = $options['key'] ?? '';
 		$key        = $optionsKey;
-		$session    = $this->app->getSession();
+		$session    = $this->getApplication()->getSession();
 
 		// If there is no key in the options fetch one from the session
 		if (empty($key))
