@@ -46,7 +46,7 @@ class ItemModel extends BaseDatabaseModel
 	public function getItem()
 	{
 		$link_id = (int) $this->getState('item.link_id');
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_links', 'l'))
