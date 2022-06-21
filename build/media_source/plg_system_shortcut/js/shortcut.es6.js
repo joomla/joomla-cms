@@ -75,10 +75,13 @@
   };
 
   const addOverviewHint = () => {
-    const containerElement = document.createElement('section');
-    containerElement.className = 'content pt-4';
-    containerElement.insertAdjacentHTML('beforeend', Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT'));
-    document.querySelector('.container-main').appendChild(containerElement);
+    const mainContainer = document.querySelector('.com_cpanel .container-main');
+    if (mainContainer) {
+      const containerElement = document.createElement('section');
+      containerElement.className = 'content pt-4';
+      containerElement.insertAdjacentHTML('beforeend', Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT'));
+      mainContainer.appendChild(containerElement);
+    }
   };
 
   const initOverviewModal = (options) => {
