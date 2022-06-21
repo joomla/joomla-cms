@@ -570,7 +570,7 @@ class Form
 	 * @param   mixed   $default  The optional default value of the field value is empty.
 	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since   3.2.3
 	 */
@@ -592,7 +592,7 @@ class Form
 	 * @param   string  $name     The name of the fieldset for which to get the values.
 	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
-	 * @return  string  A string containing the html for the control goups
+	 * @return  string  A string containing the html for the control groups
 	 *
 	 * @since   3.2.3
 	 */
@@ -1411,8 +1411,6 @@ class Form
 	 */
 	protected function &findFieldsByFieldset($name)
 	{
-		$false = false;
-
 		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
@@ -1444,7 +1442,6 @@ class Form
 	 */
 	protected function &findFieldsByGroup($group = null, $nested = false)
 	{
-		$false = false;
 		$fields = [];
 
 		// Make sure there is a valid Form XML document.
@@ -1517,7 +1514,6 @@ class Form
 	 */
 	protected function &findGroup($group)
 	{
-		$false = false;
 		$groups = [];
 		$tmp = [];
 
