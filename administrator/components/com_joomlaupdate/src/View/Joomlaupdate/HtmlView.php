@@ -116,6 +116,22 @@ class HtmlView extends BaseHtmlView
 	protected $nonCoreCriticalPlugins = [];
 
 	/**
+	 * Should I disable the confirmation checkbox for pre-update extension version checks?
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $noVersionCheck = false;
+
+	/**
+	 * Should I disable the confirmation checkbox for taking a backup before updating?
+	 *
+	 * @var   boolean
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $noBackupCheck = false;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name
@@ -243,6 +259,9 @@ class HtmlView extends BaseHtmlView
 				$this->updateSourceKey = Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT');
 		}
 
+		$this->noVersionCheck = $params->get('versioncheck', 1) == 0;
+		$this->noBackupCheck  = $params->get('backupcheck', 1) == 0;
+
 		// Remove temporary files
 		$this->getModel()->removePackageFiles();
 
@@ -278,7 +297,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Add toolbar buttons.
-		if (Factory::getUser()->authorise('core.admin'))
+		if ($this->getCurrentUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::preferences('com_joomlaupdate');
 		}

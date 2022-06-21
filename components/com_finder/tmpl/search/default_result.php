@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -72,15 +71,14 @@ if ($this->params->get('show_url', 1))
 }
 ?>
 <li class="result__item">
-	<?php if (isset($image)) : ?>
-		<figure class="<?php echo htmlspecialchars($imageclass, ENT_COMPAT, 'UTF-8'); ?> result__image">
-			<?php $extraAttr = array_merge($extraAttr, ['src' => $image->url, 'alt' => $this->result->imageAlt]); ?>
+	<?php if ($showImage && isset($this->result->imageUrl)) : ?>
+		<figure class="<?php echo htmlspecialchars($imageClass, ENT_COMPAT, 'UTF-8'); ?> result__image">
 			<?php if ($this->params->get('link_image') && $this->result->route) : ?>
 				<a href="<?php echo Route::_($this->result->route); ?>">
-					<?php echo LayoutHelper::render('joomla.html.image', $extraAttr); ?>
+					<?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
 				</a>
 			<?php else : ?>
-				<?php echo LayoutHelper::render('joomla.html.image', $extraAttr); ?>
+				<?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
 			<?php endif; ?>
 		</figure>
 	<?php endif; ?>

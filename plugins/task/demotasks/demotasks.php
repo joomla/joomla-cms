@@ -21,7 +21,7 @@ use Joomla\Event\SubscriberInterface;
  * A demo task plugin. Offers 3 task routines and demonstrates the use of {@see TaskPluginTrait},
  * {@see ExecuteTaskEvent}.
  *
- * @since __DEPLOY__VERSION__
+ * @since 4.1.0
  */
 class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
 {

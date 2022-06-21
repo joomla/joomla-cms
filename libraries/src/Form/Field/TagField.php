@@ -136,7 +136,7 @@ class TagField extends ListField
 		$prefillLimit   = 30;
 		$isRemoteSearch = $this->isRemoteSearch();
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

@@ -246,7 +246,7 @@ class Scheduler
 
 		if (!isset($model))
 		{
-			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$task = $model->getTask($options);
@@ -327,10 +327,10 @@ class Scheduler
 
 		if (!$model)
 		{
-			throw new \RuntimeException('JLIB_APPLICATION_ERROR_MODEL_CREATE');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
-		$model->setState('list.select', '*');
+		$model->setState('list.select', 'a.*');
 
 		// Default to only enabled tasks
 		if (!isset($filters['state']))

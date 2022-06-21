@@ -172,7 +172,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_newsfeeds', 'component', 'com_newsfeeds', '', 1, 1, 1, 0, 1, '', '{"newsfeed_layout":"_:default","save_history":"1","history_limit":5,"show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_character_count":"0","feed_display_order":"des","float_first":"right","float_second":"right","show_tags":"1","category_layout":"_:default","show_category_title":"1","show_description":"1","show_description_image":"1","maxLevel":"-1","show_empty_categories":"0","show_subcat_desc":"1","show_cat_items":"1","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_items_cat":"1","filter_field":"1","show_pagination_limit":"1","show_headings":"1","show_articles":"0","show_link":"1","show_pagination":"1","show_pagination_results":"1","sef_ids":1}', '', 0, 0),
 (0, 'com_plugins', 'component', 'com_plugins', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
 (0, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png,webp","source_formats":"txt,less,ini,xml,js,php,css,scss,sass,json","font_formats":"woff,ttf,otf","compressed_formats":"zip"}', '', 0, 0),
-(0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_tags":"1","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","record_hits":"1","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_links":"4","show_subcategory_content":"0","link_intro_image":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0","sef_ids":1}', '', 0, 0),
+(0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","info_block_position":"0","info_block_show_title":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_associations":"0","flags":"1","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_readmore":"1","show_readmore_title":"1","readmore_limit":100,"show_tags":"1","record_hits":"1","show_hits":"1","show_noauth":"0","urls_position":0,"captcha":"","show_publishing_options":"1","show_article_options":"1","show_configure_edit_options":"1","show_permissions":"1","show_associations_edit":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_category_heading_title_text":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":1,"blog_class_leading":"","num_intro_articles":4,"blog_class":"","num_columns":1,"multi_column_order":"0","num_links":4,"show_subcategory_content":"0","link_intro_image":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","display_num":"10","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_featured":"show","show_feed_link":"1","feed_summary":"0","feed_show_readmore":"0","sef_ids":1,"custom_fields_enable":"1","workflow_enabled":"0"}', '', 0, 0),
 (0, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"9":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', '', 0, 0),
 (0, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 0, 1, '', '', '', 0, 0),
 (0, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, 1, '', '{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"9","sendpassword":"0","useractivation":"2","mail_to_admin":"1","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","minimum_length":"12","minimum_integers":"0","minimum_symbols":"0","minimum_uppercase":"0","save_history":"1","history_limit":5,"mailSubjectPrefix":"","mailBodySuffix":""}', '', 0, 0),
@@ -185,7 +185,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
 (0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 0, 1, '', '', '', 0, 0),
-(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', '', 0, 0),
+(0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 0, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_scheduler","com_tags","com_templates","com_users"]}', '', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, 1, '', '{}', '', 0, 0),
 (0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, 1, '', '', '', 0, 0),
 (0, 'com_scheduler', 'component', 'com_scheduler', '', 1, 1, 1, 0, 1, '', '{}', '', 0, 0);
@@ -356,8 +356,11 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 0, '', '{}', '', 2, 0),
 (0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 0, '', '{}', '', 3, 0),
 (0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 0, '', '{}', '', 4, 0),
-(0, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 1, 0),
-(0, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 2, 0),
+(0, 'plg_multifactorauth_totp', 'plugin', 'totp', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 1, 0),
+(0, 'plg_multifactorauth_yubikey', 'plugin', 'yubikey', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 2, 0),
+(0, 'plg_multifactorauth_webauthn', 'plugin', 'webauthn', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 3, 0),
+(0, 'plg_multifactorauth_email', 'plugin', 'email', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 4, 0),
+(0, 'plg_multifactorauth_fixed', 'plugin', 'fixed', 'multifactorauth', 0, 0, 1, 0, 1, '', '', '', 5, 0),
 (0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, 1, '', '{"autowebpage":"","category":"4","autopublish":"0"}', '', 1, 0),
 (0, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, 1, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', '', 2, 0),
 (0, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, 1, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', '', 3, 0),
@@ -881,7 +884,7 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp") VALUES
 (1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
 (2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_4.xml', 1, 0),
-(3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
+(3, 'Joomla! Update Component', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 SELECT setval('#__update_sites_update_site_id_seq', 4, false);
 
@@ -968,6 +971,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
   "requireReset" smallint DEFAULT 0,
+  "authProvider" varchar(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__users_idx_username" UNIQUE ("username")
 );
@@ -1034,6 +1038,26 @@ CREATE TABLE IF NOT EXISTS "#__user_profiles" (
 );
 
 COMMENT ON TABLE "#__user_profiles" IS 'Simple user profile storage table';
+
+--
+-- Table structure for table `#__user_mfa`
+--
+
+CREATE TABLE IF NOT EXISTS "#__user_mfa" (
+  "id" serial NOT NULL,
+  "user_id" bigint NOT NULL,
+  "title" varchar(255) DEFAULT '' NOT NULL,
+  "method" varchar(100) NOT NULL,
+  "default" smallint DEFAULT 0 NOT NULL,
+  "options" text NOT NULL,
+  "created_on" timestamp without time zone NOT NULL,
+  "last_used" timestamp without time zone,
+  PRIMARY KEY ("id")
+);
+
+CREATE INDEX "#__user_mfa_idx_user_id" ON "#__user_mfa" ("user_id");
+
+COMMENT ON TABLE "#__user_mfa" IS 'Multi-factor Authentication settings';
 
 --
 -- Table structure for table `#__user_usergroup_map`

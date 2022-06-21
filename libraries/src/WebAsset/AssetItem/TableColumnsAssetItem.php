@@ -18,7 +18,7 @@ use Joomla\CMS\WebAsset\WebAssetItem;
 /**
  * Web Asset Item class for tables.column asset
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class TableColumnsAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterface
 {
@@ -30,7 +30,7 @@ class TableColumnsAssetItem extends WebAssetItem implements WebAssetAttachBehavi
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onAttachCallback(Document $doc)
 	{
