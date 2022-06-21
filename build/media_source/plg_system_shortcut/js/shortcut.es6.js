@@ -122,7 +122,7 @@
               <h3 id="shortcutOverviewModalLabel" class="modal-title">
                 ${Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_TITLE')}
               </h3>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="${Joomla.Text._('JCLOSE')}"></button>
             </div>
             <div class="modal-body p-3">
               <p>${Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC')}</p>
