@@ -137,9 +137,6 @@ abstract class Adapter extends CMSPlugin
 	 */
 	public function __construct(&$subject, $config)
 	{
-		// Get the database object.
-		$this->db = Factory::getDbo();
-
 		// Call the parent constructor.
 		parent::__construct($subject, $config);
 
@@ -159,7 +156,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = new Indexer;
+		$this->indexer = new Indexer($this->db);
 	}
 
 	/**
@@ -273,7 +270,7 @@ abstract class Adapter extends CMSPlugin
 	 */
 	public function onFinderGarbageCollection()
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 		$type_id = $this->getTypeId();
 
 		$query = $db->getQuery(true);
@@ -347,7 +344,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to reindex an item.
 	 *
-	 * @param   int  $id  The ID of the item to reindex.
+	 * @param   integer  $id  The ID of the item to reindex.
 	 *
 	 * @return  void
 	 *
@@ -637,7 +634,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed|null  $query  A QueryInterface object
+	 * @param   mixed  $query  A QueryInterface object. [optional]
 	 *
 	 * @return  QueryInterface  A database object.
 	 *
