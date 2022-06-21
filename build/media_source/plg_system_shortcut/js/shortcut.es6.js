@@ -107,7 +107,11 @@
 
     let dl = '<dl>';
     dlItems.forEach((titles, shortcut) => {
-      dl += `<dt><span class="badge bg-dark px-2">J</span> <span class="badge bg-dark px-2">${shortcut}</span></dt>`;
+      dl += '<dt><kbd>J</kbd>';
+      shortcut.split('+').forEach((key) => {
+        dl += ` <kbd>${key.trim()}</kbd>`;
+      });
+      dl += '</dt>';
       titles.forEach((title) => {
         dl += `<dd>${title}</dd>`;
       });
