@@ -119,16 +119,19 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 	{
 		$shortcuts = $event->getArgument('shortcuts', []);
 
-		$shortcuts = array_merge($shortcuts, [
-			'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => Text::_('JAPPLY')],
-			'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => Text::_('JCANCEL')],
-			'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
-			'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_NEW')],
-			'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
-			'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => Text::_('JTOOLBAR_SAVE')],
-			'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => Text::_('JSEARCH_FILTER')],
-			'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
-		]);
+		$shortcuts = array_merge(
+			$shortcuts,
+			[
+				'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => Text::_('JAPPLY')],
+				'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => Text::_('JCANCEL')],
+				'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
+				'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_NEW')],
+				'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
+				'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => Text::_('JTOOLBAR_SAVE')],
+				'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => Text::_('JSEARCH_FILTER')],
+				'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
+			]
+		);
 
 		$event->setArgument('shortcuts', $shortcuts);
 	}
