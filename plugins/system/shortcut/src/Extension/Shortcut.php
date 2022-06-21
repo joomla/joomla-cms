@@ -9,7 +9,7 @@
 
 namespace Joomla\Plugin\System\Shortcut\Extension;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Language\Text;
