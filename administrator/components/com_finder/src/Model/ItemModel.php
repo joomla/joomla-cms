@@ -68,7 +68,7 @@ class ItemModel extends BaseDatabaseModel
 	public function getTerms()
 	{
 		$link_id = (int) $this->getState('item.link_id');
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('t.*, l.*')
 			->from($db->quoteName('#__finder_links_terms', 'l'))
@@ -92,7 +92,7 @@ class ItemModel extends BaseDatabaseModel
 	public function getTaxonomies()
 	{
 		$link_id = (int) $this->getState('item.link_id');
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('t.*, m.*')
 			->from($db->quoteName('#__finder_taxonomy_map', 'm'))
