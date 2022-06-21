@@ -14,12 +14,10 @@ namespace Joomla\Plugin\System\Shortcut\Extension;
 use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Registry\Registry;
 
 /**
  * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.
@@ -101,9 +99,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 		$wa->useScript('bootstrap.modal');
 		$wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeys.js']]);
 
-		$plugin = PluginHelper::getPlugin('system', 'shortcut');
-
-		$timeout = (new Registry($plugin->params))->get('timeout', 2000);
+		$timeout = $this->params->get('timeout', 2000);
 
 		$document->addScriptOptions('plg_system_shortcut.shortcuts', $shortcuts);
 		$document->addScriptOptions('plg_system_shortcut.timeout', $timeout);
