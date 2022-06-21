@@ -34,6 +34,12 @@
     });
   };
 
+  Joomla.addLinkShortcut = (hotkey, selector) => {
+    Joomla.addShortcut(hotkey, () => {
+      window.location.href = selector;
+    });
+  };
+
   const setShortcutFilter = () => {
     hotkeys.filter = (event) => {
       const target = event.target || event.srcElement;
@@ -140,11 +146,14 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
+    console.log(options);
     Object.values(options).forEach((value) => {
       if (!value.shortcut || !value.selector) {
         return;
       }
-      if (value.selector.includes('input')) {
+      if (value.selector.startsWith('/') || value.selector.startsWith('http://') || value.selector.startsWith('www.')) {
+        Joomla.addLinkShortcut(value.shortcut, value.selector);
+      } else if (value.selector.includes('input')) {
         Joomla.addFocusShortcut(value.shortcut, value.selector);
       } else {
         Joomla.addClickShortcut(value.shortcut, value.selector);
