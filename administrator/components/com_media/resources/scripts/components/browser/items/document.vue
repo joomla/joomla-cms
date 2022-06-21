@@ -23,8 +23,6 @@
       ref="container"
       :focused="focused"
       :item="item"
-      :edit="editItem"
-      :can-edit="canEdit"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
@@ -51,8 +49,6 @@ export default {
     openPreview() {
       this.$refs.container.openPreview();
     },
-    /* Edit an item */
-    editItem() {},
   },
 };
 </script>

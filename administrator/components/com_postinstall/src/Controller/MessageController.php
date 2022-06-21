@@ -35,7 +35,7 @@ class MessageController extends BaseController
 		$this->checkToken('get');
 
 		/** @var MessagesModel $model */
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))
@@ -57,7 +57,7 @@ class MessageController extends BaseController
 	 */
 	public function unpublish()
 	{
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
 		$id = $this->input->get('id');
 
@@ -75,6 +75,58 @@ class MessageController extends BaseController
 	}
 
 	/**
+	 * Re-Publishes an archived post-installation message of the specified extension.
+	 *
+	 * @return   void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function republish()
+	{
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
+
+		$id = $this->input->get('id');
+
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
+
+		if (empty($eid))
+		{
+			$eid = $model->getJoomlaFilesExtensionId();
+		}
+
+		$model->setState('published', 1);
+		$model->republishMessage($id);
+
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+	}
+
+	/**
+	 * Archives a published post-installation message of the specified extension.
+	 *
+	 * @return   void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function archive()
+	{
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
+
+		$id = $this->input->get('id');
+
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
+
+		if (empty($eid))
+		{
+			$eid = $model->getJoomlaFilesExtensionId();
+		}
+
+		$model->setState('published', 2);
+		$model->archiveMessage($id);
+
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+	}
+
+	/**
 	 * Executes the action associated with an item.
 	 *
 	 * @return  void
@@ -85,7 +137,7 @@ class MessageController extends BaseController
 	{
 		$this->checkToken('get');
 
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 
 		$id = $this->input->get('id');
 
@@ -126,7 +178,7 @@ class MessageController extends BaseController
 		$this->checkToken();
 
 		/** @var MessagesModel $model */
-		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$model = $this->getModel('Messages', '', ['ignore_request' => true]);
 		$eid = $this->input->getInt('eid');
 
 		if (empty($eid))

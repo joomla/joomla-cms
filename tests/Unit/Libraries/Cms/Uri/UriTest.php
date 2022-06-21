@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @subpackage  Uri
  * @since       1.7.0
  */
-class JUriTest extends UnitTestCase
+class UriTest extends UnitTestCase
 {
 	/**
 	 * @var    Uri
