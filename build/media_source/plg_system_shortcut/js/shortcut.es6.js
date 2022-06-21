@@ -75,17 +75,9 @@
   };
 
   const addOverviewHint = () => {
-    const iconElement = document.createElement('span');
-    iconElement.className = 'icon-keyboard fa-keyboard me-2';
-    iconElement.setAttribute('aria-hidden', true);
-    const textElement = document.createElement('span');
-    textElement.innerText = Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
-    const hintElement = document.createElement('p');
-    hintElement.appendChild(iconElement);
-    hintElement.appendChild(textElement);
     const containerElement = document.createElement('section');
     containerElement.className = 'content pt-4';
-    containerElement.appendChild(hintElement);
+    containerElement.insertAdjacentHTML('beforeend', Joomla.Text._('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT'));
     document.querySelector('.container-main').appendChild(containerElement);
   };
 
