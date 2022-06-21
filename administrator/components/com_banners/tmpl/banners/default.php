@@ -19,7 +19,9 @@ use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
-HTMLHelper::_('behavior.multiselect');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');

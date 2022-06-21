@@ -13,7 +13,7 @@
 		<filename plugin="contact">contact.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_contact.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_contact.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_contact.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_contact.sys.ini</language>
 	</languages>
 </extension>

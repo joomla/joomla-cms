@@ -18,7 +18,6 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -173,10 +172,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($assetNames as $assetName => $assetState)
 			{
-				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
-				{
-					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
-				}
+				$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
 			}
 		}
 

@@ -28,8 +28,6 @@ $title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE'
 $content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
 $icon       = $displayData['icon'] ?? 'icon-copy article';
 $append     = $displayData['formAppend'] ?? '';
-$title      = $displayData['title'] ?? Text::_($textPrefix . '_EMPTYSTATE_TITLE');
-$content    = $displayData['content'] ?? Text::_($textPrefix . '_EMPTYSTATE_CONTENT');
 $btnadd     = $displayData['btnadd'] ?? Text::_($textPrefix . '_EMPTYSTATE_BUTTON_ADD');
 ?>
 

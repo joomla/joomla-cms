@@ -29,27 +29,6 @@ use Joomla\Registry\Registry;
 class Icon
 {
 	/**
-	 * The application
-	 *
-	 * @var    CMSApplication
-	 *
-	 * @since  4.0.0
-	 */
-	private $application;
-
-	/**
-	 * Service constructor
-	 *
-	 * @param   CMSApplication  $application  The application
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(CMSApplication $application)
-	{
-		$this->application = $application;
-	}
-
-	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
 	 * @param   object    $category  The category information

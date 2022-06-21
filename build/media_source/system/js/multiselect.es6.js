@@ -99,18 +99,12 @@
   }
 
   const onBoot = () => {
-    if (!Joomla) {
-      // eslint-disable-next-line no-new
-      new JMultiSelect('#adminForm');
-    } else if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-multiselect')) {
-      if (Joomla.getOptions('js-multiselect').formName) {
-        // eslint-disable-next-line no-new
-        new JMultiSelect(`#${Joomla.getOptions('js-multiselect').formName}`);
-      } else {
-        // eslint-disable-next-line no-new
-        new JMultiSelect('#adminForm');
-      }
+    let formId = '#adminForm';
+    if (Joomla && Joomla.getOptions('js-multiselect', {}).formName) {
+      formId = `#${Joomla.getOptions('js-multiselect', {}).formName}`;
     }
+    // eslint-disable-next-line no-new
+    new JMultiSelect(formId);
   };
 
   document.addEventListener('DOMContentLoaded', onBoot);

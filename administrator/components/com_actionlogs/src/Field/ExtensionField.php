@@ -52,7 +52,7 @@ class ExtensionField extends ListField
 
 		$options = array();
 
-		if (count($context) > 0)
+		if (\count($context) > 0)
 		{
 			foreach ($context as $item)
 			{

@@ -13,7 +13,7 @@
 		<filename plugin="plugins">plugins.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_plugins.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_plugins.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_plugins.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_plugins.sys.ini</language>
 	</languages>
 </extension>

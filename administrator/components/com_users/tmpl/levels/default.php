@@ -18,7 +18,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
 
 $user       = Factory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));

@@ -337,7 +337,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 
 		// Don't install libraries which would override core folders
-		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+		$restrictedFolders = array('php-encryption', 'phpass', 'src', 'vendor');
 
 		if (in_array($group, $restrictedFolders))
 		{

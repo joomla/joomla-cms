@@ -16,8 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-
 $user        = Factory::getUser();
 $listOrder   = $this->escape($this->state->get('list.ordering'));
 $listDirn    = $this->escape($this->state->get('list.direction'));
@@ -26,7 +24,8 @@ Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_users.admin-users-groups');
+$wa->useScript('multiselect')
+	->useScript('com_users.admin-users-groups');
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" method="upgrade">
-	<name>COM_SCHEDULER</name>
+	<name>com_scheduler</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2021</creationDate>
 	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>

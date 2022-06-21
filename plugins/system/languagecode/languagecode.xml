@@ -13,8 +13,8 @@
 		<filename plugin="languagecode">languagecode.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_languagecode.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_languagecode.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_languagecode.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_languagecode.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

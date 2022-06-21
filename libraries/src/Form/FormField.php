@@ -1067,6 +1067,10 @@ abstract class FormField
 			}
 		}
 
+		$options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
+			? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
+			: false;
+
 		if ($this->showon)
 		{
 			$options['rel']           = ' data-showon=\'' .

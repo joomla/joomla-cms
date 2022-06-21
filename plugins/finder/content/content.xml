@@ -13,7 +13,7 @@
 		<filename plugin="content">content.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_content.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_content.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_content.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_content.sys.ini</language>
 	</languages>
 </extension>

@@ -19,7 +19,6 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -88,7 +87,7 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
-		$email = Factory::getUser()->email;
+		$data['email'] = Factory::getUser()->email;
 
 		// Search for an open information request matching the email and type
 		$db    = $this->getDbo();
@@ -98,7 +97,7 @@ class RequestModel extends AdminModel
 			->where($db->quoteName('email') . ' = :email')
 			->where($db->quoteName('request_type') . ' = :requesttype')
 			->whereIn($db->quoteName('status'), [0, 1])
-			->bind(':email', $email)
+			->bind(':email', $data['email'])
 			->bind(':requesttype', $data['request_type']);
 
 		try
@@ -139,7 +138,7 @@ class RequestModel extends AdminModel
 
 		$messageModel->notifySuperUsers(
 			Text::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_SUBJECT'),
-			Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $email)
+			Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $data['email'])
 		);
 
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
@@ -174,7 +173,7 @@ class RequestModel extends AdminModel
 			}
 
 			$mailer->addTemplateData($templateData);
-			$mailer->addRecipient($email);
+			$mailer->addRecipient($data['email']);
 
 			$mailer->send();
 

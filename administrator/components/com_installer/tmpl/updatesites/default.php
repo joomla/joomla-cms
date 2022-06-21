@@ -15,8 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('bootstrap.popover', 'span.hasPopover', ['trigger' => 'hover focus']);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
@@ -92,10 +93,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
-										<a class="hasPopover"
+										<a 
 											href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-											title="<?php echo Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE') ?>"
-											data-bs-content="<?php echo Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', $item->update_site_name, $item->name) ?>"
+											title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->update_site_name); ?>"
 										>
 											<?php echo Text::_($item->update_site_name); ?>
 										</a>

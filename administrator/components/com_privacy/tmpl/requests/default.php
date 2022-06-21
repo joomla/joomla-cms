@@ -19,7 +19,9 @@ use Joomla\CMS\String\PunycodeHelper;
 
 /** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
-HTMLHelper::_('behavior.multiselect');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
 
 $user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));

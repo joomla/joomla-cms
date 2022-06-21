@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * User view level controller class.
@@ -111,7 +110,10 @@ class LevelController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = $this->input->get('cid', array(), 'array');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (!$this->app->getIdentity()->authorise('core.admin', $this->option))
 		{
@@ -125,8 +127,6 @@ class LevelController extends FormController
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if ($model->delete($ids))

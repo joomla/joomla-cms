@@ -139,7 +139,7 @@ class ActionlogModel extends BaseDatabaseModel
 		{
 			$extensions = json_decode($user->extensions, true);
 
-			if ($extensions && in_array(strtok($context, '.'), $extensions))
+			if ($extensions && \in_array(strtok($context, '.'), $extensions))
 			{
 				$recipients[] = $user->email;
 			}

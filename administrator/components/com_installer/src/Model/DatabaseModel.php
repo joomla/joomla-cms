@@ -646,7 +646,12 @@ class DatabaseModel extends InstallerModel
 		}
 		else
 		{
-			$installationXML  = InstallerHelper::getInstallationXML($table->get('element'), $table->get('type'));
+			$installationXML = InstallerHelper::getInstallationXML(
+				$table->get('element'),
+				$table->get('type'),
+				$table->get('client_id'),
+				$table->get('type') === 'plugin' ? $table->get('folder') : null
+			);
 			$extensionVersion = (string) $installationXML->version;
 		}
 

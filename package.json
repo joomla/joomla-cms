@@ -7,9 +7,10 @@
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
   },
+  "__engines_upgrades__": "Dockerfiles @ github.com/joomla-projects/docker-images need also upgrade",
   "engines": {
-    "node": ">=12.0",
-    "npm": ">=6.13.4"
+    "node": ">=16",
+    "npm": ">=8.5.5"
   },
   "scripts": {
     "build:js": "node build/build.js --compile-js",
@@ -33,11 +34,12 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.3.6",
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@joomla/joomla-a11y-checker": "^1.0.0",
     "@popperjs/core": "^2.11.0",
     "@webcomponents/webcomponentsjs": "^2.6.0",
     "accessibility": "^3.0.14",
     "awesomplete": "^1.1.5",
-    "bootstrap": "^5.1.2",
+    "bootstrap": "^5.1.3",
     "choices.js": "^9.0.1",
     "chosen-js": "^1.8.7",
     "codemirror": "^5.64.0",
@@ -45,7 +47,6 @@
     "diff": "^5.0.0",
     "dragula": "^3.7.3",
     "focus-visible": "^5.2.0",
-    "joomla-a11y-checker": "https://github.com/joomla-projects/joomla-a11y-checker/tarball/joomla",
     "joomla-ui-custom-elements": "^0.2.0",
     "jquery": "^3.6.0",
     "jquery-migrate": "^3.3.2",
@@ -83,7 +84,7 @@
     "fs-extra": "^10.0.0",
     "ini": "^2.0.0",
     "jasmine-core": "^3.10.1",
-    "karma": "^6.3.9",
+    "karma": "^6.3.14",
     "karma-coverage": "^2.1.0",
     "karma-firefox-launcher": "^2.1.2",
     "karma-fixture": "^0.2.6",
@@ -98,7 +99,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.61.1",
     "rollup-plugin-vue": "^6.0.0",
-    "sass": "^1.45.0",
+    "sass": "^1.49.9",
     "selenium-standalone": "^8.0.8",
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0",

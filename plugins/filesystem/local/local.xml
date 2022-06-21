@@ -16,8 +16,8 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_filesystem_local.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_filesystem_local.ini</language>
+		<language tag="en-GB">language/en-GB/plg_filesystem_local.sys.ini</language>
 	</languages>
 
 	<config>

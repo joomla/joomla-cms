@@ -13,7 +13,7 @@
 		<filename plugin="privacy">privacy.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_privacy.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_privacy.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_privacy.ini</language>
+		<language tag="en-GB">language/en-GB/plg_webservices_privacy.sys.ini</language>
 	</languages>
 </extension>

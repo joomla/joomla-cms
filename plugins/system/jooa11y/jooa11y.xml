@@ -2,12 +2,12 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_jooa11y</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2021</creationDate>
+	<creationDate>February 2022</creationDate>
 	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.1.0</version>
+	<version>4.2.0</version>
 	<description>PLG_SYSTEM_JOOA11Y_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="jooa11y">jooa11y.php</filename>

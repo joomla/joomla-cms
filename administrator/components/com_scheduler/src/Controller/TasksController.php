@@ -47,9 +47,9 @@ class TasksController extends AdminController
 	 * Unlock a locked task, i.e., a task that is presumably still running but might have crashed and got stuck in the
 	 * "locked" state.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since __DEPLOY__VERSION__
+	 * @since   4.1.0
 	 */
 	public function unlock(): void
 	{
@@ -57,7 +57,10 @@ class TasksController extends AdminController
 		$this->checkToken();
 
 		/** @var integer[] $cid Items to publish (from request parameters). */
-		$cid = $this->input->get('cid', [], 'array');
+		$cid = (array) $this->input->get('cid', [], 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		if (empty($cid))
 		{

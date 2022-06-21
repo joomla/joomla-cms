@@ -119,6 +119,14 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
 
+		$inlinehelp  = (string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false;
+		$targetClass = (string) $this->form->getXml()->config->inlinehelp['targetclass'] ?: 'hide-aware-inline-help';
+
+		if ($inlinehelp)
+		{
+			ToolbarHelper::inlinehelp($targetClass);
+		}
+
 		$helpUrl = $this->form->getData()->get('helpURL');
 		$helpKey = (string) $this->form->getXml()->config->help['key'];
 

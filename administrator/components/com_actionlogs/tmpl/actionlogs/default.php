@@ -16,8 +16,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var HtmlView $this */
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
@@ -26,6 +24,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
+	->useScript('multiselect')
 	->useScript('com_actionlogs.admin-actionlogs');
 
 ?>

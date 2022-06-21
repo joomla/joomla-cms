@@ -365,7 +365,7 @@ class HtmlView extends BaseHtmlView
 
 			if (Factory::getUser()->authorise('core.admin') && !$protected)
 			{
-				$childBar->checkin('articles.checkin')->listCheck(true);
+				$childBar->checkin('items.checkin')->listCheck(true);
 			}
 
 			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)

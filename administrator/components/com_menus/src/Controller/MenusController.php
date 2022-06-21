@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * The Menu List Controller
@@ -67,9 +66,12 @@ class MenusController extends BaseController
 		$this->checkToken();
 
 		$user = $this->app->getIdentity();
-		$cids = (array) $this->input->get('cid', array(), 'array');
+		$cids = (array) $this->input->get('cid', array(), 'int');
 
-		if (count($cids) < 1)
+		// Remove zero values resulting from input filter
+		$cids = array_filter($cids);
+
+		if (empty($cids))
 		{
 			$this->setMessage(Text::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
 		}
@@ -91,9 +93,6 @@ class MenusController extends BaseController
 				// Get the model.
 				/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
 				$model = $this->getModel();
-
-				// Make sure the item ids are integers
-				$cids = ArrayHelper::toInteger($cids);
 
 				// Remove the items.
 				if (!$model->delete($cids))

@@ -253,6 +253,7 @@
 					name="render_class"
 					type="textarea"
 					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
+					description="COM_FIELDS_FIELD_RENDER_CLASS_DESC"
 					validate="CssIdentifier"
 				/>
 

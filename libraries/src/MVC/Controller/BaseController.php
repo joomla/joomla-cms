@@ -714,7 +714,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 	{
 		$this->task = $task;
 
-		$task = strtolower($task);
+		$task = strtolower((string) $task);
 
 		if (isset($this->taskMap[$task]))
 		{

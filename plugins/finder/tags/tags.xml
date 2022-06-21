@@ -13,7 +13,7 @@
 		<filename plugin="tags">tags.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_tags.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_tags.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_tags.ini</language>
+		<language tag="en-GB">language/en-GB/plg_finder_tags.sys.ini</language>
 	</languages>
 </extension>
