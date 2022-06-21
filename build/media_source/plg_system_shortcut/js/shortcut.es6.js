@@ -107,10 +107,10 @@
 
     let dl = '<dl>';
     dlItems.forEach((titles, shortcut) => {
+      dl += `<dt><span class="badge bg-dark px-2">J</span> <span class="badge bg-dark px-2">${shortcut}</span></dt>`;
       titles.forEach((title) => {
-        dl += `<dt>${title}</dt>`;
+        dl += `<dd>${title}</dd>`;
       });
-      dl += `<dd><span class="badge bg-dark px-2">J</span> <span class="badge bg-dark px-2">${shortcut}</span></dd>`;
     });
     dl += '</dl>';
 
@@ -146,7 +146,6 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plg_system_shortcut.shortcuts');
-    console.log(options);
     Object.values(options).forEach((value) => {
       if (!value.shortcut || !value.selector) {
         return;
