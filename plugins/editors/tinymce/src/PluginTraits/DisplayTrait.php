@@ -84,10 +84,19 @@ trait DisplayTrait
 		$editor .= !$this->app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
 		$editor .= '</div>';
 
-		// Prepare the instance specific options, actually the ext-buttons
-		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+		// Prepare the instance specific options
+		if (empty($options['tinyMCE'][$fieldName]))
 		{
-			$btns = $this->tinyButtons($id, $buttons);
+			// Width and height
+			if ($width)
+			{
+				$options['tinyMCE'][$fieldName]['width'] = $width;
+			}
+
+			if ($height)
+			{
+				$options['tinyMCE'][$fieldName]['height'] = $height;
+			}
 
 			// Set editor to readonly mode
 			if (!empty($params['readonly']))
@@ -95,8 +104,14 @@ trait DisplayTrait
 				$options['tinyMCE'][$fieldName]['readonly'] = 1;
 			}
 
-			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
-			$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+			// The ext-buttons
+			if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+			{
+				$btns = $this->tinyButtons($id, $buttons);
+
+				$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
+				$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+			}
 
 			$doc->addScriptOptions('plg_editor_tinymce', $options, false);
 		}
@@ -471,8 +486,8 @@ trait DisplayTrait
 				'document_base_url'  => Uri::root(true) . '/',
 				'image_caption'      => true,
 				'importcss_append'   => true,
-				'height'             => $height ?: $this->params->get('html_height', '550px'),
-				'width'              => $width ?: $this->params->get('html_width', ''),
+				'height'             => $this->params->get('html_height', '550px'),
+				'width'              => $this->params->get('html_width', ''),
 				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,

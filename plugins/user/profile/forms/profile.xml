@@ -89,9 +89,10 @@
 
 			<field
 				name="dob"
-				type="dob"
+				type="calendar"
 				label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
-				info="PLG_USER_PROFILE_SPACER_DOB"
+				description="PLG_USER_PROFILE_FIELD_DOB_DESCRIPTION"
+				hint="PLG_USER_PROFILE_FIELD_DOB_HINT"
 				translateformat="true"
 				showtime="false"
 				filter="server_utc"

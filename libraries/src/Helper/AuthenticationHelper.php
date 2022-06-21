@@ -30,7 +30,7 @@ abstract class AuthenticationHelper
 	 * @return  array  Always empty
 	 *
 	 * @since   3.6.3
-	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0.
+	 * @deprecated 4.2.0 Will be removed in 5.0.
 	 */
 	public static function getTwoFactorMethods()
 	{

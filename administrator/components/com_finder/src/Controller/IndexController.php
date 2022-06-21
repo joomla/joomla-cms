@@ -45,7 +45,7 @@ class IndexController extends AdminController
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function optimise()
 	{

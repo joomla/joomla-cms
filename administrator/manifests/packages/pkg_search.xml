@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="4.0" method="upgrade">
+<extension type="package" method="upgrade">
 	<name>pkg_search</name>
 	<packagename>search</packagename>
 	<creationDate>2021-08-17</creationDate>

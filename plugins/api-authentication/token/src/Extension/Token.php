@@ -11,7 +11,6 @@ namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -30,14 +29,6 @@ use Joomla\Filter\InputFilter;
 final class Token extends CMSPlugin
 {
 	use DatabaseAwareTrait;
-
-	/**
-	 * The application object
-	 *
-	 * @var    ApiApplication
-	 * @since  4.0.0
-	 */
-	protected $app;
 
 	/**
 	 * The prefix of the user profile keys, without the dot.
@@ -105,7 +96,7 @@ final class Token extends CMSPlugin
 		// Default response is authentication failure.
 		$response->type          = 'Token';
 		$response->status        = Authentication::STATUS_FAILURE;
-		$response->error_message = $this->app->getLanguage()->_('JGLOBAL_AUTH_FAIL');
+		$response->error_message = $this->translate('JGLOBAL_AUTH_FAIL');
 
 		/**
 		 * First look for an HTTP Authorization header with the following format:
@@ -113,7 +104,7 @@ final class Token extends CMSPlugin
 		 * Do keep in mind that Bearer is **case-sensitive**. Whitespace between Bearer and the
 		 * token, as well as any whitespace following the token is discarded.
 		 */
-		$authHeader  = $this->app->input->server->get('HTTP_AUTHORIZATION', '', 'string');
+		$authHeader  = $this->getApplication()->input->server->get('HTTP_AUTHORIZATION', '', 'string');
 		$tokenString = '';
 
 		// Apache specific fixes. See https://github.com/symfony/symfony/issues/19693
@@ -137,7 +128,7 @@ final class Token extends CMSPlugin
 
 		if (empty($tokenString))
 		{
-			$tokenString = $this->app->input->server->get('HTTP_X_JOOMLA_TOKEN', '', 'string');
+			$tokenString = $this->getApplication()->input->server->get('HTTP_X_JOOMLA_TOKEN', '', 'string');
 		}
 
 		// No token: authentication failure
@@ -182,7 +173,7 @@ final class Token extends CMSPlugin
 		 */
 		try
 		{
-			$siteSecret = $this->app->get('secret');
+			$siteSecret = $this->getApplication()->get('secret');
 		}
 		catch (\Exception $e)
 		{
@@ -343,7 +334,8 @@ final class Token extends CMSPlugin
 	private function getPluginParameter(string $folder, string $plugin, string $param, $default = null)
 	{
 		/** @var PluginModel $model */
-		$model = $this->app->bootComponent('plugins')->getMVCFactory()->createModel('Plugin', 'Administrator', ['ignore_request' => true]);
+		$model = $this->getApplication()->bootComponent('plugins')
+			->getMVCFactory()->createModel('Plugin', 'Administrator', ['ignore_request' => true]);
 
 		$pluginObject = $model->getItem(['folder' => $folder, 'element' => $plugin]);
 

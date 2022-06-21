@@ -21,7 +21,7 @@ use RuntimeException;
 /**
  * Multi-factor Authentication plugins' AJAX callback controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CallbackController extends BaseController
 {
@@ -33,7 +33,7 @@ class CallbackController extends BaseController
 	 * @param   CMSApplication|null       $app      CMS application object
 	 * @param   Input|null                $input    Joomla CMS input object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
@@ -50,7 +50,7 @@ class CallbackController extends BaseController
 	 *                                    {@link JFilterInput::clean()}.
 	 *
 	 * @return  void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function callback($cachable = false, $urlparams = false): void
 	{

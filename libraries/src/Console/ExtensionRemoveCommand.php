@@ -13,7 +13,10 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Extension;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,6 +30,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionRemoveCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -88,6 +93,20 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 * @since 4.0.0
 	 */
 	public const REMOVE_SUCCESSFUL = 0;
+
+	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
 
 	/**
 	 * Configures the IO
@@ -156,7 +175,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 		{
 			// Get an installer object for the extension type
 			$installer = Installer::getInstance();
-			$row       = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+			$row       = new Extension($this->getDatabase());
 
 			if ((int) $extensionId === 0 || !$row->load($extensionId))
 			{

@@ -15,7 +15,7 @@ use Joomla\Component\Users\Administrator\Controller\CaptiveController as AdminCa
 /**
  * Captive Multi-factor Authentication page controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CaptiveController extends AdminCaptiveController
 {
@@ -27,7 +27,7 @@ class CaptiveController extends AdminCaptiveController
 	 * @return  mixed   The value returned by the called Method.
 	 *
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function execute($task)
 	{

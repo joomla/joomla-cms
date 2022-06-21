@@ -566,6 +566,27 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
+   * Joomla Request queue.
+   *
+   * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
+   * multiple requests against the server which could trigger its Denial of Service protection.
+   *
+   * @type  {Array}
+   *
+   * @since __DEPLOY_VERSION__
+   */
+  const requestQueue = [];
+
+  /**
+   * Flag to indicate whether Joomla is performing a queued Request.
+   *
+   * @type  {boolean}
+   *
+   * @since __DEPLOY_VERSION__
+   */
+  let performingQueuedRequest = false;
+
+  /**
    * Method to perform AJAX request
    *
    * @param {Object} options   Request options:
@@ -576,6 +597,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *                https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
    *    perform: true,        Perform the request immediately
    *              or return XMLHttpRequest instance and perform it later
+   *    queued: false,        Put the request in a FIFO queue; prevents simultaneous execution of
+   *              multiple requests to avoid triggering the server's Denial of Service protection.
    *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
    *
    *    onBefore:  (xhr) => {}            // Callback on before the request
@@ -598,13 +621,32 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
    */
   Joomla.request = (options) => {
+    /**
+     * Processes queued Request objects.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    const processQueuedRequests = () => {
+      if (performingQueuedRequest || requestQueue.length === 0) {
+        return;
+      }
+
+      performingQueuedRequest = true;
+
+      const nextRequest = requestQueue.shift();
+
+      nextRequest.xhr.send(nextRequest.data);
+    };
+
     let xhr;
+
     // Prepare the options
     const newOptions = Joomla.extend({
       url: '',
       method: 'GET',
       data: null,
       perform: true,
+      queued: false,
     }, options);
 
     // Set up XMLHttpRequest instance
@@ -648,6 +690,12 @@ window.Joomla.Modal = window.Joomla.Modal || {
           return;
         }
 
+        // The request is finished; step through any more queued requests
+        if (newOptions.queued) {
+          performingQueuedRequest = false;
+          processQueuedRequests();
+        }
+
         // Request finished and response is ready
         if (xhr.status === 200) {
           if (newOptions.onSuccess) {
@@ -663,13 +711,22 @@ window.Joomla.Modal = window.Joomla.Modal || {
       };
 
       // Do request
-      if (newOptions.perform) {
+      if (newOptions.perform && !newOptions.queued) {
         if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
           // Request interrupted
           return xhr;
         }
 
         xhr.send(newOptions.data);
+      }
+
+      // Enqueue request and try to process the queue
+      if (newOptions.queued) {
+        requestQueue.push({
+          xhr,
+          data: newOptions.data,
+        });
+        processQueuedRequests();
       }
     } catch (error) {
       // eslint-disable-next-line no-unused-expressions,no-console
