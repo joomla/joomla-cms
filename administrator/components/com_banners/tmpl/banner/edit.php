@@ -71,7 +71,12 @@ $wa->useScript('keepalive')
 					</div>
 				</fieldset>
 			</div>
-			<div class="col-md-6">
+			
+		</div>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('SEO')); ?>
+		<div class="row">
+		<div class="col-md-6">
 				<fieldset id="fieldset-metadata" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 					<div>
@@ -79,9 +84,7 @@ $wa->useScript('keepalive')
 					</div>
 				</fieldset>
 			</div>
-		</div>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
+</div>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 
