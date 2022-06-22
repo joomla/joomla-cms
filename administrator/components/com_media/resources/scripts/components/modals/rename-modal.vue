@@ -116,7 +116,7 @@ export default {
 
       // Rename the item
       this.$store.dispatch('renameItem', {
-        path: this.item.path,
+        item: this.item,
         newPath: newPath + newName,
         newName,
       });

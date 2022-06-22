@@ -137,7 +137,7 @@ class FieldsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$user  = Factory::getUser();
 		$app   = Factory::getApplication();
@@ -480,7 +480,7 @@ class FieldsModel extends ListModel
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 		$context    = $this->state->get('filter.context');
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[

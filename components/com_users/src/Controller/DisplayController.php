@@ -112,6 +112,16 @@ class DisplayController extends BaseController
 					$model = $this->getModel($vName);
 					break;
 
+				case 'captive':
+				case 'methods':
+				case 'method':
+					$controller = $this->factory->createController($vName, 'Site', [], $this->app, $this->input);
+					$task       = $this->input->get('task', '');
+
+					return $controller->execute($task);
+
+					break;
+
 				default:
 					$model = $this->getModel('Login');
 					break;
