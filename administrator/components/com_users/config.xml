@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Users:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
@@ -264,23 +265,23 @@
 
 	</fieldset>
 
- 	<fieldset
+	<fieldset
 		name="massmail"
 		label="COM_USERS_MASS_MAIL"
 		description="COM_USERS_MASS_MAIL_DESC">
 
 		<field
- 			name="mailSubjectPrefix"
- 			type="text"
+			name="mailSubjectPrefix"
+			type="text"
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
 		/>
 
- 		<field
- 			name="mailBodySuffix"
+		<field
+			name="mailBodySuffix"
 			type="textarea"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
- 			rows="5"
- 			cols="30"
+			rows="5"
+			cols="30"
 		/>
 
 	</fieldset>
@@ -308,7 +309,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

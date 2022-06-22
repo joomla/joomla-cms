@@ -192,8 +192,8 @@
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits" requires="hits">JGLOBAL_HITS</option>
-	 			<option value="tag">JTAG</option>
-	 			<option value="month">JMONTH_PUBLISHED</option>
+				<option value="tag">JTAG</option>
+				<option value="month">JMONTH_PUBLISHED</option>
 			</field>
 
 			<field

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<extension version="4.1" type="plugin" group="task" method="upgrade">
+<extension type="plugin" group="task" method="upgrade">
 	<name>plg_task_check_files</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2021</creationDate>

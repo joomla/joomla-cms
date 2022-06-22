@@ -30,7 +30,7 @@
 					type="tinymcebuilder"
 					label="PLG_TINY_BUILDER"
 					hiddenLabel="true"
-				 />
+				/>
 			</fieldset>
 
 			<fieldset name="advanced" label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS">

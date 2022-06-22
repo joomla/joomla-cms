@@ -65,8 +65,6 @@ trait DisplayTrait
 		$externalPlugins = [];
 		$options         = $doc->getScriptOptions('plg_editor_tinymce');
 		$theme           = 'silver';
-		$width           = is_numeric($width) ? $width . 'px' : $width;
-		$height          = is_numeric($height) ? $height . 'px' : $height;
 
 		// Data object for the layout
 		$textarea           = new stdClass;
@@ -75,8 +73,8 @@ trait DisplayTrait
 		$textarea->class    = 'mce_editable joomla-editor-tinymce';
 		$textarea->cols     = $col;
 		$textarea->rows     = $row;
-		$textarea->width    = $width;
-		$textarea->height   = $height;
+		$textarea->width    = is_numeric($width) ? $width . 'px' : $width;
+		$textarea->height   = is_numeric($height) ? $height . 'px' : $height;
 		$textarea->content  = $content;
 		$textarea->readonly = !empty($params['readonly']);
 
@@ -86,10 +84,19 @@ trait DisplayTrait
 		$editor .= !$this->app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
 		$editor .= '</div>';
 
-		// Prepare the instance specific options, actually the ext-buttons
-		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+		// Prepare the instance specific options
+		if (empty($options['tinyMCE'][$fieldName]))
 		{
-			$btns = $this->tinyButtons($id, $buttons);
+			// Width and height
+			if ($width)
+			{
+				$options['tinyMCE'][$fieldName]['width'] = $width;
+			}
+
+			if ($height)
+			{
+				$options['tinyMCE'][$fieldName]['height'] = $height;
+			}
 
 			// Set editor to readonly mode
 			if (!empty($params['readonly']))
@@ -97,8 +104,14 @@ trait DisplayTrait
 				$options['tinyMCE'][$fieldName]['readonly'] = 1;
 			}
 
-			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
-			$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+			// The ext-buttons
+			if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+			{
+				$btns = $this->tinyButtons($id, $buttons);
+
+				$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
+				$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+			}
 
 			$doc->addScriptOptions('plg_editor_tinymce', $options, false);
 		}
@@ -236,12 +249,6 @@ trait DisplayTrait
 			$extended_elements = trim($levelParams->get('extended_elements', ''));
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
-
-		$html_height = $this->params->get('html_height', '550');
-		$html_width  = $this->params->get('html_width', '');
-		$html_width  = $html_width == 750 ? '' : $html_width;
-		$html_width  = is_numeric($html_width) ? $html_width . 'px' : $html_width;
-		$html_height = is_numeric($html_height) ? $html_height . 'px' : $html_height;
 
 		// The param is true for vertical resizing only, false or both
 		$resizing          = (bool) $levelParams->get('resizing', true);
@@ -479,8 +486,8 @@ trait DisplayTrait
 				'document_base_url'  => Uri::root(true) . '/',
 				'image_caption'      => true,
 				'importcss_append'   => true,
-				'height'             => $html_height,
-				'width'              => $html_width,
+				'height'             => $this->params->get('html_height', '550px'),
+				'width'              => $this->params->get('html_width', ''),
 				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,

@@ -108,7 +108,6 @@
 					name="set_itemid"
 					type="menuitem"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
-					default="0"
 					filter="integer"
 					>
 					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>

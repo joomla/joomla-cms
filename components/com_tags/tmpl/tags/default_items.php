@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
@@ -108,12 +107,12 @@ $n         = count($this->items);
 						<?php if (!empty($images->image_intro)) : ?>
 							<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
 							<div class="float-<?php echo htmlspecialchars($imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
-								<?php $imageOptions = ['src' => $images->image_intro, 'alt' => $images->image_intro_alt]; ?>
+								<?php $imageOptions = []; ?>
 								<?php if ($images->image_intro_caption) : ?>
 										<?php $imageOptions['title'] = $images->image_intro_caption; ?>
 										<?php $imageOptions['class'] = 'caption'; ?>
 								<?php endif; ?>
-								<?php echo LayoutHelper::render('joomla.html.image', $imageOptions); ?>
+								<?php echo HTMLHelper::_('image', $images->image_intro, $images->image_intro_alt, $imageOptions); ?>
 							</div>
 						<?php endif; ?>
 					</span>

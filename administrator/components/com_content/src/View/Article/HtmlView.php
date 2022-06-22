@@ -239,6 +239,9 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->divider();
+
+		ToolbarHelper::inlinehelp();
+
 		$toolbar->help('Articles:_Edit');
 	}
 }

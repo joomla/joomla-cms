@@ -38,9 +38,6 @@ class FinderHelper
 	 */
 	public static function getGetFields($route = null, $paramItem = 0)
 	{
-		// Determine if there is an item id before routing.
-		$needId = !Uri::getInstance($route)->getVar('Itemid');
-
 		$fields = array();
 		$uri = Uri::getInstance(Route::_($route));
 		$uri->delVar('q');
@@ -49,13 +46,6 @@ class FinderHelper
 		foreach ($uri->getQuery(true) as $n => $v)
 		{
 			$fields[] = '<input type="hidden" name="' . $n . '" value="' . $v . '">';
-		}
-
-		// Add a field for Itemid if we need one.
-		if ($needId)
-		{
-			$id       = $paramItem ?: Factory::getApplication()->input->get('Itemid', '0', 'int');
-			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '">';
 		}
 
 		return implode('', $fields);
