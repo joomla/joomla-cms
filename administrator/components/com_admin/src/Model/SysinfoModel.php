@@ -315,7 +315,7 @@ class SysinfoModel extends BaseDatabaseModel
 			return $this->info;
 		}
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$this->info = [
 			'php'                    => php_uname(),

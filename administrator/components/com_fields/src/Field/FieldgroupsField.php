@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Utilities\ArrayHelper;
 
-
 /**
  * Fields Groups
  *
@@ -44,7 +43,7 @@ class FieldgroupsField extends ListField
 		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
