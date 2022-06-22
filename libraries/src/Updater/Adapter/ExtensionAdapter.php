@@ -156,7 +156,7 @@ class ExtensionAdapter extends UpdateAdapter
 						}
 
 						// Do we have an entry for the database?
-						if (\array_key_exists($dbType, $supportedDbs))
+						if (in_array($dbType, array_map('strtolower', array_keys($supportedDbs))))
 						{
 							$minimumVersion = $supportedDbs[$dbType];
 							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
@@ -183,7 +183,7 @@ class ExtensionAdapter extends UpdateAdapter
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								Text::_($db->name)
+								Text::_('JLIB_DB_SERVER_TYPE_' . $dbType)
 							);
 
 							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
