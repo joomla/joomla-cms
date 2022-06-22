@@ -12,7 +12,6 @@ namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -35,14 +34,6 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
-
-	/**
-	 * Application object.
-	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  3.7.0
-	 */
-	protected $app;
 
 	/**
 	 * The document.
@@ -101,7 +92,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 		$context = $event->getContext();
 
 		if ($context !== $this->params->get('context', 'update_quickicon')
-			|| !$this->app->getIdentity()->authorise('core.manage', 'com_joomlaupdate'))
+			|| !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			return;
 		}

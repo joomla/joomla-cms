@@ -17,9 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect');
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
