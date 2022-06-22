@@ -32,20 +32,20 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the processDiscover method
-	 * Ensure that the return value is an integer. 
+	 * Ensure that the return value is an integer.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function testProcessDiscoverReturnIsInt()
 	{
 		$command = $this->createMock(ExtensionDiscoverInstallCommand::class);
-		
+
 		$countOfDiscoveredExtensions1 = $command->processDiscover(-1);
 		$countOfDiscoveredExtensions0 = $command->processDiscover(0);
 		$countOfDiscoveredExtensions245 = $command->processDiscover(245);
-		
+
 		$this->assertIsInt($countOfDiscoveredExtensions1);
 		$this->assertIsInt($countOfDiscoveredExtensions0);
 		$this->assertIsInt($countOfDiscoveredExtensions245);
@@ -53,16 +53,16 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the getNote method
-	 * Ensure that the note is correct. 
+	 * Ensure that the note is correct.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function testGetNote()
 	{
 		$command = $this->createExtensionDiscoverInstallCommand();
-		
+
 		$note0 = $command->getNote(-1, 1);
 		$note1 = $command->getNote(-1, -1);
 		$note2 = $command->getNote(0, 1);
@@ -70,7 +70,7 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
 		$note4 = $command->getNote(1, -1);
 		$note5 = $command->getNote(2, -1);
 		$note6 = $command->getNote(2, 1);
-		
+
 		$this->assertSame($note0, 'Unable to install the extension with ID 1');
 		$this->assertSame($note1, 'Unable to install discovered extensions.');
 		$this->assertSame($note2, 'There are no pending discovered extensions for install. Perhaps you need to run extension:discover first?');

@@ -13,8 +13,10 @@ namespace Joomla\Component\Users\Site\Model;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 
 /**
  * Login model class for Users.
@@ -117,5 +119,41 @@ class LoginModel extends FormModel
 	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
+	}
+
+	/**
+	 * Returns the language for the given menu id.
+	 *
+	 * @param  int  $id  The menu id
+	 *
+	 * @return string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getMenuLanguage(int $id): string
+	{
+		if (!Multilanguage::isEnabled())
+		{
+			return '';
+		}
+
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('language'))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('client_id') . ' = 0')
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
+
+		$db->setQuery($query);
+
+		try
+		{
+			return $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			return '';
+		}
 	}
 }

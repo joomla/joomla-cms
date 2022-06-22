@@ -12,6 +12,8 @@ namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,6 +26,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ListUserCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -40,6 +44,20 @@ class ListUserCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -51,7 +69,7 @@ class ListUserCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		$this->configureIO($input, $output);
 		$this->ioStyle->title('List users');

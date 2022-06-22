@@ -32,8 +32,8 @@
 			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="name ASC">COM_LANGUAGES_HEADING_LANGUAGE_ASC</option>
-			<option value="name DESC">COM_LANGUAGES_HEADING_LANGUAGE_DESC</option>
+			<option value="name ASC">COM_LANGUAGES_HEADING_TITLE_ASC</option>
+			<option value="name DESC">COM_LANGUAGES_HEADING_TITLE_DESC</option>
 			<option value="nativeName ASC">COM_LANGUAGES_HEADING_TITLE_NATIVE_ASC</option>
 			<option value="nativeName DESC">COM_LANGUAGES_HEADING_TITLE_NATIVE_DESC</option>
 			<option value="language ASC">COM_LANGUAGES_HEADING_LANG_TAG_ASC</option>
