@@ -63,7 +63,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'beta2';
+	const EXTRA_VERSION = 'dev';
 
 	/**
 	 * Development status.
@@ -71,7 +71,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Beta';
+	const DEV_STATUS = 'Development';
 
 	/**
 	 * Code name.
