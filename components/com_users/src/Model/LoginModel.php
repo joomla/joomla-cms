@@ -128,7 +128,7 @@ class LoginModel extends FormModel
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public function getMenuLanguage(int $id): string
 	{

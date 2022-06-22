@@ -22,7 +22,7 @@ use Joomla\Event\SubscriberInterface;
 /**
  * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 final class Shortcut extends CMSPlugin implements SubscriberInterface
 {
@@ -30,7 +30,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -49,7 +49,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -64,7 +64,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function initialize()
 	{
@@ -112,7 +112,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function addShortcuts(Event $event)
 	{
