@@ -52,7 +52,7 @@ class CheckUpdatesCommand extends AbstractCommand
 		// Get the update cache time
 		$component = ComponentHelper::getComponent('com_installer');
 
-		$cache_timeout = 3600 * (int) $component->getParams()->get('cachetimeout', 6);
+		$cache_timeout = (int) $component->getParams()->get('cachetimeout', 6);
 
 		// Find all updates
 		$ret = Updater::getInstance()->findUpdates(0, $cache_timeout);
