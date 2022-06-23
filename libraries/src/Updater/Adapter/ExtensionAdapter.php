@@ -139,7 +139,7 @@ class ExtensionAdapter extends UpdateAdapter
 					if (isset($this->currentUpdate->supported_databases))
 					{
 						$db           = Factory::getDbo();
-						$dbType       = strtolower($db->getServerType());
+						$dbType       = strtoupper($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
