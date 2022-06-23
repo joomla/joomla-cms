@@ -41,13 +41,7 @@ Joomla = window.Joomla || {};
                         attachTo: {
                             on: "bottom",
                         },
-                        buttons: [{
-                                action() {
-                                    return this.back();
-                                },
-                                classes: "shepherd-button-secondary shepherd-theme-arrows",
-                                text: "Back",
-                            },
+                        buttons: [
                             {
                                 action() {
                                     return this.next();
@@ -60,8 +54,7 @@ Joomla = window.Joomla || {};
 
                     for (index = 0; index < obj[mainID].steps.length; index++) {
                         var buttons = [];
-                        var len = tour.steps.length;
-                        if (index > 0) {
+                        var len = obj[mainID].steps.length;
                             buttons.push({
                                 text: "Back",
                                 classes: "shepherd-button-secondary",
@@ -69,8 +62,7 @@ Joomla = window.Joomla || {};
                                     return tour.back();
                                 },
                             });
-                        }
-
+                            
                         if (index != len - 1) {
                             buttons.push({
                                 text: "Next",
@@ -85,13 +77,6 @@ Joomla = window.Joomla || {};
                                 classes: "shepherd-button-primary",
                                 action: function() {
                                     return tour.cancel();
-                                },
-                            });
-                            buttons.push({
-                                text: "Back",
-                                classes: "shepherd-button-secondary",
-                                action: function() {
-                                    return tour.back();
                                 },
                             });
                         }
