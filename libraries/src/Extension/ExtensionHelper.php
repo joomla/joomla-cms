@@ -295,6 +295,7 @@ class ExtensionHelper
 		array('plugin', 'schedulerunner', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
+		array('plugin', 'shortcut', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'tasknotification', 'system', 0),
