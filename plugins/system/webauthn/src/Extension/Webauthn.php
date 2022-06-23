@@ -105,9 +105,11 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since  4.0.0
 	 */
-	public function __construct(&$subject, array $config = [], Authentication $authHelper = null)
+	public function __construct(&$subject, array $config = [], Authentication $authHelper = null, CMSApplicationInterface $application = null)
 	{
 		parent::__construct($subject, $config);
+
+		$this->setApplication($application ?? Factory::getApplication());
 
 		/**
 		 * Note: Do NOT try to load the language in the constructor. This is called before Joomla initializes the

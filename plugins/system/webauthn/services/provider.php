@@ -64,7 +64,7 @@ return new class implements ServiceProviderInterface {
 					? $container->get(Authentication::class)
 					: new Authentication($app, $session, $credentialsRepository, $metadataRepository);
 
-				return new Webauthn($subject, $config, $authenticationHelper);
+				return new Webauthn($subject, $config, $authenticationHelper, $app);
 			}
 		);
 	}
