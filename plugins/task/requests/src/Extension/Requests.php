@@ -71,7 +71,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 	 * The http factory
 	 *
 	 * @var    HttpFactory
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $httpFactory;
 
@@ -79,7 +79,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 	 * The root directory
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $rootDirectory;
 
@@ -91,7 +91,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 	 * @param   HttpFactory          $httpFactory    The http factory
 	 * @param   string               $rootDirectory  The root directory to store the output file in
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(DispatcherInterface $dispatcher, array $config, HttpFactory $httpFactory, string $rootDirectory)
 	{

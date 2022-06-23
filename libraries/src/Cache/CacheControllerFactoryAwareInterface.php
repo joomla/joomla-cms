@@ -13,7 +13,7 @@ namespace Joomla\CMS\Cache;
 /**
  * Interface to be implemented by classes depending on a cache controller factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 interface CacheControllerFactoryAwareInterface
 {
@@ -24,7 +24,7 @@ interface CacheControllerFactoryAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setCacheControllerFactory(CacheControllerFactoryInterface $factory): void;
 }

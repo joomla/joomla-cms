@@ -323,7 +323,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					/**
 					 * That line is for B/C we do no longer require to add the nonce tag
 					 * but add it once the setting is enabled so this line here is needed
-					 * to remove the outdated tag that was required until __DEPLOY_VERSION__
+					 * to remove the outdated tag that was required until 4.2.0
 					 */
 					$cspValue->value = str_replace('{nonce}', '', $cspValue->value);
 
