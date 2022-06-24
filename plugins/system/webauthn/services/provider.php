@@ -42,7 +42,7 @@ return new class implements ServiceProviderInterface {
 				$config  = (array) PluginHelper::getPlugin('system', 'webauthn');
 				$subject = $container->get(DispatcherInterface::class);
 
-				$app     = $container->has(ApplicationInterface::class) ? $container->has(ApplicationInterface::class) : $this->getApplication();
+				$app     = Factory::getApplication();
 				$session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
 				$db                    = $container->get('DatabaseDriver');
@@ -63,31 +63,13 @@ return new class implements ServiceProviderInterface {
 				$authenticationHelper  = $container->has(Authentication::class)
 					? $container->get(Authentication::class)
 					: new Authentication($app, $session, $credentialsRepository, $metadataRepository);
+				
+				$plugin = new Webauthn($subject, $config, $authenticationHelper);
+				$plugin->setApplication($app);
 
-				return new Webauthn($subject, $config, $authenticationHelper, $app);
+				return $plugin;
 			}
 		);
-	}
-
-	/**
-	 * Get the current CMS application interface.
-	 *
-	 * @return CMSApplicationInterface|null
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private function getApplication(): ?CMSApplicationInterface
-	{
-		try
-		{
-			$app = \Joomla\CMS\Factory::getApplication();
-		}
-		catch (Exception $e)
-		{
-			return null;
-		}
-
-		return ($app instanceof CMSApplicationInterface) ? $app : null;
 	}
 
 	/**
@@ -99,10 +81,8 @@ return new class implements ServiceProviderInterface {
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private function getSession(?ApplicationInterface $app = null)
+	private function getSession(ApplicationInterface $app)
 	{
-		$app = $app ?? $this->getApplication();
-
 		return $app instanceof SessionAwareWebApplicationInterface ? $app->getSession() : null;
 	}
 };
