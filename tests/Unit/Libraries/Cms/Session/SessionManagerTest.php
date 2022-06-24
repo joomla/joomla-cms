@@ -46,6 +46,7 @@ class SessionManagerTest extends UnitTestCase
 	 */
 	protected function setUp(): void
 	{
+		// @todo remove this after upgrading phpunit to 9+ see https://github.com/sebastianbergmann/phpunit/issues/4879
 		if (version_compare(phpversion(), '8.1.0', '>='))
 		{
 			/**
