@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -25,77 +26,75 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
  */
 class Validate extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeBooleanAware;
+    use ResultAware;
+    use ResultTypeBooleanAware;
 
-	/**
-	 * Public constructor
-	 *
-	 * @param   MfaTable  $record  The MFA record to validate against
-	 * @param   User      $user    The user currently logged into the site
-	 * @param   string    $code    The MFA code we are validating
-	 *
-	 * @since   4.2.0
-	 */
-	public function __construct(MfaTable $record, User $user, string $code)
-	{
-		parent::__construct(
-			'onUserMultifactorValidate',
-			[
-				'record' => $record,
-				'user'   => $user,
-				'code'   => $code,
-			]
-		);
-	}
+    /**
+     * Public constructor
+     *
+     * @param   MfaTable  $record  The MFA record to validate against
+     * @param   User      $user    The user currently logged into the site
+     * @param   string    $code    The MFA code we are validating
+     *
+     * @since   4.2.0
+     */
+    public function __construct(MfaTable $record, User $user, string $code)
+    {
+        parent::__construct(
+            'onUserMultifactorValidate',
+            [
+                'record' => $record,
+                'user'   => $user,
+                'code'   => $code,
+            ]
+        );
+    }
 
-	/**
-	 * Validate the value of the 'record' named parameter
-	 *
-	 * @param   MfaTable  $value  The value to validate
-	 *
-	 * @return  MfaTable
-	 * @since   4.2.0
-	 */
-	public function setRecord(MfaTable $value): MfaTable
-	{
-		if (empty($value))
-		{
-			throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
-		}
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   4.2.0
+     */
+    public function setRecord(MfaTable $value): MfaTable
+    {
+        if (empty($value)) {
+            throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 
-	/**
-	 * Validate the value of the 'user' named parameter
-	 *
-	 * @param   User  $value  The value to validate
-	 *
-	 * @return  User
-	 * @since   4.2.0
-	 */
-	public function setUser(User $value): User
-	{
-		if (empty($value) || ($value->id <= 0) || ($value->guest == 1))
-		{
-			throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
-		}
+    /**
+     * Validate the value of the 'user' named parameter
+     *
+     * @param   User  $value  The value to validate
+     *
+     * @return  User
+     * @since   4.2.0
+     */
+    public function setUser(User $value): User
+    {
+        if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
+            throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 
-	/**
-	 * Validate the value of the 'code' named parameter
-	 *
-	 * @param   string|null  $value  The value to validate
-	 *
-	 * @return  string|null
-	 * @since   4.2.0
-	 */
-	public function setCode(?string $value): ?string
-	{
-		// No validation necessary, the type check in the method options is enough
-		return $value;
-	}
+    /**
+     * Validate the value of the 'code' named parameter
+     *
+     * @param   string|null  $value  The value to validate
+     *
+     * @return  string|null
+     * @since   4.2.0
+     */
+    public function setCode(?string $value): ?string
+    {
+        // No validation necessary, the type check in the method options is enough
+        return $value;
+    }
 }

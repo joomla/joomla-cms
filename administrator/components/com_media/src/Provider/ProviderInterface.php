@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -20,30 +21,30 @@ use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
  */
 interface ProviderInterface
 {
-	/**
-	 * Returns the ID of the provider
-	 *
-	 * @return  string
-	 *
-	 * @since  4.0.0
-	 */
-	public function getID();
+    /**
+     * Returns the ID of the provider
+     *
+     * @return  string
+     *
+     * @since  4.0.0
+     */
+    public function getID();
 
-	/**
-	 * Returns the display name
-	 *
-	 * @return  string
-	 *
-	 * @since  4.0.0
-	 */
-	public function getDisplayName();
+    /**
+     * Returns the display name
+     *
+     * @return  string
+     *
+     * @since  4.0.0
+     */
+    public function getDisplayName();
 
-	/**
-	 * Returns a list of adapters
-	 *
-	 * @return  AdapterInterface[]
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAdapters();
+    /**
+     * Returns a list of adapters
+     *
+     * @return  AdapterInterface[]
+     *
+     * @since  4.0.0
+     */
+    public function getAdapters();
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -18,5 +19,4 @@ defined('_JEXEC') or die;
  */
 abstract class ModulesHelper extends \Joomla\Component\Modules\Administrator\Helper\ModulesHelper
 {
-
 }

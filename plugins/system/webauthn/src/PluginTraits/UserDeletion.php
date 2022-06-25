@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -25,43 +26,41 @@ use Joomla\Utilities\ArrayHelper;
  */
 trait UserDeletion
 {
-	/**
-	 * Remove all passwordless credential information for the given user ID.
-	 *
-	 * This method is called after user data is deleted from the database.
-	 *
-	 * @param   array   $user     Holds the user data
-	 * @param   bool    $success  True if user was successfully stored in the database
-	 * @param   string  $msg      Message
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function onUserAfterDelete(array $user, bool $success, ?string $msg): void
-	{
-		if (!$success)
-		{
-			return;
-		}
+    /**
+     * Remove all passwordless credential information for the given user ID.
+     *
+     * This method is called after user data is deleted from the database.
+     *
+     * @param   array   $user     Holds the user data
+     * @param   bool    $success  True if user was successfully stored in the database
+     * @param   string  $msg      Message
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     *
+     * @since   4.0.0
+     */
+    public function onUserAfterDelete(array $user, bool $success, ?string $msg): void
+    {
+        if (!$success) {
+            return;
+        }
 
-		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
+        $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
-		if ($userId)
-		{
-			Joomla::log('system', "Removing WebAuthn Passwordless Login information for deleted user #{$userId}");
+        if ($userId) {
+            Joomla::log('system', "Removing WebAuthn Passwordless Login information for deleted user #{$userId}");
 
-			/** @var DatabaseDriver $db */
-			$db = Factory::getContainer()->get('DatabaseDriver');
+            /** @var DatabaseDriver $db */
+            $db = Factory::getContainer()->get('DatabaseDriver');
 
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__webauthn_credentials'))
-				->where($db->qn('user_id') . ' = :userId')
-				->bind(':userId', $userId);
+            $query = $db->getQuery(true)
+                ->delete($db->qn('#__webauthn_credentials'))
+                ->where($db->qn('user_id') . ' = :userId')
+                ->bind(':userId', $userId);
 
-			$db->setQuery($query)->execute();
-		}
-	}
+            $db->setQuery($query)->execute();
+        }
+    }
 }

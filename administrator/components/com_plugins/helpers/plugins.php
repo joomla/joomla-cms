@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
@@ -18,5 +19,4 @@ defined('_JEXEC') or die;
  */
 class PluginsHelper extends \Joomla\Component\Plugins\Administrator\Helper\PluginsHelper
 {
-
 }

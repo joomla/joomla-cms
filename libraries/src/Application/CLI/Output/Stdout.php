@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,21 +21,21 @@ use Joomla\CMS\Application\CLI\CliOutput;
  */
 class Stdout extends CliOutput
 {
-	/**
-	 * Write a string to standard output
-	 *
-	 * @param   string   $text  The text to display.
-	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
-	 *
-	 * @return  $this
-	 *
-	 * @codeCoverageIgnore
-	 * @since   4.0.0
-	 */
-	public function out($text = '', $nl = true)
-	{
-		fwrite(STDOUT, $this->getProcessor()->process($text) . ($nl ? "\n" : null));
+    /**
+     * Write a string to standard output
+     *
+     * @param   string   $text  The text to display.
+     * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
+     *
+     * @return  $this
+     *
+     * @codeCoverageIgnore
+     * @since   4.0.0
+     */
+    public function out($text = '', $nl = true)
+    {
+        fwrite(STDOUT, $this->getProcessor()->process($text) . ($nl ? "\n" : null));
 
-		return $this;
-	}
+        return $this;
+    }
 }

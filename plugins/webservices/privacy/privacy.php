@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Privacy
  * @subpackage  Webservices.Privacy
@@ -20,43 +21,43 @@ use Joomla\Router\Route;
  */
 class PlgWebservicesPrivacy extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Registers com_privacy's API's routes in the application
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onBeforeApiRoute(&$router)
-	{
-		$defaults    = ['component' => 'com_privacy'];
-		$getDefaults = array_merge(['public' => false], $defaults);
+    /**
+     * Registers com_privacy's API's routes in the application
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onBeforeApiRoute(&$router)
+    {
+        $defaults    = ['component' => 'com_privacy'];
+        $getDefaults = array_merge(['public' => false], $defaults);
 
-		$routes = [
-			new Route(['GET'], 'v1/privacy/requests', 'requests.displayList', [], $getDefaults),
-			new Route(['GET'], 'v1/privacy/requests/:id', 'requests.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['GET'], 'v1/privacy/requests/export/:id', 'requests.export', ['id' => '(\d+)'], $getDefaults),
-			new Route(['POST'], 'v1/privacy/requests', 'requests.add', [], $defaults),
-		];
+        $routes = [
+            new Route(['GET'], 'v1/privacy/requests', 'requests.displayList', [], $getDefaults),
+            new Route(['GET'], 'v1/privacy/requests/:id', 'requests.displayItem', ['id' => '(\d+)'], $getDefaults),
+            new Route(['GET'], 'v1/privacy/requests/export/:id', 'requests.export', ['id' => '(\d+)'], $getDefaults),
+            new Route(['POST'], 'v1/privacy/requests', 'requests.add', [], $defaults),
+        ];
 
-		$router->addRoutes($routes);
+        $router->addRoutes($routes);
 
-		$routes = [
-			new Route(['GET'], 'v1/privacy/consents', 'consents.displayList', [], $getDefaults),
-			new Route(['GET'], 'v1/privacy/consents/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['DELETE'], 'v1/privacy/consents/:id', 'consents.delete', ['id' => '(\d+)'], $defaults),
-		];
+        $routes = [
+            new Route(['GET'], 'v1/privacy/consents', 'consents.displayList', [], $getDefaults),
+            new Route(['GET'], 'v1/privacy/consents/:id', 'consents.displayItem', ['id' => '(\d+)'], $getDefaults),
+            new Route(['DELETE'], 'v1/privacy/consents/:id', 'consents.delete', ['id' => '(\d+)'], $defaults),
+        ];
 
-		$router->addRoutes($routes);
-	}
+        $router->addRoutes($routes);
+    }
 }

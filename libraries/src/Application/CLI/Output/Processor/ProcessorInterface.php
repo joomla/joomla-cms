@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -18,14 +19,14 @@ namespace Joomla\CMS\Application\CLI\Output\Processor;
  */
 interface ProcessorInterface
 {
-	/**
-	 * Process the provided output into a string.
-	 *
-	 * @param   string  $output  The string to process.
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function process($output);
+    /**
+     * Process the provided output into a string.
+     *
+     * @param   string  $output  The string to process.
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function process($output);
 }

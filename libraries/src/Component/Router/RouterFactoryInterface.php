@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,15 +21,15 @@ use Joomla\CMS\Menu\AbstractMenu;
  */
 interface RouterFactoryInterface
 {
-	/**
-	 * Creates a router.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
-	 * @param   AbstractMenu             $menu         The menu object to work with
-	 *
-	 * @return  RouterInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface;
+    /**
+     * Creates a router.
+     *
+     * @param   CMSApplicationInterface  $application  The application
+     * @param   AbstractMenu             $menu         The menu object to work with
+     *
+     * @return  RouterInterface
+     *
+     * @since   4.0.0
+     */
+    public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface;
 }

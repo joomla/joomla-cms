@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -57,153 +58,145 @@ use Psr\Log\LoggerInterface;
  */
 class Application implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias(AdministratorApplication::class, 'JApplicationAdministrator')
-			->share(
-				'JApplicationAdministrator',
-				function (Container $container)
-				{
-					$app = new AdministratorApplication(null, $container->get('config'), null, $container);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias(AdministratorApplication::class, 'JApplicationAdministrator')
+            ->share(
+                'JApplicationAdministrator',
+                function (Container $container) {
+                    $app = new AdministratorApplication(null, $container->get('config'), null, $container);
 
-					// The session service provider needs Factory::$application, set it if still null
-					if (Factory::$application === null)
-					{
-						Factory::$application = $app;
-					}
+                    // The session service provider needs Factory::$application, set it if still null
+                    if (Factory::$application === null) {
+                        Factory::$application = $app;
+                    }
 
-					$app->setDispatcher($container->get(DispatcherInterface::class));
-					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($container->get(SessionInterface::class));
-					$app->setUserFactory($container->get(UserFactoryInterface::class));
-					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
+                    $app->setDispatcher($container->get(DispatcherInterface::class));
+                    $app->setLogger($container->get(LoggerInterface::class));
+                    $app->setSession($container->get(SessionInterface::class));
+                    $app->setUserFactory($container->get(UserFactoryInterface::class));
+                    $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
-					return $app;
-				},
-				true
-			);
+                    return $app;
+                },
+                true
+            );
 
-		$container->alias(SiteApplication::class, 'JApplicationSite')
-			->share(
-				'JApplicationSite',
-				function (Container $container)
-				{
-					$app = new SiteApplication(null, $container->get('config'), null, $container);
+        $container->alias(SiteApplication::class, 'JApplicationSite')
+            ->share(
+                'JApplicationSite',
+                function (Container $container) {
+                    $app = new SiteApplication(null, $container->get('config'), null, $container);
 
-					// The session service provider needs Factory::$application, set it if still null
-					if (Factory::$application === null)
-					{
-						Factory::$application = $app;
-					}
+                    // The session service provider needs Factory::$application, set it if still null
+                    if (Factory::$application === null) {
+                        Factory::$application = $app;
+                    }
 
-					$app->setDispatcher($container->get(DispatcherInterface::class));
-					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($container->get(SessionInterface::class));
-					$app->setUserFactory($container->get(UserFactoryInterface::class));
-					$app->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
-					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
+                    $app->setDispatcher($container->get(DispatcherInterface::class));
+                    $app->setLogger($container->get(LoggerInterface::class));
+                    $app->setSession($container->get(SessionInterface::class));
+                    $app->setUserFactory($container->get(UserFactoryInterface::class));
+                    $app->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+                    $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
-					return $app;
-				},
-				true
-			);
+                    return $app;
+                },
+                true
+            );
 
-		$container->alias(ConsoleApplication::class, BaseConsoleApplication::class)
-			->share(
-				BaseConsoleApplication::class,
-				function (Container $container)
-				{
-					$dispatcher = $container->get(DispatcherInterface::class);
+        $container->alias(ConsoleApplication::class, BaseConsoleApplication::class)
+            ->share(
+                BaseConsoleApplication::class,
+                function (Container $container) {
+                    $dispatcher = $container->get(DispatcherInterface::class);
 
-					// Console uses the default system language
-					$config = $container->get('config');
-					$locale = $config->get('language');
-					$debug  = $config->get('debug_lang');
+                    // Console uses the default system language
+                    $config = $container->get('config');
+                    $locale = $config->get('language');
+                    $debug  = $config->get('debug_lang');
 
-					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
+                    $lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
-					$app = new ConsoleApplication($config, $dispatcher, $container, $lang);
+                    $app = new ConsoleApplication($config, $dispatcher, $container, $lang);
 
-					// The session service provider needs Factory::$application, set it if still null
-					if (Factory::$application === null)
-					{
-						Factory::$application = $app;
-					}
+                    // The session service provider needs Factory::$application, set it if still null
+                    if (Factory::$application === null) {
+                        Factory::$application = $app;
+                    }
 
-					$app->setCommandLoader($container->get(LoaderInterface::class));
-					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($container->get(SessionInterface::class));
-					$app->setUserFactory($container->get(UserFactoryInterface::class));
-					$app->setDatabase($container->get(DatabaseInterface::class));
+                    $app->setCommandLoader($container->get(LoaderInterface::class));
+                    $app->setLogger($container->get(LoggerInterface::class));
+                    $app->setSession($container->get(SessionInterface::class));
+                    $app->setUserFactory($container->get(UserFactoryInterface::class));
+                    $app->setDatabase($container->get(DatabaseInterface::class));
 
-					return $app;
-				},
-				true
-			);
+                    return $app;
+                },
+                true
+            );
 
-		$container->alias(WritableContainerLoader::class, LoaderInterface::class)
-			->alias(WritableLoaderInterface::class, LoaderInterface::class)
-			->share(
-				LoaderInterface::class,
-				function (Container $container)
-				{
-					$mapping = [
-						SessionGcCommand::getDefaultName()                => SessionGcCommand::class,
-						SessionMetadataGcCommand::getDefaultName()        => SessionMetadataGcCommand::class,
-						ExportCommand::getDefaultName()                   => ExportCommand::class,
-						ImportCommand::getDefaultName()                   => ImportCommand::class,
-						SiteDownCommand::getDefaultName()                 => SiteDownCommand::class,
-						SiteUpCommand::getDefaultName()                   => SiteUpCommand::class,
-						SetConfigurationCommand::getDefaultName()         => SetConfigurationCommand::class,
-						GetConfigurationCommand::getDefaultName()         => GetConfigurationCommand::class,
-						ExtensionsListCommand::getDefaultName()           => ExtensionsListCommand::class,
-						CheckJoomlaUpdatesCommand::getDefaultName()       => CheckJoomlaUpdatesCommand::class,
-						ExtensionRemoveCommand::getDefaultName()          => ExtensionRemoveCommand::class,
-						ExtensionInstallCommand::getDefaultName()         => ExtensionInstallCommand::class,
-						ExtensionDiscoverCommand::getDefaultName()        => ExtensionDiscoverCommand::class,
-						ExtensionDiscoverInstallCommand::getDefaultName() => ExtensionDiscoverInstallCommand::class,
-						ExtensionDiscoverListCommand::getDefaultName()    => ExtensionDiscoverListCommand::class,
-						UpdateCoreCommand::getDefaultName()               => UpdateCoreCommand::class,
-						FinderIndexCommand::getDefaultName()              => FinderIndexCommand::class,
-						TasksListCommand::getDefaultName()                => TasksListCommand::class,
-						TasksRunCommand::getDefaultName()                 => TasksRunCommand::class,
-						TasksStateCommand::getDefaultName()               => TasksStateCommand::class,
-					];
+        $container->alias(WritableContainerLoader::class, LoaderInterface::class)
+            ->alias(WritableLoaderInterface::class, LoaderInterface::class)
+            ->share(
+                LoaderInterface::class,
+                function (Container $container) {
+                    $mapping = [
+                        SessionGcCommand::getDefaultName()                => SessionGcCommand::class,
+                        SessionMetadataGcCommand::getDefaultName()        => SessionMetadataGcCommand::class,
+                        ExportCommand::getDefaultName()                   => ExportCommand::class,
+                        ImportCommand::getDefaultName()                   => ImportCommand::class,
+                        SiteDownCommand::getDefaultName()                 => SiteDownCommand::class,
+                        SiteUpCommand::getDefaultName()                   => SiteUpCommand::class,
+                        SetConfigurationCommand::getDefaultName()         => SetConfigurationCommand::class,
+                        GetConfigurationCommand::getDefaultName()         => GetConfigurationCommand::class,
+                        ExtensionsListCommand::getDefaultName()           => ExtensionsListCommand::class,
+                        CheckJoomlaUpdatesCommand::getDefaultName()       => CheckJoomlaUpdatesCommand::class,
+                        ExtensionRemoveCommand::getDefaultName()          => ExtensionRemoveCommand::class,
+                        ExtensionInstallCommand::getDefaultName()         => ExtensionInstallCommand::class,
+                        ExtensionDiscoverCommand::getDefaultName()        => ExtensionDiscoverCommand::class,
+                        ExtensionDiscoverInstallCommand::getDefaultName() => ExtensionDiscoverInstallCommand::class,
+                        ExtensionDiscoverListCommand::getDefaultName()    => ExtensionDiscoverListCommand::class,
+                        UpdateCoreCommand::getDefaultName()               => UpdateCoreCommand::class,
+                        FinderIndexCommand::getDefaultName()              => FinderIndexCommand::class,
+                        TasksListCommand::getDefaultName()                => TasksListCommand::class,
+                        TasksRunCommand::getDefaultName()                 => TasksRunCommand::class,
+                        TasksStateCommand::getDefaultName()               => TasksStateCommand::class,
+                    ];
 
-					return new WritableContainerLoader($container, $mapping);
-				},
-				true
-			);
+                    return new WritableContainerLoader($container, $mapping);
+                },
+                true
+            );
 
-		$container->alias(ApiApplication::class, 'JApplicationApi')
-			->share(
-				'JApplicationApi',
-				function (Container $container) {
-					$app = new ApiApplication(null, $container->get('config'), null, $container);
+        $container->alias(ApiApplication::class, 'JApplicationApi')
+            ->share(
+                'JApplicationApi',
+                function (Container $container) {
+                    $app = new ApiApplication(null, $container->get('config'), null, $container);
 
-					// The session service provider needs Factory::$application, set it if still null
-					if (Factory::$application === null)
-					{
-						Factory::$application = $app;
-					}
+                    // The session service provider needs Factory::$application, set it if still null
+                    if (Factory::$application === null) {
+                        Factory::$application = $app;
+                    }
 
-					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($container->get('Joomla\Session\SessionInterface'));
-					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
+                    $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                    $app->setLogger($container->get(LoggerInterface::class));
+                    $app->setSession($container->get('Joomla\Session\SessionInterface'));
+                    $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
-					return $app;
-				},
-				true
-			);
-	}
+                    return $app;
+                },
+                true
+            );
+    }
 }

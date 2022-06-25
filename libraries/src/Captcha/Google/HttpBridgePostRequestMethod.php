@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -23,54 +24,51 @@ use ReCaptcha\RequestParameters;
  */
 final class HttpBridgePostRequestMethod implements RequestMethod
 {
-	/**
-	 * URL to which requests are sent.
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
+    /**
+     * URL to which requests are sent.
+     *
+     * @var    string
+     * @since  3.9.0
+     */
+    const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
-	/**
-	 * The HTTP adapter
-	 *
-	 * @var    Http
-	 * @since  3.9.0
-	 */
-	private $http;
+    /**
+     * The HTTP adapter
+     *
+     * @var    Http
+     * @since  3.9.0
+     */
+    private $http;
 
-	/**
-	 * Class constructor.
-	 *
-	 * @param   Http|null  $http  The HTTP adapter
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(Http $http = null)
-	{
-		$this->http = $http ?: HttpFactory::getHttp();
-	}
+    /**
+     * Class constructor.
+     *
+     * @param   Http|null  $http  The HTTP adapter
+     *
+     * @since   3.9.0
+     */
+    public function __construct(Http $http = null)
+    {
+        $this->http = $http ?: HttpFactory::getHttp();
+    }
 
-	/**
-	 * Submit the request with the specified parameters.
-	 *
-	 * @param   RequestParameters  $params  Request parameters
-	 *
-	 * @return  string  Body of the reCAPTCHA response
-	 *
-	 * @since   3.9.0
-	 */
-	public function submit(RequestParameters $params)
-	{
-		try
-		{
-			$response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
+    /**
+     * Submit the request with the specified parameters.
+     *
+     * @param   RequestParameters  $params  Request parameters
+     *
+     * @return  string  Body of the reCAPTCHA response
+     *
+     * @since   3.9.0
+     */
+    public function submit(RequestParameters $params)
+    {
+        try {
+            $response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
 
-			return (string) $response->getBody();
-		}
-		catch (InvalidResponseCodeException $exception)
-		{
-			return '';
-		}
-	}
+            return (string) $response->getBody();
+        } catch (InvalidResponseCodeException $exception) {
+            return '';
+        }
+    }
 }

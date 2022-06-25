@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,19 +23,19 @@ use Joomla\CMS\WebAsset\WebAssetItem;
  */
 class TableColumnsAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterface
 {
-	/**
-	 * Method called when asset attached to the Document.
-	 * Used to add the language strings required by the script.
-	 *
-	 * @param   Document  $doc  Active document
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function onAttachCallback(Document $doc)
-	{
-		// Add table-columns.js language strings
-		Text::script('JGLOBAL_COLUMNS');
-	}
+    /**
+     * Method called when asset attached to the Document.
+     * Used to add the language strings required by the script.
+     *
+     * @param   Document  $doc  Active document
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function onAttachCallback(Document $doc)
+    {
+        // Add table-columns.js language strings
+        Text::script('JGLOBAL_COLUMNS');
+    }
 }

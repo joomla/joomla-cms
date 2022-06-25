@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -55,45 +56,42 @@ use DomainException;
  */
 trait ReshapeArgumentsAware
 {
-	/**
-	 * Reshape the arguments array to preserve b/c with legacy listeners
-	 *
-	 * @param   array  $arguments      The named arguments array passed to the constructor.
-	 * @param   array  $argumentNames  The allowed argument names (mandatory AND optional).
-	 * @param   array  $defaults       Default values for optional arguments.
-	 *
-	 * @return  array  The reshaped arguments.
-	 *
-	 * @since   4.2.0
-	 */
-	protected function reshapeArguments(array $arguments, array $argumentNames, array $defaults = [])
-	{
-		$mandatoryKeys = array_diff($argumentNames, array_keys($defaults));
-		$currentKeys   = array_keys($arguments);
-		$missingKeys   = array_diff($mandatoryKeys, $currentKeys);
-		$extraKeys     = array_diff($currentKeys, $argumentNames);
+    /**
+     * Reshape the arguments array to preserve b/c with legacy listeners
+     *
+     * @param   array  $arguments      The named arguments array passed to the constructor.
+     * @param   array  $argumentNames  The allowed argument names (mandatory AND optional).
+     * @param   array  $defaults       Default values for optional arguments.
+     *
+     * @return  array  The reshaped arguments.
+     *
+     * @since   4.2.0
+     */
+    protected function reshapeArguments(array $arguments, array $argumentNames, array $defaults = [])
+    {
+        $mandatoryKeys = array_diff($argumentNames, array_keys($defaults));
+        $currentKeys   = array_keys($arguments);
+        $missingKeys   = array_diff($mandatoryKeys, $currentKeys);
+        $extraKeys     = array_diff($currentKeys, $argumentNames);
 
-		// Am I missing any mandatory arguments?
-		if ($missingKeys)
-		{
-			throw new DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
-		}
+        // Am I missing any mandatory arguments?
+        if ($missingKeys) {
+            throw new DomainException(sprintf('Missing arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+        }
 
-		// Do I have unknown arguments?
-		if ($extraKeys)
-		{
-			throw new DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
-		}
+        // Do I have unknown arguments?
+        if ($extraKeys) {
+            throw new DomainException(sprintf('Unknown arguments for ‘%s’ event: %s', $this->getName(), implode(', ', $missingKeys)));
+        }
 
-		// Reconstruct the arguments in the order specified in $argumentTypes
-		$reconstructed = [];
+        // Reconstruct the arguments in the order specified in $argumentTypes
+        $reconstructed = [];
 
-		foreach ($argumentNames as $key)
-		{
-			$reconstructed[$key] = $arguments[$key] ?? $defaults[$key];
-		}
+        foreach ($argumentNames as $key) {
+            $reconstructed[$key] = $arguments[$key] ?? $defaults[$key];
+        }
 
-		// Return the reconstructed arguments array
-		return $reconstructed;
-	}
+        // Return the reconstructed arguments array
+        return $reconstructed;
+    }
 }

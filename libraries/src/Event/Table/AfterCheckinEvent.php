@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *

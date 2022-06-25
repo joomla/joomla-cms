@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -26,174 +27,156 @@ use Joomla\Database\ParameterType;
  */
 class StringsModel extends BaseDatabaseModel
 {
-	/**
-	 * Method for refreshing the cache in the database with the known language strings.
-	 *
-	 * @return  boolean|\Exception  True on success, \Exception object otherwise.
-	 *
-	 * @since		2.5
-	 */
-	public function refresh()
-	{
-		$app = Factory::getApplication();
-		$db  = $this->getDatabase();
+    /**
+     * Method for refreshing the cache in the database with the known language strings.
+     *
+     * @return  boolean|\Exception  True on success, \Exception object otherwise.
+     *
+     * @since       2.5
+     */
+    public function refresh()
+    {
+        $app = Factory::getApplication();
+        $db  = $this->getDatabase();
 
-		$app->setUserState('com_languages.overrides.cachedtime', null);
+        $app->setUserState('com_languages.overrides.cachedtime', null);
 
-		// Empty the database cache first.
-		try
-		{
-			$db->truncateTable('#__overrider');
-		}
-		catch (\RuntimeException $e)
-		{
-			return $e;
-		}
+        // Empty the database cache first.
+        try {
+            $db->truncateTable('#__overrider');
+        } catch (\RuntimeException $e) {
+            return $e;
+        }
 
-		// Create the insert query.
-		$query = $db->getQuery(true)
-			->insert($db->quoteName('#__overrider'))
-			->columns(
-				[
-					$db->quoteName('constant'),
-					$db->quoteName('string'),
-					$db->quoteName('file'),
-				]
-			);
+        // Create the insert query.
+        $query = $db->getQuery(true)
+            ->insert($db->quoteName('#__overrider'))
+            ->columns(
+                [
+                    $db->quoteName('constant'),
+                    $db->quoteName('string'),
+                    $db->quoteName('file'),
+                ]
+            );
 
-		// Initialize some variables.
-		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
-		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+        // Initialize some variables.
+        $client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
+        $language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
-		$base = constant('JPATH_' . strtoupper($client));
-		$path = $base . '/language/' . $language;
+        $base = constant('JPATH_' . strtoupper($client));
+        $path = $base . '/language/' . $language;
 
-		$files = array();
+        $files = array();
 
-		// Parse common language directory.
-		if (is_dir($path))
-		{
-			$files = Folder::files($path, '.*ini$', false, true);
-		}
+        // Parse common language directory.
+        if (is_dir($path)) {
+            $files = Folder::files($path, '.*ini$', false, true);
+        }
 
-		// Parse language directories of components.
-		$files = array_merge($files, Folder::files($base . '/components', '.*ini$', 3, true));
+        // Parse language directories of components.
+        $files = array_merge($files, Folder::files($base . '/components', '.*ini$', 3, true));
 
-		// Parse language directories of modules.
-		$files = array_merge($files, Folder::files($base . '/modules', '.*ini$', 3, true));
+        // Parse language directories of modules.
+        $files = array_merge($files, Folder::files($base . '/modules', '.*ini$', 3, true));
 
-		// Parse language directories of templates.
-		$files = array_merge($files, Folder::files($base . '/templates', '.*ini$', 3, true));
+        // Parse language directories of templates.
+        $files = array_merge($files, Folder::files($base . '/templates', '.*ini$', 3, true));
 
-		// Parse language directories of plugins.
-		$files = array_merge($files, Folder::files(JPATH_PLUGINS, '.*ini$', 4, true));
+        // Parse language directories of plugins.
+        $files = array_merge($files, Folder::files(JPATH_PLUGINS, '.*ini$', 4, true));
 
-		// Parse all found ini files and add the strings to the database cache.
-		foreach ($files as $file)
-		{
-			// Only process if language file is for selected language
-			if (strpos($file, $language, strlen($base)) === false)
-			{
-				continue;
-			}
+        // Parse all found ini files and add the strings to the database cache.
+        foreach ($files as $file) {
+            // Only process if language file is for selected language
+            if (strpos($file, $language, strlen($base)) === false) {
+                continue;
+            }
 
-			$strings = LanguageHelper::parseIniFile($file);
+            $strings = LanguageHelper::parseIniFile($file);
 
-			if ($strings)
-			{
-				$file = Path::clean($file);
+            if ($strings) {
+                $file = Path::clean($file);
 
-				$query->clear('values')
-					->clear('bounded');
+                $query->clear('values')
+                    ->clear('bounded');
 
-				foreach ($strings as $key => $string)
-				{
-					$query->values(implode(',', $query->bindArray([$key, $string, $file], ParameterType::STRING)));
-				}
+                foreach ($strings as $key => $string) {
+                    $query->values(implode(',', $query->bindArray([$key, $string, $file], ParameterType::STRING)));
+                }
 
-				try
-				{
-					$db->setQuery($query);
-					$db->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					return $e;
-				}
-			}
-		}
+                try {
+                    $db->setQuery($query);
+                    $db->execute();
+                } catch (\RuntimeException $e) {
+                    return $e;
+                }
+            }
+        }
 
-		// Update the cached time.
-		$app->setUserState('com_languages.overrides.cachedtime.' . $client . '.' . $language, time());
+        // Update the cached time.
+        $app->setUserState('com_languages.overrides.cachedtime.' . $client . '.' . $language, time());
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Method for searching language strings.
-	 *
-	 * @return  array|\Exception  Array of results on success, \Exception object otherwise.
-	 *
-	 * @since		2.5
-	 */
-	public function search()
-	{
-		$results = array();
-		$input   = Factory::getApplication()->input;
-		$filter  = InputFilter::getInstance();
-		$db      = $this->getDatabase();
-		$searchTerm = $input->getString('searchstring');
+    /**
+     * Method for searching language strings.
+     *
+     * @return  array|\Exception  Array of results on success, \Exception object otherwise.
+     *
+     * @since       2.5
+     */
+    public function search()
+    {
+        $results = array();
+        $input   = Factory::getApplication()->input;
+        $filter  = InputFilter::getInstance();
+        $db      = $this->getDatabase();
+        $searchTerm = $input->getString('searchstring');
 
-		$limitstart = $input->getInt('more');
+        $limitstart = $input->getInt('more');
 
-		try
-		{
-			$searchstring = '%' . $filter->clean($searchTerm, 'TRIM') . '%';
+        try {
+            $searchstring = '%' . $filter->clean($searchTerm, 'TRIM') . '%';
 
-			// Create the search query.
-			$query = $db->getQuery(true)
-				->select(
-					[
-						$db->quoteName('constant'),
-						$db->quoteName('string'),
-						$db->quoteName('file'),
-					]
-				)
-				->from($db->quoteName('#__overrider'));
+            // Create the search query.
+            $query = $db->getQuery(true)
+                ->select(
+                    [
+                        $db->quoteName('constant'),
+                        $db->quoteName('string'),
+                        $db->quoteName('file'),
+                    ]
+                )
+                ->from($db->quoteName('#__overrider'));
 
-			if ($input->get('searchtype') === 'constant')
-			{
-				$query->where($db->quoteName('constant') . ' LIKE :search');
-			}
-			else
-			{
-				$query->where($db->quoteName('string') . ' LIKE :search');
-			}
+            if ($input->get('searchtype') === 'constant') {
+                $query->where($db->quoteName('constant') . ' LIKE :search');
+            } else {
+                $query->where($db->quoteName('string') . ' LIKE :search');
+            }
 
-			$query->bind(':search', $searchstring);
+            $query->bind(':search', $searchstring);
 
-			// Consider the limitstart according to the 'more' parameter and load the results.
-			$query->setLimit(10, $limitstart);
-			$db->setQuery($query);
-			$results['results'] = $db->loadObjectList();
+            // Consider the limitstart according to the 'more' parameter and load the results.
+            $query->setLimit(10, $limitstart);
+            $db->setQuery($query);
+            $results['results'] = $db->loadObjectList();
 
-			// Check whether there are more results than already loaded.
-			$query->clear('select')
-				->clear('limit')
-				->select('COUNT(' . $db->quoteName('id') . ')');
-			$db->setQuery($query);
+            // Check whether there are more results than already loaded.
+            $query->clear('select')
+                ->clear('limit')
+                ->select('COUNT(' . $db->quoteName('id') . ')');
+            $db->setQuery($query);
 
-			if ($db->loadResult() > $limitstart + 10)
-			{
-				// If this is set a 'More Results' link will be displayed in the view.
-				$results['more'] = $limitstart + 10;
-			}
-		}
-		catch (\RuntimeException $e)
-		{
-			return $e;
-		}
+            if ($db->loadResult() > $limitstart + 10) {
+                // If this is set a 'More Results' link will be displayed in the view.
+                $results['more'] = $limitstart + 10;
+            }
+        } catch (\RuntimeException $e) {
+            return $e;
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 }

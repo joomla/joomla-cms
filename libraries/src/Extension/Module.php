@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -24,73 +25,72 @@ use Joomla\Input\Input;
  */
 class Module implements ModuleInterface, HelperFactoryInterface
 {
-	/**
-	 * The dispatcher factory.
-	 *
-	 * @var ModuleDispatcherFactoryInterface
-	 *
-	 * @since  4.0.0
-	 */
-	private $dispatcherFactory;
+    /**
+     * The dispatcher factory.
+     *
+     * @var ModuleDispatcherFactoryInterface
+     *
+     * @since  4.0.0
+     */
+    private $dispatcherFactory;
 
-	/**
-	 * The helper factory.
-	 *
-	 * @var HelperFactoryInterface
-	 *
-	 * @since  4.0.0
-	 */
-	private $helperFactory;
+    /**
+     * The helper factory.
+     *
+     * @var HelperFactoryInterface
+     *
+     * @since  4.0.0
+     */
+    private $helperFactory;
 
-	/**
-	 * Module constructor.
-	 *
-	 * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
-	 * @param   HelperFactoryInterface            $helperFactory      The helper factory
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, HelperFactoryInterface $helperFactory)
-	{
-		$this->dispatcherFactory = $dispatcherFactory;
-		$this->helperFactory     = $helperFactory;
-	}
+    /**
+     * Module constructor.
+     *
+     * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+     * @param   HelperFactoryInterface            $helperFactory      The helper factory
+     *
+     * @since   4.0.0
+     */
+    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, HelperFactoryInterface $helperFactory)
+    {
+        $this->dispatcherFactory = $dispatcherFactory;
+        $this->helperFactory     = $helperFactory;
+    }
 
-	/**
-	 * Returns the dispatcher for the given application, module and input.
-	 *
-	 * @param   \stdClass                $module       The module
-	 * @param   CMSApplicationInterface  $application  The application
-	 * @param   Input                    $input        The input object, defaults to the one in the application
-	 *
-	 * @return  DispatcherInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
-	{
-		$dispatcher = $this->dispatcherFactory->createDispatcher($module, $application, $input);
+    /**
+     * Returns the dispatcher for the given application, module and input.
+     *
+     * @param   \stdClass                $module       The module
+     * @param   CMSApplicationInterface  $application  The application
+     * @param   Input                    $input        The input object, defaults to the one in the application
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.0.0
+     */
+    public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
+    {
+        $dispatcher = $this->dispatcherFactory->createDispatcher($module, $application, $input);
 
-		if ($dispatcher instanceof HelperFactoryAwareInterface)
-		{
-			$dispatcher->setHelperFactory($this->helperFactory);
-		}
+        if ($dispatcher instanceof HelperFactoryAwareInterface) {
+            $dispatcher->setHelperFactory($this->helperFactory);
+        }
 
-		return $dispatcher;
-	}
+        return $dispatcher;
+    }
 
-	/**
-	 * Returns a helper instance for the given name.
-	 *
-	 * @param   string  $name    The name
-	 * @param   array   $config  The config
-	 *
-	 * @return  \stdClass
-	 *
-	 * @since   4.0.0
-	 */
-	public function getHelper(string $name, array $config = [])
-	{
-		return $this->helperFactory->getHelper($name, $config);
-	}
+    /**
+     * Returns a helper instance for the given name.
+     *
+     * @param   string  $name    The name
+     * @param   array   $config  The config
+     *
+     * @return  \stdClass
+     *
+     * @since   4.0.0
+     */
+    public function getHelper(string $name, array $config = [])
+    {
+        return $this->helperFactory->getHelper($name, $config);
+    }
 }

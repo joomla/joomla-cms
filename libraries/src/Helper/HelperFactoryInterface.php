@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,15 +18,15 @@ namespace Joomla\CMS\Helper;
  */
 interface HelperFactoryInterface
 {
-	/**
-	 * Returns a helper instance for the given name.
-	 *
-	 * @param   string  $name    The name
-	 * @param   array   $config  The config
-	 *
-	 * @return  \stdClass
-	 *
-	 * @since   4.0.0
-	 */
-	public function getHelper(string $name, array $config = []);
+    /**
+     * Returns a helper instance for the given name.
+     *
+     * @param   string  $name    The name
+     * @param   array   $config  The config
+     *
+     * @return  \stdClass
+     *
+     * @since   4.0.0
+     */
+    public function getHelper(string $name, array $config = []);
 }

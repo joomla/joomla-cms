@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Editor
@@ -18,29 +19,28 @@ use Joomla\CMS\Form\Form;
  */
 class PlgFieldsEditor extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
-	/**
-	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
-	 *
-	 * @param   stdClass    $field   The field.
-	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   Form        $form    The form.
-	 *
-	 * @return  DOMElement
-	 *
-	 * @since   3.7.0
-	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
-	{
-		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
+    /**
+     * Transforms the field into a DOM XML element and appends it as a child on the given parent.
+     *
+     * @param   stdClass    $field   The field.
+     * @param   DOMElement  $parent  The field node parent.
+     * @param   Form        $form    The form.
+     *
+     * @return  DOMElement
+     *
+     * @since   3.7.0
+     */
+    public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
+    {
+        $fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
-		if (!$fieldNode)
-		{
-			return $fieldNode;
-		}
+        if (!$fieldNode) {
+            return $fieldNode;
+        }
 
-		$fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', $this->params->get('buttons', 0)) ? 'true' : 'false');
-		$fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
+        $fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', $this->params->get('buttons', 0)) ? 'true' : 'false');
+        $fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
 
-		return $fieldNode;
-	}
+        return $fieldNode;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
@@ -21,37 +22,34 @@ use Joomla\Database\Exception\ExecutionFailureException;
  */
 class PrivacyDashboardHelper
 {
-	/**
-	 * Method to retrieve information about the site privacy requests
-	 *
-	 * @return  array  Array containing site privacy requests
-	 *
-	 * @since   3.9.0
-	 */
-	public static function getData()
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					'COUNT(*) AS count',
-					$db->quoteName('status'),
-					$db->quoteName('request_type'),
-				]
-			)
-			->from($db->quoteName('#__privacy_requests'))
-			->group($db->quoteName('status'))
-			->group($db->quoteName('request_type'));
+    /**
+     * Method to retrieve information about the site privacy requests
+     *
+     * @return  array  Array containing site privacy requests
+     *
+     * @since   3.9.0
+     */
+    public static function getData()
+    {
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    'COUNT(*) AS count',
+                    $db->quoteName('status'),
+                    $db->quoteName('request_type'),
+                ]
+            )
+            ->from($db->quoteName('#__privacy_requests'))
+            ->group($db->quoteName('status'))
+            ->group($db->quoteName('request_type'));
 
-		$db->setQuery($query);
+        $db->setQuery($query);
 
-		try
-		{
-			return $db->loadObjectList();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			return [];
-		}
-	}
+        try {
+            return $db->loadObjectList();
+        } catch (ExecutionFailureException $e) {
+            return [];
+        }
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -22,19 +23,19 @@ use Joomla\CMS\Extension\MVCComponent;
  */
 class FieldsComponent extends MVCComponent implements CategoryServiceInterface
 {
-	use CategoryServiceTrait;
+    use CategoryServiceTrait;
 
-	/**
-	 * Returns the table for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getTableNameForSection(string $section = null)
-	{
-		return 'fields';
-	}
+    /**
+     * Returns the table for the count items functions for the given section.
+     *
+     * @param   string  $section  The section
+     *
+     * @return  string|null
+     *
+     * @since   4.0.0
+     */
+    protected function getTableNameForSection(string $section = null)
+    {
+        return 'fields';
+    }
 }

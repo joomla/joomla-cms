@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,14 +18,14 @@ namespace Joomla\CMS\Authentication\Password;
  */
 interface CheckIfRehashNeededHandlerInterface
 {
-	/**
-	 * Check if the password requires rehashing
-	 *
-	 * @param   string  $hash  The password hash to check
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function checkIfRehashNeeded(string $hash): bool;
+    /**
+     * Check if the password requires rehashing
+     *
+     * @param   string  $hash  The password hash to check
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public function checkIfRehashNeeded(string $hash): bool;
 }

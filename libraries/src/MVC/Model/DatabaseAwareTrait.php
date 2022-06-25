@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -21,49 +22,48 @@ use Joomla\Database\DatabaseInterface;
  */
 trait DatabaseAwareTrait
 {
-	/**
-	 * The database driver.
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0.0
-	 *
-	 * @deprecated  5.0 Use the trait from the database package
-	 */
-	protected $_db;
+    /**
+     * The database driver.
+     *
+     * @var    DatabaseInterface
+     * @since  4.0.0
+     *
+     * @deprecated  5.0 Use the trait from the database package
+     */
+    protected $_db;
 
-	/**
-	 * Get the database driver.
-	 *
-	 * @return  DatabaseInterface  The database driver.
-	 *
-	 * @since   4.0.0
-	 * @throws  \UnexpectedValueException
-	 *
-	 * @deprecated  5.0 Use the trait from the database package
-	 */
-	public function getDbo()
-	{
-		if ($this->_db)
-		{
-			return $this->_db;
-		}
+    /**
+     * Get the database driver.
+     *
+     * @return  DatabaseInterface  The database driver.
+     *
+     * @since   4.0.0
+     * @throws  \UnexpectedValueException
+     *
+     * @deprecated  5.0 Use the trait from the database package
+     */
+    public function getDbo()
+    {
+        if ($this->_db) {
+            return $this->_db;
+        }
 
-		throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
-	}
+        throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
+    }
 
-	/**
-	 * Set the database driver.
-	 *
-	 * @param   DatabaseInterface  $db  The database driver.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 *
-	 * @deprecated  5.0 Use the trait from the database package
-	 */
-	public function setDbo(DatabaseInterface $db = null)
-	{
-		$this->_db = $db;
-	}
+    /**
+     * Set the database driver.
+     *
+     * @param   DatabaseInterface  $db  The database driver.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     *
+     * @deprecated  5.0 Use the trait from the database package
+     */
+    public function setDbo(DatabaseInterface $db = null)
+    {
+        $this->_db = $db;
+    }
 }

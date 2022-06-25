@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_newsfeeds
@@ -20,19 +21,19 @@ use Joomla\CMS\MVC\Controller\ApiController;
  */
 class FeedsController extends ApiController
 {
-	/**
-	 * The content type of the item.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $contentType = 'newsfeeds';
+    /**
+     * The content type of the item.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $contentType = 'newsfeeds';
 
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $default_view = 'feeds';
+    /**
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $default_view = 'feeds';
 }

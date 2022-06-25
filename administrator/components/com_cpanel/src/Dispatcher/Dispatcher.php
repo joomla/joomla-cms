@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
@@ -21,16 +22,16 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Method to check component access permission
-	 *
-	 * @since   4.0.0
-	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception|NotAllowed
-	 */
-	protected function checkAccess()
-	{
-	}
+    /**
+     * Method to check component access permission
+     *
+     * @since   4.0.0
+     *
+     * @return  void
+     *
+     * @throws  \Exception|NotAllowed
+     */
+    protected function checkAccess()
+    {
+    }
 }

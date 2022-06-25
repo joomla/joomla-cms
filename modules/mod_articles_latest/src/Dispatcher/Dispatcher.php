@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
@@ -22,21 +23,21 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
-	use HelperFactoryAwareTrait;
+    use HelperFactoryAwareTrait;
 
-	/**
-	 * Returns the layout data.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.2.0
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+    /**
+     * Returns the layout data.
+     *
+     * @return  array
+     *
+     * @since   4.2.0
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
 
-		$data['list'] = $this->getHelperFactory()->getHelper('ArticlesLatestHelper')->getArticles($data['params'], $this->getApplication());
+        $data['list'] = $this->getHelperFactory()->getHelper('ArticlesLatestHelper')->getArticles($data['params'], $this->getApplication());
 
-		return $data;
-	}
+        return $data;
+    }
 }

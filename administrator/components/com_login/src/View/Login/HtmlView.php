@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_login
@@ -20,5 +21,4 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  */
 class HtmlView extends BaseHtmlView
 {
-
 }

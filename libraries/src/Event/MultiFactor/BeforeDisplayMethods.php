@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,35 +23,34 @@ use Joomla\CMS\User\User;
  */
 class BeforeDisplayMethods extends AbstractImmutableEvent
 {
-	use ResultAware;
+    use ResultAware;
 
-	/**
-	 * Public constructor
-	 *
-	 * @param   User  $user  The user the MFA methods are displayed for
-	 *
-	 * @since   4.2.0
-	 */
-	public function __construct(User $user)
-	{
-		parent::__construct('onUserMultifactorBeforeDisplayMethods', ['user' => $user]);
-	}
+    /**
+     * Public constructor
+     *
+     * @param   User  $user  The user the MFA methods are displayed for
+     *
+     * @since   4.2.0
+     */
+    public function __construct(User $user)
+    {
+        parent::__construct('onUserMultifactorBeforeDisplayMethods', ['user' => $user]);
+    }
 
-	/**
-	 * Validate the value of the 'user' named parameter
-	 *
-	 * @param   User  $value  The value to validate
-	 *
-	 * @return  User
-	 * @since   4.2.0
-	 */
-	public function setUser(User $value): User
-	{
-		if (empty($value) || ($value->id <= 0) || ($value->guest == 1))
-		{
-			throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
-		}
+    /**
+     * Validate the value of the 'user' named parameter
+     *
+     * @param   User  $value  The value to validate
+     *
+     * @return  User
+     * @since   4.2.0
+     */
+    public function setUser(User $value): User
+    {
+        if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
+            throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

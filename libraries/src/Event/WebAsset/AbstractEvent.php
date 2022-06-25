@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,23 +21,22 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  */
 abstract class AbstractEvent extends AbstractImmutableEvent
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  BadMethodCallException
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct($name, array $arguments = array())
-	{
-		if (!\array_key_exists('subject', $arguments))
-		{
-			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
-		}
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  BadMethodCallException
+     *
+     * @since   4.0.0
+     */
+    public function __construct($name, array $arguments = array())
+    {
+        if (!\array_key_exists('subject', $arguments)) {
+            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
+        }
 
-		parent::__construct($name, $arguments);
-	}
+        parent::__construct($name, $arguments);
+    }
 }

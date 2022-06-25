@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
@@ -21,26 +22,26 @@ use stdClass;
  */
 class ActionlogConfigModel extends BaseDatabaseModel
 {
-	/**
-	 * Returns the action logs config for the given context.
-	 *
-	 * @param   string    $context  The context of the content
-	 *
-	 * @return  stdClass|null  An object contains content type parameters, or null if not found
-	 *
-	 * @since   4.2.0
-	 */
-	public function getLogContentTypeParams(string $context): ?stdClass
-	{
-		$db    = $this->getDatabase();
-		$query = $db->getQuery(true)
-			->select('a.*')
-			->from($db->quoteName('#__action_log_config', 'a'))
-			->where($db->quoteName('a.type_alias') . ' = :context')
-			->bind(':context', $context);
+    /**
+     * Returns the action logs config for the given context.
+     *
+     * @param   string    $context  The context of the content
+     *
+     * @return  stdClass|null  An object contains content type parameters, or null if not found
+     *
+     * @since   4.2.0
+     */
+    public function getLogContentTypeParams(string $context): ?stdClass
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select('a.*')
+            ->from($db->quoteName('#__action_log_config', 'a'))
+            ->where($db->quoteName('a.type_alias') . ' = :context')
+            ->bind(':context', $context);
 
-		$db->setQuery($query);
+        $db->setQuery($query);
 
-		return $db->loadObject();
-	}
+        return $db->loadObject();
+    }
 }

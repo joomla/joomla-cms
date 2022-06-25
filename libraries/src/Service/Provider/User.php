@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -23,26 +24,25 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class User implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('user.factory', UserFactoryInterface::class)
-			->alias(UserFactory::class, UserFactoryInterface::class)
-			->share(
-				UserFactoryInterface::class,
-				function (Container $container)
-				{
-					return new UserFactory($container->get(DatabaseInterface::class));
-				},
-				true
-			);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('user.factory', UserFactoryInterface::class)
+            ->alias(UserFactory::class, UserFactoryInterface::class)
+            ->share(
+                UserFactoryInterface::class,
+                function (Container $container) {
+                    return new UserFactory($container->get(DatabaseInterface::class));
+                },
+                true
+            );
+    }
 }

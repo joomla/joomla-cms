@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
@@ -19,5 +20,4 @@ use Joomla\CMS\Helper\ContentHelper;
  */
 class WorkflowHelper extends ContentHelper
 {
-
 }

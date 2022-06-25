@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -21,24 +22,23 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class HTMLRegistry implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->share(
-			Registry::class,
-			function (Container $container)
-			{
-				return new Registry;
-			},
-			true
-		);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->share(
+            Registry::class,
+            function (Container $container) {
+                return new Registry();
+            },
+            true
+        );
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -27,26 +28,26 @@ use InvalidArgumentException;
  */
 interface ResultAwareInterface
 {
-	/**
-	 * Appends data to the result array of the event.
-	 *
-	 * @param   mixed  $data  What to add to the result array.
-	 *
-	 * @return  void
-	 * @since   4.2.0
-	 */
-	public function addResult($data): void;
+    /**
+     * Appends data to the result array of the event.
+     *
+     * @param   mixed  $data  What to add to the result array.
+     *
+     * @return  void
+     * @since   4.2.0
+     */
+    public function addResult($data): void;
 
-	/**
-	 * Checks the type of the data being appended to the result argument.
-	 *
-	 * @param   mixed  $data  The data to type check
-	 *
-	 * @return  void
-	 * @throws  InvalidArgumentException
-	 *
-	 * @internal
-	 * @since   4.2.0
-	 */
-	public function typeCheckResult($data): void;
+    /**
+     * Checks the type of the data being appended to the result argument.
+     *
+     * @param   mixed  $data  The data to type check
+     *
+     * @return  void
+     * @throws  InvalidArgumentException
+     *
+     * @internal
+     * @since   4.2.0
+     */
+    public function typeCheckResult($data): void;
 }

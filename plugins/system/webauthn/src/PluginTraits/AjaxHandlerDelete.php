@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -26,67 +27,58 @@ use Joomla\Plugin\System\Webauthn\CredentialRepository;
  */
 trait AjaxHandlerDelete
 {
-	/**
-	 * Handle the callback to remove an authenticator
-	 *
-	 * @return  boolean
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAjaxWebauthnDelete(): bool
-	{
-		// Load the language files
-		$this->loadLanguage();
+    /**
+     * Handle the callback to remove an authenticator
+     *
+     * @return  boolean
+     * @throws  Exception
+     *
+     * @since   4.0.0
+     */
+    public function onAjaxWebauthnDelete(): bool
+    {
+        // Load the language files
+        $this->loadLanguage();
 
-		// Initialize objects
-		/** @var CMSApplication $app */
-		$app        = Factory::getApplication();
-		$input      = $app->input;
-		$repository = new CredentialRepository;
+        // Initialize objects
+        /** @var CMSApplication $app */
+        $app        = Factory::getApplication();
+        $input      = $app->input;
+        $repository = new CredentialRepository();
 
-		// Retrieve data from the request
-		$credentialId = $input->getBase64('credential_id', '');
+        // Retrieve data from the request
+        $credentialId = $input->getBase64('credential_id', '');
 
-		// Is this a valid credential?
-		if (empty($credentialId))
-		{
-			return false;
-		}
+        // Is this a valid credential?
+        if (empty($credentialId)) {
+            return false;
+        }
 
-		$credentialId = base64_decode($credentialId);
+        $credentialId = base64_decode($credentialId);
 
-		if (empty($credentialId) || !$repository->has($credentialId))
-		{
-			return false;
-		}
+        if (empty($credentialId) || !$repository->has($credentialId)) {
+            return false;
+        }
 
-		// Make sure I am editing my own key
-		try
-		{
-			$credentialHandle = $repository->getUserHandleFor($credentialId);
-			$myHandle         = $repository->getHandleFromUserId($app->getIdentity()->id);
-		}
-		catch (Exception $e)
-		{
-			return false;
-		}
+        // Make sure I am editing my own key
+        try {
+            $credentialHandle = $repository->getUserHandleFor($credentialId);
+            $myHandle         = $repository->getHandleFromUserId($app->getIdentity()->id);
+        } catch (Exception $e) {
+            return false;
+        }
 
-		if ($credentialHandle !== $myHandle)
-		{
-			return false;
-		}
+        if ($credentialHandle !== $myHandle) {
+            return false;
+        }
 
-		// Delete the record
-		try
-		{
-			$repository->remove($credentialId);
-		}
-		catch (Exception $e)
-		{
-			return false;
-		}
+        // Delete the record
+        try {
+            $repository->remove($credentialId);
+        } catch (Exception $e) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

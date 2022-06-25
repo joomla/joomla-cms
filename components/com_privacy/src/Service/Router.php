@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_privacy
@@ -26,24 +27,24 @@ use Joomla\CMS\Menu\AbstractMenu;
  */
 class Router extends RouterView
 {
-	/**
-	 * Privacy Component router constructor
-	 *
-	 * @param   CMSApplication  $app   The application object
-	 * @param   AbstractMenu    $menu  The menu object to work with
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct($app = null, $menu = null)
-	{
-		$this->registerView(new RouterViewConfiguration('confirm'));
-		$this->registerView(new RouterViewConfiguration('request'));
-		$this->registerView(new RouterViewConfiguration('remind'));
+    /**
+     * Privacy Component router constructor
+     *
+     * @param   CMSApplication  $app   The application object
+     * @param   AbstractMenu    $menu  The menu object to work with
+     *
+     * @since   3.9.0
+     */
+    public function __construct($app = null, $menu = null)
+    {
+        $this->registerView(new RouterViewConfiguration('confirm'));
+        $this->registerView(new RouterViewConfiguration('request'));
+        $this->registerView(new RouterViewConfiguration('remind'));
 
-		parent::__construct($app, $menu);
+        parent::__construct($app, $menu);
 
-		$this->attachRule(new MenuRules($this));
-		$this->attachRule(new StandardRules($this));
-		$this->attachRule(new NomenuRules($this));
-	}
+        $this->attachRule(new MenuRules($this));
+        $this->attachRule(new StandardRules($this));
+        $this->attachRule(new NomenuRules($this));
+    }
 }

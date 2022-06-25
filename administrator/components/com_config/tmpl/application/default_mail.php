@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -17,7 +18,7 @@ defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
 $this->document->getWebAssetManager()
-	->useScript('webcomponent.field-send-test-mail');
+    ->useScript('webcomponent.field-send-test-mail');
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -42,9 +43,9 @@ $this->formclass = 'options-form';
 ?>
 
 <joomla-field-send-test-mail uri="<?php echo $ajaxUri; ?>">
-	<?php echo LayoutHelper::render('joomla.content.options_default', $this); ?>
+    <?php echo LayoutHelper::render('joomla.content.options_default', $this); ?>
 
-	<button class="btn btn-primary" type="button" id="sendtestmail">
-		<span><?php echo Text::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON'); ?></span>
-	</button>
+    <button class="btn btn-primary" type="button" id="sendtestmail">
+        <span><?php echo Text::_('COM_CONFIG_SENDMAIL_ACTION_BUTTON'); ?></span>
+    </button>
 </joomla-field-send-test-mail>

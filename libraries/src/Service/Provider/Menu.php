@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -24,30 +25,29 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class Menu implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('menu.factory', MenuFactoryInterface::class)
-			->alias(MenuFactory::class, MenuFactoryInterface::class)
-			->share(
-				MenuFactoryInterface::class,
-				function (Container $container)
-				{
-					$factory = new MenuFactory;
-					$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
-					$factory->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('menu.factory', MenuFactoryInterface::class)
+            ->alias(MenuFactory::class, MenuFactoryInterface::class)
+            ->share(
+                MenuFactoryInterface::class,
+                function (Container $container) {
+                    $factory = new MenuFactory();
+                    $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+                    $factory->setDatabase($container->get(DatabaseInterface::class));
 
-					return $factory;
-				},
-				true
-			);
-	}
+                    return $factory;
+                },
+                true
+            );
+    }
 }

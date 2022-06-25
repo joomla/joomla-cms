@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  FileSystem.Local
@@ -23,86 +24,84 @@ use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
  */
 class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
 {
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Affects constructor behavior. If true, language files will be loaded automatically.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Setup Providers for Local Adapter
-	 *
-	 * @param   MediaProviderEvent  $event  Event for ProviderManager
-	 *
-	 * @return   void
-	 *
-	 * @since    4.0.0
-	 */
-	public function onSetupProviders(MediaProviderEvent $event)
-	{
-		$event->getProviderManager()->registerProvider($this);
-	}
+    /**
+     * Setup Providers for Local Adapter
+     *
+     * @param   MediaProviderEvent  $event  Event for ProviderManager
+     *
+     * @return   void
+     *
+     * @since    4.0.0
+     */
+    public function onSetupProviders(MediaProviderEvent $event)
+    {
+        $event->getProviderManager()->registerProvider($this);
+    }
 
-	/**
-	 * Returns the ID of the provider
-	 *
-	 * @return  string
-	 *
-	 * @since  4.0.0
-	 */
-	public function getID()
-	{
-		return $this->_name;
-	}
+    /**
+     * Returns the ID of the provider
+     *
+     * @return  string
+     *
+     * @since  4.0.0
+     */
+    public function getID()
+    {
+        return $this->_name;
+    }
 
-	/**
-	 * Returns the display name of the provider
-	 *
-	 * @return string
-	 *
-	 * @since  4.0.0
-	 */
-	public function getDisplayName()
-	{
-		return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
-	}
+    /**
+     * Returns the display name of the provider
+     *
+     * @return string
+     *
+     * @since  4.0.0
+     */
+    public function getDisplayName()
+    {
+        return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+    }
 
-	/**
-	 * Returns and array of adapters
-	 *
-	 * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAdapters()
-	{
-		$adapters = [];
-		$directories = $this->params->get('directories', '[{"directory": "images"}]');
+    /**
+     * Returns and array of adapters
+     *
+     * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
+     *
+     * @since  4.0.0
+     */
+    public function getAdapters()
+    {
+        $adapters = [];
+        $directories = $this->params->get('directories', '[{"directory": "images"}]');
 
-		// Do a check if default settings are not saved by user
-		// If not initialize them manually
-		if (is_string($directories))
-		{
-			$directories = json_decode($directories);
-		}
+        // Do a check if default settings are not saved by user
+        // If not initialize them manually
+        if (is_string($directories)) {
+            $directories = json_decode($directories);
+        }
 
-		foreach ($directories as $directoryEntity)
-		{
-			if ($directoryEntity->directory)
-			{
-				$directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
-				$directoryPath = rtrim($directoryPath) . '/';
+        foreach ($directories as $directoryEntity) {
+            if ($directoryEntity->directory) {
+                $directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
+                $directoryPath = rtrim($directoryPath) . '/';
 
-				$adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
-					$directoryPath, $directoryEntity->directory
-				);
+                $adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
+                    $directoryPath,
+                    $directoryEntity->directory
+                );
 
-				$adapters[$adapter->getAdapterName()] = $adapter;
-			}
-		}
+                $adapters[$adapter->getAdapterName()] = $adapter;
+            }
+        }
 
-		return $adapters;
-	}
+        return $adapters;
+    }
 }

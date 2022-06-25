@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Templates
  * @subpackage  Webservices.Templates
@@ -19,35 +20,35 @@ use Joomla\CMS\Router\ApiRouter;
  */
 class PlgWebservicesTemplates extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Registers com_templates's API's routes in the application
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onBeforeApiRoute(&$router)
-	{
-		$router->createCRUDRoutes(
-			'v1/templates/styles/site',
-			'styles',
-			['component' => 'com_templates', 'client_id' => 0]
-		);
+    /**
+     * Registers com_templates's API's routes in the application
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onBeforeApiRoute(&$router)
+    {
+        $router->createCRUDRoutes(
+            'v1/templates/styles/site',
+            'styles',
+            ['component' => 'com_templates', 'client_id' => 0]
+        );
 
-		$router->createCRUDRoutes(
-			'v1/templates/styles/administrator',
-			'styles',
-			['component' => 'com_templates', 'client_id' => 1]
-		);
-	}
+        $router->createCRUDRoutes(
+            'v1/templates/styles/administrator',
+            'styles',
+            ['component' => 'com_templates', 'client_id' => 1]
+        );
+    }
 }

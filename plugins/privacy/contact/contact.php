@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Privacy.contact
@@ -21,56 +22,51 @@ use Joomla\Database\ParameterType;
  */
 class PlgPrivacyContact extends PrivacyPlugin
 {
-	/**
-	 * Processes an export request for Joomla core user contact data
-	 *
-	 * This event will collect data for the contact core tables:
-	 *
-	 * - Contact custom fields
-	 *
-	 * @param   RequestTable  $request  The request record being processed
-	 * @param   User          $user     The user account associated with this request if available
-	 *
-	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
-	 *
-	 * @since   3.9.0
-	 */
-	public function onPrivacyExportRequest(RequestTable $request, User $user = null)
-	{
-		if (!$user && !$request->email)
-		{
-			return array();
-		}
+    /**
+     * Processes an export request for Joomla core user contact data
+     *
+     * This event will collect data for the contact core tables:
+     *
+     * - Contact custom fields
+     *
+     * @param   RequestTable  $request  The request record being processed
+     * @param   User          $user     The user account associated with this request if available
+     *
+     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
+     *
+     * @since   3.9.0
+     */
+    public function onPrivacyExportRequest(RequestTable $request, User $user = null)
+    {
+        if (!$user && !$request->email) {
+            return array();
+        }
 
-		$domains   = array();
-		$domain    = $this->createDomain('user_contact', 'joomla_user_contact_data');
-		$domains[] = $domain;
+        $domains   = array();
+        $domain    = $this->createDomain('user_contact', 'joomla_user_contact_data');
+        $domains[] = $domain;
 
-		$query = $this->db->getQuery(true)
-			->select('*')
-			->from($this->db->quoteName('#__contact_details'))
-			->order($this->db->quoteName('ordering') . ' ASC');
+        $query = $this->db->getQuery(true)
+            ->select('*')
+            ->from($this->db->quoteName('#__contact_details'))
+            ->order($this->db->quoteName('ordering') . ' ASC');
 
-		if ($user)
-		{
-			$query->where($this->db->quoteName('user_id') . ' = :id')
-				->bind(':id', $user->id, ParameterType::INTEGER);
-		}
-		else
-		{
-			$query->where($this->db->quoteName('email_to') . ' = :email')
-				->bind(':email', $request->email);
-		}
+        if ($user) {
+            $query->where($this->db->quoteName('user_id') . ' = :id')
+                ->bind(':id', $user->id, ParameterType::INTEGER);
+        } else {
+            $query->where($this->db->quoteName('email_to') . ' = :email')
+                ->bind(':email', $request->email);
+        }
 
-		$items = $this->db->setQuery($query)->loadObjectList();
+        $items = $this->db->setQuery($query)->loadObjectList();
 
-		foreach ($items as $item)
-		{
-			$domain->addItem($this->createItemFromArray((array) $item));
-		}
+        foreach ($items as $item) {
+            $domain->addItem($this->createItemFromArray((array) $item));
+        }
 
-		$domains[] = $this->createCustomFieldsDomain('com_contact.contact', $items);
+        $domains[] = $this->createCustomFieldsDomain('com_contact.contact', $items);
 
-		return $domains;
-	}
+        return $domains;
+    }
 }

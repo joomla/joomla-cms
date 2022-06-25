@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
@@ -21,36 +22,32 @@ use Joomla\CMS\Language\Text;
  */
 class FeedHelper
 {
-	/**
-	 * Method to load a feed.
-	 *
-	 * @param   \Joomla\Registry\Registry  $params  The parameters object.
-	 *
-	 * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
-	 *
-	 * @since   1.5
-	 */
-	public static function getFeed($params)
-	{
-		// Module params
-		$rssurl = $params->get('rssurl', '');
+    /**
+     * Method to load a feed.
+     *
+     * @param   \Joomla\Registry\Registry  $params  The parameters object.
+     *
+     * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
+     *
+     * @since   1.5
+     */
+    public static function getFeed($params)
+    {
+        // Module params
+        $rssurl = $params->get('rssurl', '');
 
-		// Get RSS parsed object
-		try
-		{
-			$feed   = new FeedFactory;
-			$rssDoc = $feed->getFeed($rssurl);
-		}
-		catch (\Exception $e)
-		{
-			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
+        // Get RSS parsed object
+        try {
+            $feed   = new FeedFactory();
+            $rssDoc = $feed->getFeed($rssurl);
+        } catch (\Exception $e) {
+            return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+        }
 
-		if (empty($rssDoc))
-		{
-			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
+        if (empty($rssDoc)) {
+            return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+        }
 
-		return $rssDoc;
-	}
+        return $rssDoc;
+    }
 }

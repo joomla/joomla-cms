@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
@@ -21,16 +22,16 @@ use Joomla\CMS\Uri\Uri;
  */
 class DisplayController extends BaseController
 {
-	/**
-	 * Method to handle cancel
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function cancel()
-	{
-		// Redirect back to home(base) page
-		$this->setRedirect(Uri::base());
-	}
+    /**
+     * Method to handle cancel
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function cancel()
+    {
+        // Redirect back to home(base) page
+        $this->setRedirect(Uri::base());
+    }
 }

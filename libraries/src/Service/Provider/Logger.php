@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,25 +23,24 @@ use Psr\Log\LoggerInterface;
  */
 class Logger implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('logger', LoggerInterface::class)
-			->share(
-				LoggerInterface::class,
-				function (Container $container)
-				{
-					return Log::createDelegatedLogger();
-				},
-				true
-			);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('logger', LoggerInterface::class)
+            ->share(
+                LoggerInterface::class,
+                function (Container $container) {
+                    return Log::createDelegatedLogger();
+                },
+                true
+            );
+    }
 }

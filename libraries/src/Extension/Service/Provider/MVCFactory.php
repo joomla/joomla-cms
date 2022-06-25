@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -27,59 +28,55 @@ use Joomla\Event\DispatcherInterface;
  */
 class MVCFactory implements ServiceProviderInterface
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var  string
-	 *
-	 * @since   4.0.0
-	 */
-	private $namespace;
+    /**
+     * The extension namespace
+     *
+     * @var  string
+     *
+     * @since   4.0.0
+     */
+    private $namespace;
 
-	/**
-	 * MVCFactory constructor.
-	 *
-	 * @param   string  $namespace  The namespace
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(string $namespace)
-	{
-		$this->namespace = $namespace;
-	}
+    /**
+     * MVCFactory constructor.
+     *
+     * @param   string  $namespace  The namespace
+     *
+     * @since   4.0.0
+     */
+    public function __construct(string $namespace)
+    {
+        $this->namespace = $namespace;
+    }
 
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			MVCFactoryInterface::class,
-			function (Container $container)
-			{
-				if (\Joomla\CMS\Factory::getApplication()->isClient('api'))
-				{
-					$factory = new ApiMVCFactory($this->namespace);
-				}
-				else
-				{
-					$factory = new \Joomla\CMS\MVC\Factory\MVCFactory($this->namespace);
-				}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            MVCFactoryInterface::class,
+            function (Container $container) {
+                if (\Joomla\CMS\Factory::getApplication()->isClient('api')) {
+                    $factory = new ApiMVCFactory($this->namespace);
+                } else {
+                    $factory = new \Joomla\CMS\MVC\Factory\MVCFactory($this->namespace);
+                }
 
-				$factory->setFormFactory($container->get(FormFactoryInterface::class));
-				$factory->setDispatcher($container->get(DispatcherInterface::class));
-				$factory->setDatabase($container->get(DatabaseInterface::class));
-				$factory->setSiteRouter($container->get(SiteRouter::class));
-				$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+                $factory->setFormFactory($container->get(FormFactoryInterface::class));
+                $factory->setDispatcher($container->get(DispatcherInterface::class));
+                $factory->setDatabase($container->get(DatabaseInterface::class));
+                $factory->setSiteRouter($container->get(SiteRouter::class));
+                $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
 
-				return $factory;
-			}
-		);
-	}
+                return $factory;
+            }
+        );
+    }
 }

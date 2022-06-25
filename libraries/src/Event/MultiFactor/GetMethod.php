@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -23,21 +24,21 @@ use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
  */
 class GetMethod extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeObjectAware;
+    use ResultAware;
+    use ResultTypeObjectAware;
 
-	/**
-	 * Public constructor
-	 *
-	 * @since 4.2.0
-	 */
-	public function __construct()
-	{
-		parent::__construct('onUserMultifactorGetMethod', []);
+    /**
+     * Public constructor
+     *
+     * @since 4.2.0
+     */
+    public function __construct()
+    {
+        parent::__construct('onUserMultifactorGetMethod', []);
 
-		$this->resultIsNullable        = true;
-		$this->resultAcceptableClasses = [
-			MethodDescriptor::class,
-		];
-	}
+        $this->resultIsNullable        = true;
+        $this->resultAcceptableClasses = [
+            MethodDescriptor::class,
+        ];
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_banners
@@ -20,24 +21,23 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class DisplayController extends BaseController
 {
-	/**
-	 * Method when a banner is clicked on.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function click()
-	{
-		$id = $this->input->getInt('id', 0);
+    /**
+     * Method when a banner is clicked on.
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    public function click()
+    {
+        $id = $this->input->getInt('id', 0);
 
-		if ($id)
-		{
-			/** @var \Joomla\Component\Banners\Site\Model\BannerModel $model */
-			$model = $this->getModel('Banner', 'Site', array('ignore_request' => true));
-			$model->setState('banner.id', $id);
-			$model->click();
-			$this->setRedirect($model->getUrl());
-		}
-	}
+        if ($id) {
+            /** @var \Joomla\Component\Banners\Site\Model\BannerModel $model */
+            $model = $this->getModel('Banner', 'Site', array('ignore_request' => true));
+            $model->setState('banner.id', $id);
+            $model->click();
+            $this->setRedirect($model->getUrl());
+        }
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,14 +21,14 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
  */
 interface ComponentInterface
 {
-	/**
-	 * Returns the dispatcher for the given application.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
-	 *
-	 * @return  DispatcherInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
+    /**
+     * Returns the dispatcher for the given application.
+     *
+     * @param   CMSApplicationInterface  $application  The application
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.0.0
+     */
+    public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
 }

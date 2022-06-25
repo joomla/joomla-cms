@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,42 +23,39 @@ use Joomla\Database\DatabaseAwareTrait;
  */
 class MenuFactory implements MenuFactoryInterface
 {
-	use CacheControllerFactoryAwareTrait;
-	use DatabaseAwareTrait;
+    use CacheControllerFactoryAwareTrait;
+    use DatabaseAwareTrait;
 
-	/**
-	 * Creates a new Menu object for the requested format.
-	 *
-	 * @param   string  $client   The name of the client
-	 * @param   array   $options  An associative array of options
-	 *
-	 * @return  AbstractMenu
-	 *
-	 * @since   4.0.0
-	 * @throws  \InvalidArgumentException
-	 */
-	public function createMenu(string $client, array $options = []): AbstractMenu
-	{
-		// Create a Menu object
-		$classname = __NAMESPACE__ . '\\' . ucfirst(strtolower($client)) . 'Menu';
+    /**
+     * Creates a new Menu object for the requested format.
+     *
+     * @param   string  $client   The name of the client
+     * @param   array   $options  An associative array of options
+     *
+     * @return  AbstractMenu
+     *
+     * @since   4.0.0
+     * @throws  \InvalidArgumentException
+     */
+    public function createMenu(string $client, array $options = []): AbstractMenu
+    {
+        // Create a Menu object
+        $classname = __NAMESPACE__ . '\\' . ucfirst(strtolower($client)) . 'Menu';
 
-		if (!class_exists($classname))
-		{
-			throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
-		}
+        if (!class_exists($classname)) {
+            throw new \InvalidArgumentException(Text::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
+        }
 
-		if (!array_key_exists('db', $options))
-		{
-			$options['db'] = $this->getDatabase();
-		}
+        if (!array_key_exists('db', $options)) {
+            $options['db'] = $this->getDatabase();
+        }
 
-		$instance = new $classname($options);
+        $instance = new $classname($options);
 
-		if ($instance instanceof CacheControllerFactoryAwareInterface)
-		{
-			$instance->setCacheControllerFactory($this->getCacheControllerFactory());
-		}
+        if ($instance instanceof CacheControllerFactoryAwareInterface) {
+            $instance->setCacheControllerFactory($this->getCacheControllerFactory());
+        }
 
-		return $instance;
-	}
+        return $instance;
+    }
 }

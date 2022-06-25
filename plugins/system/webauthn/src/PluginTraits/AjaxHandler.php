@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -30,136 +31,122 @@ use RuntimeException;
  */
 trait AjaxHandler
 {
-	/**
-	 * Processes the callbacks from the passwordless login views.
-	 *
-	 * Note: this method is called from Joomla's com_ajax or, in the case of backend logins, through the special
-	 * onAfterInitialize handler we have created to work around com_ajax usage limitations in the backend.
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAjaxWebauthn(): void
-	{
-		// Load the language files
-		$this->loadLanguage();
+    /**
+     * Processes the callbacks from the passwordless login views.
+     *
+     * Note: this method is called from Joomla's com_ajax or, in the case of backend logins, through the special
+     * onAfterInitialize handler we have created to work around com_ajax usage limitations in the backend.
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     *
+     * @since   4.0.0
+     */
+    public function onAjaxWebauthn(): void
+    {
+        // Load the language files
+        $this->loadLanguage();
 
-		/** @var CMSApplication $app */
-		$app   = Factory::getApplication();
-		$input = $app->input;
+        /** @var CMSApplication $app */
+        $app   = Factory::getApplication();
+        $input = $app->input;
 
-		// Get the return URL from the session
-		$returnURL = Joomla::getSessionVar('returnUrl', Uri::base(), 'plg_system_webauthn');
-		$result = null;
+        // Get the return URL from the session
+        $returnURL = Joomla::getSessionVar('returnUrl', Uri::base(), 'plg_system_webauthn');
+        $result = null;
 
-		try
-		{
-			Joomla::log('system', "Received AJAX callback.");
+        try {
+            Joomla::log('system', "Received AJAX callback.");
 
-			if (!($app instanceof CMSApplication))
-			{
-				throw new AjaxNonCmsAppException;
-			}
+            if (!($app instanceof CMSApplication)) {
+                throw new AjaxNonCmsAppException();
+            }
 
-			$akaction = $input->getCmd('akaction');
-			$token    = Joomla::getToken();
+            $akaction = $input->getCmd('akaction');
+            $token    = Joomla::getToken();
 
-			if ($input->getInt($token, 0) != 1)
-			{
-				throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
-			}
+            if ($input->getInt($token, 0) != 1) {
+                throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
+            }
 
-			// Empty action? No bueno.
-			if (empty($akaction))
-			{
-				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_AJAX_INVALIDACTION'));
-			}
+            // Empty action? No bueno.
+            if (empty($akaction)) {
+                throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_AJAX_INVALIDACTION'));
+            }
 
-			// Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
-			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
+            // Call the plugin event onAjaxWebauthnSomething where Something is the akaction param.
+            $eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
-			$results = $app->triggerEvent($eventName, []);
+            $results = $app->triggerEvent($eventName, []);
 
-			foreach ($results as $r)
-			{
-				if (\is_null($r))
-				{
-					continue;
-				}
+            foreach ($results as $r) {
+                if (\is_null($r)) {
+                    continue;
+                }
 
-				$result = $r;
+                $result = $r;
 
-				break;
-			}
-		}
-		catch (AjaxNonCmsAppException $e)
-		{
-			Joomla::log('system', "This is not a CMS application", Log::NOTICE);
-		}
-		catch (Exception $e)
-		{
-			Joomla::log('system', "Callback failure, redirecting to $returnURL.");
-			Joomla::setSessionVar('returnUrl', null, 'plg_system_webauthn');
-			$app->enqueueMessage($e->getMessage(), 'error');
-			$app->redirect($returnURL);
+                break;
+            }
+        } catch (AjaxNonCmsAppException $e) {
+            Joomla::log('system', "This is not a CMS application", Log::NOTICE);
+        } catch (Exception $e) {
+            Joomla::log('system', "Callback failure, redirecting to $returnURL.");
+            Joomla::setSessionVar('returnUrl', null, 'plg_system_webauthn');
+            $app->enqueueMessage($e->getMessage(), 'error');
+            $app->redirect($returnURL);
 
-			return;
-		}
+            return;
+        }
 
-		if (!\is_null($result))
-		{
-			switch ($input->getCmd('encoding', 'json'))
-			{
-				case 'jsonhash':
-					Joomla::log('system', "Callback complete, returning JSON inside ### markers.");
-					echo '###' . json_encode($result) . '###';
+        if (!\is_null($result)) {
+            switch ($input->getCmd('encoding', 'json')) {
+                case 'jsonhash':
+                    Joomla::log('system', "Callback complete, returning JSON inside ### markers.");
+                    echo '###' . json_encode($result) . '###';
 
-					break;
+                    break;
 
-				case 'raw':
-					Joomla::log('system', "Callback complete, returning raw response.");
-					echo $result;
+                case 'raw':
+                    Joomla::log('system', "Callback complete, returning raw response.");
+                    echo $result;
 
-					break;
+                    break;
 
-				case 'redirect':
-					$modifiers = '';
+                case 'redirect':
+                    $modifiers = '';
 
-					if (isset($result['message']))
-					{
-						$type = $result['type'] ?? 'info';
-						$app->enqueueMessage($result['message'], $type);
+                    if (isset($result['message'])) {
+                        $type = $result['type'] ?? 'info';
+                        $app->enqueueMessage($result['message'], $type);
 
-						$modifiers = " and setting a system message of type $type";
-					}
+                        $modifiers = " and setting a system message of type $type";
+                    }
 
-					if (isset($result['url']))
-					{
-						Joomla::log('system', "Callback complete, performing redirection to {$result['url']}{$modifiers}.");
-						$app->redirect($result['url']);
-					}
+                    if (isset($result['url'])) {
+                        Joomla::log('system', "Callback complete, performing redirection to {$result['url']}{$modifiers}.");
+                        $app->redirect($result['url']);
+                    }
 
-					Joomla::log('system', "Callback complete, performing redirection to {$result}{$modifiers}.");
-					$app->redirect($result);
+                    Joomla::log('system', "Callback complete, performing redirection to {$result}{$modifiers}.");
+                    $app->redirect($result);
 
-					return;
+                    return;
 
-				default:
-					Joomla::log('system', "Callback complete, returning JSON.");
-					echo json_encode($result);
+                default:
+                    Joomla::log('system', "Callback complete, returning JSON.");
+                    echo json_encode($result);
 
-					break;
-			}
+                    break;
+            }
 
-			$app->close(200);
-		}
+            $app->close(200);
+        }
 
-		Joomla::log('system', "Null response from AJAX callback, redirecting to $returnURL");
-		Joomla::setSessionVar('returnUrl', null, 'plg_system_webauthn');
+        Joomla::log('system', "Null response from AJAX callback, redirecting to $returnURL");
+        Joomla::setSessionVar('returnUrl', null, 'plg_system_webauthn');
 
-		$app->redirect($returnURL);
-	}
+        $app->redirect($returnURL);
+    }
 }

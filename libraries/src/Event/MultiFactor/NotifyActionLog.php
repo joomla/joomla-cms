@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,38 +21,37 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  */
 class NotifyActionLog extends AbstractImmutableEvent
 {
-	private const ACCEPTABLE_EVENTS = [
-		'onComUsersCaptiveValidateSuccess',
-		'onComUsersViewMethodsAfterDisplay',
-		'onComUsersCaptiveShowCaptive',
-		'onComUsersCaptiveShowSelect',
-		'onComUsersCaptiveValidateFailed',
-		'onComUsersCaptiveValidateInvalidMethod',
-		'onComUsersCaptiveValidateSuccess',
-		'onComUsersControllerMethodAfterRegenerateBackupCodes',
-		'onComUsersControllerMethodBeforeAdd',
-		'onComUsersControllerMethodBeforeDelete',
-		'onComUsersControllerMethodBeforeEdit',
-		'onComUsersControllerMethodBeforeSave',
-		'onComUsersControllerMethodsBeforeDisable',
-		'onComUsersControllerMethodsBeforeDoNotShowThisAgain',
-	];
+    private const ACCEPTABLE_EVENTS = [
+        'onComUsersCaptiveValidateSuccess',
+        'onComUsersViewMethodsAfterDisplay',
+        'onComUsersCaptiveShowCaptive',
+        'onComUsersCaptiveShowSelect',
+        'onComUsersCaptiveValidateFailed',
+        'onComUsersCaptiveValidateInvalidMethod',
+        'onComUsersCaptiveValidateSuccess',
+        'onComUsersControllerMethodAfterRegenerateBackupCodes',
+        'onComUsersControllerMethodBeforeAdd',
+        'onComUsersControllerMethodBeforeDelete',
+        'onComUsersControllerMethodBeforeEdit',
+        'onComUsersControllerMethodBeforeSave',
+        'onComUsersControllerMethodsBeforeDisable',
+        'onComUsersControllerMethodsBeforeDoNotShowThisAgain',
+    ];
 
-	/**
-	 * Public constructor
-	 *
-	 * @param   string  $name       Event name. Must belong in self::ACCEPTABLE_EVENTS
-	 * @param   array   $arguments  Event arguments (different for each event).
-	 *
-	 * @since   4.2.0
-	 */
-	public function __construct(string $name, array $arguments = [])
-	{
-		if (!in_array($name, self::ACCEPTABLE_EVENTS))
-		{
-			throw new \InvalidArgumentException(sprintf('The %s event class does not support the %s event name.', __CLASS__, $name));
-		}
+    /**
+     * Public constructor
+     *
+     * @param   string  $name       Event name. Must belong in self::ACCEPTABLE_EVENTS
+     * @param   array   $arguments  Event arguments (different for each event).
+     *
+     * @since   4.2.0
+     */
+    public function __construct(string $name, array $arguments = [])
+    {
+        if (!in_array($name, self::ACCEPTABLE_EVENTS)) {
+            throw new \InvalidArgumentException(sprintf('The %s event class does not support the %s event name.', __CLASS__, $name));
+        }
 
-		parent::__construct($name, $arguments);
-	}
+        parent::__construct($name, $arguments);
+    }
 }

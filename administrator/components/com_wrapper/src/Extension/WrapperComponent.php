@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_wrapper
@@ -22,5 +23,5 @@ use Joomla\CMS\Extension\MVCComponent;
  */
 class WrapperComponent extends MVCComponent implements RouterServiceInterface
 {
-	use RouterServiceTrait;
+    use RouterServiceTrait;
 }

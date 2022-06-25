@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Redirect
  * @subpackage  Webservices.Redirect
@@ -19,29 +20,29 @@ use Joomla\CMS\Router\ApiRouter;
  */
 class PlgWebservicesRedirect extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Registers com_redirect's API's routes in the application
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onBeforeApiRoute(&$router)
-	{
-		$router->createCRUDRoutes(
-			'v1/redirects',
-			'redirect',
-			['component' => 'com_redirect']
-		);
-	}
+    /**
+     * Registers com_redirect's API's routes in the application
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onBeforeApiRoute(&$router)
+    {
+        $router->createCRUDRoutes(
+            'v1/redirects',
+            'redirect',
+            ['component' => 'com_redirect']
+        );
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,26 +23,25 @@ use Joomla\Event\DispatcherInterface as EventDispatcherInterface;
  */
 class Dispatcher implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('dispatcher', EventDispatcherInterface::class)
-			->alias(EventDispatcher::class, EventDispatcherInterface::class)
-			->share(
-				EventDispatcherInterface::class,
-				function (Container $container)
-				{
-					return new EventDispatcher;
-				},
-				true
-			);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('dispatcher', EventDispatcherInterface::class)
+            ->alias(EventDispatcher::class, EventDispatcherInterface::class)
+            ->share(
+                EventDispatcherInterface::class,
+                function (Container $container) {
+                    return new EventDispatcher();
+                },
+                true
+            );
+    }
 }

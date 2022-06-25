@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -29,34 +30,34 @@ use Psr\Container\ContainerInterface;
  */
 class FinderComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface
 {
-	use RouterServiceTrait;
-	use HTMLRegistryAwareTrait;
+    use RouterServiceTrait;
+    use HTMLRegistryAwareTrait;
 
-	/**
-	 * Booting the extension. This is the function to set up the environment of the extension like
-	 * registering new class loaders, etc.
-	 *
-	 * If required, some initial set up can be done from services of the container, eg.
-	 * registering HTML services.
-	 *
-	 * @param   ContainerInterface  $container  The container
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function boot(ContainerInterface $container)
-	{
-		$finder = new Finder;
-		$finder->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Booting the extension. This is the function to set up the environment of the extension like
+     * registering new class loaders, etc.
+     *
+     * If required, some initial set up can be done from services of the container, eg.
+     * registering HTML services.
+     *
+     * @param   ContainerInterface  $container  The container
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function boot(ContainerInterface $container)
+    {
+        $finder = new Finder();
+        $finder->setDatabase($container->get(DatabaseInterface::class));
 
-		$this->getRegistry()->register('finder', $finder);
+        $this->getRegistry()->register('finder', $finder);
 
-		$filter = new Filter;
-		$filter->setDatabase($container->get(DatabaseInterface::class));
+        $filter = new Filter();
+        $filter->setDatabase($container->get(DatabaseInterface::class));
 
-		$this->getRegistry()->register('filter', $filter);
+        $this->getRegistry()->register('filter', $filter);
 
-		$this->getRegistry()->register('query', new Query);
-	}
+        $this->getRegistry()->register('query', new Query());
+    }
 }

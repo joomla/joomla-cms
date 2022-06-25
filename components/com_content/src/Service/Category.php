@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -20,18 +21,18 @@ use Joomla\CMS\Categories\Categories;
  */
 class Category extends Categories
 {
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  Array of options
-	 *
-	 * @since   1.7.0
-	 */
-	public function __construct($options = array())
-	{
-		$options['table']     = '#__content';
-		$options['extension'] = 'com_content';
+    /**
+     * Class constructor
+     *
+     * @param   array  $options  Array of options
+     *
+     * @since   1.7.0
+     */
+    public function __construct($options = array())
+    {
+        $options['table']     = '#__content';
+        $options['extension'] = 'com_content';
 
-		parent::__construct($options);
-	}
+        parent::__construct($options);
+    }
 }

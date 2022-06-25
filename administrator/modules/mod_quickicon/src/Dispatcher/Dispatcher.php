@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
@@ -20,20 +21,20 @@ use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
-	/**
-	 * Returns the layout data.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+    /**
+     * Returns the layout data.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
 
-		$helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
-		$data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
+        $helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
+        $data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
 
-		return $data;
-	}
+        return $data;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -19,25 +20,25 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  */
 interface ViewInterface
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function display($tpl = null);
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function display($tpl = null);
 
-	/**
-	 * Method to get the model object
-	 *
-	 * @param   string  $name  The name of the model (optional)
-	 *
-	 * @return  BaseDatabaseModel  The model object
-	 *
-	 * @since   3.0
-	 */
-	public function getModel($name = null);
+    /**
+     * Method to get the model object
+     *
+     * @param   string  $name  The name of the model (optional)
+     *
+     * @return  BaseDatabaseModel  The model object
+     *
+     * @since   3.0
+     */
+    public function getModel($name = null);
 }

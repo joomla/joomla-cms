@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Plugins
@@ -20,34 +21,34 @@ use Joomla\Router\Route;
  */
 class PlgWebservicesPlugins extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Registers com_plugins's API's routes in the application
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onBeforeApiRoute(&$router)
-	{
-		$defaults    = ['component' => 'com_plugins'];
-		$getDefaults = array_merge(['public' => false], $defaults);
+    /**
+     * Registers com_plugins's API's routes in the application
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onBeforeApiRoute(&$router)
+    {
+        $defaults    = ['component' => 'com_plugins'];
+        $getDefaults = array_merge(['public' => false], $defaults);
 
-		$routes = [
-			new Route(['GET'], 'v1/plugins', 'plugins.displayList', [], $getDefaults),
-			new Route(['GET'], 'v1/plugins/:id', 'plugins.displayItem', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PATCH'], 'v1/plugins/:id', 'plugins.edit', ['id' => '(\d+)'], $defaults),
-		];
+        $routes = [
+            new Route(['GET'], 'v1/plugins', 'plugins.displayList', [], $getDefaults),
+            new Route(['GET'], 'v1/plugins/:id', 'plugins.displayItem', ['id' => '(\d+)'], $getDefaults),
+            new Route(['PATCH'], 'v1/plugins/:id', 'plugins.edit', ['id' => '(\d+)'], $defaults),
+        ];
 
-		$router->addRoutes($routes);
-	}
+        $router->addRoutes($routes);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -23,29 +24,28 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class Document implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('document.factory', FactoryInterface::class)
-			->alias(Factory::class, FactoryInterface::class)
-			->share(
-				FactoryInterface::class,
-				function (Container $container)
-				{
-					$factory = new Factory;
-					$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('document.factory', FactoryInterface::class)
+            ->alias(Factory::class, FactoryInterface::class)
+            ->share(
+                FactoryInterface::class,
+                function (Container $container) {
+                    $factory = new Factory();
+                    $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
 
-					return $factory;
-				},
-				true
-			);
-	}
+                    return $factory;
+                },
+                true
+            );
+    }
 }
