@@ -20,7 +20,7 @@ $lang = Factory::getLanguage(); ?>
 	<?php if ($row->prev) :
 		$direction = $lang->isRtl() ? 'right' : 'left'; ?>
 		<li class="previous page-item">
-			<a class="page-link" href="<?php echo Route::_($row->prev); ?>" rel="prev">
+			<a class="page-link btn btn-info" href="<?php echo Route::_($row->prev); ?>" rel="prev">
 			<span class="visually-hidden">
 				<?php echo Text::sprintf('JPREVIOUS_TITLE', htmlspecialchars($rows[$location-1]->title)); ?>
 			</span>
@@ -31,7 +31,7 @@ $lang = Factory::getLanguage(); ?>
 	<?php if ($row->next) :
 		$direction = $lang->isRtl() ? 'left' : 'right'; ?>
 		<li class="next page-item">
-			<a class="page-link" href="<?php echo Route::_($row->next); ?>" rel="next">
+			<a class="page-link btn btn-info" href="<?php echo Route::_($row->next); ?>" rel="next">
 			<span class="visually-hidden">
 				<?php echo Text::sprintf('JNEXT_TITLE', htmlspecialchars($rows[$location+1]->title)); ?>
 			</span>

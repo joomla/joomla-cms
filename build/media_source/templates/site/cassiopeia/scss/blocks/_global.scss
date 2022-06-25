@@ -253,6 +253,11 @@ meter {
   }
 }
 
+/* margin for focus ring */
+.page-link {
+    margin: 0.25rem;;
+}
+
 .pager {
   .pagination {
     justify-content: center;
