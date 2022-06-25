@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;

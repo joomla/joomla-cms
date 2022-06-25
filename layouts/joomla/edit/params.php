@@ -116,9 +116,8 @@ foreach ($fieldSets as $name => $fieldSet) {
         }
 
         echo '<div class="form-grid">';
-    }
-    // Tabs
-    elseif (!$hasParent) {
+    } elseif (!$hasParent) {
+        // Tabs
         if ($opentab) {
             if ($opentab > 1) {
                 echo '</div>';
@@ -150,9 +149,8 @@ foreach ($fieldSets as $name => $fieldSet) {
             echo '<div class="form-grid">';
 
             $opentab = 2;
-        }
-        // Include the description when available
-        elseif (!empty($fieldSet->description)) {
+        } elseif (!empty($fieldSet->description)) {
+            // Include the description when available
             echo '<div class="alert alert-info alert-parent">';
             echo '<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden">' . Text::_('INFO') . '</span> ';
             echo Text::_($fieldSet->description);

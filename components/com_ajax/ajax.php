@@ -46,16 +46,15 @@ $parts   = null;
 // Check for valid format
 if (!$format) {
     $results = new InvalidArgumentException(Text::_('COM_AJAX_SPECIFY_FORMAT'), 404);
-}
-/*
- * Module support.
- *
- * modFooHelper::getAjax() is called where 'foo' is the value
- * of the 'module' variable passed via the URL
- * (i.e. index.php?option=com_ajax&module=foo).
- *
- */
-elseif ($input->get('module')) {
+} elseif ($input->get('module')) {
+    /**
+     * Module support.
+     *
+     * modFooHelper::getAjax() is called where 'foo' is the value
+     * of the 'module' variable passed via the URL
+     * (i.e. index.php?option=com_ajax&module=foo).
+     *
+     */
     $module   = $input->get('module');
     $table    = Table::getInstance('extension');
     $moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
@@ -104,32 +103,28 @@ elseif ($input->get('module')) {
                 } catch (Exception $e) {
                     $results = $e;
                 }
-            }
-            // Method does not exist
-            else {
+            } else {
+                // Method does not exist
                 $results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
             }
-        }
-        // The helper file does not exist
-        elseif ($results === null) {
+        } elseif ($results === null) {
+            // The helper file does not exist
             $results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
         }
-    }
-    // Module is not published, you do not have access to it, or it is not assigned to the current menu item
-    else {
+    } else {
+        // Module is not published, you do not have access to it, or it is not assigned to the current menu item
         $results = new LogicException(Text::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
     }
-}
-/*
- * Plugin support by default is based on the "Ajax" plugin group.
- * An optional 'group' variable can be passed via the URL.
- *
- * The plugin event triggered is onAjaxFoo, where 'foo' is
- * the value of the 'plugin' variable passed via the URL
- * (i.e. index.php?option=com_ajax&plugin=foo)
- *
- */
-elseif ($input->get('plugin')) {
+} elseif ($input->get('plugin')) {
+    /**
+     * Plugin support by default is based on the "Ajax" plugin group.
+     * An optional 'group' variable can be passed via the URL.
+     *
+     * The plugin event triggered is onAjaxFoo, where 'foo' is
+     * the value of the 'plugin' variable passed via the URL
+     * (i.e. index.php?option=com_ajax&plugin=foo)
+     *
+     */
     $group      = $input->get('group', 'ajax');
     PluginHelper::importPlugin($group);
     $plugin     = ucfirst($input->get('plugin'));
@@ -139,16 +134,15 @@ elseif ($input->get('plugin')) {
     } catch (Exception $e) {
         $results = $e;
     }
-}
-/*
- * Template support.
- *
- * tplFooHelper::getAjax() is called where 'foo' is the value
- * of the 'template' variable passed via the URL
- * (i.e. index.php?option=com_ajax&template=foo).
- *
- */
-elseif ($input->get('template')) {
+} elseif ($input->get('template')) {
+    /**
+     * Template support.
+     *
+     * tplFooHelper::getAjax() is called where 'foo' is the value
+     * of the 'template' variable passed via the URL
+     * (i.e. index.php?option=com_ajax&template=foo).
+     *
+     */
     $template   = $input->get('template');
     $table      = Table::getInstance('extension');
     $templateId = $table->find(array('type' => 'template', 'element' => $template));
@@ -191,19 +185,16 @@ elseif ($input->get('template')) {
                 } catch (Exception $e) {
                     $results = $e;
                 }
-            }
-            // Method does not exist
-            else {
+            } else {
+                // Method does not exist
                 $results = new LogicException(Text::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
             }
-        }
-        // The helper file does not exist
-        else {
+        } else {
+            // The helper file does not exist
             $results = new RuntimeException(Text::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'tpl_' . $template . '/helper.php'), 404);
         }
-    }
-    // Template is not assigned to the current menu item
-    else {
+    } else {
+        // Template is not assigned to the current menu item
         $results = new LogicException(Text::sprintf('COM_AJAX_TEMPLATE_NOT_ACCESSIBLE', 'tpl_' . $template), 404);
     }
 }
@@ -228,13 +219,11 @@ switch ($format) {
 
             // Echo exception type and message
             $out = get_class($results) . ': ' . $results->getMessage();
-        }
-        // Output string/ null
-        elseif (is_scalar($results)) {
+        } elseif (is_scalar($results)) {
+            // Output string/ null
             $out = (string) $results;
-        }
-        // Output array/ object
-        else {
+        } else {
+            // Output array/ object
             $out = implode((array) $results);
         }
 

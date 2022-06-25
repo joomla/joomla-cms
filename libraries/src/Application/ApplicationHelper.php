@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

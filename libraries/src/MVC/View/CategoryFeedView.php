@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\View;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper;

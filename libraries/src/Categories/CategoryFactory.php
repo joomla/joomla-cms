@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Categories;
 
-\defined('_JEXEC') or die;
-
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Component;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Registry\Registry;
 
 /**

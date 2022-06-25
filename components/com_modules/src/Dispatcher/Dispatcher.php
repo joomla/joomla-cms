@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Modules\Site\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\MVC\Controller\BaseController;

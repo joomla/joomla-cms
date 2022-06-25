@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Filesystem;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
@@ -260,13 +258,11 @@ class Stream extends CMSObject
                 // One supplied at open; overrides everything
                 if ($context) {
                     $this->fh = fopen($filename, $mode, $useIncludePath, $context);
-                }
-                // One provided at initialisation
-                elseif ($this->context) {
+                } elseif ($this->context) {
+                    // One provided at initialisation
                     $this->fh = fopen($filename, $mode, $useIncludePath, $this->context);
-                }
-                // No context; all defaults
-                else {
+                } else {
+                    // No context; all defaults
                     $this->fh = fopen($filename, $mode, $useIncludePath);
                 }
 

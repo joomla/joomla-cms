@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\WebAsset;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;

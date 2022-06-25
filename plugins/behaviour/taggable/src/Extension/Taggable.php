@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Behaviour\Taggable\Extension;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Event\Table\AfterLoadEvent;
 use Joomla\CMS\Event\Table\AfterResetEvent;

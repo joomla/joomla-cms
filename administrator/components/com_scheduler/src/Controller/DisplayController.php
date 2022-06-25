@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Controller;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -83,9 +80,8 @@ class DisplayController extends BaseController
                 if ($isNew && !$this->app->getUserState("$context.add.task.task_type")) {
                     $this->setMessage((Text::_('COM_SCHEDULER_ERROR_FORBIDDEN_JUMP_TO_ADD_VIEW')), 'error');
                     $isValid = false;
-                }
-                // For existing item, entry is invalid if TaskController has not granted access
-                elseif (!$inEditList) {
+                } elseif (!$inEditList) {
+                    // For existing item, entry is invalid if TaskController has not granted access
                     if (!\count($this->app->getMessageQueue())) {
                         $this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
                     }

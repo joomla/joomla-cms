@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;

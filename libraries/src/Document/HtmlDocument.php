@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;

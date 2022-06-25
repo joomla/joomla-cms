@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Pagination;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;

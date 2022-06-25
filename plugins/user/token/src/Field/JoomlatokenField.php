@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\User\Token\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\TextField;
 

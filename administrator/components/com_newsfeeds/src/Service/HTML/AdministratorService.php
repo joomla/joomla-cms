@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\Service\HTML;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;

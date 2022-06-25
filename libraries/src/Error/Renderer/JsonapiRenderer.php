@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Error\JsonApi\AuthenticationFailedExceptionHandler;
 use Joomla\CMS\Error\JsonApi\CheckinCheckoutExceptionHandler;

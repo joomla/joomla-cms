@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\Plugin;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;

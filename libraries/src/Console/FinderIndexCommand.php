@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -149,9 +147,8 @@ class TagField extends ListField
             if (ComponentHelper::getParams('com_tags')->get('tag_list_language_filter') === 'current_language') {
                 $language = [$app->getLanguage()->getTag(), '*'];
             }
-        }
-        // Filter language
-        elseif (!empty($this->element['language'])) {
+        } elseif (!empty($this->element['language'])) {
+            // Filter language
             if (strpos($this->element['language'], ',') !== false) {
                 $language = explode(',', $this->element['language']);
             } else {

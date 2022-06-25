@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;

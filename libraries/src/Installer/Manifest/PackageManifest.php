@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installer\Manifest;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Installer\InstallerExtension;
 use Joomla\CMS\Installer\Manifest;
 

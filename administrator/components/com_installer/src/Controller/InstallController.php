@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;

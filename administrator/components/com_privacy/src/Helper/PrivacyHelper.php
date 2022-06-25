@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\Component\Privacy\Administrator\Export\Domain;

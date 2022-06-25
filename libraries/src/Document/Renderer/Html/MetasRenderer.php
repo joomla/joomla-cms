@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;

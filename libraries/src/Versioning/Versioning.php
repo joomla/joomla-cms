@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Versioning;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;

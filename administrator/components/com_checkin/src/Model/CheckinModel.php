@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Checkin\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -209,9 +207,8 @@ class CheckinModel extends ListModel
                 } else {
                     krsort($results);
                 }
-            }
-            // Order items by number of items
-            else {
+            } else {
+                // Order items by number of items
                 if (strtolower($this->getState('list.direction')) == 'asc') {
                     asort($results);
                 } else {

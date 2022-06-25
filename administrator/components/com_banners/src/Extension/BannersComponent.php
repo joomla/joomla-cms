@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Component\Router\RouterServiceInterface;

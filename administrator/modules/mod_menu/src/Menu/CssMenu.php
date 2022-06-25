@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Menu\Administrator\Menu;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Associations;
@@ -376,9 +374,8 @@ class CssMenu
                 }
 
                 list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            }
-            // Special case for components which only allow super user access
-            elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
             } elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin')) {
@@ -494,9 +491,8 @@ class CssMenu
         // We were passed a class name
         if (substr($identifier, 0, 6) == 'class:') {
             $class = substr($identifier, 6);
-        }
-        // We were passed background icon url. Build the CSS class for the icon
-        else {
+        } else {
+            // We were passed background icon url. Build the CSS class for the icon
             if ($identifier == null) {
                 return null;
             }

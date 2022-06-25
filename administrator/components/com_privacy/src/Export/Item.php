@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\Export;
 
-\defined('_JEXEC') or die;
-
 /**
  * Data object representing a single item within a domain.
  *

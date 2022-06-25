@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,13 +41,13 @@ class SiteUpCommand extends AbstractCommand
      * Return code if site:up failed
      * @since 4.0.0
      */
-    const SITE_UP_FAILED = 1;
+    public const SITE_UP_FAILED = 1;
 
     /**
      * Return code if site:up was successful
      * @since 4.0.0
      */
-    const SITE_UP_SUCCESSFUL = 0;
+    public const SITE_UP_SUCCESSFUL = 0;
 
     /**
      * Configures the IO

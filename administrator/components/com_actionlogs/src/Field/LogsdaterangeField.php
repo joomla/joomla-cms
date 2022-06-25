@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\PredefinedlistField;
 use Joomla\CMS\Form\Form;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 

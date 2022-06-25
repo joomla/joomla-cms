@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Workflow\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -147,9 +145,8 @@ class WorkflowTable extends Table
             // If there is no default workflow => set the current to default to recover
             if (empty($id)) {
                 $this->default = '1';
-            }
-            // This workflow is the default, but someone has tried to disable it => not allowed
-            elseif ($id === $this->id) {
+            } elseif ($id === $this->id) {
+                // This workflow is the default, but someone has tried to disable it => not allowed
                 $this->setError(Text::_('COM_WORKFLOW_DISABLE_DEFAULT'));
 
                 return false;

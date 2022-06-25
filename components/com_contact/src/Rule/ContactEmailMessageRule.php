@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\Rule;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;

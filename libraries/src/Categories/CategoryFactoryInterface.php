@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Categories;
 
-\defined('_JEXEC') or die;
-
 /**
  * Category factory interface
  *

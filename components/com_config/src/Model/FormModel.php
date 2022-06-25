@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Config\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;

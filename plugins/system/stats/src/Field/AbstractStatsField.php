@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Stats\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 

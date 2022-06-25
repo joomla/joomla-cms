@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;

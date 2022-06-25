@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\WebAsset;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 use Joomla\CMS\WebAsset\WebAssetRegistryInterface;

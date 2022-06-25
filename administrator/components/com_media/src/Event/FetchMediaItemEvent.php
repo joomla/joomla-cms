@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
-\defined('_JEXEC') or die;
-
 /**
  * Event object for fetch media item.
  *

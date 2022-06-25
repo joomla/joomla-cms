@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Language\CachingLanguageFactory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;

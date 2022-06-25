@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Serializer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Tobscure\JsonApi\AbstractSerializer;

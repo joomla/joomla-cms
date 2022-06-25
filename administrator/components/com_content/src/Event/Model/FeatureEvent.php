@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Content\Administrator\Event\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 

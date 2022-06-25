@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use stdClass;
 

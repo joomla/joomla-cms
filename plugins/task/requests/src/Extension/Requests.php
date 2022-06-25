@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\Task\Requests\Extension;
 
-// Restrict direct access
-defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;

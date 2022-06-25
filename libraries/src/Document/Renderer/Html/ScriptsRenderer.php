@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
@@ -293,9 +291,8 @@ class ScriptsRenderer extends DocumentRenderer
             // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
             if ($attrib === 'mime') {
                 $attrib = 'type';
-            }
-            // NoValue attribute in non HTML5 should contain a value, set it equal to attribute name.
-            elseif ($isNoValueAttrib) {
+            } elseif ($isNoValueAttrib) {
+                // NoValue attribute in non HTML5 should contain a value, set it equal to attribute name.
                 $value = $attrib;
             }
 

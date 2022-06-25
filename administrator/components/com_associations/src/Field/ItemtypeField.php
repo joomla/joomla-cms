@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Associations\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;

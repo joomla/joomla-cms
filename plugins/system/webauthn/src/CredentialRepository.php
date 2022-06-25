@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
-
 use Exception;
 use InvalidArgumentException;
 use Joomla\CMS\Encrypt\Aes;

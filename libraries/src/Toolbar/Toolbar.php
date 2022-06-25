@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Toolbar;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -303,9 +301,8 @@ class Toolbar
                 $button->setOption('is_first_child', $i === 0);
                 $button->setOption('is_last_child', $i === $len - 1);
                 $html[] = $button->render();
-            }
-            // B/C
-            else {
+            } else {
+                // B/C
                 $html[] = $this->renderButton($button);
             }
         }

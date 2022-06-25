@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -223,12 +221,11 @@ class SearchModel extends ListModel
         if ($ordering === 'm.weight') {
             // Get the base query and add the ordering information.
             $query->select('SUM(' . $db->escape($ordering) . ') AS ordering');
-        }
-        /*
-         * If we are not ordering by relevance, we just have to add
-         * the unique items to the set.
-         */
-        else {
+        } else {
+            /**
+             * If we are not ordering by relevance, we just have to add
+             * the unique items to the set.
+             */
             // Get the base query and add the ordering information.
             $query->select($db->escape($ordering) . ' AS ordering');
         }

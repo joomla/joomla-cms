@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\String;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Algo26\IdnaConvert\ToIdn;
 use Algo26\IdnaConvert\ToUnicode;
 use Algo26\IdnaConvert\Exception\AlreadyPunycodeException;

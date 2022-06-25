@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Categories\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\Table\Category;
 

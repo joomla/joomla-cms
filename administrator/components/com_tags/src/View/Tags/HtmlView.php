@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Tags\Administrator\View\Tags;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;

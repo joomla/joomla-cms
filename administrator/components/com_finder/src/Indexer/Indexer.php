@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -45,7 +43,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    const TITLE_CONTEXT = 1;
+    public const TITLE_CONTEXT = 1;
 
     /**
      * The text context identifier.
@@ -53,7 +51,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    const TEXT_CONTEXT = 2;
+    public const TEXT_CONTEXT = 2;
 
     /**
      * The meta context identifier.
@@ -61,7 +59,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    const META_CONTEXT = 3;
+    public const META_CONTEXT = 3;
 
     /**
      * The path context identifier.
@@ -69,7 +67,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    const PATH_CONTEXT = 4;
+    public const PATH_CONTEXT = 4;
 
     /**
      * The misc context identifier.
@@ -77,7 +75,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    const MISC_CONTEXT = 5;
+    public const MISC_CONTEXT = 5;
 
     /**
      * The indexer state object.
@@ -813,14 +811,12 @@ class Indexer
 
                         // Adjust the buffer based on the last space for the next iteration and trim.
                         $buffer = StringHelper::trim(substr($buffer, $ls));
-                    }
-                    // No space character was found.
-                    else {
+                    } else {
+                        // No space character was found.
                         $string = $buffer;
                     }
-                }
-                // We've reached the end of the file, so parse whatever remains.
-                else {
+                } else {
+                    // We've reached the end of the file, so parse whatever remains.
                     $string = $buffer;
                 }
 
@@ -993,9 +989,8 @@ class Indexer
 
             // Set the internal state.
             $state = $memory;
-        }
-        // We must be setting the tables to the InnoDB engine.
-        elseif ($memory === false && $state !== false) {
+        } elseif ($memory === false && $state !== false) {
+            // We must be setting the tables to the InnoDB engine.
             // Set the tokens table to InnoDB.
             $db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = INNODB');
             $db->execute();

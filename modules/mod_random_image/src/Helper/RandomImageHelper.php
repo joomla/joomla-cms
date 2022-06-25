@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 

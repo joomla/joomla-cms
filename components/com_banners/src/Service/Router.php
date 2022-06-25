@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Site\Service;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\Router\RouterBase;
 
 /**

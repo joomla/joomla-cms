@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
@@ -27,7 +25,7 @@ final class UserGroupsHelper
      * @var    integer
      * @since  3.6.3
      */
-    const MODE_SINGLETON = 1;
+    public const MODE_SINGLETON = 1;
 
     /**
      * Indicates the current helper instance is a standalone class instance.
@@ -35,7 +33,7 @@ final class UserGroupsHelper
      * @var    integer
      * @since  3.6.3
      */
-    const MODE_INSTANCE = 2;
+    public const MODE_INSTANCE = 2;
 
     /**
      * Singleton instance.

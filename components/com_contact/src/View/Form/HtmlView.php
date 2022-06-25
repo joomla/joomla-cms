@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\View\Form;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;

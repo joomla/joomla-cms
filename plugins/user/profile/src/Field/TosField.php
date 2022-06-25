@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\User\Profile\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\HTML\HTMLHelper;

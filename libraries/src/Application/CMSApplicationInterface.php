@@ -30,7 +30,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_EMERGENCY = 'emergency';
+    public const MSG_EMERGENCY = 'emergency';
 
     /**
      * Constant defining an enqueued alert message
@@ -38,7 +38,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_ALERT = 'alert';
+    public const MSG_ALERT = 'alert';
 
     /**
      * Constant defining an enqueued critical message
@@ -46,7 +46,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_CRITICAL = 'critical';
+    public const MSG_CRITICAL = 'critical';
 
     /**
      * Constant defining an enqueued error message
@@ -54,7 +54,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_ERROR = 'error';
+    public const MSG_ERROR = 'error';
 
     /**
      * Constant defining an enqueued warning message
@@ -62,7 +62,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_WARNING = 'warning';
+    public const MSG_WARNING = 'warning';
 
     /**
      * Constant defining an enqueued notice message
@@ -70,7 +70,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_NOTICE = 'notice';
+    public const MSG_NOTICE = 'notice';
 
     /**
      * Constant defining an enqueued info message
@@ -78,7 +78,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_INFO = 'info';
+    public const MSG_INFO = 'info';
 
     /**
      * Constant defining an enqueued debug message
@@ -86,7 +86,7 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
      * @var    string
      * @since  4.0.0
      */
-    const MSG_DEBUG = 'debug';
+    public const MSG_DEBUG = 'debug';
 
     /**
      * Enqueue a system message.

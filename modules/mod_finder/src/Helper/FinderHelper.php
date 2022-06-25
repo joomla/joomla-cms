@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Finder\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;

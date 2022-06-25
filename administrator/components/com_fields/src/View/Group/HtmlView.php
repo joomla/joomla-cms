@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\View\Group;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;

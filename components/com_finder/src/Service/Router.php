@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Site\Service;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;

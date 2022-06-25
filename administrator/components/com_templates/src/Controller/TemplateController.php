@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Templates\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;

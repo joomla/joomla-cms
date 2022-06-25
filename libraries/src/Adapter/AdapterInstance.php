@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Adapter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseDriver;

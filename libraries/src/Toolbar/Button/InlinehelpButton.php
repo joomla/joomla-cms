@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Renders a button to show / hide the inline help text
  *

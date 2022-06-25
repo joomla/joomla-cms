@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -29,7 +27,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const PRODUCT = 'Joomla!';
+    public const PRODUCT = 'Joomla!';
 
     /**
      * Major release version.
@@ -37,7 +35,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    const MAJOR_VERSION = 4;
+    public const MAJOR_VERSION = 4;
 
     /**
      * Minor release version.
@@ -45,7 +43,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    const MINOR_VERSION = 2;
+    public const MINOR_VERSION = 2;
 
     /**
      * Patch release version.
@@ -53,7 +51,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    const PATCH_VERSION = 0;
+    public const PATCH_VERSION = 0;
 
     /**
      * Extra release version info.
@@ -64,7 +62,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    const EXTRA_VERSION = 'dev';
+    public const EXTRA_VERSION = 'dev';
 
     /**
      * Development status.
@@ -72,7 +70,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const DEV_STATUS = 'Development';
+    public const DEV_STATUS = 'Development';
 
     /**
      * Code name.
@@ -80,7 +78,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const CODENAME = 'Uaminifu';
+    public const CODENAME = 'Uaminifu';
 
     /**
      * Release date.
@@ -88,7 +86,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const RELDATE = '22-June-2022';
+    public const RELDATE = '22-June-2022';
 
     /**
      * Release time.
@@ -96,7 +94,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const RELTIME = '17:00';
+    public const RELTIME = '17:00';
 
     /**
      * Release timezone.
@@ -104,7 +102,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const RELTZ = 'GMT';
+    public const RELTZ = 'GMT';
 
     /**
      * Copyright Notice.
@@ -112,7 +110,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const COPYRIGHT = '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>';
+    public const COPYRIGHT = '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>';
 
     /**
      * Link text.
@@ -120,7 +118,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    const URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+    public const URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
     /**
      * Media version string

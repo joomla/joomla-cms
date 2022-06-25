@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\View;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\MVC\View\ViewInterface;

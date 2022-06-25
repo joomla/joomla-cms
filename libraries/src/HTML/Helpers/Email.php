@@ -14,8 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Utility class for cloaking email addresses
  *

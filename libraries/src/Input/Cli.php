@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Input;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Filter\InputFilter;
 
 /**
@@ -147,10 +145,8 @@ class Cli extends Input
                     }
 
                     $out[$key] = $value;
-                }
-
-                // --bar=baz
-                else {
+                } else {
+                    // --bar=baz
                     $key = substr($arg, 2, $eqPos - 2);
                     $value = substr($arg, $eqPos + 1);
                     $out[$key] = $value;

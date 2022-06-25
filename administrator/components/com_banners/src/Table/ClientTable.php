@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Association;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Association Extension Interface for the helper classes
  *

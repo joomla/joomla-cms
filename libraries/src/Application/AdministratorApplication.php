@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -399,9 +397,8 @@ class AdministratorApplication extends CMSApplication
                     ),
                     'warning'
                 );
-            }
-            // Show this message to superusers too
-            elseif (Factory::getUser()->authorise('core.admin')) {
+            } elseif (Factory::getUser()->authorise('core.admin')) {
+                // Show this message to superusers too
                 $this->enqueueMessage(
                     Text::sprintf(
                         'JWARNING_REMOVE_ROOT_USER_ADMIN',

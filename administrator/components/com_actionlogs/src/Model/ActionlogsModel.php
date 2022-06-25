@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use DateTimeZone;
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;

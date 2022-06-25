@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Contact\Api\Serializer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Tag\TagApiSerializerTrait;

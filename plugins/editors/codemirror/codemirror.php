@@ -6,10 +6,9 @@
  *
  * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-// No direct access
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;

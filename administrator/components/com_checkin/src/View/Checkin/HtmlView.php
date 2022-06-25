@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Checkin\Administrator\View\Checkin;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;

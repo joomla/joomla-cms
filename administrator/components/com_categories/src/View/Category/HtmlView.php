@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Category;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -157,14 +155,12 @@ class HtmlView extends BaseHtmlView
         // If a component categories title string is present, let's use it.
         if ($lang->hasKey($component_title_key = $component . ($section ? "_$section" : '') . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE')) {
             $title = Text::_($component_title_key);
-        }
-        // Else if the component section string exists, let's use it.
-        elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : ''))) {
+        } elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : ''))) {
+            // Else if the component section string exists, let's use it.
             $title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
                 . '_TITLE', $this->escape(Text::_($component_section_key)));
-        }
-        // Else use the base title
-        else {
+        } else {
+            // Else use the base title
             $title = Text::_('COM_CATEGORIES_CATEGORY_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
         }
 
@@ -198,10 +194,8 @@ class HtmlView extends BaseHtmlView
             );
 
             ToolbarHelper::cancel('category.cancel');
-        }
-
-        // If not checked out, can save the item.
-        else {
+        } else {
+            // If not checked out, can save the item.
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
             $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
 

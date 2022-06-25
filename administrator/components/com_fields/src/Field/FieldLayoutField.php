@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;

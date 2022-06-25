@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\ArticlesCategories\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 
 /**

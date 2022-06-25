@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -131,9 +131,8 @@ class PlgSystemFields extends CMSPlugin
             // Determine the value if it is (un)available from the data
             if (array_key_exists($field->name, $data['com_fields'])) {
                 $value = $data['com_fields'][$field->name] === false ? null : $data['com_fields'][$field->name];
-            }
-            // Field not available on form, use stored value
-            else {
+            } else {
+                // Field not available on form, use stored value
                 $value = $field->rawvalue;
             }
 

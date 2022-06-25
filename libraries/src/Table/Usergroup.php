@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -100,9 +98,8 @@ class Usergroup extends Table
 
                 return false;
             }
-        }
-        // New entry should always be greater 0
-        elseif (!$this->parent_id) {
+        } elseif (!$this->parent_id) {
+            // New entry should always be greater 0
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
             return false;

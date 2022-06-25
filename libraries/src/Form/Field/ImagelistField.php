@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Supports an HTML select list of image
  *

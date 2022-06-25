@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Media\Administrator\Plugin;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;

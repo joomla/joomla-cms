@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Whosonline\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 
 /**

@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
@@ -38,7 +38,7 @@ class PlgSystemStats extends CMSPlugin
      *
      * @since  3.5
      */
-    const MODE_ALLOW_ALWAYS = 1;
+    public const MODE_ALLOW_ALWAYS = 1;
 
     /**
      * Indicates sending statistics is never allowed.
@@ -47,7 +47,7 @@ class PlgSystemStats extends CMSPlugin
      *
      * @since  3.5
      */
-    const MODE_ALLOW_NEVER = 3;
+    public const MODE_ALLOW_NEVER = 3;
 
     /**
      * @var    \Joomla\CMS\Application\CMSApplication

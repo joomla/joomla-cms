@@ -11,7 +11,7 @@
  * in the default .htaccess and web.config files.
  */
 
-defined('_JEXEC') or die;
+
 
 /**
  * Notifies users of the add the nosniff headers by applying the changes from the default .htaccess or web.config file

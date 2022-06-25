@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\HTML;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Service registry for JHtml services
  *

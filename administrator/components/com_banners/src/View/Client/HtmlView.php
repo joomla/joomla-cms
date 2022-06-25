@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Client;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;

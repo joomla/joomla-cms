@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;

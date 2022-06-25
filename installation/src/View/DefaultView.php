@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\View;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 

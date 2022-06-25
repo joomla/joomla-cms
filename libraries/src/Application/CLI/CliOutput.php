@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application\CLI;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CLI\Output\Processor\ProcessorInterface;
 
 /**

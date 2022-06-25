@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-\defined('_JEXEC') or die();
-
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;

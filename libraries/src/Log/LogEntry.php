@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Log;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filesystem\Path;
 

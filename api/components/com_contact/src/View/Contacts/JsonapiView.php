@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Api\View\Contacts;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\Component\Contact\Api\Serializer\ContactSerializer;

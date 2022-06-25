@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Config\Site\Model;
 
-\defined('_JEXEC') or die;
-
 /**
  * Model for the global configuration
  *

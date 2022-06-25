@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;

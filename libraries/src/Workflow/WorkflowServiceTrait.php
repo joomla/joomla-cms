@@ -16,8 +16,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\Event\DispatcherAwareInterface;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Trait for component workflow service.
  *

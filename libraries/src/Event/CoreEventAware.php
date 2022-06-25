@@ -42,8 +42,6 @@ use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\Event\Event;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Returns the most suitable event class for a Joomla core event name
  *

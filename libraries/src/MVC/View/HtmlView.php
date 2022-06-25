@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\View;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;

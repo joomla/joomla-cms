@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Installer\Installer;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseAwareTrait;

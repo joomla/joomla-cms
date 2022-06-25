@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Menu;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\User;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\Database\ParameterType;

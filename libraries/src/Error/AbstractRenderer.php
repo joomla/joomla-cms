@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Error;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Factory;

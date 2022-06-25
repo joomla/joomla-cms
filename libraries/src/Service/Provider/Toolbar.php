@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Toolbar\ContainerAwareToolbarFactory;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 use Joomla\DI\Container;

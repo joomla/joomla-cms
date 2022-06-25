@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Administrator\View\Contacts;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;

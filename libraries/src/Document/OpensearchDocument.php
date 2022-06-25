@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Document\Opensearch\OpensearchImage;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
 use Joomla\CMS\Factory;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;

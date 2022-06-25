@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper as CMSLanguageHelper;
 use Joomla\CMS\Language\Text;

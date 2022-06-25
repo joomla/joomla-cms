@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Association\AssociationExtensionHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;

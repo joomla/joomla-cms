@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Select;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;

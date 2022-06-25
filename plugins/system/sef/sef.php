@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -67,9 +67,8 @@ class PlgSystemSef extends CMSPlugin
 
             // Set the current canonical link but use the SEF system plugin domain field.
             $canonical = $sefDomain . Uri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
-        }
-        // If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
-        else {
+        } else {
+            // If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
             $canonical = $sefDomain . Uri::getInstance()->toString(array('path', 'query', 'fragment'));
         }
 

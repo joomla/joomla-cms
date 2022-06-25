@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Component\Router;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Menu\AbstractMenu;

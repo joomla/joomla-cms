@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Versioning\VersionableTableInterface;

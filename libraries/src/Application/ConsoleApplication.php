@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;

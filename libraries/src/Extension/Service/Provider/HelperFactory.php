@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;

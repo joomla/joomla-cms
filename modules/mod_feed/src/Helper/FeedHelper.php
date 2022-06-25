@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Feed\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
 

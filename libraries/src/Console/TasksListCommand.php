@@ -9,9 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-// Restrict direct access
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
 use Joomla\Console\Application;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Versioning;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Table\TableInterface;
 
 /**

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Date;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -41,10 +39,10 @@ use Joomla\Database\DatabaseDriver;
  */
 class Date extends \DateTime
 {
-    const DAY_ABBR = "\x021\x03";
-    const DAY_NAME = "\x022\x03";
-    const MONTH_ABBR = "\x023\x03";
-    const MONTH_NAME = "\x024\x03";
+    public const DAY_ABBR = "\x021\x03";
+    public const DAY_NAME = "\x022\x03";
+    public const MONTH_ABBR = "\x023\x03";
+    public const MONTH_NAME = "\x024\x03";
 
     /**
      * The format string to be applied when using the __toString() magic method.

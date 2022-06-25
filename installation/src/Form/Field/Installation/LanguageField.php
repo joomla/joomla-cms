@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installation\Form\Field\Installation;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Installation\Model\SetupModel;
@@ -74,9 +72,8 @@ class LanguageField extends ListField
 
         if (!$options || $options instanceof \Exception) {
             $options = array();
-        }
-        // Sort languages by name
-        else {
+        } else {
+            // Sort languages by name
             usort($options, array($this, '_sortLanguages'));
         }
 

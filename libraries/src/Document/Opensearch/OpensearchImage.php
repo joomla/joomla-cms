@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document\Opensearch;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Data object representing an OpenSearch image
  *

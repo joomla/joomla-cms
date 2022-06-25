@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 /**
  * Helper class for postinstall messages
  *

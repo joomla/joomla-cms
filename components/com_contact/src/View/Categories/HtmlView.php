@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\View\Categories;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\CategoriesView;
 
 /**

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Menu;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Language\Text;

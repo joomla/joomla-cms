@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Mails\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 
 /**

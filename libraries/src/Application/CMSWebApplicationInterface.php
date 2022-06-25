@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\SessionAwareWebApplicationInterface;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Menu\AbstractMenu;

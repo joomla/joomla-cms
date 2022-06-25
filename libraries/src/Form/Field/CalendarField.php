@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;

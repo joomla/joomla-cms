@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Rule;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Form\Rule\OptionsRule;

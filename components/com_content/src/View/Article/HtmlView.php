@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\View\Article;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -150,9 +148,8 @@ class HtmlView extends BaseHtmlView
             // Load layout from active query (in case it is an alternative menu item)
             if (isset($active->query['layout'])) {
                 $this->setLayout($active->query['layout']);
-            }
-            // Check for alternative layout of article
-            elseif ($layout = $item->params->get('article_layout')) {
+            } elseif ($layout = $item->params->get('article_layout')) {
+                // Check for alternative layout of article
                 $this->setLayout($layout);
             }
 

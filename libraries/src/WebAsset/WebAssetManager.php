@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\WebAsset;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
@@ -47,7 +45,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since  4.0.0
      */
-    const ASSET_STATE_INACTIVE = 0;
+    public const ASSET_STATE_INACTIVE = 0;
 
     /**
      * Mark active asset. Just enabled, but WITHOUT dependency resolved
@@ -56,7 +54,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since  4.0.0
      */
-    const ASSET_STATE_ACTIVE = 1;
+    public const ASSET_STATE_ACTIVE = 1;
 
     /**
      * Mark active asset that is enabled as dependency to another asset
@@ -65,7 +63,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since  4.0.0
      */
-    const ASSET_STATE_DEPENDENCY = 2;
+    public const ASSET_STATE_DEPENDENCY = 2;
 
     /**
      * The WebAsset Registry instance

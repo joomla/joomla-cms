@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Menu;
 use Joomla\Database\ParameterType;

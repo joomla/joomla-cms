@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\User;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface defining a factory which can create User objects
  *

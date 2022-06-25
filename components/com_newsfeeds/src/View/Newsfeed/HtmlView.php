@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;

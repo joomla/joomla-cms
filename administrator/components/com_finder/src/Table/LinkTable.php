@@ -13,8 +13,6 @@ namespace Joomla\Component\Finder\Administrator\Table;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
-\defined('_JEXEC') or die;
-
 /**
  * Link table class for the Finder package.
  *

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Toolbar;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;

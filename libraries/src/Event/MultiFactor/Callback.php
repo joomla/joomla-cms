@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-\defined('JPATH_PLATFORM') or die;
-
 use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 

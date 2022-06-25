@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;

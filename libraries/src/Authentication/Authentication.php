@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Authentication;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -33,7 +31,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    const STATUS_SUCCESS = 1;
+    public const STATUS_SUCCESS = 1;
 
     /**
      * Status to indicate cancellation of authentication (unused)
@@ -41,7 +39,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    const STATUS_CANCEL = 2;
+    public const STATUS_CANCEL = 2;
 
     /**
      * This is the status code returned when the authentication failed (prevent login if no success)
@@ -49,7 +47,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    const STATUS_FAILURE = 4;
+    public const STATUS_FAILURE = 4;
 
     /**
      * This is the status code returned when the account has expired (prevent login)
@@ -57,7 +55,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    const STATUS_EXPIRED = 8;
+    public const STATUS_EXPIRED = 8;
 
     /**
      * This is the status code returned when the account has been denied (prevent login)
@@ -65,7 +63,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    const STATUS_DENIED = 16;
+    public const STATUS_DENIED = 16;
 
     /**
      * This is the status code returned when the account doesn't exist (not an error)
@@ -73,7 +71,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    const STATUS_UNKNOWN = 32;
+    public const STATUS_UNKNOWN = 32;
 
     /**
      * @var    Authentication[]  JAuthentication instances container.

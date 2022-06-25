@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
 

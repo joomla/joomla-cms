@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Psr\Container\ContainerInterface;
 
 /**

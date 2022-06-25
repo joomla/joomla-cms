@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\WebAsset;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;

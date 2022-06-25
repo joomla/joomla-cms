@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Menu\MenuFactory;
 use Joomla\CMS\Menu\MenuFactoryInterface;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Help;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;

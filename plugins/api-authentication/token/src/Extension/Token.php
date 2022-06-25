@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\ApiAuthentication\Token\Extension;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Plugin\CMSPlugin;

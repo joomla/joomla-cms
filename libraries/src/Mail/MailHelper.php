@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Mail;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;

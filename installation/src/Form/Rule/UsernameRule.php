@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installation\Form\Rule;
 
-\defined('JPATH_BASE') or die;
-
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;

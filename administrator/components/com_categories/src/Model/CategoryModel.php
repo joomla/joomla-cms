@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Categories\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -911,9 +909,8 @@ class CategoryModel extends AdminModel
                 $this->setError($this->table->getError());
 
                 return false;
-            }
-            // Make sure we can create in root
-            elseif (!$this->user->authorise('core.create', $extension)) {
+            } elseif (!$this->user->authorise('core.create', $extension)) {
+                // Make sure we can create in root
                 $this->setError(Text::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 
                 return false;

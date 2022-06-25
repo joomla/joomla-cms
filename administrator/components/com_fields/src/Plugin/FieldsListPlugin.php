@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 

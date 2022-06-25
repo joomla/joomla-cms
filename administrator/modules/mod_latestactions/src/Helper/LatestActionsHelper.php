@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\LatestActions\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;

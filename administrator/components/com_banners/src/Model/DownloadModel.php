@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;

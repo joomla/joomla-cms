@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
@@ -67,26 +65,20 @@ class UrlFilter implements FormFilterInterface
             // If it looks like an internal link, then add the root.
             if (substr($value, 0, 9) === 'index.php') {
                 $value = Uri::root() . $value;
-            }
-
-            // Otherwise we treat it as an external link.
-            else {
+            } else {
+                // Otherwise we treat it as an external link.
                 // Put the url back together.
                 $value = $protocol . '://' . $value;
             }
-        }
-
-        // If relative URLS are allowed we assume that URLs without protocols are internal.
-        elseif (!$protocol && $element['relative']) {
+        } elseif (!$protocol && $element['relative']) {
+            // If relative URLS are allowed we assume that URLs without protocols are internal.
             $host = Uri::getInstance('SERVER')->getHost();
 
             // If it starts with the host string, just prepend the protocol.
             if (substr($value, 0) === $host) {
                 $value = 'http://' . $value;
-            }
-
-            // Otherwise if it doesn't start with "/" prepend the prefix of the current site.
-            elseif (substr($value, 0, 1) !== '/') {
+            } elseif (substr($value, 0, 1) !== '/') {
+                // Otherwise if it doesn't start with "/" prepend the prefix of the current site.
                 $value = Uri::root(true) . '/' . $value;
             }
         }

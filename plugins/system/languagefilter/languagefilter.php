@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplication;
@@ -126,9 +126,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
                     unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
                 }
             }
-        }
-        // If language filter plugin is executed in an admin page (ex: Route site).
-        else {
+        } else {
+            // If language filter plugin is executed in an admin page (ex: Route site).
             // Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
             $this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
 
@@ -346,9 +345,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
                     $uri->setPath(implode('/', $parts));
                 }
             }
-        }
-        // We are not in SEF mode
-        else {
+        } else {
+            // We are not in SEF mode
             $lang_code = $this->getLanguageCookie();
 
             if (!$lang_code && $this->params->get('detect_browser', 1)) {
@@ -813,9 +811,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
                 $this->app->isHttpsForced(),
                 true
             );
-        }
-        // If not, set the user language in the session (that is already saved in a cookie).
-        else {
+        } else {
+            // If not, set the user language in the session (that is already saved in a cookie).
             $this->app->getSession()->set('plg_system_languagefilter.language', $languageCode);
         }
     }
@@ -832,9 +829,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
         // Is is set to use a year language cookie in plugin params, get the user language from the cookie.
         if ((int) $this->params->get('lang_cookie', 0) === 1) {
             $languageCode = $this->app->input->cookie->get(ApplicationHelper::getHash('language'));
-        }
-        // Else get the user language from the session.
-        else {
+        } else {
+            // Else get the user language from the session.
             $languageCode = $this->app->getSession()->get('plg_system_languagefilter.language');
         }
 

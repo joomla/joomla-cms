@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;

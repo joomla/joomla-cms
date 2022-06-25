@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Tree;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Defines the trait for a Node Interface Trait Class.
  *

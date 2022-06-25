@@ -199,10 +199,9 @@ class Path
 
         if (empty($path)) {
             $path = JPATH_ROOT;
-        }
-        // Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
-        // If dealing with a UNC path don't forget to prepend the path with a backslash.
-        elseif (($ds === '\\') && substr($path, 0, 2) === '\\\\') {
+        } elseif (($ds === '\\') && substr($path, 0, 2) === '\\\\') {
+            // Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+            // If dealing with a UNC path don't forget to prepend the path with a backslash.
             $path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
         } else {
             $path = preg_replace('#[/\\\\]+#', $ds, $path);

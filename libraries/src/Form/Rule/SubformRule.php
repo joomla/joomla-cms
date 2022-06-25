@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -67,9 +65,8 @@ class SubformRule extends FormRule
                     return false;
                 }
             }
-        }
-        // Single value.
-        else {
+        } else {
+            // Single value.
             if ($subForm->validate($value) === false) {
                 // Pass the first error that occurred on the subform validation.
                 $errors = $subForm->getErrors();

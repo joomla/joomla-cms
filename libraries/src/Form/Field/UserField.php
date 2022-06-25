@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -115,9 +113,8 @@ class UserField extends FormField
 
         if (is_numeric($this->value)) {
             $name = User::getInstance($this->value)->name;
-        }
-        // Handle the special case for "current".
-        elseif (strtoupper($this->value) === 'CURRENT') {
+        } elseif (strtoupper($this->value) === 'CURRENT') {
+            // Handle the special case for "current".
             // 'CURRENT' is not a reasonable value to be placed in the html
             $current = Factory::getUser();
 

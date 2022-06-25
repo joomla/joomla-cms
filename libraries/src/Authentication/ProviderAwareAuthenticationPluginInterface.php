@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Authentication;
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Interface class defining the necessary methods for an authentication plugin to be provider aware
  * Please note: might be deprecated with Joomla 4.2

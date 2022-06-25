@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Toolbar;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;

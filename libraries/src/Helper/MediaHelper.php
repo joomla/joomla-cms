@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-\defined('JPATH_PLATFORM') or die;
-
 use enshrined\svgSanitize\Sanitizer;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -277,9 +275,8 @@ class MediaHelper
 
                             return false;
                         }
-                    }
-                    // We can't detect the mime type so it looks like an invalid image
-                    else {
+                    } else {
+                        // We can't detect the mime type so it looks like an invalid image
                         $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
                         return false;
@@ -303,9 +300,8 @@ class MediaHelper
 
                         return false;
                     }
-                }
-                // We can't detect the mime type so it looks like an invalid file
-                else {
+                } else {
+                    // We can't detect the mime type so it looks like an invalid file
                     $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
                     return false;

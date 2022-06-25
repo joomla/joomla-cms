@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;

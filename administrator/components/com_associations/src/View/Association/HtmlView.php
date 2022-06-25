@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Associations\Administrator\View\Association;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;

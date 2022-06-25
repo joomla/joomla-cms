@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;

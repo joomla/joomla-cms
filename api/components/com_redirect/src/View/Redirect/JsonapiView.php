@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Redirect\Api\View\Redirect;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**

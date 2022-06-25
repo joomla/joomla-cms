@@ -181,9 +181,8 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
                                         if ($inheritedGroupRule === null || $inheritedGroupRule === false) {
                                             $result['class'] = 'badge bg-danger';
                                             $result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
-                                        }
-                                        // If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
-                                        else {
+                                        } else {
+                                            // If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
                                             $result['class'] = 'badge bg-success';
                                             $result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
                                         }
@@ -200,9 +199,8 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
                                         if ($assetRule === false) {
                                             $result['class'] = 'badge bg-danger';
                                             $result['text']  =  Text::_('JLIB_RULES_NOT_ALLOWED');
-                                        }
-                                        // If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
-                                        elseif ($assetRule === true) {
+                                        } elseif ($assetRule === true) {
+                                            // If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
                                             $result['class'] = 'badge bg-success';
                                             $result['text']  = Text::_('JLIB_RULES_ALLOWED');
                                         }
@@ -213,14 +211,12 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
                                         if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null) {
                                             $result['class'] = 'badge bg-danger';
                                             $result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
-                                        }
-
-                                        /**
-                                        * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
-                                        * Or some parent group has an explicit "Denied".
-                                        * Calculated permission is "Not Allowed (Locked)".
-                                        */
-                                        elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false) {
+                                        } elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false) {
+                                            /**
+                                             * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
+                                             * Or some parent group has an explicit "Denied".
+                                             * Calculated permission is "Not Allowed (Locked)".
+                                             */
                                             $result['class'] = 'badge bg-danger';
                                             $result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
                                         }

@@ -30,9 +30,8 @@ if (!empty($feed) && is_string($feed)) {
 
     if ($lang->isRtl() && $myrtl == 0) {
         $direction = ' redirect-rtl';
-    }
-    // Feed description
-    elseif ($lang->isRtl() && $myrtl == 1) {
+    } elseif ($lang->isRtl() && $myrtl == 1) {
+        // Feed description
         $direction = ' redirect-ltr';
     } elseif ($lang->isRtl() && $myrtl == 2) {
         $direction = ' redirect-rtl';

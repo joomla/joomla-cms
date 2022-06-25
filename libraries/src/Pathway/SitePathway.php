@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Pathway;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;

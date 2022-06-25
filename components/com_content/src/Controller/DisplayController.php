@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -42,9 +40,8 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
         // Article frontpage Editor pagebreak proxying:
         if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
-        }
-        // Article frontpage Editor article proxying:
-        elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal') {
+        } elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal') {
+            // Article frontpage Editor article proxying:
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
         }
 

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Redirect\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 

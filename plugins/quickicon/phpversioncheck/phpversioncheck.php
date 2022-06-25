@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
@@ -27,7 +27,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      * @var    integer
      * @since  3.7.0
      */
-    const PHP_SUPPORTED = 0;
+    public const PHP_SUPPORTED = 0;
 
     /**
      * Constant representing the active PHP version receiving security support only
@@ -35,7 +35,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      * @var    integer
      * @since  3.7.0
      */
-    const PHP_SECURITY_ONLY = 1;
+    public const PHP_SECURITY_ONLY = 1;
 
     /**
      * Constant representing the active PHP version being unsupported
@@ -43,7 +43,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      * @var    integer
      * @since  3.7.0
      */
-    const PHP_UNSUPPORTED = 2;
+    public const PHP_UNSUPPORTED = 2;
 
     /**
      * Application object.

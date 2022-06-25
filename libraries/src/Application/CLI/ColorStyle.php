@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application\CLI;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Class defining ANSI-color styles for command line output
  *

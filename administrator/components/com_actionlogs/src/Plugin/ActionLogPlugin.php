@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use stdClass;
 

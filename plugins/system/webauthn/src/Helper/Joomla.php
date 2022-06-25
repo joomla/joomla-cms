@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
-
 use DateTime;
 use DateTimeZone;
 use Exception;

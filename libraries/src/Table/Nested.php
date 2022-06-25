@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
@@ -394,9 +392,8 @@ class Nested extends Table
 
                 return false;
             }
-        }
-        // We are moving the tree to be the last child of the root node
-        else {
+        } else {
+            // We are moving the tree to be the last child of the root node
             // Get the last root node as the reference node.
             $query->clear()
                 ->select($this->_tbl_key . ', parent_id, level, lft, rgt')
@@ -584,9 +581,8 @@ class Nested extends Table
                 ->set('rgt = rgt - ' . (int) $node->width)
                 ->where('rgt > ' . (int) $node->rgt);
             $this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
-        }
-        // Leave the children and move them up a level.
-        else {
+        } else {
+            // Leave the children and move them up a level.
             // Delete the node.
             $query->clear()
                 ->delete($this->_tbl)
@@ -748,9 +744,8 @@ class Nested extends Table
                     if ($this->_debug) {
                         $this->_logtable(false);
                     }
-                }
-                // We have a real node set as a location reference.
-                else {
+                } else {
+                    // We have a real node set as a location reference.
                     // Get the reference node by primary key.
                     if (!$reference = $this->_getNode($this->_location_id)) {
                         // Error message set in getNode method.
@@ -794,13 +789,12 @@ class Nested extends Table
 
                 return false;
             }
-        }
-        /*
-         * If we have a given primary key then we assume we are simply updating this
-         * node in the tree.  We should assess whether or not we are moving the node
-         * or just updating its data fields.
-         */
-        else {
+        } else {
+            /**
+             * If we have a given primary key then we assume we are simply updating this
+             * node in the tree.  We should assess whether or not we are moving the node
+             * or just updating its data fields.
+             */
             // If the location has been set, move the node to its new location.
             if ($this->_location_id > 0) {
                 // Skip recursiveUpdatePublishedColumn method, it will be called later.
@@ -894,9 +888,8 @@ class Nested extends Table
         if (empty($pks)) {
             if ($this->$k) {
                 $pks = explode(',', $this->$k);
-            }
-            // Nothing to set publishing state on, return false.
-            else {
+            } else {
+                // Nothing to set publishing state on, return false.
                 $e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
                 $this->setError($e);
 

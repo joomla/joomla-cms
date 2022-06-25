@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Log;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Service registry for loggers
  *

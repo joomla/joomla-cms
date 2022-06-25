@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Template;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -248,18 +246,15 @@ class HtmlView extends BaseHtmlView
             if ($this->type === 'file') {
                 ToolbarHelper::apply('template.apply');
                 ToolbarHelper::save('template.save');
-            }
-            // Add a Crop and Resize button
-            elseif ($this->type === 'image') {
+            } elseif ($this->type === 'image') {
+                // Add a Crop and Resize button
                 ToolbarHelper::custom('template.cropImage', 'icon-crop', '', 'COM_TEMPLATES_BUTTON_CROP', false);
                 ToolbarHelper::modal('resizeModal', 'icon-expand', 'COM_TEMPLATES_BUTTON_RESIZE');
-            }
-            // Add an extract button
-            elseif ($this->type === 'archive') {
+            } elseif ($this->type === 'archive') {
+                // Add an extract button
                 ToolbarHelper::custom('template.extractArchive', 'chevron-down', '', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
-            }
-            // Add a copy/child template button
-            elseif ($this->type === 'home') {
+            } elseif ($this->type === 'home') {
+                // Add a copy/child template button
                 if (isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1') {
                     ToolbarHelper::modal('childModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_TEMPLATE_CHILD', false);
                 } elseif (!isset($this->template->xmldata->parent) || $this->template->xmldata->parent == '') {

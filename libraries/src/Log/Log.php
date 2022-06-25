@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Log;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Joomla! Log Class
  *
@@ -30,7 +28,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const ALL = 30719;
+    public const ALL = 30719;
 
     /**
      * The system is unusable.
@@ -38,7 +36,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const EMERGENCY = 1;
+    public const EMERGENCY = 1;
 
     /**
      * Action must be taken immediately.
@@ -46,7 +44,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const ALERT = 2;
+    public const ALERT = 2;
 
     /**
      * Critical conditions.
@@ -54,7 +52,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const CRITICAL = 4;
+    public const CRITICAL = 4;
 
     /**
      * Error conditions.
@@ -62,7 +60,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const ERROR = 8;
+    public const ERROR = 8;
 
     /**
      * Warning conditions.
@@ -70,7 +68,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const WARNING = 16;
+    public const WARNING = 16;
 
     /**
      * Normal, but significant condition.
@@ -78,7 +76,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const NOTICE = 32;
+    public const NOTICE = 32;
 
     /**
      * Informational message.
@@ -86,7 +84,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const INFO = 64;
+    public const INFO = 64;
 
     /**
      * Debugging message.
@@ -94,7 +92,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    const DEBUG = 128;
+    public const DEBUG = 128;
 
     /**
      * The global Log instance.

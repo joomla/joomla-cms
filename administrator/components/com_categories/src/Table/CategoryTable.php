@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Categories\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 /**
  * Category table
  *

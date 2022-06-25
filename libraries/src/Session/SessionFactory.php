@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Session;
 
-\defined('JPATH_PLATFORM') or die;
-
 use InvalidArgumentException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\ContainerAwareInterface;

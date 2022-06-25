@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
@@ -63,9 +61,8 @@ class DatabaseModel extends BaseInstallationModel
         // Load the selected language
         if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR)) {
             $lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
-        }
-        // Pre-load en-GB in case the chosen language files do not exist.
-        else {
+        } else {
+            // Pre-load en-GB in case the chosen language files do not exist.
             $lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
         }
 
@@ -194,9 +191,8 @@ class DatabaseModel extends BaseInstallationModel
                     // We did everything we could
                     throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
                 }
-            }
-            // Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
-            else {
+            } else {
+                // Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
                 throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
             }
         }

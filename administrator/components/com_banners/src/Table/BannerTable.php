@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -306,9 +304,8 @@ class BannerTable extends Table implements VersionableTableInterface
         if (empty($pks)) {
             if ($this->$k) {
                 $pks = array($this->$k);
-            }
-            // Nothing to set publishing state on, return false.
-            else {
+            } else {
+                // Nothing to set publishing state on, return false.
                 $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                 return false;

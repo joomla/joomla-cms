@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Mails\Administrator\View\Templates;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;

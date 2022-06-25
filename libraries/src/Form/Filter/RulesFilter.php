@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;

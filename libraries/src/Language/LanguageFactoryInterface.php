@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Language;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface defining a factory which can create language objects
  *

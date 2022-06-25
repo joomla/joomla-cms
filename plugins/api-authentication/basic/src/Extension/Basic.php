@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\ApiAuthentication\Basic\Extension;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\UserFactoryInterface;

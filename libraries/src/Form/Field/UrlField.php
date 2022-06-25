@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Form Field class for the Joomla Platform.
  * Supports a URL text field

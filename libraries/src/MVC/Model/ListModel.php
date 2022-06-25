@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;

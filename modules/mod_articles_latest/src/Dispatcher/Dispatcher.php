@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\ArticlesLatest\Site\Dispatcher;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;

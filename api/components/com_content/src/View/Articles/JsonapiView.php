@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Api\View\Articles;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;

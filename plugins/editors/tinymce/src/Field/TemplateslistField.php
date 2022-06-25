@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\FolderlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;

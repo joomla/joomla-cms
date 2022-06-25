@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Pathway\SitePathway;
 use Joomla\DI\Container;

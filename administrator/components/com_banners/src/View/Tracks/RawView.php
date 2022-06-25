@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Http\Transport;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Composer\CaBundle\CaBundle;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
@@ -77,10 +75,8 @@ class CurlTransport extends AbstractTransport implements TransportInterface
             // If the data is a scalar value simply add it to the cURL post fields.
             if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0)) {
                 $options[CURLOPT_POSTFIELDS] = $data;
-            }
-
-            // Otherwise we need to encode the value first.
-            else {
+            } else {
+                // Otherwise we need to encode the value first.
                 $options[CURLOPT_POSTFIELDS] = http_build_query($data);
             }
 
@@ -226,9 +222,8 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 
             // Set the body for the response.
             $body = substr($content, $info['header_size']);
-        }
-        // Fallback and try to guess header count by redirect count
-        else {
+        } else {
+            // Fallback and try to guess header count by redirect count
             // Get the number of redirects that occurred.
             $redirects = $info['redirect_count'] ?? 0;
 

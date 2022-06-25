@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Filter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 

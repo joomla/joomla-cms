@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-\defined('_JEXEC') or die;
-
 /**
  * Defines the trait for a HelperFactory Aware Class.
  *

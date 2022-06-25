@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Router;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -28,21 +26,21 @@ class Route
      *
      * @since  3.9.7
      */
-    const TLS_IGNORE = 0;
+    public const TLS_IGNORE = 0;
 
     /**
      * Make URI secure using http over TLS (https).
      *
      * @since  3.9.7
      */
-    const TLS_FORCE = 1;
+    public const TLS_FORCE = 1;
 
     /**
      * Make URI unsecure using plain http (http).
      *
      * @since  3.9.7
      */
-    const TLS_DISABLE = 2;
+    public const TLS_DISABLE = 2;
 
     /**
      * The route object so we don't have to keep fetching it.

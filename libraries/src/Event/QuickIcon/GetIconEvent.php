@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\QuickIcon;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;

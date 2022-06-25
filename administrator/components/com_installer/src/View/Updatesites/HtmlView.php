@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Updatesites;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;

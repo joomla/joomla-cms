@@ -156,9 +156,8 @@ class DatabaseModel extends InstallerModel
                     // Module with unknown client id!? - bail
                     continue;
                 }
-            }
-            // Specific bodge for the Joomla CMS special database check which points to com_admin
-            elseif ($result->type === 'file' && $result->element === 'com_admin') {
+            } elseif ($result->type === 'file' && $result->element === 'com_admin') {
+                // Specific bodge for the Joomla CMS special database check which points to com_admin
                 $basePath = JPATH_ADMINISTRATOR . '/components/' . $result->element;
             } else {
                 // Unknown extension type (library, files etc which don't have known SQL paths right now)

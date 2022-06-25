@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-\defined('_JEXEC') or die;
-
 /**
  * Defines the trait for a MVC factory service class.
  *

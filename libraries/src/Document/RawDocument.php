@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * RawDocument class, provides an easy interface to parse and display raw output
  *

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Filesystem;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * File system helper
  *

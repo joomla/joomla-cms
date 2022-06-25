@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Serializer\Events;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
 /**

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Access;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
@@ -496,9 +494,8 @@ class Access
             // If not in any recursive mode. We only want the asset rules.
             if (!$recursive && !$recursiveParentAsset) {
                 $collected = array(self::$assetPermissionsParentIdMapping[$extensionName][$assetId]->rules);
-            }
-            // If there is any type of recursive mode.
-            else {
+            } else {
+                // If there is any type of recursive mode.
                 $ancestors = array_reverse(self::getAssetAncestors($extensionName, $assetId));
 
                 foreach ($ancestors as $id) {
@@ -677,9 +674,8 @@ class Access
                 // If we already have the asset name stored in preloading, example, a component, no need to fetch it from table.
                 if (isset($preloadedAssetsByName[$assetKey])) {
                     $loaded[$assetKey] = $preloadedAssetsByName[$assetKey];
-                }
-                // Else we have to do an extra db query to fetch it from the table fetch it from table.
-                else {
+                } else {
+                    // Else we have to do an extra db query to fetch it from the table fetch it from table.
                     $table = new Asset(Factory::getDbo());
                     $table->load(array('name' => $assetKey));
                     $loaded[$assetKey] = $table->id;
@@ -712,13 +708,11 @@ class Access
             // It's the root asset.
             if (self::$rootAssetId !== null && $assetKey === self::$rootAssetId) {
                 $loaded[$assetKey] = self::$preloadedAssets[self::$rootAssetId];
-            }
-            // If we already have the asset name stored in preloading, example, a component, no need to fetch it from table.
-            elseif (isset(self::$preloadedAssets[$assetKey])) {
+            } elseif (isset(self::$preloadedAssets[$assetKey])) {
+                // If we already have the asset name stored in preloading, example, a component, no need to fetch it from table.
                 $loaded[$assetKey] = self::$preloadedAssets[$assetKey];
-            }
-            // Else we have to do an extra db query to fetch it from the table fetch it from table.
-            else {
+            } else {
+                // Else we have to do an extra db query to fetch it from the table fetch it from table.
                 $table = new Asset(Factory::getDbo());
                 $table->load($assetKey);
                 $loaded[$assetKey] = $table->name;
@@ -837,9 +831,8 @@ class Access
             // Guest user (if only the actually assigned group is requested)
             if (empty($userId) && !$recursive) {
                 $result = array($guestUsergroup);
-            }
-            // Registered user and guest if all groups are requested
-            else {
+            } else {
+                // Registered user and guest if all groups are requested
                 $db = Factory::getDbo();
 
                 // Build the database query to get the rules for the asset.
@@ -990,9 +983,8 @@ class Access
                 if (($id < 0) && (($id * -1) == $userId)) {
                     $authorised[] = $level;
                     break;
-                }
-                // Check to see if the group is mapped to the level.
-                elseif (($id >= 0) && \in_array($id, $groups)) {
+                } elseif (($id >= 0) && \in_array($id, $groups)) {
+                    // Check to see if the group is mapped to the level.
                     $authorised[] = $level;
                     break;
                 }

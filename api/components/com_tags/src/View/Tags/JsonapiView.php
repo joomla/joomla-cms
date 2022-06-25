@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Tags\Api\View\Tags;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**

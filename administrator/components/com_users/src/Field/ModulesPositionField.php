@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Field;
 
-defined('_JEXEC') || die();
-
 /**
  * Select modules positions.
  *

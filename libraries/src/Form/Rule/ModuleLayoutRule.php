@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\FormRule;
 
 /**

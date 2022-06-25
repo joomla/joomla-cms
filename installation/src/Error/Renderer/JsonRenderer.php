@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Error\Renderer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Installation\Response\JsonResponse;
 
