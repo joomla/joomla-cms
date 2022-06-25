@@ -11,7 +11,6 @@ namespace Joomla\Plugin\Behaviour\Versionable\Extension;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Table\AfterStoreEvent;
 use Joomla\CMS\Event\Table\BeforeDeleteEvent;
@@ -37,7 +36,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -48,18 +47,10 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * The application object
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
 	 * The input filter
 	 *
 	 * @var    InputFilter
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $filter;
 
@@ -67,7 +58,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 	 * The CMS helper
 	 *
 	 * @var    CMSHelper
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $helper;
 
@@ -126,7 +117,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 
 		$id     = $table->getId();
 		$data   = $this->helper->getDataObject($table);
-		$input  = $this->app->input;
+		$input  = $this->getApplication()->input;
 		$jform  = $input->get('jform', array(), 'array');
 		$versionNote = '';
 

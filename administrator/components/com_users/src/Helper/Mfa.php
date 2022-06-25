@@ -122,7 +122,7 @@ abstract class Mfa
 			/**
 			 * This is intentional! When you are developing a Multi-factor Authentication plugin you
 			 * will inevitably mess something up and end up with an error. This would cause the
-			 * entire MFA configuration page to dissappear. No problem! Set Debug System to Yes in
+			 * entire MFA configuration page to disappear. No problem! Set Debug System to Yes in
 			 * Global Configuration and you can see the error exception which will help you solve
 			 * your problem.
 			 */
