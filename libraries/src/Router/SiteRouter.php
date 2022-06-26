@@ -205,7 +205,7 @@ class SiteRouter extends Router
 	 */
 	public function parseSefRoute(&$router, &$uri)
 	{
-		$route = $uri->getPath();
+		$route = strtolower($uri->getPath());
 
 		// If the URL is empty, we handle this in the non-SEF parse URL
 		if (empty($route))
