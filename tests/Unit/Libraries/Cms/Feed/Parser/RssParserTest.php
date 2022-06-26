@@ -52,7 +52,7 @@ class RssParserTest extends UnitTestCase
 			->with($category, '');
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleCategory');
 		$method->setAccessible(true);
@@ -103,7 +103,7 @@ class RssParserTest extends UnitTestCase
 			);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleCloud');
 		$method->setAccessible(true);
@@ -133,7 +133,7 @@ class RssParserTest extends UnitTestCase
 			->with('copyright', $copyright);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleCopyright');
 		$method->setAccessible(true);
@@ -163,7 +163,7 @@ class RssParserTest extends UnitTestCase
 			->with('description', $subtitle);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleDescription');
 		$method->setAccessible(true);
@@ -193,7 +193,7 @@ class RssParserTest extends UnitTestCase
 			->with('generator', $generator);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleGenerator');
 		$method->setAccessible(true);
@@ -246,7 +246,7 @@ class RssParserTest extends UnitTestCase
 			);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleImage');
 		$method->setAccessible(true);
@@ -276,7 +276,7 @@ class RssParserTest extends UnitTestCase
 			->with('language', $language);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleLanguage');
 		$method->setAccessible(true);
@@ -306,7 +306,7 @@ class RssParserTest extends UnitTestCase
 			->with('updatedDate', $buildDate);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleLastBuildDate');
 		$method->setAccessible(true);
@@ -343,7 +343,7 @@ class RssParserTest extends UnitTestCase
 			);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleLink');
 		$method->setAccessible(true);
@@ -385,7 +385,7 @@ class RssParserTest extends UnitTestCase
 			);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleManagingEditor');
 		$method->setAccessible(true);
@@ -415,7 +415,7 @@ class RssParserTest extends UnitTestCase
 			->with('publishedDate', $pubDate);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handlePubDate');
 		$method->setAccessible(true);
@@ -445,7 +445,7 @@ class RssParserTest extends UnitTestCase
 			->with('skipDays', $skipDays);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleSkipDays');
 		$method->setAccessible(true);
@@ -475,7 +475,7 @@ class RssParserTest extends UnitTestCase
 			->with('skipHours', $skipHours);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleSkipHours');
 		$method->setAccessible(true);
@@ -505,7 +505,7 @@ class RssParserTest extends UnitTestCase
 			->with('title', $title);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleTitle');
 		$method->setAccessible(true);
@@ -535,7 +535,7 @@ class RssParserTest extends UnitTestCase
 			->with('ttl', (int) $ttl);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleTtl');
 		$method->setAccessible(true);
@@ -568,7 +568,7 @@ class RssParserTest extends UnitTestCase
 			->with($webmaster['name'], $webmaster['email'], null, 'webmaster');
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('handleWebmaster');
 		$method->setAccessible(true);
@@ -576,39 +576,30 @@ class RssParserTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests RssParser::initialise()
+	 * Tests RssParser::parse()
 	 *
 	 * @return void
 	 * @since         3.1.4
 	 * @throws \ReflectionException
 	 */
-	public function testInitialiseSetsVersion()
+	public function testParseSetsVersion()
 	{
-		$version = '2.0';
+		$dummyXml  = '<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0">
+	<channel>
+		<title>Test Channel</title>
+	</channel>
+</rss>';
+		$reader    = \XMLReader::XML($dummyXml);
+		$rssParser = new RssParser($reader);
+		$rssParser->parse();
 
-		$readerMock = $this->createMock(XMLReader::class);
-
-		$readerMock
-			->expects($this->once())
-			->method('getAttribute')
-			->with('version')
-			->willReturn($version);
-
-		$readerMock
-			->expects($this->any())
-			->method('read')
-			->willReturn(false);
-
-		// Use reflection to test protected method
-		$rssParser = new RssParser($readerMock);
+		// Use reflection to check the value
 		$reflectionClass = new ReflectionClass($rssParser);
-		$method = $reflectionClass->getMethod('initialise');
-		$method->setAccessible(true);
-		$method->invoke($rssParser);
 		$attribute = $reflectionClass->getProperty('version');
 		$attribute->setAccessible(true);
 
-		$this->assertEquals($version, $attribute->getValue($rssParser));
+		$this->assertEquals('2.0', $attribute->getValue($rssParser));
 	}
 
 	/**
@@ -695,7 +686,7 @@ class RssParserTest extends UnitTestCase
 			);
 
 		// Use reflection to test protected method
-		$rssParser = new RssParser($this->createMock(XMLReader::class));
+		$rssParser = new RssParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($rssParser);
 		$method = $reflectionClass->getMethod('processFeedEntry');
 		$method->setAccessible(true);
