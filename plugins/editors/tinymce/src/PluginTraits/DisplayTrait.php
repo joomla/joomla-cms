@@ -117,8 +117,6 @@ trait DisplayTrait
 		}
 
 		$doc->addScriptOptions('plg_editor_tinymce', $options, false);
-
-
 		// Setup Default (common) options for the Editor script
 
 		// Check whether we already have them
