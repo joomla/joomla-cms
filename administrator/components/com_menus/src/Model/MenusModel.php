@@ -42,6 +42,7 @@ class MenusModel extends ListModel
 				'title', 'a.title',
 				'menutype', 'a.menutype',
 				'client_id', 'a.client_id',
+				'ordering', 'a.ordering',
 			);
 		}
 
@@ -174,6 +175,7 @@ class MenusModel extends ListModel
 					$db->quoteName('a.title'),
 					$db->quoteName('a.description'),
 					$db->quoteName('a.client_id'),
+					$db->quoteName('a.ordering'),
 				]
 			)
 		)
