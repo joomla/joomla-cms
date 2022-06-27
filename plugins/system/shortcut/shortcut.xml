@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_shortcut</name>
+	<author>Joomla! Project</author>
+	<creationDate>2022-06</creationDate>
+	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.2.0</version>
+	<description>PLG_SYSTEM_SHORTCUT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Shortcut</namespace>
+	<media destination="plg_system_shortcut" folder="media">
+		<folder>js</folder>
+	</media>
+	<files>
+		<folder plugin="shortcut">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_shortcut.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_shortcut.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="timeout"
+					type="number"
+					label="PLG_SYSTEM_SHORTCUT_TIMEOUT_LABEL"
+					description="PLG_SYSTEM_SHORTCUT_TIMEOUT_DESC"
+					required="true"
+					start="1"
+					step="1"
+					default="2000"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

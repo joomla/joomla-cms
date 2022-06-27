@@ -259,7 +259,7 @@ class OverridesModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database

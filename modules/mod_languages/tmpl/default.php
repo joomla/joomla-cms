@@ -37,7 +37,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 				</button>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul role="listbox" aria-labelledby="language_picker_des_<?php echo $module->id; ?>" class="lang-block dropdown-menu">
+		<ul aria-labelledby="language_picker_des_<?php echo $module->id; ?>" class="lang-block dropdown-menu">
 
 		<?php foreach ($list as $language) : ?>
 			<?php
@@ -49,7 +49,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 			?>
 			<?php if (!$language->active) : ?>
 				<li>
-					<a role="option" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+					<a <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 						<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 						<?php endif; ?>
@@ -59,7 +59,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 			<?php elseif ($params->get('show_active', 1)) : ?>
 				<?php $base = Uri::getInstance(); ?>
 				<li class="lang-active">
-					<a aria-current="true" role="option" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+					<a aria-current="true" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 						<?php if ($params->get('dropdownimage', 1) && ($language->image)) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $params->get('full_name') ? '' : $language->title_native, null, true); ?>
 						<?php endif; ?>
@@ -71,7 +71,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		</ul>
 	</div>
 <?php else : ?>
-	<ul role="listbox" aria-labelledby="language_picker_des_<?php echo $module->id; ?>" class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
+	<ul aria-labelledby="language_picker_des_<?php echo $module->id; ?>" class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 
 	<?php foreach ($list as $language) : ?>
 		<?php
@@ -83,7 +83,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		?>
 		<?php if (!$language->active) : ?>
 			<li>
-				<a role="option" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+				<a <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($params->get('image', 1)) : ?>
 						<?php if ($language->image) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
@@ -98,7 +98,7 @@ $wa->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 		<?php elseif ($params->get('show_active', 1)) : ?>
 			<?php $base = Uri::getInstance(); ?>
 			<li class="lang-active">
-				<a aria-current="true" role="option" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
+				<a aria-current="true" <?php echo $lbl; ?> href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($params->get('image', 1)) : ?>
 						<?php if ($language->image) : ?>
 							<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>

@@ -100,7 +100,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
 			->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -209,7 +209,7 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function getCheckForSelfUpdate()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -283,11 +283,12 @@ class UpdateModel extends BaseDatabaseModel
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
+			'current'   => JVERSION // This is deprecated please use 'installed' or JVERSION directly
 		);
 
 		// Fetch the update information from the database.
 		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__updates'))
@@ -313,15 +314,6 @@ class UpdateModel extends BaseDatabaseModel
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest']  = $updateObject->version;
-		$this->updateInformation['current'] = JVERSION;
-
-		// Check whether this is an update or not.
-		if (version_compare($updateObject->version, JVERSION, '>'))
-		{
-			$this->updateInformation['hasUpdate'] = true;
-		}
-
 		$minimumStability      = Updater::STABILITY_STABLE;
 		$comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
@@ -334,7 +326,15 @@ class UpdateModel extends BaseDatabaseModel
 		$update = new Update;
 		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
 
+		// Make sure we use the current information we got from the detailsurl
 		$this->updateInformation['object'] = $update;
+		$this->updateInformation['latest'] = $updateObject->version;
+
+		// Check whether this is an update or not.
+		if (version_compare($this->updateInformation['latest'], JVERSION, '>'))
+		{
+			$this->updateInformation['hasUpdate'] = true;
+		}
 
 		return $this->updateInformation;
 	}
@@ -348,7 +348,7 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Modify the database record
 		$update_site = new \stdClass;
@@ -713,15 +713,12 @@ ENDDATA;
 			return false;
 		}
 
-		// Re-create namespace map. It is needed when updating to a Joomla! version has new extension added
-		(new \JNamespacePsr4Map)->create();
-
 		$installer->manifest = $manifest;
 
 		$installer->setUpgrade(true);
 		$installer->setOverwrite(true);
 
-		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDatabase());
 		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
@@ -758,7 +755,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Get a database connector object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		/*
 		 * Check to see if a file extension by the same name is already installed.
@@ -788,7 +785,7 @@ ENDDATA;
 		}
 
 		$id = $db->loadResult();
-		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row = new \Joomla\CMS\Table\Extension($this->getDatabase());
 
 		if ($id)
 		{
@@ -881,7 +878,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Clobber any possible pending updates.
-		$update = new \Joomla\CMS\Table\Update($this->getDbo());
+		$update = new \Joomla\CMS\Table\Update($this->getDatabase());
 		$uid = $update->find(
 			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
@@ -1458,7 +1455,7 @@ ENDDATA;
 	 */
 	public function getNonCoreExtensions()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1507,9 +1504,9 @@ ENDDATA;
 	 *
 	 * @since   3.10.0
 	 */
-	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','twofactorauth'])
+	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1617,7 +1614,7 @@ ENDDATA;
 	private function getUpdateSitesInfo($extensionID)
 	{
 		$id = (int) $extensionID;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1808,7 +1805,7 @@ ENDDATA;
 	 */
 	public function isTemplateActive($template)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(

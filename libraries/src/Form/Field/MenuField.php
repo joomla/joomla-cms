@@ -46,7 +46,7 @@ class MenuField extends GroupedlistField
 		$accessType = (string) $this->element['accesstype'];
 		$showAll    = (string) $this->element['showAll'] === 'true';
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[
