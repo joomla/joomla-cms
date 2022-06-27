@@ -260,6 +260,8 @@ class Uri extends \Joomla\Uri\Uri
 	 */
 	public static function isInternal($url)
 	{
+		$url = str_replace('\\', '/', $url);
+
 		$uri = static::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));

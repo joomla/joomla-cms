@@ -96,7 +96,7 @@ class AssociationsController extends AdminController
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
 
-		if (!array_key_exists($typeName, $types))
+		if (!\array_key_exists($typeName, $types))
 		{
 			return;
 		}
@@ -107,7 +107,7 @@ class AssociationsController extends AdminController
 			return;
 		}
 
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 
 		if (empty($cid))
 		{
@@ -117,6 +117,12 @@ class AssociationsController extends AdminController
 
 		// We know the first element is the one we need because we don't allow multi selection of rows
 		$id = $cid[0];
+
+		if ($id === 0)
+		{
+			// Seems we don't have an id to work with.
+			return;
+		}
 
 		if (AssociationsHelper::canCheckinItem($extensionName, $typeName, $id) === true)
 		{

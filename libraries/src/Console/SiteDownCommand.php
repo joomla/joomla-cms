@@ -102,7 +102,7 @@ class SiteDownCommand extends AbstractCommand
 
 		if ($returnCode === 0)
 		{
-			$this->ioStyle->success("Successfully set site to offline");
+			$this->ioStyle->success("Website is now offline");
 
 			return self::SITE_DOWN_SUCCESSFUL;
 		}

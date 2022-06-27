@@ -231,7 +231,7 @@ class MenuField extends FormField
 
 		if ($value)
 		{
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu'))
