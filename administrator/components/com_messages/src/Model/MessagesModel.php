@@ -174,7 +174,7 @@ class MessagesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function purge(int $userId): void
 	{

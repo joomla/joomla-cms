@@ -27,7 +27,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The SiteStatus plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class SiteStatusPluginTest extends UnitTestCase
 {
@@ -36,7 +36,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setUp(): void
 	{
@@ -53,7 +53,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function tearDown(): void
 	{
@@ -68,7 +68,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetOnlineWhenOffline()
 	{
@@ -93,7 +93,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetOnlineWhenOnline()
 	{
@@ -118,7 +118,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetOfflineWhenOnline()
 	{
@@ -143,7 +143,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetOfflineWhenOffline()
 	{
@@ -168,7 +168,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testToggleOffline()
 	{
@@ -193,7 +193,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testToggleOnline()
 	{
@@ -218,7 +218,7 @@ class SiteStatusPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInvalidConfigFile()
 	{

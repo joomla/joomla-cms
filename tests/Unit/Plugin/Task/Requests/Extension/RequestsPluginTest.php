@@ -32,7 +32,7 @@ use Joomla\Uri\UriInterface;
  *
  * @testdox     The Requests plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class RequestsPluginTest extends UnitTestCase
 {
@@ -41,7 +41,7 @@ class RequestsPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setUp(): void
 	{
@@ -56,7 +56,7 @@ class RequestsPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function tearDown(): void
 	{
@@ -71,7 +71,7 @@ class RequestsPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRequest()
 	{
@@ -125,7 +125,7 @@ class RequestsPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInvalidRequest()
 	{
@@ -179,7 +179,7 @@ class RequestsPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testAuthRequest()
 	{
@@ -230,7 +230,7 @@ class RequestsPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testExceptionInRequest()
 	{
@@ -279,7 +279,7 @@ class RequestsPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInvalidFileToWrite()
 	{

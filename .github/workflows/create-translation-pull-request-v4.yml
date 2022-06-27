@@ -10,8 +10,13 @@ on:
     # Run daily at 7:26
     - cron:  '26 7 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: write  # for Git to git push
     runs-on: ubuntu-latest
     # Only run this action the translation-bot repository in the translation branch
     if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation' }}
