@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
 			<?php echo $field->label; ?>
 			<?php echo $field->input; ?>
 			<?php if ($field->description): ?>
-				<div class="form-text hide-aware-inline-help" id="<?php echo $field->id ?>-desc">
+				<div class="form-text hide-aware-inline-help d-none" id="<?php echo $field->id ?>-desc">
 					<?php echo Text::_($field->description) ?>
 				</div>
 			<?php endif; ?>

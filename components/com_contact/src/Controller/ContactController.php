@@ -80,7 +80,7 @@ class ContactController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$app    = Factory::getApplication();
+		$app    = $this->app;
 		$model  = $this->getModel('contact');
 		$stub   = $this->input->getString('id');
 		$id     = (int) $stub;
@@ -301,7 +301,7 @@ class ContactController extends FormController
 			}
 			catch (\RuntimeException $exception)
 			{
-				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+				$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
 				$sent = false;
 			}
