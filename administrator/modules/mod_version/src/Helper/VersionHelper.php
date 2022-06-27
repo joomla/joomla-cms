@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_version
@@ -9,8 +10,6 @@
 
 namespace Joomla\Module\Version\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Version;
 
 /**
@@ -20,15 +19,15 @@ use Joomla\CMS\Version;
  */
 abstract class VersionHelper
 {
-	/**
-	 * Get the Joomla version number.
-	 *
-	 * @return  string  String containing the current Joomla version.
-	 */
-	public static function getVersion()
-	{
-		$version = new Version;
+    /**
+     * Get the Joomla version number.
+     *
+     * @return  string  String containing the current Joomla version.
+     */
+    public static function getVersion()
+    {
+        $version = new Version();
 
-		return '&#x200E;' . $version->getShortVersion();
-	}
+        return '&#x200E;' . $version->getShortVersion();
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -32,24 +33,21 @@ extract($displayData);
  */
 
 $iframeAttributes = array(
-	'class' => 'iframe',
-	'src'   => $params['url']
+    'class' => 'iframe',
+    'src'   => $params['url']
 );
 
-if (isset($params['title']))
-{
-	$iframeAttributes['name'] = addslashes($params['title']);
-	$iframeAttributes['title'] = addslashes($params['title']);
+if (isset($params['title'])) {
+    $iframeAttributes['name'] = addslashes($params['title']);
+    $iframeAttributes['title'] = addslashes($params['title']);
 }
 
-if (isset($params['height']))
-{
-	$iframeAttributes['height'] = $params['height'];
+if (isset($params['height'])) {
+    $iframeAttributes['height'] = $params['height'];
 }
 
-if (isset($params['width']))
-{
-	$iframeAttributes['width'] = $params['width'];
+if (isset($params['width'])) {
+    $iframeAttributes['width'] = $params['width'];
 }
 ?>
 <iframe <?php echo ArrayHelper::toString($iframeAttributes); ?>></iframe>

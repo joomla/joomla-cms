@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_feed
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Module\Feed\Site\Helper;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
@@ -21,37 +20,32 @@ use Joomla\CMS\Language\Text;
  */
 class FeedHelper
 {
-	/**
-	 * Retrieve feed information
-	 *
-	 * @param   \Joomla\Registry\Registry  $params  module parameters
-	 *
-	 * @return  \Joomla\CMS\Feed\Feed|string
-	 */
-	public static function getFeed($params)
-	{
-		// Module params
-		$rssurl = $params->get('rssurl', '');
+    /**
+     * Retrieve feed information
+     *
+     * @param   \Joomla\Registry\Registry  $params  module parameters
+     *
+     * @return  \Joomla\CMS\Feed\Feed|string
+     */
+    public static function getFeed($params)
+    {
+        // Module params
+        $rssurl = $params->get('rssurl', '');
 
-		// Get RSS parsed object
-		try
-		{
-			$feed   = new FeedFactory;
-			$rssDoc = $feed->getFeed($rssurl);
-		}
-		catch (\Exception $e)
-		{
-			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
+        // Get RSS parsed object
+        try {
+            $feed   = new FeedFactory();
+            $rssDoc = $feed->getFeed($rssurl);
+        } catch (\Exception $e) {
+            return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+        }
 
-		if (empty($rssDoc))
-		{
-			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
+        if (empty($rssDoc)) {
+            return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+        }
 
-		if ($rssDoc)
-		{
-			return $rssDoc;
-		}
-	}
+        if ($rssDoc) {
+            return $rssDoc;
+        }
+    }
 }

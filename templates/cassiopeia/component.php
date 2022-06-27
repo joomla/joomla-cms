@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
@@ -26,36 +27,31 @@ $wa->registerAndUseStyle($assetColorName, 'media/templates/site/cassiopeia/css/g
 $paramsFontScheme = $this->params->get('useFontScheme', false);
 $fontStyles       = '';
 
-if ($paramsFontScheme)
-{
-	if (stripos($paramsFontScheme, 'https://') === 0)
-	{
-		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
-		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
-		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
-		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
+if ($paramsFontScheme) {
+    if (stripos($paramsFontScheme, 'https://') === 0) {
+        $this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
+        $this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
+        $this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
+        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
 
-		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
-		{
-			$fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
+        if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
+            $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
-		}
-	}
-	else
-	{
-		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
-		$this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
-	}
+        }
+    } else {
+        $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+        $this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
+    }
 }
 
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-	->useStyle('template.active.language')
-	->useStyle('template.user')
-	->useScript('template.user')
-	->addInlineStyle(":root {
+    ->useStyle('template.active.language')
+    ->useStyle('template.user')
+    ->useScript('template.user')
+    ->addInlineStyle(":root {
 		--hue: 214;
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
@@ -80,13 +76,13 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<jdoc:include type="styles" />
-	<jdoc:include type="scripts" />
+    <jdoc:include type="metas" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <jdoc:include type="styles" />
+    <jdoc:include type="scripts" />
 </head>
 <body class="<?php echo $this->direction === 'rtl' ? 'rtl' : ''; ?>">
-	<jdoc:include type="message" />
-	<jdoc:include type="component" />
+    <jdoc:include type="message" />
+    <jdoc:include type="component" />
 </body>
 </html>
