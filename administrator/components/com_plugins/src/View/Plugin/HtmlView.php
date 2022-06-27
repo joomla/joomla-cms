@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Plugins\Administrator\View\Plugin;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -26,93 +25,88 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The item object for the newsfeed
-	 *
-	 * @var   CMSObject
-	 */
-	protected $item;
+    /**
+     * The item object for the newsfeed
+     *
+     * @var   CMSObject
+     */
+    protected $item;
 
-	/**
-	 * The form object for the newsfeed
-	 *
-	 * @var  \Joomla\CMS\Form\Form
-	 */
-	protected $form;
+    /**
+     * The form object for the newsfeed
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The model state of the newsfeed
-	 *
-	 * @var   CMSObject
-	 */
-	protected $state;
+    /**
+     * The model state of the newsfeed
+     *
+     * @var   CMSObject
+     */
+    protected $state;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->state = $this->get('State');
-		$this->item  = $this->get('Item');
-		$this->form  = $this->get('Form');
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->state = $this->get('State');
+        $this->item  = $this->get('Item');
+        $this->form  = $this->get('Form');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo = ContentHelper::getActions('com_plugins');
+        $canDo = ContentHelper::getActions('com_plugins');
 
-		ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
+        ToolbarHelper::title(Text::sprintf('COM_PLUGINS_MANAGER_PLUGIN', Text::_($this->item->name)), 'plug plugin');
 
-		// If not checked out, can save the item.
-		if ($canDo->get('core.edit'))
-		{
-			ToolbarHelper::apply('plugin.apply');
+        // If not checked out, can save the item.
+        if ($canDo->get('core.edit')) {
+            ToolbarHelper::apply('plugin.apply');
 
-			ToolbarHelper::save('plugin.save');
-		}
+            ToolbarHelper::save('plugin.save');
+        }
 
-		ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-		ToolbarHelper::divider();
+        ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
+        ToolbarHelper::divider();
 
-		// Get the help information for the plugin item.
-		$lang = Factory::getLanguage();
+        // Get the help information for the plugin item.
+        $lang = Factory::getLanguage();
 
-		$help = $this->get('Help');
+        $help = $this->get('Help');
 
-		if ($help->url && $lang->hasKey($help->url))
-		{
-			$debug = $lang->setDebug(false);
-			$url = Text::_($help->url);
-			$lang->setDebug($debug);
-		}
-		else
-		{
-			$url = null;
-		}
+        if ($help->url && $lang->hasKey($help->url)) {
+            $debug = $lang->setDebug(false);
+            $url = Text::_($help->url);
+            $lang->setDebug($debug);
+        } else {
+            $url = null;
+        }
 
-		ToolbarHelper::inlinehelp();
-		ToolbarHelper::help($help->key, false, $url);
-	}
+        ToolbarHelper::inlinehelp();
+        ToolbarHelper::help($help->key, false, $url);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Media\Administrator\Exception;
-
-\defined('_JEXEC') or die;
 
 /**
  * Media file exists exception.
