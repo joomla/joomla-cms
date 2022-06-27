@@ -2,7 +2,7 @@
 <extension type="plugin" group="filesystem" method="upgrade">
 	<name>plg_filesystem_local</name>
 	<author>Joomla! Project</author>
-	<creationDate>April 2017</creationDate>
+	<creationDate>2017-04</creationDate>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
