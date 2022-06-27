@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This script rebase Joomla Github Pull Requests to the target branch
+ * This script rebases Joomla Github Pull Requests to the target branch
  *
  * @package            Joomla.Build
- * @copyright      (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright          (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license            GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,7 +143,7 @@ foreach ($list as $pr) {
 				die('Unable to set target branch for pr #' . $pr['number']);
 		}
 
-		$cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "This pull request has automatically rebased to ' . $targetBranch . '."';
+		$cmd    = $gh . ' pr comment ' . $pr['url'] . ' --body "This pull request has been automatically rebased to ' . $targetBranch . '."';
 		$output = [];
 		exec($cmd, $output, $result);
 		if ($result !== 0) {
