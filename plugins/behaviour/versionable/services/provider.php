@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Behaviour.versionable
@@ -21,32 +22,31 @@ use Joomla\Plugin\Behaviour\Versionable\Extension\Versionable;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$dispatcher = $container->get(DispatcherInterface::class);
-				$plugin     = new Versionable(
-					$dispatcher,
-					(array) PluginHelper::getPlugin('behaviour', 'versionable'),
-					new InputFilter,
-					new CMSHelper
-				);
-				$plugin->setApplication(Factory::getApplication());
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new Versionable(
+                    $dispatcher,
+                    (array) PluginHelper::getPlugin('behaviour', 'versionable'),
+                    new InputFilter(),
+                    new CMSHelper()
+                );
+                $plugin->setApplication(Factory::getApplication());
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };
