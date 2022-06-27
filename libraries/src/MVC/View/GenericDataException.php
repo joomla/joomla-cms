@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\MVC\View;
-
-\defined('JPATH_PLATFORM') or die;
 
 /**
  * Exception class defining an error getting data from a model into a view
