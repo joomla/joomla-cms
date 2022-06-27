@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -6,8 +7,6 @@
  * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -25,24 +24,21 @@ use Joomla\Utilities\ArrayHelper;
  */
 function admin_postinstall_behindproxy_condition()
 {
-	$app = Factory::getApplication();
+    $app = Factory::getApplication();
 
-	if ($app->get('behind_loadbalancer', '0'))
-	{
-		return false;
-	}
+    if ($app->get('behind_loadbalancer', '0')) {
+        return false;
+    }
 
-	if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']))
-	{
-		return true;
-	}
+    if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        return true;
+    }
 
-	if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP']))
-	{
-		return true;
-	}
+    if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) && !empty($_SERVER['HTTP_CLIENT_IP'])) {
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 
@@ -55,35 +51,32 @@ function admin_postinstall_behindproxy_condition()
  */
 function behindproxy_postinstall_action()
 {
-	$prev = ArrayHelper::fromObject(new JConfig);
-	$data = array_merge($prev, array('behind_loadbalancer' => '1'));
+    $prev = ArrayHelper::fromObject(new JConfig());
+    $data = array_merge($prev, array('behind_loadbalancer' => '1'));
 
-	$config = new Registry($data);
+    $config = new Registry($data);
 
-	// Set the configuration file path.
-	$file = JPATH_CONFIGURATION . '/configuration.php';
+    // Set the configuration file path.
+    $file = JPATH_CONFIGURATION . '/configuration.php';
 
-	// Attempt to make the file writeable
-	if (Path::isOwner($file) && !Path::setPermissions($file, '0644'))
-	{
-		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'error');
+    // Attempt to make the file writeable
+    if (Path::isOwner($file) && !Path::setPermissions($file, '0644')) {
+        Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'error');
 
-		return;
-	}
+        return;
+    }
 
-	// Attempt to write the configuration file as a PHP class named JConfig.
-	$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+    // Attempt to write the configuration file as a PHP class named JConfig.
+    $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
-	if (!File::write($file, $configuration))
-	{
-		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+    if (!File::write($file, $configuration)) {
+        Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 
-		return;
-	}
+        return;
+    }
 
-	// Attempt to make the file unwriteable
-	if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
-	{
-		Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'error');
-	}
+    // Attempt to make the file unwriteable
+    if (Path::isOwner($file) && !Path::setPermissions($file, '0444')) {
+        Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'error');
+    }
 }

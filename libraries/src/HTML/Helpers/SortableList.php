@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\HTML\Helpers;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -20,23 +19,23 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 abstract class SortableList
 {
-	/**
-	 * Method to load the Sortable script and make table sortable
-	 *
-	 * @param   string   $tableId                 DOM id of the table
-	 * @param   string   $formId                  DOM id of the form
-	 * @param   string   $sortDir                 Sort direction
-	 * @param   string   $saveOrderingUrl         Save ordering url, ajax-load after an item dropped
-	 * @param   boolean  $proceedSaveOrderButton  Set whether a save order button is displayed
-	 * @param   boolean  $nestedList              Set whether the list is a nested list
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 * @deprecated  5.0  In Joomla 4 call JHtml::_('draggablelist.draggable') and add a class of js-draggable to the tbody element of the table
-	 */
-	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
-	{
-		HTMLHelper::_('draggablelist.draggable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
-	}
+    /**
+     * Method to load the Sortable script and make table sortable
+     *
+     * @param   string   $tableId                 DOM id of the table
+     * @param   string   $formId                  DOM id of the form
+     * @param   string   $sortDir                 Sort direction
+     * @param   string   $saveOrderingUrl         Save ordering url, ajax-load after an item dropped
+     * @param   boolean  $proceedSaveOrderButton  Set whether a save order button is displayed
+     * @param   boolean  $nestedList              Set whether the list is a nested list
+     *
+     * @return  void
+     *
+     * @since   3.0
+     * @deprecated  5.0  In Joomla 4 call JHtml::_('draggablelist.draggable') and add a class of js-draggable to the tbody element of the table
+     */
+    public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
+    {
+        HTMLHelper::_('draggablelist.draggable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
+    }
 }

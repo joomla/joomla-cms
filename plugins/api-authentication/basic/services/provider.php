@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Apiauthentication.basic
@@ -21,31 +22,30 @@ use Joomla\Plugin\ApiAuthentication\Basic\Extension\Basic;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$plugin = new Basic(
-					$container->get(DispatcherInterface::class),
-					(array) PluginHelper::getPlugin('api-authentication', 'basic'),
-					$container->get(UserFactoryInterface::class)
-				);
-				$plugin->setApplication(Factory::getApplication());
-				$plugin->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $plugin = new Basic(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('api-authentication', 'basic'),
+                    $container->get(UserFactoryInterface::class)
+                );
+                $plugin->setApplication(Factory::getApplication());
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };
