@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\WebAsset\Exception;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Exception class defining an Invalid Action error
  *
@@ -17,5 +16,4 @@ namespace Joomla\CMS\WebAsset\Exception;
  */
 class InvalidActionException extends \RuntimeException implements WebAssetExceptionInterface
 {
-
 }

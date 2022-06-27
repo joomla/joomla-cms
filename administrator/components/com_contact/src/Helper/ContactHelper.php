@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contact
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Contact\Administrator\Helper;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 

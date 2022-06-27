@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -22,48 +23,42 @@ use ReflectionObject;
  */
 trait SiteTemplateTrait
 {
-	/**
-	 * Set a specific site template style in the frontend application
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 * @since   4.2.0
-	 */
-	private function setSiteTemplateStyle(): void
-	{
-		$app           = Factory::getApplication();
-		$templateStyle = (int) ComponentHelper::getParams('com_users')->get('captive_template', '');
+    /**
+     * Set a specific site template style in the frontend application
+     *
+     * @return  void
+     * @throws  Exception
+     * @since   4.2.0
+     */
+    private function setSiteTemplateStyle(): void
+    {
+        $app           = Factory::getApplication();
+        $templateStyle = (int) ComponentHelper::getParams('com_users')->get('captive_template', '');
 
-		if (empty($templateStyle) || !$app->isClient('site'))
-		{
-			return;
-		}
+        if (empty($templateStyle) || !$app->isClient('site')) {
+            return;
+        }
 
-		$itemId = $app->input->get('Itemid');
+        $itemId = $app->input->get('Itemid');
 
-		if (!empty($itemId))
-		{
-			return;
-		}
+        if (!empty($itemId)) {
+            return;
+        }
 
-		$app->input->set('templateStyle', $templateStyle);
+        $app->input->set('templateStyle', $templateStyle);
 
-		try
-		{
-			$refApp      = new ReflectionObject($app);
-			$refTemplate = $refApp->getProperty('template');
-			$refTemplate->setAccessible(true);
-			$refTemplate->setValue($app, null);
-		}
-		catch (ReflectionException $e)
-		{
-			return;
-		}
+        try {
+            $refApp      = new ReflectionObject($app);
+            $refTemplate = $refApp->getProperty('template');
+            $refTemplate->setAccessible(true);
+            $refTemplate->setValue($app, null);
+        } catch (ReflectionException $e) {
+            return;
+        }
 
-		$template = $app->getTemplate(true);
+        $template = $app->getTemplate(true);
 
-		$app->set('theme', $template->template);
-		$app->set('themeParams', $template->params);
-	}
-
+        $app->set('theme', $template->template);
+        $app->set('themeParams', $template->params);
+    }
 }

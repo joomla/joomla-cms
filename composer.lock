@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13763190f851172e079da1acab56a59b",
+    "content-hash": "6eab9834a530f9e20bf969a83e04856d",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -8363,116 +8363,6 @@
             "time": "2022-04-14T11:45:55+00:00"
         },
         {
-            "name": "joomla/cms-coding-standards",
-            "version": "2.0.0-alpha2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla/cms-coding-standards.git",
-                "reference": "25abae52f9167fa47ce57331bbece8079ad27ab3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla/cms-coding-standards/zipball/25abae52f9167fa47ce57331bbece8079ad27ab3",
-                "reference": "25abae52f9167fa47ce57331bbece8079ad27ab3",
-                "shasum": ""
-            },
-            "require": {
-                "joomla/coding-standards": "~2.0 || ~3.0",
-                "php": ">=5.3.10"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.7"
-            },
-            "suggest": {
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.4.3 || This Composer plugin will sort out the PHPCS 'installed_paths' automatically."
-            },
-            "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla-CMS\\Sniffs\\": "lib/Joomla-CMS/Sniffs"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Joomla Coding Standards Contributors",
-                    "homepage": "https://github.com/joomla/cms-coding-standards/graphs/contributors"
-                }
-            ],
-            "description": "Extended Joomla Coding Standards for the Joomla CMS application",
-            "homepage": "https://github.com/joomla/cms-coding-standards",
-            "keywords": [
-                "coding standards",
-                "joomla",
-                "php codesniffer",
-                "phpcs"
-            ],
-            "support": {
-                "issues": "https://github.com/joomla/cms-coding-standards/issues",
-                "source": "https://github.com/joomla/cms-coding-standards"
-            },
-            "time": "2019-07-13T18:56:54+00:00"
-        },
-        {
-            "name": "joomla/coding-standards",
-            "version": "dev-3.x-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "57a14333518d49907d16e216d0494c2fb4f8276d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/57a14333518d49907d16e216d0494c2fb4f8276d",
-                "reference": "57a14333518d49907d16e216d0494c2fb4f8276d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "squizlabs/php_codesniffer": "^3.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.7"
-            },
-            "type": "phpcodesniffer-standard",
-            "extra": {
-                "branch-alias": {
-                    "dev-3.x-dev": "3.0-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Joomla Coding Standards Contributors",
-                    "homepage": "https://github.com/joomla/coding-standards/graphs/contributors"
-                }
-            ],
-            "description": "Joomla Coding Standards",
-            "homepage": "https://github.com/joomla/coding-standards",
-            "keywords": [
-                "coding standards",
-                "joomla",
-                "php codesniffer",
-                "phpcs"
-            ],
-            "support": {
-                "issues": "https://github.com/joomla/coding-standards/issues",
-                "source": "https://github.com/joomla/coding-standards/tree/3.x-dev"
-            },
-            "time": "2020-01-21T18:27:08+00:00"
-        },
-        {
             "name": "joomla/mediawiki",
             "version": "1.0.0",
             "source": {
@@ -11337,9 +11227,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "maximebf/debugbar": 20,
-        "tobscure/json-api": 20,
-        "joomla/cms-coding-standards": 20,
-        "joomla/coding-standards": 20
+        "tobscure/json-api": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
