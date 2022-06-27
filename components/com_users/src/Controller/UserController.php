@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -52,9 +50,8 @@ class UserController extends BaseController
         if (is_numeric($data['return'])) {
             $language       = $this->getModel('Login', 'Site')->getMenuLanguage($data['return']);
             $data['return'] = 'index.php?Itemid=' . $data['return'] . ($language !== '*' ? '&lang=' . $language : '');
-        }
-        // Don't redirect to an external URL.
-        elseif (!Uri::isInternal($data['return'])) {
+        } elseif (!Uri::isInternal($data['return'])) {
+            // Don't redirect to an external URL.
             $data['return'] = '';
         }
 
