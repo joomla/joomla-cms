@@ -321,8 +321,8 @@ class TaskModel extends AdminModel
 		}
 
 		// Parent call leaves `execution_rules` and `cron_rules` JSON encoded
-		$item->set('execution_rules', json_decode($item->get('execution_rules')));
-		$item->set('cron_rules', json_decode($item->get('cron_rules')));
+		$item->set('execution_rules', json_decode($item->get('execution_rules', '')));
+		$item->set('cron_rules', json_decode($item->get('cron_rules', '')));
 
 		$taskOption = SchedulerHelper::getTaskOptions()->findOption(
 			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
@@ -378,7 +378,7 @@ class TaskModel extends AdminModel
 			}
 		}
 
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$now = Factory::getDate()->toSql();
 
 		// Get lock on the table to help with concurrency issues
