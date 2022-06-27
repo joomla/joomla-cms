@@ -118,7 +118,7 @@ HTMLHelper::_('bootstrap.dropdown');
 		<?php echo $statusModules; ?>
 	</header>
 
-	<div id="wrapper" class="wrapper">
+	<div id="wrapper" class="wrapper flex-grow-1">
 		<div class="container-fluid container-main">
 			<section id="content" class="content h-100">
 				<div class="login_message">
