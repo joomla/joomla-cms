@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Association;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Association Extension Interface for the helper classes
  *
@@ -17,24 +16,24 @@ namespace Joomla\CMS\Association;
  */
 interface AssociationExtensionInterface
 {
-	/**
-	 * Checks if the extension supports associations
-	 *
-	 * @return  boolean  Supports the extension associations
-	 *
-	 * @since   3.7.0
-	 */
-	public function hasAssociationsSupport();
+    /**
+     * Checks if the extension supports associations
+     *
+     * @return  boolean  Supports the extension associations
+     *
+     * @since   3.7.0
+     */
+    public function hasAssociationsSupport();
 
-	/**
-	 * Method to get the associations for a given item.
-	 *
-	 * @param   integer  $id    Id of the item
-	 * @param   string   $view  Name of the view
-	 *
-	 * @return  array   Array of associations for the item
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAssociationsForItem($id = 0, $view = null);
+    /**
+     * Method to get the associations for a given item.
+     *
+     * @param   integer  $id    Id of the item
+     * @param   string   $view  Name of the view
+     *
+     * @return  array   Array of associations for the item
+     *
+     * @since  4.0.0
+     */
+    public function getAssociationsForItem($id = 0, $view = null);
 }

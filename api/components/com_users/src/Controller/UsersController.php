@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_users
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Users\Api\Controller;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filter\InputFilter;
@@ -25,159 +24,144 @@ use Tobscure\JsonApi\Exception\InvalidParameterException;
  */
 class UsersController extends ApiController
 {
-	/**
-	 * The content type of the item.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $contentType = 'users';
+    /**
+     * The content type of the item.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $contentType = 'users';
 
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $default_view = 'users';
+    /**
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $default_view = 'users';
 
-	/**
-	 * Method to allow extended classes to manipulate the data to be saved for an extension.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected function preprocessSaveData(array $data): array
-	{
-		foreach (FieldsHelper::getFields('com_users.user') as $field)
-		{
-			if (isset($data[$field->name]))
-			{
-				!isset($data['com_fields']) && $data['com_fields'] = [];
+    /**
+     * Method to allow extended classes to manipulate the data to be saved for an extension.
+     *
+     * @param   array  $data  An array of input data.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected function preprocessSaveData(array $data): array
+    {
+        foreach (FieldsHelper::getFields('com_users.user') as $field) {
+            if (isset($data[$field->name])) {
+                !isset($data['com_fields']) && $data['com_fields'] = [];
 
-				$data['com_fields'][$field->name] = $data[$field->name];
-				unset($data[$field->name]);
-			}
-		}
+                $data['com_fields'][$field->name] = $data[$field->name];
+                unset($data[$field->name]);
+            }
+        }
 
-		if (isset($data['password']) && $this->task !== 'add')
-		{
-			$data['password2'] = $data['password'];
-		}
+        if (isset($data['password']) && $this->task !== 'add') {
+            $data['password2'] = $data['password'];
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * User list view with filtering of data
-	 *
-	 * @return  static  A BaseController object to support chaining.
-	 *
-	 * @since   4.0.0
-	 * @throws  InvalidParameterException
-	 */
-	public function displayList()
-	{
-		$apiFilterInfo = $this->input->get('filter', [], 'array');
-		$filter        = InputFilter::getInstance();
+    /**
+     * User list view with filtering of data
+     *
+     * @return  static  A BaseController object to support chaining.
+     *
+     * @since   4.0.0
+     * @throws  InvalidParameterException
+     */
+    public function displayList()
+    {
+        $apiFilterInfo = $this->input->get('filter', [], 'array');
+        $filter        = InputFilter::getInstance();
 
-		if (\array_key_exists('state', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.state', $filter->clean($apiFilterInfo['state'], 'INT'));
-		}
+        if (\array_key_exists('state', $apiFilterInfo)) {
+            $this->modelState->set('filter.state', $filter->clean($apiFilterInfo['state'], 'INT'));
+        }
 
-		if (\array_key_exists('active', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.active', $filter->clean($apiFilterInfo['active'], 'INT'));
-		}
+        if (\array_key_exists('active', $apiFilterInfo)) {
+            $this->modelState->set('filter.active', $filter->clean($apiFilterInfo['active'], 'INT'));
+        }
 
-		if (\array_key_exists('groupid', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.group_id', $filter->clean($apiFilterInfo['groupid'], 'INT'));
-		}
+        if (\array_key_exists('groupid', $apiFilterInfo)) {
+            $this->modelState->set('filter.group_id', $filter->clean($apiFilterInfo['groupid'], 'INT'));
+        }
 
-		if (\array_key_exists('search', $apiFilterInfo))
-		{
-			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
-		}
+        if (\array_key_exists('search', $apiFilterInfo)) {
+            $this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
+        }
 
-		if (\array_key_exists('registrationDateStart', $apiFilterInfo))
-		{
-			$registrationStartInput = $filter->clean($apiFilterInfo['registrationDateStart'], 'STRING');
-			$registrationStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationStartInput);
+        if (\array_key_exists('registrationDateStart', $apiFilterInfo)) {
+            $registrationStartInput = $filter->clean($apiFilterInfo['registrationDateStart'], 'STRING');
+            $registrationStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationStartInput);
 
-			if (!$registrationStartDate)
-			{
-				// Send the error response
-				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateStart');
+            if (!$registrationStartDate) {
+                // Send the error response
+                $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateStart');
 
-				throw new InvalidParameterException($error, 400, null, 'registrationDateStart');
-			}
+                throw new InvalidParameterException($error, 400, null, 'registrationDateStart');
+            }
 
-			$this->modelState->set('filter.registrationDateStart', $registrationStartDate);
-		}
+            $this->modelState->set('filter.registrationDateStart', $registrationStartDate);
+        }
 
-		if (\array_key_exists('registrationDateEnd', $apiFilterInfo))
-		{
-			$registrationEndInput = $filter->clean($apiFilterInfo['registrationDateEnd'], 'STRING');
-			$registrationEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationEndInput);
+        if (\array_key_exists('registrationDateEnd', $apiFilterInfo)) {
+            $registrationEndInput = $filter->clean($apiFilterInfo['registrationDateEnd'], 'STRING');
+            $registrationEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $registrationEndInput);
 
-			if (!$registrationEndDate)
-			{
-				// Send the error response
-				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateEnd');
-				throw new InvalidParameterException($error, 400, null, 'registrationDateEnd');
-			}
+            if (!$registrationEndDate) {
+                // Send the error response
+                $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateEnd');
+                throw new InvalidParameterException($error, 400, null, 'registrationDateEnd');
+            }
 
-			$this->modelState->set('filter.registrationDateEnd', $registrationEndDate);
-		}
-		elseif (\array_key_exists('registrationDateStart', $apiFilterInfo)
-			&& !\array_key_exists('registrationDateEnd', $apiFilterInfo))
-		{
-			// If no end date specified the end date is now
-			$this->modelState->set('filter.registrationDateEnd', new Date);
-		}
+            $this->modelState->set('filter.registrationDateEnd', $registrationEndDate);
+        } elseif (
+            \array_key_exists('registrationDateStart', $apiFilterInfo)
+            && !\array_key_exists('registrationDateEnd', $apiFilterInfo)
+        ) {
+            // If no end date specified the end date is now
+            $this->modelState->set('filter.registrationDateEnd', new Date());
+        }
 
-		if (\array_key_exists('lastVisitDateStart', $apiFilterInfo))
-		{
-			$lastVisitStartInput = $filter->clean($apiFilterInfo['lastVisitDateStart'], 'STRING');
-			$lastVisitStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitStartInput);
+        if (\array_key_exists('lastVisitDateStart', $apiFilterInfo)) {
+            $lastVisitStartInput = $filter->clean($apiFilterInfo['lastVisitDateStart'], 'STRING');
+            $lastVisitStartDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitStartInput);
 
-			if (!$lastVisitStartDate)
-			{
-				// Send the error response
-				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateStart');
-				throw new InvalidParameterException($error, 400, null, 'lastVisitDateStart');
-			}
+            if (!$lastVisitStartDate) {
+                // Send the error response
+                $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateStart');
+                throw new InvalidParameterException($error, 400, null, 'lastVisitDateStart');
+            }
 
-			$this->modelState->set('filter.lastVisitStart', $lastVisitStartDate);
-		}
+            $this->modelState->set('filter.lastVisitStart', $lastVisitStartDate);
+        }
 
-		if (\array_key_exists('lastVisitDateEnd', $apiFilterInfo))
-		{
-			$lastVisitEndInput = $filter->clean($apiFilterInfo['lastVisitDateEnd'], 'STRING');
-			$lastVisitEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitEndInput);
+        if (\array_key_exists('lastVisitDateEnd', $apiFilterInfo)) {
+            $lastVisitEndInput = $filter->clean($apiFilterInfo['lastVisitDateEnd'], 'STRING');
+            $lastVisitEndDate  = Date::createFromFormat(\DateTimeInterface::RFC3339, $lastVisitEndInput);
 
-			if (!$lastVisitEndDate)
-			{
-				// Send the error response
-				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateEnd');
+            if (!$lastVisitEndDate) {
+                // Send the error response
+                $error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateEnd');
 
-				throw new InvalidParameterException($error, 400, null, 'lastVisitDateEnd');
-			}
+                throw new InvalidParameterException($error, 400, null, 'lastVisitDateEnd');
+            }
 
-			$this->modelState->set('filter.lastVisitEnd', $lastVisitEndDate);
-		}
-		elseif (\array_key_exists('lastVisitDateStart', $apiFilterInfo)
-			&& !\array_key_exists('lastVisitDateEnd', $apiFilterInfo))
-		{
-			// If no end date specified the end date is now
-			$this->modelState->set('filter.lastVisitEnd', new Date);
-		}
+            $this->modelState->set('filter.lastVisitEnd', $lastVisitEndDate);
+        } elseif (
+            \array_key_exists('lastVisitDateStart', $apiFilterInfo)
+            && !\array_key_exists('lastVisitDateEnd', $apiFilterInfo)
+        ) {
+            // If no end date specified the end date is now
+            $this->modelState->set('filter.lastVisitEnd', new Date());
+        }
 
-		return parent::displayList();
-	}
+        return parent::displayList();
+    }
 }
