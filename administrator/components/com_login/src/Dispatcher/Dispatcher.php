@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_login
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Login\Administrator\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
@@ -20,35 +19,34 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Dispatch a controller task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function dispatch()
-	{
-		// Only accept two values login and logout for `task`
-		$task = $this->input->get('task');
+    /**
+     * Dispatch a controller task.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function dispatch()
+    {
+        // Only accept two values login and logout for `task`
+        $task = $this->input->get('task');
 
-		if ($task != 'login' && $task != 'logout')
-		{
-			$this->input->set('task', '');
-		}
+        if ($task != 'login' && $task != 'logout') {
+            $this->input->set('task', '');
+        }
 
-		// Reset controller name
-		$this->input->set('controller', null);
+        // Reset controller name
+        $this->input->set('controller', null);
 
-		parent::dispatch();
-	}
+        parent::dispatch();
+    }
 
-	/**
-	 * com_login does not require check permission, so we override checkAccess method and have it empty
-	 *
-	 * @return  void
-	 */
-	protected function checkAccess()
-	{
-	}
+    /**
+     * com_login does not require check permission, so we override checkAccess method and have it empty
+     *
+     * @return  void
+     */
+    protected function checkAccess()
+    {
+    }
 }
