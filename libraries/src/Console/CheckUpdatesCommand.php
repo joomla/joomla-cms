@@ -10,7 +10,6 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
@@ -49,13 +48,8 @@ class CheckUpdatesCommand extends AbstractCommand
 
 		$symfonyStyle->title('Fetching Extension Updates');
 
-		// Get the update cache time
-		$component = ComponentHelper::getComponent('com_installer');
-
-		$cache_timeout = 3600 * (int) $component->getParams()->get('cachetimeout', 6);
-
 		// Find all updates
-		$ret = Updater::getInstance()->findUpdates(0, $cache_timeout);
+		$ret = Updater::getInstance()->findUpdates();
 
 		if ($ret)
 		{
