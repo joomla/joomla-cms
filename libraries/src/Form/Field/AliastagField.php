@@ -39,7 +39,7 @@ class AliastagField extends ListField
 	protected function getOptions()
 	{
 		// Get list of tag type alias
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

@@ -150,7 +150,7 @@ class WorkflowsModel extends ListModel
 	 */
 	protected function countItems($items)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$ids = [0];
 
@@ -215,7 +215,7 @@ class WorkflowsModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
