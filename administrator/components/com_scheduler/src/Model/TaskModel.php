@@ -378,7 +378,7 @@ class TaskModel extends AdminModel
 			}
 		}
 
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$now = Factory::getDate()->toSql();
 
 		// Get lock on the table to help with concurrency issues

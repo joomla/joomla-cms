@@ -155,10 +155,13 @@ class ExtensionAdapter extends UpdateAdapter
 							}
 						}
 
+						// $supportedDbs has uppercase keys because they are XML attribute names
+						$dbTypeUcase = strtoupper($dbType);
+
 						// Do we have an entry for the database?
-						if (\array_key_exists($dbType, $supportedDbs))
+						if (\array_key_exists($dbTypeUcase, $supportedDbs))
 						{
-							$minimumVersion = $supportedDbs[$dbType];
+							$minimumVersion = $supportedDbs[$dbTypeUcase];
 							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
 							if (!$dbMatch)
@@ -168,7 +171,7 @@ class ExtensionAdapter extends UpdateAdapter
 									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 									$this->currentUpdate->name,
 									$this->currentUpdate->version,
-									Text::_($db->name),
+									Text::_('JLIB_DB_SERVER_TYPE_' . $dbTypeUcase),
 									$dbVersion,
 									$minimumVersion
 								);
@@ -183,7 +186,7 @@ class ExtensionAdapter extends UpdateAdapter
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								Text::_($db->name)
+								Text::_('JLIB_DB_SERVER_TYPE_' . $dbTypeUcase)
 							);
 
 							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
