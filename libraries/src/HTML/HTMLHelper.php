@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\HTML;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -864,21 +862,18 @@ abstract class HTMLHelper
 
             // Set the correct time zone based on the user configuration.
             $date->setTimezone($app->getIdentity()->getTimezone());
-        }
-        // UTC date converted to server time zone.
-        elseif ($tz === false) {
+        } elseif ($tz === false) {
+            // UTC date converted to server time zone.
             // Get a date object based on UTC.
             $date = Factory::getDate($input, 'UTC');
 
             // Set the correct time zone based on the server configuration.
             $date->setTimezone(new \DateTimeZone($app->get('offset')));
-        }
-        // No date conversion.
-        elseif ($tz === null) {
+        } elseif ($tz === null) {
+            // No date conversion.
             $date = Factory::getDate($input);
-        }
-        // UTC date converted to given time zone.
-        else {
+        } else {
+            // UTC date converted to given time zone.
             // Get a date object based on UTC.
             $date = Factory::getDate($input, 'UTC');
 
@@ -889,9 +884,8 @@ abstract class HTMLHelper
         // If no format is given use the default locale based format.
         if (!$format) {
             $format = Text::_('DATE_FORMAT_LC1');
-        }
-        // $format is an existing language key
-        elseif (Factory::getLanguage()->hasKey($format)) {
+        } elseif (Factory::getLanguage()->hasKey($format)) {
+            // $format is an existing language key
             $format = Text::_($format);
         }
 
@@ -993,13 +987,11 @@ abstract class HTMLHelper
             // Use only the content if no title is given.
             if ($title === '') {
                 $result = $content;
-            }
-            // Use only the title, if title and text are the same.
-            elseif ($title === $content) {
+            } elseif ($title === $content) {
+                // Use only the title, if title and text are the same.
                 $result = '<strong>' . $title . '</strong>';
-            }
-            // Use a formatted string combining the title and content.
-            elseif ($content !== '') {
+            } elseif ($content !== '') {
+                // Use a formatted string combining the title and content.
                 $result = '<strong>' . $title . '</strong><br>' . $content;
             } else {
                 $result = $title;
