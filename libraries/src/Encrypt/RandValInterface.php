@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Encrypt;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Interface RandValInterface
  *
@@ -17,12 +16,12 @@ namespace Joomla\CMS\Encrypt;
  */
 interface RandValInterface
 {
-	/**
-	 *
-	 * Returns a cryptographically secure random value.
-	 *
-	 * @return string
-	 *
-	 */
-	public function generate();
+    /**
+     *
+     * Returns a cryptographically secure random value.
+     *
+     * @return string
+     *
+     */
+    public function generate();
 }

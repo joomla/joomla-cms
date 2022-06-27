@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -34,11 +35,11 @@ extract($displayData);
  */
 ?>
 <div class="modal-header">
-	<?php if (isset($params['title'])) : ?>
-		<h3 class="modal-title"><?php echo $params['title']; ?></h3>
-	<?php endif; ?>
-	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
-		<button type="button" class="btn-close novalidate" data-bs-dismiss="modal" aria-label="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>">
-		</button>
-	<?php endif; ?>
+    <?php if (isset($params['title'])) : ?>
+        <h3 class="modal-title"><?php echo $params['title']; ?></h3>
+    <?php endif; ?>
+    <?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
+        <button type="button" class="btn-close novalidate" data-bs-dismiss="modal" aria-label="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>">
+        </button>
+    <?php endif; ?>
 </div>
