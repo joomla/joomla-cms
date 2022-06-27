@@ -180,7 +180,7 @@ class AssociationsModel extends ListModel
 
 		// Create a new query object.
 		$user     = Factory::getUser();
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 		$query    = $db->getQuery(true);
 
 		$details = $type->get('details');
@@ -505,7 +505,7 @@ class AssociationsModel extends ListModel
 	public function purge($context = '', $key = '')
 	{
 		$app   = Factory::getApplication();
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)->delete($db->quoteName('#__associations'));
 
 		// Filter by associations context.
@@ -556,7 +556,7 @@ class AssociationsModel extends ListModel
 	public function clean($context = '', $key = '')
 	{
 		$app   = Factory::getApplication();
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('key') . ', COUNT(*)')
 			->from($db->quoteName('#__associations'))

@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_loginsupport</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2019</creationDate>
+	<creationDate>2019-06</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -56,6 +56,14 @@
 				/>
 
 				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					rows="3"
+					validate="CssIdentifier"
+				/>
+
+				<field
 					name="automatic_title"
 					type="radio"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
@@ -66,14 +74,6 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					rows="3"
-					validate="CssIdentifier"
-				/>
 
 				<field
 					name="cache"

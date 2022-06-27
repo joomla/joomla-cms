@@ -34,10 +34,12 @@ class FeedView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app    = Factory::getApplication();
-		$ids    = $app->input->get('id', array(), 'array');
+		$ids    = (array) $app->input->get('id', array(), 'int');
 		$i      = 0;
 		$tagIds = '';
-		$filter = new InputFilter;
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		foreach ($ids as $id)
 		{
@@ -46,7 +48,7 @@ class FeedView extends BaseHtmlView
 				$tagIds .= '&';
 			}
 
-			$tagIds .= 'id[' . $i . ']=' . $filter->clean($id, 'INT');
+			$tagIds .= 'id[' . $i . ']=' . $id;
 
 			$i++;
 		}
