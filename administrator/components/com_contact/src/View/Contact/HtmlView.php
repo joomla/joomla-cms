@@ -29,9 +29,9 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -45,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);

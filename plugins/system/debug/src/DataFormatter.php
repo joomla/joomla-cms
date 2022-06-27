@@ -51,7 +51,7 @@ class DataFormatter extends DebugBarDataFormatter
 			// If entry has Class/Method print it.
 			$string .= htmlspecialchars($call['class'] . $call['type'] . $call['function']) . '()';
 		}
-		elseif (isset($call['args']) && \is_array($call['args'][0]))
+		elseif (isset($call['args'][0]) && \is_array($call['args'][0]))
 		{
 			$string .= htmlspecialchars($call['function']) . ' (';
 
@@ -74,7 +74,7 @@ class DataFormatter extends DebugBarDataFormatter
 
 			$string = rtrim($string, ', ') . ')';
 		}
-		elseif (isset($call['args']))
+		elseif (isset($call['args'][0]))
 		{
 			$string .= htmlspecialchars($call['function']) . ' ' . $call['args'][0];
 		}

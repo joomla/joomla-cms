@@ -67,7 +67,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function copyBaseFiles()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -80,7 +80,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseInstall()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -103,7 +103,7 @@ class LanguageAdapter extends InstallerAdapter
 		$extensionId = $this->extension->extension_id;
 
 		// Remove the schema version
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
 			->where($db->quoteName('extension_id') . ' = :extension_id')
@@ -167,7 +167,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function setupInstallPaths()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -226,7 +226,7 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	protected function storeExtension()
 	{
-		// TODO - Refactor adapter to use common code
+		// @todo - Refactor adapter to use common code
 	}
 
 	/**
@@ -503,7 +503,7 @@ class LanguageAdapter extends InstallerAdapter
 		$numberPrefixesFound = 0;
 
 		// Get the sef value of all current content languages.
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('sef'))
 			->from($db->quoteName('#__languages'));
@@ -665,13 +665,13 @@ class LanguageAdapter extends InstallerAdapter
 	 * Custom discover method
 	 * Finds language files
 	 *
-	 * @return  boolean  True on success
+	 * @return  \Joomla\CMS\Table\Extension[]  Array of discovered extensions.
 	 *
 	 * @since  3.1
 	 */
 	public function discover()
 	{
-		$results = array();
+		$results = [];
 		$clients = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API];
 
 		foreach ($clients as $clientId => $basePath)
@@ -813,7 +813,7 @@ class LanguageAdapter extends InstallerAdapter
 		}
 
 		// Setting the language of users which have this language as the default language
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

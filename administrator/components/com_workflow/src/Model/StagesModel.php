@@ -96,7 +96,7 @@ class StagesModel extends ListModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
+			$this->getDatabase()->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
 		];
 	}
 
@@ -107,7 +107,7 @@ class StagesModel extends ListModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since  4.0.0
 	 */
@@ -125,7 +125,7 @@ class StagesModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query

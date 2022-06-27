@@ -48,10 +48,9 @@ class PluginsField extends ListField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'folder')
 		{
-			case 'folder':
-				return $this->folder;
+			return $this->folder;
 		}
 
 		return parent::__get($name);
@@ -121,7 +120,7 @@ class PluginsField extends ListField
 		if (!empty($folder))
 		{
 			// Get list of plugins
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select(
 					[

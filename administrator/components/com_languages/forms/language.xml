@@ -17,7 +17,6 @@
 			description="COM_LANGUAGES_FIELD_LANG_TAG_DESC"
 			maxlength="7"
 			required="true"
-			size="10"
 		/>
 
 		<field
@@ -26,7 +25,6 @@
 			label="JGLOBAL_TITLE"
 			maxlength="50"
 			required="true"
-			size="40"
 		/>
 
 		<field
@@ -35,7 +33,6 @@
 			label="COM_LANGUAGES_FIELD_TITLE_NATIVE_LABEL"
 			maxlength="50"
 			required="true"
-			size="40"
 		/>
 
 		<field
@@ -45,7 +42,6 @@
 			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
 			maxlength="50"
 			required="true"
-			size="10"
 		/>
 
 		<field
@@ -76,7 +72,6 @@
 			label="JSTATUS"
 			class="form-select-color-state"
 			default="1"
-			size="1"
 			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -109,7 +104,6 @@
 			type="text"
 			label="COM_LANGUAGES_FIELD_SITE_NAME_LABEL"
 			filter="string"
-			size="50"
 		/>
 	</fieldset>
 </form>

@@ -10,12 +10,16 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -35,7 +39,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper, DatabaseAwareTrait;
 
 	/**
 	 * The input.
@@ -278,12 +282,12 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\CleanCacheCommand,
 				new Console\CheckUpdatesCommand,
 				new Console\RemoveOldFilesCommand,
-				new Console\AddUserCommand,
-				new Console\AddUserToGroupCommand,
-				new Console\RemoveUserFromGroupCommand,
-				new Console\DeleteUserCommand,
+				new Console\AddUserCommand($this->getDatabase()),
+				new Console\AddUserToGroupCommand($this->getDatabase()),
+				new Console\RemoveUserFromGroupCommand($this->getDatabase()),
+				new Console\DeleteUserCommand($this->getDatabase()),
 				new Console\ChangeUserPasswordCommand,
-				new Console\ListUserCommand,
+				new Console\ListUserCommand($this->getDatabase()),
 			]
 		);
 	}
@@ -433,5 +437,31 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function setName(string $name): void
 	{
 		throw new \RuntimeException('The console application name cannot be changed');
+	}
+
+	/**
+	 * Returns the application Router object.
+	 *
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  Router
+	 *
+	 * @since      4.0.6
+	 *
+	 * @throws     \InvalidArgumentException
+	 *
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
+	 */
+	public static function getRouter($name = null, array $options = array())
+	{
+		if (empty($name))
+		{
+			throw new InvalidArgumentException('A router name must be set in console application.');
+		}
+
+		$options['mode'] = Factory::getApplication()->get('sef');
+
+		return Router::getInstance($name, $options);
 	}
 }

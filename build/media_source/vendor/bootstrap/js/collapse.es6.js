@@ -1,4 +1,4 @@
-import Collapse from '../../../../../node_modules/bootstrap/js/src/collapse';
+import Collapse from 'bootstrap/js/src/collapse';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Collapse = Collapse;

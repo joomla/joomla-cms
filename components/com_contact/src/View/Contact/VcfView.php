@@ -25,7 +25,7 @@ class VcfView extends AbstractView
 	/**
 	 * The contact item
 	 *
-	 * @var   \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $item;
 
@@ -34,7 +34,9 @@ class VcfView extends AbstractView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  string  A string if successful
+	 *
+	 * @throws  GenericDataException
 	 */
 	public function display($tpl = null)
 	{
@@ -88,7 +90,7 @@ class VcfView extends AbstractView
 
 		Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 
-		$vcard = array();
+		$vcard = [];
 		$vcard[] .= 'BEGIN:VCARD';
 		$vcard[] .= 'VERSION:3.0';
 		$vcard[]  = 'N:' . $lastname . ';' . $firstname . ';' . $middlename;

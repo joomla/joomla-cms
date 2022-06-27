@@ -179,8 +179,6 @@ class Workflow
 			if ($workflow_id == 'inherit')
 			{
 				$workflow_id = 0;
-
-				continue;
 			}
 			elseif ($workflow_id == 'use_default')
 			{

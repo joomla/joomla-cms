@@ -1,4 +1,4 @@
-import Alert from '../../../../../node_modules/bootstrap/js/src/alert';
+import Alert from 'bootstrap/js/src/alert';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Alert = Alert;

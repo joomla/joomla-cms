@@ -16,6 +16,10 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 ?>
@@ -33,7 +37,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="templateList">
+					<table class="table" id="mailtemplateList">
 						<caption class="visually-hidden">
 							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -66,11 +70,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							$sub_id = str_replace('.', '_', $sub_id);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td>
+								<th scope="row">
 									<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $this->defaultLanguage->lang_code); ?>">
 										<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 									</a>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>

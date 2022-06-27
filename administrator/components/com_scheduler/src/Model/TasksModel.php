@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
@@ -36,12 +37,11 @@ class TasksModel extends ListModel
 	 * Constructor.
 	 *
 	 * @param   array                     $config   An optional associative array of configuration settings.
-	 *
 	 * @param   MVCFactoryInterface|null  $factory  The factory.
 	 *
-	 * @since  4.1.0
-	 * @throws \Exception
-	 * @see    \JControllerLegacy
+	 * @since   4.1.0
+	 * @throws  \Exception
+	 * @see     \JControllerLegacy
 	 */
 	public function __construct($config = [], MVCFactoryInterface $factory = null)
 	{
@@ -109,7 +109,7 @@ class TasksModel extends ListModel
 	protected function getListQuery(): QueryInterface
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		/**
@@ -120,13 +120,34 @@ class TasksModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.type, a.execution_rules, a.state, a.last_exit_code, a.locked' .
-				', a.last_execution, a.next_execution, a.times_executed, a.times_failed, a.ordering, a.note'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.asset_id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.type'),
+					$db->quoteName('a.execution_rules'),
+					$db->quoteName('a.state'),
+					$db->quoteName('a.last_exit_code'),
+					$db->quoteName('a.locked'),
+					$db->quoteName('a.last_execution'),
+					$db->quoteName('a.next_execution'),
+					$db->quoteName('a.times_executed'),
+					$db->quoteName('a.times_failed'),
+					$db->quoteName('a.priority'),
+					$db->quoteName('a.ordering'),
+					$db->quoteName('a.note'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+				]
 			)
-		);
-
-		// From the #__scheduler_tasks table as 'a'
-		$query->from($db->quoteName('#__scheduler_tasks', 'a'));
+		)
+			->select(
+				[
+					$db->quoteName('uc.name', 'editor'),
+				]
+			)
+			->from($db->quoteName('#__scheduler_tasks', 'a'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Filters go below
 		$filterCount = 0;
@@ -172,6 +193,33 @@ class TasksModel extends ListModel
 				->bind(':match', $match);
 		}
 
+		// Filter orphaned (-1: exclude, 0: include, 1: only) ----
+		$filterOrphaned = (int) $this->getState('filter.orphaned');
+
+		if ($filterOrphaned !== 0)
+		{
+			$filterCount++;
+			$taskOptions = SchedulerHelper::getTaskOptions();
+
+			// Array of all active routine ids
+			$activeRoutines = array_map(
+				static function (TaskOption $taskOption): string
+				{
+					return $taskOption->id;
+				},
+				$taskOptions->options
+			);
+
+			if ($filterOrphaned === -1)
+			{
+				$query->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+			}
+			else
+			{
+				$query->whereNotIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
+			}
+		}
+
 		// Filter over state ----
 		$state = $this->getState('filter.state');
 
@@ -201,8 +249,6 @@ class TasksModel extends ListModel
 			$query->where($db->quotename('a.type') . '= :type')
 				->bind(':type', $typeFilter);
 		}
-
-		// @todo: Filter over trigger
 
 		// Filter over exit code ----
 		$exitCode = $this->getState('filter.last_exit_code');
@@ -305,7 +351,7 @@ class TasksModel extends ListModel
 		if (!$multiOrdering || !\is_array($multiOrdering))
 		{
 			$orderCol = $this->state->get('list.ordering', 'a.title');
-			$orderDir = $this->state->get('list.direction', 'desc');
+			$orderDir = $this->state->get('list.direction', 'asc');
 
 			// Type title ordering is handled exceptionally in _getList()
 			if ($orderCol !== 'j.type_title')
@@ -344,14 +390,13 @@ class TasksModel extends ListModel
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
 	{
-
 		// Get stuff from the model state
 		$listOrder      = $this->getState('list.ordering', 'a.title');
-		$listDirectionN = strtolower($this->getState('list.direction', 'desc')) == 'desc' ? -1 : 1;
+		$listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
 
 		// Set limit parameters and get object list
 		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+		$this->getDatabase()->setQuery($query);
 
 		// Return optionally an extended class.
 		// @todo: Use something other than CMSObject..
@@ -368,12 +413,12 @@ class TasksModel extends ListModel
 
 					return $o;
 				},
-				$this->getDbo()->loadAssocList() ?: []
+				$this->getDatabase()->loadAssocList() ?: []
 			);
 		}
 		else
 		{
-			$responseList = $this->getDbo()->loadObjectList();
+			$responseList = $this->getDatabase()->loadObjectList();
 		}
 
 		// Attach TaskOptions objects and a safe type title
@@ -383,24 +428,6 @@ class TasksModel extends ListModel
 		if ($listOrder == 'j.type_title')
 		{
 			$responseList = ArrayHelper::sortObjects($responseList, 'safeTypeTitle', $listDirectionN, true, false);
-		}
-
-		// Filter orphaned (-1: exclude, 0: include, 1: only) ----
-		// ! This breaks pagination at the moment [@todo: fix]
-		$filterOrphaned = (int) $this->getState('filter.orphaned');
-
-		if ($filterOrphaned !== 0)
-		{
-			$responseList = array_values(
-				array_filter(
-					$responseList,
-					static function (object $c) use ($filterOrphaned) {
-						$isOrphan = !isset($c->taskOption);
-
-						return $filterOrphaned === 1 ? $isOrphan : !$isOrphan;
-					}
-				)
-			);
 		}
 
 		return $responseList;
@@ -437,7 +464,7 @@ class TasksModel extends ListModel
 	 * @return void
 	 * @since  4.1.0
 	 */
-	protected function populateState($ordering = 'a.id', $direction = 'ASC'): void
+	protected function populateState($ordering = 'a.title', $direction = 'ASC'): void
 	{
 		// Call the parent method
 		parent::populateState($ordering, $direction);

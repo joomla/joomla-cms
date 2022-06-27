@@ -35,7 +35,7 @@ class MenuOrderingField extends ListField
 	 * Method to get the list of siblings in a menu.
 	 * The method requires that parent be set.
 	 *
-	 * @return  array  The field option objects or false if the parent field has not been set
+	 * @return  array|boolean  The field option objects or false if the parent field has not been set
 	 *
 	 * @since   1.7
 	 */
@@ -51,7 +51,7 @@ class MenuOrderingField extends ListField
 			return false;
 		}
 
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

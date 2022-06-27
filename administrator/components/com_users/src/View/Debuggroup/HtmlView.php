@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		if (!$this->getCurrentUser()->authorise('core.manage', 'com_users'))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

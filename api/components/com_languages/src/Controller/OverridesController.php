@@ -87,17 +87,17 @@ class OverridesController extends ApiController
 		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
 		$model = $this->getModel(Inflector::singularize($this->contentType));
 
-		$model->setState('filter.language', $this->input->post->get('lang_code'));
-		$model->setState('filter.client', $this->input->post->get('app'));
-
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
+		$model->setState('filter.language', $this->input->post->get('lang_code'));
+		$model->setState('filter.client', $this->input->post->get('app'));
+
 		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
 		// Validate the posted data.
@@ -117,7 +117,7 @@ class OverridesController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{

@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Exception;
-use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -94,7 +93,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Get a table object for the extension type
-		$table = new UpdateSiteTable($this->getDbo());
+		$table = new UpdateSiteTable($this->getDatabase());
 
 		// Enable the update site in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -136,7 +135,7 @@ class UpdatesitesModel extends InstallerModel
 			$ids = [$ids];
 		}
 
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$app = Factory::getApplication();
 
 		$count = 0;
@@ -217,7 +216,7 @@ class UpdatesitesModel extends InstallerModel
 	 */
 	protected function getJoomlaUpdateSitesIds($column = 0)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
 		$query = $db->getQuery(true)
@@ -263,7 +262,7 @@ class UpdatesitesModel extends InstallerModel
 			throw new Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
 		}
 
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$app = Factory::getApplication();
 
 		// Check if Joomla Extension plugin is enabled.
@@ -357,6 +356,7 @@ class UpdatesitesModel extends InstallerModel
 		foreach ($pathsToSearch as $extensionFolderPath)
 		{
 			$tmpInstaller = new Installer;
+			$tmpInstaller->setDatabase($this->getDatabase());
 
 			$tmpInstaller->setPath('source', $extensionFolderPath);
 
@@ -540,13 +540,13 @@ class UpdatesitesModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  JDatabaseQuery  The database query
+	 * @return  \Joomla\Database\DatabaseQuery  The database query
 	 *
 	 * @since   3.4
 	 */
 	protected function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(

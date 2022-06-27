@@ -14,6 +14,7 @@ use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
@@ -24,7 +25,7 @@ use Joomla\Database\DatabaseQuery;
  *
  * @since  1.6
  */
-class ListModel extends BaseDatabaseModel implements ListModelInterface
+class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, ListModelInterface
 {
 	use FormBehaviorTrait;
 	use FormFactoryAwareTrait;
@@ -289,7 +290,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 */
 	protected function getListQuery()
 	{
-		return $this->getDbo()->getQuery(true);
+		return $this->getDatabase()->getQuery(true);
 	}
 
 	/**
@@ -630,7 +631,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 				// Check if the ordering direction is valid, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
 
-				if (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				if (!$value || !\in_array(strtoupper($value), array('ASC', 'DESC', '')))
 				{
 					$value = $direction;
 					$app->setUserState($this->context . '.orderdirn', $value);
@@ -669,7 +670,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	/**
 	 * Gets the value of a user state variable and sets it in the session
 	 *
-	 * This is the same as the method in \JApplication except that this also can optionally
+	 * This is the same as the method in Application except that this also can optionally
 	 * force you back to the first page when a filter has changed
 	 *
 	 * @param   string   $key        The key of the user state variable.

@@ -32,35 +32,35 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * @var  \JForm
+	 * @var    \Joomla\CMS\Form\Form
 	 *
 	 * @since  3.7.0
 	 */
 	public $filterForm;
 
 	/**
-	 * @var  array
+	 * @var    array
 	 *
 	 * @since  3.7.0
 	 */
 	public $activeFilters;
 
 	/**
-	 * @var  array
+	 * @var    array
 	 *
 	 * @since  3.7.0
 	 */
 	protected $items;
 
 	/**
-	 * @var  \JPagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.7.0
 	 */
 	protected $pagination;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -74,6 +74,7 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @see     HtmlView::loadTemplate()
+	 *
 	 * @since   3.7.0
 	 */
 	public function display($tpl = null)
@@ -153,7 +154,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('group.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -173,7 +174,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->archive('groups.archive')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if ($this->getCurrentUser()->authorise('core.admin'))
 			{
 				$childBar->checkin('groups.checkin')->listCheck(true);
 			}

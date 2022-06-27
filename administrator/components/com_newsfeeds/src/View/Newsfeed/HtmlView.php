@@ -30,7 +30,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object for the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $item;
@@ -38,7 +39,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The form object for the newsfeed
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  1.6
 	 */
 	protected $form;
@@ -46,7 +48,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state of the newsfeed
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  1.6
 	 */
 	protected $state;
@@ -101,7 +104,7 @@ class HtmlView extends BaseHtmlView
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 

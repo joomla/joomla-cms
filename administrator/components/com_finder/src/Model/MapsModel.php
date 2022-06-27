@@ -165,13 +165,13 @@ class MapsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A \JDatabaseQuery object
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   2.5
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Select all fields from the table.
 		$query = $db->getQuery(true)
@@ -236,7 +236,7 @@ class MapsModel extends ListModel
 	/**
 	 * Returns a record count for the query.
 	 *
-	 * @param   \JDatabaseQuery|string  $query  The query.
+	 * @param   \Joomla\Database\DatabaseQuery|string
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -247,7 +247,7 @@ class MapsModel extends ListModel
 		$query = clone $query;
 		$query->clear('select')->clear('join')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-		return (int) $this->getDbo()->setQuery($query)->loadResult();
+		return (int) $this->getDatabase()->setQuery($query)->loadResult();
 	}
 
 	/**
@@ -275,7 +275,7 @@ class MapsModel extends ListModel
 	}
 
 	/**
-	 * Returns a \JTable object, always creating it.
+	 * Returns a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate. [optional]
 	 * @param   string  $prefix  A prefix for the table class name. [optional]
@@ -385,7 +385,7 @@ class MapsModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' > 1');
@@ -413,7 +413,7 @@ class MapsModel extends ListModel
 
 		$title = 'ROOT';
 
-		$query->where($this->_db->quoteName('title') . ' <> :title')
+		$query->where($this->getDatabase()->quoteName('title') . ' <> :title')
 			->bind(':title', $title);
 
 		return $query;

@@ -460,7 +460,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$newIds = array();
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -525,7 +525,7 @@ abstract class AdminModel extends FormModel
 			);
 			$this->dispatchEvent($event);
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $this->table->ordering = 1;
 
 			// Check the row.
@@ -935,7 +935,7 @@ abstract class AdminModel extends FormModel
 					// Multilanguage: if associated, delete the item in the _associations table
 					if ($this->associationsContext && Associations::isEnabled())
 					{
-						$db = $this->getDbo();
+						$db = $this->getDatabase();
 						$query = $db->getQuery(true)
 							->select(
 								[
@@ -1110,7 +1110,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   Table  $table  A \JTable object.
+	 * @param   Table  $table  A Table object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -1145,7 +1145,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   Table  $table  A reference to a \JTable object.
+	 * @param   Table  $table  A reference to a Table object.
 	 *
 	 * @return  void
 	 *
@@ -1214,8 +1214,6 @@ abstract class AdminModel extends FormModel
 				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
 				{
 					unset($pks[$i]);
-
-					continue;
 				}
 			}
 		}
@@ -1451,7 +1449,7 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Get associationskey for edited item
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$id    = (int) $table->$key;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))

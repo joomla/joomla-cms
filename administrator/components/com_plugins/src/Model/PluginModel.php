@@ -78,7 +78,7 @@ class PluginModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure.
+	 * @return  Form|bool  A Form object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -161,13 +161,20 @@ class PluginModel extends AdminModel
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
 
-		if (!isset($this->_cache[$pk]))
+		$cacheId = $pk;
+
+		if (\is_array($cacheId))
+		{
+			$cacheId = serialize($cacheId);
+		}
+
+		if (!isset($this->_cache[$cacheId]))
 		{
 			// Get a row instance.
 			$table = $this->getTable();
 
 			// Attempt to load the row.
-			$return = $table->load(array('extension_id' => $pk, 'type' => 'plugin'));
+			$return = $table->load(\is_array($pk) ? $pk : ['extension_id' => $pk, 'type' => 'plugin']);
 
 			// Check for a table object error.
 			if ($return === false)
@@ -175,28 +182,28 @@ class PluginModel extends AdminModel
 				return false;
 			}
 
-			// Convert to the \JObject before adding other data.
+			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
+			$this->_cache[$cacheId] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
-			$this->_cache[$pk]->params = $registry->toArray();
+			$this->_cache[$cacheId]->params = $registry->toArray();
 
 			// Get the plugin XML.
 			$path = Path::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
+				$this->_cache[$cacheId]->xml = simplexml_load_file($path);
 			}
 			else
 			{
-				$this->_cache[$pk]->xml = null;
+				$this->_cache[$cacheId]->xml = null;
 			}
 		}
 
-		return $this->_cache[$pk];
+		return $this->_cache[$cacheId];
 	}
 
 	/**
@@ -237,14 +244,15 @@ class PluginModel extends AdminModel
 	/**
 	 * Preprocess the form.
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  Cache group name.
 	 *
 	 * @return  mixed  True if successful.
 	 *
-	 * @throws	\Exception if there is an error in the form event.
 	 * @since   1.6
+	 *
+	 * @throws	\Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
@@ -253,7 +261,7 @@ class PluginModel extends AdminModel
 		$lang    = Factory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
@@ -328,9 +336,11 @@ class PluginModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('type') . ' = ' . $this->_db->quote($table->type),
-			$this->_db->quoteName('folder') . ' = ' . $this->_db->quote($table->folder),
+			$db->quoteName('type') . ' = ' . $db->quote($table->type),
+			$db->quoteName('folder') . ' = ' . $db->quote($table->folder),
 		];
 	}
 

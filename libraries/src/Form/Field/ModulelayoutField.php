@@ -75,7 +75,7 @@ class ModulelayoutField extends FormField
 
 		if ($this->form instanceof Form)
 		{
-			$template_style_id = $this->form->getValue('template_style_id');
+			$template_style_id = $this->form->getValue('template_style_id', null, 0);
 			$template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
 		}
 
@@ -88,7 +88,7 @@ class ModulelayoutField extends FormField
 				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module);
 
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Build the query.

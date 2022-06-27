@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Scheduler\Administrator\Scheduler\Scheduler;
@@ -253,6 +254,11 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 	 */
 	public function runTestCron(Event $event)
 	{
+		if (!Session::checkToken('GET'))
+		{
+			return;
+		}
+
 		$id = (int) $this->app->input->getInt('id');
 		$allowConcurrent = $this->app->input->getBool('allowConcurrent', false);
 
@@ -368,8 +374,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 		/** @var Extension $table */
 		[$context, $table] = $event->getArguments();
 
-		if ($context !== 'com_config.component'
-			|| ($table->name ?? '') !== 'COM_SCHEDULER')
+		if ($context !== 'com_config.component' || $table->name !== 'com_scheduler')
 		{
 			return;
 		}

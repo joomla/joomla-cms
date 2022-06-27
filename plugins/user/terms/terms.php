@@ -27,22 +27,21 @@ class PlgUserTerms extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Application object.
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.9.0
 	 */
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -111,9 +110,9 @@ class PlgUserTerms extends CMSPlugin
 		// Check that the terms is checked if required ie only in registration from frontend.
 		$option = $this->app->input->get('option');
 		$task   = $this->app->input->post->get('task');
-		$form   = $this->app->input->post->get('jform', array(), 'array');
+		$form   = $this->app->input->post->get('jform', [], 'array');
 
-		if ($option == 'com_users' && in_array($task, array('registration.register')) && empty($form['terms']['terms']))
+		if ($option == 'com_users' && in_array($task, ['registration.register']) && empty($form['terms']['terms']))
 		{
 			throw new InvalidArgumentException(Text::_('PLG_USER_TERMS_FIELD_ERROR'));
 		}
@@ -142,7 +141,7 @@ class PlgUserTerms extends CMSPlugin
 
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-		$message = array(
+		$message = [
 			'action'      => 'consent',
 			'id'          => $userId,
 			'title'       => $data['name'],
@@ -150,10 +149,14 @@ class PlgUserTerms extends CMSPlugin
 			'userid'      => $userId,
 			'username'    => $data['username'],
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
-		);
+		];
 
 		/** @var ActionlogModel $model */
-		$model = $this->app->bootComponent('com_actionlogs')->getMVCFactory()->createModel('Actionlog', 'Administrator');
-		$model->addLog(array($message), 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
+		$model = $this->app
+			->bootComponent('com_actionlogs')
+			->getMVCFactory()
+			->createModel('Actionlog', 'Administrator');
+
+		$model->addLog([$message], 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
 }

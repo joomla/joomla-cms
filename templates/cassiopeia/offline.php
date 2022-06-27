@@ -18,7 +18,6 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\Document\HtmlDocument $this */
 
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $extraButtons     = AuthenticationHelper::getLoginButtons('form-login');
 $app              = Factory::getApplication();
 $wa               = $this->getWebAssetManager();
@@ -41,10 +40,10 @@ if ($paramsFontScheme)
 {
 	if (stripos($paramsFontScheme, 'https://') === 0)
 	{
-		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', []);
-		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', []);
-		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style']);
-		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
 
 		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
 		{
@@ -151,11 +150,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 						<label for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<input name="password" class="form-control" id="password" type="password">
 
-						<?php if (count($twofactormethods) > 1) : ?>
-						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input name="secretkey" autocomplete="one-time-code" class="form-control" id="secretkey" type="text">
-						<?php endif; ?>
-
 						<?php foreach($extraButtons as $button):
 							$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
 								return substr($key, 0, 5) == 'data-';
@@ -185,7 +179,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 							</div>
 						<?php endforeach; ?>
 
-						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
+						<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGIN'); ?></button>
 
 						<input type="hidden" name="option" value="com_users">
 						<input type="hidden" name="task" value="user.login">

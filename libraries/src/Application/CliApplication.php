@@ -205,7 +205,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * This method must be invoked as: $cli = CliApplication::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCli class to instantiate.
+	 * @param   string  $name  The name (optional) of the Application Cli class to instantiate.
 	 *
 	 * @return  CliApplication
 	 *

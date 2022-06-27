@@ -90,7 +90,7 @@ class TosField extends RadioField
 			$attribs['data-bs-toggle'] = 'modal';
 			$attribs['data-bs-target'] = '#tosModal';
 
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			$query->select($db->quoteName(['id', 'alias', 'catid', 'language']))
@@ -144,7 +144,7 @@ class TosField extends RadioField
 		}
 
 		// Add the label text and closing tag.
-		$label .= '>' . $link . '<span class="star">&#160;*</span></label>';
+		$label .= '>' . $link . '<span class="star" aria-hidden="true">&#160;*</span></label>';
 
 		return $label;
 	}

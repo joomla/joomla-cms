@@ -89,7 +89,7 @@ jQuery(document).ready(function($) {
   };
 
   // Attach behaviour to toggle button.
-  $(document).on('click', '#toogle-left-panel', function() {
+  $(document).on('click', '#toggle-left-panel', function() {
     var referenceHide = this.getAttribute('data-hide-reference');
     var referenceShow = this.getAttribute('data-show-reference');
 

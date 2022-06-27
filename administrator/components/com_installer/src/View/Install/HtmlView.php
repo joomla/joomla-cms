@@ -13,6 +13,7 @@ namespace Joomla\Component\Installer\Administrator\View\Install;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -36,7 +37,7 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->getCurrentUser()->authorise('core.admin'))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -60,6 +61,12 @@ class HtmlView extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
+		if (ContentHelper::getActions('com_installer')->get('core.manage'))
+		{
+			ToolbarHelper::link('index.php?option=com_installer&view=manage', 'COM_INSTALLER_TOOLBAR_MANAGE', 'list');
+			ToolbarHelper::divider();
+		}
+
 		parent::addToolbar();
 
 		ToolbarHelper::help('Extensions:_Install');

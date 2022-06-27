@@ -28,14 +28,13 @@ class WorkflowTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since  4.0.0
 	 */
@@ -145,7 +144,7 @@ class WorkflowTable extends Table
 		}
 		else
 		{
-			$db = $this->getDbo();
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true);
 
 			$query
@@ -193,7 +192,7 @@ class WorkflowTable extends Table
 		{
 			// Existing item
 			$this->modified_by = $user->id;
-			$this->modified = $date->toSql();
+			$this->modified    = $date->toSql();
 		}
 		else
 		{
@@ -220,10 +219,15 @@ class WorkflowTable extends Table
 			$this->modified_by = $this->created_by;
 		}
 
-		if ($this->default == '1')
+		if ((int) $this->default === 1)
 		{
 			// Verify that the default is unique for this workflow
-			if ($table->load(array('default' => '1')))
+			if ($table->load(
+				[
+					'default' => '1',
+					'extension' => $this->extension
+				]
+			))
 			{
 				$table->default = 0;
 				$table->store();
@@ -293,7 +297,7 @@ class WorkflowTable extends Table
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
+	 * @param   Table    $table  A Table object for the asset parent.
 	 * @param   integer  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent

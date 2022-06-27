@@ -28,7 +28,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 *
 	 * @since  3.1
 	 */
 	protected $state;
@@ -68,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The logged in user
 	 *
-	 * @var    \JUser|null
+	 * @var    \Joomla\CMS\User\User|null
 	 * @since  4.0.0
 	 */
 	protected $user = null;
@@ -87,7 +88,7 @@ class HtmlView extends BaseHtmlView
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->params     = $this->state->get('params');
-		$this->user       = Factory::getUser();
+		$this->user       = $this->getCurrentUser();
 
 		if (count($errors = $this->get('Errors')))
 		{

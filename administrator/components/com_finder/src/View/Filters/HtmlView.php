@@ -28,7 +28,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * An array of items
 	 *
-	 * @var  array
+	 * @var    array
 	 *
 	 * @since  3.6.1
 	 */
@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object
 	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination
+	 * @var    \Joomla\CMS\Pagination\Pagination
 	 *
 	 * @since  3.6.1
 	 */
@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.6.1
 	 */
@@ -64,7 +64,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -73,12 +74,13 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var    array
+	 *
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
 
 	/**
-	 * @var boolean
+	 * @var    boolean
 	 *
 	 * @since  4.0.0
 	 */

@@ -34,7 +34,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var \Joomla\CMS\Form\Form
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $canDo;
 
@@ -73,8 +73,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -120,13 +121,14 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws \Exception
 	 * @since   1.6
+	 *
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$userId     = $user->id;
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
@@ -237,6 +239,9 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->divider();
+
+		ToolbarHelper::inlinehelp();
+
 		$toolbar->help('Articles:_Edit');
 	}
 }

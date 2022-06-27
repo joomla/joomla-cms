@@ -12,10 +12,10 @@ namespace Joomla\Component\Content\Site\View\Category;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
@@ -27,12 +27,13 @@ class FeedView extends CategoryFeedView
 {
 	/**
 	 * @var    string  The name of the view to link individual items to
+	 *
 	 * @since  3.2
 	 */
 	protected $viewName = 'article';
 
 	/**
-	 * Method to reconcile non standard names from components to usage in this class.
+	 * Method to reconcile non-standard names from components to usage in this class.
 	 * Typically overridden in the component feed view class.
 	 *
 	 * @param   object  $item  The item for a feed, an element of the $items array.
@@ -48,12 +49,10 @@ class FeedView extends CategoryFeedView
 		$params            = $app->getParams();
 		$item->description = '';
 		$obj = json_decode($item->images);
-		$introImage = $obj->{'image_intro'} ?? '';
 
-		if (isset($introImage) && ($introImage != ''))
+		if (!empty($obj->image_intro))
 		{
-			$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
-			$item->description = '<p><img src="' . $image . '"></p>';
+			$item->description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
 		}
 
 		$item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
@@ -68,7 +67,7 @@ class FeedView extends CategoryFeedView
 			$link = Route::_(
 				RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language),
 				true,
-				$app->get('force_ssl') == 2 ? \JRoute::TLS_FORCE : \JRoute::TLS_IGNORE,
+				$app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE,
 				true
 			);
 

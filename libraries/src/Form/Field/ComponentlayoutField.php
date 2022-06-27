@@ -74,7 +74,7 @@ class ComponentlayoutField extends FormField
 
 		if ($this->form instanceof Form)
 		{
-			$template_style_id = $this->form->getValue('template_style_id');
+			$template_style_id = $this->form->getValue('template_style_id', null, 0);
 			$template_style_id = (int) preg_replace('#\W#', '', $template_style_id);
 		}
 
@@ -90,7 +90,7 @@ class ComponentlayoutField extends FormField
 			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
 
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Build the query.

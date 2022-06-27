@@ -53,14 +53,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -319,7 +320,7 @@ class HtmlView extends BaseHtmlView
 		$menutypeId = (int) $this->state->get('menutypeid');
 
 		$canDo = ContentHelper::getActions('com_menus', 'menu', (int) $menutypeId);
-		$user  = Factory::getUser();
+		$user  = $this->getCurrentUser();
 
 		// Get the menu title
 		$menuTypeTitle = $this->get('State')->get('menutypetitle');
@@ -343,7 +344,7 @@ class HtmlView extends BaseHtmlView
 
 		$protected = $this->state->get('filter.menutype') == 'main';
 
-		if (($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')) && !$protected
+		if (($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin')) && !$protected
 			|| $canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
@@ -362,9 +363,9 @@ class HtmlView extends BaseHtmlView
 				$childBar->unpublish('items.unpublish')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin') && !$protected)
+			if ($this->getCurrentUser()->authorise('core.admin') && !$protected)
 			{
-				$childBar->checkin('articles.checkin')->listCheck(true);
+				$childBar->checkin('items.checkin')->listCheck(true);
 			}
 
 			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
@@ -392,7 +393,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (Factory::getUser()->authorise('core.admin'))
+		if ($this->getCurrentUser()->authorise('core.admin'))
 		{
 			$toolbar->standardButton('refresh')
 				->text('JTOOLBAR_REBUILD')

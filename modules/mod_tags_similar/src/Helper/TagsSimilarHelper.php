@@ -194,7 +194,13 @@ abstract class TagsSimilarHelper
 			$query->order($query->rand());
 		}
 
-		$query->setLimit((int) $params->get('maximum', 5));
+		$maximum = (int) $params->get('maximum', 5);
+
+		if ($maximum > 0)
+		{
+			$query->setLimit($maximum);
+		}
+
 		$db->setQuery($query);
 
 		try

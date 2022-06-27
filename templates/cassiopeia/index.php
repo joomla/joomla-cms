@@ -47,10 +47,10 @@ if ($paramsFontScheme)
 {
 	if (stripos($paramsFontScheme, 'https://') === 0)
 	{
-		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', []);
-		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', []);
-		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style']);
-		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
 
 		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
 		{
@@ -118,7 +118,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
 
-// Defer font awesome
+// Defer fontawesome for increased performance. Once the page is loaded javascript changes it to a stylesheet.
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 ?>
 <!DOCTYPE html>

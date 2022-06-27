@@ -44,7 +44,7 @@
       // Update the template
       this.template = this.template.replace(new RegExp(` name="${this.name.replace(/[[\]]/g, '\\$&')}`, 'g'), ` name="${value}`);
 
-      return this.setAttribute('name', value);
+      this.setAttribute('name', value);
     }
 
     constructor() {
@@ -560,16 +560,15 @@
       // Handle drag action, move element to hovered position
       this.addEventListener('dragenter', ({ target }) => {
         // Make sure the target in the correct container
-        if (!item || (that.rowsContainer
-          && target.closest(that.rowsContainer) !== that.containerWithRows)) {
+        if (!item || target.parentElement.closest('joomla-field-subform') !== that) {
           return;
         }
 
-        // Find a hovered row, and replace it
-        const row = target.matches(that.repeatableElement)
-          ? target
-          : target.closest(that.repeatableElement);
-        if (!row) return;
+        // Find a hovered row
+        const row = target.closest(that.repeatableElement);
+
+        // One more check for correct parent
+        if (!row || row.closest('joomla-field-subform') !== that) return;
 
         switchRowPositions(item, row);
       });

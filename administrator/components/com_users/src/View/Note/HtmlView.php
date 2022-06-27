@@ -30,7 +30,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The edit form.
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  2.5
 	 */
 	protected $form;
@@ -91,7 +92,7 @@ class HtmlView extends BaseHtmlView
 		$input = Factory::getApplication()->input;
 		$input->set('hidemainmenu', 1);
 
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 

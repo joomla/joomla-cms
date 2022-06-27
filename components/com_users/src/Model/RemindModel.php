@@ -34,7 +34,7 @@ class RemindModel extends FormModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm     A Form object on success, false on failure
+	 * @return  Form|bool A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -77,6 +77,7 @@ class RemindModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
 	 * @throws  \Exception
 	 */
 	protected function populateState()
@@ -132,7 +133,7 @@ class RemindModel extends FormModel
 		}
 
 		// Find the user id for the given email address.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__users'))

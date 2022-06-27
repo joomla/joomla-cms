@@ -36,49 +36,49 @@ class CategoryModel extends ListModel
 	 *
 	 * @var    CategoryNode
 	 */
-	protected $_item = null;
+	protected $_item;
 
 	/**
 	 * Array of contacts in the category
 	 *
 	 * @var    \stdClass[]
 	 */
-	protected $_articles = null;
+	protected $_articles;
 
 	/**
 	 * Category left and right of this one
 	 *
 	 * @var    CategoryNode[]|null
 	 */
-	protected $_siblings = null;
+	protected $_siblings;
 
 	/**
 	 * Array of child-categories
 	 *
 	 * @var    CategoryNode[]|null
 	 */
-	protected $_children = null;
+	protected $_children;
 
 	/**
 	 * Parent category of the current one
 	 *
 	 * @var    CategoryNode|null
 	 */
-	protected $_parent = null;
+	protected $_parent;
 
 	/**
 	 * The category that applies.
 	 *
 	 * @var    object
 	 */
-	protected $_category = null;
+	protected $_category;
 
 	/**
 	 * The list of other contact categories.
 	 *
 	 * @var    array
 	 */
-	protected $_categories = null;
+	protected $_categories;
 
 	/**
 	 * Constructor.
@@ -125,11 +125,11 @@ class CategoryModel extends ListModel
 			return false;
 		}
 
-		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
-		{
-			$item = &$items[$i];
+		$taggedItems = [];
 
+		// Convert the params field into an object, saving original in _params
+		foreach ($items as $item)
+		{
 			if (!isset($this->_params))
 			{
 				$item->params = new Registry($item->params);
@@ -138,8 +138,20 @@ class CategoryModel extends ListModel
 			// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
 			if ($this->getState('load_tags', true))
 			{
-				$this->tags = new TagsHelper;
-				$this->tags->getItemTags('com_contact.contact', $item->id);
+				$item->tags = new TagsHelper;
+				$taggedItems[$item->id] = $item;
+			}
+		}
+
+		// Load tags of all items.
+		if ($taggedItems)
+		{
+			$tagsHelper = new TagsHelper;
+			$itemIds = \array_keys($taggedItems);
+
+			foreach ($tagsHelper->getMultipleItemTags('com_contact.contact', $itemIds) as $id => $tags)
+			{
+				$taggedItems[$id]->tags->itemTags = $tags;
 			}
 		}
 
@@ -149,7 +161,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string    An SQL query
+	 * @return  \Joomla\Database\DatabaseQuery    An SQL query
 	 *
 	 * @since   1.6
 	 */
@@ -159,14 +171,16 @@ class CategoryModel extends ListModel
 		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db = $this->getDatabase();
+
+		/** @var \Joomla\Database\DatabaseQuery $query */
 		$query = $db->getQuery(true);
 
 		$query->select($this->getState('list.select', 'a.*'))
 			->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug')
 			->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug')
 		/**
-		 * TODO: we actually should be doing it but it's wrong this way
+		 * @todo: we actually should be doing it but it's wrong this way
 		 *	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		 *	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
 		 */
@@ -229,7 +243,7 @@ class CategoryModel extends ListModel
 		// Filter on the language.
 		if ($this->getState('filter.language'))
 		{
-			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+			$query->whereIn($db->quoteName('a.language'), [Factory::getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Set sortname ordering if selected
@@ -292,7 +306,7 @@ class CategoryModel extends ListModel
 		else
 		{
 			$limit = $app->getUserStateFromRequest(
-				'com_contact.category.list',
+				'com_contact.category.list.limit',
 				'limit',
 				$mergedParams->get('contacts_display_num', $app->get('list_limit')),
 				'uint'
@@ -462,9 +476,9 @@ class CategoryModel extends ListModel
 	/**
 	 * Generate column expression for slug or catslug.
 	 *
-	 * @param   \JDatabaseQuery  $query  Current query instance.
-	 * @param   string           $id     Column id name.
-	 * @param   string           $alias  Column alias name.
+	 * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+	 * @param   string                          $id     Column id name.
+	 * @param   string                          $alias  Column alias name.
 	 *
 	 * @return  string
 	 *

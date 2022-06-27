@@ -28,6 +28,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Scheduler\Administrator\Helper\ExecRuleHelper;
 use Joomla\Component\Scheduler\Administrator\Helper\SchedulerHelper;
 use Joomla\Component\Scheduler\Administrator\Table\TaskTable;
+use Joomla\Component\Scheduler\Administrator\Task\TaskOption;
 use Joomla\Database\ParameterType;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -320,8 +321,8 @@ class TaskModel extends AdminModel
 		}
 
 		// Parent call leaves `execution_rules` and `cron_rules` JSON encoded
-		$item->set('execution_rules', json_decode($item->get('execution_rules')));
-		$item->set('cron_rules', json_decode($item->get('cron_rules')));
+		$item->set('execution_rules', json_decode($item->get('execution_rules', '')));
+		$item->set('cron_rules', json_decode($item->get('cron_rules', '')));
 
 		$taskOption = SchedulerHelper::getTaskOptions()->findOption(
 			($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
@@ -377,7 +378,7 @@ class TaskModel extends AdminModel
 			}
 		}
 
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 		$now = Factory::getDate()->toSql();
 
 		// Get lock on the table to help with concurrency issues
@@ -398,11 +399,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 
 			if ($runningCount !== 0)
 			{
+				$db->unlockTables();
+
 				return null;
 			}
 		}
@@ -412,6 +417,18 @@ class TaskModel extends AdminModel
 		$lockQuery->update($db->quoteName(self::TASK_TABLE))
 			->set($db->quoteName('locked') . ' = :now1')
 			->bind(':now1', $now);
+
+		// Array of all active routine ids
+		$activeRoutines = array_map(
+			static function (TaskOption $taskOption): string
+			{
+				return $taskOption->id;
+			},
+			SchedulerHelper::getTaskOptions()->options
+		);
+
+		// "Orphaned" tasks are not a part of the task queue!
+		$lockQuery->whereIn($db->quoteName('type'), $activeRoutines, ParameterType::STRING);
 
 		// If directed, exclude CLI exclusive tasks
 		if (!$options['includeCliExclusive'])
@@ -457,6 +474,15 @@ class TaskModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
+				$db->unlockTables();
+
+				return null;
+			}
+
+			if (count($ids) === 0)
+			{
+				$db->unlockTables();
+
 				return null;
 			}
 
@@ -472,10 +498,12 @@ class TaskModel extends AdminModel
 		}
 		finally
 		{
+			$affectedRows = $db->getAffectedRows();
+
 			$db->unlockTables();
 		}
 
-		if ($db->getAffectedRows() != 1)
+		if ($affectedRows != 1)
 		{
 			/*
 			 // @todo
@@ -526,7 +554,7 @@ class TaskModel extends AdminModel
 				'includeCliExclusive' => true,
 			]
 		)
-			->setAllowedTypes('id', 'int')
+			->setAllowedTypes('id', 'numeric')
 			->setAllowedTypes('allowDisabled', 'bool')
 			->setAllowedTypes('bypassScheduling', 'bool')
 			->setAllowedTypes('allowConcurrent', 'bool')
@@ -652,7 +680,7 @@ class TaskModel extends AdminModel
 			$buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
 		}
 
-		if ($ruleClass === 'cron')
+		if ($ruleClass === 'cron-expression')
 		{
 			// ! custom matches are disabled in the form
 			$matches         = $executionRules['cron-expression'];

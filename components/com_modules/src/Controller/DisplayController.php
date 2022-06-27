@@ -11,7 +11,9 @@ namespace Joomla\Component\Modules\Site\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
@@ -23,14 +25,12 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 class DisplayController extends BaseController
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_task', 'model_path', and
-	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   array                     $config   An optional associative array of configuration settings.
+	 *                                              Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                              'view_path' (this list is not meant to be comprehensive).
+	 * @param   MVCFactoryInterface|null  $factory  The factory.
+	 * @param   CMSApplication|null       $app      The Application for the dispatcher
+	 * @param   Input|null                $input    The Input object for the request
 	 *
 	 * @since   3.0
 	 */
@@ -38,7 +38,7 @@ class DisplayController extends BaseController
 	{
 		$this->input = Factory::getApplication()->input;
 
-		// Modules frontpage Editor Module proxying:
+		// Modules frontpage Editor Module proxying.
 		if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal')
 		{
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;

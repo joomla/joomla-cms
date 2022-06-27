@@ -1,4 +1,4 @@
-import Carousel from '../../../../../node_modules/bootstrap/js/src/carousel';
+import Carousel from 'bootstrap/js/src/carousel';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Carousel = Carousel;

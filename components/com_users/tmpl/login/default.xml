@@ -85,7 +85,6 @@
 					name="login_image_alt"
 					type="text"
 					label="COM_USERS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -166,7 +165,6 @@
 					name="logout_image_alt"
 					type="text"
 					label="COM_USERS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field

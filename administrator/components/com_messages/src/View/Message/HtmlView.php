@@ -26,9 +26,9 @@ use Joomla\CMS\User\User;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -101,6 +101,7 @@ class HtmlView extends BaseHtmlView
 
 			if ($sender->id !== $app->getIdentity()->get('id') && ($sender->authorise('core.admin')
 				|| $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
+				&& $app->getIdentity()->authorise('core.manage', 'com_users')
 			)
 			{
 				ToolbarHelper::custom('message.reply', 'redo', '', 'COM_MESSAGES_TOOLBAR_REPLY', false);

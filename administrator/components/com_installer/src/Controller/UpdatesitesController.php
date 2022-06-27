@@ -41,7 +41,7 @@ class UpdatesitesController extends AdminController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
@@ -86,10 +86,13 @@ class UpdatesitesController extends AdminController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('publish' => 1, 'unpublish' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -127,7 +130,10 @@ class UpdatesitesController extends AdminController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids = $this->input->get('cid', array(), 'array');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{

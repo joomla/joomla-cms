@@ -248,6 +248,13 @@ class ExtensionHelper
 		array('plugin', 'resize', 'media-action', 0),
 		array('plugin', 'rotate', 'media-action', 0),
 
+		// Core plugin extensions - Multi-factor Authentication
+		array('plugin', 'email', 'multifactorauth', 0),
+		array('plugin', 'fixed', 'multifactorauth', 0),
+		array('plugin', 'totp', 'multifactorauth', 0),
+		array('plugin', 'webauthn', 'multifactorauth', 0),
+		array('plugin', 'yubikey', 'multifactorauth', 0),
+
 		// Core plugin extensions - privacy
 		array('plugin', 'actionlogs', 'privacy', 0),
 		array('plugin', 'consents', 'privacy', 0),
@@ -276,6 +283,7 @@ class ExtensionHelper
 		array('plugin', 'fields', 'system', 0),
 		array('plugin', 'highlight', 'system', 0),
 		array('plugin', 'httpheaders', 'system', 0),
+		array('plugin', 'jooa11y', 'system', 0),
 		array('plugin', 'languagecode', 'system', 0),
 		array('plugin', 'languagefilter', 'system', 0),
 		array('plugin', 'log', 'system', 0),
@@ -287,6 +295,7 @@ class ExtensionHelper
 		array('plugin', 'schedulerunner', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
+		array('plugin', 'shortcut', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'tasknotification', 'system', 0),
@@ -298,10 +307,6 @@ class ExtensionHelper
 		array('plugin', 'demotasks', 'task', 0),
 		array('plugin', 'requests', 'task', 0),
 		array('plugin', 'sitestatus', 'task', 0),
-
-		// Core plugin extensions - two factor authentication
-		array('plugin', 'totp', 'twofactorauth', 0),
-		array('plugin', 'yubikey', 'twofactorauth', 0),
 
 		// Core plugin extensions - user
 		array('plugin', 'contactcreator', 'user', 0),
@@ -317,6 +322,7 @@ class ExtensionHelper
 		array('plugin', 'content', 'webservices', 0),
 		array('plugin', 'installer', 'webservices', 0),
 		array('plugin', 'languages', 'webservices', 0),
+		array('plugin', 'media', 'webservices', 0),
 		array('plugin', 'menus', 'webservices', 0),
 		array('plugin', 'messages', 'webservices', 0),
 		array('plugin', 'modules', 'webservices', 0),

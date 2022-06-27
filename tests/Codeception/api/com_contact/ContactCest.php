@@ -71,7 +71,7 @@ class ContactCest
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
-		// Category is a required field for this patch request for now TODO: Remove this dependency
+		// Category is a required field for this patch request for now @todo: Remove this dependency
 		$I->sendPATCH('/contacts/' . $id, ['name' => 'Frankie Blogs', 'catid' => 4, 'published' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 

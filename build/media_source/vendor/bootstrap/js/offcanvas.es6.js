@@ -1,4 +1,4 @@
-import Offcanvas from '../../../../../node_modules/bootstrap/js/src/offcanvas';
+import Offcanvas from 'bootstrap/js/src/offcanvas';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Offcanvas = Offcanvas;

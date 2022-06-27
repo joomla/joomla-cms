@@ -73,7 +73,7 @@ class BannersModel extends ListModel
 	{
 		if (!isset($this->cache['categoryorders']))
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select(
 					[
@@ -93,13 +93,13 @@ class BannersModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.

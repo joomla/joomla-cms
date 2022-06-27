@@ -87,7 +87,7 @@ class ActionlogsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
@@ -243,7 +243,7 @@ class ActionlogsModel extends ListModel
 	public function getLogsForItem($extension, $itemId)
 	{
 		$itemId = (int) $itemId;
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
@@ -269,7 +269,7 @@ class ActionlogsModel extends ListModel
 	}
 
 	/**
-	 * Get logs data into JTable object
+	 * Get logs data into Table object
 	 *
 	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *
@@ -279,7 +279,7 @@ class ActionlogsModel extends ListModel
 	 */
 	public function getLogsData($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $this->getLogDataQuery($pks);
 
 		$db->setQuery($query);
@@ -298,7 +298,7 @@ class ActionlogsModel extends ListModel
 	 */
 	public function getLogDataAsIterator($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $this->getLogDataQuery($pks);
 
 		$db->setQuery($query);
@@ -317,14 +317,14 @@ class ActionlogsModel extends ListModel
 	 */
 	private function getLogDataQuery($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
 			->from($db->quoteName('#__action_logs', 'a'))
 			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
-		if (is_array($pks) && count($pks) > 0)
+		if (\is_array($pks) && \count($pks) > 0)
 		{
 			$pks = ArrayHelper::toInteger($pks);
 			$query->whereIn($db->quoteName('a.id'), $pks);
@@ -345,7 +345,7 @@ class ActionlogsModel extends ListModel
 	public function delete(&$pks)
 	{
 		$keys  = ArrayHelper::toInteger($pks);
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__action_logs'))
 			->whereIn($db->quoteName('id'), $keys);
@@ -378,7 +378,7 @@ class ActionlogsModel extends ListModel
 	{
 		try
 		{
-			$this->getDbo()->truncateTable('#__action_logs');
+			$this->getDatabase()->truncateTable('#__action_logs');
 		}
 		catch (Exception $e)
 		{

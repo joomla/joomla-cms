@@ -23,13 +23,12 @@ $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
 	->useScript('bootstrap.popover');
 
-HTMLHelper::_('behavior.core');
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
 Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
+$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 ?>
 
 <div id="joomlaupdate-wrapper" class="main-card mt-3 p-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
@@ -77,20 +76,22 @@ $currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo[
 		<?php $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes); ?>
 		<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>"/>
 		<div class="form-text"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></div>
-		<div class="form-text hidden" id="file_size" name="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
+		<div class="form-text hidden" id="file_size"><?php echo Text::sprintf('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', '&#x200E;' . ''); ?></div>
 		<div class="alert alert-warning hidden" id="max_upload_size_warn">
 			<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'); ?>
 		</div>
 	</div>
 
-	<div class="form-check mb-3">
-		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup">
+	<div class="form-check mb-3 <?php echo $this->noBackupCheck ? 'd-none' : '' ?>">
+		<input class="form-check-input me-2 <?php echo $this->noBackupCheck ? 'd-none' : '' ?>"
+			   type="checkbox" disabled value="" id="joomlaupdate-confirm-backup"
+				<?php echo $this->noBackupCheck ? 'checked' : '' ?>>
 		<label class="form-check-label" for="joomlaupdate-confirm-backup">
 			<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP'); ?>
 		</label>
 	</div>
 
-	<button id="uploadButton" class="btn btn-primary" type="button"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+	<button id="uploadButton" class="btn btn-primary" disabled type="button"><?php echo Text::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 
 	<input type="hidden" name="task" value="update.upload">
 	<input type="hidden" name="option" value="com_joomlaupdate">
