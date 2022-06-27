@@ -14,6 +14,7 @@ defined('_JEXEC') or die();
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\CoreEventAware;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -46,6 +47,8 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  */
 final class Webauthn extends CMSPlugin implements SubscriberInterface
 {
+	use CoreEventAware;
+
 	/**
 	 * Autoload the language files
 	 *

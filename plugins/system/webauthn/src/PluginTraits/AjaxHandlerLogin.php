@@ -15,7 +15,6 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -213,9 +212,10 @@ trait AjaxHandlerLogin
 
 		// Run the user plugins. They CAN block login by returning boolean false and setting $response->error_message.
 		PluginHelper::importPlugin('user');
-		$event   = AbstractEvent::create('onUserLogin', [(array) $response, $options]);
-		$result  = $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
-		$results = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
+		$eventClassName = self::getEventClassByEventName('onUserLogin');
+		$event          = new $eventClassName('onUserLogin', [(array) $response, $options]);
+		$result         = $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+		$results        = !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 
 		// If there is no boolean FALSE result from any plugin the login is successful.
 		if (in_array(false, $results, true) === false)
@@ -228,14 +228,16 @@ trait AjaxHandlerLogin
 			$options['responseType'] = $response->type;
 
 			// The user is successfully logged in. Run the after login events
-			$event = AbstractEvent::create('onUserAfterLogin', [$options]);
+			$eventClassName = self::getEventClassByEventName('onUserAfterLogin');
+			$event          = new $eventClassName('onUserAfterLogin', [$options]);
 			$this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 			return;
 		}
 
 		// If we are here the plugins marked a login failure. Trigger the onUserLoginFailure Event.
-		$event = AbstractEvent::create('onUserLoginFailure', [(array) $response]);
+		$eventClassName = self::getEventClassByEventName('onUserLoginFailure');
+		$event          = new $eventClassName('onUserLoginFailure', [(array) $response]);
 		$this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		// Log the failure
@@ -279,7 +281,8 @@ trait AjaxHandlerLogin
 		// Trigger onUserLoginFailure Event.
 		Log::add('Calling onUserLoginFailure plugin event', Log::INFO, 'plg_system_webauthn');
 
-		$event = AbstractEvent::create('onUserLoginFailure', [(array) $response]);
+		$eventClassName = self::getEventClassByEventName('onUserLoginFailure');
+		$event          = new $eventClassName('onUserLoginFailure', [(array) $response]);
 		$this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
 		// If status is success, any error will have been raised by the user plugin
