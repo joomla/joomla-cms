@@ -224,7 +224,7 @@ class HtmlView extends BaseHtmlView
 		$model = $this->getModel();
 
 		// Check for errors.
-		if (count($errors = $model->getErrors()))
+		if (\count($errors = $model->getErrors()))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -241,14 +241,14 @@ class HtmlView extends BaseHtmlView
 		$extension = AssociationsHelper::getSupportedExtension($extensionName);
 		$types     = $extension->get('types');
 
-		if (array_key_exists($typeName, $types))
+		if (\array_key_exists($typeName, $types))
 		{
 			$this->type         = $types[$typeName];
 			$this->typeSupports = [];
 			$details            = $this->type->get('details');
 			$this->save2copy    = false;
 
-			if (array_key_exists('support', $details))
+			if (\array_key_exists('support', $details))
 			{
 				$support            = $details['support'];
 				$this->typeSupports = $support;

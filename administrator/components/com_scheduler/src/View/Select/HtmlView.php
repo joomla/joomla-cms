@@ -14,7 +14,6 @@ namespace Joomla\Component\Scheduler\Administrator\View\Select;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -118,8 +117,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar(): void
 	{
-		$canDo = ContentHelper::getActions('com_scheduler');
-
 		/*
 		* Get the global Toolbar instance
 		* @todo : Replace usage with ToolbarFactoryInterface. but how?
@@ -135,14 +132,5 @@ class HtmlView extends BaseHtmlView
 			->buttonClass('btn btn-danger')
 			->icon('icon-times')
 			->text(Text::_('JCANCEL'));
-
-		// Add preferences button if user has privileges
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			$toolbar->preferences('com_scheduler');
-		}
-
-		// Add help button
-		$toolbar->help('JHELP_COMPONENTS_SCHEDULED_TASKS_MANAGER');
 	}
 }
