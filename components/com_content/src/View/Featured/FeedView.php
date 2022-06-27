@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\View\Featured;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
