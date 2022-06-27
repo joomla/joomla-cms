@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -18,27 +19,27 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
  */
 class Debugindexer extends Indexer
 {
-	/**
-	 * The result object from the last call to self::index()
-	 *
-	 * @var Result
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $item;
+    /**
+     * The result object from the last call to self::index()
+     *
+     * @var Result
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static $item;
 
-	/**
-	 * Stub for index() in indexer class
-	 *
-	 * @param   Result  $item    Result object to index
-	 * @param   string  $format  Format to index
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function index($item, $format = 'html')
-	{
-		self::$item = $item;
-	}
+    /**
+     * Stub for index() in indexer class
+     *
+     * @param   Result  $item    Result object to index
+     * @param   string  $format  Format to index
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function index($item, $format = 'html')
+    {
+        self::$item = $item;
+    }
 }

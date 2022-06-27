@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -29,386 +30,353 @@ use Joomla\Component\Finder\Administrator\Response\Response;
  */
 class IndexerController extends BaseController
 {
-	/**
-	 * Method to start the indexer.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function start()
-	{
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		if (!Session::checkToken('request'))
-		{
-			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
-			return;
-		}
-
-		$params = ComponentHelper::getParams('com_finder');
-
-		if ($params->get('enable_logging', '0'))
-		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			Log::addLogger($options);
-		}
-
-		// Log the start
-		try
-		{
-			Log::add('Starting the indexer', Log::INFO);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// We don't want this form to be cached.
-		$this->app->allowCache(false);
-
-		// Put in a buffer to silence noise.
-		ob_start();
-
-		// Reset the indexer state.
-		Indexer::resetState();
-
-		// Import the finder plugins.
-		PluginHelper::importPlugin('finder');
-
-		// Add the indexer language to \JS
-		Text::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
-		Text::script('COM_FINDER_NO_ERROR_RETURNED');
-
-		// Start the indexer.
-		try
-		{
-			// Trigger the onStartIndex event.
-			$this->app->triggerEvent('onStartIndex');
-
-			// Get the indexer state.
-			$state = Indexer::getState();
-			$state->start = 1;
-
-			// Send the response.
-			static::sendResponse($state);
-		}
-
-		// Catch an exception and return the response.
-		catch (\Exception $e)
-		{
-			static::sendResponse($e);
-		}
-	}
-
-	/**
-	 * Method to run the next batch of content through the indexer.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function batch()
-	{
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		if (!Session::checkToken('request'))
-		{
-			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
-			return;
-		}
-
-		$params = ComponentHelper::getParams('com_finder');
-
-		if ($params->get('enable_logging', '0'))
-		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			Log::addLogger($options);
-		}
-
-		// Log the start
-		try
-		{
-			Log::add('Starting the indexer batch process', Log::INFO);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// We don't want this form to be cached.
-		$this->app->allowCache(false);
-
-		// Put in a buffer to silence noise.
-		ob_start();
-
-		// Remove the script time limit.
-		@set_time_limit(0);
-
-		// Get the indexer state.
-		$state = Indexer::getState();
-
-		// Reset the batch offset.
-		$state->batchOffset = 0;
-
-		// Update the indexer state.
-		Indexer::setState($state);
-
-		// Import the finder plugins.
-		PluginHelper::importPlugin('finder');
-
-		// Start the indexer.
-		try
-		{
-			// Trigger the onBeforeIndex event.
-			$this->app->triggerEvent('onBeforeIndex');
-
-			// Trigger the onBuildIndex event.
-			$this->app->triggerEvent('onBuildIndex');
-
-			// Get the indexer state.
-			$state = Indexer::getState();
-			$state->start = 0;
-			$state->complete = 0;
-
-			// Log batch completion and memory high-water mark.
-			try
-			{
-				Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational log only
-			}
-
-			// Send the response.
-			static::sendResponse($state);
-		}
-
-		// Catch an exception and return the response.
-		catch (\Exception $e)
-		{
-			// Send the response.
-			static::sendResponse($e);
-		}
-	}
-
-	/**
-	 * Method to optimize the index and perform any necessary cleanup.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function optimize()
-	{
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		if (!Session::checkToken('request'))
-		{
-			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
-			return;
-		}
-
-		// We don't want this form to be cached.
-		$this->app->allowCache(false);
-
-		// Put in a buffer to silence noise.
-		ob_start();
-
-		// Import the finder plugins.
-		PluginHelper::importPlugin('finder');
-
-		try
-		{
-			// Optimize the index
-			$indexer = new Indexer;
-			$indexer->optimize();
-
-			// Get the indexer state.
-			$state = Indexer::getState();
-			$state->start = 0;
-			$state->complete = 1;
-
-			// Send the response.
-			static::sendResponse($state);
-		}
-
-		// Catch an exception and return the response.
-		catch (\Exception $e)
-		{
-			static::sendResponse($e);
-		}
-	}
-
-	/**
-	 * Method to handle a send a \JSON response. The body parameter
-	 * can be an \Exception object for when an error has occurred or
-	 * a CMSObject for a good response.
-	 *
-	 * @param   \Joomla\CMS\Object\CMSObject|\Exception  $data  CMSObject on success, \Exception on error. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public static function sendResponse($data = null)
-	{
-		$app = Factory::getApplication();
-
-		$params = ComponentHelper::getParams('com_finder');
-
-		if ($params->get('enable_logging', '0'))
-		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			Log::addLogger($options);
-		}
-
-		// Send the assigned error code if we are catching an exception.
-		if ($data instanceof \Exception)
-		{
-			try
-			{
-				Log::add($data->getMessage(), Log::ERROR);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational log only
-			}
-
-			$app->setHeader('status', $data->getCode());
-		}
-
-		// Create the response object.
-		$response = new Response($data);
-
-		if (\JDEBUG)
-		{
-			// Add the buffer and memory usage
-			$response->buffer = ob_get_contents();
-			$response->memory = memory_get_usage(true);
-		}
-
-		// Send the JSON response.
-		echo json_encode($response);
-	}
-
-	/**
-	 * Method to call a specific indexing plugin and return debug info
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function debug()
-	{
-		// Check for a valid token. If invalid, send a 403 with the error message.
-		if (!Session::checkToken('request'))
-		{
-			static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
-
-			return;
-		}
-
-		// We don't want this form to be cached.
-		$this->app->allowCache(false);
-
-		// Put in a buffer to silence noise.
-		ob_start();
-
-		// Remove the script time limit.
-		@set_time_limit(0);
-
-		// Get the indexer state.
-		Indexer::resetState();
-		$state = Indexer::getState();
-
-		// Reset the batch offset.
-		$state->batchOffset = 0;
-
-		// Update the indexer state.
-		Indexer::setState($state);
-
-		// Start the indexer.
-		try
-		{
-			// Import the finder plugins.
-			require_once JPATH_ADMINISTRATOR . '/components/com_finder/src/Indexer/Debugadapter.php';
-			$plugin = Factory::getApplication()->bootPlugin($this->app->input->get('plugin'), 'finder');
-			$plugin->setIndexer(new Debugindexer);
-			$plugin->debug($this->app->input->get('id'));
-
-			$output = '';
-
-			// Create list of attributes
-			$output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ATTRIBUTES') . '</legend>';
-			$output .= '<dl class="row">';
-
-			foreach (Debugindexer::$item as $key => $value)
-			{
-				$output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $value . '</dd>';
-			}
-
-			$output .= '</dl>';
-			$output .= '</fieldset>';
-
-			$output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ELEMENTS') . '</legend>';
-			$output .= '<dl class="row">';
-
-			foreach (Debugindexer::$item->getElements() as $key => $element)
-			{
-				$output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $element . '</dd>';
-			}
-
-			$output .= '</dl>';
-			$output .= '</fieldset>';
-
-			$output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_INSTRUCTIONS') . '</legend>';
-			$output .= '<dl class="row">';
-			$contexts = [
-				1 => 'Title context',
-				2 => 'Text context',
-				3 => 'Meta context',
-				4 => 'Path context',
-				5 => 'Misc context'
-			];
-
-			foreach (Debugindexer::$item->getInstructions() as $key => $element)
-			{
-				$output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
-			}
-
-			$output .= '</dl>';
-			$output .= '</fieldset>';
-
-			$output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_TAXONOMIES') . '</legend>';
-			$output .= '<dl class="row">';
-
-			foreach (Debugindexer::$item->getTaxonomy() as $key => $element)
-			{
-				$output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
-			}
-
-			$output .= '</dl>';
-			$output .= '</fieldset>';
-
-			// Get the indexer state.
-			$state = Indexer::getState();
-			$state->start = 0;
-			$state->complete = 0;
-			$state->rendered = $output;
-
-			echo json_encode($state);
-		}
-
-			// Catch an exception and return the response.
-		catch (\Exception $e)
-		{
-			// Send the response.
-			static::sendResponse($e);
-		}
-	}
+    /**
+     * Method to start the indexer.
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function start()
+    {
+        // Check for a valid token. If invalid, send a 403 with the error message.
+        if (!Session::checkToken('request')) {
+            static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+            return;
+        }
+
+        $params = ComponentHelper::getParams('com_finder');
+
+        if ($params->get('enable_logging', '0')) {
+            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['text_file'] = 'indexer.php';
+            Log::addLogger($options);
+        }
+
+        // Log the start
+        try {
+            Log::add('Starting the indexer', Log::INFO);
+        } catch (\RuntimeException $exception) {
+            // Informational log only
+        }
+
+        // We don't want this form to be cached.
+        $this->app->allowCache(false);
+
+        // Put in a buffer to silence noise.
+        ob_start();
+
+        // Reset the indexer state.
+        Indexer::resetState();
+
+        // Import the finder plugins.
+        PluginHelper::importPlugin('finder');
+
+        // Add the indexer language to \JS
+        Text::script('COM_FINDER_AN_ERROR_HAS_OCCURRED');
+        Text::script('COM_FINDER_NO_ERROR_RETURNED');
+
+        // Start the indexer.
+        try {
+            // Trigger the onStartIndex event.
+            $this->app->triggerEvent('onStartIndex');
+
+            // Get the indexer state.
+            $state = Indexer::getState();
+            $state->start = 1;
+
+            // Send the response.
+            static::sendResponse($state);
+        }
+
+        // Catch an exception and return the response.
+        catch (\Exception $e) {
+            static::sendResponse($e);
+        }
+    }
+
+    /**
+     * Method to run the next batch of content through the indexer.
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function batch()
+    {
+        // Check for a valid token. If invalid, send a 403 with the error message.
+        if (!Session::checkToken('request')) {
+            static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+            return;
+        }
+
+        $params = ComponentHelper::getParams('com_finder');
+
+        if ($params->get('enable_logging', '0')) {
+            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['text_file'] = 'indexer.php';
+            Log::addLogger($options);
+        }
+
+        // Log the start
+        try {
+            Log::add('Starting the indexer batch process', Log::INFO);
+        } catch (\RuntimeException $exception) {
+            // Informational log only
+        }
+
+        // We don't want this form to be cached.
+        $this->app->allowCache(false);
+
+        // Put in a buffer to silence noise.
+        ob_start();
+
+        // Remove the script time limit.
+        @set_time_limit(0);
+
+        // Get the indexer state.
+        $state = Indexer::getState();
+
+        // Reset the batch offset.
+        $state->batchOffset = 0;
+
+        // Update the indexer state.
+        Indexer::setState($state);
+
+        // Import the finder plugins.
+        PluginHelper::importPlugin('finder');
+
+        // Start the indexer.
+        try {
+            // Trigger the onBeforeIndex event.
+            $this->app->triggerEvent('onBeforeIndex');
+
+            // Trigger the onBuildIndex event.
+            $this->app->triggerEvent('onBuildIndex');
+
+            // Get the indexer state.
+            $state = Indexer::getState();
+            $state->start = 0;
+            $state->complete = 0;
+
+            // Log batch completion and memory high-water mark.
+            try {
+                Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
+            } catch (\RuntimeException $exception) {
+                // Informational log only
+            }
+
+            // Send the response.
+            static::sendResponse($state);
+        }
+
+        // Catch an exception and return the response.
+        catch (\Exception $e) {
+            // Send the response.
+            static::sendResponse($e);
+        }
+    }
+
+    /**
+     * Method to optimize the index and perform any necessary cleanup.
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function optimize()
+    {
+        // Check for a valid token. If invalid, send a 403 with the error message.
+        if (!Session::checkToken('request')) {
+            static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+            return;
+        }
+
+        // We don't want this form to be cached.
+        $this->app->allowCache(false);
+
+        // Put in a buffer to silence noise.
+        ob_start();
+
+        // Import the finder plugins.
+        PluginHelper::importPlugin('finder');
+
+        try {
+            // Optimize the index
+            $indexer = new Indexer();
+            $indexer->optimize();
+
+            // Get the indexer state.
+            $state = Indexer::getState();
+            $state->start = 0;
+            $state->complete = 1;
+
+            // Send the response.
+            static::sendResponse($state);
+        }
+
+        // Catch an exception and return the response.
+        catch (\Exception $e) {
+            static::sendResponse($e);
+        }
+    }
+
+    /**
+     * Method to handle a send a \JSON response. The body parameter
+     * can be an \Exception object for when an error has occurred or
+     * a CMSObject for a good response.
+     *
+     * @param   \Joomla\CMS\Object\CMSObject|\Exception  $data  CMSObject on success, \Exception on error. [optional]
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public static function sendResponse($data = null)
+    {
+        $app = Factory::getApplication();
+
+        $params = ComponentHelper::getParams('com_finder');
+
+        if ($params->get('enable_logging', '0')) {
+            $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+            $options['text_file'] = 'indexer.php';
+            Log::addLogger($options);
+        }
+
+        // Send the assigned error code if we are catching an exception.
+        if ($data instanceof \Exception) {
+            try {
+                Log::add($data->getMessage(), Log::ERROR);
+            } catch (\RuntimeException $exception) {
+                // Informational log only
+            }
+
+            $app->setHeader('status', $data->getCode());
+        }
+
+        // Create the response object.
+        $response = new Response($data);
+
+        if (\JDEBUG) {
+            // Add the buffer and memory usage
+            $response->buffer = ob_get_contents();
+            $response->memory = memory_get_usage(true);
+        }
+
+        // Send the JSON response.
+        echo json_encode($response);
+    }
+
+    /**
+     * Method to call a specific indexing plugin and return debug info
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function debug()
+    {
+        // Check for a valid token. If invalid, send a 403 with the error message.
+        if (!Session::checkToken('request')) {
+            static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+            return;
+        }
+
+        // We don't want this form to be cached.
+        $this->app->allowCache(false);
+
+        // Put in a buffer to silence noise.
+        ob_start();
+
+        // Remove the script time limit.
+        @set_time_limit(0);
+
+        // Get the indexer state.
+        Indexer::resetState();
+        $state = Indexer::getState();
+
+        // Reset the batch offset.
+        $state->batchOffset = 0;
+
+        // Update the indexer state.
+        Indexer::setState($state);
+
+        // Start the indexer.
+        try {
+            // Import the finder plugins.
+            require_once JPATH_ADMINISTRATOR . '/components/com_finder/src/Indexer/Debugadapter.php';
+            $plugin = Factory::getApplication()->bootPlugin($this->app->input->get('plugin'), 'finder');
+            $plugin->setIndexer(new Debugindexer());
+            $plugin->debug($this->app->input->get('id'));
+
+            $output = '';
+
+            // Create list of attributes
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ATTRIBUTES') . '</legend>';
+            $output .= '<dl class="row">';
+
+            foreach (Debugindexer::$item as $key => $value) {
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $value . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ELEMENTS') . '</legend>';
+            $output .= '<dl class="row">';
+
+            foreach (Debugindexer::$item->getElements() as $key => $element) {
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $element . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_INSTRUCTIONS') . '</legend>';
+            $output .= '<dl class="row">';
+            $contexts = [
+                1 => 'Title context',
+                2 => 'Text context',
+                3 => 'Meta context',
+                4 => 'Path context',
+                5 => 'Misc context'
+            ];
+
+            foreach (Debugindexer::$item->getInstructions() as $key => $element) {
+                $output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_TAXONOMIES') . '</legend>';
+            $output .= '<dl class="row">';
+
+            foreach (Debugindexer::$item->getTaxonomy() as $key => $element) {
+                $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
+            }
+
+            $output .= '</dl>';
+            $output .= '</fieldset>';
+
+            // Get the indexer state.
+            $state = Indexer::getState();
+            $state->start = 0;
+            $state->complete = 0;
+            $state->rendered = $output;
+
+            echo json_encode($state);
+        }
+
+            // Catch an exception and return the response.
+        catch (\Exception $e) {
+            // Send the response.
+            static::sendResponse($e);
+        }
+    }
 }

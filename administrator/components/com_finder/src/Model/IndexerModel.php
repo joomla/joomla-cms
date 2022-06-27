@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -21,28 +22,27 @@ use Joomla\CMS\MVC\Model\FormModel;
  */
 class IndexerModel extends FormModel
 {
-	/**
-	 * Method for getting a form.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  Form
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @throws \Exception
-	 */
-	public function getForm($data = [], $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_finder.indexer', 'indexer', array('control' => '', 'load_data' => $loadData));
+    /**
+     * Method for getting a form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  Form
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @throws \Exception
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        // Get the form.
+        $form = $this->loadForm('com_finder.indexer', 'indexer', array('control' => '', 'load_data' => $loadData));
 
-		if (empty($form))
-		{
-			return false;
-		}
+        if (empty($form)) {
+            return false;
+        }
 
-		return $form;
-	}
+        return $form;
+    }
 }

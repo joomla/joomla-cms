@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -27,56 +28,55 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * @var   Form  $form
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $form;
+    /**
+     * @var   Form  $form
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public $form;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function display($tpl = null)
-	{
-		if ($this->getLayout() == 'debug')
-		{
-			$this->form = $this->get('Form');
-			$this->addToolbar();
-		}
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function display($tpl = null)
+    {
+        if ($this->getLayout() == 'debug') {
+            $this->form = $this->get('Form');
+            $this->addToolbar();
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Method to configure the toolbar for this view.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function addToolbar()
-	{
-		$toolbar = Toolbar::getInstance('toolbar');
+    /**
+     * Method to configure the toolbar for this view.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function addToolbar()
+    {
+        $toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_FINDER_INDEXER_TOOLBAR_TITLE'), 'search-plus finder');
+        ToolbarHelper::title(Text::_('COM_FINDER_INDEXER_TOOLBAR_TITLE'), 'search-plus finder');
 
-		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+        $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-		ToolbarHelper::link(
-			Route::_('index.php?option=com_finder&view=index'),
-			'JTOOLBAR_BACK',
-			$arrow
-		);
+        ToolbarHelper::link(
+            Route::_('index.php?option=com_finder&view=index'),
+            'JTOOLBAR_BACK',
+            $arrow
+        );
 
-		$toolbar->standardButton('index', 'COM_FINDER_INDEX')
-			->icon('icon-play')
-			->onclick('Joomla.debugIndexing();');
-	}
+        $toolbar->standardButton('index', 'COM_FINDER_INDEX')
+            ->icon('icon-play')
+            ->onclick('Joomla.debugIndexing();');
+    }
 }
