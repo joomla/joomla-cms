@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactory;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
@@ -22,26 +21,25 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class CacheController implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('cache.controller.factory', CacheControllerFactoryInterface::class)
-			->alias(CacheControllerFactory::class, CacheControllerFactoryInterface::class)
-			->share(
-				CacheControllerFactoryInterface::class,
-				function (Container $container)
-				{
-					return new CacheControllerFactory;
-				},
-				true
-			);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('cache.controller.factory', CacheControllerFactoryInterface::class)
+            ->alias(CacheControllerFactory::class, CacheControllerFactoryInterface::class)
+            ->share(
+                CacheControllerFactoryInterface::class,
+                function (Container $container) {
+                    return new CacheControllerFactory();
+                },
+                true
+            );
+    }
 }

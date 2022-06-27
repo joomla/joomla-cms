@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
@@ -17,27 +18,23 @@ use Joomla\Module\Submenu\Administrator\Menu\Menu;
 $menutype = $params->get('menutype', '*');
 $root     = false;
 
-if ($menutype === '*')
-{
-	$name   = $params->get('preset', 'system');
-	$root = MenusHelper::loadPreset($name);
-}
-else
-{
-	$root = MenusHelper::getMenuItems($menutype, true);
+if ($menutype === '*') {
+    $name   = $params->get('preset', 'system');
+    $root = MenusHelper::loadPreset($name);
+} else {
+    $root = MenusHelper::getMenuItems($menutype, true);
 }
 
-if ($root && $root->hasChildren())
-{
-	Factory::getLanguage()->load(
-		'mod_menu',
-		JPATH_ADMINISTRATOR,
-		Factory::getLanguage()->getTag(),
-		true
-	);
+if ($root && $root->hasChildren()) {
+    Factory::getLanguage()->load(
+        'mod_menu',
+        JPATH_ADMINISTRATOR,
+        Factory::getLanguage()->getTag(),
+        true
+    );
 
-	Menu::preprocess($root);
+    Menu::preprocess($root);
 
-	// Render the module layout
-	require ModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
+    // Render the module layout
+    require ModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
 }
