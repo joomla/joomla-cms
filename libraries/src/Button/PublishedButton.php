@@ -98,6 +98,23 @@ class PublishedButton extends ActionButton
 					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
 					$default['icon'] = 'expired';
 				}
+
+				if (array_key_exists('category_published', $options))
+				{
+					$categoryPublished = $options['category_published'];
+
+					if ($categoryPublished === 0)
+					{
+						$options['tip_title'] = Text::_('JLIB_HTML_ITEM_PUBLISHED_BUT_CATEGORY_UNPUBLISHED');
+						$default['icon'] = 'expired';
+					}
+
+					if ($categoryPublished === -2)
+					{
+						$options['tip_title'] = Text::_('JLIB_HTML_ITEM_PUBLISHED_BUT_CATEGORY_TRASHED');
+						$default['icon'] = 'expired';
+					}
+				}
 			}
 
 			$this->states[$value] = $default;

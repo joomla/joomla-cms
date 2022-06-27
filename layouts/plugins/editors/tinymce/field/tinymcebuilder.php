@@ -59,17 +59,19 @@ extract($displayData);
 $doc = Factory::getApplication()->getDocument();
 $wa  = $doc->getWebAssetManager();
 
-// Add assets
-$wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
+$wa->registerScript('tinymce', 'media/vendor/tinymce/tinymce.min.js', [], ['defer' => true])
+	->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce'])
+	->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
 	->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
-	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['core', 'dragula'])
+	->registerScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['type' => 'module'], ['dragula', 'plg_editors_tinymce'])
+	->useScript('plg_editors_tinymce.builder')
 	->useStyle('webcomponent.joomla-tab')
 	->useScript('webcomponent.joomla-tab');
 
 // Add TinyMCE language file to translate the buttons
 if ($languageFile)
 {
-	$wa->registerAndUseScript('tinymce.language', $languageFile, [], ['defer' => true]);
+	$wa->registerAndUseScript('tinymce.language', $languageFile, [], ['defer' => true], []);
 }
 
 // Add the builder options

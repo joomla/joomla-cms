@@ -90,7 +90,7 @@ class RequestModel extends AdminModel
 		$data['email'] = Factory::getUser()->email;
 
 		// Search for an open information request matching the email and type
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
 			->from($db->quoteName('#__privacy_requests'))
