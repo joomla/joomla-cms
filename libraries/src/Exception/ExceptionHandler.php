@@ -41,7 +41,7 @@ class ExceptionHandler
 		{
 			try
 			{
-				Log::add($errorMessage, Log::WARNING, 'deprecated');
+				Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
 			}
 			catch (\Exception $e)
 			{
