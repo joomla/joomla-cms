@@ -4,6 +4,9 @@
  *
  * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * Remove phpcs exception with deprecated constant JCOMPAT_UNICODE_PROPERTIES
+ * @phpcs:disable PSR1.Files.SideEffects
  */
 
 namespace Joomla\CMS\Form;
@@ -20,6 +23,8 @@ if (!\defined('JCOMPAT_UNICODE_PROPERTIES'))
 	 *
 	 * @var    boolean
 	 * @since  1.6
+	 *
+	 * @deprecated 5.0 Will be removed without replacement (Also remove phpcs exception)
 	 */
 	\define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
@@ -71,8 +76,16 @@ class FormRule
 			throw new \UnexpectedValueException(sprintf('%s has invalid regex.', \get_class($this)));
 		}
 
+		// Detect if we have full UTF-8 and unicode PCRE support.
+		static $unicodePropertiesSupport = null;
+
+		if ($unicodePropertiesSupport === null)
+		{
+			$unicodePropertiesSupport = (bool) @\preg_match('/\pL/u', 'a');
+		}
+
 		// Add unicode property support if available.
-		if (JCOMPAT_UNICODE_PROPERTIES)
+		if ($unicodePropertiesSupport)
 		{
 			$this->modifiers = (strpos($this->modifiers, 'u') !== false) ? $this->modifiers : $this->modifiers . 'u';
 		}
