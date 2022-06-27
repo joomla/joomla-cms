@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -51,6 +52,5 @@ $minAttr      = !empty($min) ? ' min="' . $this->escape($min) . '"' : '';
 $maxAttr      = !empty($max) ? ' max="' . $this->escape($max) . '"' : '';
 
 echo '<input type="datetime-local" name="' . $name . '" id="' . $id . '" value="' . $this->escape($value) . '"'
-	. $class . $disabled . $readonly
-			. $hint . $onchange . $required . $autocomplete . $autofocus . $pattern . $minAttr . $maxAttr . ' />';
-
+    . $class . $disabled . $readonly
+            . $hint . $onchange . $required . $autocomplete . $autofocus . $pattern . $minAttr . $maxAttr . ' />';
