@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Form\Field;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -22,158 +21,149 @@ use Joomla\CMS\User\User;
  */
 class UserField extends FormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	public $type = 'User';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    public $type = 'User';
 
-	/**
-	 * Filtering groups
-	 *
-	 * @var   array
-	 * @since 3.5
-	 */
-	protected $groups = null;
+    /**
+     * Filtering groups
+     *
+     * @var   array
+     * @since 3.5
+     */
+    protected $groups = null;
 
-	/**
-	 * Users to exclude from the list of users
-	 *
-	 * @var   array
-	 * @since 3.5
-	 */
-	protected $excluded = null;
+    /**
+     * Users to exclude from the list of users
+     *
+     * @var   array
+     * @since 3.5
+     */
+    protected $excluded = null;
 
-	/**
-	 * Layout to render
-	 *
-	 * @var   string
-	 * @since 3.5
-	 */
-	protected $layout = 'joomla.form.field.user';
+    /**
+     * Layout to render
+     *
+     * @var   string
+     * @since 3.5
+     */
+    protected $layout = 'joomla.form.field.user';
 
-	/**
-	 * Method to attach a Form object to the field.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.7.0
-	 *
-	 * @see     FormField::setup()
-	 */
-	public function setup(\SimpleXMLElement $element, $value, $group = null)
-	{
-		$return = parent::setup($element, $value, $group);
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   3.7.0
+     *
+     * @see     FormField::setup()
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $return = parent::setup($element, $value, $group);
 
-		// If user can't access com_users the field should be readonly.
-		if ($return && !$this->readonly)
-		{
-			$this->readonly = !Factory::getUser()->authorise('core.manage', 'com_users');
-		}
+        // If user can't access com_users the field should be readonly.
+        if ($return && !$this->readonly) {
+            $this->readonly = !Factory::getUser()->authorise('core.manage', 'com_users');
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
-	/**
-	 * Method to get the user field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   1.6
-	 */
-	protected function getInput()
-	{
-		if (empty($this->layout))
-		{
-			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
-		}
+    /**
+     * Method to get the user field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   1.6
+     */
+    protected function getInput()
+    {
+        if (empty($this->layout)) {
+            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+        }
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+    }
 
-	}
+    /**
+     * Get the data that is going to be passed to the layout
+     *
+     * @return  array
+     *
+     * @since   3.5
+     */
+    public function getLayoutData()
+    {
+        // Get the basic field data
+        $data = parent::getLayoutData();
 
-	/**
-	 * Get the data that is going to be passed to the layout
-	 *
-	 * @return  array
-	 *
-	 * @since   3.5
-	 */
-	public function getLayoutData()
-	{
-		// Get the basic field data
-		$data = parent::getLayoutData();
+        // Initialize value
+        $name = Text::_('JLIB_FORM_SELECT_USER');
 
-		// Initialize value
-		$name = Text::_('JLIB_FORM_SELECT_USER');
+        if (is_numeric($this->value)) {
+            $name = User::getInstance($this->value)->name;
+        } elseif (strtoupper($this->value) === 'CURRENT') {
+            // Handle the special case for "current".
+            // 'CURRENT' is not a reasonable value to be placed in the html
+            $current = Factory::getUser();
 
-		if (is_numeric($this->value))
-		{
-			$name = User::getInstance($this->value)->name;
-		}
-		// Handle the special case for "current".
-		elseif (strtoupper($this->value) === 'CURRENT')
-		{
-			// 'CURRENT' is not a reasonable value to be placed in the html
-			$current = Factory::getUser();
+            $this->value = $current->id;
 
-			$this->value = $current->id;
+            $data['value'] = $this->value;
 
-			$data['value'] = $this->value;
+            $name = $current->name;
+        }
 
-			$name = $current->name;
-		}
+        // User lookup went wrong, we assign the value instead.
+        if ($name === null && $this->value) {
+            $name = $this->value;
+        }
 
-		// User lookup went wrong, we assign the value instead.
-		if ($name === null && $this->value)
-		{
-			$name = $this->value;
-		}
+        $extraData = array(
+            'userName'  => $name,
+            'groups'    => $this->getGroups(),
+            'excluded'  => $this->getExcluded(),
+        );
 
-		$extraData = array(
-			'userName'  => $name,
-			'groups'    => $this->getGroups(),
-			'excluded'  => $this->getExcluded(),
-		);
+        return array_merge($data, $extraData);
+    }
 
-		return array_merge($data, $extraData);
-	}
+    /**
+     * Method to get the filtering groups (null means no filtering)
+     *
+     * @return  mixed  Array of filtering groups or null.
+     *
+     * @since   1.6
+     */
+    protected function getGroups()
+    {
+        if (isset($this->element['groups'])) {
+            return explode(',', $this->element['groups']);
+        }
+    }
 
-	/**
-	 * Method to get the filtering groups (null means no filtering)
-	 *
-	 * @return  mixed  Array of filtering groups or null.
-	 *
-	 * @since   1.6
-	 */
-	protected function getGroups()
-	{
-		if (isset($this->element['groups']))
-		{
-			return explode(',', $this->element['groups']);
-		}
-	}
-
-	/**
-	 * Method to get the users to exclude from the list of users
-	 *
-	 * @return  mixed  Array of users to exclude or null to to not exclude them
-	 *
-	 * @since   1.6
-	 */
-	protected function getExcluded()
-	{
-		if (isset($this->element['exclude']))
-		{
-			return explode(',', $this->element['exclude']);
-		}
-	}
+    /**
+     * Method to get the users to exclude from the list of users
+     *
+     * @return  mixed  Array of users to exclude or null to to not exclude them
+     *
+     * @since   1.6
+     */
+    protected function getExcluded()
+    {
+        if (isset($this->element['exclude'])) {
+            return explode(',', $this->element['exclude']);
+        }
+    }
 }

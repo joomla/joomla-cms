@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -21,26 +22,24 @@ use Webauthn\PublicKeyCredentialCreationOptions;
  */
 class AjaxInitCreate extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeObjectAware;
+    use ResultAware;
+    use ResultTypeObjectAware;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   string  $name       Event name
-	 * @param   array   $arguments  Event arguments
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function __construct(string $name, array $arguments = [])
-	{
-		parent::__construct($name, $arguments);
+    /**
+     * Constructor
+     *
+     * @param   string  $name       Event name
+     * @param   array   $arguments  Event arguments
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function __construct(string $name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
 
-		$this->resultAcceptableClasses = [
-			\stdClass::class,
-			PublicKeyCredentialCreationOptions::class
-		];
-	}
-
-
+        $this->resultAcceptableClasses = [
+            \stdClass::class,
+            PublicKeyCredentialCreationOptions::class
+        ];
+    }
 }

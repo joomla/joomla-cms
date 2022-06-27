@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Banners\Administrator\Table;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
@@ -23,79 +22,74 @@ use Joomla\Database\DatabaseDriver;
  */
 class ClientTable extends Table implements VersionableTableInterface
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $_supportNullValue = true;
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $_supportNullValue = true;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		$this->typeAlias = 'com_banners.client';
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database connector object
+     *
+     * @since   1.5
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        $this->typeAlias = 'com_banners.client';
 
-		$this->setColumnAlias('published', 'state');
+        $this->setColumnAlias('published', 'state');
 
-		parent::__construct('#__banner_clients', 'id', $db);
-	}
+        parent::__construct('#__banner_clients', 'id', $db);
+    }
 
-	/**
-	 * Get the type alias for the history table
-	 *
-	 * @return  string  The alias as described above
-	 *
-	 * @since   4.0.0
-	 */
-	public function getTypeAlias()
-	{
-		return $this->typeAlias;
-	}
+    /**
+     * Get the type alias for the history table
+     *
+     * @return  string  The alias as described above
+     *
+     * @since   4.0.0
+     */
+    public function getTypeAlias()
+    {
+        return $this->typeAlias;
+    }
 
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True if the object is ok
-	 *
-	 * @see     Table::check()
-	 * @since   4.0.0
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True if the object is ok
+     *
+     * @see     Table::check()
+     * @since   4.0.0
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		// Check for valid name
-		if (trim($this->name) === '')
-		{
-			$this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
+        // Check for valid name
+        if (trim($this->name) === '') {
+            $this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
 
-			return false;
-		}
+            return false;
+        }
 
-		// Check for valid contact
-		if (trim($this->contact) === '')
-		{
-			$this->setError(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
+        // Check for valid contact
+        if (trim($this->contact) === '') {
+            $this->setError(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }
