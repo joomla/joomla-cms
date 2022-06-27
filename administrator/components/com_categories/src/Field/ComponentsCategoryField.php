@@ -41,7 +41,7 @@ class ComponentsCategoryField extends ListField
 	protected function getOptions()
 	{
 		// Initialise variable.
-		$db      = Factory::getDbo();
+		$db      = $this->getDatabase();
 		$options = array();
 
 		$query = $db->getQuery(true);

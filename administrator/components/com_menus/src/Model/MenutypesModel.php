@@ -83,7 +83,7 @@ class MenutypesModel extends BaseDatabaseModel
 		$list = array();
 
 		// Get the list of components.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

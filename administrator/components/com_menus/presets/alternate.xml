@@ -5,10 +5,10 @@
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
 	<menuitem
-		type="component"
 		title="MOD_MENU_CONTROL_PANEL"
-		link="index.php"
+		type="component"
 		element="com_cpanel"
+		link="index.php?option=com_cpanel&amp;view=cpanel"
 		class="class:home"
 	/>
 	<menuitem
