@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Users\Administrator\View\Levels;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -25,102 +24,98 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The item data.
-	 *
-	 * @var   object
-	 * @since 1.6
-	 */
-	protected $items;
+    /**
+     * The item data.
+     *
+     * @var   object
+     * @since 1.6
+     */
+    protected $items;
 
-	/**
-	 * The pagination object.
-	 *
-	 * @var   \Joomla\CMS\Pagination\Pagination
-	 * @since 1.6
-	 */
-	protected $pagination;
+    /**
+     * The pagination object.
+     *
+     * @var   \Joomla\CMS\Pagination\Pagination
+     * @since 1.6
+     */
+    protected $pagination;
 
-	/**
-	 * The model state.
-	 *
-	 * @var   CMSObject
-	 * @since 1.6
-	 */
-	protected $state;
+    /**
+     * The model state.
+     *
+     * @var   CMSObject
+     * @since 1.6
+     */
+    protected $state;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \Joomla\CMS\Form\Form
-	 *
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->items         = $this->get('Items');
+        $this->pagination    = $this->get('Pagination');
+        $this->state         = $this->get('State');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_users');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo = ContentHelper::getActions('com_users');
 
-		ToolbarHelper::title(Text::_('COM_USERS_VIEW_LEVELS_TITLE'), 'user-lock levels');
+        ToolbarHelper::title(Text::_('COM_USERS_VIEW_LEVELS_TITLE'), 'user-lock levels');
 
-		if ($canDo->get('core.create'))
-		{
-			ToolbarHelper::addNew('level.add');
-		}
+        if ($canDo->get('core.create')) {
+            ToolbarHelper::addNew('level.add');
+        }
 
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
-			ToolbarHelper::divider();
-		}
+        if ($canDo->get('core.delete')) {
+            ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'level.delete', 'JTOOLBAR_DELETE');
+            ToolbarHelper::divider();
+        }
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_users');
-			ToolbarHelper::divider();
-		}
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            ToolbarHelper::preferences('com_users');
+            ToolbarHelper::divider();
+        }
 
-		ToolbarHelper::help('Users:_Viewing_Access_Levels');
-	}
+        ToolbarHelper::help('Users:_Viewing_Access_Levels');
+    }
 }
