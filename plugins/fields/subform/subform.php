@@ -186,7 +186,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			foreach ($this->getSubfieldsFromField($field) as $subfield)
 			{
 				// Fill value (and rawvalue) if we have data for this subfield in the current row, otherwise set them to empty
-				$subfield->rawvalue = $subfield->value = isset($row[$subfield->name]) ? $row[$subfield->name] : '';
+				$subfield->rawvalue = $subfield->value = $row[$subfield->name] ?? '';
 
 				// Do we want to render the value of this field, and is the value non-empty?
 				if ($subfield->value !== '' && $subfield->render_values == '1')

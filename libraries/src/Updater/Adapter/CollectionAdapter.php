@@ -252,7 +252,7 @@ class CollectionAdapter extends UpdateAdapter
 			return false;
 		}
 
-		// TODO: Decrement the bad counter if non-zero
+		// @todo: Decrement the bad counter if non-zero
 		return array('update_sites' => $this->update_sites, 'updates' => $this->updates);
 	}
 }

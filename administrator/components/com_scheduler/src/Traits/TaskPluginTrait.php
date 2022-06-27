@@ -21,7 +21,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Event\EventInterface;
-use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -146,7 +145,7 @@ trait TaskPluginTrait
 		}
 
 		// We expect the form XML in "{PLUGIN_PATH}/forms/{FORM_NAME}.xml"
-		$path                = \dirname((new \ReflectionClass(static::class))->getFileName());
+		$path                = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
 		$enhancementFormFile = $path . '/forms/' . $enhancementFormName . '.xml';
 
 		try
@@ -211,12 +210,12 @@ trait TaskPluginTrait
 		 * Depending on when the form is loaded, the ID may either be in $data or the data already bound to the form.
 		 * $data can also either be an object or an array.
 		 */
-		$routineId = $data->taskOption->type ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->type ?? '';
+		$routineId = $data->taskOption->id ?? $data->type ?? $data['type'] ?? $form->getValue('type') ?? $data['taskOption']->id ?? '';
 
 		// If we're unable to find a routineId, it might be in the form input.
 		if (empty($routineId))
 		{
-			$app       = $this->app ?? Factory::getApplication();
+			$app       = $this->getApplication() ?? ($this->app ?? Factory::getApplication());
 			$form      = $app->getInput()->get('jform', []);
 			$routineId = ArrayHelper::getValue($form, 'type', '', 'STRING');
 		}
@@ -249,7 +248,7 @@ trait TaskPluginTrait
 
 		if (!$langLoaded)
 		{
-			$app = $this->app ?? Factory::getApplication();
+			$app = $this->getApplication() ?? ($this->app ?? Factory::getApplication());
 			$app->getLanguage()->load('com_scheduler', JPATH_ADMINISTRATOR);
 			$langLoaded = true;
 		}

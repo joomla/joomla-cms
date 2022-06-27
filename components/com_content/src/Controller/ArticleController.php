@@ -12,7 +12,6 @@ namespace Joomla\Component\Content\Site\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -173,7 +172,7 @@ class ArticleController extends FormController
 		$result = parent::cancel($key);
 
 		/** @var SiteApplication $app */
-		$app = Factory::getApplication();
+		$app = $this->app;
 
 		// Load the parameters.
 		$params = $app->getParams();
@@ -294,7 +293,7 @@ class ArticleController extends FormController
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		// TODO This is a bandaid, not a long term solution.
+		// @todo This is a bandaid, not a long term solution.
 		/**
 		 * if ($layout)
 		 * {
@@ -367,7 +366,13 @@ class ArticleController extends FormController
 	public function save($key = null, $urlVar = 'a_id')
 	{
 		$result    = parent::save($key, $urlVar);
-		$app       = Factory::getApplication();
+
+		if (\in_array($this->getTask(), ['save2copy', 'apply'], true))
+		{
+			return $result;
+		}
+
+		$app       = $this->app;
 		$articleId = $app->input->getInt('a_id');
 
 		// Load the parameters.

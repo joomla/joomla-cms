@@ -451,8 +451,11 @@ class ApiController extends BaseController
 
 		$data = $this->preprocessSaveData($data);
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+
+		// Needs to be set because com_fields needs the data in jform to determine the assigned catid
+		$this->input->set('jform', $data);
 
 		// Validate the posted data.
 		$form = $model->getForm($data, false);

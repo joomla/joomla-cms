@@ -19,7 +19,7 @@ use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Model\ApiModel;
-use Joomla\Component\Media\Api\Helper\AdapterTrait;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
 /**
  * Media web service model supporting a single media item.
@@ -28,7 +28,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
  */
 class MediumModel extends BaseModel
 {
-	use AdapterTrait;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * Instance of com_media's ApiModel

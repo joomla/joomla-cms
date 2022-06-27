@@ -136,7 +136,7 @@ class MenusHelper extends ContentHelper
 	 * @param   array    $languages  Optional array of specify which languages we want to filter
 	 * @param   int      $clientId   Optional client id - viz 0 = site, 1 = administrator, can be NULL for all (used only if menutype not given)
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 *
 	 * @since   1.6
 	 */

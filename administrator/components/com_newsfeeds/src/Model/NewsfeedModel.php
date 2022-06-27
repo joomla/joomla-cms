@@ -292,7 +292,7 @@ class NewsfeedModel extends AdminModel
 			$item->tags = new  TagsHelper;
 			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 
-			// TODO: We probably don't need this in any client - but needs careful validation
+			// @todo: We probably don't need this in any client - but needs careful validation
 			if (!Factory::getApplication()->isClient('api'))
 			{
 				$item->metadata['tags'] = $item->tags;
@@ -330,7 +330,7 @@ class NewsfeedModel extends AdminModel
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select('MAX(' . $db->quoteName('ordering') . ')')
 					->from($db->quoteName('#__newsfeeds'));
@@ -383,7 +383,7 @@ class NewsfeedModel extends AdminModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->getDatabase()->quoteName('catid') . ' = ' . (int) $table->catid,
 		];
 	}
 

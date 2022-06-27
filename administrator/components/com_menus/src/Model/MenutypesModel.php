@@ -83,7 +83,7 @@ class MenutypesModel extends BaseDatabaseModel
 		$list = array();
 
 		// Get the list of components.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -521,7 +521,7 @@ class MenutypesModel extends BaseDatabaseModel
 		}
 
 		// Get the template layouts
-		// TODO: This should only search one template -- the current template for this item (default of specified)
+		// @todo: This should only search one template -- the current template for this item (default of specified)
 		$folders = Folder::folders($client->path . '/templates', '', false, true);
 
 		// Array to hold association between template file names and templates

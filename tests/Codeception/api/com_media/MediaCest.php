@@ -328,7 +328,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testCreateFolderWithAdapter(ApiTester $I)
 	{
@@ -351,7 +351,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testUpdateFileWithoutAdapter(ApiTester $I)
 	{
@@ -434,7 +434,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testUpdateFolderWithAdapter(ApiTester $I)
 	{
@@ -459,7 +459,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testDeleteFileWithoutAdapter(ApiTester $I)
 	{
@@ -499,7 +499,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testDeleteFileWithAdapter(ApiTester $I)
 	{
@@ -519,7 +519,7 @@ class MediaCest
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	public function testDeleteFolderWithAdapter(ApiTester $I)
 	{

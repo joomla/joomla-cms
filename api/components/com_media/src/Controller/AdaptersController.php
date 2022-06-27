@@ -13,7 +13,7 @@ namespace Joomla\Component\Media\Api\Controller;
 
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\Component\Media\Api\Helper\AdapterTrait;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
 /**
  * Media web service controller.
@@ -22,7 +22,7 @@ use Joomla\Component\Media\Api\Helper\AdapterTrait;
  */
 class AdaptersController extends ApiController
 {
-	use AdapterTrait;
+	use ProviderManagerHelperTrait;
 
 	/**
 	 * The content type of the item.

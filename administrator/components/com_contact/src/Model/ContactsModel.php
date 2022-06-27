@@ -144,7 +144,7 @@ class ContactsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$user = Factory::getUser();
 
@@ -346,7 +346,7 @@ class ContactsModel extends ListModel
 			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 
-			// TODO: Convert to prepared statement
+			// @todo: Convert to prepared statement
 			foreach ($categoryId as $filter_catid)
 			{
 				$categoryTable->load($filter_catid);

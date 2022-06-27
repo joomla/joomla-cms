@@ -19,7 +19,6 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -58,8 +57,7 @@ class RequestModel extends AdminModel
 		}
 
 		// Get the form.
-		$form          = $this->getForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
+		$form = $this->getForm();
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -89,8 +87,10 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
+		$data['email'] = Factory::getUser()->email;
+
 		// Search for an open information request matching the email and type
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
 			->from($db->quoteName('#__privacy_requests'))

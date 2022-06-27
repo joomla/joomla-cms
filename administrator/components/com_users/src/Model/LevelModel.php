@@ -71,7 +71,7 @@ class LevelModel extends AdminModel
 			// Populate the list once.
 			$this->levelsInUse = array();
 
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select('DISTINCT access');
 
@@ -109,7 +109,7 @@ class LevelModel extends AdminModel
 
 					$this->levelsInUse = array_merge($this->levelsInUse, $values);
 
-					// TODO Could assemble an array of the tables used by each view level list those,
+					// @todo Could assemble an array of the tables used by each view level list those,
 					// giving the user a clue in the error where to look.
 				}
 			}

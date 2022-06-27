@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -135,7 +136,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Check if the article was featured and update the #__content_frontpage table
 		if ($table->featured == 1)
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select(
 					[
@@ -417,7 +418,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
-			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\">" . $item->fulltext : $item->introtext;
+			$item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
 
 			if (!empty($item->id))
 			{
@@ -430,7 +431,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				if ($item->featured)
 				{
 					// Get featured dates.
-					$db = $this->getDbo();
+					$db = $this->getDatabase();
 					$query = $db->getQuery(true)
 						->select(
 							[
@@ -1030,7 +1031,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		try
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__content'))
 				->set($db->quoteName('featured') . ' = :featured')
@@ -1153,7 +1154,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->getDatabase()->quoteName('catid') . ' = ' . (int) $table->catid,
 		];
 	}
 
@@ -1275,7 +1276,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if ($return)
 		{
 			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__content_frontpage'))
 				->whereIn($db->quoteName('content_id'), $pks);

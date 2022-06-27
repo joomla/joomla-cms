@@ -268,7 +268,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @return string
 	 *
-	 * @since version
+	 * @since 4.0.0
 	 */
 	protected function formatConfigValue($value): string
 	{

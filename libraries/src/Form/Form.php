@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -30,6 +34,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Form
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The Registry data store for form fields during display.
 	 *
@@ -44,7 +50,7 @@ class Form
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	protected $errors = array();
+	protected $errors = [];
 
 	/**
 	 * The name of the form instance.
@@ -60,7 +66,7 @@ class Form
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * The form XML definition.
@@ -76,7 +82,7 @@ class Form
 	 * @var    Form[]
 	 * @since  1.7.0
 	 */
-	protected static $forms = array();
+	protected static $forms = [];
 
 	/**
 	 * Allows extensions to implement repeating elements
@@ -94,7 +100,7 @@ class Form
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($name, array $options = array())
+	public function __construct($name, array $options = [])
 	{
 		// Set the name for the form.
 		$this->name = $name;
@@ -277,7 +283,7 @@ class Form
 	 */
 	public function getFieldset($set = null)
 	{
-		$fields = array();
+		$fields = [];
 
 		// Get all of the field elements in the fieldset.
 		if ($set)
@@ -302,7 +308,7 @@ class Form
 		{
 			// Get the field groups for the element.
 			$attrs = $element->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: []);
 			$group = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
@@ -326,8 +332,8 @@ class Form
 	 */
 	public function getFieldsets($group = null)
 	{
-		$fieldsets = array();
-		$sets = array();
+		$fieldsets = [];
+		$sets = [];
 
 		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -452,7 +458,7 @@ class Form
 	 */
 	public function getGroup($group, $nested = false)
 	{
-		$fields = array();
+		$fields = [];
 
 		// Get all of the field elements in the field group.
 		$elements = $this->findFieldsByGroup($group, $nested);
@@ -468,7 +474,7 @@ class Form
 		{
 			// Get the field groups for the element.
 			$attrs  = $element->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: []);
 			$group  = implode('.', $groups);
 
 			// If the field is successfully loaded add it to the result array.
@@ -570,11 +576,11 @@ class Form
 	 * @param   mixed   $default  The optional default value of the field value is empty.
 	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since   3.2.3
 	 */
-	public function renderField($name, $group = null, $default = null, $options = array())
+	public function renderField($name, $group = null, $default = null, $options = [])
 	{
 		$field = $this->getField($name, $group, $default);
 
@@ -592,14 +598,14 @@ class Form
 	 * @param   string  $name     The name of the fieldset for which to get the values.
 	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
-	 * @return  string  A string containing the html for the control goups
+	 * @return  string  A string containing the html for the control groups
 	 *
 	 * @since   3.2.3
 	 */
-	public function renderFieldset($name, $options = array())
+	public function renderFieldset($name, $options = [])
 	{
 		$fields = $this->getFieldset($name);
-		$html = array();
+		$html = [];
 
 		foreach ($fields as $field)
 		{
@@ -670,7 +676,7 @@ class Form
 		}
 
 		// Get the XML elements to load.
-		$elements = array();
+		$elements = [];
 
 		if ($xpath)
 		{
@@ -697,7 +703,7 @@ class Form
 			{
 				// Get the group names as strings for ancestor fields elements.
 				$attrs = $field->xpath('ancestor::fields[@name]/@name');
-				$groups = array_map('strval', $attrs ? $attrs : array());
+				$groups = array_map('strval', $attrs ?: []);
 
 				// Check to see if the field exists in the current form.
 				if ($current = $this->findField((string) $field['name'], implode('.', $groups)))
@@ -1133,7 +1139,7 @@ class Form
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: []);
 			$attrGroup = implode('.', $groups);
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1225,7 +1231,7 @@ class Form
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: []);
 			$attrGroup = implode('.', $groups);
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1292,7 +1298,7 @@ class Form
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
+			$groups = array_map('strval', $attrs ?: []);
 			$attrGroup = implode('.', $groups);
 
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
@@ -1321,7 +1327,7 @@ class Form
 	protected function findField($name, $group = null)
 	{
 		$element = false;
-		$fields = array();
+		$fields = [];
 
 		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -1358,7 +1364,7 @@ class Form
 			{
 				// Get the group names as strings for ancestor fields elements.
 				$attrs = $field->xpath('ancestor::fields[@name]/@name');
-				$names = array_map('strval', $attrs ? $attrs : array());
+				$names = array_map('strval', $attrs ?: []);
 
 				// If the field is in the exact group use it and break out of the loop.
 				if ($names == (array) $groupNames)
@@ -1411,8 +1417,6 @@ class Form
 	 */
 	protected function &findFieldsByFieldset($name)
 	{
-		$false = false;
-
 		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
@@ -1444,8 +1448,7 @@ class Form
 	 */
 	protected function &findFieldsByGroup($group = null, $nested = false)
 	{
-		$false = false;
-		$fields = array();
+		$fields = [];
 
 		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -1480,7 +1483,7 @@ class Form
 						{
 							// Get the names of the groups that the field is in.
 							$attrs = $field->xpath('ancestor::fields[@name]/@name');
-							$names = array_map('strval', $attrs ? $attrs : array());
+							$names = array_map('strval', $attrs ?: []);
 
 							// If the field is in the specific group then add it to the return list.
 							if ($names == (array) $groupNames)
@@ -1517,9 +1520,8 @@ class Form
 	 */
 	protected function &findGroup($group)
 	{
-		$false = false;
-		$groups = array();
-		$tmp = array();
+		$groups = [];
+		$tmp = [];
 
 		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
@@ -1550,7 +1552,7 @@ class Form
 				// Initialise some loop variables.
 				$validNames = \array_slice($group, 0, $i + 1);
 				$current = $tmp;
-				$tmp = array();
+				$tmp = [];
 
 				// Check to make sure that there are no parent groups for each element.
 				foreach ($current as $element)
@@ -1563,7 +1565,7 @@ class Form
 					{
 						// Get the group names as strings for ancestor fields elements.
 						$attrs = $fields->xpath('ancestor-or-self::fields[@name]/@name');
-						$names = array_map('strval', $attrs ? $attrs : array());
+						$names = array_map('strval', $attrs ?: []);
 
 						// If the group names for the fields element match the valid names at this
 						// level add the fields element.
@@ -1612,6 +1614,19 @@ class Form
 
 		// Load the FormField object for the field.
 		$field = FormHelper::loadFieldType($type);
+
+		if ($field instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$field->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+				$field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+			}
+		}
 
 		// If the object could not be loaded, get a text field object.
 		if ($field === false)
@@ -1679,7 +1694,7 @@ class Form
 
 		// Get any addfieldpath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addfieldpath]/@addfieldpath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the field paths.
 		foreach ($paths as $path)
@@ -1690,7 +1705,7 @@ class Form
 
 		// Get any addformpath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addformpath]/@addformpath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the form paths.
 		foreach ($paths as $path)
@@ -1701,7 +1716,7 @@ class Form
 
 		// Get any addrulepath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addrulepath]/@addrulepath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the rule paths.
 		foreach ($paths as $path)
@@ -1712,7 +1727,7 @@ class Form
 
 		// Get any addrulepath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addfilterpath]/@addfilterpath');
-		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_map('strval', $paths ?: []);
 
 		// Add the rule paths.
 		foreach ($paths as $path)
@@ -1723,7 +1738,7 @@ class Form
 
 		// Get any addfieldprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfieldprefix]/@addfieldprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1733,7 +1748,7 @@ class Form
 
 		// Get any addformprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addformprefix]/@addformprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1743,7 +1758,7 @@ class Form
 
 		// Get any addruleprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addruleprefix]/@addruleprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1753,7 +1768,7 @@ class Form
 
 		// Get any addruleprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfilterprefix]/@addfilterprefix');
-		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_map('strval', $prefixes ?: []);
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1840,7 +1855,7 @@ class Form
 	 * @throws  \InvalidArgumentException if no data provided.
 	 * @throws  \RuntimeException if the form could not be loaded.
 	 */
-	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
+	public static function getInstance($name, $data = null, $options = [], $replace = true, $xpath = false)
 	{
 		// Reference to array with form instances
 		$forms = &self::$forms;

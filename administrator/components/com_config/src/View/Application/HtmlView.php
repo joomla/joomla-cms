@@ -66,7 +66,7 @@ class HtmlView extends BaseHtmlView
 			// Load Form and Data
 			$form = $this->get('form');
 			$data = $this->get('data');
-			$user = Factory::getUser();
+			$user = $this->getCurrentUser();
 		}
 		catch (\Exception $e)
 		{

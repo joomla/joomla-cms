@@ -321,7 +321,7 @@ class MediaField extends FormField
 				$this->folder = 'local-' . $adapterName . ':/' . implode('/', $paths);
 			}
 		}
-		elseif ($this->directory && strpos(':', $this->directory))
+		elseif ($this->directory && strpos($this->directory, ':'))
 		{
 			/**
 			 * Directory contains adapter information and path, for example via programming or directly defined in xml

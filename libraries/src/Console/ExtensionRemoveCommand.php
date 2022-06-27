@@ -13,7 +13,10 @@ namespace Joomla\CMS\Console;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Extension;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,6 +30,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionRemoveCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -37,57 +42,71 @@ class ExtensionRemoveCommand extends AbstractCommand
 
 	/**
 	 * @var InputInterface
-	 * @since version
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
 	/**
 	 * @var SymfonyStyle
-	 * @since version
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Exit Code for extensions remove abort
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_ABORT = 3;
 
 	/**
 	 * Exit Code for extensions remove failure
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_FAILED = 1;
 
 	/**
 	 * Exit Code for invalid response
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_INVALID_RESPONSE = 5;
 
 	/**
 	 * Exit Code for invalid type
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_INVALID_TYPE = 6;
 
 	/**
 	 * Exit Code for extensions locked remove failure
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_LOCKED = 4;
 
 	/**
 	 * Exit Code for extensions not found
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_NOT_FOUND = 2;
 
 	/**
 	 * Exit Code for extensions remove success
-	 * @since
+	 * @since 4.0.0
 	 */
 	public const REMOVE_SUCCESSFUL = 0;
+
+	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   4.2.0
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
 
 	/**
 	 * Configures the IO
@@ -156,7 +175,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 		{
 			// Get an installer object for the extension type
 			$installer = Installer::getInstance();
-			$row       = new \Joomla\CMS\Table\Extension(Factory::getDbo());
+			$row       = new Extension($this->getDatabase());
 
 			if ((int) $extensionId === 0 || !$row->load($extensionId))
 			{

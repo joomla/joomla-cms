@@ -14,7 +14,6 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template styles list controller class.
@@ -33,7 +32,10 @@ class StylesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$pks = $this->input->post->get('cid', array(), 'array');
+		$pks = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$pks = array_filter($pks);
 
 		try
 		{
@@ -41,8 +43,6 @@ class StylesController extends AdminController
 			{
 				throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
-
-			$pks = ArrayHelper::toInteger($pks);
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
@@ -84,7 +84,10 @@ class StylesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$pks = $this->input->post->get('cid', array(), 'array');
+		$pks = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$pks = array_filter($pks);
 
 		try
 		{
@@ -92,8 +95,6 @@ class StylesController extends AdminController
 			{
 				throw new \Exception(Text::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
-
-			$pks = ArrayHelper::toInteger($pks);
 
 			// Pop off the first element.
 			$id = array_shift($pks);
@@ -123,8 +124,10 @@ class StylesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken('request');
 
-		$pks = $this->input->get->get('cid', array(), 'array');
-		$pks = ArrayHelper::toInteger($pks);
+		$pks = (array) $this->input->get->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$pks = array_filter($pks);
 
 		try
 		{

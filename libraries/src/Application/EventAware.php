@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\CoreEventAware;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Psr\Log\LoggerInterface;
@@ -21,6 +22,8 @@ use Psr\Log\LoggerInterface;
  */
 trait EventAware
 {
+	use CoreEventAware;
+
 	/**
 	 * Get the event dispatcher.
 	 *
@@ -101,7 +104,8 @@ trait EventAware
 		}
 		elseif (\is_array($args))
 		{
-			$event = new Event($eventName, $args);
+			$className = self::getEventClassByEventName($eventName);
+			$event     = new $className($eventName, $args);
 		}
 		else
 		{
@@ -110,7 +114,7 @@ trait EventAware
 
 		$result = $dispatcher->dispatch($eventName, $event);
 
-		// TODO - There are still test cases where the result isn't defined, temporarily leave the isset check in place
+		// @todo - There are still test cases where the result isn't defined, temporarily leave the isset check in place
 		return !isset($result['result']) || \is_null($result['result']) ? [] : $result['result'];
 	}
 }

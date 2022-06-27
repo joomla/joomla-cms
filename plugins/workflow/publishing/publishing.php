@@ -165,7 +165,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
 		$options = $form->getField($fieldname)->options;
 
-		$value = isset($data->$fieldname) ? $data->$fieldname : $form->getValue($fieldname, null, 0);
+		$value = $data->$fieldname ?? $form->getValue($fieldname, null, 0);
 
 		$text = '-';
 

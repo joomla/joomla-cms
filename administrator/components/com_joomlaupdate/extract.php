@@ -525,7 +525,7 @@ class ZIPExtraction
 			return;
 		}
 
-		$sleepMillisec = $minExecTime - $elapsed;
+		$sleepMillisec = intval($minExecTime - $elapsed);
 
 		/**
 		 * If we need to sleep for more than 1 second we should be using sleep() or time_sleep_until() to prevent high
@@ -1942,8 +1942,44 @@ $retArray = [
 $configuration = getConfiguration();
 $enabled       = !empty($configuration);
 
+/**
+ * Sets the PHP timeout to 3600 seconds
+ *
+ * @return  void
+ * @since   4.2.0
+ */
+function setLongTimeout()
+{
+	if (!function_exists('ini_set'))
+	{
+		return;
+	}
+
+	ini_set('max_execution_time', 3600);
+}
+
+/**
+ * Sets the memory limit to 1GiB
+ *
+ * @return  void
+ * @since   4.2.0
+ */
+function setHugeMemoryLimit()
+{
+	if (!function_exists('ini_set'))
+	{
+		return;
+	}
+
+	ini_set('memory_limit', 1073741824);
+}
+
 if ($enabled)
 {
+	// Try to set a very large memory and timeout limit
+	setLongTimeout();
+	setHugeMemoryLimit();
+
 	$sourcePath = $configuration['setup.sourcepath'] ?? '';
 	$sourceFile = $configuration['setup.sourcefile'] ?? '';
 	$destDir    = ($configuration['setup.destdir'] ?? null) ?: __DIR__;

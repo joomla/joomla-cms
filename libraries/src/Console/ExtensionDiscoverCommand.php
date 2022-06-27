@@ -51,16 +51,6 @@ class ExtensionDiscoverCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
-	 * Instantiate the command.
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Configures the IO
 	 *
 	 * @param   InputInterface   $input   Console Input

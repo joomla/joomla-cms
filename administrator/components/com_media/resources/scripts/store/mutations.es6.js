@@ -159,7 +159,7 @@ export default {
     const file = payload;
     const isNew = (!state.files.some((existing) => (existing.path === file.path)));
 
-    // TODO handle file_exists
+    // @todo handle file_exists
     if (isNew) {
       const parentDirectory = state.directories
         .find((existing) => (existing.path === file.directory));

@@ -18,7 +18,7 @@ use Joomla\Event\Event;
 /**
  * Resolves the XTD Buttons for the current TinyMCE editor.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait XTDButtons
 {
@@ -30,7 +30,7 @@ trait XTDButtons
 	 *
 	 * @return array|void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.1.0
 	 */
 	private function tinyButtons($name, $excluded)
 	{

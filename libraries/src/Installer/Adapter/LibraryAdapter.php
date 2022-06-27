@@ -47,12 +47,13 @@ class LibraryAdapter extends InstallerAdapter
 
 				// We don't want to compromise this instance!
 				$installer = new Installer;
+				$installer->setDatabase($this->getDatabase());
 				$installer->setPackageUninstall(true);
 				$installer->uninstall('library', $this->currentExtensionId);
 
 				// Clear the cached data
 				$this->currentExtensionId = null;
-				$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
+				$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->getDatabase()));
 
 				// From this point we'll consider this an update
 				$this->setRoute('update');
@@ -172,7 +173,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		$extensionId = $this->extension->extension_id;
 
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
@@ -286,7 +287,7 @@ class LibraryAdapter extends InstallerAdapter
 		$this->parent->removeFiles($this->getManifest()->files, -1);
 		File::delete(JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml');
 
-		// TODO: Change this so it walked up the path backwards so we clobber multiple empties
+		// @todo: Change this so it walked up the path backwards so we clobber multiple empties
 		// If the folder is empty, let's delete it
 		if (Folder::exists($this->parent->getPath('extension_root')))
 		{
@@ -337,7 +338,7 @@ class LibraryAdapter extends InstallerAdapter
 		}
 
 		// Don't install libraries which would override core folders
-		$restrictedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+		$restrictedFolders = array('php-encryption', 'phpass', 'src', 'vendor');
 
 		if (in_array($group, $restrictedFolders))
 		{
@@ -372,8 +373,8 @@ class LibraryAdapter extends InstallerAdapter
 		// Set the library root path
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . $manifest->libraryname);
 
-		// Set the source path to the manifests directory so the manifest script may be found
-		$this->parent->setPath('source', JPATH_MANIFESTS . '/libraries/' . $manifest->libraryname);
+		// Set the source path to the library root, the manifest script may be found
+		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$xml = simplexml_load_file($manifestFile);
 
