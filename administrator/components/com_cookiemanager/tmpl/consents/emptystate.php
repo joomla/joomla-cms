@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cookiemanager
@@ -8,14 +9,11 @@
  */
 
 defined('_JEXEC') or die;
-
 use Joomla\CMS\Layout\LayoutHelper;
-
 $displayData = [
-	'textPrefix' => 'COM_COOKIEMANAGER_CONSENTS',
-	'formURL'    => 'index.php?option=com_cookiemanager&view=consents',
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage',
-	'icon'       => 'icon-lock',
+    'textPrefix' => 'COM_COOKIEMANAGER_CONSENTS',
+    'formURL'    => 'index.php?option=com_cookiemanager&view=consents',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage',
+    'icon'       => 'icon-lock',
 ];
-
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);

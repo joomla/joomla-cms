@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cookiemanager
@@ -24,113 +25,105 @@ use Joomla\Database\DatabaseDriver;
  */
 class ScriptTable extends Table
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $_supportNullValue = true;
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $_supportNullValue = true;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__cookiemanager_scripts', 'id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database connector object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__cookiemanager_scripts', 'id', $db);
+    }
 
-	/**
-	 * Stores scripts.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function store($updateNulls = true)
-	{
-		// Verify that the alias is unique
-		$table = Table::getInstance('ScriptTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
+    /**
+     * Stores scripts.
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  boolean  True on success, false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function store($updateNulls = true)
+    {
+        // Verify that the alias is unique
+        $table = Table::getInstance('ScriptTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
 
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-		{
-			$this->setError(Text::_('COM_COOOKIEMANAGER_ERROR_UNIQUE_ALIAS'));
+        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+            $this->setError(Text::_('COM_COOOKIEMANAGER_ERROR_UNIQUE_ALIAS'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return parent::store($updateNulls);
-	}
+        return parent::store($updateNulls);
+    }
 
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @see     Table::check
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @see     Table::check
+     * @since   __DEPLOY_VERSION__
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		// Check for valid title
-		if (trim($this->title) == '')
-		{
-			$this->setError(Text::_('COM_COOKIEMANAGER_WARNING_PROVIDE_VALID_TITLE'));
+        // Check for valid title
+        if (trim($this->title) == '') {
+            $this->setError(Text::_('COM_COOKIEMANAGER_WARNING_PROVIDE_VALID_TITLE'));
 
-			return false;
-		}
+            return false;
+        }
 
-		// Generate a valid alias
-		$this->generateAlias();
+        // Generate a valid alias
+        $this->generateAlias();
 
-		// Check for a valid category.
-		if (!$this->catid = (int) $this->catid)
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+        // Check for a valid category.
+        if (!$this->catid = (int) $this->catid) {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Generate a valid alias from title / date.
-	 * Remains public to be able to check for duplicated alias before saving
-	 *
-	 * @return  string
-	 */
-	public function generateAlias()
-	{
-		if (empty($this->alias))
-		{
-			$this->alias = $this->title;
-		}
+    /**
+     * Generate a valid alias from title / date.
+     * Remains public to be able to check for duplicated alias before saving
+     *
+     * @return  string
+     */
+    public function generateAlias()
+    {
+        if (empty($this->alias)) {
+            $this->alias = $this->title;
+        }
 
-		$this->alias = ApplicationHelper::stringURLSafe($this->alias);
+        $this->alias = ApplicationHelper::stringURLSafe($this->alias);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
-		}
+        if (trim(str_replace('-', '', $this->alias)) == '') {
+            $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+        }
 
-		return $this->alias;
-	}
+        return $this->alias;
+    }
 }

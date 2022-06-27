@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cookiemanager
@@ -26,91 +27,89 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The \JForm object
-	 *
-	 * @var    \JForm
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $form;
+    /**
+     * The \JForm object
+     *
+     * @var    \JForm
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $form;
 
-	/**
-	 * The active item
-	 *
-	 * @var    object
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $item;
+    /**
+     * The active item
+     *
+     * @var    object
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var    object
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var    object
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $state;
 
-	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var    \JObject
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $canDo;
+    /**
+     * The actions the user is authorised to perform
+     *
+     * @var    \JObject
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $canDo;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @throws \Exception
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @throws \Exception
+     * @since   __DEPLOY_VERSION__
+     */
+    public function display($tpl = null)
+    {
+        $this->form  = $this->get('Form');
+        $this->item  = $this->get('Item');
+        $this->state = $this->get('State');
 
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$this->addToolbar();
+        $this->addToolbar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo = ContentHelper::getActions('com_cookiemanager');
-		$isNew      = ($this->item->id == 0);
+        $canDo = ContentHelper::getActions('com_cookiemanager');
+        $isNew      = ($this->item->id == 0);
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance();
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance();
 
-		ToolbarHelper::title($isNew ? Text::_('COM_COOKIEMANAGER_COOKIE_NEW') : Text::_('COM_COOKIEMANAGER_COOKIE_EDIT'), 'cookie-bite');
+        ToolbarHelper::title($isNew ? Text::_('COM_COOKIEMANAGER_COOKIE_NEW') : Text::_('COM_COOKIEMANAGER_COOKIE_EDIT'), 'cookie-bite');
 
-		if ($canDo->get('core.create'))
-		{
-			$toolbar->apply('cookie.apply');
-			$toolbar->save('cookie.save');
-		}
+        if ($canDo->get('core.create')) {
+            $toolbar->apply('cookie.apply');
+            $toolbar->save('cookie.save');
+        }
 
-		$toolbar->cancel('cookie.cancel');
+        $toolbar->cancel('cookie.cancel');
 
-		ToolbarHelper::help('JHELP_COMPONENTS_COOKIEMANAGER_COOKIES_EDIT');
-	}
+        ToolbarHelper::help('JHELP_COMPONENTS_COOKIEMANAGER_COOKIES_EDIT');
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cookiemanager
@@ -10,7 +11,6 @@
 namespace Joomla\Component\Cookiemanager\Administrator\Controller;
 
 \defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**

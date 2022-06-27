@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cookiemanager
@@ -27,32 +28,31 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Cookiemanager'));
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Cookiemanager'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Cookiemanager'));
-		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Cookiemanager'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Cookiemanager'));
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Cookiemanager'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Cookiemanager'));
+        $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Cookiemanager'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			 {
-				$component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

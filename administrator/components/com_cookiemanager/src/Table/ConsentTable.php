@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cookiemanager
@@ -21,61 +22,58 @@ use Joomla\Database\DatabaseDriver;
  */
 class ConsentTable extends Table
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $_supportNullValue = true;
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $_supportNullValue = true;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__cookiemanager_consents', 'id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database connector object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__cookiemanager_consents', 'id', $db);
+    }
 
-	/**
-	 * Stores consents.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function store($updateNulls = true)
-	{
-		return parent::store($updateNulls);
-	}
+    /**
+     * Stores consents.
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  boolean  True on success, false on failure.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function store($updateNulls = true)
+    {
+        return parent::store($updateNulls);
+    }
 
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @see     Table::check
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @see     Table::check
+     * @since   __DEPLOY_VERSION__
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

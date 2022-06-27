@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cookiemanager
@@ -10,9 +11,7 @@
 namespace Joomla\Component\Cookiemanager\Administrator\Controller;
 
 \defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\AdminController;
-
 /**
  * Scripts list controller class.
  *
@@ -20,19 +19,19 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class ScriptsController extends AdminController
 {
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The name of the model.
-	 * @param   string  $prefix  The prefix for the PHP class name.
-	 * @param   array   $config  Array of configuration parameters.
-	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getModel($name = 'Script', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The name of the model.
+     * @param   string  $prefix  The prefix for the PHP class name.
+     * @param   array   $config  Array of configuration parameters.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getModel($name = 'Script', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }
