@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,5 +18,4 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  */
 class AjaxLogin extends AbstractImmutableEvent
 {
-
 }
