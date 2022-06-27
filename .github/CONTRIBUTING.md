@@ -20,5 +20,5 @@ There are other branches available which serve specific purposes.
 | Branch | Purpose |
 | ------ | ------- |
 | 3.10-dev | Branch for the Joomla 3.x series. The 3.10 series release will only include compatibility features for 4.x as well as bugfixes and security patches. |
-| 4.0-dev | Branch for the Joomla 4.0 series. Commits to 3.10-dev will be applied to this branch as well. |
-| 4.1-dev | Branch for the next minor Joomla version. New features go into this branch. Commits to 4.0-dev will be applied to this branch as well. |
+| 4.1-dev | Branch for the current minor Joomla version. Commits to 3.10-dev will be applied to this branch as well. |
+| 4.2-dev | Branch for the next minor Joomla version. New features go into this branch. Commits to 4.1-dev will be applied to this branch as well. |

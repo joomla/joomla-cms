@@ -14,6 +14,7 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\ExtensionDiscoverCommand;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
@@ -36,11 +37,13 @@ use Joomla\CMS\Console\TasksStateCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
+use Joomla\CMS\Menu\MenuFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -82,6 +85,7 @@ class Application implements ServiceProviderInterface
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
 					$app->setUserFactory($container->get(UserFactoryInterface::class));
+					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
 					return $app;
 				},
@@ -105,6 +109,8 @@ class Application implements ServiceProviderInterface
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
 					$app->setUserFactory($container->get(UserFactoryInterface::class));
+					$app->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
 					return $app;
 				},
@@ -137,6 +143,7 @@ class Application implements ServiceProviderInterface
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
 					$app->setUserFactory($container->get(UserFactoryInterface::class));
+					$app->setDatabase($container->get(DatabaseInterface::class));
 
 					return $app;
 				},
@@ -192,6 +199,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
 					return $app;
 				},
