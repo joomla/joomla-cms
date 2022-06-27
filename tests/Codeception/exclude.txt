@@ -3,14 +3,12 @@
 build
 dev
 node_modules
-tests
 .appveyor.yml
 .drone.yml
 .editorconfig
 .gitignore
 .php-cs-fixer.dist.php
 build.xml
-codeception.yml
 composer.json
 composer.lock
 crowdin.yml
