@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Banners\Administrator\Controller;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
@@ -21,13 +20,13 @@ use Joomla\CMS\Versioning\VersionableControllerTrait;
  */
 class ClientController extends FormController
 {
-	use VersionableControllerTrait;
+    use VersionableControllerTrait;
 
-	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $text_prefix = 'COM_BANNERS_CLIENT';
+    /**
+     * The prefix to use with controller messages.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $text_prefix = 'COM_BANNERS_CLIENT';
 }
