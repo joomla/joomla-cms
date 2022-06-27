@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Workflow;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Extension\ComponentInterface;
@@ -65,7 +63,7 @@ class Workflow
      *
      * @since  4.0.0
      */
-    const CONDITION_NAMES = [
+    public const CONDITION_NAMES = [
         self::CONDITION_PUBLISHED   => 'JPUBLISHED',
         self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
         self::CONDITION_TRASHED     => 'JTRASHED',
@@ -75,22 +73,22 @@ class Workflow
     /**
      * Every item with a state which has the condition PUBLISHED is visible/active on the page
      */
-    const CONDITION_PUBLISHED = 1;
+    public const CONDITION_PUBLISHED = 1;
 
     /**
      * Every item with a state which has the condition UNPUBLISHED is not visible/inactive on the page
      */
-    const CONDITION_UNPUBLISHED = 0;
+    public const CONDITION_UNPUBLISHED = 0;
 
     /**
      * Every item with a state which has the condition TRASHED is trashed
      */
-    const CONDITION_TRASHED = -2;
+    public const CONDITION_TRASHED = -2;
 
     /**
      * Every item with a state which has the condition ARCHIVED is archived
      */
-    const CONDITION_ARCHIVED = 2;
+    public const CONDITION_ARCHIVED = 2;
 
     /**
      * Class constructor
