@@ -9,6 +9,13 @@
 namespace Joomla\CMS\Event;
 
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
+use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxDelete;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
 use Joomla\CMS\Event\QuickIcon\GetIconEvent;
 use Joomla\CMS\Event\Table\AfterBindEvent;
 use Joomla\CMS\Event\Table\AfterCheckinEvent;
@@ -93,10 +100,18 @@ trait CoreEventAware
 		// View
 		'onBeforeDisplay'             => DisplayEvent::class,
 		'onAfterDisplay'              => DisplayEvent::class,
-		// Worflow
+		// Workflow
 		'onWorkflowFunctionalityUsed' => WorkflowFunctionalityUsedEvent::class,
 		'onWorkflowAfterTransition'   => WorkflowTransitionEvent::class,
 		'onWorkflowBeforeTransition'  => WorkflowTransitionEvent::class,
+		// Plugin: System, WebAuthn
+		'onAjaxWebauthn'              => PlgSystemWebauthnAjax::class,
+		'onAjaxWebauthnChallenge'     => PlgSystemWebauthnAjaxChallenge::class,
+		'onAjaxWebauthnCreate'        => PlgSystemWebauthnAjaxCreate::class,
+		'onAjaxWebauthnDelete'        => PlgSystemWebauthnAjaxDelete::class,
+		'onAjaxWebauthnInitcreate'    => PlgSystemWebauthnAjaxInitCreate::class,
+		'onAjaxWebauthnLogin'         => PlgSystemWebauthnAjaxLogin::class,
+		'onAjaxWebauthnSavelabel'     => PlgSystemWebauthnAjaxSaveLabel::class,
 	];
 
 	/**

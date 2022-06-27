@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
@@ -38,6 +39,7 @@ return new class implements ServiceProviderInterface
 					$container->get(DispatcherInterface::class),
 					(array) PluginHelper::getPlugin('actionlog', 'joomla')
 				);
+				$plugin->setApplication(Factory::getApplication());
 				$plugin->setDatabase($container->get(DatabaseInterface::class));
 
 				return $plugin;
