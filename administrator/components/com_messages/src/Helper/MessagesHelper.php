@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_messages
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Messages\Administrator\Helper;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -21,21 +20,21 @@ use Joomla\CMS\Language\Text;
  */
 class MessagesHelper
 {
-	/**
-	 * Get a list of filter options for the state of a module.
-	 *
-	 * @return  array  An array of \JHtmlOption elements.
-	 *
-	 * @since   1.6
-	 */
-	public static function getStateOptions()
-	{
-		// Build the filter options.
-		$options   = array();
-		$options[] = HTMLHelper::_('select.option', '1', Text::_('COM_MESSAGES_OPTION_READ'));
-		$options[] = HTMLHelper::_('select.option', '0', Text::_('COM_MESSAGES_OPTION_UNREAD'));
-		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
+    /**
+     * Get a list of filter options for the state of a module.
+     *
+     * @return  array  An array of \JHtmlOption elements.
+     *
+     * @since   1.6
+     */
+    public static function getStateOptions()
+    {
+        // Build the filter options.
+        $options   = array();
+        $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_MESSAGES_OPTION_READ'));
+        $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_MESSAGES_OPTION_UNREAD'));
+        $options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
 
-		return $options;
-	}
+        return $options;
+    }
 }
