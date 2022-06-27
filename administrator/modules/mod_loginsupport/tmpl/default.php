@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_loginsupport
@@ -14,40 +15,40 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <section class="loginsupport">
-	<p><?php echo Text::_('MOD_LOGINSUPPORT_HEADLINE'); ?></p>
-	<ul class="list-unstyled">
-		<li>
-			<?php echo HTMLHelper::link(
-				$params->get('forum_url'),
-				Text::_('MOD_LOGINSUPPORT_FORUM'),
-				[
-					'target' => '_blank',
-					'rel'    => 'nofollow noopener',
-					'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_FORUM'))
-				]
-			); ?>
-		</li>
-		<li>
-			<?php echo HTMLHelper::link(
-				$params->get('documentation_url'),
-				Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'),
-				[
-					'target' => '_blank',
-					'rel'    => 'nofollow noopener',
-					'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'))
-				]
-			); ?>
-		</li>
-		<li>
-			<?php echo HTMLHelper::link(
-				$params->get('news_url'),
-				Text::_('MOD_LOGINSUPPORT_NEWS'),
-				[
-					'target' => '_blank',
-					'rel'    => 'nofollow noopener',
-					'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_NEWS'))
-				]
-			); ?>
-		</li>
-	</ul>
+    <p><?php echo Text::_('MOD_LOGINSUPPORT_HEADLINE'); ?></p>
+    <ul class="list-unstyled">
+        <li>
+            <?php echo HTMLHelper::link(
+                $params->get('forum_url'),
+                Text::_('MOD_LOGINSUPPORT_FORUM'),
+                [
+                    'target' => '_blank',
+                    'rel'    => 'nofollow noopener',
+                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_FORUM'))
+                ]
+            ); ?>
+        </li>
+        <li>
+            <?php echo HTMLHelper::link(
+                $params->get('documentation_url'),
+                Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'),
+                [
+                    'target' => '_blank',
+                    'rel'    => 'nofollow noopener',
+                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_DOCUMENTATION'))
+                ]
+            ); ?>
+        </li>
+        <li>
+            <?php echo HTMLHelper::link(
+                $params->get('news_url'),
+                Text::_('MOD_LOGINSUPPORT_NEWS'),
+                [
+                    'target' => '_blank',
+                    'rel'    => 'nofollow noopener',
+                    'title'  => Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGINSUPPORT_NEWS'))
+                ]
+            ); ?>
+        </li>
+    </ul>
 </section>
