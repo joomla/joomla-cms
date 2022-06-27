@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Extension;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
@@ -20,5 +19,5 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
  */
 class MVCComponent extends Component implements MVCFactoryServiceInterface
 {
-	use MVCFactoryServiceTrait;
+    use MVCFactoryServiceTrait;
 }
