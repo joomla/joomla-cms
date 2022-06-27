@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application\Exception;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Exception class for a website that is in offline mode!
  *
