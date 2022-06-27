@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Application;
-
-\defined('JPATH_PLATFORM') or die;
 
 use JLoader;
 
@@ -19,17 +18,17 @@ use JLoader;
  */
 trait ExtensionNamespaceMapper
 {
-	/**
-	 * Allows the application to load a custom or default identity.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function createExtensionNamespaceMap()
-	{
-		JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-		$extensionPsr4Loader = new \JNamespacePsr4Map;
-		$extensionPsr4Loader->load();
-	}
+    /**
+     * Allows the application to load a custom or default identity.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function createExtensionNamespaceMap()
+    {
+        JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+        $extensionPsr4Loader = new \JNamespacePsr4Map();
+        $extensionPsr4Loader->load();
+    }
 }
