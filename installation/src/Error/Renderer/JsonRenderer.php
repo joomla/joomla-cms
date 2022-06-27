@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Error
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\CMS\Installation\Error\Renderer;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Installation\Response\JsonResponse;
@@ -21,25 +20,25 @@ use Joomla\CMS\Installation\Response\JsonResponse;
  */
 class JsonRenderer extends AbstractRenderer
 {
-	/**
-	 * The format (type) of the error page
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $type = 'json';
+    /**
+     * The format (type) of the error page
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $type = 'json';
 
-	/**
-	 * Render the error page for the given object
-	 *
-	 * @param   \Throwable  $error  The error object to be rendered
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function render(\Throwable $error): string
-	{
-		return json_encode(new JsonResponse($error));
-	}
+    /**
+     * Render the error page for the given object
+     *
+     * @param   \Throwable  $error  The error object to be rendered
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function render(\Throwable $error): string
+    {
+        return json_encode(new JsonResponse($error));
+    }
 }
