@@ -166,7 +166,7 @@ class FileAdapter extends InstallerAdapter
 
 		$extensionId = $this->extension->extension_id;
 
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
@@ -461,7 +461,7 @@ class FileAdapter extends InstallerAdapter
 	protected function extensionExistsInSystem($extension = null)
 	{
 		// Get a database connector object
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
