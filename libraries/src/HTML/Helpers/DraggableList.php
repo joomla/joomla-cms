@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,61 +21,63 @@ use Joomla\CMS\Session\Session;
  */
 abstract class DraggableList
 {
-	/**
-	 * Array containing information for loaded files
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected static $loaded = array();
+    /**
+     * Array containing information for loaded files
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    protected static $loaded = array();
 
-	/**
-	 * Method to load the Dragula script and make table sortable
-	 *
-	 * @param   string   $tableId          DOM id of the table
-	 * @param   string   $formId           DOM id of the form
-	 * @param   string   $sortDir          Sort direction
-	 * @param   string   $saveOrderingUrl  Save ordering url, ajax-load after an item dropped
-	 * @param   string   $redundant        Not used
-	 * @param   boolean  $nestedList       Set whether the list is a nested list
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public static function draggable(string $tableId = '', string $formId = '', string $sortDir = 'asc', string $saveOrderingUrl = '',
-		$redundant = null, bool $nestedList = false
-	)
-	{
-		// Only load once
-		if (isset(static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl]))
-		{
-			return;
-		}
+    /**
+     * Method to load the Dragula script and make table sortable
+     *
+     * @param   string   $tableId          DOM id of the table
+     * @param   string   $formId           DOM id of the form
+     * @param   string   $sortDir          Sort direction
+     * @param   string   $saveOrderingUrl  Save ordering url, ajax-load after an item dropped
+     * @param   string   $redundant        Not used
+     * @param   boolean  $nestedList       Set whether the list is a nested list
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public static function draggable(
+        string $tableId = '',
+        string $formId = '',
+        string $sortDir = 'asc',
+        string $saveOrderingUrl = '',
+        $redundant = null,
+        bool $nestedList = false
+    ) {
+        // Only load once
+        if (isset(static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl])) {
+            return;
+        }
 
-		$doc = Factory::getDocument();
+        $doc = Factory::getDocument();
 
-		// Please consider using data attributes instead of passing arguments here!
-		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir))
-		{
-			$options = $doc->getScriptOptions('draggable-list');
+        // Please consider using data attributes instead of passing arguments here!
+        if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir)) {
+            $options = $doc->getScriptOptions('draggable-list');
 
-			$options[] = [
-					'id'        => '#' . $tableId . ' tbody',
-					'formId'    => $formId,
-					'direction' => $sortDir,
-					'url'       => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
-					'nested'    => $nestedList,
-				];
+            $options[] = [
+                    'id'        => '#' . $tableId . ' tbody',
+                    'formId'    => $formId,
+                    'direction' => $sortDir,
+                    'url'       => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
+                    'nested'    => $nestedList,
+                ];
 
-			$doc->addScriptOptions('draggable-list', $options);
-		}
+            $doc->addScriptOptions('draggable-list', $options);
+        }
 
-		$doc->getWebAssetManager()
-			->usePreset('dragula')
-			->useScript('joomla.draggable');
+        $doc->getWebAssetManager()
+            ->usePreset('dragula')
+            ->useScript('joomla.draggable');
 
-		// Set static array
-		static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl] = true;
-	}
+        // Set static array
+        static::$loaded[$tableId][$formId][$sortDir][$saveOrderingUrl] = true;
+    }
 }
