@@ -53,7 +53,7 @@ $wa->getRegistry()->addExtensionRegistryFile('com_finder');
 if ($params->get('show_autosuggest', 1))
 {
 	$wa->usePreset('awesomplete');
-	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)));
 }
 
 $wa->useScript('com_finder.finder');

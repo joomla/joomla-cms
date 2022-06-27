@@ -495,7 +495,7 @@ class PlgUserProfile extends CMSPlugin
 				->delete($db->quoteName('#__user_profiles'))
 				->where($db->quoteName('user_id') . ' = :userid')
 				->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
-				->bind('userid', $userId, ParameterType::INTEGER);
+				->bind(':userid', $userId, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 			$db->execute();

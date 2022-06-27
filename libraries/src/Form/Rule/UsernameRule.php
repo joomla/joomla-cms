@@ -10,9 +10,10 @@ namespace Joomla\CMS\Form\Rule;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -21,8 +22,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class UsernameRule extends FormRule
+class UsernameRule extends FormRule implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Method to test the username for uniqueness.
 	 *
@@ -41,7 +44,7 @@ class UsernameRule extends FormRule
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
 		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Get the extra field check attribute.

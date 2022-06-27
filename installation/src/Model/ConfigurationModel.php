@@ -150,6 +150,7 @@ class ConfigurationModel extends BaseInstallationModel
 			$return = false;
 		}
 
+		// This is needed because the installer loads the extension table in constructor, needs to be refactored in 5.0
 		Factory::$database = $db;
 		$installer = Installer::getInstance();
 
@@ -367,6 +368,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
 
 		$installer = new Installer;
+		$installer->setDatabase($db);
 
 		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
 		{
