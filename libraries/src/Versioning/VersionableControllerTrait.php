@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Versioning;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -20,83 +19,84 @@ use Joomla\CMS\Router\Route;
  */
 trait VersionableControllerTrait
 {
-	/**
-	 * Method to load a row from version history
-	 *
-	 * @return  boolean  True if the record can be loaded, False if it cannot.
-	 *
-	 * @since   4.0.0
-	 */
-	public function loadhistory()
-	{
-		$model = $this->getModel();
-		$table = $model->getTable();
-		$historyId = $this->input->getInt('version_id', null);
+    /**
+     * Method to load a row from version history
+     *
+     * @return  boolean  True if the record can be loaded, False if it cannot.
+     *
+     * @since   4.0.0
+     */
+    public function loadhistory()
+    {
+        $model = $this->getModel();
+        $table = $model->getTable();
+        $historyId = $this->input->getInt('version_id', null);
 
-		if (!$model->loadhistory($historyId, $table))
-		{
-			$this->setMessage($model->getError(), 'error');
+        if (!$model->loadhistory($historyId, $table)) {
+            $this->setMessage($model->getError(), 'error');
 
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
+            $this->setRedirect(
+                Route::_(
+                    'index.php?option=' . $this->option . '&view=' . $this->view_list
+                    . $this->getRedirectToListAppend(),
+                    false
+                )
+            );
 
-			return false;
-		}
+            return false;
+        }
 
-		// Determine the name of the primary key for the data.
-		if (empty($key))
-		{
-			$key = $table->getKeyName();
-		}
+        // Determine the name of the primary key for the data.
+        if (empty($key)) {
+            $key = $table->getKeyName();
+        }
 
-		$recordId = $table->$key;
+        $recordId = $table->$key;
 
-		// To avoid data collisions the urlVar may be different from the primary key.
-		$urlVar = empty($this->urlVar) ? $key : $this->urlVar;
+        // To avoid data collisions the urlVar may be different from the primary key.
+        $urlVar = empty($this->urlVar) ? $key : $this->urlVar;
 
-		// Access check.
-		if (!$this->allowEdit(array($key => $recordId), $key))
-		{
-			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+        // Access check.
+        if (!$this->allowEdit(array($key => $recordId), $key)) {
+            $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
-			$this->setRedirect(
-				Route::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
-			$table->checkIn();
+            $this->setRedirect(
+                Route::_(
+                    'index.php?option=' . $this->option . '&view=' . $this->view_list
+                    . $this->getRedirectToListAppend(),
+                    false
+                )
+            );
+            $table->checkIn();
 
-			return false;
-		}
+            return false;
+        }
 
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_item
-				. $this->getRedirectToItemAppend($recordId, $urlVar), false
-			)
-		);
+        $this->setRedirect(
+            Route::_(
+                'index.php?option=' . $this->option . '&view=' . $this->view_item
+                . $this->getRedirectToItemAppend($recordId, $urlVar),
+                false
+            )
+        );
 
-		if (!$table->check() || !$table->store())
-		{
-			$this->setMessage($table->getError(), 'error');
+        if (!$table->check() || !$table->store()) {
+            $this->setMessage($table->getError(), 'error');
 
-			return false;
-		}
+            return false;
+        }
 
-		$this->setMessage(
-			Text::sprintf(
-				'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')
-			)
-		);
+        $this->setMessage(
+            Text::sprintf(
+                'JLIB_APPLICATION_SUCCESS_LOAD_HISTORY',
+                $model->getState('save_date'),
+                $model->getState('version_note')
+            )
+        );
 
-		// Invoke the postSave method to allow for the child class to access the model.
-		$this->postSaveHook($model);
+        // Invoke the postSave method to allow for the child class to access the model.
+        $this->postSaveHook($model);
 
-		return true;
-	}
+        return true;
+    }
 }
