@@ -1395,7 +1395,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 	 *
 	 * @return  mixed  The value of the element if set, null otherwise
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @deprecated  5.0 Use getDatabase() instead of directly accessing db
 	 */
