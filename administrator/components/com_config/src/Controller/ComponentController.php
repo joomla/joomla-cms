@@ -161,6 +161,9 @@ class ComponentController extends FormController
 
 			case 'save':
 				$this->setMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
+
+				// No break
+
 			default:
 				$redirect = 'index.php?option=' . $option;
 
