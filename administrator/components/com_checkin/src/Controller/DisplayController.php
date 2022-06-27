@@ -53,7 +53,7 @@ class DisplayController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$ids = $this->input->get('cid', array(), 'array');
+		$ids = (array) $this->input->get('cid', array(), 'string');
 
 		if (empty($ids))
 		{

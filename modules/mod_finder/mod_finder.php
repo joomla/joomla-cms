@@ -34,6 +34,13 @@ if ($params->get('opensearch', $cparams->get('opensearch', 1)))
 // Get the route.
 $route = RouteHelper::getSearchRoute($params->get('searchfilter', null));
 
+if ($params->get('set_itemid'))
+{
+	$uri = Uri::getInstance($route);
+	$uri->setVar('Itemid', $params->get('set_itemid'));
+	$route = $uri->toString(array('path', 'query'));
+}
+
 // Load component language file.
 LanguageHelper::loadComponentLanguage();
 

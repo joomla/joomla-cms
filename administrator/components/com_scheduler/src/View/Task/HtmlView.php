@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 	 * The actions the user is authorised to perform
 	 *
 	 * @var  CMSObject
-	 * @since  __DEPLOY__VERSION__
+	 * @since  4.1.0
 	 */
 	protected $canDo;
 

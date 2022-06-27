@@ -1,12 +1,14 @@
 .media-toolbar {
-  position: relative;
+  position: sticky;
+  top: 67px;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   padding: 0;
   background-color: $toolbar-bg;
   border-bottom: 1px solid $border-color;
   border-inline-start: 1px solid $border-color;
-  border-radius: $border-radius $border-radius 0 0;
+  border-radius: 0 $border-radius 0 0;
   box-shadow: 0 -1px 0 0  $border-color;
   input {
     padding: .3rem .75rem;
