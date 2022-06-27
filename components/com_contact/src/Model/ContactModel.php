@@ -164,7 +164,7 @@ class ContactModel extends FormModel
 			$data['language'] = Factory::getLanguage()->getTag();
 		}
 
-		// Add contact id to contact form data, so fields plugin can work properly
+		// Add contact catid to contact form data, so fields plugin can work properly
 		if (empty($data['catid']))
 		{
 			$data['catid'] = $this->getItem()->catid;
@@ -197,7 +197,7 @@ class ContactModel extends FormModel
 		{
 			try
 			{
-				$db    = $this->getDbo();
+				$db    = $this->getDatabase();
 				$query = $db->getQuery(true);
 
 				$query->select($this->getState('item.select', 'a.*'))
@@ -330,7 +330,7 @@ class ContactModel extends FormModel
 	 */
 	protected function buildContactExtendedData($contact)
 	{
-		$db        = $this->getDbo();
+		$db        = $this->getDatabase();
 		$nowDate   = Factory::getDate()->toSql();
 		$user      = Factory::getUser();
 		$groups    = $user->getAuthorisedViewLevels();

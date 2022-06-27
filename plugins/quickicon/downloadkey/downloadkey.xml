@@ -2,7 +2,7 @@
 <extension type="plugin" group="quickicon" method="upgrade">
 	<name>plg_quickicon_downloadkey</name>
 	<author>Joomla! Project</author>
-	<creationDate>October 2019</creationDate>
+	<creationDate>2019-10</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

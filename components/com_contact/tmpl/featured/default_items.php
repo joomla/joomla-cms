@@ -17,9 +17,9 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_contact.contacts-list');
+$wa->useScript('com_contact.contacts-list')
+	->useScript('core');
 
-HTMLHelper::_('behavior.core');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
