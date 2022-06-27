@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Task\DemoTasks\Extension;
+
 // Restrict direct access
 defined('_JEXEC') or die;
 
@@ -23,7 +25,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since 4.1.0
  */
-class PlgTaskDemotasks extends CMSPlugin implements SubscriberInterface
+final class DemoTasks extends CMSPlugin implements SubscriberInterface
 {
 	use TaskPluginTrait;
 
