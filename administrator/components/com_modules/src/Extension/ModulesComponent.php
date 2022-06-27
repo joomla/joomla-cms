@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Modules\Administrator\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
@@ -48,7 +46,7 @@ class ModulesComponent extends MVCComponent implements
      *
      * @since   __DEPLOY_VERSION__
      */
-    const CONDITION_NAMES = [
+    public const CONDITION_NAMES = [
         self::CONDITION_PUBLISHED   => 'JPUBLISHED',
         self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
         self::CONDITION_TRASHED     => 'JTRASHED',
@@ -59,21 +57,21 @@ class ModulesComponent extends MVCComponent implements
      *
      * @since   __DEPLOY_VERSION__
      */
-    const CONDITION_PUBLISHED = 1;
+    public const CONDITION_PUBLISHED = 1;
 
     /**
      * The unpublished condition
      *
      * @since   __DEPLOY_VERSION__
      */
-    const CONDITION_UNPUBLISHED = 0;
+    public const CONDITION_UNPUBLISHED = 0;
 
     /**
      * The trashed condition
      *
      * @since   __DEPLOY_VERSION__
      */
-    const CONDITION_TRASHED = -2;
+    public const CONDITION_TRASHED = -2;
 
 
     /**
