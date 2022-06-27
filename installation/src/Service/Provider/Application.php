@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Service
@@ -27,41 +28,39 @@ use Psr\Log\LoggerInterface;
  */
 class Application implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->share(
-			InstallationApplication::class,
-			function (Container $container)
-			{
-				$app = new InstallationApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
-				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger($container->get(LoggerInterface::class));
-				$app->setSession($container->get('Joomla\Session\SessionInterface'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->share(
+            InstallationApplication::class,
+            function (Container $container) {
+                $app = new InstallationApplication($container->get(CMSInput::class), $container->get('config'), null, $container);
+                $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                $app->setLogger($container->get(LoggerInterface::class));
+                $app->setSession($container->get('Joomla\Session\SessionInterface'));
 
-				// Ensure that session purging is configured now we have a dispatcher
-				$app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
+                // Ensure that session purging is configured now we have a dispatcher
+                $app->getDispatcher()->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
 
-				return $app;
-			},
-			true
-		);
+                return $app;
+            },
+            true
+        );
 
-		// Inject a custom JSON error renderer
-		$container->share(
-			JsonRenderer::class,
-			function (Container $container)
-			{
-				return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer;
-			}
-		);
-	}
+        // Inject a custom JSON error renderer
+        $container->share(
+            JsonRenderer::class,
+            function (Container $container) {
+                return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer();
+            }
+        );
+    }
 }
