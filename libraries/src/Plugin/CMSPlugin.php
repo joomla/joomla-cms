@@ -426,4 +426,33 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	{
 		$this->application = $application;
 	}
+
+	/**
+	 * Proxy for app variable.
+	 *
+	 * @param   string  $name  The name of the element
+	 *
+	 * @return  mixed  The value of the element if set, null otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @deprecated  5.0 Use getApplication() instead of directly accessing the application
+	 */
+	public function __get($name)
+	{
+		if ($name === 'app')
+		{
+			@trigger_error('The app variable should not be used anymore, use getApplication() instead.', E_USER_DEPRECATED);
+
+			return $this->getApplication() ?? Factory::getApplication();
+		}
+
+		// Default the variable
+		if (!isset($this->$name))
+		{
+			$this->$name = null;
+		}
+
+		return $this->$name;
+	}
 }
