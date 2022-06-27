@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -12,8 +13,6 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 
-\defined('_JEXEC') or die;
-
 /**
  * Languages Strings JSON Controller
  *
@@ -21,27 +20,27 @@ use Joomla\CMS\Response\JsonResponse;
  */
 class StringsController extends AdminController
 {
-	/**
-	 * Method for refreshing the cache in the database with the known language strings
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function refresh()
-	{
-		echo new JsonResponse($this->getModel('strings')->refresh());
-	}
+    /**
+     * Method for refreshing the cache in the database with the known language strings
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function refresh()
+    {
+        echo new JsonResponse($this->getModel('strings')->refresh());
+    }
 
-	/**
-	 * Method for searching language strings
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function search()
-	{
-		echo new JsonResponse($this->getModel('strings')->search());
-	}
+    /**
+     * Method for searching language strings
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function search()
+    {
+        echo new JsonResponse($this->getModel('strings')->search());
+    }
 }
