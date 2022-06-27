@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -25,54 +26,53 @@ use RuntimeException;
  */
 class CallbackController extends BaseController
 {
-	/**
-	 * Public constructor
-	 *
-	 * @param   array                     $config   Plugin configuration
-	 * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
-	 * @param   CMSApplication|null       $app      CMS application object
-	 * @param   Input|null                $input    Joomla CMS input object
-	 *
-	 * @since 4.2.0
-	 */
-	public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
-	{
-		parent::__construct($config, $factory, $app, $input);
+    /**
+     * Public constructor
+     *
+     * @param   array                     $config   Plugin configuration
+     * @param   MVCFactoryInterface|null  $factory  MVC Factory for the com_users component
+     * @param   CMSApplication|null       $app      CMS application object
+     * @param   Input|null                $input    Joomla CMS input object
+     *
+     * @since 4.2.0
+     */
+    public function __construct(array $config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    {
+        parent::__construct($config, $factory, $app, $input);
 
-		$this->registerDefaultTask('callback');
-	}
+        $this->registerDefaultTask('callback');
+    }
 
-	/**
-	 * Implement a callback feature, typically used for OAuth2 authentication
-	 *
-	 * @param   bool         $cachable    Can this view be cached
-	 * @param   array|bool   $urlparams   An array of safe url parameters and their variable types, for valid values see
-	 *                                    {@link JFilterInput::clean()}.
-	 *
-	 * @return  void
-	 * @since 4.2.0
-	 */
-	public function callback($cachable = false, $urlparams = false): void
-	{
-		$app = $this->app;
+    /**
+     * Implement a callback feature, typically used for OAuth2 authentication
+     *
+     * @param   bool         $cachable    Can this view be cached
+     * @param   array|bool   $urlparams   An array of safe url parameters and their variable types, for valid values see
+     *                                    {@link JFilterInput::clean()}.
+     *
+     * @return  void
+     * @since 4.2.0
+     */
+    public function callback($cachable = false, $urlparams = false): void
+    {
+        $app = $this->app;
 
-		// Get the Method and make sure it's non-empty
-		$method = $this->input->getCmd('method', '');
+        // Get the Method and make sure it's non-empty
+        $method = $this->input->getCmd('method', '');
 
-		if (empty($method))
-		{
-			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+        if (empty($method)) {
+            throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		PluginHelper::importPlugin('multifactorauth');
+        PluginHelper::importPlugin('multifactorauth');
 
-		$event = new Callback($method);
-		$this->app->getDispatcher()->dispatch($event->getName(), $event);
+        $event = new Callback($method);
+        $this->app->getDispatcher()->dispatch($event->getName(), $event);
 
-		/**
-		 * The first plugin to handle the request should either redirect or close the application. If we are still here
-		 * no plugin handled the request successfully. Show an error.
-		 */
-		throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-	}
+        /**
+         * The first plugin to handle the request should either redirect or close the application. If we are still here
+         * no plugin handled the request successfully. Show an error.
+         */
+        throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+    }
 }

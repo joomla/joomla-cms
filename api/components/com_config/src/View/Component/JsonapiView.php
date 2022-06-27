@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_config
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Config\Api\View\Component;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -26,114 +25,107 @@ use Tobscure\JsonApi\Collection;
  */
 class JsonapiView extends BaseApiView
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   array|null  $items  Array of items
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function displayList(array $items = null)
-	{
-		try
-		{
-			$component = ComponentHelper::getComponent($this->get('component_name'));
+    /**
+     * Execute and display a template script.
+     *
+     * @param   array|null  $items  Array of items
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function displayList(array $items = null)
+    {
+        try {
+            $component = ComponentHelper::getComponent($this->get('component_name'));
 
-			if ($component === null || !$component->enabled)
-			{
-				// @todo: exception component unavailable
-				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_INVALID_COMPONENT_NAME'), 400);
-			}
+            if ($component === null || !$component->enabled) {
+                // @todo: exception component unavailable
+                throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_INVALID_COMPONENT_NAME'), 400);
+            }
 
-			$data = $component->getParams()->toObject();
-		}
-		catch (\Exception $e)
-		{
-			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500, $e);
-		}
+            $data = $component->getParams()->toObject();
+        } catch (\Exception $e) {
+            throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500, $e);
+        }
 
-		$items = [];
+        $items = [];
 
-		foreach ($data as $key => $value)
-		{
-			$item    = (object) [$key => $value];
-			$items[] = $this->prepareItem($item);
-		}
+        foreach ($data as $key => $value) {
+            $item    = (object) [$key => $value];
+            $items[] = $this->prepareItem($item);
+        }
 
-		// Set up links for pagination
-		$currentUrl = Uri::getInstance();
-		$currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
-		$currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
+        // Set up links for pagination
+        $currentUrl = Uri::getInstance();
+        $currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
+        $currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
 
-		$offset              = $currentPageQuery['offset'];
-		$limit               = $currentPageQuery['limit'];
-		$totalItemsCount     = \count($items);
-		$totalPagesAvailable = ceil($totalItemsCount / $limit);
+        $offset              = $currentPageQuery['offset'];
+        $limit               = $currentPageQuery['limit'];
+        $totalItemsCount     = \count($items);
+        $totalPagesAvailable = ceil($totalItemsCount / $limit);
 
-		$items = array_splice($items, $offset, $limit);
+        $items = array_splice($items, $offset, $limit);
 
-		$this->document->addMeta('total-pages', $totalPagesAvailable)
-			->addLink('self', (string) $currentUrl);
+        $this->document->addMeta('total-pages', $totalPagesAvailable)
+            ->addLink('self', (string) $currentUrl);
 
-		// Check for first and previous pages
-		if ($offset > 0)
-		{
-			$firstPage = clone $currentUrl;
-			$firstPageQuery = $currentPageQuery;
-			$firstPageQuery['offset'] = 0;
-			$firstPage->setVar('page', $firstPageQuery);
+        // Check for first and previous pages
+        if ($offset > 0) {
+            $firstPage = clone $currentUrl;
+            $firstPageQuery = $currentPageQuery;
+            $firstPageQuery['offset'] = 0;
+            $firstPage->setVar('page', $firstPageQuery);
 
-			$previousPage = clone $currentUrl;
-			$previousPageQuery = $currentPageQuery;
-			$previousOffset = $currentPageQuery['offset'] - $limit;
-			$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
-			$previousPage->setVar('page', $previousPageQuery);
+            $previousPage = clone $currentUrl;
+            $previousPageQuery = $currentPageQuery;
+            $previousOffset = $currentPageQuery['offset'] - $limit;
+            $previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
+            $previousPage->setVar('page', $previousPageQuery);
 
-			$this->document->addLink('first', $this->queryEncode((string) $firstPage))
-				->addLink('previous', $this->queryEncode((string) $previousPage));
-		}
+            $this->document->addLink('first', $this->queryEncode((string) $firstPage))
+                ->addLink('previous', $this->queryEncode((string) $previousPage));
+        }
 
-		// Check for next and last pages
-		if ($offset + $limit < $totalItemsCount)
-		{
-			$nextPage = clone $currentUrl;
-			$nextPageQuery = $currentPageQuery;
-			$nextOffset = $currentPageQuery['offset'] + $limit;
-			$nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $limit)) ? $totalPagesAvailable - $limit : $nextOffset;
-			$nextPage->setVar('page', $nextPageQuery);
+        // Check for next and last pages
+        if ($offset + $limit < $totalItemsCount) {
+            $nextPage = clone $currentUrl;
+            $nextPageQuery = $currentPageQuery;
+            $nextOffset = $currentPageQuery['offset'] + $limit;
+            $nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $limit)) ? $totalPagesAvailable - $limit : $nextOffset;
+            $nextPage->setVar('page', $nextPageQuery);
 
-			$lastPage = clone $currentUrl;
-			$lastPageQuery = $currentPageQuery;
-			$lastPageQuery['offset'] = ($totalPagesAvailable - 1) * $limit;
-			$lastPage->setVar('page', $lastPageQuery);
+            $lastPage = clone $currentUrl;
+            $lastPageQuery = $currentPageQuery;
+            $lastPageQuery['offset'] = ($totalPagesAvailable - 1) * $limit;
+            $lastPage->setVar('page', $lastPageQuery);
 
-			$this->document->addLink('next', $this->queryEncode((string) $nextPage))
-				->addLink('last', $this->queryEncode((string) $lastPage));
-		}
+            $this->document->addLink('next', $this->queryEncode((string) $nextPage))
+                ->addLink('last', $this->queryEncode((string) $lastPage));
+        }
 
-		$collection = (new Collection($items, new JoomlaSerializer($this->type)));
+        $collection = (new Collection($items, new JoomlaSerializer($this->type)));
 
-		// Set the data into the document and render it
-		$this->document->setData($collection);
+        // Set the data into the document and render it
+        $this->document->setData($collection);
 
-		return $this->document->render();
-	}
+        return $this->document->render();
+    }
 
-	/**
-	 * Prepare item before render.
-	 *
-	 * @param   object  $item  The model item
-	 *
-	 * @return  object
-	 *
-	 * @since   4.0.0
-	 */
-	protected function prepareItem($item)
-	{
-		$item->id = ExtensionHelper::getExtensionRecord($this->get('component_name'), 'component')->extension_id;
+    /**
+     * Prepare item before render.
+     *
+     * @param   object  $item  The model item
+     *
+     * @return  object
+     *
+     * @since   4.0.0
+     */
+    protected function prepareItem($item)
+    {
+        $item->id = ExtensionHelper::getExtensionRecord($this->get('component_name'), 'component')->extension_id;
 
-		return $item;
-	}
+        return $item;
+    }
 }
