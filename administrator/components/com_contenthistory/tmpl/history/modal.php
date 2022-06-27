@@ -16,8 +16,6 @@ use Joomla\CMS\Session\Session;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
-HTMLHelper::_('behavior.multiselect');
-
 $hash           = $this->state->get('sha1_hash');
 $formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
@@ -27,7 +25,8 @@ Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_contenthistory.admin-history-modal');
+$wa->useScript('multiselect')
+	->useScript('com_contenthistory.admin-history-modal');
 ?>
 <div class="container-popup">
 	<div id="subhead" class="subhead noshadow mb-3">
@@ -86,7 +85,7 @@ $wa->useScript('com_contenthistory.admin-history-modal');
 								&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</button>
 						<?php else : ?>
-							<button type="buttton" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+							<button type="button" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
 								<?php echo Text::_('JNO'); ?>
 							</button>
 						<?php endif; ?>

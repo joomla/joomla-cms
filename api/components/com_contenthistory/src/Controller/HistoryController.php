@@ -85,7 +85,7 @@ class HistoryController extends ApiController
 
 		if (!$model->keep($cid))
 		{
-			throw new Exception\Save(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));
+			throw new Exception\Save(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', \count($cid)));
 		}
 
 		return $this;
