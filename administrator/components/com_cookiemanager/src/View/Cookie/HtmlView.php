@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Cookiemanager\Administrator\View\Cookie;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
