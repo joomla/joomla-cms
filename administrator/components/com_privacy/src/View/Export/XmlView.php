@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Privacy\Administrator\View\Export;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -25,35 +24,34 @@ use Joomla\Component\Privacy\Administrator\Model\ExportModel;
  */
 class XmlView extends AbstractView
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @since   3.9.0
-	 * @throws  \Exception
-	 */
-	public function display($tpl = null)
-	{
-		/** @var ExportModel $model */
-		$model = $this->getModel();
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed  A string if successful, otherwise an Error object.
+     *
+     * @since   3.9.0
+     * @throws  \Exception
+     */
+    public function display($tpl = null)
+    {
+        /** @var ExportModel $model */
+        $model = $this->getModel();
 
-		$exportData = $model->collectDataForExportRequest();
+        $exportData = $model->collectDataForExportRequest();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$requestId = $model->getState($model->getName() . '.request_id');
+        $requestId = $model->getState($model->getName() . '.request_id');
 
-		// This document should always be downloaded
-		$this->document->setDownload(true);
-		$this->document->setName('export-request-' . $requestId);
+        // This document should always be downloaded
+        $this->document->setDownload(true);
+        $this->document->setName('export-request-' . $requestId);
 
-		echo PrivacyHelper::renderDataAsXml($exportData);
-	}
+        echo PrivacyHelper::renderDataAsXml($exportData);
+    }
 }
