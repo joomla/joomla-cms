@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\CategoryFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -57,7 +58,10 @@ class CategoryFactory implements ServiceProviderInterface
 			CategoryFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Categories\CategoryFactory($this->namespace);
+				$factory = new \Joomla\CMS\Categories\CategoryFactory($this->namespace);
+				$factory->setDatabase($container->get(DatabaseInterface::class));
+
+				return $factory;
 			}
 		);
 	}

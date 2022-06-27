@@ -167,6 +167,8 @@ class HtmlView extends BaseHtmlView
 		$this->preview     = $this->get('Preview');
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
 		$this->updatedList = $this->get('UpdatedList');
+		$this->styles      = $this->get('AllTemplateStyles');
+		$this->stylesHTML  = '';
 
 		$params       = ComponentHelper::getParams('com_templates');
 		$imageTypes   = explode(',', $params->get('image_formats'));
@@ -222,7 +224,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->getCurrentUser()->authorise('core.admin'))
 		{
 			$this->setLayout('readonly');
 		}
@@ -240,7 +242,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$app   = Factory::getApplication();
-		$user  = Factory::getUser();
+		$user  = $this->getCurrentUser();
 		$app->input->set('hidemainmenu', true);
 
 		// User is global SuperUser

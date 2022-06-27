@@ -21,13 +21,11 @@
     />
     <media-browser-action-items-container
       ref="container"
-      :focused="focused"
       :item="item"
-      :edit="editItem"
-      :can-edit="canEdit"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
+      @toggle-settings="toggleSettings"
     />
   </div>
 </template>
@@ -37,6 +35,7 @@ export default {
   name: 'MediaBrowserItemDocument',
   // eslint-disable-next-line vue/require-prop-types
   props: ['item', 'focused'],
+  emits: ['toggle-settings'],
   data() {
     return {
       showActions: false,
@@ -51,8 +50,9 @@ export default {
     openPreview() {
       this.$refs.container.openPreview();
     },
-    /* Edit an item */
-    editItem() {},
+    toggleSettings(bool) {
+      this.$emit('toggle-settings', bool);
+    },
   },
 };
 </script>

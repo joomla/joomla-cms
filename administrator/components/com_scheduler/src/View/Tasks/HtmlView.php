@@ -34,7 +34,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Array of task items.
 	 *
-	 * @var  array
+	 * @var    array
 	 * @since  4.1.0
 	 */
 	protected $items;
@@ -42,7 +42,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The pagination object.
 	 *
-	 * @var  Pagination
+	 * @var    Pagination
 	 * @since  4.1.0
 	 * @todo   Test pagination.
 	 */
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var  CMSObject
+	 * @var    CMSObject
 	 * @since  4.1.0
 	 */
 	protected $state;
@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * A Form object for search filters.
 	 *
-	 * @var  Form
+	 * @var    Form
 	 * @since  4.1.0
 	 */
 	public $filterForm;
@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The active search filters.
 	 *
-	 * @var  array
+	 * @var    array
 	 * @since  4.1.0
 	 */
 	public $activeFilters;
@@ -75,7 +75,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Is this view in an empty state?
 	 *
-	 * @var  boolean
+	 * @var    boolean
 	 * @since  4.1.0
 	 */
 	private $isEmptyState = false;
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since  4.1.0
+	 * @since   4.1.0
 	 * @throws  \Exception
 	 */
 	public function display($tpl = null): void
@@ -164,6 +164,11 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->publish('tasks.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
 				$childBar->unpublish('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+
+				if ($canDo->get('core.admin'))
+				{
+					$childBar->checkin('tasks.checkin')->listCheck(true);
+				}
 
 				$childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->listCheck(true)->icon('icon-unlock');
 
