@@ -66,7 +66,7 @@ class ArticlesController extends AdminController
 		$this->checkToken();
 
 		$user        = $this->app->getIdentity();
-		$ids         = $this->input->get('cid', array(), 'array');
+		$ids         = (array) $this->input->get('cid', array(), 'int');
 		$values      = array('featured' => 1, 'unfeatured' => 0);
 		$task        = $this->getTask();
 		$value       = ArrayHelper::getValue($values, $task, 0, 'int');
@@ -75,6 +75,14 @@ class ArticlesController extends AdminController
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
+			// Remove zero value resulting from input filter
+			if ($id === 0)
+			{
+				unset($ids[$i]);
+
+				continue;
+			}
+
 			if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
 			{
 				// Prune items that you can't change.

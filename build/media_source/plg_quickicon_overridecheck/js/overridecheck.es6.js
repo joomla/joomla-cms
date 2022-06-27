@@ -28,11 +28,17 @@
         }
       };
 
+      /**
+       * DO NOT use fetch() for QuickIcon requests. They must be queued.
+       *
+       * @see https://github.com/joomla/joomla-cms/issues/38001
+       */
       Joomla.request({
         url: options.ajaxUrl,
         method: 'GET',
         data: '',
         perform: true,
+        queued: true,
         onSuccess: (response) => {
           const updateInfoList = JSON.parse(response);
 

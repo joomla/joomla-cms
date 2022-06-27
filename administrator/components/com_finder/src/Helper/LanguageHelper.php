@@ -55,8 +55,14 @@ class LanguageHelper
 	public static function branchSingular($branchName)
 	{
 		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
+		$language = Factory::getApplication()->getLanguage();
 
-		return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
+		if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || JDEBUG)
+		{
+			return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
+		}
+
+		return $branchName;
 	}
 
 	/**

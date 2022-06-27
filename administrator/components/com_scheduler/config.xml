@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="task_config"
 		label="COM_SCHEDULER_CONFIG_TASKS_FIELDSET_LABEL"

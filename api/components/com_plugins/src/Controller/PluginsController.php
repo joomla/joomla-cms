@@ -63,7 +63,7 @@ class PluginsController extends ApiController
 
 		foreach ($data as $key => $value)
 		{
-			if (!in_array($key, ['enabled', 'access', 'ordering']))
+			if (!\in_array($key, ['enabled', 'access', 'ordering']))
 			{
 				throw new InvalidParameterException("Invalid parameter {$key}.", 400);
 			}
@@ -104,22 +104,22 @@ class PluginsController extends ApiController
 		$apiFilterInfo = $this->input->get('filter', [], 'array');
 		$filter        = InputFilter::getInstance();
 
-		if (array_key_exists('element', $apiFilterInfo))
+		if (\array_key_exists('element', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.element', $filter->clean($apiFilterInfo['element'], 'STRING'));
 		}
 
-		if (array_key_exists('status', $apiFilterInfo))
+		if (\array_key_exists('status', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.enabled', $filter->clean($apiFilterInfo['status'], 'INT'));
 		}
 
-		if (array_key_exists('search', $apiFilterInfo))
+		if (\array_key_exists('search', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 		}
 
-		if (array_key_exists('type', $apiFilterInfo))
+		if (\array_key_exists('type', $apiFilterInfo))
 		{
 			$this->modelState->set('filter.folder', $filter->clean($apiFilterInfo['type'], 'STRING'));
 		}
