@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
@@ -20,6 +21,6 @@ extract($displayData);
 ?>
 <div class="setoptions-form-wrapper">
 <?php foreach ($form->getFieldset('basic') as $field) : ?>
-	<?php echo $field->renderField(); ?>
+    <?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Installer\Administrator\Controller;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 
