@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
@@ -17,6 +18,6 @@ $title = $displayData['title'];
 
 ?>
 <button type="button" data-bs-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-primary">
-	<span class="icon-square" aria-hidden="true"></span>
-	<?php echo $title; ?>
+    <span class="icon-square" aria-hidden="true"></span>
+    <?php echo $title; ?>
 </button>

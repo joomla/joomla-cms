@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Administrator
  * @subpackage com_users
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Users\Administrator\Field;
-
-defined('_JEXEC') || die();
 
 /**
  * Select modules positions.
