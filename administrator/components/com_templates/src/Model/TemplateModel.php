@@ -126,7 +126,7 @@ class TemplateModel extends FormModel
 	public function getTemplateList()
 	{
 		// Get a db connection.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -166,7 +166,7 @@ class TemplateModel extends FormModel
 	public function getUpdatedList($state = false, $all = false, $cleanup = false)
 	{
 		// Get a db connection.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);
@@ -330,7 +330,7 @@ class TemplateModel extends FormModel
 	 */
 	public function publish($ids, $value, $exid)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		foreach ($ids as $id)
 		{
@@ -648,7 +648,7 @@ class TemplateModel extends FormModel
 		if (empty($this->template))
 		{
 			$pk  = (int) $this->getState('extension.id');
-			$db  = $this->getDbo();
+			$db  = $this->getDatabase();
 			$app = Factory::getApplication();
 
 			// Get the template information.
@@ -681,6 +681,9 @@ class TemplateModel extends FormModel
 			{
 				$this->template = $result;
 
+				// Client ID is not always an integer, so enforce here
+				$this->template->client_id = (int) $this->template->client_id;
+
 				if (!isset($this->template->xmldata))
 				{
 					$this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($this->template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $this->template->name);
@@ -700,7 +703,7 @@ class TemplateModel extends FormModel
 	 */
 	public function checkNewName()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$name  = $this->getState('new_name');
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
@@ -883,7 +886,7 @@ class TemplateModel extends FormModel
 		$app = Factory::getApplication();
 
 		// Codemirror or Editor None should be enabled
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__extensions as a')
@@ -1744,7 +1747,7 @@ class TemplateModel extends FormModel
 	public function getPreview()
 	{
 		$app = Factory::getApplication();
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName(['id', 'client_id']));
@@ -2209,18 +2212,18 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  array   array of id,titles of the styles
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function getAllTemplateStyles()
 	{
 		$template = $this->getTemplate();
 
-		if (!$template->xmldata->inheritable)
+		if (empty($template->xmldata->inheritable))
 		{
 			return [];
 		}
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName(['id', 'title']))
@@ -2242,7 +2245,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.1.3
 	 */
 	public function copyStyles()
 	{
@@ -2252,7 +2255,7 @@ class TemplateModel extends FormModel
 		$applyStyles = $this->getState('stylesToCopy');
 
 		// Get a db connection.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Create a new query object.
 		$query = $db->getQuery(true);

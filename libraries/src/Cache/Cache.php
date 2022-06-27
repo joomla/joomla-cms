@@ -112,7 +112,7 @@ class Cache
 	{
 		$handlers = array();
 
-		// Get an iterator and loop trough the driver classes.
+		// Get an iterator and loop through the driver classes.
 		$iterator = new \DirectoryIterator(__DIR__ . '/Storage');
 
 		/** @type  $file  \DirectoryIterator */
