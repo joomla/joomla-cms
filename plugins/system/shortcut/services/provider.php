@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.shortcut
@@ -19,30 +20,29 @@ use Joomla\Plugin\System\Shortcut\Extension\Shortcut;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$dispatcher = $container->get(DispatcherInterface::class);
-				$plugin     = new Shortcut(
-					$dispatcher,
-					(array) PluginHelper::getPlugin('system', 'shortcut')
-				);
-				$plugin->setApplication(Factory::getApplication());
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new Shortcut(
+                    $dispatcher,
+                    (array) PluginHelper::getPlugin('system', 'shortcut')
+                );
+                $plugin->setApplication(Factory::getApplication());
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };

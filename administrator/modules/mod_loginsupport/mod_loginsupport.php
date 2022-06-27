@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_logsupport
@@ -12,9 +13,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 
-if ($params->get('automatic_title'))
-{
-	$module->title = Text::_('MOD_LOGINSUPPORT_TITLE');
+if ($params->get('automatic_title')) {
+    $module->title = Text::_('MOD_LOGINSUPPORT_TITLE');
 }
 
 require ModuleHelper::getLayoutPath('mod_loginsupport', $params->get('layout', 'default'));
