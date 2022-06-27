@@ -152,6 +152,14 @@ class LanguagesModel extends ListModel
 		}
 
 		$updateSiteXML = simplexml_load_string($response->body);
+
+		if (!$updateSiteXML)
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_RETRIEVE_XML', $updateSite), 'error');
+
+			return;
+		}
+
 		$languages     = array();
 		$search        = strtolower($this->getState('filter.search'));
 
