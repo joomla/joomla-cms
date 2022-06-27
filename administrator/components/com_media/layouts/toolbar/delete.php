@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -13,13 +14,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 Factory::getDocument()->getWebAssetManager()
-	->useScript('webcomponent.toolbar-button');
+    ->useScript('webcomponent.toolbar-button');
 
 $title = Text::_('JTOOLBAR_DELETE');
 ?>
 <joomla-toolbar-button>
-	<button id="mediaDelete" class="btn btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
-		<span class="icon-times" aria-hidden="true"></span>
-		<?php echo $title; ?>
-	</button>
+    <button id="mediaDelete" class="btn btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
+        <span class="icon-times" aria-hidden="true"></span>
+        <?php echo $title; ?>
+    </button>
 </joomla-toolbar-button>

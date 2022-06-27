@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\UCM;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Factory;
@@ -55,201 +54,192 @@ use Joomla\Database\ParameterType;
  */
 class UCMType implements UCM
 {
-	/**
-	 * The UCM Type
-	 *
-	 * @var    UCMType
-	 * @since  3.1
-	 */
-	public $type;
+    /**
+     * The UCM Type
+     *
+     * @var    UCMType
+     * @since  3.1
+     */
+    public $type;
 
-	/**
-	 * The Database object
-	 *
-	 * @var    DatabaseDriver
-	 * @since  3.1
-	 */
-	protected $db;
+    /**
+     * The Database object
+     *
+     * @var    DatabaseDriver
+     * @since  3.1
+     */
+    protected $db;
 
-	/**
-	 * The alias for the content type
-	 *
-	 * @var	   string
-	 * @since  3.1
-	 */
-	protected $alias;
+    /**
+     * The alias for the content type
+     *
+     * @var    string
+     * @since  3.1
+     */
+    protected $alias;
 
-	/**
-	 * Class constructor
-	 *
-	 * @param   string               $alias        The alias for the item
-	 * @param   DatabaseDriver       $database     The database object
-	 * @param   AbstractApplication  $application  The application object
-	 *
-	 * @since   3.1
-	 */
-	public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
-	{
-		$this->db = $database ?: Factory::getDbo();
-		$app      = $application ?: Factory::getApplication();
+    /**
+     * Class constructor
+     *
+     * @param   string               $alias        The alias for the item
+     * @param   DatabaseDriver       $database     The database object
+     * @param   AbstractApplication  $application  The application object
+     *
+     * @since   3.1
+     */
+    public function __construct($alias = null, DatabaseDriver $database = null, AbstractApplication $application = null)
+    {
+        $this->db = $database ?: Factory::getDbo();
+        $app      = $application ?: Factory::getApplication();
 
-		// Make the best guess we can in the absence of information.
-		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
-		$this->type  = $this->getTypeByAlias($this->alias);
-	}
+        // Make the best guess we can in the absence of information.
+        $this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
+        $this->type  = $this->getTypeByAlias($this->alias);
+    }
 
-	/**
-	 * Get the Content Type
-	 *
-	 * @param   integer  $pk  The primary key of the alias type
-	 *
-	 * @return  object  The UCM Type data
-	 *
-	 * @since   3.1
-	 */
-	public function getType($pk = null)
-	{
-		if (!$pk)
-		{
-			return $this->getTypeByAlias($this->alias);
-		}
+    /**
+     * Get the Content Type
+     *
+     * @param   integer  $pk  The primary key of the alias type
+     *
+     * @return  object  The UCM Type data
+     *
+     * @since   3.1
+     */
+    public function getType($pk = null)
+    {
+        if (!$pk) {
+            return $this->getTypeByAlias($this->alias);
+        }
 
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('ct') . '.*')
-			->from($this->db->quoteName('#__content_types', 'ct'))
-			->where($this->db->quoteName('ct.type_id') . ' = :pk')
-			->bind(':pk', $pk, ParameterType::INTEGER);
+        $query = $this->db->getQuery(true)
+            ->select($this->db->quoteName('ct') . '.*')
+            ->from($this->db->quoteName('#__content_types', 'ct'))
+            ->where($this->db->quoteName('ct.type_id') . ' = :pk')
+            ->bind(':pk', $pk, ParameterType::INTEGER);
 
-		$this->db->setQuery($query);
+        $this->db->setQuery($query);
 
-		return $this->db->loadObject();
-	}
+        return $this->db->loadObject();
+    }
 
-	/**
-	 * Get the Content Type from the alias
-	 *
-	 * @param   string  $typeAlias  The alias for the type
-	 *
-	 * @return  object  The UCM Type data
-	 *
-	 * @since   3.2
-	 */
-	public function getTypeByAlias($typeAlias = null)
-	{
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('ct') . '.*')
-			->from($this->db->quoteName('#__content_types', 'ct'))
-			->where($this->db->quoteName('ct.type_alias') . ' = :alias')
-			->bind(':alias', $typeAlias);
+    /**
+     * Get the Content Type from the alias
+     *
+     * @param   string  $typeAlias  The alias for the type
+     *
+     * @return  object  The UCM Type data
+     *
+     * @since   3.2
+     */
+    public function getTypeByAlias($typeAlias = null)
+    {
+        $query = $this->db->getQuery(true)
+            ->select($this->db->quoteName('ct') . '.*')
+            ->from($this->db->quoteName('#__content_types', 'ct'))
+            ->where($this->db->quoteName('ct.type_alias') . ' = :alias')
+            ->bind(':alias', $typeAlias);
 
-		$this->db->setQuery($query);
+        $this->db->setQuery($query);
 
-		return $this->db->loadObject();
-	}
+        return $this->db->loadObject();
+    }
 
-	/**
-	 * Get the Content Type from the table class name
-	 *
-	 * @param   string  $tableName  The table for the type
-	 *
-	 * @return  mixed  The UCM Type data if found, false if no match is found
-	 *
-	 * @since   3.2
-	 */
-	public function getTypeByTable($tableName)
-	{
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('ct') . '.*')
-			->from($this->db->quoteName('#__content_types', 'ct'));
+    /**
+     * Get the Content Type from the table class name
+     *
+     * @param   string  $tableName  The table for the type
+     *
+     * @return  mixed  The UCM Type data if found, false if no match is found
+     *
+     * @since   3.2
+     */
+    public function getTypeByTable($tableName)
+    {
+        $query = $this->db->getQuery(true)
+            ->select($this->db->quoteName('ct') . '.*')
+            ->from($this->db->quoteName('#__content_types', 'ct'));
 
-		$this->db->setQuery($query);
-		$types = $this->db->loadObjectList();
+        $this->db->setQuery($query);
+        $types = $this->db->loadObjectList();
 
-		foreach ($types as $type)
-		{
-			$tableFromType = json_decode($type->table);
-			$tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
+        foreach ($types as $type) {
+            $tableFromType = json_decode($type->table);
+            $tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
 
-			if ($tableNameFromType === $tableName)
-			{
-				return $type;
-			}
-		}
+            if ($tableNameFromType === $tableName) {
+                return $type;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Retrieves the UCM type ID
-	 *
-	 * @param   string  $alias  The string of the type alias
-	 *
-	 * @return  mixed  The ID of the requested type or false if type is not found
-	 *
-	 * @since   3.1
-	 */
-	public function getTypeId($alias = null)
-	{
-		if (!$alias)
-		{
-			$alias = $this->alias;
-		}
+    /**
+     * Retrieves the UCM type ID
+     *
+     * @param   string  $alias  The string of the type alias
+     *
+     * @return  mixed  The ID of the requested type or false if type is not found
+     *
+     * @since   3.1
+     */
+    public function getTypeId($alias = null)
+    {
+        if (!$alias) {
+            $alias = $this->alias;
+        }
 
-		$query = $this->db->getQuery(true)
-			->select($this->db->quoteName('ct.type_id'))
-			->from($this->db->quoteName('#__content_types', 'ct'))
-			->where($this->db->quoteName('ct.type_alias') . ' = :alias')
-			->bind(':alias', $alias);
+        $query = $this->db->getQuery(true)
+            ->select($this->db->quoteName('ct.type_id'))
+            ->from($this->db->quoteName('#__content_types', 'ct'))
+            ->where($this->db->quoteName('ct.type_alias') . ' = :alias')
+            ->bind(':alias', $alias);
 
-		$this->db->setQuery($query);
+        $this->db->setQuery($query);
 
-		$id = $this->db->loadResult();
+        $id = $this->db->loadResult();
 
-		if (!$id)
-		{
-			return false;
-		}
+        if (!$id) {
+            return false;
+        }
 
-		return $id;
-	}
+        return $id;
+    }
 
-	/**
-	 * Method to expand the field mapping
-	 *
-	 * @param   boolean  $assoc  True to return an associative array.
-	 *
-	 * @return  mixed  Array or object with field mappings. Defaults to object.
-	 *
-	 * @since   3.2
-	 */
-	public function fieldmapExpand($assoc = false)
-	{
-		if (!empty($this->type->field_mappings))
-		{
-			return $this->fieldmap = json_decode($this->type->field_mappings, $assoc);
-		}
-		else
-		{
-			return false;
-		}
-	}
+    /**
+     * Method to expand the field mapping
+     *
+     * @param   boolean  $assoc  True to return an associative array.
+     *
+     * @return  mixed  Array or object with field mappings. Defaults to object.
+     *
+     * @since   3.2
+     */
+    public function fieldmapExpand($assoc = false)
+    {
+        if (!empty($this->type->field_mappings)) {
+            return $this->fieldmap = json_decode($this->type->field_mappings, $assoc);
+        } else {
+            return false;
+        }
+    }
 
-	/**
-	 * Magic method to get the name of the field mapped to a ucm field (core_something).
-	 *
-	 * @param   string  $ucmField  The name of the field in JTableCorecontent
-	 *
-	 * @return  string  The name mapped to the $ucmField for a given content type
-	 *
-	 * @since   3.2
-	 */
-	public function __get($ucmField)
-	{
-		if (!isset($this->fieldmap))
-		{
-			$this->fieldmapExpand(false);
-		}
+    /**
+     * Magic method to get the name of the field mapped to a ucm field (core_something).
+     *
+     * @param   string  $ucmField  The name of the field in JTableCorecontent
+     *
+     * @return  string  The name mapped to the $ucmField for a given content type
+     *
+     * @since   3.2
+     */
+    public function __get($ucmField)
+    {
+        if (!isset($this->fieldmap)) {
+            $this->fieldmapExpand(false);
+        }
 
-		return $this->fieldmap->common->$ucmField ?? null;
-	}
+        return $this->fieldmap->common->$ucmField ?? null;
+    }
 }
