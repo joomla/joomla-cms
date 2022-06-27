@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
