@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-\defined('_JEXEC') or die();
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use RuntimeException;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Api\View\Groups;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**

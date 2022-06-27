@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Modules\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;

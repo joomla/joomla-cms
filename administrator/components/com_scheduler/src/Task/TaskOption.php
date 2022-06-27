@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 

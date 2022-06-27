@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 /**
  * API Implementation for our dispatcher. It loads a component's administrator language files, and calls the API
  * Controller so that components that haven't implemented web services can add their own handling.

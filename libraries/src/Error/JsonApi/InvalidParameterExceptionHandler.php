@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Exception;
 use Tobscure\JsonApi\Exception\Handler\ResponseBag;
 

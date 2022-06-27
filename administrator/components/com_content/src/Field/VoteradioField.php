@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Plugin\PluginHelper;
 

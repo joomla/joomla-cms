@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Associations\Administrator\Field\Modal;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;

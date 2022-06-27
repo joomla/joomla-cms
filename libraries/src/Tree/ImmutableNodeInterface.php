@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Tree;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Interface for an immutable node class
  *

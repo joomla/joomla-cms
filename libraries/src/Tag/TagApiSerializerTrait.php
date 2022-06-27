@@ -16,8 +16,6 @@ use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
 use Tobscure\JsonApi\Resource;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Trait for implementing tags in an API Serializer
  *

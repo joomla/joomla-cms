@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Environment;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Browser class, provides capability information about the current web client.
  *
@@ -565,12 +563,11 @@ class Browser
                     $this->majorVersion = $version[1];
                     $this->minorVersion = 0;
                 }
-            }
-            /*
-             * We have to check for Edge as the first browser, because Edge has something like:
-             * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0
-             */
-            elseif (preg_match('|Edg\/([0-9.]+)|', $this->agent, $version)) {
+            } elseif (preg_match('|Edg\/([0-9.]+)|', $this->agent, $version)) {
+                /**
+                 * We have to check for Edge as the first browser, because Edge has something like:
+                 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0
+                 */
                 $this->setBrowser('edg');
 
                 list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
@@ -586,10 +583,8 @@ class Browser
                 if ($this->majorVersion == 9 && $this->minorVersion >= 80) {
                     $this->identifyBrowserVersion();
                 }
-            }
-
-            // Opera 15+
-            elseif (preg_match('/OPR[\/ ]([0-9.]+)/', $this->agent, $version)) {
+            } elseif (preg_match('/OPR[\/ ]([0-9.]+)/', $this->agent, $version)) {
+                // Opera 15+
                 $this->setBrowser('opera');
 
                 list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);

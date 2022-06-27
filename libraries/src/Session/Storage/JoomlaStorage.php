@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Session\Storage;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;

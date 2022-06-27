@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Image\Filter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Image\ImageFilter;
 
 /**

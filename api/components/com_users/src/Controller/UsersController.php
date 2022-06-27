@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;

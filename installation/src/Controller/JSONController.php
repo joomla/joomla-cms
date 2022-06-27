@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Response\JsonResponse;
 use Joomla\CMS\Language\Text;

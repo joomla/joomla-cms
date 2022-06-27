@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Api\View\Menus;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**

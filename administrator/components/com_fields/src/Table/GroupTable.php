@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

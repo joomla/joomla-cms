@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;

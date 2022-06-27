@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Quickicon\Administrator\Event;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Event\AbstractEvent;
 
 /**

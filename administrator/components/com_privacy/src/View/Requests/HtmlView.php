@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Requests;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;

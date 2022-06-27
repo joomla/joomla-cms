@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\GenericDataException;

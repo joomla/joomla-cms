@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Tag;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Helper\TagsHelper;
 
 /**

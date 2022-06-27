@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Config\Api\View\Application;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Utility;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**

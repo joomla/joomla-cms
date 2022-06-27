@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Filesystem;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Factory;

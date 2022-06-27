@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Http;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Version;
 use Joomla\Http\TransportInterface;
 

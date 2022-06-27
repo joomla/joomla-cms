@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
@@ -70,7 +68,7 @@ class ContentComponent extends MVCComponent implements
      *
      * @since   4.0.0
      */
-    const CONDITION_NAMES = [
+    public const CONDITION_NAMES = [
         self::CONDITION_PUBLISHED   => 'JPUBLISHED',
         self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
         self::CONDITION_ARCHIVED    => 'JARCHIVED',
@@ -82,28 +80,28 @@ class ContentComponent extends MVCComponent implements
      *
      * @since   4.0.0
      */
-    const CONDITION_ARCHIVED = 2;
+    public const CONDITION_ARCHIVED = 2;
 
     /**
      * The published condition
      *
      * @since   4.0.0
      */
-    const CONDITION_PUBLISHED = 1;
+    public const CONDITION_PUBLISHED = 1;
 
     /**
      * The unpublished condition
      *
      * @since   4.0.0
      */
-    const CONDITION_UNPUBLISHED = 0;
+    public const CONDITION_UNPUBLISHED = 0;
 
     /**
      * The trashed condition
      *
      * @since   4.0.0
      */
-    const CONDITION_TRASHED = -2;
+    public const CONDITION_TRASHED = -2;
 
     /**
      * Booting the extension. This is the function to set up the environment of the extension like

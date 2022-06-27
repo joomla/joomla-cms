@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\View;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\Event\OnGetApiFields;

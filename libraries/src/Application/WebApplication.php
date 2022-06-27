@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
@@ -186,9 +184,8 @@ abstract class WebApplication extends AbstractWebApplication
 
         if ($this->get('themes.base')) {
             $options['directory'] = $this->get('themes.base');
-        }
-        // Fall back to constants.
-        else {
+        } else {
+            // Fall back to constants.
             $options['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
         }
 
@@ -348,9 +345,8 @@ abstract class WebApplication extends AbstractWebApplication
         if ($siteUri !== '') {
             $uri = Uri::getInstance($siteUri);
             $path = $uri->toString(array('path'));
-        }
-        // No explicit base URI was set so we need to detect it.
-        else {
+        } else {
+            // No explicit base URI was set so we need to detect it.
             // Start with the requested URI.
             $uri = Uri::getInstance($this->get('uri.request'));
 
@@ -358,9 +354,8 @@ abstract class WebApplication extends AbstractWebApplication
             if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
                 // We aren't expecting PATH_INFO within PHP_SELF so this should work.
                 $path = \dirname($_SERVER['PHP_SELF']);
-            }
-            // Pretty much everything else should be handled with SCRIPT_NAME.
-            else {
+            } else {
+                // Pretty much everything else should be handled with SCRIPT_NAME.
                 $path = \dirname($_SERVER['SCRIPT_NAME']);
             }
         }
@@ -399,9 +394,8 @@ abstract class WebApplication extends AbstractWebApplication
                 $this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
                 $this->set('uri.media.path', $mediaURI);
             }
-        }
-        // No explicit media URI was set, build it dynamically from the base uri.
-        else {
+        } else {
+            // No explicit media URI was set, build it dynamically from the base uri.
             $this->set('uri.media.full', $this->get('uri.base.full') . 'media/');
             $this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
         }

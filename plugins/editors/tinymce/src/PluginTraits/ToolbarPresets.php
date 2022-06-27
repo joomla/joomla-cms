@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-\defined('_JEXEC') or die();
-
 /**
  * The ToolbarPresets trait holds the default presets for the toolbar.
  *

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Updater;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;

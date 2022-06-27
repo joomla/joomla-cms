@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Image;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Class to manipulate an image.
  *
@@ -22,55 +20,55 @@ class Image
      * @const  integer
      * @since  2.5.0
      */
-    const SCALE_FILL = 1;
+    public const SCALE_FILL = 1;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    const SCALE_INSIDE = 2;
+    public const SCALE_INSIDE = 2;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    const SCALE_OUTSIDE = 3;
+    public const SCALE_OUTSIDE = 3;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    const CROP = 4;
+    public const CROP = 4;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    const CROP_RESIZE = 5;
+    public const CROP_RESIZE = 5;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    const SCALE_FIT = 6;
+    public const SCALE_FIT = 6;
 
     /**
      * @const  string
      * @since  3.4.2
      */
-    const ORIENTATION_LANDSCAPE = 'landscape';
+    public const ORIENTATION_LANDSCAPE = 'landscape';
 
     /**
      * @const  string
      * @since  3.4.2
      */
-    const ORIENTATION_PORTRAIT = 'portrait';
+    public const ORIENTATION_PORTRAIT = 'portrait';
 
     /**
      * @const  string
      * @since  3.4.2
      */
-    const ORIENTATION_SQUARE = 'square';
+    public const ORIENTATION_SQUARE = 'square';
 
     /**
      * @var    resource  The image resource handle.

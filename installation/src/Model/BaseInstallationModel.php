@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 

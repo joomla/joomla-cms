@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
@@ -1547,9 +1545,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         if ($delta < 0) {
             $query->where($quotedOrderingField . ' < ' . (int) $this->$orderingField)
                 ->order($quotedOrderingField . ' DESC');
-        }
-        // If the movement delta is positive move the row down.
-        elseif ($delta > 0) {
+        } elseif ($delta > 0) {
+            // If the movement delta is positive move the row down.
             $query->where($quotedOrderingField . ' > ' . (int) $this->$orderingField)
                 ->order($quotedOrderingField . ' ASC');
         }
@@ -1671,9 +1668,8 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             foreach ($this->_tbl_keys as $key) {
                 if ($this->$key) {
                     $pk[$key] = $this->$key;
-                }
-                // We don't have a full primary key - return false
-                else {
+                } else {
+                    // We don't have a full primary key - return false
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                     return false;

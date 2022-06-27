@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Updater;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
@@ -29,7 +27,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    const STABILITY_DEV = 0;
+    public const STABILITY_DEV = 0;
 
     /**
      * Alpha versions (work in progress, things are likely to be broken)
@@ -37,7 +35,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    const STABILITY_ALPHA = 1;
+    public const STABILITY_ALPHA = 1;
 
     /**
      * Beta versions (major functionality in place, show-stopper bugs are likely to be present)
@@ -45,7 +43,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    const STABILITY_BETA = 2;
+    public const STABILITY_BETA = 2;
 
     /**
      * Release Candidate versions (almost stable, minor bugs might be present)
@@ -53,7 +51,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    const STABILITY_RC = 3;
+    public const STABILITY_RC = 3;
 
     /**
      * Stable versions (production quality code)
@@ -61,7 +59,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    const STABILITY_STABLE = 4;
+    public const STABILITY_STABLE = 4;
 
     /**
      * Updater instance container.

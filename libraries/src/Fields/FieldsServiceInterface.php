@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Fields;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * The fields service.
  *

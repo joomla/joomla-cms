@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -207,9 +205,8 @@ class Menu extends Nested
                     || ($this->language === '*' && $this->id == 0 && $table->load($itemSearch))
                 ) {
                     $error = true;
-                }
-                // When editing an item with All language check if there are more menu items with the same alias in any language.
-                elseif ($this->language === '*' && $this->id != 0) {
+                } elseif ($this->language === '*' && $this->id != 0) {
+                    // When editing an item with All language check if there are more menu items with the same alias in any language.
                     $id    = (int) $this->id;
                     $query = $db->getQuery(true)
                         ->select('id')
@@ -228,9 +225,8 @@ class Menu extends Nested
                         $error = true;
                     }
                 }
-            }
-            // Check if the alias already exists. For monolingual site.
-            else {
+            } else {
+                // Check if the alias already exists. For monolingual site.
                 // If there is a menu item at the same level with the same alias (in any language).
                 if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)) {
                     $error = true;

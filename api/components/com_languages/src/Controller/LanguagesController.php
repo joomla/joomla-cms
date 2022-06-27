@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Languages\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\ApiController;
 
 /**

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Media\Administrator\Provider;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 

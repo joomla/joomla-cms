@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
@@ -50,7 +47,7 @@ class Task implements LoggerAwareInterface
      *
      * @since 4.1.0
      */
-    const STATE_ENABLED = 1;
+    public const STATE_ENABLED = 1;
 
     /**
      * Enumerated state for disabled tasks.

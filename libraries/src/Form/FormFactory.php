@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('_JEXEC') or die;
-
 use Joomla\Database\DatabaseAwareTrait;
 
 /**

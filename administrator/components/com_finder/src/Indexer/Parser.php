@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 

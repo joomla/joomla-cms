@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use Joomla\Event\Event;
 use Joomla\Event\Event as BaseEvent;

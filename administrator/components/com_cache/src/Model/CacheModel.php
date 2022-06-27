@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Cache\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;

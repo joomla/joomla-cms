@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Admin\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -698,9 +696,8 @@ class SysinfoModel extends BaseDatabaseModel
                     // 3cols
                     if (preg_match($p2, $val, $matches)) {
                         $r[$name][trim($matches[1])] = [trim($matches[2]), trim($matches[3]),];
-                    }
-                    // 2cols
-                    elseif (preg_match($p3, $val, $matches)) {
+                    } elseif (preg_match($p3, $val, $matches)) {
+                        // 2cols
                         $r[$name][trim($matches[1])] = trim($matches[2]);
                     }
                 }

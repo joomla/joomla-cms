@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Event\CoreEventAware;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;

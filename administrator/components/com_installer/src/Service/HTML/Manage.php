@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Service\HTML;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**

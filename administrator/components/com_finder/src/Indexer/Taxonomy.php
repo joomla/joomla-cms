@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Component\Finder\Administrator\Table\MapTable;

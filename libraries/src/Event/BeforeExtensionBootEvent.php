@@ -11,8 +11,6 @@ namespace Joomla\CMS\Event;
 
 use Joomla\DI\Container;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Event class for representing the extensions's `onBeforeExtensionBoot` event
  *

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installation\Form\Field\Installation;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 

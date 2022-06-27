@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Stats\Field;
 
-\defined('_JEXEC') or die;
-
 /**
  * Unique ID Field class for the Stats Plugin.
  *

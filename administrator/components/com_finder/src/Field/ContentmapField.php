@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;

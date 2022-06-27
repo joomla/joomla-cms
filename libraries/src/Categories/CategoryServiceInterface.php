@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Categories;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\Form;
 
 /**

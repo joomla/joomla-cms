@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\Removal;
 
-\defined('_JEXEC') or die;
-
 /**
  * Data object communicating the status of whether the data for an information request can be removed.
  *

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Feed\Parser;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedLink;

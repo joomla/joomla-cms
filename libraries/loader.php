@@ -5,6 +5,8 @@
  *
  * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
+
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -188,9 +190,8 @@ abstract class JLoader
             // Handle special case for helper classes.
             if ($class === 'helper') {
                 $class = ucfirst(array_pop($parts)) . ucfirst($class);
-            }
-            // Standard class.
-            else {
+            } else {
+                // Standard class.
                 $class = ucfirst($class);
             }
 
@@ -204,12 +205,11 @@ abstract class JLoader
                     self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
                     $success = true;
                 }
-            }
-            /*
-             * If we are not importing a library from the Joomla namespace directly include the
-             * file since we cannot assert the file/folder naming conventions.
-             */
-            else {
+            } else {
+                /**
+                 * If we are not importing a library from the Joomla namespace directly include the
+                 * file since we cannot assert the file/folder naming conventions.
+                 */
                 // If the file exists attempt to include it.
                 if (is_file($base . '/' . $path . '.php')) {
                     $success = (bool) include_once $base . '/' . $path . '.php';
@@ -329,9 +329,8 @@ abstract class JLoader
         // If the prefix is not yet registered or we have an explicit reset flag then set set the path.
         if ($reset || !isset(self::$prefixes[$prefix])) {
             self::$prefixes[$prefix] = array($path);
-        }
-        // Otherwise we want to simply add the path to the prefix.
-        else {
+        } else {
+            // Otherwise we want to simply add the path to the prefix.
             if ($prepend) {
                 array_unshift(self::$prefixes[$prefix], $path);
             } else {
@@ -408,10 +407,8 @@ abstract class JLoader
         // If the namespace is not yet registered or we have an explicit reset flag then set the path.
         if ($reset || !isset(self::$namespaces[$namespace])) {
             self::$namespaces[$namespace] = array($path);
-        }
-
-        // Otherwise we want to simply add the path to the namespace.
-        else {
+        } else {
+            // Otherwise we want to simply add the path to the namespace.
             if ($prepend) {
                 array_unshift(self::$namespaces[$namespace], $path);
             } else {
@@ -489,9 +486,8 @@ abstract class JLoader
         if ($pos !== false) {
             $classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
             $className = substr($class, $pos + 1);
-        }
-        // If not, no need to parse path.
-        else {
+        } else {
+            // If not, no need to parse path.
             $classPath = null;
             $className = $class;
         }

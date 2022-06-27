@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Banners\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Environment\Browser;

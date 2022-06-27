@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Menu;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Menu class.
  *

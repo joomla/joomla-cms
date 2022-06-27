@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
@@ -335,9 +333,8 @@ abstract class Factory
             if (!($instance instanceof User)) {
                 $instance = User::getInstance();
             }
-        }
-        // Check if we have a string as the id or if the numeric id is the current instance
-        elseif (!($instance instanceof User) || \is_string($id) || $instance->id !== $id) {
+        } elseif (!($instance instanceof User) || \is_string($id) || $instance->id !== $id) {
+            // Check if we have a string as the id or if the numeric id is the current instance
             $instance = User::getInstance($id);
         }
 

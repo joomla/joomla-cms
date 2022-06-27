@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Behaviour\Versionable\Extension;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Table\AfterStoreEvent;
 use Joomla\CMS\Event\Table\BeforeDeleteEvent;

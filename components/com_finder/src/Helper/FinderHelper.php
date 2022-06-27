@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Site\Helper;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Component\Finder\Administrator\Indexer\Query;

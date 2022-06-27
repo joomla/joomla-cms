@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Login\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

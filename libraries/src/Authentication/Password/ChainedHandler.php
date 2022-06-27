@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Authentication\Password;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Authentication\Password\HandlerInterface;
 
 /**

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Router;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface for site router aware classes.
  *

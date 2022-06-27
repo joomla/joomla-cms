@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\Hotfix;
 
-// Protect from unauthorized access
-defined('_JEXEC') or die();
-
 use Assert\Assertion;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;

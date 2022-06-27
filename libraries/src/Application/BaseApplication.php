@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Input\Input;
 use Joomla\Event\DispatcherAwareInterface;

@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Scheduler;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

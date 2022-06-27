@@ -88,10 +88,8 @@ if ($readonly) {
     } else {
         $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
     }
-}
-
-// Create a regular list.
-else {
+} else {
+    // Create a regular list.
     $html[] = HTMLHelper::_(
         'select.groupedlist',
         $groups,

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Install;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;

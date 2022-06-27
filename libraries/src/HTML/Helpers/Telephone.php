@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * HTML helper class for rendering telephone numbers.
  *

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Languages\Api\View\Overrides;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**

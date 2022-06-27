@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
@@ -424,9 +421,8 @@ class TaskModel extends AdminModel
         if ($options['id'] > 0) {
             $lockQuery->where($db->quoteName('id') . ' = :taskId')
                 ->bind(':taskId', $options['id'], ParameterType::INTEGER);
-        }
-        // Pick from the front of the task queue if no 'id' is specified
-        else {
+        } else {
+            // Pick from the front of the task queue if no 'id' is specified
             // Get the id of the next task in the task queue
             $idQuery = $db->getQuery(true)
                 ->from($db->quoteName(self::TASK_TABLE))

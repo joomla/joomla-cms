@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Modules;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -143,9 +141,8 @@ class HtmlView extends BaseHtmlView
                 unset($this->activeFilters['language']);
                 $this->filterForm->removeField('language', 'filter');
             }
-        }
-        // If in modal layout.
-        else {
+        } else {
+            // If in modal layout.
             // Client id selector should not exist.
             $this->filterForm->removeField('client_id', '');
 

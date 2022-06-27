@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Logged\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;

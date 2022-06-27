@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Toolbar;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface for creating toolbar objects
  *

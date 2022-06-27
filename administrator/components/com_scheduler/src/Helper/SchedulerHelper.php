@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;

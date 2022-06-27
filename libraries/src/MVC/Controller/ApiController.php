@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;

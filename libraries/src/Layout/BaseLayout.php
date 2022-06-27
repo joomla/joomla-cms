@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Layout;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Registry\Registry;
 
 /**
@@ -59,9 +57,8 @@ class BaseLayout implements LayoutInterface
         // Received Registry
         if ($options instanceof Registry) {
             $this->options = $options;
-        }
-        // Received array
-        elseif (\is_array($options)) {
+        } elseif (\is_array($options)) {
+            // Received array
             $this->options = new Registry($options);
         } else {
             $this->options = new Registry();

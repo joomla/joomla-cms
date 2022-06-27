@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\View\Event;
 
-\defined('_JEXEC') or die;
-
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
@@ -26,14 +24,14 @@ final class OnGetApiFields extends AbstractImmutableEvent
      *
      * @since  4.0.0
      */
-    const LIST = 'list';
+    public const LIST = 'list';
 
     /**
      * List of types of view supported
      *
      * @since  4.0.0
      */
-    const ITEM = 'item';
+    public const ITEM = 'item';
 
     /**
      * List of names of properties that will be rendered as relations

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Tags\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;

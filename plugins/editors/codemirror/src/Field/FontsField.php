@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\Editors\CodeMirror\Field;
 
-// No direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 

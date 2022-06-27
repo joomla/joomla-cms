@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -87,10 +85,8 @@ class IndexerController extends BaseController
 
             // Send the response.
             static::sendResponse($state);
-        }
-
-        // Catch an exception and return the response.
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
+            // Catch an exception and return the response.
             static::sendResponse($e);
         }
     }
@@ -185,10 +181,8 @@ class IndexerController extends BaseController
 
             // Send the response.
             static::sendResponse($state);
-        }
-
-        // Catch an exception and return the response.
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
+            // Catch an exception and return the response.
             // Send the response.
             static::sendResponse($e);
         }
@@ -231,10 +225,8 @@ class IndexerController extends BaseController
 
             // Send the response.
             static::sendResponse($state);
-        }
-
-        // Catch an exception and return the response.
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
+            // Catch an exception and return the response.
             static::sendResponse($e);
         }
     }

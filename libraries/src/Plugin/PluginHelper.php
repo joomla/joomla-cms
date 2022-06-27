@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Plugin;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;

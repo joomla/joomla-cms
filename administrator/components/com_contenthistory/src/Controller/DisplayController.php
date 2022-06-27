@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**

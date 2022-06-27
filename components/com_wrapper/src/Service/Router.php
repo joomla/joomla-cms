@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Wrapper\Site\Service;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\Router\RouterBase;
 
 /**

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Helper;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Factory to load helper classes.
  *

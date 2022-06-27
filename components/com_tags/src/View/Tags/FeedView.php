@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Tags\Site\View\Tags;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;

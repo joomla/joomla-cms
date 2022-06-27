@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Tag;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Access to component specific tagging information.
  *

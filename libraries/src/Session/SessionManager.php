@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Session;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Manager for interacting with the session handler to perform updates on sessions.
  *

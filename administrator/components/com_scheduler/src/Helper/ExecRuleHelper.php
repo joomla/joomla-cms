@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Cron\CronExpression;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;

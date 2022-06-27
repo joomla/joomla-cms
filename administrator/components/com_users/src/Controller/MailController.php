@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 

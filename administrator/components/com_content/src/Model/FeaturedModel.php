@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 /**
  * Methods supporting a list of featured article records.
  *

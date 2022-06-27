@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -72,9 +70,8 @@ class VcfView extends AbstractView
                 $middlename = (count($namearray) > 1) ? $namearray[1] : '';
                 $card_name = $firstname . ' ' . ($middlename ? $middlename . ' ' : '') . $card_name;
             }
-        }
-        // "Firstname Middlename Lastname" format support
-        else {
+        } else {
+            // "Firstname Middlename Lastname" format support
             $namearray = explode(' ', $item->name);
 
             $middlename = (count($namearray) > 2) ? $namearray[1] : '';

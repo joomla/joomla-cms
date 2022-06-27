@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -143,27 +141,24 @@ class ItemsModel extends ListModel
             $app->setUserState($this->context . '.menutype', '');
             $this->setState('menutypetitle', '');
             $this->setState('menutypeid', '');
-        }
-        // Special menu types, if selected explicitly, will be allowed as a filter
-        elseif ($menuType == 'main') {
+        } elseif ($menuType == 'main') {
+            // Special menu types, if selected explicitly, will be allowed as a filter
             // Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
             $app->input->set('client_id', 1);
 
             $app->setUserState($this->context . '.menutype', $menuType);
             $this->setState('menutypetitle', ucfirst($menuType));
             $this->setState('menutypeid', -1);
-        }
-        // Get the menutype object with appropriate checks.
-        elseif ($cMenu = $this->getMenu($menuType, true)) {
+        } elseif ($cMenu = $this->getMenu($menuType, true)) {
+            // Get the menutype object with appropriate checks.
             // Adjust client_id to match the menutype. This is safe as client_id was not changed in this request.
             $app->input->set('client_id', $cMenu->client_id);
 
             $app->setUserState($this->context . '.menutype', $menuType);
             $this->setState('menutypetitle', $cMenu->title);
             $this->setState('menutypeid', $cMenu->id);
-        }
-        // This menutype does not exist, leave client id unchanged but reset menutype and pagination
-        else {
+        } else {
+            // This menutype does not exist, leave client id unchanged but reset menutype and pagination
             $menuType = '';
 
             $app->input->set('limitstart', 0);
@@ -408,10 +403,8 @@ class ItemsModel extends ListModel
                 'OR'
             )
                 ->bind([':parentId1', ':parentId2'], $parentId, ParameterType::INTEGER);
-        }
-
-        // Filter on the level.
-        elseif ($level) {
+        } elseif ($level) {
+            // Filter on the level.
             $query->where($db->quoteName('a.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }
@@ -454,14 +447,12 @@ class ItemsModel extends ListModel
                     $query->where(0);
                 }
             }
-        }
-        // Default behavior => load all items from a specific menu
-        elseif (strlen($menuType)) {
+        } elseif (strlen($menuType)) {
+            // Default behavior => load all items from a specific menu
             $query->where($db->quoteName('a.menutype') . ' = :menuType')
                 ->bind(':menuType', $menuType);
-        }
-        // Empty menu type => error
-        else {
+        } else {
+            // Empty menu type => error
             $query->where('1 != 1');
         }
 
@@ -545,9 +536,8 @@ class ItemsModel extends ListModel
                 Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
                 return false;
-            }
-            // Check if menu type is valid against ACL.
-            elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+            } elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+                // Check if menu type is valid against ACL.
                 Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 
                 return false;

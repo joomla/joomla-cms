@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Http\Transport;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Composer\CaBundle\CaBundle;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
@@ -53,9 +51,8 @@ class StreamTransport extends AbstractTransport implements TransportInterface
             // If the data is a scalar value simply add it to the stream context options.
             if (is_scalar($data)) {
                 $options['content'] = $data;
-            }
-            // Otherwise we need to encode the value first.
-            else {
+            } else {
+                // Otherwise we need to encode the value first.
                 $options['content'] = http_build_query($data);
             }
 

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Messages\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Messages\Administrator\Helper\MessagesHelper;
 

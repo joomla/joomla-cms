@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 

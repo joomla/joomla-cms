@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -155,9 +153,8 @@ class HtmlView extends BaseHtmlView
             // Load layout from active query (in case it is an alternative menu item)
             if (isset($active->query['layout'])) {
                 $this->setLayout($active->query['layout']);
-            }
-            // Check for alternative layout of contact
-            elseif ($layout = $item->params->get('contact_layout')) {
+            } elseif ($layout = $item->params->get('contact_layout')) {
+                // Check for alternative layout of contact
                 $this->setLayout($layout);
             }
 

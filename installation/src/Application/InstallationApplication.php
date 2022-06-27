@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Application;
 
-\defined('_JEXEC') or die;
-
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
@@ -356,9 +354,8 @@ final class InstallationApplication extends CMSApplication
                     $langfiles[$clientName][] = $lang->element;
                 }
             }
-        }
-        // Read the folder names in the site and admin area.
-        else {
+        } else {
+            // Read the folder names in the site and admin area.
             $langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
             $langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
         }

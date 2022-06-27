@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Api\View\Users;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;

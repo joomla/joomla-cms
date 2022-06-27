@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;

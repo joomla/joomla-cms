@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\View\Tasks;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;

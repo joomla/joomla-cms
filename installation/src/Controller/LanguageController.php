@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;

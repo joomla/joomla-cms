@@ -18,8 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 
-\defined('_JEXEC') or die;
-
 /**
  * Users component helper.
  *

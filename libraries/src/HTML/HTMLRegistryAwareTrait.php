@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\HTML;
 
-\defined('_JEXEC') or die;
-
 /**
  * Defines the trait for a HTML Registry aware class.
  *

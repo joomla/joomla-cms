@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Site\View\Confirm;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;

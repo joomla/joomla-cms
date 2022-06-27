@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;

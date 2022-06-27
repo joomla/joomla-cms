@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 /**
  * Banner Helper Class
  *

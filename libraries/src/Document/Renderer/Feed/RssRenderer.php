@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;

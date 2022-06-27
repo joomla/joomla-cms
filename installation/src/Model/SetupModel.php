@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
@@ -253,9 +251,8 @@ class SetupModel extends BaseInstallationModel
         // Load the selected language
         if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR)) {
             $lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
-        }
-        // Pre-load en-GB in case the chosen language files do not exist.
-        else {
+        } else {
+            // Pre-load en-GB in case the chosen language files do not exist.
             $lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
         }
 

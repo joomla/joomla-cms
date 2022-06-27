@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 

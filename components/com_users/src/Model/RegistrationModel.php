@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
@@ -197,9 +195,8 @@ class RegistrationModel extends FormModel
                     }
                 }
             }
-        }
-        // Admin activation is on and admin is activating the account
-        elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0)) {
+        } elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0)) {
+            // Admin activation is on and admin is activating the account
             $user->set('activation', '');
             $user->set('block', '0');
 
@@ -283,9 +280,8 @@ class RegistrationModel extends FormModel
                             $this->data->$k->$key = $val;
                         }
                     }
-                }
-                // Only merge the field if it exists in the form.
-                elseif ($form->getField($k) !== false) {
+                } elseif ($form->getField($k) !== false) {
+                    // Only merge the field if it exists in the form.
                     $this->data->$k = $v;
                 }
             }

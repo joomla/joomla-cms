@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\WebAsset\AssetItem;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\WebAsset\WebAssetItem;
 

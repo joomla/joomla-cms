@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 /**
  * The TaskOptions class.
  * Used as the subject argument for the `onTaskOptionsList` event, plugins that support tasks must add them to the

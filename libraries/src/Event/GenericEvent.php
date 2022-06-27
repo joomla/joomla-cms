@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * This class gives a concrete implementation of the AbstractEvent class.
  *

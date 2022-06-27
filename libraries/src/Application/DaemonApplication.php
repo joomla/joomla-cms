@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -367,9 +365,8 @@ abstract class DaemonApplication extends CliApplication
                 // Execute the main application logic.
                 $this->doExecute();
             }
-        }
-        // We were not able to daemonize the application so log the failure and die gracefully.
-        else {
+        } else {
+            // We were not able to daemonize the application so log the failure and die gracefully.
             Log::add('Starting ' . $this->name . ' failed', Log::INFO);
         }
 
@@ -566,9 +563,8 @@ abstract class DaemonApplication extends CliApplication
             // Add the log entry for debugging purposes and exit gracefully.
             Log::add('Ending ' . $this->name . ' parent process', Log::DEBUG);
             $this->close();
-        }
-        // We are in the forked child process.
-        else {
+        } else {
+            // We are in the forked child process.
             // Setup some protected values.
             $this->exiting = false;
             $this->running = true;
@@ -594,13 +590,11 @@ abstract class DaemonApplication extends CliApplication
         // If the fork failed, throw an exception.
         if ($pid === -1) {
             throw new \RuntimeException('The process could not be forked.');
-        }
-        // Update the process id for the child.
-        elseif ($pid === 0) {
+        } elseif ($pid === 0) {
+            // Update the process id for the child.
             $this->processId = (int) posix_getpid();
-        }
-        // Log the fork in the parent.
-        else {
+        } else {
+            // Log the fork in the parent.
             // Log the fork.
             Log::add('Process forked ' . $pid, Log::DEBUG);
         }
@@ -677,9 +671,8 @@ abstract class DaemonApplication extends CliApplication
         // If we are already exiting, chill.
         if ($this->exiting) {
             return;
-        }
-        // If not, now we are.
-        else {
+        } else {
+            // If not, now we are.
             $this->exiting = true;
         }
 
@@ -703,9 +696,8 @@ abstract class DaemonApplication extends CliApplication
             // If we are supposed to restart the daemon we need to execute the same command.
             if ($restart) {
                 $this->close(exec(implode(' ', $GLOBALS['argv']) . ' > /dev/null &'));
-            }
-            // If we are not supposed to restart the daemon let's just kill -9.
-            else {
+            } else {
+                // If we are not supposed to restart the daemon let's just kill -9.
                 passthru('kill -9 ' . $pid);
                 $this->close();
             }

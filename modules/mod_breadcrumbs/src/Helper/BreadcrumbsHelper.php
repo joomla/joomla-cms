@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Breadcrumbs\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;

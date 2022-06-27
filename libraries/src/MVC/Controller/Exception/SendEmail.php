@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Controller\Exception;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Send email Exception
  *

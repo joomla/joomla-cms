@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Language\Multilanguage;
 

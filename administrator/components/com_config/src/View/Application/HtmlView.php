@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Config\Administrator\View\Application;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

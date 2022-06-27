@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
-
 use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge;
 use Joomla\CMS\Factory;

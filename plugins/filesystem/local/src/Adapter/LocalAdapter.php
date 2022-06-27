@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Filesystem\Local\Adapter;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;

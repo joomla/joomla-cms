@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Event;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 

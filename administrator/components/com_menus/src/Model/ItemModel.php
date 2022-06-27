@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -1334,23 +1332,19 @@ class ItemModel extends AdminModel
                 // If first is chosen make the item the first child of the selected parent.
                 if ($data['menuordering'] == -1) {
                     $table->setLocation($data['parent_id'], 'first-child');
-                }
-                // If last is chosen make it the last child of the selected parent.
-                elseif ($data['menuordering'] == -2) {
+                } elseif ($data['menuordering'] == -2) {
+                    // If last is chosen make it the last child of the selected parent.
                     $table->setLocation($data['parent_id'], 'last-child');
-                }
-                // Don't try to put an item after itself. All other ones put after the selected item.
-                // $data['id'] is empty means it's a save as copy
-                elseif ($data['menuordering'] && $table->id != $data['menuordering'] || empty($data['id'])) {
+                } elseif ($data['menuordering'] && $table->id != $data['menuordering'] || empty($data['id'])) {
+                    // Don't try to put an item after itself. All other ones put after the selected item.
+                    // $data['id'] is empty means it's a save as copy
                     $table->setLocation($data['menuordering'], 'after');
-                }
-                // \Just leave it where it is if no change is made.
-                elseif ($data['menuordering'] && $table->id == $data['menuordering']) {
+                } elseif ($data['menuordering'] && $table->id == $data['menuordering']) {
+                    // \Just leave it where it is if no change is made.
                     unset($data['menuordering']);
                 }
-            }
-            // Set the new parent id if parent id not matched and put in last position
-            else {
+            } else {
+                // Set the new parent id if parent id not matched and put in last position
                 $table->setLocation($data['parent_id'], 'last-child');
             }
 
@@ -1364,9 +1358,8 @@ class ItemModel extends AdminModel
                 $db->setQuery($query);
                 $children = (array) $db->loadColumn();
             }
-        }
-        // We have a new item, so it is not a change.
-        else {
+        } else {
+            // We have a new item, so it is not a change.
             $menuType = $this->getMenuType($data['menutype']);
 
             $data['client_id'] = $menuType->client_id;

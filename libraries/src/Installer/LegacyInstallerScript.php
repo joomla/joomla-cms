@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installer;
 
-\defined('_JEXEC') or die;
-
 /**
  * Legacy installer script which delegates the methods to the internal instance when possible.
  *

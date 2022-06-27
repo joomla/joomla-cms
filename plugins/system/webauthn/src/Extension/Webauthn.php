@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\Extension;
 
-// Protect from unauthorized access
-defined('_JEXEC') or die();
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Event\CoreEventAware;

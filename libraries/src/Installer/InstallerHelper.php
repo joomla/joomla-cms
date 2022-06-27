@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Installer;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Archive\Archive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -36,7 +34,7 @@ abstract class InstallerHelper
      * @var    integer
      * @since  3.9.0
      */
-    const HASH_NOT_VALIDATED = 0;
+    public const HASH_NOT_VALIDATED = 0;
 
     /**
      * Hash validated identifier.
@@ -44,7 +42,7 @@ abstract class InstallerHelper
      * @var    integer
      * @since  3.9.0
      */
-    const HASH_VALIDATED = 1;
+    public const HASH_VALIDATED = 1;
 
     /**
      * Hash not provided identifier.
@@ -52,7 +50,7 @@ abstract class InstallerHelper
      * @var    integer
      * @since  3.9.0
      */
-    const HASH_NOT_PROVIDED = 2;
+    public const HASH_NOT_PROVIDED = 2;
 
     /**
      * Downloads a package

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -177,27 +175,24 @@ class HtmlView extends BaseHtmlView
         // Fresh update, show it
         if ($this->getLayout() == 'complete') {
             // Complete message, nothing to do here
-        }
-        // There is an update for the updater itself. So we have to update it first
-        elseif ($this->selfUpdateAvailable) {
+        } elseif ($this->selfUpdateAvailable) {
+            // There is an update for the updater itself. So we have to update it first
             $this->setLayout('selfupdate');
         } elseif (!$hasDownload || !$hasUpdate) {
             // Could be that we have a download file but no update, so we offer a re-install
             if ($hasDownload) {
                 // We can reinstall if we have a URL but no update
                 $this->setLayout('reinstall');
-            }
-            // No download available
-            else {
+            } else {
+                // No download available
                 if ($hasUpdate) {
                     $this->messagePrefix = '_NODOWNLOAD';
                 }
 
                 $this->setLayout('noupdate');
             }
-        }
-        // Here we have now two options: preupdatecheck or update
-        elseif ($this->getLayout() != 'update' && ($isCritical || $this->shouldDisplayPreUpdateCheck())) {
+        } elseif ($this->getLayout() != 'update' && ($isCritical || $this->shouldDisplayPreUpdateCheck())) {
+            // Here we have now two options: preupdatecheck or update
             $this->setLayout('preupdatecheck');
         } else {
             $this->setLayout('update');

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Menu;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface defining a factory which can create Menu objects
  *

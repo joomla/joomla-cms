@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
@@ -247,10 +245,8 @@ class Form
         // If the element exists and the attribute exists for the field return the attribute value.
         if (($element instanceof \SimpleXMLElement) && \strlen((string) $element[$attribute])) {
             return (string) $element[$attribute];
-        }
-
-        // Otherwise return the given default value.
-        else {
+        } else {
+            // Otherwise return the given default value.
             return $default;
         }
     }
@@ -272,10 +268,8 @@ class Form
         // Get all of the field elements in the fieldset.
         if ($set) {
             $elements = $this->findFieldsByFieldset($set);
-        }
-
-        // Get all fields.
-        else {
+        } else {
+            // Get all fields.
             $elements = $this->findFieldsByGroup();
         }
 
@@ -359,10 +353,8 @@ class Form
                     // Add the fieldset object to the list.
                     $fieldsets[$fieldset->name] = $fieldset;
                 }
-            }
-
-            // Must be dealing with a fieldset attribute.
-            else {
+            } else {
+                // Must be dealing with a fieldset attribute.
                 // Only create it if it doesn't already exist.
                 if (empty($fieldsets[(string) $set])) {
                     // Attempt to get the fieldset element for data (throughout the entire form document).
@@ -371,10 +363,8 @@ class Form
                     // If no element was found, build a very simple fieldset object.
                     if (empty($tmp)) {
                         $fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
-                    }
-
-                    // Build the fieldset object from the element.
-                    else {
+                    } else {
+                        // Build the fieldset object from the element.
                         $fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
 
                         foreach ($tmp[0]->attributes() as $name => $value) {
@@ -611,10 +601,8 @@ class Form
                 $this->syncPaths();
 
                 return true;
-            }
-
-            // Create a root element for the form.
-            else {
+            } else {
+                // Create a root element for the form.
                 $this->xml = new \SimpleXMLElement('<form></form>');
             }
         }
@@ -900,10 +888,8 @@ class Form
         // If the element doesn't exist return false.
         if (!($element instanceof \SimpleXMLElement)) {
             return false;
-        }
-
-        // Otherwise set the attribute and return true.
-        else {
+        } else {
+            // Otherwise set the attribute and return true.
             $element[$attribute] = $value;
 
             // Synchronize any paths found in the load.
@@ -1266,10 +1252,8 @@ class Form
                 // If we find an ancestor fields element with a group name then it isn't what we want.
                 if ($field->xpath('ancestor::fields[@name]')) {
                     continue;
-                }
-
-                // Found it!
-                else {
+                } else {
+                    // Found it!
                     $element = &$field;
                     break;
                 }
@@ -1339,10 +1323,8 @@ class Form
                     // If we also want fields in nested groups then just merge the arrays.
                     if ($nested) {
                         $fields = array_merge($fields, $tmp);
-                    }
-
-                    // If we want to exclude nested groups then we need to check each field.
-                    else {
+                    } else {
+                        // If we want to exclude nested groups then we need to check each field.
                         $groupNames = explode('.', $group);
 
                         foreach ($tmp as $field) {

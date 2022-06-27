@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Categories\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -272,9 +270,8 @@ class CategoryeditField extends ListField
                     unset($options[$i]);
                 }
             }
-        }
-        // If you have an existing category id things are more complex.
-        else {
+        } else {
+            // If you have an existing category id things are more complex.
             /*
              * If you are only allowed to edit in this category but not edit.state, you should not get any
              * option to change the category parent for a category or the category for a content item,

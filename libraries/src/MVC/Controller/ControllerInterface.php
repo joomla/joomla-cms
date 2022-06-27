@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Joomla Platform CMS Interface
  *

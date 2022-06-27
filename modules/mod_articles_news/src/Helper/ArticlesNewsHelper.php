@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\ArticlesNews\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;

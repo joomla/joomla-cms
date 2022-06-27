@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Changelog;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Modules\Site\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;

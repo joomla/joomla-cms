@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -519,9 +517,8 @@ class ItemController extends FormController
 
                 $app->setUserState('com_menus.edit.item.link', 'index.php?' . Uri::buildQuery((array) $type->request));
             }
-        }
-        // If the type is alias you just need the item id from the menu item referenced.
-        elseif ($title == 'alias') {
+        } elseif ($title == 'alias') {
+            // If the type is alias you just need the item id from the menu item referenced.
             $app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
         }
 

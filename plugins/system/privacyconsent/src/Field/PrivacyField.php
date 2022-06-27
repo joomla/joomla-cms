@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\PrivacyConsent\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Multilanguage;

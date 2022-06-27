@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 

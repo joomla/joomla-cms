@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Tags\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;

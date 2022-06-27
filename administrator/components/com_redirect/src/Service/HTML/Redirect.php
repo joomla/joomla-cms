@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Redirect\Administrator\Service\HTML;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 

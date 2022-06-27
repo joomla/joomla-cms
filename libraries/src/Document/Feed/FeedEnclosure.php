@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document\Feed;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Data object representing a feed enclosure
  *

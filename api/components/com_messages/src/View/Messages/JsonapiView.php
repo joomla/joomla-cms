@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Messages\Api\View\Messages;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**

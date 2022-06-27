@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-defined('_JEXEC') or die();
-
 use Joomla\Event\Event;
 
 /**

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
@@ -54,34 +52,26 @@ class TelFilter implements FormFilterInterface
             }
 
             $result = '1.' . $number;
-        }
-
-        // If not, does it match ITU-T?
-        elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1) {
+        } elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1) {
+            // If not, does it match ITU-T?
             $countrycode = substr($value, 0, strpos($value, ' '));
             $countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
             $number = strstr($value, ' ');
             $number = (string) preg_replace('/[^\d]/', '', $number);
             $result = $countrycode . '.' . $number;
-        }
-
-        // If not, does it match EPP?
-        elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1) {
+        } elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1) {
+            // If not, does it match EPP?
             if (strstr($value, 'x')) {
                 $xpos = strpos($value, 'x');
                 $value = substr($value, 0, $xpos);
             }
 
             $result = str_replace('+', '', $value);
-        }
-
-        // Maybe it is already ccc.nnnnnnn?
-        elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1) {
+        } elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1) {
+            // Maybe it is already ccc.nnnnnnn?
             $result = $value;
-        }
-
-        // If not, can we make it a string of digits?
-        else {
+        } else {
+            // If not, can we make it a string of digits?
             $value = (string) preg_replace('/[^\d]/', '', $value);
 
             if ($value != null && \strlen($value) <= 15) {
@@ -95,10 +85,8 @@ class TelFilter implements FormFilterInterface
                     $cclen = $length - 12;
                     $result = substr($value, 0, $cclen) . '.' . substr($value, $cclen);
                 }
-            }
-
-            // If not let's not save anything.
-            else {
+            } else {
+                // If not let's not save anything.
                 $result = '';
             }
         }

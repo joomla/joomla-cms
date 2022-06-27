@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 
-\defined('_JEXEC') or die();
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
@@ -104,18 +102,16 @@ trait GlobalFilters
                     $forbiddenList           = true;
                     $forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
                     $forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
-                }
-                // "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
-                elseif (in_array($filterType, ['CBL', 'CFL'])) {
+                } elseif (in_array($filterType, ['CBL', 'CFL'])) {
+                    // "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
                     // Only set to true if Tags or Attributes were added
                     if ($tempTags || $tempAttributes) {
                         $customList           = true;
                         $customListTags       = array_merge($customListTags, $tempTags);
                         $customListAttributes = array_merge($customListAttributes, $tempAttributes);
                     }
-                }
-                // "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
-                elseif (in_array($filterType, ['WL', 'AL'])) {
+                } elseif (in_array($filterType, ['WL', 'AL'])) {
+                    // "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
                     $allowedList           = true;
                     $allowedListTags       = array_merge($allowedListTags, $tempTags);
                     $allowedListAttributes = array_merge($allowedListAttributes, $tempAttributes);
@@ -148,9 +144,8 @@ trait GlobalFilters
                 if ($customListAttributes) {
                     $filter->blockedAttributes = $customListAttributes;
                 }
-            }
-            // Forbidden list takes second precedence.
-            elseif ($forbiddenList) {
+            } elseif ($forbiddenList) {
+                // Forbidden list takes second precedence.
                 // Remove the allowed tags and attributes from the forbidden list.
                 $forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
                 $forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
@@ -166,14 +161,12 @@ trait GlobalFilters
                 if ($allowedListAttributes) {
                     $filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
                 }
-            }
-            // Allowed list take third precedence.
-            elseif ($allowedList) {
+            } elseif ($allowedList) {
+                // Allowed list take third precedence.
                 // Turn off XSS auto clean
                 $filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
-            }
-            // No HTML takes last place.
-            else {
+            } else {
+                // No HTML takes last place.
                 $filter = InputFilter::getInstance();
             }
 

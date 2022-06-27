@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Form\Form;
@@ -259,26 +259,23 @@ class PlgUserProfile extends CMSPlugin
                 // Toggle whether the field is required.
                 if ($this->params->get('profile-require_' . $field, 1) > 0) {
                     $form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');
-                }
-                // Remove the field if it is disabled in registration and profile
-                elseif (
+                } elseif (
+                    // Remove the field if it is disabled in registration and profile
                     $this->params->get('register-require_' . $field, 1) == 0
                     && $this->params->get('profile-require_' . $field, 1) == 0
                 ) {
                     $form->removeField($field, 'profile');
                 }
-            }
-            // Case registration
-            elseif ($name === 'com_users.registration') {
+            } elseif ($name === 'com_users.registration') {
+                // Case registration
                 // Toggle whether the field is required.
                 if ($this->params->get('register-require_' . $field, 1) > 0) {
                     $form->setFieldAttribute($field, 'required', ($this->params->get('register-require_' . $field) == 2) ? 'required' : '', 'profile');
                 } else {
                     $form->removeField($field, 'profile');
                 }
-            }
-            // Case profile in site or admin
-            elseif ($name === 'com_users.profile') {
+            } elseif ($name === 'com_users.profile') {
+                // Case profile in site or admin
                 // Toggle whether the field is required.
                 if ($this->params->get('profile-require_' . $field, 1) > 0) {
                     $form->setFieldAttribute($field, 'required', ($this->params->get('profile-require_' . $field) == 2) ? 'required' : '', 'profile');

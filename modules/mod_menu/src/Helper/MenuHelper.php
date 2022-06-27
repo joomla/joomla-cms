@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Menu\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -237,10 +235,8 @@ class ArticleModel extends ItemModel
                     // Check general edit permission first.
                     if ($user->authorise('core.edit', $asset)) {
                         $data->params->set('access-edit', true);
-                    }
-
-                    // Now check if edit.own is available.
-                    elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+                    } elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+                        // Now check if edit.own is available.
                         // Check for a valid user and that they are the owner.
                         if ($userId == $data->created_by) {
                             $data->params->set('access-edit', true);

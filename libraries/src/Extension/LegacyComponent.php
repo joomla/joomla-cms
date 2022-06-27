@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;

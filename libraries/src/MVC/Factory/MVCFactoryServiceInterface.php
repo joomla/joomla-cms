@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface to be implemented by classes depending on a MVC factory.
  *

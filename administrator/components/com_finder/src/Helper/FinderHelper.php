@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Extension\ExtensionHelper;
 
 /**

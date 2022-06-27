@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 

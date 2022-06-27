@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
 use Joomla\CMS\Factory;

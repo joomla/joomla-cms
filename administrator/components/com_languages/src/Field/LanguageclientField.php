@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Languages\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;

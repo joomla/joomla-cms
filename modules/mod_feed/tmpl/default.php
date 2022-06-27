@@ -32,10 +32,8 @@ if (!empty($feed) && is_string($feed)) {
 
     if ($isRtl && $myrtl == 0) {
         $direction = ' redirect-rtl';
-    }
-
-    // Feed description
-    elseif ($isRtl && $myrtl == 1) {
+    } elseif ($isRtl && $myrtl == 1) {
+        // Feed description
         $direction = ' redirect-ltr';
     } elseif ($isRtl && $myrtl == 2) {
         $direction = ' redirect-rtl';

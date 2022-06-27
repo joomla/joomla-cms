@@ -10,10 +10,7 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
-// Restrict direct access
 use Joomla\CMS\Form\Field\TextField;
-
-\defined('_JEXEC') or die;
 
 /**
  * Field to override the text field layout to add a copy-text button, used in the com_scheduler

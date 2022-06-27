@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
@@ -210,9 +208,8 @@ class MenuitemField extends GroupedlistField
                     \in_array($link->type, $this->disable)
                 );
             }
-        }
-        // Build groups for all menu types.
-        else {
+        } else {
+            // Build groups for all menu types.
             // Build the groups arrays.
             foreach ($items as $menu) {
                 // Initialize the group.

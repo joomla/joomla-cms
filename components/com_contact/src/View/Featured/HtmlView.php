@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\View\Featured;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;

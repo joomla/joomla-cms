@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Submenu\Administrator\Menu;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -20,7 +18,6 @@ use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
-
 
 /**
  * Helper class to handle permissions in mod_submenu
@@ -164,9 +161,8 @@ abstract class Menu
                 }
 
                 [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            }
-            // Special case for components which only allow super user access
-            elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
             } elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin')) {

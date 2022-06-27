@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Log\Logger;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -154,9 +152,8 @@ class FormattedtextLogger extends Logger
         // Store the entry to be written later.
         if ($this->defer) {
             $this->deferredEntries[] = $entry;
-        }
-        // Write it immediately.
-        else {
+        } else {
+            // Write it immediately.
             // Initialise the file if not already done.
             $this->initFile();
 

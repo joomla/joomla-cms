@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Access\Exception;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Exception class defining an authentication failed event
  *

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Feed;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 use Joomla\CMS\Filter\InputFilter;
 

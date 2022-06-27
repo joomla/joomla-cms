@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Associations\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Model\ListModel;
 
 /**

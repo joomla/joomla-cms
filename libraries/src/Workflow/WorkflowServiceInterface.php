@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Workflow;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * The workflow service.
  *

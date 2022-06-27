@@ -10,8 +10,6 @@
 
 namespace Joomla\CMS\Installation\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;

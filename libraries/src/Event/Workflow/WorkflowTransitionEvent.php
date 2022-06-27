@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Workflow;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 
 /**

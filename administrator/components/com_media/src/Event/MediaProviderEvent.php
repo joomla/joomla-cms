@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderManager;
 

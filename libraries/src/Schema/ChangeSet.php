@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Schema;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
 

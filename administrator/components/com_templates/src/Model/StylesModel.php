@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -199,9 +197,8 @@ class StylesModel extends ListModel
                         $db->quoteName('m.id') . ' IS NULL',
                     ]
                 );
-            }
-            // If user selected the templates styles assigned to particular pages.
-            else {
+            } else {
+                // If user selected the templates styles assigned to particular pages.
                 // Subquery to get the language of the selected menu item.
                 $menuItemId = (int) $menuItemId;
                 $menuItemLanguageSubQuery = $db->getQuery(true);

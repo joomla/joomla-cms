@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Component;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -230,9 +228,8 @@ class ComponentHelper
                 if ($customListAttributes) {
                     $filter->blockedAttributes = $customListAttributes;
                 }
-            }
-            // Forbidden list takes second precedence.
-            elseif ($forbiddenList) {
+            } elseif ($forbiddenList) {
+                // Forbidden list takes second precedence.
                 // Remove the allowed tags and attributes from the forbidden list.
                 $forbiddenListTags       = array_diff($forbiddenListTags, $allowedListTags);
                 $forbiddenListAttributes = array_diff($forbiddenListAttributes, $allowedListAttributes);
@@ -253,14 +250,12 @@ class ComponentHelper
                 if ($allowedListAttributes) {
                     $filter->blockedAttributes = array_diff($filter->blockedAttributes, $allowedListAttributes);
                 }
-            }
-            // Allowed lists take third precedence.
-            elseif ($allowedList) {
+            } elseif ($allowedList) {
+                // Allowed lists take third precedence.
                 // Turn off XSS auto clean
                 $filter = InputFilter::getInstance($allowedListTags, $allowedListAttributes, 0, 0, 0);
-            }
-            // No HTML takes last place.
-            else {
+            } else {
+                // No HTML takes last place.
                 $filter = InputFilter::getInstance();
             }
 

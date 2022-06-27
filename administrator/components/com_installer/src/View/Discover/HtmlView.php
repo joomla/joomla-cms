@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;

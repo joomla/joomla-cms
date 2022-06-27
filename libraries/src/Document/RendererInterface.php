@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface for a document renderer
  *

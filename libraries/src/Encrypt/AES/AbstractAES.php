@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Encrypt\AES;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Abstract AES encryption class
  *

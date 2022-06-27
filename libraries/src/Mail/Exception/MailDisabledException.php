@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Mail\Exception;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Exception class defining an error for disabled mail functionality.
  *

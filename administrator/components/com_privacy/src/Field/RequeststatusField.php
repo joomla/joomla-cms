@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\PredefinedlistField;
 
 /**

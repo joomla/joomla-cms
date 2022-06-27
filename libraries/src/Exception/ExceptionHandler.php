@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Exception;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Factory;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Toolbar;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\ArrayHelper;
@@ -157,9 +155,8 @@ abstract class ToolbarButton
     {
         if ($definition === null) {
             $action = $this->renderButton($this->options);
-        }
-        // For B/C
-        elseif (\is_array($definition)) {
+        } elseif (\is_array($definition)) {
+            // For B/C
             $action = $this->fetchButton(...$definition);
         } else {
             throw new \InvalidArgumentException('Wrong argument: $definition, should be NULL or array.');
@@ -439,9 +436,8 @@ abstract class ToolbarButton
             if ($fieldName !== false) {
                 return $this->getOption($fieldName);
             }
-        }
-        // Setter
-        else {
+        } else {
+            // Setter
             $fieldName = static::findOptionName($name);
 
             if ($fieldName !== false) {

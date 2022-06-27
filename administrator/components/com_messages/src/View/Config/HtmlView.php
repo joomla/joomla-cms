@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Config;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;

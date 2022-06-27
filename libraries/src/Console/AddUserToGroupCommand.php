@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;

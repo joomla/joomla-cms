@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**

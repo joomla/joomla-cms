@@ -10,8 +10,6 @@
 
 namespace Joomla\Plugin\Content\ConfirmConsent\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;

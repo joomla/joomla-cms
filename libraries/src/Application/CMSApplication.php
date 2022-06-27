@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
@@ -993,9 +991,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         if ($this->get('themes.base')) {
             $this->docOptions['directory'] = $this->get('themes.base');
-        }
-        // Fall back to constants.
-        else {
+        } else {
+            // Fall back to constants.
             $this->docOptions['directory'] = \defined('JPATH_THEMES') ? JPATH_THEMES : (\defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
         }
 

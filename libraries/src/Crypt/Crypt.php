@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Crypt;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Crypt\Crypt as JCrypt;
 
 /**

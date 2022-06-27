@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Download;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\GenericDataException;

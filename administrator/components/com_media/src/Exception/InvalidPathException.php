@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Media\Administrator\Exception;
 
-\defined('_JEXEC') or die;
-
 /**
  * Media invalid path exception.
  *

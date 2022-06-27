@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 

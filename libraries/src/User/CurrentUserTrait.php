@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\User;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 
 /**

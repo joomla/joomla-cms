@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Site\View\Profile;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;

@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Schema\ChangeItem;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Schema\ChangeItem;
 
 /**

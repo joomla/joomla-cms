@@ -15,8 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 
-\defined('_JEXEC') or die;
-
 /**
  * Query HTML behavior class for Finder.
  *

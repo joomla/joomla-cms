@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 /**
  * Menu table
  *

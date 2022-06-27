@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-\defined('_JEXEC') or die;
-
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -276,13 +274,11 @@ class Query
         // Check if we have a query string.
         if (!empty($this->input)) {
             $this->search = true;
-        }
-        // Check if we can search without a query string.
-        elseif ($this->empty && (!empty($this->filter) || !empty($this->filters) || !empty($this->date1) || !empty($this->date2))) {
+        } elseif ($this->empty && (!empty($this->filter) || !empty($this->filters) || !empty($this->date1) || !empty($this->date2))) {
+            // Check if we can search without a query string.
             $this->search = true;
-        }
-        // We do not have a valid search query.
-        else {
+        } else {
+            // We do not have a valid search query.
             $this->search = false;
         }
     }
@@ -996,9 +992,8 @@ class Query
 
                     // Adjust the loop.
                     $i += 2;
-                }
-                // Handle the OR operator.
-                elseif ($op === 'OR' && isset($terms[$i + 2])) {
+                } elseif ($op === 'OR' && isset($terms[$i + 2])) {
+                    // Handle the OR operator.
                     // Tokenize the current term.
                     $token = Helper::tokenize($terms[$i], $lang, true);
                     $token = $this->getTokenData(array_shift($token));
@@ -1055,9 +1050,8 @@ class Query
                     // Adjust the loop.
                     $i += 2;
                 }
-            }
-            // Handle an orphaned OR operator.
-            elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'OR') {
+            } elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'OR') {
+                // Handle an orphaned OR operator.
                 // Skip the next token (the mode operator).
                 $this->operators[] = $terms[$i];
 
@@ -1094,9 +1088,8 @@ class Query
 
                 // Adjust the loop.
                 $i++;
-            }
-            // Handle the NOT operator.
-            elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'NOT') {
+            } elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'NOT') {
+                // Handle the NOT operator.
                 // Skip the next token (the mode operator).
                 $this->operators[] = $terms[$i];
 

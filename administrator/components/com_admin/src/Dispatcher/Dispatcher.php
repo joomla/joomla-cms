@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Admin\Administrator\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**

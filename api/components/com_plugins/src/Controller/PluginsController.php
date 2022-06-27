@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Plugins\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;

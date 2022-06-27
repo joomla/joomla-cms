@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer\Parser;
 
-\defined('_JEXEC') or die;
-
 use Joomla\Component\Finder\Administrator\Indexer\Parser;
 
 /**

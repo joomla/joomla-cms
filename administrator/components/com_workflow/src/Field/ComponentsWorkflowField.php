@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Workflow\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;

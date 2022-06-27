@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Media\Administrator\Adapter;
 
-\defined('_JEXEC') or die;
-
 /**
  * Media file adapter interface.
  *

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\View\Note;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;

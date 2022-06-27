@@ -10,9 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-// Protect from unauthorized access
-defined('_JEXEC') or die();
-
 use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Http\HttpFactory;
@@ -20,6 +17,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
+
 use function defined;
 
 /**

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Api\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Uri\Uri;
 
 /**

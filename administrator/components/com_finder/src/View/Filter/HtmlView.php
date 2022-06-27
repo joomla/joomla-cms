@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Filter;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;

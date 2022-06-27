@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Helper\HelperFactory;

@@ -11,8 +11,6 @@ namespace Joomla\CMS\Event;
 
 use DomainException;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * A Trait to reshape arguments maintaining b/c with legacy plugin events.
  *

@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Table;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -228,9 +225,8 @@ class TaskTable extends Table
             foreach ($this->_tbl_keys as $key) {
                 if ($this->$key) {
                     $pk[$key] = $this->$key;
-                }
-                // We don't have a full primary key - return false.
-                else {
+                } else {
+                    // We don't have a full primary key - return false.
                     $this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
                     return false;

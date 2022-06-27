@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\Languages\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -89,13 +87,11 @@ abstract class LanguagesHelper
             // Do not display language without frontend UI
             if (!\array_key_exists($language->lang_code, $sitelangs)) {
                 unset($languages[$i]);
-            }
-            // Do not display language without specific home menu
-            elseif (!isset($homes[$language->lang_code])) {
+            } elseif (!isset($homes[$language->lang_code])) {
+                // Do not display language without specific home menu
                 unset($languages[$i]);
-            }
-            // Do not display language without authorized access level
-            elseif (isset($language->access) && $language->access && !\in_array($language->access, $levels)) {
+            } elseif (isset($language->access) && $language->access && !\in_array($language->access, $levels)) {
+                // Do not display language without authorized access level
                 unset($languages[$i]);
             } else {
                 $language->active = ($language->lang_code === $lang->getTag());
@@ -104,9 +100,8 @@ abstract class LanguagesHelper
                 // If loaded language get from current JLanguage metadata
                 if ($language->active) {
                     $language->rtl = $lang->isRtl();
-                }
-                // If not loaded language fetch metadata directly for performance
-                else {
+                } else {
+                    // If not loaded language fetch metadata directly for performance
                     $languageMetadata = LanguageHelper::getMetadata($language->lang_code);
                     $language->rtl    = $languageMetadata['rtl'];
                 }

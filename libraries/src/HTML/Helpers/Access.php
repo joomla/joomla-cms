@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Access as AccessCheck;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\UserGroupsHelper;
@@ -79,10 +77,8 @@ abstract class Access
         // If params is an array, push these options to the array
         if (is_array($params)) {
             $options = array_merge($params, $options);
-        }
-
-        // If all levels is allowed, push it into the array.
-        elseif ($params) {
+        } elseif ($params) {
+            // If all levels is allowed, push it into the array.
             array_unshift($options, HTMLHelper::_('select.option', '', Text::_('JOPTION_ACCESS_SHOW_ALL_LEVELS')));
         }
 

@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
