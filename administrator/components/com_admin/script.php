@@ -501,6 +501,7 @@ class JoomlaInstallerScript
 
 			// And now uninstall the plugin
 			$installer = new Installer;
+			$installer->setDatabase($db);
 			$installer->uninstall('plugin', $extensionId);
 
 			$db->transactionCommit();
@@ -551,6 +552,7 @@ class JoomlaInstallerScript
 
 			// Uninstall the plugin
 			$installer = new Installer;
+			$installer->setDatabase($db);
 			$installer->uninstall('plugin', $extensionId);
 
 			$db->transactionCommit();
@@ -607,6 +609,7 @@ class JoomlaInstallerScript
 		}
 
 		$installer = new Installer;
+		$installer->setDatabase($db);
 
 		foreach ($extensions as $extension)
 		{
@@ -6474,6 +6477,14 @@ class JoomlaInstallerScript
 			'/plugins/twofactorauth/yubikey/tmpl/form.php',
 			'/plugins/twofactorauth/yubikey/yubikey.php',
 			'/plugins/twofactorauth/yubikey/yubikey.xml',
+			// From 4.2.0-beta1 to 4.2.0-beta2
+			'/layouts/plugins/user/profile/fields/dob.php',
+			'/modules/mod_articles_latest/mod_articles_latest.php',
+			'/plugins/behaviour/taggable/taggable.php',
+			'/plugins/behaviour/versionable/versionable.php',
+			'/plugins/task/requests/requests.php',
+			'/plugins/task/sitestatus/sitestatus.php',
+			'/plugins/user/profile/src/Field/DobField.php',
 		);
 
 		$folders = array(
@@ -7835,6 +7846,9 @@ class JoomlaInstallerScript
 			'/plugins/twofactorauth/totp',
 			'/plugins/twofactorauth',
 			'/libraries/vendor/nyholm/psr7/doc',
+			// From 4.2.0-beta1 to 4.2.0-beta2
+			'/layouts/plugins/user/profile/fields',
+			'/layouts/plugins/user/profile',
 		);
 
 		$status['files_checked'] = $files;

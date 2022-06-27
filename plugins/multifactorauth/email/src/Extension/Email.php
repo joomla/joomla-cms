@@ -10,7 +10,6 @@
 namespace Joomla\Plugin\Multifactorauth\Email\Extension;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Encrypt\Totp;
 use Joomla\CMS\Event\MultiFactor\BeforeDisplayMethods;
 use Joomla\CMS\Event\MultiFactor\Captive;
@@ -62,14 +61,6 @@ class Email extends CMSPlugin implements SubscriberInterface
 	 * @since 4.2.0
 	 */
 	private const SECRET_KEY_LENGTH = 20;
-
-	/**
-	 * The CMS application we are running under
-	 *
-	 * @var   CMSApplication
-	 * @since 4.2.0
-	 */
-	protected $app;
 
 	/**
 	 * Forbid registration of legacy (Joomla 3) event listeners.
@@ -235,7 +226,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 		$isKeyAlreadySetup = !empty($key);
 
 		// If there's a key in the session use that instead.
-		$session = $this->app->getSession();
+		$session = $this->getApplication()->getSession();
 		$session->get('plg_multifactorauth_email.emailcode.key', $key);
 
 		// Initialize objects
@@ -320,7 +311,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 		$options           = $this->decodeRecordOptions($record);
 		$key               = $options['key'] ?? '';
 		$isKeyAlreadySetup = !empty($key);
-		$session           = $this->app->getSession();
+		$session           = $this->getApplication()->getSession();
 
 		// If there is no key in the options fetch one from the session
 		if (empty($key))
@@ -479,7 +470,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 		try
 		{
 			/** @var MVCFactoryInterface $factory */
-			$factory = $this->app->bootComponent('com_users')->getMVCFactory();
+			$factory = $this->getApplication()->bootComponent('com_users')->getMVCFactory();
 			/** @var MfaTable $record */
 			$record = $factory->createTable('Mfa', 'Administrator');
 			$record->reset();
@@ -546,7 +537,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 		// Make sure we have a user
 		if (!is_object($user) || !($user instanceof User))
 		{
-			$user = $this->app->getIdentity()
+			$user = $this->getApplication()->getIdentity()
 				?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 		}
 
@@ -566,7 +557,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
 		$replacements = [
 			'code'     => $code,
-			'sitename' => $this->app->get('sitename'),
+			'sitename' => $this->getApplication()->get('sitename'),
 			'siteurl'  => Uri::base(),
 			'username' => $user->username,
 			'email'    => $user->email,
@@ -575,7 +566,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
 		try
 		{
-			$jLanguage = $this->app->getLanguage();
+			$jLanguage = $this->getApplication()->getLanguage();
 			$mailer = new MailTemplate('plg_multifactorauth_email.mail', $jLanguage->getTag());
 			$mailer->addRecipient($user->email, $user->name);
 			$mailer->addTemplateData($replacements);
@@ -590,7 +581,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 			}
 			catch (RuntimeException $exception)
 			{
-				$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+				$this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 			}
 		}
 
@@ -624,7 +615,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 			}
 			catch (RuntimeException $exception)
 			{
-				$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+				$this->getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 			}
 		}
 	}
