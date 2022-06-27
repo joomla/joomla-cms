@@ -138,7 +138,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 */
 	public function getReturnPage()
 	{
-		return base64_encode($this->getState('return_page'));
+		return base64_encode($this->getState('return_page', ''));
 	}
 
 	/**
@@ -190,7 +190,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 
 		$this->setState('contact.catid', $app->input->getInt('catid'));
 
-		$return = $app->input->get('return', null, 'base64');
+		$return = $app->input->get('return', '', 'base64');
 		$this->setState('return_page', base64_decode($return));
 
 		// Load the parameters.

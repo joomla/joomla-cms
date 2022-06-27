@@ -200,7 +200,7 @@ class MailTemplate
 		$params = $mail->params;
 		$app    = Factory::getApplication();
 
-		if ($config->get('alternative_mailconfig'))
+		if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1)
 		{
 			if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')
 			{
@@ -294,7 +294,7 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		if (trim($config->get('attachment_folder')))
+		if (trim($config->get('attachment_folder', '')))
 		{
 			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 
