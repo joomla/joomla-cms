@@ -34,7 +34,7 @@ class FiltersField extends FormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * TODO: Add access check.
+	 * @todo: Add access check.
 	 *
 	 * @return	string	The field input markup.
 	 *
@@ -157,7 +157,7 @@ class FiltersField extends FormField
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

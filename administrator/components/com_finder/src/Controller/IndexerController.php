@@ -178,10 +178,10 @@ class IndexerController extends BaseController
 		try
 		{
 			// Trigger the onBeforeIndex event.
-			Factory::getApplication()->triggerEvent('onBeforeIndex');
+			$this->app->triggerEvent('onBeforeIndex');
 
 			// Trigger the onBuildIndex event.
-			Factory::getApplication()->triggerEvent('onBuildIndex');
+			$this->app->triggerEvent('onBuildIndex');
 
 			// Get the indexer state.
 			$state = Indexer::getState();
@@ -261,9 +261,9 @@ class IndexerController extends BaseController
 	/**
 	 * Method to handle a send a \JSON response. The body parameter
 	 * can be an \Exception object for when an error has occurred or
-	 * a \JObject for a good response.
+	 * a CMSObject for a good response.
 	 *
-	 * @param   mixed  $data  \JObject on success, \Exception on error. [optional]
+	 * @param   \Joomla\CMS\Object\CMSObject|\Exception  $data  CMSObject on success, \Exception on error. [optional]
 	 *
 	 * @return  void
 	 *

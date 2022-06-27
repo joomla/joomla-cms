@@ -15,7 +15,9 @@ use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Download\HtmlView $this */
 
-HTMLHelper::_('behavior.formvalidator');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('form.validate');
 
 ?>
 <div class="container-popup">

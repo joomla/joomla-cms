@@ -10,15 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var Joomla\CMS\Document\HtmlDocument $this */
 
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $extraButtons     = AuthenticationHelper::getLoginButtons('form-login');
 $app              = Factory::getApplication();
 $wa               = $this->getWebAssetManager();
@@ -26,39 +25,56 @@ $wa               = $this->getWebAssetManager();
 $fullWidth = 1;
 
 // Template path
-$templatePath = 'templates/' . $this->template;
+$templatePath = 'media/templates/site/cassiopeia';
 
 // Color Theme
 $paramsColorName = $this->params->get('colorName', 'colors_standard');
 $assetColorName  = 'theme.' . $paramsColorName;
 $wa->registerAndUseStyle($assetColorName, $templatePath . '/css/global/' . $paramsColorName . '.css');
-$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetColorName)->getUri(), ['as' => 'style']);
 
 // Use a font scheme if set in the template style options
 $paramsFontScheme = $this->params->get('useFontScheme', false);
+$fontStyles       = '';
 
 if ($paramsFontScheme)
 {
-	// Prefetch the stylesheet for the font scheme, actually we need to prefetch the font(s)
-	$assetFontScheme  = 'fontscheme.' . $paramsFontScheme;
-	$wa->registerAndUseStyle($assetFontScheme, $templatePath . '/css/global/' . $paramsFontScheme . '.css');
-	$this->getPreloadManager()->prefetch($wa->getAsset('style', $assetFontScheme)->getUri(), ['as' => 'style']);
+	if (stripos($paramsFontScheme, 'https://') === 0)
+	{
+		$this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
+		$this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
+
+		if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0)
+		{
+			$fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-weight-normal: 400;
+			--cassiopeia-font-weight-headings: 700;';
+		}
+	}
+	else
+	{
+		$wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, ['version' => 'auto'], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'']);
+		$this->getPreloadManager()->preload($wa->getAsset('style', 'fontscheme.current')->getUri() . '?' . $this->getMediaVersion(), ['as' => 'style']);
+	}
 }
 
 // Enable assets
 $wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-	->useStyle('template.offline')
 	->useStyle('template.active.language')
+	->useStyle('template.offline')
 	->useStyle('template.user')
 	->useScript('template.user')
-	->addInlineStyle(':root {
+	->addInlineStyle(":root {
 		--hue: 214;
 		--template-bg-light: #f0f4fb;
 		--template-text-dark: #495057;
 		--template-text-light: #ffffff;
 		--template-link-color: #2a69b8;
 		--template-special-color: #001B4C;
-	}');
+		$fontStyles
+	}");
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
 $wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
@@ -134,11 +150,6 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 						<label for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<input name="password" class="form-control" id="password" type="password">
 
-						<?php if (count($twofactormethods) > 1) : ?>
-						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input name="secretkey" autocomplete="one-time-code" class="form-control" id="secretkey" type="text">
-						<?php endif; ?>
-
 						<?php foreach($extraButtons as $button):
 							$dataAttributeKeys = array_filter(array_keys($button), function ($key) {
 								return substr($key, 0, 5) == 'data-';
@@ -168,7 +179,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
 							</div>
 						<?php endforeach; ?>
 
-						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
+						<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGIN'); ?></button>
 
 						<input type="hidden" name="option" value="com_users">
 						<input type="hidden" name="task" value="user.login">

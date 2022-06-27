@@ -14,6 +14,7 @@ namespace Joomla\Component\Modules\Administrator\Model;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -23,6 +24,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -53,7 +55,7 @@ class ModuleModel extends AdminModel
 	 * @var    string  The help screen key for the module.
 	 * @since  1.6
 	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_MODULE_MANAGER_EDIT';
+	protected $helpKey = '';
 
 	/**
 	 * @var    string  The help screen base URL for the module.
@@ -201,7 +203,7 @@ class ModuleModel extends AdminModel
 				$newIds[$pk] = $newId;
 
 				// Now we need to handle the module assignments
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('menuid'))
 					->from($db->quoteName('#__modules_menu'))
@@ -375,7 +377,7 @@ class ModuleModel extends AdminModel
 				{
 					// Delete the menu assignments
 					$pk    = (int) $pk;
-					$db    = $this->getDbo();
+					$db    = $this->getDatabase();
 					$query = $db->getQuery(true)
 						->delete($db->quoteName('#__modules_menu'))
 						->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -415,7 +417,7 @@ class ModuleModel extends AdminModel
 	public function duplicate(&$pks)
 	{
 		$user = Factory::getUser();
-		$db   = $this->getDbo();
+		$db   = $this->getDatabase();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_modules'))
@@ -542,7 +544,7 @@ class ModuleModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -677,7 +679,7 @@ class ModuleModel extends AdminModel
 	public function getItem($pk = null)
 	{
 		$pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		if (!isset($this->_cache[$pk]))
 		{
@@ -738,7 +740,7 @@ class ModuleModel extends AdminModel
 				}
 			}
 
-			// Convert to the \JObject before adding other data.
+			// Convert to the \Joomla\CMS\Object\CMSObject before adding other data.
 			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
@@ -847,7 +849,7 @@ class ModuleModel extends AdminModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   \JForm  $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -899,6 +901,46 @@ class ModuleModel extends AdminModel
 		// Load the default advanced params
 		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		$form->loadFile('advanced', false);
+
+		// Load chrome specific params for global files
+		$chromePath      = JPATH_SITE . '/layouts/chromes';
+		$chromeFormFiles = Folder::files($chromePath, '.*\.xml');
+
+		if ($chromeFormFiles)
+		{
+			Form::addFormPath($chromePath);
+
+			foreach ($chromeFormFiles as $formFile)
+			{
+				$form->loadFile(basename($formFile, '.xml'), false);
+			}
+		}
+
+		// Load chrome specific params for template files
+		$templates = ModulesHelper::getTemplates($clientId);
+
+		foreach ($templates as $template)
+		{
+			$chromePath = $client->path . '/templates/' . $template->element . '/html/layouts/chromes';
+
+			// Skip if there is no chrome folder in that template.
+			if (!is_dir($chromePath))
+			{
+				continue;
+			}
+
+			$chromeFormFiles = Folder::files($chromePath, '.*\.xml');
+
+			if ($chromeFormFiles)
+			{
+				Form::addFormPath($chromePath);
+
+				foreach ($chromeFormFiles as $formFile)
+				{
+					$form->loadFile(basename($formFile, '.xml'), false);
+				}
+			}
+		}
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
@@ -1011,7 +1053,7 @@ class ModuleModel extends AdminModel
 		$table->id = (int) $table->id;
 
 		// Delete old module to menu item associations
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__modules_menu'))
 			->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -1143,9 +1185,11 @@ class ModuleModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('client_id') . ' = ' . (int) $table->client_id,
-			$this->_db->quoteName('position') . ' = ' . $this->_db->quote($table->position),
+			$db->quoteName('client_id') . ' = ' . (int) $table->client_id,
+			$db->quoteName('position') . ' = ' . $db->quote($table->position),
 		];
 	}
 

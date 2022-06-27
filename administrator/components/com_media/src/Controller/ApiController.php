@@ -105,24 +105,24 @@ class ApiController extends BaseController
 	 * 		index.php?option=com_media&task=api.files
 	 * 		/api/files
 	 * - GET a list of files and subfolders of a given folder:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia
+	 * 		/api/files/sampledata/cassiopeia
 	 * - GET a list of files and subfolders of a given folder for a given search term:
 	 *   use recursive=1 to search recursively in the working directory
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&search=apple
-	 * 		/api/files/sampledata/fruitshop?search=apple
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia&search=nasa5
+	 * 		/api/files/sampledata/cassiopeia?search=nasa5
 	 *   To look up in same working directory set flag recursive=0
-	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop&search=apple&recursive=0
-	 * 		/api/files/sampledata/fruitshop?search=apple&recursive=0
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia&search=nasa5&recursive=0
+	 * 		/api/files/sampledata/cassiopeia?search=nasa5&recursive=0
 	 * - GET file information for a specific file:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 		/api/files/sampledata/cassiopeia/test.jpg
 	 * - GET a temporary URL to a given file
-	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1&temp=1
-	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1&temp=1
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg&url=1&temp=1
+	 * 		/api/files/sampledata/cassiopeia/test.jpg&url=1&temp=1
 	 * - GET a temporary URL to a given file
-	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg&url=1
-	 * 		/api/files/sampledata/fruitshop/test.jpg&url=1
+	 *      index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg&url=1
+	 * 		/api/files/sampledata/cassiopeia/test.jpg&url=1
 	 *
 	 * @return  array  The data to send with the response
 	 *
@@ -147,11 +147,11 @@ class ApiController extends BaseController
 	 * Examples:
 	 *
 	 * - DELETE an existing folder in a specific folder:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test
-	 * 		/api/files/sampledata/fruitshop/test
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test
+	 * 		/api/files/sampledata/cassiopeia/test
 	 * - DELETE an existing file in a specific folder:
-	 * 		index.php?option=com_media&task=api.files&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		index.php?option=com_media&task=api.files&path=/sampledata/cassiopeia/test.jpg
+	 * 		/api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 * @return  null
 	 *
@@ -160,6 +160,11 @@ class ApiController extends BaseController
 	 */
 	public function deleteFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.delete', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
 		$this->getModel()->delete($this->getAdapter(), $this->getPath());
 
 		return null;
@@ -171,8 +176,8 @@ class ApiController extends BaseController
 	 * Examples:
 	 *
 	 * - POST a new file or folder into a specific folder, the file or folder information is returned:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop
-	 * 		/api/files/sampledata/fruitshop
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia
+	 * 		/api/files/sampledata/cassiopeia
 	 *
 	 * 		New file body:
 	 * 		{
@@ -191,6 +196,11 @@ class ApiController extends BaseController
 	 */
 	public function postFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 403);
+		}
+
 		$adapter      = $this->getAdapter();
 		$path         = $this->getPath();
 		$content      = $this->input->json;
@@ -211,7 +221,10 @@ class ApiController extends BaseController
 			$name = $this->getModel()->createFolder($adapter, $name, $path, $override);
 		}
 
-		return $this->getModel()->getFile($adapter, $path . '/' . $name);
+		$options        = [];
+		$options['url'] = $this->input->getBool('url', false);
+
+		return $this->getModel()->getFile($adapter, $path . '/' . $name, $options);
 	}
 
 	/**
@@ -220,8 +233,8 @@ class ApiController extends BaseController
 	 * Examples:
 	 *
 	 * - PUT a media file, the file or folder information is returned:
-	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 		/api/files/sampledata/fruitshop/test.jpg
+	 * 		index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 		/api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 * 		Update file body:
 	 * 		{
@@ -230,8 +243,8 @@ class ApiController extends BaseController
 	 *
 	 * - PUT move a file, folder to another one
 	 *     path : will be taken as the source
-	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 	   /api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 *     JSON body:
 	 *     {
@@ -241,8 +254,8 @@ class ApiController extends BaseController
 	 *
 	 * - PUT copy a file, folder to another one
 	 *     path : will be taken as the source
-	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/fruitshop/test.jpg
-	 * 	   /api/files/sampledata/fruitshop/test.jpg
+	 *     index.php?option=com_media&task=api.files&format=json&path=/sampledata/cassiopeia/test.jpg
+	 * 	   /api/files/sampledata/cassiopeia/test.jpg
 	 *
 	 *     JSON body:
 	 *     {
@@ -257,6 +270,11 @@ class ApiController extends BaseController
 	 */
 	public function putFiles()
 	{
+		if (!$this->app->getIdentity()->authorise('core.edit', 'com_media'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 403);
+		}
+
 		$adapter = $this->getAdapter();
 		$path    = $this->getPath();
 
@@ -344,20 +362,19 @@ class ApiController extends BaseController
 	 */
 	private function checkContent()
 	{
-		if (!$this->app->getIdentity()->authorise('core.create', 'com_media'))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED'), 403);
-		}
+		$helper              = new MediaHelper;
+		$contentLength       = $this->input->server->getInt('CONTENT_LENGTH');
+		$params              = ComponentHelper::getParams('com_media');
+		$paramsUploadMaxsize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxFilesize   = $helper->toBytes(ini_get('upload_max_filesize'));
+		$postMaxSize         = $helper->toBytes(ini_get('post_max_size'));
+		$memoryLimit         = $helper->toBytes(ini_get('memory_limit'));
 
-		$params = ComponentHelper::getParams('com_media');
-
-		$helper       = new MediaHelper;
-		$serverlength = $this->input->server->getInt('CONTENT_LENGTH');
-
-		if (($params->get('upload_maxsize', 0) > 0 && $serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024))
-			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))
-			|| $serverlength > $helper->toBytes(ini_get('post_max_size'))
-			|| $serverlength > $helper->toBytes(ini_get('memory_limit')))
+		if (($paramsUploadMaxsize > 0 && $contentLength > $paramsUploadMaxsize)
+			|| ($uploadMaxFilesize > 0 && $contentLength > $uploadMaxFilesize)
+			|| ($postMaxSize > 0 && $contentLength > $postMaxSize)
+			|| ($memoryLimit > -1 && $contentLength > $memoryLimit)
+		)
 		{
 			throw new \Exception(Text::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 403);
 		}

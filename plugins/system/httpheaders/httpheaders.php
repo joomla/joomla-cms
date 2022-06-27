@@ -13,6 +13,8 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -127,8 +129,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   DispatcherInterface  $subject  The object to observe.
+	 * @param   array                $config   An optional associative array of configuration settings.
 	 *
 	 * @since   4.0.0
 	 */
@@ -136,8 +138,15 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		parent::__construct($subject, $config);
 
-		// Nonce generation
-		$this->cspNonce = base64_encode(bin2hex(random_bytes(64)));
+		$nonceEnabled = (int) $this->params->get('nonce_enabled', 0);
+
+		// Nonce generation when it's enabled
+		if ($nonceEnabled)
+		{
+			$this->cspNonce = base64_encode(bin2hex(random_bytes(64)));
+		}
+
+		// Set the nonce, when not set we set it to NULL which is checked down the line
 		$this->app->set('csp_nonce', $this->cspNonce);
 	}
 
@@ -163,7 +172,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function applyHashesToCspRule(): void
+	public function applyHashesToCspRule(Event $event): void
 	{
 		// CSP is only relevant on html pages. Let's early exit here.
 		if ($this->app->getDocument()->getType() !== 'html')
@@ -252,7 +261,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders(): void
+	public function setHttpHeaders(Event $event): void
 	{
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
@@ -265,34 +274,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($cspEnabled && ($this->app->isClient($cspClient) || $cspClient === 'both'))
 		{
 			$this->setCspHeader();
-		}
-
-		if ($this->app->get('block_floc', 1))
-		{
-			$headers = $this->app->getHeaders();
-
-			$notPresent = true;
-
-			foreach ($headers as $header)
-			{
-				if (strtolower($header['name']) === 'permissions-policy')
-				{
-					// Append interest-cohort if the Permissions-Policy is not set
-					if (strpos($header['value'], 'interest-cohort') === false)
-					{
-						$this->app->setHeader('Permissions-Policy', $header['value'] . ', interest-cohort=()', true);
-					}
-
-					$notPresent = false;
-
-					break;
-				}
-			}
-
-			if ($notPresent)
-			{
-				$this->app->setHeader('Permissions-Policy', 'interest-cohort=()');
-			}
 		}
 	}
 
@@ -339,8 +320,15 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
-					// Append the nonce
-					$cspValue->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $cspValue->value);
+					/**
+					 * That line is for B/C we do no longer require to add the nonce tag
+					 * but add it once the setting is enabled so this line here is needed
+					 * to remove the outdated tag that was required until 4.2.0
+					 */
+					$cspValue->value = str_replace('{nonce}', '', $cspValue->value);
+
+					// Append the nonce when the nonce setting is enabled
+					$cspValue->value = "'nonce-" . $this->cspNonce . "' " . $cspValue->value;
 				}
 
 				// Append the script hashes placeholder
@@ -365,7 +353,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					&& $cspValue->directive === 'script-src'
 					&& strpos($cspValue->value, 'strict-dynamic') === false)
 				{
-					$cspValue->value .= " 'strict-dynamic' ";
+					$cspValue->value = "'strict-dynamic' " . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -493,7 +481,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		{
 			$headerAndClient = explode('#', $headerAndClient);
 			$header = $headerAndClient[0];
-			$client = isset($headerAndClient[1]) ? $headerAndClient[1] : 'both';
+			$client = $headerAndClient[1] ?? 'both';
 
 			if (!$this->app->isClient($client) && $client != 'both')
 			{

@@ -14,11 +14,10 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm        $form  Form with extra options for the set
- * @var   JLayoutFile  $this  Context
+ * @var   \Joomla\CMS\Form\Form          $form  Form with extra options for the set
+ * @var   \Joomla\CMS\Layout\FileLayout  $this  Context
  */
-
 ?>
-<div class="setaccess-form-wrapper my-3">
+<div class="setaccess-form-wrapper">
 	<?php echo $form->renderField('access'); ?>
 </div>

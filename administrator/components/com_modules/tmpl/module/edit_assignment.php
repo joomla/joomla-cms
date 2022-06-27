@@ -97,7 +97,7 @@ $this->document->getWebAssetManager()
 									$uselessMenuItem = in_array($link->type, array('separator', 'heading', 'alias', 'url'));
 									$id = 'jform_menuselect';
 									?>
-									<input type="checkbox" class="novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
+									<input type="checkbox" class="novalidate form-check-input" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
 									<label for="<?php echo $id . $link->value; ?>" class="">
 										<?php echo $link->text; ?>
 										<?php if (Multilanguage::isEnabled() && $link->language != '' && $link->language != '*') : ?>

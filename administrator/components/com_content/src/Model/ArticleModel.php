@@ -11,8 +11,11 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
@@ -25,7 +28,6 @@ use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Tag\TaggableTableInterface;
 use Joomla\CMS\UCM\UCMType;
@@ -133,7 +135,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Check if the article was featured and update the #__content_frontpage table
 		if ($table->featured == 1)
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select(
 					[
@@ -415,7 +417,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
-			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\">" . $item->fulltext : $item->introtext;
+			$item->articletext = ($item->fulltext !== null && trim($item->fulltext) != '') ? $item->introtext . '<hr id="system-readmore">' . $item->fulltext : $item->introtext;
 
 			if (!empty($item->id))
 			{
@@ -428,7 +430,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				if ($item->featured)
 				{
 					// Get featured dates.
-					$db = $this->getDbo();
+					$db = $this->getDatabase();
 					$query = $db->getQuery(true)
 						->select(
 							[
@@ -498,7 +500,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$record = new \stdClass;
 
 		// Get ID of the article from input, for frontend, we use a_id while backend uses id
-		$articleIdFromInput = (int) $app->input->getInt('a_id') ?: $app->input->getInt('id', 0);
+		$articleIdFromInput = $app->isClient('site')
+			? $app->input->getInt('a_id', 0)
+			: $app->input->getInt('id', 0);
 
 		// On edit article, we get ID of article from article.id state, but on save, we use data from input
 		$id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -684,10 +688,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function save($data)
 	{
-		$input  = Factory::getApplication()->input;
-		$filter = \JFilterInput::getInstance();
-		$db     = $this->getDbo();
-		$user	= Factory::getUser();
+		$app    = Factory::getApplication();
+		$input  = $app->input;
+		$filter = InputFilter::getInstance();
 
 		if (isset($data['metadata']) && isset($data['metadata']['author']))
 		{
@@ -780,8 +783,29 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
+			$origTable = $this->getTable();
+
+			if ($app->isClient('site'))
+			{
+				$origTable->load($input->getInt('a_id'));
+
+				if ($origTable->title === $data['title'])
+				{
+					/**
+					 * If title of article is not changed, set alias to original article alias so that Joomla! will generate
+					 * new Title and Alias for the copied article
+					 */
+					$data['alias'] = $origTable->alias;
+				}
+				else
+				{
+					$data['alias'] = '';
+				}
+			}
+			else
+			{
+				$origTable->load($input->getInt('id'));
+			}
 
 			if ($data['title'] == $origTable->title)
 			{
@@ -789,12 +813,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$data['title'] = $title;
 				$data['alias'] = $alias;
 			}
-			else
+			elseif ($data['alias'] == $origTable->alias)
 			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
+				$data['alias'] = '';
 			}
 		}
 
@@ -803,16 +824,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			if ($data['alias'] == null)
 			{
-				if (Factory::getApplication()->get('unicodeslugs') == 1)
+				if ($app->get('unicodeslugs') == 1)
 				{
-					$data['alias'] = \JFilterOutput::stringUrlUnicodeSlug($data['title']);
+					$data['alias'] = OutputFilter::stringUrlUnicodeSlug($data['title']);
 				}
 				else
 				{
-					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
+					$data['alias'] = OutputFilter::stringURLSafe($data['title']);
 				}
 
-				$table = Table::getInstance('Content', 'JTable');
+				$table = $this->getTable();
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -824,7 +845,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 				if (isset($msg))
 				{
-					Factory::getApplication()->enqueueMessage($msg, 'warning');
+					$app->enqueueMessage($msg, 'warning');
 				}
 			}
 		}
@@ -920,7 +941,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		try
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__content'))
 				->set($db->quoteName('featured') . ' = :featured')
@@ -1043,7 +1064,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->getDatabase()->quoteName('catid') . ' = ' . (int) $table->catid,
 		];
 	}
 
@@ -1165,7 +1186,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		if ($return)
 		{
 			// Now check to see if this articles was featured if so delete it from the #__content_frontpage table
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__content_frontpage'))
 				->whereIn($db->quoteName('content_id'), $pks);

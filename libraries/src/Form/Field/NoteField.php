@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -60,22 +61,28 @@ class NoteField extends FormField
 			return '';
 		}
 
-		$title = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
-		$heading = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
-		$description = (string) $this->element['description'];
-		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$close = (string) $this->element['close'];
+		$html  = [];
+		$class = [];
 
-		$html = array();
-
-		if ($close)
+		if (!empty($this->class))
 		{
-			$close = $close === 'true' ? 'alert' : $close;
-			$html[] = '<button type="button" class="btn-close" data-dismiss="' . $close . '">&times;</button>';
+			$class[] = $this->class;
 		}
 
-		$html[] = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
-		$html[] = !empty($description) ? Text::_($description) : '';
+		if ($close = (string) $this->element['close'])
+		{
+			HTMLHelper::_('bootstrap.alert');
+			$close   = $close === 'true' ? 'alert' : $close;
+			$html[]  = '<button type="button" class="btn-close" data-bs-dismiss="' . $close . '"></button>';
+			$class[] = 'alert-dismissible show';
+		}
+
+		$class       = $class ? ' class="' . implode(' ', $class) . '"' : '';
+		$title       = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
+		$heading     = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
+		$description = (string) $this->element['description'];
+		$html[]      = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
+		$html[]      = !empty($description) ? Text::_($description) : '';
 
 		return '</div><div ' . $class . '>' . implode('', $html);
 	}

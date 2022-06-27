@@ -19,6 +19,7 @@ use Joomla\CMS\Toolbar\Button\ConfirmButton;
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\CMS\Toolbar\Button\DropdownButton;
 use Joomla\CMS\Toolbar\Button\HelpButton;
+use Joomla\CMS\Toolbar\Button\InlinehelpButton;
 use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Button\PopupButton;
 use Joomla\CMS\Toolbar\Button\SeparatorButton;
@@ -32,6 +33,7 @@ use Joomla\CMS\Toolbar\Button\StandardButton;
  * @method  PopupButton  popupButton(string $name = '', string $text = '', string $task = '')
  * @method  LinkButton  linkButton(string $name = '', string $text = '', string $task = '')
  * @method  HelpButton  helpButton(string $name = '', string $text = '', string $task = '')
+ * @method  InlinehelpButton  inlinehelpButton(string $name = '', string $text = '', string $task = '')
  * @method  CustomButton  customButton(string $name = '', string $text = '', string $task = '')
  * @method  ConfirmButton  confirmButton(string $name = '', string $text = '', string $task = '')
  * @method  BasicButton  basicButton(string $name = '', string $text = '', string $task = '')
@@ -98,14 +100,13 @@ class Toolbar
 		// At 5.0, require the factory to be injected
 		if (!$factory)
 		{
-			Log::add(
+			@trigger_error(
 				sprintf(
 					'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
 					ToolbarFactoryInterface::class,
 					\get_class($this)
 				),
-				Log::WARNING,
-				'deprecated'
+				E_USER_DEPRECATED
 			);
 
 			$factory = new ContainerAwareToolbarFactory;
@@ -182,14 +183,13 @@ class Toolbar
 		array_unshift($args, $button);
 		$this->_bar[] = $args;
 
-		Log::add(
+		@trigger_error(
 			sprintf(
 				'%s::appendButton() should only accept %s instance in Joomla 5.0.',
 				static::class,
 				ToolbarButton::class
 			),
-			Log::WARNING,
-			'deprecated'
+			E_USER_DEPRECATED
 		);
 
 		return true;
@@ -261,14 +261,13 @@ class Toolbar
 		array_unshift($args, $button);
 		array_unshift($this->_bar, $args);
 
-		Log::add(
+		@trigger_error(
 			sprintf(
 				'%s::prependButton() should only accept %s instance in Joomla 5.0.',
 				static::class,
 				ToolbarButton::class
 			),
-			Log::WARNING,
-			'deprecated'
+			E_USER_DEPRECATED
 		);
 
 		return true;
@@ -400,15 +399,14 @@ class Toolbar
 	 */
 	public function addButtonPath($path)
 	{
-		Log::add(
+		@trigger_error(
 			sprintf(
 				'Registering lookup paths for toolbar buttons is deprecated and will be removed in Joomla 5.0.'
 				. ' %1$s objects should be autoloaded or a custom %2$s implementation supporting path lookups provided.',
 				ToolbarButton::class,
 				ToolbarFactoryInterface::class
 			),
-			Log::WARNING,
-			'deprecated'
+			E_USER_DEPRECATED
 		);
 
 		// Loop through the path directories.
@@ -439,13 +437,12 @@ class Toolbar
 	 */
 	public function getButtonPath(): array
 	{
-		Log::add(
+		@trigger_error(
 			sprintf(
 				'Lookup paths for %s objects is deprecated and will be removed in Joomla 5.0.',
 				ToolbarButton::class
 			),
-			Log::WARNING,
-			'deprecated'
+			E_USER_DEPRECATED
 		);
 
 		return $this->_buttonPath;

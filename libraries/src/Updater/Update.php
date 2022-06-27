@@ -219,6 +219,14 @@ class Update extends CMSObject
 	protected $minimum_stability = Updater::STABILITY_STABLE;
 
 	/**
+	 * Array with compatible versions used by the pre-update check
+	 *
+	 * @var    array
+	 * @since  3.10.2
+	 */
+	protected $compatibleVersions = array();
+
+	/**
 	 * Gets the reference to the current direct parent
 	 *
 	 * @return  string
@@ -389,14 +397,13 @@ class Update extends CMSObject
 
 					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
-						if (isset($this->latest))
+						if (!empty($this->currentUpdate->downloadurl) && !empty($this->currentUpdate->downloadurl->_data))
 						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
-							{
-								$this->latest = $this->currentUpdate;
-							}
+							$this->compatibleVersions[] = $this->currentUpdate->version->_data;
 						}
-						else
+
+						if (!isset($this->latest)
+							|| version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>'))
 						{
 							$this->latest = $this->currentUpdate;
 						}
@@ -492,7 +499,7 @@ class Update extends CMSObject
 
 		if ($response === null || $response->code !== 200)
 		{
-			// TODO: Add a 'mark bad' setting here somehow
+			// @todo: Add a 'mark bad' setting here somehow
 			Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
 			return false;

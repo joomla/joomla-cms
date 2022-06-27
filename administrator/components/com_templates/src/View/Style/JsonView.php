@@ -13,6 +13,7 @@ namespace Joomla\Component\Templates\Administrator\View\Style;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * View to edit a template style.
@@ -22,23 +23,23 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 class JsonView extends BaseHtmlView
 {
 	/**
-	 * The \JObject (on success, false on failure)
+	 * The CMSObject (on success, false on failure)
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 */
 	protected $item;
 
 	/**
 	 * The form object
 	 *
-	 * @var   \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
 	/**
 	 * The model state
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 */
 	protected $state;
 

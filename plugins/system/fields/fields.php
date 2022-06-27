@@ -14,7 +14,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Registry\Registry;
 
 /**
@@ -84,16 +83,16 @@ class PlgSystemFields extends CMSPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string   $context  The context
-	 * @param   JTable   $item     The table
-	 * @param   boolean  $isNew    Is new item
-	 * @param   array    $data     The validated data
+	 * @param   string                   $context  The context
+	 * @param   \Joomla\CMS\Table\Table  $item     The table
+	 * @param   boolean                  $isNew    Is new item
+	 * @param   array                    $data     The validated data
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array()): void
+	public function onContentAfterSave($context, $item, $isNew, $data = []): void
 	{
 		// Check if data is an array and the item has an id
 		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
@@ -232,14 +231,14 @@ class PlgSystemFields extends CMSPlugin
 	 * The user delete event.
 	 *
 	 * @param   stdClass  $user    The context
-	 * @param   boolean   $succes  Is success
+	 * @param   boolean   $success Is success
 	 * @param   string    $msg     The message
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onUserAfterDelete($user, $succes, $msg): void
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		$item     = new stdClass;
 		$item->id = $user['id'];
@@ -265,6 +264,7 @@ class PlgSystemFields extends CMSPlugin
 		if (strpos($context, 'com_categories.category') === 0)
 		{
 			$context = str_replace('com_categories.category', '', $context) . '.categories';
+			$data    = $data ?: Factory::getApplication()->input->get('jform', [], 'array');
 
 			// Set the catid on the category to get only the fields which belong to this category
 			if (is_array($data) && array_key_exists('id', $data))
@@ -499,67 +499,6 @@ class PlgSystemFields extends CMSPlugin
 		{
 			$item->jcfields[$field->id] = $field;
 		}
-	}
-
-	/**
-	 * The finder event.
-	 *
-	 * @param   stdClass  $item  The item
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.0
-	 */
-	public function onPrepareFinderContent($item)
-	{
-		$section = strtolower($item->layout);
-		$tax     = $item->getTaxonomy('Type');
-
-		if ($tax)
-		{
-			foreach ($tax as $context => $value)
-			{
-				// This is only a guess, needs to be improved
-				$component = strtolower($context);
-
-				if (strpos($context, 'com_') !== 0)
-				{
-					$component = 'com_' . $component;
-				}
-
-				// Transform com_article to com_content
-				if ($component === 'com_article')
-				{
-					$component = 'com_content';
-				}
-
-				// Create a dummy object with the required fields
-				$tmp     = new stdClass;
-				$tmp->id = $item->__get('id');
-
-				if ($item->__get('catid'))
-				{
-					$tmp->catid = $item->__get('catid');
-				}
-
-				// Getting the fields for the constructed context
-				$fields = FieldsHelper::getFields($component . '.' . $section, $tmp, true);
-
-				if (is_array($fields))
-				{
-					foreach ($fields as $field)
-					{
-						// Adding the instructions how to handle the text
-						$item->addInstruction(Indexer::TEXT_CONTEXT, $field->name);
-
-						// Adding the field value as a field
-						$item->{$field->name} = $field->value;
-					}
-				}
-			}
-		}
-
-		return true;
 	}
 
 	/**

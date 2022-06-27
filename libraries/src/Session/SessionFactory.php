@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -138,6 +137,7 @@ class SessionFactory implements ContainerAwareInterface
 				return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
 
 			case 'wincache':
+				// @TODO Remove WinCache with Joomla 5.0
 				if (!Handler\WincacheHandler::isSupported())
 				{
 					throw new RuntimeException('Wincache is not supported on this system.');

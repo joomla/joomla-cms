@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_TAGS_TAG_VIEW_LIST_COMPACT_TITLE" option="COM_TAGS_TAG_VIEW_LIST_COMPACT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_COMPACT_LIST"
+			key="Menu_Item:_Compact_List_of_Tagged_Items"
 		/>
 		<message>
 			<![CDATA[COM_TAGS_TAG_VIEW_LIST_DESC]]>
@@ -93,7 +93,6 @@
 				name="tag_list_image_alt"
 				type="text"
 				label="COM_TAGS_TAG_LIST_MEDIA_ALT_LABEL"
-				size="20"
 			/>
 
 			<field
@@ -275,7 +274,6 @@
 				type="text"
 				label="JGLOBAL_DATE_FORMAT_LABEL"
 				description="JGLOBAL_DATE_FORMAT_DESC"
-				size="15"
 			/>
 
 		</fieldset>

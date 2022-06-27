@@ -90,6 +90,6 @@ else
 }
 
 // Add the label text and star.
-$label = $link . '<span class="star">&#160;*</span>';
+$label = $link . '<span class="star" aria-hidden="true">&#160;*</span>';
 
 echo $label;

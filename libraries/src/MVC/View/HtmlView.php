@@ -15,8 +15,9 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 
 /**
  * Base class for a Joomla Html View
@@ -25,8 +26,10 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  2.5.5
  */
-class HtmlView extends AbstractView
+class HtmlView extends AbstractView implements CurrentUserInterface
 {
+	use CurrentUserTrait;
+
 	/**
 	 * The base path of the view
 	 *
@@ -112,7 +115,10 @@ class HtmlView extends AbstractView
 		// Set the charset (used by the variable escaping functions)
 		if (\array_key_exists('charset', $config))
 		{
-			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
+			@trigger_error(
+				'Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.',
+				E_USER_DEPRECATED
+			);
 			$this->_charset = $config['charset'];
 		}
 
@@ -251,6 +257,11 @@ class HtmlView extends AbstractView
 	 */
 	public function escape($var)
 	{
+		if ($var === null)
+		{
+			return '';
+		}
+
 		return htmlspecialchars($var, ENT_QUOTES, $this->_charset);
 	}
 
@@ -502,7 +513,11 @@ class HtmlView extends AbstractView
 				// Set the alternative template search dir
 				if (isset($app))
 				{
-					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					if ($component)
+					{
+						$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					}
+
 					$name = $this->getName();
 
 					if (!empty($template->parent))

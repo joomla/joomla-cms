@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_tags_similar</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2013</creationDate>
+	<creationDate>2013-01</creationDate>
 	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -16,22 +16,21 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_tags_similar.ini</language>
-		<language tag="en-GB">en-GB.mod_tags_similar.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_tags_similar.ini</language>
+		<language tag="en-GB">language/en-GB/mod_tags_similar.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_SIMILAR" />
+	<help key="Site_Modules:_Tags_-_Similar" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field
 					name="maximum"
-					type="integer"
+					type="number"
 					label="MOD_TAGS_SIMILAR_MAX_LABEL"
 					default="5"
 					filter="integer"
-					first="1"
-					last="20"
-					step="1"
+					min="0"
+					validate="number"
 				/>
 
 				<field
@@ -43,7 +42,7 @@
 					validate="options"
 					>
 					<option value="all">MOD_TAGS_SIMILAR_FIELD_ALL</option>
-					<option value="any">MOD_TAGS_SIMILAR_FIELD_ONE</option>
+					<option value="any">MOD_TAGS_SIMILAR_FIELD_ONE_TAG</option>
 					<option value="half">MOD_TAGS_SIMILAR_FIELD_HALF</option>
 				</field>
 

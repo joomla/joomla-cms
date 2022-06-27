@@ -193,6 +193,16 @@ class Language
 		$this->metadata = LanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
+		/*
+		 * Let's load the default override once, so we can profit from that, too
+		 * But make sure, that we don't enforce it on each language file load.
+		 * So don't put it in $this->override
+		 */
+		if (!$this->debug && $lang !== $this->default)
+		{
+			$this->loadLanguage(JPATH_BASE . '/language/overrides/' . $this->default . '.override.ini');
+		}
+
 		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
 
 		// Look for a language specific localise class
@@ -388,18 +398,28 @@ class Language
 	 */
 	public function transliterate($string)
 	{
-		// Override custom and core transliterate method with native php function if enabled
-		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+		// First check for transliterator provided by translation
+		if ($this->transliterator !== null)
+		{
+			$string = \call_user_func($this->transliterator, $string);
+
+			// Check if all symbols were transliterated (contains only ASCII), otherwise continue
+			if (!preg_match('/[\\x80-\\xff]/', $string))
+			{
+				return $string;
+			}
+		}
+
+		// Run our transliterator for common symbols,
+		// This need to be executed before native php transliterator, because it may not have all required transliterators
+		$string = Transliterate::utf8_latin_to_ascii($string);
+
+		// Check if all symbols were transliterated (contains only ASCII),
+		// Otherwise try to use native php function if available
+		if (preg_match('/[\\x80-\\xff]/', $string) && function_exists('transliterator_transliterate') && function_exists('iconv'))
 		{
 			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
 		}
-
-		if ($this->transliterator !== null)
-		{
-			return \call_user_func($this->transliterator, $string);
-		}
-
-		$string = Transliterate::utf8_latin_to_ascii($string);
 
 		return StringHelper::strtolower($string);
 	}
@@ -865,7 +885,7 @@ class Language
 			}
 
 			// Check that the line passes the necessary format.
-			if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+			if (!preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
 			{
 				$errors[] = $realNumber;
 				continue;
@@ -1002,12 +1022,10 @@ class Language
 				return $this->paths[$extension];
 			}
 
-			return;
+			return [];
 		}
-		else
-		{
-			return $this->paths;
-		}
+
+		return $this->paths;
 	}
 
 	/**
@@ -1160,9 +1178,12 @@ class Language
 	 */
 	public function hasKey($string)
 	{
-		$key = strtoupper($string);
+		if ($string === null)
+		{
+			return false;
+		}
 
-		return isset($this->strings[$key]);
+		return isset($this->strings[strtoupper($string)]);
 	}
 
 	/**

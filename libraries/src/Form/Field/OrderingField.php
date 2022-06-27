@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\UCM\UCMType;
@@ -51,10 +50,9 @@ class OrderingField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'contentType')
 		{
-			case 'contentType':
-				return $this->contentType;
+			return $this->contentType;
 		}
 
 		return parent::__get($name);
@@ -173,7 +171,7 @@ class OrderingField extends FormField
 			$title    = $ucmMapCommon[0]->core_title;
 		}
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))

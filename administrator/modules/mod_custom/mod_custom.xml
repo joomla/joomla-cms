@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_custom</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2004</creationDate>
+	<creationDate>2004-07</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -17,10 +17,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_custom.ini</language>
-		<language tag="en-GB">en-GB.mod_custom.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_custom.ini</language>
+		<language tag="en-GB">language/en-GB/mod_custom.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_CUSTOM" />
+	<help key="Admin_Modules:_Custom" />
 	<config>
 		<fields name="params">
 			<fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL">
@@ -44,7 +44,7 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					class="form-select"
- 				/>
+				/>
 
 				<field
 					name="moduleclass_sfx"
@@ -72,6 +72,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>

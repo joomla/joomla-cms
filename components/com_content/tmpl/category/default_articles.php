@@ -116,10 +116,12 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
 	<?php endif; ?>
 
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-info">
-			<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-				<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
-		</div>
+		<?php if ($this->params->get('show_no_articles', 1)) : ?>
+			<div class="alert alert-info">
+				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+					<?php echo Text::_('COM_CONTENT_NO_ARTICLES'); ?>
+			</div>
+		<?php endif; ?>
 	<?php else : ?>
 		<table class="com-content-category__table category table table-striped table-bordered table-hover">
 			<caption class="visually-hidden">

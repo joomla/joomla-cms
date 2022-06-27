@@ -63,7 +63,7 @@ class LanguagesModel extends ListModel
 	 */
 	private function getUpdateSite()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us.location'))
 			->from($db->quoteName('#__extensions', 'e'))
@@ -152,6 +152,14 @@ class LanguagesModel extends ListModel
 		}
 
 		$updateSiteXML = simplexml_load_string($response->body);
+
+		if (!$updateSiteXML)
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_RETRIEVE_XML', $updateSite), 'error');
+
+			return;
+		}
+
 		$languages     = array();
 		$search        = strtolower($this->getState('filter.search'));
 
@@ -207,7 +215,7 @@ class LanguagesModel extends ListModel
 	/**
 	 * Returns a record count for the updatesite.
 	 *
-	 * @param   \JDatabaseQuery|string  $query  The query.
+	 * @param   \Joomla\Database\DatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *

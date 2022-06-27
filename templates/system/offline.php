@@ -22,16 +22,14 @@ $app = Factory::getApplication();
 $wa  = $this->getWebAssetManager();
 
 // Styles
-$wa->registerAndUseStyle('template.system.offline', 'templates/system/css/offline.css');
+$wa->registerAndUseStyle('template.system.offline', 'media/system/css/system-site-offline.css');
 
 if ($this->direction === 'rtl')
 {
-	$wa->registerAndUseStyle('template.system.offline_rtl', 'templates/system/css/offline_rtl.css');
+	$wa->registerAndUseStyle('template.system.offline_rtl', 'media/system/css/system-site-offline_rtl.css');
 }
 
-$wa->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
-
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$wa->registerAndUseStyle('template.system.general', 'media/system/css/system-site-general.css');
 
 ?>
 <!DOCTYPE html>
@@ -68,14 +66,8 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<label for="passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 			<input type="password" name="password" class="inputbox" alt="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" id="passwd" />
 		</p>
-		<?php if (count($twofactormethods) > 1) : ?>
-			<p id="form-login-secretkey">
-				<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-				<input type="text" name="secretkey" autocomplete="one-time-code" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
-			</p>
-		<?php endif; ?>
 		<p id="submit-button">
-			<input type="submit" name="Submit" class="button login" value="<?php echo Text::_('JLOGIN'); ?>" />
+			<button type="submit" name="Submit" class="button login"><?php echo Text::_('JLOGIN'); ?></button>
 		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />

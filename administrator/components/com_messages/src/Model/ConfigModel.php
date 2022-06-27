@@ -60,7 +60,7 @@ class ConfigModel extends FormModel
 		$item   = new CMSObject;
 		$userid = (int) $this->getState('user.id');
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -101,7 +101,7 @@ class ConfigModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm	 A \JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -129,7 +129,7 @@ class ConfigModel extends FormModel
 	 */
 	public function save($data)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		if ($userId = (int) $this->getState('user.id'))
 		{

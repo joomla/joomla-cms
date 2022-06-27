@@ -14,9 +14,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var HtmlView $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
-/** @var WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
 	->useScript('com_joomlaupdate.default')
@@ -47,15 +47,17 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
 endif;
 
 // Confirm backup and check
-$displayData['content'] .= '<div class="form-check d-flex justify-content-center">
-		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup">
+$classVisibility = $this->noBackupCheck ? 'd-none' : '';
+$checked = $this->noBackupCheck ? 'checked' : '';
+$displayData['content'] .= '<div class="form-check d-flex justify-content-center ' . $classVisibility . '">
+		<input class="form-check-input me-2" type="checkbox" value="" id="joomlaupdate-confirm-backup" ' . $checked . '>
 		<label class="form-check-label" for="joomlaupdate-confirm-backup">
 		' . Text::_('COM_JOOMLAUPDATE_UPDATE_CONFIRM_BACKUP') . '
 		</label>
 	</div>';
 
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
-	$displayData['formAppend'] = '<div class="text-center">' . HTMLHelper::_('link', $uploadLink, Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')) . '</div>';
+	$displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
 endif;
 
 echo '<div id="joomlaupdate-wrapper">';

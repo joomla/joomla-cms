@@ -355,14 +355,14 @@ class HistoryModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   3.2
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true);
 		$itemId = $this->getState('item_id');
 

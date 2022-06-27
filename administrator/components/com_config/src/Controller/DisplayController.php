@@ -47,7 +47,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$component = $this->input->get('component');
+		$component = $this->input->get('component', '');
 
 		// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
 		if (in_array(strtolower($component), array('com_joomlaupdate', 'com_privacy'))

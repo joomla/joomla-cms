@@ -74,7 +74,7 @@ class RemindModel extends AdminModel
 		/** @var ConsentTable $table */
 		$table = $this->getTable();
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['r.id', 'r.user_id', 'r.token']));
 		$query->from($db->quoteName('#__privacy_consents', 'r'));
@@ -168,7 +168,7 @@ class RemindModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @throws  \Exception
 	 * @since   3.9.0

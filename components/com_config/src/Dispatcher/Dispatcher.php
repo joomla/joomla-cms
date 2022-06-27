@@ -28,7 +28,7 @@ class Dispatcher extends ComponentDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @throws  Exception|NotAllowed
+	 * @throws  \Exception|NotAllowed
 	 */
 	protected function checkAccess()
 	{

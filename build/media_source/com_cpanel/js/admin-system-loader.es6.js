@@ -7,7 +7,7 @@
 
   const init = () => {
     // Cleanup
-    document.removeEventListener('DOMContentLoaded', init);
+    window.removeEventListener('load', init);
 
     // Get the elements
     const elements = [].slice.call(document.querySelectorAll('.system-counter'));
@@ -20,6 +20,7 @@
           Joomla.request({
             url: badgeurl,
             method: 'POST',
+            queued: true,
             onSuccess: (resp) => {
               let response;
               try {
@@ -61,5 +62,8 @@
     }
   };
 
-  document.addEventListener('DOMContentLoaded', init);
+  // Give some times to the layout and other scripts to settle their stuff
+  window.addEventListener('load', () => {
+    setTimeout(init, 300);
+  });
 })(document, Joomla);

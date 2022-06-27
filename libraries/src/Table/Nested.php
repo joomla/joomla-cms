@@ -547,13 +547,6 @@ class Nested extends Table
 		);
 		$this->getDispatcher()->dispatch('onBeforeDelete', $event);
 
-		// Lock the table for writing.
-		if (!$this->_lock())
-		{
-			// Error message set in lock method.
-			return false;
-		}
-
 		// If tracking assets, remove the asset first.
 		if ($this->_trackAssets)
 		{
@@ -562,33 +555,29 @@ class Nested extends Table
 			/** @var Asset $asset */
 			$asset = Table::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 
-			// Lock the table for writing.
-			if (!$asset->_lock())
-			{
-				// Error message set in lock method.
-				return false;
-			}
-
 			if ($asset->loadByName($name))
 			{
 				// Delete the node in assets table.
 				if (!$asset->delete(null, $children))
 				{
 					$this->setError($asset->getError());
-					$asset->_unlock();
 
 					return false;
 				}
-
-				$asset->_unlock();
 			}
 			else
 			{
 				$this->setError($asset->getError());
-				$asset->_unlock();
 
 				return false;
 			}
+		}
+
+		// Lock the table for writing.
+		if (!$this->_lock())
+		{
+			// Error message set in lock method.
+			return false;
 		}
 
 		// Get the node by id.
@@ -969,7 +958,7 @@ class Nested extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), $pks, $state, $userId));
+				$e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
 				$this->setError($e);
 
 				return false;
@@ -1003,7 +992,7 @@ class Nested extends Table
 				// Check for checked out children.
 				if ($this->_db->loadResult())
 				{
-					// TODO Convert to a conflict exception when available.
+					// @todo Convert to a conflict exception when available.
 					$e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
 
 					$this->setError($e);

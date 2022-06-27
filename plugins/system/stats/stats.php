@@ -34,38 +34,30 @@ class PlgSystemStats extends CMSPlugin
 	 * Indicates sending statistics is always allowed.
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_ALWAYS = 1;
 
 	/**
-	 * Indicates sending statistics is only allowed one time.
-	 *
-	 * @var    integer
-	 * @since  3.5
-	 */
-	const MODE_ALLOW_ONCE = 2;
-
-	/**
 	 * Indicates sending statistics is never allowed.
 	 *
 	 * @var    integer
+	 *
 	 * @since  3.5
 	 */
 	const MODE_ALLOW_NEVER = 3;
 
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    JApplicationCms
 	 * @since  3.5
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.5
 	 */
 	protected $db;
@@ -74,6 +66,7 @@ class PlgSystemStats extends CMSPlugin
 	 * URL to send the statistics.
 	 *
 	 * @var    string
+	 *
 	 * @since  3.5
 	 */
 	protected $serverUrl = 'https://developer.joomla.org/stats/submit';
@@ -82,6 +75,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Unique identifier for this site
 	 *
 	 * @var    string
+	 *
 	 * @since  3.5
 	 */
 	protected $uniqueId;
@@ -207,40 +201,6 @@ class PlgSystemStats extends CMSPlugin
 	}
 
 	/**
-	 * User selected to send data once.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.5
-	 *
-	 * @throws  Exception         If user is not allowed.
-	 * @throws  RuntimeException  If there is an error saving the params, disabling the plugin or sending the data.
-	 */
-	public function onAjaxSendOnce()
-	{
-		if (!$this->isAllowedUser() || !$this->isAjaxRequest())
-		{
-			throw new Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'), 403);
-		}
-
-		$this->params->set('mode', static::MODE_ALLOW_ONCE);
-
-		if (!$this->saveParams())
-		{
-			throw new RuntimeException('Unable to save plugin settings', 500);
-		}
-
-		$this->sendStats();
-
-		if (!$this->disablePlugin())
-		{
-			throw new RuntimeException('Unable to disable the statistics plugin', 500);
-		}
-
-		echo json_encode(['sent' => 1]);
-	}
-
-	/**
 	 * Send the stats to the server.
 	 * On first load | on demand mode it will show a message asking users to select mode.
 	 *
@@ -348,7 +308,7 @@ class PlgSystemStats extends CMSPlugin
 	 *
 	 * @param   string  $layoutId  Layout identifier
 	 *
-	 * @return  JLayout
+	 * @return  \Joomla\CMS\Layout\LayoutInterface
 	 *
 	 * @since   3.5
 	 */
@@ -646,7 +606,7 @@ class PlgSystemStats extends CMSPlugin
 	 * Disable this plugin, if user selects once or never, to stop Joomla loading the plugin on every page load and
 	 * therefore regaining a tiny bit of performance
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 *
 	 * @return  boolean
 	 */

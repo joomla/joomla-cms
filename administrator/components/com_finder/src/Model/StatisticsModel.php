@@ -26,14 +26,14 @@ class StatisticsModel extends BaseDatabaseModel
 	/**
 	 * Method to get the component statistics
 	 *
-	 * @return  \JObject  The component statistics
+	 * @return  CMSObject The component statistics
 	 *
 	 * @since   2.5
 	 */
 	public function getData()
 	{
 		// Initialise
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$data = new CMSObject;
 

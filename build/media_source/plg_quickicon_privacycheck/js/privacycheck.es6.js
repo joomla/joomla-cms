@@ -6,7 +6,7 @@
 ((document) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', () => {
+  const checkPrivacy = () => {
     const variables = Joomla.getOptions('js-privacy-check');
     const ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
     const url = variables.plg_quickicon_privacycheck_url;
@@ -14,11 +14,17 @@
     const quickicon = document.getElementById('plg_quickicon_privacycheck');
     const link = quickicon.querySelector('span.j-links-link');
 
+    /**
+     * DO NOT use fetch() for QuickIcon requests. They must be queued.
+     *
+     * @see https://github.com/joomla/joomla-cms/issues/38001
+     */
     Joomla.request({
       url: ajaxUrl,
       method: 'GET',
       data: '',
       perform: true,
+      queued: true,
       onSuccess: (response) => {
         try {
           const request = JSON.parse(response);
@@ -67,5 +73,10 @@
         link.textContent = text.ERROR;
       },
     });
+  };
+
+  // Give some times to the layout and other scripts to settle their stuff
+  window.addEventListener('load', () => {
+    setTimeout(checkPrivacy, 360);
   });
 })(document);

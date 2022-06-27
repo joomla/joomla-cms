@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null): void
 	{
 		// Access check.
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->getCurrentUser()->authorise('core.admin'))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -120,6 +120,6 @@ class HtmlView extends BaseHtmlView
 			'COM_ADMIN_DOWNLOAD_SYSTEM_INFORMATION_JSON',
 			'download'
 		);
-		ToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
+		ToolbarHelper::help('Site_System_Information');
 	}
 }

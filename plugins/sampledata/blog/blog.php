@@ -28,18 +28,14 @@ use Joomla\Database\ParameterType;
 class PlgSampledataBlog extends CMSPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
 	 * @since  3.8.0
 	 */
 	protected $db;
 
 	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
 	 * @since  3.8.0
 	 */
@@ -103,7 +99,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!ComponentHelper::isEnabled('com_tags'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_tags');
 
@@ -122,14 +118,14 @@ class PlgSampledataBlog extends CMSPlugin
 		$modelTag = $this->app->bootComponent('com_tags')->getMVCFactory()
 			->createModel('Tag', 'Administrator', ['ignore_request' => true]);
 
-		$tagIds = array();
+		$tagIds = [];
 
 		// Create first three tags.
 		for ($i = 0; $i <= 3; $i++)
 		{
 			$title = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_TAG_' . $i . '_TITLE') . $langSuffix;
 
-			$tag   = array(
+			$tag   = [
 				'id'              => 0,
 				'title'           => $title,
 				'alias'           => ApplicationHelper::stringURLSafe($title),
@@ -140,7 +136,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'created_user_id' => $user->id,
 				'language'        => $language,
 				'description'     => '',
-			);
+			];
 
 			try
 			{
@@ -152,7 +148,7 @@ class PlgSampledataBlog extends CMSPlugin
 			}
 			catch (Exception $e)
 			{
-				$response            = array();
+				$response            = [];
 				$response['success'] = false;
 				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
 
@@ -164,7 +160,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		if (!ComponentHelper::isEnabled('com_content') || !$this->app->getIdentity()->authorise('core.create', 'com_content'))
 		{
-			$response            = array();
+			$response            = [];
 			$response['success'] = true;
 			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_SKIPPED', 1, 'com_content');
 
@@ -569,12 +565,14 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa1-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa1-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_2_INTROIMAGE_ALT'),
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa1-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
@@ -587,12 +585,14 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa2-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa2-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
@@ -606,12 +606,14 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa3-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa3-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa3-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_4_FULLTEXTIMAGE_ALT'),
 					'image_fulltext_alt_empty'  => '',
@@ -624,16 +626,18 @@ class PlgSampledataBlog extends CMSPlugin
 				'featured' => 1,
 				'tags'     => array_map('strval', $tagIds),
 				'images'   => array(
-					'image_intro'               => 'images/sampledata/cassiopeia/nasa4-1200.jpg',
+					'image_intro'               => 'images/sampledata/cassiopeia/nasa4-1200.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-1200.jpg?width=1200&height=400',
 					'float_intro'               => '',
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => 1,
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-start',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
-					'image_fulltext_caption' => 'www.nasa.gov/multimedia/imagegallery',
+					'image_fulltext_caption'    => 'www.nasa.gov/multimedia/imagegallery',
 				),
 			),
 			// Category 2 = Joomla - marketing texts
@@ -641,7 +645,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 6 - Millions
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa1-640.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa1-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa1-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
@@ -652,7 +657,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 7 - Love
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa2-640.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa2-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa2-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
@@ -663,7 +669,8 @@ class PlgSampledataBlog extends CMSPlugin
 				// Article 8 - Joomla
 				'catid'    => $catIds[2],
 				'images'   => array(
-					'image_intro'            => 'images/sampledata/cassiopeia/nasa3-640.jpg',
+					'image_intro'            => 'images/sampledata/cassiopeia/nasa3-640.jpg#'
+											. 'joomlaImage://local-images/sampledata/cassiopeia/nasa3-640.jpg?width=640&height=320',
 					'float_intro'            => '',
 					'image_intro_alt'        => '',
 					'image_intro_alt_empty'  => 1,
@@ -679,7 +686,8 @@ class PlgSampledataBlog extends CMSPlugin
 					'image_intro_alt'           => '',
 					'image_intro_alt_empty'     => '',
 					'image_intro_caption'       => '',
-					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg',
+					'image_fulltext'            => 'images/sampledata/cassiopeia/nasa4-400.jpg#'
+												. 'joomlaImage://local-images/sampledata/cassiopeia/nasa4-400.jpg?width=400&height=400',
 					'float_fulltext'            => 'float-end',
 					'image_fulltext_alt'        => '',
 					'image_fulltext_alt_empty'  => 1,
@@ -766,7 +774,7 @@ class PlgSampledataBlog extends CMSPlugin
 				&& ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 			{
 				// Set the article featured in #__content_frontpage
-				$query = $this->db->getQuery(true);
+				$this->db->getQuery(true);
 
 				$featuredItem = (object) [
 					'content_id'      => $articleModel->getItem()->id,
@@ -1639,7 +1647,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'showtitle'  => 0,
 				'params'     => array(
 					'prepare_content' => 0,
-					'backgroundimage' => 'images/banners/banner.jpg',
+					'backgroundimage' => 'images/banners/banner.jpg#joomlaImage://local-images/banners/banner.jpg?width=1140&height=600',
 					'layout'          => 'cassiopeia:banner',
 					'moduleclass_sfx' => '',
 					'cache'           => 1,
@@ -1676,7 +1684,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// Similiar Items
+				// Similar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
 				'module'   => 'mod_tags_similar',

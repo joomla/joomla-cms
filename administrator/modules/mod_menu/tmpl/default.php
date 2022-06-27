@@ -13,8 +13,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 
 $doc       = $app->getDocument();
-$direction = $doc->direction === 'rtl' ? 'float-end' : '';
-$class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
+$class     = $enabled ? 'nav flex-column main-nav' : 'nav flex-column main-nav disabled';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $doc->getWebAssetManager();

@@ -13,6 +13,7 @@ namespace Joomla\Component\Categories\Administrator\View\Categories;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -60,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -149,6 +150,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
+	 * @throws \Exception
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -179,7 +181,7 @@ class HtmlView extends BaseHtmlView
 			$title = Text::_($component_title_key);
 		}
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
-		// Else if the component section string exits, let's use it
+		// Else if the component section string exists, let's use it.
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(Text::_($component_section_key)));
 		}
@@ -273,29 +275,70 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences($component);
 		}
 
-		// Compute the ref_key if it does exist in the component
-		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY'))
+		// Get the component form if it exists for the help key/url
+		$name = 'category' . ($section ? ('.' . $section) : '');
+
+		// Looking first in the component forms folder
+		$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/forms/$name.xml");
+
+		// Looking in the component models/forms folder (J! 3)
+		if (!file_exists($path))
 		{
-			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+			$path = Path::clean(JPATH_ADMINISTRATOR . "/components/$component/models/forms/$name.xml");
+		}
+
+		$ref_key = '';
+		$url     = '';
+
+		// Look first in form for help key and url
+		if (file_exists($path))
+		{
+			if (!$xml = simplexml_load_file($path))
+			{
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
+			}
+
+			$ref_key = (string) $xml->listhelp['key'];
+			$url     = (string) $xml->listhelp['url'];
+		}
+
+		if (!$ref_key)
+		{
+			// Compute the ref_key if it does exist in the component
+			$languageKey = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY';
+
+			if ($lang->hasKey($languageKey))
+			{
+				$ref_key = $languageKey;
+			}
+			else
+			{
+				$languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+
+				if ($lang->hasKey($languageKey))
+				{
+					$ref_key = $languageKey;
+				}
+			}
 		}
 
 		/*
 		 * Get help for the categories view for the component by
+		 * -remotely searching in a URL defined in the category form
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
 		 */
-		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+		if (!$url)
 		{
-			$debug = $lang->setDebug(false);
-			$url = Text::_($lang_help_url);
-			$lang->setDebug($debug);
-		}
-		else
-		{
-			$url = null;
+			if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
+			{
+				$debug = $lang->setDebug(false);
+				$url   = Text::_($lang_help_url);
+				$lang->setDebug($debug);
+			}
 		}
 
-		$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		ToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 }

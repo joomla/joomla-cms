@@ -4,8 +4,6 @@
  */
 
 if (Joomla && Joomla.getOptions('js-extensions-update')) {
-  const options = Joomla.getOptions('js-joomla-update');
-
   const update = (type, text) => {
     const link = document.getElementById('plg_quickicon_joomlaupdate');
     const linkSpans = [].slice.call(link.querySelectorAll('span.j-links-link'));
@@ -20,9 +18,23 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
     }
   };
 
-  fetch(options.ajaxUrl, { method: 'GET' })
-    .then((response) => {
-      response.json().then((updateInfoList) => {
+  const fetchUpdate = () => {
+    const options = Joomla.getOptions('js-joomla-update');
+
+    /**
+     * DO NOT use fetch() for QuickIcon requests. They must be queued.
+     *
+     * @see https://github.com/joomla/joomla-cms/issues/38001
+     */
+    Joomla.request({
+      url: options.ajaxUrl,
+      method: 'GET',
+      data: '',
+      perform: true,
+      queued: true,
+      onSuccess: (response) => {
+        const updateInfoList = JSON.parse(response);
+
         if (Array.isArray(updateInfoList)) {
           if (updateInfoList.length === 0) {
             // No updates
@@ -40,14 +52,16 @@ if (Joomla && Joomla.getOptions('js-extensions-update')) {
           // An error occurred
           update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
         }
-      })
-        .catch(() => {
-          // An error occurred
-          update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
-        });
-    })
-    .catch(() => {
-      // An error occurred
-      update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
+      },
+      onError: () => {
+        // An error occurred
+        update('danger', Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_ERROR'));
+      },
     });
+  };
+
+  // Give some times to the layout and other scripts to settle their stuff
+  window.addEventListener('load', () => {
+    setTimeout(fetchUpdate, 300);
+  });
 }

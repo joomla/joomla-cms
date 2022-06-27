@@ -125,7 +125,7 @@ Joomla = window.Joomla || {};
       const self = this;
 
       // Get values
-      this.searchString = this.searchField.value;
+      this.searchString = this.searchField ? this.searchField.value : '';
 
       // Do some binding
       this.showFilters = this.showFilters.bind(this);
@@ -174,14 +174,12 @@ Joomla = window.Joomla || {};
       }
 
       // Do we need to add to mark filter as enabled?
-      if (this.getFilterFields()) {
-        this.getFilterFields().forEach((i) => {
+      this.getFilterFields().forEach((i) => {
+        self.checkFilter(i);
+        i.addEventListener('change', () => {
           self.checkFilter(i);
-          i.addEventListener('change', () => {
-            self.checkFilter(i);
-          });
         });
-      }
+      });
 
       if (this.clearButton) {
         this.clearButton.addEventListener('click', self.clear);
@@ -245,16 +243,14 @@ Joomla = window.Joomla || {};
         self.searchField.value = '';
       }
 
-      if (self.getFilterFields()) {
-        self.getFilterFields().forEach((i) => {
-          i.value = '';
-          self.checkFilter(i);
+      self.getFilterFields().forEach((i) => {
+        i.value = '';
+        self.checkFilter(i);
 
-          if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('chosen:updated');
-          }
-        });
-      }
+        if (window.jQuery && window.jQuery.chosen) {
+          window.jQuery(i).trigger('chosen:updated');
+        }
+      });
 
       if (self.clearListOptions) {
         self.getListFields().forEach((i) => {
@@ -286,10 +282,9 @@ Joomla = window.Joomla || {};
 
     // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
-      const els = [].slice.call(this.getFilterFields());
       let activeFilterCount = 0;
 
-      els.forEach((item) => {
+      this.getFilterFields().forEach((item) => {
         if (item.classList.contains('active')) {
           activeFilterCount += 1;
           cont.filterButton.classList.remove('btn-secondary');
@@ -359,6 +354,8 @@ Joomla = window.Joomla || {};
       if (this.filterContainer) {
         return Array.prototype.slice.call(this.filterContainer.querySelectorAll('select,input'));
       }
+
+      return [];
     }
 
     getListFields() {

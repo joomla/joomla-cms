@@ -17,7 +17,7 @@ namespace Joomla\CMS\Object;
  * and an internal error handler.
  *
  * @since       1.7.0
- * @deprecated  4.0.0
+ * @deprecated  4.0.0  Use \stdClass or \Joomla\Registry\Registry instead.
  */
 class CMSObject
 {

@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -27,6 +28,8 @@ use Joomla\Registry\Registry;
  */
 class Filter
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Method to generate filters using the slider widget and decorated
 	 * with the FinderFilter JavaScript behaviors.
@@ -39,7 +42,7 @@ class Filter
 	 */
 	public function slider($options = array())
 	{
-		$db     = Factory::getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true);
 		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
@@ -159,7 +162,7 @@ class Filter
 
 			foreach ($nodes as $nk => $nv)
 			{
-				if (trim($nv->parent_title, '**') === 'Language')
+				if (trim($nv->parent_title, '*') === 'Language')
 				{
 					$title = LanguageHelper::branchLanguageTitle($nv->title);
 				}
@@ -239,7 +242,7 @@ class Filter
 		}
 		else
 		{
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
@@ -353,7 +356,7 @@ class Filter
 
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					if (trim($node->parent_title, '**') === 'Language')
+					if (trim($node->parent_title, '*') === 'Language')
 					{
 						$title = LanguageHelper::branchLanguageTitle($node->title);
 					}

@@ -2,7 +2,7 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_log</name>
 	<author>Joomla! Project</author>
-	<creationDate>April 2007</creationDate>
+	<creationDate>2007-04</creationDate>
 	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,8 +13,8 @@
 		<filename plugin="log">log.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_log.ini</language>
-		<language tag="en-GB">en-GB.plg_system_log.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_log.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_log.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

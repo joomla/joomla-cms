@@ -41,7 +41,7 @@ class AssociationField extends FormField
 	 */
 	protected function getInput()
 	{
-		// @TODO USE JLayouts here!!!
+		// @todo USE Layouts here!!!
 		// The active item id field.
 		$value = (int) $this->value ?: '';
 

@@ -61,21 +61,18 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$form = null;
-		$data = null;
-
 		try
 		{
 			// Load Form and Data
 			$form = $this->get('form');
 			$data = $this->get('data');
-			$user = Factory::getUser();
+			$user = $this->getCurrentUser();
 		}
 		catch (\Exception $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
+			return;
 		}
 
 		// Bind data
@@ -120,6 +117,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('application.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		ToolbarHelper::inlinehelp();
+		ToolbarHelper::help('Site_Global_Configuration');
 	}
 }

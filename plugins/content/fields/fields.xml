@@ -2,7 +2,7 @@
 <extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_fields</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2017</creationDate>
+	<creationDate>2017-02</creationDate>
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,8 +13,8 @@
 		<filename plugin="fields">fields.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_fields.ini</language>
-		<language tag="en-GB">en-GB.plg_content_fields.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_fields.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_fields.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -127,19 +127,8 @@ class TagModel extends AdminModel
 			$registry = new Registry($result->urls);
 			$result->urls = $registry->toArray();
 
-			// Convert the created and modified dates to local user time for display in the form.
+			// Convert the modified date to local user time for display in the form.
 			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new Date($result->created_time);
-				$date->setTimezone($tz);
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
 
 			if ((int) $result->modified_time)
 			{
@@ -162,7 +151,7 @@ class TagModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  bool|\Joomla\CMS\Form\Form  A Form object on success, false on failure
 	 *
 	 * @since   3.1
 	 */

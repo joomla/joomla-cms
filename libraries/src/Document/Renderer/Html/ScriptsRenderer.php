@@ -1,7 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Document
+ * Joomla! Content Management System
  *
  * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -181,6 +180,12 @@ class ScriptsRenderer extends DocumentRenderer
 			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
 		}
 
+		// Add "nonce" attribute if exist
+		if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce))
+		{
+			$attribs['nonce'] = $this->_doc->cspNonce;
+		}
+
 		// To prevent double rendering
 		$this->renderedSrc[$src] = true;
 
@@ -249,7 +254,7 @@ class ScriptsRenderer extends DocumentRenderer
 		}
 
 		// Add "nonce" attribute if exist
-		if ($this->_doc->cspNonce)
+		if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce))
 		{
 			$attribs['nonce'] = $this->_doc->cspNonce;
 		}

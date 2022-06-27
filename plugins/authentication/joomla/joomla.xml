@@ -2,7 +2,7 @@
 <extension type="plugin" group="authentication" method="upgrade">
 	<name>plg_authentication_joomla</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
+	<creationDate>2005-11</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,7 +13,7 @@
 		<filename plugin="joomla">joomla.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_authentication_joomla.ini</language>
-		<language tag="en-GB">en-GB.plg_authentication_joomla.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_authentication_joomla.ini</language>
+		<language tag="en-GB">language/en-GB/plg_authentication_joomla.sys.ini</language>
 	</languages>
 </extension>

@@ -10,6 +10,7 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
+use DateTime;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -44,10 +45,18 @@ class CalendarField extends FormField
 	/**
 	 * The format of date and time.
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  3.2
 	 */
 	protected $format;
+
+	/**
+	 * The format will be used to filter submitted date and time.
+	 *
+	 * @var    string
+	 * @since  4.0.1
+	 */
+	protected $filterFormat;
 
 	/**
 	 * The filter.
@@ -104,6 +113,7 @@ class CalendarField extends FormField
 		{
 			case 'maxlength':
 			case 'format':
+			case 'filterFormat':
 			case 'filter':
 			case 'timeformat':
 			case 'todaybutton':
@@ -143,6 +153,7 @@ class CalendarField extends FormField
 			case 'showtime':
 			case 'filltable':
 			case 'format':
+			case 'filterFormat':
 			case 'filter':
 			case 'minyear':
 			case 'maxyear':
@@ -190,6 +201,29 @@ class CalendarField extends FormField
 			{
 				$this->todaybutton = 'false';
 			}
+
+			$translateFormat = (string) $this->element['translateformat'];
+
+			if ($translateFormat && $translateFormat !== 'false')
+			{
+				$showTime = (string) $this->element['showtime'];
+
+				$lang  = Factory::getLanguage();
+				$debug = $lang->setDebug(false);
+
+				if ($showTime && $showTime !== 'false')
+				{
+					$this->format       = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
+					$this->filterFormat = Text::_('DATE_FORMAT_FILTER_DATETIME');
+				}
+				else
+				{
+					$this->format       = Text::_('DATE_FORMAT_CALENDAR_DATE');
+					$this->filterFormat = Text::_('DATE_FORMAT_FILTER_DATE');
+				}
+
+				$lang->setDebug($debug);
+			}
 		}
 
 		return $return;
@@ -204,36 +238,14 @@ class CalendarField extends FormField
 	 */
 	protected function getInput()
 	{
-		$user = Factory::getUser();
-
-		// Translate the format if requested
-		$translateFormat = (string) $this->element['translateformat'];
-
-		if ($translateFormat && $translateFormat !== 'false')
-		{
-			$showTime = (string) $this->element['showtime'];
-
-			$lang  = Factory::getLanguage();
-			$debug = $lang->setDebug(false);
-
-			if ($showTime && $showTime !== 'false')
-			{
-				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
-			}
-			else
-			{
-				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
-			}
-
-			$lang->setDebug($debug);
-		}
+		$user = Factory::getApplication()->getIdentity();
 
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if ($this->value && $this->value != Factory::getDbo()->getNullDate())
+				if ($this->value && $this->value != $this->getDatabase()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
@@ -245,7 +257,7 @@ class CalendarField extends FormField
 				break;
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if ($this->value && $this->value != Factory::getDbo()->getNullDate())
+				if ($this->value && $this->value != $this->getDatabase()->getNullDate())
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
@@ -258,11 +270,21 @@ class CalendarField extends FormField
 		}
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($this->value && $this->value != Factory::getDbo()->getNullDate() && strtotime($this->value) !== false)
+		if ($this->value && $this->value != $this->getDatabase()->getNullDate() && strtotime($this->value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$this->value = strftime($this->format, strtotime($this->value));
+
+			if ($this->filterFormat)
+			{
+				$date = \DateTimeImmutable::createFromFormat('U', strtotime($this->value));
+				$this->value = $date->format($this->filterFormat);
+			}
+			else
+			{
+				$this->value = strftime($this->format, strtotime($this->value));
+			}
+
 			date_default_timezone_set($tz);
 		}
 		else
@@ -332,13 +354,23 @@ class CalendarField extends FormField
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
-		$app = Factory::getApplication();
-
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
+
+		if ((int) $value <= 0)
+		{
+			return '';
+		}
+
+		if ($this->filterFormat)
+		{
+			$value = DateTime::createFromFormat($this->filterFormat, $value)->format('Y-m-d H:i:s');
+		}
+
+		$app = Factory::getApplication();
 
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
@@ -349,34 +381,17 @@ class CalendarField extends FormField
 		{
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
-				if ((int) $value > 0)
-				{
-					// Get the server timezone setting.
-					$offset = $app->get('offset');
-
-					// Return an SQL formatted datetime string in UTC.
-					$return = Factory::getDate($value, $offset)->toSql();
-				}
-				else
-				{
-					$return = '';
-				}
+				// Return an SQL formatted datetime string in UTC.
+				$return = Factory::getDate($value, $app->get('offset'))->toSql();
 				break;
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
-				if ((int) $value > 0)
-				{
-					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = Factory::getUser()->getParam('timezone', $app->get('offset'));
+				// Get the user timezone setting defaulting to the server timezone setting.
+				$offset = $app->getIdentity()->getParam('timezone', $app->get('offset'));
 
-					// Return an SQL formatted datetime string in UTC.
-					$return = Factory::getDate($value, $offset)->toSql();
-				}
-				else
-				{
-					$return = '';
-				}
+				// Return an SQL formatted datetime string in UTC.
+				$return = Factory::getDate($value, $offset)->toSql();
 				break;
 		}
 

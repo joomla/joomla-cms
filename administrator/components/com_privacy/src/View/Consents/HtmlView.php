@@ -156,6 +156,6 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::preferences('com_privacy');
 
-		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
+		ToolbarHelper::help('Privacy:_Consents');
 	}
 }

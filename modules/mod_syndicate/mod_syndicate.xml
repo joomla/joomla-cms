@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_syndicate</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2006</creationDate>
+	<creationDate>2006-05</creationDate>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_syndicate.ini</language>
-		<language tag="en-GB">en-GB.mod_syndicate.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_syndicate.ini</language>
+		<language tag="en-GB">language/en-GB/mod_syndicate.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SYNDICATION_FEEDS" />
+	<help key="Site_Modules:_Syndication_Feeds" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

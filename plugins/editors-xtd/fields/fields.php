@@ -36,7 +36,7 @@ class PlgButtonFields extends CMSPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  CMSObject  The button options as JObject
+	 * @return  CMSObject|void  The button options as CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -51,6 +51,12 @@ class PlgButtonFields extends CMSPlugin
 		// Guess the field context based on view.
 		$jinput = Factory::getApplication()->input;
 		$context = $jinput->get('option') . '.' . $jinput->get('view');
+
+		// Special context for com_categories
+		if ($context === 'com_categories.category')
+		{
+			$context = $jinput->get('extension', 'com_content') . '.categories';
+		}
 
 		$link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
 			. $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';

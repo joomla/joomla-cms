@@ -18,6 +18,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Database\QueryInterface;
 use Joomla\String\StringHelper;
@@ -112,13 +113,19 @@ class Indexer
 	/**
 	 * Indexer constructor.
 	 *
+	 * @param  DatabaseInterface  $db  The database
+	 *
 	 * @since  3.8.0
 	 */
-	public function __construct()
+	public function __construct(DatabaseInterface $db = null)
 	{
-		$this->db = Factory::getDbo();
+		if ($db === null)
+		{
+			@trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+			$db = Factory::getContainer()->get(DatabaseInterface::class);
+		}
 
-		$db = $this->db;
+		$this->db = $db;
 
 		// Set up query template for addTokensToDb
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
@@ -308,7 +315,7 @@ class Indexer
 		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : null;
 
 		// Prepare the item description.
-		$item->description = Helper::parse($item->summary);
+		$item->description = Helper::parse($item->summary ?? '');
 
 		/*
 		 * Now, we need to enter the item into the links table. If the item
@@ -713,7 +720,35 @@ class Indexer
 		$db->setQuery($query);
 		$db->execute();
 
-		// Remove the orphaned taxonomy nodes.
+		// Delete all broken links. (Links missing the object)
+		$query = $db->getQuery(true)
+			->delete('#__finder_links')
+			->where($db->quoteName('object') . ' = ' . $db->quote(''));
+		$db->setQuery($query);
+		$db->execute();
+
+		// Delete all orphaned mappings of terms to links
+		$query2 = $db->getQuery(true)
+			->select($db->quoteName('link_id'))
+			->from($db->quoteName('#__finder_links'));
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('link_id') . ' NOT IN (' . $query2 . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		// Delete all orphaned terms
+		$query2 = $db->getQuery(true)
+			->select($db->quoteName('term_id'))
+			->from($db->quoteName('#__finder_links_terms'));
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('term_id') . ' NOT IN (' . $query2 . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		// Delete all orphaned taxonomies
+		Taxonomy::removeOrphanMaps();
 		Taxonomy::removeOrphanNodes();
 
 		// Optimize the tables.
@@ -934,6 +969,12 @@ class Indexer
 
 			foreach ($tokens as $token)
 			{
+				// Database size for a term field
+				if ($token->length > 75)
+				{
+					continue;
+				}
+
 				if ($filterCommon && $token->common)
 				{
 					continue;
@@ -956,7 +997,11 @@ class Indexer
 				++$values;
 			}
 
-			$db->setQuery($query)->execute();
+			// Only execute the query if there are tokens to insert
+			if ($query->values !== null)
+			{
+				$db->setQuery($query)->execute();
+			}
 
 			// Check if we're approaching the memory limit of the token table.
 			if ($values > static::$state->options->get('memory_table_limit', 10000))
@@ -982,7 +1027,7 @@ class Indexer
 	 */
 	protected function toggleTables($memory)
 	{
-		if (strtolower(Factory::getDbo()->getServerType()) != 'mysql')
+		if (strtolower($this->db->getServerType()) != 'mysql')
 		{
 			return true;
 		}

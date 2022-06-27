@@ -2,7 +2,7 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2010</creationDate>
+	<creationDate>2010-02</creationDate>
 	<copyright>(C) 2010 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -16,10 +16,10 @@
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_category.ini</language>
-		<language tag="en-GB">en-GB.mod_articles_category.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_category.ini</language>
+		<language tag="en-GB">language/en-GB/mod_articles_category.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORY" />
+	<help key="Site_Modules:_Articles_-_Category" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -251,7 +251,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>
@@ -262,7 +261,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
 					translateformat="true"
 					showtime="true"
-					size="22"
 					filter="user_utc"
 					showon="date_filtering:range"
 				/>

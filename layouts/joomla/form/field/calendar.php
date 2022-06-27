@@ -103,8 +103,8 @@ $calendarAttrs = [
 	'data-inputfield'      => $id,
 	'data-button'          => $id . '_btn',
 	'data-date-format'     => $format,
-	'data-firstday'        => $firstday,
-	'data-weekend'         => implode(',', $weekend),
+	'data-firstday'        => empty($firstday) ? '' : $firstday,
+	'data-weekend'         => empty($weekend) ? '' : implode(',', $weekend),
 	'data-today-btn'       => $todaybutton,
 	'data-week-numbers'    => $weeknumbers,
 	'data-show-time'       => $showtime,
@@ -167,7 +167,7 @@ $document->getWebAssetManager()
 			id="<?php echo $id; ?>"
 			name="<?php echo $name; ?>"
 			value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
-			<?php echo !empty($description) ? ' aria-describedby="' . $name . '-desc"' : ''; ?>
+			<?php echo !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : ''; ?>
 			<?php echo $attributes; ?>
 			<?php echo $dataAttribute ?? ''; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>

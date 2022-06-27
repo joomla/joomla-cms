@@ -1,5 +1,5 @@
-import Popover from '../../../../../node_modules/bootstrap/js/src/popover';
-import Tooltip from '../../../../../node_modules/bootstrap/js/src/tooltip';
+import Popover from 'bootstrap/js/src/popover';
+import Tooltip from 'bootstrap/js/src/tooltip';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Popover = Popover;
@@ -16,7 +16,6 @@ if (Joomla && Joomla.getOptions) {
       const options = {
         animation: opt.animation ? opt.animation : true,
         container: opt.container ? opt.container : false,
-        content: opt.content ? opt.content : '',
         delay: opt.delay ? opt.delay : 0,
         html: opt.html ? opt.html : false,
         placement: opt.placement ? opt.placement : 'top',
@@ -32,6 +31,9 @@ if (Joomla && Joomla.getOptions) {
         popperConfig: opt.popperConfig ? opt.popperConfig : null,
       };
 
+      if (opt.content) {
+        options.content = opt.content;
+      }
       if (opt.template) {
         options.template = opt.template;
       }

@@ -198,7 +198,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 										/**
-										* @to do: incorrect info
+										* @todo: incorrect info
 										* If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 										* we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 										*/

@@ -137,7 +137,7 @@ class HtmlView extends BaseHtmlView
 	{
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		ToolbarHelper::title(Text::_('COM_MAILS_MAILS_TITLE'), 'envelope');
 
@@ -146,6 +146,6 @@ class HtmlView extends BaseHtmlView
 			$toolbar->preferences('com_mails');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_MAILS_TEMPLATES');
+		$toolbar->help('Mail_Templates');
 	}
 }

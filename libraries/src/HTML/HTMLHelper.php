@@ -16,7 +16,6 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Utilities\ArrayHelper;
 
@@ -86,18 +85,10 @@ abstract class HTMLHelper
 
 		if (\count($parts) === 3)
 		{
-			try
-			{
-				Log::add(
-					'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-					Log::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational message only, continue on
-			}
+			@trigger_error(
+				'Support for a three segment service key is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+				E_USER_DEPRECATED
+			);
 		}
 
 		$prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
@@ -207,18 +198,10 @@ abstract class HTMLHelper
 	 */
 	public static function register($key, callable $function)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -239,18 +222,10 @@ abstract class HTMLHelper
 	 */
 	public static function unregister($key)
 	{
-		try
-		{
-			Log::add(
-				'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering functions is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		list($key) = static::extract($key);
 
@@ -311,8 +286,8 @@ abstract class HTMLHelper
 	 */
 	protected static function call(callable $function, $args)
 	{
-		// PHP 5.3 workaround
-		$temp = array();
+		// Workaround to allow calling helper methods have arguments passed by reference
+		$temp = [];
 
 		foreach ($args as &$arg)
 		{
@@ -657,13 +632,15 @@ abstract class HTMLHelper
 	/**
 	 * Gets a URL, cleans the Joomla specific params and returns an object
 	 *
-	 * @param    string        $url        The relative or absolute URL to use for the src attribute.
+	 * @param    string  $url  The relative or absolute URL to use for the src attribute.
 	 *
 	 * @return   object
 	 * @example  {
-	 *             url:    'string',
-	 *             width:  integer,
-	 *             height: integer,
+	 *             url: 'string',
+	 *             attributes: [
+	 *               width:  integer,
+	 *               height: integer,
+	 *             ]
 	 *           }
 	 *
 	 * @since    4.0.0
@@ -676,6 +653,11 @@ abstract class HTMLHelper
 			'width'  => 0,
 			'height' => 0,
 		];
+
+		if ($url === null)
+		{
+			$url = '';
+		}
 
 		if (!strpos($url, '?'))
 		{
@@ -707,18 +689,10 @@ abstract class HTMLHelper
 		{
 			$obj->attributes['width'] = $width;
 		}
-		else
-		{
-			unset($obj->attributes['width']);
-		}
 
 		if ($height > 0)
 		{
 			$obj->attributes['height'] = $height;
-		}
-		else
-		{
-			unset($obj->attributes['height']);
 		}
 
 		$mediaUri->setFragment('');
@@ -745,26 +719,84 @@ abstract class HTMLHelper
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $returnPath = 0)
 	{
+		// Ensure is an integer
 		$returnPath = (int) $returnPath;
 
-		if (strpos($file, '?') !== false)
+		// The path of the file
+		$path = $file;
+
+		// The arguments of the file path
+		$arguments = '';
+
+		// Get the arguments positions
+		$pos1 = strpos($file, '?');
+		$pos2 = strpos($file, '#');
+
+		// Check if there are arguments
+		if ($pos1 !== false || $pos2 !== false)
 		{
-			$file = (static::cleanImageURL($file))->url;
+			// Get the path only
+			$path = substr($file, 0, min($pos1, $pos2));
+
+			// Determine the arguments is mostly the part behind the #
+			$arguments = str_replace($path, '', $file);
 		}
 
+		// Get the relative file name when requested
 		if ($returnPath !== -1)
 		{
-			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
-			$file = \count($includes) ? $includes[0] : null;
+			// Search for relative file names
+			$includes = static::includeRelativeFiles('images', $path, $relative, false, false);
+
+			// Grab the first found path and if none exists default to null
+			$path = \count($includes) ? $includes[0] : null;
 		}
 
-		// If only path is required
+		// Compile the file name
+		$file = ($path === null ? null : $path . $arguments);
+
+		// If only the file is required, return here
 		if ($returnPath === 1)
 		{
 			return $file;
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
+		// Ensure we have a valid default for concatenating
+		if ($attribs === null || $attribs === false)
+		{
+			$attribs = [];
+		}
+
+		// When it is a string, we need convert it to an array
+		if (is_string($attribs))
+		{
+			$attributes = [];
+
+			// Go through each argument
+			foreach (explode(' ', $attribs) as $attribute)
+			{
+				// When an argument without a value, default to an empty string
+				if (strpos($attribute, '=') === false)
+				{
+					$attributes[$attribute] = '';
+					continue;
+				}
+
+				// Set the attribute
+				list($key, $value) = explode('=', $attribute);
+				$attributes[$key]  = trim($value, '"');
+			}
+
+			// Add the attributes from the string to the original attributes
+			$attribs = $attributes;
+		}
+
+		// Fill the attributes with the file and alt text
+		$attribs['src'] = $file;
+		$attribs['alt'] = $alt;
+
+		// Render the layout with the attributes
+		return LayoutHelper::render('joomla.html.image', $attribs);
 	}
 
 	/**
@@ -1121,32 +1153,18 @@ abstract class HTMLHelper
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		$tag       = Factory::getLanguage()->getTag();
-		$calendar  = Factory::getLanguage()->getCalendar();
-		$direction = strtolower(Factory::getApplication()->getDocument()->getDirection());
+		$app       = Factory::getApplication();
+		$lang      = $app->getLanguage();
+		$tag       = $lang->getTag();
+		$calendar  = $lang->getCalendar();
+		$direction = strtolower($app->getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
+		if ($calendar && is_dir(JPATH_ROOT . '/media/system/js/fields/calendar-locales/date/' . strtolower($calendar)))
 		{
 			$helperPath = 'system/fields/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
-		}
-
-		// Get the appropriate locale file for the current language
-		$localesPath = 'system/fields/calendar-locales/en.js';
-
-		if (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower($tag) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower($tag) . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . $tag . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . $tag . '.js';
-		}
-		elseif (is_file(JPATH_ROOT . '/media/system/js/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
-		{
-			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] === 'readonly';
@@ -1207,13 +1225,15 @@ abstract class HTMLHelper
 			'singleheader'   => $singleHeader,
 			'tag'            => $tag,
 			'helperPath'     => $helperPath,
-			'localesPath'    => $localesPath,
 			'direction'      => $direction,
 			'onchange'       => $onchange,
 			'minYear'        => $minYear,
 			'maxYear'        => $maxYear,
 			'dataAttribute'  => '',
 			'dataAttributes' => '',
+			'calendar'       => $calendar,
+			'firstday'       => $lang->getFirstDay(),
+			'weekend'        => explode(',', $lang->getWeekEnd()),
 		);
 
 		return LayoutHelper::render('joomla.form.field.calendar', $data, null, null);
@@ -1232,18 +1252,10 @@ abstract class HTMLHelper
 	 */
 	public static function addIncludePath($path = '')
 	{
-		try
-		{
-			Log::add(
-				'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational message only, continue on
-		}
+		@trigger_error(
+			'Support for registering lookup paths is deprecated and will be removed in Joomla 5.0, use the service registry instead',
+			E_USER_DEPRECATED
+		);
 
 		// Loop through the path directories
 		foreach ((array) $path as $dir)

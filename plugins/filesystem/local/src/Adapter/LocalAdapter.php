@@ -215,7 +215,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $data  The data
 	 *
 	 * @return  string
 	 *
@@ -240,7 +240,7 @@ class LocalAdapter implements AdapterInterface
 	 *
 	 * @param   string  $name  The name
 	 * @param   string  $path  The folder
-	 * @param   binary  $data  The data
+	 * @param   string  $data  The data
 	 *
 	 * @return  void
 	 *
@@ -358,7 +358,7 @@ class LocalAdapter implements AdapterInterface
 				$obj->width  = $props->width;
 				$obj->height = $props->height;
 
-				// Todo : Change this path to an actual thumbnail path
+				// @todo : Change this path to an actual thumbnail path
 				$obj->thumb_path = $this->getUrl($obj->path);
 			}
 			catch (UnparsableImageException $e)
@@ -591,6 +591,11 @@ class LocalAdapter implements AdapterInterface
 		{
 			// If the destination is a folder we create a file with the same name as the source
 			$destinationPath = $destinationPath . '/' . $this->getFileName($sourcePath);
+		}
+
+		if (!MediaHelper::checkFileExtension(pathinfo($destinationPath, PATHINFO_EXTENSION)))
+		{
+			throw new \Exception('Move file is not possible as the extension is invalid');
 		}
 
 		if (file_exists($destinationPath) && !$force)

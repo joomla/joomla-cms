@@ -384,7 +384,7 @@ class Log
 
 		// Sanitize inputs.
 		$priority = (int) $priority;
-		$category = strtolower($category);
+		$category = strtolower((string) $category);
 
 		// Let's go iterate over the loggers and get all the ones we need.
 		foreach ((array) $this->lookup as $signature => $rules)

@@ -92,7 +92,7 @@ class TransitionsModel extends ListModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since  4.0.0
 	 */
@@ -113,7 +113,7 @@ class TransitionsModel extends ListModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
+			$this->getDatabase()->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
 		];
 	}
 
@@ -126,7 +126,7 @@ class TransitionsModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query
@@ -211,9 +211,9 @@ class TransitionsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|boolean  The \JForm object or false on error
+	 * @return  \Joomla\CMS\Form\Form|boolean The Form object or false on error
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
@@ -223,7 +223,7 @@ class TransitionsModel extends ListModel
 
 		if ($form)
 		{
-			$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
+			$where = $this->getDatabase()->quoteName('workflow_id') . ' = ' . $id . ' AND ' . $this->getDatabase()->quoteName('published') . ' = 1';
 
 			$form->setFieldAttribute('from_stage', 'sql_where', $where, 'filter');
 			$form->setFieldAttribute('to_stage', 'sql_where', $where, 'filter');

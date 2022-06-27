@@ -13,7 +13,6 @@ namespace Joomla\CMS\Document\Renderer\Html;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * HTML document renderer for the system message queue
@@ -53,7 +52,10 @@ class MessageRenderer extends DocumentRenderer
 
 		if (\function_exists('renderMessage'))
 		{
-			Log::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', Log::WARNING, 'deprecated');
+			@trigger_error(
+				'renderMessage() is deprecated. Override system message rendering with layouts instead.',
+				E_USER_DEPRECATED
+			);
 
 			return renderMessage($msgList);
 		}

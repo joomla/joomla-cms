@@ -11,7 +11,6 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\Database\ParameterType;
@@ -173,6 +172,11 @@ class RulesField extends FormField
 			"/access/section[@name='" . $section . "']/"
 		);
 
+		if ($this->actions === false)
+		{
+			$this->actions = [];
+		}
+
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
 		{
@@ -190,13 +194,12 @@ class RulesField extends FormField
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
 		$this->assetId = (int) $this->form->getValue($assetField);
 		$this->newItem = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
-		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
 		if (empty($this->assetId))
 		{
 			// Get the component asset id as fallback.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
@@ -208,7 +211,7 @@ class RulesField extends FormField
 			$this->assetId = (int) $db->loadResult();
 
 			/**
-			 * @to do: incorrect info
+			 * @todo: incorrect info
 			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
 			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
 			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
@@ -219,7 +222,7 @@ class RulesField extends FormField
 		if (!$this->isGlobalConfig)
 		{
 			// In this case we need to get the component rules too.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_id'))

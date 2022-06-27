@@ -140,10 +140,6 @@ class HtmlView extends CategoryView
 				{
 					$this->link_items[] = $item;
 				}
-				else
-				{
-					continue;
-				}
 			}
 		}
 

@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_PRIVACY_REMIND_VIEW_DEFAULT_TITLE" option="COM_PRIVACY_REMIND_VIEW_DEFAULT_OPTION">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_PRIVACY_REMIND_REQUEST"
+			key="Menu_Item:_Extend_Consent"
 		/>
 		<message>
 			<![CDATA[COM_PRIVACY_REMIND_VIEW_DEFAULT_DESC]]>
