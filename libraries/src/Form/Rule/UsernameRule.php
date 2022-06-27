@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,10 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-\defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -21,53 +21,54 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class UsernameRule extends FormRule
+class UsernameRule extends FormRule implements DatabaseAwareInterface
 {
-	/**
-	 * Method to test the username for uniqueness.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
-	 * @param   Form               $form     The form object for which the field is being tested.
-	 *
-	 * @return  boolean  True if the value is valid, false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
-	{
-		// Get the database object and a new query object.
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
+    use DatabaseAwareTrait;
 
-		// Get the extra field check attribute.
-		$userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
+    /**
+     * Method to test the username for uniqueness.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
+     * @param   Form               $form     The form object for which the field is being tested.
+     *
+     * @return  boolean  True if the value is valid, false otherwise.
+     *
+     * @since   1.7.0
+     */
+    public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
+    {
+        // Get the database object and a new query object.
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
 
-		// Build the query.
-		$query->select('COUNT(*)')
-			->from($db->quoteName('#__users'))
-			->where(
-				[
-					$db->quoteName('username') . ' = :username',
-					$db->quoteName('id') . ' <> :userId',
-				]
-			)
-			->bind(':username', $value)
-			->bind(':userId', $userId, ParameterType::INTEGER);
+        // Get the extra field check attribute.
+        $userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
 
-		// Set and query the database.
-		$db->setQuery($query);
-		$duplicate = (bool) $db->loadResult();
+        // Build the query.
+        $query->select('COUNT(*)')
+            ->from($db->quoteName('#__users'))
+            ->where(
+                [
+                    $db->quoteName('username') . ' = :username',
+                    $db->quoteName('id') . ' <> :userId',
+                ]
+            )
+            ->bind(':username', $value)
+            ->bind(':userId', $userId, ParameterType::INTEGER);
 
-		if ($duplicate)
-		{
-			return false;
-		}
+        // Set and query the database.
+        $db->setQuery($query);
+        $duplicate = (bool) $db->loadResult();
 
-		return true;
-	}
+        if ($duplicate) {
+            return false;
+        }
+
+        return true;
+    }
 }

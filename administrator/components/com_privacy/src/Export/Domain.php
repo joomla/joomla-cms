@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Administrator\Export;
 
-\defined('_JEXEC') or die;
-
 /**
  * Data object representing all data contained in a domain.
  *
@@ -20,53 +19,53 @@ namespace Joomla\Component\Privacy\Administrator\Export;
  */
 class Domain
 {
-	/**
-	 * The name of this domain
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	public $name;
+    /**
+     * The name of this domain
+     *
+     * @var    string
+     * @since  3.9.0
+     */
+    public $name;
 
-	/**
-	 * A short description of the data in this domain
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	public $description;
+    /**
+     * A short description of the data in this domain
+     *
+     * @var    string
+     * @since  3.9.0
+     */
+    public $description;
 
-	/**
-	 * The items belonging to this domain
-	 *
-	 * @var    Item[]
-	 * @since  3.9.0
-	 */
-	protected $items = [];
+    /**
+     * The items belonging to this domain
+     *
+     * @var    Item[]
+     * @since  3.9.0
+     */
+    protected $items = [];
 
-	/**
-	 * Add an item to the domain
-	 *
-	 * @param   Item  $item  The item to add
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function addItem(Item $item)
-	{
-		$this->items[] = $item;
-	}
+    /**
+     * Add an item to the domain
+     *
+     * @param   Item  $item  The item to add
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    public function addItem(Item $item)
+    {
+        $this->items[] = $item;
+    }
 
-	/**
-	 * Get the domain's items
-	 *
-	 * @return  Item[]
-	 *
-	 * @since   3.9.0
-	 */
-	public function getItems()
-	{
-		return $this->items;
-	}
+    /**
+     * Get the domain's items
+     *
+     * @return  Item[]
+     *
+     * @since   3.9.0
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
 }

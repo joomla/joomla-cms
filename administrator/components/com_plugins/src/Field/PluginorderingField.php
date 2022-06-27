@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
@@ -9,9 +10,6 @@
 
 namespace Joomla\Component\Plugins\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\OrderingField;
 
 /**
@@ -21,51 +19,51 @@ use Joomla\CMS\Form\Field\OrderingField;
  */
 class PluginorderingField extends OrderingField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 * @since   1.6
-	 */
-	protected $type = 'Pluginordering';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since   1.6
+     */
+    protected $type = 'Pluginordering';
 
-	/**
-	 * Builds the query for the ordering list.
-	 *
-	 * @return  \Joomla\Database\DatabaseQuery  The query for the ordering form field.
-	 */
-	protected function getQuery()
-	{
-		$db     = Factory::getDbo();
-		$folder = $this->form->getValue('folder');
+    /**
+     * Builds the query for the ordering list.
+     *
+     * @return  \Joomla\Database\DatabaseQuery  The query for the ordering form field.
+     */
+    protected function getQuery()
+    {
+        $db     = $this->getDatabase();
+        $folder = $this->form->getValue('folder');
 
-		// Build the query for the ordering list.
-		$query = $db->getQuery(true)
-			->select(
-				array(
-					$db->quoteName('ordering', 'value'),
-					$db->quoteName('name', 'text'),
-					$db->quoteName('type'),
-					$db->quote('folder'),
-					$db->quote('extension_id')
-				)
-			)
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = :folder')
-			->order($db->quoteName('ordering'))
-			->bind(':folder', $folder);
+        // Build the query for the ordering list.
+        $query = $db->getQuery(true)
+            ->select(
+                array(
+                    $db->quoteName('ordering', 'value'),
+                    $db->quoteName('name', 'text'),
+                    $db->quoteName('type'),
+                    $db->quote('folder'),
+                    $db->quote('extension_id')
+                )
+            )
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = :folder')
+            ->order($db->quoteName('ordering'))
+            ->bind(':folder', $folder);
 
-		return $query;
-	}
+        return $query;
+    }
 
-	/**
-	 * Retrieves the current Item's Id.
-	 *
-	 * @return  integer  The current item ID.
-	 */
-	protected function getItemId()
-	{
-		return (int) $this->form->getValue('extension_id');
-	}
+    /**
+     * Retrieves the current Item's Id.
+     *
+     * @return  integer  The current item ID.
+     */
+    protected function getItemId()
+    {
+        return (int) $this->form->getValue('extension_id');
+    }
 }

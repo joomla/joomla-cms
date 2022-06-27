@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -21,37 +20,34 @@ use Joomla\Registry\Registry;
  */
 class Config implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('config', 'JConfig')
-			->share(
-				'JConfig',
-				function (Container $container)
-				{
-					if (!is_file(JPATH_CONFIGURATION . '/configuration.php'))
-					{
-						return new Registry;
-					}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('config', 'JConfig')
+            ->share(
+                'JConfig',
+                function (Container $container) {
+                    if (!is_file(JPATH_CONFIGURATION . '/configuration.php')) {
+                        return new Registry();
+                    }
 
-					\JLoader::register('JConfig', JPATH_CONFIGURATION . '/configuration.php');
+                    \JLoader::register('JConfig', JPATH_CONFIGURATION . '/configuration.php');
 
-					if (!class_exists('JConfig'))
-					{
-						throw new \RuntimeException('Configuration class does not exist.');
-					}
+                    if (!class_exists('JConfig')) {
+                        throw new \RuntimeException('Configuration class does not exist.');
+                    }
 
-					return new Registry(new \JConfig);
-				},
-				true
-			);
-	}
+                    return new Registry(new \JConfig());
+                },
+                true
+            );
+    }
 }

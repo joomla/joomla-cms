@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,13 +9,12 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +23,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-
 /**
  * Console command to remove a user from a group
  *
@@ -31,274 +30,277 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class RemoveUserFromGroupCommand extends AbstractCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'user:removefromgroup';
+    use DatabaseAwareTrait;
 
-	/**
-	 * SymfonyStyle Object
-	 * @var   object
-	 * @since 4.0.0
-	 */
-	private $ioStyle;
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'user:removefromgroup';
 
-	/**
-	 * Stores the Input Object
-	 * @var   object
-	 * @since 4.0.0
-	 */
-	private $cliInput;
+    /**
+     * SymfonyStyle Object
+     * @var   object
+     * @since 4.0.0
+     */
+    private $ioStyle;
 
-	/**
-	 * The username
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	private $username;
+    /**
+     * Stores the Input Object
+     * @var   object
+     * @since 4.0.0
+     */
+    private $cliInput;
 
-	/**
-	 * The usergroups
-	 *
-	 * @var    array
-	 *
-	 * @since  4.0.0
-	 */
-	private $userGroups = array();
+    /**
+     * The username
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    private $username;
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$this->configureIO($input, $output);
-		$this->username = $this->getStringFromOption('username', 'Please enter a username');
-		$this->ioStyle->title('Remove user from group');
+    /**
+     * The usergroups
+     *
+     * @var    array
+     *
+     * @since  4.0.0
+     */
+    private $userGroups = array();
 
-		$userId = UserHelper::getUserId($this->username);
+    /**
+     * Command constructor.
+     *
+     * @param   DatabaseInterface  $db  The database
+     *
+     * @since   4.2.0
+     */
+    public function __construct(DatabaseInterface $db)
+    {
+        parent::__construct();
 
-		if (empty($userId))
-		{
-			$this->ioStyle->error("The user " . $this->username . " does not exist!");
+        $this->setDatabase($db);
+    }
 
-			return 1;
-		}
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO($input, $output);
+        $this->username = $this->getStringFromOption('username', 'Please enter a username');
+        $this->ioStyle->title('Remove user from group');
 
-		$user = User::getInstance($userId);
+        $userId = UserHelper::getUserId($this->username);
 
-		$this->userGroups = $this->getGroups($user);
+        if (empty($userId)) {
+            $this->ioStyle->error("The user " . $this->username . " does not exist!");
 
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = :userGroup');
+            return 1;
+        }
 
-		foreach ($this->userGroups as $userGroup)
-		{
-			$query->bind(':userGroup', $userGroup);
-			$db->setQuery($query);
+        $user = User::getInstance($userId);
 
-			$result = $db->loadResult();
+        $this->userGroups = $this->getGroups($user);
 
-			if (Access::checkGroup($userGroup, 'core.admin'))
-			{
-				$queryUser = $db->getQuery(true);
-				$queryUser->select('COUNT(*)')
-					->from($db->quoteName('#__users', 'u'))
-					->leftJoin(
-						$db->quoteName('#__user_usergroup_map', 'g'),
-						'(' . $db->quoteName('u.id') . ' = ' . $db->quoteName('g.user_id') . ')'
-					)
-					->where($db->quoteName('g.group_id') . " = :groupId")
-					->where($db->quoteName('u.block') . " = 0")
-					->bind(':groupId', $userGroup);
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('title'))
+            ->from($db->quoteName('#__usergroups'))
+            ->where($db->quoteName('id') . ' = :userGroup');
 
-				$db->setQuery($queryUser);
-				$activeSuperUser = $db->loadResult();
+        foreach ($this->userGroups as $userGroup) {
+            $query->bind(':userGroup', $userGroup);
+            $db->setQuery($query);
 
-				if ($activeSuperUser < 2)
-				{
-					$this->ioStyle->error("Can't remove user '" . $user->username . "' from group '" . $result . "'! "
-						. $result . " needs at least one active user!"
-					);
+            $result = $db->loadResult();
 
-					return Command::FAILURE;
-				}
-			}
+            if (Access::checkGroup($userGroup, 'core.admin')) {
+                $queryUser = $db->getQuery(true);
+                $queryUser->select('COUNT(*)')
+                    ->from($db->quoteName('#__users', 'u'))
+                    ->leftJoin(
+                        $db->quoteName('#__user_usergroup_map', 'g'),
+                        '(' . $db->quoteName('u.id') . ' = ' . $db->quoteName('g.user_id') . ')'
+                    )
+                    ->where($db->quoteName('g.group_id') . " = :groupId")
+                    ->where($db->quoteName('u.block') . " = 0")
+                    ->bind(':groupId', $userGroup);
 
-			if (\count(Access::getGroupsByUser($user->id, false)) < 2)
-			{
-				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result
-					. "'! Every user needs to be a member of at least one group"
-				);
+                $db->setQuery($queryUser);
+                $activeSuperUser = $db->loadResult();
 
-				return Command::FAILURE;
-			}
+                if ($activeSuperUser < 2) {
+                    $this->ioStyle->error("Can't remove user '" . $user->username . "' from group '" . $result . "'! "
+                        . $result . " needs at least one active user!");
 
-			if (!UserHelper::removeUserFromGroup($user->id, $userGroup))
-			{
-				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
+                    return Command::FAILURE;
+                }
+            }
 
-				return Command::FAILURE;
-			}
+            if (\count(Access::getGroupsByUser($user->id, false)) < 2) {
+                $this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result
+                    . "'! Every user needs to be a member of at least one group");
 
-			$this->ioStyle->success("Removed '" . $user->username . "' from group '" . $result . "'!");
-		}
+                return Command::FAILURE;
+            }
 
-		return Command::SUCCESS;
-	}
+            if (!UserHelper::removeUserFromGroup($user->id, $userGroup)) {
+                $this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
 
-	/**
-	 * Method to get a value from option
-	 *
-	 * @param   object  $user  user object
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getGroups($user): array
-	{
-		$option = $this->getApplication()->getConsoleInput()->getOption('group');
-		$db = Factory::getDbo();
-		$userGroups = Access::getGroupsByUser($user->id, false);
+                return Command::FAILURE;
+            }
 
-		if (!$option)
-		{
-			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
-				->from($db->quoteName('#__usergroups'))
-				->whereIn($db->quoteName('id'), $userGroups);
-			$db->setQuery($query);
+            $this->ioStyle->success("Removed '" . $user->username . "' from group '" . $result . "'!");
+        }
 
-			$result = $db->loadColumn();
+        return Command::SUCCESS;
+    }
 
-			$choice = new ChoiceQuestion(
-				'Please select a usergroup (separate multiple groups with a comma)',
-				$result
-			);
-			$choice->setMultiselect(true);
+    /**
+     * Method to get a value from option
+     *
+     * @param   object  $user  user object
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected function getGroups($user): array
+    {
+        $option     = $this->getApplication()->getConsoleInput()->getOption('group');
+        $db         = $this->getDatabase();
+        $userGroups = Access::getGroupsByUser($user->id, false);
 
-			$answer = (array) $this->ioStyle->askQuestion($choice);
+        if (!$option) {
+            $query = $db->getQuery(true)
+                ->select($db->quoteName('title'))
+                ->from($db->quoteName('#__usergroups'))
+                ->whereIn($db->quoteName('id'), $userGroups);
+            $db->setQuery($query);
 
-			$groupList = [];
+            $result = $db->loadColumn();
 
-			foreach ($answer as $group)
-			{
-				$groupList[] = $this->getGroupId($group);
-			}
+            $choice = new ChoiceQuestion(
+                'Please select a usergroup (separate multiple groups with a comma)',
+                $result
+            );
+            $choice->setMultiselect(true);
 
-			return $groupList;
-		}
+            $answer = (array) $this->ioStyle->askQuestion($choice);
 
-		$groupList = [];
-		$option = explode(',', $option);
+            $groupList = [];
 
-		foreach ($option as $group)
-		{
-			$groupId = $this->getGroupId($group);
+            foreach ($answer as $group) {
+                $groupList[] = $this->getGroupId($group);
+            }
 
-			if (empty($groupId))
-			{
-				$this->ioStyle->error("Invalid group name '" . $group . "'");
-				throw new InvalidOptionException("Invalid group name " . $group);
-			}
+            return $groupList;
+        }
 
-			$groupList[] = $this->getGroupId($group);
-		}
+        $groupList = [];
+        $option = explode(',', $option);
 
-		return $groupList;
-	}
+        foreach ($option as $group) {
+            $groupId = $this->getGroupId($group);
 
-	/**
-	 * Method to get groupId by groupName
-	 *
-	 * @param   string  $groupName  name of group
-	 *
-	 * @return  integer
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getGroupId($groupName)
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('title') . '= :groupName')
-			->bind(':groupName', $groupName);
-		$db->setQuery($query);
+            if (empty($groupId)) {
+                $this->ioStyle->error("Invalid group name '" . $group . "'");
+                throw new InvalidOptionException("Invalid group name " . $group);
+            }
 
-		return $db->loadResult();
-	}
+            $groupList[] = $this->getGroupId($group);
+        }
 
-	/**
-	 * Method to get a value from option
-	 *
-	 * @param   string  $option    set the option name
-	 *
-	 * @param   string  $question  set the question if user enters no value to option
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getStringFromOption($option, $question): string
-	{
-		$answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
+        return $groupList;
+    }
 
-		while (!$answer)
-		{
-			$answer = (string) $this->ioStyle->ask($question);
-		}
+    /**
+     * Method to get groupId by groupName
+     *
+     * @param   string  $groupName  name of group
+     *
+     * @return  integer
+     *
+     * @since   4.0.0
+     */
+    protected function getGroupId($groupName)
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__usergroups'))
+            ->where($db->quoteName('title') . '= :groupName')
+            ->bind(':groupName', $groupName);
+        $db->setQuery($query);
 
-		return $answer;
-	}
+        return $db->loadResult();
+    }
 
-	/**
-	 * Configure the IO.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function configureIO(InputInterface $input, OutputInterface $output)
-	{
-		$this->cliInput = $input;
-		$this->ioStyle = new SymfonyStyle($input, $output);
-	}
+    /**
+     * Method to get a value from option
+     *
+     * @param   string  $option    set the option name
+     *
+     * @param   string  $question  set the question if user enters no value to option
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    protected function getStringFromOption($option, $question): string
+    {
+        $answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
 
-	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> removes a user from a group
+        while (!$answer) {
+            $answer = (string) $this->ioStyle->ask($question);
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Configure the IO.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    private function configureIO(InputInterface $input, OutputInterface $output)
+    {
+        $this->cliInput = $input;
+        $this->ioStyle = new SymfonyStyle($input, $output);
+    }
+
+    /**
+     * Configure the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> removes a user from a group
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('Remove a user from a group');
-		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
-		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
-		$this->setHelp($help);
-	}
+        $this->setDescription('Remove a user from a group');
+        $this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
+        $this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
+        $this->setHelp($help);
+    }
 }

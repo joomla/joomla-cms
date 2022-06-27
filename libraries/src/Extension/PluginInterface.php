@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Extension;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Event\DispatcherAwareInterface;
 
@@ -19,12 +18,12 @@ use Joomla\Event\DispatcherAwareInterface;
  */
 interface PluginInterface extends DispatcherAwareInterface
 {
-	/**
-	 * Registers its listeners.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function registerListeners();
+    /**
+     * Registers its listeners.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function registerListeners();
 }

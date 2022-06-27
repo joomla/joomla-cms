@@ -45,6 +45,8 @@ error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
 
 env:
   postgres:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -57,6 +59,8 @@ env:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'jos_'
   mysql8:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -67,6 +71,8 @@ env:
         Helper\JoomlaDb:
           prefix: 'jos_'
   mysql:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -76,6 +82,8 @@ env:
         Helper\JoomlaDb:
           prefix: 'jos_'
   postgresphpmax:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -88,6 +96,8 @@ env:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'phpmax_'
   mysql8phpmax:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -98,6 +108,8 @@ env:
         Helper\JoomlaDb:
           prefix: 'phpmax_'
   mysqlphpmax:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -107,6 +119,8 @@ env:
         Helper\JoomlaDb:
           prefix: 'phpmax_'
   postgresphpnext:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -119,6 +133,8 @@ env:
           dsn: 'pgsql:host=postgres;dbname=test_joomla'
           prefix: 'phpnext_'
   mysql8phpnext:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
@@ -129,6 +145,8 @@ env:
         Helper\JoomlaDb:
           prefix: 'phpnext_'
   mysqlphpnext:
+    paths:
+      log: /drone/src/tests/Codeception/_output
     modules:
       config:
         Joomla\Browser\JoomlaBrowser:
