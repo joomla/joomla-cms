@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -34,43 +35,38 @@ $html       = $displayData['html'] ?? true;
 // @todo: Joomla should be cleaned so this replacement is not needed.
 $icon       = str_replace('icon-icon-', 'icon-', $icon);
 
-switch ($icon)
-{
-	case (strpos($icon, 'icon-') !== false):
-		$iconPrefix = $displayData['prefix'] ?? null;
-		break;
+switch ($icon) {
+    case (strpos($icon, 'icon-') !== false):
+        $iconPrefix = $displayData['prefix'] ?? null;
+        break;
 
-	default:
-		break;
+    default:
+        break;
 }
 
-if ($iconFixed)
-{
-	$iconFixed = 'icon-fw';
+if ($iconFixed) {
+    $iconFixed = 'icon-fw';
 }
 
 // Just render icon as className
 $icon = trim(implode(' ', [$iconPrefix . $icon, $iconFixed, $iconSuffix]));
 
 // Convert icon to html output when HTML !== false
-if ($html !== false)
-{
-	$iconAttribs = [
-		'class'       => $icon,
-		'aria-hidden' => "true"
-	];
+if ($html !== false) {
+    $iconAttribs = [
+        'class'       => $icon,
+        'aria-hidden' => "true"
+    ];
 
-	if ($tabindex)
-	{
-		$iconAttribs['tabindex'] = $tabindex;
-	}
+    if ($tabindex) {
+        $iconAttribs['tabindex'] = $tabindex;
+    }
 
-	if ($title)
-	{
-		$iconAttribs['title'] = $title;
-	}
+    if ($title) {
+        $iconAttribs['title'] = $title;
+    }
 
-	$icon = '<span ' . ArrayHelper::toString($iconAttribs) . '></span>';
+    $icon = '<span ' . ArrayHelper::toString($iconAttribs) . '></span>';
 }
 
 echo $icon;

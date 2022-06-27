@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -26,64 +27,63 @@ use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\PublicKeyCredentialSourceRepository;
 
 return new class implements ServiceProviderInterface {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container) {
-				$config  = (array) PluginHelper::getPlugin('system', 'webauthn');
-				$subject = $container->get(DispatcherInterface::class);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $config  = (array) PluginHelper::getPlugin('system', 'webauthn');
+                $subject = $container->get(DispatcherInterface::class);
 
-				$app     = Factory::getApplication();
-				$session = $container->has('session') ? $container->get('session') : $this->getSession($app);
+                $app     = Factory::getApplication();
+                $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
 
-				$db                    = $container->get('DatabaseDriver');
-				$credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
-					? $container->get(PublicKeyCredentialSourceRepository::class)
-					: new CredentialRepository($db);
+                $db                    = $container->get('DatabaseDriver');
+                $credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
+                    ? $container->get(PublicKeyCredentialSourceRepository::class)
+                    : new CredentialRepository($db);
 
-				$metadataRepository = null;
-				$params             = new Joomla\Registry\Registry($config['params'] ?? '{}');
+                $metadataRepository = null;
+                $params             = new Joomla\Registry\Registry($config['params'] ?? '{}');
 
-				if ($params->get('attestationSupport', 1) == 1)
-				{
-					$metadataRepository    = $container->has(MetadataStatementRepository::class)
-						? $container->get(MetadataStatementRepository::class)
-						: new MetadataRepository;
-				}
+                if ($params->get('attestationSupport', 1) == 1) {
+                    $metadataRepository    = $container->has(MetadataStatementRepository::class)
+                        ? $container->get(MetadataStatementRepository::class)
+                        : new MetadataRepository();
+                }
 
-				$authenticationHelper  = $container->has(Authentication::class)
-					? $container->get(Authentication::class)
-					: new Authentication($app, $session, $credentialsRepository, $metadataRepository);
+                $authenticationHelper  = $container->has(Authentication::class)
+                    ? $container->get(Authentication::class)
+                    : new Authentication($app, $session, $credentialsRepository, $metadataRepository);
 
-				$plugin = new Webauthn($subject, $config, $authenticationHelper);
-				$plugin->setApplication($app);
+                $plugin = new Webauthn($subject, $config, $authenticationHelper);
+                $plugin->setApplication($app);
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 
-	/**
-	 * Get the current application session object
-	 *
-	 * @param   ApplicationInterface  $app  The application we are running in
-	 *
-	 * @return \Joomla\Session\SessionInterface|null
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private function getSession(ApplicationInterface $app)
-	{
-		return $app instanceof SessionAwareWebApplicationInterface ? $app->getSession() : null;
-	}
+    /**
+     * Get the current application session object
+     *
+     * @param   ApplicationInterface  $app  The application we are running in
+     *
+     * @return \Joomla\Session\SessionInterface|null
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    private function getSession(ApplicationInterface $app)
+    {
+        return $app instanceof SessionAwareWebApplicationInterface ? $app->getSession() : null;
+    }
 };

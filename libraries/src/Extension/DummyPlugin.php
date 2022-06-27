@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Extension;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 

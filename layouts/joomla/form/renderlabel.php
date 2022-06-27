@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -23,12 +24,15 @@ extract($displayData);
 $classes = array_filter((array) $classes);
 $id      = $for . '-lbl';
 
-if ($required)
-{
-	$classes[] = 'required';
+if ($required) {
+    $classes[] = 'required';
 }
 
 ?>
-<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) { echo ' class="' . implode(' ', $classes) . '"';} ?>>
-	<?php echo $text; ?><?php if ($required) : ?><span class="star" aria-hidden="true">&#160;*</span><?php endif; ?>
+<label id="<?php echo $id; ?>" for="<?php echo $for; ?>"<?php if (!empty($classes)) {
+    echo ' class="' . implode(' ', $classes) . '"';
+           } ?>>
+    <?php echo $text; ?><?php if ($required) :
+        ?><span class="star" aria-hidden="true">&#160;*</span><?php
+    endif; ?>
 </label>
