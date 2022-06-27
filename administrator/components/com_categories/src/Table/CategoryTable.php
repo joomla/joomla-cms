@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_categories
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Categories\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 /**
  * Category table
  *
@@ -18,18 +17,18 @@ namespace Joomla\Component\Categories\Administrator\Table;
  */
 class CategoryTable extends \Joomla\CMS\Table\Category
 {
-	/**
-	 * Method to delete a node and, optionally, its child nodes from the table.
-	 *
-	 * @param   integer|null  $pk        The primary key of the node to delete.
-	 * @param   boolean       $children  True to delete child nodes, false to move them up a level.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	public function delete($pk = null, $children = false)
-	{
-		return parent::delete($pk, $children);
-	}
+    /**
+     * Method to delete a node and, optionally, its child nodes from the table.
+     *
+     * @param   integer|null  $pk        The primary key of the node to delete.
+     * @param   boolean       $children  True to delete child nodes, false to move them up a level.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   2.5
+     */
+    public function delete($pk = null, $children = false)
+    {
+        return parent::delete($pk, $children);
+    }
 }
