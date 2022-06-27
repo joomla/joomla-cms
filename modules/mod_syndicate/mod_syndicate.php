@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
@@ -16,9 +17,8 @@ $params->def('format', 'rss');
 
 $link = SyndicateHelper::getLink($params, $app->getDocument());
 
-if ($link === null)
-{
-	return;
+if ($link === null) {
+    return;
 }
 
 $text = htmlspecialchars($params->get('text', ''), ENT_COMPAT, 'UTF-8');
