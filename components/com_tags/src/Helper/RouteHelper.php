@@ -105,7 +105,7 @@ class RouteHelper extends CMSRouteHelper
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 * @throws  Exception
 	 */
 	public static function getComponentTagRoute(string $id, string $language = '*'): string
@@ -167,7 +167,7 @@ class RouteHelper extends CMSRouteHelper
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 * @throws  Exception
 	 */
 	public static function getComponentTagsRoute(string $language = '*'): string
