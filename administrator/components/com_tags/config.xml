@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Tags:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="taglist"
 		label="COM_TAGS_CONFIG_TAG_SETTINGS_LABEL"

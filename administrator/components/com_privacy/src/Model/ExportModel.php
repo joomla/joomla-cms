@@ -79,7 +79,7 @@ class ExportModel extends BaseDatabaseModel
 		}
 
 		// If there is a user account associated with the email address, load it here for use in the plugins
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
@@ -174,7 +174,7 @@ class ExportModel extends BaseDatabaseModel
 
 		$lang = Factory::getLanguage();
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
