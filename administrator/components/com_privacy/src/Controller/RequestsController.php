@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -21,19 +22,19 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  */
 class RequestsController extends AdminController
 {
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
-	 *
-	 * @since   3.9.0
-	 */
-	public function getModel($name = 'Request', $prefix = 'Administrator', $config = ['ignore_request' => true])
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Method to get a model object, loading it if required.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
+     *
+     * @since   3.9.0
+     */
+    public function getModel($name = 'Request', $prefix = 'Administrator', $config = ['ignore_request' => true])
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }

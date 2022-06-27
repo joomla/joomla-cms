@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -20,12 +21,12 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * com_admin does not require check permission, so we override checkAccess method and have it empty
-	 *
-	 * @return  void
-	 */
-	protected function checkAccess()
-	{
-	}
+    /**
+     * com_admin does not require check permission, so we override checkAccess method and have it empty
+     *
+     * @return  void
+     */
+    protected function checkAccess()
+    {
+    }
 }

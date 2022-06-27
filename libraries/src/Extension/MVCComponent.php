@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,5 +21,5 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
  */
 class MVCComponent extends Component implements MVCFactoryServiceInterface
 {
-	use MVCFactoryServiceTrait;
+    use MVCFactoryServiceTrait;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -25,63 +26,61 @@ use Joomla\Input\Input;
  */
 class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeArrayAware;
+    use ResultAware;
+    use ResultTypeArrayAware;
 
-	/**
-	 * Public constructor
-	 *
-	 * @param   MfaTable  $record  The record to save into
-	 * @param   Input     $input   The application input object
-	 *
-	 * @since   4.2.0
-	 */
-	public function __construct(MfaTable $record, Input $input)
-	{
-		parent::__construct(
-			'onUserMultifactorSaveSetup',
-			[
-				'record' => $record,
-				'input'  => $input,
-			]
-		);
+    /**
+     * Public constructor
+     *
+     * @param   MfaTable  $record  The record to save into
+     * @param   Input     $input   The application input object
+     *
+     * @since   4.2.0
+     */
+    public function __construct(MfaTable $record, Input $input)
+    {
+        parent::__construct(
+            'onUserMultifactorSaveSetup',
+            [
+                'record' => $record,
+                'input'  => $input,
+            ]
+        );
 
-		$this->resultIsNullable = true;
-	}
+        $this->resultIsNullable = true;
+    }
 
-	/**
-	 * Validate the value of the 'record' named parameter
-	 *
-	 * @param   MfaTable  $value  The value to validate
-	 *
-	 * @return  MfaTable
-	 * @since   4.2.0
-	 */
-	public function setRecord(MfaTable $value): MfaTable
-	{
-		if (empty($value))
-		{
-			throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
-		}
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   4.2.0
+     */
+    public function setRecord(MfaTable $value): MfaTable
+    {
+        if (empty($value)) {
+            throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 
-	/**
-	 * Validate the value of the 'record' named parameter
-	 *
-	 * @param   Input  $value  The value to validate
-	 *
-	 * @return  Input
-	 * @since   4.2.0
-	 */
-	public function setInput(Input $value): Input
-	{
-		if (empty($value))
-		{
-			throw new DomainException(sprintf('Argument \'input\' of event %s must be an Input object.', $this->name));
-		}
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   Input  $value  The value to validate
+     *
+     * @return  Input
+     * @since   4.2.0
+     */
+    public function setInput(Input $value): Input
+    {
+        if (empty($value)) {
+            throw new DomainException(sprintf('Argument \'input\' of event %s must be an Input object.', $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

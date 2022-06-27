@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,28 +21,26 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  */
 class BeforeBatchEvent extends AbstractImmutableEvent
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  BadMethodCallException
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct($name, array $arguments = array())
-	{
-		if (!\array_key_exists('src', $arguments))
-		{
-			throw new BadMethodCallException("Argument 'src' is required for event $name");
-		}
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  BadMethodCallException
+     *
+     * @since   4.0.0
+     */
+    public function __construct($name, array $arguments = array())
+    {
+        if (!\array_key_exists('src', $arguments)) {
+            throw new BadMethodCallException("Argument 'src' is required for event $name");
+        }
 
-		if (!\array_key_exists('type', $arguments))
-		{
-			throw new BadMethodCallException("Argument 'type' is required for event $name");
-		}
+        if (!\array_key_exists('type', $arguments)) {
+            throw new BadMethodCallException("Argument 'type' is required for event $name");
+        }
 
-		parent::__construct($name, $arguments);
-	}
+        parent::__construct($name, $arguments);
+    }
 }

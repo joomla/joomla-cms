@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -22,25 +23,25 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class BranchesField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $type = 'Branches';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $type = 'Branches';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.5
-	 */
-	public function getOptions()
-	{
-		Factory::getApplication()->bootComponent('com_finder');
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   3.5
+     */
+    public function getOptions()
+    {
+        Factory::getApplication()->bootComponent('com_finder');
 
-		return HTMLHelper::_('finder.mapslist');
-	}
+        return HTMLHelper::_('finder.mapslist');
+    }
 }

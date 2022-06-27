@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_contact
@@ -29,149 +30,142 @@ use Joomla\Registry\Registry;
  */
 class Icon
 {
-	/**
-	 * The user factory
-	 *
-	 * @var    UserFactoryInterface
-	 *
-	 * @since  4.2.0
-	 */
-	private $userFactory;
+    /**
+     * The user factory
+     *
+     * @var    UserFactoryInterface
+     *
+     * @since  4.2.0
+     */
+    private $userFactory;
 
-	/**
-	 * Service constructor
-	 *
-	 * @param   UserFactoryInterface  $userFactory  The userFactory
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(UserFactoryInterface $userFactory)
-	{
-		$this->userFactory = $userFactory;
-	}
+    /**
+     * Service constructor
+     *
+     * @param   UserFactoryInterface  $userFactory  The userFactory
+     *
+     * @since   4.0.0
+     */
+    public function __construct(UserFactoryInterface $userFactory)
+    {
+        $this->userFactory = $userFactory;
+    }
 
-	/**
-	 * Method to generate a link to the create item page for the given category
-	 *
-	 * @param   object    $category  The category information
-	 * @param   Registry  $params    The item parameters
-	 * @param   array     $attribs   Optional attributes for the link
-	 *
-	 * @return  string  The HTML markup for the create item link
-	 *
-	 * @since  4.0.0
-	 */
-	public function create($category, $params, $attribs = array())
-	{
-		$uri = Uri::getInstance();
+    /**
+     * Method to generate a link to the create item page for the given category
+     *
+     * @param   object    $category  The category information
+     * @param   Registry  $params    The item parameters
+     * @param   array     $attribs   Optional attributes for the link
+     *
+     * @return  string  The HTML markup for the create item link
+     *
+     * @since  4.0.0
+     */
+    public function create($category, $params, $attribs = array())
+    {
+        $uri = Uri::getInstance();
 
-		$url = 'index.php?option=com_contact&task=contact.add&return=' . base64_encode($uri) . '&id=0&catid=' . $category->id;
+        $url = 'index.php?option=com_contact&task=contact.add&return=' . base64_encode($uri) . '&id=0&catid=' . $category->id;
 
-		$text = '';
+        $text = '';
 
-		if ($params->get('show_icons'))
-		{
-			$text .= '<span class="icon-plus icon-fw" aria-hidden="true"></span>';
-		}
+        if ($params->get('show_icons')) {
+            $text .= '<span class="icon-plus icon-fw" aria-hidden="true"></span>';
+        }
 
-		$text .= Text::_('COM_CONTACT_NEW_CONTACT');
+        $text .= Text::_('COM_CONTACT_NEW_CONTACT');
 
-		// Add the button classes to the attribs array
-		if (isset($attribs['class']))
-		{
-			$attribs['class'] .= ' btn btn-primary';
-		}
-		else
-		{
-			$attribs['class'] = 'btn btn-primary';
-		}
+        // Add the button classes to the attribs array
+        if (isset($attribs['class'])) {
+            $attribs['class'] .= ' btn btn-primary';
+        } else {
+            $attribs['class'] = 'btn btn-primary';
+        }
 
-		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+        $button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $button;
-	}
+        return $button;
+    }
 
-	/**
-	 * Display an edit icon for the contact.
-	 *
-	 * This icon will not display in a popup window, nor if the contact is trashed.
-	 * Edit access checks must be performed in the calling code.
-	 *
-	 * @param   object    $contact  The contact information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string   The HTML for the contact edit icon.
-	 *
-	 * @since   4.0.0
-	 */
-	public function edit($contact, $params, $attribs = array(), $legacy = false)
-	{
-		$user = Factory::getUser();
-		$uri  = Uri::getInstance();
+    /**
+     * Display an edit icon for the contact.
+     *
+     * This icon will not display in a popup window, nor if the contact is trashed.
+     * Edit access checks must be performed in the calling code.
+     *
+     * @param   object    $contact  The contact information
+     * @param   Registry  $params   The item parameters
+     * @param   array     $attribs  Optional attributes for the link
+     * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
+     *
+     * @return  string   The HTML for the contact edit icon.
+     *
+     * @since   4.0.0
+     */
+    public function edit($contact, $params, $attribs = array(), $legacy = false)
+    {
+        $user = Factory::getUser();
+        $uri  = Uri::getInstance();
 
-		// Ignore if in a popup window.
-		if ($params && $params->get('popup'))
-		{
-			return '';
-		}
+        // Ignore if in a popup window.
+        if ($params && $params->get('popup')) {
+            return '';
+        }
 
-		// Ignore if the state is negative (trashed).
-		if ($contact->published < 0)
-		{
-			return '';
-		}
+        // Ignore if the state is negative (trashed).
+        if ($contact->published < 0) {
+            return '';
+        }
 
-		// Show checked_out icon if the contact is checked out by a different user
-		if (property_exists($contact, 'checked_out')
-			&& property_exists($contact, 'checked_out_time')
-			&& !is_null($contact->checked_out)
-			&& $contact->checked_out !== $user->get('id'))
-		{
-			$checkoutUser = $this->userFactory->loadUserById($contact->checked_out);
-			$date         = HTMLHelper::_('date', $contact->checked_out_time);
-			$tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
-				. ' <br> ' . $date;
+        // Show checked_out icon if the contact is checked out by a different user
+        if (
+            property_exists($contact, 'checked_out')
+            && property_exists($contact, 'checked_out_time')
+            && !is_null($contact->checked_out)
+            && $contact->checked_out !== $user->get('id')
+        ) {
+            $checkoutUser = $this->userFactory->loadUserById($contact->checked_out);
+            $date         = HTMLHelper::_('date', $contact->checked_out_time);
+            $tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
+                . ' <br> ' . $date;
 
-			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy));
+            $text = LayoutHelper::render('joomla.content.icons.edit_lock', array('contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy));
 
-			$attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
-			$output = HTMLHelper::_('link', '#', $text, $attribs);
+            $attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
+            $output = HTMLHelper::_('link', '#', $text, $attribs);
 
-			return $output;
-		}
+            return $output;
+        }
 
-		$contactUrl = RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language);
-		$url        = $contactUrl . '&task=contact.edit&id=' . $contact->id . '&return=' . base64_encode($uri);
+        $contactUrl = RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language);
+        $url        = $contactUrl . '&task=contact.edit&id=' . $contact->id . '&return=' . base64_encode($uri);
 
-		if ((int) $contact->published === 0)
-		{
-			$tooltip = Text::_('COM_CONTACT_EDIT_UNPUBLISHED_CONTACT');
-		}
-		else
-		{
-			$tooltip = Text::_('COM_CONTACT_EDIT_PUBLISHED_CONTACT');
-		}
+        if ((int) $contact->published === 0) {
+            $tooltip = Text::_('COM_CONTACT_EDIT_UNPUBLISHED_CONTACT');
+        } else {
+            $tooltip = Text::_('COM_CONTACT_EDIT_PUBLISHED_CONTACT');
+        }
 
-		$nowDate = strtotime(Factory::getDate());
-		$icon    = $contact->published ? 'edit' : 'eye-slash';
+        $nowDate = strtotime(Factory::getDate());
+        $icon    = $contact->published ? 'edit' : 'eye-slash';
 
-		if (($contact->publish_up !== null && strtotime($contact->publish_up) > $nowDate)
-			|| ($contact->publish_down !== null && strtotime($contact->publish_down) < $nowDate))
-		{
-			$icon = 'eye-slash';
-		}
+        if (
+            ($contact->publish_up !== null && strtotime($contact->publish_up) > $nowDate)
+            || ($contact->publish_down !== null && strtotime($contact->publish_down) < $nowDate)
+        ) {
+            $icon = 'eye-slash';
+        }
 
-		$aria_described = 'editcontact-' . (int) $contact->id;
+        $aria_described = 'editcontact-' . (int) $contact->id;
 
-		$text = '<span class="icon-' . $icon . '" aria-hidden="true"></span>';
-		$text .= Text::_('JGLOBAL_EDIT');
-		$text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
+        $text = '<span class="icon-' . $icon . '" aria-hidden="true"></span>';
+        $text .= Text::_('JGLOBAL_EDIT');
+        $text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
 
-		$attribs['aria-describedby'] = $aria_described;
-		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+        $attribs['aria-describedby'] = $aria_described;
+        $output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		return $output;
-	}
+        return $output;
+    }
 }

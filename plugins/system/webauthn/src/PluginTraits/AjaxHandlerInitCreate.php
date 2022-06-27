@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -25,38 +26,36 @@ use Joomla\CMS\User\User;
  */
 trait AjaxHandlerInitCreate
 {
-	/**
-	 * Returns the Public Key Creation Options to start the attestation ceremony on the browser.
-	 *
-	 * @param   AjaxInitCreate  $event  The event we are handling
-	 *
-	 * @return  void
-	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onAjaxWebauthnInitcreate(AjaxInitCreate $event): void
-	{
-		// Make sure I have a valid user
-		$user = Factory::getApplication()->getIdentity();
+    /**
+     * Returns the Public Key Creation Options to start the attestation ceremony on the browser.
+     *
+     * @param   AjaxInitCreate  $event  The event we are handling
+     *
+     * @return  void
+     * @throws  \Exception
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onAjaxWebauthnInitcreate(AjaxInitCreate $event): void
+    {
+        // Make sure I have a valid user
+        $user = Factory::getApplication()->getIdentity();
 
-		if (!($user instanceof User) || $user->guest)
-		{
-			$event->addResult(new \stdClass);
+        if (!($user instanceof User) || $user->guest) {
+            $event->addResult(new \stdClass());
 
-			return;
-		}
+            return;
+        }
 
-		// I need the server to have either GMP or BCComp support to attest new authenticators
-		if (function_exists('gmp_intval') === false && function_exists('bccomp') === false)
-		{
-			$event->addResult(new \stdClass);
+        // I need the server to have either GMP or BCComp support to attest new authenticators
+        if (function_exists('gmp_intval') === false && function_exists('bccomp') === false) {
+            $event->addResult(new \stdClass());
 
-			return;
-		}
+            return;
+        }
 
-		$session = $this->getApplication()->getSession();
-		$session->set('plg_system_webauthn.registration_user_id', $user->id);
+        $session = $this->getApplication()->getSession();
+        $session->set('plg_system_webauthn.registration_user_id', $user->id);
 
-		$event->addResult($this->authenticationHelper->getPubKeyCreationOptions($user));
-	}
+        $event->addResult($this->authenticationHelper->getPubKeyCreationOptions($user));
+    }
 }

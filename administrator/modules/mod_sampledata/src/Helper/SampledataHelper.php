@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
@@ -22,28 +23,28 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 abstract class SampledataHelper
 {
-	/**
-	 * Get a list of sampledata.
-	 *
-	 * @return  mixed  An array of sampledata, or false on error.
-	 *
-	 * @since  3.8.0
-	 */
-	public static function getList()
-	{
-		PluginHelper::importPlugin('sampledata');
+    /**
+     * Get a list of sampledata.
+     *
+     * @return  mixed  An array of sampledata, or false on error.
+     *
+     * @since  3.8.0
+     */
+    public static function getList()
+    {
+        PluginHelper::importPlugin('sampledata');
 
-		return Factory::getApplication()
-			->getDispatcher()
-			->dispatch(
-				'onSampledataGetOverview',
-				AbstractEvent::create(
-					'onSampledataGetOverview',
-					[
-						'subject'	=> new \stdClass,
-					]
-				)
-			)
-			->getArgument('result') ?? [];
-	}
+        return Factory::getApplication()
+            ->getDispatcher()
+            ->dispatch(
+                'onSampledataGetOverview',
+                AbstractEvent::create(
+                    'onSampledataGetOverview',
+                    [
+                        'subject'   => new \stdClass(),
+                    ]
+                )
+            )
+            ->getArgument('result') ?? [];
+    }
 }

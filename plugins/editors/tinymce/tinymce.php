@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
@@ -19,41 +20,41 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
  */
 class PlgEditorTinymce extends CMSPlugin
 {
-	use DisplayTrait;
+    use DisplayTrait;
 
-	/**
-	 * Base path for editor files
-	 *
-	 * @since  3.5
-	 *
-	 * @deprecated 5.0
-	 */
-	protected $_basePath = 'media/vendor/tinymce';
+    /**
+     * Base path for editor files
+     *
+     * @since  3.5
+     *
+     * @deprecated 5.0
+     */
+    protected $_basePath = 'media/vendor/tinymce';
 
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  3.1
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Loads the application object
-	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  3.2
-	 */
-	protected $app = null;
+    /**
+     * Loads the application object
+     *
+     * @var    \Joomla\CMS\Application\CMSApplication
+     * @since  3.2
+     */
+    protected $app = null;
 
-	/**
-	 * Initialises the Editor.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function onInit()
-	{
-	}
+    /**
+     * Initialises the Editor.
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    public function onInit()
+    {
+    }
 }

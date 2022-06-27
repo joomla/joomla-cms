@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -18,5 +19,4 @@ defined('_JEXEC') or die;
  */
 class BannersHelper extends \Joomla\Component\Banners\Administrator\Helper\BannersHelper
 {
-
 }

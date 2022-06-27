@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,57 +21,55 @@ use Joomla\Database\DatabaseAwareTrait;
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
-	use DatabaseAwareTrait;
+    use DatabaseAwareTrait;
 
-	/**
-	 * The namespace to create the categories from.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	private $namespace;
+    /**
+     * The namespace to create the categories from.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    private $namespace;
 
-	/**
-	 * The namespace must be like:
-	 * Joomla\Component\Content
-	 *
-	 * @param   string  $namespace  The namespace
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct($namespace)
-	{
-		$this->namespace = $namespace;
-	}
+    /**
+     * The namespace must be like:
+     * Joomla\Component\Content
+     *
+     * @param   string  $namespace  The namespace
+     *
+     * @since   4.0.0
+     */
+    public function __construct($namespace)
+    {
+        $this->namespace = $namespace;
+    }
 
-	/**
-	 * Creates a category.
-	 *
-	 * @param   array   $options  The options
-	 * @param   string  $section  The section
-	 *
-	 * @return  CategoryInterface
-	 *
-	 * @since   3.10.0
-	 *
-	 * @throws  SectionNotFoundException
-	 */
-	public function createCategory(array $options = [], string $section = ''): CategoryInterface
-	{
-		$className = trim($this->namespace, '\\') . '\\Site\\Service\\' . ucfirst($section) . 'Category';
+    /**
+     * Creates a category.
+     *
+     * @param   array   $options  The options
+     * @param   string  $section  The section
+     *
+     * @return  CategoryInterface
+     *
+     * @since   3.10.0
+     *
+     * @throws  SectionNotFoundException
+     */
+    public function createCategory(array $options = [], string $section = ''): CategoryInterface
+    {
+        $className = trim($this->namespace, '\\') . '\\Site\\Service\\' . ucfirst($section) . 'Category';
 
-		if (!class_exists($className))
-		{
-			throw new SectionNotFoundException;
-		}
+        if (!class_exists($className)) {
+            throw new SectionNotFoundException();
+        }
 
-		$category = new $className($options);
+        $category = new $className($options);
 
-		if ($category instanceof DatabaseAwareInterface)
-		{
-			$category->setDatabase($this->getDatabase());
-		}
+        if ($category instanceof DatabaseAwareInterface) {
+            $category->setDatabase($this->getDatabase());
+        }
 
-		return $category;
-	}
+        return $category;
+    }
 }

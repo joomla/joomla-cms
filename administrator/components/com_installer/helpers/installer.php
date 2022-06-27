@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -18,5 +19,4 @@ defined('_JEXEC') or die;
  */
 class InstallerHelper extends \Joomla\Component\Installer\Administrator\Helper\InstallerHelper
 {
-
 }

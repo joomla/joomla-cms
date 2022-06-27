@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,33 +18,33 @@ namespace Joomla\CMS\Document\Feed;
  */
 class FeedEnclosure
 {
-	/**
-	 * URL enclosure element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $url = '';
+    /**
+     * URL enclosure element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $url = '';
 
-	/**
-	 * Length enclosure element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $length = '';
+    /**
+     * Length enclosure element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $length = '';
 
-	/**
-	 * Type enclosure element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $type = '';
+    /**
+     * Type enclosure element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $type = '';
 }

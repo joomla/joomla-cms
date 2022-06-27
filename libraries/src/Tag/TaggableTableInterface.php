@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,44 +21,44 @@ use Joomla\CMS\Table\TableInterface;
  */
 interface TaggableTableInterface extends TableInterface
 {
-	/**
-	 * Get the type alias for the tags mapping table
-	 *
-	 * The type alias generally is the internal component name with the
-	 * content type. Ex.: com_content.article
-	 *
-	 * @return  string  The alias as described above
-	 *
-	 * @since   4.0.0
-	 */
-	public function getTypeAlias();
+    /**
+     * Get the type alias for the tags mapping table
+     *
+     * The type alias generally is the internal component name with the
+     * content type. Ex.: com_content.article
+     *
+     * @return  string  The alias as described above
+     *
+     * @since   4.0.0
+     */
+    public function getTypeAlias();
 
-	/**
-	 * Get the tags helper
-	 *
-	 * @return  ?TagsHelper  The tags helper object
-	 *
-	 * @since   4.0.0
-	 */
-	public function getTagsHelper(): ?TagsHelper;
+    /**
+     * Get the tags helper
+     *
+     * @return  ?TagsHelper  The tags helper object
+     *
+     * @since   4.0.0
+     */
+    public function getTagsHelper(): ?TagsHelper;
 
-	/**
-	 * Set the tags helper
-	 *
-	 * @param   TagsHelper  $tagsHelper  The tags helper object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function setTagsHelper(TagsHelper $tagsHelper): void;
+    /**
+     * Set the tags helper
+     *
+     * @param   TagsHelper  $tagsHelper  The tags helper object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function setTagsHelper(TagsHelper $tagsHelper): void;
 
-	/**
-	 * Clears a set tags helper
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function clearTagsHelper(): void;
+    /**
+     * Clears a set tags helper
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function clearTagsHelper(): void;
 }

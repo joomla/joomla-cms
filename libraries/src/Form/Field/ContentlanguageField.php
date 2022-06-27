@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,23 +21,23 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class ContentlanguageField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	public $type = 'ContentLanguage';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    public $type = 'ContentLanguage';
 
-	/**
-	 * Method to get the field options for content languages.
-	 *
-	 * @return  array  The options the field is going to show.
-	 *
-	 * @since   1.6
-	 */
-	protected function getOptions()
-	{
-		return array_merge(parent::getOptions(), HTMLHelper::_('contentlanguage.existing'));
-	}
+    /**
+     * Method to get the field options for content languages.
+     *
+     * @return  array  The options the field is going to show.
+     *
+     * @since   1.6
+     */
+    protected function getOptions()
+    {
+        return array_merge(parent::getOptions(), HTMLHelper::_('contentlanguage.existing'));
+    }
 }

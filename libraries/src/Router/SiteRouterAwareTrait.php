@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,42 +18,41 @@ namespace Joomla\CMS\Router;
  */
 trait SiteRouterAwareTrait
 {
-	/**
-	 * @var    SiteRouter
-	 * @since  4.2.0
-	 */
-	private $router;
+    /**
+     * @var    SiteRouter
+     * @since  4.2.0
+     */
+    private $router;
 
-	/**
-	 * Get the site router.
-	 *
-	 * @return  SiteRouter
-	 *
-	 * @since   4.2.0
-	 *
-	 * @throws  \UnexpectedValueException May be thrown if the router has not been set.
-	 */
-	public function getSiteRouter(): SiteRouter
-	{
-		if ($this->router)
-		{
-			return $this->router;
-		}
+    /**
+     * Get the site router.
+     *
+     * @return  SiteRouter
+     *
+     * @since   4.2.0
+     *
+     * @throws  \UnexpectedValueException May be thrown if the router has not been set.
+     */
+    public function getSiteRouter(): SiteRouter
+    {
+        if ($this->router) {
+            return $this->router;
+        }
 
-		throw new \UnexpectedValueException('SiteRouter not set in ' . __CLASS__);
-	}
+        throw new \UnexpectedValueException('SiteRouter not set in ' . __CLASS__);
+    }
 
-	/**
-	 * Set the router to use.
-	 *
-	 * @param   SiteRouter  $router  The router to use.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function setSiteRouter(SiteRouter $router): void
-	{
-		$this->router = $router;
-	}
+    /**
+     * Set the router to use.
+     *
+     * @param   SiteRouter  $router  The router to use.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function setSiteRouter(SiteRouter $router): void
+    {
+        $this->router = $router;
+    }
 }

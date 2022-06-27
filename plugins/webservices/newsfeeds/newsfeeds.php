@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Newsfeeds
@@ -19,35 +20,35 @@ use Joomla\CMS\Router\ApiRouter;
  */
 class PlgWebservicesNewsfeeds extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Registers com_newsfeeds's API's routes in the application
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onBeforeApiRoute(&$router)
-	{
-		$router->createCRUDRoutes(
-			'v1/newsfeeds/feeds',
-			'feeds',
-			['component' => 'com_newsfeeds']
-		);
+    /**
+     * Registers com_newsfeeds's API's routes in the application
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onBeforeApiRoute(&$router)
+    {
+        $router->createCRUDRoutes(
+            'v1/newsfeeds/feeds',
+            'feeds',
+            ['component' => 'com_newsfeeds']
+        );
 
-		$router->createCRUDRoutes(
-			'v1/newsfeeds/categories',
-			'categories',
-			['component' => 'com_categories', 'extension' => 'com_newsfeeds']
-		);
-	}
+        $router->createCRUDRoutes(
+            'v1/newsfeeds/categories',
+            'categories',
+            ['component' => 'com_categories', 'extension' => 'com_newsfeeds']
+        );
+    }
 }

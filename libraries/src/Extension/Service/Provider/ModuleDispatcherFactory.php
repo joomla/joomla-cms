@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -21,44 +22,43 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class ModuleDispatcherFactory implements ServiceProviderInterface
 {
-	/**
-	 * The module namespace
-	 *
-	 * @var  string
-	 *
-	 * @since   4.0.0
-	 */
-	private $namespace;
+    /**
+     * The module namespace
+     *
+     * @var  string
+     *
+     * @since   4.0.0
+     */
+    private $namespace;
 
-	/**
-	 * ComponentDispatcherFactory constructor.
-	 *
-	 * @param   string  $namespace  The namespace
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(string $namespace)
-	{
-		$this->namespace = $namespace;
-	}
+    /**
+     * ComponentDispatcherFactory constructor.
+     *
+     * @param   string  $namespace  The namespace
+     *
+     * @since   4.0.0
+     */
+    public function __construct(string $namespace)
+    {
+        $this->namespace = $namespace;
+    }
 
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			ModuleDispatcherFactoryInterface::class,
-			function (Container $container)
-			{
-				return new \Joomla\CMS\Dispatcher\ModuleDispatcherFactory($this->namespace);
-			}
-		);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            ModuleDispatcherFactoryInterface::class,
+            function (Container $container) {
+                return new \Joomla\CMS\Dispatcher\ModuleDispatcherFactory($this->namespace);
+            }
+        );
+    }
 }

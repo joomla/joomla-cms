@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tags
  * @subpackage  Webservices.Tags
@@ -19,29 +20,29 @@ use Joomla\CMS\Router\ApiRouter;
  */
 class PlgWebservicesTags extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Registers com_tags's API's routes in the application
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onBeforeApiRoute(&$router)
-	{
-		$router->createCRUDRoutes(
-			'v1/tags',
-			'tags',
-			['component' => 'com_tags']
-		);
-	}
+    /**
+     * Registers com_tags's API's routes in the application
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onBeforeApiRoute(&$router)
+    {
+        $router->createCRUDRoutes(
+            'v1/tags',
+            'tags',
+            ['component' => 'com_tags']
+        );
+    }
 }

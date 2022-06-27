@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
@@ -20,11 +21,11 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class DisplayController extends BaseController
 {
-	/**
-	 * The default view.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $default_view = 'actionlogs';
+    /**
+     * The default view.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $default_view = 'actionlogs';
 }

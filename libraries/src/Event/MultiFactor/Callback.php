@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,34 +21,33 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
  */
 class Callback extends AbstractImmutableEvent
 {
-	/**
-	 * Public constructor
-	 *
-	 * @param   string  $method  The MFA method name
-	 *
-	 * @since 4.2.0
-	 */
-	public function __construct(string $method)
-	{
-		parent::__construct('onUserMultifactorCallback', ['method' => $method]);
-	}
+    /**
+     * Public constructor
+     *
+     * @param   string  $method  The MFA method name
+     *
+     * @since 4.2.0
+     */
+    public function __construct(string $method)
+    {
+        parent::__construct('onUserMultifactorCallback', ['method' => $method]);
+    }
 
-	/**
-	 * Validate the value of the 'method' named parameter
-	 *
-	 * @param   string|null  $value  The value to validate
-	 *
-	 * @return  string
-	 * @throws  DomainException
-	 * @since   4.2.0
-	 */
-	public function setMethod(string $value): string
-	{
-		if (empty($value))
-		{
-			throw new DomainException(sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
-		}
+    /**
+     * Validate the value of the 'method' named parameter
+     *
+     * @param   string|null  $value  The value to validate
+     *
+     * @return  string
+     * @throws  DomainException
+     * @since   4.2.0
+     */
+    public function setMethod(string $value): string
+    {
+        if (empty($value)) {
+            throw new DomainException(sprintf("Argument 'method' of event %s must be a non-empty string.", $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

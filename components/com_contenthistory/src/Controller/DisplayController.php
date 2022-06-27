@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_contenthistory
@@ -23,18 +24,18 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  */
 class DisplayController extends BaseController
 {
-	/**
-	 * @param   array                     $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface|null  $factory  The factory.
-	 * @param   CMSApplication|null       $app      The Application for the dispatcher
-	 * @param   ?Input                    $input    The Input object for the request
-	 *
-	 * @since   3.0
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
-	{
-		$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+    /**
+     * @param   array                     $config   An optional associative array of configuration settings.
+     * @param   MVCFactoryInterface|null  $factory  The factory.
+     * @param   CMSApplication|null       $app      The Application for the dispatcher
+     * @param   ?Input                    $input    The Input object for the request
+     *
+     * @since   3.0
+     */
+    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    {
+        $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 
-		parent::__construct($config, $factory, $app, $input);
-	}
+        parent::__construct($config, $factory, $app, $input);
+    }
 }

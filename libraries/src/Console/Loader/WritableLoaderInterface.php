@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -19,15 +20,15 @@ use Joomla\Console\Loader\LoaderInterface;
  */
 interface WritableLoaderInterface extends LoaderInterface
 {
-	/**
-	 * Adds a command to the loader.
-	 *
-	 * @param   string  $commandName  The name of the command to load.
-	 * @param   string  $className    The fully qualified class name of the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function add(string $commandName, string $className);
+    /**
+     * Adds a command to the loader.
+     *
+     * @param   string  $commandName  The name of the command to load.
+     * @param   string  $className    The fully qualified class name of the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function add(string $commandName, string $className);
 }

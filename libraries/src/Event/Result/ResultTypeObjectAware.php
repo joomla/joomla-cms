@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -24,75 +25,69 @@ use InvalidArgumentException;
  */
 trait ResultTypeObjectAware
 {
-	/**
-	 * Can the result attribute values also be NULL?
-	 *
-	 * @var    boolean
-	 * @since  4.2.0
-	 */
-	protected $resultIsNullable = false;
+    /**
+     * Can the result attribute values also be NULL?
+     *
+     * @var    boolean
+     * @since  4.2.0
+     */
+    protected $resultIsNullable = false;
 
-	/**
-	 * Can the result attribute values also be boolean FALSE?
-	 *
-	 * @var    boolean
-	 * @since  4.2.0
-	 *
-	 * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
-	 */
-	protected $resultIsFalseable = false;
+    /**
+     * Can the result attribute values also be boolean FALSE?
+     *
+     * @var    boolean
+     * @since  4.2.0
+     *
+     * @deprecated 5.0 You should use nullable values or exceptions instead of returning boolean false results.
+     */
+    protected $resultIsFalseable = false;
 
-	/**
-	 * Acceptable class names for result values.
-	 *
-	 * @var    array
-	 * @since  4.2.0
-	 */
-	protected $resultAcceptableClasses = [];
+    /**
+     * Acceptable class names for result values.
+     *
+     * @var    array
+     * @since  4.2.0
+     */
+    protected $resultAcceptableClasses = [];
 
-	/**
-	 * Checks the type of the data being appended to the result argument.
-	 *
-	 * @param   mixed  $data  The data to type check
-	 *
-	 * @return  void
-	 * @throws  InvalidArgumentException
-	 *
-	 * @internal
-	 * @since   4.2.0
-	 */
-	public function typeCheckResult($data): void
-	{
-		if ($this->resultIsNullable && $data === null)
-		{
-			return;
-		}
+    /**
+     * Checks the type of the data being appended to the result argument.
+     *
+     * @param   mixed  $data  The data to type check
+     *
+     * @return  void
+     * @throws  InvalidArgumentException
+     *
+     * @internal
+     * @since   4.2.0
+     */
+    public function typeCheckResult($data): void
+    {
+        if ($this->resultIsNullable && $data === null) {
+            return;
+        }
 
-		if ($this->resultIsFalseable && $data === false)
-		{
-			return;
-		}
+        if ($this->resultIsFalseable && $data === false) {
+            return;
+        }
 
-		if (!is_object($data))
-		{
-			throw new InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
-		}
+        if (!is_object($data)) {
+            throw new InvalidArgumentException(sprintf('Event %s only accepts object results.', $this->getName()));
+        }
 
-		if (empty($this->resultAcceptableClasses))
-		{
-			return;
-		}
+        if (empty($this->resultAcceptableClasses)) {
+            return;
+        }
 
-		foreach ($this->resultAcceptableClasses as $className)
-		{
-			if (is_a($data, $className))
-			{
-				return;
-			}
-		}
+        foreach ($this->resultAcceptableClasses as $className) {
+            if (is_a($data, $className)) {
+                return;
+            }
+        }
 
-		$acceptableTypes = implode(', ', $this->resultAcceptableClasses);
-		$messageTemplate = 'Event %s only accepts object results which are instances of one of %s.';
-		throw new InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
-	}
+        $acceptableTypes = implode(', ', $this->resultAcceptableClasses);
+        $messageTemplate = 'Event %s only accepts object results which are instances of one of %s.';
+        throw new InvalidArgumentException(sprintf($messageTemplate, $this->getName(), $acceptableTypes));
+    }
 }

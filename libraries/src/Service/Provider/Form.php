@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -23,29 +24,28 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class Form implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('form.factory', FormFactoryInterface::class)
-			->alias(FormFactory::class, FormFactoryInterface::class)
-			->share(
-				FormFactoryInterface::class,
-				function (Container $container)
-				{
-					$factory = new FormFactory;
-					$factory->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('form.factory', FormFactoryInterface::class)
+            ->alias(FormFactory::class, FormFactoryInterface::class)
+            ->share(
+                FormFactoryInterface::class,
+                function (Container $container) {
+                    $factory = new FormFactory();
+                    $factory->setDatabase($container->get(DatabaseInterface::class));
 
-					return $factory;
-				},
-				true
-			);
-	}
+                    return $factory;
+                },
+                true
+            );
+    }
 }

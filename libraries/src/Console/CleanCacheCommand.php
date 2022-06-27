@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -25,74 +26,71 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class CleanCacheCommand extends AbstractCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'cache:clean';
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'cache:clean';
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$symfonyStyle = new SymfonyStyle($input, $output);
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $symfonyStyle = new SymfonyStyle($input, $output);
 
-		$symfonyStyle->title('Cleaning System Cache');
+        $symfonyStyle->title('Cleaning System Cache');
 
-		$cache = $this->getApplication()->bootComponent('com_cache')->getMVCFactory();
-		/** @var Joomla\Component\Cache\Administrator\Model\CacheModel $model */
-		$model = $cache->createModel('Cache', 'Administrator', ['ignore_request' => true]);
+        $cache = $this->getApplication()->bootComponent('com_cache')->getMVCFactory();
+        /** @var Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+        $model = $cache->createModel('Cache', 'Administrator', ['ignore_request' => true]);
 
-		if ($input->getArgument('expired'))
-		{
-			if (!$model->purge())
-			{
-				$symfonyStyle->error('Expired Cache not cleaned');
+        if ($input->getArgument('expired')) {
+            if (!$model->purge()) {
+                $symfonyStyle->error('Expired Cache not cleaned');
 
-				return Command::FAILURE;
-			}
+                return Command::FAILURE;
+            }
 
-			$symfonyStyle->success('Expired Cache cleaned');
+            $symfonyStyle->success('Expired Cache cleaned');
 
-			return Command::SUCCESS;
-		}
+            return Command::SUCCESS;
+        }
 
-		if (!$model->clean())
-		{
-			$symfonyStyle->error('Cache not cleaned');
+        if (!$model->clean()) {
+            $symfonyStyle->error('Cache not cleaned');
 
-			return Command::FAILURE;
-		}
+            return Command::FAILURE;
+        }
 
-		$symfonyStyle->success('Cache cleaned');
+        $symfonyStyle->success('Cache cleaned');
 
-		return Command::SUCCESS;
-	}
+        return Command::SUCCESS;
+    }
 
-	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> will clear entries from the system cache
+    /**
+     * Configure the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> will clear entries from the system cache
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->addArgument('expired', InputArgument::OPTIONAL, 'will clear expired entries from the system cache');
-		$this->setDescription('Clean cache entries');
-		$this->setHelp($help);
-	}
+        $this->addArgument('expired', InputArgument::OPTIONAL, 'will clear expired entries from the system cache');
+        $this->setDescription('Clean cache entries');
+        $this->setHelp($help);
+    }
 }

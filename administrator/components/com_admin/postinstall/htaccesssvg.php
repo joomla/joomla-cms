@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -23,5 +24,5 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_htaccesssvg_condition()
 {
-	return true;
+    return true;
 }

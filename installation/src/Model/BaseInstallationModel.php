@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Model
@@ -21,20 +22,20 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  */
 class BaseInstallationModel extends BaseDatabaseModel
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   array                     $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MVCFactoryInterface|null  $factory  The factory.
-	 *
-	 * @since   3.0
-	 * @throws  \Exception
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
-	{
-		// @TODO remove me when the base model is db free
-		$config['dbo'] = null;
+    /**
+     * Constructor
+     *
+     * @param   array                     $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
+     * @param   MVCFactoryInterface|null  $factory  The factory.
+     *
+     * @since   3.0
+     * @throws  \Exception
+     */
+    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    {
+        // @TODO remove me when the base model is db free
+        $config['dbo'] = null;
 
-		parent::__construct($config, $factory);
-	}
+        parent::__construct($config, $factory);
+    }
 }

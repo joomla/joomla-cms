@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,38 +21,38 @@ use Joomla\CMS\Form\Form;
  */
 class UseractiveField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 * @since   3.2
-	 */
-	protected $type = 'UserActive';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since   3.2
+     */
+    protected $type = 'UserActive';
 
-	/**
-	 * Available statuses
-	 *
-	 * @var  array
-	 * @since  3.2
-	 */
-	protected $predefinedOptions = array(
-		'0'  => 'COM_USERS_ACTIVATED',
-		'1'  => 'COM_USERS_UNACTIVATED',
-	);
+    /**
+     * Available statuses
+     *
+     * @var  array
+     * @since  3.2
+     */
+    protected $predefinedOptions = array(
+        '0'  => 'COM_USERS_ACTIVATED',
+        '1'  => 'COM_USERS_UNACTIVATED',
+    );
 
-	/**
-	 * Method to instantiate the form field object.
-	 *
-	 * @param   Form  $form  The form to attach to the form field object.
-	 *
-	 * @since   1.7.0
-	 */
-	public function __construct($form = null)
-	{
-		parent::__construct($form);
+    /**
+     * Method to instantiate the form field object.
+     *
+     * @param   Form  $form  The form to attach to the form field object.
+     *
+     * @since   1.7.0
+     */
+    public function __construct($form = null)
+    {
+        parent::__construct($form);
 
-		// Load the required language
-		$lang = Factory::getLanguage();
-		$lang->load('com_users', JPATH_ADMINISTRATOR);
-	}
+        // Load the required language
+        $lang = Factory::getLanguage();
+        $lang->load('com_users', JPATH_ADMINISTRATOR);
+    }
 }

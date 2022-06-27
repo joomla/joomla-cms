@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,17 +18,17 @@ namespace Joomla\CMS\Categories;
  */
 interface CategoryFactoryInterface
 {
-	/**
-	 * Creates a category.
-	 *
-	 * @param   array   $options  The options
-	 * @param   string  $section  The section
-	 *
-	 * @return  CategoryInterface
-	 *
-	 * @since   3.10.0
-	 *
-	 * @throws  SectionNotFoundException
-	 */
-	public function createCategory(array $options = [], string $section = ''): CategoryInterface;
+    /**
+     * Creates a category.
+     *
+     * @param   array   $options  The options
+     * @param   string  $section  The section
+     *
+     * @return  CategoryInterface
+     *
+     * @since   3.10.0
+     *
+     * @throws  SectionNotFoundException
+     */
+    public function createCategory(array $options = [], string $section = ''): CategoryInterface;
 }

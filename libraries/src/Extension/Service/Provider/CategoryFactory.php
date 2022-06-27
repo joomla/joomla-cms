@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,47 +23,46 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class CategoryFactory implements ServiceProviderInterface
 {
-	/**
-	 * The namespace to create the categories from.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	private $namespace;
+    /**
+     * The namespace to create the categories from.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    private $namespace;
 
-	/**
-	 * The namespace must be like:
-	 * Joomla\Component\Content
-	 *
-	 * @param   string  $namespace  The namespace
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct($namespace)
-	{
-		$this->namespace = $namespace;
-	}
+    /**
+     * The namespace must be like:
+     * Joomla\Component\Content
+     *
+     * @param   string  $namespace  The namespace
+     *
+     * @since   4.0.0
+     */
+    public function __construct($namespace)
+    {
+        $this->namespace = $namespace;
+    }
 
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			CategoryFactoryInterface::class,
-			function (Container $container)
-			{
-				$factory = new \Joomla\CMS\Categories\CategoryFactory($this->namespace);
-				$factory->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            CategoryFactoryInterface::class,
+            function (Container $container) {
+                $factory = new \Joomla\CMS\Categories\CategoryFactory($this->namespace);
+                $factory->setDatabase($container->get(DatabaseInterface::class));
 
-				return $factory;
-			}
-		);
-	}
+                return $factory;
+            }
+        );
+    }
 }

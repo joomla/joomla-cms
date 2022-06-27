@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
@@ -21,51 +22,48 @@ use Joomla\CMS\Form\Field\ListField;
  */
 class NewsfeedsField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var		string
-	 * @since   1.6
-	 */
-	protected $type = 'Newsfeeds';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since   1.6
+     */
+    protected $type = 'Newsfeeds';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   1.6
-	 */
-	protected function getOptions()
-	{
-		$options = array();
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   1.6
+     */
+    protected function getOptions()
+    {
+        $options = array();
 
-		$db    = $this->getDatabase();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					$db->quoteName('id', 'value'),
-					$db->quoteName('name', 'text'),
-				]
-			)
-			->from($db->quoteName('#__newsfeeds', 'a'))
-			->order($db->quoteName('a.name'));
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    $db->quoteName('id', 'value'),
+                    $db->quoteName('name', 'text'),
+                ]
+            )
+            ->from($db->quoteName('#__newsfeeds', 'a'))
+            ->order($db->quoteName('a.name'));
 
-		// Get the options.
-		$db->setQuery($query);
+        // Get the options.
+        $db->setQuery($query);
 
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-		}
+        try {
+            $options = $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        }
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
+        // Merge any additional options in the XML definition.
+        $options = array_merge(parent::getOptions(), $options);
 
-		return $options;
-	}
+        return $options;
+    }
 }

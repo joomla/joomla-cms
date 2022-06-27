@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -20,28 +21,28 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class FieldsController extends AdminController
 {
-	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 *
-	 * @since   3.7.0
-	 */
-	protected $text_prefix = 'COM_FIELDS_FIELD';
+    /**
+     * The prefix to use with controller messages.
+     *
+     * @var    string
+     *
+     * @since   3.7.0
+     */
+    protected $text_prefix = 'COM_FIELDS_FIELD';
 
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The name of the model.
-	 * @param   string  $prefix  The prefix for the PHP class name.
-	 * @param   array   $config  Array of configuration parameters.
-	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 *
-	 * @since   3.7.0
-	 */
-	public function getModel($name = 'Field', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string  $name    The name of the model.
+     * @param   string  $prefix  The prefix for the PHP class name.
+     * @param   array   $config  Array of configuration parameters.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     *
+     * @since   3.7.0
+     */
+    public function getModel($name = 'Field', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }

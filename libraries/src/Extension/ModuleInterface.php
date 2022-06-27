@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -21,16 +22,16 @@ use Joomla\Input\Input;
  */
 interface ModuleInterface
 {
-	/**
-	 * Returns the dispatcher for the given application, module and input.
-	 *
-	 * @param   \stdClass                $module       The module
-	 * @param   CMSApplicationInterface  $application  The application
-	 * @param   Input                    $input        The input object, defaults to the one in the application
-	 *
-	 * @return  DispatcherInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface;
+    /**
+     * Returns the dispatcher for the given application, module and input.
+     *
+     * @param   \stdClass                $module       The module
+     * @param   CMSApplicationInterface  $application  The application
+     * @param   Input                    $input        The input object, defaults to the one in the application
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.0.0
+     */
+    public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -31,285 +32,275 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AddUserToGroupCommand extends AbstractCommand
 {
-	use DatabaseAwareTrait;
+    use DatabaseAwareTrait;
 
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'user:addtogroup';
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'user:addtogroup';
 
-	/**
-	 * SymfonyStyle Object
-	 * @var   object
-	 * @since 4.0.0
-	 */
-	private $ioStyle;
+    /**
+     * SymfonyStyle Object
+     * @var   object
+     * @since 4.0.0
+     */
+    private $ioStyle;
 
-	/**
-	 * Stores the Input Object
-	 * @var   object
-	 * @since 4.0.0
-	 */
-	private $cliInput;
+    /**
+     * Stores the Input Object
+     * @var   object
+     * @since 4.0.0
+     */
+    private $cliInput;
 
-	/**
-	 * The username
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	private $username;
+    /**
+     * The username
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    private $username;
 
-	/**
-	 * The usergroups
-	 *
-	 * @var    array
-	 *
-	 * @since  4.0.0
-	 */
-	private $userGroups = [];
+    /**
+     * The usergroups
+     *
+     * @var    array
+     *
+     * @since  4.0.0
+     */
+    private $userGroups = [];
 
-	/**
-	 * Command constructor.
-	 *
-	 * @param   DatabaseInterface  $db  The database
-	 *
-	 * @since   4.2.0
-	 */
-	public function __construct(DatabaseInterface $db)
-	{
-		parent::__construct();
+    /**
+     * Command constructor.
+     *
+     * @param   DatabaseInterface  $db  The database
+     *
+     * @since   4.2.0
+     */
+    public function __construct(DatabaseInterface $db)
+    {
+        parent::__construct();
 
-		$this->setDatabase($db);
-	}
+        $this->setDatabase($db);
+    }
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$this->configureIO($input, $output);
-		$this->username = $this->getStringFromOption('username', 'Please enter a username');
-		$this->ioStyle->title('Add user to group');
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO($input, $output);
+        $this->username = $this->getStringFromOption('username', 'Please enter a username');
+        $this->ioStyle->title('Add user to group');
 
-		$userId = $this->getUserId($this->username);
+        $userId = $this->getUserId($this->username);
 
-		if (empty($userId))
-		{
-			$this->ioStyle->error("The user " . $this->username . " does not exist!");
+        if (empty($userId)) {
+            $this->ioStyle->error("The user " . $this->username . " does not exist!");
 
-			return Command::FAILURE;
-		}
+            return Command::FAILURE;
+        }
 
-		// Fetch user
-		$user = User::getInstance($userId);
+        // Fetch user
+        $user = User::getInstance($userId);
 
-		$this->userGroups = $this->getGroups($user);
+        $this->userGroups = $this->getGroups($user);
 
-		$db    = $this->getDatabase();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = :userGroup');
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('title'))
+            ->from($db->quoteName('#__usergroups'))
+            ->where($db->quoteName('id') . ' = :userGroup');
 
-		foreach ($this->userGroups as $userGroup)
-		{
-			$query->bind(':userGroup', $userGroup);
-			$db->setQuery($query);
+        foreach ($this->userGroups as $userGroup) {
+            $query->bind(':userGroup', $userGroup);
+            $db->setQuery($query);
 
-			$result = $db->loadResult();
+            $result = $db->loadResult();
 
-			if (UserHelper::addUserToGroup($user->id, $userGroup))
-			{
-				$this->ioStyle->success("Added '" . $user->username . "' to group '" . $result . "'!");
-			}
-			else
-			{
-				$this->ioStyle->error("Can't add '" . $user->username . "' to group '" . $result . "'!");
+            if (UserHelper::addUserToGroup($user->id, $userGroup)) {
+                $this->ioStyle->success("Added '" . $user->username . "' to group '" . $result . "'!");
+            } else {
+                $this->ioStyle->error("Can't add '" . $user->username . "' to group '" . $result . "'!");
 
-				return Command::FAILURE;
-			}
-		}
+                return Command::FAILURE;
+            }
+        }
 
-		return Command::SUCCESS;
-	}
+        return Command::SUCCESS;
+    }
 
 
-	/**
-	 * Method to get a value from option
-	 *
-	 * @param   User  $user  a UserInstance
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getGroups($user): array
-	{
-		$groups = $this->getApplication()->getConsoleInput()->getOption('group');
+    /**
+     * Method to get a value from option
+     *
+     * @param   User  $user  a UserInstance
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected function getGroups($user): array
+    {
+        $groups = $this->getApplication()->getConsoleInput()->getOption('group');
 
-		$db = $this->getDatabase();
+        $db = $this->getDatabase();
 
-		$groupList = [];
+        $groupList = [];
 
-		// Group names have been supplied as input arguments
-		if ($groups)
-		{
-			$groups = explode(',', $groups);
+        // Group names have been supplied as input arguments
+        if ($groups) {
+            $groups = explode(',', $groups);
 
-			foreach ($groups as $group)
-			{
-				$groupId = $this->getGroupId($group);
+            foreach ($groups as $group) {
+                $groupId = $this->getGroupId($group);
 
-				if (empty($groupId))
-				{
-					$this->ioStyle->error("Invalid group name '" . $group . "'");
-					throw new InvalidOptionException("Invalid group name " . $group);
-				}
+                if (empty($groupId)) {
+                    $this->ioStyle->error("Invalid group name '" . $group . "'");
+                    throw new InvalidOptionException("Invalid group name " . $group);
+                }
 
-				$groupList[] = $this->getGroupId($group);
-			}
+                $groupList[] = $this->getGroupId($group);
+            }
 
-			return $groupList;
-		}
+            return $groupList;
+        }
 
-		$userGroups = Access::getGroupsByUser($user->id, false);
+        $userGroups = Access::getGroupsByUser($user->id, false);
 
-		// Generate select list for user
-		$query = $db->getQuery(true)
-			->select($db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->whereNotIn($db->quoteName('id'), $userGroups)
-			->order($db->quoteName('id') . ' ASC');
-		$db->setQuery($query);
+        // Generate select list for user
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('title'))
+            ->from($db->quoteName('#__usergroups'))
+            ->whereNotIn($db->quoteName('id'), $userGroups)
+            ->order($db->quoteName('id') . ' ASC');
+        $db->setQuery($query);
 
-		$list = $db->loadColumn();
+        $list = $db->loadColumn();
 
-		$choice = new ChoiceQuestion(
-			'Please select a usergroup (separate multiple groups with a comma)',
-			$list
-		);
-		$choice->setMultiselect(true);
+        $choice = new ChoiceQuestion(
+            'Please select a usergroup (separate multiple groups with a comma)',
+            $list
+        );
+        $choice->setMultiselect(true);
 
-		$answer = (array) $this->ioStyle->askQuestion($choice);
+        $answer = (array) $this->ioStyle->askQuestion($choice);
 
-		foreach ($answer as $group)
-		{
-			$groupList[] = $this->getGroupId($group);
-		}
+        foreach ($answer as $group) {
+            $groupList[] = $this->getGroupId($group);
+        }
 
-		return $groupList;
-	}
+        return $groupList;
+    }
 
-	/**
-	 * Method to get groupId by groupName
-	 *
-	 * @param   string  $groupName  name of group
-	 *
-	 * @return  integer
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getGroupId($groupName)
-	{
-		$db    = $this->getDatabase();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('title') . '= :groupName')
-			->bind(':groupName', $groupName);
-		$db->setQuery($query);
+    /**
+     * Method to get groupId by groupName
+     *
+     * @param   string  $groupName  name of group
+     *
+     * @return  integer
+     *
+     * @since   4.0.0
+     */
+    protected function getGroupId($groupName)
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__usergroups'))
+            ->where($db->quoteName('title') . '= :groupName')
+            ->bind(':groupName', $groupName);
+        $db->setQuery($query);
 
-		return $db->loadResult();
-	}
+        return $db->loadResult();
+    }
 
-	/**
-	 * Method to get a user object
-	 *
-	 * @param   string  $username  username
-	 *
-	 * @return  object
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getUserId($username)
-	{
-		$db    = $this->getDatabase();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '= :username')
-			->bind(':username', $username);
-		$db->setQuery($query);
+    /**
+     * Method to get a user object
+     *
+     * @param   string  $username  username
+     *
+     * @return  object
+     *
+     * @since   4.0.0
+     */
+    protected function getUserId($username)
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__users'))
+            ->where($db->quoteName('username') . '= :username')
+            ->bind(':username', $username);
+        $db->setQuery($query);
 
-		return $db->loadResult();
-	}
+        return $db->loadResult();
+    }
 
-	/**
-	 * Method to get a value from option
-	 *
-	 * @param   string  $option    set the option name
-	 *
-	 * @param   string  $question  set the question if user enters no value to option
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getStringFromOption($option, $question): string
-	{
-		$answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
+    /**
+     * Method to get a value from option
+     *
+     * @param   string  $option    set the option name
+     *
+     * @param   string  $question  set the question if user enters no value to option
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    protected function getStringFromOption($option, $question): string
+    {
+        $answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
 
-		while (!$answer)
-		{
-			$answer = (string) $this->ioStyle->ask($question);
-		}
+        while (!$answer) {
+            $answer = (string) $this->ioStyle->ask($question);
+        }
 
-		return $answer;
-	}
+        return $answer;
+    }
 
-	/**
-	 * Configure the IO.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function configureIO(InputInterface $input, OutputInterface $output)
-	{
-		$this->cliInput = $input;
-		$this->ioStyle = new SymfonyStyle($input, $output);
-	}
+    /**
+     * Configure the IO.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    private function configureIO(InputInterface $input, OutputInterface $output)
+    {
+        $this->cliInput = $input;
+        $this->ioStyle = new SymfonyStyle($input, $output);
+    }
 
-	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> adds a user to a group
+    /**
+     * Configure the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> adds a user to a group
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('Add a user to a group');
-		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
-		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
-		$this->setHelp($help);
-	}
+        $this->setDescription('Add a user to a group');
+        $this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
+        $this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
+        $this->setHelp($help);
+    }
 }

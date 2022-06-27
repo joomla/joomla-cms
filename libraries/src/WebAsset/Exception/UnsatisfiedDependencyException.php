@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,5 +18,4 @@ namespace Joomla\CMS\WebAsset\Exception;
  */
 class UnsatisfiedDependencyException extends \RuntimeException implements WebAssetExceptionInterface
 {
-
 }

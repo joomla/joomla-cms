@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -19,12 +20,12 @@ use Joomla\Database\DatabaseInterface;
  */
 interface DatabaseModelInterface
 {
-	/**
-	 * Method to get the database driver object.
-	 *
-	 * @return  DatabaseInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDbo();
+    /**
+     * Method to get the database driver object.
+     *
+     * @return  DatabaseInterface
+     *
+     * @since   4.0.0
+     */
+    public function getDbo();
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,35 +23,33 @@ use InvalidArgumentException;
  */
 trait ResultTypeBooleanAware
 {
-	/**
-	 * Can the result attribute values also be NULL?
-	 *
-	 * @var    boolean
-	 * @since  4.2.0
-	 */
-	protected $resultIsNullable = false;
+    /**
+     * Can the result attribute values also be NULL?
+     *
+     * @var    boolean
+     * @since  4.2.0
+     */
+    protected $resultIsNullable = false;
 
-	/**
-	 * Checks the type of the data being appended to the result argument.
-	 *
-	 * @param   mixed  $data  The data to type check
-	 *
-	 * @return  void
-	 * @throws  InvalidArgumentException
-	 *
-	 * @internal
-	 * @since   4.2.0
-	 */
-	public function typeCheckResult($data): void
-	{
-		if ($this->resultIsNullable && $data === null)
-		{
-			return;
-		}
+    /**
+     * Checks the type of the data being appended to the result argument.
+     *
+     * @param   mixed  $data  The data to type check
+     *
+     * @return  void
+     * @throws  InvalidArgumentException
+     *
+     * @internal
+     * @since   4.2.0
+     */
+    public function typeCheckResult($data): void
+    {
+        if ($this->resultIsNullable && $data === null) {
+            return;
+        }
 
-		if (!is_bool($data))
-		{
-			throw new InvalidArgumentException(sprintf('Event %s only accepts Boolean results.', $this->getName()));
-		}
-	}
+        if (!is_bool($data)) {
+            throw new InvalidArgumentException(sprintf('Event %s only accepts Boolean results.', $this->getName()));
+        }
+    }
 }

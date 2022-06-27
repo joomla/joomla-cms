@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,60 +18,60 @@ namespace Joomla\CMS\Installer;
  */
 interface InstallerScriptInterface
 {
-	/**
-	 * Function called after the extension is installed.
-	 *
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   4.2.0
-	 */
-	public function install(InstallerAdapter $adapter): bool;
+    /**
+     * Function called after the extension is installed.
+     *
+     * @param   InstallerAdapter  $adapter  The adapter calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   4.2.0
+     */
+    public function install(InstallerAdapter $adapter): bool;
 
-	/**
-	 * Function called after the extension is updated.
-	 *
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   4.2.0
-	 */
-	public function update(InstallerAdapter $adapter): bool;
+    /**
+     * Function called after the extension is updated.
+     *
+     * @param   InstallerAdapter  $adapter  The adapter calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   4.2.0
+     */
+    public function update(InstallerAdapter $adapter): bool;
 
-	/**
-	 * Function called after the extension is uninstalled.
-	 *
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   4.2.0
-	 */
-	public function uninstall(InstallerAdapter $adapter): bool;
+    /**
+     * Function called after the extension is uninstalled.
+     *
+     * @param   InstallerAdapter  $adapter  The adapter calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   4.2.0
+     */
+    public function uninstall(InstallerAdapter $adapter): bool;
 
-	/**
-	 * Function called before extension installation/update/removal procedure commences.
-	 *
-	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   4.2.0
-	 */
-	public function preflight(string $type, InstallerAdapter $adapter): bool;
+    /**
+     * Function called before extension installation/update/removal procedure commences.
+     *
+     * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+     * @param   InstallerAdapter  $adapter  The adapter calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   4.2.0
+     */
+    public function preflight(string $type, InstallerAdapter $adapter): bool;
 
-	/**
-	 * Function called after extension installation/update/removal procedure commences.
-	 *
-	 * @param   string            $type     The type of change (install or discover_install, update, uninstall)
-	 * @param   InstallerAdapter  $adapter  The adapter calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   4.2.0
-	 */
-	public function postflight(string $type, InstallerAdapter $adapter): bool;
+    /**
+     * Function called after extension installation/update/removal procedure commences.
+     *
+     * @param   string            $type     The type of change (install or discover_install, update, uninstall)
+     * @param   InstallerAdapter  $adapter  The adapter calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   4.2.0
+     */
+    public function postflight(string $type, InstallerAdapter $adapter): bool;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Media-Action.crop
@@ -18,31 +19,31 @@ use Joomla\CMS\Factory;
  */
 class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
 {
-	/**
-	 * Load the javascript files of the plugin.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function loadJs()
-	{
-		parent::loadJs();
+    /**
+     * Load the javascript files of the plugin.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function loadJs()
+    {
+        parent::loadJs();
 
-		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('cropperjs');
-	}
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('cropperjs');
+    }
 
-	/**
-	 * Load the CSS files of the plugin.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function loadCss()
-	{
-		parent::loadCss();
+    /**
+     * Load the CSS files of the plugin.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function loadCss()
+    {
+        parent::loadCss();
 
-		Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('cropperjs');
-	}
+        Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('cropperjs');
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -29,48 +30,51 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoryServiceInterface, RouterServiceInterface,
-	TagServiceInterface
+class BannersComponent extends MVCComponent implements
+    BootableExtensionInterface,
+    CategoryServiceInterface,
+    RouterServiceInterface,
+    TagServiceInterface
 {
-	use HTMLRegistryAwareTrait;
-	use RouterServiceTrait;
-	use CategoryServiceTrait, TagServiceTrait {
-		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
-		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
-	}
+    use HTMLRegistryAwareTrait;
+    use RouterServiceTrait;
+    use CategoryServiceTrait, TagServiceTrait {
+        CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
+        CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+    }
 
-	/**
-	 * Booting the extension. This is the function to set up the environment of the extension like
-	 * registering new class loaders, etc.
-	 *
-	 * If required, some initial set up can be done from services of the container, eg.
-	 * registering HTML services.
-	 *
-	 * @param   ContainerInterface  $container  The container
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function boot(ContainerInterface $container)
-	{
-		$banner = new Banner;
-		$banner->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Booting the extension. This is the function to set up the environment of the extension like
+     * registering new class loaders, etc.
+     *
+     * If required, some initial set up can be done from services of the container, eg.
+     * registering HTML services.
+     *
+     * @param   ContainerInterface  $container  The container
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function boot(ContainerInterface $container)
+    {
+        $banner = new Banner();
+        $banner->setDatabase($container->get(DatabaseInterface::class));
 
-		$this->getRegistry()->register('banner', $banner);
-	}
+        $this->getRegistry()->register('banner', $banner);
+    }
 
-	/**
-	 * Returns the table for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getTableNameForSection(string $section = null)
-	{
-		return 'banners';
-	}
+    /**
+     * Returns the table for the count items functions for the given section.
+     *
+     * @param   string  $section  The section
+     *
+     * @return  string|null
+     *
+     * @since   4.0.0
+     */
+    protected function getTableNameForSection(string $section = null)
+    {
+        return 'banners';
+    }
 }

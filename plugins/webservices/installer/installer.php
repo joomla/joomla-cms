@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Installer
@@ -20,31 +21,31 @@ use Joomla\Router\Route;
  */
 class PlgWebservicesInstaller extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Registers com_installer's API's routes in the application
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onBeforeApiRoute(&$router)
-	{
-		$defaults    = ['component' => 'com_installer', 'public' => false];
+    /**
+     * Registers com_installer's API's routes in the application
+     *
+     * @param   ApiRouter  &$router  The API Routing object
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onBeforeApiRoute(&$router)
+    {
+        $defaults    = ['component' => 'com_installer', 'public' => false];
 
-		$routes = [
-			new Route(['GET'], 'v1/extensions', 'manage.displayList', [], $defaults),
-		];
+        $routes = [
+            new Route(['GET'], 'v1/extensions', 'manage.displayList', [], $defaults),
+        ];
 
-		$router->addRoutes($routes);
-	}
+        $router->addRoutes($routes);
+    }
 }
