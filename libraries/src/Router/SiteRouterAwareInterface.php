@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Router;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface for site router aware classes.
  *
@@ -17,14 +16,14 @@ namespace Joomla\CMS\Router;
  */
 interface SiteRouterAwareInterface
 {
-	/**
-	 * Set the router to use.
-	 *
-	 * @param   SiteRouter  $router  The router to use.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function setSiteRouter(SiteRouter $router): void;
+    /**
+     * Set the router to use.
+     *
+     * @param   SiteRouter  $router  The router to use.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function setSiteRouter(SiteRouter $router): void;
 }

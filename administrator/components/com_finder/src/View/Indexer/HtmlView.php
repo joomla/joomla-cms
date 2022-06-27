@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Indexer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -20,5 +19,4 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  */
 class HtmlView extends BaseHtmlView
 {
-
 }
