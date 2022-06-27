@@ -68,7 +68,7 @@ class Task implements LoggerAwareInterface
 	/**
 	 * Map state enumerations to logical language adjectives.
 	 *
-	 * @since __DEPLOY__VERSION__
+	 * @since 4.1.0
 	 */
 	public const STATE_MAP = [
 		self::STATE_TRASHED  => 'trashed',

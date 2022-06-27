@@ -22,6 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
+	->useScript('table.columns')
 	->useScript('multiselect')
 	->useScript('com_cache.admin-cache');
 

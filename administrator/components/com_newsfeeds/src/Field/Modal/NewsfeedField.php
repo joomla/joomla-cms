@@ -111,7 +111,7 @@ class NewsfeedField extends FormField
 		if ($value)
 		{
 			$id    = (int) $value;
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__newsfeeds'))

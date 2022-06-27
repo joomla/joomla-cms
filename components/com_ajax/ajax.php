@@ -36,7 +36,7 @@ $app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 $input = $app->input;
 
 // Requested format passed via URL
-$format = strtolower($input->getWord('format'));
+$format = strtolower($input->getWord('format', ''));
 
 // Initialize default response and module name
 $results = null;

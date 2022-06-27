@@ -131,6 +131,13 @@ class DisplayController extends BaseController
 
 			return false;
 		}
+		elseif (in_array($view, ['captive', 'callback', 'methods', 'method']))
+		{
+			$controller = $this->factory->createController($view, 'Administrator', [], $this->app, $this->input);
+			$task       = $this->input->get('task', '');
+
+			return $controller->execute($task);
+		}
 
 		return parent::display($cachable, $urlparams);
 	}
