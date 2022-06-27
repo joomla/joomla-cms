@@ -119,7 +119,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									</span>
 								</div>
 							<?php endif; ?>
-							<?php if (strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
+							<?php if ($item->publish_up && strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
 								<div>
 									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JNOTPUBLISHEDYET'); ?>

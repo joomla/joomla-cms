@@ -91,7 +91,7 @@ $isExpired         = !is_null($this->item->publish_down) && $this->item->publish
 	<?php if ($params->get('access-view')) : ?>
 	<?php echo LayoutHelper::render('joomla.content.full_image', $this->item); ?>
 	<?php
-	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative) :
+	if (!empty($this->item->pagination) && !$this->item->paginationposition && !$this->item->paginationrelative) :
 		echo $this->item->pagination;
 	endif;
 	?>

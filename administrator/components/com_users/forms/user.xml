@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Users\Administrator\Field">
 	<fieldset name="user_details" label="COM_USERS_USER_ACCOUNT_DETAILS">
 		<field
 			name="name"
@@ -135,7 +135,6 @@
 
 	</fieldset>
 	<field name="groups" type="hidden" />
-	<field name="twofactor" type="hidden" />
 
 	<fields name="params">
 

@@ -14,6 +14,10 @@ ul.media-tree {
 }
 
 .media-disk {
+  position: sticky;
+  top: 75px;
+  left: 0;
+  display: block;
   margin-bottom: 10px;
 }
 
