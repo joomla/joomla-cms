@@ -12,7 +12,6 @@ namespace Joomla\Component\Content\Site\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -173,7 +172,7 @@ class ArticleController extends FormController
 		$result = parent::cancel($key);
 
 		/** @var SiteApplication $app */
-		$app = Factory::getApplication();
+		$app = $this->app;
 
 		// Load the parameters.
 		$params = $app->getParams();
@@ -373,7 +372,7 @@ class ArticleController extends FormController
 			return $result;
 		}
 
-		$app       = Factory::getApplication();
+		$app       = $this->app;
 		$articleId = $app->input->getInt('a_id');
 
 		// Load the parameters.

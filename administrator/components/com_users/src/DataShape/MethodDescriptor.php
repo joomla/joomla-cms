@@ -21,7 +21,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
  * @property  string  $help_url            URL for help content
  * @property  bool    $allowEntryBatching  Allow authentication against all entries of this MFA Method.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class MethodDescriptor extends DataShapeObject
 {
@@ -29,7 +29,7 @@ class MethodDescriptor extends DataShapeObject
 	 * Internal code of this MFA Method
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $name = '';
 
@@ -37,7 +37,7 @@ class MethodDescriptor extends DataShapeObject
 	 * User-facing name for this MFA Method
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $display = '';
 
@@ -45,7 +45,7 @@ class MethodDescriptor extends DataShapeObject
 	 * Short description of this MFA Method displayed to the user
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $shortinfo = '';
 
@@ -53,7 +53,7 @@ class MethodDescriptor extends DataShapeObject
 	 * URL to the logo image for this Method
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $image = '';
 
@@ -61,7 +61,7 @@ class MethodDescriptor extends DataShapeObject
 	 * Are we allowed to disable it?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $canDisable = true;
 
@@ -69,7 +69,7 @@ class MethodDescriptor extends DataShapeObject
 	 * Are we allowed to have multiple instances of it per user?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $allowMultiple = false;
 
@@ -77,7 +77,7 @@ class MethodDescriptor extends DataShapeObject
 	 * URL for help content
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $help_url = '';
@@ -88,7 +88,7 @@ class MethodDescriptor extends DataShapeObject
 	 * Otherwise authentication takes place against a SPECIFIC entry at a time.
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $allowEntryBatching = false;
 
@@ -96,7 +96,7 @@ class MethodDescriptor extends DataShapeObject
 	 * Active authentication methods, used internally only
 	 *
 	 * @var   MfaTable[]
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 * @internal
 	 */
 	protected $active = [];
@@ -107,7 +107,7 @@ class MethodDescriptor extends DataShapeObject
 	 * @param   MfaTable  $record  The MFA method record to add
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function addActiveMethod(MfaTable $record)
 	{

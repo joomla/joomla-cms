@@ -20,7 +20,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The BaseModel
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class BaseModelTest extends UnitTestCase
 {
@@ -29,7 +29,7 @@ class BaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetInjectedName()
 	{
@@ -44,7 +44,7 @@ class BaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetCompiledName()
 	{
@@ -59,7 +59,7 @@ class BaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetInjectedState()
 	{
@@ -75,7 +75,7 @@ class BaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testAcceptRequest()
 	{
@@ -95,7 +95,7 @@ class BaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testIgnoreRequest()
 	{

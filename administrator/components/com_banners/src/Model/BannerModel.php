@@ -303,9 +303,11 @@ class BannerModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
-			$this->_db->quoteName('state') . ' >= 0',
+			$db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$db->quoteName('state') . ' >= 0',
 		];
 	}
 

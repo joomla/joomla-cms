@@ -23,7 +23,7 @@ use Joomla\Component\Users\Administrator\Model\MethodModel;
 /**
  * View for Multi-factor Authentication method add/edit page
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -31,7 +31,7 @@ class HtmlView extends BaseHtmlView
 	 * Is this an administrator page?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $isAdmin = false;
 
@@ -39,7 +39,7 @@ class HtmlView extends BaseHtmlView
 	 * The editor page render options
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $renderOptions = [];
 
@@ -47,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	 * The MFA Method record being edited
 	 *
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $record = null;
 
@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	 * The title text for this page
 	 *
 	 * @var  string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $title = '';
 
@@ -63,7 +63,7 @@ class HtmlView extends BaseHtmlView
 	 * The return URL to use for all links and forms
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $returnURL = null;
 
@@ -71,7 +71,7 @@ class HtmlView extends BaseHtmlView
 	 * The user object used to display this page
 	 *
 	 * @var   User
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $user = null;
 
@@ -79,7 +79,7 @@ class HtmlView extends BaseHtmlView
 	 * The backup codes for the current user. Only applies when the backup codes record is being "edited"
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $backupCodes = [];
 
@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
 	 * Am I editing an existing Method? If it's false then I'm adding a new Method.
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public $isEditExisting = false;
 
@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @throws  \Exception
 	 * @see     \JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function display($tpl = null): void
 	{

@@ -30,7 +30,7 @@ use RuntimeException;
 /**
  * Multi-factor Authentication methods selection and management controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MethodsController extends BaseController
 {
@@ -42,7 +42,7 @@ class MethodsController extends BaseController
 	 * @param   CMSApplication|null       $app      CMS application object
 	 * @param   Input|null                $input    Joomla CMS input object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
@@ -60,7 +60,7 @@ class MethodsController extends BaseController
 	 *                               {@link JFilterInput::clean()}.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function disable($cachable = false, $urlparams = []): void
 	{
@@ -120,7 +120,7 @@ class MethodsController extends BaseController
 	 *                               {@link JFilterInput::clean()}.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function display($cachable = false, $urlparams = []): void
 	{
@@ -163,7 +163,7 @@ class MethodsController extends BaseController
 	 *                               {@link JFilterInput::clean()}.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function doNotShowThisAgain($cachable = false, $urlparams = []): void
 	{
@@ -206,7 +206,7 @@ class MethodsController extends BaseController
 	 * Assert that there is a user currently logged in
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function assertLoggedInUser(): void
 	{

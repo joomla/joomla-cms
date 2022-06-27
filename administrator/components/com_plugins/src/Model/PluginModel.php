@@ -336,9 +336,11 @@ class PluginModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('type') . ' = ' . $this->_db->quote($table->type),
-			$this->_db->quoteName('folder') . ' = ' . $this->_db->quote($table->folder),
+			$db->quoteName('type') . ' = ' . $db->quote($table->type),
+			$db->quoteName('folder') . ' = ' . $db->quote($table->folder),
 		];
 	}
 
