@@ -110,14 +110,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			$this->addTablePath($config['table_path']);
 		}
-		// @codeCoverageIgnoreStart
 		elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
-
-		// @codeCoverageIgnoreEnd
 
 		// Set the clean cache event
 		if (isset($config['event_clean_cache']))
