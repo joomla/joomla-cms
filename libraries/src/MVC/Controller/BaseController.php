@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\CMSWebApplicationInterface;
@@ -729,9 +727,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->model_prefix;
-            }
-            // When the frontend uses an administrator model
-            elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+                // When the frontend uses an administrator model
                 $prefix = 'Administrator';
             } else {
                 $prefix = $this->app->getName();
@@ -846,9 +843,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         if (!$prefix) {
             if ($this->factory instanceof LegacyFactory) {
                 $prefix = $this->getName() . 'View';
-            }
-            // When the front uses an administrator view
-            elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+            } elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0) {
+                // When the front uses an administrator view
                 $prefix = 'Administrator';
             } else {
                 $prefix = $this->app->getName();
@@ -1161,9 +1157,8 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
             if (empty($this->messageType)) {
                 $this->messageType = 'message';
             }
-        }
-        // If the type is explicitly set, set it.
-        else {
+        } else {
+            // If the type is explicitly set, set it.
             $this->messageType = $type;
         }
 
