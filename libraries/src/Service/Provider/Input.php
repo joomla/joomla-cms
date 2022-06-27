@@ -13,8 +13,6 @@ use Joomla\CMS\Input\Input as CMSInput;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Service provider for the the Joomla Input object.
  *
