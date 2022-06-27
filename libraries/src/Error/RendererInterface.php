@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Error;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 
@@ -19,23 +18,23 @@ use Joomla\CMS\Document\Document;
  */
 interface RendererInterface
 {
-	/**
-	 * Retrieve the Document instance attached to this renderer
-	 *
-	 * @return  Document
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDocument(): Document;
+    /**
+     * Retrieve the Document instance attached to this renderer
+     *
+     * @return  Document
+     *
+     * @since   4.0.0
+     */
+    public function getDocument(): Document;
 
-	/**
-	 * Render the error page for the given object
-	 *
-	 * @param   \Throwable  $error  The error object to be rendered
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	public function render(\Throwable $error): string;
+    /**
+     * Render the error page for the given object
+     *
+     * @param   \Throwable  $error  The error object to be rendered
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function render(\Throwable $error): string;
 }
