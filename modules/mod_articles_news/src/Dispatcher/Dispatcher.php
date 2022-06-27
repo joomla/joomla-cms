@@ -18,7 +18,7 @@ use Joomla\CMS\Helper\HelperFactoryAwareTrait;
 /**
  * Dispatcher class for mod_articles_news
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareInterface
 {
@@ -29,7 +29,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function getLayoutData()
 	{

@@ -43,6 +43,7 @@ if (container) {
   // Get the form data
   formData = new FormData(form);
   formData.delete('task');
+  formData.delete('order[]');
 
   // IOS 10 BUG
   document.addEventListener('touchstart', () => {}, false);
