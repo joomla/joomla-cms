@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_fields
@@ -6,83 +7,72 @@
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 // Check if we have all the data
-if (!array_key_exists('item', $displayData) || !array_key_exists('context', $displayData))
-{
-	return;
+if (!array_key_exists('item', $displayData) || !array_key_exists('context', $displayData)) {
+    return;
 }
 
 // Setting up for display
 $item = $displayData['item'];
 
-if (!$item)
-{
-	return;
+if (!$item) {
+    return;
 }
 
 $context = $displayData['context'];
 
-if (!$context)
-{
-	return;
+if (!$context) {
+    return;
 }
 
 $parts     = explode('.', $context);
 $component = $parts[0];
 $fields    = null;
 
-if (array_key_exists('fields', $displayData))
-{
-	$fields = $displayData['fields'];
-}
-else
-{
-	$fields = $item->jcfields ?: FieldsHelper::getFields($context, $item, true);
+if (array_key_exists('fields', $displayData)) {
+    $fields = $displayData['fields'];
+} else {
+    $fields = $item->jcfields ?: FieldsHelper::getFields($context, $item, true);
 }
 
-if (empty($fields))
-{
-	return;
+if (empty($fields)) {
+    return;
 }
 
 $output = [];
 
-foreach ($fields as $field)
-{
-	// If the value is empty do nothing
-	if (!isset($field->value) || trim($field->value) === '')
-	{
-		continue;
-	}
+foreach ($fields as $field) {
+    // If the value is empty do nothing
+    if (!isset($field->value) || trim($field->value) === '') {
+        continue;
+    }
 
-	$class = $field->name . ' ' . $field->params->get('render_class');
-	$layout = $field->params->get('layout', 'render');
-	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
+    $class = $field->name . ' ' . $field->params->get('render_class');
+    $layout = $field->params->get('layout', 'render');
+    $content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
 
-	// If the content is empty do nothing
-	if (!trim($content))
-	{
-		continue;
-	}
+    // If the content is empty do nothing
+    if (!trim($content)) {
+        continue;
+    }
 
-	$output[] = '<dt class="field-entry ' . $class . '">' . $content . '</dt>';
+    $output[] = '<dt class="field-entry ' . $class . '">' . $content . '</dt>';
 }
 
-if (empty($output))
-{
-	return;
+if (empty($output)) {
+    return;
 }
 $title_class = empty($fields[0]->group_title_class) ? '' : ' class="' . $fields[0]->group_title_class . '"';
 ?>
-<?php if (!empty($fields[0]->group_show_title))
-{
-	echo '<' . $fields[0]->group_title_tag . $title_class . '>' . $fields[0]->group_title . '</' . $fields[0]->group_title_tag . '>' . "\n";
+<?php if (!empty($fields[0]->group_show_title)) {
+    echo '<' . $fields[0]->group_title_tag . $title_class . '>' . $fields[0]->group_title . '</' . $fields[0]->group_title_tag . '>' . "\n";
 }
 ?>
 <dl class="fields-container">
-	<?php echo implode("\n", $output); ?>
+    <?php echo implode("\n", $output); ?>
 </dl>
