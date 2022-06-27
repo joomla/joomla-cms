@@ -28,13 +28,9 @@
   }
 
   &-caption {
-    display: box;
+    display: flex;
     margin: 0;
-    overflow: hidden;
     font-size: .875rem;
-    /* stylelint-disable property-no-unknown */
-    box-orient: vertical;
-    -webkit-line-clamp: 3;
   }
 
   &-link {

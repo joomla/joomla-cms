@@ -145,6 +145,14 @@ use Joomla\CMS\Language\Text;
 			</tr>
 			<tr>
 				<th scope="row">
+					<?php echo Text::sprintf('COM_ADMIN_EXTENSION_AVAILABLE', 'Fileinfo'); ?>
+				</th>
+				<td>
+					<?php echo HTMLHelper::_('phpsetting.set', $this->phpSettings['fileinfo']); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_MBSTRING_ENABLED'); ?>
 				</th>
 				<td>
