@@ -48,7 +48,7 @@ class ListUserCommand extends AbstractCommand
 	 *
 	 * @param   DatabaseInterface  $db  The database
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(DatabaseInterface $db)
 	{

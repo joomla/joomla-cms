@@ -28,7 +28,7 @@ use stdClass;
  *
  * @testdox     The CMSPlugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class CMSPluginTest extends UnitTestCase
 {
@@ -37,7 +37,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedDispatcher()
 	{
@@ -54,7 +54,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedApplication()
 	{
@@ -78,7 +78,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testEmptyParams()
 	{
@@ -95,7 +95,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedRegistryParams()
 	{
@@ -113,7 +113,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedArrayParams()
 	{
@@ -130,7 +130,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedName()
 	{
@@ -152,7 +152,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedType()
 	{
@@ -174,7 +174,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testLoadLanguage()
 	{
@@ -196,7 +196,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testLoadLanguageWithExtensionAndPath()
 	{
@@ -218,7 +218,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testNotLoadLanguageWhenExists()
 	{
@@ -241,7 +241,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testTranslateWithoutArguments()
 	{
@@ -269,7 +269,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testTranslateWithArguments()
 	{
@@ -297,7 +297,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRegisterListenersAsSubscriber()
 	{
@@ -323,7 +323,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRegisterListenersAsLegacy()
 	{
@@ -344,7 +344,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRegisterListenersForEventInterface()
 	{
@@ -365,7 +365,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRegisterListenersWithForcedEventInterface()
 	{
@@ -388,7 +388,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRegisterListenersForNoEventInterface()
 	{
@@ -409,7 +409,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRegisterListenersNotTyped()
 	{
@@ -430,7 +430,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRegisterListenersNullable()
 	{
@@ -451,7 +451,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testDispatchLegacyListener()
 	{
@@ -480,7 +480,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testDispatchLegacyListenerWhenNullIsReturned()
 	{
@@ -507,7 +507,7 @@ class CMSPluginTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testDispatchLegacyListenerWhenEventHasResult()
 	{
