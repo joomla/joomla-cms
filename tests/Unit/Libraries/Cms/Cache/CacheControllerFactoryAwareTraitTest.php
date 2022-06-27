@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdoc     The CacheControllerFactoryAwareTrait
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class CacheControllerFactoryAwareTraitTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class CacheControllerFactoryAwareTraitTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetCacheControllerFactory()
 	{

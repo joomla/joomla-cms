@@ -57,7 +57,7 @@ class AtomParserTest extends UnitTestCase
 			->with($author['name'], $author['email'], $author['uri']);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleAuthor');
 		$method->setAccessible(true);
@@ -94,7 +94,7 @@ class AtomParserTest extends UnitTestCase
 			->with($contributor['name'], $contributor['email'], $contributor['uri']);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleContributor');
 		$method->setAccessible(true);
@@ -124,7 +124,7 @@ class AtomParserTest extends UnitTestCase
 			->with('generator', $generator);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleGenerator');
 		$method->setAccessible(true);
@@ -154,7 +154,7 @@ class AtomParserTest extends UnitTestCase
 			->with('uri', $id);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleId');
 		$method->setAccessible(true);
@@ -191,7 +191,7 @@ class AtomParserTest extends UnitTestCase
 			);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleLink');
 		$method->setAccessible(true);
@@ -221,7 +221,7 @@ class AtomParserTest extends UnitTestCase
 			->with('copyright', $copyright);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleRights');
 		$method->setAccessible(true);
@@ -251,7 +251,7 @@ class AtomParserTest extends UnitTestCase
 			->with('description', $subtitle);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleSubtitle');
 		$method->setAccessible(true);
@@ -281,7 +281,7 @@ class AtomParserTest extends UnitTestCase
 			->with('title', $title);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleTitle');
 		$method->setAccessible(true);
@@ -311,7 +311,7 @@ class AtomParserTest extends UnitTestCase
 			->with('updatedDate', $date);
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('handleUpdated');
 		$method->setAccessible(true);
@@ -319,27 +319,22 @@ class AtomParserTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests AtomParser::initialise()
+	 * Tests AtomParser::parse()
 	 *
 	 * @return void
 	 * @since         3.1.4
 	 * @throws \ReflectionException
 	 */
-	public function testInitialiseSetsDefaultVersion()
+	public function testInitialiseSetsDefaultVersionWithXmlDocType()
 	{
-		$readerMock = $this->createMock(XMLReader::class);
-		$readerMock
-			->expects($this->once())
-			->method('getAttribute')
-			->with('version')
-			->willReturn('Some Version');
+		$dummyXml   = '<?xml version="1.0" encoding="utf-8" ?>
+<feed xmlns="http://www.w3.org/2005/Atom" />';
+		$reader     = \XMLReader::XML($dummyXml);
+		$atomParser = new AtomParser($reader);
+		$atomParser->parse();
 
-		// Use reflection to test protected method
-		$atomParser = new AtomParser($readerMock);
+		// Use reflection to check the value
 		$reflectionClass = new ReflectionClass($atomParser);
-		$method = $reflectionClass->getMethod('initialise');
-		$method->setAccessible(true);
-		$method->invoke($atomParser);
 		$attribute = $reflectionClass->getProperty('version');
 		$attribute->setAccessible(true);
 
@@ -347,7 +342,29 @@ class AtomParserTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests AtomParser::initialise()
+	 * Tests AtomParser::parse()
+	 *
+	 * @return void
+	 * @since         3.1.4
+	 * @throws \ReflectionException
+	 */
+	public function testInitialiseSetsDefaultVersion()
+	{
+		$dummyXml   = '<feed xmlns="http://www.w3.org/2005/Atom" />';
+		$reader     = \XMLReader::XML($dummyXml);
+		$atomParser = new AtomParser($reader);
+		$atomParser->parse();
+
+		// Use reflection to check the value
+		$reflectionClass = new ReflectionClass($atomParser);
+		$attribute = $reflectionClass->getProperty('version');
+		$attribute->setAccessible(true);
+
+		$this->assertEquals('1.0', $attribute->getValue($atomParser));
+	}
+
+	/**
+	 * Tests AtomParser::parse()
 	 *
 	 * @return void
 	 * @since         3.1.4
@@ -355,19 +372,13 @@ class AtomParserTest extends UnitTestCase
 	 */
 	public function testInitialiseSetsOldVersion()
 	{
-		$readerMock = $this->createMock(XMLReader::class);
-		$readerMock
-			->expects($this->once())
-			->method('getAttribute')
-			->with('version')
-			->willReturn('0.3');
+		$dummyXml = '<feed version="0.3" xmlns="http://www.w3.org/2005/Atom" />';
+		$reader = \XMLReader::XML($dummyXml);
+		$atomParser = new AtomParser($reader);
+		$atomParser->parse();
 
-		// Use reflection to test protected method
-		$atomParser = new AtomParser($readerMock);
+		// Use reflection to check the value
 		$reflectionClass = new ReflectionClass($atomParser);
-		$method = $reflectionClass->getMethod('initialise');
-		$method->setAccessible(true);
-		$method->invoke($atomParser);
 		$attribute = $reflectionClass->getProperty('version');
 		$attribute->setAccessible(true);
 
@@ -415,7 +426,7 @@ class AtomParserTest extends UnitTestCase
 			->will($this->returnValueMap($map));
 
 		// Use reflection to test protected method
-		$atomParser = new AtomParser($this->createMock(XMLReader::class));
+		$atomParser = new AtomParser(new \XMLReader);
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('processFeedEntry');
 		$method->setAccessible(true);
