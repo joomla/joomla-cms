@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -24,59 +25,56 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class CheckUpdatesCommand extends AbstractCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'update:extensions:check';
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'update:extensions:check';
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$symfonyStyle = new SymfonyStyle($input, $output);
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $symfonyStyle = new SymfonyStyle($input, $output);
 
-		$symfonyStyle->title('Fetching Extension Updates');
+        $symfonyStyle->title('Fetching Extension Updates');
 
-		// Find all updates
-		$ret = Updater::getInstance()->findUpdates();
+        // Find all updates
+        $ret = Updater::getInstance()->findUpdates();
 
-		if ($ret)
-		{
-			$symfonyStyle->note('There are available updates to apply');
-			$symfonyStyle->success('Check complete.');
-		}
-		else
-		{
-			$symfonyStyle->success('There are no available updates');
-		}
+        if ($ret) {
+            $symfonyStyle->note('There are available updates to apply');
+            $symfonyStyle->success('Check complete.');
+        } else {
+            $symfonyStyle->success('There are no available updates');
+        }
 
-		return Command::SUCCESS;
-	}
+        return Command::SUCCESS;
+    }
 
-	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> command checks for pending extension updates
+    /**
+     * Configure the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> command checks for pending extension updates
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('Check for pending extension updates');
-		$this->setHelp($help);
-	}
+        $this->setDescription('Check for pending extension updates');
+        $this->setHelp($help);
+    }
 }
