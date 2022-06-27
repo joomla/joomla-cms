@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -27,32 +28,31 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Fields'));
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Fields'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Fields'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Fields'));
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Fields'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Fields'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new FieldsComponent($container->get(ComponentDispatcherFactoryInterface::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new FieldsComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };
