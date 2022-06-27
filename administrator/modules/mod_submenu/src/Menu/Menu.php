@@ -156,7 +156,7 @@ abstract class Menu
 					$createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
 				}
 
-				if (!$createFields)
+				if (!$createFields || !$user->authorise('core.manage', 'com_users'))
 				{
 					$parent->removeChild($item);
 					continue;

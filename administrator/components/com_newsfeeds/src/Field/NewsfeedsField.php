@@ -40,7 +40,7 @@ class NewsfeedsField extends ListField
 	{
 		$options = array();
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -60,7 +60,7 @@ class NewsfeedsField extends ListField
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Merge any additional options in the XML definition.

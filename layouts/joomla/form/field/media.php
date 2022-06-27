@@ -171,8 +171,23 @@ if (count($doc->getScriptOptions('media-picker')) === 0) {
 }
 
 ?>
-<joomla-field-media class="field-media-wrapper" type="image" <?php // @TODO add this attribute to the field in order to use it for all media types
-																															?> base-path="<?php echo Uri::root(); ?>" root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>" url="<?php echo $url; ?>" modal-container=".modal" modal-width="100%" modal-height="400px" input=".field-media-input" button-select=".button-select" button-clear=".button-clear" button-save-selected=".button-save-selected" preview="static" preview-container=".field-media-preview" preview-width="<?php echo $previewWidth; ?>" preview-height="<?php echo $previewHeight; ?>" supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesAllowedExt, 'audios' => $audiosAllowedExt, 'videos' => $videosAllowedExt, 'documents' => $documentsAllowedExt])); ?>">
+<joomla-field-media class="field-media-wrapper" type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?> 
+	base-path="<?php echo Uri::root(); ?>" 
+	root-folder="<?php echo ComponentHelper::getParams('com_media')->get('file_path', 'images'); ?>" 
+	url="<?php echo $url; ?>" 
+	modal-container=".modal" 
+	modal-width="100%" 
+	modal-height="400px" 
+	input=".field-media-input" 
+	button-select=".button-select" 
+	button-clear=".button-clear" 
+	button-save-selected=".button-save-selected"
+	preview="static" 
+	preview-container=".field-media-preview" 
+	preview-width="<?php echo $previewWidth; ?>" 
+	preview-height="<?php echo $previewHeight; ?>" 
+	supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesAllowedExt, 'audios' => $audiosAllowedExt, 'videos' => $videosAllowedExt, 'documents' => $documentsAllowedExt])); ?>
+">
 	<?php echo $modalHTML; ?>
 	<?php if ($showPreview) : ?>
 		<div class="field-media-preview">
@@ -181,7 +196,7 @@ if (count($doc->getScriptOptions('media-picker')) === 0) {
 		</div>
 	<?php endif; ?>
 	<div class="input-group">
-		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly" <?php echo $attr; ?>>
+		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
 			<button type="button" class="btn btn-success button-select"><?php echo Text::_('JLIB_FORM_BUTTON_SELECT'); ?></button>
 			<button type="button" class="btn btn-danger button-clear"><span class="icon-times" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JLIB_FORM_BUTTON_CLEAR'); ?></span></button>
