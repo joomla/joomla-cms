@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Field;
 
-\defined('_JEXEC') or die();
-
 use Joomla\CMS\Form\Field\CheckboxesField;
 
 /**
