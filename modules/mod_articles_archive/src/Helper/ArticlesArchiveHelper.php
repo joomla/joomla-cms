@@ -10,8 +10,6 @@
 
 namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
