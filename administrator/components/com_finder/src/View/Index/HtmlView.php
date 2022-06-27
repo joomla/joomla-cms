@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Index;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;

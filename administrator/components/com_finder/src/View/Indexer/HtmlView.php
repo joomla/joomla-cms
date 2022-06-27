@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Indexer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
