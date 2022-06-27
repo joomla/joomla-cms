@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Language;
 
-\defined('_JEXEC') or die;
-
 /**
  * Caching factory for creating language objects. The requested languages are
  * cached in memory.
@@ -18,31 +17,30 @@ namespace Joomla\CMS\Language;
  */
 class CachingLanguageFactory extends LanguageFactory
 {
-	/**
-	 * Array of Language objects
-	 *
-	 * @var    Language[]
-	 * @since  4.0.0
-	 */
-	private static $languages = array();
+    /**
+     * Array of Language objects
+     *
+     * @var    Language[]
+     * @since  4.0.0
+     */
+    private static $languages = array();
 
-	/**
-	 * Method to get an instance of a language.
-	 *
-	 * @param   string   $lang   The language to use
-	 * @param   boolean  $debug  The debug mode
-	 *
-	 * @return  Language
-	 *
-	 * @since   4.0.0
-	 */
-	public function createLanguage($lang, $debug = false): Language
-	{
-		if (!isset(self::$languages[$lang . $debug]))
-		{
-			self::$languages[$lang . $debug] = parent::createLanguage($lang, $debug);
-		}
+    /**
+     * Method to get an instance of a language.
+     *
+     * @param   string   $lang   The language to use
+     * @param   boolean  $debug  The debug mode
+     *
+     * @return  Language
+     *
+     * @since   4.0.0
+     */
+    public function createLanguage($lang, $debug = false): Language
+    {
+        if (!isset(self::$languages[$lang . $debug])) {
+            self::$languages[$lang . $debug] = parent::createLanguage($lang, $debug);
+        }
 
-		return self::$languages[$lang . $debug];
-	}
+        return self::$languages[$lang . $debug];
+    }
 }

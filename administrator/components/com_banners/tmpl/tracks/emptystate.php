@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -12,9 +13,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $displayData = [
-	'textPrefix' => 'COM_BANNERS_TRACKS',
-	'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners:_Tracks',
-	'icon'       => 'icon-bookmark banners',
+    'textPrefix' => 'COM_BANNERS_TRACKS',
+    'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Help40:Banners:_Tracks',
+    'icon'       => 'icon-bookmark banners',
 ];
 
 echo LayoutHelper::render('joomla.content.emptystate', $displayData);
