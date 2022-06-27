@@ -21,7 +21,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 /**
  * Model for managing backup codes
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class BackupcodesModel extends BaseDatabaseModel
 {
@@ -29,7 +29,7 @@ class BackupcodesModel extends BaseDatabaseModel
 	 * Caches the backup codes per user ID
 	 *
 	 * @var  array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $cache = [];
 
@@ -40,7 +40,7 @@ class BackupcodesModel extends BaseDatabaseModel
 	 *
 	 * @return  MfaTable|null  Record object or null if none is found
 	 * @throws  \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getBackupCodesRecord(User $user = null): ?MfaTable
 	{
@@ -76,7 +76,7 @@ class BackupcodesModel extends BaseDatabaseModel
 	 *
 	 * @return void
 	 * @throws \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function regenerateBackupCodes(User $user = null): void
 	{
@@ -108,7 +108,7 @@ class BackupcodesModel extends BaseDatabaseModel
 	 *
 	 * @return  boolean
 	 * @throws  \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function saveBackupCodes(array $codes, ?User $user = null): bool
 	{
@@ -174,7 +174,7 @@ class BackupcodesModel extends BaseDatabaseModel
 	 *
 	 * @return  array|null  The backup codes, or null if they do not exist
 	 * @throws  \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getBackupCodes(User $user = null): ?array
 	{
@@ -220,7 +220,7 @@ class BackupcodesModel extends BaseDatabaseModel
 	 *
 	 * @return  boolean
 	 * @throws  \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function isBackupCode($code, ?User $user = null): bool
 	{

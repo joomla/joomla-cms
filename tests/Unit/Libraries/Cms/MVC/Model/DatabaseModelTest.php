@@ -221,7 +221,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testCheckedOutWithoutField()
 	{
@@ -242,7 +242,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testCheckedOutWithCheckedOutUser()
 	{
@@ -267,7 +267,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testCheckedOutWithNotCheckedOutUser()
 	{
@@ -292,7 +292,7 @@ class DatabaseModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testCheckedOutWitFieldEmptyUserSet()
 	{

@@ -24,7 +24,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The FormModel
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class FormModelTest extends UnitTestCase
 {
@@ -33,7 +33,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckin()
 	{
@@ -64,7 +64,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinWithEmptyRecord()
 	{
@@ -84,7 +84,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckin()
 	{
@@ -115,7 +115,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckinLoad()
 	{
@@ -143,7 +143,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinFieldNotAvailableCheck()
 	{
@@ -172,7 +172,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinWhenCurrentUserIsNotAdmin()
 	{
@@ -206,7 +206,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfulCheckinWhenCurrentUserAdmin()
 	{
@@ -241,7 +241,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSucessfullCheckout()
 	{
@@ -272,7 +272,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSucessfullCheckoutWithEmptyRecord()
 	{
@@ -292,7 +292,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckout()
 	{
@@ -323,7 +323,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testFailedCheckoutLoad()
 	{
@@ -350,7 +350,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfullCheckoutFieldNotAvailableCheck()
 	{
@@ -378,7 +378,7 @@ class FormModelTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSuccessfullCheckoutWhenCurrentUserIsDifferent()
 	{

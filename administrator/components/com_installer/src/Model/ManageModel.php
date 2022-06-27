@@ -128,7 +128,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get a table object for the extension type
-		$table = new Extension($this->getDbo());
+		$table = new Extension($this->getDatabase());
 
 		// Enable the extension in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -137,7 +137,7 @@ class ManageModel extends InstallerModel
 
 			if ($table->type == 'template')
 			{
-				$style = new StyleTable($this->getDbo());
+				$style = new StyleTable($this->getDatabase());
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
@@ -245,7 +245,7 @@ class ManageModel extends InstallerModel
 
 		// Get an installer object for the extension type
 		$installer = Installer::getInstance();
-		$row       = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row       = new \Joomla\CMS\Table\Extension($this->getDatabase());
 
 		// Uninstall the chosen extensions
 		$msgs   = array();
@@ -323,7 +323,7 @@ class ManageModel extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->select('2*protected+(1-protected)*enabled AS status')
@@ -424,7 +424,7 @@ class ManageModel extends InstallerModel
 	{
 		// Get the changelog URL
 		$eid = (int) $eid;
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(

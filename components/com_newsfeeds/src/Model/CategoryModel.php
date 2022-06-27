@@ -160,7 +160,7 @@ class CategoryModel extends ListModel
 		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		/** @var \Joomla\Database\DatabaseQuery $query */
 		$query = $db->getQuery(true);

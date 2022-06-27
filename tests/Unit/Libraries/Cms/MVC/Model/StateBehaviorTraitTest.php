@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The StateBehaviorTrait
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class StateBehaviorTraitTest extends UnitTestCase
 {
@@ -30,7 +30,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetEmptyState()
 	{
@@ -47,7 +47,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testStatePopulation()
 	{
@@ -69,7 +69,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testStatePopulationIgnored()
 	{
@@ -96,7 +96,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetState()
 	{
@@ -114,7 +114,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetStateWithPopulation()
 	{
@@ -137,7 +137,7 @@ class StateBehaviorTraitTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetStateWithPrePopulation()
 	{

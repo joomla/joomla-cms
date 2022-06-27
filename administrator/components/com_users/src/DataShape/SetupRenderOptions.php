@@ -35,21 +35,21 @@ use Joomla\Database\ParameterType;
  * @property string $post_message  Custom HTML to display below the MFA setup form
  * @property string $help_url      A URL with help content for this Method to display to the user
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class SetupRenderOptions extends DataShapeObject
 {
 	/**
 	 * Display a standard HTML5 input field. Use the input_type, placeholder and label properties to set it up.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public const FIELD_INPUT = 'input';
 
 	/**
 	 * Display a custom HTML document. Use the html property to set it up.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public const FIELD_CUSTOM = 'custom';
 
@@ -57,7 +57,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Default title if you are setting up this MFA Method for the first time
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $default_title = '';
@@ -66,7 +66,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Custom HTML to display above the MFA setup form parameters etc
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $pre_message = '';
@@ -75,7 +75,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Heading for displayed tabular data. Typically used to display a list of fixed MFA codes, TOTP setup
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $table_heading = '';
@@ -84,7 +84,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Any tabular data to display (label => custom HTML). See above
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $tabular_data = [];
@@ -93,7 +93,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Hidden fields to include in the form (name => value)
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $hidden_data = [];
@@ -102,7 +102,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * How to render the MFA setup code field. "input" (HTML input element) or "custom" (custom HTML)
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $field_type = 'input';
@@ -111,7 +111,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $input_type = 'text';
@@ -120,7 +120,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Attributes other than type and id which will be added to the HTML input box.
 	 *
 	 * @var    array
-	 * @@since __DEPLOY_VERSION__
+	 * @@since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $input_attributes = [];
@@ -129,7 +129,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Pre-filled value for the HTML input box. Typically used for fixed codes, the fixed YubiKey ID etc.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $input_value = '';
@@ -138,7 +138,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Placeholder text for the HTML input box. Leave empty if you don't need it.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $placeholder = '';
 
@@ -146,7 +146,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Label to show above the HTML input box. Leave empty if you don't need it.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $label = '';
 
@@ -154,7 +154,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Custom HTML. Only used when field_type = custom.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $html = '';
 
@@ -162,7 +162,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Should I show the submit button (apply the MFA setup)?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $show_submit = true;
@@ -171,7 +171,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Additional CSS classes for the submit button (apply the MFA setup)
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $submit_class = '';
@@ -180,7 +180,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Icon class to use for the submit button
 	 *
 	 * @var    string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $submit_icon = 'icon icon-ok';
@@ -189,7 +189,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Language key to use for the text on the submit button
 	 *
 	 * @var    string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $submit_text = 'JSAVE';
@@ -198,7 +198,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * Custom HTML to display below the MFA setup form
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $post_message = '';
@@ -207,7 +207,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * A URL with help content for this Method to display to the user
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $help_url = '';
@@ -217,7 +217,7 @@ class SetupRenderOptions extends DataShapeObject
 	 *
 	 * @param   string  $value  One of self::FIELD_INPUT, self::FIELD_CUSTOM
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 * @throws  InvalidArgumentException
 	 */
 	// phpcs:ignore
@@ -238,7 +238,7 @@ class SetupRenderOptions extends DataShapeObject
 	 * @param   array  $value  The value to set
 	 *
 	 * @return  void
-	 * @@since  __DEPLOY_VERSION__
+	 * @@since  4.2.0
 	 */
 	// phpcs:ignore
 	protected function setInput_attributes(array $value)

@@ -59,7 +59,6 @@ steps:
   - name: php81-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php8.1
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
@@ -88,7 +87,6 @@ steps:
   - name: php80-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.0
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -131,7 +129,6 @@ steps:
   - name: php80-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.0
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -478,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 234ae9e7e2fbfa114ba754c68056dec518c76a93de2f5b098f569e355b50cc1b
+hmac: d5db8148323f0205a8c0cd165da3934f5a77b25f73862d09ead95d3c42f1df01
 
 ...

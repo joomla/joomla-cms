@@ -18,7 +18,7 @@ use ReflectionObject;
 /**
  * Dynamically modify the frontend template when showing a MFA captive page.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 trait SiteTemplateTrait
 {
@@ -27,7 +27,7 @@ trait SiteTemplateTrait
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function setSiteTemplateStyle(): void
 	{
