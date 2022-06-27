@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\WebAsset;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 
@@ -19,15 +18,15 @@ use Joomla\CMS\Document\Document;
  */
 interface WebAssetAttachBehaviorInterface
 {
-	/**
-	 * Method called when asset attached to the Document.
-	 * Useful for Asset to add a Script options.
-	 *
-	 * @param   Document  $doc  Active document
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAttachCallback(Document $doc);
+    /**
+     * Method called when asset attached to the Document.
+     * Useful for Asset to add a Script options.
+     *
+     * @param   Document  $doc  Active document
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    public function onAttachCallback(Document $doc);
 }

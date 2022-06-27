@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Content\Administrator\Table;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -21,15 +20,15 @@ use Joomla\Database\DatabaseDriver;
  */
 class FeaturedTable extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   1.6
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__content_frontpage', 'content_id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database connector object
+     *
+     * @since   1.6
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__content_frontpage', 'content_id', $db);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -8,9 +9,6 @@
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Task;
-
-// Restrict direct access
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -30,91 +28,86 @@ use Joomla\CMS\Log\Log;
  */
 class TaskOption
 {
-	/**
-	 * Task routine title
-	 *
-	 * @var string
-	 * @since  4.1.0
-	 */
-	protected $title;
+    /**
+     * Task routine title
+     *
+     * @var string
+     * @since  4.1.0
+     */
+    protected $title;
 
-	/**
-	 * Task routine description.
-	 *
-	 * @var string
-	 * @since  4.1.0
-	 */
-	protected $desc;
+    /**
+     * Task routine description.
+     *
+     * @var string
+     * @since  4.1.0
+     */
+    protected $desc;
 
-	/**
-	 * Routine type-ID.
-	 *
-	 * @var string
-	 * @since  4.1.0
-	 */
-	protected $id;
+    /**
+     * Routine type-ID.
+     *
+     * @var string
+     * @since  4.1.0
+     */
+    protected $id;
 
-	/**
-	 * @var string
-	 * @since  4.1.0
-	 */
-	protected $langConstPrefix;
+    /**
+     * @var string
+     * @since  4.1.0
+     */
+    protected $langConstPrefix;
 
-	/**
-	 * TaskOption constructor.
-	 *
-	 * @param   string  $type             A unique ID string for a plugin task routine.
-	 * @param   string  $langConstPrefix  The Language constant prefix $p. Expects $p . _TITLE and $p . _DESC to exist.
-	 *
-	 * @since  4.1.0
-	 */
-	public function __construct(string $type, string $langConstPrefix)
-	{
-		$this->id              = $type;
-		$this->title           = Text::_("${langConstPrefix}_TITLE");
-		$this->desc            = Text::_("${langConstPrefix}_DESC");
-		$this->langConstPrefix = $langConstPrefix;
-	}
+    /**
+     * TaskOption constructor.
+     *
+     * @param   string  $type             A unique ID string for a plugin task routine.
+     * @param   string  $langConstPrefix  The Language constant prefix $p. Expects $p . _TITLE and $p . _DESC to exist.
+     *
+     * @since  4.1.0
+     */
+    public function __construct(string $type, string $langConstPrefix)
+    {
+        $this->id              = $type;
+        $this->title           = Text::_("${langConstPrefix}_TITLE");
+        $this->desc            = Text::_("${langConstPrefix}_DESC");
+        $this->langConstPrefix = $langConstPrefix;
+    }
 
-	/**
-	 * Magic method to allow read-only access to private properties.
-	 *
-	 * @param   string  $name  The object property requested.
-	 *
-	 * @return  ?string
-	 *
-	 * @since  4.1.0
-	 */
-	public function __get(string $name)
-	{
-		if (property_exists($this, $name))
-		{
-			return $this->$name;
-		}
+    /**
+     * Magic method to allow read-only access to private properties.
+     *
+     * @param   string  $name  The object property requested.
+     *
+     * @return  ?string
+     *
+     * @since  4.1.0
+     */
+    public function __get(string $name)
+    {
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
 
-		// Trigger a deprecation for the 'type' property (replaced with {@see id}).
-		if ($name === 'type')
-		{
-			try
-			{
-				Log::add(
-					sprintf(
-						'The %1$s property is deprecated. Use %2$s instead.',
-						$name,
-						'id'
-					),
-					Log::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $e)
-			{
-				// Pass
-			}
+        // Trigger a deprecation for the 'type' property (replaced with {@see id}).
+        if ($name === 'type') {
+            try {
+                Log::add(
+                    sprintf(
+                        'The %1$s property is deprecated. Use %2$s instead.',
+                        $name,
+                        'id'
+                    ),
+                    Log::WARNING,
+                    'deprecated'
+                );
+            } catch (\RuntimeException $e) {
+                // Pass
+            }
 
-			return $this->id;
-		}
+            return $this->id;
+        }
 
-		return null;
-	}
+        return null;
+    }
 }
