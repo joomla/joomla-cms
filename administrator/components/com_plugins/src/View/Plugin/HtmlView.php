@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
 
 		$help = $this->get('Help');
 
-		if ($lang->hasKey($help->url))
+		if ($help->url && $lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
 			$url = Text::_($help->url);
@@ -112,6 +112,7 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
+		ToolbarHelper::inlinehelp();
 		ToolbarHelper::help($help->key, false, $url);
 	}
 }

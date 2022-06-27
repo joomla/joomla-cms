@@ -134,7 +134,7 @@ class ContactController extends FormController
 
 			$editState['id'] = $id;
 			$editState['link']  = $link;
-			$editState['title'] = $model->getItem($id)->title;
+			$editState['title'] = $model->getItem($id)->name;
 			$editState['type']  = $type;
 			$editState['request']['id'] = $id;
 
