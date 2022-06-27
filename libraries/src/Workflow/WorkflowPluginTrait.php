@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Workflow;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Object\CMSObject;
 use ReflectionClass;
