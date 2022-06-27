@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Administrator
  * @subpackage com_users
@@ -28,246 +29,230 @@ use Joomla\CMS\User\UserFactoryInterface;
  */
 class MethodModel extends BaseDatabaseModel
 {
-	/**
-	 * List of MFA Methods
-	 *
-	 * @var   array
-	 * @since 4.2.0
-	 */
-	protected $mfaMethods = null;
+    /**
+     * List of MFA Methods
+     *
+     * @var   array
+     * @since 4.2.0
+     */
+    protected $mfaMethods = null;
 
-	/**
-	 * Get the specified MFA Method's record
-	 *
-	 * @param   string  $method  The Method to retrieve.
-	 *
-	 * @return  array
-	 * @since 4.2.0
-	 */
-	public function getMethod(string $method): array
-	{
-		if (!$this->methodExists($method))
-		{
-			return [
-				'name'          => $method,
-				'display'       => '',
-				'shortinfo'     => '',
-				'image'         => '',
-				'canDisable'    => true,
-				'allowMultiple' => true,
-			];
-		}
+    /**
+     * Get the specified MFA Method's record
+     *
+     * @param   string  $method  The Method to retrieve.
+     *
+     * @return  array
+     * @since 4.2.0
+     */
+    public function getMethod(string $method): array
+    {
+        if (!$this->methodExists($method)) {
+            return [
+                'name'          => $method,
+                'display'       => '',
+                'shortinfo'     => '',
+                'image'         => '',
+                'canDisable'    => true,
+                'allowMultiple' => true,
+            ];
+        }
 
-		return $this->mfaMethods[$method];
-	}
+        return $this->mfaMethods[$method];
+    }
 
-	/**
-	 * Is the specified MFA Method available?
-	 *
-	 * @param   string  $method  The Method to check.
-	 *
-	 * @return  boolean
-	 * @since 4.2.0
-	 */
-	public function methodExists(string $method): bool
-	{
-		if (!is_array($this->mfaMethods))
-		{
-			$this->populateMfaMethods();
-		}
+    /**
+     * Is the specified MFA Method available?
+     *
+     * @param   string  $method  The Method to check.
+     *
+     * @return  boolean
+     * @since 4.2.0
+     */
+    public function methodExists(string $method): bool
+    {
+        if (!is_array($this->mfaMethods)) {
+            $this->populateMfaMethods();
+        }
 
-		return isset($this->mfaMethods[$method]);
-	}
+        return isset($this->mfaMethods[$method]);
+    }
 
-	/**
-	 * @param   User|null  $user  The user record. Null to use the currently logged in user.
-	 *
-	 * @return  array
-	 * @throws  Exception
-	 *
-	 * @since 4.2.0
-	 */
-	public function getRenderOptions(?User $user = null): SetupRenderOptions
-	{
-		if (is_null($user))
-		{
-			$user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
-		}
+    /**
+     * @param   User|null  $user  The user record. Null to use the currently logged in user.
+     *
+     * @return  array
+     * @throws  Exception
+     *
+     * @since 4.2.0
+     */
+    public function getRenderOptions(?User $user = null): SetupRenderOptions
+    {
+        if (is_null($user)) {
+            $user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
+        }
 
-		$renderOptions = new SetupRenderOptions;
+        $renderOptions = new SetupRenderOptions();
 
-		$event    = new GetSetup($this->getRecord($user));
-		$results = Factory::getApplication()
-			->getDispatcher()
-			->dispatch($event->getName(), $event)
-			->getArgument('result', []);
+        $event    = new GetSetup($this->getRecord($user));
+        $results = Factory::getApplication()
+            ->getDispatcher()
+            ->dispatch($event->getName(), $event)
+            ->getArgument('result', []);
 
-		if (empty($results))
-		{
-			return $renderOptions;
-		}
+        if (empty($results)) {
+            return $renderOptions;
+        }
 
-		foreach ($results as $result)
-		{
-			if (empty($result))
-			{
-				continue;
-			}
+        foreach ($results as $result) {
+            if (empty($result)) {
+                continue;
+            }
 
-			return $renderOptions->merge($result);
-		}
+            return $renderOptions->merge($result);
+        }
 
-		return $renderOptions;
-	}
+        return $renderOptions;
+    }
 
-	/**
-	 * Get the specified MFA record. It will return a fake default record when no record ID is specified.
-	 *
-	 * @param   User|null  $user  The user record. Null to use the currently logged in user.
-	 *
-	 * @return  MfaTable
-	 * @throws  Exception
-	 *
-	 * @since 4.2.0
-	 */
-	public function getRecord(User $user = null): MfaTable
-	{
-		if (is_null($user))
-		{
-			$user = Factory::getApplication()->getIdentity()
-				?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
-		}
+    /**
+     * Get the specified MFA record. It will return a fake default record when no record ID is specified.
+     *
+     * @param   User|null  $user  The user record. Null to use the currently logged in user.
+     *
+     * @return  MfaTable
+     * @throws  Exception
+     *
+     * @since 4.2.0
+     */
+    public function getRecord(User $user = null): MfaTable
+    {
+        if (is_null($user)) {
+            $user = Factory::getApplication()->getIdentity()
+                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        }
 
-		$defaultRecord = $this->getDefaultRecord($user);
-		$id            = (int) $this->getState('id', 0);
+        $defaultRecord = $this->getDefaultRecord($user);
+        $id            = (int) $this->getState('id', 0);
 
-		if ($id <= 0)
-		{
-			return $defaultRecord;
-		}
+        if ($id <= 0) {
+            return $defaultRecord;
+        }
 
-		/** @var MfaTable $record */
-		$record = $this->getTable('Mfa', 'Administrator');
-		$loaded = $record->load(
-			[
-				'user_id' => $user->id,
-				'id'      => $id,
-			]
-		);
+        /** @var MfaTable $record */
+        $record = $this->getTable('Mfa', 'Administrator');
+        $loaded = $record->load(
+            [
+                'user_id' => $user->id,
+                'id'      => $id,
+            ]
+        );
 
-		if (!$loaded)
-		{
-			return $defaultRecord;
-		}
+        if (!$loaded) {
+            return $defaultRecord;
+        }
 
-		if (!$this->methodExists($record->method))
-		{
-			return $defaultRecord;
-		}
+        if (!$this->methodExists($record->method)) {
+            return $defaultRecord;
+        }
 
-		return $record;
-	}
+        return $record;
+    }
 
-	/**
-	 * Return the title to use for the page
-	 *
-	 * @return  string
-	 *
-	 * @since 4.2.0
-	 */
-	public function getPageTitle(): string
-	{
-		$task = $this->getState('task', 'edit');
+    /**
+     * Return the title to use for the page
+     *
+     * @return  string
+     *
+     * @since 4.2.0
+     */
+    public function getPageTitle(): string
+    {
+        $task = $this->getState('task', 'edit');
 
-		switch ($task)
-		{
-			case 'mfa':
-				$key = 'COM_USERS_USER_MULTIFACTOR_AUTH';
-				break;
+        switch ($task) {
+            case 'mfa':
+                $key = 'COM_USERS_USER_MULTIFACTOR_AUTH';
+                break;
 
-			default:
-				$key = sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
-				break;
-		}
+            default:
+                $key = sprintf('COM_USERS_MFA_%s_PAGE_HEAD', $task);
+                break;
+        }
 
-		return Text::_($key);
-	}
+        return Text::_($key);
+    }
 
-	/**
-	 * @param   User|null  $user  The user record. Null to use the current user.
-	 *
-	 * @return  MfaTable
-	 * @throws  Exception
-	 *
-	 * @since 4.2.0
-	 */
-	protected function getDefaultRecord(?User $user = null): MfaTable
-	{
-		if (is_null($user))
-		{
-			$user = Factory::getApplication()->getIdentity()
-				?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
-		}
+    /**
+     * @param   User|null  $user  The user record. Null to use the current user.
+     *
+     * @return  MfaTable
+     * @throws  Exception
+     *
+     * @since 4.2.0
+     */
+    protected function getDefaultRecord(?User $user = null): MfaTable
+    {
+        if (is_null($user)) {
+            $user = Factory::getApplication()->getIdentity()
+                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        }
 
-		$method = $this->getState('method');
-		$title  = '';
+        $method = $this->getState('method');
+        $title  = '';
 
-		if (is_null($this->mfaMethods))
-		{
-			$this->populateMfaMethods();
-		}
+        if (is_null($this->mfaMethods)) {
+            $this->populateMfaMethods();
+        }
 
-		if ($method && isset($this->mfaMethods[$method]))
-		{
-			$title = $this->mfaMethods[$method]['display'];
-		}
+        if ($method && isset($this->mfaMethods[$method])) {
+            $title = $this->mfaMethods[$method]['display'];
+        }
 
-		/** @var MfaTable $record */
-		$record = $this->getTable('Mfa', 'Administrator');
+        /** @var MfaTable $record */
+        $record = $this->getTable('Mfa', 'Administrator');
 
-		$record->bind(
-			[
-				'id'      => null,
-				'user_id' => $user->id,
-				'title'   => $title,
-				'method'  => $method,
-				'default' => 0,
-				'options' => [],
-			]
-		);
+        $record->bind(
+            [
+                'id'      => null,
+                'user_id' => $user->id,
+                'title'   => $title,
+                'method'  => $method,
+                'default' => 0,
+                'options' => [],
+            ]
+        );
 
-		return $record;
-	}
+        return $record;
+    }
 
-	/**
-	 * Populate the list of MFA Methods
-	 *
-	 * @return void
-	 * @since 4.2.0
-	 */
-	private function populateMfaMethods(): void
-	{
-		$this->mfaMethods = [];
-		$mfaMethods       = MfaHelper::getMfaMethods();
+    /**
+     * Populate the list of MFA Methods
+     *
+     * @return void
+     * @since 4.2.0
+     */
+    private function populateMfaMethods(): void
+    {
+        $this->mfaMethods = [];
+        $mfaMethods       = MfaHelper::getMfaMethods();
 
-		if (empty($mfaMethods))
-		{
-			return;
-		}
+        if (empty($mfaMethods)) {
+            return;
+        }
 
-		foreach ($mfaMethods as $method)
-		{
-			$this->mfaMethods[$method['name']] = $method;
-		}
+        foreach ($mfaMethods as $method) {
+            $this->mfaMethods[$method['name']] = $method;
+        }
 
-		// We also need to add the backup codes Method
-		$this->mfaMethods['backupcodes'] = [
-			'name'          => 'backupcodes',
-			'display'       => Text::_('COM_USERS_USER_BACKUPCODES'),
-			'shortinfo'     => Text::_('COM_USERS_USER_BACKUPCODES_DESC'),
-			'image'         => 'media/com_users/images/emergency.svg',
-			'canDisable'    => false,
-			'allowMultiple' => false,
-		];
-	}
+        // We also need to add the backup codes Method
+        $this->mfaMethods['backupcodes'] = [
+            'name'          => 'backupcodes',
+            'display'       => Text::_('COM_USERS_USER_BACKUPCODES'),
+            'shortinfo'     => Text::_('COM_USERS_USER_BACKUPCODES_DESC'),
+            'image'         => 'media/com_users/images/emergency.svg',
+            'canDisable'    => false,
+            'allowMultiple' => false,
+        ];
+    }
 }

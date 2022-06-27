@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
@@ -18,27 +19,21 @@ $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Artic
 $list = LatestHelper::getList($params, $model);
 $workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled');
 
-if ($workflow_enabled)
-{
-	$app->getLanguage()->load('com_workflow');
+if ($workflow_enabled) {
+    $app->getLanguage()->load('com_workflow');
 }
 
-if ($params->get('automatic_title', 0))
-{
-	$module->title = LatestHelper::getTitle($params);
+if ($params->get('automatic_title', 0)) {
+    $module->title = LatestHelper::getTitle($params);
 }
 
-if (count($list))
-{
-	require ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
-}
-else
-{
-	$app->getLanguage()->load('com_content');
+if (count($list)) {
+    require ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
+} else {
+    $app->getLanguage()->load('com_content');
 
-	echo LayoutHelper::render('joomla.content.emptystate_module', [
-			'textPrefix' => 'COM_CONTENT',
-			'icon'       => 'icon-copy',
-		]
-	);
+    echo LayoutHelper::render('joomla.content.emptystate_module', [
+            'textPrefix' => 'COM_CONTENT',
+            'icon'       => 'icon-copy',
+        ]);
 }
