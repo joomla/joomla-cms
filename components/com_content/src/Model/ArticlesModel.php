@@ -193,7 +193,7 @@ class ArticlesModel extends ListModel
 		$user = Factory::getUser();
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		/** @var \Joomla\Database\DatabaseQuery $query */
 		$query = $db->getQuery(true);
@@ -876,7 +876,7 @@ class ArticlesModel extends ListModel
 	public function countItemsByMonth()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Get the list query.

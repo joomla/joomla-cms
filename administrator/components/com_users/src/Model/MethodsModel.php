@@ -25,7 +25,7 @@ use RuntimeException;
 /**
  * Multi-factor Authentication Methods list page's model
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MethodsModel extends BaseDatabaseModel
 {
@@ -37,7 +37,7 @@ class MethodsModel extends BaseDatabaseModel
 	 * @return  array
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function getMethods(?User $user = null): array
 	{
@@ -89,7 +89,7 @@ class MethodsModel extends BaseDatabaseModel
 	 * @return  void
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function deleteAll(?User $user = null): void
 	{
@@ -105,7 +105,7 @@ class MethodsModel extends BaseDatabaseModel
 			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__user_mfa'))
 			->where($db->quoteName('user_id') . ' = :user_id')
@@ -124,7 +124,7 @@ class MethodsModel extends BaseDatabaseModel
 	 * @return  string  The formatted, human-readable date
 	 * @throws  Exception
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function formatRelative(?string $dateTimeText): string
 	{
@@ -197,11 +197,11 @@ class MethodsModel extends BaseDatabaseModel
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function setFlag(User $user, bool $flag = true): void
 	{
-		$db         = $this->getDbo();
+		$db         = $this->getDatabase();
 		$profileKey = 'mfa.dontshow';
 		$query      = $db->getQuery(true)
 			->select($db->quoteName('profile_value'))

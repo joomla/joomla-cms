@@ -31,7 +31,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The BaseController
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class BaseControllerTest extends UnitTestCase
 {
@@ -40,7 +40,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedDependencies()
 	{
@@ -75,7 +75,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetInjectedName()
 	{
@@ -94,7 +94,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetCompiledName()
 	{
@@ -113,7 +113,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testAvailableTasks()
 	{
@@ -135,7 +135,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testUnregisterTask()
 	{
@@ -160,7 +160,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testExecuteTask()
 	{
@@ -185,7 +185,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testExecuteInjectedDefaultTask()
 	{
@@ -210,7 +210,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testExecuteDisplayDefaultTask()
 	{
@@ -235,7 +235,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testExecuteTaskWhichDoesntExist()
 	{
@@ -256,7 +256,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetModel()
 	{
@@ -281,7 +281,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetModelWithInjectedPrefix()
 	{
@@ -303,7 +303,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetModelWithAppNamePrefix()
 	{
@@ -328,7 +328,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetNullModel()
 	{
@@ -350,7 +350,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetModelWithIdentity()
 	{
@@ -386,7 +386,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetView()
 	{
@@ -414,7 +414,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetViewWithInjectedPrefix()
 	{
@@ -437,7 +437,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetNullView()
 	{
@@ -461,7 +461,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetViewWithIdentity()
 	{
@@ -500,7 +500,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectViewPath()
 	{
@@ -526,7 +526,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testAddViewPath()
 	{
@@ -553,7 +553,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testDisplay()
 	{
@@ -590,7 +590,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testDisplayWithModel()
 	{
@@ -627,7 +627,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testCheckEditIdExist()
 	{
@@ -655,7 +655,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testCheckEditIdNotExist()
 	{
@@ -683,7 +683,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testCheckEditEmptyId()
 	{
@@ -711,7 +711,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testHoldEditId()
 	{
@@ -738,7 +738,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testHoldEditEmptyId()
 	{
@@ -765,7 +765,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testReleaseEditId()
 	{
@@ -793,7 +793,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testReleaseInvalidEditId()
 	{
@@ -821,7 +821,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetRedirect()
 	{
@@ -859,7 +859,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetRedirectWithEmptyType()
 	{
@@ -885,7 +885,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testRedirect()
 	{
@@ -917,7 +917,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetMessage()
 	{
@@ -949,7 +949,7 @@ class BaseControllerTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetMessageTwice()
 	{

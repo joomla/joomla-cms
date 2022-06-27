@@ -21,7 +21,7 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 /**
  * Concrete Event class for the onUserMultifactorValidate event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Validate extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -35,7 +35,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
 	 * @param   User      $user    The user currently logged into the site
 	 * @param   string    $code    The MFA code we are validating
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(MfaTable $record, User $user, string $code)
 	{
@@ -55,7 +55,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
 	 * @param   MfaTable  $value  The value to validate
 	 *
 	 * @return  MfaTable
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setRecord(MfaTable $value): MfaTable
 	{
@@ -73,7 +73,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
 	 * @param   User  $value  The value to validate
 	 *
 	 * @return  User
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setUser(User $value): User
 	{
@@ -91,7 +91,7 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
 	 * @param   string|null  $value  The value to validate
 	 *
 	 * @return  string|null
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setCode(?string $value): ?string
 	{

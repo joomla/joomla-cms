@@ -19,7 +19,7 @@ use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 /**
  * Concrete Event class for the onUserMultifactorGetMethod event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class GetMethod extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -29,7 +29,7 @@ class GetMethod extends AbstractImmutableEvent implements ResultAwareInterface
 	/**
 	 * Public constructor
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct()
 	{

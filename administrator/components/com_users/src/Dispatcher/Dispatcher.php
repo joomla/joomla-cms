@@ -59,12 +59,12 @@ class Dispatcher extends ComponentDispatcher
 			$allowedViews,
 			function ($carry, $taskPrefix) use ($task)
 			{
-				return $carry || strpos($task, $taskPrefix . '.') === 0;
+				return $carry || strpos($task ?? '', $taskPrefix . '.') === 0;
 			},
 			false
 		);
 
-		if (in_array(strtolower($view), $allowedViews) || $isAllowedTask)
+		if (in_array(strtolower($view ?? ''), $allowedViews) || $isAllowedTask)
 		{
 			return;
 		}
