@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Apiauthentication.token
@@ -22,32 +23,31 @@ use Joomla\Plugin\ApiAuthentication\Token\Extension\Token;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$plugin = new Token(
-					$container->get(DispatcherInterface::class),
-					(array) PluginHelper::getPlugin('api-authentication', 'token'),
-					$container->get(UserFactoryInterface::class),
-					new InputFilter
-				);
-				$plugin->setApplication(Factory::getApplication());
-				$plugin->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $plugin = new Token(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('api-authentication', 'token'),
+                    $container->get(UserFactoryInterface::class),
+                    new InputFilter()
+                );
+                $plugin->setApplication(Factory::getApplication());
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };

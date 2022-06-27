@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Event\Result;
-
-\defined('JPATH_PLATFORM') or die;
 
 use InvalidArgumentException;
 
@@ -23,19 +22,19 @@ use InvalidArgumentException;
  */
 trait ResultTypeMixedAware
 {
-	/**
-	 * Checks the type of the data being appended to the result argument.
-	 *
-	 * @param   mixed  $data  The data to type check
-	 *
-	 * @return  void
-	 * @throws  InvalidArgumentException
-	 *
-	 * @internal
-	 * @since   4.2.0
-	 */
-	public function typeCheckResult($data): void
-	{
-		// Intentionally left blank; no type check is performed.
-	}
+    /**
+     * Checks the type of the data being appended to the result argument.
+     *
+     * @param   mixed  $data  The data to type check
+     *
+     * @return  void
+     * @throws  InvalidArgumentException
+     *
+     * @internal
+     * @since   4.2.0
+     */
+    public function typeCheckResult($data): void
+    {
+        // Intentionally left blank; no type check is performed.
+    }
 }
