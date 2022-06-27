@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Task.DemoTasks
@@ -19,31 +20,30 @@ use Joomla\Plugin\Task\DemoTasks\Extension\DemoTasks;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$dispatcher = $container->get(DispatcherInterface::class);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $dispatcher = $container->get(DispatcherInterface::class);
 
-				$plugin = new DemoTasks(
-					$dispatcher,
-					(array) PluginHelper::getPlugin('task', 'demotasks')
-				);
-				$plugin->setApplication(Factory::getApplication());
+                $plugin = new DemoTasks(
+                    $dispatcher,
+                    (array) PluginHelper::getPlugin('task', 'demotasks')
+                );
+                $plugin->setApplication(Factory::getApplication());
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };
