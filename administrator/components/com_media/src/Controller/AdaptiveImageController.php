@@ -87,7 +87,7 @@ class AdaptiveImageController extends BaseController
 	 * 
 	 * @return  boolean
 	 * 
-	 * @since 4.0.0 
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function cropImage($imgPath, $widths = null)
 	{

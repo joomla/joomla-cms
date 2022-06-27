@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Focus Store Interface.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 interface FocusStoreInterface
 {
@@ -25,7 +25,7 @@ interface FocusStoreInterface
 	 *
 	 * @return void
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function setFocus($dataFocus, $width, $imgSrc);
 
@@ -38,7 +38,7 @@ interface FocusStoreInterface
 	 * 
 	 * @return string
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFocus($imgSrc, $width);
 
@@ -49,7 +49,7 @@ interface FocusStoreInterface
 	 * 
 	 * @return  boolean
 	 * 
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function deleteFocus($imgSrc);
 
@@ -60,7 +60,7 @@ interface FocusStoreInterface
 	 * 
 	 * @return  boolean
 	 * 
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function deleteResizedImages($imgSrc);
 

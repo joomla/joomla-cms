@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * Media Manager focus Action
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgMediaActionFocus extends CMSPlugin
 {
@@ -26,7 +26,7 @@ class PlgMediaActionFocus extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 	/**
@@ -38,7 +38,7 @@ class PlgMediaActionFocus extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
@@ -80,7 +80,7 @@ class PlgMediaActionFocus extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadJs()
 	{
@@ -96,7 +96,7 @@ class PlgMediaActionFocus extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loadCss()
 	{

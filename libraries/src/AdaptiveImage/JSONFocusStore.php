@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\AdaptiveImage\FocusStoreInterface;
  *
  * Used to get the focus point while rendering the page on the frontend
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class JSONFocusStore implements FocusStoreInterface
 {
@@ -26,7 +26,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 *
 	 * @var string
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected static $dataLocation = JPATH_PLUGINS . '/media-action/focus/data/focus.json';
 
@@ -35,7 +35,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 *
 	 * @var string
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected static $dataFolder = JPATH_PLUGINS . '/media-action/focus/data/';
 	
@@ -44,14 +44,14 @@ class JSONFocusStore implements FocusStoreInterface
 	 *
 	 * @var     string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $cacheDir =  "/media/focus";
 	
 	/**
 	 * Checks the storage at the initilization of the class
 	 * 
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct()
 	{
@@ -68,7 +68,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function setFocus($dataFocus, $width, $imgPath)
 	{
@@ -116,7 +116,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 *
 	 * @return  array
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function getFocus($imgPath, $width = null)
 	{
@@ -153,7 +153,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 * 
 	 * @return  boolean
 	 * 
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function deleteFocus($imgSrc)
 	{
@@ -177,7 +177,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 * 
 	 * @return  boolean
 	 * 
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function deleteResizedImages($imgSrc)
 	{
@@ -210,7 +210,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 * 
 	 * @return  boolean
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function checkStorage($dataLocation)
 	{
@@ -230,7 +230,7 @@ class JSONFocusStore implements FocusStoreInterface
 	 * 
 	 * @return  array
 	 * 
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	private function findMax($dataFocuses)
 	{

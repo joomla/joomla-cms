@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.adaptiveimage
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Adaptive Image Plugin
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgContentAdaptiveImage extends CMSPlugin
 {
@@ -26,7 +26,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 	
@@ -35,7 +35,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
 	 *
 	 * @var     string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $cacheDir =  "/media/focus";
 

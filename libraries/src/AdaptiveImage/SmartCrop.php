@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\AdaptiveImage;
@@ -13,7 +13,7 @@ use Joomla\Image\Image;
  * Used for cropping of the images around
  * the focus points.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class SmartCrop
 {
@@ -30,7 +30,7 @@ class SmartCrop
 	 * 
 	 * @param   string  $imgPath  Image path
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function __construct($imgPath)
 	{
@@ -47,7 +47,7 @@ class SmartCrop
 	 *
 	 * @return boolean
 	 *
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function compute($dataFocus, $finalWidth)
 	{
@@ -122,7 +122,7 @@ class SmartCrop
 	 * 
 	 * @return  boolean
 	 * 
-	 * @since 4.0.0
+	 * @since __DEPLOY_VERSION__
 	 */
 	public function checkDir()
 	{
