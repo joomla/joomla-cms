@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -21,21 +22,21 @@ $wa->useScript('form.validate');
 
 ?>
 <div class="container-popup">
-	<form
-		class="form-horizontal form-validate"
-		id="download-form"
-		name="adminForm"
-		action="<?php echo Route::_('index.php?option=com_banners&task=tracks.display&format=raw&' . Session::getFormToken() . '=1'); ?>"
-		method="post">
+    <form
+        class="form-horizontal form-validate"
+        id="download-form"
+        name="adminForm"
+        action="<?php echo Route::_('index.php?option=com_banners&task=tracks.display&format=raw&' . Session::getFormToken() . '=1'); ?>"
+        method="post">
 
-		<?php foreach ($this->form->getFieldset() as $field) : ?>
-			<?php echo $this->form->renderField($field->fieldname); ?>
-		<?php endforeach; ?>
+        <?php foreach ($this->form->getFieldset() as $field) : ?>
+            <?php echo $this->form->renderField($field->fieldname); ?>
+        <?php endforeach; ?>
 
-		<button class="visually-hidden"
-			id="exportBtn"
-			type="button"
-			onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.Modal.getCurrent().close()', 700);">
-		</button>
-	</form>
+        <button class="visually-hidden"
+            id="exportBtn"
+            type="button"
+            onclick="this.form.submit();window.top.setTimeout('window.parent.Joomla.Modal.getCurrent().close()', 700);">
+        </button>
+    </form>
 </div>
