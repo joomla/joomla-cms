@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
@@ -20,27 +19,27 @@ use Joomla\CMS\MVC\Controller\AdminController;
  */
 class FiltersController extends AdminController
 {
-	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $text_prefix = 'COM_FINDER_FILTERS';
+    /**
+     * The prefix to use with controller messages.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $text_prefix = 'COM_FINDER_FILTERS';
 
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
-	 *
-	 * @since   2.5
-	 */
-	public function getModel($name = 'Filter', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Method to get a model object, loading it if required.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     *
+     * @since   2.5
+     */
+    public function getModel($name = 'Filter', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }
