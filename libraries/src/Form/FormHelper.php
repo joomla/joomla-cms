@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
