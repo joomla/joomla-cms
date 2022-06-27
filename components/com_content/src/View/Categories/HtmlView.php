@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\View\Categories;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\CategoriesView;
 
 /**
@@ -20,17 +19,17 @@ use Joomla\CMS\MVC\View\CategoriesView;
  */
 class HtmlView extends CategoriesView
 {
-	/**
-	 * Language key for default page heading
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $pageHeading = 'JGLOBAL_ARTICLES';
+    /**
+     * Language key for default page heading
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $pageHeading = 'JGLOBAL_ARTICLES';
 
-	/**
-	 * @var    string  The name of the extension for the category
-	 * @since  3.2
-	 */
-	protected $extension = 'com_content';
+    /**
+     * @var    string  The name of the extension for the category
+     * @since  3.2
+     */
+    protected $extension = 'com_content';
 }

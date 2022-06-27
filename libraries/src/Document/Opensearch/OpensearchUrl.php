@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Document\Opensearch;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Data object representing an OpenSearch URL
  *
@@ -17,33 +16,33 @@ namespace Joomla\CMS\Document\Opensearch;
  */
 class OpensearchUrl
 {
-	/**
-	 * Type item element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $type = 'text/html';
+    /**
+     * Type item element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $type = 'text/html';
 
-	/**
-	 * Rel item element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $rel = 'results';
+    /**
+     * Rel item element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $rel = 'results';
 
-	/**
-	 * Template item element. Has to contain the {searchTerms} parameter to work.
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $template;
+    /**
+     * Template item element. Has to contain the {searchTerms} parameter to work.
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $template;
 }
