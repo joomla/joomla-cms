@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -18,15 +19,15 @@ $msgList   = $displayData['msgList'];
 $document  = Factory::getDocument();
 $msgOutput = '';
 $alert     = [
-	CMSApplication::MSG_EMERGENCY => 'danger',
-	CMSApplication::MSG_ALERT     => 'danger',
-	CMSApplication::MSG_CRITICAL  => 'danger',
-	CMSApplication::MSG_ERROR     => 'danger',
-	CMSApplication::MSG_WARNING   => 'warning',
-	CMSApplication::MSG_NOTICE    => 'info',
-	CMSApplication::MSG_INFO      => 'info',
-	CMSApplication::MSG_DEBUG     => 'info',
-	'message'                     => 'success'
+    CMSApplication::MSG_EMERGENCY => 'danger',
+    CMSApplication::MSG_ALERT     => 'danger',
+    CMSApplication::MSG_CRITICAL  => 'danger',
+    CMSApplication::MSG_ERROR     => 'danger',
+    CMSApplication::MSG_WARNING   => 'warning',
+    CMSApplication::MSG_NOTICE    => 'info',
+    CMSApplication::MSG_INFO      => 'info',
+    CMSApplication::MSG_DEBUG     => 'info',
+    'message'                     => 'success'
 ];
 
 // Load JavaScript message titles
@@ -42,33 +43,30 @@ Text::script('JOPEN');
 
 // Alerts progressive enhancement
 $document->getWebAssetManager()
-	->useStyle('webcomponent.joomla-alert')
-	->useScript('messages');
+    ->useStyle('webcomponent.joomla-alert')
+    ->useScript('messages');
 
-if (is_array($msgList) && !empty($msgList))
-{
-	$messages = [];
+if (is_array($msgList) && !empty($msgList)) {
+    $messages = [];
 
-	foreach ($msgList as $type => $msgs)
-	{
-		// JS loaded messages
-		$messages[] = [$alert[$type] ?? $type => $msgs];
-		// Noscript fallback
-		if (!empty($msgs)) {
-			$msgOutput .= '<div class="alert alert-' . ($alert[$type] ?? $type) . '">';
-			foreach ($msgs as $msg) :
-				$msgOutput .= $msg;
-			endforeach;
-			$msgOutput .= '</div>';
-		}
-	}
+    foreach ($msgList as $type => $msgs) {
+        // JS loaded messages
+        $messages[] = [$alert[$type] ?? $type => $msgs];
+        // Noscript fallback
+        if (!empty($msgs)) {
+            $msgOutput .= '<div class="alert alert-' . ($alert[$type] ?? $type) . '">';
+            foreach ($msgs as $msg) :
+                $msgOutput .= $msg;
+            endforeach;
+            $msgOutput .= '</div>';
+        }
+    }
 
-	if ($msgOutput !== '')
-	{
-		$msgOutput = '<noscript>' . $msgOutput . '</noscript>';
-	}
+    if ($msgOutput !== '') {
+        $msgOutput = '<noscript>' . $msgOutput . '</noscript>';
+    }
 
-	$document->addScriptOptions('joomla.messages', $messages);
+    $document->addScriptOptions('joomla.messages', $messages);
 }
 ?>
 <div id="system-message-container" aria-live="polite"><?php echo $msgOutput; ?></div>
