@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Component\Router\Rules;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Language\Multilanguage;
