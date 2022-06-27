@@ -38,12 +38,6 @@ phpunit-pgsql.xml.dist  @rdeutz @hackwar
 # HttpHeaders Plugin
 plugins/system/httpheaders/*  @zero-24
 
-# Web Authentication (WebAuthn)
-plugins/system/webauthn/*   @nikosdion
-media/plg_system_webauthn/*   @nikosdion
-administrator/language/en-GB/plg_system_webauthn.ini   @nikosdion
-administrator/language/en-GB/plg_system_webauthn.sys.ini   @nikosdion
-
 # Workflow
 administrator/components/com_workflow/*	@bembelimen @hleithner
 administrator/language/en-GB/com_workflow.ini	@bembelimen @hleithner
@@ -72,3 +66,6 @@ installation/tmpl/* @chmst
 
 # Translation GitHub Actions
 .github/workflows/create-translation-pull-request-v4.yml @hleithner
+
+# Libraries
+libraries/src/* @laoneo

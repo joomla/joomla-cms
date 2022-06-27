@@ -60,7 +60,7 @@ class ConfigModel extends FormModel
 		$item   = new CMSObject;
 		$userid = (int) $this->getState('user.id');
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[
@@ -129,7 +129,7 @@ class ConfigModel extends FormModel
 	 */
 	public function save($data)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		if ($userId = (int) $this->getState('user.id'))
 		{
