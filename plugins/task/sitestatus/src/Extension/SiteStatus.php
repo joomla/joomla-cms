@@ -82,7 +82,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 	 * The old config
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $oldConfig;
 
@@ -90,7 +90,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 	 * The config file
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $configFile;
 
@@ -102,7 +102,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 	 * @param   array                $oldConfig   The old config
 	 * @param   string               $configFile  The config
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(DispatcherInterface $dispatcher, array $config, array $oldConfig, string $configFile)
 	{
