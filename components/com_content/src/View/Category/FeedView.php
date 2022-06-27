@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -25,68 +26,63 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
  */
 class FeedView extends CategoryFeedView
 {
-	/**
-	 * @var    string  The name of the view to link individual items to
-	 *
-	 * @since  3.2
-	 */
-	protected $viewName = 'article';
+    /**
+     * @var    string  The name of the view to link individual items to
+     *
+     * @since  3.2
+     */
+    protected $viewName = 'article';
 
-	/**
-	 * Method to reconcile non-standard names from components to usage in this class.
-	 * Typically overridden in the component feed view class.
-	 *
-	 * @param   object  $item  The item for a feed, an element of the $items array.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	protected function reconcileNames($item)
-	{
-		// Get description, intro_image, author and date
-		$app               = Factory::getApplication();
-		$params            = $app->getParams();
-		$item->description = '';
-		$obj = json_decode($item->images);
+    /**
+     * Method to reconcile non-standard names from components to usage in this class.
+     * Typically overridden in the component feed view class.
+     *
+     * @param   object  $item  The item for a feed, an element of the $items array.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    protected function reconcileNames($item)
+    {
+        // Get description, intro_image, author and date
+        $app               = Factory::getApplication();
+        $params            = $app->getParams();
+        $item->description = '';
+        $obj = json_decode($item->images);
 
-		// Set feed image to image_intro or if that's empty, to image_fulltext
-		$itemImage = '';
+        // Set feed image to image_intro or if that's empty, to image_fulltext
+        $itemImage = '';
 
-		if (!empty($obj->{'image_intro'}))
-		{
-			$itemImage = $obj->{'image_intro'};
-		}
-		elseif (!empty($obj->{'image_fulltext'}))
-		{
-			$itemImage = $obj->{'image_fulltext'};
-		}
+        if (!empty($obj->{'image_intro'})) {
+            $itemImage = $obj->{'image_intro'};
+        } elseif (!empty($obj->{'image_fulltext'})) {
+            $itemImage = $obj->{'image_fulltext'};
+        }
 
-		if (!empty($itemImage))
-		{
-			$item->description = '<p>' . HTMLHelper::_('image', $itemImage, $obj->image_intro_alt) . '</p>';
-		}
+        if (!empty($itemImage)) {
+            $item->description = '<p>' . HTMLHelper::_('image', $itemImage, $obj->image_intro_alt) . '</p>';
+        }
 
-		$item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
+        $item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);
 
-		// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
-		if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->fulltext)
-		{
-			// Compute the article slug
-			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+        // Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
+        if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->fulltext) {
+            // Compute the article slug
+            $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
-			// URL link to article
-			$link = Route::_(
-				RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language),
-				true,
-				$app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE,
-				true
-			);
+            // URL link to article
+            $link = Route::_(
+                RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language),
+                true,
+                $app->get('force_ssl') == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE,
+                true
+            );
 
-			$item->description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
-				. Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
-		}
+            $item->description .= '<p class="feed-readmore"><a target="_blank" href="' . $link . '" rel="noopener">'
+                . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+        }
 
-		$item->author = $item->created_by_alias ?: $item->author;
-	}
+        $item->author = $item->created_by_alias ?: $item->author;
+    }
 }
