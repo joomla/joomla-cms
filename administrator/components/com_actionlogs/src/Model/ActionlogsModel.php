@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,23 +73,6 @@ class ActionlogsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
-		$app = Factory::getApplication();
-
-		$search = $app->getUserStateFromRequest($this->context . 'filter.search', 'filter_search', '', 'string');
-		$this->setState('filter.search', $search);
-
-		$user = $app->getUserStateFromRequest($this->context . 'filter.user', 'filter_user', '', 'string');
-		$this->setState('filter.user', $user);
-
-		$extension = $app->getUserStateFromRequest($this->context . 'filter.extension', 'filter_extension', '', 'string');
-		$this->setState('filter.extension', $extension);
-
-		$ip_address = $app->getUserStateFromRequest($this->context . 'filter.ip_address', 'filter_ip_address', '', 'string');
-		$this->setState('filter.ip_address', $ip_address);
-
-		$dateRange = $app->getUserStateFromRequest($this->context . 'filter.dateRange', 'filter_dateRange', '', 'string');
-		$this->setState('filter.dateRange', $dateRange);
-
 		parent::populateState($ordering, $direction);
 	}
 
@@ -104,7 +87,7 @@ class ActionlogsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
@@ -183,8 +166,8 @@ class ActionlogsModel extends ListModel
 			else
 			{
 				$search = '%' . $search . '%';
-				$query->where($db->quoteName('u.username') . ' LIKE :username')
-					->bind(':username', $search);
+				$query->where($db->quoteName('a.message') . ' LIKE :message')
+					->bind(':message', $search);
 			}
 		}
 
@@ -260,7 +243,7 @@ class ActionlogsModel extends ListModel
 	public function getLogsForItem($extension, $itemId)
 	{
 		$itemId = (int) $itemId;
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
@@ -286,7 +269,7 @@ class ActionlogsModel extends ListModel
 	}
 
 	/**
-	 * Get logs data into JTable object
+	 * Get logs data into Table object
 	 *
 	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
 	 *
@@ -296,7 +279,7 @@ class ActionlogsModel extends ListModel
 	 */
 	public function getLogsData($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $this->getLogDataQuery($pks);
 
 		$db->setQuery($query);
@@ -315,7 +298,7 @@ class ActionlogsModel extends ListModel
 	 */
 	public function getLogDataAsIterator($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $this->getLogDataQuery($pks);
 
 		$db->setQuery($query);
@@ -334,14 +317,14 @@ class ActionlogsModel extends ListModel
 	 */
 	private function getLogDataQuery($pks = null)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('a.*')
 			->select($db->quoteName('u.name'))
 			->from($db->quoteName('#__action_logs', 'a'))
 			->join('INNER', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('a.user_id') . ' = ' . $db->quoteName('u.id'));
 
-		if (is_array($pks) && count($pks) > 0)
+		if (\is_array($pks) && \count($pks) > 0)
 		{
 			$pks = ArrayHelper::toInteger($pks);
 			$query->whereIn($db->quoteName('a.id'), $pks);
@@ -362,7 +345,7 @@ class ActionlogsModel extends ListModel
 	public function delete(&$pks)
 	{
 		$keys  = ArrayHelper::toInteger($pks);
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__action_logs'))
 			->whereIn($db->quoteName('id'), $keys);
@@ -395,7 +378,7 @@ class ActionlogsModel extends ListModel
 	{
 		try
 		{
-			$this->getDbo()->truncateTable('#__action_logs');
+			$this->getDatabase()->truncateTable('#__action_logs');
 		}
 		catch (Exception $e)
 		{

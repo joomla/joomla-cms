@@ -3,15 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Administrator\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -27,6 +26,7 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Contact\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Contact\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
@@ -64,7 +64,7 @@ class ContactComponent extends MVCComponent implements
 	public function boot(ContainerInterface $container)
 	{
 		$this->getRegistry()->register('contactadministrator', new AdministratorService);
-		$this->getRegistry()->register('contacticon', new Icon($container->get(SiteApplication::class)));
+		$this->getRegistry()->register('contacticon', new Icon($container->get(UserFactoryInterface::class)));
 	}
 
 	/**

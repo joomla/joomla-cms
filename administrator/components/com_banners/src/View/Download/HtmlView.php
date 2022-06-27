@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ class HtmlView extends BaseHtmlView
 		$this->form = $model->getForm();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

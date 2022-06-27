@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,13 +10,18 @@ namespace Joomla\CMS\Categories;
 
 \defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+
 /**
  * Option based categories factory.
  *
- * @since  4.0.0
+ * @since  3.10.0
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The namespace to create the categories from.
 	 *
@@ -46,7 +51,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   4.0.0
+	 * @since   3.10.0
 	 *
 	 * @throws  SectionNotFoundException
 	 */
@@ -59,6 +64,13 @@ class CategoryFactory implements CategoryFactoryInterface
 			throw new SectionNotFoundException;
 		}
 
-		return new $className($options);
+		$category = new $className($options);
+
+		if ($category instanceof DatabaseAwareInterface)
+		{
+			$category->setDatabase($this->getDatabase());
+		}
+
+		return $category;
 	}
 }

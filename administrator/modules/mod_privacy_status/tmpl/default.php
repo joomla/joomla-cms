@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_status
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,18 +24,18 @@ use Joomla\CMS\Router\Route;
 		<tr>
 			<td>
 				<?php if ($privacyPolicyInfo['published'] && $privacyPolicyInfo['articlePublished']) : ?>
-					<span class="badge badge-success">
-						<span class="fas fa-check-square" aria-hidden="true"></span>
+					<span class="badge bg-success">
+						<span class="icon-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JPUBLISHED'); ?>
 					</span>
 				<?php elseif ($privacyPolicyInfo['published'] && !$privacyPolicyInfo['articlePublished']) : ?>
-					<span class="badge badge-warning">
-						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="badge bg-warning text-dark">
+						<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php else : ?>
-					<span class="badge badge-warning">
-						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="badge bg-warning text-dark">
+						<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 					</span>
 				<?php endif; ?>
@@ -53,18 +53,18 @@ use Joomla\CMS\Router\Route;
 		<tr>
 			<td>
 				<?php if ($requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
-					<span class="badge badge-success">
-						<span class="fas fa-check-square" aria-hidden="true"></span>
+					<span class="badge bg-success">
+						<span class="icon-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JPUBLISHED'); ?>
 					</span>
 				<?php elseif (!$requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
-					<span class="badge badge-warning">
-						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="badge bg-warning text-dark">
+						<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php else : ?>
-					<span class="badge badge-warning">
-						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="badge bg-warning text-dark">
+						<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 					</span>
 				<?php endif; ?>
@@ -79,13 +79,13 @@ use Joomla\CMS\Router\Route;
 		<tr>
 			<td>
 				<?php if ($numberOfUrgentRequests === 0) : ?>
-					<span class="badge badge-success">
-						<span class="fas fa-check-square" aria-hidden="true"></span>
+					<span class="badge bg-success">
+						<span class="icon-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JNONE'); ?>
 					</span>
 				<?php else : ?>
-					<span class="badge badge-danger">
-						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="badge bg-danger">
+						<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('WARNING'); ?>
 					</span>
 				<?php endif; ?>
@@ -101,13 +101,13 @@ use Joomla\CMS\Router\Route;
 		<tr>
 			<td>
 				<?php if ($sendMailEnabled) : ?>
-					<span class="badge badge-success">
-						<span class="fas fa-check-square" aria-hidden="true"></span>
+					<span class="badge bg-success">
+						<span class="icon-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JENABLED'); ?>
 					</span>
 				<?php else : ?>
-					<span class="badge badge-danger">
-						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="badge bg-danger">
+						<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('JDISABLED'); ?>
 					</span>
 				<?php endif; ?>
@@ -124,13 +124,13 @@ use Joomla\CMS\Router\Route;
 		<tr>
 			<td>
 				<?php if ($databaseConnectionEncryption !== '') : ?>
-					<span class="badge badge-success">
-						<span class="fas fa-check-square" aria-hidden="true"></span>
+					<span class="badge bg-success">
+						<span class="icon-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JENABLED'); ?>
 					</span>
 				<?php else : ?>
-					<span class="badge badge-warning">
-						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="badge bg-warning text-dark">
+						<span class="icon-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 					</span>
 				<?php endif; ?>

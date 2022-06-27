@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -35,7 +35,7 @@ class InstalledController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$cid = $this->input->get('cid', '');
+		$cid   = (string) $this->input->get('cid', '', 'string');
 		$model = $this->getModel('installed');
 
 		if ($model->publish($cid))
@@ -46,7 +46,7 @@ class InstalledController extends BaseController
 				$language = Factory::getLanguage();
 				$newLang = Language::getInstance($cid);
 				Factory::$language = $newLang;
-				Factory::getApplication()->loadLanguage($language = $newLang);
+				$this->app->loadLanguage($language = $newLang);
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 			}
 
@@ -81,7 +81,7 @@ class InstalledController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$cid   = $this->input->get('cid', '');
+		$cid   = (string) $this->input->get('cid', '', 'string');
 		$model = $this->getModel('installed');
 
 		// Fetching the language name from the langmetadata.xml or xx-XX.xml respectively.
@@ -92,16 +92,16 @@ class InstalledController extends BaseController
 			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
 		}
 
-		$info         = Installer::parseXMLInstallFile($file);
-		$languageName = $info['name'];
+		$info = LanguageHelper::parseXMLLanguageFile($file);
 
 		if ($model->switchAdminLanguage($cid))
 		{
 			// Switching to the new language for the message
+			$languageName = $info['nativeName'];
 			$language = Factory::getLanguage();
 			$newLang = Language::getInstance($cid);
 			Factory::$language = $newLang;
-			Factory::getApplication()->loadLanguage($language = $newLang);
+			$this->app->loadLanguage($language = $newLang);
 			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
 			$msg = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);

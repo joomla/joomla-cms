@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Installer\Administrator\View\Discover;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -24,6 +23,14 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
 class HtmlView extends InstallerViewDefault
 {
 	/**
+	 * Is this view an Empty State
+	 *
+	 * @var  boolean
+	 * @since 4.0.0
+	 */
+	private $isEmptyState = false;
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
@@ -35,9 +42,9 @@ class HtmlView extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Run discover from the model.
-		if (!$this->checkExtensions())
+		if (!$this->getModel()->checkExtensions())
 		{
-			$this->getModel('discover')->discover();
+			$this->getModel()->discover();
 		}
 
 		// Get data from the model.
@@ -45,6 +52,11 @@ class HtmlView extends InstallerViewDefault
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+
+		if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -67,34 +79,16 @@ class HtmlView extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page.
 		 */
-		ToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true);
-		ToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
+		if (!$this->isEmptyState)
+		{
+			ToolbarHelper::custom('discover.install', 'upload', '', 'JTOOLBAR_INSTALL', true);
+		}
+
+		ToolbarHelper::custom('discover.refresh', 'refresh', '', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
 		ToolbarHelper::divider();
 
 		parent::addToolbar();
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
-	}
-
-	/**
-	 * Check extensions.
-	 *
-	 * Checks uninstalled extensions in extensions table.
-	 *
-	 * @return  boolean  True if there are discovered extensions on the database.
-	 *
-	 * @since   3.5
-	 */
-	public function checkExtensions()
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('state') . ' = -1');
-		$db->setQuery($query);
-		$discoveredExtensions = $db->loadObjectList();
-
-		return (count($discoveredExtensions) === 0) ? false : true;
+		ToolbarHelper::help('Extensions:_Discover');
 	}
 }

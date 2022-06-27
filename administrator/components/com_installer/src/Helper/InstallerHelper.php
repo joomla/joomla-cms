@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use SimpleXMLElement;
 
@@ -115,6 +116,66 @@ class InstallerHelper
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JENABLED'));
 		$options[] = HTMLHelper::_('select.option', '2', Text::_('JPROTECTED'));
 		$options[] = HTMLHelper::_('select.option', '3', Text::_('JUNPROTECTED'));
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of filter options for extensions of the "package" type.
+	 *
+	 * @return  array
+	 * @since   4.2.0
+	 */
+	public static function getPackageOptions(): array
+	{
+		$options = [];
+
+		/** @var DatabaseDriver $db The application's database driver object */
+		$db         = Factory::getContainer()->get(DatabaseDriver::class);
+		$query      = $db->getQuery(true)
+			->select(
+				$db->quoteName(
+					[
+						'extension_id',
+						'name',
+						'element',
+					]
+				)
+			)
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'));
+		$extensions = $db->setQuery($query)->loadObjectList() ?: [];
+
+		if (empty($extensions))
+		{
+			return $options;
+		}
+
+		$language  = Factory::getApplication()->getLanguage();
+		$arrayKeys = array_map(
+			function (object $entry) use ($language): string
+			{
+				$language->load($entry->element, JPATH_ADMINISTRATOR);
+
+				return Text::_($entry->name);
+			},
+			$extensions
+		);
+		$arrayValues = array_map(
+			function (object $entry): int
+			{
+				return $entry->extension_id;
+			},
+			$extensions
+		);
+
+		$extensions = array_combine($arrayKeys, $arrayValues);
+		ksort($extensions);
+
+		foreach ($extensions as $label => $id)
+		{
+			$options[] = HTMLHelper::_('select.option', $id, $label);
+		}
 
 		return $options;
 	}
@@ -422,7 +483,7 @@ class InstallerHelper
 
 		if ($onlyEnabled)
 		{
-			$enabled = $onlyEnabled ? 1 : 0;
+			$enabled = 1;
 			$query->where($db->quoteName('s.enabled') . ' = :enabled')
 				->bind(':enabled', $enabled, ParameterType::INTEGER);
 		}

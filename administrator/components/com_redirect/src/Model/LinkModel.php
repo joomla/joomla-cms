@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class LinkModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm   A JForm object on success, false on failure
+	 * @return  \Joomla\CMS\Form\Form A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -128,7 +128,7 @@ class LinkModel extends AdminModel
 	public function activate(&$pks, $url, $comment = null)
 	{
 		$user = Factory::getUser();
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Sanitize the ids.
 		$pks = (array) $pks;
@@ -188,7 +188,7 @@ class LinkModel extends AdminModel
 	public function duplicateUrls(&$pks, $url, $comment = null)
 	{
 		$user = Factory::getUser();
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Sanitize the ids.
 		$pks = (array) $pks;

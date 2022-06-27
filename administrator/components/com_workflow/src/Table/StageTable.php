@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,14 +29,13 @@ class StageTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
+	 *
 	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object
+	 * @param   DatabaseDriver  $db  Database connector object
 	 *
 	 * @since  4.0.0
 	 */
@@ -108,7 +107,7 @@ class StageTable extends Table
 	 * @return  boolean  True on success
 	 *
 	 * @see     Table::check()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function check()
 	{
@@ -182,7 +181,7 @@ class StageTable extends Table
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     Table::store()
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function store($updateNulls = true)
 	{
@@ -263,8 +262,8 @@ class StageTable extends Table
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @param   Table    $table  A JTable object for the asset parent.
-	 * @param   integer  $id     The id for the asset
+	 * @param   Table|null    $table  A Table object for the asset parent.
+	 * @param   integer|null  $id     The id for the asset
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *

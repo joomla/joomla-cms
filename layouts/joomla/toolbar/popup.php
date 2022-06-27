@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,14 +34,14 @@ Factory::getDocument()->getWebAssetManager()
 
 $tagName = $tagName ?? 'button';
 
-$modalAttrs['data-toggle'] = 'modal';
-$modalAttrs['data-target'] = '#' . $selector;
+$modalAttrs['data-bs-toggle'] = 'modal';
+$modalAttrs['data-bs-target'] = '#' . $selector;
 
 $idAttr   = !empty($id)        ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck) ? ' list-selection' : '';
 
 ?>
-<joomla-toolbar-button <?php echo $idAttr.$listAttr; ?>>
+<joomla-toolbar-button <?php echo $idAttr . $listAttr; ?>>
 <<?php echo $tagName; ?>
 	value="<?php echo $doTask; ?>"
 	class="<?php echo $btnClass; ?>"

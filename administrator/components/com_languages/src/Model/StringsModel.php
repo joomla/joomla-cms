@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class StringsModel extends BaseDatabaseModel
 	public function refresh()
 	{
 		$app = Factory::getApplication();
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 
 		$app->setUserState('com_languages.overrides.cachedtime', null);
 
@@ -91,6 +91,12 @@ class StringsModel extends BaseDatabaseModel
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
 		{
+			// Only process if language file is for selected language
+			if (strpos($file, $language, strlen($base)) === false)
+			{
+				continue;
+			}
+
 			$strings = LanguageHelper::parseIniFile($file);
 
 			if ($strings)
@@ -135,7 +141,7 @@ class StringsModel extends BaseDatabaseModel
 		$results = array();
 		$input   = Factory::getApplication()->input;
 		$filter  = InputFilter::getInstance();
-		$db      = $this->getDbo();
+		$db      = $this->getDatabase();
 		$searchTerm = $input->getString('searchstring');
 
 		$limitstart = $input->getInt('more');

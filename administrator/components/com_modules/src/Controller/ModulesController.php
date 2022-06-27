@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Modules list controller class.
@@ -35,8 +34,10 @@ class ModulesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$pks = ArrayHelper::toInteger($pks);
+		$pks = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$pks = array_filter($pks);
 
 		try
 		{
@@ -54,7 +55,7 @@ class ModulesController extends AdminController
 			$this->app->enqueueMessage($e->getMessage(), 'warning');
 		}
 
-		$this->setRedirect('index.php?option=com_modules&view=modules');
+		$this->setRedirect('index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend());
 	}
 
 	/**
@@ -78,7 +79,7 @@ class ModulesController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getQuickiconContent()
 	{
@@ -96,5 +97,20 @@ class ModulesController extends AdminController
 		$result['name'] = Text::plural('COM_MODULES_N_QUICKICON', $amount);
 
 		echo new JsonResponse($result);
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
 	}
 }

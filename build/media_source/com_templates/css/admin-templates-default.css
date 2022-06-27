@@ -1,101 +1,116 @@
 /**
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 .selected {
-	background: #08c;
-	color: #fff;
+  background: #08c;
+  color: #fff;
 }
 
 .selected:hover,
 .selected:focus {
-	background: #08c !important;
-	color: #fff;
+  background: #08c !important;
+  color: #fff;
 }
 
 #deleteFolder {
-	margin: 0;
+  margin: 0;
 }
 
 #image-crop {
-	max-width: 100% !important;
-	width: auto;
-	height: auto;
+  max-width: 100% !important;
+  width: auto;
+  height: auto;
 }
 
 .tree-holder {
-	overflow-x: auto;
+  overflow-x: auto;
+}
+.modal-body .tree-holder {
+  max-height: 60vh;
+}
+
+@media (max-width: 768px) {
+  .modal-title {
+    font-size: 1rem;
+  }
+  .modal-body .tree-holder {
+    max-height: 12vh;
+    margin-bottom: 20px;
+  }
+  .modal-body .card-body {
+    padding: .75rem;
+  }
+  .modal-body .col-md-4,
+  .modal-body .col-md-8 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .card-body .mt-2 {
+    font-size: 12px;
+  }
 }
 
 .treeselect a {
-	display: block;
+  display: block;
 }
 
 .diffview {
-	white-space: pre-wrap;
-	word-wrap: break-word;
-	display: inline;
-	padding: 4px;
-	border-radius: .2em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  display: inline;
+  padding: 4px;
+  border-radius: .2em;
 }
 
 .diff-pane {
-	height: 350px;
-	border: 0.5px solid grey;
-	overflow: auto;
-	padding: 10px;
-	background-color: #FFF;
+  height: 350px;
+  border: 0.5px solid grey;
+  overflow: auto;
+  padding: 10px;
+  background-color: #FFF;
 }
 
 #diff-main.active {
-	display: block;
+  display: block;
 }
 
 #diff-main {
-	display: none;
+  display: none;
 }
 
 #core-pane.active {
-	display: block;
+  display: block;
 }
 
 #core-pane {
-	display: none;
+  display: none;
 }
 
 #core-pane .CodeMirror-code {
-	background-color: #F0F0EE;
-}
-
-#jform_show_core {
-	display: inline;
-}
-
-#jform_show_diff {
-	display: inline;
-	margin-left: 3.5em;
+  background-color: #F0F0EE;
 }
 
 .switcher-label-0, .switcher-label-1 {
-	white-space: nowrap;
+  white-space: nowrap;
 }
 
 /* RTL overrides for templates editing*/
 [dir=rtl] .diff-pane {
-	text-align: left;
+  text-align: left;
 }
 
 [dir=rtl] #core-pane textarea,
 #override-pane textarea {
-	text-align: left;
+  text-align: left;
 }
 
 [dir=rtl] #core-pane joomla-editor-codemirror,
 #override-pane joomla-editor-codemirror {
-	text-align: left;
+  text-align: left;
 }
 
 [dir=rtl] #toggle-buttons {
-	text-align: right !important;
+  text-align: right !important;
 }

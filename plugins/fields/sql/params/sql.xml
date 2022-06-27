@@ -25,4 +25,19 @@
 			</field>
 		</fieldset>
 	</fields>
+	<fields name="params">
+		<fieldset name="basic">
+			<fieldset name="formoptions">
+				<field
+					name="form_layout"
+					type="list"
+					label="COM_FIELDS_FIELD_FORM_LAYOUT_LABEL"
+					class="form-select"
+					>
+					<option value="joomla.form.field.list">JDEFAULT</option>
+					<option value="joomla.form.field.list-fancy-select">PLG_FIELDS_SQL_PARAMS_FORM_LAYOUT_FANCY_SELECT</option>
+				</field>
+			</fieldset>
+		</fieldset>
+	</fields>
 </form>

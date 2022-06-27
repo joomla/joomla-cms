@@ -2,15 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Factory;
 
 /**
  * Form Field to load a list of content authors
@@ -33,7 +31,7 @@ class AuthorField extends ListField
 	 * @var    array
 	 * @since  3.2
 	 */
-	protected static $options = array();
+	protected static $options = [];
 
 	/**
 	 * Method to get the options to populate list
@@ -51,7 +49,7 @@ class AuthorField extends ListField
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 
 			// Construct the query
 			$query = $db->getQuery(true)

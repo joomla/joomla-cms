@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 
 		$routes = [
 			new Route(['GET'], 'v1/languages', 'languages.displayList', [], $getDefaults),
-			new Route(['POST'], 'v1/languages', 'languages.install', [], $defaults)
+			new Route(['POST'], 'v1/languages', 'languages.install', [], $defaults),
 		];
 
 		$router->addRoutes($routes);

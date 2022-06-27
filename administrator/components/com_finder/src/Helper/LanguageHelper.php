@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,8 +55,14 @@ class LanguageHelper
 	public static function branchSingular($branchName)
 	{
 		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
+		$language = Factory::getApplication()->getLanguage();
 
-		return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
+		if ($language->hasKey('PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return) || JDEBUG)
+		{
+			return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
+		}
+
+		return $branchName;
 	}
 
 	/**

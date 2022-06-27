@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,6 +196,12 @@ class ContactModel extends AdminModel
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -386,7 +392,7 @@ class ContactModel extends AdminModel
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select('MAX(ordering)')
 					->from($db->quoteName('#__contact_details'));
@@ -419,7 +425,7 @@ class ContactModel extends AdminModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->getDatabase()->quoteName('catid') . ' = ' . (int) $table->catid,
 		];
 	}
 
@@ -505,7 +511,7 @@ class ContactModel extends AdminModel
 
 		try
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 
 			$query = $db->getQuery(true);
 			$query->update($db->quoteName('#__contact_details'));

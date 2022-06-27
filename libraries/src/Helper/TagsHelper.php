@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -50,7 +51,15 @@ class TagsHelper extends CMSHelper
 	 * @var    string
 	 * @since  3.1
 	 */
-	public $typeAlias = null;
+	public $typeAlias;
+
+	/**
+	 * Array of item tags.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	public $itemTags;
 
 	/**
 	 * Method to add tag rows to mapping table.
@@ -392,6 +401,76 @@ class TagsHelper extends CMSHelper
 	}
 
 	/**
+	 * Method to get a list of tags for multiple items, optionally with the tag data.
+	 *
+	 * @param   string   $contentType  Content type alias. Dot separated.
+	 * @param   array    $ids          Id of the item to retrieve tags for.
+	 * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
+	 *
+	 * @return  array    Array of of tag objects grouped by Id.
+	 *
+	 * @since   4.2.0
+	 */
+	public function getMultipleItemTags($contentType, array $ids, $getTagData = true)
+	{
+		$data = [];
+
+		$ids = array_map('intval', $ids);
+
+		/** @var DatabaseDriver $db */
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['m.tag_id', 'm.content_item_id']))
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
+			->where(
+				[
+					$db->quoteName('m.type_alias') . ' = :contentType',
+					$db->quoteName('t.published') . ' = 1',
+				]
+			)
+			->whereIn($db->quoteName('m.content_item_id'), $ids)
+			->bind(':contentType', $contentType);
+
+		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+
+		$groups = Factory::getUser()->getAuthorisedViewLevels();
+
+		$query->whereIn($db->quoteName('t.access'), $groups);
+
+		// Optionally filter on language
+		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+
+		if ($language !== 'all')
+		{
+			if ($language === 'current_language')
+			{
+				$language = $this->getCurrentLanguage();
+			}
+
+			$query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
+		}
+
+		if ($getTagData)
+		{
+			$query->select($db->quoteName('t') . '.*');
+		}
+
+		$db->setQuery($query);
+
+		$rows = $db->loadObjectList();
+
+		// Group data by item Id.
+		foreach ($rows as $row)
+		{
+			$data[$row->content_item_id][] = $row;
+			unset($row->content_item_id);
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Method to get a list of tags for a given item.
 	 * Normally used for displaying a list of tags within a layout
 	 *
@@ -455,7 +534,7 @@ class TagsHelper extends CMSHelper
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
-	 * @return  DatabaseQuery  Query to retrieve a list of tags
+	 * @return  \Joomla\Database\DatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
@@ -563,7 +642,7 @@ class TagsHelper extends CMSHelper
 		$groups[] = 0;
 		$query->whereIn($db->quoteName('c.core_access'), $groups);
 
-		if (\in_array('0', $stateFilters))
+		if (!\in_array(0, $stateFilters, true))
 		{
 			$query->extendWhere(
 				'AND',
@@ -976,23 +1055,23 @@ class TagsHelper extends CMSHelper
 	/**
 	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
 	 *
-	 * @param   integer  $tag_id  The tag_id (primary key) for the deleted tag.
+	 * @param   integer  $tagId  The tag_id (primary key) for the deleted tag.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function tagDeleteInstances($tag_id)
+	public function tagDeleteInstances($tagId)
 	{
 		// Cast as integer until method is typehinted.
-		$tag_id = (int) $tag_id;
+		$tag_id = (int) $tagId;
 
 		// Delete the old tag maps.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('tag_id') . ' = :id')
-			->bind(':id', $tag_id, ParameterType::INTEGER);
+			->bind(':id', $tagId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 	}

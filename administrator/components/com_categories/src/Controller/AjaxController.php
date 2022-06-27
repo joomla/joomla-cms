@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,13 +73,13 @@ class AjaxController extends BaseController
 				$associations[$lang]->title = $categoryTable->title;
 			}
 
-			$countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1), false));
+			$countContentLanguages = \count(LanguageHelper::getContentLanguages(array(0, 1), false));
 
-			if (count($associations) == 0)
+			if (\count($associations) == 0)
 			{
 				$message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');
 			}
-			elseif ($countContentLanguages > count($associations) + 2)
+			elseif ($countContentLanguages > \count($associations) + 2)
 			{
 				$tags    = implode(', ', array_keys($associations));
 				$message = Text::sprintf('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_SOME', $tags);

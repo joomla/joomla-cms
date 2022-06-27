@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,18 @@ namespace Joomla\CMS\Console;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
 
 /**
  * Console command to remove a user from a group
@@ -30,6 +31,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class RemoveUserFromGroupCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -71,6 +74,20 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	private $userGroups = array();
 
 	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   4.2.0
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -99,7 +116,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 		$this->userGroups = $this->getGroups($user);
 
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -134,28 +151,30 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 						. $result . " needs at least one active user!"
 					);
 
-					return 1;
+					return Command::FAILURE;
 				}
 			}
 
 			if (\count(Access::getGroupsByUser($user->id, false)) < 2)
 			{
-				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs at least one group");
+				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result
+					. "'! Every user needs to be a member of at least one group"
+				);
 
-				return 1;
+				return Command::FAILURE;
 			}
 
 			if (!UserHelper::removeUserFromGroup($user->id, $userGroup))
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
 
-				return 1;
+				return Command::FAILURE;
 			}
 
 			$this->ioStyle->success("Removed '" . $user->username . "' from group '" . $result . "'!");
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -169,8 +188,8 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function getGroups($user): array
 	{
-		$option = $this->getApplication()->getConsoleInput()->getOption('group');
-		$db = Factory::getDbo();
+		$option     = $this->getApplication()->getConsoleInput()->getOption('group');
+		$db         = $this->getDatabase();
 		$userGroups = Access::getGroupsByUser($user->id, false);
 
 		if (!$option)
@@ -231,7 +250,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))

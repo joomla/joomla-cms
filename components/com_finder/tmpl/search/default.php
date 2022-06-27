@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,11 +24,9 @@ $this->document->getWebAssetManager()
 			<?php endif; ?>
 		</h1>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_search_form', 1)) : ?>
-		<div id="search-form" class="com-finder__form">
-			<?php echo $this->loadTemplate('form'); ?>
-		</div>
-	<?php endif; ?>
+	<div id="search-form" class="com-finder__form">
+		<?php echo $this->loadTemplate('form'); ?>
+	</div>
 	<?php // Load the search results layout if we are performing a search. ?>
 	<?php if ($this->query->search === true) : ?>
 		<div id="search-results" class="com-finder__results">

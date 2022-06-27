@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ namespace Joomla\CMS\Image;
 /**
  * Class to manipulate an image.
  *
- * @since  2.5.0
+ * @since  1.7.3
  */
 abstract class ImageFilter
 {
@@ -28,7 +28,7 @@ abstract class ImageFilter
 	 *
 	 * @param   resource  $handle  The image resource on which to apply the filter.
 	 *
-	 * @since   2.5.0
+	 * @since   1.7.3
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 */
@@ -42,7 +42,7 @@ abstract class ImageFilter
 
 		/**
 		 * Make sure the file handle is valid.
-		 * TODO: Remove check for resource when we only support PHP 8
+		 * @todo: Remove check for resource when we only support PHP 8
 		 */
 		if (!((\is_object($handle) && get_class($handle) == 'GdImage')
 			|| (\is_resource($handle) && get_resource_type($handle) == 'gd')))

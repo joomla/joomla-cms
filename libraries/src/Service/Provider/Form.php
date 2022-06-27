@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,13 +12,14 @@ namespace Joomla\CMS\Service\Provider;
 
 use Joomla\CMS\Form\FormFactory;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
  * Service provider for the form dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Form implements ServiceProviderInterface
 {
@@ -29,7 +30,7 @@ class Form implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -39,7 +40,10 @@ class Form implements ServiceProviderInterface
 				FormFactoryInterface::class,
 				function (Container $container)
 				{
-					return new FormFactory;
+					$factory = new FormFactory;
+					$factory->setDatabase($container->get(DatabaseInterface::class));
+
+					return $factory;
 				},
 				true
 			);

@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ if (is_writable(JPATH_ADMINISTRATOR . '/logs'))
 }
 
 // Register the Installation application
-JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
+JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false);
 
 JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\InstallationRouter::class);
 

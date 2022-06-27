@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,13 +23,9 @@ $userFieldGroups    = array();
 <?php endif; ?>
 
 <?php foreach ($this->contactUser->jcfields as $field) : ?>
-	<?php if (!in_array('-1', $displayGroups) && (!$field->group_id || !in_array($field->group_id, $displayGroups))) : ?>
-		<?php continue; ?>
+	<?php if ($field->value && (in_array('-1', $displayGroups) || in_array($field->group_id, $displayGroups))) : ?>
+		<?php $userFieldGroups[$field->group_title][] = $field; ?>
 	<?php endif; ?>
-	<?php if (!array_key_exists($field->group_title, $userFieldGroups)) : ?>
-		<?php $userFieldGroups[$field->group_title] = array(); ?>
-	<?php endif; ?>
-	<?php $userFieldGroups[$field->group_title][] = $field; ?>
 <?php endforeach; ?>
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>

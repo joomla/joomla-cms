@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,13 +17,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -58,71 +58,6 @@ class ProfileModel extends FormModel
 		);
 
 		parent::__construct($config, $factory, $formFactory);
-	}
-
-	/**
-	 * Method to check in a user.
-	 *
-	 * @param   integer  $userId  The id of the row to check out.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function checkin($userId = null)
-	{
-		// Get the user id.
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
-		if ($userId)
-		{
-			// Initialise the table with Joomla\CMS\User\User.
-			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
-
-			// Attempt to check the row in.
-			if (!$table->checkin($userId))
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to check out a user for editing.
-	 *
-	 * @param   integer  $userId  The id of the row to check out.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function checkout($userId = null)
-	{
-		// Get the user id.
-		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
-
-		if ($userId)
-		{
-			// Initialise the table with Joomla\CMS\User\User.
-			$table = Table::getInstance('User', 'Joomla\\CMS\Table\\');
-
-			// Get the current user object.
-			$user = Factory::getUser();
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $userId))
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**
@@ -329,64 +264,10 @@ class ProfileModel extends FormModel
 		// Unset block and sendEmail so they do not get overwritten
 		unset($data['block'], $data['sendEmail']);
 
-		// Handle the two factor authentication setup
-		if (array_key_exists('twofactor', $data))
-		{
-			$model = $this->bootComponent('com_users')->getMVCFactory()
-				->createModel('User', 'Administrator');
-
-			$twoFactorMethod = $data['twofactor']['method'];
-
-			// Get the current One Time Password (two factor auth) configuration
-			$otpConfig = $model->getOtpConfig($userId);
-
-			if ($twoFactorMethod !== 'none')
-			{
-				// Run the plugins
-				PluginHelper::importPlugin('twofactorauth');
-				$otpConfigReplies = Factory::getApplication()->triggerEvent('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
-
-				// Look for a valid reply
-				foreach ($otpConfigReplies as $reply)
-				{
-					if (!is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
-					{
-						continue;
-					}
-
-					$otpConfig->method = $reply->method;
-					$otpConfig->config = $reply->config;
-
-					break;
-				}
-
-				// Save OTP configuration.
-				$model->setOtpConfig($userId, $otpConfig);
-
-				// Generate one time emergency passwords if required (depleted or not set)
-				if (empty($otpConfig->otep))
-				{
-					$model->generateOteps($userId);
-				}
-			}
-			else
-			{
-				$otpConfig->method = 'none';
-				$otpConfig->config = array();
-				$model->setOtpConfig($userId, $otpConfig);
-			}
-
-			// Unset the raw data
-			unset($data['twofactor']);
-
-			// Reload the user record with the updated OTP configuration
-			$user->load($userId);
-		}
-
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(Text::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
+			$this->setError($user->getError());
 
 			return false;
 		}
@@ -406,6 +287,12 @@ class ProfileModel extends FormModel
 			return false;
 		}
 
+		// Destroy all active sessions for the user after changing the password
+		if ($data['password'])
+		{
+			UserHelper::destroyUserSessions($user->id, true);
+		}
+
 		return $user->id;
 	}
 
@@ -413,43 +300,42 @@ class ProfileModel extends FormModel
 	 * Gets the configuration forms for all two-factor authentication methods
 	 * in an array.
 	 *
-	 * @param   integer  $user_id  The user ID to load the forms for (optional)
+	 * @param   integer  $userId  The user ID to load the forms for (optional)
 	 *
 	 * @return  array
 	 *
 	 * @since   3.2
+	 * @deprecated 4.2.0 Will be removed in 5.0.
 	 */
-	public function getTwofactorform($user_id = null)
+	public function getTwofactorform($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
-
-		$model = $this->bootComponent('com_users')->getMVCFactory()
-			->createModel('User', 'Administrator');
-
-		$otpConfig = $model->getOtpConfig($user_id);
-
-		PluginHelper::importPlugin('twofactorauth');
-
-		return Factory::getApplication()->triggerEvent('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+		return [];
 	}
 
 	/**
-	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
-	 * configuration for a particular user.
+	 * No longer used
 	 *
-	 * @param   integer  $user_id  The numeric ID of the user
+	 * @param   integer  $userId  Ignored
 	 *
-	 * @return  \stdClass  An object holding the OTP configuration for this user
+	 * @return  \stdClass
 	 *
 	 * @since   3.2
+	 * @deprecated 4.2.0  Will be removed in 5.0
 	 */
-	public function getOtpConfig($user_id = null)
+	public function getOtpConfig($userId = null)
 	{
-		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. Use \Joomla\Component\Users\Administrator\Helper\Mfa::getUserMfaRecords() instead.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
 
+		/** @var UserModel $model */
 		$model = $this->bootComponent('com_users')
 			->getMVCFactory()->createModel('User', 'Administrator');
 
-		return $model->getOtpConfig($user_id);
+		return $model->getOtpConfig();
 	}
 }

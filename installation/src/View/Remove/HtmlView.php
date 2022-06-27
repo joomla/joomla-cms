@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\View\Remove;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Installation\View\DefaultView;
 use Joomla\CMS\Version;
@@ -64,9 +64,9 @@ class HtmlView extends DefaultView
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string|null  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
@@ -83,6 +83,6 @@ class HtmlView extends DefaultView
 		$this->phpoptions = $this->get('PhpOptions', 'Checks');
 		$this->phpsettings = $this->get('PhpSettings', 'Checks');
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 }

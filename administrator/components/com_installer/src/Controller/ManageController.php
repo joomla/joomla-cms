@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,11 +33,10 @@ class ManageController extends BaseController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
-	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
@@ -61,10 +60,13 @@ class ManageController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('publish' => 1, 'unpublish' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -112,12 +114,19 @@ class ManageController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var ManageModel $model */
-		$model = $this->getModel('manage');
+		$eid = (array) $this->input->get('cid', array(), 'int');
 
-		$eid = $this->input->get('cid', array(), 'array');
-		$eid = ArrayHelper::toInteger($eid, array());
-		$model->remove($eid);
+		// Remove zero values resulting from input filter
+		$eid = array_filter($eid);
+
+		if (!empty($eid))
+		{
+			/** @var ManageModel $model */
+			$model = $this->getModel('manage');
+
+			$model->remove($eid);
+		}
+
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
 	}
 
@@ -135,12 +144,19 @@ class ManageController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var ManageModel $model */
-		$model = $this->getModel('manage');
+		$uid = (array) $this->input->get('cid', array(), 'int');
 
-		$uid = $this->input->get('cid', array(), 'array');
-		$uid = ArrayHelper::toInteger($uid, array());
-		$model->refresh($uid);
+		// Remove zero values resulting from input filter
+		$uid = array_filter($uid);
+
+		if (!empty($uid))
+		{
+			/** @var ManageModel $model */
+			$model = $this->getModel('manage');
+
+			$model->refresh($uid);
+		}
+
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
 	}
 

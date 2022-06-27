@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -26,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if ($this->total > 0) : ?>
 					<table id="global-checkin" class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_CHECKIN_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -55,7 +57,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo Text::sprintf('COM_CHECKIN_TABLE', $table); ?>
 									</th>
 									<td>
-										<span class="badge badge-secondary"><?php echo $count; ?></span>
+										<span class="badge bg-secondary"><?php echo $count; ?></span>
 									</td>
 								</tr>
 								<?php $i++; ?>

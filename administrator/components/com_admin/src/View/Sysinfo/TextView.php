@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,7 +136,7 @@ class TextView extends AbstractView
 
 		foreach ($sectionData as $name => $value)
 		{
-			if (is_array($value))
+			if (\is_array($value))
 			{
 				if ($name == 'Directive')
 				{
@@ -148,12 +148,12 @@ class TextView extends AbstractView
 			}
 			else
 			{
-				if (is_bool($value))
+				if (\is_bool($value))
 				{
 					$value = $value ? 'true' : 'false';
 				}
 
-				if (is_int($name) && ($name == 0 || $name == 1))
+				if (\is_int($name) && ($name == 0 || $name == 1))
 				{
 					$name = ($name == 0 ? 'Local Value' : 'Master Value');
 				}

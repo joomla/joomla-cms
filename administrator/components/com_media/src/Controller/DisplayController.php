@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class DisplayController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\AbstractView  Reference to the view or an error.
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception

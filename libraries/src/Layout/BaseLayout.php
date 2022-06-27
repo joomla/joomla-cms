@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class BaseLayout implements LayoutInterface
 	 */
 	public function escape($output)
 	{
-		return htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
+		return $output === null ? '' : htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**

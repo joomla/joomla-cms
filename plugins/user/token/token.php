@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.token
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,6 @@ class PlgUserToken extends CMSPlugin
 	private $allowedContexts = [
 		'com_users.profile',
 		'com_users.user',
-		'com_admin.profile',
 	];
 
 	/**
@@ -115,7 +114,7 @@ class PlgUserToken extends CMSPlugin
 		}
 
 		// Get the user ID
-		$userId = isset($data->id) ? intval($data->id) : 0;
+		$userId = intval($data->id);
 
 		// Make sure we have a positive integer user ID
 		if ($userId <= 0)
@@ -402,7 +401,7 @@ class PlgUserToken extends CMSPlugin
 					$db->qn('user_id'),
 					$db->qn('profile_key'),
 					$db->qn('profile_value'),
-					$db->qn('ordering')
+					$db->qn('ordering'),
 				]
 			);
 
@@ -465,7 +464,6 @@ class PlgUserToken extends CMSPlugin
 			// Do nothing.
 		}
 	}
-
 
 	/**
 	 * Returns an array with the default profile field values.

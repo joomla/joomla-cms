@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,11 +14,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_installer.changelog');
+$wa->useScript('com_installer.changelog')
+	->useScript('table.columns')
+	->useScript('multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -31,18 +31,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
-					<?php if ($this->ftp) : ?>
-						<?php echo $this->loadTemplate('ftp'); ?>
-					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
 					<table class="table" id="manageList">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_INSTALLER_MANAGE_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -68,7 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo Text::_('JDATE'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'creationDate', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JAUTHOR'); ?>
@@ -88,10 +85,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 						</thead>
 						<tbody>
+						<?php $createdDateFormat = Text::_('DATE_FORMAT_LC4'); ?>
 						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected'; ?>">
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id, false, 'cid', 'cb', $item->name); ?>
 								</td>
 								<td class="text-center">
 									<?php if (!$item->element) : ?>
@@ -115,7 +113,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php if (!empty($item->version)) : ?>
 										<?php if (!empty($item->changelogurl)) : ?>
-											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-toggle="modal">
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" class="changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="manage" data-bs-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php
@@ -136,7 +134,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
+									<?php if (!empty($item->creationDate)) : ?>
+										<?php try {
+											echo HTMLHelper::date($item->creationDate, $createdDateFormat);
+										}
+										catch (Exception $e) {
+											echo $item->creationDate;
+										}?>
+									<?php else: ?>
+										<?php echo '&#160;'; ?>
+									<?php endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo !empty($item->author) ? $item->author : '&#160;'; ?>

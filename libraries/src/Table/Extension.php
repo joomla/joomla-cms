@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,6 +35,14 @@ class Extension extends Table
 	 * @since  4.0.0
 	 */
 	protected $_jsonEncode = ['params'];
+
+	/**
+	 * Custom data can be used by extension developers
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	public $custom_data = '';
 
 	/**
 	 * Constructor

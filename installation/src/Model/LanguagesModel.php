@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -22,6 +22,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -29,8 +31,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.1
  */
-class LanguagesModel extends BaseInstallationModel
+class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * @var    object  Client object.
 	 * @since  3.1
@@ -74,13 +78,6 @@ class LanguagesModel extends BaseInstallationModel
 			Factory::getApplication()->setConfiguration(new Registry(new \JConfig));
 		}
 
-		/*
-		 * Factory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
-		 * correctly at that point.  So, we have to reset the factory database object here so that we can get a valid database configuration.
-		 * The day we have proper dependency injection will be a glorious one.
-		 */
-		Factory::$database = null;
-
 		parent::__construct();
 	}
 
@@ -94,7 +91,7 @@ class LanguagesModel extends BaseInstallationModel
 	public function getItems()
 	{
 		// Get the extension_id of the en-GB package.
-		$db        = Factory::getDbo();
+		$db        = $this->getDatabase();
 		$extQuery  = $db->getQuery(true);
 
 		$extQuery->select($db->quoteName('extension_id'))
@@ -152,6 +149,7 @@ class LanguagesModel extends BaseInstallationModel
 	{
 		$app = Factory::getApplication();
 		$installerBase = new Installer;
+		$installerBase->setDatabase($this->getDatabase());
 
 		// Loop through every selected language.
 		foreach ($lids as $id)
@@ -192,6 +190,13 @@ class LanguagesModel extends BaseInstallationModel
 
 			// Download the package to the tmp folder.
 			$package = $this->downloadPackage($package_url);
+
+			if (!$package)
+			{
+				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_DOWNLOAD_PACKAGE', $package_url), 'error');
+
+				continue;
+			}
 
 			// Install the package.
 			if (!$installer->install($package['dir']))
@@ -240,16 +245,16 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Finds the URL of the package to download.
 	 *
-	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
+	 * @param   string  $remoteManifest  URL to the manifest XML file of the remote package.
 	 *
 	 * @return  string|boolean
 	 *
 	 * @since   3.1
 	 */
-	protected function getPackageUrl($remote_manifest)
+	protected function getPackageUrl($remoteManifest)
 	{
 		$update = new Update;
-		$update->loadFromXml($remote_manifest);
+		$update->loadFromXml($remoteManifest);
 
 		// Get the download url from the remote manifest
 		$downloadUrl = $update->get('downloadurl', false);
@@ -282,7 +287,7 @@ class LanguagesModel extends BaseInstallationModel
 		// Was the package downloaded?
 		if (!$p_file)
 		{
-			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+			$app->enqueueMessage(Text::_('INSTL_ERROR_INVALID_URL'), 'warning');
 
 			return false;
 		}
@@ -318,17 +323,17 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Get Languages item data.
 	 *
-	 * @param   string  $cms_client  Name of the cms client.
+	 * @param   string  $clientName  Name of the cms client.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.1
 	 */
-	protected function getInstalledlangs($cms_client = 'administrator')
+	protected function getInstalledlangs($clientName = 'administrator')
 	{
 		// Get information.
 		$path     = $this->getPath();
-		$client   = $this->getClient($cms_client);
+		$client   = $this->getClient($clientName);
 		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages.
@@ -381,16 +386,16 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Get installed languages data.
 	 *
-	 * @param   integer  $client_id  The client ID to retrieve data for.
+	 * @param   integer  $clientId  The client ID to retrieve data for.
 	 *
 	 * @return  object  The language data.
 	 *
 	 * @since   3.1
 	 */
-	protected function getLanguageList($client_id = 1)
+	protected function getLanguageList($clientId = 1)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
@@ -399,7 +404,7 @@ class LanguagesModel extends BaseInstallationModel
 			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
 			->where($db->quoteName('state') . ' = 0')
 			->where($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 
 		$db->setQuery($query);
 
@@ -461,15 +466,15 @@ class LanguagesModel extends BaseInstallationModel
 	 * Set the default language.
 	 *
 	 * @param   string  $language    The language to be set as default.
-	 * @param   string  $cms_client  The name of the CMS client.
+	 * @param   string  $clientName  The name of the CMS client.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function setDefault($language, $cms_client = 'administrator')
+	public function setDefault($language, $clientName = 'administrator')
 	{
-		$client = $this->getClient($cms_client);
+		$client = $this->getClient($clientName);
 
 		$params = ComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language);
@@ -521,7 +526,7 @@ class LanguagesModel extends BaseInstallationModel
 	/**
 	 * Get the model form.
 	 *
-	 * @param   string  $view  The view being processed.
+	 * @param   string|null $view  The view being processed.
 	 *
 	 * @return  mixed  JForm object on success, false on failure.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Config\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -35,7 +34,7 @@ class ApplicationController extends BaseController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -80,8 +79,7 @@ class ApplicationController extends BaseController
 			return false;
 		}
 
-		// Set FTP credentials, if given.
-		ClientHelper::setCredentialsFromRequest('ftp');
+		$this->app->setUserState('com_config.config.global.data', null);
 
 		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
@@ -266,7 +264,7 @@ class ApplicationController extends BaseController
 		$this->app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!Session::checkToken('get'))
+		if (!Session::checkToken())
 		{
 			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new JsonResponse;
@@ -311,7 +309,7 @@ class ApplicationController extends BaseController
 			$this->app->close();
 		}
 
-		/** @var \Joomla\Component\Config\Administrator\Model\Application $model */
+		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
 		echo new JsonResponse($model->storePermissions());
 		$this->app->close();

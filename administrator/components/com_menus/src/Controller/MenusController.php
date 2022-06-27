@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * The Menu List Controller
@@ -67,9 +66,12 @@ class MenusController extends BaseController
 		$this->checkToken();
 
 		$user = $this->app->getIdentity();
-		$cids = (array) $this->input->get('cid', array(), 'array');
+		$cids = (array) $this->input->get('cid', array(), 'int');
 
-		if (count($cids) < 1)
+		// Remove zero values resulting from input filter
+		$cids = array_filter($cids);
+
+		if (empty($cids))
 		{
 			$this->setMessage(Text::_('COM_MENUS_NO_MENUS_SELECTED'), 'warning');
 		}
@@ -92,9 +94,6 @@ class MenusController extends BaseController
 				/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
 				$model = $this->getModel();
 
-				// Make sure the item ids are integers
-				$cids = ArrayHelper::toInteger($cids);
-
 				// Remove the items.
 				if (!$model->delete($cids))
 				{
@@ -111,43 +110,13 @@ class MenusController extends BaseController
 	}
 
 	/**
-	 * Rebuild the menu tree.
-	 *
-	 * @return  boolean  False on failure or error, true on success.
-	 *
-	 * @since   1.6
-	 */
-	public function rebuild()
-	{
-		$this->checkToken();
-
-		$this->setRedirect('index.php?option=com_menus&view=menus');
-
-		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
-		$model = $this->getModel('Item');
-
-		if ($model->rebuild())
-		{
-			// Reorder succeeded.
-			$this->setMessage(Text::_('JTOOLBAR_REBUILD_SUCCESS'));
-
-			return true;
-		}
-		else
-		{
-			// Rebuild failed.
-			$this->setMessage(Text::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
-
-			return false;
-		}
-	}
-
-	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  5.0 Will be removed without replacement as it was only used for the 1.5 to 1.6 upgrade
 	 */
 	public function resync()
 	{

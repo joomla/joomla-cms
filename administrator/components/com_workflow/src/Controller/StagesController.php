@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
@@ -63,7 +62,7 @@ class StagesController extends AdminController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
@@ -104,7 +103,7 @@ class StagesController extends AdminController
 			}
 		}
 
-		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetDefault', 'setDefault');
 	}
 
 	/**
@@ -136,7 +135,7 @@ class StagesController extends AdminController
 		$this->checkToken();
 
 		// Get items to publish from the request.
-		$cid   = $this->input->get('cid', array(), 'array');
+		$cid   = (array) $this->input->get('cid', array(), 'int');
 		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
 		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
@@ -154,7 +153,10 @@ class StagesController extends AdminController
 			return;
 		}
 
-		if (empty($cid) || !is_array($cid))
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			$this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
 		}
@@ -168,7 +170,7 @@ class StagesController extends AdminController
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			$id = (int) reset($cid);
+			$id = reset($cid);
 
 			// Publish the items.
 			if (!$model->setDefault($id, $value))

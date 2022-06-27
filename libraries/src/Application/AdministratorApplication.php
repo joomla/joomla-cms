@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,9 @@ use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Router;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -31,6 +31,8 @@ use Joomla\Registry\Registry;
  */
 class AdministratorApplication extends CMSApplication
 {
+	use MultiFactorAuthenticationHandler;
+
 	/**
 	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
 	 *
@@ -108,6 +110,7 @@ class AdministratorApplication extends CMSApplication
 			case 'html':
 				// Get the template
 				$template = $this->getTemplate(true);
+				$clientId = $this->getClientId();
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
@@ -121,7 +124,12 @@ class AdministratorApplication extends CMSApplication
 					$wr->addExtensionRegistryFile($component);
 				}
 
-				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
+				if (!empty($template->parent))
+				{
+					$wr->addTemplateRegistryFile($template->parent, $clientId);
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $clientId);
 
 				break;
 
@@ -190,7 +198,8 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @return  Router
 	 *
-	 * @since	3.2
+	 * @since      3.2
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = 'administrator', array $options = array())
 	{
@@ -219,61 +228,33 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = (int) Factory::getUser()->getParam('admin_style');
-
-		// Load the template name from the database
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(['s.template', 's.params']))
-			->from($db->quoteName('#__template_styles', 's'))
-			->join(
-				'LEFT',
-				$db->quoteName('#__extensions', 'e'),
-				$db->quoteName('e.type') . ' = ' . $db->quote('template')
-					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
-					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
-			)
-			->where(
-				[
-					$db->quoteName('s.client_id') . ' = 1',
-					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
-				]
-			);
-
-		if ($admin_style)
-		{
-			$query->extendWhere(
-				'OR',
-				[
-					$db->quoteName('s.client_id') . ' = 1',
-					$db->quoteName('s.id') . ' = :style',
-					$db->quoteName('e.enabled') . ' = 1',
-				]
-			)
-				->bind(':style', $admin_style, ParameterType::INTEGER);
-		}
-
-		$query->order($db->quoteName('s.home'));
-		$db->setQuery($query);
-		$template = $db->loadObject();
+		$adminStyle = $this->getIdentity() ? (int) $this->getIdentity()->getParam('admin_style') : 0;
+		$template   = $this->bootComponent('templates')->getMVCFactory()
+			->createModel('Style', 'Administrator')->getAdminTemplate($adminStyle);
 
 		$template->template = InputFilter::getInstance()->clean($template->template, 'cmd');
 		$template->params = new Registry($template->params);
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		// Fallback template
+		if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php')
+			&& !is_file(JPATH_THEMES . '/' . $template->parent . '/index.php'))
 		{
-			$this->enqueueMessage(Text::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->getLogger()->error(Text::_('JERROR_ALERTNOTEMPLATE'), ['category' => 'system']);
 			$template->params = new Registry;
 			$template->template = 'atum';
+
+			// Check, the data were found and if template really exists
+			if (!is_file(JPATH_THEMES . '/' . $template->template . '/index.php'))
+			{
+				throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+			}
 		}
 
 		// Cache the result
 		$this->template = $template;
 
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
-		{
-			throw new \InvalidArgumentException(Text::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
-		}
+		// Pass the parent template to the state
+		$this->set('themeInherits', $template->parent);
 
 		if ($params)
 		{
@@ -371,7 +352,7 @@ class AdministratorApplication extends CMSApplication
 
 		if (!($result instanceof \Exception))
 		{
-			$lang = $this->input->getCmd('lang');
+			$lang = $this->input->getCmd('lang', '');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
 
 			if ($lang)
@@ -379,7 +360,8 @@ class AdministratorApplication extends CMSApplication
 				$this->setUserState('application.lang', $lang);
 			}
 
-			static::purgeMessages();
+			$this->bootComponent('messages')->getMVCFactory()
+				->createModel('Messages', 'Administrator')->purge($this->getIdentity() ? $this->getIdentity()->id : 0);
 		}
 
 		return $result;
@@ -391,57 +373,13 @@ class AdministratorApplication extends CMSApplication
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated  5.0 Purge the messages through the model
 	 */
 	public static function purgeMessages()
 	{
-		$userId = Factory::getUser()->id;
-
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(['cfg_name', 'cfg_value']))
-			->from($db->quoteName('#__messages_cfg'))
-			->where(
-				[
-					$db->quoteName('user_id') . ' = :userId',
-					$db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'),
-				]
-			)
-			->bind(':userId', $userId, ParameterType::INTEGER);
-
-		$db->setQuery($query);
-		$config = $db->loadObject();
-
-		// Check if auto_purge value set
-		if (\is_object($config) && $config->cfg_name === 'auto_purge')
-		{
-			$purge = $config->cfg_value;
-		}
-		else
-		{
-			// If no value set, default is 7 days
-			$purge = 7;
-		}
-
-		// If purge value is not 0, then allow purging of old messages
-		if ($purge > 0)
-		{
-			// Purge old messages at day set in message configuration
-			$past = Factory::getDate(time() - $purge * 86400)->toSql();
-
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__messages'))
-				->where(
-					[
-						$db->quoteName('date_time') . ' < :past',
-						$db->quoteName('user_id_to') . ' = :userId',
-					]
-				)
-				->bind(':past', $past)
-				->bind(':userId', $userId, ParameterType::INTEGER);
-
-			$db->setQuery($query);
-			$db->execute();
-		}
+		Factory::getApplication()->bootComponent('messages')->getMVCFactory()
+			->createModel('Messages', 'Administrator')->purge(Factory::getUser()->id);
 	}
 
 	/**
@@ -523,10 +461,7 @@ class AdministratorApplication extends CMSApplication
 			$this->redirect((string) $uri, 301);
 		}
 
-		if ($this->isTwoFactorAuthenticationRequired())
-		{
-			$this->redirectIfTwoFactorAuthenticationRequired();
-		}
+		$this->isHandlingMultiFactorAuthentication();
 
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
@@ -544,7 +479,7 @@ class AdministratorApplication extends CMSApplication
 	{
 		/** @var self $app */
 		$app    = Factory::getApplication();
-		$option = strtolower($app->input->get('option'));
+		$option = strtolower($app->input->get('option', ''));
 		$user   = $app->getIdentity();
 
 		/**

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,6 +62,14 @@ class Usergroup extends Table
 			return false;
 		}
 
+		// The parent_id can not be equal to the current id
+		if ($this->id === (int) $this->parent_id)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
 		// Check for a duplicate parent_id, title.
 		// There is a unique index on the (parent_id, title) field in the table.
 		$db       = $this->_db;
@@ -95,7 +103,7 @@ class Usergroup extends Table
 
 			if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id))
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 				return false;
 			}
@@ -103,7 +111,7 @@ class Usergroup extends Table
 		// New entry should always be greater 0
 		elseif (!$this->parent_id)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 			return false;
 		}
@@ -116,7 +124,7 @@ class Usergroup extends Table
 
 			if ($table->id != $this->parent_id)
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
 
 				return false;
 			}
@@ -148,7 +156,7 @@ class Usergroup extends Table
 			->from($db->quoteName($this->_tbl))
 			->where($db->quoteName('parent_id') . ' = :parentid')
 			->bind(':parentid', $parentId, ParameterType::INTEGER)
-			->order($db->quoteName('parent_id'), $db->quoteName('title'));
+			->order([$db->quoteName('parent_id'), $db->quoteName('title')]);
 
 		$db->setQuery($query);
 		$children = $db->loadColumn();

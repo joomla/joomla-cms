@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,94 +51,119 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
 		$app = Factory::getApplication();
-		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
+		$dashboard = $app->input->getCmd('dashboard', '');
 
-		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
-		$icon  = 'fas fa-home';
-
-		$position = ApplicationHelper::stringURLSafe($extension);
+		$position = ApplicationHelper::stringURLSafe($dashboard);
 
 		// Generate a title for the view cpanel
-		if (!empty($extension))
+		if (!empty($dashboard))
 		{
-			$parts = explode('.', $extension);
+			$parts     = explode('.', $dashboard);
+			$component = $parts[0];
 
-			$prefix = 'COM_CPANEL_DASHBOARD_';
+			if (strpos($component, 'com_') === false)
+			{
+				$component = 'com_' . $component;
+			}
+
+			// Need to load the language file
 			$lang = Factory::getLanguage();
+			$lang->load($component, JPATH_BASE)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
+			$lang->load($component);
 
-			if (strpos($parts[0], 'com_') === false)
+			// Lookup dashboard attributes from component manifest file
+			$manifestFile = JPATH_ADMINISTRATOR . '/components/' . $component . '/' . str_replace('com_', '', $component) . '.xml';
+
+			if (is_file($manifestFile))
 			{
-				$prefix .= strtoupper($parts[0]);
+				$manifest = simplexml_load_file($manifestFile);
+
+				if ($dashboardManifests = $manifest->dashboards)
+				{
+					foreach ($dashboardManifests->children() as $dashboardManifest)
+					{
+						if ((string) $dashboardManifest === $dashboard)
+						{
+							$title = Text::_((string) $dashboardManifest->attributes()->title);
+							$icon  = (string) $dashboardManifest->attributes()->icon;
+
+							break;
+						}
+					}
+				}
 			}
-			else
+
+			if (empty($title))
 			{
-				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
+				// Try building a title
+				$prefix = strtoupper($component) . '_DASHBOARD';
 
-				// Need to load the language file
-				$lang->load($parts[0], JPATH_BASE)
-				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0]);
-				$lang->load($parts[0]);
-			}
+				$sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
+				$key = $prefix . $sectionkey . '_TITLE';
+				$keyIcon = $prefix . $sectionkey . '_ICON';
 
-			$sectionkey = !empty($parts[1]) ? '_' . strtoupper($parts[1]) : '';
-			$key = $prefix . $sectionkey . '_TITLE';
-			$keyIcon = $prefix . $sectionkey . '_ICON';
+				// Search for a component title
+				if ($lang->hasKey($key))
+				{
+					$title = Text::_($key);
+				}
+				else
+				{
+					// Try with a string from CPanel
+					$key = 'COM_CPANEL_DASHBOARD_' . $parts[0] . '_TITLE';
 
-			// Search for a component title
-			if ($lang->hasKey($key))
-			{
-				$title = Text::_($key);
-			}
+					if ($lang->hasKey($key))
+					{
+						$title = Text::_($key);
+					}
+					else
+					{
+						$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
+					}
+				}
 
-			if (empty($parts[1]))
-			{
-				// Default core icons.
-				if ($parts[0] === 'content')
+				// Define the icon
+				if (empty($parts[1]))
 				{
-					$icon = 'fas fa-file-alt';
-				}
-				elseif ($parts[0] === 'components')
-				{
-					$icon = 'fas fa-puzzle-piece';
-				}
-				elseif ($parts[0] === 'menus')
-				{
-					$icon = 'fas fa-list';
-				}
-				elseif ($parts[0] === 'system')
-				{
-					$icon = 'fas fa-wrench';
-				}
-				elseif ($parts[0] === 'users')
-				{
-					$icon = 'fas fa-users';
-				}
-				elseif ($parts[0] === 'privacy')
-				{
-					$icon = 'fas fa-lock';
-				}
-				elseif ($parts[0] === 'help')
-				{
-					$icon = 'fas fa-info-circle';
+					// Default core icons.
+					if ($parts[0] === 'components')
+					{
+						$icon = 'icon-puzzle-piece';
+					}
+					elseif ($parts[0] === 'system')
+					{
+						$icon = 'icon-wrench';
+					}
+					elseif ($parts[0] === 'help')
+					{
+						$icon = 'icon-info-circle';
+					}
+					elseif ($lang->hasKey($keyIcon))
+					{
+						$icon = Text::_($keyIcon);
+					}
+					else
+					{
+						$icon = 'icon-home';
+					}
 				}
 				elseif ($lang->hasKey($keyIcon))
 				{
 					$icon = Text::_($keyIcon);
 				}
-				else
-				{
-					$icon = '';
-				}
 			}
-			elseif ($lang->hasKey($keyIcon))
-			{
-				$icon = Text::_($keyIcon);
-			}
+		}
+		else
+		{
+			// Home Dashboard
+			$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
+			$icon = 'icon-home';
 		}
 
 		// Set toolbar items for the page

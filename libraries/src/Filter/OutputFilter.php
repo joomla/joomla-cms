@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ class OutputFilter extends BaseOutputFilter
 	 */
 	public static function stringJSSafe($string)
 	{
-		$chars = preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
+		$chars = preg_split('//u', $string, -1, PREG_SPLIT_NO_EMPTY);
 		$new_str = '';
 
 		foreach ($chars as $chr)
@@ -72,7 +72,7 @@ class OutputFilter extends BaseOutputFilter
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
 	 * @param   string  $string    String to process
-	 * @param   string  $language  Language to transilterate to
+	 * @param   string  $language  Language to transliterate to
 	 *
 	 * @return  string  Processed string
 	 *
@@ -89,6 +89,9 @@ class OutputFilter extends BaseOutputFilter
 
 		// Trim white spaces at beginning and end of alias and make lowercase
 		$str = trim(StringHelper::strtolower($str));
+
+		// Remove any apostrophe. We do it here to ensure it is not replaced by a '-'
+		$str = str_replace("'", '', $str);
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);

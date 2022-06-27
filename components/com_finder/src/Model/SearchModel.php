@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,14 +125,14 @@ class SearchModel extends ListModel
 	/**
 	 * Method to build a database query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery  A database query.
+	 * @return  \Joomla\Database\DatabaseQuery  A database query.
 	 *
 	 * @since   2.5
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -260,7 +260,7 @@ class SearchModel extends ListModel
 		 * If there are no optional or required search terms in the query, we
 		 * can get the results in one relatively simple database query.
 		 */
-		if (empty($this->includedTerms) && $this->searchquery->empty)
+		if (empty($this->includedTerms) && $this->searchquery->empty && $this->searchquery->input == '')
 		{
 			// Return the results.
 			return $query;
@@ -269,8 +269,11 @@ class SearchModel extends ListModel
 		/*
 		 * If there are no optional or required search terms in the query and
 		 * empty searches are not allowed, we return an empty query.
+		 * If the search term is not empty and empty searches are allowed,
+		 * but no terms were found, we return an empty query as well.
 		 */
-		if (empty($this->includedTerms) && !$this->searchquery->empty)
+		if (empty($this->includedTerms)
+			&& (!$this->searchquery->empty || ($this->searchquery->empty && $this->searchquery->input != '')))
 		{
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
@@ -283,8 +286,8 @@ class SearchModel extends ListModel
 			return $query;
 		}
 
-		$included = call_user_func_array('array_merge', $this->includedTerms);
-		$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
+		$included = call_user_func_array('array_merge', array_values($this->includedTerms));
+		$query->join('INNER', $db->quoteName('#__finder_links_terms') . ' AS m ON m.link_id = l.link_id')
 			->where('m.term_id IN (' . implode(',', $included) . ')');
 
 		// Check if there are any excluded terms to deal with.
@@ -292,7 +295,7 @@ class SearchModel extends ListModel
 		{
 			$query2 = $db->getQuery(true);
 			$query2->select('e.link_id')
-				->from($this->_db->quoteName('#__finder_links_terms', 'e'))
+				->from($db->quoteName('#__finder_links_terms', 'e'))
 				->where('e.term_id IN (' . implode(',', $this->excludedTerms) . ')');
 			$query->where('l.link_id NOT IN (' . $query2 . ')');
 		}
@@ -391,13 +394,16 @@ class SearchModel extends ListModel
 		$options['filter'] = $request->getInt('f', $params->get('f', ''));
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = $request->get('t', $params->get('t', array()), '', 'array');
+		$options['filters'] = $request->get('t', $params->get('t', array()), 'array');
 
 		// Get the query string.
 		$options['input'] = $request->getString('q', $params->get('q', ''));
 
 		// Get the query language.
 		$options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
+
+		// Set the word match mode
+		$options['word_match'] = $params->get('word_match', 'exact');
 
 		// Get the start date and start date modifier filters.
 		$options['date1'] = $request->getString('d1', $params->get('d1', ''));
@@ -408,7 +414,7 @@ class SearchModel extends ListModel
 		$options['when2'] = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
-		$this->searchquery = new Query($options);
+		$this->searchquery = new Query($options, $this->getDatabase());
 
 		// Load the query token data.
 		$this->excludedTerms = $this->searchquery->getExcludedTermIds();
@@ -417,7 +423,7 @@ class SearchModel extends ListModel
 
 		// Load the list state.
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
-		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
+		$this->setState('list.limit', $input->get('limit', $params->get('list_limit', $app->get('list_limit', 20)), 'uint'));
 
 		/*
 		 * Load the sort ordering.
@@ -470,7 +476,6 @@ class SearchModel extends ListModel
 				break;
 
 			default:
-			case 'desc':
 				$this->setState('list.direction', 'DESC');
 				break;
 		}
@@ -484,66 +489,5 @@ class SearchModel extends ListModel
 		// Load the user state.
 		$this->setState('user.id', (int) $user->get('id'));
 		$this->setState('user.groups', $user->getAuthorisedViewLevels());
-	}
-
-	/**
-	 * Method to retrieve data from cache.
-	 *
-	 * @param   string   $id          The cache store id.
-	 * @param   boolean  $persistent  Flag to enable the use of external cache. [optional]
-	 *
-	 * @return  mixed  The cached data if found, null otherwise.
-	 *
-	 * @since   2.5
-	 */
-	protected function retrieve($id, $persistent = true)
-	{
-		$data = null;
-
-		// Use the internal cache if possible.
-		if (isset($this->cache[$id]))
-		{
-			return $this->cache[$id];
-		}
-
-		// Use the external cache if data is persistent.
-		if ($persistent)
-		{
-			$data = Factory::getCache($this->context, 'output')->get($id);
-			$data = $data ? unserialize($data) : null;
-		}
-
-		// Store the data in internal cache.
-		if ($data)
-		{
-			$this->cache[$id] = $data;
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Method to store data in cache.
-	 *
-	 * @param   string   $id          The cache store id.
-	 * @param   mixed    $data        The data to cache.
-	 * @param   boolean  $persistent  Flag to enable the use of external cache. [optional]
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   2.5
-	 */
-	protected function store($id, $data, $persistent = true)
-	{
-		// Store the data in internal cache.
-		$this->cache[$id] = $data;
-
-		// Store the data in external cache if data is persistent.
-		if ($persistent)
-		{
-			return Factory::getCache($this->context, 'output')->store(serialize($data), $id);
-		}
-
-		return true;
 	}
 }

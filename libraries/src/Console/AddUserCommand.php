@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,12 @@ namespace Joomla\CMS\Console;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Filter\InputFilter;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,6 +30,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AddUserCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -96,6 +100,20 @@ class AddUserCommand extends AbstractCommand
 	private $userGroups = [];
 
 	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   4.2.0
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -119,7 +137,7 @@ class AddUserCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		// Get filter to remove invalid characters
@@ -154,7 +172,7 @@ class AddUserCommand extends AbstractCommand
 
 		$this->ioStyle->success("User created!");
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -168,7 +186,7 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
@@ -218,7 +236,7 @@ class AddUserCommand extends AbstractCommand
 	protected function getUserGroups(): array
 	{
 		$groups = $this->getApplication()->getConsoleInput()->getOption('usergroup');
-		$db = Factory::getDbo();
+		$db     = $this->getDatabase();
 
 		$groupList = [];
 

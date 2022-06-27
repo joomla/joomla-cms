@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class UpdatesiteModel extends AdminModel
 	{
 		$item = parent::getItem($pk);
 
-		$db           = $this->getDbo();
+		$db           = $this->getDatabase();
 		$updateSiteId = (int) $item->get('update_site_id');
 		$query        = $db->getQuery(true)
 			->select(
@@ -154,7 +154,7 @@ class UpdatesiteModel extends AdminModel
 		}
 
 		// Delete update records forcing Joomla to fetch them again, applying the new extra_query.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
 			->where($db->quoteName('update_site_id') . ' = :updateSiteId');

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class ContactsController extends AdminController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
@@ -41,7 +41,7 @@ class ContactsController extends AdminController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('unfeatured', 'featured');
 	}
 
 	/**
@@ -56,7 +56,7 @@ class ContactsController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids    = (array) $this->input->get('cid', array(), 'int');
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
@@ -68,6 +68,14 @@ class ContactsController extends AdminController
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
+			// Remove zero value resulting from input filter
+			if ($id === 0)
+			{
+				unset($ids[$i]);
+
+				continue;
+			}
+
 			$item = $model->getItem($id);
 
 			if (!$this->app->getIdentity()->authorise('core.edit.state', 'com_contact.category.' . (int) $item->catid))
@@ -80,6 +88,8 @@ class ContactsController extends AdminController
 
 		if (empty($ids))
 		{
+			$message = null;
+
 			$this->app->enqueueMessage(Text::_('COM_CONTACT_NO_ITEM_SELECTED'), 'warning');
 		}
 		else

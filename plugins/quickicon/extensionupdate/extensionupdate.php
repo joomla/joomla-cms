@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Extensionupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,12 +85,12 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		return array(
 			array(
 				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
-				'image' => 'fas fa-star',
+				'image' => 'icon-star',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_extensionupdate',
-				'group' => 'MOD_QUICKICON_MAINTENANCE'
-			)
+				'group' => 'MOD_QUICKICON_MAINTENANCE',
+			),
 		);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -45,6 +46,7 @@ class InstallerModel extends ListModel
 				'type', 'type_translated',
 				'folder', 'folder_translated',
 				'extension_id',
+				'creationDate',
 			);
 		}
 
@@ -54,9 +56,9 @@ class InstallerModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 */
@@ -68,10 +70,10 @@ class InstallerModel extends ListModel
 		// Replace slashes so preg_match will work
 		$search = $this->getState('filter.search');
 		$search = str_replace('/', ' ', $search);
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 
 		// Define which fields have to be processed in a custom way because of translation.
-		$customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated');
+		$customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate');
 
 		// Process searching, ordering and pagination for fields that need to be translated.
 		if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0))
@@ -90,7 +92,7 @@ class InstallerModel extends ListModel
 				$searchFields = array('name');
 
 				// If in update sites view search also in the update site name field.
-				if ($this instanceof Updatesites)
+				if ($this instanceof UpdatesitesModel)
 				{
 					$searchFields[] = 'update_site_name';
 				}
@@ -181,8 +183,7 @@ class InstallerModel extends ListModel
 				case 'component':
 					$extension = $item->element;
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
 				break;
 				case 'file':
 					$extension = 'files_' . $item->element;
@@ -202,25 +203,22 @@ class InstallerModel extends ListModel
 				case 'module':
 					$extension = $item->element;
 					$source = $path . '/modules/' . $extension;
-						$lang->load("$extension.sys", $path)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
 				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", JPATH_ADMINISTRATOR) || $lang->load("$extension.sys", $source);
 				break;
 				case 'template':
 					$extension = 'tpl_' . $item->element;
 					$source = $path . '/templates/' . $item->element;
-						$lang->load("$extension.sys", $path)
-					||	$lang->load("$extension.sys", $source);
+					$lang->load("$extension.sys", $path) || $lang->load("$extension.sys", $source);
 				break;
 				case 'package':
 				default:
 					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE);
+					$lang->load("$extension.sys", JPATH_SITE);
 				break;
 			}
 

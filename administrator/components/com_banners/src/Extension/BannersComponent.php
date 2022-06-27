@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Banners\Administrator\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
@@ -21,6 +21,7 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\Component\Banners\Administrator\Service\Html\Banner;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -53,7 +54,10 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('banner', new Banner);
+		$banner = new Banner;
+		$banner->setDatabase($container->get(DatabaseInterface::class));
+
+		$this->getRegistry()->register('banner', $banner);
 	}
 
 	/**

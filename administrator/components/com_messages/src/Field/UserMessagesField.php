@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class UserMessagesField extends UserField
 	protected function getGroups()
 	{
 		// Compute usergroups
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('id')
 			->from('#__usergroups');
@@ -73,7 +73,6 @@ class UserMessagesField extends UserField
 			if (!Access::checkGroup($group, 'core.login.admin'))
 			{
 				unset($groups[$i]);
-				continue;
 			}
 		}
 

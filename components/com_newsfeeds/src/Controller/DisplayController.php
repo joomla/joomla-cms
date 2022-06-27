@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Newsfeeds\Site\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -39,7 +38,7 @@ class DisplayController extends BaseController
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
-		if (Factory::getUser()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category' ))
+		if ($this->app->getIdentity()->get('id') || ($this->input->getMethod() === 'POST' && $vName === 'category' ))
 		{
 			$cachable = false;
 		}

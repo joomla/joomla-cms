@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Form object for search filters
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	public $filterForm;
 
@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		if (!$this->getCurrentUser()->authorise('core.manage', 'com_users'))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -134,6 +134,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_USERS_DEBUG_GROUPS');
+		ToolbarHelper::help('Permissions_for_Group');
 	}
 }

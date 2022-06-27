@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Menus\Administrator\Controller;
@@ -32,17 +32,16 @@ class ItemsController extends AdminController
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since  1.6
-	 * @see    \JControllerLegacy
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetDefault', 'setDefault');
 	}
 
 	/**
@@ -66,7 +65,7 @@ class ItemsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getQuickiconContent()
 	{
@@ -133,10 +132,13 @@ class ItemsController extends AdminController
 		$app = $this->app;
 
 		// Get items to publish from the request.
-		$cid   = $this->input->get('cid', array(), 'array');
+		$cid   = (array) $this->input->get('cid', array(), 'int');
 		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
 		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		if (empty($cid))
 		{
@@ -146,9 +148,6 @@ class ItemsController extends AdminController
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->setHome($cid, $value))
@@ -191,10 +190,13 @@ class ItemsController extends AdminController
 		$this->checkToken();
 
 		// Get items to publish from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 		$data = array('publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		if (empty($cid))
 		{
@@ -211,9 +213,6 @@ class ItemsController extends AdminController
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			try

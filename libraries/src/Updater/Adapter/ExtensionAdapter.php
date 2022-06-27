@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -139,7 +139,7 @@ class ExtensionAdapter extends UpdateAdapter
 					if (isset($this->currentUpdate->supported_databases))
 					{
 						$db           = Factory::getDbo();
-						$dbType       = strtoupper($db->getServerType());
+						$dbType       = strtolower($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
@@ -155,11 +155,14 @@ class ExtensionAdapter extends UpdateAdapter
 							}
 						}
 
+						// $supportedDbs has uppercase keys because they are XML attribute names
+						$dbTypeUcase = strtoupper($dbType);
+
 						// Do we have an entry for the database?
-						if (\array_key_exists($dbType, $supportedDbs))
+						if (\array_key_exists($dbTypeUcase, $supportedDbs))
 						{
-							$minumumVersion = $supportedDbs[$dbType];
-							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
+							$minimumVersion = $supportedDbs[$dbTypeUcase];
+							$dbMatch        = version_compare($dbVersion, $minimumVersion, '>=');
 
 							if (!$dbMatch)
 							{
@@ -168,9 +171,9 @@ class ExtensionAdapter extends UpdateAdapter
 									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 									$this->currentUpdate->name,
 									$this->currentUpdate->version,
-									Text::_($db->name),
+									Text::_('JLIB_DB_SERVER_TYPE_' . $dbTypeUcase),
 									$dbVersion,
-									$minumumVersion
+									$minimumVersion
 								);
 
 								Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
@@ -183,7 +186,7 @@ class ExtensionAdapter extends UpdateAdapter
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								Text::_($db->name)
+								Text::_('JLIB_DB_SERVER_TYPE_' . $dbTypeUcase)
 							);
 
 							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');

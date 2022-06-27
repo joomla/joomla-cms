@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -27,6 +28,8 @@ use Joomla\Registry\Registry;
  */
 class Filter
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Method to generate filters using the slider widget and decorated
 	 * with the FinderFilter JavaScript behaviors.
@@ -39,7 +42,7 @@ class Filter
 	 */
 	public function slider($options = array())
 	{
-		$db     = Factory::getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true);
 		$user   = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
@@ -113,7 +116,7 @@ class Filter
 		}
 
 		$branch_keys = array_keys($branches);
-		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('parent' => true, 'active' => 'accordion-' . $branch_keys[0])
+		$html .= HTMLHelper::_('bootstrap.startAccordion', 'accordion', array('active' => 'accordion-' . $branch_keys[0])
 		);
 
 		// Load plugin language files.
@@ -159,7 +162,7 @@ class Filter
 
 			foreach ($nodes as $nk => $nv)
 			{
-				if (trim($nv->parent_title, '**') === 'Language')
+				if (trim($nv->parent_title, '*') === 'Language')
 				{
 					$title = LanguageHelper::branchLanguageTitle($nv->title);
 				}
@@ -182,9 +185,7 @@ class Filter
 			);
 
 			// Populate the toggle button.
-			// @todo Remove jQuery
-			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
-				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fas fa-square" aria-hidden="true"></span> '
+			$html .= '<button class="btn btn-secondary js-filter" type="button" data-id="tax-' . $bk . '"><span class="icon-square" aria-hidden="true"></span> '
 				. Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
 
 			// Populate the group with nodes.
@@ -196,8 +197,8 @@ class Filter
 				// Build a node.
 				$html .= '<div class="form-check">';
 				$html .= '<label class="form-check-label">';
-				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $bk . '"' . $checked . '> ' . str_repeat('&mdash;', $nv->level - 2) . $nv->title;
+				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix
+					. ' tax-' . $bk . '" value="' . $nk . '" name="t[]"' . $checked . '> ' . str_repeat('&mdash;', $nv->level - 2) . $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
 			}
@@ -241,7 +242,7 @@ class Filter
 		}
 		else
 		{
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
@@ -322,11 +323,11 @@ class Filter
 				$query->clear()
 					->select('t.*')
 					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-					->where('t.lft >= ' . (int) $bv->lft)
-					->where('t.rgt <= ' . (int) $bv->rgt)
+					->where('t.lft > ' . (int) $bv->lft)
+					->where('t.rgt < ' . (int) $bv->rgt)
 					->where('t.state = 1')
 					->where('t.access IN (' . $groups . ')')
-					->order('t.lft, t.title');
+					->order('t.title');
 
 				// Self-join to get the parent title.
 				$query->select('e.title AS parent_title')
@@ -355,7 +356,7 @@ class Filter
 
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					if (trim($node->parent_title, '**') === 'Language')
+					if (trim($node->parent_title, '*') === 'Language')
 					{
 						$title = LanguageHelper::branchLanguageTitle($node->title);
 					}
@@ -425,7 +426,7 @@ class Filter
 			$html .= '<div class="controls">';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$branches[$bk]->nodes, 't[]', 'class="custom-select advancedSelect"', 'id', 'title', $active,
+				$branches[$bk]->nodes, 't[]', 'class="form-select advancedSelect"', 'id', 'title', $active,
 				'tax-' . OutputFilter::stringURLSafe($bv->title)
 			);
 			$html .= '</div>';
@@ -477,27 +478,27 @@ class Filter
 
 			// Start date filter.
 			$attribs['class'] = 'input-medium';
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-start' . $classSuffix . '">';
 			$html .= '<label for="filter_date1" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE1_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
 			$html .= '<br>';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
+				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect form-select w-auto mb-2"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
 			$html .= HTMLHelper::_('calendar', $idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
 
 			// End date filter.
-			$html .= '<li class="filter-date' . $classSuffix . '">';
+			$html .= '<li class="filter-date float-end' . $classSuffix . '">';
 			$html .= '<label for="filter_date2" class="hasTooltip" title ="' . Text::_('COM_FINDER_FILTER_DATE2_DESC') . '">';
 			$html .= Text::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
 			$html .= '<br>';
 			$html .= HTMLHelper::_(
 				'select.genericlist',
-				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
+				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect form-select w-auto mb-2"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
 			$html .= HTMLHelper::_('calendar', $idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,14 +48,15 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * Form object for search filters
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  4.0.0
 	 */
 	public $filterForm;
@@ -125,11 +126,9 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
 		}
 
-		ToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
-
 		if ($canDo->get('core.admin') && $this->state->get('client_id') == 1)
 		{
-			ToolbarHelper::custom('menu.exportXml', 'download', 'download', 'COM_MENUS_MENU_EXPORT_BUTTON', true);
+			ToolbarHelper::custom('menu.exportXml', 'download', '', 'COM_MENUS_MENU_EXPORT_BUTTON', true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
@@ -139,6 +138,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
+		ToolbarHelper::help('Menus');
 	}
 }

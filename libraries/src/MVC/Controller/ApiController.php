@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,10 +83,10 @@ class ApiController extends BaseController
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_task', 'model_path', and
-	 * 'view_path' (this list is not meant to be comprehensive).
+	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The Application for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
@@ -117,7 +117,7 @@ class ApiController extends BaseController
 
 			if (!preg_match('/(.*)Controller(.*)/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->context = str_replace('\\', '', strtolower($r[2]));
@@ -377,8 +377,7 @@ class ApiController extends BaseController
 			throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
 		}
 
-		$key      = $table->getKeyName();
-		$checkin  = property_exists($table, $table->getColumnAlias('checked_out'));
+		$key = $table->getKeyName();
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -387,13 +386,14 @@ class ApiController extends BaseController
 		}
 
 		// Attempt to check-out the new record for editing and redirect.
-		if ($checkin && !$model->checkout($recordId))
+		if ($table->hasField('checked_out') && !$model->checkout($recordId))
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
-			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'error');
+			throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
 		}
 
 		$this->save($recordId);
+		$this->displayItem($recordId);
 
 		return $this;
 	}
@@ -431,10 +431,31 @@ class ApiController extends BaseController
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
 
+		if ($this->input->getMethod() === 'PATCH')
+		{
+			if ($recordKey && $table->load($recordKey))
+			{
+				$fields = $table->getFields();
+
+				foreach ($fields as $field)
+				{
+					if (array_key_exists($field->Field, $data))
+					{
+						continue;
+					}
+
+					$data[$field->Field] = $table->{$field->Field};
+				}
+			}
+		}
+
 		$data = $this->preprocessSaveData($data);
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+
+		// Needs to be set because com_fields needs the data in jform to determine the assigned catid
+		$this->input->set('jform', $data);
 
 		// Validate the posted data.
 		$form = $model->getForm($data, false);

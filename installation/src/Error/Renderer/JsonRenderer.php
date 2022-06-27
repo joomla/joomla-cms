@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Error\Renderer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Error\AbstractRenderer;
 use Joomla\CMS\Installation\Response\JsonResponse;
@@ -17,7 +17,7 @@ use Joomla\CMS\Installation\Response\JsonResponse;
 /**
  * JSON error page renderer for the installation application
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JsonRenderer extends AbstractRenderer
 {
@@ -25,7 +25,7 @@ class JsonRenderer extends AbstractRenderer
 	 * The format (type) of the error page
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $type = 'json';
 
@@ -36,7 +36,7 @@ class JsonRenderer extends AbstractRenderer
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function render(\Throwable $error): string
 	{

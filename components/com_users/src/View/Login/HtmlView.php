@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,9 +27,9 @@ use Joomla\CMS\User\User;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -63,12 +63,13 @@ class HtmlView extends BaseHtmlView
 	protected $pageclass_sfx = '';
 
 	/**
-	 * Array containing the available two factor authentication methods
+	 * No longer used
 	 *
-	 * @var    string
+	 * @var    boolean
 	 * @since  4.0.0
+	 * @deprecated 4.2.0 Will be removed in 5.0.
 	 */
-	protected $tfa = '';
+	protected $tfa = false;
 
 	/**
 	 * Additional buttons to show on the login page
@@ -83,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   1.5
 	 * @throws  \Exception
@@ -91,7 +92,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->user   = Factory::getUser();
+		$this->user   = $this->getCurrentUser();
 		$this->form   = $this->get('Form');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
@@ -110,13 +111,10 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout($active->query['layout']);
 		}
 
-		$tfa = AuthenticationHelper::getTwoFactorMethods();
-		$this->tfa = is_array($tfa) && count($tfa) > 1;
-
 		$this->extraButtons = AuthenticationHelper::getLoginButtons('com-users-login__form');
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
 		$this->prepareDocument();
 
@@ -133,15 +131,11 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$user  = Factory::getUser();
-		$login = $user->get('guest') ? true : false;
-		$title = null;
+		$login = $this->getCurrentUser()->get('guest') ? true : false;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$menu = Factory::getApplication()->getMenu()->getActive();
 
 		if ($menu)
 		{
@@ -152,22 +146,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', $login ? Text::_('JLOGIN') : Text::_('JLOGOUT'));
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
-
-		$this->document->setTitle($title);
+		$this->setDocumentTitle($this->params->get('page_title', ''));
 
 		if ($this->params->get('menu-meta_description'))
 		{

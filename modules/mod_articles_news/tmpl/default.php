@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,8 @@ if (!$list)
 ?>
 <div class="mod-articlesnews newsflash">
 	<?php foreach ($list as $item) : ?>
-		<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
+		<div class="mod-articlesnews__item" itemscope itemtype="https://schema.org/Article">
+			<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
+		</div>
 	<?php endforeach; ?>
 </div>

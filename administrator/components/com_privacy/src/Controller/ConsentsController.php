@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,10 @@ class ConsentsController extends FormController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$ids = $this->input->get('cid', [], 'array');
+		$ids = (array) $this->input->get('cid', [], 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{

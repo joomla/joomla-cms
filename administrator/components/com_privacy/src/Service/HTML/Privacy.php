@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,17 +34,17 @@ class Privacy
 		switch ($status)
 		{
 			case 2:
-				return '<span class="badge badge-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
+				return '<span class="badge bg-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
 
 			case 1:
-				return '<span class="badge badge-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
+				return '<span class="badge bg-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
 
 			case -1:
-				return '<span class="badge badge-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
+				return '<span class="badge bg-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
 
 			default:
 			case 0:
-				return '<span class="badge badge-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
+				return '<span class="badge bg-warning text-dark">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
 		}
 	}
 }

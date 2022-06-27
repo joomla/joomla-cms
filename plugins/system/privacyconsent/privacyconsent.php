@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -26,6 +27,7 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * An example custom privacyconsent plugin.
@@ -53,7 +55,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -81,7 +83,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// We only display this if user has not consented before
 		if (is_object($data))
 		{
-			$userId = isset($data->id) ? $data->id : 0;
+			$userId = $data->id ?? 0;
 
 			if ($userId > 0 && $this->isUserConsented($userId))
 			{
@@ -94,11 +96,12 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('privacyconsent');
 
-		$privacyArticleId = $this->getPrivacyArticleId();
-		$privacynote      = $this->params->get('privacy_note');
+		$privacyType = $this->params->get('privacy_type', 'article');
+		$privacyId   = ($privacyType == 'menu_item') ? $this->getPrivacyItemId() : $this->getPrivacyArticleId();
+		$privacynote = $this->params->get('privacy_note');
 
 		// Push the privacy article ID into the privacy field.
-		$form->setFieldAttribute('privacy', 'article', $privacyArticleId, 'privacyconsent');
+		$form->setFieldAttribute('privacy', $privacyType, $privacyId, 'privacyconsent');
 		$form->setFieldAttribute('privacy', 'note', $privacynote, 'privacyconsent');
 	}
 
@@ -304,7 +307,17 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			 * If user is already on edit profile screen or view privacy article
 			 * or press update/apply button, or logout, do nothing to avoid infinite redirect
 			 */
-			if ($option == 'com_users' && in_array($task, ['profile.save', 'profile.apply', 'user.logout', 'user.menulogout'])
+			$allowedUserTasks = [
+				'profile.save', 'profile.apply', 'user.logout', 'user.menulogout',
+				'method', 'methods', 'captive', 'callback'
+			];
+			$isAllowedUserTask = in_array($task, $allowedUserTasks)
+				|| substr($task, 0, 8) === 'captive.'
+				|| substr($task, 0, 8) === 'methods.'
+				|| substr($task, 0, 7) === 'method.'
+				|| substr($task, 0, 9) === 'callback.';
+
+			if (($option == 'com_users' && $isAllowedUserTask)
 				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
 				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{
@@ -440,6 +453,32 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	}
 
 	/**
+	 * Get privacy menu item ID. If the site is a multilingual website and there is associated menu item for the
+	 * current language, ID of the associated menu item will be returned.
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.0.0
+	 */
+	private function getPrivacyItemId()
+	{
+		$itemId = $this->params->get('privacy_menu_item');
+
+		if ($itemId > 0 && Associations::isEnabled())
+		{
+			$privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
+			$currentLang = Factory::getLanguage()->getTag();
+
+			if (isset($privacyAssociated[$currentLang]))
+			{
+				$itemId = $privacyAssociated[$currentLang]->id;
+			}
+		}
+
+		return $itemId;
+	}
+
+	/**
 	 * The privacy consent expiration check code is triggered after the page has fully rendered.
 	 *
 	 * @return  void
@@ -572,30 +611,19 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			// The mail
 			try
 			{
-				$substitutions = [
-					'[SITENAME]' => $app->get('sitename'),
-					'[URL]'      => Uri::root(),
-					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
-					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
-					'[TOKEN]'    => $token,
-					'\\n'        => "\n",
+				$templateData = [
+					'sitename' => $app->get('sitename'),
+					'url'      => Uri::root(),
+					'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
+					'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
+					'token'    => $token,
 				];
 
-				$emailSubject = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_SUBJECT');
-				$emailBody = Text::_('PLG_SYSTEM_PRIVACYCONSENT_EMAIL_REMIND_BODY');
-
-				foreach ($substitutions as $k => $v)
-				{
-					$emailSubject = str_replace($k, $v, $emailSubject);
-					$emailBody    = str_replace($k, $v, $emailBody);
-				}
-
-				$mailer = Factory::getMailer();
-				$mailer->setSubject($emailSubject);
-				$mailer->setBody($emailBody);
+				$mailer = new MailTemplate('plg_system_privacyconsent.request.reminder', $app->getLanguage()->getTag());
+				$mailer->addTemplateData($templateData);
 				$mailer->addRecipient($user->email);
 
-				$mailResult = $mailer->Send();
+				$mailResult = $mailer->send();
 
 				if ($mailResult === false)
 				{
@@ -721,7 +749,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 					$options = [
 						'defaultgroup' => $group,
 						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')
+							Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
 					];
 
 					$cache = Cache::getInstance('callback', $options);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,9 +16,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -57,8 +57,7 @@ class RequestModel extends AdminModel
 		}
 
 		// Get the form.
-		$form          = $this->getForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
+		$form = $this->getForm();
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -88,8 +87,10 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
+		$data['email'] = Factory::getUser()->email;
+
 		// Search for an open information request matching the email and type
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
 			->from($db->quoteName('#__privacy_requests'))
@@ -145,26 +146,23 @@ class RequestModel extends AdminModel
 		{
 			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$substitutions = [
-				'[SITENAME]' => $app->get('sitename'),
-				'[URL]'      => Uri::root(),
-				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
-				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
-				'[TOKEN]'    => $token,
-				'\\n'        => "\n",
+			$templateData = [
+				'sitename' => $app->get('sitename'),
+				'url'      => Uri::root(),
+				'tokenurl' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'formurl'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
+				'token'    => $token,
 			];
 
 			switch ($data['request_type'])
 			{
 				case 'export':
-					$emailSubject = Text::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
-					$emailBody    = Text::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
+					$mailer = new MailTemplate('com_privacy.notification.export', $app->getLanguage()->getTag());
 
 					break;
 
 				case 'remove':
-					$emailSubject = Text::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
-					$emailBody    = Text::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
+					$mailer = new MailTemplate('com_privacy.notification.remove', $app->getLanguage()->getTag());
 
 					break;
 
@@ -174,25 +172,10 @@ class RequestModel extends AdminModel
 					return false;
 			}
 
-			foreach ($substitutions as $k => $v)
-			{
-				$emailSubject = str_replace($k, $v, $emailSubject);
-				$emailBody    = str_replace($k, $v, $emailBody);
-			}
-
-			$mailer = Factory::getMailer();
-			$mailer->setSubject($emailSubject);
-			$mailer->setBody($emailBody);
+			$mailer->addTemplateData($templateData);
 			$mailer->addRecipient($data['email']);
 
-			$mailResult = $mailer->Send();
-
-			if ($mailer->Send() === false)
-			{
-				$this->setError($mailer->ErrorInfo);
-
-				return false;
-			}
+			$mailer->send();
 
 			/** @var RequestTable $table */
 			$table = $this->getTable();
@@ -248,7 +231,7 @@ class RequestModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @throws  \Exception
 	 * @since   3.9.0

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,10 +54,9 @@ class TimezoneField extends GroupedlistField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'keyField')
 		{
-			case 'keyField':
-				return $this->keyField;
+			return $this->keyField;
 		}
 
 		return parent::__get($name);

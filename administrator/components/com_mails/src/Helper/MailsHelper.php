@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,6 @@ abstract class MailsHelper
 	 */
 	public static function mailtags($mail, $fieldname)
 	{
-		$app = Factory::getApplication();
 		Factory::getApplication()->triggerEvent('onMailBeforeTagsRendering', array($mail->template_id, &$mail));
 
 		if (!isset($mail->params['tags']) || !count($mail->params['tags']))
@@ -53,5 +52,61 @@ abstract class MailsHelper
 		$html .= '</ul>';
 
 		return $html;
+	}
+
+	/**
+	 * Load the translation files for an extension
+	 *
+	 * @param   string  $extension  Extension name
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadTranslationFiles($extension)
+	{
+		static $cache = array();
+
+		$extension = strtolower($extension);
+
+		if (isset($cache[$extension]))
+		{
+			return;
+		}
+
+		$lang   = Factory::getLanguage();
+		$source = '';
+
+		switch (substr($extension, 0, 3))
+		{
+			case 'com':
+			default:
+				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+				break;
+
+			case 'mod':
+				$source = JPATH_SITE . '/modules/' . $extension;
+				break;
+
+			case 'plg':
+				$parts = explode('_', $extension, 3);
+
+				if (count($parts) > 2)
+				{
+					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
+				}
+				break;
+		}
+
+		$lang->load($extension, JPATH_ADMINISTRATOR)
+		|| $lang->load($extension, $source);
+
+		if (!$lang->hasKey(strtoupper($extension)))
+		{
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
+			|| $lang->load($extension . '.sys', $source);
+		}
+
+		$cache[$extension] = true;
 	}
 }
