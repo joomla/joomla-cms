@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Behaviour.taggable
@@ -18,29 +19,28 @@ use Joomla\Plugin\Behaviour\Taggable\Extension\Taggable;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$dispatcher = $container->get(DispatcherInterface::class);
-				$plugin     = new Taggable(
-					$dispatcher,
-					(array) PluginHelper::getPlugin('behaviour', 'taggable')
-				);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $dispatcher = $container->get(DispatcherInterface::class);
+                $plugin     = new Taggable(
+                    $dispatcher,
+                    (array) PluginHelper::getPlugin('behaviour', 'taggable')
+                );
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };
