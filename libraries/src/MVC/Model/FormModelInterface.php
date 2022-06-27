@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\MVC\Model;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 
@@ -19,17 +18,17 @@ use Joomla\CMS\Form\Form;
  */
 interface FormModelInterface
 {
-	/**
-	 * Method for getting a form.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  Form
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws \Exception
-	 */
-	public function getForm($data = array(), $loadData = true);
+    /**
+     * Method for getting a form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  Form
+     *
+     * @since   4.0.0
+     *
+     * @throws \Exception
+     */
+    public function getForm($data = array(), $loadData = true);
 }
