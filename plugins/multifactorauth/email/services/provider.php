@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Multifactorauth.email
@@ -19,28 +20,28 @@ use Joomla\Plugin\Multifactorauth\Email\Extension\Email;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since 4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container) {
-				$config  = (array) PluginHelper::getPlugin('multifactorauth', 'email');
-				$subject = $container->get(DispatcherInterface::class);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since 4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $config  = (array) PluginHelper::getPlugin('multifactorauth', 'email');
+                $subject = $container->get(DispatcherInterface::class);
 
-				$plugin = new Email($subject, $config);
-				$plugin->setApplication(Factory::getApplication());
+                $plugin = new Email($subject, $config);
+                $plugin->setApplication(Factory::getApplication());
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };
