@@ -15,6 +15,12 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect')
+	->useScript('com_menus.admin-menus');
+
 $uri       = Uri::getInstance();
 $return    = base64_encode($uri);
 $user      = Factory::getUser();
@@ -32,12 +38,6 @@ foreach ($this->items as $item)
 }
 
 $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
-
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect')
-	->useScript('com_menus.admin-menus');
-
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
