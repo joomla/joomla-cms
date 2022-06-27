@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Task.Checkin
@@ -19,31 +20,30 @@ use Joomla\Plugin\Task\Checkin\Extension\Checkin;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$plugin     = PluginHelper::getPlugin('task', 'checkin');
-				$dispatcher = $container->get(DispatcherInterface::class);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $plugin     = PluginHelper::getPlugin('task', 'checkin');
+                $dispatcher = $container->get(DispatcherInterface::class);
 
-				$checkin = new Checkin(
-					$dispatcher,
-					(array) $plugin
-				);
-				$checkin->setDatabase($container->get(DatabaseInterface::class));
+                $checkin = new Checkin(
+                    $dispatcher,
+                    (array) $plugin
+                );
+                $checkin->setDatabase($container->get(DatabaseInterface::class));
 
-				return $checkin;
-			}
-		);
-	}
+                return $checkin;
+            }
+        );
+    }
 };
