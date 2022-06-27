@@ -357,9 +357,21 @@ class MediaHelper
 		if ($filetype === 'svg')
 		{
 			$sanitizer = new Sanitizer;
-			$sanitizer->sanitize(file_get_contents($file['tmp_name']));
 
-			if ($sanitizer->getXmlIssues())
+			$isValid = $sanitizer->sanitize(file_get_contents($file['tmp_name']));
+
+			$svgErrors = $sanitizer->getXmlIssues();
+
+			// We allow comments
+			foreach ($svgErrors as $i => $error)
+			{
+				if ($error['message'] === 'Suspicious node \'#comment\'')
+				{
+					unset($svgErrors[$i]);
+				}
+			}
+
+			if ($isValid === false || count($svgErrors))
 			{
 				$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 

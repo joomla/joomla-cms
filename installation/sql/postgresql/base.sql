@@ -347,6 +347,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_schedulerunner', 'plugin', 'schedulerunner', 'system', 0, 1, 1, 0, 0, '', '{}', '', 17, 0),
 (0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, 1, '', '', '', 18, 0),
 (0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, 1, '', '', '', 19, 0),
+(0, 'plg_system_shortcut', 'plugin', 'shortcut', 'system', 0, 1, 1, 0, 1, '', '{}', '', 0, 0),
 (0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, 1, '', '{}', '', 20, 0),
 (0, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, 1, '', '', '', 21, 0),
 (0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 22, 0),
@@ -356,8 +357,11 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 0, '', '{}', '', 2, 0),
 (0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 0, '', '{}', '', 3, 0),
 (0, 'plg_task_sitestatus', 'plugin', 'sitestatus', 'task', 0, 1, 1, 0, 0, '', '{}', '', 4, 0),
-(0, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 1, 0),
-(0, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, 1, '', '', '', 2, 0),
+(0, 'plg_multifactorauth_totp', 'plugin', 'totp', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 1, 0),
+(0, 'plg_multifactorauth_yubikey', 'plugin', 'yubikey', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 2, 0),
+(0, 'plg_multifactorauth_webauthn', 'plugin', 'webauthn', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 3, 0),
+(0, 'plg_multifactorauth_email', 'plugin', 'email', 'multifactorauth', 0, 1, 1, 0, 1, '', '', '', 4, 0),
+(0, 'plg_multifactorauth_fixed', 'plugin', 'fixed', 'multifactorauth', 0, 0, 1, 0, 1, '', '', '', 5, 0),
 (0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, 1, '', '{"autowebpage":"","category":"4","autopublish":"0"}', '', 1, 0),
 (0, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, 1, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', '', 2, 0),
 (0, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, 1, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', '', 3, 0),
@@ -881,7 +885,7 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp") VALUES
 (1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0),
 (2, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_4.xml', 1, 0),
-(3, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
+(3, 'Joomla! Update Component', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0);
 
 SELECT setval('#__update_sites_update_site_id_seq', 4, false);
 
@@ -1035,6 +1039,26 @@ CREATE TABLE IF NOT EXISTS "#__user_profiles" (
 );
 
 COMMENT ON TABLE "#__user_profiles" IS 'Simple user profile storage table';
+
+--
+-- Table structure for table `#__user_mfa`
+--
+
+CREATE TABLE IF NOT EXISTS "#__user_mfa" (
+  "id" serial NOT NULL,
+  "user_id" bigint NOT NULL,
+  "title" varchar(255) DEFAULT '' NOT NULL,
+  "method" varchar(100) NOT NULL,
+  "default" smallint DEFAULT 0 NOT NULL,
+  "options" text NOT NULL,
+  "created_on" timestamp without time zone NOT NULL,
+  "last_used" timestamp without time zone,
+  PRIMARY KEY ("id")
+);
+
+CREATE INDEX "#__user_mfa_idx_user_id" ON "#__user_mfa" ("user_id");
+
+COMMENT ON TABLE "#__user_mfa" IS 'Multi-factor Authentication settings';
 
 --
 -- Table structure for table `#__user_usergroup_map`
