@@ -51,7 +51,7 @@ class MenuOrderingField extends ListField
 			return false;
 		}
 
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

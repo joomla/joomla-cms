@@ -18,7 +18,10 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $purchaseTypes = [
 	'1' => 'UNLIMITED',
