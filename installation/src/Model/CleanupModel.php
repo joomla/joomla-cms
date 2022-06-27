@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Model
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\CMS\Installation\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -21,25 +20,24 @@ use Joomla\CMS\Filesystem\Folder;
  */
 class CleanupModel extends BaseInstallationModel
 {
-	/**
-	 * Deletes the installation folder. Returns true on success.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function deleteInstallationFolder()
-	{
-		$return = Folder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || File::delete(JPATH_ROOT . '/joomla.xml'));
+    /**
+     * Deletes the installation folder. Returns true on success.
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public function deleteInstallationFolder()
+    {
+        $return = Folder::delete(JPATH_INSTALLATION) && (!file_exists(JPATH_ROOT . '/joomla.xml') || File::delete(JPATH_ROOT . '/joomla.xml'));
 
-		// Rename the robots.txt.dist file if robots.txt doesn't exist
-		if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
-		{
-			$return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
-		}
+        // Rename the robots.txt.dist file if robots.txt doesn't exist
+        if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist')) {
+            $return = File::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
+        }
 
-		\clearstatcache(true, JPATH_INSTALLATION . '/index.php');
+        \clearstatcache(true, JPATH_INSTALLATION . '/index.php');
 
-		return $return;
-	}
+        return $return;
+    }
 }
