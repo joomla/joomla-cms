@@ -10,6 +10,7 @@ namespace Joomla\CMS\Service\Provider;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Document\Factory;
 use Joomla\CMS\Document\FactoryInterface;
 use Joomla\DI\Container;
@@ -39,7 +40,10 @@ class Document implements ServiceProviderInterface
 				FactoryInterface::class,
 				function (Container $container)
 				{
-					return new Factory;
+					$factory = new Factory;
+					$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+
+					return $factory;
 				},
 				true
 			);
