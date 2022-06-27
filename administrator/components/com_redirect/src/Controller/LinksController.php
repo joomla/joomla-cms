@@ -14,7 +14,6 @@ namespace Joomla\Component\Redirect\Administrator\Controller;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Redirect link list controller class.
@@ -35,9 +34,10 @@ class LinksController extends AdminController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids     = $this->input->get('cid', array(), 'array');
-		$newUrl  = $this->input->getString('new_url');
-		$comment = $this->input->getString('comment');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -45,10 +45,11 @@ class LinksController extends AdminController
 		}
 		else
 		{
+			$newUrl  = $this->input->getString('new_url');
+			$comment = $this->input->getString('comment');
+
 			// Get the model.
 			$model = $this->getModel();
-
-			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment))
@@ -76,9 +77,10 @@ class LinksController extends AdminController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$ids     = $this->input->get('cid', array(), 'array');
-		$newUrl  = $this->input->getString('new_url');
-		$comment = $this->input->getString('comment');
+		$ids = (array) $this->input->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$ids = array_filter($ids);
 
 		if (empty($ids))
 		{
@@ -86,10 +88,11 @@ class LinksController extends AdminController
 		}
 		else
 		{
+			$newUrl  = $this->input->getString('new_url');
+			$comment = $this->input->getString('comment');
+
 			// Get the model.
 			$model = $this->getModel();
-
-			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->duplicateUrls($ids, $newUrl, $comment))
