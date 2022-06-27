@@ -200,7 +200,7 @@ class MailTemplate
 		$params = $mail->params;
 		$app    = Factory::getApplication();
 
-		if ($config->get('alternative_mailconfig'))
+		if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1)
 		{
 			if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')
 			{
