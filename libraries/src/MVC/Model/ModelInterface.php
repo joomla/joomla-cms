@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Interface for a base model.
  *
@@ -17,13 +16,13 @@ namespace Joomla\CMS\MVC\Model;
  */
 interface ModelInterface
 {
-	/**
-	 * Method to get the model name.
-	 *
-	 * @return  string  The name of the model
-	 *
-	 * @since   4.0.0
-	 * @throws  \Exception
-	 */
-	public function getName();
+    /**
+     * Method to get the model name.
+     *
+     * @return  string  The name of the model
+     *
+     * @since   4.0.0
+     * @throws  \Exception
+     */
+    public function getName();
 }

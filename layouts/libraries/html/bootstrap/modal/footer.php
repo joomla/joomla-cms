@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -32,5 +33,5 @@ extract($displayData);
  */
 ?>
 <div class="modal-footer">
-	<?php echo $params['footer']; ?>
+    <?php echo $params['footer']; ?>
 </div>
