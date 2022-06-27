@@ -2,6 +2,7 @@
   <button
     type="button"
     class="action-toggle"
+    tabindex="0"
     :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
     :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
     @keyup.enter="openActions()"
@@ -22,14 +23,14 @@ export default {
   name: 'MediaBrowserActionItemToggle',
   props: {
     mainAction: { type: Function, default: () => {} },
-    onFocused: { type: Function, default: () => {} },
   },
+  emits: ['on-focused'],
   methods: {
     openActions() {
       this.mainAction();
     },
     focused(bool) {
-      this.onFocused(bool);
+      this.$emit('on-focused', bool);
     },
   },
 };
