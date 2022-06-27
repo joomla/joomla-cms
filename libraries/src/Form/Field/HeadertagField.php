@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Form\Field;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -19,35 +18,34 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class HeadertagField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $type = 'HeaderTag';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $type = 'HeaderTag';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.0
-	 */
-	protected function getOptions()
-	{
-		$options = array();
-		$tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div');
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   3.0
+     */
+    protected function getOptions()
+    {
+        $options = array();
+        $tags = array('h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div');
 
-		// Create one new option object for each tag
-		foreach ($tags as $tag)
-		{
-			$tmp = HTMLHelper::_('select.option', $tag, $tag);
-			$options[] = $tmp;
-		}
+        // Create one new option object for each tag
+        foreach ($tags as $tag) {
+            $tmp = HTMLHelper::_('select.option', $tag, $tag);
+            $options[] = $tmp;
+        }
 
-		reset($options);
+        reset($options);
 
-		return $options;
-	}
+        return $options;
+    }
 }
