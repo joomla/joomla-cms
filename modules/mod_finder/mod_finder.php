@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_finder
@@ -21,24 +22,24 @@ use Joomla\Module\Finder\Site\Helper\FinderHelper;
 $cparams = ComponentHelper::getParams('com_finder');
 
 // Check for OpenSearch
-if ($params->get('opensearch', $cparams->get('opensearch', 1)))
-{
-	$defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename');
-	$ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
-	$app->getDocument()->addHeadLink(
-		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
-		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
-	);
+if ($params->get('opensearch', $cparams->get('opensearch', 1))) {
+    $defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename');
+    $ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
+    $app->getDocument()->addHeadLink(
+        Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+        'search',
+        'rel',
+        array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+    );
 }
 
 // Get the route.
 $route = RouteHelper::getSearchRoute($params->get('searchfilter', null));
 
-if ($params->get('set_itemid'))
-{
-	$uri = Uri::getInstance($route);
-	$uri->setVar('Itemid', $params->get('set_itemid'));
-	$route = $uri->toString(array('path', 'query'));
+if ($params->get('set_itemid')) {
+    $uri = Uri::getInstance($route);
+    $uri->setVar('Itemid', $params->get('set_itemid'));
+    $route = $uri->toString(array('path', 'query'));
 }
 
 // Load component language file.

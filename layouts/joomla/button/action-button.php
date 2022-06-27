@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -29,14 +30,14 @@ $tipTitle = $options['tip_title'];
 
 ?>
 <button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?>"
-		aria-labelledby="<?php echo $id; ?>"
-		<?php echo $disabled ? 'disabled' : ''; ?>
-		<?php if (!empty($task) && empty($disabled)) : ?>
-			onclick="return Joomla.listItemTask('<?php echo $checkboxName . $this->escape($row ?? ''); ?>', '<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>')"
-		<?php endif; ?>
+        aria-labelledby="<?php echo $id; ?>"
+        <?php echo $disabled ? 'disabled' : ''; ?>
+        <?php if (!empty($task) && empty($disabled)) : ?>
+            onclick="return Joomla.listItemTask('<?php echo $checkboxName . $this->escape($row ?? ''); ?>', '<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>')"
+        <?php endif; ?>
 >
-	<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
+    <span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 </button>
 <div id="<?php echo $id; ?>" role="tooltip">
-	<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, $title, 0, false); ?>
+    <?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, $title, 0, false); ?>
 </div>
