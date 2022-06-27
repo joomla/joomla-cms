@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\SiteApplication;
@@ -25,47 +24,44 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class Router implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('SiteRouter', SiteRouter::class)
-			->alias('JRouterSite', SiteRouter::class)
-			->share(
-				SiteRouter::class,
-				function (Container $container)
-				{
-					return new SiteRouter($container->get(SiteApplication::class));
-				},
-				true
-			);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('SiteRouter', SiteRouter::class)
+            ->alias('JRouterSite', SiteRouter::class)
+            ->share(
+                SiteRouter::class,
+                function (Container $container) {
+                    return new SiteRouter($container->get(SiteApplication::class));
+                },
+                true
+            );
 
-		$container->alias('AdministratorRouter', AdministratorRouter::class)
-			->alias('JRouterAdministrator', AdministratorRouter::class)
-			->share(
-				AdministratorRouter::class,
-				function (Container $container)
-				{
-					return new AdministratorRouter;
-				},
-				true
-			);
+        $container->alias('AdministratorRouter', AdministratorRouter::class)
+            ->alias('JRouterAdministrator', AdministratorRouter::class)
+            ->share(
+                AdministratorRouter::class,
+                function (Container $container) {
+                    return new AdministratorRouter();
+                },
+                true
+            );
 
-		$container->alias('ApiRouter', ApiRouter::class)
-			->share(
-				ApiRouter::class,
-				function (Container $container)
-				{
-					return new ApiRouter($container->get(ApiApplication::class));
-				},
-				true
-			);
-	}
+        $container->alias('ApiRouter', ApiRouter::class)
+            ->share(
+                ApiRouter::class,
+                function (Container $container) {
+                    return new ApiRouter($container->get(ApiApplication::class));
+                },
+                true
+            );
+    }
 }

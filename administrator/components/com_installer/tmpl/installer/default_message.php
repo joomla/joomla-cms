@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -15,12 +16,12 @@ $message2 = $state->get('extension_message');
 ?>
 
 <?php if ($message1) : ?>
-	<div class="alert alert-info">
-		<strong><?php echo $message1; ?></strong>
-	</div>
+    <div class="alert alert-info">
+        <strong><?php echo $message1; ?></strong>
+    </div>
 <?php endif; ?>
 <?php if ($message2) : ?>
-	<div class="alert alert-info">
-		<?php echo $message2; ?>
-	</div>
+    <div class="alert alert-info">
+        <?php echo $message2; ?>
+    </div>
 <?php endif; ?>

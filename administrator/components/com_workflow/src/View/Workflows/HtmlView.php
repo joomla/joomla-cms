@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
@@ -6,9 +7,8 @@
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
-\defined('_JEXEC') or die;
+namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -25,171 +25,163 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of workflows
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $workflows;
+    /**
+     * An array of workflows
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    protected $workflows;
 
-	/**
-	 * The model state
-	 *
-	 * @var    object
-	 * @since  4.0.0
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var    object
+     * @since  4.0.0
+     */
+    protected $state;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var    \Joomla\CMS\Pagination\Pagination
-	 * @since  4.0.0
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var    \Joomla\CMS\Pagination\Pagination
+     * @since  4.0.0
+     */
+    protected $pagination;
 
-	/**
-	 * The HTML for displaying sidebar
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
+    /**
+     * The HTML for displaying sidebar
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $sidebar;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \Joomla\CMS\Form\Form
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-	/**
-	 * The name of current extension
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $extension;
+    /**
+     * The name of current extension
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $extension;
 
-	/**
-	 * The section of the current extension
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $section;
+    /**
+     * The section of the current extension
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $section;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function display($tpl = null)
-	{
-		$this->state         	= $this->get('State');
-		$this->workflows    	= $this->get('Items');
-		$this->pagination    	= $this->get('Pagination');
-		$this->filterForm    	= $this->get('FilterForm');
-		$this->activeFilters 	= $this->get('ActiveFilters');
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    public function display($tpl = null)
+    {
+        $this->state            = $this->get('State');
+        $this->workflows        = $this->get('Items');
+        $this->pagination       = $this->get('Pagination');
+        $this->filterForm       = $this->get('FilterForm');
+        $this->activeFilters    = $this->get('ActiveFilters');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$extension = $this->state->get('filter.extension');
+        $extension = $this->state->get('filter.extension');
 
-		$parts = explode('.', $extension);
+        $parts = explode('.', $extension);
 
-		$this->extension = array_shift($parts);
+        $this->extension = array_shift($parts);
 
-		if (!empty($parts))
-		{
-			$this->section = array_shift($parts);
-		}
+        if (!empty($parts)) {
+            $this->section = array_shift($parts);
+        }
 
-		$this->addToolbar();
+        $this->addToolbar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions($this->extension, $this->section);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    protected function addToolbar()
+    {
+        $canDo = ContentHelper::getActions($this->extension, $this->section);
 
-		$user = Factory::getApplication()->getIdentity();
+        $user = Factory::getApplication()->getIdentity();
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'file-alt contact');
+        ToolbarHelper::title(Text::_('COM_WORKFLOW_WORKFLOWS_LIST'), 'file-alt contact');
 
-		if ($canDo->get('core.create'))
-		{
-			$toolbar->addNew('workflow.add');
-		}
+        if ($canDo->get('core.create')) {
+            $toolbar->addNew('workflow.add');
+        }
 
-		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        if ($canDo->get('core.edit.state') || $user->authorise('core.admin')) {
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
 
-			$childBar = $dropdown->getChildToolbar();
+            $childBar = $dropdown->getChildToolbar();
 
-			$childBar->publish('workflows.publish', 'JTOOLBAR_ENABLE');
-			$childBar->unpublish('workflows.unpublish', 'JTOOLBAR_DISABLE');
-			$childBar->makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
+            $childBar->publish('workflows.publish', 'JTOOLBAR_ENABLE');
+            $childBar->unpublish('workflows.unpublish', 'JTOOLBAR_DISABLE');
+            $childBar->makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 
-			if ($canDo->get('core.admin'))
-			{
-				$childBar->checkin('workflows.checkin')->listCheck(true);
-			}
+            if ($canDo->get('core.admin')) {
+                $childBar->checkin('workflows.checkin')->listCheck(true);
+            }
 
-			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
-			{
-				$childBar->trash('workflows.trash');
-			}
-		}
+            if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2) {
+                $childBar->trash('workflows.trash');
+            }
+        }
 
-		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('workflows.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
-		}
+        if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete')) {
+            $toolbar->delete('workflows.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+        }
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			$toolbar->preferences($this->extension);
-		}
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            $toolbar->preferences($this->extension);
+        }
 
-		$toolbar->help('Workflows_List');
-	}
+        $toolbar->help('Workflows_List');
+    }
 }
