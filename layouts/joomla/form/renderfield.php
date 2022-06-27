@@ -37,7 +37,7 @@ $rel             = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id              = ($id ?? $name) . '-desc';
 $hideLabel       = !empty($options['hiddenLabel']);
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
-$descClass       = ($options['descClass'] ?? '') ?: 'hide-aware-inline-help d-none';
+$descClass       = ($options['descClass'] ?? '') ?: (!empty($options['inlineHelp']) ? 'hide-aware-inline-help d-none' : '');
 
 if (!empty($parentclass))
 {
