@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_redirect
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Redirect\Api\View\Redirect;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
@@ -20,41 +19,41 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
  */
 class JsonapiView extends BaseApiView
 {
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'old_url',
-		'new_url',
-		'referer',
-		'comment',
-		'hits',
-		'published',
-		'created_date',
-		'modified_date',
-		'header',
-	];
+    /**
+     * The fields to render item in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderItem = [
+        'id',
+        'old_url',
+        'new_url',
+        'referer',
+        'comment',
+        'hits',
+        'published',
+        'created_date',
+        'modified_date',
+        'header',
+    ];
 
-	/**
-	 * The fields to render items in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderList = [
-		'id',
-		'old_url',
-		'new_url',
-		'referer',
-		'comment',
-		'hits',
-		'published',
-		'created_date',
-		'modified_date',
-		'header',
-	];
+    /**
+     * The fields to render items in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderList = [
+        'id',
+        'old_url',
+        'new_url',
+        'referer',
+        'comment',
+        'hits',
+        'published',
+        'created_date',
+        'modified_date',
+        'header',
+    ];
 }
