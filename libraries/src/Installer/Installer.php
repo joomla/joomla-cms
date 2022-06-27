@@ -1456,8 +1456,7 @@ class Installer extends Adapter
 	 */
 	protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
 	{
-		/** @var DatabaseInterface $db */
-		$db    = Factory::getContainer()->get(DatabaseInterface::class);
+		$db = $this->getDatabase();
 
 		$o = (object) [
 			'extension_id' => $eid,
