@@ -12,7 +12,6 @@ namespace Joomla\Component\Scheduler\Administrator\Controller;
 // Restrict direct access
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -84,8 +83,7 @@ class TasksController extends AdminController
 
 				if ($errors)
 				{
-					Factory::getApplication()
-						->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
+					$this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
 				}
 				else
 				{

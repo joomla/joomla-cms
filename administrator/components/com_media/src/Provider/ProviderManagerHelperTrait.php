@@ -13,6 +13,7 @@ namespace Joomla\Component\Media\Administrator\Provider;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
@@ -117,7 +118,7 @@ trait ProviderManagerHelperTrait
 
 		if (!$this->getDefaultAdapterName())
 		{
-			throw new \InvalidArgumentException('No adapter found');
+			throw new \InvalidArgumentException(Text::_('COM_MEDIA_ERROR_NO_ADAPTER_FOUND'));
 		}
 
 		// If we have less than 2 parts, we return a default adapter name

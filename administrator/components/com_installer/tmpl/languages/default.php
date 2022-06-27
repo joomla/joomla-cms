@@ -15,9 +15,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('multiselect');
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
