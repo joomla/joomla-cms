@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -16,11 +17,11 @@ $articleId = $displayData['item']->id;
 ?>
 
 <?php if ($canEdit) : ?>
-	<div class="icons">
-		<div class="float-end">
-			<div>
-				<?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
-			</div>
-		</div>
-	</div>
+    <div class="icons">
+        <div class="float-end">
+            <div>
+                <?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
+            </div>
+        </div>
+    </div>
 <?php endif; ?>
