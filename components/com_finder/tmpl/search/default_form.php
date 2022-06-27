@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 if ($this->params->get('show_autosuggest', 1))
 {
 	$this->document->getWebAssetManager()->usePreset('awesomplete');
-	$this->document->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+	$this->document->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false)));
 }
 
 ?>

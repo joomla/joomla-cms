@@ -158,19 +158,13 @@ class ActionlogsHelper
 	 * @return  mixed  An object contains content type parameters, or null if not found
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated  5.0 Use the action log config model instead
 	 */
 	public static function getLogContentTypeParams($context)
 	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*')
-			->from($db->quoteName('#__action_log_config', 'a'))
-			->where($db->quoteName('a.type_alias') . ' = :context')
-			->bind(':context', $context);
-
-		$db->setQuery($query);
-
-		return $db->loadObject();
+		return Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
+			->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 	}
 
 	/**
