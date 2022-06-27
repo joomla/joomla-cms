@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_installer
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Api\View\Manage;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
@@ -20,36 +19,36 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
  */
 class JsonapiView extends BaseApiView
 {
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderList = [
-		'id',
-		'name',
-		'type',
-		'version',
-		'folder',
-		'status',
-		'client_id',
-	];
+    /**
+     * The fields to render item in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderList = [
+        'id',
+        'name',
+        'type',
+        'version',
+        'folder',
+        'status',
+        'client_id',
+    ];
 
-	/**
-	 * Prepare item before render.
-	 *
-	 * @param   object  $item  The model item
-	 *
-	 * @return  object
-	 *
-	 * @since   4.0.0
-	 */
-	protected function prepareItem($item)
-	{
-		$item->id = $item->extension_id;
-		unset($item->extension_id);
+    /**
+     * Prepare item before render.
+     *
+     * @param   object  $item  The model item
+     *
+     * @return  object
+     *
+     * @since   4.0.0
+     */
+    protected function prepareItem($item)
+    {
+        $item->id = $item->extension_id;
+        unset($item->extension_id);
 
-		return $item;
-	}
+        return $item;
+    }
 }
