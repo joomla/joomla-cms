@@ -19,7 +19,7 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
   - name: npm
@@ -475,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: d5db8148323f0205a8c0cd165da3934f5a77b25f73862d09ead95d3c42f1df01
+hmac: 783273e5140ae315f2403b13eb12f4773b77995a3d44a38551b55c89b9d40350
 
 ...

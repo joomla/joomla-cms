@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_login
@@ -17,27 +18,27 @@ HTMLHelper::_('behavior.keepalive');
 ?>
 <form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form-<?php echo $module->id; ?>">
 <?php if ($params->get('greeting', 1)) : ?>
-	<div class="mod-login-logout__login-greeting login-greeting">
-	<?php if (!$params->get('name', 0)) : ?>
-		<?php echo Text::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('name'), ENT_COMPAT, 'UTF-8')); ?>
-	<?php else : ?>
-		<?php echo Text::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username'), ENT_COMPAT, 'UTF-8')); ?>
-	<?php endif; ?>
-	</div>
+    <div class="mod-login-logout__login-greeting login-greeting">
+    <?php if (!$params->get('name', 0)) : ?>
+        <?php echo Text::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('name'), ENT_COMPAT, 'UTF-8')); ?>
+    <?php else : ?>
+        <?php echo Text::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username'), ENT_COMPAT, 'UTF-8')); ?>
+    <?php endif; ?>
+    </div>
 <?php endif; ?>
 <?php if ($params->get('profilelink', 0)) : ?>
-	<ul class="mod-login-logout__options list-unstyled">
-		<li>
-			<a href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>">
-			<?php echo Text::_('MOD_LOGIN_PROFILE'); ?></a>
-		</li>
-	</ul>
+    <ul class="mod-login-logout__options list-unstyled">
+        <li>
+            <a href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>">
+            <?php echo Text::_('MOD_LOGIN_PROFILE'); ?></a>
+        </li>
+    </ul>
 <?php endif; ?>
-	<div class="mod-login-logout__button logout-button">
-		<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGOUT'); ?></button>
-		<input type="hidden" name="option" value="com_users">
-		<input type="hidden" name="task" value="user.logout">
-		<input type="hidden" name="return" value="<?php echo $return; ?>">
-		<?php echo HTMLHelper::_('form.token'); ?>
-	</div>
+    <div class="mod-login-logout__button logout-button">
+        <button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGOUT'); ?></button>
+        <input type="hidden" name="option" value="com_users">
+        <input type="hidden" name="task" value="user.logout">
+        <input type="hidden" name="return" value="<?php echo $return; ?>">
+        <?php echo HTMLHelper::_('form.token'); ?>
+    </div>
 </form>

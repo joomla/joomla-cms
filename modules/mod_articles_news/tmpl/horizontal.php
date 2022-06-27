@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
@@ -15,16 +16,15 @@ use Joomla\CMS\Helper\ModuleHelper;
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('mod_modules', 'mod_articles_news/template.css');
 
-if (empty($list))
-{
-	return;
+if (empty($list)) {
+    return;
 }
 
 ?>
 <ul class="mod-articlesnews-horizontal newsflash-horiz mod-list">
-	<?php foreach ($list as $item) : ?>
-		<li itemscope itemtype="https://schema.org/Article">
-			<?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
-		</li>
-	<?php endforeach; ?>
+    <?php foreach ($list as $item) : ?>
+        <li itemscope itemtype="https://schema.org/Article">
+            <?php require ModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
+        </li>
+    <?php endforeach; ?>
 </ul>
