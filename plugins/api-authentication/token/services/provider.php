@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseInterface;
@@ -28,7 +29,7 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function register(Container $container)
 	{
@@ -42,6 +43,7 @@ return new class implements ServiceProviderInterface
 					$container->get(UserFactoryInterface::class),
 					new InputFilter
 				);
+				$plugin->setApplication(Factory::getApplication());
 				$plugin->setDatabase($container->get(DatabaseInterface::class));
 
 				return $plugin;

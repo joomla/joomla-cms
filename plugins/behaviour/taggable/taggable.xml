@@ -9,8 +9,14 @@
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_BEHAVIOUR_TAGGABLE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Behaviour\Taggable</namespace>
 	<files>
-		<filename plugin="taggable">taggable.php</filename>
+		<folder plugin="taggable">services</folder>
+		<folder>src</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_behaviour_taggable.ini</language>
+		<language tag="en-GB">language/en-GB/plg_behaviour_taggable.sys.ini</language>
+	</languages>
 	<config />
 </extension>

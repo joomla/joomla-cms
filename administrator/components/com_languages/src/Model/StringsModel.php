@@ -36,7 +36,7 @@ class StringsModel extends BaseDatabaseModel
 	public function refresh()
 	{
 		$app = Factory::getApplication();
-		$db  = $this->getDbo();
+		$db  = $this->getDatabase();
 
 		$app->setUserState('com_languages.overrides.cachedtime', null);
 
@@ -141,7 +141,7 @@ class StringsModel extends BaseDatabaseModel
 		$results = array();
 		$input   = Factory::getApplication()->input;
 		$filter  = InputFilter::getInstance();
-		$db      = $this->getDbo();
+		$db      = $this->getDatabase();
 		$searchTerm = $input->getString('searchstring');
 
 		$limitstart = $input->getInt('more');

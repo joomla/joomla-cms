@@ -18,7 +18,7 @@ use InvalidArgumentException;
  * Events using this Trait (and the ResultAware trait) will expect event handlers to set results
  * of a Boolean type.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait ResultTypeBooleanAware
 {
@@ -26,7 +26,7 @@ trait ResultTypeBooleanAware
 	 * Can the result attribute values also be NULL?
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $resultIsNullable = false;
 
@@ -39,7 +39,7 @@ trait ResultTypeBooleanAware
 	 * @throws  InvalidArgumentException
 	 *
 	 * @internal
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function typeCheckResult($data): void
 	{

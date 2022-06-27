@@ -70,7 +70,7 @@ class InstallerModel extends ListModel
 		// Replace slashes so preg_match will work
 		$search = $this->getState('filter.search');
 		$search = str_replace('/', ' ', $search);
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 
 		// Define which fields have to be processed in a custom way because of translation.
 		$customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate');
