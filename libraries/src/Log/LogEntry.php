@@ -98,7 +98,7 @@ class LogEntry
 	 * @param   array   $context   An optional array with additional message context.
 	 *
 	 * @since   1.7.0
-	 * @change  3.10.7  If the message containes a full path, the root path (JPATH_ROOT) is removed from it
+	 * @change  3.10.7  If the message contains a full path, the root path (JPATH_ROOT) is removed from it
 	 *          to avoid any full path disclosure. Before 3.10.7, the path was propagated as provided.
 	 */
 	public function __construct($message, $priority = Log::INFO, $category = '', $date = null, array $context = array())
