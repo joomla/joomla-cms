@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
@@ -17,13 +18,13 @@ $wa->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.j
 
 ?>
 <iframe <?php echo $load; ?>
-	id="blockrandom-<?php echo $id; ?>"
-	name="<?php echo $target; ?>"
-	src="<?php echo $url; ?>"
-	width="<?php echo $width; ?>"
-	height="<?php echo $height; ?>"
-	loading="<?php echo $lazyloading; ?>"
-	title="<?php echo $ititle; ?>"
-	class="mod-wrapper wrapper">
-	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
+    id="blockrandom-<?php echo $id; ?>"
+    name="<?php echo $target; ?>"
+    src="<?php echo $url; ?>"
+    width="<?php echo $width; ?>"
+    height="<?php echo $height; ?>"
+    loading="<?php echo $lazyloading; ?>"
+    title="<?php echo $ititle; ?>"
+    class="mod-wrapper wrapper">
+    <?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>
