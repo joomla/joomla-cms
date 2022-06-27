@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form;
 
 \defined('_JEXEC') or die;
 
+use Joomla\Database\DatabaseAwareTrait;
+
 /**
  * Default factory for creating Form objects
  *
@@ -17,6 +19,8 @@ namespace Joomla\CMS\Form;
  */
 class FormFactory implements FormFactoryInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Method to get an instance of a form.
 	 *
@@ -29,6 +33,10 @@ class FormFactory implements FormFactoryInterface
 	 */
 	public function createForm(string $name, array $options = array()): Form
 	{
-		return new Form($name, $options);
+		$form = new Form($name, $options);
+
+		$form->setDatabase($this->getDatabase());
+
+		return $form;
 	}
 }

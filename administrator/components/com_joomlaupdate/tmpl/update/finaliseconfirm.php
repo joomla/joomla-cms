@@ -19,8 +19,6 @@ use Joomla\CMS\Router\Route;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive');
 
-$twofactormethods = AuthenticationHelper::getTwoFactorMethods();
-
 ?>
 
 <div class="alert warning">
@@ -63,21 +61,6 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 				</div>
 			</div>
 		</div>
-		<?php if (count($twofactormethods) > 1) : ?>
-			<div class="control-group">
-				<div class="controls">
-					<div class="input-group">
-						<input name="secretkey" autocomplete="one-time-code" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
-						<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="icon-star" aria-hidden="true"></span>
-							<label for="mod-login-secretkey" class="visually-hidden">
-								<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
-							</label>
-						</span>
-					</div>
-				</div>
-			</div>
-		<?php endif; ?>
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">

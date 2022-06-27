@@ -73,7 +73,7 @@ class BannersModel extends ListModel
 	{
 		if (!isset($this->cache['categoryorders']))
 		{
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select(
 					[
@@ -99,7 +99,7 @@ class BannersModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.

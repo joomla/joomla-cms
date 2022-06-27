@@ -11,7 +11,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -41,7 +40,7 @@ class PlugininfoField extends FormField
 	 */
 	protected function getInput()
 	{
-		$db     = Factory::getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
