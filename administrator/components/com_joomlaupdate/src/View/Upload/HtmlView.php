@@ -55,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	 * Should I disable the confirmation checkbox for taking a backup before updating?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $noBackupCheck = false;
 

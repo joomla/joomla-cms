@@ -120,10 +120,8 @@ window.Joomla = window.Joomla || {};
    * internal page which handles the login server-side.
    *
    * @param {  Object}  publicKey     Public key request options, returned from the server
-   * @param   {String}  callbackUrl  The URL we will use to post back to the server. Must include
-   *   the anti-CSRF token.
    */
-  const handleLoginChallenge = (publicKey, callbackUrl) => {
+  const handleLoginChallenge = (publicKey) => {
     const arrayToBase64String = (a) => btoa(String.fromCharCode(...a));
 
     const base64url2base64 = (input) => {
@@ -172,7 +170,8 @@ window.Joomla = window.Joomla || {};
         };
 
         // Send the response to your server
-        window.location = `${callbackUrl}&option=com_ajax&group=system&plugin=webauthn&`
+        const paths = Joomla.getOptions('system.paths');
+        window.location = `${paths ? `${paths.base}/index.php` : window.location.pathname}?${Joomla.getOptions('csrf.token')}=1&option=com_ajax&group=system&plugin=webauthn&`
           + `format=raw&akaction=login&encoding=redirect&data=${
             btoa(JSON.stringify(publicKeyCredential))}`;
       })
@@ -187,13 +186,11 @@ window.Joomla = window.Joomla || {};
    * for the user.
    *
    * @param   {string}   formId       The login form's or login module's HTML ID
-   * @param   {string}   callbackUrl  The URL we will use to post back to the server. Must include
-   *   the anti-CSRF token.
    *
    * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
    */
   // eslint-disable-next-line no-unused-vars
-  Joomla.plgSystemWebauthnLogin = (formId, callbackUrl) => {
+  Joomla.plgSystemWebauthnLogin = (formId) => {
     // Get the username
     const elFormContainer = document.getElementById(formId);
     const elUsername = lookForField(elFormContainer, 'input[name=username]');
@@ -226,9 +223,14 @@ window.Joomla = window.Joomla || {};
       username,
       returnUrl,
     };
+    postBackData[Joomla.getOptions('csrf.token')] = 1;
+
+    const paths = Joomla.getOptions('system.paths');
 
     Joomla.request({
-      url: callbackUrl,
+      url: `${paths ? `${paths.base}/index.php` : window.location.pathname}?${Joomla.getOptions(
+        'csrf.token',
+      )}=1`,
       method: 'POST',
       data: interpolateParameters(postBackData),
       onSuccess(rawResponse) {
@@ -243,7 +245,7 @@ window.Joomla = window.Joomla || {};
            */
         }
 
-        handleLoginChallenge(jsonData, callbackUrl);
+        handleLoginChallenge(jsonData);
       },
       onError: (xhr) => {
         handleLoginError(`${xhr.status} ${xhr.statusText}`);
@@ -258,7 +260,7 @@ window.Joomla = window.Joomla || {};
   if (loginButtons.length) {
     loginButtons.forEach((button) => {
       button.addEventListener('click', ({ currentTarget }) => {
-        Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form'), currentTarget.getAttribute('data-webauthn-url'));
+        Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-webauthn-form'));
       });
     });
   }

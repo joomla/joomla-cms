@@ -34,14 +34,6 @@ use Joomla\Event\SubscriberInterface;
 final class Cache extends CMSPlugin implements SubscriberInterface
 {
 	/**
-	 * Application object.
-	 *
-	 * @var    CMSApplication
-	 * @since  3.8.0
-	 */
-	protected $app;
-
-	/**
 	 * Cache instance.
 	 *
 	 * @var    CacheController
@@ -159,7 +151,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		// If any `pagecache` plugins return false for onPageCacheSetCaching, do not use the cache.
 		PluginHelper::importPlugin('pagecache');
 
-		$results = $this->app->triggerEvent('onPageCacheSetCaching');
+		$results = $this->getApplication()->triggerEvent('onPageCacheSetCaching');
 
 		$this->getCacheController()->setCaching(!in_array(false, $results, true));
 
@@ -172,28 +164,28 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Set the page content from the cache and output it to the browser.
-		$this->app->setBody($data);
+		$this->getApplication()->setBody($data);
 
-		echo $this->app->toString((bool) $this->app->get('gzip'));
+		echo $this->getApplication()->toString((bool) $this->getApplication()->get('gzip'));
 
 		// Mark afterCache in debug and run debug onAfterRespond events, e.g. show Joomla Debug Console if debug is active.
 		if (JDEBUG)
 		{
 			// Create a document instance and load it into the application.
 			$document = $this->documentFactory
-				->createDocument($this->app->input->get('format', 'html'));
-			$this->app->loadDocument($document);
+				->createDocument($this->getApplication()->input->get('format', 'html'));
+			$this->getApplication()->loadDocument($document);
 
 			if ($this->profiler)
 			{
 				$this->profiler->mark('afterCache');
 			}
 
-			$this->app->triggerEvent('onAfterRespond');
+			$this->getApplication()->triggerEvent('onAfterRespond');
 		}
 
 		// Closes the application.
-		$this->app->close();
+		$this->getApplication()->close();
 	}
 
 	/**
@@ -222,16 +214,15 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 
 		if ($isSite === null)
 		{
-			$isSite = ($this->app instanceof CMSApplicationInterface)
-				&& $this->app->isClient('site');
-			$isGET  = $this->app->input->getMethod() === 'GET';
+			$isSite = $this->getApplication()->isClient('site');
+			$isGET  = $this->getApplication()->input->getMethod() === 'GET';
 		}
 
 		// Boolean short–circuit evaluation means this returns fast false when $isSite is false.
 		return $isSite
 			&& $isGET
-			&& $this->app->getIdentity()->guest
-			&& empty($this->app->getMessageQueue());
+			&& $this->getApplication()->getIdentity()->guest
+			&& empty($this->getApplication()->getMessageQueue());
 	}
 
 	/**
@@ -275,7 +266,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		{
 			PluginHelper::importPlugin('pagecache');
 
-			$parts   = $this->app->triggerEvent('onPageCacheGetKey');
+			$parts   = $this->getApplication()->triggerEvent('onPageCacheGetKey');
 			$parts[] = Uri::getInstance()->toString();
 
 			$key = md5(serialize($parts));
@@ -308,7 +299,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Disable compression before caching the page.
-		$this->app->set('gzip', false);
+		$this->getApplication()->set('gzip', false);
 	}
 
 	/**
@@ -326,7 +317,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		if ($excludedMenuItems)
 		{
 			// Get the current menu item.
-			$active = $this->app->getMenu()->getActive();
+			$active = $this->getApplication()->getMenu()->getActive();
 
 			if ($active && $active->id && in_array((int) $active->id, (array) $excludedMenuItems))
 			{
@@ -373,7 +364,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		// If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
 		PluginHelper::importPlugin('pagecache');
 
-		$results = $this->app->triggerEvent('onPageCacheIsExcluded');
+		$results = $this->getApplication()->triggerEvent('onPageCacheIsExcluded');
 
 		return in_array(true, $results, true);
 	}
@@ -395,6 +386,6 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Saves current page in cache.
-		$this->getCacheController()->store($this->app->getBody(), $this->getCacheKey());
+		$this->getCacheController()->store($this->getApplication()->getBody(), $this->getCacheKey());
 	}
 }
