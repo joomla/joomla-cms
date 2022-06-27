@@ -71,6 +71,8 @@ class HtmlView extends BaseHtmlView
 	 * @var    \Joomla\Database\DatabaseDriver
 	 *
 	 * @since  3.6.3
+	 *
+	 * @deprecated 5.0 Will be removed without replacement
 	 */
 	protected $db;
 
@@ -108,7 +110,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		$state      = $this->get('State');
 		$items      = $this->get('Items');

@@ -54,28 +54,28 @@ class Templates
 		{
 			if (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== '' && file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png'))
 			{
-				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_preview.png'))
 				{
-					$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
-					$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+					$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . $template->element . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+					$html = '<button type="button" data-bs-target="#' . $template->element . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 				}
 				elseif ((file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_preview.png')))
 				{
 					$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . (string) $template->xmldata->parent . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
-					$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+					$html = '<button type="button" data-bs-target="#' . $template->element . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 				}
 				else
 				{
 					$html = HTMLHelper::_('image', 'template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'), ['style' => 'width:200px; height:120px;']);
 				}
 			}
-			elseif (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png'))
+			elseif (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_thumbnail.png'))
 			{
-				$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
+				$html = HTMLHelper::_('image', 'media/templates/' . $client->name . '/' . $template->element . '/images/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'));
 
-				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_preview.png'))
 				{
-					$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+					$html = '<button type="button" data-bs-target="#' . $template->element . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 				}
 			}
 			else
@@ -83,13 +83,13 @@ class Templates
 				$html = HTMLHelper::_('image', 'template_thumb.svg', Text::_('COM_TEMPLATES_PREVIEW'), ['style' => 'width:200px; height:120px;']);
 			}
 		}
-		elseif (file_exists($client->path . '/templates/' . $template->name . '/template_thumbnail.png'))
+		elseif (file_exists($client->path . '/templates/' . $template->element . '/template_thumbnail.png'))
 		{
-			$html = HTMLHelper::_('image', (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator/') . '/templates/' . $template->name . '/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], false, -1);
+			$html = HTMLHelper::_('image', (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator/') . '/templates/' . $template->element . '/template_thumbnail.png', Text::_('COM_TEMPLATES_PREVIEW'), [], false, -1);
 
-			if (file_exists($client->path . '/templates/' . $template->name . '/template_preview.png'))
+			if (file_exists($client->path . '/templates/' . $template->element . '/template_preview.png'))
 			{
-				$html = '<button type="button" data-bs-target="#' . $template->name . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				$html = '<button type="button" data-bs-target="#' . $template->element . '-Modal" class="thumbnail" data-bs-toggle="modal" title="' . Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 			}
 		}
 		else
@@ -133,13 +133,13 @@ class Templates
 		{
 			if (isset($template->xmldata->parent) && (string) $template->xmldata->parent !== '')
 			{
-				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png'))
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_thumbnail.png'))
 				{
-					$thumb = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . 'administrator') . 'media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png';
+					$thumb = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . 'administrator') . 'media/templates/' . $client->name . '/' . $template->element . '/images/template_thumbnail.png';
 
-					if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name. '/images/template_preview.png'))
+					if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->element. '/images/template_preview.png'))
 					{
-						$preview = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->name. '/images/template_preview.png';
+						$preview = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->element. '/images/template_preview.png';
 					}
 				}
 				else
@@ -152,23 +152,23 @@ class Templates
 					}
 				}
 			}
-			elseif (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png'))
+			elseif (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_thumbnail.png'))
 			{
-				$thumb = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_thumbnail.png';
+				$thumb = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_thumbnail.png';
 
-				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png'))
+				if (file_exists(JPATH_ROOT . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_preview.png'))
 				{
-					$preview = ($template->client_id == 0 ? Uri::root(true) : Uri::root(true) . '/administrator') . '/media/templates/' . $client->name . '/' . $template->name . '/images/template_preview.png';
+					$preview = Uri::root(true) . '/media/templates/' . $client->name . '/' . $template->element . '/images/template_preview.png';
 				}
 			}
 		}
-		elseif (file_exists($client->path . '/templates/' . $template->name . '/template_thumbnail.png'))
+		elseif (file_exists($client->path . '/templates/' . $template->element . '/template_thumbnail.png'))
 		{
-			$thumb = (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . 'administrator') . '/templates/' . $template->name . '/template_thumbnail.png';
+			$thumb = (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . 'administrator') . '/templates/' . $template->element . '/template_thumbnail.png';
 
-			if (file_exists($client->path . '/templates/' . $template->name . '/template_preview.png'))
+			if (file_exists($client->path . '/templates/' . $template->element . '/template_preview.png'))
 			{
-				$preview = (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator') . '/templates/' . $template->name . '/template_preview.png';
+				$preview = (($template->client_id == 0) ? Uri::root(true) : Uri::root(true) . '/administrator') . '/templates/' . $template->element . '/template_preview.png';
 			}
 		}
 

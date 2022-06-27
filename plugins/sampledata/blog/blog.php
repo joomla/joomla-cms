@@ -1684,7 +1684,7 @@ class PlgSampledataBlog extends CMSPlugin
 				),
 			),
 			array(
-				// Similiar Items
+				// Similar Items
 				'title'    => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MODULES_MODULE_10_TITLE'),
 				'ordering' => 0,
 				'module'   => 'mod_tags_similar',

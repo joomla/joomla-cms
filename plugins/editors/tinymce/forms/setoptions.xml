@@ -113,6 +113,7 @@
 			default="en"
 			hide_default="1"
 			fileFilter="\.js$"
+			exclude="\.min\.js$"
 			showon="lang_mode:0"
 			validate="options"
 		/>
@@ -325,7 +326,7 @@
 			icon="list"
 			multiple="true"
 			default=''
-  		>
+		>
 			<form hidden="true" name="content_languages" repeat="true">
 				<field
 					name="content_language_name"
@@ -371,14 +372,12 @@
 					name="name"
 					type="text"
 					label="PLG_TINY_FIELD_EXTERNALPLUGINS_NAME_LABEL"
-					size="15"
 				/>
 
 				<field
 					name="path"
 					type="text"
 					label="PLG_TINY_FIELD_EXTERNALPLUGINS_PATH_LABEL"
-					size="30"
 				/>
 			</form>
 		</field>

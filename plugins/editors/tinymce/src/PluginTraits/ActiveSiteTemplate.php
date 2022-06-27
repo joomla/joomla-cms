@@ -17,7 +17,7 @@ use RuntimeException;
 /**
  * Gets the active Site template style.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.1.0
  */
 trait ActiveSiteTemplate
 {
@@ -26,7 +26,7 @@ trait ActiveSiteTemplate
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.1.0
 	 */
 	protected function getActiveSiteTemplate()
 	{
