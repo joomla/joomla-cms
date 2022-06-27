@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -15,8 +16,6 @@ use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
 use Tobscure\JsonApi\Resource;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Trait for implementing tags in an API Serializer
  *
@@ -24,29 +23,28 @@ use Tobscure\JsonApi\Resource;
  */
 trait TagApiSerializerTrait
 {
-	/**
-	 * Build tags relationship
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0.0
-	 */
-	public function tags($model)
-	{
-		$resources = [];
+    /**
+     * Build tags relationship
+     *
+     * @param   \stdClass  $model  Item model
+     *
+     * @return  Relationship
+     *
+     * @since 4.0.0
+     */
+    public function tags($model)
+    {
+        $resources = [];
 
-		$serializer = new JoomlaSerializer('tags');
+        $serializer = new JoomlaSerializer('tags');
 
-		foreach ($model->tags as $id => $tagName)
-		{
-			$resources[] = (new Resource($id, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/tags/' . $id));
-		}
+        foreach ($model->tags as $id => $tagName) {
+            $resources[] = (new Resource($id, $serializer))
+                ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/tags/' . $id));
+        }
 
-		$collection = new Collection($resources, $serializer);
+        $collection = new Collection($resources, $serializer);
 
-		return new Relationship($collection);
-	}
+        return new Relationship($collection);
+    }
 }
