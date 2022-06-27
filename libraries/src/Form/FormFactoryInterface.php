@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Form;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface defining a factory which can create Form objects
  *
@@ -17,15 +16,15 @@ namespace Joomla\CMS\Form;
  */
 interface FormFactoryInterface
 {
-	/**
-	 * Method to get an instance of a form.
-	 *
-	 * @param   string  $name     The name of the form.
-	 * @param   array   $options  An array of form options.
-	 *
-	 * @return  Form
-	 *
-	 * @since   4.0.0
-	 */
-	public function createForm(string $name, array $options = array()): Form;
+    /**
+     * Method to get an instance of a form.
+     *
+     * @param   string  $name     The name of the form.
+     * @param   array   $options  An array of form options.
+     *
+     * @return  Form
+     *
+     * @since   4.0.0
+     */
+    public function createForm(string $name, array $options = array()): Form;
 }

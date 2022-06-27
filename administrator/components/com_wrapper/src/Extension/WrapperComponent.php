@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_wrapper
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Wrapper\Administrator\Extension;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceTrait;
@@ -22,5 +21,5 @@ use Joomla\CMS\Extension\MVCComponent;
  */
 class WrapperComponent extends MVCComponent implements RouterServiceInterface
 {
-	use RouterServiceTrait;
+    use RouterServiceTrait;
 }
