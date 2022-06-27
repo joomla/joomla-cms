@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package         Joomla.Plugin
  * @subpackage      System.Webauthn
@@ -9,9 +10,6 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
-// Protect from unauthorized access
-defined('_JEXEC') or die();
-
 use Exception;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Http\HttpFactory;
@@ -19,6 +17,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Plain;
 use Webauthn\MetadataService\MetadataStatement;
 use Webauthn\MetadataService\MetadataStatementRepository;
+
 use function defined;
 
 /**
@@ -32,215 +31,191 @@ use function defined;
  */
 final class MetadataRepository implements MetadataStatementRepository
 {
-	/**
-	 * Cache of authenticator metadata statements
-	 *
-	 * @var   MetadataStatement[]
-	 * @since __DEPLOY_VERSION__
-	 */
-	private $mdsCache = [];
+    /**
+     * Cache of authenticator metadata statements
+     *
+     * @var   MetadataStatement[]
+     * @since __DEPLOY_VERSION__
+     */
+    private $mdsCache = [];
 
-	/**
-	 * Map of AAGUID to $mdsCache index
-	 *
-	 * @var   array
-	 * @since __DEPLOY_VERSION__
-	 */
-	private $mdsMap = [];
+    /**
+     * Map of AAGUID to $mdsCache index
+     *
+     * @var   array
+     * @since __DEPLOY_VERSION__
+     */
+    private $mdsMap = [];
 
-	/**
-	 * Public constructor.
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function __construct()
-	{
-		$this->load();
-	}
+    /**
+     * Public constructor.
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function __construct()
+    {
+        $this->load();
+    }
 
-	/**
-	 * Find an authenticator metadata statement given an AAGUID
-	 *
-	 * @param   string  $aaguid  The AAGUID to find
-	 *
-	 * @return  MetadataStatement|null  The metadata statement; null if the AAGUID is unknown
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function findOneByAAGUID(string $aaguid): ?MetadataStatement
-	{
-		$idx = $this->mdsMap[$aaguid] ?? null;
+    /**
+     * Find an authenticator metadata statement given an AAGUID
+     *
+     * @param   string  $aaguid  The AAGUID to find
+     *
+     * @return  MetadataStatement|null  The metadata statement; null if the AAGUID is unknown
+     * @since   __DEPLOY_VERSION__
+     */
+    public function findOneByAAGUID(string $aaguid): ?MetadataStatement
+    {
+        $idx = $this->mdsMap[$aaguid] ?? null;
 
-		return $idx ? $this->mdsCache[$idx] : null;
-	}
+        return $idx ? $this->mdsCache[$idx] : null;
+    }
 
-	/**
-	 * Get basic information of the known FIDO authenticators by AAGUID
-	 *
-	 * @return  object[]
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function getKnownAuthenticators(): array
-	{
-		$mapKeys = function (MetadataStatement $meta)
-		{
-			return $meta->getAaguid();
-		};
-		$mapvalues = function (MetadataStatement $meta)
-		{
-			return $meta->getAaguid() ? (object) [
-				'description' => $meta->getDescription(),
-				'icon'        => $meta->getIcon(),
-			] : null;
-		};
-		$keys    = array_map($mapKeys, $this->mdsCache);
-		$values  = array_map($mapvalues, $this->mdsCache);
-		$return  = array_combine($keys, $values) ?: [];
+    /**
+     * Get basic information of the known FIDO authenticators by AAGUID
+     *
+     * @return  object[]
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getKnownAuthenticators(): array
+    {
+        $mapKeys = function (MetadataStatement $meta) {
+            return $meta->getAaguid();
+        };
+        $mapvalues = function (MetadataStatement $meta) {
+            return $meta->getAaguid() ? (object) [
+                'description' => $meta->getDescription(),
+                'icon'        => $meta->getIcon(),
+            ] : null;
+        };
+        $keys    = array_map($mapKeys, $this->mdsCache);
+        $values  = array_map($mapvalues, $this->mdsCache);
+        $return  = array_combine($keys, $values) ?: [];
 
-		$filter = function ($x)
-		{
-			return !empty($x);
-		};
+        $filter = function ($x) {
+            return !empty($x);
+        };
 
-		return array_filter($return, $filter);
-	}
+        return array_filter($return, $filter);
+    }
 
-	/**
-	 * Load the authenticator metadata cache
-	 *
-	 * @param   bool  $force  Force reload from the web service
-	 *
-	 * @return  void
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function load(bool $force = false): void
-	{
-		$this->mdsCache = [];
-		$this->mdsMap   = [];
-		$jwtFilename    = JPATH_CACHE . '/fido.jwt';
+    /**
+     * Load the authenticator metadata cache
+     *
+     * @param   bool  $force  Force reload from the web service
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    private function load(bool $force = false): void
+    {
+        $this->mdsCache = [];
+        $this->mdsMap   = [];
+        $jwtFilename    = JPATH_CACHE . '/fido.jwt';
 
-		// If the file exists and it's over one month old do retry loading it.
-		if (file_exists($jwtFilename) && filemtime($jwtFilename) < (time() - 2592000))
-		{
-			$force = true;
-		}
+        // If the file exists and it's over one month old do retry loading it.
+        if (file_exists($jwtFilename) && filemtime($jwtFilename) < (time() - 2592000)) {
+            $force = true;
+        }
 
-		/**
-		 * Try to load the MDS source from the FIDO Alliance and cache it.
-		 *
-		 * We use a short timeout limit to avoid delaying the page load for way too long. If we fail
-		 * to download the file in a reasonable amount of time we write an empty string in the
-		 * file which causes this method to not proceed any further.
-		 */
-		if (!file_exists($jwtFilename) || $force)
-		{
-			// Only try to download anything if we can actually cache it!
-			if ((file_exists($jwtFilename) && is_writable($jwtFilename)) || (!file_exists($jwtFilename) && is_writable(JPATH_CACHE)))
-			{
-				$http     = HttpFactory::getHttp();
-				$response = $http->get('https://mds.fidoalliance.org/', [], 5);
-				$content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
-			}
+        /**
+         * Try to load the MDS source from the FIDO Alliance and cache it.
+         *
+         * We use a short timeout limit to avoid delaying the page load for way too long. If we fail
+         * to download the file in a reasonable amount of time we write an empty string in the
+         * file which causes this method to not proceed any further.
+         */
+        if (!file_exists($jwtFilename) || $force) {
+            // Only try to download anything if we can actually cache it!
+            if ((file_exists($jwtFilename) && is_writable($jwtFilename)) || (!file_exists($jwtFilename) && is_writable(JPATH_CACHE))) {
+                $http     = HttpFactory::getHttp();
+                $response = $http->get('https://mds.fidoalliance.org/', [], 5);
+                $content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
+            }
 
-			/**
-			 * If we could not download anything BUT a non-empty file already exists we must NOT
-			 * overwrite it.
-			 *
-			 * This allows, for example, the site owner to manually place the FIDO MDS cache file
-			 * in administrator/cache/fido.jwt. This would be useful for high security sites which
-			 * require attestation BUT are behind a firewall (or disconnected from the Internet),
-			 * therefore cannot download the MDS cache!
-			 */
-			if (!empty($content) || !file_exists($jwtFilename) || filesize($jwtFilename) <= 1024)
-			{
-				file_put_contents($jwtFilename, $content);
-			}
-		}
+            /**
+             * If we could not download anything BUT a non-empty file already exists we must NOT
+             * overwrite it.
+             *
+             * This allows, for example, the site owner to manually place the FIDO MDS cache file
+             * in administrator/cache/fido.jwt. This would be useful for high security sites which
+             * require attestation BUT are behind a firewall (or disconnected from the Internet),
+             * therefore cannot download the MDS cache!
+             */
+            if (!empty($content) || !file_exists($jwtFilename) || filesize($jwtFilename) <= 1024) {
+                file_put_contents($jwtFilename, $content);
+            }
+        }
 
-		$rawJwt = file_get_contents($jwtFilename);
+        $rawJwt = file_get_contents($jwtFilename);
 
-		if (!is_string($rawJwt) || strlen($rawJwt) < 1024)
-		{
-			return;
-		}
+        if (!is_string($rawJwt) || strlen($rawJwt) < 1024) {
+            return;
+        }
 
-		try
-		{
-			$jwtConfig = Configuration::forUnsecuredSigner();
-			$token     = $jwtConfig->parser()->parse($rawJwt);
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
+        try {
+            $jwtConfig = Configuration::forUnsecuredSigner();
+            $token     = $jwtConfig->parser()->parse($rawJwt);
+        } catch (Exception $e) {
+            return;
+        }
 
-		if (!($token instanceof Plain))
-		{
-			return;
-		}
+        if (!($token instanceof Plain)) {
+            return;
+        }
 
-		unset($rawJwt);
+        unset($rawJwt);
 
-		// Do I need to forcibly update the cache? The JWT has the nextUpdate claim to tell us when to do that.
-		try
-		{
-			$nextUpdate = new Date($token->claims()->get('nextUpdate', '2020-01-01'));
+        // Do I need to forcibly update the cache? The JWT has the nextUpdate claim to tell us when to do that.
+        try {
+            $nextUpdate = new Date($token->claims()->get('nextUpdate', '2020-01-01'));
 
-			if (!$force && !$nextUpdate->diff(new Date)->invert)
-			{
-				$this->load(true);
+            if (!$force && !$nextUpdate->diff(new Date())->invert) {
+                $this->load(true);
 
-				return;
-			}
-		}
-		catch (Exception $e)
-		{
-			// OK, don't worry if don't know when the next update is.
-		}
+                return;
+            }
+        } catch (Exception $e) {
+            // OK, don't worry if don't know when the next update is.
+        }
 
-		$entriesMapper = function (object $entry)
-		{
-			try
-			{
-				$array = json_decode(json_encode($entry->metadataStatement), true);
+        $entriesMapper = function (object $entry) {
+            try {
+                $array = json_decode(json_encode($entry->metadataStatement), true);
 
-				/**
-				 * This prevents an error when we're asking for attestation on authenticators which
-				 * don't allow it. We are really not interested in the attestation per se, but
-				 * requiring an attestation is the only way we can get the AAGUID of the
-				 * authenticator.
-				 */
-				if (isset($array['attestationTypes']))
-				{
-					unset($array['attestationTypes']);
-				}
+                /**
+                 * This prevents an error when we're asking for attestation on authenticators which
+                 * don't allow it. We are really not interested in the attestation per se, but
+                 * requiring an attestation is the only way we can get the AAGUID of the
+                 * authenticator.
+                 */
+                if (isset($array['attestationTypes'])) {
+                    unset($array['attestationTypes']);
+                }
 
-				return MetadataStatement::createFromArray($array);
-			}
-			catch (Exception $e)
-			{
-				return null;
-			}
-		};
-		$entries = array_map($entriesMapper, $token->claims()->get('entries', []));
+                return MetadataStatement::createFromArray($array);
+            } catch (Exception $e) {
+                return null;
+            }
+        };
+        $entries = array_map($entriesMapper, $token->claims()->get('entries', []));
 
-		unset($token);
+        unset($token);
 
-		$entriesFilter                = function ($x)
-		{
-			return !empty($x);
-		};
-		$this->mdsCache = array_filter($entries, $entriesFilter);
+        $entriesFilter                = function ($x) {
+            return !empty($x);
+        };
+        $this->mdsCache = array_filter($entries, $entriesFilter);
 
-		foreach ($this->mdsCache as $idx => $meta)
-		{
-			$aaguid = $meta->getAaguid();
+        foreach ($this->mdsCache as $idx => $meta) {
+            $aaguid = $meta->getAaguid();
 
-			if (empty($aaguid))
-			{
-				continue;
-			}
+            if (empty($aaguid)) {
+                continue;
+            }
 
-			$this->mdsMap[$aaguid] = $idx;
-		}
-	}
+            $this->mdsMap[$aaguid] = $idx;
+        }
+    }
 }

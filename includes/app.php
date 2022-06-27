@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Site
  *
@@ -12,23 +13,20 @@ defined('_JEXEC') or die;
 $startTime = microtime(1);
 $startMem  = memory_get_usage();
 
-if (file_exists(dirname(__DIR__) . '/defines.php'))
-{
-	include_once dirname(__DIR__) . '/defines.php';
+if (file_exists(dirname(__DIR__) . '/defines.php')) {
+    include_once dirname(__DIR__) . '/defines.php';
 }
 
-if (!defined('_JDEFINES'))
-{
-	define('JPATH_BASE', dirname(__DIR__));
-	require_once JPATH_BASE . '/includes/defines.php';
+if (!defined('_JDEFINES')) {
+    define('JPATH_BASE', dirname(__DIR__));
+    require_once JPATH_BASE . '/includes/defines.php';
 }
 
 // Check for presence of vendor dependencies not included in the git repository
-if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor'))
-{
-	echo file_get_contents(JPATH_ROOT . '/templates/system/build_incomplete.html');
+if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT . '/media/vendor')) {
+    echo file_get_contents(JPATH_ROOT . '/templates/system/build_incomplete.html');
 
-	exit;
+    exit;
 }
 
 require_once JPATH_BASE . '/includes/framework.php';
@@ -47,11 +45,11 @@ $container = \Joomla\CMS\Factory::getContainer();
  * deprecated to be removed when the class name alias is removed as well.
  */
 $container->alias('session.web', 'session.web.site')
-	->alias('session', 'session.web.site')
-	->alias('JSession', 'session.web.site')
-	->alias(\Joomla\CMS\Session\Session::class, 'session.web.site')
-	->alias(\Joomla\Session\Session::class, 'session.web.site')
-	->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
+    ->alias('session', 'session.web.site')
+    ->alias('JSession', 'session.web.site')
+    ->alias(\Joomla\CMS\Session\Session::class, 'session.web.site')
+    ->alias(\Joomla\Session\Session::class, 'session.web.site')
+    ->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
 
 // Instantiate the application.
 $app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
