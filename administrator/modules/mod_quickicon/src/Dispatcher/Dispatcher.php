@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
@@ -21,25 +22,24 @@ use Joomla\CMS\Language\Text;
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
-	/**
-	 * Returns the layout data.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+    /**
+     * Returns the layout data.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
 
-		$helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
-		$data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
+        $helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
+        $data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
 
-		if ($data['params']->get('automatic_title', 0))
-		{
-			$data['module']->title = Text::_($data['module']->title);
-		}
+        if ($data['params']->get('automatic_title', 0)) {
+            $data['module']->title = Text::_($data['module']->title);
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 }

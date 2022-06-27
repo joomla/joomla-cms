@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
@@ -23,42 +24,42 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 abstract class SampledataHelper
 {
-	/**
-	 * Get a list of sampledata.
-	 *
-	 * @return  mixed  An array of sampledata, or false on error.
-	 *
-	 * @since  3.8.0
-	 */
-	public static function getList()
-	{
-		PluginHelper::importPlugin('sampledata');
+    /**
+     * Get a list of sampledata.
+     *
+     * @return  mixed  An array of sampledata, or false on error.
+     *
+     * @since  3.8.0
+     */
+    public static function getList()
+    {
+        PluginHelper::importPlugin('sampledata');
 
-		return Factory::getApplication()
-			->getDispatcher()
-			->dispatch(
-				'onSampledataGetOverview',
-				AbstractEvent::create(
-					'onSampledataGetOverview',
-					[
-						'subject'	=> new \stdClass,
-					]
-				)
-			)
-			->getArgument('result') ?? [];
-	}
+        return Factory::getApplication()
+            ->getDispatcher()
+            ->dispatch(
+                'onSampledataGetOverview',
+                AbstractEvent::create(
+                    'onSampledataGetOverview',
+                    [
+                        'subject'   => new \stdClass(),
+                    ]
+                )
+            )
+            ->getArgument('result') ?? [];
+    }
 
-	/**
-	 * Get the alternate title for the module
-	 *
-	 * @param   Registry  $params  The module parameters.
-	 *
-	 * @return  string    The alternate title for the module.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getTitle($params)
-	{
-		return Text::_('MOD_SAMPLEDATA_TITLE');
-	}
+    /**
+     * Get the alternate title for the module
+     *
+     * @param   Registry  $params  The module parameters.
+     *
+     * @return  string    The alternate title for the module.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getTitle($params)
+    {
+        return Text::_('MOD_SAMPLEDATA_TITLE');
+    }
 }
