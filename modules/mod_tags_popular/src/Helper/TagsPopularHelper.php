@@ -52,9 +52,10 @@ abstract class TagsPopularHelper
 					'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
 					'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
 					'MAX(' . $db->quoteName('t.params') . ') AS ' . $db->quoteName('params'),
+					'MAX(' . $db->quoteName('t.language') . ') AS ' . $db->quoteName('language'),
 				]
 			)
-			->group($db->quoteName(['tag_id', 'title', 'access', 'alias']))
+			->group($db->quoteName(['tag_id', 't.title', 't.access', 't.alias']))
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->whereIn($db->quoteName('t.access'), $groups);
 
@@ -68,6 +69,22 @@ abstract class TagsPopularHelper
 		{
 			$query->whereIn($db->quoteName('t.parent_id'), $parentTags);
 		}
+
+		// Filter on category state
+		$query->join(
+			'INNER',
+			$db->quoteName('#__ucm_content', 'ucm'),
+			$db->quoteName('m.content_item_id') . ' = ' . $db->quoteName('ucm.core_content_item_id') .
+			' AND ' . $db->quoteName('m.type_id') . ' = ' . $db->quoteName('ucm.core_type_id')
+		);
+
+		$query->join(
+			'INNER',
+			$db->quoteName('#__categories', 'cat'),
+			$db->quoteName('ucm.core_catid') . ' = ' . $db->quoteName('cat.id')
+		);
+
+		$query->where($db->quoteName('cat.published') . ' > 0');
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -142,6 +159,7 @@ abstract class TagsPopularHelper
 								'a.title',
 								'a.access',
 								'a.alias',
+								'a.language',
 							]
 						)
 					)

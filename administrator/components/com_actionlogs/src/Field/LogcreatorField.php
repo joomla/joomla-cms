@@ -11,7 +11,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 
 /**
@@ -53,7 +52,7 @@ class LogcreatorField extends ListField
 		{
 			static::$options[$hash] = parent::getOptions();
 
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 
 			// Construct the query
 			$query = $db->getQuery(true)
