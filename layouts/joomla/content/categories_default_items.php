@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -19,7 +20,6 @@ $className = substr($extension, 4);
 
 // This will work for the core components but not necessarily for other components
 // that may have different pluralisation rules.
-if (substr($className, -1) === 's')
-{
-	$className = rtrim($className, 's');
+if (substr($className, -1) === 's') {
+    $className = rtrim($className, 's');
 }
