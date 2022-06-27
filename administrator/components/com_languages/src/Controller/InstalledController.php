@@ -46,7 +46,7 @@ class InstalledController extends BaseController
 				$language = Factory::getLanguage();
 				$newLang = Language::getInstance($cid);
 				Factory::$language = $newLang;
-				Factory::getApplication()->loadLanguage($language = $newLang);
+				$this->app->loadLanguage($language = $newLang);
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 			}
 
@@ -101,7 +101,7 @@ class InstalledController extends BaseController
 			$language = Factory::getLanguage();
 			$newLang = Language::getInstance($cid);
 			Factory::$language = $newLang;
-			Factory::getApplication()->loadLanguage($language = $newLang);
+			$this->app->loadLanguage($language = $newLang);
 			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
 			$msg = Text::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);

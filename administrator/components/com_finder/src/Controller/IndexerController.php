@@ -178,10 +178,10 @@ class IndexerController extends BaseController
 		try
 		{
 			// Trigger the onBeforeIndex event.
-			Factory::getApplication()->triggerEvent('onBeforeIndex');
+			$this->app->triggerEvent('onBeforeIndex');
 
 			// Trigger the onBuildIndex event.
-			Factory::getApplication()->triggerEvent('onBuildIndex');
+			$this->app->triggerEvent('onBuildIndex');
 
 			// Get the indexer state.
 			$state = Indexer::getState();
