@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Joomla\Component\Plugins\Administrator\Field">
-	<config>         
-		<inlinehelp button="show"/>     
+	<config>
+		<inlinehelp button="show"/>
 	</config>
 	<fieldset>
 		<field
