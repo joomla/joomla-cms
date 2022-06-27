@@ -13,9 +13,6 @@ namespace Joomla\CMS\Form\Field;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
-// Import the com_menus helper.
-require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-
 /**
  * Supports an HTML grouped select list of menu item grouped by menu
  *
