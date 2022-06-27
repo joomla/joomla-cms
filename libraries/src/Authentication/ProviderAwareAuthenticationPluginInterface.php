@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Authentication;
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Interface class defining the necessary methods for an authentication plugin to be provider aware
  * Please note: might be deprecated with Joomla 4.2
@@ -18,21 +17,21 @@ defined('JPATH_PLATFORM') or die;
  */
 interface ProviderAwareAuthenticationPluginInterface
 {
-	/**
-	 * Return if plugin acts as primary provider
-	 *
-	 * @return  true
-	 *
-	 * @since  3.10.7
-	 */
-	public static function isPrimaryProvider();
+    /**
+     * Return if plugin acts as primary provider
+     *
+     * @return  true
+     *
+     * @since  3.10.7
+     */
+    public static function isPrimaryProvider();
 
-	/**
-	 * Return provider name
-	 *
-	 * @return string
-	 *
-	 * @since  3.10.7
-	 */
-	public static function getProviderName();
+    /**
+     * Return provider name
+     *
+     * @return string
+     *
+     * @since  3.10.7
+     */
+    public static function getProviderName();
 }
