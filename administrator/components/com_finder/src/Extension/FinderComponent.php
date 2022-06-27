@@ -19,6 +19,7 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Finder\Administrator\Service\HTML\Filter;
 use Joomla\Component\Finder\Administrator\Service\HTML\Finder;
 use Joomla\Component\Finder\Administrator\Service\HTML\Query;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -46,8 +47,16 @@ class FinderComponent extends MVCComponent implements BootableExtensionInterface
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('finder', new Finder);
-		$this->getRegistry()->register('filter', new Filter);
+		$finder = new Finder;
+		$finder->setDatabase($container->get(DatabaseInterface::class));
+
+		$this->getRegistry()->register('finder', $finder);
+
+		$filter = new Filter;
+		$filter->setDatabase($container->get(DatabaseInterface::class));
+
+		$this->getRegistry()->register('filter', $filter);
+
 		$this->getRegistry()->register('query', new Query);
 	}
 }

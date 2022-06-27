@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 	 * The Multi-factor Authentication configuration interface for the user.
 	 *
 	 * @var   string|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected $mfaConfigurationUI;
 

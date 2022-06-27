@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Site\View\Method;
 /**
  * View for Multi-factor Authentication method add/edit page
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class HtmlView extends \Joomla\Component\Users\Administrator\View\Method\HtmlView
 {

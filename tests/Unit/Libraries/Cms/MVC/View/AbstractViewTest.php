@@ -24,7 +24,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The AbstractView
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class AbstractViewTest extends UnitTestCase
 {
@@ -33,7 +33,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetInjectedName()
 	{
@@ -51,7 +51,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetCompiledName()
 	{
@@ -69,7 +69,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testInjectedOption()
 	{
@@ -92,7 +92,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetGetModel()
 	{
@@ -114,7 +114,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testSetGetDefaultModel()
 	{
@@ -136,7 +136,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetData()
 	{
@@ -155,7 +155,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetDefaultData()
 	{
@@ -173,7 +173,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetDataFromModel()
 	{
@@ -200,7 +200,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testGetDataFromDefaultModel()
 	{
@@ -227,7 +227,7 @@ class AbstractViewTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function testDispatchEvent()
 	{

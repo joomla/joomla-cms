@@ -117,7 +117,7 @@ class UsersHelper extends ContentHelper
 	 * @since   3.2.0
 	 * @throws  \Exception
 	 *
-	 * @deprecated __DEPLOY_VERSION__ Will be removed in 5.0
+	 * @deprecated 4.2.0 Will be removed in 5.0
 	 */
 	public static function getTwoFactorMethods()
 	{

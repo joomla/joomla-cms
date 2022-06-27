@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$app   = Factory::getApplication();

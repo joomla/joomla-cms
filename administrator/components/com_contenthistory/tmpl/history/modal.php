@@ -85,7 +85,7 @@ $wa->useScript('multiselect')
 								&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</button>
 						<?php else : ?>
-							<button type="buttton" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
+							<button type="button" class="btn btn-secondary btn-sm" onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
 								<?php echo Text::_('JNO'); ?>
 							</button>
 						<?php endif; ?>

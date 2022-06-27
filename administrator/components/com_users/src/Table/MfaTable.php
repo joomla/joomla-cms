@@ -37,7 +37,7 @@ use Throwable;
  * @property string $created_on  Date and time the record was created.
  * @property string $last_used   Date and time the record was last used successfully.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MfaTable extends Table
 {
@@ -45,7 +45,7 @@ class MfaTable extends Table
 	 * Delete flags per ID, set up onBeforeDelete and used onAfterDelete
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $deleteFlags = [];
 
@@ -53,7 +53,7 @@ class MfaTable extends Table
 	 * Encryption service
 	 *
 	 * @var   Encrypt
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $encryptService;
 
@@ -61,7 +61,7 @@ class MfaTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	// phpcs:ignore
 	protected $_supportNullValue = true;
@@ -72,7 +72,7 @@ class MfaTable extends Table
 	 * @param   DatabaseDriver            $db          Database driver object
 	 * @param   DispatcherInterface|null  $dispatcher  Events dispatcher object
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct(DatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{
@@ -91,7 +91,7 @@ class MfaTable extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function store($updateNulls = true)
 	{
@@ -207,7 +207,7 @@ class MfaTable extends Table
 	 *
 	 * @return  boolean  True if successful. False if row not found.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  RuntimeException
 	 * @throws  \UnexpectedValueException
@@ -231,7 +231,7 @@ class MfaTable extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function delete($pk = null)
@@ -295,7 +295,7 @@ class MfaTable extends Table
 	 * Decrypt the possibly encrypted options
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function decryptOptions(): void
 	{
@@ -325,7 +325,7 @@ class MfaTable extends Table
 	 * If this record is set to be the default, unset the default flag from the other records for the same user.
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function switchDefaultRecord(): void
 	{
@@ -355,7 +355,7 @@ class MfaTable extends Table
 	 *
 	 * @return void
 	 * @throws Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function generateBackupCodes(): void
 	{
@@ -375,7 +375,7 @@ class MfaTable extends Table
 	 * @param   int|array  $pk  The promary key of the deleted record
 	 *
 	 * @return void
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function afterDelete($pk): void
 	{
@@ -443,7 +443,7 @@ class MfaTable extends Table
 	 *
 	 * @return  integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private function getNumRecords(int $userId): int
 	{

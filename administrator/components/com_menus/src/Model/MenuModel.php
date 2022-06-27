@@ -353,7 +353,7 @@ class MenuModel extends FormModel
 	 */
 	public function &getModules()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select(
