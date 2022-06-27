@@ -135,7 +135,7 @@ class StagesController extends AdminController
 		$this->checkToken();
 
 		// Get items to publish from the request.
-		$cid   = $this->input->get('cid', array(), 'array');
+		$cid   = (array) $this->input->get('cid', array(), 'int');
 		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
 		$task  = $this->getTask();
 		$value = ArrayHelper::getValue($data, $task, 0, 'int');
@@ -153,7 +153,10 @@ class StagesController extends AdminController
 			return;
 		}
 
-		if (empty($cid) || !is_array($cid))
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			$this->setMessage(Text::_('COM_WORKFLOW_NO_ITEM_SELECTED'), 'warning');
 		}
@@ -167,7 +170,7 @@ class StagesController extends AdminController
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			$id = (int) reset($cid);
+			$id = reset($cid);
 
 			// Publish the items.
 			if (!$model->setDefault($id, $value))

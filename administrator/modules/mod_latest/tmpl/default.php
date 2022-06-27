@@ -19,7 +19,10 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
 	<caption class="visually-hidden"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" class="w-60"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<th scope="col"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<?php if ($workflow_enabled) : ?>
+				<th scope="col" class="w-20"><?php echo Text::_('JSTAGE'); ?></th>
+			<?php endif; ?>
 			<th scope="col" class="w-20"><?php echo Text::_('JAUTHOR'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
@@ -40,6 +43,11 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
 					<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 				<?php endif; ?>
 			</th>
+			<?php if ($workflow_enabled) : ?>
+				<td>
+					<?php echo Text::_($item->stage_title); ?>
+				</td>
+			<?php endif; ?>
 			<td>
 				<?php echo $item->author_name; ?>
 			</td>

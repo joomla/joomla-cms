@@ -11,6 +11,8 @@ namespace Joomla\CMS\Document;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
@@ -18,17 +20,19 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
-use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use UnexpectedValueException;
 
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
  *
  * @since  1.7.0
  */
-class HtmlDocument extends Document
+class HtmlDocument extends Document implements CacheControllerFactoryAwareInterface
 {
+	use CacheControllerFactoryAwareTrait;
+
 	/**
 	 * Array of Header `<link>` tags
 	 *
@@ -173,10 +177,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($assetNames as $assetName => $assetState)
 			{
-				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
-				{
-					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
-				}
+				$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
 			}
 		}
 
@@ -561,8 +562,7 @@ class HtmlDocument extends Document
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
 			/** @var  \Joomla\CMS\Cache\Controller\OutputController  $cache */
-			$cache = CmsFactory::getContainer()->get(CacheControllerFactoryInterface::class)
-				->createCacheController('output', ['defaultgroup' => 'com_modules']);
+			$cache  = $this->getCacheControllerFactory()->createCacheController('output', ['defaultgroup' => 'com_modules']);
 			$itemId = (int) CmsFactory::getApplication()->input->get('Itemid', 0, 'int');
 
 			$hash = md5(
