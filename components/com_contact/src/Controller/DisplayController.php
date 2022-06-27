@@ -58,7 +58,7 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		if (Factory::getApplication()->getUserState('com_contact.contact.data') === null)
+		if ($this->app->getUserState('com_contact.contact.data') === null)
 		{
 			$cachable = true;
 		}
