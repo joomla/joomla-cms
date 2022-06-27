@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Extension;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
@@ -20,14 +19,14 @@ use Joomla\CMS\Dispatcher\DispatcherInterface;
  */
 interface ComponentInterface
 {
-	/**
-	 * Returns the dispatcher for the given application.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
-	 *
-	 * @return  DispatcherInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
+    /**
+     * Returns the dispatcher for the given application.
+     *
+     * @param   CMSApplicationInterface  $application  The application
+     *
+     * @return  DispatcherInterface
+     *
+     * @since   4.0.0
+     */
+    public function getDispatcher(CMSApplicationInterface $application): DispatcherInterface;
 }
