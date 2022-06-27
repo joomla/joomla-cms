@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Media\Administrator\Provider;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
@@ -21,115 +20,110 @@ use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
  */
 class ProviderManager
 {
-	/**
-	 * The array of providers
-	 *
-	 * @var  ProviderInterface[]
-	 *
-	 * @since  4.0.0
-	 */
-	private $providers = [];
+    /**
+     * The array of providers
+     *
+     * @var  ProviderInterface[]
+     *
+     * @since  4.0.0
+     */
+    private $providers = [];
 
-	/**
-	 * Returns an associative array of adapters with provider name as the key
-	 *
-	 * @return  ProviderInterface[]
-	 *
-	 * @since  4.0.0
-	 */
-	public function getProviders()
-	{
-		return $this->providers;
-	}
+    /**
+     * Returns an associative array of adapters with provider name as the key
+     *
+     * @return  ProviderInterface[]
+     *
+     * @since  4.0.0
+     */
+    public function getProviders()
+    {
+        return $this->providers;
+    }
 
-	/**
-	 * Register a provider into the ProviderManager
-	 *
-	 * @param   ProviderInterface  $provider  The provider to be registered
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function registerProvider(ProviderInterface $provider)
-	{
-		$this->providers[$provider->getID()] = $provider;
-	}
+    /**
+     * Register a provider into the ProviderManager
+     *
+     * @param   ProviderInterface  $provider  The provider to be registered
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    public function registerProvider(ProviderInterface $provider)
+    {
+        $this->providers[$provider->getID()] = $provider;
+    }
 
-	/**
-	 * Unregister a provider from the ProviderManager.
-	 * When no provider, or null is passed in, then all providers are cleared.
-	 *
-	 * @param   ProviderInterface|null  $provider  The provider to be unregistered
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.6
-	 */
-	public function unregisterProvider(ProviderInterface $provider = null): void
-	{
-		if ($provider === null)
-		{
-			$this->providers = [];
-			return;
-		}
+    /**
+     * Unregister a provider from the ProviderManager.
+     * When no provider, or null is passed in, then all providers are cleared.
+     *
+     * @param   ProviderInterface|null  $provider  The provider to be unregistered
+     *
+     * @return  void
+     *
+     * @since   4.0.6
+     */
+    public function unregisterProvider(ProviderInterface $provider = null): void
+    {
+        if ($provider === null) {
+            $this->providers = [];
+            return;
+        }
 
-		if (!array_key_exists($provider->getID(), $this->providers))
-		{
-			return;
-		}
+        if (!array_key_exists($provider->getID(), $this->providers)) {
+            return;
+        }
 
-		unset($this->providers[$provider->getID()]);
-	}
+        unset($this->providers[$provider->getID()]);
+    }
 
-	/**
-	 * Returns the provider for a particular ID
-	 *
-	 * @param   string  $id  The ID for the provider
-	 *
-	 * @return  ProviderInterface
-	 *
-	 * @throws \Exception
-	 *
-	 * @since  4.0.0
-	 */
-	public function getProvider($id)
-	{
-		if (!isset($this->providers[$id]))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_MEDIA_PROVIDER_NOT_FOUND'));
-		}
+    /**
+     * Returns the provider for a particular ID
+     *
+     * @param   string  $id  The ID for the provider
+     *
+     * @return  ProviderInterface
+     *
+     * @throws \Exception
+     *
+     * @since  4.0.0
+     */
+    public function getProvider($id)
+    {
+        if (!isset($this->providers[$id])) {
+            throw new \Exception(Text::_('COM_MEDIA_ERROR_MEDIA_PROVIDER_NOT_FOUND'));
+        }
 
-		return $this->providers[$id];
-	}
+        return $this->providers[$id];
+    }
 
-	/**
-	 * Returns an adapter for an account
-	 *
-	 * @param   string  $name  The name of an adapter
-	 *
-	 * @return  AdapterInterface
-	 *
-	 * @throws \Exception
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAdapter($name)
-	{
-		list($provider, $account) = array_pad(explode('-', $name, 2), 2, null);
+    /**
+     * Returns an adapter for an account
+     *
+     * @param   string  $name  The name of an adapter
+     *
+     * @return  AdapterInterface
+     *
+     * @throws \Exception
+     *
+     * @since  4.0.0
+     */
+    public function getAdapter($name)
+    {
+        list($provider, $account) = array_pad(explode('-', $name, 2), 2, null);
 
-		if ($account == null)
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));
-		}
+        if ($account == null) {
+            throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));
+        }
 
-		$adapters = $this->getProvider($provider)->getAdapters();
+        $adapters = $this->getProvider($provider)->getAdapters();
 
-		if (!isset($adapters[$account]))
-		{
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_FOUND'));
-		}
+        if (!isset($adapters[$account])) {
+            throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_FOUND'));
+        }
 
-		return $adapters[$account];
-	}
+        return $adapters[$account];
+    }
 }

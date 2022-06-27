@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,26 +21,24 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
  */
 class AjaxChallenge extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
+    use ResultAware;
 
-	/**
-	 * Make sure the result is valid JSON or boolean false
-	 *
-	 * @param   mixed  $data  The data to check
-	 *
-	 * @return  void
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function typeCheckResult($data): void
-	{
-		if ($data === false)
-		{
-			return;
-		}
+    /**
+     * Make sure the result is valid JSON or boolean false
+     *
+     * @param   mixed  $data  The data to check
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    public function typeCheckResult($data): void
+    {
+        if ($data === false) {
+            return;
+        }
 
-		if (!is_string($data) || @json_decode($data) === null)
-		{
-			throw new InvalidArgumentException(sprintf('Event %s only accepts JSON results.', $this->getName()));
-		}
-	}
+        if (!is_string($data) || @json_decode($data) === null) {
+            throw new InvalidArgumentException(sprintf('Event %s only accepts JSON results.', $this->getName()));
+        }
+    }
 }

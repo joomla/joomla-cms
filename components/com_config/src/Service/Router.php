@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Config\Site\Service;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterView;
@@ -26,21 +25,21 @@ use Joomla\CMS\Menu\AbstractMenu;
  */
 class Router extends RouterView
 {
-	/**
-	 * Config Component router constructor
-	 *
-	 * @param   SiteApplication  $app   The application object
-	 * @param   AbstractMenu     $menu  The menu object to work with
-	 */
-	public function __construct(SiteApplication $app, AbstractMenu $menu)
-	{
-		$this->registerView(new RouterViewConfiguration('config'));
-		$this->registerView(new RouterViewConfiguration('templates'));
+    /**
+     * Config Component router constructor
+     *
+     * @param   SiteApplication  $app   The application object
+     * @param   AbstractMenu     $menu  The menu object to work with
+     */
+    public function __construct(SiteApplication $app, AbstractMenu $menu)
+    {
+        $this->registerView(new RouterViewConfiguration('config'));
+        $this->registerView(new RouterViewConfiguration('templates'));
 
-		parent::__construct($app, $menu);
+        parent::__construct($app, $menu);
 
-		$this->attachRule(new MenuRules($this));
-		$this->attachRule(new StandardRules($this));
-		$this->attachRule(new NomenuRules($this));
-	}
+        $this->attachRule(new MenuRules($this));
+        $this->attachRule(new StandardRules($this));
+        $this->attachRule(new NomenuRules($this));
+    }
 }
