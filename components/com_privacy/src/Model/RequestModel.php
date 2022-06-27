@@ -19,7 +19,6 @@ use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -91,7 +90,7 @@ class RequestModel extends AdminModel
 		$data['email'] = Factory::getUser()->email;
 
 		// Search for an open information request matching the email and type
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
 			->from($db->quoteName('#__privacy_requests'))
