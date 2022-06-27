@@ -127,7 +127,7 @@ class MessagesModel extends BaseDatabaseModel
 	 *
 	 * @return   void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    4.2.0
 	 */
 	public function archiveMessage($id)
 	{
@@ -152,7 +152,7 @@ class MessagesModel extends BaseDatabaseModel
 	 *
 	 * @return   void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    4.2.0
 	 */
 	public function republishMessage($id)
 	{

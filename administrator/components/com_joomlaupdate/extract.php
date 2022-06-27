@@ -1946,7 +1946,7 @@ $enabled       = !empty($configuration);
  * Sets the PHP timeout to 3600 seconds
  *
  * @return  void
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  */
 function setLongTimeout()
 {
@@ -1962,7 +1962,7 @@ function setLongTimeout()
  * Sets the memory limit to 1GiB
  *
  * @return  void
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  */
 function setHugeMemoryLimit()
 {

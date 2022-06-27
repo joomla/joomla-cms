@@ -81,7 +81,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @var    CMSApplicationInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $application;
 
@@ -195,7 +195,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  string  The translated string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 * @see     sprintf
 	 */
@@ -406,7 +406,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  CMSApplicationInterface|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function getApplication(): ?CMSApplicationInterface
 	{
@@ -420,7 +420,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setApplication(CMSApplicationInterface $application): void
 	{
