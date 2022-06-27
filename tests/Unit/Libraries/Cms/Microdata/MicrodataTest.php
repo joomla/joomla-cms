@@ -474,7 +474,7 @@ class MicrodataTest extends UnitTestCase
 	 * @return  void
 	 * @since   4.0.0
 	 */
-	public function testDisplayMetaWithHumanAndMashineContent()
+	public function testDisplayMetaWithHumanAndMachineContent()
 	{
 		$content        = '01 January 2011';
 		$machineContent = "2011-01-01T00:00:00+00:00";

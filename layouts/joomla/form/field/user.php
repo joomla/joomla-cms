@@ -126,7 +126,7 @@ if (!$readonly)
 		input-name=".field-user-input-name"
 		button-select=".button-select">
 	<div class="input-group">
-		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?>	 readonly>
+		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?> readonly>
 		<?php if (!$readonly) : ?>
 			<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
 				<span class="icon-user icon-white" aria-hidden="true"></span>
