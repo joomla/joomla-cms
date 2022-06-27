@@ -80,7 +80,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = Factory::getUser();
+			$user = $this->getCurrentUser();
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
@@ -158,7 +158,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 				return true;
 			}
 
-			$user            = Factory::getUser();
+			$user            = $this->getCurrentUser();
 			$checkedOutField = $table->getColumnAlias('checked_out');
 
 			// Check if this is the user having previously checked out the row.

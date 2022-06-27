@@ -16,6 +16,18 @@
 # set it here.
 ##
 
+## MISSING CSS OR JAVASCRIPT ERRORS
+#
+# If your site looks strange after enabling this file, then your server is probably already
+# gzipping css and js files and you should comment out the GZIP section of this file.
+##
+
+## OPENLITESPEED
+#
+# If you are using an OpenLiteSpeed web server then any changes made to this file will
+# not take effect until you have restarted the web server.
+##
+
 ## Can be commented out if causes errors, see notes above.
 Options +FollowSymlinks
 Options -Indexes
@@ -124,10 +136,11 @@ Options -Indexes
 	</IfModule>
 </IfModule>
 
+## GZIP
 ## These directives are only enabled if the Apache mod_headers module is enabled.
 ## This section will check if a .gz file exists and if so will stream it
 ##     directly or fallback to gzip any asset on the fly
-## If your site starts to look strange after enabling this, and you see
+## If your site starts to look strange after enabling this file, and you see
 ##     ERR_CONTENT_DECODING_FAILED in your browser console network tab,
 ##     then your server is already gzipping css and js files and you don't need this
 ##     block enabled in your .htaccess

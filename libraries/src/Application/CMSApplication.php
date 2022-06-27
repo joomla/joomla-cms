@@ -1149,11 +1149,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$this->input->def($key, $value);
 		}
 
-		if ($this->isTwoFactorAuthenticationRequired())
-		{
-			$this->redirectIfTwoFactorAuthenticationRequired();
-		}
-
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
@@ -1171,7 +1166,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function setUserState($key, $value)
 	{
-		$session = Factory::getSession();
+		$session  = $this->getSession();
 		$registry = $session->get('registry');
 
 		if ($registry !== null)
@@ -1259,166 +1254,33 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Checks if 2fa needs to be enforced
-	 * if so returns true, else returns false
+	 * No longer used
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 *
 	 * @throws \Exception
+	 * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
 	 */
 	protected function isTwoFactorAuthenticationRequired(): bool
 	{
-		$user = $this->getIdentity();
-
-		if (!$user->id)
-		{
-			return false;
-		}
-
-		// Check session if user has set up 2fa
-		if ($this->getSession()->has('has2fa'))
-		{
-			return false;
-		}
-
-		$comUsersParams = ComponentHelper::getComponent('com_users')->getParams();
-
-		// Check if 2fa is enforced for the logged in user.
-		$forced2faGroups = (array) $comUsersParams->get('enforce_2fa_usergroups', []);
-
-		if (!empty($forced2faGroups))
-		{
-			$userGroups = (array) $user->get('groups', []);
-
-			if (!array_intersect($forced2faGroups, $userGroups))
-			{
-				return false;
-			}
-		}
-
-		$enforce2faOptions = $comUsersParams->get('enforce_2fa_options', 0);
-
-		if ($enforce2faOptions == 0 || !$enforce2faOptions)
-		{
-			return false;
-		}
-
-		if (!PluginHelper::isEnabled('twofactorauth'))
-		{
-			return false;
-		}
-
-		$pluginsSiteEnable          = false;
-		$pluginsAdministratorEnable = false;
-		$pluginOptions              = PluginHelper::getPlugin('twofactorauth');
-
-		// Sets and checks pluginOptions for Site and Administrator view depending on if any 2fa plugin is enabled for that view
-		array_walk($pluginOptions,
-			static function ($pluginOption) use (&$pluginsSiteEnable, &$pluginsAdministratorEnable)
-			{
-				$option  = new Registry($pluginOption->params);
-				$section = $option->get('section', 3);
-
-				switch ($section)
-				{
-					case 1:
-						$pluginsSiteEnable = true;
-						break;
-					case 2:
-						$pluginsAdministratorEnable = true;
-						break;
-					case 3:
-					default:
-						$pluginsAdministratorEnable = true;
-						$pluginsSiteEnable          = true;
-				}
-			}
-		);
-
-		if ($pluginsSiteEnable && $this->isClient('site'))
-		{
-			if (\in_array($enforce2faOptions, [1, 3]))
-			{
-				return !$this->hasUserConfiguredTwoFactorAuthentication();
-			}
-		}
-
-		if ($pluginsAdministratorEnable && $this->isClient('administrator'))
-		{
-			if (\in_array($enforce2faOptions, [2, 3]))
-			{
-				return !$this->hasUserConfiguredTwoFactorAuthentication();
-			}
-		}
-
 		return false;
 	}
 
 	/**
-	 * Redirects user to his Two Factor Authentication setup page
-	 *
-	 * @return void
-	 *
-	 * @since  4.0.0
-	 */
-	protected function redirectIfTwoFactorAuthenticationRequired(): void
-	{
-		$option = $this->input->get('option');
-		$task   = $this->input->get('task');
-		$view   = $this->input->get('view', null, 'STRING');
-		$layout = $this->input->get('layout', null, 'STRING');
-
-		if ($this->isClient('site'))
-		{
-			// If user is already on edit profile screen or press update/apply button, do nothing to avoid infinite redirect
-			if (($option === 'com_users' && \in_array($task, ['profile.edit', 'profile.save', 'profile.apply', 'user.logout', 'user.menulogout'], true))
-				|| $option === 'com_users' && $view === 'profile' && $layout === 'edit')
-			{
-				return;
-			}
-
-			// Redirect to com_users profile edit
-			$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-			$this->redirect('index.php?option=com_users&view=profile&layout=edit');
-		}
-
-		if (($option === 'com_users' && \in_array($task, ['user.save', 'user.edit', 'user.apply', 'user.logout', 'user.menulogout'], true))
-			|| ($option === 'com_users' && $view === 'user' && $layout === 'edit')
-			|| ($option === 'com_login' && \in_array($task, ['save', 'edit', 'apply', 'logout', 'menulogout'], true)))
-		{
-			return;
-		}
-
-		// Redirect to com_admin profile edit
-		$this->enqueueMessage(Text::_('JENFORCE_2FA_REDIRECT_MESSAGE'), 'notice');
-		$this->redirect('index.php?option=com_users&task=user.edit&id=' . $this->getIdentity()->id);
-	}
-
-	/**
-	 * Checks if otpKey and otep for the user are not empty
-	 * if any one is empty returns false, else returns true
+	 * No longer used
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 *
 	 * @throws \Exception
+	 * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
 	 */
 	private function hasUserConfiguredTwoFactorAuthentication(): bool
 	{
-		$user = $this->getIdentity();
-
-		if (empty($user->otpKey) || empty($user->otep))
-		{
-			return false;
-		}
-
-		// Set session to user has configured 2fa
-		$this->getSession()->set('has2fa', 1);
-
-		return true;
+		return false;
 	}
 
 	/**

@@ -19,7 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -68,36 +68,20 @@ class HtmlView extends BaseHtmlView
 	protected $db;
 
 	/**
-	 * Configuration forms for all two-factor authentication methods.
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $twofactorform;
-
-	/**
-	 * List of two factor authentication methods available.
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $twofactormethods;
-
-	/**
-	 * One time password (OTP) – a.k.a. two factor authentication – configuration for the user.
-	 *
-	 * @var    \stdClass
-	 * @since  4.0.0
-	 */
-	protected $otpConfig;
-
-	/**
 	 * The page class suffix
 	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
+
+	/**
+	 * The Multi-factor Authentication configuration interface for the user.
+	 *
+	 * @var   string|null
+	 * @since 4.2.0
+	 */
+	protected $mfaConfigurationUI;
 
 	/**
 	 * Execute and display a template script.
@@ -111,17 +95,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		// Get the view data.
-		$this->data	        = $this->get('Data');
-		$this->form	        = $this->getModel()->getForm(new CMSObject(array('id' => $user->id)));
-		$this->state            = $this->get('State');
-		$this->params           = $this->state->get('params');
-		$this->twofactorform    = $this->get('Twofactorform');
-		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
-		$this->otpConfig        = $this->get('OtpConfig');
-		$this->db               = Factory::getDbo();
+		$this->data               = $this->get('Data');
+		$this->form               = $this->getModel()->getForm(new CMSObject(['id' => $user->id]));
+		$this->state              = $this->get('State');
+		$this->params             = $this->state->get('params');
+		$this->mfaConfigurationUI = Mfa::getConfigurationInterface($user);
+		$this->db                 = Factory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -187,7 +169,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($menu)
 		{
-			$this->params->def('page_heading', $this->params->get('page_title', Factory::getUser()->name));
+			$this->params->def('page_heading', $this->params->get('page_title', $this->getCurrentUser()->name));
 		}
 		else
 		{
