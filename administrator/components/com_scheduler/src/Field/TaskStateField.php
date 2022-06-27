@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Field;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\PredefinedlistField;
 
 /**
@@ -21,24 +19,24 @@ use Joomla\CMS\Form\Field\PredefinedlistField;
  */
 class TaskStateField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  4.1.0
-	 */
-	public $type = 'taskState';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  4.1.0
+     */
+    public $type = 'taskState';
 
-	/**
-	 * Available states
-	 *
-	 * @var  string[]
-	 * @since  4.1.0
-	 */
-	protected $predefinedOptions = [
-		-2  => 'JTRASHED',
-		0   => 'JDISABLED',
-		1   => 'JENABLED',
-		'*' => 'JALL',
-	];
+    /**
+     * Available states
+     *
+     * @var  string[]
+     * @since  4.1.0
+     */
+    protected $predefinedOptions = [
+        -2  => 'JTRASHED',
+        0   => 'JDISABLED',
+        1   => 'JENABLED',
+        '*' => 'JALL',
+    ];
 }

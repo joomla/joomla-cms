@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -51,27 +52,27 @@ extract($displayData);
  */
 
 echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'versionsModal',
-	array(
-		'url'    => Route::_($link),
-		'title'  => $label,
-		'height' => '100%',
-		'width'  => '100%',
-		'modalWidth'  => '80',
-		'bodyHeight'  => '60',
-		'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
-			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-	)
+    'bootstrap.renderModal',
+    'versionsModal',
+    array(
+        'url'    => Route::_($link),
+        'title'  => $label,
+        'height' => '100%',
+        'width'  => '100%',
+        'modalWidth'  => '80',
+        'bodyHeight'  => '60',
+        'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+    )
 );
 
 ?>
 <button
-	type="button"
-	class="btn btn-secondary"
-	data-bs-toggle="modal"
-	data-bs-target="#versionsModal"
-	<?php echo $dataAttribute; ?>>
-		<span class="icon-code-branch" aria-hidden="true"></span>
-		<?php echo $label; ?>
+    type="button"
+    class="btn btn-secondary"
+    data-bs-toggle="modal"
+    data-bs-target="#versionsModal"
+    <?php echo $dataAttribute; ?>>
+        <span class="icon-code-branch" aria-hidden="true"></span>
+        <?php echo $label; ?>
 </button>
