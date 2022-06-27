@@ -9,6 +9,13 @@
 namespace Joomla\CMS\Event;
 
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
+use Joomla\CMS\Event\Plugin\System\Webauthn\Ajax as PlgSystemWebauthnAjax;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge as PlgSystemWebauthnAjaxChallenge;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxCreate as PlgSystemWebauthnAjaxCreate;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxDelete as PlgSystemWebauthnAjaxDelete;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxInitCreate as PlgSystemWebauthnAjaxInitCreate;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxLogin as PlgSystemWebauthnAjaxLogin;
+use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel as PlgSystemWebauthnAjaxSaveLabel;
 use Joomla\CMS\Event\QuickIcon\GetIconEvent;
 use Joomla\CMS\Event\Table\AfterBindEvent;
 use Joomla\CMS\Event\Table\AfterCheckinEvent;
@@ -46,7 +53,7 @@ use Joomla\Event\Event;
 /**
  * Returns the most suitable event class for a Joomla core event name
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 trait CoreEventAware
 {
@@ -57,7 +64,7 @@ trait CoreEventAware
 	 * PHP logic in the getEventClassByEventName class.
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private static $eventNameToConcreteClass = [
 		// Model
@@ -93,10 +100,18 @@ trait CoreEventAware
 		// View
 		'onBeforeDisplay'             => DisplayEvent::class,
 		'onAfterDisplay'              => DisplayEvent::class,
-		// Worflow
+		// Workflow
 		'onWorkflowFunctionalityUsed' => WorkflowFunctionalityUsedEvent::class,
 		'onWorkflowAfterTransition'   => WorkflowTransitionEvent::class,
 		'onWorkflowBeforeTransition'  => WorkflowTransitionEvent::class,
+		// Plugin: System, WebAuthn
+		'onAjaxWebauthn'              => PlgSystemWebauthnAjax::class,
+		'onAjaxWebauthnChallenge'     => PlgSystemWebauthnAjaxChallenge::class,
+		'onAjaxWebauthnCreate'        => PlgSystemWebauthnAjaxCreate::class,
+		'onAjaxWebauthnDelete'        => PlgSystemWebauthnAjaxDelete::class,
+		'onAjaxWebauthnInitcreate'    => PlgSystemWebauthnAjaxInitCreate::class,
+		'onAjaxWebauthnLogin'         => PlgSystemWebauthnAjaxLogin::class,
+		'onAjaxWebauthnSavelabel'     => PlgSystemWebauthnAjaxSaveLabel::class,
 	];
 
 	/**
@@ -108,7 +123,7 @@ trait CoreEventAware
 	 * @param   string  $eventName  The event name
 	 *
 	 * @return  string The event class name
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	protected static function getEventClassByEventName(string $eventName): string
 	{

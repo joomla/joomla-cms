@@ -81,6 +81,7 @@ class ManageModel extends InstallerModel
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.package_id', $this->getUserStateFromRequest($this->context . '.filter.package_id', 'filter_package_id', null, 'int'));
 		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
 		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
@@ -127,7 +128,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get a table object for the extension type
-		$table = new Extension($this->getDbo());
+		$table = new Extension($this->getDatabase());
 
 		// Enable the extension in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -136,7 +137,7 @@ class ManageModel extends InstallerModel
 
 			if ($table->type == 'template')
 			{
-				$style = new StyleTable($this->getDbo());
+				$style = new StyleTable($this->getDatabase());
 
 				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
 				{
@@ -244,7 +245,7 @@ class ManageModel extends InstallerModel
 
 		// Get an installer object for the extension type
 		$installer = Installer::getInstance();
-		$row       = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row       = new \Joomla\CMS\Table\Extension($this->getDatabase());
 
 		// Uninstall the chosen extensions
 		$msgs   = array();
@@ -322,7 +323,7 @@ class ManageModel extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->select('2*protected+(1-protected)*enabled AS status')
@@ -330,11 +331,12 @@ class ManageModel extends InstallerModel
 			->where('state = 0');
 
 		// Process select filters.
-		$status   = $this->getState('filter.status', '');
-		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id', '');
-		$folder   = $this->getState('filter.folder');
-		$core     = $this->getState('filter.core', '');
+		$status    = $this->getState('filter.status', '');
+		$type      = $this->getState('filter.type');
+		$clientId  = $this->getState('filter.client_id', '');
+		$folder    = $this->getState('filter.folder');
+		$core      = $this->getState('filter.core', '');
+		$packageId = $this->getState('filter.package_id', '');
 
 		if ($status !== '')
 		{
@@ -366,6 +368,16 @@ class ManageModel extends InstallerModel
 			$clientId = (int) $clientId;
 			$query->where($db->quoteName('client_id') . ' = :clientid')
 				->bind(':clientid', $clientId, ParameterType::INTEGER);
+		}
+
+		if ($packageId !== '')
+		{
+			$packageId = (int) $packageId;
+			$query->where(
+				'((' . $db->quoteName('package_id') . ' = :packageId1) OR '
+				. '(' . $db->quoteName('extension_id') . ' = :packageId2))'
+			)
+				->bind([':packageId1',':packageId2'], $packageId, ParameterType::INTEGER);
 		}
 
 		if ($folder)
@@ -412,7 +424,7 @@ class ManageModel extends InstallerModel
 	{
 		// Get the changelog URL
 		$eid = (int) $eid;
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(

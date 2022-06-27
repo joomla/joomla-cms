@@ -19,7 +19,7 @@ use InvalidArgumentException;
  * of a any type. THIS IS A COP OUT! If you expect a nullable or union type it's best to implement
  * the typeCheckResult method yourself to check for the exact types you expect.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait ResultTypeMixedAware
 {
@@ -32,7 +32,7 @@ trait ResultTypeMixedAware
 	 * @throws  InvalidArgumentException
 	 *
 	 * @internal
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function typeCheckResult($data): void
 	{
