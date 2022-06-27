@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\WebAsset\AssetItem;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -23,29 +22,29 @@ use Joomla\CMS\WebAsset\WebAssetItem;
  */
 class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterface
 {
-	/**
-	 * Method called when asset attached to the Document.
-	 * Useful for Asset to add a Script options.
-	 *
-	 * @param   Document  $doc  Active document
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onAttachCallback(Document $doc)
-	{
-		// Add core and base uri paths so javascript scripts can use them.
-		$doc->addScriptOptions(
-			'system.paths',
-			[
-				'root' => Uri::root(true),
-				'rootFull' => Uri::root(),
-				'base' => Uri::base(true),
-				'baseFull' => Uri::base(),
-			]
-		);
+    /**
+     * Method called when asset attached to the Document.
+     * Useful for Asset to add a Script options.
+     *
+     * @param   Document  $doc  Active document
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    public function onAttachCallback(Document $doc)
+    {
+        // Add core and base uri paths so javascript scripts can use them.
+        $doc->addScriptOptions(
+            'system.paths',
+            [
+                'root' => Uri::root(true),
+                'rootFull' => Uri::root(),
+                'base' => Uri::base(true),
+                'baseFull' => Uri::base(),
+            ]
+        );
 
-		HTMLHelper::_('form.csrf');
-	}
+        HTMLHelper::_('form.csrf');
+    }
 }
