@@ -152,7 +152,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('field.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if ($canDo->get('core.edit.state') || $this->getCurrentUser()->authorise('core.admin'))
 		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -172,7 +172,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->archive('fields.archive')->listCheck(true);
 			}
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if ($this->getCurrentUser()->authorise('core.admin'))
 			{
 				$childBar->checkin('fields.checkin')->listCheck(true);
 			}

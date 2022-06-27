@@ -2,7 +2,7 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_sef</name>
 	<author>Joomla! Project</author>
-	<creationDate>December 2007</creationDate>
+	<creationDate>2007-12</creationDate>
 	<copyright>(C) 2007 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

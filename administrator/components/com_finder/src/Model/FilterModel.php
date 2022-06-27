@@ -146,7 +146,7 @@ class FilterModel extends AdminModel
 	 */
 	public function getTotal()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('MAX(link_id)')
 			->from('#__finder_links');

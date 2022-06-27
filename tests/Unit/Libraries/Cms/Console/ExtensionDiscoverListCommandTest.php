@@ -32,10 +32,10 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * Tests the filterExtensionsBasedOnState method
-	 * Ensure that the return value is an array and the filter works correctly. 
+	 * Ensure that the return value is an array and the filter works correctly.
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function testFilterExtensions()
@@ -51,7 +51,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 		$extensions1 = array();
 		$extensions1[0] = array('state' => 0);
 		$extensions1[1] = array('state' => -1);
-		
+
 		$extensions2 = array();
 		$extensions2[0] = array('state' => -1);
 		$extensions2[1] = array('state' => -1);
@@ -59,7 +59,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 		$filteredextensionsArray0 = $command->filterExtensionsBasedOnState($extensions0, $state);
 		$filteredextensionsArray1 = $command->filterExtensionsBasedOnState($extensions1, $state);
 		$filteredextensionsArray2 = $command->filterExtensionsBasedOnState($extensions2, $state);
-		
+
 		$size0 = sizeof($filteredextensionsArray0);
 		$size1 = sizeof($filteredextensionsArray1);
 		$size2 = sizeof($filteredextensionsArray2);
@@ -67,7 +67,7 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 		$this->assertSame($size0, 0);
 		$this->assertSame($size1, 1);
 		$this->assertSame($size2, 2);
-		
+
 		$this->assertIsArray($filteredextensionsArray0);
 		$this->assertIsArray($filteredextensionsArray1);
 		$this->assertIsArray($filteredextensionsArray2);
