@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_tags
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Tags\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\ApiController;
 
 /**
@@ -20,19 +19,19 @@ use Joomla\CMS\MVC\Controller\ApiController;
  */
 class TagsController extends ApiController
 {
-	/**
-	 * The content type of the item.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $contentType = 'tags';
+    /**
+     * The content type of the item.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $contentType = 'tags';
 
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $default_view = 'tags';
+    /**
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $default_view = 'tags';
 }
