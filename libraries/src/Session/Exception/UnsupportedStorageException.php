@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Session\Exception;
-
-\defined('JPATH_PLATFORM') or die;
 
 /**
  * Exception class defining an unsupported session storage object
