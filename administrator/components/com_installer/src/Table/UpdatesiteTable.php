@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Installer\Administrator\Table;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -21,26 +20,26 @@ use Joomla\Database\DatabaseDriver;
  */
 class UpdatesiteTable extends Table
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 *
-	 * @since  4.1.1
-	 */
-	protected $_supportNullValue = true;
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     *
+     * @since  4.1.1
+     */
+    protected $_supportNullValue = true;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		$this->typeAlias = 'com_installer.downloadkey';
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database connector object
+     *
+     * @since   4.0.0
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        $this->typeAlias = 'com_installer.downloadkey';
 
-		parent::__construct('#__update_sites', 'update_site_id', $db);
-	}
+        parent::__construct('#__update_sites', 'update_site_id', $db);
+    }
 }
