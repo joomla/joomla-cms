@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_wrapper
@@ -27,30 +28,29 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Wrapper'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Wrapper'));
-		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Wrapper'));
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new WrapperComponent($container->get(ComponentDispatcherFactoryInterface::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Wrapper'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Wrapper'));
+        $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Wrapper'));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new WrapperComponent($container->get(ComponentDispatcherFactoryInterface::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

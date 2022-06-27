@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -21,75 +20,70 @@ use Joomla\CMS\Layout\LayoutHelper;
  */
 class MessageRenderer extends DocumentRenderer
 {
-	/**
-	 * Renders the error stack and returns the results as a string
-	 *
-	 * @param   string  $name     Not used.
-	 * @param   array   $params   Associative array of values
-	 * @param   string  $content  Not used.
-	 *
-	 * @return  string  The output of the script
-	 *
-	 * @since   3.5
-	 */
-	public function render($name, $params = array(), $content = null)
-	{
-		$msgList     = $this->getData();
-		$displayData = array(
-			'msgList' => $msgList,
-			'name'    => $name,
-			'params'  => $params,
-			'content' => $content,
-		);
+    /**
+     * Renders the error stack and returns the results as a string
+     *
+     * @param   string  $name     Not used.
+     * @param   array   $params   Associative array of values
+     * @param   string  $content  Not used.
+     *
+     * @return  string  The output of the script
+     *
+     * @since   3.5
+     */
+    public function render($name, $params = array(), $content = null)
+    {
+        $msgList     = $this->getData();
+        $displayData = array(
+            'msgList' => $msgList,
+            'name'    => $name,
+            'params'  => $params,
+            'content' => $content,
+        );
 
-		$app        = Factory::getApplication();
-		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
+        $app        = Factory::getApplication();
+        $chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
-		if (is_file($chromePath))
-		{
-			include_once $chromePath;
-		}
+        if (is_file($chromePath)) {
+            include_once $chromePath;
+        }
 
-		if (\function_exists('renderMessage'))
-		{
-			@trigger_error(
-				'renderMessage() is deprecated. Override system message rendering with layouts instead.',
-				E_USER_DEPRECATED
-			);
+        if (\function_exists('renderMessage')) {
+            @trigger_error(
+                'renderMessage() is deprecated. Override system message rendering with layouts instead.',
+                E_USER_DEPRECATED
+            );
 
-			return renderMessage($msgList);
-		}
+            return renderMessage($msgList);
+        }
 
-		return LayoutHelper::render('joomla.system.message', $displayData);
-	}
+        return LayoutHelper::render('joomla.system.message', $displayData);
+    }
 
-	/**
-	 * Get and prepare system message data for output
-	 *
-	 * @return  array  An array contains system message
-	 *
-	 * @since   3.5
-	 */
-	private function getData()
-	{
-		// Initialise variables.
-		$lists = array();
+    /**
+     * Get and prepare system message data for output
+     *
+     * @return  array  An array contains system message
+     *
+     * @since   3.5
+     */
+    private function getData()
+    {
+        // Initialise variables.
+        $lists = array();
 
-		// Get the message queue
-		$messages = Factory::getApplication()->getMessageQueue();
+        // Get the message queue
+        $messages = Factory::getApplication()->getMessageQueue();
 
-		// Build the sorted message list
-		if (\is_array($messages) && !empty($messages))
-		{
-			foreach ($messages as $msg)
-			{
-				if (isset($msg['type']) && isset($msg['message']))
-				{
-					$lists[$msg['type']][] = $msg['message'];
-				}
-			}
-		}
+        // Build the sorted message list
+        if (\is_array($messages) && !empty($messages)) {
+            foreach ($messages as $msg) {
+                if (isset($msg['type']) && isset($msg['message'])) {
+                    $lists[$msg['type']][] = $msg['message'];
+                }
+            }
+        }
 
-		return $lists;
-	}
+        return $lists;
+    }
 }
