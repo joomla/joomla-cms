@@ -56,7 +56,7 @@
 			/>
 		</form>
 	</field>
-	<fields name="params" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
+	<fields name="params" label="COM_MAILS_FIELD_BASIC_LABEL">
 
 		<fieldset name="basic">
 
@@ -65,7 +65,7 @@
 				type="radio"
 				label="COM_MAILS_FIELD_ALTERNATIVE_MAILCONFIG_LABEL"
 				layout="joomla.form.field.radio.switcher"
-				default="1"
+				default="0"
 				filter="boolean"
 				>
 				<option value="0">JNO</option>

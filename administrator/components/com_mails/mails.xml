@@ -2,7 +2,7 @@
 <extension type="component" method="upgrade">
 	<name>com_mails</name>
 	<author>Joomla! Project</author>
-	<creationDate>January 2019</creationDate>
+	<creationDate>2019-01</creationDate>
 	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

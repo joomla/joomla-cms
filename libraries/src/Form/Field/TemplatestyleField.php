@@ -141,7 +141,7 @@ class TemplatestyleField extends GroupedlistField
 		$template = $this->template;
 
 		// Get the database object and a new query object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Build the query.

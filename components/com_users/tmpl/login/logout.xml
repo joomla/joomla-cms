@@ -32,7 +32,7 @@
 				edit="true"
 				clear="true"
 				>
-				<option value="">JDEFAULT</option>
+				<option value="">JOPTION_SELECT_MENU</option>
 			</field>
 		</fieldset>
 	</fields>
