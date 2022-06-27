@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -16,5 +17,4 @@ namespace Joomla\Component\Users\Site\View\Methods;
  */
 class HtmlView extends \Joomla\Component\Users\Administrator\View\Methods\HtmlView
 {
-
 }

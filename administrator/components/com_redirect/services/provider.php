@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
@@ -26,30 +27,29 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Redirect'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Redirect'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Redirect'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Redirect'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new RedirectComponent($container->get(ComponentDispatcherFactoryInterface::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setRegistry($container->get(Registry::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new RedirectComponent($container->get(ComponentDispatcherFactoryInterface::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setRegistry($container->get(Registry::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };
