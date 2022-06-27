@@ -40,7 +40,7 @@ class NewsfeedsField extends ListField
 	{
 		$options = array();
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select(
 				[

@@ -295,7 +295,7 @@ class ResetModel extends FormModel
 		}
 
 		// Find the user id for the given token.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['activation', 'id', 'block']))
 			->from($db->quoteName('#__users'))
@@ -401,7 +401,7 @@ class ResetModel extends FormModel
 		}
 
 		// Find the user id for the given email address.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))

@@ -10,11 +10,16 @@ namespace Joomla\CMS\Form;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
@@ -24,8 +29,10 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
-abstract class FormField
+abstract class FormField implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The description text for the form field. Usually used in tooltips.
 	 *
@@ -118,14 +125,6 @@ abstract class FormField
 	 * @since  4.0.0
 	 */
 	protected $hiddenDescription = false;
-
-	/**
-	 * Should the description be hidden/shown with toggle button when rendering the form field?
-	 *
-	 * @var    boolean
-	 * @since  4.1.4
-	 */
-	protected $inlineHelp = false;
 
 	/**
 	 * True to translate the field label string.
@@ -1075,19 +1074,9 @@ abstract class FormField
 			}
 		}
 
-		if (empty($options['inlineHelp']))
-		{
-			if ($this->getAttribute('inlineHelp'))
-			{
-				$options['inlineHelp'] = $this->getAttribute('inlineHelp') == 'true';
-			}
-			else
-			{
-				$options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
-					? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
-					: $this->inlineHelp;
-			}
-		}
+		$options['inlineHelp'] = isset($this->form->getXml()->config->inlinehelp['button'])
+			? ((string) $this->form->getXml()->config->inlinehelp['button'] == 'show' ?: false)
+			: false;
 
 		if ($this->showon)
 		{
@@ -1264,6 +1253,19 @@ abstract class FormField
 				throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', \get_class($this), $type));
 			}
 
+			if ($rule instanceof DatabaseAwareInterface)
+			{
+				try
+				{
+					$rule->setDatabase($this->getDatabase());
+				}
+				catch (DatabaseNotFoundException $e)
+				{
+					@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+					$rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+				}
+			}
+
 			try
 			{
 				// Run the field validation rule test.
@@ -1279,6 +1281,19 @@ abstract class FormField
 		{
 			// Load the subform validation rule.
 			$rule = FormHelper::loadRuleType('Subform');
+
+			if ($rule instanceof DatabaseAwareInterface)
+			{
+				try
+				{
+					$rule->setDatabase($this->getDatabase());
+				}
+				catch (DatabaseNotFoundException $e)
+				{
+					@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+					$rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+				}
+			}
 
 			try
 			{

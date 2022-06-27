@@ -63,6 +63,11 @@ class UsersController extends ApiController
 			}
 		}
 
+		if (isset($data['password']) && $this->task !== 'add')
+		{
+			$data['password2'] = $data['password'];
+		}
+
 		return $data;
 	}
 
