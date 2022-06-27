@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Http;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Http\Response as FrameworkResponse;
 

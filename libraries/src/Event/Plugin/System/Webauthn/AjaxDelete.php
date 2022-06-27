@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,6 +21,6 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
  */
 class AjaxDelete extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeBooleanAware;
+    use ResultAware;
+    use ResultTypeBooleanAware;
 }
