@@ -588,7 +588,7 @@ class UpdateController extends BaseController
 	 * Called by the Joomla Update JavaScript (PreUpdateChecker.checkNextChunk).
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 *
 	 */
 	public function batchextensioncompatibility()

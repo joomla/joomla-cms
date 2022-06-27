@@ -9,7 +9,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Fixed\Extension;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -39,14 +38,6 @@ use RuntimeException;
  */
 class Fixed extends CMSPlugin implements SubscriberInterface
 {
-	/**
-	 * The application we are running under.
-	 *
-	 * @var    CMSApplication
-	 * @since  4.2.0
-	 */
-	protected $app;
-
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
