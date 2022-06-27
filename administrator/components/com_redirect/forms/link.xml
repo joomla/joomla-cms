@@ -8,7 +8,7 @@
 			default="0"
 			readonly="true"
 			class="readonly"
-		 />
+		/>
 
 		<field
 			name="old_url"

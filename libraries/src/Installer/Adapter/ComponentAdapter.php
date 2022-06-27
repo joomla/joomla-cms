@@ -447,7 +447,7 @@ class ComponentAdapter extends InstallerAdapter
 	{
 		$extensionId = $this->extension->extension_id;
 
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
@@ -723,7 +723,7 @@ class ComponentAdapter extends InstallerAdapter
 			$element = $this->extension->element;
 
 			// Try to delete existing failed records before retrying
-			$db = $this->db;
+			$db = $this->getDatabase();
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('extension_id'))
@@ -869,6 +869,7 @@ class ComponentAdapter extends InstallerAdapter
 
 		// Use a temporary instance due to side effects; start in the administrator first
 		$tmpInstaller = new Installer;
+		$tmpInstaller->setDatabase($this->getDatabase());
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
 
 		if (!$tmpInstaller->findManifest())
@@ -926,7 +927,7 @@ class ComponentAdapter extends InstallerAdapter
 			$element = $this->extension->element;
 
 			// Try to delete existing failed records before retrying
-			$db = $this->db;
+			$db = $this->getDatabase();
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('extension_id'))
@@ -1011,7 +1012,7 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	protected function _buildAdminMenus($componentId = null)
 	{
-		$db     = $this->parent->getDbo();
+		$db     = $this->getDatabase();
 		$option = $this->element;
 
 		// If a component exists with this option in the table within the protected menutype 'main' then we don't need to add menus
@@ -1247,7 +1248,7 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	protected function _removeAdminMenus($id)
 	{
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		/** @var  \Joomla\CMS\Table\Menu  $table */
 		$table = Table::getInstance('menu');
@@ -1318,7 +1319,7 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	protected function _updateMenus($componentId, $clientId = null)
 	{
-		$db        = $this->parent->getDbo();
+		$db        = $this->getDatabase();
 		$option    = $this->element;
 		$link      = 'index.php?option=' . $option;
 		$linkMatch = 'index.php?option=' . $option . '&%';
@@ -1507,7 +1508,7 @@ class ComponentAdapter extends InstallerAdapter
 	 */
 	protected function _createAdminMenuItem(array &$data, $parentId)
 	{
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		/** @var  \Joomla\CMS\Table\Menu  $table */
 		$table  = Table::getInstance('menu');
