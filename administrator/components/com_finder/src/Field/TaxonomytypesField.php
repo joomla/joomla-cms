@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -22,30 +23,30 @@ use Joomla\CMS\Form\Field\CheckboxesField;
  */
 class TaxonomytypesField extends CheckboxesField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $type = 'TaxonomyTypes';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $type = 'TaxonomyTypes';
 
-	/**
-	 * Method to get the field input markup for a generic list.
-	 * Use the multiple attribute to enable multiselect.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getInput()
-	{
-		$html = parent::getInput();
+    /**
+     * Method to get the field input markup for a generic list.
+     * Use the multiple attribute to enable multiselect.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getInput()
+    {
+        $html = parent::getInput();
 
-		$data = $this->getLayoutData();
-		$data['id']   .= '_hidden';
-		$data['value'] = 'none';
+        $data = $this->getLayoutData();
+        $data['id']   .= '_hidden';
+        $data['value'] = 'none';
 
-		return $html . $this->getRenderer('joomla.form.field.hidden')->render($data);
-	}
+        return $html . $this->getRenderer('joomla.form.field.hidden')->render($data);
+    }
 }
