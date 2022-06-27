@@ -10,9 +10,6 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Model;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -307,9 +304,8 @@ class TasksModel extends ListModel
                 $id = (int) substr($searchStr, 3);
                 $query->where($db->quoteName('a.id') . '= :id')
                     ->bind(':id', $id, ParameterType::INTEGER);
-            }
-            // Search by type is handled exceptionally in _getList() [@todo: remove refs]
-            elseif (stripos($searchStr, 'type:') !== 0) {
+            } elseif (stripos($searchStr, 'type:') !== 0) {
+                // Search by type is handled exceptionally in _getList() [@todo: remove refs]
                 $searchStr = "%$searchStr%";
 
                 // Bind keys to query

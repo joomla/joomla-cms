@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Event\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\MVC\Model\ListModelInterface;

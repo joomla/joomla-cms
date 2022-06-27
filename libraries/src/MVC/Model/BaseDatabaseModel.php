@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -113,9 +111,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
         // Set the default view search path
         if (\array_key_exists('table_path', $config)) {
             $this->addTablePath($config['table_path']);
-        }
-        // @codeCoverageIgnoreStart
-        elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
+        } elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR')) {
+            // @codeCoverageIgnoreStart
             $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
             $this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
         }
