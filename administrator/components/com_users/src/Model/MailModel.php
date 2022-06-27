@@ -102,7 +102,7 @@ class MailModel extends AdminModel
 		$data     = $app->input->post->get('jform', array(), 'array');
 		$user     = Factory::getUser();
 		$access   = new Access;
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 		$language = Factory::getLanguage();
 
 		$mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;

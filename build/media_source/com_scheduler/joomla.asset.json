@@ -83,6 +83,11 @@
       "name": "com_scheduler.admin-view-task-css",
       "type": "style",
       "uri": "com_scheduler/admin-view-task.css"
+    },
+    {
+      "name": "com_scheduler.admin-view-tasks-css",
+      "type": "style",
+      "uri": "com_scheduler/admin-view-tasks.css"
     }
   ]
 }
