@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Content.adaptiveimage
@@ -21,136 +22,128 @@ use Joomla\CMS\Uri\Uri;
  */
 class PlgContentAdaptiveImage extends CMSPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $autoloadLanguage = true;
-	
-	/**
-	 * Base path for cache images.
-	 *
-	 * @var     string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected $cacheDir =  "/media/focus";
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Plugin that inserts focus points into the image.
-	 *
-	 * @param   string   $context  The context of the content being passed to the plugin.
-	 * @param   mixed    &$row     An object with a "text" property.
-	 * @param   mixed    &$params  Additional parameters.
-	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
-	 *
-	 * @return  boolean	True on success.
-	 */
-	public function onContentPrepare($context, &$row, &$params, $page = 0)
-	{
-		// Don't run this plugin when the content is being indexed
-		if ($context === 'com_finder.indexer')
-		{
-			return true;
-		}
+    /**
+     * Base path for cache images.
+     *
+     * @var     string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $cacheDir =  "/media/focus";
 
-		if (is_object($row))
-		{
-			return $this->insertFocus($row->text, $params);
-		}
-		return $this->insertFocus($row, $params);
-	}
-	/**
-	 * Inserts focus points into the image.
-	 *
-	 * @param   string  &$text    HTML string.
-	 * @param   mixed   &$params  Additional parameters.
-	 *
-	 * @return  boolean  True on success.
-	 */
-	protected function insertFocus(&$text, &$params)
-	{
-		// Check if the directory is present or not
-		if (! is_dir(JPATH_SITE . $this->cacheDir))
-		{
-			return false;
-		}
+    /**
+     * Plugin that inserts focus points into the image.
+     *
+     * @param   string   $context  The context of the content being passed to the plugin.
+     * @param   mixed    &$row     An object with a "text" property.
+     * @param   mixed    &$params  Additional parameters.
+     * @param   integer  $page     Optional page number. Unused. Defaults to zero.
+     *
+     * @return  boolean True on success.
+     */
+    public function onContentPrepare($context, &$row, &$params, $page = 0)
+    {
+        // Don't run this plugin when the content is being indexed
+        if ($context === 'com_finder.indexer') {
+            return true;
+        }
 
-		// Get all the content of the directory.
-		$cacheFolderImages = scandir(JPATH_SITE . $this->cacheDir);
-		
-		unset($cacheFolderImages[0]);
-		unset($cacheFolderImages[1]);
+        if (is_object($row)) {
+            return $this->insertFocus($row->text, $params);
+        }
+        return $this->insertFocus($row, $params);
+    }
+    /**
+     * Inserts focus points into the image.
+     *
+     * @param   string  &$text    HTML string.
+     * @param   mixed   &$params  Additional parameters.
+     *
+     * @return  boolean  True on success.
+     */
+    protected function insertFocus(&$text, &$params)
+    {
+        // Check if the directory is present or not
+        if (! is_dir(JPATH_SITE . $this->cacheDir)) {
+            return false;
+        }
 
-		// Regular Expression from <img> tags in article
-		$searchImage = '(<img[^>]+>)';
+        // Get all the content of the directory.
+        $cacheFolderImages = scandir(JPATH_SITE . $this->cacheDir);
 
-		// Match pattern and return array into $images
-		preg_match_all($searchImage, $text, $images);
+        unset($cacheFolderImages[0]);
+        unset($cacheFolderImages[1]);
 
-		// Process image one by one
-		foreach ($images[0] as $key => $image)
-		{
-			// Clean path of the image and store in $src[1].
-			preg_match('(src="([^"]+)")', $image, $src);
+        // Regular Expression from <img> tags in article
+        $searchImage = '(<img[^>]+>)';
 
-			// Image Path
-			$imgPath = "/" . $src[1];
+        // Match pattern and return array into $images
+        preg_match_all($searchImage, $text, $images);
 
-			// Check if the original image is present or not
-			if (file_exists($imgPath))
-			{
-				$storage = new JSONFocusStore;
-				$storage->deleteFocus($imgPath);
-				$storage->deleteResizedImages($imgPath);
-				continue;
-			}
+        // Process image one by one
+        foreach ($images[0] as $key => $image) {
+            // Clean path of the image and store in $src[1].
+            preg_match('(src="([^"]+)")', $image, $src);
 
-			// Filtering only the image name
-			$imageName = explode("/", $imgPath);
-			$imageName = $imageName[max(array_keys($imageName))];
+            // Image Path
+            $imgPath = "/" . $src[1];
 
-			$cacheImages = array();
-			foreach ($cacheFolderImages as $key => $name)
-			{
-				// Decrypting the image name 
-				$imgWidth = explode("_", $name);
-				$imgName = explode(".", $imgWidth[1]);
-				$imgWidth = $imgWidth[0];
-				$extension = $imgName[1];
-				$imgName = base64_decode($imgName[0]) . "." . $extension;
+            // Check if the original image is present or not
+            if (file_exists($imgPath)) {
+                $storage = new JSONFocusStore();
+                $storage->deleteFocus($imgPath);
+                $storage->deleteResizedImages($imgPath);
+                continue;
+            }
 
-				$imgData["width"] = $imgWidth;
-				$imgData["name"]  = Uri::base() . $this->cacheDir . "/" . $name;
-				array_push($cacheImages, $imgData);
-			}
-			// Arranging widths in the order
-			arsort($cacheImages);
+            // Filtering only the image name
+            $imageName = explode("/", $imgPath);
+            $imageName = $imageName[max(array_keys($imageName))];
 
-			// Skipping if no resized images are present
-			if (empty($cacheImages))
-			{
-				continue;
-			}
-			
-			// @TODO Use Jlayout for creation of the picture element.
+            $cacheImages = array();
+            foreach ($cacheFolderImages as $key => $name) {
+                // Decrypting the image name
+                $imgWidth = explode("_", $name);
+                $imgName = explode(".", $imgWidth[1]);
+                $imgWidth = $imgWidth[0];
+                $extension = $imgName[1];
+                $imgName = base64_decode($imgName[0]) . "." . $extension;
 
-			// Generating the tag
-			$element = "<picture>\n";
+                $imgData["width"] = $imgWidth;
+                $imgData["name"]  = Uri::base() . $this->cacheDir . "/" . $name;
+                array_push($cacheImages, $imgData);
+            }
+            // Arranging widths in the order
+            arsort($cacheImages);
 
-			foreach ($cacheImages as $key => $attributes)
-			{
-				$source = "<source media=\"(min-width: " . $attributes["width"] . "px)\" srcset=\"" . $attributes["name"] . "\">\n";
-				$element .= $source;
-			}
-			$element .= $image . "\n</picture>";
+            // Skipping if no resized images are present
+            if (empty($cacheImages)) {
+                continue;
+            }
 
-			// Replacing the previous tag with new one in the article.
-			$text = str_replace($image, $element, $text);
-		}
-		return true;
-	}
+            // @TODO Use Jlayout for creation of the picture element.
+
+            // Generating the tag
+            $element = "<picture>\n";
+
+            foreach ($cacheImages as $key => $attributes) {
+                $source = "<source media=\"(min-width: " . $attributes["width"] . "px)\" srcset=\"" . $attributes["name"] . "\">\n";
+                $element .= $source;
+            }
+            $element .= $image . "\n</picture>";
+
+            // Replacing the previous tag with new one in the article.
+            $text = str_replace($image, $element, $text);
+        }
+        return true;
+    }
 }

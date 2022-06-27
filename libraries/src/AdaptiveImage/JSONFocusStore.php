@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @copyright  (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -21,242 +22,226 @@ use Joomla\CMS\AdaptiveImage\FocusStoreInterface;
  */
 class JSONFocusStore implements FocusStoreInterface
 {
-	/**
-	 * Location for file storing the data focus point.
-	 *
-	 * @var string
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected static $dataLocation = JPATH_PLUGINS . '/media-action/focus/data/focus.json';
+    /**
+     * Location for file storing the data focus point.
+     *
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected static $dataLocation = JPATH_PLUGINS . '/media-action/focus/data/focus.json';
 
-	/**
-	 * Location for all focus related storage.
-	 *
-	 * @var string
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected static $dataFolder = JPATH_PLUGINS . '/media-action/focus/data/';
-	
-	/**
-	 * Base path for cache images.
-	 *
-	 * @var     string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected $cacheDir =  "/media/focus";
-	
-	/**
-	 * Checks the storage at the initilization of the class
-	 * 
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function __construct()
-	{
-		$this->checkStorage(static::$dataLocation);
-	}
-	/**
-	 * Function to set the focus point
-	 *
-	 * index.php?option=com_media&task=adaptiveimage.setfocus&path=/images/sampledata/fruitshop/bananas_1.jpg
-	 *
-	 * @param   array    $dataFocus  Array of the values of diffrent focus point
-	 * @param   integer  $width      Width of the image
-	 * @param   string   $imgPath    Full path for the file
-	 *
-	 * @return  boolean
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function setFocus($dataFocus, $width, $imgPath)
-	{
-		$newEntry = array(
-			$imgPath => array(
-				$width => array(
-					"box-left"   => $dataFocus['box-left'],
-					"box-top"    => $dataFocus['box-top'],
-					"box-width"  => $dataFocus['box-width'],
-					"box-height" => $dataFocus['box-height']
-				)
-			)
-		);
+    /**
+     * Location for all focus related storage.
+     *
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected static $dataFolder = JPATH_PLUGINS . '/media-action/focus/data/';
 
-		if (filesize(static::$dataLocation) > 0)
-		{
-			$prevData = file_get_contents(static::$dataLocation);
+    /**
+     * Base path for cache images.
+     *
+     * @var     string
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected $cacheDir =  "/media/focus";
 
-			$prevData = json_decode($prevData, true);
+    /**
+     * Checks the storage at the initilization of the class
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function __construct()
+    {
+        $this->checkStorage(static::$dataLocation);
+    }
+    /**
+     * Function to set the focus point
+     *
+     * index.php?option=com_media&task=adaptiveimage.setfocus&path=/images/sampledata/fruitshop/bananas_1.jpg
+     *
+     * @param   array    $dataFocus  Array of the values of diffrent focus point
+     * @param   integer  $width      Width of the image
+     * @param   string   $imgPath    Full path for the file
+     *
+     * @return  boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function setFocus($dataFocus, $width, $imgPath)
+    {
+        $newEntry = array(
+            $imgPath => array(
+                $width => array(
+                    "box-left"   => $dataFocus['box-left'],
+                    "box-top"    => $dataFocus['box-top'],
+                    "box-width"  => $dataFocus['box-width'],
+                    "box-height" => $dataFocus['box-height']
+                )
+            )
+        );
 
-			$prevData[$imgPath][$width]["box-left"]   = $dataFocus['box-left'];
-			$prevData[$imgPath][$width]["box-top"]    = $dataFocus['box-top'];
-			$prevData[$imgPath][$width]["box-width"]  = $dataFocus['box-width'];
-			$prevData[$imgPath][$width]["box-height"] = $dataFocus['box-height'];
+        if (filesize(static::$dataLocation) > 0) {
+            $prevData = file_get_contents(static::$dataLocation);
 
-			$max = $this->findMax($prevData[$imgPath]);
-			$prevData[$imgPath]["max"] = $max;
+            $prevData = json_decode($prevData, true);
 
-			file_put_contents(static::$dataLocation, json_encode($prevData));
-		}
-		else
-		{
-			$newEntry[$imgPath]["max"] = $newEntry[$imgPath][$width];
+            $prevData[$imgPath][$width]["box-left"]   = $dataFocus['box-left'];
+            $prevData[$imgPath][$width]["box-top"]    = $dataFocus['box-top'];
+            $prevData[$imgPath][$width]["box-width"]  = $dataFocus['box-width'];
+            $prevData[$imgPath][$width]["box-height"] = $dataFocus['box-height'];
 
-			file_put_contents(static::$dataLocation, json_encode($newEntry));
-		}
-		return true;
-	}
+            $max = $this->findMax($prevData[$imgPath]);
+            $prevData[$imgPath]["max"] = $max;
 
-	/**
-	 * Function to get the focus point
-	 *
-	 * @param   string   $imgPath  Image Path
-	 * @param   integer  $width    Width of the corresponding data focus point
-	 *
-	 * @return  array
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function getFocus($imgPath, $width = null)
-	{
-		if (!filesize(static::$dataLocation))
-		{
-			return false;
-		}
+            file_put_contents(static::$dataLocation, json_encode($prevData));
+        } else {
+            $newEntry[$imgPath]["max"] = $newEntry[$imgPath][$width];
 
-		$prevData = file_get_contents(static::$dataLocation);
+            file_put_contents(static::$dataLocation, json_encode($newEntry));
+        }
+        return true;
+    }
 
-		$prevData = json_decode($prevData, true);
+    /**
+     * Function to get the focus point
+     *
+     * @param   string   $imgPath  Image Path
+     * @param   integer  $width    Width of the corresponding data focus point
+     *
+     * @return  array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function getFocus($imgPath, $width = null)
+    {
+        if (!filesize(static::$dataLocation)) {
+            return false;
+        }
 
-		if (array_key_exists($imgPath, $prevData))
-		{
-			if (array_key_exists($width, $prevData[$imgPath]))
-			{
-				return json_encode($prevData[$imgPath][$width]);
-			}
-			else
-			{
-				return json_encode($prevData[$imgPath]["max"]);
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
+        $prevData = file_get_contents(static::$dataLocation);
 
-	/**
-	 * Function for removing the focus points for all widths
-	 * 
-	 * @param   string  $imgSrc  Path of the image
-	 * 
-	 * @return  boolean
-	 * 
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function deleteFocus($imgSrc)
-	{
-		if (filesize(static::$dataLocation) > 0)
-		{
-			$prevData = file_get_contents(static::$dataLocation);
+        $prevData = json_decode($prevData, true);
 
-			$prevData = json_decode($prevData, true);
-			
-			unset($prevData[$imgSrc]);
+        if (array_key_exists($imgPath, $prevData)) {
+            if (array_key_exists($width, $prevData[$imgPath])) {
+                return json_encode($prevData[$imgPath][$width]);
+            } else {
+                return json_encode($prevData[$imgPath]["max"]);
+            }
+        } else {
+            return false;
+        }
+    }
 
-			file_put_contents(static::$dataLocation, json_encode($prevData));
-		}
-		return true;
-	}
+    /**
+     * Function for removing the focus points for all widths
+     *
+     * @param   string  $imgSrc  Path of the image
+     *
+     * @return  boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function deleteFocus($imgSrc)
+    {
+        if (filesize(static::$dataLocation) > 0) {
+            $prevData = file_get_contents(static::$dataLocation);
 
-	/**
-	 * Function for removing all the associated resized images
-	 * 
-	 * @param   string  $imgSrc  Path of the image
-	 * 
-	 * @return  boolean
-	 * 
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function deleteResizedImages($imgSrc)
-	{
-		$cacheFolderImages = scandir(JPATH_SITE . $this->cacheDir);
-		
-		unset($cacheFolderImages[0]);
-		unset($cacheFolderImages[1]);
+            $prevData = json_decode($prevData, true);
 
-		foreach ($cacheFolderImages as $key => $name)
-		{
-			$imgWidth = explode("_", $name);
-			$imgName = explode(".", $imgWidth[1]);
-			$imgWidth = $imgWidth[0];
-			$extension = $imgName[1];
-			$imgName = base64_decode($imgName[0]) . "." . $extension;
-			
-			if ($imgName == $imgSrc)
-			{
-				unlink(JPATH_SITE . $this->cacheDir . "/" . $name);
-			}
-		}
+            unset($prevData[$imgSrc]);
 
-		return true;
-	}
+            file_put_contents(static::$dataLocation, json_encode($prevData));
+        }
+        return true;
+    }
 
-	/**
-	 * Check whether the file exists
-	 *
-	 * @param   string  $dataLocation  location of storage file
-	 * 
-	 * @return  boolean
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function checkStorage($dataLocation)
-	{
-		if (!file_exists($dataLocation))
-		{
-			mkdir(static::$dataFolder);
-			touch($dataLocation);
-		}
+    /**
+     * Function for removing all the associated resized images
+     *
+     * @param   string  $imgSrc  Path of the image
+     *
+     * @return  boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function deleteResizedImages($imgSrc)
+    {
+        $cacheFolderImages = scandir(JPATH_SITE . $this->cacheDir);
 
-		return true;
-	}
+        unset($cacheFolderImages[0]);
+        unset($cacheFolderImages[1]);
 
-	/**
-	 * Find the max value of all the focus areas selected
-	 * 
-	 * @param   array  $dataFocuses  Collection of dataFocus for diffrent sizes.
-	 * 
-	 * @return  array
-	 * 
-	 * @since __DEPLOY_VERSION__
-	 */
-	private function findMax($dataFocuses)
-	{
-		$minX = 9999;
-		$minY = 9999;
-		$maxX = 0;
-		$maxY = 0;
-		
-		foreach ($dataFocuses as $width => $focus)
-		{
-			if ($width != "max")
-			{
-				$minX = min($minX, $focus["box-left"]);
-				$minY = min($minY, $focus["box-top"]);
-				$maxX = max($maxX, $focus["box-left"] + $focus["box-width"]);
-				$maxY = max($maxY, $focus["box-top"] + $focus["box-height"]);
-			}
-		}
+        foreach ($cacheFolderImages as $key => $name) {
+            $imgWidth = explode("_", $name);
+            $imgName = explode(".", $imgWidth[1]);
+            $imgWidth = $imgWidth[0];
+            $extension = $imgName[1];
+            $imgName = base64_decode($imgName[0]) . "." . $extension;
 
-		$maxFocus = array(
-			"box-left"   => $minX,
-			"box-top"    => $minY,
-			"box-width"  => $maxX - $minX,
-			"box-height" => $maxY - $minY
-		);
+            if ($imgName == $imgSrc) {
+                unlink(JPATH_SITE . $this->cacheDir . "/" . $name);
+            }
+        }
 
-		return $maxFocus;
-	}
+        return true;
+    }
+
+    /**
+     * Check whether the file exists
+     *
+     * @param   string  $dataLocation  location of storage file
+     *
+     * @return  boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function checkStorage($dataLocation)
+    {
+        if (!file_exists($dataLocation)) {
+            mkdir(static::$dataFolder);
+            touch($dataLocation);
+        }
+
+        return true;
+    }
+
+    /**
+     * Find the max value of all the focus areas selected
+     *
+     * @param   array  $dataFocuses  Collection of dataFocus for diffrent sizes.
+     *
+     * @return  array
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    private function findMax($dataFocuses)
+    {
+        $minX = 9999;
+        $minY = 9999;
+        $maxX = 0;
+        $maxY = 0;
+
+        foreach ($dataFocuses as $width => $focus) {
+            if ($width != "max") {
+                $minX = min($minX, $focus["box-left"]);
+                $minY = min($minY, $focus["box-top"]);
+                $maxX = max($maxX, $focus["box-left"] + $focus["box-width"]);
+                $maxY = max($maxY, $focus["box-top"] + $focus["box-height"]);
+            }
+        }
+
+        $maxFocus = array(
+            "box-left"   => $minX,
+            "box-top"    => $minY,
+            "box-width"  => $maxX - $minX,
+            "box-height" => $maxY - $minY
+        );
+
+        return $maxFocus;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -27,84 +28,80 @@ use Joomla\CMS\Uri\Uri;
  */
 class AdaptiveImageController extends BaseController
 {
-	/**
-	 * Execute a task by triggering a method in the derived class.
-	 *
-	 * @param   string  $task  The task to perform.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   4.0.0
-	 */
-	public function execute($task)
-	{
-		switch ($task)
-		{
-			case "setfocus" :
-				$imgPath = $this->input->getString('path');
-				$width   = $this->input->getInt('width');
-				$dataFocus = array (
-					"box-left"   => $this->input->getInt('box-left'),
-					"box-top"    => $this->input->getInt('box-top'),
-					"box-width"  => $this->input->getInt('box-width'),
-					"box-height" => $this->input->getInt('box-height')
-				);
-				$storage = new JSONFocusStore;
-				$storage->setFocus($dataFocus, $width, $imgPath);
-				return true;
-			case "cropBoxData" :
-				$this->app->setHeader('Content-Type', 'application/json');
-				$imgPath = $this->input->getString('path');
-				$width   = $this->input->getInt('width');
-				$storage = new JSONFocusStore;
-				echo $storage->getFocus($imgPath, $width);
-				$this->app->close();
-				return true;
-			case "cropImage" :
-				$imgPath = $this->input->getString('path');
-				$widths = json_decode($this->input->getString('widths'), true);
-				$this->cropImage($imgPath, $widths);
-				return true;
-			case "deleteFocus" :
-				if ($this->input->getMethod() != 'POST')
-				{
-					return false;
-				}
-				$imgPath = $this->input->getString('path');
-				$storage = new JSONFocusStore;
-				$storage->deleteFocus($imgPath);
-				$storage->deleteResizedImages($imgPath);
-				return true;
-			default :
-				return false;
-		}
-	}
-	/**
-	 * Crop the images around the focus area
-	 * 
-	 * @param   string  $imgPath  image path
-	 * @param   array   $widths   requested widths
-	 * 
-	 * @return  boolean
-	 * 
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function cropImage($imgPath, $widths = null)
-	{
-		$storage = new JSONFocusStore;
-		
-		if ($widths == null)
-		{
-			$widths = array(240, 360, 480, 768, 940, 1024);
-		}
-		
-		foreach ($widths as $width)
-		{
-			$dataFocus = json_decode($storage->getFocus($imgPath, $width), true);
-			$image = new SmartCrop(".." . $imgPath);
-			$image->compute($dataFocus, $width);
-		}
+    /**
+     * Execute a task by triggering a method in the derived class.
+     *
+     * @param   string  $task  The task to perform.
+     *
+     * @return  mixed
+     *
+     * @since   4.0.0
+     */
+    public function execute($task)
+    {
+        switch ($task) {
+            case "setfocus":
+                $imgPath = $this->input->getString('path');
+                $width   = $this->input->getInt('width');
+                $dataFocus = array (
+                    "box-left"   => $this->input->getInt('box-left'),
+                    "box-top"    => $this->input->getInt('box-top'),
+                    "box-width"  => $this->input->getInt('box-width'),
+                    "box-height" => $this->input->getInt('box-height')
+                );
+                $storage = new JSONFocusStore();
+                $storage->setFocus($dataFocus, $width, $imgPath);
+                return true;
+            case "cropBoxData":
+                $this->app->setHeader('Content-Type', 'application/json');
+                $imgPath = $this->input->getString('path');
+                $width   = $this->input->getInt('width');
+                $storage = new JSONFocusStore();
+                echo $storage->getFocus($imgPath, $width);
+                $this->app->close();
+                return true;
+            case "cropImage":
+                $imgPath = $this->input->getString('path');
+                $widths = json_decode($this->input->getString('widths'), true);
+                $this->cropImage($imgPath, $widths);
+                return true;
+            case "deleteFocus":
+                if ($this->input->getMethod() != 'POST') {
+                    return false;
+                }
+                $imgPath = $this->input->getString('path');
+                $storage = new JSONFocusStore();
+                $storage->deleteFocus($imgPath);
+                $storage->deleteResizedImages($imgPath);
+                return true;
+            default:
+                return false;
+        }
+    }
+    /**
+     * Crop the images around the focus area
+     *
+     * @param   string  $imgPath  image path
+     * @param   array   $widths   requested widths
+     *
+     * @return  boolean
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function cropImage($imgPath, $widths = null)
+    {
+        $storage = new JSONFocusStore();
 
-		return true;
-	}
+        if ($widths == null) {
+            $widths = array(240, 360, 480, 768, 940, 1024);
+        }
+
+        foreach ($widths as $width) {
+            $dataFocus = json_decode($storage->getFocus($imgPath, $width), true);
+            $image = new SmartCrop(".." . $imgPath);
+            $image->compute($dataFocus, $width);
+        }
+
+        return true;
+    }
 }
