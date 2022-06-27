@@ -78,7 +78,6 @@
 				name="all_tags_description_image_alt"
 				type="text"
 				label="COM_TAGS_TAG_LIST_MEDIA_ALT_LABEL"
-				size="20"
 			/>
 
 			<field

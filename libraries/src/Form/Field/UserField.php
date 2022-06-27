@@ -160,8 +160,6 @@ class UserField extends FormField
 		{
 			return explode(',', $this->element['groups']);
 		}
-
-		return;
 	}
 
 	/**
@@ -177,7 +175,5 @@ class UserField extends FormField
 		{
 			return explode(',', $this->element['exclude']);
 		}
-
-		return;
 	}
 }

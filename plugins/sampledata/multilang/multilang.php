@@ -1089,6 +1089,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
 				. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
 				. 'debet libris consulatu.</p>',
+			'fulltext'         => '',
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
 			'created'          => $currentDate,
@@ -1183,8 +1184,6 @@ class PlgSampledataMultilang extends CMSPlugin
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
 				$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
-
-				continue;
 			}
 		}
 

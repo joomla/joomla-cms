@@ -19,8 +19,9 @@
 				extension="com_content"
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
+				default=" "
 				>
-				<option value="">JOPTION_ALL_CATEGORIES</option>
+				<option value=" ">JOPTION_ALL_CATEGORIES</option>
 			</field>
 		</fieldset>
 	</fields>
@@ -70,7 +71,8 @@
 				name="display_num"
 				type="list"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-				default="5"
+				default=""
+				useglobal="true"
 				validate="options"
 				>
 				<option value="5">J5</option>

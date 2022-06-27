@@ -11,11 +11,12 @@ namespace Joomla\CMS\Form\Rule;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -24,8 +25,10 @@ use Joomla\Registry\Registry;
  *
  * @since  1.7.0
  */
-class EmailRule extends FormRule
+class EmailRule extends FormRule implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The regular expression to use in testing a form field value.
 	 *
@@ -177,7 +180,7 @@ class EmailRule extends FormRule
 		if ($unique && !$multiple)
 		{
 			// Get the database object and a new query object.
-			$db = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 
 			// Get the extra field check attribute.
