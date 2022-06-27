@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\CMS\Form\Field;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -52,10 +51,9 @@ class ChromestyleField extends GroupedlistField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'clientId')
 		{
-			case 'clientId':
-				return $this->clientId;
+			return $this->clientId;
 		}
 
 		return parent::__get($name);
@@ -229,7 +227,7 @@ class ChromestyleField extends GroupedlistField
 	 */
 	protected function getTemplates()
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);

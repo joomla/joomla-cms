@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,6 +83,7 @@ class TinymcebuilderField extends FormField
 			'format' => array('label' => 'Format'),
 			'table'  => array('label' => 'Table'),
 			'tools'  => array('label' => 'Tools'),
+			'help'   => array('label' => 'Help'),
 		);
 
 		$data['menus']         = $menus;
@@ -111,7 +112,7 @@ class TinymcebuilderField extends FormField
 
 			Factory::getApplication()->enqueueMessage(Text::sprintf('PLG_TINY_LEGACY_WARNING', '#'), 'warning');
 
-			if (is_object($plugin) && !empty($plugin->params))
+			if (\is_object($plugin) && !empty($plugin->params))
 			{
 				$setParams = (object) json_decode($plugin->params);
 			}
@@ -138,10 +139,10 @@ class TinymcebuilderField extends FormField
 				 * Set 0: for Administrator, Editor, Super Users (4,7,8)
 				 * Set 1: for Registered, Manager (2,6), all else are public
 				 */
-				$formValues->access = !$num ? array(4,7,8) : ($num === 1 ? array(2,6) : array());
+				$formValues->access = !$num ? array(4, 7, 8) : ($num === 1 ? array(2, 6) : array());
 
 				// Assign Public to the new Set, but only when it not in use already
-				if (empty($formValues->access) && !in_array(1, $groupsInUse))
+				if (empty($formValues->access) && !\in_array(1, $groupsInUse))
 				{
 					$formValues->access = array(1);
 				}
@@ -161,14 +162,12 @@ class TinymcebuilderField extends FormField
 			$setsForms[$num]->bind($formValues);
 		}
 
-		krsort($data['setsNames']);
-
 		$data['setsForms'] = $setsForms;
 
 		// Check for TinyMCE language file
 		$language      = Factory::getLanguage();
-		$languageFile1 = 'media/vendor/tinymce/langs/' . $language->getTag() . '.js';
-		$languageFile2 = 'media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js';
+		$languageFile1 = 'media/vendor/tinymce/langs/' . $language->getTag() . (JDEBUG ? '.js' : '.min.js');
+		$languageFile2 = 'media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . (JDEBUG ? '.js' : '.min.js');
 
 		$data['languageFile'] = '';
 

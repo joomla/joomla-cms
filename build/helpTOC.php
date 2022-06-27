@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,15 +110,6 @@ $command = new class extends AbstractCommand
 		// Get the language object
 		$language = Factory::getLanguage();
 
-		// Load the admin joomla.ini language file to get the JHELP language keys
-		$language->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
-
-		// Get the language strings via Reflection as the property is protected
-		$refl = new ReflectionClass($language);
-		$property = $refl->getProperty('strings');
-		$property->setAccessible(true);
-		$strings = $property->getValue($language);
-
 		/*
 		 * Now we start fancy processing so we can get the language key for the titles
 		 */
@@ -134,49 +125,18 @@ $command = new class extends AbstractCommand
 		}
 
 		// Make sure we only have an array of unique values before continuing
+
 		$cleanMembers = array_unique($cleanMembers);
-
-		/*
-		 * Loop through the cleaned up title array and the language strings array to match things up
-		 */
-
-		$matchedMembers = [];
-
-		foreach ($cleanMembers as $member)
-		{
-			foreach ($strings as $k => $v)
-			{
-				if ($member === $v)
-				{
-					$matchedMembers[] = $k;
-
-					continue;
-				}
-			}
-		}
-
-		// Alpha sort the array
-		asort($matchedMembers);
-
-		// Now we strip off the JHELP_ prefix from the strings to get usable strings for both COM_ADMIN and JHELP
-		$stripped = [];
-
-		foreach ($matchedMembers as $member)
-		{
-			$stripped[] = str_replace('JHELP_', '', $member);
-		}
-
-		/*
-		 * Check to make sure a COM_ADMIN_HELP string exists, don't include in the TOC if not
-		 */
 
 		// Load the admin com_admin language file
 		$language->load('com_admin', JPATH_ADMINISTRATOR);
 
 		$toc = [];
 
-		foreach ($stripped as $string)
+		foreach ($cleanMembers as $key => $value)
 		{
+			$string = strtoupper($value);
+
 			// Validate the key exists
 			$io->comment(sprintf('Validating key COM_ADMIN_HELP_%s', $string));
 
@@ -184,7 +144,7 @@ $command = new class extends AbstractCommand
 			{
 				$io->comment(sprintf('Adding %s', $string));
 
-				$toc[$string] = $string;
+				$toc[$value] = $string;
 			}
 			// We check the string for words in singular/plural form and check again
 			else
@@ -221,7 +181,7 @@ $command = new class extends AbstractCommand
 					{
 						$io->comment(sprintf('Adding %s', $inflected));
 
-						$toc[$string] = $inflected;
+						$toc[$value] = $inflected;
 					}
 				}
 			}

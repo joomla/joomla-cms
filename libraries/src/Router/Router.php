@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,8 +94,11 @@ class Router
 	 *
 	 * @return  Router  A Router object.
 	 *
-	 * @since   1.5
-	 * @throws  \RuntimeException
+	 * @since      1.5
+	 *
+	 * @throws     \RuntimeException
+	 *
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -166,7 +169,7 @@ class Router
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  $url  The internal URL or an associative array
+	 * @param   string|array|Uri  $url  The internal URL or an associative array
 	 *
 	 * @return  Uri  The absolute search engine friendly URL object
 	 *
@@ -181,8 +184,14 @@ class Router
 			return clone $this->cache[$key];
 		}
 
-		// Create the URI object
-		$uri = $this->createUri($url);
+		if ($url instanceof Uri)
+		{
+			$uri = $url;
+		}
+		else
+		{
+			$uri = $this->createUri($url);
+		}
 
 		// Do the preprocess stage of the URL build process
 		$this->processBuildRules($uri, self::PROCESS_BEFORE);
@@ -330,7 +339,7 @@ class Router
 	 *
 	 * @return   boolean  Was a rule removed?
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
@@ -363,7 +372,7 @@ class Router
 	 *
 	 * @return  array  All currently attached rules in an array
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getRules()
 	{

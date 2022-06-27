@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ namespace Joomla\Component\Fields\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Utilities\ArrayHelper;
-
 
 /**
  * Fields Groups
@@ -44,7 +43,7 @@ class FieldgroupsField extends ListField
 		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select(
 			[

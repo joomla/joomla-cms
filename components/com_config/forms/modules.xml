@@ -50,6 +50,7 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
+			class="form-select-color-state"
 			default="1"
 			size="1"
 			validate="options"
@@ -101,7 +102,8 @@
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
+			filter="UINT"
+			validate="options"
 		/>
 
 		<field

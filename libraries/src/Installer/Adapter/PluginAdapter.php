@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,7 +109,7 @@ class PluginAdapter extends InstallerAdapter
 					// Install failed, rollback changes
 					throw new \RuntimeException(
 						Text::sprintf(
-							'JLIB_INSTALLER_ABORT_PLG_INSTALL_MANIFEST',
+							'JLIB_INSTALLER_ABORT_MANIFEST',
 							Text::_('JLIB_INSTALLER_' . $this->route)
 						)
 					);
@@ -136,6 +136,7 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Create a new installer because findManifest sets stuff; side effects!
 			$tmpInstaller = new Installer;
+			$tmpInstaller->setDatabase($this->getDatabase());
 
 			// Look in the extension root
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
@@ -182,8 +183,8 @@ class PluginAdapter extends InstallerAdapter
 				// Install failed, rollback changes
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_COPY_SETUP',
-						Text::_('JLIB_INSTALLER_' . $this->route)
+						'JLIB_INSTALLER_ABORT_COPY_SETUP',
+						Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 					)
 				);
 			}
@@ -202,7 +203,7 @@ class PluginAdapter extends InstallerAdapter
 	{
 		$extensionId = $this->extension->extension_id;
 
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
@@ -232,23 +233,27 @@ class PluginAdapter extends InstallerAdapter
 	 */
 	public function getElement($element = null)
 	{
-		if (!$element)
+		if ($element || !$this->getManifest())
 		{
-			// Backward Compatibility
-			// @todo Deprecate in future version
-			if (\count($this->getManifest()->files->children()))
+			return $element;
+		}
+
+		// Backward Compatibility
+		// @todo Deprecate in future version
+		if (!\count($this->getManifest()->files->children()))
+		{
+			return $element;
+		}
+
+		$type = (string) $this->getManifest()->attributes()->type;
+
+		foreach ($this->getManifest()->files->children() as $file)
+		{
+			if ((string) $file->attributes()->$type)
 			{
-				$type = (string) $this->getManifest()->attributes()->type;
+				$element = (string) $file->attributes()->$type;
 
-				foreach ($this->getManifest()->files->children() as $file)
-				{
-					if ((string) $file->attributes()->$type)
-					{
-						$element = (string) $file->attributes()->$type;
-
-						break;
-					}
-				}
+				break;
 			}
 		}
 
@@ -421,7 +426,10 @@ class PluginAdapter extends InstallerAdapter
 		$this->parent->findManifest();
 		$this->setManifest($this->parent->getManifest());
 
-		$this->group = (string) $this->getManifest()->attributes()->group;
+		if ($this->getManifest())
+		{
+			$this->group = (string) $this->getManifest()->attributes()->group;
+		}
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->loadLanguage($this->parent->getPath('source'));
@@ -465,7 +473,7 @@ class PluginAdapter extends InstallerAdapter
 				// Install failed, roll back changes
 				throw new \RuntimeException(
 					Text::sprintf(
-						'JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS',
+						'JLIB_INSTALLER_ABORT_ALREADY_EXISTS',
 						Text::_('JLIB_INSTALLER_' . $this->route),
 						$this->name
 					)

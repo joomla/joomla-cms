@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Database\DatabaseDriver;
@@ -33,7 +34,7 @@ class PlgExtensionFinder extends CMSPlugin
 	/**
 	 * Add common words to finder after language got installed
 	 *
-	 * @param   JInstaller  $installer  Installer object
+	 * @param   Installer   $installer  Installer object
 	 * @param   integer     $eid        Extension Identifier
 	 *
 	 * @return  void
@@ -59,8 +60,8 @@ class PlgExtensionFinder extends CMSPlugin
 	/**
 	 * Add common words to finder after language got updated
 	 *
-	 * @param   JInstaller  $installer  Installer object
-	 * @param   integer     $eid        Extension identifier
+	 * @param   Installer  $installer  Installer object
+	 * @param   integer    $eid        Extension identifier
 	 *
 	 * @return  void
 	 *
@@ -74,9 +75,9 @@ class PlgExtensionFinder extends CMSPlugin
 	/**
 	 * Remove common words to finder after language got uninstalled
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
-	 * @param   boolean     $removed    Installation result
+	 * @param   Installer  $installer  Installer instance
+	 * @param   integer    $eid        Extension id
+	 * @param   boolean    $removed    Installation result
 	 *
 	 * @return  void
 	 *

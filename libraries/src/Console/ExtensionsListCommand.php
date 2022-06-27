@@ -2,16 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,42 +26,36 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionsListCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'extension:list';
 
 	/**
 	 * Stores the installed Extensions
 	 * @var array
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $extensions;
+	protected $extensions;
 
 	/**
 	 * Stores the Input Object
 	 * @var InputInterface
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $cliInput;
+	protected $cliInput;
 
 	/**
 	 * SymfonyStyle Object
 	 * @var   SymfonyStyle
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private $ioStyle;
-
-	/**
-	 * Database connector
-	 *
-	 * @var    DatabaseInterface
-	 * @since  4.0.0
-	 */
-	private $db;
+	protected $ioStyle;
 
 	/**
 	 * Instantiate the command.
@@ -70,8 +66,9 @@ class ExtensionsListCommand extends AbstractCommand
 	 */
 	public function __construct(DatabaseInterface $db)
 	{
-		$this->db = $db;
 		parent::__construct();
+
+		$this->setDatabase($db);
 	}
 
 	/**
@@ -82,10 +79,10 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 *
 	 */
-	private function configureIO(InputInterface $input, OutputInterface $output): void
+	protected function configureIO(InputInterface $input, OutputInterface $output): void
 	{
 		$this->cliInput = $input;
 		$this->ioStyle = new SymfonyStyle($input, $output);
@@ -117,7 +114,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return mixed
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function getExtensions()
 	{
@@ -136,7 +133,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return void
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	public function setExtensions($extensions = null): void
 	{
@@ -155,11 +152,11 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function getAllExtensionsFromDB(): array
 	{
-		$db    = $this->db;
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from('#__extensions');
@@ -176,9 +173,9 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
-	private function getExtensionsNameAndId($extensions): array
+	protected function getExtensionsNameAndId($extensions): array
 	{
 		$extInfo = [];
 
@@ -204,7 +201,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 *
 	 * @return array
 	 *
-	 * @since 4.0
+	 * @since 4.0.0
 	 */
 	private function filterExtensionsBasedOn($type): array
 	{
@@ -246,7 +243,7 @@ class ExtensionsListCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
 
-			return 0;
+			return Command::SUCCESS;
 		}
 
 		$extensions = $this->getExtensionsNameAndId($extensions);
@@ -254,6 +251,6 @@ class ExtensionsListCommand extends AbstractCommand
 		$this->ioStyle->title('Installed extensions.');
 		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
 
-		return 0;
+		return Command::SUCCESS;
 	}
 }

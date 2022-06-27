@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,37 +110,18 @@ class UsersHelper extends ContentHelper
 	}
 
 	/**
-	 * Creates a list of two factor authentication methods used in com_users
-	 * on user view
+	 * No longer used.
 	 *
 	 * @return  array
 	 *
 	 * @since   3.2.0
 	 * @throws  \Exception
+	 *
+	 * @deprecated 4.2.0 Will be removed in 5.0
 	 */
 	public static function getTwoFactorMethods()
 	{
-		PluginHelper::importPlugin('twofactorauth');
-		$identities = Factory::getApplication()->triggerEvent('onUserTwofactorIdentify', array());
-
-		$options = array(
-			HTMLHelper::_('select.option', 'none', Text::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
-		);
-
-		if (!empty($identities))
-		{
-			foreach ($identities as $identity)
-			{
-				if (!is_object($identity))
-				{
-					continue;
-				}
-
-				$options[] = HTMLHelper::_('select.option', $identity->method, $identity->title, 'value', 'text');
-			}
-		}
-
-		return $options;
+		return [];
 	}
 
 	/**
@@ -182,28 +163,13 @@ class UsersHelper extends ContentHelper
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   3.7.0
-	 * @throws  \Exception
+	 * @since       3.7.0
+	 * @throws      \Exception
+	 * @deprecated  5.0  Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::validateSection() instead.
 	 */
 	public static function validateSection($section)
 	{
-		if (Factory::getApplication()->isClient('site'))
-		{
-			switch ($section)
-			{
-				case 'registration':
-				case 'profile':
-					$section = 'user';
-			}
-		}
-
-		if ($section != 'user')
-		{
-			// We don't know other sections
-			return null;
-		}
-
-		return $section;
+		return Factory::getApplication()->bootComponent('com_users')->validateSection($section, null);
 	}
 
 	/**
@@ -211,16 +177,11 @@ class UsersHelper extends ContentHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   3.7.0
+	 * @since       3.7.0
+	 * @deprecated  5.0  Use \Joomla\Component\Users\Administrator\Extension\UsersComponent::getContexts() instead.
 	 */
 	public static function getContexts()
 	{
-		Factory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
-
-		$contexts = array(
-			'com_users.user' => Text::_('COM_USERS'),
-		);
-
-		return $contexts;
+		return Factory::getApplication()->bootComponent('com_users')->getContexts();
 	}
 }

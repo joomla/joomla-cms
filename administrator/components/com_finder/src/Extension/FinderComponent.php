@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceTrait;
@@ -19,6 +19,7 @@ use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\Component\Finder\Administrator\Service\HTML\Filter;
 use Joomla\Component\Finder\Administrator\Service\HTML\Finder;
 use Joomla\Component\Finder\Administrator\Service\HTML\Query;
+use Joomla\Database\DatabaseInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -46,8 +47,16 @@ class FinderComponent extends MVCComponent implements BootableExtensionInterface
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('finder', new Finder);
-		$this->getRegistry()->register('filter', new Filter);
+		$finder = new Finder;
+		$finder->setDatabase($container->get(DatabaseInterface::class));
+
+		$this->getRegistry()->register('finder', $finder);
+
+		$filter = new Filter;
+		$filter->setDatabase($container->get(DatabaseInterface::class));
+
+		$this->getRegistry()->register('filter', $filter);
+
 		$this->getRegistry()->register('query', new Query);
 	}
 }

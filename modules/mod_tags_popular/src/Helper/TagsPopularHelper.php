@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ abstract class TagsPopularHelper
 		$user        = Factory::getUser();
 		$groups      = $user->getAuthorisedViewLevels();
 		$timeframe   = $params->get('timeframe', 'alltime');
-		$maximum     = $params->get('maximum', 5);
+		$maximum     = (int) $params->get('maximum', 5);
 		$order_value = $params->get('order_value', 'title');
 		$nowDate     = Factory::getDate()->toSql();
 		$nullDate    = $db->getNullDate();
@@ -52,9 +52,10 @@ abstract class TagsPopularHelper
 					'MAX(' . $db->quoteName('t.access') . ') AS ' . $db->quoteName('access'),
 					'MAX(' . $db->quoteName('t.alias') . ') AS ' . $db->quoteName('alias'),
 					'MAX(' . $db->quoteName('t.params') . ') AS ' . $db->quoteName('params'),
+					'MAX(' . $db->quoteName('t.language') . ') AS ' . $db->quoteName('language'),
 				]
 			)
-			->group($db->quoteName(['tag_id', 'title', 'access', 'alias']))
+			->group($db->quoteName(['tag_id', 't.title', 't.access', 't.alias']))
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->whereIn($db->quoteName('t.access'), $groups);
 
@@ -68,6 +69,22 @@ abstract class TagsPopularHelper
 		{
 			$query->whereIn($db->quoteName('t.parent_id'), $parentTags);
 		}
+
+		// Filter on category state
+		$query->join(
+			'INNER',
+			$db->quoteName('#__ucm_content', 'ucm'),
+			$db->quoteName('m.content_item_id') . ' = ' . $db->quoteName('ucm.core_content_item_id') .
+			' AND ' . $db->quoteName('m.type_id') . ' = ' . $db->quoteName('ucm.core_type_id')
+		);
+
+		$query->join(
+			'INNER',
+			$db->quoteName('#__categories', 'cat'),
+			$db->quoteName('ucm.core_catid') . ' = ' . $db->quoteName('cat.id')
+		);
+
+		$query->where($db->quoteName('cat.published') . ' > 0');
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -124,7 +141,14 @@ abstract class TagsPopularHelper
 
 			if ($params->get('order_value', 'title') === 'title')
 			{
-				$query->setLimit($maximum);
+				// Backup bound parameters array of the original query
+				$bounded = $query->getBounded();
+
+				if ($maximum > 0)
+				{
+					$query->setLimit($maximum);
+				}
+
 				$query->order($db->quoteName('count') . ' DESC');
 				$equery = $db->getQuery(true)
 					->select(
@@ -135,6 +159,7 @@ abstract class TagsPopularHelper
 								'a.title',
 								'a.access',
 								'a.alias',
+								'a.language',
 							]
 						)
 					)
@@ -142,6 +167,12 @@ abstract class TagsPopularHelper
 					->order($db->quoteName('a.title') . ' ' . $order_direction);
 
 				$query = $equery;
+
+				// Rebind parameters
+				foreach ($bounded as $key => $obj)
+				{
+					$query->bind($key, $obj->value, $obj->dataType);
+				}
 			}
 			else
 			{
@@ -149,7 +180,11 @@ abstract class TagsPopularHelper
 			}
 		}
 
-		$query->setLimit($maximum, 0);
+		if ($maximum > 0)
+		{
+			$query->setLimit($maximum);
+		}
+
 		$db->setQuery($query);
 
 		try

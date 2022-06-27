@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ if (!empty($editor))
 
 		<?php if ($this->total > 0) : ?>
 		<table class="table" id="moduleList">
-			<caption id="captionTable" class="sr-only">
+			<caption class="visually-hidden">
 				<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -79,27 +79,29 @@ if (!empty($editor))
 			<tbody>
 				<?php
 				$iconStates = array(
-					-2 => 'fas fa-trash',
-					0  => 'fas fa-times',
-					1  => 'fas fa-check',
-					2  => 'fas fa-folder',
+					-2 => 'icon-trash',
+					0  => 'icon-times',
+					1  => 'icon-check',
+					2  => 'icon-folder',
 				);
 				foreach ($this->items as $i => $item) :
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-center tbody-icon">
-						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
+					<td class="text-center">
+						<span class="tbody-icon">
+							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
+						</span>
 					</td>
-					<td scope="row" class="has-context">
-						<a class="js-module-insert btn btn-sm btn-block btn-success" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
+					<th scope="row" class="has-context">
+						<a class="js-module-insert btn btn-sm btn-success w-100" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
-					</td>
+					</th>
 					<td class="small d-none d-md-table-cell">
 						<?php if ($item->position) : ?>
-						<a class="js-position-insert btn btn-sm btn-block btn-warning" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
+						<a class="js-position-insert btn btn-sm btn-warning w-100" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
-						<span class="btn btn-sm btn-block btn-secondary"><?php echo Text::_('JNONE'); ?></span>
+						<span class="btn btn-sm btn-secondary w-100"><?php echo Text::_('JNONE'); ?></span>
 						<?php endif; ?>
 					</td>
 					<td class="small d-none d-md-table-cell">

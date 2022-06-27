@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,11 @@ if ($readonly || $disabled)
 }
 
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
-$attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY')) . '" ';
+
+$placeholder = $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY'));
+
+$attr2 .= ' placeholder="' . $placeholder . '" ';
+$attr2 .= ' search-placeholder="' . $placeholder . '" ';
 
 if ($allowCustom)
 {

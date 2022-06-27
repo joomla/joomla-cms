@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,8 +32,13 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		$items = $this->get('Items');
-		$this->messages = &$items;
+		$this->messages = $this->get('Items');
+
+		if (!\count($this->messages))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		parent::display($tpl);
 	}
 
@@ -48,6 +53,6 @@ class HtmlView extends InstallerViewDefault
 	{
 		parent::addToolbar();
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_WARNINGS');
+		ToolbarHelper::help('Information:_Warnings');
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Contenthistory list controller class.
@@ -51,10 +50,13 @@ class HistoryController extends AdminController
 	{
 		$this->checkToken();
 
-		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		// Get items to toggle keep forever from the request.
+		$cid = (array) $this->input->get('cid', array(), 'int');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			$this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
 		}
@@ -63,10 +65,7 @@ class HistoryController extends AdminController
 			// Get the model.
 			$model = $this->getModel();
 
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
-
-			// Remove the items.
+			// Toggle keep forever status of the selected items.
 			if ($model->keep($cid))
 			{
 				$this->setMessage(Text::plural('COM_CONTENTHISTORY_N_ITEMS_KEEP_TOGGLE', count($cid)));

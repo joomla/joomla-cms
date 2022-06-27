@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,15 +10,17 @@ namespace Joomla\CMS\Service\Provider;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Menu\MenuFactory;
 use Joomla\CMS\Menu\MenuFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
  * Service provider for the application's menu dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Menu implements ServiceProviderInterface
 {
@@ -29,7 +31,7 @@ class Menu implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -39,7 +41,11 @@ class Menu implements ServiceProviderInterface
 				MenuFactoryInterface::class,
 				function (Container $container)
 				{
-					return new MenuFactory;
+					$factory = new MenuFactory;
+					$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
+					$factory->setDatabase($container->get(DatabaseInterface::class));
+
+					return $factory;
 				},
 				true
 			);

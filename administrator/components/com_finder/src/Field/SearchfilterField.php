@@ -3,15 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\Field;
 
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -41,7 +40,7 @@ class SearchfilterField extends ListField
 	public function getOptions()
 	{
 		// Build the query.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('f.title AS text, f.filter_id AS value')
 			->from($db->quoteName('#__finder_filters') . ' AS f')

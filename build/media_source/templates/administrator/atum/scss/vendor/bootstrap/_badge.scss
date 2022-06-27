@@ -1,0 +1,14 @@
+// Badge
+@import "../../variables";
+
+.badge {
+  @include media-breakpoint-down(md) {
+    white-space: normal;
+  }
+
+  &.bg-secondary {
+    &:hover {
+      color: $white;
+    }
+  }
+}

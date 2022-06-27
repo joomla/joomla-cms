@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -87,6 +88,9 @@ class ModulesModel extends ListModel
 			$this->context .= '.' . $layout;
 		}
 
+		// Make context client aware
+		$this->context .= '.' . $app->input->get->getInt('client_id', 0);
+
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
@@ -116,7 +120,7 @@ class ModulesModel extends ListModel
 		else
 		{
 			$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-			$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+			$clientId = (!in_array($clientId, array(0, 1))) ? 0 : $clientId;
 			$this->setState('client_id', $clientId);
 		}
 
@@ -163,9 +167,9 @@ class ModulesModel extends ListModel
 	/**
 	 * Returns an object list
 	 *
-	 * @param   \JDatabaseQuery  $query       The query
-	 * @param   int              $limitstart  Offset
-	 * @param   int              $limit       The number of records
+	 * @param   DatabaseQuery  $query       The query
+	 * @param   int            $limitstart  Offset
+	 * @param   int            $limit       The number of records
 	 *
 	 * @return  array
 	 */
@@ -174,12 +178,14 @@ class ModulesModel extends ListModel
 		$listOrder = $this->getState('list.ordering', 'a.position');
 		$listDirn  = $this->getState('list.direction', 'asc');
 
+		$db = $this->getDatabase();
+
 		// If ordering by fields that need translate we need to sort the array of objects after translating them.
 		if (in_array($listOrder, array('pages', 'name')))
 		{
 			// Fetch the results.
-			$this->_db->setQuery($query);
-			$result = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
 
 			// Translate the results.
 			$this->translate($result);
@@ -203,17 +209,17 @@ class ModulesModel extends ListModel
 		// If ordering by fields that doesn't need translate just order the query.
 		if ($listOrder === 'a.ordering')
 		{
-			$query->order($this->_db->quoteName('a.position') . ' ASC')
-				->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn));
+			$query->order($db->quoteName('a.position') . ' ASC')
+				->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 		}
 		elseif ($listOrder === 'a.position')
 		{
-			$query->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn))
-				->order($this->_db->quoteName('a.ordering') . ' ASC');
+			$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn))
+				->order($db->quoteName('a.ordering') . ' ASC');
 		}
 		else
 		{
-			$query->order($this->_db->quoteName($listOrder) . ' ' . $this->_db->escape($listDirn));
+			$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 		}
 
 		// Process pagination.
@@ -267,12 +273,12 @@ class ModulesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields.
@@ -453,6 +459,25 @@ class ModulesModel extends ListModel
 					->bind(':language', $language);
 			}
 		}
+
+		return $query;
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$clientId = (int) $this->getState('client_id');
+
+		$query->where($this->getDatabase()->quoteName('a.client_id') . ' = :client_id')
+			->bind(':client_id', $clientId, ParameterType::INTEGER);
 
 		return $query;
 	}

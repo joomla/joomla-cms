@@ -3,14 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Administrator\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -22,9 +24,10 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class PrivacyComponent extends MVCComponent implements BootableExtensionInterface
+class PrivacyComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface
 {
 	use HTMLRegistryAwareTrait;
+	use RouterServiceTrait;
 
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like

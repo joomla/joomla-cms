@@ -3,16 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactory;
+use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Privacy\Administrator\Extension\PrivacyComponent;
@@ -39,6 +41,7 @@ return new class implements ServiceProviderInterface
 	{
 		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Privacy'));
 		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Privacy'));
+		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Privacy'));
 
 		$container->set(
 			ComponentInterface::class,
@@ -48,6 +51,7 @@ return new class implements ServiceProviderInterface
 
 				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
 				$component->setRegistry($container->get(Registry::class));
+				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
 				return $component;
 			}

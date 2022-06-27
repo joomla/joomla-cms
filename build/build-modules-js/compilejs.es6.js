@@ -1,6 +1,8 @@
-const Fs = require('fs');
-const Recurs = require('recursive-readdir');
-const HandleFile = require('./javascript/handle-file.es6.js');
+const { stat } = require('fs-extra');
+const { sep } = require('path');
+const recursive = require('recursive-readdir');
+const { handleES5File } = require('./javascript/handle-es5.es6.js');
+const { handleESMFile } = require('./javascript/compile-to-es2017.es6.js');
 
 const RootPath = process.cwd();
 
@@ -17,48 +19,56 @@ const RootPath = process.cwd();
  *
  * @param { object } options The options from settings.json
  * @param { string } path    The folder that needs to be compiled, optional
+ * @param { string } mode    esm for ES2017, es5 for ES5, both for both
  */
-module.exports.compileJS = (options, path) => {
-  Promise.resolve(options, path)
-    // Compile the scss files
-    .then(() => {
-      let folders = [];
-      if (path) {
-        const stats = Fs.lstatSync(`${RootPath}/${path}`);
+module.exports.scripts = async (options, path) => {
+  const files = [];
+  let folders = [];
 
-        if (!stats.isDirectory()) {
-          // @todo: allow to compile single file
-          throw new Error(`Path should be a directory: ${path}`);
-        }
+  if (path) {
+    const stats = await stat(`${RootPath}/${path}`);
 
-        folders.push(`${RootPath}/${path}`);
-      } else {
-        folders = [
-          `${RootPath}/build/media_source`,
-          `${RootPath}/templates/cassiopeia/js`,
-        ];
-      }
+    if (stats.isDirectory()) {
+      folders.push(`${RootPath}/${path}`);
+    } else if (stats.isFile()) {
+      files.push(`${RootPath}/${path}`);
+    } else {
+      // eslint-disable-next-line no-console
+      console.error(`Unknown path ${path}`);
+      process.exit(1);
+    }
+  } else {
+    folders = [
+      `${RootPath}/build/media_source`,
+      `${RootPath}/templates/cassiopeia`,
+    ];
+  }
 
-      // Loop to get some text for the packgage.json
-      folders.forEach((folder) => {
-        Recurs(folder, ['*.min.js', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.swf', '*.gif', '*.json']).then(
-          (files) => {
-            files.forEach(
-              (file) => {
-                HandleFile.run(file);
-              },
-              (error) => {
-                // eslint-disable-next-line no-console
-                console.error(error.formatted);
-              },
-            );
-          },
-        );
-      });
-    })
+  const folderPromises = [];
 
-    // Handle errors
-    .catch((error) => {
-      throw new Error(`${error}`);
-    });
+  // Loop to get the files that should be compiled via parameter
+  // eslint-disable-next-line no-restricted-syntax
+  for (const folder of folders) {
+    folderPromises.push(recursive(folder, ['!*.+(js)']));
+  }
+
+  const computedFiles = await Promise.all(folderPromises);
+  const computedFilesFlat = [].concat(...computedFiles);
+  const jsFilesPromises = [];
+  const esmFilesPromises = [];
+
+  // Loop to get the files that should be compiled via parameter
+  computedFilesFlat.forEach((file) => {
+    if (file.includes(`build${sep}media_source${sep}vendor${sep}bootstrap${sep}js`)) {
+      return;
+    }
+
+    if (file.match(/\.es5\.js$/)) {
+      jsFilesPromises.push(handleES5File(file));
+    } else if (file.match(/\.es6\.js$/) || file.match(/\.w-c\.es6\.js$/)) {
+      esmFilesPromises.push(handleESMFile(file));
+    }
+  });
+
+  Promise.all([...jsFilesPromises, ...esmFilesPromises]);
 };

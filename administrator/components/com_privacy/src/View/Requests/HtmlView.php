@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,6 +110,11 @@ class HtmlView extends BaseHtmlView
 		$this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
 		$this->sendMailEnabled  = (bool) Factory::getApplication()->get('mailonline', 1);
 
+		if (!count($this->items) && $this->get('IsEmptyState'))
+		{
+			$this->setLayout('emptystate');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -139,6 +144,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::preferences('com_privacy');
-		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUESTS');
+		ToolbarHelper::help('Privacy:_Information_Requests');
 	}
 }

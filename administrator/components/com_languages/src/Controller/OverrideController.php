@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ class OverrideController extends FormController
 		// Do not cache the response to this, its a redirect
 		$this->app->allowCache(false);
 
-		$cid     = $this->input->post->get('cid', array(), 'array');
+		$cid     = (array) $this->input->post->get('cid', array(), 'string');
 		$context = "$this->option.edit.$this->context";
 
 		// Get the constant name.

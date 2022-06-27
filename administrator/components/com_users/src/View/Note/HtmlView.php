@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,8 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The edit form.
 	 *
-	 * @var    \JForm
+	 * @var    \Joomla\CMS\Form\Form
+	 *
 	 * @since  2.5
 	 */
 	protected $form;
@@ -91,7 +92,7 @@ class HtmlView extends BaseHtmlView
 		$input = Factory::getApplication()->input;
 		$input->set('hidemainmenu', 1);
 
-		$user       = Factory::getUser();
+		$user       = $this->getCurrentUser();
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 
@@ -140,6 +141,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_USERS_USER_NOTES_EDIT');
+		ToolbarHelper::help('User_Notes:_New_or_Edit');
 	}
 }

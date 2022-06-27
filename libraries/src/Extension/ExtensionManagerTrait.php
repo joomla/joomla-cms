@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\CMS\Extension;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Helper\HelperFactory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
@@ -131,7 +132,7 @@ trait ExtensionManagerTrait
 		// The path of the loader file
 		$path = $extensionPath . '/services/provider.php';
 
-		if (file_exists($path))
+		if (is_file($path))
 		{
 			// Load the file
 			$provider = require_once $path;
@@ -152,7 +153,7 @@ trait ExtensionManagerTrait
 					$container->set($type, new LegacyComponent('com_' . $extensionName));
 					break;
 				case ModuleInterface::class:
-					$container->set($type, new Module(new ModuleDispatcherFactory('')));
+					$container->set($type, new Module(new ModuleDispatcherFactory(''), new HelperFactory('')));
 					break;
 				case PluginInterface::class:
 					list($pluginName, $pluginType) = explode(':', $extensionName);
@@ -209,7 +210,7 @@ trait ExtensionManagerTrait
 		$path = JPATH_PLUGINS . '/' . $type . '/' . $plugin . '/' . $plugin . '.php';
 
 		// Return an empty class when the file doesn't exist
-		if (!file_exists($path))
+		if (!is_file($path))
 		{
 			return new DummyPlugin($dispatcher);
 		}

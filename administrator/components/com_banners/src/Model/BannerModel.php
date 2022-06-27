@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,7 +77,7 @@ class BannerModel extends AdminModel
 		// Set the variables
 		$user = Factory::getUser();
 
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -210,6 +210,12 @@ class BannerModel extends AdminModel
 			$form->setFieldAttribute('sticky', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_by user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_by', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -257,7 +263,7 @@ class BannerModel extends AdminModel
 	 */
 	public function stick(&$pks, $value = 1)
 	{
-		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
+		/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
 		$table = $this->getTable();
 		$pks   = (array) $pks;
 
@@ -297,9 +303,11 @@ class BannerModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
-			$this->_db->quoteName('state') . ' >= 0',
+			$db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$db->quoteName('state') . ' >= 0',
 		];
 	}
 
@@ -326,7 +334,7 @@ class BannerModel extends AdminModel
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select('MAX(' . $db->quoteName('ordering') . ')')
 					->from($db->quoteName('#__banners'));

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +24,9 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -161,10 +164,22 @@ class FieldModel extends AdminModel
 		}
 
 		// Save the assigned categories into #__fields_categories
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$id = (int) $this->getState('field.id');
-		$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
-		$cats = ArrayHelper::toInteger($cats);
+
+		/**
+		 * If the field is only used in subform, set Category to None automatically so that it will only be displayed
+		 * as part of SubForm on add/edit item screen
+		 */
+		if (!empty($data['only_use_in_subform']))
+		{
+			$cats = [-1];
+		}
+		else
+		{
+			$cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+			$cats = ArrayHelper::toInteger($cats);
+		}
 
 		$assignedCatIds = array();
 
@@ -289,7 +304,9 @@ class FieldModel extends AdminModel
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new Form($data['context'])));
+		$form = new Form($data['context']);
+		$form->setDatabase($this->getDatabase());
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -307,6 +324,19 @@ class FieldModel extends AdminModel
 		if (!$rule)
 		{
 			return true;
+		}
+
+		if ($rule instanceof DatabaseAwareInterface)
+		{
+			try
+			{
+				$rule->setDatabase($this->getDatabase());
+			}
+			catch (DatabaseNotFoundException $e)
+			{
+				@trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+				$rule->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
+			}
 		}
 
 		try
@@ -380,7 +410,7 @@ class FieldModel extends AdminModel
 				$result->fieldparams = $registry->toArray();
 			}
 
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true);
 			$fieldId = (int) $result->id;
 			$query->select($db->quoteName('category_id'))
@@ -402,7 +432,7 @@ class FieldModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   3.7.0
 	 * @throws  \Exception
@@ -419,15 +449,15 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to change the title & name.
 	 *
-	 * @param   integer  $category_id  The id of the category.
-	 * @param   string   $name         The name.
-	 * @param   string   $title        The title.
+	 * @param   integer  $categoryId  The id of the category.
+	 * @param   string   $name        The name.
+	 * @param   string   $title       The title.
 	 *
 	 * @return  array  Contains the modified title and name.
 	 *
 	 * @since    3.7.0
 	 */
-	protected function generateNewTitle($category_id, $name, $title)
+	protected function generateNewTitle($categoryId, $name, $title)
 	{
 		// Alter the title & name
 		$table = $this->getTable();
@@ -466,20 +496,20 @@ class FieldModel extends AdminModel
 			if (!empty($pks))
 			{
 				// Delete Values
-				$query = $this->getDbo()->getQuery(true);
+				$query = $this->getDatabase()->getQuery(true);
 
 				$query->delete($query->quoteName('#__fields_values'))
 					->whereIn($query->quoteName('field_id'), $pks);
 
-				$this->getDbo()->setQuery($query)->execute();
+				$this->getDatabase()->setQuery($query)->execute();
 
 				// Delete Assigned Categories
-				$query = $this->getDbo()->getQuery(true);
+				$query = $this->getDatabase()->getQuery(true);
 
 				$query->delete($query->quoteName('#__fields_categories'))
 					->whereIn($query->quoteName('field_id'), $pks);
 
-				$this->getDbo()->setQuery($query)->execute();
+				$this->getDatabase()->setQuery($query)->execute();
 			}
 		}
 
@@ -492,7 +522,7 @@ class FieldModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  Form|bool  A Form object on success, false on failure
 	 *
 	 * @since   3.7.0
 	 */
@@ -559,6 +589,29 @@ class FieldModel extends AdminModel
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
+		// Don't allow to change the created_user_id user if not allowed to access com_users.
+		if (!Factory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$form->setFieldAttribute('created_user_id', 'filter', 'unset');
+		}
+
+		// In case we are editing a field, field type cannot be changed, so some extra handling below is needed
+		if ($fieldId)
+		{
+			$fieldType = $form->getField('type');
+
+			if ($fieldType->value == 'subform')
+			{
+				// Only Use In subform should not be available for subform field type, so we remove it
+				$form->removeField('only_use_in_subform');
+			}
+			else
+			{
+				// Field type could not be changed, so remove showon attribute to avoid js errors
+				$form->setFieldAttribute('only_use_in_subform', 'showon', '');
+			}
+		}
+
 		return $form;
 	}
 
@@ -620,7 +673,7 @@ class FieldModel extends AdminModel
 			$fieldId = (int) $fieldId;
 
 			// Deleting the existing record as it is a reset
-			$query = $this->getDbo()->getQuery(true);
+			$query = $this->getDatabase()->getQuery(true);
 
 			$query->delete($query->quoteName('#__fields_values'))
 				->where($query->quoteName('field_id') . ' = :fieldid')
@@ -628,7 +681,7 @@ class FieldModel extends AdminModel
 				->bind(':fieldid', $fieldId, ParameterType::INTEGER)
 				->bind(':itemid', $itemId);
 
-			$this->getDbo()->setQuery($query)->execute();
+			$this->getDatabase()->setQuery($query)->execute();
 		}
 
 		if ($needsInsert)
@@ -642,7 +695,7 @@ class FieldModel extends AdminModel
 			{
 				$newObj->value = $v;
 
-				$this->getDbo()->insertObject('#__fields_values', $newObj);
+				$this->getDatabase()->insertObject('#__fields_values', $newObj);
 			}
 		}
 
@@ -654,7 +707,7 @@ class FieldModel extends AdminModel
 			$updateObj->item_id  = $itemId;
 			$updateObj->value    = reset($value);
 
-			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
+			$this->getDatabase()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
 		}
 
 		$this->valueCache = array();
@@ -709,7 +762,7 @@ class FieldModel extends AdminModel
 		if (!array_key_exists($key, $this->valueCache))
 		{
 			// Create the query
-			$query = $this->getDbo()->getQuery(true);
+			$query = $this->getDatabase()->getQuery(true);
 
 			$query->select($query->quoteName(['field_id', 'value']))
 				->from($query->quoteName('#__fields_values'))
@@ -718,7 +771,7 @@ class FieldModel extends AdminModel
 				->bind(':itemid', $itemId);
 
 			// Fetch the row from the database
-			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
+			$rows = $this->getDatabase()->setQuery($query)->loadObjectList();
 
 			$data = array();
 
@@ -766,12 +819,12 @@ class FieldModel extends AdminModel
 	public function cleanupValues($context, $itemId)
 	{
 		// Delete with inner join is not possible so we need to do a subquery
-		$fieldsQuery = $this->getDbo()->getQuery(true);
+		$fieldsQuery = $this->getDatabase()->getQuery(true);
 		$fieldsQuery->select($fieldsQuery->quoteName('id'))
 			->from($fieldsQuery->quoteName('#__fields'))
 			->where($fieldsQuery->quoteName('context') . ' = :context');
 
-		$query = $this->getDbo()->getQuery(true);
+		$query = $this->getDatabase()->getQuery(true);
 
 		$query->delete($query->quoteName('#__fields_values'))
 			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
@@ -779,7 +832,7 @@ class FieldModel extends AdminModel
 			->bind(':itemid', $itemId)
 			->bind(':context', $context);
 
-		$this->getDbo()->setQuery($query)->execute();
+		$this->getDatabase()->setQuery($query)->execute();
 	}
 
 	/**
@@ -860,7 +913,7 @@ class FieldModel extends AdminModel
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table  $table  A Table object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
@@ -868,8 +921,10 @@ class FieldModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('context') . ' = ' . $this->_db->quote($table->context),
+			$db->quoteName('context') . ' = ' . $db->quote($table->context),
 		];
 	}
 
@@ -922,17 +977,45 @@ class FieldModel extends AdminModel
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   Form    $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.9.23
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		if (!Factory::getUser()->authorise('core.admin', 'com_fields'))
+		{
+			if (isset($data['rules']))
+			{
+				unset($data['rules']);
+			}
+		}
+
+		return parent::validate($form, $data, $group);
+	}
+
+	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
-	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
+	 *
 	 * @throws  \Exception if there is an error in the form event.
+	 *
+	 * @see     \Joomla\CMS\Form\FormField
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
@@ -1058,14 +1141,14 @@ class FieldModel extends AdminModel
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string   $group      The cache group
-	 * @param   integer  $client_id  The ID of the client
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
 		$context = Factory::getApplication()->input->get('context');
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -250,7 +250,7 @@ class ItemsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db       = $this->getDbo();
+		$db       = $this->getDatabase();
 		$query    = $db->getQuery(true);
 		$user     = Factory::getUser();
 		$clientId = (int) $this->getState('filter.client_id');
@@ -367,7 +367,7 @@ class ItemsModel extends ListModel
 		}
 
 		// Filter by search in title, alias or id
-		if ($search = trim($this->getState('filter.search')))
+		if ($search = trim($this->getState('filter.search', '')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
@@ -571,14 +571,15 @@ class ItemsModel extends ListModel
 	 */
 	protected function getMenu($menuType, $check = false)
 	{
-		$query = $this->_db->getQuery(true);
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true);
 
-		$query->select($this->_db->quoteName('a') . '.*')
-			->from($this->_db->quoteName('#__menu_types', 'a'))
-			->where($this->_db->quoteName('menutype') . ' = :menuType')
+		$query->select($db->quoteName('a') . '.*')
+			->from($db->quoteName('#__menu_types', 'a'))
+			->where($db->quoteName('menutype') . ' = :menuType')
 			->bind(':menuType', $menuType);
 
-		$cMenu = $this->_db->setQuery($query)->loadObject();
+		$cMenu = $db->setQuery($query)->loadObject();
 
 		if ($check)
 		{

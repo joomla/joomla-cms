@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_messages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,9 +20,11 @@ if (!$app->getIdentity()->authorise('core.login.admin') || !$app->getIdentity()-
 // Try to get the items from the messages model
 try
 {
-	$messagesModel = new \Joomla\Component\Messages\Administrator\Model\MessagesModel(['ignore_request' => true]);
+	/** @var \Joomla\Component\Messages\Administrator\Model\MessagesModel $messagesModel */
+	$messagesModel = $app->bootComponent('com_messages')->getMVCFactory()
+		->createModel('Messages', 'Administrator', ['ignore_request' => true]);
 	$messagesModel->setState('filter.state', 0);
-	$messages      = $messagesModel->getItems();
+	$messages = $messagesModel->getItems();
 }
 catch (RuntimeException $e)
 {

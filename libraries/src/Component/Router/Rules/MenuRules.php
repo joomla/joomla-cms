@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -272,7 +272,7 @@ class MenuRules implements RulesInterface
 	}
 
 	/**
-	 * Dummymethod to fullfill the interface requirements
+	 * Dummy method to fulfil the interface requirements
 	 *
 	 * @param   array  &$segments  The URL segments to parse
 	 * @param   array  &$vars      The vars that result from the segments
@@ -287,7 +287,7 @@ class MenuRules implements RulesInterface
 	}
 
 	/**
-	 * Dummymethod to fullfill the interface requirements
+	 * Dummy method to fulfil the interface requirements
 	 *
 	 * @param   array  &$query     The vars that should be converted
 	 * @param   array  &$segments  The URL segments to create

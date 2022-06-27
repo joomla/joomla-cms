@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,24 +96,24 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</div>
 </details>
 <?php // Begin tabs ?>
-<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>"<?php echo $dataAttribute; ?>>
-	<joomla-tab orientation="vertical" id="permissions-sliders">
-	<?php // Initial Active Pane ?>
+<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>" <?php echo $dataAttribute; ?>>
+	<joomla-tab orientation="vertical" id="permissions-sliders" recall breakpoint="728">
+		<?php // Initial Active Pane ?>
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-			<section class="tab-pane<?php echo $active; ?>" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
+			<joomla-tab-element class="tab-pane" <?php echo $active; ?> name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
 				<table class="table respTable">
 					<thead>
 						<tr>
-							<th style="width: 30%" class="actions" id="actions-th<?php echo $group->value; ?>">
+							<th class="actions w-30" id="actions-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_ACTION'); ?></span>
 							</th>
 
-							<th style="width: 40%" class="settings" id="settings-th<?php echo $group->value; ?>">
+							<th class="settings w-40" id="settings-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
 
-							<th style="width: 30%" id="aclaction-th<?php echo $group->value; ?>">
+							<th class="w-30" id="aclaction-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
 							</th>
 						</tr>
@@ -137,7 +137,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 								<td data-label="<?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?>" headers="settings-th<?php echo $group->value; ?>">
 									<div class="d-flex align-items-center">
 										<select data-onchange-task="permissions.apply"
-												class="custom-select novalidate"
+												class="form-select novalidate"
 												name="<?php echo $name; ?>[<?php echo $action->name; ?>][<?php echo $group->value; ?>]"
 												id="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>" >
 											<?php
@@ -175,8 +175,8 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 									if ($isSuperUserGroup)
 									{
-										$result['class'] = 'badge badge-success';
-										$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+										$result['class'] = 'badge bg-success';
+										$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 									}
 									else
 									{
@@ -185,20 +185,20 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 										if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 										{
-											$result['class'] = 'badge badge-danger';
+											$result['class'] = 'badge bg-danger';
 											$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 										}
 										// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 										else
 										{
-											$result['class'] = 'badge badge-success';
+											$result['class'] = 'badge bg-success';
 											$result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
 										}
 
 										// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 										/**
-										* @to do: incorrect info
+										* @todo: incorrect info
 										* If a component has a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
 										* we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 										*/
@@ -206,13 +206,13 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 										if ($assetRule === false)
 										{
-											$result['class'] = 'badge badge-danger';
+											$result['class'] = 'badge bg-danger';
 											$result['text']  = 	Text::_('JLIB_RULES_NOT_ALLOWED');
 										}
 										// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 										elseif ($assetRule === true)
 										{
-											$result['class'] = 'badge badge-success';
+											$result['class'] = 'badge bg-success';
 											$result['text']  = Text::_('JLIB_RULES_ALLOWED');
 										}
 
@@ -221,7 +221,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 										if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
 										{
-											$result['class'] = 'badge badge-danger';
+											$result['class'] = 'badge bg-danger';
 											$result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 										}
 
@@ -232,8 +232,8 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										*/
 										elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 										{
-											$result['class'] = 'badge badge-danger';
-											$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+											$result['class'] = 'badge bg-danger';
+											$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 										}
 									}
 									?>
@@ -243,8 +243,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php endforeach; ?>
 					</tbody>
 				</table>
-			</section>
+			</joomla-tab-element>
 		<?php endforeach; ?>
 	</joomla-tab>
 </joomla-field-permissions>
-

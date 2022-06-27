@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,9 +109,9 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
 		}
 
-		if (Factory::getUser()->authorise('core.admin'))
+		if ($this->getCurrentUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::custom('overrides.purge', 'refresh.png', 'refresh_f2.png', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
+			ToolbarHelper::custom('overrides.purge', 'refresh', '', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
 		}
 
 		if ($canDo->get('core.admin'))
@@ -120,6 +120,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+		ToolbarHelper::help('Languages:_Overrides');
 	}
 }

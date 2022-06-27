@@ -3,12 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -16,7 +17,7 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm   $form       The form instance for render the section
+ * @var   Form    $form       The form instance for render the section
  * @var   string  $basegroup  The base group name
  * @var   string  $group      Current group name
  * @var   array   $buttons    Array of the buttons that will be rendered
@@ -36,17 +37,17 @@ extract($displayData);
 		<div class="btn-group">
 			<?php if (!empty($buttons['add'])) : ?>
 				<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-					<span class="fas fa-plus" aria-hidden="true"></span>
+					<span class="icon-plus" aria-hidden="true"></span>
 				</button>
 			<?php endif; ?>
 			<?php if (!empty($buttons['remove'])) : ?>
 				<button type="button" class="group-remove btn btn-sm btn-danger" aria-label="<?php echo Text::_('JGLOBAL_FIELD_REMOVE'); ?>">
-					<span class="fas fa-minus" aria-hidden="true"></span>
+					<span class="icon-minus" aria-hidden="true"></span>
 				</button>
 			<?php endif; ?>
 			<?php if (!empty($buttons['move'])) : ?>
 				<button type="button" class="group-move btn btn-sm btn-primary" aria-label="<?php echo Text::_('JGLOBAL_FIELD_MOVE'); ?>">
-					<span class="fas fa-arrows-alt" aria-hidden="true"></span>
+					<span class="icon-arrows-alt" aria-hidden="true"></span>
 				</button>
 			<?php endif; ?>
 		</div>

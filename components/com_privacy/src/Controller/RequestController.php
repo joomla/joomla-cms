@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Site\Controller;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -48,7 +47,7 @@ class RequestController extends BaseController
 		if ($return instanceof \Exception)
 		{
 			// Get the error message to display.
-			if (Factory::getApplication()->get('error_reporting'))
+			if ($this->app->get('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
@@ -102,7 +101,7 @@ class RequestController extends BaseController
 		if ($return instanceof \Exception)
 		{
 			// Get the error message to display.
-			if (Factory::getApplication()->get('error_reporting'))
+			if ($this->app->get('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}
@@ -156,7 +155,7 @@ class RequestController extends BaseController
 		if ($return instanceof \Exception)
 		{
 			// Get the error message to display.
-			if (Factory::getApplication()->get('error_reporting'))
+			if ($this->app->get('error_reporting'))
 			{
 				$message = $return->getMessage();
 			}

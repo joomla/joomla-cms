@@ -1,0 +1,31 @@
+// Utilities
+
+// Keep B/C
+.element-invisible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.table-row {
+  display: table-row;
+}
+
+joomla-alert {
+  display: none;
+}
+
+.editor-xtd-buttons .btn {
+  margin-bottom: 5px;
+}

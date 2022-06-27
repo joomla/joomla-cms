@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,12 +10,14 @@ namespace Joomla\CMS\Plugin;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
@@ -68,11 +70,20 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 * removing support for legacy Listeners.
 	 *
 	 * @var    boolean
-	 * @since  4.0
+	 * @since  4.0.0
 	 *
 	 * @deprecated
 	 */
 	protected $allowLegacyListeners = true;
+
+	/**
+	 * The application object
+	 *
+	 * @var    CMSApplicationInterface
+	 *
+	 * @since  4.2.0
+	 */
+	private $application;
 
 	/**
 	 * Constructor
@@ -119,6 +130,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		if (property_exists($this, 'app'))
 		{
+			@trigger_error('The application should be injected through setApplication() and requested through getApplication().', E_USER_DEPRECATED);
 			$reflection = new \ReflectionClass($this);
 			$appProperty = $reflection->getProperty('app');
 
@@ -130,6 +142,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		if (property_exists($this, 'db'))
 		{
+			@trigger_error('The database should be injected through the DatabaseAwareInterface and trait.', E_USER_DEPRECATED);
 			$reflection = new \ReflectionClass($this);
 			$dbProperty = $reflection->getProperty('db');
 
@@ -161,7 +174,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		}
 
 		$extension = strtolower($extension);
-		$lang      = Factory::getLanguage();
+		$lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
 
 		// If language already loaded, don't load it again.
 		if ($lang->getPaths($extension))
@@ -171,6 +184,35 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 		return $lang->load($extension, $basePath)
 			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
+	}
+
+	/**
+	 * Translates the given key with the local applications language. If arguments are available, then
+	 * injects them into the translated string.
+	 *
+	 * @param   string   $key        The key to translate
+	 * @param   mixed[]  $arguments  The arguments
+	 *
+	 * @return  string  The translated string
+	 *
+	 * @since   4.2.0
+	 *
+	 * @see     sprintf
+	 */
+	protected function translate(string $key): string
+	{
+		$language = $this->getApplication()->getLanguage();
+
+		$arguments = \func_get_args();
+
+		if (count($arguments) > 1)
+		{
+			$arguments[0] = $language->_($key);
+
+			return \call_user_func_array('sprintf', $arguments);
+		}
+
+		return $language->_($key);
 	}
 
 	/**
@@ -186,7 +228,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function registerListeners()
 	{
@@ -221,7 +263,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$parameters = $method->getParameters();
 
 			// If the parameter count is not 1 it is by definition a legacy listener
-			if (\count($parameters) != 1)
+			if (\count($parameters) !== 1)
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -230,11 +272,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
 			/** @var \ReflectionParameter $param */
 			$param = array_shift($parameters);
-			$typeHint = $param->getClass();
 			$paramName = $param->getName();
 
-			// No type hint / type hint class not an event and parameter name is not "event"? It's a legacy listener.
-			if ((empty($typeHint) || !$typeHint->implementsInterface('Joomla\\Event\\EventInterface')) && ($paramName !== 'event'))
+			// No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
+			if ($paramName !== 'event' || !$this->parameterImplementsEventInterface($param))
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -258,7 +299,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	final protected function registerLegacyListener(string $methodName)
 	{
@@ -279,13 +320,19 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 					unset($arguments['result']);
 				}
 
-				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
-				$arguments = array_values($arguments);
+				// Convert to indexed array for unpacking.
+				$arguments = \array_values($arguments);
 
 				$result = $this->{$methodName}(...$arguments);
 
+				// Ignore null results
+				if ($result === null)
+				{
+					return;
+				}
+
 				// Restore the old results and add the new result from our method call
-				array_push($allResults, $result);
+				$allResults[]    = $result;
 				$event['result'] = $allResults;
 			}
 		);
@@ -299,10 +346,84 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	final protected function registerListener(string $methodName)
 	{
 		$this->getDispatcher()->addListener($methodName, [$this, $methodName]);
+	}
+
+	/**
+	 * Checks if parameter is typehinted to accept \Joomla\Event\EventInterface.
+	 *
+	 * @param   \ReflectionParameter  $parameter
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	private function parameterImplementsEventInterface(\ReflectionParameter $parameter): bool
+	{
+		$reflectionType = $parameter->getType();
+
+		// Parameter is not typehinted.
+		if ($reflectionType === null)
+		{
+			return false;
+		}
+
+		// Parameter is nullable.
+		if ($reflectionType->allowsNull())
+		{
+			return false;
+		}
+
+		// Handle standard typehints.
+		if ($reflectionType instanceof \ReflectionNamedType)
+		{
+			return \is_a($reflectionType->getName(), EventInterface::class, true);
+		}
+
+		// Handle PHP 8 union types.
+		if ($reflectionType instanceof \ReflectionUnionType)
+		{
+			foreach ($reflectionType->getTypes() as $type)
+			{
+				if (!\is_a($type->getName(), EventInterface::class, true))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns the internal application or null when not set.
+	 *
+	 * @return  CMSApplicationInterface|null
+	 *
+	 * @since   4.2.0
+	 */
+	protected function getApplication(): ?CMSApplicationInterface
+	{
+		return $this->application;
+	}
+
+	/**
+	 * Sets the application to use.
+	 *
+	 * @param   CMSApplicationInterface  $application  The application
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 */
+	public function setApplication(CMSApplicationInterface $application): void
+	{
+		$this->application = $application;
 	}
 }

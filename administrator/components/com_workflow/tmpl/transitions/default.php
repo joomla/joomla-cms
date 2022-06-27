@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -16,7 +16,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::_('behavior.multiselect');
+/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns')
+	->useScript('multiselect');
 
 $user	= Factory::getUser();
 
@@ -47,12 +50,12 @@ if ($saveOrder)
 				?>
 				<?php if (empty($this->transitions)) : ?>
 					<div class="alert alert-info">
-						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
 					<table class="table">
-						<caption id="captionTable" class="sr-only">
+						<caption class="visually-hidden">
 							<?php echo Text::_('COM_WORKFLOW_TRANSITIONS_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
 							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
@@ -92,7 +95,7 @@ if ($saveOrder)
 							?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', Text::_($item->title)); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
 										<?php
@@ -107,11 +110,12 @@ if ($saveOrder)
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+											<span class="icon-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
-										<?php endif; ?>									</td>
+										<?php endif; ?>
+									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'transitions.', $canChange); ?>
 									</td>

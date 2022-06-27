@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Step
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Step\Acceptance\Administrator;
@@ -341,14 +341,9 @@ class Media extends Admin
 	 */
 	protected function getLocalUser()
 	{
-		try
-		{
-			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['localUser'];
-		}
-		catch (Exception $e)
-		{
-			return '';
-		}
+		$I = $this;
+
+		return $I->getConfig('localUser');
 	}
 
 	/**
@@ -362,13 +357,8 @@ class Media extends Admin
 	 */
 	protected function getCmsPath()
 	{
-		try
-		{
-			return $this->getSuiteConfiguration()['modules']['config']['Helper\Acceptance']['cmsPath'];
-		}
-		catch (Exception $e)
-		{
-			throw new Exception('cmsPath is not defined in acceptance.suite.yml.');
-		}
+		$I = $this;
+
+		return $I->getConfig('cmsPath');
 	}
 }

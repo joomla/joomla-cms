@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,7 +117,7 @@ class Menu extends Nested
 		}
 
 		// Check for a title.
-		if (trim($this->title) === '')
+		if ($this->title === null || trim($this->title) === '')
 		{
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
 
@@ -125,19 +125,19 @@ class Menu extends Nested
 		}
 
 		// Check for a path.
-		if (trim($this->path) === '')
+		if ($this->path === null || trim($this->path) === '')
 		{
 			$this->path = $this->alias;
 		}
 
 		// Check for params.
-		if (trim($this->params) === '')
+		if ($this->params === null || trim($this->params) === '')
 		{
 			$this->params = '{}';
 		}
 
 		// Check for img.
-		if (trim($this->img) === '')
+		if ($this->img === null || trim($this->img) === '')
 		{
 			$this->img = ' ';
 		}

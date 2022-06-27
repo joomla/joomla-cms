@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
 
@@ -29,24 +30,24 @@ use Joomla\Registry\Registry;
 class Icon
 {
 	/**
-	 * The application
+	 * The user factory
 	 *
-	 * @var    CMSApplication
+	 * @var    UserFactoryInterface
 	 *
-	 * @since  4.0.0
+	 * @since  4.2.0
 	 */
-	private $application;
+	private $userFactory;
 
 	/**
 	 * Service constructor
 	 *
-	 * @param   CMSApplication  $application  The application
+	 * @param   UserFactoryInterface  $userFactory  The userFactory
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $application)
+	public function __construct(UserFactoryInterface $userFactory)
 	{
-		$this->application = $application;
+		$this->userFactory = $userFactory;
 	}
 
 	/**
@@ -60,13 +61,20 @@ class Icon
 	 *
 	 * @since  4.0.0
 	 */
-	public static function create($category, $params, $attribs = array())
+	public function create($category, $params, $attribs = array())
 	{
 		$uri = Uri::getInstance();
 
 		$url = 'index.php?option=com_contact&task=contact.add&return=' . base64_encode($uri) . '&id=0&catid=' . $category->id;
 
-		$text = LayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => false));
+		$text = '';
+
+		if ($params->get('show_icons'))
+		{
+			$text .= '<span class="icon-plus icon-fw" aria-hidden="true"></span>';
+		}
+
+		$text .= Text::_('COM_CONTACT_NEW_CONTACT');
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
@@ -80,9 +88,7 @@ class Icon
 
 		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . HTMLHelper::_('tooltipText', 'COM_CONTACT_CREATE_CONTACT') . '">' . $button . '</span>';
-
-		return $output;
+		return $button;
 	}
 
 	/**
@@ -100,7 +106,7 @@ class Icon
 	 *
 	 * @since   4.0.0
 	 */
-	public static function edit($contact, $params, $attribs = array(), $legacy = false)
+	public function edit($contact, $params, $attribs = array(), $legacy = false)
 	{
 		$user = Factory::getUser();
 		$uri  = Uri::getInstance();
@@ -117,22 +123,20 @@ class Icon
 			return '';
 		}
 
-		// Set the link class
-		$attribs['class'] = 'dropdown-item';
-
 		// Show checked_out icon if the contact is checked out by a different user
 		if (property_exists($contact, 'checked_out')
 			&& property_exists($contact, 'checked_out_time')
 			&& !is_null($contact->checked_out)
 			&& $contact->checked_out !== $user->get('id'))
 		{
-			$checkoutUser = Factory::getUser($contact->checked_out);
+			$checkoutUser = $this->userFactory->loadUserById($contact->checked_out);
 			$date         = HTMLHelper::_('date', $contact->checked_out_time);
-			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
-				. ' <br /> ' . $date;
+			$tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
+				. ' <br> ' . $date;
 
-			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
+			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy));
 
+			$attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
 			$output = HTMLHelper::_('link', '#', $text, $attribs);
 
 			return $output;
@@ -143,37 +147,30 @@ class Icon
 
 		if ((int) $contact->published === 0)
 		{
-			$overlib = Text::_('JUNPUBLISHED');
+			$tooltip = Text::_('COM_CONTACT_EDIT_UNPUBLISHED_CONTACT');
 		}
 		else
 		{
-			$overlib = Text::_('JPUBLISHED');
+			$tooltip = Text::_('COM_CONTACT_EDIT_PUBLISHED_CONTACT');
 		}
-
-		$date   = HTMLHelper::_('date', $contact->created);
-		$author = $contact->created_by_alias ?: Factory::getUser($contact->created_by)->name;
-
-		$overlib .= '&lt;br /&gt;';
-		$overlib .= $date;
-		$overlib .= '&lt;br /&gt;';
-		$overlib .= Text::sprintf('COM_CONTACT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
 		$nowDate = strtotime(Factory::getDate());
 		$icon    = $contact->published ? 'edit' : 'eye-slash';
 
 		if (($contact->publish_up !== null && strtotime($contact->publish_up) > $nowDate)
-			|| ($contact->publish_down !== null && strtotime($contact->publish_down) < $nowDate
-			&& $contact->publish_down !== Factory::getDbo()->getNullDate()))
+			|| ($contact->publish_down !== null && strtotime($contact->publish_down) < $nowDate))
 		{
 			$icon = 'eye-slash';
 		}
 
-		$text = '<span class="hasTooltip fas fa-' . $icon . '" title="'
-			. HTMLHelper::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span> ';
-		$text .= Text::_('JGLOBAL_EDIT');
+		$aria_described = 'editcontact-' . (int) $contact->id;
 
-		$attribs['title'] = Text::_('COM_CONTACT_EDIT_CONTACT');
-		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
+		$text = '<span class="icon-' . $icon . '" aria-hidden="true"></span>';
+		$text .= Text::_('JGLOBAL_EDIT');
+		$text .= '<div role="tooltip" id="' . $aria_described . '">' . $tooltip . '</div>';
+
+		$attribs['aria-describedby'] = $aria_described;
+		$output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
 	}

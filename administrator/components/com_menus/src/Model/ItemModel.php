@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ class ItemModel extends AdminModel
 	 * @var    string  The help screen key for the menu item.
 	 * @since  1.6
 	 */
-	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
+	protected $helpKey = 'Menu_Item:_New_Item';
 
 	/**
 	 * @var    string  The help screen base URL for the menu item.
@@ -155,7 +155,7 @@ class ItemModel extends AdminModel
 		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table  = $this->getTable();
-		$db     = $this->getDbo();
+		$db     = $this->getDatabase();
 		$query  = $db->getQuery(true);
 		$newIds = array();
 
@@ -287,7 +287,7 @@ class ItemModel extends AdminModel
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
 
-			// TODO: Deal with ordering?
+			// @todo: Deal with ordering?
 			// $table->ordering = 1;
 			$table->level = null;
 			$table->lft   = null;
@@ -367,7 +367,7 @@ class ItemModel extends AdminModel
 		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table = $this->getTable();
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 
 		// Check that the parent exists.
 		if ($parentId)
@@ -607,6 +607,13 @@ class ItemModel extends AdminModel
 	{
 		// Check the session for previously entered form data, providing it has an ID and it is the same.
 		$itemData = (array) $this->getItem();
+
+		// When a new item is requested, unset the access as it will be set later from the filter
+		if (empty($itemData['id']))
+		{
+			unset($itemData['access']);
+		}
+
 		$sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', array());
 
 		// Only merge if there is a session and itemId or itemid is null.
@@ -621,14 +628,14 @@ class ItemModel extends AdminModel
 		}
 
 		// For a new menu item, pre-select some filters (Status, Language, Access) in edit form if those have been selected in Menu Manager
-		if ($this->getItem()->id == 0)
+		if (empty($data['id']))
 		{
 			// Get selected fields
 			$filters = Factory::getApplication()->getUserState('com_menus.items.filter');
-			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
-			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
-			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getApplication()->get('access'));
+			$data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
+			$data['published'] = $data['published'] ?? ($filters['published'] ?? null);
+			$data['language']  = $data['language'] ?? ($filters['language'] ?? null);
+			$data['access']    = $data['access'] ?? ($filters['access'] ?? Factory::getApplication()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -712,10 +719,20 @@ class ItemModel extends AdminModel
 		switch ($table->type)
 		{
 			case 'alias':
+			case 'url':
 				$table->component_id = 0;
 				$args = array();
 
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				if ($table->link)
+				{
+					$q = parse_url($table->link, PHP_URL_QUERY);
+
+					if ($q)
+					{
+						parse_str($q, $args);
+					}
+				}
+
 				break;
 
 			case 'separator':
@@ -725,21 +742,23 @@ class ItemModel extends AdminModel
 				$table->component_id = 0;
 				break;
 
-			case 'url':
-				$table->component_id = 0;
-
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
-				break;
-
 			case 'component':
 			default:
 				// Enforce a valid type.
 				$table->type = 'component';
 
 				// Ensure the integrity of the component_id field is maintained, particularly when changing the menu item type.
-				$args = array();
-				parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+				$args = [];
+
+				if ($table->link)
+				{
+					$q = parse_url($table->link, PHP_URL_QUERY);
+
+					if ($q)
+					{
+						parse_str($q, $args);
+					}
+				}
 
 				if (isset($args['option']))
 				{
@@ -762,7 +781,7 @@ class ItemModel extends AdminModel
 		// We have a valid type, inject it into the state for forms to use.
 		$this->setState('item.type', $table->type);
 
-		// Convert to the \JObject before adding the params.
+		// Convert to the \Joomla\CMS\Object\CMSObject before adding the params.
 		$properties = $table->getProperties(1);
 		$result = ArrayHelper::toObject($properties);
 
@@ -841,7 +860,7 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		/**
@@ -920,7 +939,7 @@ class ItemModel extends AdminModel
 	 */
 	public function getViewLevels()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Get all the available view levels
@@ -965,7 +984,7 @@ class ItemModel extends AdminModel
 	 * A protected method to get the where clause for the reorder.
 	 * This ensures that the row will be moved relative to a row with the same menutype.
 	 *
-	 * @param   \JTableMenu  $table  instance.
+	 * @param   \Joomla\CMS\Table\Menu  $table
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
@@ -973,8 +992,10 @@ class ItemModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($table->menutype),
+			$db->quoteName('menutype') . ' = ' . $db->quote($table->menutype),
 		];
 	}
 
@@ -1144,11 +1165,15 @@ class ItemModel extends AdminModel
 		// Initialise form with component view params if available.
 		if ($type == 'component')
 		{
-			$link = htmlspecialchars_decode($link);
+			$link = $link ? htmlspecialchars_decode($link) : '';
 
 			// Parse the link arguments.
-			$args = array();
-			parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			$args = [];
+
+			if ($link)
+			{
+				parse_str(parse_url(htmlspecialchars_decode($link), PHP_URL_QUERY), $args);
+			}
 
 			// Confirm that the option is defined.
 			$option = '';
@@ -1177,9 +1202,9 @@ class ItemModel extends AdminModel
 
 				// Check for the layout XML file. Use standard xml file if it exists.
 				$tplFolders = array(
+					$base . '/tmpl/' . $view,
 					$base . '/views/' . $view . '/tmpl',
 					$base . '/view/' . $view . '/tmpl',
-					$base . '/tmpl/' . $view
 				);
 				$path = Path::find($tplFolders, $layout . '.xml');
 
@@ -1219,7 +1244,7 @@ class ItemModel extends AdminModel
 						$formFile = $path;
 					}
 				}
-				else
+				elseif ($base)
 				{
 					// Now check for a component manifest file
 					$path = Path::clean($base . '/metadata.xml');
@@ -1254,7 +1279,7 @@ class ItemModel extends AdminModel
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{
@@ -1276,7 +1301,7 @@ class ItemModel extends AdminModel
 
 			$this->helpKey = $helpKey ?: $this->helpKey;
 			$this->helpURL = $helpURL ?: $this->helpURL;
-			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
+			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local'));
 		}
 
 		if (!$form->loadFile($typeFile, true, false))
@@ -1333,7 +1358,7 @@ class ItemModel extends AdminModel
 	public function rebuild()
 	{
 		// Initialise variables.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
@@ -1424,9 +1449,9 @@ class ItemModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
-		$isNew      = true;
-		$db      = $this->getDbo();
+		$pk      = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
+		$isNew   = true;
+		$db      = $this->getDatabase();
 		$query   = $db->getQuery(true);
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
@@ -1503,13 +1528,24 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		// Alter the title & alias for save as copy.  Also, unset the home record.
-		if (!$isNew && $data['id'] == 0)
+		// Alter the title & alias for save2copy when required. Also, unset the home record.
+		if (Factory::getApplication()->input->get('task') === 'save2copy' && $data['id'] === 0)
 		{
-			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+			$origTable = $this->getTable();
+			$origTable->load($this->getState('item.id'));
 
-			$table->title     = $title;
-			$table->alias     = $alias;
+			if ($table->title === $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+				$table->title = $title;
+				$table->alias = $alias;
+			}
+
+			if ($table->alias === $origTable->alias)
+			{
+				$table->alias = '';
+			}
+
 			$table->published = 0;
 			$table->home      = 0;
 		}
@@ -1600,7 +1636,7 @@ class ItemModel extends AdminModel
 			}
 
 			// Get associationskey for edited item
-			$db    = $this->getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
@@ -1723,19 +1759,19 @@ class ItemModel extends AdminModel
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array  $idArray    Rows identifiers to be reordered
-	 * @param   array  $lft_array  lft values of rows to be reordered
+	 * @param   array  $idArray   Rows identifiers to be reordered
+	 * @param   array  $lftArray  lft values of rows to be reordered
 	 *
 	 * @return  boolean false on failure or error, true otherwise.
 	 *
 	 * @since   1.6
 	 */
-	public function saveorder($idArray = null, $lft_array = null)
+	public function saveorder($idArray = null, $lftArray = null)
 	{
 		// Get an instance of the table object.
 		$table = $this->getTable();
 
-		if (!$table->saveorder($idArray, $lft_array))
+		if (!$table->saveorder($idArray, $lftArray))
 		{
 			$this->setError($table->getError());
 
@@ -1880,20 +1916,20 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the title & alias.
 	 *
-	 * @param   integer  $parent_id  The id of the parent.
-	 * @param   string   $alias      The alias.
-	 * @param   string   $title      The title.
+	 * @param   integer  $parentId  The id of the parent.
+	 * @param   string   $alias     The alias.
+	 * @param   string   $title     The title.
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since   1.6
 	 */
-	protected function generateNewTitle($parent_id, $alias, $title)
+	protected function generateNewTitle($parentId, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
 
-		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
+		while ($table->load(array('alias' => $alias, 'parent_id' => $parentId)))
 		{
 			if ($title == $table->title)
 			{
@@ -1909,18 +1945,17 @@ class ItemModel extends AdminModel
 	/**
 	 * Custom clean the cache
 	 *
-	 * @param   string   $group      Cache group name.
-	 * @param   integer  $client_id  Application client id.
+	 * @param   string   $group     Cache group name.
+	 * @param   integer  $clientId  @deprecated  5.0  No Longer Used.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	protected function cleanCache($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $clientId = 0)
 	{
-		parent::cleanCache('com_menus', 0);
+		parent::cleanCache('com_menus');
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu', 0);
-		parent::cleanCache('mod_menu', 1);
+		parent::cleanCache('mod_menu');
 	}
 }

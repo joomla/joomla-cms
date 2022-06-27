@@ -3,13 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -61,7 +61,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Store passwords as a separate key that is not used in the forms
-		foreach (array('admin_password', 'db_pass', 'ftp_pass') as $passwordField)
+		foreach (array('admin_password', 'db_pass') as $passwordField)
 		{
 			if (isset($options[$passwordField]))
 			{
@@ -87,7 +87,7 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string  $view  The view being processed.
+	 * @param   string|null  $view  The view being processed.
 	 *
 	 * @return  Form|boolean  JForm object on success, false on failure.
 	 *
@@ -160,7 +160,7 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Generate a panel of language choices for the user to select their language.
 	 *
-	 * @return  boolean True if successful.
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -196,8 +196,8 @@ class SetupModel extends BaseInstallationModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   array   $data  The form data.
-	 * @param   string  $view  The view.
+	 * @param   array        $data  The form data.
+	 * @param   string|null  $view  The view.
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *

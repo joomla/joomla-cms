@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,16 +33,16 @@ class HtmlView extends BaseHtmlView
 	protected $item;
 
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var   \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
@@ -120,6 +120,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER_EDIT');
+		ToolbarHelper::help('Redirects:_New_or_Edit');
 	}
 }

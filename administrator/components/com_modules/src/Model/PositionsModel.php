@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,24 +115,25 @@ class PositionsModel extends ListModel
 				$clientId = (int) $clientId;
 
 				// Get the database object and a new query object.
-				$query = $this->_db->getQuery(true)
+				$db  = $this->getDatabase();
+				$query = $db->getQuery(true)
 					->select('DISTINCT ' . $db->quoteName('position', 'value'))
-					->from($this->_db->quoteName('#__modules'))
-					->where($this->_db->quoteName('client_id') . ' = :clientid')
+					->from($db->quoteName('#__modules'))
+					->where($db->quoteName('client_id') . ' = :clientid')
 					->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 				if ($search)
 				{
 					$search = '%' . str_replace(' ', '%', trim($search), true) . '%';
-					$query->where($this->_db->quoteName('position') . ' LIKE :position')
+					$query->where($db->quoteName('position') . ' LIKE :position')
 						->bind(':position', $search);
 				}
 
-				$this->_db->setQuery($query);
+				$db->setQuery($query);
 
 				try
 				{
-					$positions = $this->_db->loadObjectList('value');
+					$positions = $db->loadObjectList('value');
 				}
 				catch (\RuntimeException $e)
 				{

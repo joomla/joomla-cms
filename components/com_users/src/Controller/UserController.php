@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,12 @@ namespace Joomla\Component\Users\Site\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Database\ParameterType;
 
 /**
  * Registration controller class for Users.
@@ -52,50 +50,13 @@ class UserController extends BaseController
 		// Check for a simple menu item id
 		if (is_numeric($data['return']))
 		{
-			if (Multilanguage::isEnabled())
-			{
-				$db = Factory::getDbo();
-				$query = $db->getQuery(true)
-					->select($db->quoteName('language'))
-					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('client_id') . ' = 0')
-					->where($db->quoteName('id') . ' = :id')
-					->bind(':id', $data['return'], ParameterType::INTEGER);
-
-				$db->setQuery($query);
-
-				try
-				{
-					$language = $db->loadResult();
-				}
-				catch (\RuntimeException $e)
-				{
-					return;
-				}
-
-				if ($language !== '*')
-				{
-					$lang = '&lang=' . $language;
-				}
-				else
-				{
-					$lang = '';
-				}
-			}
-			else
-			{
-				$lang = '';
-			}
-
-			$data['return'] = 'index.php?Itemid=' . $data['return'] . $lang;
+			$language       = $this->getModel('Login', 'Site')->getMenuLanguage($data['return']);
+			$data['return'] = 'index.php?Itemid=' . $data['return'] . ($language !== '*' ? '&lang=' . $language : '');
 		}
-		else
+		// Don't redirect to an external URL.
+		elseif (!Uri::isInternal($data['return']))
 		{
-			// Don't redirect to an external URL.
-			if (!Uri::isInternal($data['return']))
-			{
-				$data['return'] = '';
-			}
+			$data['return'] = '';
 		}
 
 		// Set the return URL if empty.
@@ -176,50 +137,12 @@ class UserController extends BaseController
 		// Check for a simple menu item id
 		if (is_numeric($return))
 		{
-			if (Multilanguage::isEnabled())
-			{
-				$db = Factory::getDbo();
-				$query = $db->getQuery(true)
-					->select($db->quoteName('language'))
-					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('client_id') . ' = 0')
-					->where($db->quoteName('id') . ' = :id')
-					->bind(':id', $return, ParameterType::INTEGER);
-
-				$db->setQuery($query);
-
-				try
-				{
-					$language = $db->loadResult();
-				}
-				catch (\RuntimeException $e)
-				{
-					return;
-				}
-
-				if ($language !== '*')
-				{
-					$lang = '&lang=' . $language;
-				}
-				else
-				{
-					$lang = '';
-				}
-			}
-			else
-			{
-				$lang = '';
-			}
-
-			$return = 'index.php?Itemid=' . $return . $lang;
+			$language = $this->getModel('Login', 'Site')->getMenuLanguage($return);
+			$return   = 'index.php?Itemid=' . $return . ($language !== '*' ? '&lang=' . $language : '');
 		}
-		else
+		elseif (!Uri::isInternal($return))
 		{
-			// Don't redirect to an external URL.
-			if (!Uri::isInternal($return))
-			{
-				$return = '';
-			}
+			$return = '';
 		}
 
 		// In case redirect url is not set, redirect user to homepage
@@ -243,43 +166,18 @@ class UserController extends BaseController
 	{
 		// Get the ItemID of the page to redirect after logout
 		$app    = $this->app;
-		$itemid = $app->getMenu()->getActive()->getParams()->get('logout');
+		$active = $app->getMenu()->getActive();
+		$itemid = $active ? $active->getParams()->get('logout') : 0;
 
 		// Get the language of the page when multilang is on
 		if (Multilanguage::isEnabled())
 		{
 			if ($itemid)
 			{
-				$db = Factory::getDbo();
-				$query = $db->getQuery(true)
-					->select($db->quoteName('language'))
-					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('client_id') . ' = 0')
-					->where($db->quoteName('id') . ' = :id')
-					->bind(':id', $itemid, ParameterType::INTEGER);
-
-				$db->setQuery($query);
-
-				try
-				{
-					$language = $db->loadResult();
-				}
-				catch (\RuntimeException $e)
-				{
-					return;
-				}
-
-				if ($language !== '*')
-				{
-					$lang = '&lang=' . $language;
-				}
-				else
-				{
-					$lang = '';
-				}
+				$language = $this->getModel('Login', 'Site')->getMenuLanguage($itemid);
 
 				// URL to redirect after logout
-				$url = 'index.php?Itemid=' . $itemid . $lang;
+				$url = 'index.php?Itemid=' . $itemid . ($language !== '*' ? '&lang=' . $language : '');
 			}
 			else
 			{

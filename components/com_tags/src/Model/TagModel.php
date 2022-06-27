@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,6 @@ class TagModel extends ListModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -121,7 +120,6 @@ class TagModel extends ListModel
 						break;
 
 					default:
-					case 'published':
 						$item->displayDate = ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up;
 						break;
 				}
@@ -160,7 +158,8 @@ class TagModel extends ListModel
 
 		if ($this->state->get('list.filter'))
 		{
-			$query->where($this->_db->quoteName('c.core_title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
+			$db = $this->getDatabase();
+			$query->where($db->quoteName('c.core_title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
 		}
 
 		return $query;
@@ -188,7 +187,7 @@ class TagModel extends ListModel
 		$this->setState('params', $params);
 
 		// Load state from the request.
-		$ids = $app->input->get('id', array(), 'array');
+		$ids = (array) $app->input->get('id', array(), 'string');
 
 		if (count($ids) == 1)
 		{
@@ -196,6 +195,9 @@ class TagModel extends ListModel
 		}
 
 		$ids = ArrayHelper::toInteger($ids);
+
+		// Remove zero values resulting from bad input
+		$ids = array_filter($ids);
 
 		$pkString = implode(',', $ids);
 
@@ -270,7 +272,7 @@ class TagModel extends ListModel
 	 *
 	 * @param   integer  $pk  An optional ID
 	 *
-	 * @return  object
+	 * @return  array
 	 *
 	 * @since   3.1
 	 */
@@ -278,7 +280,7 @@ class TagModel extends ListModel
 	{
 		if (!isset($this->item))
 		{
-			$this->item = false;
+			$this->item = [];
 
 			if (empty($pk))
 			{
@@ -286,7 +288,7 @@ class TagModel extends ListModel
 			}
 
 			// Get a level row instance.
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 
 			$idsArray = explode(',', $pk);
@@ -351,7 +353,7 @@ class TagModel extends ListModel
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
+			/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 			$table = $this->getTable();
 			$table->hit($pk);
 

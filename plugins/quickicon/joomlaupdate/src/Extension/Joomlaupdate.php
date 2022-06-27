@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,11 @@ namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
@@ -34,14 +34,6 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
-
-	/**
-	 * Application object.
-	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  3.7.0
-	 */
-	protected $app;
 
 	/**
 	 * The document.
@@ -99,7 +91,8 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getContext();
 
-		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'update_quickicon')
+			|| !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			return;
 		}
@@ -116,8 +109,8 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
-				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
-					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
+				'ajaxUrl' => Uri::base() . 'index.php?option=com_joomlaupdate&task=update.ajax&'
+					. Session::getFormToken() . '=1',
 				'version' => JVERSION,
 			]
 		);
@@ -131,7 +124,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 		$result[] = [
 			[
 				'link'  => 'index.php?option=com_joomlaupdate',
-				'image' => 'fab fa-joomla',
+				'image' => 'icon-joomla',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_joomlaupdate',

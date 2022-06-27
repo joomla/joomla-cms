@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -34,6 +35,9 @@ class FileModel extends FormModel
 	public function getForm($data = [], $loadData = true)
 	{
 		PluginHelper::importPlugin('media-action');
+
+		// Load backend forms in frontend.
+		FormHelper::addFormPath(JPATH_ADMINISTRATOR . '/components/com_media/forms');
 
 		// Get the form.
 		$form = $this->loadForm('com_media.file', 'file', ['control' => 'jform', 'load_data' => $loadData]);

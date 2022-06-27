@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,8 @@ namespace Joomla\CMS\Menu;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
@@ -26,8 +27,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  1.5
  */
-class SiteMenu extends AbstractMenu
+class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterface
 {
+	use CacheControllerFactoryAwareTrait;
+
 	/**
 	 * Application object
 	 *
@@ -63,8 +66,15 @@ class SiteMenu extends AbstractMenu
 	{
 		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
 		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-		$this->db       = isset($options['db']) && $options['db'] instanceof DatabaseDriver ? $options['db'] : Factory::getDbo();
 		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
+
+		if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver))
+		{
+			@trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+			$options['db'] = Factory::getContainer()->get(DatabaseDriver::class);
+		}
+
+		$this->db = $options['db'];
 
 		parent::__construct($options);
 	}
@@ -165,8 +175,7 @@ class SiteMenu extends AbstractMenu
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-				->createCacheController('callback', ['defaultgroup' => 'com_menus']);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
 			$this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
 		}
@@ -203,7 +212,7 @@ class SiteMenu extends AbstractMenu
 
 			// Create tree.
 			$parent_tree[] = $item->id;
-			$item->tree = $parent_tree;
+			$item->tree    = $parent_tree;
 
 			// Create the query array.
 			$url = str_replace('index.php?', '', $item->link);
@@ -251,7 +260,7 @@ class SiteMenu extends AbstractMenu
 			if (($key = array_search('access', $attributes)) === false)
 			{
 				$attributes[] = 'access';
-				$values[] = $this->user->getAuthorisedViewLevels();
+				$values[]     = $this->user->getAuthorisedViewLevels();
 			}
 			elseif ($values[$key] === null)
 			{
@@ -261,7 +270,7 @@ class SiteMenu extends AbstractMenu
 
 		// Reset arrays or we get a notice if some values were unset
 		$attributes = array_values($attributes);
-		$values = array_values($values);
+		$values     = array_values($values);
 
 		return parent::getItems($attributes, $values, $firstonly);
 	}

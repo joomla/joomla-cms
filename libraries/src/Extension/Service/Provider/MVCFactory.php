@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,15 @@ namespace Joomla\CMS\Extension\Service\Provider;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Router\SiteRouter;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+use Joomla\Event\DispatcherInterface;
 
 /**
  * Service provider for the service MVC factory.
@@ -69,6 +73,10 @@ class MVCFactory implements ServiceProviderInterface
 				}
 
 				$factory->setFormFactory($container->get(FormFactoryInterface::class));
+				$factory->setDispatcher($container->get(DispatcherInterface::class));
+				$factory->setDatabase($container->get(DatabaseInterface::class));
+				$factory->setSiteRouter($container->get(SiteRouter::class));
+				$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
 
 				return $factory;
 			}

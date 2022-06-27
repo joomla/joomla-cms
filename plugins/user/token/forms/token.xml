@@ -9,24 +9,21 @@
 			<field
 				name="saveme"
 				type="note"
-				label="PLG_USER_TOKEN_SAVEME_DESC"
-				heading="p"
+				description="PLG_USER_TOKEN_SAVEME_DESC"
 				class="alert alert-warning"
 			/>
 
 			<field
 				name="notokenforotherpeople"
 				type="note"
-				label="PLG_USER_TOKEN_NOTOKENFOROTHERPEOPLE_DESC"
-				heading="p"
+				description="PLG_USER_TOKEN_NOTOKENFOROTHERPEOPLE_DESC"
 				class="alert alert-warning"
 			/>
 
 			<field
 				name="savemeforotherpeople"
 				type="note"
-				label="PLG_USER_TOKEN_SAVEMEFOROTHERPEOPLE_DESC"
-				heading="p"
+				description="PLG_USER_TOKEN_SAVEMEFOROTHERPEOPLE_DESC"
 				class="alert alert-warning"
 			/>
 
@@ -36,7 +33,6 @@
 				label="PLG_USER_TOKEN_TOKEN_LABEL"
 				description="PLG_USER_TOKEN_TOKEN_DESC"
 				default=""
-				size="30"
 				algo="sha256"
 				readonly="true"
 			/>

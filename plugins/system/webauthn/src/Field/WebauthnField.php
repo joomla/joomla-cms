@@ -3,21 +3,22 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Webauthn\Field;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+\defined('_JEXEC') or die();
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\User\UserFactoryInterface;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 
 /**
  * Custom Joomla Form Field to display the WebAuthn interface
@@ -47,7 +48,7 @@ class WebauthnField extends FormField
 	{
 		$userId = $this->form->getData()->get('id', null);
 
-		if (is_null($userId))
+		if (\is_null($userId))
 		{
 			return Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NOUSER');
 		}
@@ -57,17 +58,25 @@ class WebauthnField extends FormField
 		Text::script('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
+		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_XHR_INITCREATE', true);
 
 		$app                  = Factory::getApplication();
-		$credentialRepository = new CredentialRepository;
+		/** @var Webauthn $plugin */
+		$plugin               = $app->bootPlugin('webauthn', 'system');
 
 		$app->getDocument()->getWebAssetManager()
 			->registerAndUseScript('plg_system_webauthn.management', 'plg_system_webauthn/management.js', [], ['defer' => true], ['core']);
 
-		return Joomla::renderLayout('plugins.system.webauthn.manage', [
-			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId),
-			'allow_add'   => $userId == $app->getIdentity()->id,
-			'credentials' => $credentialRepository->getAll($userId),
+		$layoutFile  = new FileLayout('plugins.system.webauthn.manage');
+
+		return $layoutFile->render([
+				'user'                => Factory::getContainer()
+					->get(UserFactoryInterface::class)
+					->loadUserById($userId),
+				'allow_add'           => $userId == $app->getIdentity()->id,
+				'credentials'         => $plugin->getAuthenticationHelper()->getCredentialsRepository()->getAll($userId),
+				'knownAuthenticators' => $plugin->getAuthenticationHelper()->getKnownAuthenticators(),
+				'attestationSupport'  => $plugin->getAuthenticationHelper()->hasAttestationSupport(),
 			]
 		);
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,13 +87,13 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Method to get the database query.
 	 *
-	 * @return  DatabaseQuery  the database query
+	 * @return  DatabaseQuery  The database query
 	 *
 	 * @since   3.1
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__extensions'))
@@ -147,7 +147,7 @@ class DiscoverModel extends InstallerModel
 	 *
 	 * Finds uninstalled extensions
 	 *
-	 * @return  void
+	 * @return  int  The count of discovered extensions
 	 *
 	 * @since   1.6
 	 */
@@ -158,7 +158,7 @@ class DiscoverModel extends InstallerModel
 		$results = Installer::getInstance()->discover();
 
 		// Get all templates, including discovered ones
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['extension_id', 'element', 'folder', 'client_id', 'type']))
 			->from($db->quoteName('#__extensions'));
@@ -169,22 +169,41 @@ class DiscoverModel extends InstallerModel
 
 		foreach ($installedtmp as $install)
 		{
-			$key = implode(':', array($install->type, $install->element, $install->folder, $install->client_id));
+			$key = implode(':',
+				[
+					$install->type,
+					str_replace('\\', '/', $install->element),
+					$install->folder,
+					$install->client_id
+				]
+			);
 			$extensions[$key] = $install;
 		}
+
+		$count = 0;
 
 		foreach ($results as $result)
 		{
 			// Check if we have a match on the element
-			$key = implode(':', array($result->type, $result->element, $result->folder, $result->client_id));
+			$key = implode(':',
+				[
+					$result->type,
+					str_replace('\\', '/', $result->element),
+					$result->folder,
+					$result->client_id
+				]
+			);
 
 			if (!array_key_exists($key, $extensions))
 			{
 				// Put it into the table
 				$result->check();
 				$result->store();
+				$count++;
 			}
 		}
+
+		return $count;
 	}
 
 	/**
@@ -213,6 +232,7 @@ class DiscoverModel extends InstallerModel
 			foreach ($eid as $id)
 			{
 				$installer = new Installer;
+				$installer->setDatabase($this->getDatabase());
 
 				$result = $installer->discover_install($id);
 
@@ -223,7 +243,7 @@ class DiscoverModel extends InstallerModel
 				}
 			}
 
-			// TODO - We are only receiving the message for the last Installer instance
+			// @todo - We are only receiving the message for the last Installer instance
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
@@ -249,7 +269,7 @@ class DiscoverModel extends InstallerModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where($db->quoteName('state') . ' = -1');
@@ -269,5 +289,41 @@ class DiscoverModel extends InstallerModel
 		$this->_message = Text::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 
 		return true;
+	}
+
+	/**
+	 * Manipulate the query to be used to evaluate if this is an Empty State to provide specific conditions for this extension.
+	 *
+	 * @return DatabaseQuery
+	 *
+	 * @since 4.0.0
+	 */
+	protected function getEmptyStateQuery()
+	{
+		$query = parent::getEmptyStateQuery();
+
+		$query->where($this->getDatabase()->quoteName('state') . ' = -1');
+
+		return $query;
+	}
+
+	/**
+	 * Checks for not installed extensions in extensions table.
+	 *
+	 * @return  boolean  True if there are discovered extensions in the database.
+	 *
+	 * @since   4.2.0
+	 */
+	public function checkExtensions()
+	{
+		$db    = $this->getDatabase();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('state') . ' = -1');
+		$db->setQuery($query);
+		$discoveredExtensions = $db->loadObjectList();
+
+		return count($discoveredExtensions) > 0;
 	}
 }
