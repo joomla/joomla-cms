@@ -20,9 +20,9 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_contact.contacts-list');
+$wa->useScript('com_contact.contacts-list')
+	->useScript('core');
 
-HTMLHelper::_('behavior.core');
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
 $userId  = Factory::getUser()->id;
@@ -119,7 +119,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 									</span>
 								</div>
 							<?php endif; ?>
-							<?php if (strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
+							<?php if ($item->publish_up && strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
 								<div>
 									<span class="list-published badge bg-warning text-light">
 										<?php echo Text::_('JNOTPUBLISHEDYET'); ?>

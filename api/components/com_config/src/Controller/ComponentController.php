@@ -134,7 +134,7 @@ class ComponentController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -153,7 +153,7 @@ class ComponentController extends ApiController
 		$data = [
 			'params' => $validData,
 			'id'     => ExtensionHelper::getExtensionRecord($option, 'component')->extension_id,
-			'option' => $option
+			'option' => $option,
 		];
 
 		if (!$model->save($data))
