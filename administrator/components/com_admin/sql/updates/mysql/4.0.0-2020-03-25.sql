@@ -1,6 +1,8 @@
 -- Add locked field to extensions table.
 ALTER TABLE `#__extensions` MODIFY `protected` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is protected. Protected extensions cannot be disabled.';
-ALTER TABLE `#__extensions` ADD COLUMN `locked` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.';
+-- The following statement was modified for 4.1.1 by adding the "/** CAN FAIL **/" installer hint.
+-- See https://github.com/joomla/joomla-cms/pull/37156
+ALTER TABLE `#__extensions` ADD COLUMN `locked` tinyint NOT NULL DEFAULT 0 COMMENT 'Flag to indicate if the extension is locked. Locked extensions cannot be uninstalled.' /** CAN FAIL **/;
 
 -- Set all core extensions as locked extensions and unprotected them.
 UPDATE `#__extensions`

@@ -97,8 +97,8 @@ abstract class ModuleHelper
 			}
 		}
 
-		// Prepend a dummy module for template preview
-		if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
+		// Prepend a dummy module for template preview if no module is published in the position
+		if (empty($result) && $input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 		{
 			$dummy = static::createDummyModule();
 			$dummy->title = $position;
