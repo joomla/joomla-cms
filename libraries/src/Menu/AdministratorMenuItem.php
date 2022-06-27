@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Menu;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Object representing an administrator menu item
  *
@@ -17,27 +16,27 @@ namespace Joomla\CMS\Menu;
  */
 class AdministratorMenuItem extends MenuItem
 {
-	/**
-	 * The target attribute of the link
-	 *
-	 * @var    string|null
-	 * @since  4.0.0
-	 */
-	public $target;
+    /**
+     * The target attribute of the link
+     *
+     * @var    string|null
+     * @since  4.0.0
+     */
+    public $target;
 
-	/**
-	 * The icon image of the menu item
-	 *
-	 * @var    string|null
-	 * @since  4.0.0
-	 */
-	public $icon;
+    /**
+     * The icon image of the menu item
+     *
+     * @var    string|null
+     * @since  4.0.0
+     */
+    public $icon;
 
-	/**
-	 * The icon image of the link
-	 *
-	 * @var    string|null
-	 * @since  4.0.0
-	 */
-	public $iconImage;
+    /**
+     * The icon image of the link
+     *
+     * @var    string|null
+     * @since  4.0.0
+     */
+    public $iconImage;
 }

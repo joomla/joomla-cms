@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -21,16 +22,16 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
  */
 class PackageField extends ListField
 {
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 * @since   4.2.0
-	 */
-	protected function getOptions()
-	{
-		$options = InstallerHelper::getPackageOptions();
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     * @since   4.2.0
+     */
+    protected function getOptions()
+    {
+        $options = InstallerHelper::getPackageOptions();
 
-		return array_merge(parent::getOptions(), $options);
-	}
+        return array_merge(parent::getOptions(), $options);
+    }
 }
