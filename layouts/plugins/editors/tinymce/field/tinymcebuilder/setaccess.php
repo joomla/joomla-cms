@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
@@ -19,5 +20,5 @@ extract($displayData);
  */
 ?>
 <div class="setaccess-form-wrapper">
-	<?php echo $form->renderField('access'); ?>
+    <?php echo $form->renderField('access'); ?>
 </div>

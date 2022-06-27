@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,6 +21,6 @@ use Joomla\CMS\Event\Result\ResultTypeStringAware;
  */
 class AjaxCreate extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeStringAware;
+    use ResultAware;
+    use ResultTypeStringAware;
 }
