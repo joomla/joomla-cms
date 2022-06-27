@@ -112,6 +112,7 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
+		ToolbarHelper::inlinehelp();
 		ToolbarHelper::help($help->key, false, $url);
 	}
 }

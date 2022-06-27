@@ -225,6 +225,8 @@ class Modules
 	 * @return  array  The field option objects.
 	 *
 	 * @since   2.5
+	 *
+	 * @deprecated  5.0 Will be removed with no replacement
 	 */
 	public function positionList($clientId = 0)
 	{

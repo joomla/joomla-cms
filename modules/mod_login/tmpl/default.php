@@ -63,31 +63,6 @@ Text::script('JHIDEPASSWORD');
 			<?php endif; ?>
 		</div>
 
-		<?php if (count($twofactormethods) > 1) : ?>
-			<div class="mod-login__twofactor form-group">
-				<?php if (!$params->get('usetext', 0)) : ?>
-					<div class="input-group">
-						<span class="input-group-text">
-							<span class="icon-star" aria-hidden="true"></span>
-						</span>
-						<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="visually-hidden"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-text">
-							<span class="icon-question icon-fw" aria-hidden="true"></span>
-						</span>
-					</div>
-				<?php else : ?>
-					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-					<div class="input-group">
-						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
-						<span class="input-group-text">
-							<span class="icon-question icon-fw" aria-hidden="true"></span>
-						</span>
-					</div>
-				<?php endif; ?>
-			</div>
-		<?php endif; ?>
-
 		<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
 			<div class="mod-login__remember form-group">
 				<div id="form-login-remember-<?php echo $module->id; ?>" class="form-check">
@@ -106,7 +81,7 @@ Text::script('JHIDEPASSWORD');
 			?>
 			<div class="mod-login__submit form-group">
 				<button type="button"
-						class="btn btn-secondary w-100 mt-4 <?php echo $button['class'] ?? '' ?>"
+						class="btn btn-secondary w-100 <?php echo $button['class'] ?? '' ?>"
 						<?php foreach ($dataAttributeKeys as $key): ?>
 						<?php echo $key ?>="<?php echo $button[$key] ?>"
 						<?php endforeach; ?>
@@ -129,7 +104,7 @@ Text::script('JHIDEPASSWORD');
 		<?php endforeach; ?>
 
 		<div class="mod-login__submit form-group">
-			<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGIN'); ?></button>
+			<button type="submit" name="Submit" class="btn btn-primary w-100"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
 
 		<?php

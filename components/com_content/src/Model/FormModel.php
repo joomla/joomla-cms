@@ -287,7 +287,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 			{
 				$categoryId = (int) $params->get('catid');
 
-				$db    = $this->getDbo();
+				$db    = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('language'))
 					->from($db->quoteName('#__categories'))
