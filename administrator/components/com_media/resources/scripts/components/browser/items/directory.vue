@@ -5,7 +5,9 @@
   >
     <div
       class="media-browser-item-preview"
+      tabindex="0"
       @dblclick.stop.prevent="onPreviewDblClick()"
+      @keyup.enter="onPreviewDblClick()"
     >
       <div class="file-background">
         <div class="folder-icon">
@@ -18,8 +20,8 @@
     </div>
     <media-browser-action-items-container
       ref="container"
-      :focused="focused"
       :item="item"
+      @toggle-settings="toggleSettings"
     />
   </div>
 </template>
@@ -30,7 +32,8 @@ export default {
   name: 'MediaBrowserItemDirectory',
   mixins: [navigable],
   // eslint-disable-next-line vue/require-prop-types
-  props: ['item', 'focused'],
+  props: ['item'],
+  emits: ['toggle-settings'],
   data() {
     return {
       showActions: false,
@@ -44,6 +47,9 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.$refs.container.hideActions();
+    },
+    toggleSettings(bool) {
+      this.$emit('toggle-settings', bool);
     },
   },
 };

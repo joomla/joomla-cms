@@ -27,8 +27,8 @@
   position: relative;
   width: 100%;
   min-height: 1px;
-  padding-right: ($col-gutter-width / 2);
-  padding-left: ($col-gutter-width / 2);
+  padding-right: $col-gutter-width * .5;
+  padding-left: $col-gutter-width * .5;
 }
 
 @media (min-width: var(--breakpoint-md)) {
@@ -47,5 +47,4 @@
 .media-sidebar {
   flex: 0 0 280px;
   padding: 1rem;
-  overflow-y: auto;
 }

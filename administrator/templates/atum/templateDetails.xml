@@ -2,7 +2,7 @@
 <extension type="template" client="administrator">
 	<name>atum</name>
 	<version>1.0</version>
-	<creationDate>September 2016</creationDate>
+	<creationDate>2016-09</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>

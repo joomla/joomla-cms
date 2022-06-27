@@ -51,7 +51,9 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 *
 	 * @return  Router
 	 *
-	 * @since   4.0.0
+	 * @since      4.0.0
+	 *
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public static function getRouter($name = null, array $options = array());
 

@@ -186,7 +186,7 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$db    = $this->parent->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$element     = $this->extension->element;
@@ -317,7 +317,7 @@ class TemplateAdapter extends InstallerAdapter
 	{
 		if (\in_array($this->route, array('install', 'discover_install')))
 		{
-			$db    = $this->db;
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true);
 			$lang  = Factory::getLanguage();
 			$debug = $lang->setDebug(false);
@@ -464,7 +464,7 @@ class TemplateAdapter extends InstallerAdapter
 	{
 		$this->parent->extension = $this->extension;
 
-		$db       = $this->parent->getDbo();
+		$db       = $this->getDatabase();
 		$name     = $this->extension->element;
 		$clientId = $this->extension->client_id;
 

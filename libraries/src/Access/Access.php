@@ -531,6 +531,12 @@ class Access
 
 				foreach ($ancestors as $id)
 				{
+					// There are no rules for this ancestor
+					if (!isset(self::$assetPermissionsParentIdMapping[$extensionName][$id]))
+					{
+						continue;
+					}
+
 					// If full recursive mode, but not recursive parent mode, do not add the extension asset rules.
 					if ($recursive && !$recursiveParentAsset && self::$assetPermissionsParentIdMapping[$extensionName][$id]->name === $extensionName)
 					{
@@ -1045,7 +1051,7 @@ class Access
 				}
 			}
 
-			return array_unique($authorised);
+			return array_values(array_unique($authorised));
 		}
 
 		// Get all groups that the user is mapped to recursively.
@@ -1070,7 +1076,7 @@ class Access
 			}
 		}
 
-		return array_unique($authorised);
+		return array_values(array_unique($authorised));
 	}
 
 	/**
