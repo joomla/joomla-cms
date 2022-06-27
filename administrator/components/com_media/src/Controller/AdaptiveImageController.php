@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Media\Administrator\Controller;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\AdaptiveImage\JSONFocusStore;
 use Joomla\CMS\AdaptiveImage\SmartCrop;
 use Joomla\CMS\MVC\Controller\BaseController;

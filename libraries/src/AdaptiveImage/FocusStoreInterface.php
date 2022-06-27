@@ -7,8 +7,6 @@
 
 namespace Joomla\CMS\AdaptiveImage;
 
-defined('_JEXEC') or die;
-
 /**
  * Focus Store Interface.
  *
