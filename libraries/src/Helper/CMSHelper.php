@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Helper;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -26,118 +25,108 @@ use Joomla\Registry\Registry;
  */
 class CMSHelper
 {
-	/**
-	 * Gets the current language
-	 *
-	 * @param   boolean  $detectBrowser  Flag indicating whether to use the browser language as a fallback.
-	 *
-	 * @return  string  The language string
-	 *
-	 * @since   3.2
-	 */
-	public function getCurrentLanguage($detectBrowser = true)
-	{
-		$app = Factory::getApplication();
-		$langCode = null;
+    /**
+     * Gets the current language
+     *
+     * @param   boolean  $detectBrowser  Flag indicating whether to use the browser language as a fallback.
+     *
+     * @return  string  The language string
+     *
+     * @since   3.2
+     */
+    public function getCurrentLanguage($detectBrowser = true)
+    {
+        $app = Factory::getApplication();
+        $langCode = null;
 
-		// Get the languagefilter parameters
-		if (Multilanguage::isEnabled())
-		{
-			$plugin       = PluginHelper::getPlugin('system', 'languagefilter');
-			$pluginParams = new Registry($plugin->params);
+        // Get the languagefilter parameters
+        if (Multilanguage::isEnabled()) {
+            $plugin       = PluginHelper::getPlugin('system', 'languagefilter');
+            $pluginParams = new Registry($plugin->params);
 
-			if ((int) $pluginParams->get('lang_cookie', 1) === 1)
-			{
-				$langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
-			}
-			else
-			{
-				$langCode = $app->getSession()->get('plg_system_languagefilter.language');
-			}
-		}
+            if ((int) $pluginParams->get('lang_cookie', 1) === 1) {
+                $langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+            } else {
+                $langCode = $app->getSession()->get('plg_system_languagefilter.language');
+            }
+        }
 
-		// No cookie - let's try to detect browser language or use site default
-		if (!$langCode)
-		{
-			if ($detectBrowser)
-			{
-				$langCode = LanguageHelper::detectLanguage();
-			}
-			else
-			{
-				$langCode = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-			}
-		}
+        // No cookie - let's try to detect browser language or use site default
+        if (!$langCode) {
+            if ($detectBrowser) {
+                $langCode = LanguageHelper::detectLanguage();
+            } else {
+                $langCode = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+            }
+        }
 
-		return $langCode;
-	}
+        return $langCode;
+    }
 
-	/**
-	 * Gets the associated language ID
-	 *
-	 * @param   string  $langCode  The language code to look up
-	 *
-	 * @return  integer  The language ID
-	 *
-	 * @since   3.2
-	 */
-	public function getLanguageId($langCode)
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('lang_id'))
-			->from($db->quoteName('#__languages'))
-			->where($db->quoteName('lang_code') . ' = :language')
-			->bind(':language', $langCode);
-		$db->setQuery($query);
+    /**
+     * Gets the associated language ID
+     *
+     * @param   string  $langCode  The language code to look up
+     *
+     * @return  integer  The language ID
+     *
+     * @since   3.2
+     */
+    public function getLanguageId($langCode)
+    {
+        $db    = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('lang_id'))
+            ->from($db->quoteName('#__languages'))
+            ->where($db->quoteName('lang_code') . ' = :language')
+            ->bind(':language', $langCode);
+        $db->setQuery($query);
 
-		return $db->loadResult();
-	}
+        return $db->loadResult();
+    }
 
-	/**
-	 * Gets a row of data from a table
-	 *
-	 * @param   TableInterface  $table  Table instance for a row.
-	 *
-	 * @return  array  Associative array of all columns and values for a row in a table.
-	 *
-	 * @since   3.2
-	 */
-	public function getRowData(TableInterface $table)
-	{
-		$fields = $table->getFields();
-		$data = array();
+    /**
+     * Gets a row of data from a table
+     *
+     * @param   TableInterface  $table  Table instance for a row.
+     *
+     * @return  array  Associative array of all columns and values for a row in a table.
+     *
+     * @since   3.2
+     */
+    public function getRowData(TableInterface $table)
+    {
+        $fields = $table->getFields();
+        $data = array();
 
-		foreach ($fields as &$field)
-		{
-			$columnName = $field->Field;
-			$value = $table->$columnName;
-			$data[$columnName] = $value;
-		}
+        foreach ($fields as &$field) {
+            $columnName = $field->Field;
+            $value = $table->$columnName;
+            $data[$columnName] = $value;
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Method to get an object containing all of the table columns and values.
-	 *
-	 * @param   TableInterface  $table  Table object.
-	 *
-	 * @return  \stdClass  Contains all of the columns and values.
-	 *
-	 * @since   3.2
-	 */
-	public function getDataObject(TableInterface $table)
-	{
-		$fields = $table->getFields();
-		$dataObject = new \stdClass;
+    /**
+     * Method to get an object containing all of the table columns and values.
+     *
+     * @param   TableInterface  $table  Table object.
+     *
+     * @return  \stdClass  Contains all of the columns and values.
+     *
+     * @since   3.2
+     */
+    public function getDataObject(TableInterface $table)
+    {
+        $fields = $table->getFields();
+        $dataObject = new \stdClass();
 
-		foreach ($fields as $field)
-		{
-			$fieldName = $field->Field;
-			$dataObject->$fieldName = $table->get($fieldName);
-		}
+        foreach ($fields as $field) {
+            $fieldName = $field->Field;
+            $dataObject->$fieldName = $table->get($fieldName);
+        }
 
-		return $dataObject;
-	}
+        return $dataObject;
+    }
 }

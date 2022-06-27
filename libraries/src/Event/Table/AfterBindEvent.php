@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Event\Table;
-
-\defined('JPATH_PLATFORM') or die;
 
 /**
  * Event class for JTable's onAfterBind event
