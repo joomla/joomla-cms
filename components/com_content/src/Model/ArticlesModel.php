@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -720,10 +718,8 @@ class ArticlesModel extends ListModel
                 // Check general edit permission first.
                 if ($user->authorise('core.edit', $asset)) {
                     $item->params->set('access-edit', true);
-                }
-
-                // Now check if edit.own is available.
-                elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+                } elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+                    // Now check if edit.own is available.
                     // Check for a valid user and that they are the owner.
                     if ($userId == $item->created_by) {
                         $item->params->set('access-edit', true);

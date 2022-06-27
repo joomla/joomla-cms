@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -417,10 +415,8 @@ class ArticlesModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-        }
-
-        // Case: Using only the by level filter
-        elseif ($level = (int) $level) {
+        } elseif ($level = (int) $level) {
+            // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level')
                 ->bind(':level', $level, ParameterType::INTEGER);
         }

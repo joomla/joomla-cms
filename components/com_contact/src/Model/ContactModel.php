@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Modules\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -101,9 +99,8 @@ class ModulesModel extends ListModel
         if ($app->isClient('site') && $layout === 'modal') {
             $this->setState('filter.language', 'current');
             $this->setState('filter.state', 1);
-        }
-        // If in backend (modal or not) we get the same fields from the user request.
-        else {
+        } else {
+            // If in backend (modal or not) we get the same fields from the user request.
             $this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
             $this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
         }
@@ -351,9 +348,8 @@ class ModulesModel extends ListModel
             // If user selected the modules not assigned to any page (menu item).
             if ((int) $menuItemId === -1) {
                 $query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
-            }
-            // If user selected the modules assigned to some particular page (menu item).
-            else {
+            } else {
+                // If user selected the modules assigned to some particular page (menu item).
                 // Modules in "All" pages.
                 $subQuery1 = $db->getQuery(true);
                 $subQuery1->select('MIN(' . $db->quoteName('menuid') . ')')

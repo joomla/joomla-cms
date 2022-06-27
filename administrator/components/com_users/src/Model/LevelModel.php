@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;

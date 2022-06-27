@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;

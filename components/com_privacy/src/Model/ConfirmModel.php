@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Privacy\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;

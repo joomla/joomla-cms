@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Contact\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -334,10 +332,8 @@ class ContactsModel extends ListModel
             }
 
             $query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
-        }
-
-        // Case: Using only the by level filter
-        elseif ($level) {
+        } elseif ($level) {
+            // Case: Using only the by level filter
             $query->where($db->quoteName('c.level') . ' <= :level');
             $query->bind(':level', $level, ParameterType::INTEGER);
         }

@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;

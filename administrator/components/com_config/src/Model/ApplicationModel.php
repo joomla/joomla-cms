@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Config\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
@@ -1098,18 +1096,16 @@ class ApplicationModel extends FormModel
         if ($isSuperUserGroupAfter) {
             $result['class'] = 'badge bg-success';
             $result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
-        }
-        // Not super user.
-        else {
+        } else {
+            // Not super user.
             // First get the real recursive calculated setting and add (Inherited) to it.
 
             // If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
             if ($inheritedGroupRule === null || $inheritedGroupRule === false) {
                 $result['class'] = 'badge bg-danger';
                 $result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
-            }
-            // If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
-            else {
+            } else {
+                // If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
                 $result['class'] = 'badge bg-success';
                 $result['text']  = Text::_('JLIB_RULES_ALLOWED_INHERITED');
             }
@@ -1126,9 +1122,8 @@ class ApplicationModel extends FormModel
             if ($assetRule === false) {
                 $result['class'] = 'badge bg-danger';
                 $result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED');
-            }
-            // If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
-            elseif ($assetRule === true) {
+            } elseif ($assetRule === true) {
+                // If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
                 $result['class'] = 'badge bg-success';
                 $result['text']  = Text::_('JLIB_RULES_ALLOWED');
             }
@@ -1139,14 +1134,12 @@ class ApplicationModel extends FormModel
             if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null) {
                 $result['class'] = 'badge bg-danger';
                 $result['text']  = Text::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
-            }
-
-            /**
-             * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
-             * Or some parent group has an explicit "Denied".
-             * Calculated permission is "Not Allowed (Locked)".
-             */
-            elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false) {
+            } elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false) {
+                /**
+                 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
+                 * Or some parent group has an explicit "Denied".
+                 * Calculated permission is "Not Allowed (Locked)".
+                 */
                 $result['class'] = 'badge bg-danger';
                 $result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
             }

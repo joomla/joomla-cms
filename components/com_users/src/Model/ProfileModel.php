@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
