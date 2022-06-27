@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Task.requests
@@ -20,31 +21,30 @@ use Joomla\Plugin\Task\Requests\Extension\Requests;
 
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			PluginInterface::class,
-			function (Container $container)
-			{
-				$plugin = new Requests(
-					$container->get(DispatcherInterface::class),
-					(array) PluginHelper::getPlugin('task', 'requests'),
-					new HttpFactory,
-					JPATH_ROOT . '/tmp'
-				);
-				$plugin->setApplication(Factory::getApplication());
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            PluginInterface::class,
+            function (Container $container) {
+                $plugin = new Requests(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('task', 'requests'),
+                    new HttpFactory(),
+                    JPATH_ROOT . '/tmp'
+                );
+                $plugin->setApplication(Factory::getApplication());
 
-				return $plugin;
-			}
-		);
-	}
+                return $plugin;
+            }
+        );
+    }
 };

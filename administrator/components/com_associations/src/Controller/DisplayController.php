@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_associations
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Associations\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -20,12 +19,12 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class DisplayController extends BaseController
 {
-	/**
-	 * The default view.
-	 *
-	 * @var     string
-	 *
-	 * @since  3.7.0
-	 */
-	protected $default_view = 'associations';
+    /**
+     * The default view.
+     *
+     * @var     string
+     *
+     * @since  3.7.0
+     */
+    protected $default_view = 'associations';
 }
