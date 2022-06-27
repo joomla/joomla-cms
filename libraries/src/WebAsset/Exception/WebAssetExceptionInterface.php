@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\WebAsset\Exception;
-
-\defined('JPATH_PLATFORM') or die;
 
 /**
  * Exception interface defining a WebAsset error
