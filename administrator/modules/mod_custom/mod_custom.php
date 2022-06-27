@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_custom
@@ -13,10 +14,9 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 
-if ($params->def('prepare_content', 1))
-{
-	PluginHelper::importPlugin('content');
-	$module->content = HTMLHelper::_('content.prepare', $module->content, '', 'mod_custom.content');
+if ($params->def('prepare_content', 1)) {
+    PluginHelper::importPlugin('content');
+    $module->content = HTMLHelper::_('content.prepare', $module->content, '', 'mod_custom.content');
 }
 
 // Replace 'images/' to '../images/' when using an image from /images in backend.

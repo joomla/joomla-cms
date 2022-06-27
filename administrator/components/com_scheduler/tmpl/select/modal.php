@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -22,15 +23,12 @@ $this->modalLink = '&tmpl=component&view=select&layout=modal';
 // Wrap the default layout in a div.container-popup
 ?>
 <div class="container-popup">
-	<?php $this->setLayout('default'); ?>
+    <?php $this->setLayout('default'); ?>
 
-	<?php try
-	{
-		echo $this->loadTemplate();
-	}
-	catch (Exception $e)
-	{
-		die('Exception while loading template..');
-	}
-	?>
+    <?php try {
+        echo $this->loadTemplate();
+    } catch (Exception $e) {
+        die('Exception while loading template..');
+    }
+    ?>
 </div>
