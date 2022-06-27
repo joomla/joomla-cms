@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_menu
@@ -22,7 +23,6 @@ $path       = $base->tree;
 $showAll    = $params->get('showAllChildren', 1);
 $class_sfx  = htmlspecialchars($params->get('class_sfx', ''), ENT_COMPAT, 'UTF-8');
 
-if (count($list))
-{
-	require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
+if (count($list)) {
+    require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
 }

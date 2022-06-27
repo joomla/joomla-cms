@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Installer\Administrator\View\Updatesite;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -28,98 +27,95 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * The Form object
-	 *
-	 * @var  Form
-	 *
-	 * @since   4.0.0
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  Form
+     *
+     * @since   4.0.0
+     */
+    protected $form;
 
-	/**
-	 * The active item
-	 *
-	 * @var  object
-	 *
-	 * @since   4.0.0
-	 */
-	protected $item;
+    /**
+     * The active item
+     *
+     * @var  object
+     *
+     * @since   4.0.0
+     */
+    protected $item;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws \Exception
-	 */
-	public function display($tpl = null): void
-	{
-		/** @var UpdatesiteModel $model */
-		$model      = $this->getModel();
-		$this->form = $model->getForm();
-		$this->item = $model->getItem();
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     *
+     * @throws \Exception
+     */
+    public function display($tpl = null): void
+    {
+        /** @var UpdatesiteModel $model */
+        $model      = $this->getModel();
+        $this->form = $model->getForm();
+        $this->item = $model->getItem();
 
-		// Remove the extra_query field if it's a free download extension
-		$dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
-		$update_site_id = $this->item->get('update_site_id');
+        // Remove the extra_query field if it's a free download extension
+        $dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
+        $update_site_id = $this->item->get('update_site_id');
 
-		if (!in_array($update_site_id, $dlidSupportingSites))
-		{
-			$this->form->removeField('extra_query');
-		}
+        if (!in_array($update_site_id, $dlidSupportingSites)) {
+            $this->form->removeField('extra_query');
+        }
 
-		// Check for errors.
-		if (count($errors = $model->getErrors()))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $model->getErrors())) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws  \Exception
-	 */
-	protected function addToolbar(): void
-	{
-		$app = Factory::getApplication();
-		$app->input->set('hidemainmenu', true);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     *
+     * @throws  \Exception
+     */
+    protected function addToolbar(): void
+    {
+        $app = Factory::getApplication();
+        $app->input->set('hidemainmenu', true);
 
-		$user       = $app->getIdentity();
-		$userId     = $user->id;
-		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out === $userId);
+        $user       = $app->getIdentity();
+        $userId     = $user->id;
+        $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out === $userId);
 
-		// Since we don't track these assets at the item level, use the category id.
-		$canDo = ContentHelper::getActions('com_installer', 'updatesite');
+        // Since we don't track these assets at the item level, use the category id.
+        $canDo = ContentHelper::getActions('com_installer', 'updatesite');
 
-		ToolbarHelper::title(Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE'), 'address contact');
+        ToolbarHelper::title(Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE'), 'address contact');
 
-		// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-		$itemEditable   = $canDo->get('core.edit');
-		$toolbarButtons = [];
+        // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+        $itemEditable   = $canDo->get('core.edit');
+        $toolbarButtons = [];
 
-		// Can't save the record if it's checked out and editable
-		if (!$checkedOut && $itemEditable && $this->form->getField('extra_query'))
-		{
-			$toolbarButtons[] = ['apply', 'updatesite.apply'];
-			$toolbarButtons[] = ['save', 'updatesite.save'];
-		}
+        // Can't save the record if it's checked out and editable
+        if (!$checkedOut && $itemEditable && $this->form->getField('extra_query')) {
+            $toolbarButtons[] = ['apply', 'updatesite.apply'];
+            $toolbarButtons[] = ['save', 'updatesite.save'];
+        }
 
-		ToolbarHelper::saveGroup($toolbarButtons);
+        ToolbarHelper::saveGroup($toolbarButtons);
 
-		ToolbarHelper::cancel('updatesite.cancel', 'JTOOLBAR_CLOSE');
+        ToolbarHelper::cancel('updatesite.cancel', 'JTOOLBAR_CLOSE');
 
-		ToolbarHelper::help('Edit_Update_Site');
-	}
+        ToolbarHelper::help('Edit_Update_Site');
+    }
 }
