@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Media\Administrator\View\File;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -24,54 +23,52 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function display($tpl = null)
+    {
+        $input = Factory::getApplication()->input;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function display($tpl = null)
-	{
-		$input = Factory::getApplication()->input;
+        $this->form = $this->get('Form');
 
-		$this->form = $this->get('Form');
+        // The component params
+        $this->params = ComponentHelper::getParams('com_media');
 
-		// The component params
-		$this->params = ComponentHelper::getParams('com_media');
+        // The requested file
+        $this->file = $this->getModel()->getFileInformation($input->getString('path', null));
 
-		// The requested file
-		$this->file = $this->getModel()->getFileInformation($input->getString('path', null));
+        if (empty($this->file->content)) {
+            // @todo error handling controller redirect files
+            throw new \Exception(Text::_('COM_MEDIA_ERROR_NO_CONTENT_AVAILABLE'));
+        }
 
-		if (empty($this->file->content))
-		{
-			// @todo error handling controller redirect files
-			throw new \Exception(Text::_('COM_MEDIA_ERROR_NO_CONTENT_AVAILABLE'));
-		}
+        $this->addToolbar();
 
-		$this->addToolbar();
+        parent::display($tpl);
+    }
 
-		parent::display($tpl);
-	}
+    /**
+     * Add the toolbar buttons
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function addToolbar()
+    {
+        ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
 
-	/**
-	 * Add the toolbar buttons
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function addToolbar()
-	{
-		ToolbarHelper::title(Text::_('COM_MEDIA_EDIT'), 'images mediamanager');
+        ToolbarHelper::apply('apply');
+        ToolbarHelper::save('save');
+        ToolbarHelper::custom('reset', 'refresh', '', 'COM_MEDIA_RESET', false);
 
-		ToolbarHelper::apply('apply');
-		ToolbarHelper::save('save');
-		ToolbarHelper::custom('reset', 'refresh', '',  'COM_MEDIA_RESET', false);
-
-		ToolbarHelper::cancel('cancel', 'JTOOLBAR_CLOSE');
-	}
+        ToolbarHelper::cancel('cancel', 'JTOOLBAR_CLOSE');
+    }
 }

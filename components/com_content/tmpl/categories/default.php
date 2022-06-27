@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -23,8 +24,8 @@ $wa->usePreset('com_categories.shared-categories-accordion');
 
 ?>
 <div class="com-content-categories categories-list">
-	<?php
-		echo LayoutHelper::render('joomla.content.categories_default', $this);
-		echo $this->loadTemplate('items');
-	?>
+    <?php
+        echo LayoutHelper::render('joomla.content.categories_default', $this);
+        echo $this->loadTemplate('items');
+    ?>
 </div>

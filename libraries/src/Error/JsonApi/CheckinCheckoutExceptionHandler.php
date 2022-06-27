@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -20,41 +21,40 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
  */
 class CheckinCheckoutExceptionHandler implements ExceptionHandlerInterface
 {
-	/**
-	 * If the exception handler is able to format a response for the provided exception,
-	 * then the implementation should return true.
-	 *
-	 * @param   \Exception  $e  The exception to be handled
-	 *
-	 * @return  boolean
-	 *
-	 * @since  4.0.0
-	 */
-	public function manages(Exception $e)
-	{
-		return $e instanceof CheckinCheckout;
-	}
+    /**
+     * If the exception handler is able to format a response for the provided exception,
+     * then the implementation should return true.
+     *
+     * @param   \Exception  $e  The exception to be handled
+     *
+     * @return  boolean
+     *
+     * @since  4.0.0
+     */
+    public function manages(Exception $e)
+    {
+        return $e instanceof CheckinCheckout;
+    }
 
-	/**
-	 * Handle the provided exception.
-	 *
-	 * @param   Exception  $e  The exception being handled
-	 *
-	 * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
-	 *
-	 * @since  4.0.0
-	 */
-	public function handle(Exception $e)
-	{
-		$status = 400;
+    /**
+     * Handle the provided exception.
+     *
+     * @param   Exception  $e  The exception being handled
+     *
+     * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
+     *
+     * @since  4.0.0
+     */
+    public function handle(Exception $e)
+    {
+        $status = 400;
 
-		if ($e->getCode())
-		{
-			$status = $e->getCode();
-		}
+        if ($e->getCode()) {
+            $status = $e->getCode();
+        }
 
-		$error = ['title' => $e->getMessage()];
+        $error = ['title' => $e->getMessage()];
 
-		return new ResponseBag($status, [$error]);
-	}
+        return new ResponseBag($status, [$error]);
+    }
 }
