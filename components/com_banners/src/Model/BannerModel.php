@@ -53,7 +53,7 @@ class BannerModel extends BaseDatabaseModel
 		$id = (int) $this->getState('banner.id');
 
 		// Update click count
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->update($db->quoteName('#__banners'))
@@ -182,7 +182,7 @@ class BannerModel extends BaseDatabaseModel
 			$id = (int) $this->getState('banner.id');
 
 			// For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
-			$db = $this->getDbo();
+			$db = $this->getDatabase();
 
 			$loader = function ($id) use ($db)
 			{
