@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\WebAsset\Exception;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Exception class defining an Unsatisfied Dependency
  *
@@ -17,5 +16,4 @@ namespace Joomla\CMS\WebAsset\Exception;
  */
 class UnsatisfiedDependencyException extends \RuntimeException implements WebAssetExceptionInterface
 {
-
 }
