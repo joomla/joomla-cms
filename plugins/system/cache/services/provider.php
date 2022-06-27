@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\SiteRouter;
@@ -19,14 +20,15 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Cache\Extension\Cache;
 
-return new class implements ServiceProviderInterface {
+return new class implements ServiceProviderInterface
+{
 	/**
 	 * Registers the service provider with a DI container.
 	 *
 	 * @param   Container  $container  The DI container.
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function register(Container $container)
 	{
@@ -41,7 +43,10 @@ return new class implements ServiceProviderInterface {
 				$profiler               = (defined('JDEBUG') && JDEBUG) ? Profiler::getInstance('Application') : null;
 				$router                 = $container->has(SiteRouter::class) ? $container->get(SiteRouter::class) : null;
 
-				return new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
+				$plugin = new Cache($dispatcher, (array) $plugin, $documentFactory, $cacheControllerFactory, $profiler, $router);
+				$plugin->setApplication(Factory::getApplication());
+
+				return $plugin;
 			}
 		);
 	}

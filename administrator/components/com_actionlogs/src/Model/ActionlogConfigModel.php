@@ -17,7 +17,7 @@ use stdClass;
 /**
  * Model to interact with the action log configuration.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class ActionlogConfigModel extends BaseDatabaseModel
 {
@@ -28,7 +28,7 @@ class ActionlogConfigModel extends BaseDatabaseModel
 	 *
 	 * @return  stdClass|null  An object contains content type parameters, or null if not found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function getLogContentTypeParams(string $context): ?stdClass
 	{

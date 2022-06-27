@@ -353,7 +353,7 @@ class MenuModel extends FormModel
 	 */
 	public function &getModules()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select(
@@ -398,7 +398,7 @@ class MenuModel extends FormModel
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public function getExtensionElementsForMenuItems(array $itemIds): array
 	{
