@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -12,4 +13,4 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
-<?php echo HTMLHelper::_('access.usergroups', 'jform[groups]', $this->groups, true); ?>
+<?php echo HTMLHelper::_('access.usergroups', 'jform[groups]', $this->groups, true);
