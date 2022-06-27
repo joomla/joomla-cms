@@ -10,8 +10,13 @@ on:
     # Run daily at 7:26
     - cron:  '26 7 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: write  # for Git to git push
     runs-on: ubuntu-latest
     # Only run this action the translation-bot repository in the translation branch
     if: ${{ github.repository == 'joomla-translation-bot/joomla-cms' && github.ref == 'refs/heads/translation' }}
@@ -44,11 +49,11 @@ jobs:
         # We use a simple copy paste syntax here if needed customization for different directories
         run: |
           cd ..
-          SYNC_VERION="v4"
+          SYNC_VERSION="v4"
           
           SYNC_PATH="installation/language/"
           echo ${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
+          rsync -i -rptgo --checksum --ignore-times --delete --exclude="*en-GB*" core-translations-main/joomla_${SYNC_VERSION}/translations/core/${SYNC_PATH} joomla-cms/${SYNC_PATH} 
           
       - name: Update static error pages
         run: |

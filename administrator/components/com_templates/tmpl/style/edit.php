@@ -15,8 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate');
 
 $this->useCoreUI = true;
 
@@ -72,6 +74,8 @@ $user = Factory::getUser();
 				);
 				?>
 				<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php echo $this->form->renderField('inheritable'); ?>
+				<?php echo $this->form->renderField('parent'); ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

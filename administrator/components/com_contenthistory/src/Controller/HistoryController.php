@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Contenthistory list controller class.
@@ -52,9 +51,12 @@ class HistoryController extends AdminController
 		$this->checkToken();
 
 		// Get items to toggle keep forever from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$cid = (array) $this->input->get('cid', array(), 'int');
 
-		if (!is_array($cid) || count($cid) < 1)
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
+
+		if (empty($cid))
 		{
 			$this->app->enqueueMessage(Text::_('COM_CONTENTHISTORY_NO_ITEM_SELECTED'), 'warning');
 		}
@@ -62,9 +64,6 @@ class HistoryController extends AdminController
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
 
 			// Toggle keep forever status of the selected items.
 			if ($model->keep($cid))

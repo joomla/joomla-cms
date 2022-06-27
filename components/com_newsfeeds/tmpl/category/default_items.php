@@ -26,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php else : ?>
 		<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
 			<?php if ($this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) : ?>
-				<fieldset class="com-newsfeeds-category__filters filters btn-toolbar">
+				<fieldset class="com-newsfeeds-category__filters filters">
 					<?php if ($this->params->get('filter_field') !== 'hide' && $this->params->get('filter_field') == '1') : ?>
 						<div class="btn-group">
 							<label class="filter-search-lbl visually-hidden" for="filter-search">

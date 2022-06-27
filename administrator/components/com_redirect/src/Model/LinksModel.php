@@ -60,7 +60,7 @@ class LinksModel extends ListModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true);
 
@@ -135,7 +135,7 @@ class LinksModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -211,7 +211,7 @@ class LinksModel extends ListModel
 	 */
 	public function batchProcess($batchUrls)
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$params  = ComponentHelper::getParams('com_redirect');

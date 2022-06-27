@@ -326,7 +326,7 @@ abstract class Select
 	public static function integerlist($start, $end, $inc, $name, $attribs = null, $selected = null, $format = '')
 	{
 		// Set default options
-		$options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => null));
+		$options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => false));
 
 		if (is_array($attribs) && func_num_args() === 5)
 		{

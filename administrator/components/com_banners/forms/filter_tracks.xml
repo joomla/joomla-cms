@@ -63,6 +63,7 @@
 			hint="COM_BANNERS_BEGIN_HINT"
 			format="%Y-%m-%d"
 			filter="user_utc"
+			onchange="this.form.submit();"
 		/>
 
 		<field
@@ -72,6 +73,7 @@
 			hint="COM_BANNERS_END_HINT"
 			format="%Y-%m-%d"
 			filter="user_utc"
+			onchange="this.form.submit();"
 		/>
 	</fields>
 	<fields name="list">
