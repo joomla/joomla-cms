@@ -82,7 +82,7 @@ class Console implements ServiceProviderInterface
 			ExportCommand::class,
 			function (Container $container)
 			{
-				return new ExportCommand($container->get('db'));
+				return new ExportCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
@@ -91,7 +91,7 @@ class Console implements ServiceProviderInterface
 			ImportCommand::class,
 			function (Container $container)
 			{
-				return new ImportCommand($container->get('db'));
+				return new ImportCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
@@ -136,7 +136,7 @@ class Console implements ServiceProviderInterface
 			ExtensionsListCommand::class,
 			function (Container $container)
 			{
-				return new ExtensionsListCommand($container->get('db'));
+				return new ExtensionsListCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
@@ -181,7 +181,7 @@ class Console implements ServiceProviderInterface
 			ExtensionDiscoverInstallCommand::class,
 			function (Container $container)
 			{
-				return new ExtensionDiscoverInstallCommand($container->get('db'));
+				return new ExtensionDiscoverInstallCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
@@ -190,7 +190,7 @@ class Console implements ServiceProviderInterface
 			ExtensionDiscoverListCommand::class,
 			function (Container $container)
 			{
-				return new ExtensionDiscoverListCommand($container->get('db'));
+				return new ExtensionDiscoverListCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
@@ -199,7 +199,7 @@ class Console implements ServiceProviderInterface
 			UpdateCoreCommand::class,
 			function (Container $container)
 			{
-				return new UpdateCoreCommand($container->get('db'));
+				return new UpdateCoreCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
@@ -208,7 +208,7 @@ class Console implements ServiceProviderInterface
 			FinderIndexCommand::class,
 			function (Container $container)
 			{
-				return new FinderIndexCommand($container->get('db'));
+				return new FinderIndexCommand($container->get(DatabaseInterface::class));
 			},
 			true
 		);
