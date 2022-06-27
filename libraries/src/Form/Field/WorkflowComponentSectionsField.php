@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Form\Field;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -22,48 +21,44 @@ use Joomla\CMS\Workflow\WorkflowServiceInterface;
  */
 class WorkflowComponentSectionsField extends ComponentsField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var     string
-	 * @since  4.0.0
-	 */
-	protected $type = 'WorkflowComponentSections';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since  4.0.0
+     */
+    protected $type = 'WorkflowComponentSections';
 
-	/**
-	 * Method to get a list of options for a list input.
-	 *
-	 * @return	array  An array of JHtml options.
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getOptions()
-	{
-		$app       = Factory::getApplication();
-		$items     = parent::getOptions();
-		$options   = [];
-		$options[] = HTMLHelper::_('select.option', ' ', Text::_('JNONE'));
+    /**
+     * Method to get a list of options for a list input.
+     *
+     * @return  array  An array of JHtml options.
+     *
+     * @since   4.0.0
+     */
+    protected function getOptions()
+    {
+        $app       = Factory::getApplication();
+        $items     = parent::getOptions();
+        $options   = [];
+        $options[] = HTMLHelper::_('select.option', ' ', Text::_('JNONE'));
 
-		foreach ($items as $item)
-		{
-			if (substr($item->value, 0, 4) !== 'com_')
-			{
-				continue;
-			}
+        foreach ($items as $item) {
+            if (substr($item->value, 0, 4) !== 'com_') {
+                continue;
+            }
 
-			$component = $app->bootComponent($item->value);
+            $component = $app->bootComponent($item->value);
 
-			if (!($component instanceof WorkflowServiceInterface))
-			{
-				continue;
-			}
+            if (!($component instanceof WorkflowServiceInterface)) {
+                continue;
+            }
 
-			foreach ($component->getWorkflowContexts() as $extension => $text)
-			{
-				$options[] = HTMLHelper::_('select.option', $extension, Text::sprintf('JWORKFLOW_FIELD_COMPONENT_SECTIONS_TEXT', $item->text, $text));
-			}
-		}
+            foreach ($component->getWorkflowContexts() as $extension => $text) {
+                $options[] = HTMLHelper::_('select.option', $extension, Text::sprintf('JWORKFLOW_FIELD_COMPONENT_SECTIONS_TEXT', $item->text, $text));
+            }
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 }
