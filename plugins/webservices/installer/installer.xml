@@ -2,7 +2,7 @@
 <extension type="plugin" group="webservices" method="upgrade">
 	<name>plg_webservices_installer</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2020</creationDate>
+	<creationDate>2020-06</creationDate>
 	<copyright>(C) 2020 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

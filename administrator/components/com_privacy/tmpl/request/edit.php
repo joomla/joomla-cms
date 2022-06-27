@@ -15,8 +15,10 @@ use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate');
 
 ?>
 

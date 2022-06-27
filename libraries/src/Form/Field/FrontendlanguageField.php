@@ -38,7 +38,7 @@ class FrontendlanguageField extends ListField
 	protected function getOptions()
 	{
 		// Get the database object and a new query object.
-		$db    = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select('a.lang_code AS value, a.title AS text')

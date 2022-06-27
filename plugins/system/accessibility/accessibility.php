@@ -96,6 +96,7 @@ class PlgSystemAccessibility extends CMSPlugin
 							'units' => 'px',
 						],
 					],
+					'useEmojis' => $this->params->get('useEmojis') != 'false' ? true : false,
 				],
 				'hotkeys' => [
 					'enabled' => true,

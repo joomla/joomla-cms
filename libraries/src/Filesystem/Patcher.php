@@ -447,7 +447,12 @@ class Patcher
 
 					if (!isset($src_lines))
 					{
-						throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISTING_SOURCE', $src));
+						throw new \RuntimeException(
+							Text::sprintf(
+								'JLIB_FILESYSTEM_PATCHER_UNEXISTING_SOURCE',
+								Path::removeRoot($src)
+							)
+						);
 					}
 				}
 
@@ -462,7 +467,13 @@ class Patcher
 						{
 							if ($src_lines[$l] != $source[$l - $srcLine])
 							{
-								throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
+								throw new \RuntimeException(
+									Text::sprintf(
+										'JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY',
+										Path::removeRoot($src),
+										$l
+									)
+								);
 							}
 						}
 

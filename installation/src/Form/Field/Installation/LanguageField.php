@@ -31,6 +31,26 @@ class LanguageField extends ListField
 	protected $type = 'Language';
 
 	/**
+	 * Method to attach a Form object to the field.
+	 *
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.2.0
+	 */
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
+	{
+		$value = $this->getNativeLanguage();
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
@@ -39,6 +59,67 @@ class LanguageField extends ListField
 	 */
 	protected function getOptions()
 	{
+		$native = $this->getNativeLanguage();
+
+		// Get the list of available languages.
+		$options = LanguageHelper::createLanguageList($native);
+
+		// Fix wrongly set parentheses in RTL languages
+		if (Factory::getLanguage()->isRtl())
+		{
+			foreach ($options as &$option)
+			{
+				$option['text'] .= '&#x200E;';
+			}
+		}
+
+		if (!$options || $options instanceof \Exception)
+		{
+			$options = array();
+		}
+		// Sort languages by name
+		else
+		{
+			usort($options, array($this, '_sortLanguages'));
+		}
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
+
+		return $options;
+	}
+
+	/**
+	 * Method to sort languages by name.
+	 *
+	 * @param   array  $a  The first value to determine sort
+	 * @param   array  $b  The second value to determine sort
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.1
+	 */
+	protected function _sortLanguages($a, $b)
+	{
+		return strcmp($a['text'], $b['text']);
+	}
+
+	/**
+	 * Determinate the native language to select
+	 *
+	 * @return  string  The native language to use
+	 *
+	 * @since   4.2.0
+	 */
+	protected function getNativeLanguage()
+	{
+		static $native;
+
+		if (isset($native))
+		{
+			return $native;
+		}
+
 		$app = Factory::getApplication();
 
 		// Detect the native language.
@@ -66,49 +147,6 @@ class LanguageField extends ListField
 			$native = $options['language'];
 		}
 
-		// Get the list of available languages.
-		$options = LanguageHelper::createLanguageList($native);
-
-		// Fix wrongly set parentheses in RTL languages
-		if (Factory::getLanguage()->isRtl())
-		{
-			foreach ($options as &$option)
-			{
-				$option['text'] .= '&#x200E;';
-			}
-		}
-
-		if (!$options || $options instanceof \Exception)
-		{
-			$options = array();
-		}
-		// Sort languages by name
-		else
-		{
-			usort($options, array($this, '_sortLanguages'));
-		}
-
-		// Set the default value from the native language.
-		$this->value = $native;
-
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
-	}
-
-	/**
-	 * Method to sort languages by name.
-	 *
-	 * @param   array  $a  The first value to determine sort
-	 * @param   array  $b  The second value to determine sort
-	 *
-	 * @return  integer
-	 *
-	 * @since   3.1
-	 */
-	protected function _sortLanguages($a, $b)
-	{
-		return strcmp($a['text'], $b['text']);
+		return $native;
 	}
 }
