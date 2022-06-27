@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -28,32 +29,31 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Users'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Users'));
-		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Users'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Users'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Users'));
+        $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Users'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new UsersComponent($container->get(ComponentDispatcherFactoryInterface::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
-				$component->setRegistry($container->get(Registry::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new UsersComponent($container->get(ComponentDispatcherFactoryInterface::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setRouterFactory($container->get(RouterFactoryInterface::class));
+                $component->setRegistry($container->get(Registry::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };
