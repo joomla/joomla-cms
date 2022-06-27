@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_menus
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Menus\Api\View\Menus;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
@@ -20,35 +19,35 @@ use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
  */
 class JsonapiView extends BaseApiView
 {
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'menutype',
-		'title',
-		'description',
-		'client_id',
-		'count_published',
-		'count_unpublished',
-		'count_trashed',
-	];
+    /**
+     * The fields to render item in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderItem = [
+        'id',
+        'menutype',
+        'title',
+        'description',
+        'client_id',
+        'count_published',
+        'count_unpublished',
+        'count_trashed',
+    ];
 
-	/**
-	 * The fields to render items in the documents
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToRenderList  = [
-		'id',
-		'asset_id',
-		'menutype',
-		'title',
-		'description',
-		'client_id',
-	];
+    /**
+     * The fields to render items in the documents
+     *
+     * @var  array
+     * @since  4.0.0
+     */
+    protected $fieldsToRenderList  = [
+        'id',
+        'asset_id',
+        'menutype',
+        'title',
+        'description',
+        'client_id',
+    ];
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Interface for an item model.
  *
@@ -17,15 +16,15 @@ namespace Joomla\CMS\MVC\Model;
  */
 interface ItemModelInterface
 {
-	/**
-	 * Method to get an item.
-	 *
-	 * @param   integer  $pk  The id of the item
-	 *
-	 * @return  object
-	 *
-	 * @since 4.0.0
-	 * @throws \Exception
-	 */
-	public function getItem($pk = null);
+    /**
+     * Method to get an item.
+     *
+     * @param   integer  $pk  The id of the item
+     *
+     * @return  object
+     *
+     * @since 4.0.0
+     * @throws \Exception
+     */
+    public function getItem($pk = null);
 }
