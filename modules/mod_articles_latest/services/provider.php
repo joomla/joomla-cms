@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_articles_latest
@@ -22,20 +23,20 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\ArticlesLatest'));
-		$container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\ArticlesLatest\\Site\\Helper'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\ArticlesLatest'));
+        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\ArticlesLatest\\Site\\Helper'));
 
-		$container->registerServiceProvider(new Module);
-	}
+        $container->registerServiceProvider(new Module());
+    }
 };

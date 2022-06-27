@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_related_items
@@ -12,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\RelatedItems\Site\Helper\RelatedItemsHelper;
 
-$cacheparams               = new \stdClass;
+$cacheparams               = new \stdClass();
 $cacheparams->cachemode    = 'safeuri';
 $cacheparams->class        = RelatedItemsHelper::class;
 $cacheparams->method       = 'getList';
@@ -21,9 +22,8 @@ $cacheparams->modeparams   = array('id' => 'int', 'Itemid' => 'int');
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list))
-{
-	return;
+if (!count($list)) {
+    return;
 }
 
 $showDate = $params->get('showDate', 0);

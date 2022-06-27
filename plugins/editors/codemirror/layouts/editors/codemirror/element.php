@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
@@ -37,27 +38,27 @@ $editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/c
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 
 Factory::getDocument()->getWebAssetManager()
-	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
-	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
-	->registerScript(
-			'webcomponent.editor-codemirror-es5',
-			'plg_editors_codemirror/joomla-editor-codemirror-es5.min.js',
-			['dependencies' => ['wcpolyfill']],
-			['defer' => true, 'nomodule' => true],
-			['wcpolyfill']
-	)
-	->registerAndUseScript(
-		'webcomponent.editor-codemirror',
-		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
-			[],
-			['type' => 'module'],
-			['webcomponent.editor-codemirror-es5']
-	);
+    ->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
+    ->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
+    ->registerScript(
+        'webcomponent.editor-codemirror-es5',
+        'plg_editors_codemirror/joomla-editor-codemirror-es5.min.js',
+        ['dependencies' => ['wcpolyfill']],
+        ['defer' => true, 'nomodule' => true],
+        ['wcpolyfill']
+    )
+    ->registerAndUseScript(
+        'webcomponent.editor-codemirror',
+        'plg_editors_codemirror/joomla-editor-codemirror.min.js',
+        [],
+        ['type' => 'module'],
+        ['webcomponent.editor-codemirror-es5']
+    );
 ?>
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 <p class="small float-end">
-	<?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
+    <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
 </p>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>

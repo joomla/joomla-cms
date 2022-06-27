@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Form\Field;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -21,60 +20,59 @@ use Joomla\CMS\Session\Session;
  */
 class ContenthistoryField extends FormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	public $type = 'ContentHistory';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    public $type = 'ContentHistory';
 
-	/**
-	 * Layout to render the label
-	 *
-	 * @var  string
-	 */
-	protected $layout = 'joomla.form.field.contenthistory';
+    /**
+     * Layout to render the label
+     *
+     * @var  string
+     */
+    protected $layout = 'joomla.form.field.contenthistory';
 
-	/**
-	 * Get the data that is going to be passed to the layout
-	 *
-	 * @return  array
-	 */
-	public function getLayoutData()
-	{
-		// Get the basic field data
-		$data = parent::getLayoutData();
+    /**
+     * Get the data that is going to be passed to the layout
+     *
+     * @return  array
+     */
+    public function getLayoutData()
+    {
+        // Get the basic field data
+        $data = parent::getLayoutData();
 
-		$itemId = $this->element['data-typeAlias'] . '.' . $this->form->getValue('id');
-		$label  = Text::_('JTOOLBAR_VERSIONS');
+        $itemId = $this->element['data-typeAlias'] . '.' . $this->form->getValue('id');
+        $label  = Text::_('JTOOLBAR_VERSIONS');
 
-		$link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
-			. $this->id . '&amp;item_id=' . $itemId . '&amp;' . Session::getFormToken() . '=1';
+        $link = 'index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;field='
+            . $this->id . '&amp;item_id=' . $itemId . '&amp;' . Session::getFormToken() . '=1';
 
-		$extraData = array(
-			'item' => $itemId,
-			'label' => $label,
-			'link' => $link,
-		);
+        $extraData = array(
+            'item' => $itemId,
+            'label' => $label,
+            'link' => $link,
+        );
 
-		return array_merge($data, $extraData);
-	}
+        return array_merge($data, $extraData);
+    }
 
-	/**
-	 * Method to get the content history field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   3.2
-	 */
-	protected function getInput()
-	{
-		if (empty($this->layout))
-		{
-			throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
-		}
+    /**
+     * Method to get the content history field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   3.2
+     */
+    protected function getInput()
+    {
+        if (empty($this->layout)) {
+            throw new \UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+        }
 
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
-	}
+        return $this->getRenderer($this->layout)->render($this->getLayoutData());
+    }
 }
