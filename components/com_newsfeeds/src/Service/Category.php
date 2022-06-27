@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Newsfeeds\Site\Service;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 
 /**
@@ -20,16 +19,16 @@ use Joomla\CMS\Categories\Categories;
  */
 class Category extends Categories
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   array  $options  options
-	 */
-	public function __construct($options = array())
-	{
-		$options['table'] = '#__newsfeeds';
-		$options['extension'] = 'com_newsfeeds';
-		$options['statefield'] = 'published';
-		parent::__construct($options);
-	}
+    /**
+     * Constructor
+     *
+     * @param   array  $options  options
+     */
+    public function __construct($options = array())
+    {
+        $options['table'] = '#__newsfeeds';
+        $options['extension'] = 'com_newsfeeds';
+        $options['statefield'] = 'published';
+        parent::__construct($options);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -15,43 +16,42 @@ namespace Joomla\CMS\MVC\Factory;
  */
 trait MVCFactoryAwareTrait
 {
-	/**
-	 * The mvc factory.
-	 *
-	 * @var    MVCFactoryInterface
-	 * @since  4.0.0
-	 */
-	private $mvcFactory;
+    /**
+     * The mvc factory.
+     *
+     * @var    MVCFactoryInterface
+     * @since  4.0.0
+     */
+    private $mvcFactory;
 
-	/**
-	 * Returns the MVC factory.
-	 *
-	 * @return  MVCFactoryInterface
-	 *
-	 * @since   4.0.0
-	 * @throws  \UnexpectedValueException
-	 */
-	protected function getMVCFactory(): MVCFactoryInterface
-	{
-		if ($this->mvcFactory)
-		{
-			return $this->mvcFactory;
-		}
+    /**
+     * Returns the MVC factory.
+     *
+     * @return  MVCFactoryInterface
+     *
+     * @since   4.0.0
+     * @throws  \UnexpectedValueException
+     */
+    protected function getMVCFactory(): MVCFactoryInterface
+    {
+        if ($this->mvcFactory) {
+            return $this->mvcFactory;
+        }
 
-		throw new \UnexpectedValueException('MVC Factory not set in ' . __CLASS__);
-	}
+        throw new \UnexpectedValueException('MVC Factory not set in ' . __CLASS__);
+    }
 
-	/**
-	 * Set the MVC factory.
-	 *
-	 * @param   MVCFactoryInterface  $mvcFactory  The MVC factory
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function setMVCFactory(MVCFactoryInterface $mvcFactory)
-	{
-		$this->mvcFactory = $mvcFactory;
-	}
+    /**
+     * Set the MVC factory.
+     *
+     * @param   MVCFactoryInterface  $mvcFactory  The MVC factory
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function setMVCFactory(MVCFactoryInterface $mvcFactory)
+    {
+        $this->mvcFactory = $mvcFactory;
+    }
 }
