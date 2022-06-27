@@ -6485,6 +6485,8 @@ class JoomlaInstallerScript
 			'/plugins/task/requests/requests.php',
 			'/plugins/task/sitestatus/sitestatus.php',
 			'/plugins/user/profile/src/Field/DobField.php',
+			// From 4.2.0-beta2 to 4.2.0-beta3
+			'/plugins/task/demotasks/demotasks.php',
 		);
 
 		$folders = array(
