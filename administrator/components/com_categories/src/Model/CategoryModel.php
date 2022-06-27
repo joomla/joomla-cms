@@ -319,8 +319,10 @@ class CategoryModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('extension') . ' = ' . $this->_db->quote($table->extension),
+			$db->quoteName('extension') . ' = ' . $db->quote($table->extension),
 		];
 	}
 
@@ -1370,7 +1372,7 @@ class CategoryModel extends AdminModel
 			return $this->hasAssociation;
 		}
 
-		$extension = $this->getState('category.extension');
+		$extension = $this->getState('category.extension', '');
 
 		$this->hasAssociation = Associations::isEnabled();
 		$extension = explode('.', $extension);

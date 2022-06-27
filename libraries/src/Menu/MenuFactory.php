@@ -10,6 +10,8 @@ namespace Joomla\CMS\Menu;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseAwareTrait;
 
@@ -20,6 +22,7 @@ use Joomla\Database\DatabaseAwareTrait;
  */
 class MenuFactory implements MenuFactoryInterface
 {
+	use CacheControllerFactoryAwareTrait;
 	use DatabaseAwareTrait;
 
 	/**
@@ -48,6 +51,13 @@ class MenuFactory implements MenuFactoryInterface
 			$options['db'] = $this->getDatabase();
 		}
 
-		return new $classname($options);
+		$instance = new $classname($options);
+
+		if ($instance instanceof CacheControllerFactoryAwareInterface)
+		{
+			$instance->setCacheControllerFactory($this->getCacheControllerFactory());
+		}
+
+		return $instance;
 	}
 }

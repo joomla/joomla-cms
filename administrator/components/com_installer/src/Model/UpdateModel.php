@@ -648,7 +648,7 @@ class UpdateModel extends ListModel
 	{
 		$query = parent::getEmptyStateQuery();
 
-		$query->where($this->_db->quoteName('extension_id') . ' != 0');
+		$query->where($this->getDatabase()->quoteName('extension_id') . ' != 0');
 
 		return $query;
 	}

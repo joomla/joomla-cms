@@ -15,6 +15,7 @@ use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
@@ -109,6 +110,7 @@ class HtmlView extends BaseHtmlView
 		$user = Factory::getApplication()->getIdentity()
 			?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
+		PluginHelper::importPlugin('multifactorauth');
 		$event = new BeforeDisplayMethods($user);
 		$app->getDispatcher()->dispatch($event->getName(), $event);
 
