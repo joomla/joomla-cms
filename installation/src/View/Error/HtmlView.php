@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  View
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\CMS\Installation\View\Error;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Installation\View\DefaultView;
 
