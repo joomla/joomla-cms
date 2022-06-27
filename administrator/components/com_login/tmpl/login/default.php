@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_login
@@ -26,9 +27,10 @@ echo ModuleHelper::renderModule($loginmodule, array('id' => 'section-box'));
  */
 $modules = ModuleHelper::getModules('login');
 
-foreach ($modules as $module)
+foreach ($modules as $module) {
 // Render the login modules
 
-if ($module->module != 'mod_login'){
-	echo ModuleHelper::renderModule($module, array('id' => 'section-box'));
+    if ($module->module != 'mod_login') {
+        echo ModuleHelper::renderModule($module, array('id' => 'section-box'));
+    }
 }
