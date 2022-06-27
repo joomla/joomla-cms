@@ -85,7 +85,7 @@ class UpdatesiteModel extends AdminModel
 	{
 		$item = parent::getItem($pk);
 
-		$db           = $this->getDbo();
+		$db           = $this->getDatabase();
 		$updateSiteId = (int) $item->get('update_site_id');
 		$query        = $db->getQuery(true)
 			->select(
@@ -154,7 +154,7 @@ class UpdatesiteModel extends AdminModel
 		}
 
 		// Delete update records forcing Joomla to fetch them again, applying the new extra_query.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
 			->where($db->quoteName('update_site_id') . ' = :updateSiteId');

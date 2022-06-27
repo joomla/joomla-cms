@@ -228,6 +228,9 @@ $assoc = Associations::isEnabled();
 								echo (new TransitionButton($options))
 									->render(0, $i);
 								?>
+									<div class="small">
+										<?php echo Text::_($item->stage_title); ?>
+									</div>
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
@@ -247,7 +250,8 @@ $assoc = Associations::isEnabled();
 									$options = [
 										'task_prefix' => 'articles.',
 										'disabled' => $workflow_state || !$canChange,
-										'id' => 'state-' . $item->id
+										'id' => 'state-' . $item->id,
+										'category_published' => $item->category_published
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
@@ -322,6 +326,9 @@ $assoc = Associations::isEnabled();
 													echo '</a>';
 												endif;
 											}
+											if ($item->category_published < '1') :
+												echo $item->category_published == '0' ? ' (' . Text::_('JUNPUBLISHED') . ')' : ' (' . Text::_('JTRASHED') . ')';
+											endif;
 											?>
 										</div>
 									</div>

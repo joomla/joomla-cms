@@ -10,6 +10,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -75,6 +76,7 @@ class MVCFactory implements ServiceProviderInterface
 				$factory->setDispatcher($container->get(DispatcherInterface::class));
 				$factory->setDatabase($container->get(DatabaseInterface::class));
 				$factory->setSiteRouter($container->get(SiteRouter::class));
+				$factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
 
 				return $factory;
 			}

@@ -210,7 +210,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 				$newIds[$pk] = $newId;
 
 				// Now we need to handle the module assignments
-				$db = $this->getDbo();
+				$db = $this->getDatabase();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('menuid'))
 					->from($db->quoteName('#__modules_menu'))
@@ -384,7 +384,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 				{
 					// Delete the menu assignments
 					$pk    = (int) $pk;
-					$db    = $this->getDbo();
+					$db    = $this->getDatabase();
 					$query = $db->getQuery(true)
 						->delete($db->quoteName('#__modules_menu'))
 						->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -426,7 +426,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 	public function duplicate(&$pks)
 	{
 		$user = Factory::getUser();
-		$db   = $this->getDbo();
+		$db   = $this->getDatabase();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_modules'))
@@ -719,7 +719,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 	public function getItem($pk = null)
 	{
 		$pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		if (!isset($this->_cache[$pk]))
 		{
@@ -1127,7 +1127,7 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 		$table->id = (int) $table->id;
 
 		// Delete old module to menu item associations
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__modules_menu'))
 			->where($db->quoteName('moduleid') . ' = :moduleid')
@@ -1262,9 +1262,11 @@ class ModuleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected function getReorderConditions($table)
 	{
+		$db = $this->getDatabase();
+
 		return [
-			$this->_db->quoteName('client_id') . ' = ' . (int) $table->client_id,
-			$this->_db->quoteName('position') . ' = ' . $this->_db->quote($table->position),
+			$db->quoteName('client_id') . ' = ' . (int) $table->client_id,
+			$db->quoteName('position') . ' = ' . $db->quote($table->position),
 		];
 	}
 
