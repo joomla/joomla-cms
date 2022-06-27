@@ -90,7 +90,7 @@ class CompareModel extends ListModel
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$nullDate = $this->getDbo()->getNullDate();
+		$nullDate = $this->getDatabase()->getNullDate();
 
 		foreach (array($table1, $table2) as $table)
 		{

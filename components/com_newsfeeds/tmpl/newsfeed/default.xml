@@ -13,7 +13,7 @@
 	<fields name="request">
 		<fieldset name="request"
 			addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field"
-		 >
+		>
 
 			<field
 				name="id"

@@ -3,6 +3,9 @@
     class="media-browser-select"
     :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
+    tabindex="0"
+    @focusin="focused(true)"
+    @focusout="focused(false)"
   />
   <div
     class="media-browser-actions"
@@ -10,8 +13,8 @@
   >
     <media-browser-action-item-toggle
       ref="actionToggle"
-      :on-focused="focused"
       :main-action="openActions"
+      @on-focused="focused"
       @keyup.up="openLastActions()"
       @keyup.down="openActions()"
     />
@@ -28,7 +31,8 @@
             :main-action="openPreview"
             :closing-action="hideActions"
             @keyup.up="$refs.actionDelete.$el.focus()"
-            @keyup.down="$refs.actionDownload.$el.focus()"
+            @keyup.down="$refs.actionDelete.$el.previousElementSibling.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
@@ -39,11 +43,13 @@
             :main-action="download"
             :closing-action="hideActions"
             @keyup.up="$refs.actionPreview.$el.focus()"
-            @keyup.down="$refs.actionRename.$el.focus()"
+            @keyup.down="$refs.actionPreview.$el.previousElementSibling.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
           <media-browser-action-item-rename
+            v-if="canEdit"
             ref="actionRename"
             :on-focused="focused"
             :main-action="openRenameModal"
@@ -51,26 +57,28 @@
             @keyup.up="
               downloadable
                 ? $refs.actionDownload.$el.focus()
-                : $refs.actionDelete.$el.focus()
+                : $refs.actionDownload.$el.previousElementSibling.focus()
             "
             @keyup.down="
               canEdit
                 ? $refs.actionEdit.$el.focus()
                 : shareable
                   ? $refs.actionShare.$el.focus()
-                  : $refs.actionDelete.$el.focus()
+                  : $refs.actionShare.$el.previousElementSibling.focus()
             "
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
           <media-browser-action-item-edit
-            v-if="canEdit"
+            v-if="canEdit && canOpenEditView"
             ref="actionEdit"
             :on-focused="focused"
             :main-action="editItem"
             :closing-action="hideActions"
             @keyup.up="$refs.actionRename.$el.focus()"
-            @keyup.down="$refs.actionShare.$el.focus()"
+            @keyup.down="$refs.actionRename.$el.previousElementSibling.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
@@ -83,13 +91,15 @@
             @keyup.up="
               canEdit
                 ? $refs.actionEdit.$el.focus()
-                : $refs.actionRename.$el.focus()
+                : $refs.actionEdit.$el.previousElementSibling.focus()
             "
             @keyup.down="$refs.actionDelete.$el.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
           <media-browser-action-item-delete
+            v-if="canDelete"
             ref="actionDelete"
             :on-focused="focused"
             :main-action="openConfirmDeleteModal"
@@ -97,13 +107,14 @@
             @keyup.up="
               shareable
                 ? $refs.actionShare.$el.focus()
-                : $refs.actionRename.$el.focus()
+                : $refs.actionShare.$el.previousElementSibling.focus()
             "
             @keyup.down="
               previewable
                 ? $refs.actionPreview.$el.focus()
-                : $refs.actionRename.$el.focus()
+                : $refs.actionPreview.$el.previousElementSibling.focus()
             "
+            @keyup.esc="hideActions"
           />
         </li>
       </ul>
@@ -113,27 +124,32 @@
 
 <script>
 import * as types from '../../../store/mutation-types.es6';
+import { api } from '../../../app/Api.es6';
 
 export default {
   name: 'MediaBrowserActionItemsContainer',
   props: {
     item: { type: Object, default: () => {} },
-    onFocused: { type: Function, default: () => {} },
     edit: { type: Function, default: () => {} },
-    editable: { type: Function, default: () => false },
     previewable: { type: Boolean, default: false },
     downloadable: { type: Boolean, default: false },
     shareable: { type: Boolean, default: false },
   },
+  emits: ['toggle-settings'],
   data() {
     return {
       showActions: false,
     };
   },
   computed: {
-    /* Check if the item is an document to edit */
     canEdit() {
-      return this.editable();
+      return api.canEdit && (typeof this.item.canEdit !== 'undefined' ? this.item.canEdit : true);
+    },
+    canDelete() {
+      return api.canDelete && (typeof this.item.canDelete !== 'undefined' ? this.item.canDelete : true);
+    },
+    canOpenEditView() {
+      return ['jpg', 'jpeg', 'png'].includes(this.item.extension.toLowerCase());
     },
   },
   watch: {
@@ -184,19 +200,24 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
-      if (this.previewable) {
-        this.$nextTick(() => this.$refs.actionPreview.$el.focus());
-      } else {
-        this.$nextTick(() => this.$refs.actionRename.$el.focus());
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
+      if (buttons.length) {
+        buttons[0].focus();
       }
     },
     /* Open actions dropdown and focus on last element */
     openLastActions() {
       this.showActions = true;
-      this.$nextTick(() => this.$refs.actionDelete.$el.focus());
+      const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
+      if (buttons.length) {
+        this.$nextTick(() => buttons[buttons.length - 1].focus());
+      }
     },
     editItem() {
       this.edit();
+    },
+    focused(bool) {
+      this.$emit('toggle-settings', bool);
     },
   },
 };
