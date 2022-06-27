@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 /**
  * Joomla Platform CMS Dispatcher Interface
  *
@@ -17,12 +16,12 @@ namespace Joomla\CMS\Dispatcher;
  */
 interface DispatcherInterface
 {
-	/**
-	 * Runs the dispatcher.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function dispatch();
+    /**
+     * Runs the dispatcher.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function dispatch();
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Extension\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ModuleInterface;
@@ -23,26 +22,25 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class Module implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			ModuleInterface::class,
-			function (Container $container)
-			{
-				return new \Joomla\CMS\Extension\Module(
-					$container->get(ModuleDispatcherFactoryInterface::class),
-					$container->get(HelperFactoryInterface::class)
-				);
-			}
-		);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            ModuleInterface::class,
+            function (Container $container) {
+                return new \Joomla\CMS\Extension\Module(
+                    $container->get(ModuleDispatcherFactoryInterface::class),
+                    $container->get(HelperFactoryInterface::class)
+                );
+            }
+        );
+    }
 }
