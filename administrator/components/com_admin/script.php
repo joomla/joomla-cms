@@ -501,6 +501,7 @@ class JoomlaInstallerScript
 
 			// And now uninstall the plugin
 			$installer = new Installer;
+			$installer->setDatabase($db);
 			$installer->uninstall('plugin', $extensionId);
 
 			$db->transactionCommit();
@@ -551,6 +552,7 @@ class JoomlaInstallerScript
 
 			// Uninstall the plugin
 			$installer = new Installer;
+			$installer->setDatabase($db);
 			$installer->uninstall('plugin', $extensionId);
 
 			$db->transactionCommit();
@@ -607,6 +609,7 @@ class JoomlaInstallerScript
 		}
 
 		$installer = new Installer;
+		$installer->setDatabase($db);
 
 		foreach ($extensions as $extension)
 		{
@@ -6447,6 +6450,41 @@ class JoomlaInstallerScript
 			'/libraries/vendor/maximebf/debugbar/tests/DebugBar/Tests/TracedStatementTest.php',
 			'/libraries/vendor/maximebf/debugbar/tests/DebugBar/Tests/full_init.html',
 			'/libraries/vendor/maximebf/debugbar/tests/bootstrap.php',
+			// From 4.1 to 4.2.0-beta1
+			'/libraries/src/Service/Provider/ApiRouter.php',
+			'/libraries/vendor/nyholm/psr7/doc/final.md',
+			'/media/com_finder/js/index-es5.js',
+			'/media/com_finder/js/index-es5.min.js',
+			'/media/com_finder/js/index-es5.min.js.gz',
+			'/media/com_finder/js/index.js',
+			'/media/com_finder/js/index.min.js',
+			'/media/com_finder/js/index.min.js.gz',
+			'/media/com_users/js/two-factor-switcher-es5.js',
+			'/media/com_users/js/two-factor-switcher-es5.min.js',
+			'/media/com_users/js/two-factor-switcher-es5.min.js.gz',
+			'/media/com_users/js/two-factor-switcher.js',
+			'/media/com_users/js/two-factor-switcher.min.js',
+			'/media/com_users/js/two-factor-switcher.min.js.gz',
+			'/modules/mod_articles_news/mod_articles_news.php',
+			'/plugins/actionlog/joomla/joomla.php',
+			'/plugins/api-authentication/basic/basic.php',
+			'/plugins/api-authentication/token/token.php',
+			'/plugins/system/cache/cache.php',
+			'/plugins/twofactorauth/totp/postinstall/actions.php',
+			'/plugins/twofactorauth/totp/tmpl/form.php',
+			'/plugins/twofactorauth/totp/totp.php',
+			'/plugins/twofactorauth/totp/totp.xml',
+			'/plugins/twofactorauth/yubikey/tmpl/form.php',
+			'/plugins/twofactorauth/yubikey/yubikey.php',
+			'/plugins/twofactorauth/yubikey/yubikey.xml',
+			// From 4.2.0-beta1 to 4.2.0-beta2
+			'/layouts/plugins/user/profile/fields/dob.php',
+			'/modules/mod_articles_latest/mod_articles_latest.php',
+			'/plugins/behaviour/taggable/taggable.php',
+			'/plugins/behaviour/versionable/versionable.php',
+			'/plugins/task/requests/requests.php',
+			'/plugins/task/sitestatus/sitestatus.php',
+			'/plugins/user/profile/src/Field/DobField.php',
 		);
 
 		$folders = array(
@@ -7800,6 +7838,17 @@ class JoomlaInstallerScript
 			'/libraries/vendor/maximebf/debugbar/demo/bridge',
 			'/libraries/vendor/maximebf/debugbar/demo',
 			'/libraries/vendor/maximebf/debugbar/build',
+			// From 4.1 to 4.2.0-beta1
+			'/plugins/twofactorauth/yubikey/tmpl',
+			'/plugins/twofactorauth/yubikey',
+			'/plugins/twofactorauth/totp/tmpl',
+			'/plugins/twofactorauth/totp/postinstall',
+			'/plugins/twofactorauth/totp',
+			'/plugins/twofactorauth',
+			'/libraries/vendor/nyholm/psr7/doc',
+			// From 4.2.0-beta1 to 4.2.0-beta2
+			'/layouts/plugins/user/profile/fields',
+			'/layouts/plugins/user/profile',
 		);
 
 		$status['files_checked'] = $files;
