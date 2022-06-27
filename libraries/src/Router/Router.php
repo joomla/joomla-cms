@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Router;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -29,7 +27,7 @@ class Router
      * @var    string
      * @since  3.4
      */
-    const PROCESS_BEFORE = 'preprocess';
+    public const PROCESS_BEFORE = 'preprocess';
 
     /**
      * Mask for the during process stage
@@ -37,7 +35,7 @@ class Router
      * @var    string
      * @since  3.4
      */
-    const PROCESS_DURING = '';
+    public const PROCESS_DURING = '';
 
     /**
      * Mask for the after process stage
@@ -45,7 +43,7 @@ class Router
      * @var    string
      * @since  3.4
      */
-    const PROCESS_AFTER = 'postprocess';
+    public const PROCESS_AFTER = 'postprocess';
 
     /**
      * An array of variables

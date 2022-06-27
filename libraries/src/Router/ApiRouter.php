@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Router;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Uri\Uri;
