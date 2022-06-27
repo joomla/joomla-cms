@@ -10,18 +10,26 @@
     >
       <li
         :class="{active: isActive, 'media-tree-item': true, 'media-drive-name': true}"
-        role="treeitem"
-        aria-level="1"
-        :aria-setsize="counter"
-        :aria-posinset="1"
-        :tabindex="getTabindex"
+        role="none"
       >
-        <a>
+        <a
+          ref="drive-root"
+          role="treeitem"
+          aria-level="1"
+          :aria-setsize="counter"
+          :aria-posinset="1"
+          :tabindex="getTabindex"
+          @keyup.right="moveFocusToChildElement(drive.root)"
+          @keyup.enter="onDriveClick"
+        >
           <span class="item-name">{{ drive.displayName }}</span>
         </a>
         <media-tree
+          :ref="drive.root"
           :root="drive.root"
           :level="2"
+          :parent-index="0"
+          @move-focus-to-parent="restoreFocus"
         />
       </li>
     </ul>
@@ -49,6 +57,12 @@ export default {
     /* Handle the on drive click event */
     onDriveClick() {
       this.navigateTo(this.drive.root);
+    },
+    moveFocusToChildElement(nextRoot) {
+      this.$refs[nextRoot].setFocusToFirstChild();
+    },
+    restoreFocus() {
+      this.$refs['drive-root'].focus();
     },
   },
 };

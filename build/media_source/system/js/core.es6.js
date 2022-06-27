@@ -573,7 +573,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type  {Array}
    *
-   * @since __DEPLOY_VERSION__
+   * @since 4.2.0
    */
   const requestQueue = [];
 
@@ -582,7 +582,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type  {boolean}
    *
-   * @since __DEPLOY_VERSION__
+   * @since 4.2.0
    */
   let performingQueuedRequest = false;
 
@@ -624,7 +624,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     /**
      * Processes queued Request objects.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     const processQueuedRequests = () => {
       if (performingQueuedRequest || requestQueue.length === 0) {
