@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -112,9 +110,8 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
             if ($result = $this->_db->loadResult()) {
                 $assetId = (int) $result;
             }
-        }
-        // This is a category that needs to parent with the extension.
-        elseif ($assetId === null) {
+        } elseif ($assetId === null) {
+            // This is a category that needs to parent with the extension.
             // Build the query to get the asset id for the parent category.
             $query = $this->_db->getQuery(true)
                 ->select($this->_db->quoteName('id'))
