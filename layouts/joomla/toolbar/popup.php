@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -29,8 +30,8 @@ extract($displayData, EXTR_OVERWRITE);
  */
 
 Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+    ->useScript('core')
+    ->useScript('webcomponent.toolbar-button');
 
 $tagName = $tagName ?? 'button';
 
@@ -43,12 +44,12 @@ $listAttr = !empty($listCheck) ? ' list-selection' : '';
 ?>
 <joomla-toolbar-button <?php echo $idAttr . $listAttr; ?>>
 <<?php echo $tagName; ?>
-	value="<?php echo $doTask; ?>"
-	class="<?php echo $btnClass; ?>"
-	<?php echo $htmlAttributes; ?>
-	<?php echo ArrayHelper::toString($modalAttrs); ?>
+    value="<?php echo $doTask; ?>"
+    class="<?php echo $btnClass; ?>"
+    <?php echo $htmlAttributes; ?>
+    <?php echo ArrayHelper::toString($modalAttrs); ?>
 >
-	<span class="<?php echo $class; ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
+    <span class="<?php echo $class; ?>" aria-hidden="true"></span>
+    <?php echo $text; ?>
 </<?php echo $tagName; ?>>
 </joomla-toolbar-button>

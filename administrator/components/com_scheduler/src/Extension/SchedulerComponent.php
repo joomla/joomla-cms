@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -8,9 +9,6 @@
  */
 
 namespace Joomla\Component\Scheduler\Administrator\Extension;
-
-// Restrict direct access
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
@@ -25,23 +23,23 @@ use Psr\Container\ContainerInterface;
  */
 class SchedulerComponent extends MVCComponent implements BootableExtensionInterface
 {
-	use HTMLRegistryAwareTrait;
+    use HTMLRegistryAwareTrait;
 
-	/**
-	 * Booting the extension. This is the function to set up the environment of the extension like
-	 * registering new class loaders, etc.
-	 *
-	 * If required, some initial set up can be done from services of the container, eg.
-	 * registering HTML services.
-	 *
-	 * @param   ContainerInterface  $container  The container
-	 *
-	 * @return void
-	 *
-	 * @since  4.1.0
-	 */
-	public function boot(ContainerInterface $container): void
-	{
-		// Pass
-	}
+    /**
+     * Booting the extension. This is the function to set up the environment of the extension like
+     * registering new class loaders, etc.
+     *
+     * If required, some initial set up can be done from services of the container, eg.
+     * registering HTML services.
+     *
+     * @param   ContainerInterface  $container  The container
+     *
+     * @return void
+     *
+     * @since  4.1.0
+     */
+    public function boot(ContainerInterface $container): void
+    {
+        // Pass
+    }
 }

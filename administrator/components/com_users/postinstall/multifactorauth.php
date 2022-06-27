@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -6,8 +7,6 @@
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -25,7 +24,7 @@ use Joomla\Database\ParameterType;
 // phpcs:ignore
 function com_users_postinstall_mfa_condition(): bool
 {
-	return count(PluginHelper::getPlugin('multifactorauth')) < 1;
+    return count(PluginHelper::getPlugin('multifactorauth')) < 1;
 }
 
 /**
@@ -39,19 +38,19 @@ function com_users_postinstall_mfa_condition(): bool
 // phpcs:ignore
 function com_users_postinstall_mfa_action(): void
 {
-	/** @var DatabaseDriver $db */
-	$db             = Factory::getContainer()->get('DatabaseDriver');
-	$coreMfaPlugins = ['email', 'totp', 'webauthn', 'yubikey'];
+    /** @var DatabaseDriver $db */
+    $db             = Factory::getContainer()->get('DatabaseDriver');
+    $coreMfaPlugins = ['email', 'totp', 'webauthn', 'yubikey'];
 
-	$query = $db->getQuery(true)
-		->update($db->quoteName('#__extensions'))
-		->set($db->quoteName('enabled') . ' = 1')
-		->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-		->where($db->quoteName('folder') . ' = ' . $db->quote('multifactorauth'))
-		->whereIn($db->quoteName('element'), $coreMfaPlugins, ParameterType::STRING);
-	$db->setQuery($query);
-	$db->execute();
+    $query = $db->getQuery(true)
+        ->update($db->quoteName('#__extensions'))
+        ->set($db->quoteName('enabled') . ' = 1')
+        ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+        ->where($db->quoteName('folder') . ' = ' . $db->quote('multifactorauth'))
+        ->whereIn($db->quoteName('element'), $coreMfaPlugins, ParameterType::STRING);
+    $db->setQuery($query);
+    $db->execute();
 
-	$url = 'index.php?option=com_plugins&filter[folder]=multifactorauth';
-	Factory::getApplication()->redirect($url);
+    $url = 'index.php?option=com_plugins&filter[folder]=multifactorauth';
+    Factory::getApplication()->redirect($url);
 }
