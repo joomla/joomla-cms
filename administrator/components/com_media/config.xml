@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="component"
 		label="COM_MEDIA_FIELDSET_OPTIONS_LABEL">
@@ -131,7 +132,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field
@@ -142,6 +142,6 @@
 			validate="rules"
 			component="com_media"
 			section="component"
-		 />
+		/>
 	</fieldset>
 </config>

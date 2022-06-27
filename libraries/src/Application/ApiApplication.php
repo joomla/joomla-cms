@@ -226,7 +226,7 @@ final class ApiApplication extends CMSApplication
 	 */
 	protected function route()
 	{
-		$router = $this->getApiRouter();
+		$router = $this->getContainer()->get(ApiRouter::class);
 
 		// Trigger the onBeforeApiRoute event.
 		PluginHelper::importPlugin('webservices');
@@ -387,11 +387,12 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  ApiRouter
 	 *
-	 * @since   4.0.0
+	 * @since      4.0.0
+	 * @deprecated 5.0 Inject the router or load it from the dependency injection container
 	 */
 	public function getApiRouter()
 	{
-		return $this->getContainer()->get('ApiRouter');
+		return $this->getContainer()->get(ApiRouter::class);
 	}
 
 	/**
