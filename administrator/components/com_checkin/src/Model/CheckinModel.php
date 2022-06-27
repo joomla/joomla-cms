@@ -80,7 +80,7 @@ class CheckinModel extends ListModel
 	 */
 	public function checkin($ids = array())
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		if (!is_array($ids))
 		{
@@ -172,7 +172,7 @@ class CheckinModel extends ListModel
 	{
 		if (!isset($this->items))
 		{
-			$db     = $this->getDbo();
+			$db     = $this->getDatabase();
 			$tables = $db->getTableList();
 			$prefix = Factory::getApplication()->get('dbprefix');
 
