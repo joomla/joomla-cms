@@ -13,7 +13,7 @@ namespace Joomla\CMS\Installer;
 /**
  * Base install script interface for use by extensions providing helper methods for common behaviours.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 interface InstallerScriptInterface
 {
@@ -24,7 +24,7 @@ interface InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function install(InstallerAdapter $adapter): bool;
 
@@ -35,7 +35,7 @@ interface InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function update(InstallerAdapter $adapter): bool;
 
@@ -46,7 +46,7 @@ interface InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function uninstall(InstallerAdapter $adapter): bool;
 
@@ -58,7 +58,7 @@ interface InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function preflight(string $type, InstallerAdapter $adapter): bool;
 
@@ -70,7 +70,7 @@ interface InstallerScriptInterface
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function postflight(string $type, InstallerAdapter $adapter): bool;
 }

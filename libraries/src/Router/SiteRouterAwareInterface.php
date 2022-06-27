@@ -13,7 +13,7 @@ namespace Joomla\CMS\Router;
 /**
  * Interface for site router aware classes.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 interface SiteRouterAwareInterface
 {
@@ -24,7 +24,7 @@ interface SiteRouterAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setSiteRouter(SiteRouter $router): void;
 }

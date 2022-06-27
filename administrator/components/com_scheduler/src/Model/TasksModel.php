@@ -109,7 +109,7 @@ class TasksModel extends ListModel
 	protected function getListQuery(): QueryInterface
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		/**
@@ -351,7 +351,7 @@ class TasksModel extends ListModel
 		if (!$multiOrdering || !\is_array($multiOrdering))
 		{
 			$orderCol = $this->state->get('list.ordering', 'a.title');
-			$orderDir = $this->state->get('list.direction', 'desc');
+			$orderDir = $this->state->get('list.direction', 'asc');
 
 			// Type title ordering is handled exceptionally in _getList()
 			if ($orderCol !== 'j.type_title')
@@ -390,14 +390,13 @@ class TasksModel extends ListModel
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0): array
 	{
-
 		// Get stuff from the model state
 		$listOrder      = $this->getState('list.ordering', 'a.title');
-		$listDirectionN = strtolower($this->getState('list.direction', 'desc')) == 'desc' ? -1 : 1;
+		$listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
 
 		// Set limit parameters and get object list
 		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+		$this->getDatabase()->setQuery($query);
 
 		// Return optionally an extended class.
 		// @todo: Use something other than CMSObject..
@@ -414,12 +413,12 @@ class TasksModel extends ListModel
 
 					return $o;
 				},
-				$this->getDbo()->loadAssocList() ?: []
+				$this->getDatabase()->loadAssocList() ?: []
 			);
 		}
 		else
 		{
-			$responseList = $this->getDbo()->loadObjectList();
+			$responseList = $this->getDatabase()->loadObjectList();
 		}
 
 		// Attach TaskOptions objects and a safe type title
@@ -465,7 +464,7 @@ class TasksModel extends ListModel
 	 * @return void
 	 * @since  4.1.0
 	 */
-	protected function populateState($ordering = 'a.id', $direction = 'ASC'): void
+	protected function populateState($ordering = 'a.title', $direction = 'ASC'): void
 	{
 		// Call the parent method
 		parent::populateState($ordering, $direction);

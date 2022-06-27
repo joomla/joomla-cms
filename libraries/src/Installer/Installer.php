@@ -21,7 +21,9 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
@@ -34,6 +36,8 @@ use Joomla\DI\ContainerAwareInterface;
  */
 class Installer extends Adapter
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Array of paths needed by the installer
 	 *
@@ -142,14 +146,14 @@ class Installer extends Adapter
 	/**
 	 * A comment marker to indicate that an update SQL query may fail without triggering an update error.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected const CAN_FAIL_MARKER = '/** CAN FAIL **/';
 
 	/**
 	 * The length of the CAN_FAIL_MARKER string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected const CAN_FAIL_MARKER_LENGTH = 16;
 
@@ -185,6 +189,7 @@ class Installer extends Adapter
 		if (!isset(self::$instances[$basepath]))
 		{
 			self::$instances[$basepath] = new static($basepath, $classprefix, $adapterfolder);
+			self::$instances[$basepath]->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
 		}
 
 		return self::$instances[$basepath];
@@ -201,7 +206,7 @@ class Installer extends Adapter
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function splitSql(?string $sql): array
 	{
@@ -568,8 +573,8 @@ class Installer extends Adapter
 
 				case 'extension':
 					// Get database connector object
-					$db = $this->getDbo();
-					$query = $db->getQuery(true);
+					$db     = $this->getDatabase();
+					$query  = $db->getQuery(true);
 					$stepId = (int) $step['id'];
 
 					// Remove the entry from the #__extensions table
@@ -1208,7 +1213,7 @@ class Installer extends Adapter
 	{
 		if ($eid && $schema)
 		{
-			$db = Factory::getDbo();
+			$db          = $this->getDatabase();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1283,7 +1288,7 @@ class Installer extends Adapter
 			return $updateCount;
 		}
 
-		$db          = Factory::getDbo();
+		$db          = $this->getDatabase();
 		$schemapaths = $schema->children();
 
 		if (!\count($schemapaths))
@@ -1331,7 +1336,6 @@ class Installer extends Adapter
 		}
 
 		Log::add(Text::_('JLIB_INSTALLER_SQL_BEGIN'), Log::INFO, 'Update');
-		Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
 
 		$files = str_replace('.sql', '', $files);
 		usort($files, 'version_compare');
@@ -1360,6 +1364,8 @@ class Installer extends Adapter
 		{
 			$version = '0.0.0';
 		}
+
+		Log::add(Text::sprintf('JLIB_INSTALLER_SQL_BEGIN_SCHEMA', $version), Log::INFO, 'Update');
 
 		foreach ($files as $file)
 		{
@@ -1447,7 +1453,7 @@ class Installer extends Adapter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function updateSchemaTable(int $eid, string $version, bool $update = false): void
 	{
@@ -2330,7 +2336,7 @@ class Installer extends Adapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where('type = :type')
@@ -2683,7 +2689,7 @@ class Installer extends Adapter
 			return Factory::getContainer()->get($class);
 		}
 
-		$adapter = new $class($this, $this->getDbo(), $options);
+		$adapter = new $class($this, $this->getDatabase(), $options);
 
 		if ($adapter instanceof ContainerAwareInterface)
 		{
