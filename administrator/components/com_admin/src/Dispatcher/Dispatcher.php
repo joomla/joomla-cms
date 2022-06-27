@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Admin\Administrator\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
@@ -20,12 +19,12 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * com_admin does not require check permission, so we override checkAccess method and have it empty
-	 *
-	 * @return  void
-	 */
-	protected function checkAccess()
-	{
-	}
+    /**
+     * com_admin does not require check permission, so we override checkAccess method and have it empty
+     *
+     * @return  void
+     */
+    protected function checkAccess()
+    {
+    }
 }

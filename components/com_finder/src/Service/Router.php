@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_finder
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Finder\Site\Service;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterView;
@@ -26,21 +25,21 @@ use Joomla\CMS\Menu\AbstractMenu;
  */
 class Router extends RouterView
 {
-	/**
-	 * Finder Component router constructor
-	 *
-	 * @param   SiteApplication  $app   The application object
-	 * @param   AbstractMenu     $menu  The menu object to work with
-	 */
-	public function __construct(SiteApplication $app, AbstractMenu $menu)
-	{
-		$search = new RouterViewConfiguration('search');
-		$this->registerView($search);
+    /**
+     * Finder Component router constructor
+     *
+     * @param   SiteApplication  $app   The application object
+     * @param   AbstractMenu     $menu  The menu object to work with
+     */
+    public function __construct(SiteApplication $app, AbstractMenu $menu)
+    {
+        $search = new RouterViewConfiguration('search');
+        $this->registerView($search);
 
-		parent::__construct($app, $menu);
+        parent::__construct($app, $menu);
 
-		$this->attachRule(new MenuRules($this));
-		$this->attachRule(new StandardRules($this));
-		$this->attachRule(new NomenuRules($this));
-	}
+        $this->attachRule(new MenuRules($this));
+        $this->attachRule(new StandardRules($this));
+        $this->attachRule(new NomenuRules($this));
+    }
 }
