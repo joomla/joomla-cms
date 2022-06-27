@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Privacy\Administrator\Dispatcher;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
@@ -21,17 +20,16 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Method to check component access permission
-	 *
-	 * @return  void
-	 */
-	protected function checkAccess()
-	{
-		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.admin', $this->option))
-		{
-			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-	}
+    /**
+     * Method to check component access permission
+     *
+     * @return  void
+     */
+    protected function checkAccess()
+    {
+        // Check the user has permission to access this component if in the backend
+        if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.admin', $this->option)) {
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+    }
 }
