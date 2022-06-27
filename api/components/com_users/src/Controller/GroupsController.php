@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_users
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Users\Api\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\ApiController;
 
 /**
@@ -20,19 +19,19 @@ use Joomla\CMS\MVC\Controller\ApiController;
  */
 class GroupsController extends ApiController
 {
-	/**
-	 * The content type of the item.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $contentType = 'groups';
+    /**
+     * The content type of the item.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $contentType = 'groups';
 
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $default_view = 'groups';
+    /**
+     * The default view for the display method.
+     *
+     * @var    string
+     * @since  3.0
+     */
+    protected $default_view = 'groups';
 }
