@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
@@ -11,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-$cacheparams = new \stdClass;
+$cacheparams = new \stdClass();
 $cacheparams->cachemode = 'safeuri';
 $cacheparams->class = 'Joomla\Module\TagsPopular\Site\Helper\TagsPopularHelper';
 $cacheparams->method = 'getList';
@@ -20,9 +21,8 @@ $cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_text'))
-{
-	return;
+if (!count($list) && !$params->get('no_results_text')) {
+    return;
 }
 
 $display_count = $params->get('display_count', 0);

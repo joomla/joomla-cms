@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Service
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\CMS\Installation\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
@@ -25,45 +24,42 @@ use Psr\Log\LoggerInterface;
  */
 class Application implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->share(
-			InstallationApplication::class,
-			function (Container $container)
-			{
-				$app = new InstallationApplication(null, $container->get('config'), null, $container);
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->share(
+            InstallationApplication::class,
+            function (Container $container) {
+                $app = new InstallationApplication(null, $container->get('config'), null, $container);
 
-				// The session service provider needs Factory::$application, set it if still null
-				if (Factory::$application === null)
-				{
-					Factory::$application = $app;
-				}
+                // The session service provider needs Factory::$application, set it if still null
+                if (Factory::$application === null) {
+                    Factory::$application = $app;
+                }
 
-				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger($container->get(LoggerInterface::class));
-				$app->setSession($container->get('Joomla\Session\SessionInterface'));
+                $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                $app->setLogger($container->get(LoggerInterface::class));
+                $app->setSession($container->get('Joomla\Session\SessionInterface'));
 
-				return $app;
-			},
-			true
-		);
+                return $app;
+            },
+            true
+        );
 
-		// Inject a custom JSON error renderer
-		$container->share(
-			JsonRenderer::class,
-			function (Container $container)
-			{
-				return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer;
-			}
-		);
-	}
+        // Inject a custom JSON error renderer
+        $container->share(
+            JsonRenderer::class,
+            function (Container $container) {
+                return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer();
+            }
+        );
+    }
 }

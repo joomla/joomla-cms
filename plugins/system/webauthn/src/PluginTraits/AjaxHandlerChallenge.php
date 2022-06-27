@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -8,9 +9,6 @@
  */
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
-
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
 
 use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxChallenge;
@@ -31,86 +29,76 @@ use Joomla\Event\Event;
  */
 trait AjaxHandlerChallenge
 {
-	/**
-	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
-	 * JSON.
-	 *
-	 * @param   AjaxChallenge  $event  The event we are handling
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 * @since   4.0.0
-	 */
-	public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
-	{
-		// Initialize objects
-		$session    = $this->getApplication()->getSession();
-		$input      = $this->getApplication()->input;
+    /**
+     * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
+     * JSON.
+     *
+     * @param   AjaxChallenge  $event  The event we are handling
+     *
+     * @return  void
+     *
+     * @throws  Exception
+     * @since   4.0.0
+     */
+    public function onAjaxWebauthnChallenge(AjaxChallenge $event): void
+    {
+        // Initialize objects
+        $session    = $this->getApplication()->getSession();
+        $input      = $this->getApplication()->input;
 
-		// Retrieve data from the request
-		$username  = $input->getUsername('username', '');
-		$returnUrl = base64_encode(
-			$session->get('plg_system_webauthn.returnUrl', Uri::current())
-		);
-		$returnUrl = $input->getBase64('returnUrl', $returnUrl);
-		$returnUrl = base64_decode($returnUrl);
+        // Retrieve data from the request
+        $username  = $input->getUsername('username', '');
+        $returnUrl = base64_encode(
+            $session->get('plg_system_webauthn.returnUrl', Uri::current())
+        );
+        $returnUrl = $input->getBase64('returnUrl', $returnUrl);
+        $returnUrl = base64_decode($returnUrl);
 
-		// For security reasons the post-login redirection URL must be internal to the site.
-		if (!Uri::isInternal($returnUrl))
-		{
-			// If the URL wasn't internal redirect to the site's root.
-			$returnUrl = Uri::base();
-		}
+        // For security reasons the post-login redirection URL must be internal to the site.
+        if (!Uri::isInternal($returnUrl)) {
+            // If the URL wasn't internal redirect to the site's root.
+            $returnUrl = Uri::base();
+        }
 
-		$session->set('plg_system_webauthn.returnUrl', $returnUrl);
+        $session->set('plg_system_webauthn.returnUrl', $returnUrl);
 
-		// Do I have a username?
-		if (empty($username))
-		{
-			$event->addResult(false);
+        // Do I have a username?
+        if (empty($username)) {
+            $event->addResult(false);
 
-			return;
-		}
+            return;
+        }
 
-		// Is the username valid?
-		try
-		{
-			$userId = UserHelper::getUserId($username);
-		}
-		catch (Exception $e)
-		{
-			$userId = 0;
-		}
+        // Is the username valid?
+        try {
+            $userId = UserHelper::getUserId($username);
+        } catch (Exception $e) {
+            $userId = 0;
+        }
 
-		if ($userId <= 0)
-		{
-			$event->addResult(false);
+        if ($userId <= 0) {
+            $event->addResult(false);
 
-			return;
-		}
+            return;
+        }
 
-		try
-		{
-			$myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-		}
-		catch (Exception $e)
-		{
-			$myUser = new User;
-		}
+        try {
+            $myUser = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+        } catch (Exception $e) {
+            $myUser = new User();
+        }
 
-		if ($myUser->id != $userId || $myUser->guest)
-		{
-			$event->addResult(false);
+        if ($myUser->id != $userId || $myUser->guest) {
+            $event->addResult(false);
 
-			return;
-		}
+            return;
+        }
 
-		$publicKeyCredentialRequestOptions = $this->authenticationHelper->getPubkeyRequestOptions($myUser);
+        $publicKeyCredentialRequestOptions = $this->authenticationHelper->getPubkeyRequestOptions($myUser);
 
-		$session->set('plg_system_webauthn.userId', $userId);
+        $session->set('plg_system_webauthn.userId', $userId);
 
-		// Return the JSON encoded data to the caller
-		$event->addResult(json_encode($publicKeyCredentialRequestOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
-	}
+        // Return the JSON encoded data to the caller
+        $event->addResult(json_encode($publicKeyCredentialRequestOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Admin\Administrator\Service\HTML;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 
 /**
@@ -20,15 +19,15 @@ use Joomla\CMS\Language\Text;
  */
 class System
 {
-	/**
-	 * Method to generate a string message for a value
-	 *
-	 * @param   string  $val  a php ini value
-	 *
-	 * @return  string html code
-	 */
-	public function server($val)
-	{
-		return !empty($val) ? $val : Text::_('COM_ADMIN_NA');
-	}
+    /**
+     * Method to generate a string message for a value
+     *
+     * @param   string  $val  a php ini value
+     *
+     * @return  string html code
+     */
+    public function server($val)
+    {
+        return !empty($val) ? $val : Text::_('COM_ADMIN_NA');
+    }
 }
