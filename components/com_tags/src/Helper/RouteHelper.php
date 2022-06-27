@@ -11,6 +11,7 @@ namespace Joomla\Component\Tags\Site\Helper;
 
 \defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 use Joomla\CMS\Menu\AbstractMenu;
@@ -81,17 +82,38 @@ class RouteHelper extends CMSRouteHelper
 	/**
 	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
 	 *
-	 * @param   integer  $id  The ID of the tag
+	 * @param   integer  $id        The ID of the tag
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
-	 * @since   3.1
+	 * @since      3.1
+	 * @throws     Exception
+	 * @deprecated 5.0.0 Use getComponentTagRoute() instead
 	 */
 	public static function getTagRoute($id)
 	{
-		$needles = array(
-			'tag'  => array((int) $id)
-		);
+		@trigger_error('This function is replaced by the getComponentTagRoute()', E_USER_DEPRECATED);
+
+		return self::getComponentTagRoute($id);
+	}
+
+	/**
+	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
+	 *
+	 * @param   string   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
+	 * @param   string   $language  The language of the tag
+	 *
+	 * @return  string  URL link to pass to the router
+	 *
+	 * @since   4.2.0
+	 * @throws  Exception
+	 */
+	public static function getComponentTagRoute(string $id, string $language = '*'): string
+	{
+		$needles = [
+			'tag'      => [(int) $id],
+			'language' => $language,
+		];
 
 		if ($id < 1)
 		{
@@ -107,7 +129,10 @@ class RouteHelper extends CMSRouteHelper
 			}
 			else
 			{
-				$needles = array('tags' => array(1, 0));
+				$needles = [
+					'tags'     => [1, 0],
+					'language' => $language,
+				];
 
 				if ($item = self::_findItem($needles))
 				{
@@ -124,13 +149,33 @@ class RouteHelper extends CMSRouteHelper
 	 *
 	 * @return  string  URL link to pass to the router
 	 *
-	 * @since   3.7
+	 * @since      3.7
+	 * @throws     Exception
+	 * @deprecated 5.0.0
 	 */
 	public static function getTagsRoute()
 	{
-		$needles = array(
-			'tags'  => array(0)
-		);
+		@trigger_error('This function is replaced by the getComponentTagsRoute()', E_USER_DEPRECATED);
+
+		return self::getComponentTagsRoute();
+	}
+
+	/**
+	 * Tries to load the router for the tags view.
+	 *
+	 * @param   string  $language  The language of the tag
+	 *
+	 * @return  string  URL link to pass to the router
+	 *
+	 * @since   4.2.0
+	 * @throws  Exception
+	 */
+	public static function getComponentTagsRoute(string $language = '*'): string
+	{
+		$needles = [
+			'tags'     => [0],
+			'language' => $language,
+		];
 
 		$link = 'index.php?option=com_tags&view=tags';
 
@@ -149,7 +194,7 @@ class RouteHelper extends CMSRouteHelper
 	 *
 	 * @return null
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	protected static function _findItem($needles = null)
 	{
