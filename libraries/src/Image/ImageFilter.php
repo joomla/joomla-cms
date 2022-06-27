@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Image;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Class to manipulate an image.
  *
@@ -17,50 +16,50 @@ namespace Joomla\CMS\Image;
  */
 abstract class ImageFilter
 {
-	/**
-	 * @var    resource  The image resource handle.
-	 * @since  2.5.0
-	 */
-	protected $handle;
+    /**
+     * @var    resource  The image resource handle.
+     * @since  2.5.0
+     */
+    protected $handle;
 
-	/**
-	 * Class constructor.
-	 *
-	 * @param   resource  $handle  The image resource on which to apply the filter.
-	 *
-	 * @since   1.7.3
-	 * @throws  \InvalidArgumentException
-	 * @throws  \RuntimeException
-	 */
-	public function __construct($handle)
-	{
-		// Verify that image filter support for PHP is available.
-		if (!\function_exists('imagefilter'))
-		{
-			throw new \RuntimeException('The imagefilter function for PHP is not available.');
-		}
+    /**
+     * Class constructor.
+     *
+     * @param   resource  $handle  The image resource on which to apply the filter.
+     *
+     * @since   1.7.3
+     * @throws  \InvalidArgumentException
+     * @throws  \RuntimeException
+     */
+    public function __construct($handle)
+    {
+        // Verify that image filter support for PHP is available.
+        if (!\function_exists('imagefilter')) {
+            throw new \RuntimeException('The imagefilter function for PHP is not available.');
+        }
 
-		/**
-		 * Make sure the file handle is valid.
-		 * @todo: Remove check for resource when we only support PHP 8
-		 */
-		if (!((\is_object($handle) && get_class($handle) == 'GdImage')
-			|| (\is_resource($handle) && get_resource_type($handle) == 'gd')))
-		{
-			throw new \InvalidArgumentException('The image handle is invalid for the image filter.');
-		}
+        /**
+         * Make sure the file handle is valid.
+         * @todo: Remove check for resource when we only support PHP 8
+         */
+        if (
+            !((\is_object($handle) && get_class($handle) == 'GdImage')
+            || (\is_resource($handle) && get_resource_type($handle) == 'gd'))
+        ) {
+            throw new \InvalidArgumentException('The image handle is invalid for the image filter.');
+        }
 
-		$this->handle = $handle;
-	}
+        $this->handle = $handle;
+    }
 
-	/**
-	 * Method to apply a filter to an image resource.
-	 *
-	 * @param   array  $options  An array of options for the filter.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5.0
-	 */
-	abstract public function execute(array $options = []);
+    /**
+     * Method to apply a filter to an image resource.
+     *
+     * @param   array  $options  An array of options for the filter.
+     *
+     * @return  void
+     *
+     * @since   2.5.0
+     */
+    abstract public function execute(array $options = []);
 }

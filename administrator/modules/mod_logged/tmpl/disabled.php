@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
@@ -13,8 +14,8 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <div class="mb-4">
-	<p class="fw-bold text-center text-muted">
-		<span class="icon-users" aria-hidden="true"></span>
-		<?php echo Text::_('MOD_LOGGED_NO_SESSION_METADATA'); ?>
-	</p>
+    <p class="fw-bold text-center text-muted">
+        <span class="icon-users" aria-hidden="true"></span>
+        <?php echo Text::_('MOD_LOGGED_NO_SESSION_METADATA'); ?>
+    </p>
 </div>

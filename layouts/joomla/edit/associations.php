@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -14,8 +15,8 @@ use Joomla\CMS\Language\Text;
 
 $form     = $displayData->getForm();
 $options  = array(
-	'formControl' => $form->getFormControl(),
-	'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
+    'formControl' => $form->getFormControl(),
+    'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
 );
 
 // Load JavaScript message titles
