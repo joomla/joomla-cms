@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\WebAsset\WebAssetRegistry as Registry;
 use Joomla\DI\Container;
@@ -21,33 +20,32 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class WebAssetRegistry implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('webassetregistry', Registry::class)
-			->share(
-				Registry::class,
-				function (Container $container)
-				{
-					$registry = new Registry;
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('webassetregistry', Registry::class)
+            ->share(
+                Registry::class,
+                function (Container $container) {
+                    $registry = new Registry();
 
-					// Add Core registry files
-					$registry
-						->addRegistryFile('media/vendor/joomla.asset.json')
-						->addRegistryFile('media/system/joomla.asset.json')
-						->addRegistryFile('media/legacy/joomla.asset.json');
+                    // Add Core registry files
+                    $registry
+                        ->addRegistryFile('media/vendor/joomla.asset.json')
+                        ->addRegistryFile('media/system/joomla.asset.json')
+                        ->addRegistryFile('media/legacy/joomla.asset.json');
 
-					return $registry;
-				},
-				true
-			);
-	}
+                    return $registry;
+                },
+                true
+            );
+    }
 }
