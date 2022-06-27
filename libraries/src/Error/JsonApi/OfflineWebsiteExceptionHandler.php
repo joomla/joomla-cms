@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -22,42 +23,41 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
  */
 class OfflineWebsiteExceptionHandler implements ExceptionHandlerInterface
 {
-	/**
-	 * If the exception handler is able to format a response for the provided exception,
-	 * then the implementation should return true.
-	 *
-	 * @param   \Exception  $e  The exception to be handled
-	 *
-	 * @return boolean
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function manages(Exception $e)
-	{
-		return $e instanceof OfflineWebsiteException;
-	}
+    /**
+     * If the exception handler is able to format a response for the provided exception,
+     * then the implementation should return true.
+     *
+     * @param   \Exception  $e  The exception to be handled
+     *
+     * @return boolean
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function manages(Exception $e)
+    {
+        return $e instanceof OfflineWebsiteException;
+    }
 
-	/**
-	 * Handle the provided exception.
-	 *
-	 * @param   Exception  $e  The exception being handled
-	 *
-	 * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function handle(Exception $e)
-	{
-		$status = 503;
-		$error = ['title' => $e->getMessage()];
+    /**
+     * Handle the provided exception.
+     *
+     * @param   Exception  $e  The exception being handled
+     *
+     * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function handle(Exception $e)
+    {
+        $status = 503;
+        $error = ['title' => $e->getMessage()];
 
-		$code = $e->getCode();
+        $code = $e->getCode();
 
-		if ($code)
-		{
-			$error['code'] = $code;
-		}
+        if ($code) {
+            $error['code'] = $code;
+        }
 
-		return new ResponseBag($status, [$error]);
-	}
+        return new ResponseBag($status, [$error]);
+    }
 }
