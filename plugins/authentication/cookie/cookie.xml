@@ -2,7 +2,7 @@
 <extension type="plugin" group="authentication" method="upgrade">
 	<name>plg_authentication_cookie</name>
 	<author>Joomla! Project</author>
-	<creationDate>July 2013</creationDate>
+	<creationDate>2013-07</creationDate>
 	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
