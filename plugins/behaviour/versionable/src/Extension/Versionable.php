@@ -36,7 +36,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -50,7 +50,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 	 * The input filter
 	 *
 	 * @var    InputFilter
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $filter;
 
@@ -58,7 +58,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 	 * The CMS helper
 	 *
 	 * @var    CMSHelper
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $helper;
 

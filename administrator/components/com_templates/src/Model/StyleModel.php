@@ -743,7 +743,7 @@ class StyleModel extends AdminModel
 	 *
 	 * @return  stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function getAdminTemplate(int $styleId): stdClass
 	{
@@ -789,7 +789,7 @@ class StyleModel extends AdminModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function getSiteTemplates(): array
 	{
