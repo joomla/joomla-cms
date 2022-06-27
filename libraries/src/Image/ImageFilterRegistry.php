@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Image;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Service registry for Image Filter services
  *
