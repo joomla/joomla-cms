@@ -1089,6 +1089,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
 				. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
 				. 'debet libris consulatu.</p>',
+			'fulltext'         => '',
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
 			'created'          => $currentDate,

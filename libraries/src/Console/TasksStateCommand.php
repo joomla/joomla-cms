@@ -117,7 +117,7 @@ class TasksStateCommand extends AbstractCommand
 			$state = (string) $this->ioStyle->ask('Should the state be "enable" (1), "disable" (0) or "trash" (-2)');
 
 			// Ensure we have the enumerated value (still as a string)
-			$state = (Task::isValidState($state)) ?: ArrayHelper::arraySearch($state, Task::STATE_MAP);
+			$state = (Task::isValidState($state)) ? $state : ArrayHelper::arraySearch($state, Task::STATE_MAP);
 		}
 
 		// Finally, the enumerated state and id in their pure form
