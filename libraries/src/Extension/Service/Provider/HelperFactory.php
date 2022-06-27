@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Extension\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\Database\DatabaseInterface;
@@ -22,47 +21,46 @@ use Joomla\DI\ServiceProviderInterface;
  */
 class HelperFactory implements ServiceProviderInterface
 {
-	/**
-	 * The namespace
-	 *
-	 * @var  string
-	 *
-	 * @since   4.0.0
-	 */
-	private $namespace;
+    /**
+     * The namespace
+     *
+     * @var  string
+     *
+     * @since   4.0.0
+     */
+    private $namespace;
 
-	/**
-	 * HelperFactory constructor.
-	 *
-	 * @param   string  $namespace  The namespace
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(string $namespace)
-	{
-		$this->namespace = $namespace;
-	}
+    /**
+     * HelperFactory constructor.
+     *
+     * @param   string  $namespace  The namespace
+     *
+     * @since   4.0.0
+     */
+    public function __construct(string $namespace)
+    {
+        $this->namespace = $namespace;
+    }
 
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->set(
-			HelperFactoryInterface::class,
-			function (Container $container)
-			{
-				$factory = new \Joomla\CMS\Helper\HelperFactory($this->namespace);
-				$factory->setDatabase($container->get(DatabaseInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->set(
+            HelperFactoryInterface::class,
+            function (Container $container) {
+                $factory = new \Joomla\CMS\Helper\HelperFactory($this->namespace);
+                $factory->setDatabase($container->get(DatabaseInterface::class));
 
-				return $factory;
-			}
-		);
-	}
+                return $factory;
+            }
+        );
+    }
 }

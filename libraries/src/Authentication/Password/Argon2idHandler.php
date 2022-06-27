@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Authentication\Password;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Authentication\Password\Argon2idHandler as BaseArgon2idHandler;
 
@@ -19,17 +18,17 @@ use Joomla\Authentication\Password\Argon2idHandler as BaseArgon2idHandler;
  */
 class Argon2idHandler extends BaseArgon2idHandler implements CheckIfRehashNeededHandlerInterface
 {
-	/**
-	 * Check if the password requires rehashing
-	 *
-	 * @param   string  $hash  The password hash to check
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function checkIfRehashNeeded(string $hash): bool
-	{
-		return password_needs_rehash($hash, PASSWORD_ARGON2ID);
-	}
+    /**
+     * Check if the password requires rehashing
+     *
+     * @param   string  $hash  The password hash to check
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public function checkIfRehashNeeded(string $hash): bool
+    {
+        return password_needs_rehash($hash, PASSWORD_ARGON2ID);
+    }
 }
