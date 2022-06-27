@@ -413,7 +413,7 @@ class MapsModel extends ListModel
 
 		$title = 'ROOT';
 
-		$query->where($this->_db->quoteName('title') . ' <> :title')
+		$query->where($this->getDatabase()->quoteName('title') . ' <> :title')
 			->bind(':title', $title);
 
 		return $query;

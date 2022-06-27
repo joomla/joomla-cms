@@ -10,9 +10,7 @@
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Extension;
 
 use Exception;
-use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
@@ -38,23 +36,15 @@ use Webauthn\PublicKeyCredentialRequestOptions;
 /**
  * Joomla Multi-factor Authentication plugin for WebAuthn
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Webauthn extends CMSPlugin implements SubscriberInterface
 {
 	/**
-	 * The application object
-	 *
-	 * @var    CMSApplication|SiteApplication|AdministratorApplication
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
 	 * Auto-load the plugin's language files
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -62,7 +52,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $mfaMethodName = 'webauthn';
 
@@ -71,7 +61,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -90,7 +80,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetMethod(GetMethod $event): void
 	{
@@ -117,7 +107,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws  Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetSetup(GetSetup $event): void
 	{
@@ -147,7 +137,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		 */
 		if (!is_array($record->options) || empty($record->options['credentialId'] ?? ''))
 		{
-			$document = $this->app->getDocument();
+			$document = $this->getApplication()->getDocument();
 			$wam      = $document->getWebAssetManager();
 			$wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
@@ -206,7 +196,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @param   SaveSetup  $event  The event we are handling
 	 *
 	 * @return  void The configuration data to save to the database
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorSaveSetup(SaveSetup $event): void
 	{
@@ -232,7 +222,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		}
 
 		$code                = $input->get('code', null, 'base64');
-		$session             = $this->app->getSession();
+		$session             = $this->getApplication()->getSession();
 		$registrationRequest = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', null);
 
 		// If there was no registration request BUT there is a registration response throw an error
@@ -283,7 +273,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 * @throws Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorCaptive(Captive $event): void
 	{
@@ -328,10 +318,10 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		 * That was fun to debug - for "poke your eyes with a rusty fork" values of fun.
 		 */
 
-		$session          = $this->app->getSession();
+		$session          = $this->getApplication()->getSession();
 		$pkOptionsEncoded = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialRequestOptions', null);
 
-		$force = $this->app->input->getInt('force', 0);
+		$force = $this->getApplication()->input->getInt('force', 0);
 
 		try
 		{
@@ -361,7 +351,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 			$pkRequest = Credentials::requestAssertion($record->user_id);
 		}
 
-		$document = $this->app->getDocument();
+		$document = $this->getApplication()->getDocument();
 		$wam      = $document->getWebAssetManager();
 		$wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
@@ -415,7 +405,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 	 * @param   Validate  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorValidate(Validate $event): void
 	{
@@ -461,7 +451,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 		{
 			try
 			{
-				$this->app->enqueueMessage($e->getMessage(), 'error');
+				$this->getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 			catch (Exception $e)
 			{

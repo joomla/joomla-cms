@@ -232,6 +232,7 @@ class DiscoverModel extends InstallerModel
 			foreach ($eid as $id)
 			{
 				$installer = new Installer;
+				$installer->setDatabase($this->getDatabase());
 
 				$result = $installer->discover_install($id);
 
@@ -301,7 +302,7 @@ class DiscoverModel extends InstallerModel
 	{
 		$query = parent::getEmptyStateQuery();
 
-		$query->where($this->_db->quoteName('state') . ' = -1');
+		$query->where($this->getDatabase()->quoteName('state') . ' = -1');
 
 		return $query;
 	}

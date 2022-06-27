@@ -34,7 +34,7 @@ use Webauthn\TrustPath\EmptyTrustPath;
  *
  * This behavior can be changed by passing a user ID in the constructor of the class.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CredentialRepository implements PublicKeyCredentialSourceRepository
 {
@@ -42,7 +42,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 * The user ID we will operate with
 	 *
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $userId = 0;
 
@@ -52,7 +52,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 * @param   int  $userId  The user ID this repository will be working with.
 	 *
 	 * @throws \Exception
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	public function __construct(int $userId = 0)
 	{
@@ -73,7 +73,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 * @param   string  $publicKeyCredentialId  The public credential ID to look for
 	 *
 	 * @return  PublicKeyCredentialSource|null
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource
 	{
@@ -100,7 +100,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 *
 	 * @return  array|PublicKeyCredentialSource[]
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function findAllForUserEntity(PublicKeyCredentialUserEntity $publicKeyCredentialUserEntity): array
 	{
@@ -176,7 +176,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 * @param   int                     $userId  User ID we are getting the credential source for
 	 *
 	 * @return  PublicKeyCredentialSource
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function attestedCredentialToPublicKeyCredentialSource(AttestedCredentialData $record, int $userId): PublicKeyCredentialSource
 	{
@@ -205,7 +205,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 *
 	 * @return  void
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
 	{

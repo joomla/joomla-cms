@@ -113,7 +113,7 @@ class TransitionsModel extends ListModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
+			$this->getDatabase()->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
 		];
 	}
 
