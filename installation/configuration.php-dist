@@ -130,7 +130,7 @@ class JConfig
 	public $proxy_pass = '';
 
 	/* Debug Settings */
-	public $debug = true;
+	public $debug = false;
 	public $debug_lang = false;
 	public $debug_lang_const = true;
 
