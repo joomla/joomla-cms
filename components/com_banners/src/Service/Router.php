@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_banners
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Banners\Site\Service;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\Router\RouterBase;
 
 /**
@@ -20,88 +19,78 @@ use Joomla\CMS\Component\Router\RouterBase;
  */
 class Router extends RouterBase
 {
-	/**
-	 * Build the route for the com_banners component
-	 *
-	 * @param   array  $query  An array of URL arguments
-	 *
-	 * @return  array  The URL arguments to use to assemble the subsequent URL.
-	 *
-	 * @since   3.3
-	 */
-	public function build(&$query)
-	{
-		$segments = array();
+    /**
+     * Build the route for the com_banners component
+     *
+     * @param   array  $query  An array of URL arguments
+     *
+     * @return  array  The URL arguments to use to assemble the subsequent URL.
+     *
+     * @since   3.3
+     */
+    public function build(&$query)
+    {
+        $segments = array();
 
-		if (isset($query['task']))
-		{
-			$segments[] = $query['task'];
-			unset($query['task']);
-		}
+        if (isset($query['task'])) {
+            $segments[] = $query['task'];
+            unset($query['task']);
+        }
 
-		if (isset($query['id']))
-		{
-			$segments[] = $query['id'];
-			unset($query['id']);
-		}
+        if (isset($query['id'])) {
+            $segments[] = $query['id'];
+            unset($query['id']);
+        }
 
-		$total = \count($segments);
+        $total = \count($segments);
 
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
-		}
+        for ($i = 0; $i < $total; $i++) {
+            $segments[$i] = str_replace(':', '-', $segments[$i]);
+        }
 
-		return $segments;
-	}
+        return $segments;
+    }
 
-	/**
-	 * Parse the segments of a URL.
-	 *
-	 * @param   array  $segments  The segments of the URL to parse.
-	 *
-	 * @return  array  The URL attributes to be used by the application.
-	 *
-	 * @since   3.3
-	 */
-	public function parse(&$segments)
-	{
-		$total = \count($segments);
-		$vars = array();
+    /**
+     * Parse the segments of a URL.
+     *
+     * @param   array  $segments  The segments of the URL to parse.
+     *
+     * @return  array  The URL attributes to be used by the application.
+     *
+     * @since   3.3
+     */
+    public function parse(&$segments)
+    {
+        $total = \count($segments);
+        $vars = array();
 
-		for ($i = 0; $i < $total; $i++)
-		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
-		}
+        for ($i = 0; $i < $total; $i++) {
+            $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+        }
 
-		// View is always the first element of the array
-		$count = \count($segments);
+        // View is always the first element of the array
+        $count = \count($segments);
 
-		if ($count)
-		{
-			$count--;
-			$segment = array_shift($segments);
+        if ($count) {
+            $count--;
+            $segment = array_shift($segments);
 
-			if (\is_numeric($segment))
-			{
-				$vars['id'] = $segment;
-			}
-			else
-			{
-				$vars['task'] = $segment;
-			}
-		}
+            if (\is_numeric($segment)) {
+                $vars['id'] = $segment;
+            } else {
+                $vars['task'] = $segment;
+            }
+        }
 
-		if ($count)
-		{
-			$segment = array_shift($segments);
+        if ($count) {
+            $segment = array_shift($segments);
 
-			if (\is_numeric($segment))
-			{
-				$vars['id'] = $segment;
-			}
-		}
+            if (\is_numeric($segment)) {
+                $vars['id'] = $segment;
+            }
+        }
 
-		return $vars;
-	}
+        return $vars;
+    }
 }

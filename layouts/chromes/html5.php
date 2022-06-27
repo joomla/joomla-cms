@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -16,9 +17,8 @@ use Joomla\Utilities\ArrayHelper;
 $module  = $displayData['module'];
 $params  = $displayData['params'];
 
-if ((string) $module->content === '')
-{
-	return;
+if ((string) $module->content === '') {
+    return;
 }
 
 $moduleTag              = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
@@ -31,27 +31,25 @@ $headerClass            = htmlspecialchars($params->get('header_class', ''), ENT
 $headerAttribs          = [];
 
 // Only output a header class if one is set
-if ($headerClass !== '')
-{
-	$headerAttribs['class'] = $headerClass;
+if ($headerClass !== '') {
+    $headerAttribs['class'] = $headerClass;
 }
 
 // Only add aria if the moduleTag is not a div
-if ($moduleTag !== 'div')
-{
-	if ($module->showtitle) :
-		$moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
-		$headerAttribs['id']              = 'mod-' . $module->id;
-	else:
-		$moduleAttribs['aria-label'] = $module->title;
-	endif;
+if ($moduleTag !== 'div') {
+    if ($module->showtitle) :
+        $moduleAttribs['aria-labelledby'] = 'mod-' . $module->id;
+        $headerAttribs['id']              = 'mod-' . $module->id;
+    else :
+        $moduleAttribs['aria-label'] = $module->title;
+    endif;
 }
 
 $header = '<' . $headerTag . ' ' . ArrayHelper::toString($headerAttribs) . '>' . $module->title . '</' . $headerTag . '>';
 ?>
 <<?php echo $moduleTag; ?> <?php echo ArrayHelper::toString($moduleAttribs); ?>>
-	<?php if ((bool) $module->showtitle) : ?>
-		<?php echo $header; ?>
-	<?php endif; ?>
-	<?php echo $module->content; ?>
+    <?php if ((bool) $module->showtitle) : ?>
+        <?php echo $header; ?>
+    <?php endif; ?>
+    <?php echo $module->content; ?>
 </<?php echo $moduleTag; ?>>
