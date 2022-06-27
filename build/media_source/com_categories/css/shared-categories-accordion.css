@@ -1,13 +1,16 @@
 .com-content-categories__item {
+  border-bottom: 1px solid #dfe3e7;
+}
+.com-content-categories__item-title-wrapper {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: .5rem 0;
-  border-bottom: 1px solid #dfe3e7;
 }
 .com-content-categories__children {
   flex-basis: 100%;
   padding-inline-start: 1.5rem;
+  border-top: 1px solid #dfe3e7;
 }
 .com-content-categories__children .com-content-categories__item:last-child {
   border-bottom: none;

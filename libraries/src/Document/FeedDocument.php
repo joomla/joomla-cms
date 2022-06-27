@@ -203,7 +203,7 @@ class FeedDocument extends Document
 		$type = CmsFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
-		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
+		$renderer = $this->loadRenderer($type ?: 'rss');
 
 		if (!($renderer instanceof DocumentRenderer))
 		{

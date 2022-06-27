@@ -68,7 +68,7 @@ class SubfieldsField extends ListField
 		// Check whether we have a result for this context yet
 		if (!isset(static::$customFieldsCache[$this->context]))
 		{
-			static::$customFieldsCache[$this->context] = FieldsHelper::getFields($this->context);
+			static::$customFieldsCache[$this->context] = FieldsHelper::getFields($this->context, null, false, null, true);
 		}
 
 		// Iterate over the custom fields for this context

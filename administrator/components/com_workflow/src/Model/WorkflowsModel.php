@@ -89,7 +89,7 @@ class WorkflowsModel extends ListModel
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Table\Table  A JTable object
+	 * @return  \Joomla\CMS\Table\Table  A Table object
 	 *
 	 * @since  4.0.0
 	 */
@@ -123,7 +123,7 @@ class WorkflowsModel extends ListModel
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  \JForm|false  the JForm object or false
+	 * @return  \Joomla\CMS\Form\Form|bool the Form object or false
 	 *
 	 * @since   4.0.0
 	 */
@@ -150,7 +150,7 @@ class WorkflowsModel extends ListModel
 	 */
 	protected function countItems($items)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$ids = [0];
 
@@ -215,7 +215,7 @@ class WorkflowsModel extends ListModel
 	 */
 	public function getListQuery()
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(

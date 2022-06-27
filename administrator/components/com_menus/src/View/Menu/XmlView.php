@@ -33,7 +33,7 @@ class XmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * @var  \JObject
+	 * @var    \Joomla\CMS\Object\CMSObject
 	 *
 	 * @since  3.8.0
 	 */
@@ -91,7 +91,6 @@ class XmlView extends BaseHtmlView
 		header('content-disposition: attachment; filename="' . $menutype . '.xml"');
 		header("Cache-Control: no-cache, must-revalidate");
 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-		header('Pragma: private');
 
 		$dom = new \DOMDocument;
 		$dom->preserveWhiteSpace = true;
@@ -149,25 +148,9 @@ class XmlView extends BaseHtmlView
 			$node['target'] = '_blank';
 		}
 
-		if (count($item->getParams()))
+		if ($item->getParams() && $hideitems = $item->getParams()->get('hideitems'))
 		{
-			$hideitems = $item->getParams()->get('hideitems');
-
-			if ($hideitems)
-			{
-				$db    = Factory::getDbo();
-				$query = $db->getQuery(true);
-
-				$query
-					->select($db->quoteName('e.element'))
-					->from($db->quoteName('#__extensions', 'e'))
-					->join('INNER', $db->quoteName('#__menu', 'm'), $db->quoteName('m.component_id') . ' = ' . $db->quoteName('e.extension_id'))
-					->whereIn($db->quoteName('m.id'), $hideitems);
-
-				$hideitems = $db->setQuery($query)->loadColumn();
-
-				$item->getParams()->set('hideitems', $hideitems);
-			}
+			$item->getParams()->set('hideitems', $this->getModel('Menu')->getExtensionElementsForMenuItems($hideitems));
 
 			$node->addChild('params', htmlentities((string) $item->getParams(), ENT_XML1));
 		}

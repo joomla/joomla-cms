@@ -16,6 +16,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
 
@@ -30,6 +31,7 @@ class ActionlogsHelper
 	 * Array of characters starting a formula
 	 *
 	 * @var    array
+	 *
 	 * @since  3.9.7
 	 */
 	private static $characters = array('=', '+', '-', '@');
@@ -42,6 +44,7 @@ class ActionlogsHelper
 	 * @return  Generator
 	 *
 	 * @since   3.9.0
+	 *
 	 * @throws  \InvalidArgumentException
 	 */
 	public static function getCsvData($data): Generator
@@ -52,7 +55,7 @@ class ActionlogsHelper
 				sprintf(
 					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
 					__METHOD__,
-					gettype($data) === 'object' ? get_class($data) : gettype($data)
+					\gettype($data) === 'object' ? \get_class($data) : \gettype($data)
 				)
 			);
 		}
@@ -119,7 +122,7 @@ class ActionlogsHelper
 			case 'plg':
 				$parts = explode('_', $extension, 3);
 
-				if (count($parts) > 2)
+				if (\count($parts) > 2)
 				{
 					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
 				}
@@ -155,26 +158,20 @@ class ActionlogsHelper
 	 * @return  mixed  An object contains content type parameters, or null if not found
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated  5.0 Use the action log config model instead
 	 */
 	public static function getLogContentTypeParams($context)
 	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*')
-			->from($db->quoteName('#__action_log_config', 'a'))
-			->where($db->quoteName('a.type_alias') . ' = :context')
-			->bind(':context', $context);
-
-		$db->setQuery($query);
-
-		return $db->loadObject();
+		return Factory::getApplication()->bootComponent('actionlogs')->getMVCFactory()
+			->createModel('ActionlogConfig', 'Administrator')->getLogContentTypeParams($context);
 	}
 
 	/**
 	 * Get human readable log message for a User Action Log
 	 *
-	 * @param   stdClass  $log            A User Action log message record
-	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
+	 * @param   \stdClass  $log            A User Action log message record
+	 * @param   boolean    $generateLinks  Flag to disable link generation when creating a message
 	 *
 	 * @return  string
 	 *
@@ -233,11 +230,11 @@ class ActionlogsHelper
 	/**
 	 * Get link to an item of given content type
 	 *
-	 * @param   string   $component
-	 * @param   string   $contentType
-	 * @param   integer  $id
-	 * @param   string   $urlVar
-	 * @param   JObject  $object
+	 * @param   string     $component
+	 * @param   string     $contentType
+	 * @param   integer    $id
+	 * @param   string     $urlVar
+	 * @param   CMSObject  $object
 	 *
 	 * @return  string  Link to the content item
 	 *
@@ -256,7 +253,7 @@ class ActionlogsHelper
 
 			\JLoader::register($cName, $file);
 
-			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
+			if (class_exists($cName) && \is_callable(array($cName, 'getContentTypeLink')))
 			{
 				return $cName::getContentTypeLink($contentType, $id, $object);
 			}
@@ -364,7 +361,7 @@ class ActionlogsHelper
 			return $value;
 		}
 
-		if (in_array($value[0], self::$characters, true))
+		if (\in_array($value[0], self::$characters, true))
 		{
 			$value = ' ' . $value;
 		}

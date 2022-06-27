@@ -183,8 +183,6 @@ class Editor implements DispatcherAwareInterface
 		$width = str_replace(';', '', $width);
 		$height = str_replace(';', '', $height);
 
-		$return = null;
-
 		$args['name'] = $name;
 		$args['content'] = $html;
 		$args['width'] = $width;

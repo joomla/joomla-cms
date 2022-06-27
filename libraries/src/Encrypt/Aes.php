@@ -47,6 +47,8 @@ class Aes
 	 * @param   int             $strength Bit strength (128, 192 or 256) – ALWAYS USE 128 BITS. THIS PARAMETER IS DEPRECATED.
 	 * @param   string          $mode     Encryption mode. Can be ebc or cbc. We recommend using cbc.
 	 * @param   string          $priority Priority which adapter we should try first
+	 *
+	 * @deprecated 5.0 $strength will be removed
 	 */
 	public function __construct($key, $strength = 128, $mode = 'cbc', $priority = 'openssl')
 	{
@@ -169,16 +171,16 @@ class Aes
 	 */
 	public static function isSupported()
 	{
-		$adapter = new Mcrypt;
+		$adapter = new OpenSSL;
 
 		if (!$adapter->isSupported())
 		{
-			$adapter = new OpenSSL;
-		}
+			$adapter = new Mcrypt;
 
-		if (!$adapter->isSupported())
-		{
-			return false;
+			if (!$adapter->isSupported())
+			{
+				return false;
+			}
 		}
 
 		if (!\function_exists('base64_encode'))
@@ -196,9 +198,9 @@ class Aes
 			return false;
 		}
 
-		$algorightms = hash_algos();
+		$algorithms = hash_algos();
 
-		if (!\in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorithms))
 		{
 			return false;
 		}

@@ -26,6 +26,7 @@ class JsonResponse
 	 * Determines whether the request was successful
 	 *
 	 * @var    boolean
+	 *
 	 * @since  3.1
 	 */
 	public $success = true;
@@ -34,14 +35,16 @@ class JsonResponse
 	 * The main response message
 	 *
 	 * @var    string
+	 *
 	 * @since  3.1
 	 */
 	public $message = null;
 
 	/**
-	 * Array of messages gathered in the \JApplication object
+	 * Array of messages gathered in the Application object
 	 *
 	 * @var    array
+	 *
 	 * @since  3.1
 	 */
 	public $messages = null;
@@ -50,6 +53,7 @@ class JsonResponse
 	 * The response data
 	 *
 	 * @var    mixed
+	 *
 	 * @since  3.1
 	 */
 	public $data = null;

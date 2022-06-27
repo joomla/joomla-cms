@@ -92,7 +92,7 @@ class File
 		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
 		{
 			// Using iconv to ignore characters that can't be transliterated
-			$file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $file));
+			$file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII', $file));
 		}
 
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');

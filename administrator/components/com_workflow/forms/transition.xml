@@ -7,14 +7,12 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
-			size="10"
 			readonly="true"
 		/>
 		<field
 			name="title"
 			type="text"
 			label="COM_WORKFLOW_FIELD_NAME_LABEL"
-			size="40"
 			required="true"
 		/>
 		<field

@@ -16,7 +16,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
@@ -44,7 +43,6 @@ class ConfirmModel extends AdminModel
 	{
 		// Get the form.
 		$form = $this->getForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -74,11 +72,14 @@ class ConfirmModel extends AdminModel
 			return false;
 		}
 
+		// Get the user email address
+		$email = Factory::getUser()->email;
+
 		// Search for the information request
 		/** @var RequestTable $table */
 		$table = $this->getTable();
 
-		if (!$table->load(['email' => $data['email'], 'status' => 0]))
+		if (!$table->load(['email' => $email, 'status' => 0]))
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 

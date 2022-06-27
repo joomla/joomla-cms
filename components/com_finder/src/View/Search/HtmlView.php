@@ -21,6 +21,8 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouterAwareInterface;
+use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
@@ -30,12 +32,15 @@ use Joomla\Component\Finder\Site\Helper\FinderHelper;
  *
  * @since  2.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 {
+	use SiteRouterAwareTrait;
+
 	/**
 	 * The query indexer object
 	 *
 	 * @var    Query
+	 *
 	 * @since  4.0.0
 	 */
 	protected $query;
@@ -50,14 +55,14 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  \Joomla\CMS\Object\CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The logged in user
 	 *
-	 * @var  \JUser|null
+	 * @var  \Joomla\CMS\User\User|null
 	 */
 	protected $user = null;
 
@@ -65,6 +70,7 @@ class HtmlView extends BaseHtmlView
 	 * The suggested search query
 	 *
 	 * @var   string|false
+	 *
 	 * @since 4.0.0
 	 */
 	protected $suggested = false;
@@ -73,6 +79,7 @@ class HtmlView extends BaseHtmlView
 	 * The explained (human-readable) search query
 	 *
 	 * @var   string|null
+	 *
 	 * @since 4.0.0
 	 */
 	protected $explained = null;
@@ -81,6 +88,7 @@ class HtmlView extends BaseHtmlView
 	 * The page class suffix
 	 *
 	 * @var    string
+	 *
 	 * @since  4.0.0
 	 */
 	protected $pageclass_sfx = '';
@@ -155,8 +163,7 @@ class HtmlView extends BaseHtmlView
 		// Check for a double quote in the query string.
 		if (strpos($this->query->input, '"'))
 		{
-			// Get the application router.
-			$router = $app->getRouter();
+			$router = $this->getSiteRouter();
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)
@@ -185,7 +192,7 @@ class HtmlView extends BaseHtmlView
 		$this->explained = HTMLHelper::_('query.explained', $this->query);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match

@@ -148,11 +148,6 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Get the path for the layout file
 		$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
 
-		if (!file_exists($path))
-		{
-			$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
-		}
-
 		// Render the layout
 		ob_start();
 		include $path;
@@ -194,11 +189,16 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
-		$node->setAttribute('labelclass', $field->params->get('label_class'));
+		$node->setAttribute('labelclass', $field->params->get('label_class', ''));
 		$node->setAttribute('description', $field->description);
-		$node->setAttribute('class', $field->params->get('class'));
-		$node->setAttribute('hint', $field->params->get('hint'));
+		$node->setAttribute('class', $field->params->get('class', ''));
+		$node->setAttribute('hint', $field->params->get('hint', ''));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
+
+		if ($layout = $field->params->get('form_layout'))
+		{
+			$node->setAttribute('layout', $layout);
+		}
 
 		if ($field->default_value !== '')
 		{
@@ -264,8 +264,8 @@ abstract class FieldsPlugin extends CMSPlugin
 	/**
 	 * Returns the path of the XML definition file for the field parameters
 	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param   Form       $form  The form
+	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  string
 	 *

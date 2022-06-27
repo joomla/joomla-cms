@@ -885,7 +885,7 @@ class Language
 			}
 
 			// Check that the line passes the necessary format.
-			if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+			if (!preg_match('#^[A-Z][A-Z0-9_:\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
 			{
 				$errors[] = $realNumber;
 				continue;
@@ -1022,12 +1022,10 @@ class Language
 				return $this->paths[$extension];
 			}
 
-			return;
+			return [];
 		}
-		else
-		{
-			return $this->paths;
-		}
+
+		return $this->paths;
 	}
 
 	/**
@@ -1180,9 +1178,12 @@ class Language
 	 */
 	public function hasKey($string)
 	{
-		$key = strtoupper($string);
+		if ($string === null)
+		{
+			return false;
+		}
 
-		return isset($this->strings[$key]);
+		return isset($this->strings[strtoupper($string)]);
 	}
 
 	/**

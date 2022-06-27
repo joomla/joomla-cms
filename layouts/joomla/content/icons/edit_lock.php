@@ -11,15 +11,18 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-if (isset($displayData['article']))
+if (isset($displayData['ariaDescribed']))
 {
-	$article = $displayData['article'];
+	$aria_described = $displayData['ariaDescribed'];
+}
+elseif (isset($displayData['article']))
+{
+	$article        = $displayData['article'];
 	$aria_described = 'editarticle-' . (int) $article->id;
 }
-
-if (isset($displayData['contact']))
+elseif (isset($displayData['contact']))
 {
-	$contact = $displayData['contact'];
+	$contact        = $displayData['contact'];
 	$aria_described = 'editcontact-' . (int) $contact->id;
 }
 

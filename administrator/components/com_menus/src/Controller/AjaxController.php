@@ -46,8 +46,6 @@ class AjaxController extends BaseController
 		}
 		else
 		{
-			$extension = $this->input->get('extension');
-
 			$assocId   = $this->input->getInt('assocId', 0);
 
 			if ($assocId == 0)

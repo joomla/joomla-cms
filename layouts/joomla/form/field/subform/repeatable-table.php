@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -17,7 +18,7 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm   $tmpl             The Empty form for template
+ * @var   Form    $tmpl             The Empty form for template
  * @var   array   $forms            Array of JForm instances for render the rows
  * @var   bool    $multiple         The multiple state for the form field
  * @var   int     $min              Count of minimum repeating in multiple mode
@@ -28,16 +29,20 @@ extract($displayData);
  * @var   string  $control          The forms control
  * @var   string  $label            The field label
  * @var   string  $description      The field description
+ * @var   string  $class            Classes for the container
  * @var   array   $buttons          Array of the buttons that will be rendered
  * @var   bool    $groupByFieldset  Whether group the subform fields by it`s fieldset
  */
-
-// Add script
 if ($multiple)
 {
-	Factory::getDocument()->getWebAssetManager()
+	// Add script
+	Factory::getApplication()
+		->getDocument()
+		->getWebAssetManager()
 		->useScript('webcomponent.field-subform');
 }
+
+$class = $class ? ' ' . $class : '';
 
 // Build heading
 $table_head = '';
@@ -73,14 +78,14 @@ else
 	$sublayout = 'section';
 
 	// Label will not be shown for sections layout, so reset the margin left
-	Factory::getDocument()->addStyleDeclaration(
-		'.subform-table-sublayout-section .controls { margin-left: 0px }'
-	);
+	Factory::getApplication()
+		->getDocument()
+		->addStyleDeclaration('.subform-table-sublayout-section .controls { margin-left: 0px }');
 }
 ?>
 
 <div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
-	<joomla-field-subform class="subform-repeatable" name="<?php echo $name; ?>"
+	<joomla-field-subform class="subform-repeatable<?php echo $class; ?>" name="<?php echo $name; ?>"
 		button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 		repeatable-element=".subform-repeatable-group"
 		rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">

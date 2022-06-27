@@ -42,7 +42,7 @@ abstract class ImageFilter
 
 		/**
 		 * Make sure the file handle is valid.
-		 * TODO: Remove check for resource when we only support PHP 8
+		 * @todo: Remove check for resource when we only support PHP 8
 		 */
 		if (!((\is_object($handle) && get_class($handle) == 'GdImage')
 			|| (\is_resource($handle) && get_resource_type($handle) == 'gd')))

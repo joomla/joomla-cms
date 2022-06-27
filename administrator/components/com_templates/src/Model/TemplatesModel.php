@@ -92,7 +92,7 @@ class TemplatesModel extends ListModel
 	 */
 	public function updated($exid)
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Select the required fields from the table
 		$query = $db->getQuery(true)
@@ -119,14 +119,14 @@ class TemplatesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.

@@ -50,9 +50,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 	protected $app;
 
 	/**
-	 * Database object.
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    JDatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -180,17 +179,24 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		$toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
+		// Get the name of the transition
+		$model_transition = $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Transition', 'Administrator');
+
+		$transitionName = $model_transition->getItem($transition->id)->title;
+
 		$hasGetItem = method_exists($model, 'getItem');
 		$container = Factory::getContainer();
 
 		foreach ($pks as $pk)
 		{
-			// Get the title of the item which has changed
-			$title = '';
+			// Get the title of the item which has changed, unknown as fallback
+			$title = Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 
 			if ($hasGetItem)
 			{
-				$title = $model->getItem($pk)->title;
+				$item = $model->getItem($pk);
+				$title = !empty($item->title) ? $item->title : $title;
 			}
 
 			// Send Email to receivers
@@ -204,7 +210,12 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 					$lang = $container->get(LanguageFactoryInterface::class)
 						->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
 					$lang->load('plg_workflow_notification');
-					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
+					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
+						$title,
+						$lang->_($transitionName),
+						$user->name,
+						$lang->_($toStage)
+					);
 
 					if (!empty($transition->options['notification_text']))
 					{
@@ -214,7 +225,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 					$message = [
 						'id' => 0,
 						'user_id_to' => $receiver->id,
-						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $modelName),
+						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
 						'message' => $messageText,
 					];
 

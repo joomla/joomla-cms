@@ -60,7 +60,7 @@ function clean_checkout(string $dir)
 	system('find . -name .github | xargs rm -rf -');
 	system('find . -name .gitignore | xargs rm -rf -');
 	system('find . -name .gitmodules | xargs rm -rf -');
-	system('find . -name .php_cs | xargs rm -rf -');
+	system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
 	system('find . -name .scrutinizer.yml | xargs rm -rf -');
 	system('find . -name .travis.yml | xargs rm -rf -');
 	system('find . -name appveyor.yml | xargs rm -rf -');
@@ -87,6 +87,7 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name UPGRADING.md | xargs rm -rf -');
 	system('find libraries/vendor -name SUMMARY.md | xargs rm -rf -');
 	system('find libraries/vendor -name .travis.yml | xargs rm -rf -');
+	system('find libraries/vendor -name .git | xargs rm -rf -');
 	system('find libraries/vendor -name .gitignore | xargs rm -rf -');
 	system('find libraries/vendor -name .gitmodules | xargs rm -rf -');
 	system('find libraries/vendor -name ISSUE_TEMPLATE | xargs rm -rf -');
@@ -102,6 +103,7 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name .editorconfig | xargs rm -rf -');
 	system('find libraries/vendor -name appveyor.yml | xargs rm -rf -');
 	system('find libraries/vendor -name phpunit.xml.dist | xargs rm -rf -');
+	system('find libraries/vendor -name .php_cs | xargs rm -rf -');
 	system('find libraries/vendor -name .php_cs.dist | xargs rm -rf -');
 	system('find libraries/vendor -name phpcs.xsd | xargs rm -rf -');
 	system('find libraries/vendor -name phpcs.xml | xargs rm -rf -');
@@ -113,6 +115,8 @@ function clean_checkout(string $dir)
 	system('find libraries/vendor -name .pullapprove.yml | xargs rm -rf -');
 	system('find libraries/vendor -name phpstan.neon | xargs rm -rf -');
 	system('find libraries/vendor -name _config.yml | xargs rm -rf -');
+	system('find libraries/vendor -name .bowerrc | xargs rm -rf -');
+	system('find libraries/vendor -name bower.json | xargs rm -rf -');
 	system('rm -rf libraries/vendor/bin');
 
 	// aldo26-matthias/idna-convert
@@ -145,6 +149,12 @@ function clean_checkout(string $dir)
 	system('rm -rf images/sampledata/parks');
 	system('rm -rf images/sampledata/fruitshop');
 
+	// maximebf/debugbar
+	system('rm -rf libraries/vendor/maximebf/debugbar/build');
+	system('rm -rf libraries/vendor/maximebf/debugbar/demo');
+	system('rm -rf libraries/vendor/maximebf/debugbar/docs');
+	system('rm -rf libraries/vendor/maximebf/debugbar/tests');
+
 	// paragonie/sodium_compat
 	system('rm -rf libraries/vendor/paragonie/sodium_compat/build-phar.sh');
 
@@ -159,6 +169,9 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/symfony/*/Resources/doc');
 	system('rm -rf libraries/vendor/symfony/*/Tests');
 	system('rm -rf libraries/vendor/symfony/console/Resources');
+
+	// tobscure/json-api
+	system('rm -rf libraries/vendor/tobscure/json-api/tests');
 
 	// wamania/php-stemmer
 	system('rm -rf libraries/vendor/wamania/php-stemmer/test');
@@ -207,13 +220,14 @@ $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
 
 // Parse input options
-$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd']);
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd', 'disable-patch-packages']);
 
 $remote       = $options['remote'] ?? false;
 $excludeZip   = isset($options['exclude-zip']);
 $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
 $excludeZstd  = !isset($options['include-zstd']);
+$buildPatchPackages = !isset($options['disable-patch-packages']);
 $showHelp     = isset($options['help']);
 
 // Disable the generation of extra text files
@@ -361,7 +375,7 @@ $doNotPackage = array(
 	'.editorconfig',
 	'.github',
 	'.gitignore',
-	'.php_cs.dist',
+	'.php-cs-fixer.dist.php',
 	'CODE_OF_CONDUCT.md',
 	'README.md',
 	'acceptance.suite.yml',
@@ -423,6 +437,12 @@ foreach ($doNotPackage as $removeFile)
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
 {
+	if (!$buildPatchPackages)
+	{
+		echo "Disabled creating patch package for $num per flag.\n";
+		continue;
+	}
+
 	echo "Create version $num update packages.\n";
 
 	// Here we get a list of all files that have changed between the two references ($previousTag and $remote) and save in diffdocs
@@ -453,8 +473,17 @@ for ($num = $release - 1; $num >= 0; $num--)
 		$doNotPatchFile         = in_array(trim($fileName), $doNotPatch);
 		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
 		$doNotPatchBaseFolder   = in_array($baseFolderName, $doNotPatch);
+		$dirtyHackForMediaCheck = false;
 
-		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
+		// The raw files for the vue files are not packaged but are not a top level directory so aren't handled by the
+		// above checks. This is dirty but a fairly performant fix for now until we can come up with something better.
+		if (count($folderPath) >= 4)
+		{
+			$fullPath = [$folderPath[0] . '/' . $folderPath[1] . '/' . $folderPath[2] . '/' . $folderPath[3]];
+			$dirtyHackForMediaCheck = in_array('administrator/components/com_media/resources', $fullPath);
+		}
+
+		if ($dirtyHackForMediaCheck || $doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
 			continue;
 		}
@@ -551,6 +580,9 @@ chdir($time);
 // The search package manifest should not be present for new installs, temporarily move it
 system('mv administrator/manifests/packages/pkg_search.xml ../pkg_search.xml');
 
+// The restore_finalisation.php should not be present for new installs, temporarily move it
+system('mv administrator/components/com_joomlaupdate/restore_finalisation.php ../restore_finalisation.php');
+
 // Create full archive packages.
 if (!$excludeBzip2)
 {
@@ -600,6 +632,9 @@ system('rm images/powered_by.png');
 
 // Move the search manifest back
 system('mv ../pkg_search.xml administrator/manifests/packages/pkg_search.xml');
+
+// Move the restore_finalisation.php back
+system('mv ../restore_finalisation.php administrator/components/com_joomlaupdate/restore_finalisation.php');
 
 if (!$excludeBzip2)
 {
@@ -688,6 +723,12 @@ if ($includeExtraTextfiles)
 		'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
 		'UPGRADE' => 'Update from Joomla! 3.10 ',
 	);
+
+	if (!$buildPatchPackages)
+	{
+		$releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';
+	}
+
 	$githubLink = 'https://github.com/joomla/joomla-cms/releases/download/' . $tagVersion . '/';
 
 	foreach ($checksums as $packageName => $packageHashes)

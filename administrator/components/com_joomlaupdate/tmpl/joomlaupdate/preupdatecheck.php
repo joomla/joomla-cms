@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
@@ -28,6 +29,7 @@ $wa->useScript('core')
 // Text::script doesn't have a sprintf equivalent so work around this
 $this->document->addScriptOptions('nonCoreCriticalPlugins', $this->nonCoreCriticalPlugins);
 
+// Push Joomla! Update client-side error messages
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
@@ -39,6 +41,13 @@ Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_DESC');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_LIST');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_POTENTIALLY_DANGEROUS_PLUGIN_CONFIRM_MESSAGE');
 Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_HELP');
+
+// Push Joomla! core Joomla.Request error messages
+Text::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+Text::script('JLIB_JS_AJAX_ERROR_OTHER');
+Text::script('JLIB_JS_AJAX_ERROR_PARSE');
+Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 $compatibilityTypes = array(
 	'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
@@ -74,10 +83,20 @@ $compatibilityTypes = array(
 );
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['current']) ? $this->updateInfo['current'] : JVERSION;
+$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 
 $updatePossible = true;
 
+if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=') && $this->isDefaultBackendTemplate === false)
+{
+	Factory::getApplication()->enqueueMessage(
+		Text::sprintf(
+			'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE',
+			ucfirst($this->defaultBackendTemplate)
+		),
+		'info'
+	);
+}
 ?>
 
 <div id="joomlaupdate-wrapper" class="main-card p-3 mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
@@ -90,7 +109,7 @@ $updatePossible = true;
 	</p>
 
 	<div class="d-flex flex-wrap flex-lg-nowrap align-items-start my-4" id="preupdatecheck">
-		<div class="nav flex-column text-nowrap nav-pills me-3 mb-4 text-left" role="tablist" aria-orientation="vertical">
+		<div class="nav flex-column text-nowrap nav-pills me-3 mb-4" role="tablist" aria-orientation="vertical">
 			<button class="nav-link d-flex justify-content-between align-items-center active" id="joomlaupdate-precheck-required-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-required-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-required-content" aria-selected="true">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_REQUIRED_SETTINGS'); ?>
 				<?php $labelClass = 'success'; ?>
@@ -101,7 +120,7 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
+				<span class="fa fa-<?php echo $labelClass == 'danger' ? 'times' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-recommended-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-recommended-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-recommended-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_RECOMMENDED_SETTINGS'); ?>
@@ -112,12 +131,12 @@ $updatePossible = true;
 						<?php break; ?>
 					<?php endif; ?>
 				<?php endforeach; ?>
-				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white ms-2 text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
+				<span class="fa fa-<?php echo $labelClass == 'warning' ? 'exclamation-triangle' : 'check'; ?> fa-fw py-1 bg-white text-<?php echo $labelClass; ?>" aria-hidden="true"></span>
 			</button>
 			<button class="nav-link d-flex justify-content-between align-items-center" id="joomlaupdate-precheck-extensions-tab" data-bs-toggle="pill" data-bs-target="#joomlaupdate-precheck-extensions-content" type="button" role="tab" aria-controls="joomlaupdate-precheck-extensions-content" aria-selected="false">
 				<?php echo Text::_('COM_JOOMLAUPDATE_PREUPDATE_EXTENSIONS'); ?>
 				<?php $labelClass = 'success'; ?>
-				<span class="fa fa-spinner fa-spin fa-fw py-1 ms-2" aria-hidden="true"></span>
+				<span class="fa fa-spinner fa-spin fa-fw py-1" aria-hidden="true"></span>
 			</button>
 		</div>
 
@@ -268,11 +287,11 @@ $updatePossible = true;
 											<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 										</th>
 										<th class="currcomp hidden" scope="col">
-											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['current']) ? $this->escape($this->updateInfo['current']) : JVERSION); ?>
+											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', isset($this->updateInfo['installed']) ? $this->escape($this->updateInfo['installed']) : JVERSION); ?>
 										</th>
 										<th class="upcomp hidden" scope="col">
 											<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE_WITH_JOOMLA_VERSION', $this->escape($this->updateInfo['latest'])); ?>
-										</td>
+										</th>
 									</tr>
 								</thead>
 								<tbody class="row-fluid">
@@ -282,15 +301,15 @@ $updatePossible = true;
 										<tr>
 											<th class="exname" scope="row">
 												<?php echo $extension->name; ?>
-											</td>
+											</th>
 											<td class="extype">
 												<?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
 											</td>
 											<td class="instver hidden">
 												<?php echo $extension->version; ?>
 											</td>
-											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden" />
-											<td
+											<td id="available-version-<?php echo $extension->extension_id; ?>" class="currcomp hidden"></td>
+											<td id="preUpdateCheck_<?php echo $extension->extension_id; ?>"
 												class="extension-check upcomp hidden"
 												data-extension-id="<?php echo $extension->extension_id; ?>"
 												data-extension-current-version="<?php echo $extension->version; ?>"
@@ -320,16 +339,19 @@ $updatePossible = true;
 
 	<form action="<?php echo Route::_('index.php?option=com_joomlaupdate&layout=update'); ?>" method="post" class="d-flex flex-column mb-5">
 
+		<?php if (!$this->noVersionCheck): ?>
 		<div id="preupdatecheckbox">
 			<div class="form-check d-flex justify-content-center mb-3">
-				<input type="checkbox" class="me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
+				<input type="checkbox" class="form-check-input me-3" id="noncoreplugins" name="noncoreplugins" value="1" required />
 				<label class="form-check-label" for="noncoreplugins">
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_PLUGIN_CONFIRMATION'); ?>
 				</label>
 			</div>
 		</div>
+		<?php endif; ?>
 
-		<button class="btn btn-lg btn-warning disabled submitupdate mx-auto" type="submit" disabled>
+		<button class="btn btn-lg btn-warning <?php echo $this->noVersionCheck ? '' : 'disabled' ?> submitupdate mx-auto"
+				type="submit" <?php echo $this->noVersionCheck ? '' : 'disabled' ?>>
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 		</button>
 	</form>
@@ -342,7 +364,9 @@ $updatePossible = true;
 
 	<?php if (Factory::getUser()->authorise('core.admin')) : ?>
 		<div class="text-center">
-		<?php echo HTMLHelper::_('link', Route::_('index.php?option=com_joomlaupdate&view=upload'), Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND')); ?>
+			<a href="<?php echo Route::_('index.php?option=com_joomlaupdate&view=upload'); ?>" class="btn btn-sm btn-outline-secondary">
+				<?php echo Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND'); ?>
+			</a>
 		</div>
 	<?php endif; ?>
 </div>

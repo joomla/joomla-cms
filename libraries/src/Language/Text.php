@@ -12,7 +12,6 @@ namespace Joomla\CMS\Language;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Log\Log;
 
 /**
  * Text handling class.
@@ -95,7 +94,7 @@ class Text
 	private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
 		// Check if string contains a comma
-		if (strpos($string, ',') === false)
+		if (empty($string) || strpos($string, ',') === false)
 		{
 			return false;
 		}

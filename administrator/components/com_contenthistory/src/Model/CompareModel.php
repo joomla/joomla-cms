@@ -90,7 +90,7 @@ class CompareModel extends ListModel
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		$nullDate = $this->getDbo()->getNullDate();
+		$nullDate = $this->getDatabase()->getNullDate();
 
 		foreach (array($table1, $table2) as $table)
 		{
@@ -150,7 +150,7 @@ class CompareModel extends ListModel
 	/**
 	 * Method to test whether a record is editable
 	 *
-	 * @param   ContentHistory  $record  A \JTable object.
+	 * @param   ContentHistory  $record  A Table object.
 	 *
 	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *

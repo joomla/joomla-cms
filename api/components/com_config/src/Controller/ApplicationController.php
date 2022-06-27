@@ -115,7 +115,7 @@ class ApplicationController extends ApiController
 		$oldData = $model->getData();
 		$data = array_replace($oldData, $data);
 
-		// TODO: Not the cleanest thing ever but it works...
+		// @todo: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
 		// Must load after serving service-requests
@@ -130,7 +130,7 @@ class ApplicationController extends ApiController
 			$errors   = $model->getErrors();
 			$messages = [];
 
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{

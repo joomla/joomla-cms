@@ -29,6 +29,8 @@ use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Joomla! update overview Model
@@ -71,7 +73,7 @@ class UpdateModel extends BaseDatabaseModel
 				break;
 
 			// "Custom"
-			// TODO: check if the customurl is valid and not just "not empty".
+			// @todo: check if the customurl is valid and not just "not empty".
 			case 'custom':
 				if (trim($params->get('customurl', '')) != '')
 				{
@@ -79,7 +81,9 @@ class UpdateModel extends BaseDatabaseModel
 				}
 				else
 				{
-					return Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+
+					return;
 				}
 				break;
 
@@ -96,7 +100,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
 			->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -182,7 +186,7 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function getCheckForSelfUpdate()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
@@ -256,11 +260,12 @@ class UpdateModel extends BaseDatabaseModel
 			'latest'    => null,
 			'object'    => null,
 			'hasUpdate' => false,
+			'current'   => JVERSION // This is deprecated please use 'installed' or JVERSION directly
 		);
 
 		// Fetch the update information from the database.
 		$id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__updates'))
@@ -286,15 +291,6 @@ class UpdateModel extends BaseDatabaseModel
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest']  = $updateObject->version;
-		$this->updateInformation['current'] = JVERSION;
-
-		// Check whether this is an update or not.
-		if (version_compare($updateObject->version, JVERSION, '>'))
-		{
-			$this->updateInformation['hasUpdate'] = true;
-		}
-
 		$minimumStability      = Updater::STABILITY_STABLE;
 		$comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
 
@@ -307,7 +303,15 @@ class UpdateModel extends BaseDatabaseModel
 		$update = new Update;
 		$update->loadFromXml($updateObject->detailsurl, $minimumStability);
 
+		// Make sure we use the current information we got from the detailsurl
 		$this->updateInformation['object'] = $update;
+		$this->updateInformation['latest'] = $updateObject->version;
+
+		// Check whether this is an update or not.
+		if (version_compare($this->updateInformation['latest'], JVERSION, '>'))
+		{
+			$this->updateInformation['hasUpdate'] = true;
+		}
 
 		return $this->updateInformation;
 	}
@@ -321,7 +325,7 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function purge()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		// Modify the database record
 		$update_site = new \stdClass;
@@ -361,13 +365,39 @@ class UpdateModel extends BaseDatabaseModel
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
-		$headers    = get_headers($packageURL, 1);
+
+		// We have to manually follow the redirects here so we set the option to false.
+		$httpOptions = new Registry;
+		$httpOptions->set('follow_location', false);
+
+		try
+		{
+			$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+		}
+		catch (\RuntimeException $e)
+		{
+			// Passing false here -> download failed message
+			$response['basename'] = false;
+
+			return $response;
+		}
 
 		// Follow the Location headers until the actual download URL is known
-		while (isset($headers['Location']))
+		while (isset($head->headers['location']))
 		{
-			$packageURL = $headers['Location'];
-			$headers    = get_headers($packageURL, 1);
+			$packageURL = (string) $head->headers['location'][0];
+
+			try
+			{
+				$head = HttpFactory::getHttp($httpOptions)->head($packageURL);
+			}
+			catch (\RuntimeException $e)
+			{
+				// Passing false here -> download failed message
+				$response['basename'] = false;
+
+				return $response;
+			}
 		}
 
 		// Remove protocol, path and query string from URL
@@ -516,8 +546,26 @@ class UpdateModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Create restoration file and trigger onJoomlaBeforeUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Backwards compatibility. Use createUpdateFile() instead.
+	 *
+	 * @param   null  $basename The basename of the file to create
+	 *
+	 * @return  boolean
+	 * @since   2.5.1
+	 * @deprecated 5.0
+	 */
+	public function createRestorationFile($basename = null): bool
+	{
+		return $this->createUpdateFile($basename);
+	}
+
+	/**
+	 * Create the update.php file and trigger onJoomlaBeforeUpdate event.
+	 *
+	 * The onJoomlaBeforeUpdate event stores the core files for which overrides have been defined.
+	 * This will be compared in the onJoomlaAfterUpdate event with the current filesystem state,
+	 * thereby determining how many and which overrides need to be checked and possibly updated
+	 * after Joomla installed an update.
 	 *
 	 * @param   string  $basename  Optional base path to the file.
 	 *
@@ -525,7 +573,7 @@ class UpdateModel extends BaseDatabaseModel
 	 *
 	 * @since  2.5.4
 	 */
-	public function createRestorationFile($basename = null)
+	public function createUpdateFile($basename = null): bool
 	{
 		// Load overrides plugin.
 		PluginHelper::importPlugin('installer');
@@ -557,31 +605,26 @@ class UpdateModel extends BaseDatabaseModel
 		$app->setUserState('com_joomlaupdate.password', $password);
 		$app->setUserState('com_joomlaupdate.filesize', $filesize);
 
-		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
-		$data .= '$restoration_setup = array(' . "\n";
+		$data = "<?php\ndefined('_JOOMLA_UPDATE') or die('Restricted access');\n";
+		$data .= '$extractionSetup = [' . "\n";
 		$data .= <<<ENDDATA
-	'kickstart.security.password' => '$password',
-	'kickstart.tuning.max_exec_time' => '5',
-	'kickstart.tuning.run_time_bias' => '75',
-	'kickstart.tuning.min_exec_time' => '0',
-	'kickstart.procengine' => 'direct',
-	'kickstart.setup.sourcefile' => '$file',
-	'kickstart.setup.destdir' => '$siteroot',
-	'kickstart.setup.restoreperms' => '0',
-	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0',
-	'kickstart.setup.renamefiles' => array(),
-	'kickstart.setup.postrenamefiles' => false
+	'security.password' => '$password',
+	'setup.sourcefile' => '$file',
+	'setup.destdir' => '$siteroot',
 ENDDATA;
 
-		$data .= ');';
+		$data .= '];';
 
 		// Remove the old file, if it's there...
-		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
+		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/update.php';
 
 		if (File::exists($configpath))
 		{
-			File::delete($configpath);
+			if (!File::delete($configpath))
+			{
+				File::invalidateFileCache($configpath);
+				@unlink($configpath);
+			}
 		}
 
 		// Write new file. First try with File.
@@ -621,9 +664,14 @@ ENDDATA;
 	}
 
 	/**
-	 * Runs the schema update SQL files, the PHP update script and updates the
-	 * manifest cache and #__extensions entry. Essentially, it is identical to
-	 * InstallerFile::install() without the file copy.
+	 * Finalise the upgrade.
+	 *
+	 * This method will do the following:
+	 * * Run the schema update SQL files.
+	 * * Run the Joomla post-update script.
+	 * * Update the manifest cache and #__extensions entry for Joomla itself.
+	 *
+	 * It performs essentially the same function as InstallerFile::install() without the file copy.
 	 *
 	 * @return  boolean True on success.
 	 *
@@ -647,7 +695,7 @@ ENDDATA;
 		$installer->setUpgrade(true);
 		$installer->setOverwrite(true);
 
-		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$installer->extension = new \Joomla\CMS\Table\Extension($this->getDatabase());
 		$installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
 		$installer->setAdapter($installer->extension->type);
@@ -684,7 +732,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Get a database connector object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 
 		/*
 		 * Check to see if a file extension by the same name is already installed.
@@ -714,7 +762,7 @@ ENDDATA;
 		}
 
 		$id = $db->loadResult();
-		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row = new \Joomla\CMS\Table\Extension($this->getDatabase());
 
 		if ($id)
 		{
@@ -807,7 +855,7 @@ ENDDATA;
 		ob_end_clean();
 
 		// Clobber any possible pending updates.
-		$update = new \Joomla\CMS\Table\Update($this->getDbo());
+		$update = new \Joomla\CMS\Table\Update($this->getDatabase());
 		$uid = $update->find(
 			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
@@ -842,8 +890,12 @@ ENDDATA;
 	}
 
 	/**
-	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event, which find the updated core files
-	 * which have changed during the update, where there are override for.
+	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event.
+	 *
+	 * The onJoomlaAfterUpdate event compares the stored list of files previously overridden with
+	 * the updated core files, finding out which files have changed during the update, thereby
+	 * determining how many and which override files need to be checked and possibly updated after
+	 * the Joomla update.
 	 *
 	 * @return  void
 	 *
@@ -865,11 +917,29 @@ ENDDATA;
 		$file = $app->getUserState('com_joomlaupdate.file', null);
 		File::delete($tempdir . '/' . $file);
 
-		// Remove the restoration.php file.
-		File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
+		// Remove the update.php file used in Joomla 4.0.3 and later.
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/update.php'))
+		{
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/update.php');
+		}
+
+		// Remove the legacy restoration.php file (when updating from Joomla 4.0.2 and earlier).
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php'))
+		{
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php');
+		}
+
+		// Remove the legacy restore_finalisation.php file used in Joomla 4.0.2 and earlier.
+		if (File::exists(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php'))
+		{
+			File::delete(JPATH_COMPONENT_ADMINISTRATOR . '/restore_finalisation.php');
+		}
 
 		// Remove joomla.xml from the site's root.
-		File::delete(JPATH_ROOT . '/joomla.xml');
+		if (File::exists(JPATH_ROOT . '/joomla.xml'))
+		{
+			File::delete(JPATH_ROOT . '/joomla.xml');
+		}
 
 		// Unset the update filename from the session.
 		$app = Factory::getApplication();
@@ -1027,7 +1097,7 @@ ENDDATA;
 
 		foreach ($files as $file)
 		{
-			if (File::exists($file))
+			if ($file !== null && File::exists($file))
 			{
 				File::delete($file);
 			}
@@ -1036,7 +1106,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP options.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return array Array of PHP config options
 	 *
@@ -1128,7 +1198,7 @@ ENDDATA;
 
 	/**
 	 * Gets PHP Settings.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  array
 	 *
@@ -1266,7 +1336,7 @@ ENDDATA;
 
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
-	 * TODO: Outsource, build common code base for pre install and pre update check
+	 * @todo: Outsource, build common code base for pre install and pre update check
 	 *
 	 * @return  boolean  True if the method exists.
 	 *
@@ -1362,7 +1432,7 @@ ENDDATA;
 	 */
 	public function getNonCoreExtensions()
 	{
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1411,9 +1481,9 @@ ENDDATA;
 	 *
 	 * @since   3.10.0
 	 */
-	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','twofactorauth'])
+	public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
 	{
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1521,7 +1591,7 @@ ENDDATA;
 	private function getUpdateSitesInfo($extensionID)
 	{
 		$id = (int) $extensionID;
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select(
@@ -1660,7 +1730,7 @@ ENDDATA;
 	 */
 	protected function translateExtensionName(&$item)
 	{
-		// ToDo: Cleanup duplicated code. from com_installer/models/extension.php
+		// @todo: Cleanup duplicated code. from com_installer/models/extension.php
 		$lang = Factory::getLanguage();
 		$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 
@@ -1699,5 +1769,64 @@ ENDDATA;
 
 		// Translate the extension name if possible
 		$item->name = strip_tags(Text::_($item->name));
+	}
+
+	/**
+	 * Checks whether a given template is active
+	 *
+	 * @param   string  $template  The template name to be checked
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.10.4
+	 */
+	public function isTemplateActive($template)
+	{
+		$db = $this->getDatabase();
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->qn(
+				array(
+					'id',
+					'home'
+				)
+			)
+		)->from(
+			$db->qn('#__template_styles')
+		)->where(
+			$db->qn('template') . ' = :template'
+		)->bind(':template', $template, ParameterType::STRING);
+
+		$templates = $db->setQuery($query)->loadObjectList();
+
+		$home = array_filter(
+			$templates,
+			function ($value)
+			{
+				return $value->home > 0;
+			}
+		);
+
+		$ids = ArrayHelper::getColumn($templates, 'id');
+
+		$menu = false;
+
+		if (count($ids))
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				'COUNT(*)'
+			)->from(
+				$db->qn('#__menu')
+			)->whereIn(
+				$db->qn('template_style_id'), $ids
+			);
+
+			$menu = $db->setQuery($query)->loadResult() > 0;
+		}
+
+		return $home || $menu;
 	}
 }

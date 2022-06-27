@@ -55,7 +55,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	/**
 	 * Database object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.9.0
 	 */
 	protected $db;
@@ -83,7 +83,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// We only display this if user has not consented before
 		if (is_object($data))
 		{
-			$userId = isset($data->id) ? $data->id : 0;
+			$userId = $data->id ?? 0;
 
 			if ($userId > 0 && $this->isUserConsented($userId))
 			{
@@ -307,7 +307,17 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			 * If user is already on edit profile screen or view privacy article
 			 * or press update/apply button, or logout, do nothing to avoid infinite redirect
 			 */
-			if ($option == 'com_users' && in_array($task, ['profile.save', 'profile.apply', 'user.logout', 'user.menulogout'])
+			$allowedUserTasks = [
+				'profile.save', 'profile.apply', 'user.logout', 'user.menulogout',
+				'method', 'methods', 'captive', 'callback'
+			];
+			$isAllowedUserTask = in_array($task, $allowedUserTasks)
+				|| substr($task, 0, 8) === 'captive.'
+				|| substr($task, 0, 8) === 'methods.'
+				|| substr($task, 0, 7) === 'method.'
+				|| substr($task, 0, 9) === 'callback.';
+
+			if (($option == 'com_users' && $isAllowedUserTask)
 				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
 				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{

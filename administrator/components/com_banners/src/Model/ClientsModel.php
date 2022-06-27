@@ -92,12 +92,12 @@ class ClientsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db    = $this->getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$defaultPurchase = (int) ComponentHelper::getParams('com_banners')->get('purchase_type', 3);
@@ -162,7 +162,7 @@ class ClientsModel extends ListModel
 		);
 
 		// Filter by search in title
-		if ($search = trim($this->getState('filter.search')))
+		if ($search = trim($this->getState('filter.search', '')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
@@ -232,7 +232,7 @@ class ClientsModel extends ListModel
 		// Faster to do three queries for very large banner trees.
 
 		// Get the clients in the list.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$clientIds = array_column($items, 'id');
 
 		$query = $db->getQuery(true)

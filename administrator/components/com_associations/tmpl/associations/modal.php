@@ -24,11 +24,10 @@ if ($app->isClient('site'))
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-HTMLHelper::_('behavior.multiselect');
-
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useScript('com_associations.admin-associations-modal');
+$wa->useScript('multiselect')
+	->useScript('com_associations.admin-associations-modal');
 
 $function         = $app->input->getCmd('function', 'jSelectAssociation');
 $listOrder        = $this->escape($this->state->get('list.ordering'));
@@ -168,4 +167,4 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
-</div
+</div>

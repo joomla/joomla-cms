@@ -136,7 +136,7 @@ class QuickIconHelper
 					$tmp['ajaxurl'] = 'index.php?option=com_tags&amp;task=tags.getQuickiconContent&amp;format=json';
 				}
 
-				self::$buttons[$key][] = $tmp;
+				$this->buttons[$key][] = $tmp;
 			}
 
 			if ($params->get('show_categories'))
@@ -152,7 +152,7 @@ class QuickIconHelper
 
 				if ($params->get('show_categories') == 2)
 				{
-					$tmp['ajaxurl'] = 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;format=json';
+					$tmp['ajaxurl'] = 'index.php?option=com_categories&amp;task=categories.getQuickiconContent&amp;extension=content&amp;format=json';
 				}
 
 				$this->buttons[$key][] = $tmp;

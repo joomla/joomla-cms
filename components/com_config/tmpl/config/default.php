@@ -17,7 +17,8 @@ use Joomla\CMS\Router\Route;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('form.validate')
-	->useScript('com_config.config');
+	->useScript('com_config.config')
+	->useScript('inlinehelp');
 
 ?>
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -32,6 +33,13 @@ $wa->useScript('keepalive')
 	</div>
 <?php endif; ?>
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
+
+	<div class="mb-2 d-flex">
+		<button type="button" class="btn btn-sm btn-outline-info button-inlinehelp ms-auto">
+			<span class="fa fa-question-circle" aria-hidden="true"></span>
+			<?php echo Text::_('JINLINEHELP') ?>
+		</button>
+	</div>
 
 	<?php echo $this->loadTemplate('site'); ?>
 	<?php echo $this->loadTemplate('seo'); ?>

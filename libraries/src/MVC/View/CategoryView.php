@@ -173,7 +173,7 @@ class CategoryView extends HtmlView
 		$children = array($category->id => $children);
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
 		if ($this->runPlugins)
 		{
@@ -185,7 +185,7 @@ class CategoryView extends HtmlView
 				$itemElement->event = new \stdClass;
 
 				// For some plugins.
-				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = null;
+				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = '';
 
 				Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 

@@ -323,6 +323,14 @@ class MediaListPage extends AdminListPage
 	public static $mediaBrowserTable = ['class' => 'media-browser-table'];
 
 	/**
+	 * The search input field.
+	 *
+	 * @var array
+	 * @since  4.0.5
+	 */
+	public static $searchInputField = ['id' => 'media_search'];
+
+	/**
 	 * The key for the app storage.
 	 *
 	 * @var string

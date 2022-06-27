@@ -13,7 +13,6 @@ namespace Joomla\CMS\Session;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
@@ -116,7 +115,7 @@ class Session extends BaseSession
 	{
 		$connectors = [];
 
-		// Get an iterator and loop trough the handler classes.
+		// Get an iterator and loop through the handler classes.
 		$iterator = new \DirectoryIterator(JPATH_LIBRARIES . '/vendor/joomla/session/src/Handler');
 
 		foreach ($iterator as $file)
@@ -352,6 +351,6 @@ class Session extends BaseSession
 			}
 		}
 
-		return parent::clear();
+		parent::clear();
 	}
 }

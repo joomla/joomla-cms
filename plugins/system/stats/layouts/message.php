@@ -29,16 +29,17 @@ extract($displayData);
 		<div class="alert-message">
 			<p>
 				<?php echo Text::_('PLG_SYSTEM_STATS_MSG_JOOMLA_WANTS_TO_SEND_DATA'); ?>
+			</p>
+			<p>
 				<a href="#" class="js-pstats-btn-details alert-link"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_WHAT_DATA_WILL_BE_SENT'); ?></a>
 			</p>
 			<?php
 				echo $plugin->render('stats', compact('statsData'));
 			?>
-			<p><?php echo Text::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
+			<p class="fw-bold"><?php echo Text::_('PLG_SYSTEM_STATS_MSG_ALLOW_SENDING_DATA'); ?></p>
 			<p class="actions">
-				<button type="button" class="btn btn-primary js-pstats-btn-allow-always"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></button>
-				<button type="button" class="btn btn-primary js-pstats-btn-allow-once"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_NOW'); ?></button>
 				<button type="button" class="btn btn-primary js-pstats-btn-allow-never"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_NEVER_SEND'); ?></button>
+				<button type="button" class="btn btn-primary js-pstats-btn-allow-always"><?php echo Text::_('PLG_SYSTEM_STATS_BTN_SEND_ALWAYS'); ?></button>
 			</p>
 		</div>
 	</div>

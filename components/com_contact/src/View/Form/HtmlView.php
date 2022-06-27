@@ -73,7 +73,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 		$app  = Factory::getApplication();
 
 		// Get model data.
@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 		$this->params = $this->state->params;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
 		// Override global params with contact specific params
 		$this->params->merge($this->item->params);

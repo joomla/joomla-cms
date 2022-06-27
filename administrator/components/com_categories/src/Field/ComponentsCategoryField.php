@@ -41,7 +41,7 @@ class ComponentsCategoryField extends ListField
 	protected function getOptions()
 	{
 		// Initialise variable.
-		$db      = Factory::getDbo();
+		$db      = $this->getDatabase();
 		$options = array();
 
 		$query = $db->getQuery(true);
@@ -60,7 +60,7 @@ class ComponentsCategoryField extends ListField
 			// Extract the component name and optional section name
 			$parts     = explode('.', $categoryType);
 			$component = $parts[0];
-			$section   = (count($parts) > 1) ? $parts[1] : null;
+			$section   = (\count($parts) > 1) ? $parts[1] : null;
 
 			// Load component language files
 			$lang = Factory::getLanguage();

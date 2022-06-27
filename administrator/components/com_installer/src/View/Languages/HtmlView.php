@@ -46,7 +46,7 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		if (!Factory::getUser()->authorise('core.admin'))
+		if (!$this->getCurrentUser()->authorise('core.admin'))
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -81,7 +81,7 @@ class HtmlView extends InstallerViewDefault
 		{
 			parent::addToolbar();
 
-			ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_LANGUAGES');
+			ToolbarHelper::help('Extensions:_Languages');
 		}
 	}
 }

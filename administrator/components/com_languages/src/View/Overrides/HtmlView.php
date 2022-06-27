@@ -109,7 +109,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
 		}
 
-		if (Factory::getUser()->authorise('core.admin'))
+		if ($this->getCurrentUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::custom('overrides.purge', 'refresh', '', 'COM_LANGUAGES_VIEW_OVERRIDES_PURGE', false);
 		}
@@ -120,6 +120,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+		ToolbarHelper::help('Languages:_Overrides');
 	}
 }

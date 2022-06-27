@@ -11,7 +11,6 @@ namespace Joomla\Component\Plugins\Administrator\Field;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\OrderingField;
 
 /**
@@ -32,11 +31,11 @@ class PluginorderingField extends OrderingField
 	/**
 	 * Builds the query for the ordering list.
 	 *
-	 * @return  \JDatabaseQuery  The query for the ordering form field.
+	 * @return  \Joomla\Database\DatabaseQuery  The query for the ordering form field.
 	 */
 	protected function getQuery()
 	{
-		$db     = Factory::getDbo();
+		$db     = $this->getDatabase();
 		$folder = $this->form->getValue('folder');
 
 		// Build the query for the ordering list.

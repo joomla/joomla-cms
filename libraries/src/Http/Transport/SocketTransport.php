@@ -90,7 +90,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 
 		// Build the request payload.
 		$request = array();
-		$request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.0';
+		$request[] = strtoupper($method) . ' ' . ((empty($path)) ? '/' : $path) . ' HTTP/1.1';
 		$request[] = 'Host: ' . $uri->getHost();
 
 		// If an explicit user agent is given use it.

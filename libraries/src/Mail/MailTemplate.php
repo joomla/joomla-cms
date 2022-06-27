@@ -190,11 +190,17 @@ class MailTemplate
 
 		$mail = self::getTemplate($this->template_id, $this->language);
 
+		// If the Mail Template was not found in the db, we cannot send an email.
+		if ($mail === null)
+		{
+			return false;
+		}
+
 		/** @var Registry $params */
 		$params = $mail->params;
 		$app    = Factory::getApplication();
 
-		if ($config->get('alternative_mailconfig'))
+		if ((int) $config->get('alternative_mailconfig', 0) === 1 && (int) $params->get('alternative_mailconfig', 0) === 1)
 		{
 			if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')
 			{
@@ -257,6 +263,8 @@ class MailTemplate
 				$htmlBody = nl2br($plainBody, false);
 			}
 
+			$htmlBody = MailHelper::convertRelativeToAbsoluteUrls($htmlBody);
+
 			$this->mailer->setBody($htmlBody);
 		}
 
@@ -286,7 +294,7 @@ class MailTemplate
 			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
-		if (trim($config->get('attachment_folder')))
+		if (trim($config->get('attachment_folder', '')))
 		{
 			$folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 
@@ -370,7 +378,7 @@ class MailTemplate
 	 * @param   string  $key       Template identifier
 	 * @param   string  $language  Language code of the template
 	 *
-	 * @return  object  An object with the data of the mail
+	 * @return  object|null  An object with the data of the mail, or null if the template not found in the db.
 	 *
 	 * @since   4.0.0
 	 */

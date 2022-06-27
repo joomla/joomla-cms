@@ -32,62 +32,60 @@ class CategoryModel extends ListModel
 	/**
 	 * Category items data
 	 *
-	 * @var array
+	 * @var  array
 	 */
 	protected $_item = null;
 
 	/**
 	 * Array of articles in the category
 	 *
-	 * @var    \stdClass[]
+	 * @var \stdClass[]
 	 */
 	protected $_articles = null;
 
 	/**
 	 * Category left and right of this one
 	 *
-	 * @var    CategoryNode[]|null
+	 * @var  CategoryNode[]|null
 	 */
 	protected $_siblings = null;
 
 	/**
 	 * Array of child-categories
 	 *
-	 * @var    CategoryNode[]|null
+	 * @var  CategoryNode[]|null
 	 */
 	protected $_children = null;
 
 	/**
 	 * Parent category of the current one
 	 *
-	 * @var    CategoryNode|null
+	 * @var  CategoryNode|null
 	 */
 	protected $_parent = null;
 
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var  string
 	 */
 	protected $_context = 'com_content.category';
 
 	/**
 	 * The category that applies.
 	 *
-	 * @var	   object
+	 * @var  object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of categories.
 	 *
-	 * @var	   array
+	 * @var  array
 	 */
 	protected $_categories = null;
 
 	/**
-	 * Constructor.
-	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
@@ -249,7 +247,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Get the articles in the category
 	 *
-	 * @return  mixed  An array of articles or false if an error occurs.
+	 * @return  array|bool  An array of articles or false if an error occurs.
 	 *
 	 * @since   1.5
 	 */
@@ -309,7 +307,7 @@ class CategoryModel extends ListModel
 	protected function _buildContentOrderBy()
 	{
 		$app       = Factory::getApplication();
-		$db        = $this->getDbo();
+		$db        = $this->getDatabase();
 		$params    = $this->state->params;
 		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
@@ -334,7 +332,7 @@ class CategoryModel extends ListModel
 		$articleOrderby   = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
-		$secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo()) . ', ';
+		$secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDatabase()) . ', ';
 		$primary          = QueryHelper::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created ';
@@ -345,7 +343,7 @@ class CategoryModel extends ListModel
 	/**
 	 * Method to get a JPagination object for the data set.
 	 *
-	 * @return  \JPagination  A JPagination object for the data set.
+	 * @return  \Joomla\CMS\Pagination\Pagination  A JPagination object for the data set.
 	 *
 	 * @since   3.0.1
 	 */
@@ -397,7 +395,7 @@ class CategoryModel extends ListModel
 					$this->_item->getParams()->set('access-create', true);
 				}
 
-				// TODO: Why aren't we lazy loading the children and siblings?
+				// @todo: Why aren't we lazy loading the children and siblings?
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
 

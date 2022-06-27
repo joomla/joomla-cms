@@ -234,7 +234,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	public $childrennumitems = null;
 
 	/**
-	 * Slug fo the category (used in URL)
+	 * Slug for the category (used in URL)
 	 *
 	 * @var    string
 	 * @since  1.6

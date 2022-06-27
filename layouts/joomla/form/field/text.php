@@ -61,7 +61,7 @@ if ($options)
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$dataAttribute,

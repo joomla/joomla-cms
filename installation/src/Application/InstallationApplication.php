@@ -142,7 +142,7 @@ final class InstallationApplication extends CMSApplication
 
 			$guesses = array();
 
-			foreach ($orphans as $key => $occurence)
+			foreach ($orphans as $key => $occurrence)
 			{
 				$guess = str_replace('_', ' ', $key);
 
@@ -300,22 +300,22 @@ final class InstallationApplication extends CMSApplication
 	 */
 	private function executeController()
 	{
-		$task = $this->input->get('task');
+		$task = $this->input->getCmd('task', '');
 
 		// The name of the controller
 		$controllerName = 'display';
 
 		// Parse task in format controller.task
-		if ($task)
+		if ($task !== '')
 		{
 			list($controllerName, $task) = explode('.', $task, 2);
 		}
 
-		// Compile the class name
-		$class = 'Joomla\\CMS\\Installation\\Controller\\' . ucfirst($controllerName) . 'Controller';
+		$factory = new MVCFactory('Joomla\\CMS');
+		$factory->setDatabase($this->getContainer()->get(DatabaseInterface::class));
 
 		// Create the instance
-		$controller = new $class([], new MVCFactory('Joomla\\CMS', $this), $this, $this->input);
+		$controller = $factory->createController($controllerName, 'Installation', [], $this, $this->input);
 
 		// Execute the task
 		$controller->execute($task);
@@ -394,7 +394,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @param   boolean  $params  True to return the template parameters
 	 *
-	 * @return  string  The name of the template.
+	 * @return  string|\stdClass  The name of the template.
 	 *
 	 * @since   3.1
 	 */

@@ -246,7 +246,7 @@ class FilesystemHelper
 	public static function getFilters()
 	{
 		// Note: This will look like the getSupported() function with J! filters.
-		// TODO: add user space filter loading like user space stream loading
+		// @todo: add user space filter loading like user space stream loading
 		return stream_get_filters();
 	}
 

@@ -43,6 +43,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	private static $_includePaths = array();
 
 	/**
+	 * Table fields cache
+	 *
+	 * @var   array
+	 * @since 3.10.4
+	 */
+	private static $tableFields;
+
+	/**
 	 * Name of the database table to model.
 	 *
 	 * @var    string
@@ -213,7 +221,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// Create or set a Dispatcher
 		if (!\is_object($dispatcher) || !($dispatcher instanceof DispatcherInterface))
 		{
-			// TODO Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
+			// @todo Maybe we should use a dedicated "behaviour" dispatcher for performance reasons and to prevent system plugins from butting in?
 			$dispatcher = Factory::getApplication()->getDispatcher();
 		}
 
@@ -240,9 +248,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 */
 	public function getFields($reload = false)
 	{
-		static $cache = null;
+		$key = $this->_db->getServerType() . ':' . $this->_db->getName() . ':' . $this->_tbl;
 
-		if ($cache === null || $reload)
+		if (!isset(self::$tableFields[$key]) || $reload)
 		{
 			// Lookup the fields for this table only once.
 			$name   = $this->_tbl;
@@ -253,10 +261,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				throw new \UnexpectedValueException(sprintf('No columns found for %s table', $name));
 			}
 
-			$cache = $fields;
+			self::$tableFields[$key] = $fields;
 		}
 
-		return $cache;
+		return self::$tableFields[$key];
 	}
 
 	/**
@@ -1453,7 +1461,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 	 *
 	 * If the row is checked out by the same user, then it is considered not checked out -- as the user can still edit it.
 	 *
-	 * @param   integer  $with     The user ID to preform the match with, if an item is checked out by this user the function will return false.
+	 * @param   integer  $with     The user ID to perform the match with, if an item is checked out by this user the function will return false.
 	 * @param   integer  $against  The user ID to perform the match against when the function is used as a static function.
 	 *
 	 * @return  boolean  True if checked out.

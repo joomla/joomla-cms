@@ -9,8 +9,8 @@ echo "[RUNNER] Prepare test environment"
 cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
-rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
-chown -R www-data /tests/www/test-install/
+rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/$DB_ENGINE/
+chown -R www-data /tests/www/$DB_ENGINE/
 
 echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
@@ -25,9 +25,13 @@ fi
 
 echo "[RUNNER] Start Selenium"
 selenium-standalone start > tests/Codeception/_output/selenium.$DB_ENGINE.log 2>&1 &
-echo "Waiting 6 seconds till Selenium is ready..."
-sleep 6
+echo -n "Waiting until Selenium is ready"
+until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/hub/status); do
+    printf '.'
+    sleep 2
+done
+echo .
 
 echo "[RUNNER] Run Codeception"
-php libraries/vendor/bin/codecept build
-php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/
+cd /tests/www/$DB_ENGINE
+php libraries/vendor/bin/codecept run acceptance --fail-fast --steps --debug --env $DB_ENGINE

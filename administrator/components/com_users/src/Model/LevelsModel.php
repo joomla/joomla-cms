@@ -99,7 +99,7 @@ class LevelsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
@@ -177,7 +177,7 @@ class LevelsModel extends ListModel
 		}
 
 		// Move the row.
-		// TODO: Where clause to restrict category.
+		// @todo: Where clause to restrict category.
 		$table->move($pk);
 
 		return true;
