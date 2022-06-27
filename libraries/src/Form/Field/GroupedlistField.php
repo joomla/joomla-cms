@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Form\Field;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -22,141 +21,140 @@ use Joomla\CMS\Language\Text;
  */
 class GroupedlistField extends FormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $type = 'Groupedlist';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $type = 'Groupedlist';
 
-	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $layout = 'joomla.form.field.groupedlist';
+    /**
+     * Name of the layout being used to render the field
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $layout = 'joomla.form.field.groupedlist';
 
-	/**
-	 * Method to get the field option groups.
-	 *
-	 * @return  array  The field option objects as a nested array in groups.
-	 *
-	 * @since   1.7.0
-	 * @throws  \UnexpectedValueException
-	 */
-	protected function getGroups()
-	{
-		$groups = array();
-		$label = 0;
+    /**
+     * Method to get the field option groups.
+     *
+     * @return  array  The field option objects as a nested array in groups.
+     *
+     * @since   1.7.0
+     * @throws  \UnexpectedValueException
+     */
+    protected function getGroups()
+    {
+        $groups = array();
+        $label = 0;
 
-		foreach ($this->element->children() as $element)
-		{
-			switch ($element->getName())
-			{
-				// The element is an <option />
-				case 'option':
-					// Initialize the group if necessary.
-					if (!isset($groups[$label]))
-					{
-						$groups[$label] = array();
-					}
+        foreach ($this->element->children() as $element) {
+            switch ($element->getName()) {
+                // The element is an <option />
+                case 'option':
+                    // Initialize the group if necessary.
+                    if (!isset($groups[$label])) {
+                        $groups[$label] = array();
+                    }
 
-					$disabled = (string) $element['disabled'];
-					$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
+                    $disabled = (string) $element['disabled'];
+                    $disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 
-					// Create a new option object based on the <option /> element.
-					$tmp = HTMLHelper::_(
-						'select.option', ($element['value']) ? (string) $element['value'] : trim((string) $element),
-						Text::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-						$disabled
-					);
+                    // Create a new option object based on the <option /> element.
+                    $tmp = HTMLHelper::_(
+                        'select.option',
+                        ($element['value']) ? (string) $element['value'] : trim((string) $element),
+                        Text::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)),
+                        'value',
+                        'text',
+                        $disabled
+                    );
 
-					// Set some option attributes.
-					$tmp->class = (string) $element['class'];
+                    // Set some option attributes.
+                    $tmp->class = (string) $element['class'];
 
-					// Set some JavaScript option attributes.
-					$tmp->onclick = (string) $element['onclick'];
+                    // Set some JavaScript option attributes.
+                    $tmp->onclick = (string) $element['onclick'];
 
-					// Add the option.
-					$groups[$label][] = $tmp;
-					break;
+                    // Add the option.
+                    $groups[$label][] = $tmp;
+                    break;
 
-				// The element is a <group />
-				case 'group':
-					// Get the group label.
-					if ($groupLabel = (string) $element['label'])
-					{
-						$label = Text::_($groupLabel);
-					}
+                // The element is a <group />
+                case 'group':
+                    // Get the group label.
+                    if ($groupLabel = (string) $element['label']) {
+                        $label = Text::_($groupLabel);
+                    }
 
-					// Initialize the group if necessary.
-					if (!isset($groups[$label]))
-					{
-						$groups[$label] = array();
-					}
+                    // Initialize the group if necessary.
+                    if (!isset($groups[$label])) {
+                        $groups[$label] = array();
+                    }
 
-					// Iterate through the children and build an array of options.
-					foreach ($element->children() as $option)
-					{
-						// Only add <option /> elements.
-						if ($option->getName() !== 'option')
-						{
-							continue;
-						}
+                    // Iterate through the children and build an array of options.
+                    foreach ($element->children() as $option) {
+                        // Only add <option /> elements.
+                        if ($option->getName() !== 'option') {
+                            continue;
+                        }
 
-						$disabled = (string) $option['disabled'];
-						$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
+                        $disabled = (string) $option['disabled'];
+                        $disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 
-						// Create a new option object based on the <option /> element.
-						$tmp = HTMLHelper::_(
-							'select.option', ($option['value']) ? (string) $option['value'] : Text::_(trim((string) $option)),
-							Text::_(trim((string) $option)), 'value', 'text', $disabled
-						);
+                        // Create a new option object based on the <option /> element.
+                        $tmp = HTMLHelper::_(
+                            'select.option',
+                            ($option['value']) ? (string) $option['value'] : Text::_(trim((string) $option)),
+                            Text::_(trim((string) $option)),
+                            'value',
+                            'text',
+                            $disabled
+                        );
 
-						// Set some option attributes.
-						$tmp->class = (string) $option['class'];
+                        // Set some option attributes.
+                        $tmp->class = (string) $option['class'];
 
-						// Set some JavaScript option attributes.
-						$tmp->onclick = (string) $option['onclick'];
+                        // Set some JavaScript option attributes.
+                        $tmp->onclick = (string) $option['onclick'];
 
-						// Add the option.
-						$groups[$label][] = $tmp;
-					}
+                        // Add the option.
+                        $groups[$label][] = $tmp;
+                    }
 
-					if ($groupLabel)
-					{
-						$label = \count($groups);
-					}
-					break;
+                    if ($groupLabel) {
+                        $label = \count($groups);
+                    }
+                    break;
 
-				// Unknown element type.
-				default:
-					throw new \UnexpectedValueException(sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
-			}
-		}
+                // Unknown element type.
+                default:
+                    throw new \UnexpectedValueException(sprintf('Unsupported element %s in GroupedlistField', $element->getName()), 500);
+            }
+        }
 
-		reset($groups);
+        reset($groups);
 
-		return $groups;
-	}
+        return $groups;
+    }
 
-	/**
-	 * Method to get the field input markup fora grouped list.
-	 * Multiselect is enabled by using the multiple attribute.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   1.7.0
-	 */
-	protected function getInput()
-	{
-		$data = $this->getLayoutData();
+    /**
+     * Method to get the field input markup fora grouped list.
+     * Multiselect is enabled by using the multiple attribute.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   1.7.0
+     */
+    protected function getInput()
+    {
+        $data = $this->getLayoutData();
 
-		// Get the field groups.
-		$data['groups'] = (array) $this->getGroups();
+        // Get the field groups.
+        $data['groups'] = (array) $this->getGroups();
 
-		return $this->getRenderer($this->layout)->render($data);
-	}
+        return $this->getRenderer($this->layout)->render($data);
+    }
 }

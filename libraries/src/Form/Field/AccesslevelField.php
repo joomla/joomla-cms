@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Form\Field;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -22,23 +21,23 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class AccesslevelField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $type = 'Accesslevel';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $type = 'Accesslevel';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getOptions()
-	{
-		return array_merge(parent::getOptions(), HTMLHelper::_('access.assetgroups'));
-	}
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   4.0.0
+     */
+    protected function getOptions()
+    {
+        return array_merge(parent::getOptions(), HTMLHelper::_('access.assetgroups'));
+    }
 }
