@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Api.tests
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,31 +18,6 @@
 class BasicCest
 {
 	/**
-	 * Api test before running.
-	 *
-	 * @param   mixed   ApiTester  $I  Api tester
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function _before(ApiTester $I)
-	{
-	}
-
-	/**
-	 * Api test after running.
-	 *
-	 * @param   mixed   ApiTester  $I  Api tester
-	 *
-	 * @return void
-	 * @since   4.0.0
-	 */
-	public function _after(ApiTester $I)
-	{
-	}
-
-	/**
 	 * Test logging in with wrong credentials.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
@@ -53,9 +28,9 @@ class BasicCest
 	 */
 	public function testWrongCredentials(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'wrong');
+		$I->amBearerAuthenticated('BADTOKEN');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/content/article/1');
+		$I->sendGET('/content/articles/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::UNAUTHORIZED);
 	}
 
@@ -68,11 +43,11 @@ class BasicCest
 	 *
 	 * @since   4.0.0
 	 */
-	public function testContentNegotation(ApiTester $I)
+	public function testContentNegotiation(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Accept', 'text/xml');
-		$I->sendGET('/content/article/1');
+		$I->sendGET('/content/articles/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_ACCEPTABLE);
 	}
 
@@ -87,7 +62,7 @@ class BasicCest
 	 */
 	public function testRouteNotFound(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated($I->getBearerToken());
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/not/existing/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_FOUND);

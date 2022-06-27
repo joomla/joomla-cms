@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,28 +18,46 @@ namespace Joomla\CMS\Workflow;
 interface WorkflowServiceInterface
 {
 	/**
+	 * Check if the functionality is supported by the context
+	 *
+	 * @param   string  $functionality  The functionality
+	 * @param   string  $context        The context of the functionality
+	 *
+	 * @return boolean
+	 *
+	 * @since  4.0.0
+	 */
+	public function supportFunctionality($functionality, $context): bool;
+
+	/**
+	 * Returns the model name, based on the context
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return boolean
+	 */
+	public function getModelName($context): string;
+
+	/**
+	 * Check if the workflow is active
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return boolean
+	 */
+	public function isWorkflowActive($context): bool;
+
+	/**
 	 * Method to filter transitions by given id of state.
 	 *
-	 * @param   array  $transitions  Array of transitions to filter for
-	 * @param   int    $pk           Id of the state on which the transitions are performed
+	 * @param   integer[]  $transitions  Array of transitions to filter for
+	 * @param   integer    $pk           Id of the state on which the transitions are performed
 	 *
 	 * @return  array
 	 *
 	 * @since  4.0.0
 	 */
-	public function filterTransitions($transitions, $pk): array;
-
-	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState($pks, $condition): bool;
+	public function filterTransitions(array $transitions, int $pk): array;
 
 	/**
 	 * Returns an array of possible conditions for the component.
@@ -50,7 +68,7 @@ interface WorkflowServiceInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getConditions($extension): array;
+	public static function getConditions(string $extension): array;
 
 	/**
 	 * Returns a table name for the state association
@@ -61,5 +79,25 @@ interface WorkflowServiceInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function getWorkflowTableBySection(string $section = null) : string;
+	public function getWorkflowTableBySection(?string $section = null): string;
+
+	/**
+	 * Returns valid contexts.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowContexts(): array;
+
+	/**
+	 * Returns the workflow context based on the given category section
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	public function getCategoryWorkflowContext(?string $section = null): string;
 }

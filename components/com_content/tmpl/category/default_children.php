@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $lang   = Factory::getLanguage();
 $user   = Factory::getUser();
@@ -28,28 +29,28 @@ $groups = $user->getAuthorisedViewLevels();
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
+						<span class="badge bg-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
-					<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
+					<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 
 					<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+						<a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 					<?php endif; ?>
 				</h3>
 				<?php else : ?>
-				<h3 class="page-header item-title"><a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
+				<h3 class="page-header item-title"><a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
+						<span class="badge bg-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS'); ?>">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
 
 					<?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+						<a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 					<?php endif; ?>
 				</h3>
 				<?php endif; ?>

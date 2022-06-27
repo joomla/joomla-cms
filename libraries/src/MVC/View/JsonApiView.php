@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ namespace Joomla\CMS\MVC\View;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\JsonapiDocument;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\Event\OnGetApiFields;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
+use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Resource;
-use Tobscure\JsonApi\AbstractSerializer;
 
 /**
  * Base class for a Joomla Json List View
@@ -47,7 +49,7 @@ abstract class JsonApiView extends JsonView
 	 *
 	 * @var  array
 	 *
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $relationship = [];
 
@@ -55,7 +57,7 @@ abstract class JsonApiView extends JsonView
 	 * Serializer data
 	 *
 	 * @var    AbstractSerializer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $serializer;
 
@@ -112,6 +114,11 @@ abstract class JsonApiView extends JsonView
 		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
 		$model = $this->getModel();
 
+		// Get page query
+		$currentUrl = Uri::getInstance();
+		$currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
+		$currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
+
 		if ($items === null)
 		{
 			$items = [];
@@ -136,44 +143,63 @@ abstract class JsonApiView extends JsonView
 		}
 
 		// Set up links for pagination
-		$currentUrl = Uri::getInstance();
-		$currentPageDefaultInformation = array('offset' => $pagination->limitstart, 'limit' => $pagination->limit);
-		$currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
-		$totalPagesAvailable = ($pagination->pagesTotal * $pagination->limit);
+		$totalItemsCount = ($pagination->pagesTotal * $pagination->limit);
 
-		$firstPage = clone $currentUrl;
-		$firstPageQuery = $currentPageQuery;
-		$firstPageQuery['offset'] = 0;
-		$firstPage->setVar('page', $firstPageQuery);
+		$this->document->addMeta('total-pages', $pagination->pagesTotal)
+			->addLink('self', (string) $currentUrl);
 
-		$nextPage = clone $currentUrl;
-		$nextPageQuery = $currentPageQuery;
-		$nextOffset = $currentPageQuery['offset'] + $pagination->limit;
-		$nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $pagination->limit)) ? $totalPagesAvailable - $pagination->limit : $nextOffset;
-		$nextPage->setVar('page', $nextPageQuery);
+		// Check for first and previous pages
+		if ($pagination->limitstart > 0)
+		{
+			$firstPage = clone $currentUrl;
+			$firstPageQuery = $currentPageQuery;
+			$firstPageQuery['offset'] = 0;
+			$firstPage->setVar('page', $firstPageQuery);
 
-		$previousPage = clone $currentUrl;
-		$previousPageQuery = $currentPageQuery;
-		$previousOffset = $currentPageQuery['offset'] - $pagination->limit;
-		$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
-		$previousPage->setVar('page', $previousPageQuery);
+			$previousPage = clone $currentUrl;
+			$previousPageQuery = $currentPageQuery;
+			$previousOffset = $currentPageQuery['offset'] - $pagination->limit;
+			$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
+			$previousPage->setVar('page', $previousPageQuery);
 
-		$lastPage = clone $currentUrl;
-		$lastPageQuery = $currentPageQuery;
-		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
-		$lastPage->setVar('page', $lastPageQuery);
+			$this->document->addLink('first', $this->queryEncode((string) $firstPage))
+				->addLink('previous', $this->queryEncode((string) $previousPage));
+		}
+
+		// Check for next and last pages
+		if ($pagination->limitstart + $pagination->limit < $totalItemsCount)
+		{
+			$nextPage = clone $currentUrl;
+			$nextPageQuery = $currentPageQuery;
+			$nextOffset = $currentPageQuery['offset'] + $pagination->limit;
+			$nextPageQuery['offset'] = ($nextOffset > ($pagination->pagesTotal * $pagination->limit)) ? $pagination->pagesTotal - $pagination->limit : $nextOffset;
+			$nextPage->setVar('page', $nextPageQuery);
+
+			$lastPage = clone $currentUrl;
+			$lastPageQuery = $currentPageQuery;
+			$lastPageQuery['offset'] = ($pagination->pagesTotal - 1) * $pagination->limit;
+			$lastPage->setVar('page', $lastPageQuery);
+
+			$this->document->addLink('next', $this->queryEncode((string) $nextPage))
+				->addLink('last', $this->queryEncode((string) $lastPage));
+		}
+
+		$eventData = ['type' => OnGetApiFields::LIST, 'fields' => $this->fieldsToRenderList, 'context' => $this->type];
+		$event     = new OnGetApiFields('onApiGetFields', $eventData);
+
+		/** @var OnGetApiFields $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
 
 		$collection = (new Collection($items, $this->serializer))
-			->fields([$this->type => $this->fieldsToRenderList]);
+			->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
+
+		if (!empty($this->relationship))
+		{
+			$collection->with($this->relationship);
+		}
 
 		// Set the data into the document and render it
-		$this->document->addMeta('total-pages', $pagination->pagesTotal)
-			->setData($collection)
-			->addLink('self', (string) $currentUrl)
-			->addLink('first', (string) $firstPage)
-			->addLink('next', (string) $nextPage)
-			->addLink('previous', (string) $previousPage)
-			->addLink('last', (string) $lastPage);
+		$this->document->setData($collection);
 
 		return $this->document->render();
 	}
@@ -212,12 +238,23 @@ abstract class JsonApiView extends JsonView
 			throw new \RuntimeException('Content type missing');
 		}
 
+		$eventData = [
+			'type' => OnGetApiFields::ITEM,
+			'fields' => $this->fieldsToRenderItem,
+			'relations' => $this->relationship,
+			'context' => $this->type,
+		];
+		$event     = new OnGetApiFields('onApiGetFields', $eventData);
+
+		/** @var OnGetApiFields $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
+
 		$element = (new Resource($item, $this->serializer))
-			->fields([$this->type => $this->fieldsToRenderItem]);
+			->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
 
 		if (!empty($this->relationship))
 		{
-			$element->with($this->relationship);
+			$element->with($eventResult->getAllRelationsToRender());
 		}
 
 		$this->document->setData($element);
@@ -238,5 +275,19 @@ abstract class JsonApiView extends JsonView
 	protected function prepareItem($item)
 	{
 		return $item;
+	}
+
+	/**
+	 * Encode square brackets in the URI query, according to JSON API specification.
+	 *
+	 * @param   string  $query  The URI query
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	protected function queryEncode($query)
+	{
+		return str_replace(array('[', ']'), array('%5B', '%5D'), $query);
 	}
 }

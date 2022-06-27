@@ -3,7 +3,7 @@
  * @package     Joomla.Menus
  * @subpackage  Webservices.Menus
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,11 +39,29 @@ class PlgWebservicesMenus extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/menus/site', 'menus', ['component' => 'com_menus', 'client_id' => 0]);
-		$router->createCRUDRoutes('v1/menus/administrator', 'menus', ['component' => 'com_menus', 'client_id' => 1]);
+		$router->createCRUDRoutes(
+			'v1/menus/site',
+			'menus',
+			['component' => 'com_menus', 'client_id' => 0]
+		);
 
-		$router->createCRUDRoutes('v1/menus/site/items', 'items', ['component' => 'com_menus', 'client_id' => 0]);
-		$router->createCRUDRoutes('v1/menus/administrator/items', 'items', ['component' => 'com_menus', 'client_id' => 1]);
+		$router->createCRUDRoutes(
+			'v1/menus/administrator',
+			'menus',
+			['component' => 'com_menus', 'client_id' => 1]
+		);
+
+		$router->createCRUDRoutes(
+			'v1/menus/site/items',
+			'items',
+			['component' => 'com_menus', 'client_id' => 0]
+		);
+
+		$router->createCRUDRoutes(
+			'v1/menus/administrator/items',
+			'items',
+			['component' => 'com_menus', 'client_id' => 1]
+		);
 
 		$routes = [
 			new Route(

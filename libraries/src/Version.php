@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,10 @@ namespace Joomla\CMS;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Helper\LibraryHelper;
 
 /**
  * Version information class for the Joomla CMS.
@@ -42,7 +44,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const MINOR_VERSION = 0;
+	const MINOR_VERSION = 2;
 
 	/**
 	 * Patch release version.
@@ -61,7 +63,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'beta1-dev';
+	const EXTRA_VERSION = 'dev';
 
 	/**
 	 * Development status.
@@ -77,7 +79,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Amani';
+	const CODENAME = 'Uaminifu';
 
 	/**
 	 * Release date.
@@ -85,7 +87,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '17-October-2019';
+	const RELDATE = '22-June-2022';
 
 	/**
 	 * Release time.
@@ -93,7 +95,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '20:21';
+	const RELTIME = '17:00';
 
 	/**
 	 * Release timezone.
@@ -109,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = '(C) 2005 Open Source Matters, Inc. <https://www.joomla.org>';
 
 	/**
 	 * Link text.
@@ -118,6 +120,14 @@ final class Version
 	 * @since  3.5
 	 */
 	const URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+
+	/**
+	 * Media version string
+	 *
+	 * @var string
+	 * @since   4.2.0
+	 */
+	private static $mediaVersion = null;
 
 	/**
 	 * Check if we are in development mode
@@ -194,7 +204,7 @@ final class Version
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component   Name of the component.
+	 * @param   string  $suffix      String to append to resulting user agent.
 	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
 	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
@@ -202,20 +212,20 @@ final class Version
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent(string $component = '', bool $mask = false, bool $addVersion = true): string
+	public function getUserAgent(string $suffix = '', bool $mask = false, bool $addVersion = true): string
 	{
-		if ($component === '')
+		if ($suffix === '')
 		{
-			$component = 'Framework';
+			$suffix = 'Framework';
 		}
 
 		if ($addVersion)
 		{
-			$component .= '/' . self::MAJOR_VERSION . '.' . self::MINOR_VERSION;
+			$suffix .= '/' . self::MAJOR_VERSION . '.' . self::MINOR_VERSION;
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($component ? ' ' . $component : '');
+		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . $this->getShortVersion() . ($suffix ? ' ' . $suffix : '');
 	}
 
 	/**
@@ -245,23 +255,13 @@ final class Version
 	public function getMediaVersion(): string
 	{
 		// Load the media version and cache it for future use
-		static $mediaVersion = null;
-
-		if ($mediaVersion === null)
+		if (self::$mediaVersion === null)
 		{
-			// Get the joomla library params and the media version
-			$mediaVersion = LibraryHelper::getParams('joomla')->get('mediaversion', '');
-
-			// Refresh assets in debug mode or when the media version is not set
-			if (JDEBUG || empty($mediaVersion))
-			{
-				$mediaVersion = $this->generateMediaVersion();
-
-				$this->setMediaVersion($mediaVersion);
-			}
+			self::$mediaVersion = $this->getMediaVersionCache()
+				->get([$this, 'generateMediaVersion'], [], md5('_media_version' . $this->getLongVersion()));
 		}
 
-		return $mediaVersion;
+		return self::$mediaVersion;
 	}
 
 	/**
@@ -290,16 +290,37 @@ final class Version
 		// Do not allow empty media versions
 		if (!empty($mediaVersion))
 		{
-			// Get the params ...
-			$params = LibraryHelper::getParams('joomla');
+			self::$mediaVersion = $mediaVersion;
 
-			// ... set the media version ...
-			$params->set('mediaversion', $mediaVersion);
-
-			// ... and save the modified params
-			LibraryHelper::saveParams('joomla', $params);
+			$this->getMediaVersionCache()
+				->store(['result' => $mediaVersion, 'output' => ''], md5('_media_version' . $this->getLongVersion()));
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Get cache instance for MediaVersion caching.
+	 *
+	 * @return CacheController
+	 *
+	 * @since   4.2.0
+	 */
+	private function getMediaVersionCache(): CacheController
+	{
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+			->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
+
+		// Media version cache never expire
+		$cache->setLifeTime(INF);
+
+		// Disable cache when Debug is enabled
+		if (JDEBUG)
+		{
+			$cache->setCaching(false);
+		}
+
+		return $cache;
 	}
 }

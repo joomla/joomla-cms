@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
@@ -30,20 +31,58 @@ use Joomla\Registry\Registry;
 class PlgUserJoomla extends CMSPlugin
 {
 	/**
-	 * Application object
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
-	 * Database object
+	 * @var    \Joomla\Database\DatabaseDriver
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  3.2
 	 */
 	protected $db;
+
+	/**
+	 * Set as required the passwords fields when mail to user is set to No
+	 *
+	 * @param   \Joomla\CMS\Form\Form  $form  The form to be altered.
+	 * @param   mixed                  $data  The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function onContentPrepareForm($form, $data)
+	{
+		// Check we are manipulating a valid user form before modifying it.
+		$name = $form->getName();
+
+		if ($name === 'com_users.user')
+		{
+			// In case there is a validation error (like duplicated user), $data is an empty array on save.
+			// After returning from error, $data is an array but populated
+			if (!$data)
+			{
+				$data = Factory::getApplication()->input->get('jform', array(), 'array');
+			}
+
+			if (is_array($data))
+			{
+				$data = (object) $data;
+			}
+
+			// Passwords fields are required when mail to user is set to No
+			if (empty($data->id) && !$this->params->get('mail_to_user', 1))
+			{
+				$form->setFieldAttribute('password', 'required', 'true');
+				$form->setFieldAttribute('password2', 'required', 'true');
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Remove all sessions for the user name
@@ -54,53 +93,71 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
-		$db     = $this->db;
-		$userid = (int) $user['id'];
+		$userId = (int) $user['id'];
 
-		// Only execute this query if using the database session handler
-		if ($this->app->get('session_handler', 'database') === 'database')
+		// Only execute this if the session metadata is tracked
+		if ($this->app->get('session_metadata', true))
 		{
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('userid') . ' = :userid')
-				->bind(':userid', $userid, ParameterType::INTEGER);
-
-			try
-			{
-				$db->setQuery($query)->execute();
-			}
-			catch (ExecutionFailureException $e)
-			{
-				return false;
-			}
+			UserHelper::destroyUserSessions($userId, true);
 		}
-
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__messages'))
-			->where($db->quoteName('user_id_from') . ' = :userid')
-			->bind(':userid', $userid, ParameterType::INTEGER);
 
 		try
 		{
-			$db->setQuery($query)->execute();
+			$this->db->setQuery(
+				$this->db->getQuery(true)
+					->delete($this->db->quoteName('#__messages'))
+					->where($this->db->quoteName('user_id_from') . ' = :userId')
+					->bind(':userId', $userId, ParameterType::INTEGER)
+			)->execute();
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
 		}
 
-		return true;
+		// Delete Multi-factor Authentication user profile records
+		$profileKey = 'mfa.%';
+		$query      = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__user_profiles'))
+			->where($this->db->quoteName('user_id') . ' = :userId')
+			->where($this->db->quoteName('profile_key') . ' LIKE :profileKey')
+			->bind(':userId', $userId, ParameterType::INTEGER)
+			->bind(':profileKey', $profileKey, ParameterType::STRING);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			// Do nothing
+		}
+
+		// Delete Multi-factor Authentication records
+		$query = $this->db->getQuery(true)
+			->delete($this->db->qn('#__user_mfa'))
+			->where($this->db->quoteName('user_id') . ' = :userId')
+			->bind(':userId', $userId, ParameterType::INTEGER);
+
+		try
+		{
+			$this->db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			// Do nothing
+		}
 	}
 
 	/**
@@ -117,7 +174,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
@@ -126,9 +183,9 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
+		// @todo: Suck in the frontend registration emails here as well. Job for a rainy day.
 		// The method check here ensures that if running as a CLI Application we don't get any errors
-		if (method_exists($this->app, 'isClient') && !$this->app->isClient('administrator'))
+		if (method_exists($this->app, 'isClient') && ($this->app->isClient('site') || $this->app->isClient('cli')))
 		{
 			return;
 		}
@@ -163,32 +220,23 @@ class PlgUserJoomla extends CMSPlugin
 		// Load plugin language files.
 		$this->loadLanguage();
 
-		// Compute the mail subject.
-		$emailSubject = Text::sprintf(
-			'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
-			$user['name'],
-			$this->app->get('sitename')
-		);
+		// Collect data for mail
+		$data = [
+			'name' => $user['name'],
+			'sitename' => $this->app->get('sitename'),
+			'url' => Uri::root(),
+			'username' => $user['username'],
+			'password' => $user['password_clear'],
+			'email' => $user['email'],
+		];
 
-		// Compute the mail body.
-		$emailBody = Text::sprintf(
-			'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-			$user['name'],
-			$this->app->get('sitename'),
-			Uri::root(),
-			$user['username'],
-			$user['password_clear']
-		);
+		$mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
+		$mailer->addTemplateData($data);
+		$mailer->addRecipient($user['email'], $user['name']);
 
 		try
 		{
-			$res = Factory::getMailer()->sendMail(
-				$this->app->get('mailfrom'),
-				$this->app->get('fromname'),
-				$user['email'],
-				$emailSubject,
-				$emailBody
-			);
+			$res = $mailer->send();
 		}
 		catch (\Exception $exception)
 		{
@@ -335,8 +383,10 @@ class PlgUserJoomla extends CMSPlugin
 		$my      = Factory::getUser();
 		$session = Factory::getSession();
 
+		$userid = (int) $user['id'];
+
 		// Make sure we're a valid user first
-		if ($user['id'] == 0 && !$my->get('tmp_user'))
+		if ($user['id'] === 0 && !$my->get('tmp_user'))
 		{
 			return true;
 		}
@@ -344,7 +394,7 @@ class PlgUserJoomla extends CMSPlugin
 		$sharedSessions = $this->app->get('shared_session', '0');
 
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
+		if ($my->id == $userid && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -358,23 +408,8 @@ class PlgUserJoomla extends CMSPlugin
 
 		if ($forceLogout)
 		{
-			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
-
-			if (!$sharedSessions)
-			{
-				$query->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-			}
-
-			try
-			{
-				$this->db->setQuery($query)->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				return false;
-			}
+			$clientId = $sharedSessions ? null : (int) $options['clientid'];
+			UserHelper::destroyUserSessions($user['id'], false, $clientId);
 		}
 
 		// Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
@@ -384,6 +419,74 @@ class PlgUserJoomla extends CMSPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Hooks on the Joomla! login event. Detects silent logins and disables the Multi-Factor
+	 * Authentication page in this case.
+	 *
+	 * Moreover, it will save the redirection URL and the Captive URL which is necessary in Joomla 4. You see, in Joomla
+	 * 4 having unified sessions turned on makes the backend login redirect you to the frontend of the site AFTER
+	 * logging in, something which would cause the Captive page to appear in the frontend and redirect you to the public
+	 * frontend homepage after successfully passing the Two Step verification process.
+	 *
+	 * @param   array  $options  Passed by Joomla. user: a User object; responseType: string, authentication response type.
+	 *
+	 * @return void
+	 * @since  4.2.0
+	 */
+	public function onUserAfterLogin(array $options): void
+	{
+		if (!($this->app->isClient('administrator')) && !($this->app->isClient('site')))
+		{
+			return;
+		}
+
+		$this->disableMfaOnSilentLogin($options);
+	}
+
+	/**
+	 * Detect silent logins and disable MFA if the relevant com_users option is set.
+	 *
+	 * @param   array  $options  The array of login options and login result
+	 *
+	 * @return  void
+	 * @since   4.2.0
+	 */
+	private function disableMfaOnSilentLogin(array $options): void
+	{
+		$userParams         = ComponentHelper::getParams('com_users');
+		$doMfaOnSilentLogin = $userParams->get('mfaonsilent', 0) == 1;
+
+		// Should I show MFA even on silent logins? Default: 1 (yes, show)
+		if ($doMfaOnSilentLogin)
+		{
+			return;
+		}
+
+		// Make sure I have a valid user
+		/** @var User $user */
+		$user = $options['user'];
+
+		if (!is_object($user) || !($user instanceof User) || $user->guest)
+		{
+			return;
+		}
+
+		$silentResponseTypes = array_map(
+			'trim',
+			explode(',', $userParams->get('silentresponses', '') ?: '')
+		);
+		$silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
+
+		// Only proceed if this is not a silent login
+		if (!in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes))
+		{
+			return;
+		}
+
+		// Set the flag indicating that MFA is already checked.
+		$this->app->getSession()->set('com_users.mfa_checked', 1);
 	}
 
 	/**
@@ -410,7 +513,7 @@ class PlgUserJoomla extends CMSPlugin
 			return $instance;
 		}
 
-		// TODO : move this out of the plugin
+		// @todo : move this out of the plugin
 		$params = ComponentHelper::getParams('com_users');
 
 		// Read the default user group option from com_users

@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Page\Acceptance\Administrator;
@@ -27,6 +27,14 @@ class AdminPage extends AcceptanceTester
 	 * @since  3.7.3
 	 */
 	public static $systemMessageContainer = ['id' => 'system-message-container'];
+
+	/**
+	 * The form element with id "adminForm"
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public static $adminForm = ['id' => 'adminForm'];
 
 	/**
 	 * The element id which contains page title in administrator header.
@@ -74,7 +82,7 @@ class AdminPage extends AcceptanceTester
 	 * @var    array
 	 * @since  3.7.3
 	 */
-	public static $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"];
+	public static $tabsLocator = ['xpath' => "//div[@role='tablist']/button"];
 
 	/**
 	 * Locator for the Check All checkbox.

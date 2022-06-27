@@ -3,14 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
+extract($displayData);
 
 /**
  * Layout variables
@@ -41,29 +44,34 @@ use Joomla\CMS\Language\Text;
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- *
  * @var   string   $link            The link for the content history page
  * @var   string   $label           The label text
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
-extract($displayData);
 
 echo HTMLHelper::_(
 	'bootstrap.renderModal',
 	'versionsModal',
 	array(
-		'url'    => $link,
+		'url'    => Route::_($link),
 		'title'  => $label,
 		'height' => '100%',
 		'width'  => '100%',
 		'modalWidth'  => '80',
 		'bodyHeight'  => '60',
-		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+		'footer' => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-hidden="true">'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 	)
 );
 
 ?>
-<button type="button" onclick="document.getElementById('versionsModal').open()" class="btn btn-secondary" data-toggle="modal">
-	<span class="fa fa-code-branch" aria-hidden="true"></span>
-	<?php echo $label; ?>
+<button
+	type="button"
+	class="btn btn-secondary"
+	data-bs-toggle="modal"
+	data-bs-target="#versionsModal"
+	<?php echo $dataAttribute; ?>>
+		<span class="icon-code-branch" aria-hidden="true"></span>
+		<?php echo $label; ?>
 </button>

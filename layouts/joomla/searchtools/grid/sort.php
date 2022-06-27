@@ -3,16 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
 $data = $displayData;
-$icon = "icon-menu-2";
+$icon = 'icon-sort';
 $sort = '';
 $caption = '';
 $selected = '';
@@ -20,8 +20,9 @@ $id = '';
 
 if ($data->order === $data->selected) :
 	$icon = $data->orderIcon;
-	$sort = $data->direction === 'asc' ? 'ascending' : 'descending';
-	$caption = !empty($data->title) ? Text::_($data->title) . ' - ' . $sort : Text::_('JGRID_HEADING_ID');
+	$sort = $data->direction === 'asc' ? 'descending' : 'ascending';
+	$heading = !empty($data->title) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING');
+	$caption = Text::sprintf('JGRID_HEADING_CAPTION_' . $data->direction, $heading);
 	$selected = ' selected';
 	$id = 'id="sorted"';
 endif;
@@ -35,13 +36,12 @@ endif;
 	<?php if (!empty($sort)) : ?>
 		data-sort="<?php echo $sort; ?>"
 	<?php endif; ?>>
-	<?php if (!empty($data->title)) : ?>
-		<span>
-			<?php echo Text::_($data->title); ?>
-		</span>
-	<?php endif; ?>
-	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-	<span class="sr-only">
+	<?php // The following statement has been concatenated purposely to remove whitespace. ?>
+	<?php // Please leave as is. ?>
+	<?php if (!empty($data->title)) : ?><span><?php echo Text::_($data->title); ?></span><?php endif; ?><span
+		class="ms-1 <?php echo $icon; ?>"
+		aria-hidden="true"></span>
+	<span class="visually-hidden">
 		<?php echo Text::_('JGLOBAL_SORT_BY'); ?>
 		<?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
 	</span>

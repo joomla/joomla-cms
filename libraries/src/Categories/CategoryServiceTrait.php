@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,32 +77,6 @@ trait CategoryServiceTrait
 			'state_col'     => $this->getStateColumnForSection($section),
 			'group_col'     => 'catid',
 			'relation_type' => 'category_or_group',
-		);
-
-		ContentHelper::countRelations($items, $config);
-	}
-
-	/**
-	 * Adds Count Items for Tag Manager.
-	 *
-	 * @param   \stdClass[]  $items      The content objects
-	 * @param   string       $extension  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function countTagItems(array $items, string $extension)
-	{
-		$parts   = explode('.', $extension);
-		$section = \count($parts) > 1 ? $parts[1] : null;
-
-		$config = (object) array(
-			'related_tbl'   => $this->getTableNameForSection($section),
-			'state_col'     => $this->getStateColumnForSection($section),
-			'group_col'     => 'tag_id',
-			'extension'     => $extension,
-			'relation_type' => 'tag_assigments',
 		);
 
 		ContentHelper::countRelations($items, $config);

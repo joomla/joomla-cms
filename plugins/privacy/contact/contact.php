@@ -3,11 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Plugin\PrivacyPlugin;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Database\ParameterType;
 
 /**
  * Privacy plugin managing Joomla user contact data
@@ -23,14 +28,14 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 *
 	 * - Contact custom fields
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   User          $user     The user account associated with this request if available
 	 *
-	 * @return  PrivacyExportDomain[]
+	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
 	 *
 	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
+	public function onPrivacyExportRequest(RequestTable $request, User $user = null)
 	{
 		if (!$user && !$request->email)
 		{
@@ -48,11 +53,13 @@ class PlgPrivacyContact extends PrivacyPlugin
 
 		if ($user)
 		{
-			$query->where($this->db->quoteName('user_id') . ' = ' . (int) $user->id);
+			$query->where($this->db->quoteName('user_id') . ' = :id')
+				->bind(':id', $user->id, ParameterType::INTEGER);
 		}
 		else
 		{
-			$query->where($this->db->quoteName('email_to') . ' = ' . $this->db->quote($request->email));
+			$query->where($this->db->quoteName('email_to') . ' = :email')
+				->bind(':email', $request->email);
 		}
 
 		$items = $this->db->setQuery($query)->loadObjectList();

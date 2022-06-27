@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,40 @@ class Crypt extends JCrypt
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
-		return hash_equals((string) $known, (string) $unknown);
+		/**
+		 * Explanation about the function_exists
+		 *
+		 * Yes, hash_equals has existed since PHP 5.6.0 and Joomla's minimum requirements are higher
+		 * than that. However, this does not prevent a misguided server administrator from disabling
+		 * hash_equals in php.ini. Hence the need for checking whether the function exists or not.
+		 */
+		if (function_exists('hash_equals'))
+		{
+			return hash_equals($known, $unknown);
+		}
+
+		/**
+		 * If hash_equals is not available we use a pure PHP implementation by Anthony Ferrara.
+		 *
+		 * @see https://blog.ircmaxell.com/2014/11/its-all-about-time.html
+		 */
+		$safeLen = strlen($known);
+		$userLen = strlen($unknown);
+
+		if ($userLen != $safeLen)
+		{
+			return false;
+		}
+
+		$result = 0;
+
+		for ($i = 0; $i < $userLen; $i++)
+		{
+			$result |= (ord($known[$i]) ^ ord($unknown[$i]));
+		}
+
+		// They are only identical strings if $result is exactly 0...
+		return $result === 0;
 	}
 
 	/**

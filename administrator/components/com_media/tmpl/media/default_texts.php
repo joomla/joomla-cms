@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -31,6 +31,8 @@ Text::script('COM_MEDIA_ERROR', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHENTICATED', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHORIZED', true);
 Text::script('COM_MEDIA_ERROR_NOT_FOUND', true);
+Text::script('COM_MEDIA_ERROR_WARNFILETOOLARGE', true);
+Text::script('COM_MEDIA_FILE', true);
 Text::script('COM_MEDIA_FILE_EXISTS_AND_OVERRIDE', true);
 Text::script('COM_MEDIA_FOLDER', true);
 Text::script('COM_MEDIA_FOLDER_NAME', true);
@@ -61,8 +63,10 @@ Text::script('COM_MEDIA_TOGGLE_LIST_VIEW', true);
 Text::script('COM_MEDIA_TOGGLE_SELECT_ITEM', true);
 Text::script('COM_MEDIA_TOOLBAR_LABEL', true);
 Text::script('COM_MEDIA_UPLOAD_SUCCESS', true);
+Text::script('ERROR', true);
 Text::script('JACTION_CREATE', true);
 Text::script('JAPPLY', true);
 Text::script('JCANCEL', true);
 Text::script('JGLOBAL_CONFIRM_DELETE', true);
 Text::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);
+Text::script('MESSAGE', true);

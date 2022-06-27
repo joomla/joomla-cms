@@ -1,0 +1,74 @@
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\Component\Installer\Administrator\View\Install;
+
+\defined('_JEXEC') or die;
+
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+/**
+ * Extension Manager Install View
+ *
+ * @since  1.5
+ */
+class HtmlView extends InstallerViewDefault
+{
+	/**
+	 * Display the view
+	 *
+	 * @param   string  $tpl  Template
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
+	public function display($tpl = null)
+	{
+		if (!$this->getCurrentUser()->authorise('core.admin'))
+		{
+			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
+		$paths        = new \stdClass;
+		$paths->first = '';
+
+		$this->paths  = &$paths;
+
+		PluginHelper::importPlugin('installer');
+
+		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	protected function addToolbar()
+	{
+		if (ContentHelper::getActions('com_installer')->get('core.manage'))
+		{
+			ToolbarHelper::link('index.php?option=com_installer&view=manage', 'COM_INSTALLER_TOOLBAR_MANAGE', 'list');
+			ToolbarHelper::divider();
+		}
+
+		parent::addToolbar();
+
+		ToolbarHelper::help('Extensions:_Install');
+	}
+}

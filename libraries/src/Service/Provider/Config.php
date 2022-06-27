@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Service provider for the application's config dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Config implements ServiceProviderInterface
 {
@@ -28,7 +28,7 @@ class Config implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -37,7 +37,7 @@ class Config implements ServiceProviderInterface
 				'JConfig',
 				function (Container $container)
 				{
-					if (!file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+					if (!is_file(JPATH_CONFIGURATION . '/configuration.php'))
 					{
 						return new Registry;
 					}

@@ -3,13 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Media-Action.crop
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Media Manager Crop Action
@@ -29,7 +29,7 @@ class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\Me
 	{
 		parent::loadJs();
 
-		HTMLHelper::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
+		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('cropperjs');
 	}
 
 	/**
@@ -43,6 +43,6 @@ class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\Me
 	{
 		parent::loadCss();
 
-		HTMLHelper::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+		Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('cropperjs');
 	}
 }

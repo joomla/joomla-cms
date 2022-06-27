@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,13 @@ namespace Joomla\CMS\MVC\View;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
 
 /**
  * Base class for a Joomla Html View
@@ -24,8 +26,10 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  2.5.5
  */
-class HtmlView extends AbstractView
+class HtmlView extends AbstractView implements CurrentUserInterface
 {
+	use CurrentUserTrait;
+
 	/**
 	 * The base path of the view
 	 *
@@ -111,7 +115,10 @@ class HtmlView extends AbstractView
 		// Set the charset (used by the variable escaping functions)
 		if (\array_key_exists('charset', $config))
 		{
-			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
+			@trigger_error(
+				'Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.',
+				E_USER_DEPRECATED
+			);
 			$this->_charset = $config['charset'];
 		}
 
@@ -189,7 +196,47 @@ class HtmlView extends AbstractView
 	 */
 	public function display($tpl = null)
 	{
+		$app = Factory::getApplication();
+
+		if ($this->option)
+		{
+			$component = $this->option;
+		}
+		else
+		{
+			$component = ApplicationHelper::getComponentName();
+		}
+
+		$context = $component . '.' . $this->getName();
+
+		$app->getDispatcher()->dispatch(
+			'onBeforeDisplay',
+			AbstractEvent::create(
+				'onBeforeDisplay',
+				[
+					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'subject'    => $this,
+					'extension'  => $context
+				]
+			)
+		);
+
 		$result = $this->loadTemplate($tpl);
+
+		$eventResult = $app->getDispatcher()->dispatch(
+			'onAfterDisplay',
+			AbstractEvent::create(
+				'onAfterDisplay',
+				[
+					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'subject'    => $this,
+					'extension'  => $context,
+					'source'     => $result
+				]
+			)
+		);
+
+		$eventResult->getArgument('used', false);
 
 		echo $result;
 	}
@@ -204,12 +251,17 @@ class HtmlView extends AbstractView
 	 *
 	 * @return  mixed  The escaped value.
 	 *
-	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 * @note the ENT_COMPAT flag was replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @since   3.0
 	 */
 	public function escape($var)
 	{
+		if ($var === null)
+		{
+			return '';
+		}
+
 		return htmlspecialchars($var, ENT_QUOTES, $this->_charset);
 	}
 
@@ -331,7 +383,7 @@ class HtmlView extends AbstractView
 		// Clear prior output
 		$this->_output = null;
 
-		$template = Factory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate(true);
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
@@ -344,13 +396,18 @@ class HtmlView extends AbstractView
 
 		// Load the language file for the template
 		$lang = Factory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		$lang->load('tpl_' . $template->template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template->parent, JPATH_THEMES . '/' . $template->parent)
+			|| $lang->load('tpl_' . $template->template, JPATH_THEMES . '/' . $template->template);
 
 		// Change the template folder if alternative layout is in different template
-		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
+		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template->template)
 		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+			$this->_path['template'] = str_replace(
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $template->template,
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate,
+				$this->_path['template']
+			);
 		}
 
 		// Load the template script
@@ -446,6 +503,9 @@ class HtmlView extends AbstractView
 		// Actually add the user-specified directories
 		$this->_addPath($type, $path);
 
+		// Get the active template object
+		$template = $app->getTemplate(true);
+
 		// Always add the fallback directories as last resort
 		switch (strtolower($type))
 		{
@@ -453,9 +513,25 @@ class HtmlView extends AbstractView
 				// Set the alternative template search dir
 				if (isset($app))
 				{
-					$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$fallback = JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName();
-					$this->_addPath('template', $fallback);
+					if ($component)
+					{
+						$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
+					}
+
+					$name = $this->getName();
+
+					if (!empty($template->parent))
+					{
+						// Parent template's overrides
+						$this->_addPath('template', JPATH_THEMES . '/' . $template->parent . '/html/' . $component . '/' . $name);
+
+						// Child template's overrides
+						$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
+
+						break;
+					}
+
+					$this->_addPath('template', JPATH_THEMES . '/' . $template->template . '/html/' . $component . '/' . $name);
 				}
 				break;
 		}
@@ -480,7 +556,7 @@ class HtmlView extends AbstractView
 			$dir = Path::clean($dir);
 
 			// Add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) !== DIRECTORY_SEPARATOR)
 			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;

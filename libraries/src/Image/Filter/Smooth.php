@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +11,11 @@ namespace Joomla\CMS\Image\Filter;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
-use Joomla\CMS\Log\Log;
-
-Log::add('JImageFilterSmooth is deprecated, use Joomla\Image\Filter\Smooth instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class adjust the smoothness of an image.
  *
- * @since       1.7.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Smooth instead
+ * @since  2.5.0
  */
 class Smooth extends ImageFilter
 {
@@ -31,11 +26,10 @@ class Smooth extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   1.7.3
+	 * @since   2.5.0
 	 * @throws  \InvalidArgumentException
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Smooth::execute() instead
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Validate that the smoothing value exists and is an integer.
 		if (!isset($options[IMG_FILTER_SMOOTH]) || !\is_int($options[IMG_FILTER_SMOOTH]))

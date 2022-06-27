@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -199,7 +199,7 @@ class MemcachedStorage extends CacheStorage
 
 				$namearr = explode('-', $key->name);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 				{
 					$group = $namearr[2];
 
@@ -329,7 +329,7 @@ class MemcachedStorage extends CacheStorage
 
 			foreach ($index as $key => $value)
 			{
-				if (strpos($value->name, $prefix) === 0 xor $mode != 'group')
+				if (strpos($value->name, $prefix) === 0 xor $mode !== 'group')
 				{
 					static::$_db->delete($value->name);
 					unset($index[$key]);

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,18 @@ namespace Joomla\CMS\Console;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-
 
 /**
  * Console command to add a user to group
@@ -30,6 +31,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class AddUserToGroupCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -71,6 +74,20 @@ class AddUserToGroupCommand extends AbstractCommand
 	private $userGroups = [];
 
 	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   4.2.0
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -92,7 +109,7 @@ class AddUserToGroupCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("The user " . $this->username . " does not exist!");
 
-			return 1;
+			return Command::FAILURE;
 		}
 
 		// Fetch user
@@ -100,7 +117,7 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		$this->userGroups = $this->getGroups($user);
 
-		$db = Factory::getDbo();
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
@@ -115,17 +132,17 @@ class AddUserToGroupCommand extends AbstractCommand
 
 			if (UserHelper::addUserToGroup($user->id, $userGroup))
 			{
-				$this->ioStyle->success("Add '" . $user->username . "' to group '" . $result . "'!");
+				$this->ioStyle->success("Added '" . $user->username . "' to group '" . $result . "'!");
 			}
 			else
 			{
 				$this->ioStyle->error("Can't add '" . $user->username . "' to group '" . $result . "'!");
 
-				return 1;
+				return Command::FAILURE;
 			}
 		}
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 
@@ -142,7 +159,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	{
 		$groups = $this->getApplication()->getConsoleInput()->getOption('group');
 
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		$groupList = [];
 
@@ -206,8 +223,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getGroupId($groupName)
 	{
-		$db = Factory::getDbo();
-
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
@@ -229,8 +245,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getUserId($username)
 	{
-		$db = Factory::getDbo();
-
+		$db    = $this->getDatabase();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -289,15 +304,12 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Add a user to group');
+		$help = "<info>%command.name%</info> adds a user to a group
+		\nUsage: <info>php %command.full_name%</info>";
+
+		$this->setDescription('Add a user to a group');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command adds a user to a group
-
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setHelp($help);
 	}
 }

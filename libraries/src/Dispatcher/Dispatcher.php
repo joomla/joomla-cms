@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,7 +10,7 @@ namespace Joomla\CMS\Dispatcher;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\Input\Input;
 
 /**
@@ -23,7 +23,7 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The application instance
 	 *
-	 * @var    CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -39,12 +39,12 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * Constructor for Dispatcher
 	 *
-	 * @param   CMSApplication  $app    The application instance
-	 * @param   Input           $input  The input instance
+	 * @param   CMSApplicationInterface  $app    The application instance
+	 * @param   Input                    $input  The input instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input)
+	public function __construct(CMSApplicationInterface $app, Input $input)
 	{
 		$this->app   = $app;
 		$this->input = $input;
@@ -53,11 +53,11 @@ abstract class Dispatcher implements DispatcherInterface
 	/**
 	 * The application the dispatcher is working with.
 	 *
-	 * @return  CMSApplication
+	 * @return  CMSApplicationInterface
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getApplication(): CMSApplication
+	protected function getApplication(): CMSApplicationInterface
 	{
 		return $this->app;
 	}

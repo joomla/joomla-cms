@@ -1,24 +1,7 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// Helper function for IE11
-function getClosest(el, tag) {
-  // this is necessary since nodeName is always in upper case
-  const elementTag = tag.toUpperCase();
-  let element = el;
-  do {
-    if (element.nodeName === elementTag) {
-      // tag name is found! return
-      return element;
-    }
-    element = element.parentNode;
-  } while (element != null);
-
-  // Not found
-  return null;
-}
 
 /**
  * JavaScript behavior to allow shift select in administrator grids
@@ -31,7 +14,7 @@ function getClosest(el, tag) {
       this.tableEl = document.querySelector(formElement);
 
       if (this.tableEl) {
-        this.boxes = [].slice.call(this.tableEl.querySelectorAll('input[type=checkbox]'));
+        this.boxes = [].slice.call(this.tableEl.querySelectorAll('td input[type=checkbox]'));
         this.rows = [].slice.call(document.querySelectorAll('tr[class^="row"]'));
         this.checkallToggle = document.querySelector('[name="checkall-toggle"]');
 
@@ -65,17 +48,17 @@ function getClosest(el, tag) {
       }
     }
 
-    onCheckallToggleClick(event) {
-      const isChecked = event.target.checked;
+    onCheckallToggleClick({ target }) {
+      const isChecked = target.checked;
 
       this.rows.forEach((row) => {
         this.changeBg(row, isChecked);
       });
     }
 
-    onRowClick(event) {
+    onRowClick({ target, shiftKey }) {
       // Do not interfere with links or buttons
-      if (event.target.tagName && (event.target.tagName.toLowerCase() === 'a' || event.target.tagName.toLowerCase() === 'button')) {
+      if (target.tagName && (target.tagName.toLowerCase() === 'a' || target.tagName.toLowerCase() === 'button')) {
         return;
       }
 
@@ -83,29 +66,31 @@ function getClosest(el, tag) {
         return;
       }
 
-      const currentRowNum = this.rows.indexOf((navigator.userAgent.indexOf('MSIE ') > -1 || navigator.userAgent.indexOf('Trident/') > -1) ? getClosest(event.target, 'tr') : event.target.closest('tr'));
-      const currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
-      let isChecked = this.boxes[currentCheckBox].checked;
+      const closestRow = target.closest('tr');
+      const currentRowNum = this.rows.indexOf(closestRow);
+      const currentCheckBox = closestRow.querySelector('td input[type=checkbox]');
 
-      if (currentCheckBox >= 0) {
-        if (!(event.target.id === this.boxes[currentCheckBox].id)) {
+      if (currentCheckBox) {
+        let isChecked = currentCheckBox.checked;
+
+        if (!(target.id === currentCheckBox.id)) {
           // We will prevent selecting text to prevent artifacts
-          if (event.shiftKey) {
+          if (shiftKey) {
             document.body.style['-webkit-user-select'] = 'none';
             document.body.style['-moz-user-select'] = 'none';
             document.body.style['-ms-user-select'] = 'none';
             document.body.style['user-select'] = 'none';
           }
 
-          this.boxes[currentCheckBox].checked = !this.boxes[currentCheckBox].checked;
-          isChecked = this.boxes[currentCheckBox].checked;
-          Joomla.isChecked(this.boxes[currentCheckBox].checked, this.tableEl.id);
+          currentCheckBox.checked = !currentCheckBox.checked;
+          isChecked = currentCheckBox.checked;
+          Joomla.isChecked(isChecked, this.tableEl.id);
         }
 
-        this.changeBg(this.rows[currentCheckBox - 1], isChecked);
+        this.changeBg(this.rows[currentRowNum], isChecked);
 
         // Restore normality
-        if (event.shiftKey) {
+        if (shiftKey) {
           document.body.style['-webkit-user-select'] = 'none';
           document.body.style['-moz-user-select'] = 'none';
           document.body.style['-ms-user-select'] = 'none';
@@ -116,18 +101,12 @@ function getClosest(el, tag) {
   }
 
   const onBoot = () => {
-    if (!Joomla) {
-      // eslint-disable-next-line no-new
-      new JMultiSelect('#adminForm');
-    } else if (Joomla.getOptions && typeof Joomla.getOptions === 'function' && Joomla.getOptions('js-multiselect')) {
-      if (Joomla.getOptions('js-multiselect').formName) {
-        // eslint-disable-next-line no-new
-        new JMultiSelect(`#${Joomla.getOptions('js-multiselect').formName}`);
-      } else {
-        // eslint-disable-next-line no-new
-        new JMultiSelect('#adminForm');
-      }
+    let formId = '#adminForm';
+    if (Joomla && Joomla.getOptions('js-multiselect', {}).formName) {
+      formId = `#${Joomla.getOptions('js-multiselect', {}).formName}`;
     }
+    // eslint-disable-next-line no-new
+    new JMultiSelect(formId);
   };
 
   document.addEventListener('DOMContentLoaded', onBoot);

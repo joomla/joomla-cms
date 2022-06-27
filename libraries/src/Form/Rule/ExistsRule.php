@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,9 +10,10 @@ namespace Joomla\CMS\Form\Rule;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -20,8 +21,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.9.0
  */
-class ExistsRule extends FormRule
+class ExistsRule extends FormRule implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Method to test the username for uniqueness.
 	 *
@@ -56,7 +59,7 @@ class ExistsRule extends FormRule
 			$existsColumn = 'id';
 		}
 
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Set and query the database.
 		$exists = $db->setQuery(

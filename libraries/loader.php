@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    Joomla.Platform
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Static class to handle loading of libraries.
  *
- * @package  Joomla.Platform
  * @since    1.7.0
  */
 abstract class JLoader
@@ -62,7 +61,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  3.1.4
 	 */
-	protected static $namespaces = array('psr0' => array(), 'psr4' => array());
+	protected static $namespaces = array();
 
 	/**
 	 * Holds a reference for all deprecated aliases (mainly for use by a logging platform).
@@ -162,20 +161,13 @@ abstract class JLoader
 	/**
 	 * Method to get the list of registered namespaces.
 	 *
-	 * @param   string  $type  Defines the type of namespace, can be prs0 or psr4.
-	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
 	 * @since   3.1.4
 	 */
-	public static function getNamespaces($type = 'psr0')
+	public static function getNamespaces()
 	{
-		if ($type !== 'psr0' && $type !== 'psr4')
-		{
-			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
-		}
-
-		return self::$namespaces[$type];
+		return self::$namespaces;
 	}
 
 	/**
@@ -351,7 +343,7 @@ abstract class JLoader
 	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
 		// Verify the library path exists.
-		if (!file_exists($path))
+		if (!is_dir($path))
 		{
 			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
 
@@ -428,24 +420,17 @@ abstract class JLoader
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
 	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
 	 * @param   boolean  $prepend    If true, push the path to the beginning of the namespace lookup paths array.
-	 * @param   string   $type       Defines the type of namespace, can be prs0 or psr4.
 	 *
 	 * @return  void
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
 	 * @since   3.1.4
 	 */
-	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false)
 	{
-		if ($type !== 'psr0' && $type !== 'psr4')
-		{
-			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
-		}
-
 		// Verify the library path exists.
-		if (!file_exists($path))
+		if (!is_dir($path))
 		{
 			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
 
@@ -456,9 +441,9 @@ abstract class JLoader
 		$namespace = trim($namespace, '\\');
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
-		if ($reset || !isset(self::$namespaces[$type][$namespace]))
+		if ($reset || !isset(self::$namespaces[$namespace]))
 		{
-			self::$namespaces[$type][$namespace] = array($path);
+			self::$namespaces[$namespace] = array($path);
 		}
 
 		// Otherwise we want to simply add the path to the namespace.
@@ -466,11 +451,11 @@ abstract class JLoader
 		{
 			if ($prepend)
 			{
-				array_unshift(self::$namespaces[$type][$namespace], $path);
+				array_unshift(self::$namespaces[$namespace], $path);
 			}
 			else
 			{
-				self::$namespaces[$type][$namespace][] = $path;
+				self::$namespaces[$namespace][] = $path;
 			}
 		}
 	}
@@ -500,9 +485,6 @@ abstract class JLoader
 
 		if ($enablePrefixes)
 		{
-			// Register the J prefix and base path for Joomla platform libraries.
-			self::registerPrefix('J', JPATH_PLATFORM . '/joomla');
-
 			// Register the prefix autoloader.
 			spl_autoload_register(array('JLoader', '_autoload'));
 		}
@@ -510,7 +492,7 @@ abstract class JLoader
 		if ($enablePsr)
 		{
 			// Register the PSR based autoloader.
-			spl_autoload_register(array('JLoader', 'loadByPsr4'));
+			spl_autoload_register(array('JLoader', 'loadByPsr'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
 	}
@@ -522,9 +504,24 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   3.7.0
+	 * @since       3.7.0
+	 * @deprecated  5.0 Use JLoader::loadByPsr instead
 	 */
 	public static function loadByPsr4($class)
+	{
+		return self::loadByPsr($class);
+	}
+
+	/**
+	 * Method to autoload classes that are namespaced to the PSR-4 standard.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadByPsr($class)
 	{
 		$class = self::stripFirstBackslash($class);
 
@@ -547,7 +544,7 @@ abstract class JLoader
 		$classPath .= $className . '.php';
 
 		// Loop through registered namespaces until we find a match.
-		foreach (self::$namespaces['psr4'] as $ns => $paths)
+		foreach (self::$namespaces as $ns => $paths)
 		{
 			if (strpos($class, "{$ns}\\") === 0)
 			{
@@ -565,7 +562,7 @@ abstract class JLoader
 					}
 
 					// We check for class_exists to handle case-sensitive file systems
-					if (file_exists($classFilePath) && !class_exists($class, false))
+					if (is_file($classFilePath) && !class_exists($class, false))
 					{
 						$found = (bool) include_once $classFilePath;
 
@@ -678,7 +675,7 @@ abstract class JLoader
 			$path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
 
 			// Load the file if it exists and is in the lookup path.
-			if (strpos($path, realpath($base)) === 0 && file_exists($path))
+			if (strpos($path, realpath($base)) === 0 && is_file($path))
 			{
 				$found = (bool) include_once $path;
 
@@ -699,7 +696,7 @@ abstract class JLoader
 				$path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
 
 				// Load the file if it exists and is in the lookup path.
-				if (strpos($path, realpath($base)) === 0 && file_exists($path))
+				if (strpos($path, realpath($base)) === 0 && is_file($path))
 				{
 					$found = (bool) include_once $path;
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,7 +82,7 @@ class ModuleRenderer extends DocumentRenderer
 		// Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
 		$cachemode = $params->get('cachemode', 'static');
 
-		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
+		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode !== 'id' && $cachemode !== 'safeuri')
 		{
 			// Default to itemid creating method and workarounds on
 			$cacheparams = new \stdClass;
@@ -90,8 +90,13 @@ class ModuleRenderer extends DocumentRenderer
 			$cacheparams->class = ModuleHelper::class;
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $attribs);
+			$cacheparams->cachesuffix = $attribs['contentOnly'] ?? false;
 
-			return ModuleHelper::ModuleCache($module, $params, $cacheparams);
+			// It need to be done here because the cache controller does not keep reference to the module object
+			$module->content = ModuleHelper::moduleCache($module, $params, $cacheparams);
+			$module->contentRendered = true;
+
+			return $module->content;
 		}
 
 		return ModuleHelper::renderModule($module, $attribs);

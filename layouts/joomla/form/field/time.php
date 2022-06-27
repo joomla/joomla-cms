@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * @var  array $displayData Array with values.
@@ -42,13 +42,14 @@ extract($displayData);
  * @var   boolean $hasValue       Has this field a value assigned?
  * @var   array   $options        Options available for this field.
  * @var   array   $inputType      Options available for this field.
- * @var   array   $spellcheck     Options available for this field.
  * @var   string  $accept         File types that are accepted.
+ * @var   string  $dataAttribute  Miscellaneous data attributes preprocessed for HTML output
+ * @var   array   $dataAttributes Miscellaneous data attribute for eg, data-*.
  */
 
 $attributes = [
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
+	!empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -57,7 +58,8 @@ $attributes = [
 	isset($step) ? 'step="' . $step . '"' : '',
 	isset($min) ? 'min="' . $min . '"' : '',
 	$required ? 'required' : '',
-	$autofocus ? 'autofocus' : ''
+	$autofocus ? 'autofocus' : '',
+	$dataAttribute,
 ];
 
 ?>

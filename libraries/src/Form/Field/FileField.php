@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Form\FormField;
  * Form Field class for the Joomla Platform.
  * Provides an input field for files
  *
- * @link   http://www.w3.org/TR/html-markup/input.file.html#input.file
+ * @link   https://html.spec.whatwg.org/multipage/input.html#file-upload-state-(type=file)
  * @since  1.7.0
  */
 class FileField extends FormField
@@ -56,10 +56,9 @@ class FileField extends FormField
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		if ($name === 'accept')
 		{
-			case 'accept':
-				return $this->accept;
+			return $this->accept;
 		}
 
 		return parent::__get($name);
@@ -91,9 +90,9 @@ class FileField extends FormField
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *

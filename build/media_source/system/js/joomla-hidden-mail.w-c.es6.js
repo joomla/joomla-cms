@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
@@ -48,7 +48,7 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
       let innerStr = this.constructor.b64DecodeUnicode(this.getAttribute('text'));
 
       innerStr = innerStr.replace('src="images/', `src="${this.base}images/`).replace('src="media/', `src="${this.base}media/`);
-      this.newElement.innerHTML = innerStr;
+      this.newElement.innerHTML = Joomla.sanitizeHtml(innerStr);
     } else {
       this.newElement.innerText = `${window.atob(this.getAttribute('first'))}@${window.atob(this.getAttribute('last'))}`;
     }
@@ -61,6 +61,6 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
   }
 
   static b64DecodeUnicode(str) {
-    return decodeURIComponent(Array.prototype.map.call(atob(str), c => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
+    return decodeURIComponent(Array.prototype.map.call(atob(str), (c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
   }
 });

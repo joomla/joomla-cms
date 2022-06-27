@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form;
 
 \defined('_JEXEC') or die;
+
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Default factory for creating Form objects
@@ -17,6 +19,8 @@ namespace Joomla\CMS\Form;
  */
 class FormFactory implements FormFactoryInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * Method to get an instance of a form.
 	 *
@@ -29,6 +33,10 @@ class FormFactory implements FormFactoryInterface
 	 */
 	public function createForm(string $name, array $options = array()): Form
 	{
-		return new Form($name, $options);
+		$form = new Form($name, $options);
+
+		$form->setDatabase($this->getDatabase());
+
+		return $form;
 	}
 }

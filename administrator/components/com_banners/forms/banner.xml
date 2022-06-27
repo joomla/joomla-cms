@@ -4,7 +4,7 @@
 
 		<field
 			name="id"
-			type="number"
+			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
@@ -15,7 +15,6 @@
 			name="name"
 			type="text"
 			label="COM_BANNERS_FIELD_NAME_LABEL"
-			size="40"
 			required="true"
 		/>
 
@@ -23,7 +22,7 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
-			size="40"
+			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
 
@@ -42,9 +41,9 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="custom-select-color-state"
-			size="1"
+			class="form-select-color-state"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -72,7 +71,6 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
-			size="45"
 		/>
 
 		<field
@@ -89,6 +87,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_TYPE_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_CUSTOM</option>
@@ -118,7 +117,6 @@
 			name="created"
 			type="calendar"
 			label="COM_BANNERS_FIELD_CREATED_LABEL"
-			size="22"
 			translateformat="true"
 			showtime="true"
 			filter="user_utc"
@@ -128,13 +126,13 @@
 			name="created_by"
 			type="user"
 			label="COM_BANNERS_FIELD_CREATED_BY_LABEL"
+			validate="UserId"
 		/>
 
 		<field
 			name="created_by_alias"
 			type="text"
 			label="COM_BANNERS_FIELD_CREATED_BY_ALIAS_LABEL"
-			size="20"
 		/>
 
 		<field
@@ -142,7 +140,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			class="readonly"
-			size="22"
 			readonly="true"
 			translateformat="true"
 			showtime="true"
@@ -156,6 +153,7 @@
 			class="readonly"
 			readonly="true"
 			filter="unset"
+			validate="UserId"
 		/>
 
 		<field
@@ -163,7 +161,6 @@
 			type="text"
 			label="COM_BANNERS_FIELD_VERSION_LABEL"
 			class="readonly"
-			size="6"
 			readonly="true"
 			filter="unset"
 		/>
@@ -174,7 +171,6 @@
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 
@@ -184,7 +180,6 @@
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
-			size="22"
 			filter="user_utc"
 		/>
 	</fieldset>
@@ -194,7 +189,7 @@
 		<field
 			name="sticky"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
 			default="0"
@@ -237,6 +232,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
@@ -251,6 +247,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option value="0">JNO</option>
@@ -262,6 +259,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option value="0">JNO</option>
@@ -282,7 +280,7 @@
 		<field
 			name="own_prefix"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			default="0"
 			>
@@ -306,7 +304,6 @@
 				label="COM_BANNERS_FIELD_IMAGE_LABEL"
 				directory="banners"
 				hide_none="1"
-				size="40"
 			/>
 
 			<field

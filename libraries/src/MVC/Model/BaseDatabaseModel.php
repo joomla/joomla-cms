@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,8 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -22,8 +23,18 @@ use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\CMS\User\CurrentUserTrait;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\Database\Exception\DatabaseNotFoundException;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
+use Joomla\Event\EventInterface;
 
 /**
  * Base class for a database aware Joomla Model
@@ -32,10 +43,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5.5
  */
-abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface
+abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInterface, DispatcherAwareInterface, CurrentUserInterface,
+	CacheControllerFactoryAwareInterface
 {
-	use DatabaseAwareTrait;
-	use MVCFactoryAwareTrait;
+	use DatabaseAwareTrait, MVCFactoryAwareTrait, DispatcherAwareTrait, CurrentUserTrait, CacheControllerFactoryAwareTrait;
 
 	/**
 	 * The URL option for the component.
@@ -73,13 +84,26 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+		/**
+		 * @deprecated 5.0 Database instance is injected through the setter function,
+		 *                 subclasses should not use the db instance in constructor anymore
+		 */
+		$db = \array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo();
+
+		if ($db)
+		{
+			@trigger_error(sprintf('Database is not available in constructor in 5.0.'), E_USER_DEPRECATED);
+			$this->setDatabase($db);
+
+			// Is needed, when models use the deprecated MVC DatabaseAwareTrait, as the trait is overriding the local functions
+			$this->setDbo($db);
+		}
 
 		// Set the default view search path
 		if (\array_key_exists('table_path', $config))
@@ -136,13 +160,13 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		if (\is_string($query))
 		{
-			$query = $this->getDbo()->getQuery(true)->setQuery($query);
+			$query = $this->getDatabase()->getQuery(true)->setQuery($query);
 		}
 
 		$query->setLimit($limit, $limitstart);
-		$this->getDbo()->setQuery($query);
+		$this->getDatabase()->setQuery($query);
 
-		return $this->getDbo()->loadObjectList();
+		return $this->getDatabase()->loadObjectList();
 	}
 
 	/**
@@ -150,7 +174,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 *
 	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
 	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
-	 * then either this method must be overriden by a custom implementation at the derived Model Class
+	 * then either this method must be overridden by a custom implementation at the derived Model Class
 	 * or a GROUP BY clause should be used to make the set unique.
 	 *
 	 * @param   DatabaseQuery|string  $query  The query.
@@ -163,7 +187,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof DatabaseQuery
-			&& $query->type == 'select'
+			&& $query->type === 'select'
 			&& $query->group === null
 			&& $query->merge === null
 			&& $query->querySet === null
@@ -172,24 +196,24 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$query = clone $query;
 			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
-			$this->getDbo()->setQuery($query);
+			$this->getDatabase()->setQuery($query);
 
-			return (int) $this->getDbo()->loadResult();
+			return (int) $this->getDatabase()->loadResult();
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
 
-		// Remove the limit and offset part if it's a DatabaseQuery object
+		// Remove the limit, offset and order parts if it's a DatabaseQuery object
 		if ($query instanceof DatabaseQuery)
 		{
 			$query = clone $query;
-			$query->clear('limit')->clear('offset');
+			$query->clear('limit')->clear('offset')->clear('order');
 		}
 
-		$this->getDbo()->setQuery($query);
-		$this->getDbo()->execute();
+		$this->getDatabase()->setQuery($query);
+		$this->getDatabase()->execute();
 
-		return (int) $this->getDbo()->getNumRows();
+		return (int) $this->getDatabase()->getNumRows();
 	}
 
 	/**
@@ -209,7 +233,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		// Make sure we are returning a DBO object
 		if (!\array_key_exists('dbo', $config))
 		{
-			$config['dbo'] = $this->getDbo();
+			$config['dbo'] = $this->getDatabase();
 		}
 
 		return $this->getMVCFactory()->createTable($name, $prefix, $config);
@@ -249,57 +273,6 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	}
 
 	/**
-	 * Method to load a row for editing from the version history table.
-	 *
-	 * @param   integer  $version_id  Key to the version history table.
-	 * @param   Table    &$table      Content table object being loaded.
-	 *
-	 * @return  boolean  False on failure or error, true otherwise.
-	 *
-	 * @since   3.2
-	 */
-	public function loadHistory($version_id, Table &$table)
-	{
-		// Only attempt to check the row in if it exists, otherwise do an early exit.
-		if (!$version_id)
-		{
-			return false;
-		}
-
-		// Get an instance of the row to checkout.
-		$historyTable = Table::getInstance('Contenthistory');
-
-		if (!$historyTable->load($version_id))
-		{
-			$this->setError($historyTable->getError());
-
-			return false;
-		}
-
-		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
-		$typeId   = Table::getInstance('Contenttype')->getTypeId($this->typeAlias);
-
-		if ($historyTable->ucm_type_id != $typeId)
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
-
-			$key = $table->getKeyName();
-
-			if (isset($rowArray[$key]))
-			{
-				$table->checkIn($rowArray[$key]);
-			}
-
-			return false;
-		}
-
-		$this->setState('save_date', $historyTable->save_date);
-		$this->setState('version_note', $historyTable->version_note);
-
-		return $table->bind($rowArray);
-	}
-
-	/**
 	 * Method to check if the given record is checked out by the current user
 	 *
 	 * @param   \stdClass  $item  The record to check
@@ -311,7 +284,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		$table = $this->getTable();
 		$checkedOutField = $table->getColumnAlias('checked_out');
 
-		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != Factory::getUser()->id)
+		if (property_exists($item, $checkedOutField) && $item->{$checkedOutField} != $this->getCurrentUser()->id)
 		{
 			return true;
 		}
@@ -341,7 +314,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		try
 		{
 			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
+			$cache = $this->getCacheControllerFactory()->createCacheController('callback', $options);
 			$cache->clean();
 		}
 		catch (CacheExceptionInterface $exception)
@@ -350,7 +323,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		}
 
 		// Trigger the onContentCleanCache event.
-		$app->triggerEvent($this->event_clean_cache, $options);
+		$this->dispatchEvent(new Event($this->event_clean_cache, $options));
 	}
 
 	/**
@@ -365,5 +338,96 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	protected function bootComponent($component): ComponentInterface
 	{
 		return Factory::getApplication()->bootComponent($component);
+	}
+
+	/**
+	 * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
+	 *
+	 * @param   EventInterface  $event  The event
+	 *
+	 * @return  void
+	 *
+	 * @since   4.1.0
+	 */
+	protected function dispatchEvent(EventInterface $event)
+	{
+		try
+		{
+			$this->getDispatcher()->dispatch($event->getName(), $event);
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
+		}
+	}
+
+	/**
+	 * Get the database driver.
+	 *
+	 * @return  DatabaseInterface  The database driver.
+	 *
+	 * @since   4.2.0
+	 * @throws  \UnexpectedValueException
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead
+	 */
+	public function getDbo()
+	{
+		try
+		{
+			return $this->getDatabase();
+		}
+		catch (DatabaseNotFoundException $e)
+		{
+			throw new \UnexpectedValueException('Database driver not set in ' . __CLASS__);
+		}
+	}
+
+	/**
+	 * Set the database driver.
+	 *
+	 * @param   DatabaseInterface  $db  The database driver.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.2.0
+	 *
+	 * @deprecated  5.0 Use setDatabase() instead
+	 */
+	public function setDbo(DatabaseInterface $db = null)
+	{
+		if ($db === null)
+		{
+			return;
+		}
+
+		$this->setDatabase($db);
+	}
+
+	/**
+	 * Proxy for _db variable.
+	 *
+	 * @param   string  $name  The name of the element
+	 *
+	 * @return  mixed  The value of the element if set, null otherwise
+	 *
+	 * @since   4.2.0
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+	 */
+	public function __get($name)
+	{
+		if ($name === '_db')
+		{
+			return $this->getDatabase();
+		}
+
+		// Default the variable
+		if (!isset($this->$name))
+		{
+			$this->$name = null;
+		}
+
+		return $this->$name;
 	}
 }

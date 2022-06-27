@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
@@ -180,11 +179,12 @@ class MenuitemField extends GroupedlistField
 		if ($menuType)
 		{
 			// If the menutype is empty, group the items by menutype.
-			$db    = Factory::getDbo();
+			$db    = $this->getDatabase();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
-				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+				->where($db->quoteName('menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 			$db->setQuery($query);
 
 			try

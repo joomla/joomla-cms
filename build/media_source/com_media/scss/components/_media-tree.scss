@@ -1,0 +1,162 @@
+// Media Tree
+
+ul.media-tree {
+  padding: 0 0 5px;
+  margin: 0;
+  overflow-x: visible;
+  list-style: none;
+  ul {
+    margin-left: 2px;
+  }
+  &:empty {
+    display: none;
+  }
+}
+
+.media-disk {
+  position: sticky;
+  top: 75px;
+  left: 0;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.media-drive {
+  overflow-x: auto;
+  background-color: $sidebar-drive-bg;
+  border: 1px solid $border-color;
+  + .media-drive {
+    border-top: 0;
+  }
+}
+
+.media-disk-name {
+  padding: 4px 1px;
+  font-size: 1rem;
+  color: var(--template-bg-dark);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.media-tree-item {
+  position: relative;
+  display: block;
+  &::before {
+    position: absolute;
+    top: $sidebar-tree-line-height * .5;
+    left: 0;
+    width: 10px;
+    height: 1px;
+    margin: auto;
+    content: "";
+    background-color: $sidebar-tree-line-color;
+  }
+  &::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    content: "";
+    background-color: $sidebar-tree-line-color;
+  }
+  &:last-child {
+    &::after {
+      height: $sidebar-tree-line-height * .5;
+    }
+  }
+  li {
+    padding-left: 10px;
+    &::before, &::after {
+      left: 5px;
+    }
+  }
+}
+
+.media-drive-name {
+  padding: 4px 10px;
+  &::before {
+    content: none;
+  }
+  &::after {
+    content: none;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.media-tree-item a {
+  display: block;
+  padding: 0 7px;
+  line-height: $sidebar-tree-line-height;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.media-tree-item.active > a {
+  &:hover {
+    text-decoration: none;
+    background-color: $sidebar-tree-item-hover-bg;
+  }
+}
+
+.media-tree-item .item-icon {
+  display: inline-block;
+  padding-right: 2px;
+  font-size: 15px;
+  line-height: normal;
+  color: var(--template-bg-dark-60);
+  vertical-align: middle;
+}
+
+.media-tree-item.active > a .item-icon {
+  color: $sidebar-active-icon-color;
+}
+
+.item-name {
+  display: inline-block;
+  overflow: hidden;
+  font-size: .9em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.media-tree-item.active > a .item-name {
+  font-weight: bold;
+}
+
+// RTL override
+html[dir=rtl] {
+  .media-browser-table .dimension, .media-browser-table .size {
+    direction: ltr;
+  }
+
+  .media-browser-table .created, .media-browser-table .modified {
+    direction: ltr;
+  }
+
+  .media-drive-name {
+    padding-right: 2px;
+  }
+
+  .media-tree-item li::before, .media-tree-item li::after {
+    right: 5px;
+    left: 0;
+    margin: 0;
+  }
+
+  .media-tree-item .item-icon {
+    padding-right: 10px;
+    padding-left: 2px;
+  }
+
+  ul.media-tree ul {
+    margin-right: 15px;
+  }
+}

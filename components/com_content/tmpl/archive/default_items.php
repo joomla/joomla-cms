@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $params = $this->params;
 ?>
-
 <div id="archive-items" class="com-content-archive__items">
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php $info = $item->params->get('info_block_position', 0); ?>
@@ -23,7 +23,7 @@ $params = $this->params;
 			<div class="page-header">
 				<h2 itemprop="headline">
 					<?php if ($params->get('link_titles')) : ?>
-						<a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
+						<a href="<?php echo Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					<?php else : ?>
@@ -61,7 +61,7 @@ $params = $this->params;
 							<?php $title = $this->escape($item->parent_title); ?>
 							<?php if ($params->get('link_parent_category') && !empty($item->parent_id)) : ?>
 								<?php $url = '<a href="' . Route::_(
-									ContentHelperRoute::getCategoryRoute($item->parent_id, $item->parent_language)
+									RouteHelper::getCategoryRoute($item->parent_id, $item->parent_language)
 									)
 									. '" itemprop="genre">' . $title . '</a>'; ?>
 								<?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -77,7 +77,7 @@ $params = $this->params;
 							<?php $title = $this->escape($item->category_title); ?>
 							<?php if ($params->get('link_category') && $item->catid) : ?>
 								<?php $url = '<a href="' . Route::_(
-									ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language)
+									RouteHelper::getCategoryRoute($item->catid, $item->category_language)
 									)
 									. '" itemprop="genre">' . $title . '</a>'; ?>
 								<?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
@@ -91,7 +91,7 @@ $params = $this->params;
 				<?php if ($params->get('show_publish_date')) : ?>
 					<dd>
 						<div class="published">
-							<span class="icon-calendar" aria-hidden="true"></span>
+							<span class="icon-calendar-alt" aria-hidden="true"></span>
 							<time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
 								<?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC3'))); ?>
 							</time>
@@ -103,7 +103,7 @@ $params = $this->params;
 					<?php if ($params->get('show_modify_date')) : ?>
 						<dd>
 							<div class="modified">
-								<span class="icon-calendar" aria-hidden="true"></span>
+								<span class="icon-calendar-alt" aria-hidden="true"></span>
 								<time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
 									<?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
 								</time>
@@ -113,7 +113,7 @@ $params = $this->params;
 					<?php if ($params->get('show_create_date')) : ?>
 						<dd>
 							<div class="create">
-								<span class="icon-calendar" aria-hidden="true"></span>
+								<span class="icon-calendar-alt" aria-hidden="true"></span>
 								<time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
 									<?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC3'))); ?>
 								</time>
@@ -124,7 +124,7 @@ $params = $this->params;
 					<?php if ($params->get('show_hits')) : ?>
 						<dd>
 							<div class="hits">
-								<span class="icon-eye-open"></span>
+								<span class="icon-eye"></span>
 								<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $item->hits; ?>">
 								<?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 							</div>
@@ -153,7 +153,7 @@ $params = $this->params;
 								<?php $title = $this->escape($item->parent_title); ?>
 								<?php if ($params->get('link_parent_category') && $item->parent_id) : ?>
 									<?php $url = '<a href="' . Route::_(
-										ContentHelperRoute::getCategoryRoute($item->parent_id, $item->parent_language)
+										RouteHelper::getCategoryRoute($item->parent_id, $item->parent_language)
 										)
 										. '" itemprop="genre">' . $title . '</a>'; ?>
 									<?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -169,7 +169,7 @@ $params = $this->params;
 								<?php $title = $this->escape($item->category_title); ?>
 								<?php if ($params->get('link_category') && $item->catid) : ?>
 									<?php $url = '<a href="' . Route::_(
-										ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language)
+										RouteHelper::getCategoryRoute($item->catid, $item->category_language)
 										)
 										. '" itemprop="genre">' . $title . '</a>'; ?>
 									<?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
@@ -182,7 +182,7 @@ $params = $this->params;
 					<?php if ($params->get('show_publish_date')) : ?>
 						<dd>
 							<div class="published">
-								<span class="icon-calendar" aria-hidden="true"></span>
+								<span class="icon-calendar-alt" aria-hidden="true"></span>
 								<time datetime="<?php echo HTMLHelper::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
 									<?php echo Text::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC3'))); ?>
 								</time>
@@ -194,7 +194,7 @@ $params = $this->params;
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd>
 						<div class="create">
-							<span class="icon-calendar" aria-hidden="true"></span>
+							<span class="icon-calendar-alt" aria-hidden="true"></span>
 							<time datetime="<?php echo HTMLHelper::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
 								<?php echo Text::sprintf('COM_CONTENT_CREATED_DATE_ON', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
 							</time>
@@ -204,7 +204,7 @@ $params = $this->params;
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd>
 						<div class="modified">
-							<span class="icon-calendar" aria-hidden="true"></span>
+							<span class="icon-calendar-alt" aria-hidden="true"></span>
 							<time datetime="<?php echo HTMLHelper::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
 								<?php echo Text::sprintf('COM_CONTENT_LAST_UPDATED', HTMLHelper::_('date', $item->modified, Text::_('DATE_FORMAT_LC3'))); ?>
 							</time>
@@ -214,7 +214,7 @@ $params = $this->params;
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							<span class="icon-eye-open"></span>
+							<span class="icon-eye"></span>
 							<meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="interactionCount">
 							<?php echo Text::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 						</div>
@@ -230,7 +230,7 @@ $params = $this->params;
 </div>
 <div class="com-content-archive__navigation w-100">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		<p class="com-content-archive__counter counter float-right pt-3 pr-2">
+		<p class="com-content-archive__counter counter float-end pt-3 pe-2">
 			<?php echo $this->pagination->getPagesCounter(); ?>
 		</p>
 	<?php endif; ?>

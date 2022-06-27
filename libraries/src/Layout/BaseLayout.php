@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,13 +110,13 @@ class BaseLayout implements LayoutInterface
 	 *
 	 * @return  string  The escaped output.
 	 *
-	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
+	 * @note the ENT_COMPAT flag was replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @since   3.0
 	 */
 	public function escape($output)
 	{
-		return htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
+		return $output === null ? '' : htmlspecialchars($output, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**

@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -17,8 +17,8 @@ Joomla = window.Joomla || {};
       if (el) {
         const attribute = el.getAttribute('for');
 
-        if (attribute.replace(new RegExp('_name$'), '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
-          element.style.display = 'none';
+        if (attribute.replace(/_name$/, '') === `${formControl}_associations_${languageCode.replace('-', '_')}`) {
+          element.classList.add('hidden');
         }
       }
     });
@@ -30,13 +30,13 @@ Joomla = window.Joomla || {};
 
     if (associations) {
       const html = document.createElement('joomla-alert');
-      html.innerHTML = Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE');
+      html.innerText = Joomla.Text._('JGLOBAL_ASSOC_NOT_POSSIBLE');
 
       associations.insertAdjacentElement('afterbegin', html);
     }
 
     controlGroup.forEach((element) => {
-      element.style.display = 'none';
+      element.classList.add('hidden');
     });
   };
 
@@ -69,7 +69,6 @@ Joomla = window.Joomla || {};
       if (result.data.length !== 0) {
         [].slice.call(Object.keys(result.data)).forEach((lang) => {
           functionName = callbackFunctionPrefix + lang.replace('-', '_');
-          // eslint-disable-next-line max-len
           window[functionName](result.data[lang].id, result.data[lang].title, result.data[lang].catid, null, null, lang);
         });
       }
@@ -78,7 +77,7 @@ Joomla = window.Joomla || {};
         Joomla.renderMessages({ notice: [result.message] });
       }
     } else {
-      Joomla.renderMessages({ warning: [(Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
+      Joomla.renderMessages({ warning: [(Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
     }
   };
 
@@ -134,7 +133,7 @@ Joomla = window.Joomla || {};
         Joomla.injectAssociations(JSON.parse(response), callbackFunctionPrefix);
       },
       onError: () => {
-        Joomla.renderMessages({ warning: [(Joomla.JText._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
+        Joomla.renderMessages({ warning: [(Joomla.Text._('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED'))] });
       },
     });
 
@@ -156,7 +155,7 @@ Joomla = window.Joomla || {};
 
     // When changing the language
     if (formControlLanguage) {
-      formControlLanguage.addEventListener('change', (event) => {
+      formControlLanguage.addEventListener('change', ({ target }) => {
         // Remove message if any
         Joomla.removeMessages();
 
@@ -172,10 +171,10 @@ Joomla = window.Joomla || {};
           const languageCode = attribute.replace('_name', '').replace('jform_associations_', '');
 
           // Show the association fields
-          element.style.display = 'block';
+          element.classList.remove('hidden');
 
           // Check if there was an association selected for this language
-          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_name`).value !== '') {
+          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
             existsAssociations = true;
           }
 
@@ -191,11 +190,11 @@ Joomla = window.Joomla || {};
 
         // If associations existed, send a warning to the user
         if (existsAssociations) {
-          Joomla.renderMessages({ warning: [Joomla.JText._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')] });
+          Joomla.renderMessages({ warning: [Joomla.Text._('JGLOBAL_ASSOCIATIONS_RESET_WARNING')] });
         }
 
         // If the selected language is All hide the fields and add a message
-        const selectedLanguage = event.target.value;
+        const selectedLanguage = target.value;
 
         if (selectedLanguage === '*') {
           Joomla.showAssociationMessage();

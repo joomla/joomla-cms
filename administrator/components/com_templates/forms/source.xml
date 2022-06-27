@@ -9,7 +9,7 @@
 		<field
 			name="filename"
 			type="hidden"
-		 />
+		/>
 
 		<field
 			name="source"
@@ -17,8 +17,7 @@
 			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
 			editor="codemirror|none"
 			buttons="no"
-			height="500px"
-			rows="20"
+			rows="40"
 			cols="80"
 			syntax="php"
 			filter="raw"
@@ -30,8 +29,7 @@
 			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
 			editor="codemirror|none"
 			buttons="no"
-			height="500px"
-			rows="20"
+			rows="40"
 			cols="80"
 			syntax="php"
 			filter="raw"
@@ -40,9 +38,9 @@
 
 		<field
 			name="show_core"
-			label="COM_TEMPLATES_FIELD_SHOW_CORE"
 			type="radio"
-			class="switcher"
+			label="COM_TEMPLATES_LAYOUTS_DIFFVIEW_CORE"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -51,9 +49,9 @@
 
 		<field
 			name="show_diff"
-			label="COM_TEMPLATES_FIELD_SHOW_DIFF"
 			type="radio"
-			class="switcher"
+			label="COM_TEMPLATES_LAYOUTS_DIFFVIEW_DIFF"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>

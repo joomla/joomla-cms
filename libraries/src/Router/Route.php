@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,10 @@ namespace Joomla\CMS\Router;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\DI\Exception\KeyNotFoundException;
 
 /**
  * Route handling class
@@ -70,22 +70,21 @@ class Route
 	{
 		try
 		{
-			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
-			if ($tls == -1)
-			{
-				$tls = self::TLS_DISABLE;
-			}
-
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
 			if (!is_int($tls))
 			{
-				Log::add(
+				@trigger_error(
 					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
-					Log::WARNING,
-					'deprecated'
+					E_USER_DEPRECATED
 				);
 
 				$tls = (int) $tls;
+			}
+
+			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
+			if ($tls === -1)
+			{
+				$tls = self::TLS_DISABLE;
 			}
 
 			$app    = Factory::getApplication();
@@ -130,9 +129,14 @@ class Route
 		// Get the router instance, only attempt when a client name is given.
 		if ($client && !isset(self::$_router[$client]))
 		{
-			$app = Factory::getApplication();
-
-			self::$_router[$client] = $app->getRouter($client);
+			try
+			{
+				self::$_router[$client] = Factory::getContainer()->get(ucfirst($client) . 'Router') ?: Factory::getApplication()::getRouter($client);
+			}
+			catch (KeyNotFoundException $e)
+			{
+				self::$_router[$client] = Factory::getApplication()::getRouter($client);
+			}
 		}
 
 		// Make sure that we have our router

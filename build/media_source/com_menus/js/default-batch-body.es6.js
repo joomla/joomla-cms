@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
@@ -9,9 +9,9 @@
 
   const onChange = () => {
     if (batchSelector.value !== 0 || batchSelector.value !== '') {
-      batchCopyMove.style.display = 'block';
+      batchCopyMove.classList.remove('hidden');
     } else {
-      batchCopyMove.style.display = 'none';
+      batchCopyMove.classList.add('hidden');
     }
   };
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,11 +16,13 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.combobox');
 
-HTMLHelper::_('script', 'com_config/modules-default.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_config.modules');
 
 $editorText  = false;
 $moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
@@ -42,45 +44,21 @@ if (Multilanguage::isEnabled())
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate"  data-cancel-task="config.cancel.modules">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
 	<div class="row">
 		<div class="col-md-12">
-
-			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
-				<div class="btn-group mr-2">
-					<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
-						<span class="fa fa-check" aria-hidden="true"></span>
-						<?php echo Text::_('JAPPLY') ?>
-					</button>
-				</div>
-				<div class="btn-group mr-2">
-					<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
-						<span class="fa fa-check" aria-hidden="true"></span>
-						<?php echo Text::_('JSAVE') ?>
-					</button>
-				</div>
-				<div class="btn-group">
-					<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
-						<span class="fa fa-times" aria-hidden="true"></span>
-						<?php echo Text::_('JCANCEL') ?>
-					</button>
-				</div>
-			</div>
-
-			<hr>
-
 			<legend><?php echo Text::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div>
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_NAME'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['title']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['title']; ?></span>
 				&nbsp;&nbsp;
 				<?php echo Text::_('COM_CONFIG_MODULES_MODULE_TYPE'); ?>
-				<span class="badge badge-secondary"><?php echo $this->item['module']; ?></span>
+				<span class="badge bg-secondary"><?php echo $this->item['module']; ?></span>
 			</div>
 			<hr>
 
-			<div class="row">
+			<div class="row mb-4">
 				<div class="col-md-12">
 
 					<div class="control-group">
@@ -182,7 +160,7 @@ if (Multilanguage::isEnabled())
 					</div>
 
 					<?php if ($editorText) : ?>
-						<div class="tab-pane" id="custom">
+						<div class="mt-2" id="custom">
 							<?php echo $this->form->getInput('content'); ?>
 						</div>
 					<?php endif; ?>
@@ -192,9 +170,21 @@ if (Multilanguage::isEnabled())
 				<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', null, 'base64'); ?>">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
-
 			</div>
-
+			<div class="mb-2">
+			<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
+				<span class="icon-check" aria-hidden="true"></span>
+				<?php echo Text::_('JAPPLY'); ?>
+			</button>
+			<button type="button" class="btn btn-primary" data-submit-task="modules.save">
+				<span class="icon-check" aria-hidden="true"></span>
+				<?php echo Text::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
+				<span class="icon-times" aria-hidden="true"></span>
+				<?php echo Text::_('JCANCEL'); ?>
+			</button>
+			</div>
 		</div>
 	</div>
 </form>

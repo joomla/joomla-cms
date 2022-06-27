@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,9 @@ namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -23,6 +26,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ListUserCommand extends AbstractCommand
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The default command name
 	 *
@@ -39,6 +44,20 @@ class ListUserCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * Command constructor.
+	 *
+	 * @param   DatabaseInterface  $db  The database
+	 *
+	 * @since   4.2.0
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		parent::__construct();
+
+		$this->setDatabase($db);
+	}
+
+	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -50,7 +69,7 @@ class ListUserCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		$this->configureIO($input, $output);
 		$this->ioStyle->title('List users');
@@ -63,7 +82,7 @@ class ListUserCommand extends AbstractCommand
 
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(['u.id', 'u.username', 'u.name', 'u.email', 'u.block']))
-			->select($query->groupConcat($db->quoteName('g.group_id')) . ' AS ' . $db->quoteName('groups'))
+			->select($query->groupConcat($query->castAs('CHAR', $db->quoteName('g.group_id'))) . ' AS ' . $db->quoteName('groups'))
 			->innerJoin($db->quoteName('#__user_usergroup_map', 'g'), $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))
 			->from($db->quoteName('#__users', 'u'))
 			->group($db->quoteName('u.id'));
@@ -86,7 +105,7 @@ class ListUserCommand extends AbstractCommand
 
 		$this->ioStyle->table(['id', 'username', 'name', 'email', 'blocked', 'groups'], $users);
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -113,13 +132,10 @@ class ListUserCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('List all users');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command lists all users
+		$help = "<info>%command.name%</info> will list all users
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->setDescription('List all users');
+		$this->setHelp($help);
 	}
 }

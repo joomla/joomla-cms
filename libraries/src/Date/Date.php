@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,6 +58,8 @@ class Date extends \DateTime
 	 *
 	 * @var    object
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0 Without replacement
 	 */
 	protected static $gmt;
 
@@ -67,6 +69,8 @@ class Date extends \DateTime
 	 *
 	 * @var    object
 	 * @since  1.7.0
+	 *
+	 * @deprecated  5.0 Without replacement
 	 */
 	protected static $stz;
 
@@ -91,6 +95,7 @@ class Date extends \DateTime
 		// Create the base GMT and server time zone objects.
 		if (empty(self::$gmt) || empty(self::$stz))
 		{
+			// @TODO: This code block stays here only for B/C, can be removed in 5.0
 			self::$gmt = new \DateTimeZone('GMT');
 			self::$stz = new \DateTimeZone(@date_default_timezone_get());
 		}
@@ -98,25 +103,30 @@ class Date extends \DateTime
 		// If the time zone object is not set, attempt to build it.
 		if (!($tz instanceof \DateTimeZone))
 		{
-			if ($tz === null)
-			{
-				$tz = self::$gmt;
-			}
-			elseif (\is_string($tz))
+			if (\is_string($tz))
 			{
 				$tz = new \DateTimeZone($tz);
 			}
+			else
+			{
+				$tz = new \DateTimeZone('UTC');
+			}
 		}
 
-		// If the date is numeric assume a unix timestamp and convert it.
+		// Backup active time zone
+		$activeTZ = date_default_timezone_get();
+
+		// Force UTC timezone for correct time handling
 		date_default_timezone_set('UTC');
+
+		// If the date is numeric assume a unix timestamp and convert it.
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
-		// Reset the timezone for 3rd party libraries/extension that does not use Date
-		date_default_timezone_set(self::$stz->getName());
+		// Restore previously active timezone
+		date_default_timezone_set($activeTZ);
 
 		// Set the timezone object for access later.
 		$this->tz = $tz;
@@ -282,6 +292,7 @@ class Date extends \DateTime
 	 *
 	 * @since   1.7.0
 	 */
+	#[\ReturnTypeWillChange]
 	public function format($format, $local = false, $translate = true)
 	{
 		if ($translate)
@@ -293,10 +304,10 @@ class Date extends \DateTime
 			$format = preg_replace('/(^|[^\\\])F/', "\\1" . self::MONTH_NAME, $format);
 		}
 
-		// If the returned time should not be local use GMT.
-		if ($local == false && !empty(self::$gmt))
+		// If the returned time should not be local use UTC.
+		if ($local == false)
 		{
-			parent::setTimezone(self::$gmt);
+			parent::setTimezone(new \DateTimeZone('UTC'));
 		}
 
 		// Format the date.
@@ -326,7 +337,7 @@ class Date extends \DateTime
 			}
 		}
 
-		if ($local == false && !empty($this->tz))
+		if ($local == false && $this->tz !== null)
 		{
 			parent::setTimezone($this->tz);
 		}
@@ -399,6 +410,7 @@ class Date extends \DateTime
 	 * @since   1.7.0
 	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
+	#[\ReturnTypeWillChange]
 	public function setTimezone($tz)
 	{
 		$this->tz = $tz;
@@ -419,7 +431,7 @@ class Date extends \DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-		return $this->format(\DateTime::RFC3339, $local, false);
+		return $this->format(\DateTimeInterface::RFC3339, $local, false);
 	}
 
 	/**
@@ -456,7 +468,7 @@ class Date extends \DateTime
 	 */
 	public function toRFC822($local = false)
 	{
-		return $this->format(\DateTime::RFC2822, $local, false);
+		return $this->format(\DateTimeInterface::RFC2822, $local, false);
 	}
 
 	/**

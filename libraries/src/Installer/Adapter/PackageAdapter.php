@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,6 +159,7 @@ class PackageAdapter extends InstallerAdapter
 			}
 
 			$tmpInstaller  = new Installer;
+			$tmpInstaller->setDatabase($this->getDatabase());
 			$installResult = $tmpInstaller->install($package['dir']);
 
 			if (!$installResult)
@@ -223,11 +224,12 @@ class PackageAdapter extends InstallerAdapter
 		// Set the package ID for each of the installed extensions to track the relationship
 		if (!empty($this->installedIds))
 		{
-			$db = $this->db;
+			$db = $this->getDatabase();
 			$query = $db->getQuery(true)
-				->update('#__extensions')
-				->set($db->quoteName('package_id') . ' = ' . (int) $this->extension->extension_id)
-				->where($db->quoteName('extension_id') . ' IN (' . implode(', ', $this->installedIds) . ')');
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('package_id') . ' = :id')
+				->whereIn($db->quoteName('extension_id'), $this->installedIds)
+				->bind(':id', $this->extension->extension_id, ParameterType::INTEGER);
 
 			try
 			{
@@ -249,8 +251,8 @@ class PackageAdapter extends InstallerAdapter
 			// Install failed, rollback changes
 			throw new \RuntimeException(
 				Text::sprintf(
-					'JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP',
-					Text::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')
+					'JLIB_INSTALLER_ABORT_COPY_SETUP',
+					Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
 				)
 			);
 		}
@@ -294,7 +296,12 @@ class PackageAdapter extends InstallerAdapter
 				if (!$this->parent->copyFiles(array($path)))
 				{
 					// Install failed, rollback changes
-					throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_PACKAGE_INSTALL_MANIFEST'));
+					throw new \RuntimeException(
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT_MANIFEST',
+							Text::_('JLIB_INSTALLER_' . strtoupper($this->route))
+						)
+					);
 				}
 			}
 		}
@@ -310,15 +317,13 @@ class PackageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$extensionId = $this->extension->extension_id;
-
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = :extension_id')
-			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = :extension_id')
+			->bind(':extension_id', $this->extension->extension_id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -432,6 +437,7 @@ class PackageAdapter extends InstallerAdapter
 		foreach ($manifest->filelist as $extension)
 		{
 			$tmpInstaller = new Installer;
+			$tmpInstaller->setDatabase($this->getDatabase());
 			$tmpInstaller->setPackageUninstall(true);
 
 			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
@@ -677,13 +683,17 @@ class PackageAdapter extends InstallerAdapter
 	 */
 	protected function _getExtensionId($type, $id, $client, $group)
 	{
-		$db = $this->parent->getDbo();
+		$db = $this->getDatabase();
 
 		$query = $db->getQuery(true)
-			->select('extension_id')
-			->from('#__extensions')
-			->where('type = :type')
-			->where('element = :element')
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('type') . ' = :type',
+					$db->quoteName('element') . ' = :element',
+				]
+			)
 			->bind(':type', $type)
 			->bind(':element', $id);
 

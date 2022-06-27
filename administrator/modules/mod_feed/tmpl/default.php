@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::_('bootstrap.framework');
 
 // Check if feed URL has been set
 if (empty ($rssurl))
@@ -60,9 +58,6 @@ else
 	}
 
 	if ($feed != false) :
-		// Image handling
-		$iUrl   = $feed->image ?? null;
-		$iTitle = $feed->imagetitle ?? null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important" class="feed">
 		<?php
@@ -87,8 +82,8 @@ else
 		<?php endif; ?>
 
 		<?php // Feed image ?>
-		<?php if ($params->get('rssimage', 1) && $iUrl) : ?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>">
+		<?php if ($params->get('rssimage', 1) && $feed->image) : ?>
+			<img class="w-100" src="<?php echo $feed->image->uri; ?>" alt="<?php echo $feed->image->title; ?>"/>
 		<?php endif; ?>
 
 

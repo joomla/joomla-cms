@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -384,7 +384,7 @@ class Log
 
 		// Sanitize inputs.
 		$priority = (int) $priority;
-		$category = strtolower($category);
+		$category = strtolower((string) $category);
 
 		// Let's go iterate over the loggers and get all the ones we need.
 		foreach ((array) $this->lookup as $signature => $rules)

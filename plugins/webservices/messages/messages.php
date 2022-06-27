@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,6 +38,10 @@ class PlgWebservicesMessages extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/messages', 'messages', ['component' => 'com_messages']);
+		$router->createCRUDRoutes(
+			'v1/messages',
+			'messages',
+			['component' => 'com_messages']
+		);
 	}
 }

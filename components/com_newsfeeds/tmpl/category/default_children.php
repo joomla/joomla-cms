@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 defined('_JEXEC') or die;
 
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 			<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
 				<li>
 					<span class="item-title">
-						<a href="<?php echo Route::_(NewsfeedsHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
+						<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
 							<?php echo $this->escape($child->title); ?>
 						</a>
 					</span>
@@ -33,14 +33,10 @@ defined('_JEXEC') or die;
 						<?php endif; ?>
 					<?php endif; ?>
 					<?php if ($this->params->get('show_cat_items') == 1) : ?>
-						<dl class="newsfeed-count">
-							<dt>
-								<?php echo Text::_('COM_NEWSFEEDS_CAT_NUM'); ?>
-							</dt>
-							<dd>
-								<?php echo $child->numitems; ?>
-							</dd>
-						</dl>
+						<span class="badge bg-info">
+							<?php echo Text::_('COM_NEWSFEEDS_CAT_NUM'); ?>&nbsp;
+							<?php echo $child->numitems; ?>
+						</span>
 					<?php endif; ?>
 					<?php if (count($child->getChildren()) > 0) : ?>
 						<?php $this->children[$child->id] = $child->getChildren(); ?>

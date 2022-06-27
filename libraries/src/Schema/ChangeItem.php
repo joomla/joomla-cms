@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,8 @@ namespace Joomla\CMS\Schema;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
@@ -184,9 +184,8 @@ abstract class ChangeItem
 
 	/**
 	 * Runs the check query and checks that 1 row is returned
-	 * If yes, return true, otherwise return false
 	 *
-	 * @return  boolean  true on success, false otherwise
+	 * @return  integer  1 if success, -1 if skipped, -2 if check failed
 	 *
 	 * @since  2.5
 	 */
@@ -196,10 +195,9 @@ abstract class ChangeItem
 
 		if ($this->checkQuery)
 		{
-			$this->db->setQuery($this->checkQuery);
-
 			try
 			{
+				$this->db->setQuery($this->checkQuery);
 				$rows = $this->db->loadRowList(0);
 			}
 			catch (\RuntimeException $e)
@@ -238,15 +236,9 @@ abstract class ChangeItem
 			// At this point we have a failed query
 			$query = $this->updateQuery;
 
-			if ($this->db instanceof UTF8MB4SupportInterface)
-			{
-				$query = $this->db->convertUtf8mb4QueryToUtf8($query);
-			}
-
-			$this->db->setQuery($query);
-
 			try
 			{
+				$this->db->setQuery($query);
 				$this->db->execute();
 
 				if ($this->check())
@@ -259,7 +251,7 @@ abstract class ChangeItem
 					$this->rerunStatus = -2;
 				}
 			}
-			catch (ExecutionFailureException $e)
+			catch (ExecutionFailureException | \RuntimeException $e)
 			{
 				$this->rerunStatus = -2;
 			}

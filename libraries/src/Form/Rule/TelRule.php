@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class TelRule extends FormRule
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -65,15 +65,15 @@ class TelRule extends FormRule
 		{
 			$plan = (string) $element['plan'];
 
-			if ($plan == 'northamerica' || $plan == 'us')
+			if ($plan === 'northamerica' || $plan === 'us')
 			{
 				$plan = 'NANP';
 			}
-			elseif ($plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan)
+			elseif ($plan === 'International' || $plan === 'int' || $plan === 'missdn' || !$plan)
 			{
 				$plan = 'ITU-T';
 			}
-			elseif ($plan == 'IETF')
+			elseif ($plan === 'IETF')
 			{
 				$plan = 'EPP';
 			}

@@ -1,0 +1,76 @@
+// Custom Forms
+
+.custom-select {
+  @extend .form-select;
+}
+
+.form-select {
+  max-width: $input-max-width;
+  cursor: pointer;
+  background: $form-select-background;
+  background-color: $form-select-bg;
+  border: $input-border;
+
+  [dir=rtl] & {
+    padding: $form-select-padding-y $form-select-padding-x $form-select-padding-y ($form-select-padding-x + $form-select-indicator-padding);
+    background: $form-select-background-rtl;
+    background-color: $form-select-bg;
+  }
+
+  &[multiple] {
+    padding: 0;
+    background-color: var(--white-offset);
+
+    option {
+      padding: $form-select-multiple-padding-y $form-select-padding-x;
+      background-color: var(--white-offset);
+
+      &:checked {
+        color: var(--template-text-light);
+        background-color: var(--template-bg-dark) !important;
+      }
+    }
+  }
+
+  &.form-select-success,
+  &.custom-select-success {
+    color: var(--success);
+    background-color: var(--success);
+    border-color: var(--success);
+
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
+    }
+  }
+
+  &.form-select-danger,
+  &.custom-select-danger {
+    color: var(--danger);
+    background-color: var(--danger);
+    border-color: var(--danger);
+
+    option {
+      color: $form-select-color;
+      background-color: var(--white-offset);
+    }
+  }
+
+  &:focus {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
+  }
+
+  &:disabled {
+    cursor: default;
+    background: $gray-200;
+    border: 0;
+    box-shadow: none;
+  }
+
+  optgroup,
+  option {
+    color: var(--template-text-dark);
+    background-color: $white;
+  }
+}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ namespace Joomla\CMS\Console;
 
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -47,11 +49,34 @@ class CleanCacheCommand extends AbstractCommand
 
 		$symfonyStyle->title('Cleaning System Cache');
 
-		Factory::getCache()->gc();
+		$cache = $this->getApplication()->bootComponent('com_cache')->getMVCFactory();
+		/** @var Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+		$model = $cache->createModel('Cache', 'Administrator', ['ignore_request' => true]);
+
+		if ($input->getArgument('expired'))
+		{
+			if (!$model->purge())
+			{
+				$symfonyStyle->error('Expired Cache not cleaned');
+
+				return Command::FAILURE;
+			}
+
+			$symfonyStyle->success('Expired Cache cleaned');
+
+			return Command::SUCCESS;
+		}
+
+		if (!$model->clean())
+		{
+			$symfonyStyle->error('Cache not cleaned');
+
+			return Command::FAILURE;
+		}
 
 		$symfonyStyle->success('Cache cleaned');
 
-		return 0;
+		return Command::SUCCESS;
 	}
 
 	/**
@@ -63,13 +88,11 @@ class CleanCacheCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Clean expired cache entries');
-		$this->setHelp(
-			<<<EOF
-The <info>%command.name%</info> command cleans the system cache of expired entries
+		$help = "<info>%command.name%</info> will clear entries from the system cache
+		\nUsage: <info>php %command.full_name%</info>";
 
-<info>php %command.full_name%</info>
-EOF
-		);
+		$this->addArgument('expired', InputArgument::OPTIONAL, 'will clear expired entries from the system cache');
+		$this->setDescription('Clean cache entries');
+		$this->setHelp($help);
 	}
 }

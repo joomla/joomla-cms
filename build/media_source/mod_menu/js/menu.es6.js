@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,36 +44,32 @@
         spanEl.addEventListener('mouseout', topLevelMouseOut(topLevelEl, settings));
       }
 
-      topLevelEl.addEventListener('mouseover', (event) => {
-        const curEl = event.target;
-        const ulChild = curEl.querySelector('ul');
+      topLevelEl.addEventListener('mouseover', ({ target }) => {
+        const ulChild = target.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.add(settings.menuHoverClass);
         }
       });
 
-      topLevelEl.addEventListener('mouseout', (event) => {
-        const curEl = event.target;
-        const ulChild = curEl.querySelector('ul');
+      topLevelEl.addEventListener('mouseout', ({ target }) => {
+        const ulChild = target.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.remove(settings.menuHoverClass);
         }
       });
 
-      topLevelEl.addEventListener('focus', (event) => {
-        const curEl = event.target;
-        const ulChild = curEl.querySelector('ul');
+      topLevelEl.addEventListener('focus', ({ target }) => {
+        const ulChild = target.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'true');
           ulChild.classList.add(settings.menuHoverClass);
         }
       });
 
-      topLevelEl.addEventListener('blur', (event) => {
-        const curEl = event.target;
-        const ulChild = curEl.querySelector('ul');
+      topLevelEl.addEventListener('blur', ({ target }) => {
+        const ulChild = target.querySelector('ul');
         if (ulChild) {
           ulChild.setAttribute('aria-hidden', 'false');
           ulChild.classList.remove(settings.menuHoverClass);

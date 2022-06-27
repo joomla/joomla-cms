@@ -18,22 +18,12 @@
 			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
-			class="validate-password"
 			required="true"
 			filter="raw"
 			size="25"
 			autocomplete="current-password"
 		/>
 	</fieldset>
-
-		<field
-			name="secretkey"
-			type="text"
-			label="JGLOBAL_SECRETKEY"
-			class=""
-			filter="int"
-			size="25"
-		/>
 
 	<fieldset>
 		<field

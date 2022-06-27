@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,9 @@ use Joomla\CMS\Cache\CacheStorage;
 /**
  * WinCache cache storage handler
  *
- * @link   https://www.php.net/manual/en/book.wincache.php
- * @since  1.7.0
+ * @link        https://www.php.net/manual/en/book.wincache.php
+ * @since       1.7.0
+ * @deprecated  5.0 WinCache is abandoned and not supported from PHP 8 onwards
  */
 class WincacheStorage extends CacheStorage
 {
@@ -28,7 +29,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.7.0
+	 * @since       3.7.0
+	 * @deprecated  5.0
 	 */
 	public function contains($id, $group)
 	{
@@ -44,7 +46,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -56,7 +59,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0
 	 */
 	public function getAll()
 	{
@@ -70,7 +74,7 @@ class WincacheStorage extends CacheStorage
 			$name    = $key['key_name'];
 			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 			{
 				$group = $namearr[2];
 
@@ -109,7 +113,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0
 	 */
 	public function store($id, $group, $data)
 	{
@@ -124,7 +129,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0
 	 */
 	public function remove($id, $group)
 	{
@@ -142,7 +148,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -152,7 +159,7 @@ class WincacheStorage extends CacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
 			{
 				wincache_ucache_delete($key['key_name']);
 			}
@@ -166,7 +173,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0
 	 */
 	public function gc()
 	{
@@ -190,7 +198,8 @@ class WincacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.0.0
+	 * @since       3.0.0
+	 * @deprecated  5.0
 	 */
 	public static function isSupported()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_post_installation_messages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,44 +13,24 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
+
+if ($hideLinks || $messagesCount < 1)
+{
+	return;
+}
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
-	<div class="header-item-content dropdown d-flex">
-		<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>
-			title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
-			<div class="d-flex align-items-end mx-auto">
-				<span class="fa fa-bell" aria-hidden="true"></span>
+	<a class="header-item-content"
+		href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>"
+		 title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
+		<div class="header-item-icon">
+			<div class="w-auto">
+				<span class="icon-bell icon-fw" aria-hidden="true"></span>
+				<small class="header-item-count"><?php echo $messagesCount; ?></small>
 			</div>
-			<div class="tiny">
-				<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
-			</div>
-			<span class="fa fa-angle-down" aria-hidden="true"></span>
-			<?php if (count($messages) > 0) : ?>
-				<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
-			<?php endif; ?>
-		</button>
-		<?php if (!$hideLinks) : ?>
-		<div class="dropdown-menu dropdown-menu-right dropdown-notifications border-0">
-			<div class="dropdown-header">
-				<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
-			</div>
-			<?php if (empty($messages)) : ?>
-				<div class="dropdown-item">
-					<a href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>">
-						<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?>
-					</a>
-				</div>
-			<?php endif; ?>
-			<?php foreach ($messages as $message) : ?>
-				<div class="dropdown-item">
-					<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId; ?>
-					<?php $title = Text::_($message->title_key); ?>
-					<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>">
-						<?php echo $title; ?>
-					</a>
-				</div>
-			<?php endforeach; ?>
 		</div>
-		<?php endif; ?>
-	</div>
+		<div class="header-item-text">
+			<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
+		</div>
+	</a>
 <?php endif; ?>

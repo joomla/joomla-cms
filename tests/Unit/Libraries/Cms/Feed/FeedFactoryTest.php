@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -142,7 +142,6 @@ class FeedFactoryTest extends UnitTestCase
 	public function testFetchFeedParser()
 	{
 		$tagName = 'parser-mock';
-		$xmlReaderMock = $this->createMock(XMLReader::class);
 		$parseMock = $this->createMock(FeedParser::class);
 		$this->feedFactory->registerParser($tagName, get_class($parseMock));
 
@@ -150,7 +149,7 @@ class FeedFactoryTest extends UnitTestCase
 		$reflectionClass = new ReflectionClass($this->feedFactory);
 		$method = $reflectionClass->getMethod('_fetchFeedParser');
 		$method->setAccessible(true);
-		$parser = $method->invoke($this->feedFactory, $tagName, $xmlReaderMock);
+		$parser = $method->invoke($this->feedFactory, $tagName, new \XMLReader);
 
 		$this->assertInstanceOf(FeedParser::class, $parser);
 		$this->assertSame(get_class($parseMock), get_class($parser));
@@ -166,12 +165,11 @@ class FeedFactoryTest extends UnitTestCase
 	public function testFetchFeedParserWithInvalidTag()
 	{
 		$this->expectException(\LogicException::class);
-		$xmlReaderMock = $this->createMock(XMLReader::class);
 
 		// Use reflection to test private method
 		$reflectionClass = new ReflectionClass($this->feedFactory);
 		$method = $reflectionClass->getMethod('_fetchFeedParser');
 		$method->setAccessible(true);
-		$method->invoke($this->feedFactory, 'not-existing', $xmlReaderMock);
+		$method->invoke($this->feedFactory, 'not-existing', new \XMLReader);
 	}
 }

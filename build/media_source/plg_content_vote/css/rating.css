@@ -1,0 +1,33 @@
+.content_rating ul {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-bottom: 0.5em;
+}
+
+.content_rating .vote-star,
+.content_rating .vote-star-empty,
+.content_rating .vote-star-half {
+  display: inline-block;
+}
+
+.content_rating .vote-star svg,
+.content_rating .vote-star-half svg {
+  width: 1em;
+  height: 1em;
+  fill: #fd7e14;
+}
+
+.content_rating .vote-star-empty svg {
+  width: 1em;
+  height: 1em;
+  fill: #d3d3d3;
+}
+
+.content_rating .vote-star-half {
+  margin-inline-start: -1em;
+}
+
+[dir=rtl] .content_rating .vote-star-half {
+  transform: scaleX(-1);
+}
+

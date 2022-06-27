@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    Joomla.Libraries
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 // Class map of the core extensions
 JLoader::registerAlias('ActionLogPlugin', '\\Joomla\\Component\\Actionlogs\\Administrator\\Plugin\\ActionLogPlugin', '5.0');
 
-JLoader::registerAlias('FieldsPlugin',     '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin', '4.0');
-JLoader::registerAlias('FieldsListPlugin', '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsListPlugin', '4.0');
+JLoader::registerAlias('FieldsPlugin',     '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin', '5.0');
+JLoader::registerAlias('FieldsListPlugin', '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsListPlugin', '5.0');
 
 JLoader::registerAlias('PrivacyExportDomain',     '\\Joomla\\Component\\Privacy\\Administrator\\Export\\Domain', '5.0');
 JLoader::registerAlias('PrivacyExportField', '\\Joomla\\Component\\Privacy\\Administrator\\Export\\Field', '5.0');
@@ -22,7 +22,7 @@ JLoader::registerAlias('PrivacyPlugin', '\\Joomla\\Component\\Privacy\\Administr
 JLoader::registerAlias('PrivacyRemovalStatus', '\\Joomla\\Component\\Privacy\\Administrator\\Removal\\Status', '5.0');
 JLoader::registerAlias('PrivacyTableRequest', '\\Joomla\\Component\\Privacy\\Administrator\\Table\\RequestTable', '5.0');
 
-JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '4.0');
+JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '5.0');
 
 JLoader::registerAlias('ContentHelperRoute', '\\Joomla\\Component\\Content\\Site\\Helper\\RouteHelper', '5.0');
 

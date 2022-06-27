@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,15 +19,24 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
+use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
+use Joomla\DI\Exception\ContainerNotFoundException;
+use Joomla\DI\ServiceProviderInterface;
 
 /**
  * Abstract adapter for the installer.
  *
  * @since  3.4
  */
-abstract class InstallerAdapter
+abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwareInterface
 {
+	use ContainerAwareTrait, DatabaseAwareTrait;
+
 	/**
 	 * Changelog URL of extensions
 	 *
@@ -98,7 +107,7 @@ abstract class InstallerAdapter
 	 * Installer used with this adapter
 	 *
 	 * @var    Installer
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $parent = null;
 
@@ -140,7 +149,7 @@ abstract class InstallerAdapter
 	public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
 	{
 		$this->parent = $parent;
-		$this->db     = $db;
+		$this->setDatabase($db);
 
 		foreach ($options as $key => $value)
 		{
@@ -531,7 +540,7 @@ abstract class InstallerAdapter
 	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
 		$lang = Factory::getLanguage();
-		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
+		$lang->load($extension . '.sys', $source) || $lang->load($extension . '.sys', $base);
 	}
 
 	/**
@@ -627,7 +636,7 @@ abstract class InstallerAdapter
 	 *
 	 * @return  Installer
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function getParent()
 	{
@@ -1007,23 +1016,87 @@ abstract class InstallerAdapter
 		// If there is a manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string) $this->getManifest()->scriptfile;
 
-		if ($manifestScript)
+		// When no script file, do nothing
+		if (!$manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+			return;
+		}
+
+		// Build a child container, so we do not overwrite the global one
+		// and start from scratch when multiple extensions are installed
+		try
+		{
+			$container = new Container($this->getContainer());
+		}
+		catch (ContainerNotFoundException $e)
+		{
+			@trigger_error('Container must be set.', E_USER_DEPRECATED);
+
+			// Fallback to the global container
+			$container = new Container(Factory::getContainer());
+		}
+
+		// The real location of the file
+		$manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
+
+		$installer = null;
+
+		// Load the installer from the file
+		if (!file_exists($manifestScriptFile))
+		{
+			@trigger_error(
+				'Installer file must exist when defined. In version 5.0 this will crash.',
+				E_USER_DEPRECATED
+			);
+
+			return;
+		}
+
+		require_once $manifestScriptFile;
+
+		// When the instance is a service provider, then register the container with it
+		if ($installer instanceof ServiceProviderInterface)
+		{
+			$installer->register($container);
+		}
+
+		// When the returned object is an installer instance, use it directly
+		if ($installer instanceof InstallerScriptInterface)
+		{
+			$container->set(InstallerScriptInterface::class, $installer);
+		}
+
+		// When none is set, then use the legacy way
+		if (!$container->has(InstallerScriptInterface::class))
+		{
+			@trigger_error(
+				'Legacy installer files are deprecated and will be removed in 6.0. Use a service provider instead.',
+				E_USER_DEPRECATED
+			);
 
 			$classname = $this->getScriptClassName();
 
 			\JLoader::register($classname, $manifestScriptFile);
 
-			if (class_exists($classname))
+			if (!class_exists($classname))
 			{
-				// Create a new instance
-				$this->parent->manifestClass = new $classname($this);
-
-				// And set this so we can copy it later
-				$this->manifest_script = $manifestScript;
+				return;
 			}
+
+			$container->set(
+				InstallerScriptInterface::class,
+				function (Container $container) use ($classname)
+				{
+					return new LegacyInstallerScript(new $classname($this));
+				}
+			);
 		}
+
+		// Create a new instance
+		$this->parent->manifestClass = $container->get(InstallerScriptInterface::class);
+
+		// And set this so we can copy it later
+		$this->manifest_script = $manifestScript;
 	}
 
 	/**
@@ -1151,8 +1224,16 @@ abstract class InstallerAdapter
 			return false;
 		}
 
-		// Protected extensions cannot be removed
-		if ($this->extension->protected)
+		// Joomla 4: Locked extensions cannot be removed.
+		if (isset($this->extension->locked) && $this->extension->locked)
+		{
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
+
+			return false;
+		}
+
+		// Joomla 3 ('locked' property does not exist yet): Protected extensions cannot be removed.
+		elseif (!isset($this->extension->locked) && $this->extension->protected)
 		{
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_PROTECTED_EXTENSION'), Log::WARNING, 'jerror');
 
@@ -1305,5 +1386,32 @@ abstract class InstallerAdapter
 
 		// Now jump into the install method to run the update
 		return $this->install();
+	}
+
+	/**
+	 * Proxy for db variable.
+	 *
+	 * @param   string  $name  The name of the element
+	 *
+	 * @return  mixed  The value of the element if set, null otherwise
+	 *
+	 * @since   4.2.0
+	 *
+	 * @deprecated  5.0 Use getDatabase() instead of directly accessing db
+	 */
+	public function __get($name)
+	{
+		if ($name === 'db')
+		{
+			return $this->getDatabase();
+		}
+
+		// Default the variable
+		if (!isset($this->$name))
+		{
+			$this->$name = null;
+		}
+
+		return $this->$name;
 	}
 }

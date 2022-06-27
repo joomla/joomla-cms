@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,20 +102,26 @@ class ListField extends FormField
 				{
 					continue;
 				}
+
+				// Requires record hits
+				if (\in_array('hits', $requires) && !ComponentHelper::getParams('com_content')->get('record_hits', 1))
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];
 			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+			$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
 
 			$checked = (string) $option['checked'];
-			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+			$checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
 			$selected = (string) $option['selected'];
-			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
+			$selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
 			$tmp = array(
 					'value'    => $value,
@@ -132,11 +138,11 @@ class ListField extends FormField
 
 			if ((string) $option['showon'])
 			{
-				$tmp['optionattr'] = " data-showon='" .
-					json_encode(
-						FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
-					)
-					. "'";
+				$encodedConditions = json_encode(
+					FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+				);
+
+				$tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
 			}
 
 			// Add the option object to the result set.
@@ -151,7 +157,7 @@ class ListField extends FormField
 			$component  = Factory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
-			if ($component == 'com_menus')
+			if ($component === 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
 				$uri       = new Uri($link);
@@ -168,7 +174,7 @@ class ListField extends FormField
 			}
 
 			// Try with menu configuration
-			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
@@ -234,7 +240,7 @@ class ListField extends FormField
 	 */
 	public function __get($name)
 	{
-		if ($name == 'options')
+		if ($name === 'options')
 		{
 			return $this->getOptions();
 		}

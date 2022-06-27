@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="options">
+		<fieldset name="actions"
+			label="COM_WORKFLOW_TRANSITION_ACTIONS_LABEL"
+		>
+			<field
+				name="publishing"
+				type="workflowcondition"
+				label="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_LABEL"
+				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DESC"
+				default=""
+				hide_all="true"
+				>
+				<option value="">JOPTION_DO_NOT_USE</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

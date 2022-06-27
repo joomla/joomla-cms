@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,11 +36,14 @@ return new class implements ServiceProviderInterface
 				// @Todo This needs to be changed to a proper factory
 				$plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'joomlaupdate');
 
-				return new Joomlaupdate(
+				$plugin = new Joomlaupdate(
 					$container->get(DispatcherInterface::class),
 					Factory::getApplication()->getDocument(),
 					(array) $plugin
 				);
+				$plugin->setApplication(Factory::getApplication());
+
+				return $plugin;
 			}
 		);
 	}

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -182,7 +182,7 @@ class FeedDocument extends Document
 
 		// Gets and sets timezone offset from site configuration
 		$this->lastBuildDate = CmsFactory::getDate();
-		$this->lastBuildDate->setTimeZone(new \DateTimeZone(CmsFactory::getApplication()->get('offset', 'UTC')));
+		$this->lastBuildDate->setTimezone(new \DateTimeZone(CmsFactory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**
@@ -203,7 +203,7 @@ class FeedDocument extends Document
 		$type = CmsFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
-		$renderer = $this->loadRenderer(($type) ? $type : 'rss');
+		$renderer = $this->loadRenderer($type ?: 'rss');
 
 		if (!($renderer instanceof DocumentRenderer))
 		{
@@ -226,7 +226,7 @@ class FeedDocument extends Document
 		// Render the feed
 		$data .= $renderer->render();
 
-		parent::render();
+		parent::render($cache, $params);
 
 		return $data;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Modules
  * @subpackage  Webservices.Modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,16 @@ class PlgWebservicesModules extends CMSPlugin
 
 		$router->addRoutes($routes);
 
-		$router->createCRUDRoutes('v1/modules/site', 'modules', ['component' => 'com_modules', 'client_id' => 0]);
-		$router->createCRUDRoutes('v1/modules/administrator', 'modules', ['component' => 'com_modules', 'client_id' => 1]);
+		$router->createCRUDRoutes(
+			'v1/modules/site',
+			'modules',
+			['component' => 'com_modules', 'client_id' => 0]
+		);
+
+		$router->createCRUDRoutes(
+			'v1/modules/administrator',
+			'modules',
+			['component' => 'com_modules', 'client_id' => 1]
+		);
 	}
 }

@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // @TODO remove jQuery dependency
@@ -66,10 +66,15 @@ jQuery(document).ready(function($) {
       target.find('#jform_associations_' + referenceLang).val('');
 
       // Reset switcher after removing association
-      var currentSwitcher = $('#jform_itemlanguage').val();
+      var currentLangSelect = $('#jform_itemlanguage');
+      var currentSwitcher = currentLangSelect.val();
       var currentLang = targetLang.replace(/_/,'-');
       $('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + ':0:add');
-      $('#jform_itemlanguage').val('');
+      currentLangSelect.val('');
+      currentLangSelect[0].dispatchEvent(new CustomEvent('change', {
+        bubbles: true,
+        cancelable: true,
+      }));
 
       // Save one of the items to confirm action
       Joomla.submitbutton('reference');
@@ -84,7 +89,7 @@ jQuery(document).ready(function($) {
   };
 
   // Attach behaviour to toggle button.
-  $(document).on('click', '#toogle-left-panel', function() {
+  $(document).on('click', '#toggle-left-panel', function() {
     var referenceHide = this.getAttribute('data-hide-reference');
     var referenceShow = this.getAttribute('data-show-reference');
 
@@ -177,7 +182,9 @@ jQuery(document).ready(function($) {
 
     // Iframe load finished, hide Joomla loading layer.
     var spinner = document.querySelector('joomla-core-loader');
-    spinner.parentNode.removeChild(spinner);
+    if (spinner) {
+      spinner.parentNode.removeChild(spinner);
+    }
   });
 
   // Attach behaviour to target frame load event.
@@ -211,13 +218,13 @@ jQuery(document).ready(function($) {
       // If we are creating a new association (before save) we need to add the new association.
       if (targetLoadedId == '0')
       {
-        document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
+        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-select'));
       }
       // If we are editing an association.
       else
       {
         // Show change language button
-        document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-change');
+        document.getElementById('select-change-text').innerHTML =  Joomla.sanitizeHtml(document.getElementById('select-change').getAttribute('data-change'));
         $('#remove-assoc').removeClass("hidden");
         $('#toolbar-copy').hide();
 
@@ -288,7 +295,9 @@ jQuery(document).ready(function($) {
 
       // Iframe load finished, hide Joomla loading layer.
       var spinner = document.querySelector('joomla-core-loader');
-      spinner.parentNode.removeChild(spinner);
+      if (spinner) {
+        spinner.parentNode.removeChild(spinner);
+      }
     }
   });
 });

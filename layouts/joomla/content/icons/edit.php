@@ -3,48 +3,33 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $article = $displayData['article'];
-$overlib = $displayData['overlib'];
-$legacy  = $displayData['legacy'];
+$tooltip = $displayData['tooltip'];
 $nowDate = strtotime(Factory::getDate());
 
-if ($legacy)
-{
-	$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
+$icon = $article->state ? 'edit' : 'eye-slash';
+$currentDate   = Factory::getDate()->format('Y-m-d H:i:s');
+$isUnpublished = ($article->publish_up > $currentDate)
+	|| !is_null($article->publish_down) && ($article->publish_down < $currentDate);
 
-	if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
-		|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
-			&& $article->publish_down !== Factory::getDbo()->getNullDate()))
-	{
-		$icon = 'edit_unpublished.png';
-	}
-}
-else
+if ($isUnpublished)
 {
-	$icon = $article->state ? 'edit' : 'eye-slash';
-
-	if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
-		|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
-			&& $article->publish_down !== Factory::getDbo()->getNullDate()))
-	{
-		$icon = 'eye-slash';
-	}
+	$icon = 'eye-slash';
 }
+$aria_described = 'editarticle-' . (int) $article->id;
 
 ?>
-<?php if ($legacy) : ?>
-	<?php echo HTMLHelper::_('image', 'system/' . $icon, Text::_('JGLOBAL_EDIT'), null, true); ?>
-<?php else : ?>
-	<span class="hasTooltip fa fa-<?php echo $icon; ?>" title="<?php echo HTMLHelper::tooltipText(Text::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
+<span class="icon-<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo Text::_('JGLOBAL_EDIT'); ?>
-<?php endif; ?>
+<div role="tooltip" id="<?php echo $aria_described; ?>">
+	<?php echo $tooltip; ?>
+</div>

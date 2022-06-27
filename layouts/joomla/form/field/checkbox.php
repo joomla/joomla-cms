@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\CheckboxField;
 
@@ -42,6 +42,8 @@ extract($displayData);
  * @var   string         $validate        Validation rules to apply.
  * @var   string         $value           Value attribute of the field.
  * @var   boolean        $checked         Whether the checkbox should be checked.
+ * @var   string         $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array          $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 // Initialize some field attributes.
@@ -63,6 +65,6 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 		id="<?php echo $id; ?>"
 		class="form-check-input<?php echo $class; ?>"
 		value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>"
-		<?php echo $checked . $disabled . $onclick . $onchange . $required . $autofocus; ?>
+		<?php echo $checked . $disabled . $onclick . $onchange . $required . $autofocus . $dataAttribute; ?>
 	>
 </div>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,12 +10,15 @@ namespace Joomla\CMS\Serializer;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Table\Table;
 use Tobscure\JsonApi\AbstractSerializer;
+use Tobscure\JsonApi\Relationship;
 
 /**
- * Temporary serializer
+ * This class does the messy job of sanitising all the classes Joomla has that contain data and converting them
+ * into a standard array that can be consumed by the Tobscure library. It also throws appropriate plugin events
+ * to allow 3rd party extensions to add custom data and relations into these properties before they are rendered
  *
  * @since  4.0.0
  */
@@ -36,8 +39,8 @@ class JoomlaSerializer extends AbstractSerializer
 	/**
 	 * Get the attributes array.
 	 *
-	 * @param   Table|array|\stdClass|CMSobject  $post    The model
-	 * @param   array                            $fields  The fields can be array or null
+	 * @param   array|\stdClass|CMSObject  $post    The data container
+	 * @param   array|null                 $fields  The requested fields to be rendered
 	 *
 	 * @return  array
 	 *
@@ -45,12 +48,12 @@ class JoomlaSerializer extends AbstractSerializer
 	 */
 	public function getAttributes($post, array $fields = null)
 	{
-		if (!($post instanceof Table) && !($post instanceof \stdClass) && !(\is_array($post))
-			&& !($post instanceof CMSObject))
+		if (!($post instanceof \stdClass) && !(\is_array($post)) && !($post instanceof CMSObject))
 		{
 			$message = sprintf(
-				'Invalid argument for TableSerializer. Expected array or %s. Got %s',
-				Table::class,
+				'Invalid argument for %s. Expected array or %s. Got %s',
+				static::class,
+				CMSObject::class,
 				\gettype($post)
 			);
 
@@ -63,18 +66,52 @@ class JoomlaSerializer extends AbstractSerializer
 			$post = (array) $post;
 		}
 
-		// The response from a standard AdminModel query
+		// The response from a standard AdminModel query also works for Table which extends CMSObject
 		if ($post instanceof CMSObject)
 		{
 			$post = $post->getProperties();
 		}
 
-		// TODO: Find a way to make this an instance of TableInterface instead of the concrete class
-		if ($post instanceof Table)
+		$event = new Events\OnGetApiAttributes('onGetApiAttributes', ['attributes' => $post, 'context' => $this->type]);
+
+		/** @var Events\OnGetApiAttributes $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiAttributes', $event);
+		$combinedData = array_merge($post, $eventResult->getAttributes());
+
+		return \is_array($fields) ? array_intersect_key($combinedData, array_flip($fields)) : $combinedData;
+	}
+
+	/**
+	 * Get a relationship.
+	 *
+	 * @param   mixed   $model  The model of the entity being rendered
+	 * @param   string  $name   The name of the relationship to return
+	 *
+	 * @return \Tobscure\JsonApi\Relationship|void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getRelationship($model, $name)
+	{
+		$result = parent::getRelationship($model, $name);
+
+		// If we found a result in the content type serializer return now. Else trigger plugins.
+		if ($result instanceof Relationship)
 		{
-			$post = $post->getProperties();
+			return $result;
 		}
 
-		return \is_array($fields) ? array_intersect_key($post, array_flip($fields)) : $post;
+		$eventData = ['model' => $model, 'field' => $name, 'context' => $this->type];
+		$event     = new Events\OnGetApiRelation('onGetApiRelation', $eventData);
+
+		/** @var Events\OnGetApiRelation $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiRelation', $event);
+
+		$relationship = $eventResult->getRelationship();
+
+		if ($relationship instanceof Relationship)
+		{
+			return $relationship;
+		}
 	}
 }

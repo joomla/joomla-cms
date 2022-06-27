@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_privacy/models/fields">
+	<fieldset>
 		<field
 			name="email"
 			type="email"
 			label="JGLOBAL_EMAIL"
 			description="COM_PRIVACY_USER_FIELD_EMAIL_DESC"
 			required="true"
-			size="30"
 			validate="email"
 		/>
 

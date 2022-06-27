@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset 
+	<help key="Redirect:_Options"/>
+	<inlinehelp button="show"/>
+	<fieldset
 		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
 		>
@@ -8,7 +10,7 @@
 			name="mode"
 			type="radio"
 			label="COM_REDIRECT_MODE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -26,7 +28,7 @@
 			type="radio"
 			label="COM_REDIRECT_DEFAULT_IMPORT_STATE_LABEL"
 			description="COM_REDIRECT_DEFAULT_IMPORT_STATE_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JDISABLED</option>
@@ -37,7 +39,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 		<field
 			name="rules"
@@ -46,7 +47,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_redirect"
-			section="component" 
+			section="component"
 		/>
 	</fieldset>
 </config>

@@ -1,9 +1,7 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-Joomla = window.Joomla || {};
-
 ((document) => {
   'use strict';
 
@@ -40,7 +38,7 @@ Joomla = window.Joomla || {};
           }
 
           if (elem) {
-            const clickTarget = elem.getAttribute('data-target');
+            const clickTarget = elem.dataset.bsTarget;
 
             // We remember to be in the saving process
             isSaving = clickTarget === '#saveBtn';
@@ -50,25 +48,30 @@ Joomla = window.Joomla || {};
 
             const iframe = document.querySelector('#moduleDashboardAddModal iframe');
             const content = iframe.contentDocument || iframe.contentWindow.document;
+            const targetBtn = content.querySelector(clickTarget);
 
-            content.querySelector(clickTarget).click();
+            if (targetBtn) {
+              targetBtn.click();
+            }
           }
         });
       });
     }
 
-    // @TODO remove jQuery dependency, when the modal is not bootstrap anymore
-    /* global jQuery */
-    jQuery('#moduleDashboardAddModal').on('hide.bs.modal', () => {
-      hideButtons.forEach((button) => {
-        button.classList.add('hidden');
-      });
-    });
+    const elementH = document.querySelector('#moduleDashboardAddModal');
 
-    jQuery('#moduleDashboardAddModal').on('hidden.bs.modal', () => {
-      if (isSaving) {
-        setTimeout(() => { window.parent.location.reload(); }, 1000);
-      }
-    });
+    if (elementH) {
+      elementH.addEventListener('hide.bs.modal', () => {
+        hideButtons.forEach((button) => {
+          button.classList.add('hidden');
+        });
+      });
+
+      elementH.addEventListener('hidden.bs.modal', () => {
+        if (isSaving) {
+          setTimeout(() => { window.parent.location.reload(); }, 1000);
+        }
+      });
+    }
   });
 })(document);

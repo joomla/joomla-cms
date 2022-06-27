@@ -1,8 +1,8 @@
 <?php
 /**
- * @package    Joomla.Libraries
+ * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,6 @@ JLoader::registerAlias('JErrorPage',                        '\\Joomla\\CMS\\Exce
 JLoader::registerAlias('JAuthenticationHelper',             '\\Joomla\\CMS\\Helper\\AuthenticationHelper', '5.0');
 JLoader::registerAlias('JHelper',                           '\\Joomla\\CMS\\Helper\\CMSHelper', '5.0');
 JLoader::registerAlias('JHelperContent',                    '\\Joomla\\CMS\\Helper\\ContentHelper', '5.0');
-JLoader::registerAlias('JHelperContenthistory',             '\\Joomla\\CMS\\Helper\\ContentHistoryHelper', '5.0');
 JLoader::registerAlias('JLibraryHelper',                    '\\Joomla\\CMS\\Helper\\LibraryHelper', '5.0');
 JLoader::registerAlias('JHelperMedia',                      '\\Joomla\\CMS\\Helper\\MediaHelper', '5.0');
 JLoader::registerAlias('JModuleHelper',                     '\\Joomla\\CMS\\Helper\\ModuleHelper', '5.0');
@@ -314,7 +313,6 @@ JLoader::registerAlias('JFormFieldFolderList',              '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldFrontend_Language',       '\\Joomla\\CMS\\Form\\Field\\FrontendlanguageField', '5.0');
 JLoader::registerAlias('JFormFieldGroupedList',             '\\Joomla\\CMS\\Form\\Field\\GroupedlistField', '5.0');
 JLoader::registerAlias('JFormFieldHeadertag',               '\\Joomla\\CMS\\Form\\Field\\HeadertagField', '5.0');
-JLoader::registerAlias('JFormFieldHelpsite',                '\\Joomla\\CMS\\Form\\Field\\HelpsiteField', '5.0');
 JLoader::registerAlias('JFormFieldHidden',                  '\\Joomla\\CMS\\Form\\Field\\HiddenField', '5.0');
 JLoader::registerAlias('JFormFieldImageList',               '\\Joomla\\CMS\\Form\\Field\\ImagelistField', '5.0');
 JLoader::registerAlias('JFormFieldInteger',                 '\\Joomla\\CMS\\Form\\Field\\IntegerField', '5.0');
@@ -498,3 +496,40 @@ JLoader::registerAlias('JStreamString',                     '\\Joomla\\CMS\\File
 JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '5.0');
 
 JLoader::registerAlias('JClassLoader',                      '\\Joomla\\CMS\\Autoload\\ClassLoader', '5.0');
+
+JLoader::registerAlias('JFormFilterInt_Array', '\\Joomla\\CMS\\Form\\Filter\\IntarrayFilter', '5.0');
+
+JLoader::registerAlias('JAdapter',                          '\\Joomla\\CMS\\Adapter\\Adapter', '5.0');
+JLoader::registerAlias('JAdapterInstance',                  '\\Joomla\\CMS\\Adapter\\AdapterInstance', '5.0');
+
+JLoader::registerAlias('JHtmlAccess',                       '\\Joomla\\CMS\\HTML\\Helpers\\Access', '5.0');
+JLoader::registerAlias('JHtmlActionsDropdown',              '\\Joomla\\CMS\\HTML\\Helpers\\ActionsDropdown', '5.0');
+JLoader::registerAlias('JHtmlAdminLanguage',                '\\Joomla\\CMS\\HTML\\Helpers\\AdminLanguage', '5.0');
+JLoader::registerAlias('JHtmlBehavior',                     '\\Joomla\\CMS\\HTML\\Helpers\\Behavior', '5.0');
+JLoader::registerAlias('JHtmlBootstrap',                    '\\Joomla\\CMS\\HTML\\Helpers\\Bootstrap', '5.0');
+JLoader::registerAlias('JHtmlCategory',                     '\\Joomla\\CMS\\HTML\\Helpers\\Category', '5.0');
+JLoader::registerAlias('JHtmlContent',                      '\\Joomla\\CMS\\HTML\\Helpers\\Content', '5.0');
+JLoader::registerAlias('JHtmlContentlanguage',              '\\Joomla\\CMS\\HTML\\Helpers\\ContentLanguage', '5.0');
+JLoader::registerAlias('JHtmlDate',                         '\\Joomla\\CMS\\HTML\\Helpers\\Date', '5.0');
+JLoader::registerAlias('JHtmlDebug',                        '\\Joomla\\CMS\\HTML\\Helpers\\Debug', '5.0');
+JLoader::registerAlias('JHtmlDraggablelist',                '\\Joomla\\CMS\\HTML\\Helpers\\DraggableList', '5.0');
+JLoader::registerAlias('JHtmlDropdown',                     '\\Joomla\\CMS\\HTML\\Helpers\\Dropdown', '5.0');
+JLoader::registerAlias('JHtmlEmail',                        '\\Joomla\\CMS\\HTML\\Helpers\\Email', '5.0');
+JLoader::registerAlias('JHtmlForm',                         '\\Joomla\\CMS\\HTML\\Helpers\\Form', '5.0');
+JLoader::registerAlias('JHtmlFormbehavior',                 '\\Joomla\\CMS\\HTML\\Helpers\\FormBehavior', '5.0');
+JLoader::registerAlias('JHtmlGrid',                         '\\Joomla\\CMS\\HTML\\Helpers\\Grid', '5.0');
+JLoader::registerAlias('JHtmlIcons',                        '\\Joomla\\CMS\\HTML\\Helpers\\Icons', '5.0');
+JLoader::registerAlias('JHtmlJGrid',                        '\\Joomla\\CMS\\HTML\\Helpers\\JGrid', '5.0');
+JLoader::registerAlias('JHtmlJquery',                       '\\Joomla\\CMS\\HTML\\Helpers\\Jquery', '5.0');
+JLoader::registerAlias('JHtmlLinks',                        '\\Joomla\\CMS\\HTML\\Helpers\\Links', '5.0');
+JLoader::registerAlias('JHtmlList',                         '\\Joomla\\CMS\\HTML\\Helpers\\ListHelper', '5.0');
+JLoader::registerAlias('JHtmlMenu',                         '\\Joomla\\CMS\\HTML\\Helpers\\Menu', '5.0');
+JLoader::registerAlias('JHtmlNumber',                       '\\Joomla\\CMS\\HTML\\Helpers\\Number', '5.0');
+JLoader::registerAlias('JHtmlSearchtools',                  '\\Joomla\\CMS\\HTML\\Helpers\\SearchTools', '5.0');
+JLoader::registerAlias('JHtmlSelect',                       '\\Joomla\\CMS\\HTML\\Helpers\\Select', '5.0');
+JLoader::registerAlias('JHtmlSidebar',                      '\\Joomla\\CMS\\HTML\\Helpers\\Sidebar', '5.0');
+JLoader::registerAlias('JHtmlSortableList',                 '\\Joomla\\CMS\\HTML\\Helpers\\SortableList', '5.0');
+JLoader::registerAlias('JHtmlString',                       '\\Joomla\\CMS\\HTML\\Helpers\\StringHelper', '5.0');
+JLoader::registerAlias('JHtmlTag',                          '\\Joomla\\CMS\\HTML\\Helpers\\Tag', '5.0');
+JLoader::registerAlias('JHtmlTel',                          '\\Joomla\\CMS\\HTML\\Helpers\\Telephone', '5.0');
+JLoader::registerAlias('JHtmlUser',                         '\\Joomla\\CMS\\HTML\\Helpers\\User', '5.0');

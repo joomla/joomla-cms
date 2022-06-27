@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,6 +24,10 @@ use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\CurrentUserInterface;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Input\Input;
 
 /**
  * Base class for a Joomla Controller
@@ -33,8 +37,10 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  2.5.5
  */
-class BaseController implements ControllerInterface
+class BaseController implements ControllerInterface, DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * The base path of the controller
 	 *
@@ -134,7 +140,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Hold a JInput object for easier access to the input variables.
 	 *
-	 * @var    \JInput
+	 * @var    Input
 	 * @since  3.0
 	 */
 	protected $input;
@@ -143,7 +149,7 @@ class BaseController implements ControllerInterface
 	 * The factory.
 	 *
 	 * @var    MVCFactoryInterface
-	 * @since  4.0.0
+	 * @since  3.10.0
 	 */
 	protected $factory;
 
@@ -180,6 +186,7 @@ class BaseController implements ControllerInterface
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @deprecated  5.0 See \Joomla\CMS\MVC\Model\LegacyModelLoaderTrait::getInstance
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
@@ -279,7 +286,8 @@ class BaseController implements ControllerInterface
 
 		if (\is_array($command))
 		{
-			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
+			$keys = array_keys($command);
+			$command = $filter->clean(array_pop($keys), 'cmd');
 		}
 		else
 		{
@@ -303,7 +311,7 @@ class BaseController implements ControllerInterface
 		else
 		{
 			// Base controller.
-			$type = null;
+			$type = '';
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
@@ -319,11 +327,11 @@ class BaseController implements ControllerInterface
 		if (!class_exists($class))
 		{
 			// If the controller file path exists, include it.
-			if (file_exists($path))
+			if (is_file($path))
 			{
 				require_once $path;
 			}
-			elseif (isset($backuppath) && file_exists($backuppath))
+			elseif (isset($backuppath) && is_file($backuppath))
 			{
 				require_once $backuppath;
 			}
@@ -356,15 +364,15 @@ class BaseController implements ControllerInterface
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'default_task', 'model_path', and
-	 * 'view_path' (this list is not meant to be comprehensive).
+	 *                                         Recognized key values include 'name', 'default_task', 'model_path', and
+	 *                                         'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   CMSApplication       $app      The Application for the dispatcher
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -373,8 +381,8 @@ class BaseController implements ControllerInterface
 		$this->redirect = null;
 		$this->taskMap = array();
 
-		$this->app   = $app ? $app : Factory::getApplication();
-		$this->input = $input ? $input : $this->app->input;
+		$this->app   = $app ?: Factory::getApplication();
+		$this->input = $input ?: $this->app->input;
 
 		if (\defined('JDEBUG') && JDEBUG)
 		{
@@ -587,6 +595,11 @@ class BaseController implements ControllerInterface
 			return false;
 		}
 
+		if ($model instanceof CurrentUserInterface && $this->app->getIdentity())
+		{
+			$model->setCurrentUser($this->app->getIdentity());
+		}
+
 		return $model;
 	}
 
@@ -612,7 +625,14 @@ class BaseController implements ControllerInterface
 	{
 		$config['paths'] = $this->paths['view'];
 
-		return $this->factory->createView($name, $prefix, $type, $config);
+		$view = $this->factory->createView($name, $prefix, $type, $config);
+
+		if ($view instanceof CurrentUserInterface && $this->app->getIdentity())
+		{
+			$view->setCurrentUser($this->app->getIdentity());
+		}
+
+		return $view;
 	}
 
 	/**
@@ -648,14 +668,12 @@ class BaseController implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && Factory::getApplication()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && $this->app->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
 			if (\is_array($urlparams))
 			{
-				$this->app = Factory::getApplication();
-
 				if (!empty($this->app->registeredurlparams))
 				{
 					$registeredurlparams = $this->app->registeredurlparams;
@@ -676,7 +694,7 @@ class BaseController implements ControllerInterface
 
 			try
 			{
-				/** @var \JCacheControllerView $cache */
+				/** @var \Joomla\CMS\Cache\Controller\ViewController $cache */
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
@@ -707,7 +725,7 @@ class BaseController implements ControllerInterface
 	{
 		$this->task = $task;
 
-		$task = strtolower($task);
+		$task = strtolower((string) $task);
 
 		if (isset($this->taskMap[$task]))
 		{
@@ -776,7 +794,7 @@ class BaseController implements ControllerInterface
 			}
 
 			// Let's get the application object and set menu information if it's available
-			$menu = Factory::getApplication()->getMenu();
+			$menu = $this->app->getMenu();
 
 			if (\is_object($menu) && $item = $menu->getActive())
 			{
@@ -809,7 +827,7 @@ class BaseController implements ControllerInterface
 
 			if (!preg_match('/(.*)Controller/i', \get_class($this), $r))
 			{
-				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
 			}
 
 			$this->name = strtolower($r[1]);

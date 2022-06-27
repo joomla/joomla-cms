@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -199,7 +199,7 @@ class SqlField extends ListField
 	protected function processQuery($conditions, $filters, $defaults)
 	{
 		// Get the database object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Get the query object
 		$query = $db->getQuery(true);
@@ -279,14 +279,14 @@ class SqlField extends ListField
 		if ($this->query)
 		{
 			// Get the database object.
-			$db = Factory::getDbo();
+			$db = $this->getDatabase();
 
 			// Set the query and get the result list.
 			$db->setQuery($this->query);
 
 			try
 			{
-				$items = $db->loadObjectlist();
+				$items = $db->loadObjectList();
 			}
 			catch (ExecutionFailureException $e)
 			{

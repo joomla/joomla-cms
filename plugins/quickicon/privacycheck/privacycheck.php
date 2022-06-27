@@ -3,13 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.privacycheck
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -49,7 +49,9 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.admin', 'com_privacy'))
+		if ($context !== $this->params->get('context', 'update_quickicon')
+			|| !$this->app->getIdentity()->authorise('core.admin', 'com_privacy')
+			|| !ComponentHelper::isEnabled('com_privacy'))
 		{
 			return array();
 		}
@@ -64,23 +66,25 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 				"NOREQUEST"            => Text::_('PLG_QUICKICON_PRIVACYCHECK_NOREQUEST'),
 				"REQUESTFOUND"         => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND'),
 				"ERROR"                => Text::_('PLG_QUICKICON_PRIVACYCHECK_ERROR'),
-			)
+				"REQUESTFOUND_MESSAGE" => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_MESSAGE'),
+				"REQUESTFOUND_BUTTON"  => Text::_('PLG_QUICKICON_PRIVACYCHECK_REQUESTFOUND_BUTTON'),
+			),
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-privacy-check', $options);
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_privacycheck/privacycheck.js', array('version' => 'auto', 'relative' => true));
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_quickicon_privacycheck', 'plg_quickicon_privacycheck/privacycheck.js', [], ['defer' => true], ['core']);
 
 		return array(
 			array(
 				'link'  => $privacy . '&view=requests&filter[status]=1&list[fullordering]=a.requested_at ASC',
-				'image' => 'fa fa-users',
+				'image' => 'icon-users',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_PRIVACYCHECK_CHECKING'),
 				'id'    => 'plg_quickicon_privacycheck',
-				'group' => 'MOD_QUICKICON_USERS'
-			)
+				'group' => 'MOD_QUICKICON_USERS',
+			),
 		);
 	}
 }

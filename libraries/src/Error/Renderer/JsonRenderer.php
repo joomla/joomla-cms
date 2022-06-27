@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,12 +10,14 @@ namespace Joomla\CMS\Error\Renderer;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Factory;
 
 /**
  * JSON error page renderer
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JsonRenderer extends AbstractRenderer
 {
@@ -23,7 +25,7 @@ class JsonRenderer extends AbstractRenderer
 	 * The format (type) of the error page
 	 *
 	 * @var    string
-	 * @since  4.0
+	 * @since  4.0.0
 	 */
 	protected $type = 'json';
 
@@ -34,7 +36,7 @@ class JsonRenderer extends AbstractRenderer
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   4.0.0
 	 */
 	public function render(\Throwable $error): string
 	{
@@ -49,6 +51,20 @@ class JsonRenderer extends AbstractRenderer
 		if (JDEBUG)
 		{
 			$data['trace'] = $error->getTraceAsString();
+		}
+
+		$app = Factory::getApplication();
+
+		if ($app instanceof WebApplicationInterface)
+		{
+			$errorCode = 500;
+
+			if ($error->getCode() > 0)
+			{
+				$errorCode = $error->getCode();
+			}
+
+			$app->setHeader('status', $errorCode);
 		}
 
 		// Push the data object into the document
