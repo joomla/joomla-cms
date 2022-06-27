@@ -9,7 +9,6 @@
 
 namespace Joomla\Plugin\Multifactorauth\Totp\Extension;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Encrypt\Totp as TotpHelper;
 use Joomla\CMS\Event\MultiFactor\Captive;
 use Joomla\CMS\Event\MultiFactor\GetMethod;
@@ -38,14 +37,6 @@ use RuntimeException;
 class Totp extends CMSPlugin implements SubscriberInterface
 {
 	/**
-	 * The application we are running under.
-	 *
-	 * @var    CMSApplication
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $app;
-
-	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
@@ -57,7 +48,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * The MFA Method name handled by this plugin
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $mfaMethodName = 'totp';
 
@@ -65,7 +56,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * Should I try to detect and register legacy event listeners?
 	 *
 	 * @var   boolean
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 *
 	 * @deprecated
 	 */
@@ -76,7 +67,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -95,7 +86,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * @param   GetMethod  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetMethod(GetMethod $event): void
 	{
@@ -118,7 +109,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * @param   Captive  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorCaptive(Captive $event): void
 	{
@@ -137,7 +128,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 			new CaptiveRenderOptions(
 				[
 					// Custom HTML to display above the MFA form
-					'pre_message'      => '',
+					'pre_message'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_CAPTIVE_PROMPT'),
 					// How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
 					'field_type'       => 'input',
 					// The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -167,7 +158,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * @param   GetSetup  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorGetSetup(GetSetup $event): void
 	{
@@ -187,7 +178,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 		// Load the options from the record (if any)
 		$options      = $this->decodeRecordOptions($record);
 		$key          = $options['key'] ?? '';
-		$session      = $this->app->getSession();
+		$session      = $this->getApplication()->getSession();
 		$isConfigured = !empty($key);
 
 		// If there's a key in the session use that instead.
@@ -210,7 +201,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 		$user     = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
 		$hostname = Uri::getInstance()->toString(['host']);
 		$otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
-		$document = $this->app->getDocument();
+		$document = $this->getApplication()->getDocument();
 		$wam      = $document->getWebAssetManager();
 
 		$document->addScriptOptions('plg_multifactorauth_totp.totp.qr', $otpURL);
@@ -256,7 +247,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * @param   SaveSetup  $event  The event we are handling
 	 *
 	 * @return  void The configuration data to save to the database
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorSaveSetup(SaveSetup $event): void
 	{
@@ -277,7 +268,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 		$options    = $this->decodeRecordOptions($record);
 		$optionsKey = $options['key'] ?? '';
 		$key        = $optionsKey;
-		$session    = $this->app->getSession();
+		$session    = $this->getApplication()->getSession();
 
 		// If there is no key in the options fetch one from the session
 		if (empty($key))
@@ -331,7 +322,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * @param   Validate  $event  The event we are handling
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onUserMultifactorValidate(Validate $event): void
 	{
@@ -383,7 +374,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
 	 * @param   MfaTable  $record  The record to decode options for
 	 *
 	 * @return  array
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function decodeRecordOptions(MfaTable $record): array
 	{

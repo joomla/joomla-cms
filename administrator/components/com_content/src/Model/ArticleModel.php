@@ -1064,7 +1064,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->getDatabase()->quoteName('catid') . ' = ' . (int) $table->catid,
 		];
 	}
 

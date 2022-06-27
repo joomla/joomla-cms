@@ -1261,7 +1261,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since   4.0.0
 	 *
 	 * @throws \Exception
-	 * @deprecated __DEPLOY_VERSION__  Will be removed in 5.0 without replacement.
+	 * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
 	 */
 	protected function isTwoFactorAuthenticationRequired(): bool
 	{
@@ -1276,7 +1276,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since   4.0.0
 	 *
 	 * @throws \Exception
-	 * @deprecated __DEPLOY_VERSION__  Will be removed in 5.0 without replacement.
+	 * @deprecated 4.2.0  Will be removed in 5.0 without replacement.
 	 */
 	private function hasUserConfiguredTwoFactorAuthentication(): bool
 	{

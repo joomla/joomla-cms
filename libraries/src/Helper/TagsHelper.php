@@ -409,7 +409,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @return  array    Array of of tag objects grouped by Id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function getMultipleItemTags($contentType, array $ids, $getTagData = true)
 	{

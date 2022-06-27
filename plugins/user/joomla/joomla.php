@@ -433,7 +433,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $options  Passed by Joomla. user: a User object; responseType: string, authentication response type.
 	 *
 	 * @return void
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	public function onUserAfterLogin(array $options): void
 	{
@@ -451,7 +451,7 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   array  $options  The array of login options and login result
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function disableMfaOnSilentLogin(array $options): void
 	{

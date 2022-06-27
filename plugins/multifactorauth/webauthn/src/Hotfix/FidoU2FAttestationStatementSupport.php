@@ -40,7 +40,7 @@ use Webauthn\TrustPath\CertificateTrustPath;
  * class to change the assertion. The assertion takes place through a third party library we cannot
  * (and should not!) modify.
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.2.0
  *
  * @deprecated 5.0 We will upgrade the WebAuthn library to version 3 or later and this will go away.
  */
@@ -48,13 +48,13 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
 {
 	/**
 	 * @var   Decoder
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $decoder;
 
 	/**
 	 * @var   MetadataStatementRepository|null
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.2.0
 	 */
 	private $metadataStatementRepository;
 
@@ -62,7 +62,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
 	 * @param   Decoder|null                      $decoder                      Obvious
 	 * @param   MetadataStatementRepository|null  $metadataStatementRepository  Obvious
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function __construct(
 		?Decoder $decoder = null,
@@ -88,7 +88,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
 
 	/**
 	 * @return  string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function name(): string
 	{
@@ -101,7 +101,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
 	 * @return AttestationStatement
 	 * @throws \Assert\AssertionFailedException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function load(array $attestation): AttestationStatement
 	{
@@ -131,7 +131,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
 	 *
 	 * @return  boolean
 	 * @throws  \Assert\AssertionFailedException
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function isValid(
 		string $clientDataJSONHash,
@@ -171,7 +171,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
 	 *
 	 * @return  string
 	 * @throws  \Assert\AssertionFailedException
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function extractPublicKey(?string $publicKey): string
 	{
@@ -194,7 +194,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
 	 *
 	 * @return  void
 	 * @throws  \Assert\AssertionFailedException
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	private function checkCertificate(string $publicKey): void
 	{

@@ -15,7 +15,7 @@ use Joomla\Component\Users\Administrator\Controller\MethodController as AdminMet
 /**
  * Multi-factor Authentication method controller
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MethodController extends AdminMethodController
 {
@@ -27,7 +27,7 @@ class MethodController extends AdminMethodController
 	 * @return  mixed   The value returned by the called Method.
 	 *
 	 * @throws  \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function execute($task)
 	{

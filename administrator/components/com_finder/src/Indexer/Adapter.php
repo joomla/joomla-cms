@@ -135,9 +135,6 @@ abstract class Adapter extends CMSPlugin
 	 */
 	public function __construct(&$subject, $config)
 	{
-		// Get the database object.
-		$this->db = Factory::getDbo();
-
 		// Call the parent constructor.
 		parent::__construct($subject, $config);
 
@@ -157,7 +154,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = new Indexer;
+		$this->indexer = new Indexer($this->db);
 	}
 
 	/**
@@ -267,7 +264,7 @@ abstract class Adapter extends CMSPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function onFinderGarbageCollection()
 	{
