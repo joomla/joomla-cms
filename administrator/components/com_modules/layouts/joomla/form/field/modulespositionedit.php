@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -50,39 +51,37 @@ extract($displayData);
  */
 
 $attributes = array(
-	'class="' . $class . '"',
-	' allow-custom',
-	' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ',
+    'class="' . $class . '"',
+    ' allow-custom',
+    ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ',
 );
 
 $selectAttr = array(
-	$disabled ? 'disabled' : '',
-	$readonly ? 'readonly' : '',
-	strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '',
-	$onchange ? ' onchange="' . $onchange . '"' : '',
-	$autofocus ? ' autofocus' : '',
+    $disabled ? 'disabled' : '',
+    $readonly ? 'readonly' : '',
+    strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '',
+    $onchange ? ' onchange="' . $onchange . '"' : '',
+    $autofocus ? ' autofocus' : '',
 );
 
-if ($required)
-{
-	$selectAttr[] = ' required class="required"';
-	$attributes[] = ' required';
+if ($required) {
+    $selectAttr[] = ' required class="required"';
+    $attributes[] = ' required';
 }
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()
-	->usePreset('choicesjs')
-	->useScript('webcomponent.field-fancy-select');
+    ->usePreset('choicesjs')
+    ->useScript('webcomponent.field-fancy-select');
 
 ?>
 <joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
-	echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
-			'id'          => $id,
-			'list.select' => $value,
-			'list.attr'   => implode(' ', $selectAttr),
-		)
-	);
-?></joomla-field-fancy-select>
+    echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
+            'id'          => $id,
+            'list.select' => $value,
+            'list.attr'   => implode(' ', $selectAttr),
+        ));
+    ?></joomla-field-fancy-select>
 

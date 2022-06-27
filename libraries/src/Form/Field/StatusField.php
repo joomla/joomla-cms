@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Form Field to load a list of states
  *
@@ -17,25 +16,25 @@ namespace Joomla\CMS\Form\Field;
  */
 class StatusField extends PredefinedlistField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	public $type = 'Status';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    public $type = 'Status';
 
-	/**
-	 * Available statuses
-	 *
-	 * @var  array
-	 * @since  3.2
-	 */
-	protected $predefinedOptions = array(
-		-2  => 'JTRASHED',
-		0   => 'JUNPUBLISHED',
-		1   => 'JPUBLISHED',
-		2   => 'JARCHIVED',
-		'*' => 'JALL',
-	);
+    /**
+     * Available statuses
+     *
+     * @var  array
+     * @since  3.2
+     */
+    protected $predefinedOptions = array(
+        -2  => 'JTRASHED',
+        0   => 'JUNPUBLISHED',
+        1   => 'JPUBLISHED',
+        2   => 'JARCHIVED',
+        '*' => 'JALL',
+    );
 }
