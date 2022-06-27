@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Language;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
@@ -236,10 +234,8 @@ class LanguageHelper
                 if ($processMetaData) {
                     try {
                         $lang->metadata = self::parseXMLLanguageFile($metafile);
-                    }
-
-                    // Not able to process xml language file. Fail silently.
-                    catch (\Exception $e) {
+                    } catch (\Exception $e) {
+                        // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
                         continue;
@@ -257,10 +253,8 @@ class LanguageHelper
                 if ($processManifest) {
                     try {
                         $lang->manifest = Installer::parseXMLInstallFile($metafile);
-                    }
-
-                    // Not able to process xml language file. Fail silently.
-                    catch (\Exception $e) {
+                    } catch (\Exception $e) {
+                        // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
                         continue;
