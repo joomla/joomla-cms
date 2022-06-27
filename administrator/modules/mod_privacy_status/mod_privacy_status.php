@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_status
@@ -17,9 +18,8 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\Module\PrivacyStatus\Administrator\Helper\PrivacyStatusHelper;
 
 // Only super user can view this data
-if (!$app->getIdentity()->authorise('core.admin'))
-{
-	return;
+if (!$app->getIdentity()->authorise('core.admin')) {
+    return;
 }
 
 // Boot component to ensure HTML helpers are loaded
@@ -28,7 +28,7 @@ $app->bootComponent('com_privacy');
 // Load the privacy component language file.
 $lang = $app->getLanguage();
 $lang->load('com_privacy', JPATH_ADMINISTRATOR)
-	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
+    || $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
 $privacyPolicyInfo            = PrivacyStatusHelper::getPrivacyPolicyInfo();
 $requestFormPublished         = PrivacyStatusHelper::getRequestFormPublished();
