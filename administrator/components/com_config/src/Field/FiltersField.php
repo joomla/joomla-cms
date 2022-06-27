@@ -157,7 +157,7 @@ class FiltersField extends FormField
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = Factory::getDbo();
+		$db = $this->getDatabase();
 
 		// Get the user groups from the database.
 		$query = $db->getQuery(true);

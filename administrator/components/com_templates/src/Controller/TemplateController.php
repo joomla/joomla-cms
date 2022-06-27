@@ -1008,10 +1008,12 @@ class TemplateController extends BaseController
 
 		$this->input->set('installtype', 'folder');
 		$newNameRaw = $this->input->get('new_name', null, 'string');
+
 		// Only accept letters, numbers and underscore for template name
-		$newName    = preg_replace('/[^a-zA-Z0-9_]/', '', $newNameRaw);
-		$templateID = (int) $this->input->getInt('id', 0);
-		$file       = (string) $this->input->get('file', '', 'cmd');
+		$newName     = preg_replace('/[^a-zA-Z0-9_]/', '', $newNameRaw);
+		$templateID  = (int) $this->input->getInt('id', 0);
+		$file        = (string) $this->input->get('file', '', 'cmd');
+		$extraStyles = (array) $this->input->get('style_ids', [], 'array');
 
 		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
 
@@ -1082,6 +1084,12 @@ class TemplateController extends BaseController
 
 		$this->setMessage(Text::sprintf('COM_TEMPLATES_CHILD_SUCCESS', $newName));
 		$model->cleanup();
+
+		if (\count($extraStyles) > 0)
+		{
+			$model->setState('stylesToCopy', $extraStyles);
+			$model->copyStyles();
+		}
 
 		return true;
 	}

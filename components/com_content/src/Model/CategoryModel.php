@@ -307,7 +307,7 @@ class CategoryModel extends ListModel
 	protected function _buildContentOrderBy()
 	{
 		$app       = Factory::getApplication();
-		$db        = $this->getDbo();
+		$db        = $this->getDatabase();
 		$params    = $this->state->params;
 		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
@@ -332,7 +332,7 @@ class CategoryModel extends ListModel
 		$articleOrderby   = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
-		$secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo()) . ', ';
+		$secondary        = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDatabase()) . ', ';
 		$primary          = QueryHelper::orderbyPrimary($categoryOrderby);
 
 		$orderby .= $primary . ' ' . $secondary . ' a.created ';

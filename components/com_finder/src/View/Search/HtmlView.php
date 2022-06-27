@@ -21,6 +21,8 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\SiteRouterAwareInterface;
+use Joomla\CMS\Router\SiteRouterAwareTrait;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
@@ -30,8 +32,10 @@ use Joomla\Component\Finder\Site\Helper\FinderHelper;
  *
  * @since  2.5
  */
-class HtmlView extends BaseHtmlView
+class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
 {
+	use SiteRouterAwareTrait;
+
 	/**
 	 * The query indexer object
 	 *
@@ -159,8 +163,7 @@ class HtmlView extends BaseHtmlView
 		// Check for a double quote in the query string.
 		if (strpos($this->query->input, '"'))
 		{
-			// Get the application router.
-			$router = $app->getRouter();
+			$router = $this->getSiteRouter();
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)
