@@ -16,9 +16,10 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useScript('form.validate');
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="row mt-3">

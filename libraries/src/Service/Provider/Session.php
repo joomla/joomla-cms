@@ -87,7 +87,7 @@ class Session implements ServiceProviderInterface
 				}
 
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $handler),
+					new JoomlaStorage($app->input, $handler, $options),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -176,7 +176,7 @@ class Session implements ServiceProviderInterface
 				}
 
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $handler),
+					new JoomlaStorage($app->input, $handler, $options),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
