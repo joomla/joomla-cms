@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Finder\Administrator\View\Statistics;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -21,35 +20,34 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The index statistics
-	 *
-	 * @var    \Joomla\CMS\Object\CMSObject
-	 *
-	 * @since  3.6.1
-	 */
-	protected $data;
+    /**
+     * The index statistics
+     *
+     * @var    \Joomla\CMS\Object\CMSObject
+     *
+     * @since  3.6.1
+     */
+    protected $data;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		// Load the view data.
-		$this->data = $this->get('Data');
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function display($tpl = null)
+    {
+        // Load the view data.
+        $this->data = $this->get('Data');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Module\Syndicate\Site\Helper;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\Registry\Registry;
@@ -22,28 +21,26 @@ use Joomla\Utilities\ArrayHelper;
  */
 class SyndicateHelper
 {
-	/**
-	 * Gets the link
-	 *
-	 * @param   Registry      $params    The module parameters
-	 * @param   HtmlDocument  $document  The document
-	 *
-	 * @return  string|null  The link as a string, if found
-	 *
-	 * @since   1.5
-	 */
-	public static function getLink(Registry $params, HtmlDocument $document)
-	{
-		foreach ($document->_links as $link => $value)
-		{
-			$value = ArrayHelper::toString($value);
+    /**
+     * Gets the link
+     *
+     * @param   Registry      $params    The module parameters
+     * @param   HtmlDocument  $document  The document
+     *
+     * @return  string|null  The link as a string, if found
+     *
+     * @since   1.5
+     */
+    public static function getLink(Registry $params, HtmlDocument $document)
+    {
+        foreach ($document->_links as $link => $value) {
+            $value = ArrayHelper::toString($value);
 
-			if (strpos($value, 'application/' . $params->get('format') . '+xml'))
-			{
-				return $link;
-			}
-		}
+            if (strpos($value, 'application/' . $params->get('format') . '+xml')) {
+                return $link;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 }
