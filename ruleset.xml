@@ -293,5 +293,6 @@
         <exclude-pattern type="relative">libraries/import\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/import\.legacy\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/loader\.php</exclude-pattern>
+        <exclude-pattern type="relative">tests/Unit/bootstrap\.php</exclude-pattern>
     </rule>
 </ruleset>
