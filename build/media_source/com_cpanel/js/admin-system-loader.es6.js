@@ -21,7 +21,8 @@
             url: badgeurl,
             method: 'POST',
             promise: true,
-          }).then((resp) => {
+          }).then((xhr) => {
+            const resp = xhr.responseText;
             let response;
             try {
               response = JSON.parse(resp);
