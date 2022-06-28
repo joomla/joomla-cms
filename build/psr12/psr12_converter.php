@@ -93,7 +93,7 @@ foreach ($argv as $arg) {
     }
 }
 
-$tmpDir = $root . '/build/tmp/psr12';
+$tmpDir = __DIR__ . '/../tmp/psr12';
 
 if ($tasks['CMS']) {
     $tasks['CBF']   = true;
@@ -212,7 +212,7 @@ unset($cleanItems, $item);
 
 $cbfOptions = "-p --standard=" . __DIR__ . "/ruleset.xml --extensions=php";
 $csOptions  = "--standard=" . __DIR__ . "/ruleset.xml --extensions=php";
-$csOptions  .= " --report=$root/build/psr12/phpcs.joomla.report.php";
+$csOptions  .= " --report=" . __DIR__ . "/phpcs.joomla.report.php";
 
 foreach ($items as $item) {
     if ($tasks['CBF']) {
@@ -242,7 +242,7 @@ if ($tasks['CMS']) {
 
 if ($tasks['CLEAN'] && file_exists($tmpDir . '/cleanup.json')) {
     echo "Cleaning Error\n" .
-        passthru($php . ' ' . $root . '/build/psr12/clean_errors.php', $result);
+        passthru($php . ' ' . __DIR__ . '/clean_errors.php', $result);
 
     foreach ($items as $item) {
         if ($tasks['CBF']) {
