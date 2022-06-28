@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_post_installation_messages
@@ -13,19 +14,16 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
 // Try to get the items from the post-installation model
-try
-{
-	/** @var \Joomla\Component\Postinstall\Administrator\Model\MessagesModel $messagesModel */
-	$messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()
-		->createModel('Messages', 'Administrator', ['ignore_request' => true]);
-	$messagesCount = $messagesModel->getItemsCount();
-}
-catch (RuntimeException $e)
-{
-	$messagesCount = 0;
+try {
+    /** @var \Joomla\Component\Postinstall\Administrator\Model\MessagesModel $messagesModel */
+    $messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()
+        ->createModel('Messages', 'Administrator', ['ignore_request' => true]);
+    $messagesCount = $messagesModel->getItemsCount();
+} catch (RuntimeException $e) {
+    $messagesCount = 0;
 
-	// Still render the error message from the Exception object
-	$app->enqueueMessage($e->getMessage(), 'error');
+    // Still render the error message from the Exception object
+    $app->enqueueMessage($e->getMessage(), 'error');
 }
 
 $joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;

@@ -13,7 +13,6 @@ defined('_JEXEC') || die;
 //phpcs:ignorefile
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 
 // This method is only available on HTTPS
@@ -33,7 +32,7 @@ if (Uri::getInstance()->getScheme() !== 'https'): ?>
 	return;
 endif;
 
-$this->app->getDocument()->getWebAssetManager()->useScript('plg_multifactorauth_webauthn.webauthn');
+$this->getApplication()->getDocument()->getWebAssetManager()->useScript('plg_multifactorauth_webauthn.webauthn');
 
 ?>
 <div id="multifactorauth-webauthn-missing" class="my-2">
