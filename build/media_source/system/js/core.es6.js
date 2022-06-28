@@ -718,7 +718,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
     lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
     return lastRequestPromise;
-  }
+  };
 
   /**
    *
