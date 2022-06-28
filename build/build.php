@@ -394,7 +394,7 @@ $doNotPackage = array(
 	'plugins/sampledata/testing/testing.xml',
 	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
 	'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
-    'ruleset.xml',
+	'ruleset.xml',
 	'selenium.log',
 	'tests',
 	// Media Manager Node Assets
