@@ -3,7 +3,6 @@
     <description>The Joomla CMS PSR-12 exceptions.</description>
 
     <!-- Exclude folders not containing production code -->
-    <exclude-pattern type="relative">build/*</exclude-pattern>
     <exclude-pattern type="relative">cache/*</exclude-pattern>
     <exclude-pattern type="relative">docs/*</exclude-pattern>
     <exclude-pattern type="relative">logs/*</exclude-pattern>
@@ -258,6 +257,9 @@
         <exclude-pattern type="relative">libraries/src/Client/FtpClient\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Filesystem/Path\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Filesystem/Streams/StreamString\.php</exclude-pattern>
+
+        <!-- expected for folders which are for development tools only and are not shipped with the CMS -->
+        <exclude-pattern type="relative">build/</exclude-pattern>
 
         <!-- expected, may move exception to file or refactor implementation -->
         <exclude-pattern type="relative">index\.php</exclude-pattern>
