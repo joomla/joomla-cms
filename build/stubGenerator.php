@@ -9,8 +9,6 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-// phpcs:disable PSR1.Files.SideEffects
-
 // Set flag that this is a parent file.
 const _JEXEC = 1;
 
