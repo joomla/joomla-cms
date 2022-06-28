@@ -30,7 +30,6 @@ class BannerCest
      *
      * @since   4.0.0
      */
-    // phpcs:ignore
     public function _before(ApiTester $I)
     {
         $I->deleteFromDatabase('banners');
