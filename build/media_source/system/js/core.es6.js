@@ -717,9 +717,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
       throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
     }
     if (!lastRequestPromise) {
-      lastRequestPromise = Promise.resolve();
+      lastRequestPromise = Joomla.request(options);
+    } else {
+      lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
     }
-    lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
     return lastRequestPromise;
   };
 
