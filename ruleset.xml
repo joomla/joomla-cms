@@ -243,13 +243,7 @@
         <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/editors/none/none\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
-        <exclude-pattern type="relative">tests/Codeception/acceptance/administrator/components/com_content/ContentCategoryListCest\.php</exclude-pattern>
-        <exclude-pattern type="relative">tests/Codeception/acceptance/administrator/components/com_content/ContentListCest\.php</exclude-pattern>
-        <exclude-pattern type="relative">tests/Codeception/acceptance/administrator/components/com_content/ContentFieldListCest\.php</exclude-pattern>
-        <exclude-pattern type="relative">tests/Codeception/api/com_contact/ContactCest\.php</exclude-pattern>
-        <exclude-pattern type="relative">tests/Codeception/api/com_banners/BannerCest\.php</exclude-pattern>
-        <exclude-pattern type="relative">tests/Codeception/api/com_content/ContentCest\.php</exclude-pattern>
-        <exclude-pattern type="relative">tests/Unit/Libraries/Cms/MVC/Model/DatabaseModelTest\.php</exclude-pattern>
+        <exclude-pattern type="relative">tests/</exclude-pattern>
     </rule>
 
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
