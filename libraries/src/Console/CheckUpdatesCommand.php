@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Updater\Updater;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
