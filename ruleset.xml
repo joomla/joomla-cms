@@ -258,9 +258,6 @@
         <exclude-pattern type="relative">libraries/src/Filesystem/Path\.php</exclude-pattern>
         <exclude-pattern type="relative">libraries/src/Filesystem/Streams/StreamString\.php</exclude-pattern>
 
-        <!-- expected for folders which are for development tools only and are not shipped with the CMS -->
-        <exclude-pattern type="relative">build/</exclude-pattern>
-
         <!-- expected, may move exception to file or refactor implementation -->
         <exclude-pattern type="relative">index\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/index\.php</exclude-pattern>
@@ -273,6 +270,11 @@
         <exclude-pattern type="relative">api/includes/defines\.php</exclude-pattern>
         <exclude-pattern type="relative">api/includes/framework\.php</exclude-pattern>
         <exclude-pattern type="relative">api/index\.php</exclude-pattern>
+        <exclude-pattern type="relative">build/build\.php</exclude-pattern>
+        <exclude-pattern type="relative">build/bump\.php</exclude-pattern>
+        <exclude-pattern type="relative">build/deleted_file_check\.php</exclude-pattern>
+        <exclude-pattern type="relative">build/helpTOC\.php</exclude-pattern>
+        <exclude-pattern type="relative">build/stubGenerator\.php</exclude-pattern>
         <exclude-pattern type="relative">cli/joomla\.php</exclude-pattern>
         <exclude-pattern type="relative">includes/app\.php</exclude-pattern>
         <exclude-pattern type="relative">includes/defines\.php</exclude-pattern>
