@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Finder\Administrator\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 

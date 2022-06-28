@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package         Joomla.Plugin
  * @subpackage      System.Webauthn
@@ -8,9 +9,6 @@
  */
 
 namespace Joomla\Plugin\System\Webauthn\Extension;
-
-// Protect from unauthorized access
-defined('_JEXEC') or die();
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
@@ -47,143 +45,136 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  */
 final class Webauthn extends CMSPlugin implements SubscriberInterface
 {
-	use CoreEventAware;
+    // Add WebAuthn buttons
+    use AdditionalLoginButtons;
 
-	/**
-	 * Autoload the language files
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $autoloadLanguage = true;
+    // AJAX request handlers
+    use AjaxHandler;
+    use AjaxHandlerInitCreate;
+    use AjaxHandlerCreate;
+    use AjaxHandlerSaveLabel;
+    use AjaxHandlerDelete;
+    use AjaxHandlerChallenge;
+    use AjaxHandlerLogin;
 
-	/**
-	 * Should I try to detect and register legacy event listeners?
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 *
-	 * @deprecated
-	 */
-	protected $allowLegacyListeners = false;
+    // Utility methods for setting the events' return values
+    use EventReturnAware;
+    use CoreEventAware;
 
-	/**
-	 * The WebAuthn authentication helper object
-	 *
-	 * @var   Authentication
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $authenticationHelper;
+    // Custom user profile fields
+    use UserProfileFields;
 
-	// AJAX request handlers
-	use AjaxHandler;
-	use AjaxHandlerInitCreate;
-	use AjaxHandlerCreate;
-	use AjaxHandlerSaveLabel;
-	use AjaxHandlerDelete;
-	use AjaxHandlerChallenge;
-	use AjaxHandlerLogin;
+    // Handle user profile deletion
+    use UserDeletion;
 
-	// Custom user profile fields
-	use UserProfileFields;
+    /**
+     * Autoload the language files
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $autoloadLanguage = true;
 
-	// Handle user profile deletion
-	use UserDeletion;
+    /**
+     * Should I try to detect and register legacy event listeners?
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     *
+     * @deprecated
+     */
+    protected $allowLegacyListeners = false;
 
-	// Add WebAuthn buttons
-	use AdditionalLoginButtons;
+    /**
+     * The WebAuthn authentication helper object
+     *
+     * @var   Authentication
+     * @since __DEPLOY_VERSION__
+     */
+    protected $authenticationHelper;
 
-	// Utility methods for setting the events' return values
-	use EventReturnAware;
+    /**
+     * Constructor. Loads the language files as well.
+     *
+     * @param   DispatcherInterface  $subject    The object to observe
+     * @param   array                $config     An optional associative array of configuration
+     *                                           settings. Recognized key values include 'name',
+     *                                           'group', 'params', 'language (this list is not meant
+     *                                           to be comprehensive).
+     * @param   Authentication|null  $authHelper The WebAuthn helper object
+     *
+     * @since  4.0.0
+     */
+    public function __construct(&$subject, array $config = [], Authentication $authHelper = null)
+    {
+        parent::__construct($subject, $config);
 
-	/**
-	 * Constructor. Loads the language files as well.
-	 *
-	 * @param   DispatcherInterface  $subject    The object to observe
-	 * @param   array                $config     An optional associative array of configuration
-	 *                                           settings. Recognized key values include 'name',
-	 *                                           'group', 'params', 'language (this list is not meant
-	 *                                           to be comprehensive).
-	 * @param   Authentication|null  $authHelper The WebAuthn helper object
-	 *
-	 * @since  4.0.0
-	 */
-	public function __construct(&$subject, array $config = [], Authentication $authHelper = null)
-	{
-		parent::__construct($subject, $config);
+        /**
+         * Note: Do NOT try to load the language in the constructor. This is called before Joomla initializes the
+         * application language. Therefore the temporary Joomla language object and all loaded strings in it will be
+         * destroyed on application initialization. As a result we need to call loadLanguage() in each method
+         * individually, even though all methods make use of language strings.
+         */
 
-		/**
-		 * Note: Do NOT try to load the language in the constructor. This is called before Joomla initializes the
-		 * application language. Therefore the temporary Joomla language object and all loaded strings in it will be
-		 * destroyed on application initialization. As a result we need to call loadLanguage() in each method
-		 * individually, even though all methods make use of language strings.
-		 */
+        // Register a debug log file writer
+        $logLevels = Log::ERROR | Log::CRITICAL | Log::ALERT | Log::EMERGENCY;
 
-		// Register a debug log file writer
-		$logLevels = Log::ERROR | Log::CRITICAL | Log::ALERT | Log::EMERGENCY;
+        if (\defined('JDEBUG') && JDEBUG) {
+            $logLevels = Log::ALL;
+        }
 
-		if (\defined('JDEBUG') && JDEBUG)
-		{
-			$logLevels = Log::ALL;
-		}
+        Log::addLogger([
+                'text_file'         => "webauthn_system.php",
+                'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
+            ], $logLevels, ["webauthn.system"]);
 
-		Log::addLogger([
-				'text_file'         => "webauthn_system.php",
-				'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}',
-			], $logLevels, ["webauthn.system"]
-		);
+        $this->authenticationHelper = $authHelper ?? (new Authentication());
+        $this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 1) == 1);
+    }
 
-		$this->authenticationHelper = $authHelper ?? (new Authentication);
-		$this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 1) == 1);
-	}
+    /**
+     * Returns the Authentication helper object
+     *
+     * @return Authentication
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function getAuthenticationHelper(): Authentication
+    {
+        return $this->authenticationHelper;
+    }
 
-	/**
-	 * Returns the Authentication helper object
-	 *
-	 * @return Authentication
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getAuthenticationHelper(): Authentication
-	{
-		return $this->authenticationHelper;
-	}
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        try {
+            $app = Factory::getApplication();
+        } catch (\Exception $e) {
+            return [];
+        }
 
-	/**
-	 * Returns an array of events this subscriber will listen to.
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getSubscribedEvents(): array
-	{
-		try
-		{
-			$app = Factory::getApplication();
-		}
-		catch (\Exception $e)
-		{
-			return [];
-		}
+        if (!$app->isClient('site') && !$app->isClient('administrator')) {
+            return [];
+        }
 
-		if (!$app->isClient('site') && !$app->isClient('administrator'))
-		{
-			return [];
-		}
-
-		return [
-			'onAjaxWebauthn'           => 'onAjaxWebauthn',
-			'onAjaxWebauthnChallenge'  => 'onAjaxWebauthnChallenge',
-			'onAjaxWebauthnCreate'     => 'onAjaxWebauthnCreate',
-			'onAjaxWebauthnDelete'     => 'onAjaxWebauthnDelete',
-			'onAjaxWebauthnInitcreate' => 'onAjaxWebauthnInitcreate',
-			'onAjaxWebauthnLogin'      => 'onAjaxWebauthnLogin',
-			'onAjaxWebauthnSavelabel'  => 'onAjaxWebauthnSavelabel',
-			'onUserAfterDelete'        => 'onUserAfterDelete',
-			'onUserLoginButtons'       => 'onUserLoginButtons',
-			'onContentPrepareForm'     => 'onContentPrepareForm',
-			'onContentPrepareData'     => 'onContentPrepareData',
-		];
-	}
+        return [
+            'onAjaxWebauthn'           => 'onAjaxWebauthn',
+            'onAjaxWebauthnChallenge'  => 'onAjaxWebauthnChallenge',
+            'onAjaxWebauthnCreate'     => 'onAjaxWebauthnCreate',
+            'onAjaxWebauthnDelete'     => 'onAjaxWebauthnDelete',
+            'onAjaxWebauthnInitcreate' => 'onAjaxWebauthnInitcreate',
+            'onAjaxWebauthnLogin'      => 'onAjaxWebauthnLogin',
+            'onAjaxWebauthnSavelabel'  => 'onAjaxWebauthnSavelabel',
+            'onUserAfterDelete'        => 'onUserAfterDelete',
+            'onUserLoginButtons'       => 'onUserLoginButtons',
+            'onContentPrepareForm'     => 'onContentPrepareForm',
+            'onContentPrepareData'     => 'onContentPrepareData',
+        ];
+    }
 }
