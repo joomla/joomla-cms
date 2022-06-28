@@ -701,7 +701,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
   };
 
-  let lastRequestPromise = Promise.resolve();
+  let lastRequestPromise;
 
   /**
    * Joomla Request queue.
@@ -715,6 +715,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
   Joomla.enqueueRequest = (options) => {
     if (!options.promise) {
       throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
+    }
+    if (!lastRequestPromise) {
+      lastRequestPromise = Promise.resolve();
     }
     lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
     return lastRequestPromise;
