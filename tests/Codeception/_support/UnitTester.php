@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  UnitTester
@@ -32,9 +33,9 @@ use Codeception\Lib\Friend;
  */
 class UnitTester extends Actor
 {
-	use _generated\UnitTesterActions;
+    use _generated\UnitTesterActions;
 
-	/**
-	 * Define custom actions here
-	 */
+    /**
+     * Define custom actions here
+     */
 }

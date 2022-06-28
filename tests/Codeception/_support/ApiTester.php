@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester
@@ -30,9 +31,9 @@ use Codeception\Lib\Friend;
  */
 class ApiTester extends Actor
 {
-	use _generated\ApiTesterActions;
+    use _generated\ApiTesterActions;
 
-	/**
-	 * Define custom actions here
-	 */
+    /**
+     * Define custom actions here
+     */
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
@@ -16,45 +17,45 @@ use Step\Acceptance\Administrator\Category as CategoryStep;
  */
 class ContentCategoryListCest
 {
-	/**
-	 * ContentCategoryListCest constructor.
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct()
-	{
-		$this->categoryTitle = 'Category title';
-	}
+    /**
+     * ContentCategoryListCest constructor.
+     *
+     * @since   4.0.0
+     */
+    public function __construct()
+    {
+        $this->categoryTitle = 'Category title';
+    }
 
-	/**
-	 * Before constructor.
-	 *
-	 * @param   mixed   AcceptanceTester  $I  I
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function _before(AcceptanceTester $I)
-	{
-		$I->doAdministratorLogin();
-	}
+    /**
+     * Before constructor.
+     *
+     * @param   mixed   AcceptanceTester  $I  I
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->doAdministratorLogin();
+    }
 
-	/**
-	 * Category constructor.
-	 *
-	 * @param   mixed  AcceptanceTester  $I  I
-	 * @param   mixed  $scenario             Scenario
-	 *
-	 * @return void
-	 *
-	 * @since    4.0.0
-	 *
-	 * @throws Exception
-	 */
-	public function Category(AcceptanceTester $I, $scenario)
-	{
-		$I = new CategoryStep($scenario);
-		$I->createContentCategory($this->categoryTitle);
-	}
+    /**
+     * Category constructor.
+     *
+     * @param   mixed  AcceptanceTester  $I  I
+     * @param   mixed  $scenario             Scenario
+     *
+     * @return void
+     *
+     * @since    4.0.0
+     *
+     * @throws Exception
+     */
+    public function Category(AcceptanceTester $I, $scenario)
+    {
+        $I = new CategoryStep($scenario);
+        $I->createContentCategory($this->categoryTitle);
+    }
 }
