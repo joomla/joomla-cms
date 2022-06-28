@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+
 use Step\Acceptance\Administrator\Category as CategoryStep;
 
 /**
@@ -36,6 +38,7 @@ class ContentCategoryListCest
      *
      * @since   4.0.0
      */
+    // phpcs:ignore
     public function _before(AcceptanceTester $I)
     {
         $I->doAdministratorLogin();
@@ -53,7 +56,7 @@ class ContentCategoryListCest
      *
      * @throws Exception
      */
-    public function Category(AcceptanceTester $I, $scenario)
+    public function category(AcceptanceTester $I, $scenario)
     {
         $I = new CategoryStep($scenario);
         $I->createContentCategory($this->categoryTitle);

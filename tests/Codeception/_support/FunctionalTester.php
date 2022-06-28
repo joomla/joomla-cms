@@ -8,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:ignoreFile
 use Codeception\Actor;
 use Codeception\Lib\Friend;
 

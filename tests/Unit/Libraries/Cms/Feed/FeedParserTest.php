@@ -26,6 +26,7 @@ use XMLReader;
  * @subpackage  Feed
  * @since       3.1.4
  */
+// phpcs:disable PSR1.Classes.ClassDeclaration
 class FeedParserTest extends UnitTestCase
 {
     /**

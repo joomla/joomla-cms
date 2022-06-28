@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+
 use Step\Acceptance\Administrator\Field as FieldStep;
 
 /**
@@ -36,6 +38,7 @@ class ContentFieldListCest
      *
      * @since   4.0.0
      */
+    // phpcs:ignore
     public function _before(AcceptanceTester $I)
     {
         $I->doAdministratorLogin();
@@ -53,7 +56,7 @@ class ContentFieldListCest
      *
      * @throws Exception
      */
-    public function Field(AcceptanceTester $I, $scenario)
+    public function field(AcceptanceTester $I, $scenario)
     {
         $I = new FieldStep($scenario);
         $I->createField('text', $this->fieldTitle);

@@ -21,6 +21,7 @@ use ReflectionClass;
  * @subpackage  Microdata
  * @since       3.2
  */
+// phpcs:disable PSR1.Classes.ClassDeclaration
 class MicrodataTest extends UnitTestCase
 {
     /**

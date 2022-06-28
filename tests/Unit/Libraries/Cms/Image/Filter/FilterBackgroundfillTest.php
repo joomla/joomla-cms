@@ -5,6 +5,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Tests\Unit\Libraries\Cms\Image\Filter;
+
 use Joomla\CMS\Image\Filter\Backgroundfill as FilterBackgroundfill;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;

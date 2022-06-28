@@ -36,6 +36,7 @@ class JoomlaDb extends Db
      *
      * @since   3.7.3
      */
+    // phpcs:ignore
     public function _initialize()
     {
         $this->prefix = (isset($this->config['prefix'])) ? $this->config['prefix'] : '';

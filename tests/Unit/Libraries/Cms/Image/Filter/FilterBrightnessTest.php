@@ -5,6 +5,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Tests\Unit\Libraries\Cms\Image\Filter;
+
 use Joomla\CMS\Image\Filter\Brightness as FilterBrightness;
 use Joomla\Tests\Unit\UnitTestCase;
 

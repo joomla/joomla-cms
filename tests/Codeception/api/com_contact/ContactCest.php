@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+
 use Codeception\Util\HttpCode;
 
 /**
@@ -28,6 +30,7 @@ class ContactCest
      *
      * @since   4.0.0
      */
+    // phpcs:ignore
     public function _before(ApiTester $I)
     {
         $I->deleteFromDatabase('contact_details');

@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+
 use Page\Acceptance\Administrator\ContentListPage;
 use Step\Acceptance\Administrator\Content;
 
@@ -27,6 +29,7 @@ class ContentListCest
      *
      * @since   4.0.0
      */
+    // phpcs:ignore
     public function _before(AcceptanceTester $I)
     {
         $I->doAdministratorLogin();
@@ -62,7 +65,7 @@ class ContentListCest
      *
      * @throws Exception
      */
-    public function ArticleCRUD(Content $I)
+    public function articleCRUD(Content $I)
     {
         $testArticle = [
             'title'   => 'Test Article',

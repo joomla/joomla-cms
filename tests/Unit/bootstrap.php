@@ -10,6 +10,8 @@
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
 
+// phpcs:disable PSR1.Files.SideEffects
+
 define('_JEXEC', 1);
 
 // Maximise error reporting.

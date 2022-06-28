@@ -114,6 +114,7 @@ class DatabaseModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
         {
+            // phpcs:ignore
             public function _getList($query, $limitstart = 0, $limit = 0)
             {
                 return parent::_getList($query, $limitstart, $limit);
@@ -138,6 +139,7 @@ class DatabaseModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
         {
+            // phpcs:ignore
             public function _getList($query, $limitstart = 0, $limit = 0)
             {
                 return parent::_getList($query, $limitstart, $limit);
@@ -161,6 +163,7 @@ class DatabaseModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
         {
+            // phpcs:ignore
             public function _getListCount($query)
             {
                 return parent::_getListCount($query);
@@ -184,6 +187,7 @@ class DatabaseModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
         {
+            // phpcs:ignore
             public function _getListCount($query)
             {
                 return parent::_getListCount($query);
@@ -210,6 +214,7 @@ class DatabaseModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $db], $this->createStub(MVCFactoryInterface::class)) extends BaseDatabaseModel
         {
+            // phpcs:ignore
             public function _getListCount($query)
             {
                 return parent::_getListCount($query);
