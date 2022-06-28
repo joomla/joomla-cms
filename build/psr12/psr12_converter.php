@@ -113,7 +113,7 @@ if ($tasks['BRANCH']) {
         die('Unable to find changes for this branch');
     }
 
-    foreach($output as $k => $line) {
+    foreach ($output as $k => $line) {
         if (substr($line, -4) !== '.php') {
             unset($output[$k]);
         }
@@ -237,7 +237,7 @@ foreach ($items as $item) {
 
 if ($tasks['CMS']) {
     passthru($git . ' add ' . $root);
-    passthru($git . ' commit -m "Phase 1 convert ' . ($tasks['BRANCH'] ? 'BRANCH' : 'CMS') .' to PSR-12"');
+    passthru($git . ' commit -m "Phase 1 convert ' . ($tasks['BRANCH'] ? 'BRANCH' : 'CMS') . ' to PSR-12"');
 }
 
 if ($tasks['CLEAN'] && file_exists($tmpDir . '/cleanup.json')) {
@@ -289,4 +289,3 @@ if (!empty($tasks['CMS']) && empty($tasks['BRANCH'])) {
 
         Text;
 }
-
