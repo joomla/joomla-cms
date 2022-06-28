@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Error\JsonApi;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Exception;
 use Joomla\CMS\Application\Exception\NotAcceptable;
@@ -22,42 +21,41 @@ use Tobscure\JsonApi\Exception\Handler\ResponseBag;
  */
 class NotAcceptableExceptionHandler implements ExceptionHandlerInterface
 {
-	/**
-	 * If the exception handler is able to format a response for the provided exception,
-	 * then the implementation should return true.
-	 *
-	 * @param   \Exception  $e  The exception to be handled
-	 *
-	 * @return boolean
-	 *
-	 * @since  4.0.0
-	 */
-	public function manages(Exception $e)
-	{
-		return $e instanceof NotAcceptable;
-	}
+    /**
+     * If the exception handler is able to format a response for the provided exception,
+     * then the implementation should return true.
+     *
+     * @param   \Exception  $e  The exception to be handled
+     *
+     * @return boolean
+     *
+     * @since  4.0.0
+     */
+    public function manages(Exception $e)
+    {
+        return $e instanceof NotAcceptable;
+    }
 
-	/**
-	 * Handle the provided exception.
-	 *
-	 * @param   Exception  $e  The exception being handled
-	 *
-	 * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
-	 *
-	 * @since  4.0.0
-	 */
-	public function handle(Exception $e)
-	{
-		$status = 406;
-		$error = ['title' => 'Not Acceptable'];
+    /**
+     * Handle the provided exception.
+     *
+     * @param   Exception  $e  The exception being handled
+     *
+     * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
+     *
+     * @since  4.0.0
+     */
+    public function handle(Exception $e)
+    {
+        $status = 406;
+        $error = ['title' => 'Not Acceptable'];
 
-		$code = $e->getCode();
+        $code = $e->getCode();
 
-		if ($code)
-		{
-			$error['code'] = $code;
-		}
+        if ($code) {
+            $error['code'] = $code;
+        }
 
-		return new ResponseBag($status, [$error]);
-	}
+        return new ResponseBag($status, [$error]);
+    }
 }

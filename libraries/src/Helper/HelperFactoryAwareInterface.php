@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,23 +9,21 @@
 
 namespace Joomla\CMS\Helper;
 
-\defined('_JEXEC') or die;
-
 /**
  * Interface to be implemented by classes depending on a helper factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 interface HelperFactoryAwareInterface
 {
-	/**
-	 * Sets the helper factory to use.
-	 *
-	 * @param   HelperFactory  $helper  The helper factory to use.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setHelperFactory(HelperFactory $helper);
+    /**
+     * Sets the helper factory to use.
+     *
+     * @param   HelperFactory  $helper  The helper factory to use.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function setHelperFactory(HelperFactory $helper);
 }

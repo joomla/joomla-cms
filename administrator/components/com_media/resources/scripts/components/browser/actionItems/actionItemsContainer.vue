@@ -3,6 +3,9 @@
     class="media-browser-select"
     :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
     :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
+    tabindex="0"
+    @focusin="focused(true)"
+    @focusout="focused(false)"
   />
   <div
     class="media-browser-actions"
@@ -10,8 +13,8 @@
   >
     <media-browser-action-item-toggle
       ref="actionToggle"
-      :on-focused="focused"
       :main-action="openActions"
+      @on-focused="focused"
       @keyup.up="openLastActions()"
       @keyup.down="openActions()"
     />
@@ -29,6 +32,7 @@
             :closing-action="hideActions"
             @keyup.up="$refs.actionDelete.$el.focus()"
             @keyup.down="$refs.actionDelete.$el.previousElementSibling.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
@@ -40,6 +44,7 @@
             :closing-action="hideActions"
             @keyup.up="$refs.actionPreview.$el.focus()"
             @keyup.down="$refs.actionPreview.$el.previousElementSibling.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
@@ -61,6 +66,7 @@
                   ? $refs.actionShare.$el.focus()
                   : $refs.actionShare.$el.previousElementSibling.focus()
             "
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
@@ -72,6 +78,7 @@
             :closing-action="hideActions"
             @keyup.up="$refs.actionRename.$el.focus()"
             @keyup.down="$refs.actionRename.$el.previousElementSibling.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
@@ -87,6 +94,7 @@
                 : $refs.actionEdit.$el.previousElementSibling.focus()
             "
             @keyup.down="$refs.actionDelete.$el.focus()"
+            @keyup.esc="hideActions"
           />
         </li>
         <li>
@@ -106,6 +114,7 @@
                 ? $refs.actionPreview.$el.focus()
                 : $refs.actionPreview.$el.previousElementSibling.focus()
             "
+            @keyup.esc="hideActions"
           />
         </li>
       </ul>
@@ -121,12 +130,12 @@ export default {
   name: 'MediaBrowserActionItemsContainer',
   props: {
     item: { type: Object, default: () => {} },
-    onFocused: { type: Function, default: () => {} },
     edit: { type: Function, default: () => {} },
     previewable: { type: Boolean, default: false },
     downloadable: { type: Boolean, default: false },
     shareable: { type: Boolean, default: false },
   },
+  emits: ['toggle-settings'],
   data() {
     return {
       showActions: false,
@@ -206,6 +215,9 @@ export default {
     },
     editItem() {
       this.edit();
+    },
+    focused(bool) {
+      this.$emit('toggle-settings', bool);
     },
   },
 };

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
@@ -44,4 +45,3 @@ extract($displayData);
  */
 
 echo '<div class="alert alert-info">' . $privacynote . '</div>';
-

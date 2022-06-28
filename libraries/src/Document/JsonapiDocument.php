@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Document;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Tobscure\JsonApi\Document;
@@ -22,180 +21,176 @@ use Tobscure\JsonApi\ElementInterface;
  */
 class JsonapiDocument extends JsonDocument implements \JsonSerializable
 {
-	/**
-	 * The JsonApi Document object.
-	 *
-	 * @var    Document
-	 * @since  4.0.0
-	 */
-	protected $document;
+    /**
+     * The JsonApi Document object.
+     *
+     * @var    Document
+     * @since  4.0.0
+     */
+    protected $document;
 
-	/**
-	 * Class constructor.
-	 *
-	 * @param   array  $options  Associative array of options
-	 *
-	 * @since  4.0.0
-	 */
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
+    /**
+     * Class constructor.
+     *
+     * @param   array  $options  Associative array of options
+     *
+     * @since  4.0.0
+     */
+    public function __construct($options = array())
+    {
+        parent::__construct($options);
 
-		// Set mime type to JSON-API
-		$this->_mime = 'application/vnd.api+json';
-		$this->_type = 'jsonapi';
+        // Set mime type to JSON-API
+        $this->_mime = 'application/vnd.api+json';
+        $this->_type = 'jsonapi';
 
-		if (\array_key_exists('api_document', $options) && $options['api_document'] instanceof Document)
-		{
-			$this->document = $options['api_document'];
-		}
-		else
-		{
-			$this->document = new Document;
-		}
-	}
+        if (\array_key_exists('api_document', $options) && $options['api_document'] instanceof Document) {
+            $this->document = $options['api_document'];
+        } else {
+            $this->document = new Document();
+        }
+    }
 
-	/**
-	 * Set the data object.
-	 *
-	 * @param   ElementInterface  $element  Element interface.
-	 *
-	 * @return  $this
-	 *
-	 * @since  4.0.0
-	 */
-	public function setData(ElementInterface $element)
-	{
-		$this->document->setData($element);
+    /**
+     * Set the data object.
+     *
+     * @param   ElementInterface  $element  Element interface.
+     *
+     * @return  $this
+     *
+     * @since  4.0.0
+     */
+    public function setData(ElementInterface $element)
+    {
+        $this->document->setData($element);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set the errors array.
-	 *
-	 * @param   array  $errors  Error array.
-	 *
-	 * @return   $this
-	 *
-	 * @since  4.0.0
-	 */
-	public function setErrors($errors)
-	{
-		$this->document->setErrors($errors);
+    /**
+     * Set the errors array.
+     *
+     * @param   array  $errors  Error array.
+     *
+     * @return   $this
+     *
+     * @since  4.0.0
+     */
+    public function setErrors($errors)
+    {
+        $this->document->setErrors($errors);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Set the JSON-API array.
-	 *
-	 * @param   array  $jsonapi  JSON-API array.
-	 *
-	 * @return   $this
-	 *
-	 * @since  4.0.0
-	 */
-	public function setJsonapi($jsonapi)
-	{
-		$this->document->setJsonapi($jsonapi);
+    /**
+     * Set the JSON-API array.
+     *
+     * @param   array  $jsonapi  JSON-API array.
+     *
+     * @return   $this
+     *
+     * @since  4.0.0
+     */
+    public function setJsonapi($jsonapi)
+    {
+        $this->document->setJsonapi($jsonapi);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Map everything to arrays.
-	 *
-	 * @return array
-	 *
-	 * @since  4.0.0
-	 */
-	public function toArray()
-	{
-		return $this->document->toArray();
-	}
+    /**
+     * Map everything to arrays.
+     *
+     * @return array
+     *
+     * @since  4.0.0
+     */
+    public function toArray()
+    {
+        return $this->document->toArray();
+    }
 
-	/**
-	 * Map to string.
-	 *
-	 * @return string
-	 *
-	 * @since  4.0.0
-	 */
-	public function __toString()
-	{
-		return json_encode($this->toArray());
-	}
+    /**
+     * Map to string.
+     *
+     * @return string
+     *
+     * @since  4.0.0
+     */
+    public function __toString()
+    {
+        return json_encode($this->toArray());
+    }
 
-	/**
-	 * Outputs the document.
-	 *
-	 * @param   boolean  $cache   If true, cache the output.
-	 * @param   array    $params  Associative array of attributes.
-	 *
-	 * @return  string  The rendered data.
-	 *
-	 * @since  4.0.0
-	 */
-	public function render($cache = false, $params = array())
-	{
-		$app = Factory::getApplication();
+    /**
+     * Outputs the document.
+     *
+     * @param   boolean  $cache   If true, cache the output.
+     * @param   array    $params  Associative array of attributes.
+     *
+     * @return  string  The rendered data.
+     *
+     * @since  4.0.0
+     */
+    public function render($cache = false, $params = array())
+    {
+        $app = Factory::getApplication();
 
-		if ($mdate = $this->getModifiedDate())
-		{
-			$app->modifiedDate = $mdate;
-		}
+        if ($mdate = $this->getModifiedDate()) {
+            $app->modifiedDate = $mdate;
+        }
 
-		$app->mimeType = $this->_mime;
-		$app->charSet  = $this->_charset;
+        $app->mimeType = $this->_mime;
+        $app->charSet  = $this->_charset;
 
-		return json_encode($this->document);
-	}
+        return json_encode($this->document);
+    }
 
-	/**
-	 * Serialize for JSON usage.
-	 *
-	 * @return array
-	 *
-	 * @since  4.0.0
-	 */
-	#[\ReturnTypeWillChange]
-	public function jsonSerialize()
-	{
-		return $this->toArray();
-	}
+    /**
+     * Serialize for JSON usage.
+     *
+     * @return array
+     *
+     * @since  4.0.0
+     */
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
 
-	/**
-	 * Add a link to the output.
-	 *
-	 * @param   string  $key    The name of the link
-	 * @param   string  $value  The link
-	 *
-	 * @return  $this
-	 *
-	 * @since  4.0.0
-	 */
-	public function addLink($key, $value)
-	{
-		$this->document->addLink($key, $value);
+    /**
+     * Add a link to the output.
+     *
+     * @param   string  $key    The name of the link
+     * @param   string  $value  The link
+     *
+     * @return  $this
+     *
+     * @since  4.0.0
+     */
+    public function addLink($key, $value)
+    {
+        $this->document->addLink($key, $value);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Add a link to the output.
-	 *
-	 * @param   string  $key    The name of the metadata key
-	 * @param   string  $value  The value
-	 *
-	 * @return  $this
-	 *
-	 * @since  4.0.0
-	 */
-	public function addMeta($key, $value)
-	{
-		$this->document->addMeta($key, $value);
+    /**
+     * Add a link to the output.
+     *
+     * @param   string  $key    The name of the metadata key
+     * @param   string  $value  The value
+     *
+     * @return  $this
+     *
+     * @since  4.0.0
+     */
+    public function addMeta($key, $value)
+    {
+        $this->document->addMeta($key, $value);
 
-		return $this;
-	}
+        return $this;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Console;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
@@ -23,140 +22,125 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ExtensionDiscoverCommand extends AbstractCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'extension:discover';
+    /**
+     * The default command name
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'extension:discover';
 
-	/**
-	 * Stores the Input Object
-	 *
-	 * @var    InputInterface
-	 *
-	 * @since  4.0.0
-	 */
-	private $cliInput;
+    /**
+     * Stores the Input Object
+     *
+     * @var    InputInterface
+     *
+     * @since  4.0.0
+     */
+    private $cliInput;
 
-	/**
-	 * SymfonyStyle Object
-	 *
-	 * @var    SymfonyStyle
-	 *
-	 * @since  4.0.0
-	 */
-	private $ioStyle;
+    /**
+     * SymfonyStyle Object
+     *
+     * @var    SymfonyStyle
+     *
+     * @since  4.0.0
+     */
+    private $ioStyle;
 
-	/**
-	 * Instantiate the command.
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Configures the IO
+     *
+     * @param   InputInterface   $input   Console Input
+     * @param   OutputInterface  $output  Console Output
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     *
+     */
+    private function configureIO(InputInterface $input, OutputInterface $output): void
+    {
+        $this->cliInput = $input;
+        $this->ioStyle = new SymfonyStyle($input, $output);
+    }
 
-	/**
-	 * Configures the IO
-	 *
-	 * @param   InputInterface   $input   Console Input
-	 * @param   OutputInterface  $output  Console Output
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 *
-	 */
-	private function configureIO(InputInterface $input, OutputInterface $output): void
-	{
-		$this->cliInput = $input;
-		$this->ioStyle = new SymfonyStyle($input, $output);
-	}
-
-	/**
-	 * Initialise the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> is used to discover extensions
+    /**
+     * Initialise the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> is used to discover extensions
 		\nUsage:
 		\n  <info>php %command.full_name%</info>";
 
-		$this->setDescription('Discover extensions');
-		$this->setHelp($help);
-	}
+        $this->setDescription('Discover extensions');
+        $this->setHelp($help);
+    }
 
-	/**
-	 * Used for discovering extensions
-	 *
-	 * @return  integer  The count of discovered extensions
-	 *
-	 * @throws  \Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function processDiscover(): int
-	{
-		$app = $this->getApplication();
+    /**
+     * Used for discovering extensions
+     *
+     * @return  integer  The count of discovered extensions
+     *
+     * @throws  \Exception
+     *
+     * @since   4.0.0
+     */
+    public function processDiscover(): int
+    {
+        $app = $this->getApplication();
 
-		$mvcFactory = $app->bootComponent('com_installer')->getMVCFactory();
+        $mvcFactory = $app->bootComponent('com_installer')->getMVCFactory();
 
-		$model = $mvcFactory->createModel('Discover', 'Administrator');
+        $model = $mvcFactory->createModel('Discover', 'Administrator');
 
-		return $model->discover();
-	}
+        return $model->discover();
+    }
 
-	/**
-	 * Used for finding the text for the note
-	 *
-	 * @param   int  $count   The count of installed Extensions
-	 *
-	 * @return  string  The text for the note
-	 *
-	 * @since   4.0.0
-	 */
-	public function getNote(int $count): string
-	{
-		if ($count < 1)
-		{
-			return 'No extensions were discovered.';
-		}
-		elseif ($count === 1)
-		{
-			return $count . ' extension has been discovered.';
-		}
-		else
-		{
-			return $count . ' extensions have been discovered.';
-		}
-	}
+    /**
+     * Used for finding the text for the note
+     *
+     * @param   int  $count   The count of installed Extensions
+     *
+     * @return  string  The text for the note
+     *
+     * @since   4.0.0
+     */
+    public function getNote(int $count): string
+    {
+        if ($count < 1) {
+            return 'No extensions were discovered.';
+        } elseif ($count === 1) {
+            return $count . ' extension has been discovered.';
+        } else {
+            return $count . ' extensions have been discovered.';
+        }
+    }
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$this->configureIO($input, $output);
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO($input, $output);
 
-		$count = $this->processDiscover();
+        $count = $this->processDiscover();
 
-		$this->ioStyle->note($this->getNote($count));
+        $this->ioStyle->note($this->getNote($count));
 
-		return Command::SUCCESS;
-	}
+        return Command::SUCCESS;
+    }
 }

@@ -29,6 +29,7 @@
 			<filename>users.xml</filename>
 			<folder>forms</folder>
 			<folder>helpers</folder>
+			<folder>postinstall</folder>
 			<folder>services</folder>
 			<folder>src</folder>
 			<folder>tmpl</folder>
