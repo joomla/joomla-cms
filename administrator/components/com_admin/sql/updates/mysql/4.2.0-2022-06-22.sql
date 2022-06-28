@@ -1,4 +1,4 @@
--- Set all core extensions as locked extensions and unprotected them.
+-- Set core extensions as locked extensions.
 UPDATE `#__extensions`
 SET `locked` = 1
 WHERE  (`type` = 'plugin' AND
