@@ -23,7 +23,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  * Test class for Checkfiles plugin
  *
  * @package     Joomla.UnitTest
- * @subpackage  Requests
+ * @subpackage  Checkfiles
  *
  * @testdox     The Checkfiles plugin
  *
