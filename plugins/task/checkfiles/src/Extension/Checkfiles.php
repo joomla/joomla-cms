@@ -79,7 +79,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      *
      * @param   DispatcherInterface  $dispatcher     The dispatcher
      * @param   array                $config         An optional associative array of configuration settings
-     * @param   string               $rootDirectory  The root directory to lok for images
+     * @param   string               $rootDirectory  The root directory to look for images
      *
      * @since   __DEPLOY_VERSION__
      */
