@@ -7,6 +7,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Disable Underscore, because we need $_db for backward compatibility
+// phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore
+
 namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
