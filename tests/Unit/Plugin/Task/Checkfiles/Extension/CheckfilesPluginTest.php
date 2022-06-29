@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Plugin\Task\Requests\Extension;
+namespace Joomla\Tests\Unit\Plugin\Task\Checkfiles\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Language;
