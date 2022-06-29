@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester
@@ -7,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:ignoreFile
 use Codeception\Actor;
 use Codeception\Lib\Friend;
 
@@ -30,9 +32,9 @@ use Codeception\Lib\Friend;
  */
 class ApiTester extends Actor
 {
-	use _generated\ApiTesterActions;
+    use _generated\ApiTesterActions;
 
-	/**
-	 * Define custom actions here
-	 */
+    /**
+     * Define custom actions here
+     */
 }
