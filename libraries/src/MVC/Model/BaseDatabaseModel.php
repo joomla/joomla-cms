@@ -48,7 +48,9 @@ abstract class BaseDatabaseModel extends BaseModel implements
     CurrentUserInterface,
     CacheControllerFactoryAwareInterface
 {
-    use DatabaseAwareTrait;
+    use DatabaseAwareTrait {
+        setDatabase as private setDatabaseTrait;
+    }
     use MVCFactoryAwareTrait;
     use DispatcherAwareTrait;
     use CurrentUserTrait;
@@ -69,6 +71,16 @@ abstract class BaseDatabaseModel extends BaseModel implements
      * @since  3.0
      */
     protected $event_clean_cache = null;
+
+    /**
+     * The database driver.
+     *
+     * @var    DatabaseInterface
+     * @since  __DEPLOY_VERSION__
+     *
+     * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+     */
+    protected $_db;
 
     /**
      * Constructor
@@ -353,6 +365,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function getDbo()
     {
+        @trigger_error('Method getDbo() is deprecated, use getDatabase() instead.', E_USER_DEPRECATED);
+
         try {
             return $this->getDatabase();
         } catch (DatabaseNotFoundException $e) {
@@ -373,6 +387,8 @@ abstract class BaseDatabaseModel extends BaseModel implements
      */
     public function setDbo(DatabaseInterface $db = null)
     {
+        @trigger_error('Method setDbo() is deprecated, use setDatabase() instead.', E_USER_DEPRECATED);
+
         if ($db === null) {
             return;
         }
@@ -381,27 +397,18 @@ abstract class BaseDatabaseModel extends BaseModel implements
     }
 
     /**
-     * Proxy for _db variable.
+     * Set the database.
      *
-     * @param   string  $name  The name of the element
+     * @param   DatabaseInterface  $db  The database.
      *
-     * @return  mixed  The value of the element if set, null otherwise
+     * @return  void
      *
-     * @since   4.2.0
-     *
-     * @deprecated  5.0 Use getDatabase() instead of directly accessing _db
+     * @since   __DEPLOY_VERSION__
      */
-    public function __get($name)
+    public function setDatabase(DatabaseInterface $db): void
     {
-        if ($name === '_db') {
-            return $this->getDatabase();
-        }
-
-        // Default the variable
-        if (!isset($this->$name)) {
-            $this->$name = null;
-        }
-
-        return $this->$name;
+        // Workaround for backward compatibility
+        $this->_db = $db;
+        $this->setDatabaseTrait($db);
     }
 }
