@@ -299,6 +299,12 @@ class PlgFieldsSubform extends FieldsPlugin
             );
         }
 
+        // If the edit layout is set we override any automation
+        $editLayout = $field_params->get('edit_layout');
+        if ($editLayout) {
+            $parent_field->setAttribute('layout', $editLayout);
+        }
+
         return $parent_field;
     }
 
