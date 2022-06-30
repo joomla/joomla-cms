@@ -76,7 +76,6 @@ class PlgAuthenticationLdap extends CMSPlugin
 
         switch ($auth_method) {
             case 'search':
-            {
                 try {
                     $dn = $this->params->get('username', '');
                     $ldap->bind($dn, $this->params->get('password', ''));
@@ -122,10 +121,8 @@ class PlgAuthenticationLdap extends CMSPlugin
                 }
 
                 break;
-            }
 
             case 'bind':
-            {
                 // We just accept the result here
                 try {
                     if ($this->params->get('users_dn', '') == '') {
@@ -163,7 +160,6 @@ class PlgAuthenticationLdap extends CMSPlugin
                 }
 
                 break;
-            }
 
             default:
                 // Unsupported configuration
