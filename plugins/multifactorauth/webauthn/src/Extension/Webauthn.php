@@ -42,6 +42,14 @@ use Webauthn\PublicKeyCredentialRequestOptions;
 class Webauthn extends CMSPlugin implements SubscriberInterface
 {
     /**
+     * The application object
+     *
+     * @var    CMSApplication|SiteApplication|AdministratorApplication
+     * @since  4.2.0
+     */
+    protected $app;
+
+    /**
      * Auto-load the plugin's language files
      *
      * @var    boolean
@@ -136,7 +144,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
          * my user clicks the submit button.
          */
         if (!is_array($record->options) || empty($record->options['credentialId'] ?? '')) {
-            $document = $this->getApplication()->getDocument();
+            $document = $this->app->getDocument();
             $wam      = $document->getWebAssetManager();
             $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
@@ -219,7 +227,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         }
 
         $code                = $input->get('code', null, 'base64');
-        $session             = $this->getApplication()->getSession();
+        $session             = $this->app->getSession();
         $registrationRequest = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialCreationOptions', null);
 
         // If there was no registration request BUT there is a registration response throw an error
@@ -307,10 +315,10 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
          * That was fun to debug - for "poke your eyes with a rusty fork" values of fun.
          */
 
-        $session          = $this->getApplication()->getSession();
+        $session          = $this->app->getSession();
         $pkOptionsEncoded = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialRequestOptions', null);
 
-        $force = $this->getApplication()->input->getInt('force', 0);
+        $force = $this->app->input->getInt('force', 0);
 
         try {
             if ($force) {
@@ -330,11 +338,11 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
             $pkRequest = json_encode($pkOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
-			// phpcs:ignore
-			$pkRequest = Credentials::requestAssertion($record->user_id);
+            // phpcs:ignore
+            $pkRequest = Credentials::requestAssertion($record->user_id);
         }
 
-        $document = $this->getApplication()->getDocument();
+        $document = $this->app->getDocument();
         $wam      = $document->getWebAssetManager();
         $wam->getRegistry()->addExtensionRegistryFile('plg_multifactorauth_webauthn');
 
@@ -413,8 +421,8 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         }
 
         // Double check the MFA Method is for the correct user
-		// phpcs:ignore
-		if ($user->id != $record->user_id)
+        // phpcs:ignore
+        if ($user->id != $record->user_id)
         {
             $event->addResult(false);
 
@@ -425,7 +433,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             Credentials::verifyAssertion($code);
         } catch (Exception $e) {
             try {
-                $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
+                $this->app->enqueueMessage($e->getMessage(), 'error');
             } catch (Exception $e) {
             }
 

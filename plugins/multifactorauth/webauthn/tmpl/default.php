@@ -32,7 +32,7 @@ if (Uri::getInstance()->getScheme() !== 'https'): ?>
 	return;
 endif;
 
-$this->getApplication()->getDocument()->getWebAssetManager()->useScript('plg_multifactorauth_webauthn.webauthn');
+$this->app->getDocument()->getWebAssetManager()->useScript('plg_multifactorauth_webauthn.webauthn');
 
 ?>
 <div id="multifactorauth-webauthn-missing" class="my-2">
