@@ -185,12 +185,10 @@ class UsersModel extends ListModel
 
             foreach ($items as $item) {
                 $userIds[] = (int) $item->id;
-				// phpcs:ignore
-				$item->group_count = 0;
-				// phpcs:ignore
-				$item->group_names = '';
-				// phpcs:ignore
-				$item->note_count = 0;
+
+                $item->group_count = 0;
+                $item->group_names = '';
+                $item->note_count = 0;
             }
 
             // Get the counts from the database only for the users in the list.
@@ -237,17 +235,14 @@ class UsersModel extends ListModel
             // Second pass: collect the group counts into the master items array.
             foreach ($items as &$item) {
                 if (isset($userGroups[$item->id])) {
-					// phpcs:ignore
-					$item->group_count = $userGroups[$item->id]->group_count;
+                    $item->group_count = $userGroups[$item->id]->group_count;
 
                     // Group_concat in other databases is not supported
-					// phpcs:ignore
-					$item->group_names = $this->getUserDisplayedGroups($item->id);
+                    $item->group_names = $this->getUserDisplayedGroups($item->id);
                 }
 
                 if (isset($userNotes[$item->id])) {
-					// phpcs:ignore
-					$item->note_count = $userNotes[$item->id]->note_count;
+                    $item->note_count = $userNotes[$item->id]->note_count;
                 }
             }
 

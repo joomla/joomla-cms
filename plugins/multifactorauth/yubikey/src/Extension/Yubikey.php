@@ -294,17 +294,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // Double check the MFA Method is for the correct user
-		// phpcs:ignore
-		if ($user->id != $record->user_id)
-        {
+        if ($user->id != $record->user_id) {
             $event->addResult(false);
 
             return;
         }
 
         try {
-			// phpcs:ignore
-			$records = MfaHelper::getUserMfaRecords($record->user_id);
+            $records = MfaHelper::getUserMfaRecords($record->user_id);
             $records = array_filter(
                 $records,
                 function ($rec) use ($record) {
