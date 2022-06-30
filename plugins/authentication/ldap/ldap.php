@@ -76,7 +76,6 @@ class PlgAuthenticationLdap extends CMSPlugin
 
         switch ($auth_method) {
             case 'search':
-            {
                 try {
                     $dn = str_replace('[username]', $this->params->get('username', ''), $this->params->get('users_dn', ''));
 
@@ -123,10 +122,8 @@ class PlgAuthenticationLdap extends CMSPlugin
                 }
 
                 break;
-            }
 
             case 'bind':
-            {
                 // We just accept the result here
                 try {
                     $ldap->bind($ldap->escape($credentials['username'], '', LDAP_ESCAPE_DN), $credentials['password']);
@@ -154,7 +151,6 @@ class PlgAuthenticationLdap extends CMSPlugin
                 }
 
                 break;
-            }
 
             default:
                 // Unsupported configuration
