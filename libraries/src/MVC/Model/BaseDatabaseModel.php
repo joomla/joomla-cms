@@ -401,6 +401,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
 
     /**
      * Set the database.
+     * @todo: This is a workaround for backward compatibility, when $this->_db still in use. Should be removed in 5.0
      *
      * @param   DatabaseInterface  $db  The database.
      *
