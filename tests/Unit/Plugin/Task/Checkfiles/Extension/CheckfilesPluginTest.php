@@ -41,8 +41,7 @@ class CheckfilesPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        if (!is_dir(__DIR__ . '/tmp'))
-        {
+        if (!is_dir(__DIR__ . '/tmp')) {
             mkdir(__DIR__ . '/tmp');
         }
 
