@@ -409,9 +409,7 @@ class MethodController extends BaseControllerAlias
 
         $record = $model->getRecord($user);
 
-		// phpcs:ignore
-		if (is_null($record) || ($record->id != $id) || ($record->user_id != $user->id))
-        {
+        if (is_null($record) || ($record->id != $id) || ($record->user_id != $user->id)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
