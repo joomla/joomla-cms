@@ -197,7 +197,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Checkfiles(new Dispatcher, [], __DIR__);
+        $plugin = new Checkfiles(new Dispatcher(), [], __DIR__);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
