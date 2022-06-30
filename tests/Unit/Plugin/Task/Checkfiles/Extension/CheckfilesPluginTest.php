@@ -60,8 +60,7 @@ class CheckfilesPluginTest extends UnitTestCase
      */
     public function tearDown(): void
     {
-        if (is_dir(__DIR__ . '/tmp'))
-        {
+        if (is_dir(__DIR__ . '/tmp')) {
             Folder::delete(__DIR__ . '/tmp');
         }
     }
