@@ -57,24 +57,9 @@ $workflow_state    = false;
 $workflow_featured = false;
 
 if ($workflow_enabled) :
-// @todo move the script to a file
-    $js = <<<JS
-(function() {
-	document.addEventListener('DOMContentLoaded', function() {
-	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
-
-	  elements.forEach(function (element) {
-		element.addEventListener('click', function(event) {
-			event.stopPropagation();
-		});
-	  });
-	});
-})();
-JS;
-
     $wa->getRegistry()->addExtensionRegistryFile('com_workflow');
     $wa->useScript('com_workflow.admin-items-workflow-buttons')
-    ->addInlineScript($js, [], ['type' => 'module']);
+    ->useScript('com_content.articles-status');
 
     $workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
     $workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
