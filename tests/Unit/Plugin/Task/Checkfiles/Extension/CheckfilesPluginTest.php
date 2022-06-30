@@ -112,7 +112,7 @@ class CheckfilesPluginTest extends UnitTestCase
      */
     public function testResizeWithLimit()
     {
-        copy(__DIR__ . '/tmp/test.png',__DIR__ . '/tmp/test1.png');
+        copy(__DIR__ . '/tmp/test.png', __DIR__ . '/tmp/test1.png');
 
         $language = $this->createStub(Language::class);
         $language->method('_')->willReturn('test');
