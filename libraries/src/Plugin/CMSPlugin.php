@@ -157,7 +157,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
     {
         if (empty($extension)) {
-            $extension = 'plg_' . $this->_type . '_' . $this->_name;
+            $extension = 'Plg_' . $this->_type . '_' . $this->_name;
         }
 
         $extensionLow = strtolower($extension);
