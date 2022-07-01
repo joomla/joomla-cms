@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,11 @@
 
 namespace Joomla\CMS\Categories;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Database\ParameterType;
 
 /**
@@ -19,430 +21,399 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class Categories implements CategoryInterface
+class Categories implements CategoryInterface, DatabaseAwareInterface
 {
-	/**
-	 * Array to hold the object instances
-	 *
-	 * @var    Categories[]
-	 * @since  1.6
-	 */
-	public static $instances = array();
+    use DatabaseAwareTrait;
 
-	/**
-	 * Array of category nodes
-	 *
-	 * @var    CategoryNode[]
-	 * @since  1.6
-	 */
-	protected $_nodes;
+    /**
+     * Array to hold the object instances
+     *
+     * @var    Categories[]
+     * @since  1.6
+     */
+    public static $instances = array();
 
-	/**
-	 * Array of checked categories -- used to save values when _nodes are null
-	 *
-	 * @var    boolean[]
-	 * @since  1.6
-	 */
-	protected $_checkedCategories;
+    /**
+     * Array of category nodes
+     *
+     * @var    CategoryNode[]
+     * @since  1.6
+     */
+    protected $_nodes;
 
-	/**
-	 * Name of the extension the categories belong to
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $_extension = null;
+    /**
+     * Array of checked categories -- used to save values when _nodes are null
+     *
+     * @var    boolean[]
+     * @since  1.6
+     */
+    protected $_checkedCategories;
 
-	/**
-	 * Name of the linked content table to get category content count
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $_table = null;
+    /**
+     * Name of the extension the categories belong to
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $_extension = null;
 
-	/**
-	 * Name of the category field
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $_field = null;
+    /**
+     * Name of the linked content table to get category content count
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $_table = null;
 
-	/**
-	 * Name of the key field
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $_key = null;
+    /**
+     * Name of the category field
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $_field = null;
 
-	/**
-	 * Name of the items state field
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $_statefield = null;
+    /**
+     * Name of the key field
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $_key = null;
 
-	/**
-	 * Array of options
-	 *
-	 * @var    array
-	 * @since  1.6
-	 */
-	protected $_options = [];
+    /**
+     * Name of the items state field
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $_statefield = null;
 
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  Array of options
-	 *
-	 * @since   1.6
-	 */
-	public function __construct($options)
-	{
-		$this->_extension  = $options['extension'];
-		$this->_table      = $options['table'];
-		$this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
-		$this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-		$this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
+    /**
+     * Array of options
+     *
+     * @var    array
+     * @since  1.6
+     */
+    protected $_options = [];
 
-		$options['access']      = isset($options['access']) ? $options['access'] : 'true';
-		$options['published']   = isset($options['published']) ? $options['published'] : 1;
-		$options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
-		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
+    /**
+     * Class constructor
+     *
+     * @param   array  $options  Array of options
+     *
+     * @since   1.6
+     */
+    public function __construct($options)
+    {
+        $this->_extension  = $options['extension'];
+        $this->_table      = $options['table'];
+        $this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
+        $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
+        $this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
 
-		$this->_options = $options;
-	}
+        $options['access']      = isset($options['access']) ? $options['access'] : 'true';
+        $options['published']   = isset($options['published']) ? $options['published'] : 1;
+        $options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
+        $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
-	/**
-	 * Returns a reference to a Categories object
-	 *
-	 * @param   string  $extension  Name of the categories extension
-	 * @param   array   $options    An array of options
-	 *
-	 * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
-	 *
-	 * @since       1.6
-	 * @deprecated  5.0 Use the ComponentInterface to get the categories
-	 */
-	public static function getInstance($extension, $options = array())
-	{
-		$hash = md5(strtolower($extension) . serialize($options));
+        $this->_options = $options;
+    }
 
-		if (isset(self::$instances[$hash]))
-		{
-			return self::$instances[$hash];
-		}
+    /**
+     * Returns a reference to a Categories object
+     *
+     * @param   string  $extension  Name of the categories extension
+     * @param   array   $options    An array of options
+     *
+     * @return  Categories|boolean  Categories object on success, boolean false if an object does not exist
+     *
+     * @since       1.6
+     * @deprecated  5.0 Use the ComponentInterface to get the categories
+     */
+    public static function getInstance($extension, $options = array())
+    {
+        $hash = md5(strtolower($extension) . serialize($options));
 
-		$categories = null;
+        if (isset(self::$instances[$hash])) {
+            return self::$instances[$hash];
+        }
 
-		try
-		{
-			$parts = explode('.', $extension, 2);
+        $categories = null;
 
-			$component = Factory::getApplication()->bootComponent($parts[0]);
+        try {
+            $parts = explode('.', $extension, 2);
 
-			if ($component instanceof CategoryServiceInterface)
-			{
-				$categories = $component->getCategory($options, \count($parts) > 1 ? $parts[1] : '');
-			}
-		}
-		catch (SectionNotFoundException $e)
-		{
-			$categories = null;
-		}
+            $component = Factory::getApplication()->bootComponent($parts[0]);
 
-		self::$instances[$hash] = $categories;
+            if ($component instanceof CategoryServiceInterface) {
+                $categories = $component->getCategory($options, \count($parts) > 1 ? $parts[1] : '');
+            }
+        } catch (SectionNotFoundException $e) {
+            $categories = null;
+        }
 
-		return self::$instances[$hash];
-	}
+        self::$instances[$hash] = $categories;
 
-	/**
-	 * Loads a specific category and all its children in a CategoryNode object.
-	 *
-	 * @param   mixed    $id         an optional id integer or equal to 'root'
-	 * @param   boolean  $forceload  True to force  the _load method to execute
-	 *
-	 * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
-	 *
-	 * @since   1.6
-	 */
-	public function get($id = 'root', $forceload = false)
-	{
-		if ($id !== 'root')
-		{
-			$id = (int) $id;
+        return self::$instances[$hash];
+    }
 
-			if ($id == 0)
-			{
-				$id = 'root';
-			}
-		}
+    /**
+     * Loads a specific category and all its children in a CategoryNode object.
+     *
+     * @param   mixed    $id         an optional id integer or equal to 'root'
+     * @param   boolean  $forceload  True to force  the _load method to execute
+     *
+     * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
+     *
+     * @since   1.6
+     */
+    public function get($id = 'root', $forceload = false)
+    {
+        if ($id !== 'root') {
+            $id = (int) $id;
 
-		// If this $id has not been processed yet, execute the _load method
-		if ((!isset($this->_nodes[$id]) && !isset($this->_checkedCategories[$id])) || $forceload)
-		{
-			$this->_load($id);
-		}
+            if ($id == 0) {
+                $id = 'root';
+            }
+        }
 
-		// If we already have a value in _nodes for this $id, then use it.
-		if (isset($this->_nodes[$id]))
-		{
-			return $this->_nodes[$id];
-		}
+        // If this $id has not been processed yet, execute the _load method
+        if ((!isset($this->_nodes[$id]) && !isset($this->_checkedCategories[$id])) || $forceload) {
+            $this->_load($id);
+        }
 
-		return null;
-	}
+        // If we already have a value in _nodes for this $id, then use it.
+        if (isset($this->_nodes[$id])) {
+            return $this->_nodes[$id];
+        }
 
-	/**
-	 * Returns the extension of the category.
-	 *
-	 * @return   string  The extension
-	 *
-	 * @since   3.9.0
-	 */
-	public function getExtension()
-	{
-		return $this->_extension;
-	}
+        return null;
+    }
 
-	/**
-	 * Load method
-	 *
-	 * @param   integer  $id  Id of category to load
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function _load($id)
-	{
-		/** @var \Joomla\Database\DatabaseDriver */
-		$db   = Factory::getDbo();
-		$app  = Factory::getApplication();
-		$user = Factory::getUser();
-		$extension = $this->_extension;
+    /**
+     * Returns the extension of the category.
+     *
+     * @return   string  The extension
+     *
+     * @since   3.9.0
+     */
+    public function getExtension()
+    {
+        return $this->_extension;
+    }
 
-		if ($id !== 'root')
-		{
-			$id = (int) $id;
+    /**
+     * Load method
+     *
+     * @param   integer  $id  Id of category to load
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function _load($id)
+    {
+        try {
+            $db = $this->getDatabase();
+        } catch (DatabaseNotFoundException $e) {
+            @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
+            $db = Factory::getContainer()->get(DatabaseInterface::class);
+        }
 
-			if ($id === 0)
-			{
-				$id = 'root';
-			}
-		}
+        $app  = Factory::getApplication();
+        $user = Factory::getUser();
+        $extension = $this->_extension;
 
-		// Record that has this $id has been checked
-		$this->_checkedCategories[$id] = true;
+        if ($id !== 'root') {
+            $id = (int) $id;
 
-		$query = $db->getQuery(true)
-			->select(
-				[
-					$db->quoteName('c.id'),
-					$db->quoteName('c.asset_id'),
-					$db->quoteName('c.access'),
-					$db->quoteName('c.alias'),
-					$db->quoteName('c.checked_out'),
-					$db->quoteName('c.checked_out_time'),
-					$db->quoteName('c.created_time'),
-					$db->quoteName('c.created_user_id'),
-					$db->quoteName('c.description'),
-					$db->quoteName('c.extension'),
-					$db->quoteName('c.hits'),
-					$db->quoteName('c.language'),
-					$db->quoteName('c.level'),
-					$db->quoteName('c.lft'),
-					$db->quoteName('c.metadata'),
-					$db->quoteName('c.metadesc'),
-					$db->quoteName('c.metakey'),
-					$db->quoteName('c.modified_time'),
-					$db->quoteName('c.note'),
-					$db->quoteName('c.params'),
-					$db->quoteName('c.parent_id'),
-					$db->quoteName('c.path'),
-					$db->quoteName('c.published'),
-					$db->quoteName('c.rgt'),
-					$db->quoteName('c.title'),
-					$db->quoteName('c.modified_user_id'),
-					$db->quoteName('c.version'),
-				]
-			);
+            if ($id === 0) {
+                $id = 'root';
+            }
+        }
 
-		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
-		$case_when .= ' THEN ';
-		$c_id = $query->castAsChar($db->quoteName('c.id'));
-		$case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
-		$case_when .= ' ELSE ';
-		$case_when .= $c_id . ' END as ' . $db->quoteName('slug');
+        // Record that has this $id has been checked
+        $this->_checkedCategories[$id] = true;
 
-		$query->select($case_when)
-			->where('(' . $db->quoteName('c.extension') . ' = :extension OR ' . $db->quoteName('c.extension') . ' = ' . $db->quote('system') . ')')
-			->bind(':extension', $extension);
+        $query = $db->getQuery(true)
+            ->select(
+                [
+                    $db->quoteName('c.id'),
+                    $db->quoteName('c.asset_id'),
+                    $db->quoteName('c.access'),
+                    $db->quoteName('c.alias'),
+                    $db->quoteName('c.checked_out'),
+                    $db->quoteName('c.checked_out_time'),
+                    $db->quoteName('c.created_time'),
+                    $db->quoteName('c.created_user_id'),
+                    $db->quoteName('c.description'),
+                    $db->quoteName('c.extension'),
+                    $db->quoteName('c.hits'),
+                    $db->quoteName('c.language'),
+                    $db->quoteName('c.level'),
+                    $db->quoteName('c.lft'),
+                    $db->quoteName('c.metadata'),
+                    $db->quoteName('c.metadesc'),
+                    $db->quoteName('c.metakey'),
+                    $db->quoteName('c.modified_time'),
+                    $db->quoteName('c.note'),
+                    $db->quoteName('c.params'),
+                    $db->quoteName('c.parent_id'),
+                    $db->quoteName('c.path'),
+                    $db->quoteName('c.published'),
+                    $db->quoteName('c.rgt'),
+                    $db->quoteName('c.title'),
+                    $db->quoteName('c.modified_user_id'),
+                    $db->quoteName('c.version'),
+                ]
+            );
 
-		if ($this->_options['access'])
-		{
-			$groups = $user->getAuthorisedViewLevels();
-			$query->whereIn($db->quoteName('c.access'), $groups);
-		}
+        $case_when = ' CASE WHEN ';
+        $case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
+        $case_when .= ' THEN ';
+        $c_id = $query->castAsChar($db->quoteName('c.id'));
+        $case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
+        $case_when .= ' ELSE ';
+        $case_when .= $c_id . ' END as ' . $db->quoteName('slug');
 
-		if ($this->_options['published'] == 1)
-		{
-			$query->where($db->quoteName('c.published') . ' = 1');
-		}
+        $query->select($case_when)
+            ->where('(' . $db->quoteName('c.extension') . ' = :extension OR ' . $db->quoteName('c.extension') . ' = ' . $db->quote('system') . ')')
+            ->bind(':extension', $extension);
 
-		$query->order($db->quoteName('c.lft'));
+        if ($this->_options['access']) {
+            $groups = $user->getAuthorisedViewLevels();
+            $query->whereIn($db->quoteName('c.access'), $groups);
+        }
 
-		// Note: s for selected id
-		if ($id !== 'root')
-		{
-			// Get the selected category
-			$query->from($db->quoteName('#__categories', 's'))
-				->where($db->quoteName('s.id') . ' = :id')
-				->bind(':id', $id, ParameterType::INTEGER);
+        if ($this->_options['published'] == 1) {
+            $query->where($db->quoteName('c.published') . ' = 1');
+        }
 
-			if ($app->isClient('site') && Multilanguage::isEnabled())
-			{
-				// For the most part, we use c.lft column, which index is properly used instead of c.rgt
-				$query->join(
-					'INNER',
-					$db->quoteName('#__categories', 'c'),
-					'(' . $db->quoteName('s.lft') . ' < ' . $db->quoteName('c.lft')
-						. ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
-						. ' AND ' . $db->quoteName('c.language')
-						. ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
-						. ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
-						. ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
-				);
-			}
-			else
-			{
-				$query->join(
-					'INNER',
-					$db->quoteName('#__categories', 'c'),
-					'(' . $db->quoteName('s.lft') . ' <= ' . $db->quoteName('c.lft')
-						. ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
-						. ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft')
-						. ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
-				);
-			}
-		}
-		else
-		{
-			$query->from($db->quoteName('#__categories', 'c'));
+        $query->order($db->quoteName('c.lft'));
 
-			if ($app->isClient('site') && Multilanguage::isEnabled())
-			{
-				$query->whereIn($db->quoteName('c.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
-			}
-		}
+        // Note: s for selected id
+        if ($id !== 'root') {
+            // Get the selected category
+            $query->from($db->quoteName('#__categories', 's'))
+                ->where($db->quoteName('s.id') . ' = :id')
+                ->bind(':id', $id, ParameterType::INTEGER);
 
-		// Note: i for item
-		if ($this->_options['countItems'] == 1)
-		{
-			$subQuery = $db->getQuery(true)
-				->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
-				->from($db->quoteName($db->escape($this->_table), 'i'))
-				->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
+            if ($app->isClient('site') && Multilanguage::isEnabled()) {
+                // For the most part, we use c.lft column, which index is properly used instead of c.rgt
+                $query->join(
+                    'INNER',
+                    $db->quoteName('#__categories', 'c'),
+                    '(' . $db->quoteName('s.lft') . ' < ' . $db->quoteName('c.lft')
+                        . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
+                        . ' AND ' . $db->quoteName('c.language')
+                        . ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
+                        . ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
+                        . ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
+                );
+            } else {
+                $query->join(
+                    'INNER',
+                    $db->quoteName('#__categories', 'c'),
+                    '(' . $db->quoteName('s.lft') . ' <= ' . $db->quoteName('c.lft')
+                        . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
+                        . ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft')
+                        . ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
+                );
+            }
+        } else {
+            $query->from($db->quoteName('#__categories', 'c'));
 
-			if ($this->_options['published'] == 1)
-			{
-				$subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
-			}
+            if ($app->isClient('site') && Multilanguage::isEnabled()) {
+                $query->whereIn($db->quoteName('c.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
+            }
+        }
 
-			if ($this->_options['currentlang'] !== 0)
-			{
-				$subQuery->where(
-					$db->quoteName('i.language')
-						. ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
-				);
-			}
+        // Note: i for item
+        if ($this->_options['countItems'] == 1) {
+            $subQuery = $db->getQuery(true)
+                ->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
+                ->from($db->quoteName($db->escape($this->_table), 'i'))
+                ->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
 
-			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('numitems'));
-		}
+            if ($this->_options['published'] == 1) {
+                $subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
+            }
 
-		// Get the results
-		$db->setQuery($query);
-		$results = $db->loadObjectList('id');
-		$childrenLoaded = false;
+            if ($this->_options['currentlang'] !== 0) {
+                $subQuery->where(
+                    $db->quoteName('i.language')
+                        . ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
+                );
+            }
 
-		if (\count($results))
-		{
-			// Foreach categories
-			foreach ($results as $result)
-			{
-				// Deal with root category
-				if ($result->id == 1)
-				{
-					$result->id = 'root';
-				}
+            $query->select('(' . $subQuery . ') AS ' . $db->quoteName('numitems'));
+        }
 
-				// Deal with parent_id
-				if ($result->parent_id == 1)
-				{
-					$result->parent_id = 'root';
-				}
+        // Get the results
+        $db->setQuery($query);
+        $results = $db->loadObjectList('id');
+        $childrenLoaded = false;
 
-				// Create the node
-				if (!isset($this->_nodes[$result->id]))
-				{
-					// Create the CategoryNode and add to _nodes
-					$this->_nodes[$result->id] = new CategoryNode($result, $this);
+        if (\count($results)) {
+            // Foreach categories
+            foreach ($results as $result) {
+                // Deal with root category
+                if ($result->id == 1) {
+                    $result->id = 'root';
+                }
 
-					// If this is not root and if the current node's parent is in the list or the current node parent is 0
-					if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1))
-					{
-						// Compute relationship between node and its parent - set the parent in the _nodes field
-						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
-					}
+                // Deal with parent_id
+                if ($result->parent_id == 1) {
+                    $result->parent_id = 'root';
+                }
 
-					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
-					// then remove the node from the list
-					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
-					{
-						unset($this->_nodes[$result->id]);
-						continue;
-					}
+                // Create the node
+                if (!isset($this->_nodes[$result->id])) {
+                    // Create the CategoryNode and add to _nodes
+                    $this->_nodes[$result->id] = new CategoryNode($result, $this);
 
-					if ($result->id == $id || $childrenLoaded)
-					{
-						$this->_nodes[$result->id]->setAllLoaded();
-						$childrenLoaded = true;
-					}
-				}
-				elseif ($result->id == $id || $childrenLoaded)
-				{
-					// Create the CategoryNode
-					$this->_nodes[$result->id] = new CategoryNode($result, $this);
+                    // If this is not root and if the current node's parent is in the list or the current node parent is 0
+                    if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1)) {
+                        // Compute relationship between node and its parent - set the parent in the _nodes field
+                        $this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
+                    }
 
-					if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id))
-					{
-						// Compute relationship between node and its parent
-						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
-					}
+                    // If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+                    // then remove the node from the list
+                    if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
+                        unset($this->_nodes[$result->id]);
+                        continue;
+                    }
 
-					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
-					// then remove the node from the list
-					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
-					{
-						unset($this->_nodes[$result->id]);
-						continue;
-					}
+                    if ($result->id == $id || $childrenLoaded) {
+                        $this->_nodes[$result->id]->setAllLoaded();
+                        $childrenLoaded = true;
+                    }
+                } elseif ($result->id == $id || $childrenLoaded) {
+                    // Create the CategoryNode
+                    $this->_nodes[$result->id] = new CategoryNode($result, $this);
 
-					if ($result->id == $id || $childrenLoaded)
-					{
-						$this->_nodes[$result->id]->setAllLoaded();
-						$childrenLoaded = true;
-					}
-				}
-			}
-		}
-		else
-		{
-			$this->_nodes[$id] = null;
-		}
-	}
+                    if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id)) {
+                        // Compute relationship between node and its parent
+                        $this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
+                    }
+
+                    // If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+                    // then remove the node from the list
+                    if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
+                        unset($this->_nodes[$result->id]);
+                        continue;
+                    }
+
+                    if ($result->id == $id || $childrenLoaded) {
+                        $this->_nodes[$result->id]->setAllLoaded();
+                        $childrenLoaded = true;
+                    }
+                }
+            }
+        } else {
+            $this->_nodes[$id] = null;
+        }
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Installer\Administrator\View\Languages;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
@@ -27,61 +26,58 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * @var object item list
-	 */
-	protected $items;
+    /**
+     * @var object item list
+     */
+    protected $items;
 
-	/**
-	 * @var object pagination information
-	 */
-	protected $pagination;
+    /**
+     * @var object pagination information
+     */
+    protected $pagination;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   null  $tpl  template to display
-	 *
-	 * @return mixed|void
-	 */
-	public function display($tpl = null)
-	{
-		if (!Factory::getUser()->authorise('core.admin'))
-		{
-			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
+    /**
+     * Display the view.
+     *
+     * @param   null  $tpl  template to display
+     *
+     * @return mixed|void
+     */
+    public function display($tpl = null)
+    {
+        if (!$this->getCurrentUser()->authorise('core.admin')) {
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		// Get data from the model.
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-		$this->installedLang = LanguageHelper::getInstalledLanguages();
+        // Get data from the model.
+        $this->items         = $this->get('Items');
+        $this->pagination    = $this->get('Pagination');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
+        $this->installedLang = LanguageHelper::getInstalledLanguages();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_installer');
-		ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle-piece install');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     */
+    protected function addToolbar()
+    {
+        $canDo = ContentHelper::getActions('com_installer');
+        ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle-piece install');
 
-		if ($canDo->get('core.admin'))
-		{
-			parent::addToolbar();
+        if ($canDo->get('core.admin')) {
+            parent::addToolbar();
 
-			ToolbarHelper::help('Extensions:_Languages');
-		}
-	}
+            ToolbarHelper::help('Extensions:_Languages');
+        }
+    }
 }

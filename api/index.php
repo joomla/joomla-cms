@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.API
  *
@@ -11,19 +12,18 @@
 // Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
 define('JOOMLA_MINIMUM_PHP', '7.2.5');
 
-if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
-{
-	header('HTTP/1.1 500 Internal Server Error');
-	echo json_encode(
-		array('error' => sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP))
-	);
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
+    header('HTTP/1.1 500 Internal Server Error');
+    echo json_encode(
+        array('error' => sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP))
+    );
 
-	return;
+    return;
 }
 
 /**
  * Constant that is checked in included files to prevent direct access.
- * define() is used rather than "const" to not error for PHP 5.2 and lower
+ * define() is used rather than "const" to not cause an error for PHP 5.2 and lower
  */
 define('_JEXEC', 1);
 

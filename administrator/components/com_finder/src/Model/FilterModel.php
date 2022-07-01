@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Finder\Administrator\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -23,134 +22,128 @@ use Joomla\Component\Finder\Administrator\Table\FilterTable;
  */
 class FilterModel extends AdminModel
 {
-	/**
-	 * The prefix to use with controller messages.
-	 *
-	 * @var    string
-	 * @since  2.5
-	 */
-	protected $text_prefix = 'COM_FINDER';
+    /**
+     * The prefix to use with controller messages.
+     *
+     * @var    string
+     * @since  2.5
+     */
+    protected $text_prefix = 'COM_FINDER';
 
-	/**
-	 * Model context string.
-	 *
-	 * @var    string
-	 * @since  2.5
-	 */
-	protected $context = 'com_finder.filter';
+    /**
+     * Model context string.
+     *
+     * @var    string
+     * @since  2.5
+     */
+    protected $context = 'com_finder.filter';
 
-	/**
-	 * Custom clean cache method.
-	 *
-	 * @param   string   $group     The component name. [optional]
-	 * @param   integer  $clientId  @deprecated   5.0   No longer used.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	protected function cleanCache($group = 'com_finder', $clientId = 0)
-	{
-		parent::cleanCache($group);
-	}
+    /**
+     * Custom clean cache method.
+     *
+     * @param   string   $group     The component name. [optional]
+     * @param   integer  $clientId  @deprecated   5.0   No longer used.
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    protected function cleanCache($group = 'com_finder', $clientId = 0)
+    {
+        parent::cleanCache($group);
+    }
 
-	/**
-	 * Method to get the filter data.
-	 *
-	 * @return  FilterTable|boolean  The filter data or false on a failure.
-	 *
-	 * @since   2.5
-	 */
-	public function getFilter()
-	{
-		$filter_id = (int) $this->getState('filter.id');
+    /**
+     * Method to get the filter data.
+     *
+     * @return  FilterTable|boolean  The filter data or false on a failure.
+     *
+     * @since   2.5
+     */
+    public function getFilter()
+    {
+        $filter_id = (int) $this->getState('filter.id');
 
-		// Get a FinderTableFilter instance.
-		$filter = $this->getTable();
+        // Get a FinderTableFilter instance.
+        $filter = $this->getTable();
 
-		// Attempt to load the row.
-		$return = $filter->load($filter_id);
+        // Attempt to load the row.
+        $return = $filter->load($filter_id);
 
-		// Check for a database error.
-		if ($return === false && $filter->getError())
-		{
-			$this->setError($filter->getError());
+        // Check for a database error.
+        if ($return === false && $filter->getError()) {
+            $this->setError($filter->getError());
 
-			return false;
-		}
+            return false;
+        }
 
-		// Process the filter data.
-		if (!empty($filter->data))
-		{
-			$filter->data = explode(',', $filter->data);
-		}
-		elseif (empty($filter->data))
-		{
-			$filter->data = array();
-		}
+        // Process the filter data.
+        if (!empty($filter->data)) {
+            $filter->data = explode(',', $filter->data);
+        } elseif (empty($filter->data)) {
+            $filter->data = array();
+        }
 
-		return $filter;
-	}
+        return $filter;
+    }
 
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array    $data      Data for the form. [optional]
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
-	 *
-	 * @return  Form|boolean  A Form object on success, false on failure
-	 *
-	 * @since   2.5
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_finder.filter', 'filter', array('control' => 'jform', 'load_data' => $loadData));
+    /**
+     * Method to get the record form.
+     *
+     * @param   array    $data      Data for the form. [optional]
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
+     *
+     * @return  Form|boolean  A Form object on success, false on failure
+     *
+     * @since   2.5
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        // Get the form.
+        $form = $this->loadForm('com_finder.filter', 'filter', array('control' => 'jform', 'load_data' => $loadData));
 
-		if (empty($form))
-		{
-			return false;
-		}
+        if (empty($form)) {
+            return false;
+        }
 
-		return $form;
-	}
+        return $form;
+    }
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   2.5
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', array());
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     *
+     * @since   2.5
+     */
+    protected function loadFormData()
+    {
+        // Check the session for previously entered form data.
+        $data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', array());
 
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
+        if (empty($data)) {
+            $data = $this->getItem();
+        }
 
-		$this->preprocessData('com_finder.filter', $data);
+        $this->preprocessData('com_finder.filter', $data);
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Method to get the total indexed items
-	 *
-	 * @return  number the number of indexed items
-	 *
-	 * @since  3.5
-	 */
-	public function getTotal()
-	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('MAX(link_id)')
-			->from('#__finder_links');
+    /**
+     * Method to get the total indexed items
+     *
+     * @return  number the number of indexed items
+     *
+     * @since  3.5
+     */
+    public function getTotal()
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select('MAX(link_id)')
+            ->from('#__finder_links');
 
-		return $db->setQuery($query)->loadResult();
-	}
+        return $db->setQuery($query)->loadResult();
+    }
 }
