@@ -29,7 +29,7 @@ module.exports.handleScssFile = async (file) => {
   await writeFile(
     cssFile,
     res.css,
-    { encoding: 'utf8', mode: 0o2644 },
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   const cssMin = await Postcss([CssNano]).process(res.css, { from: undefined });
@@ -39,7 +39,7 @@ module.exports.handleScssFile = async (file) => {
   await writeFile(
     cssFile.replace('.css', '.min.css'),
     cssMin.css,
-    { encoding: 'utf8', mode: 0o2644 },
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   // eslint-disable-next-line no-console

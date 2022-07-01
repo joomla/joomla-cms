@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -54,24 +55,23 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= !empty($readonly) ? ' readonly' : '';
 $attr .= !empty($disabled) ? ' disabled' : '';
 $attr .= !empty($required) ? ' required' : '';
-$attr .= !empty($description) ? ' aria-describedby="' . $name . '-desc"' : '';
+$attr .= !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : '';
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
 $val  = [];
 
-foreach ($options as $option)
-{
-	$val[] = $option->text;
+foreach ($options as $option) {
+    $val[] = $option->text;
 }
 ?>
 <input
-	type="text"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo $attr; ?>
-	data-list="<?php echo implode(', ', $val); ?>"
-	<?php echo $dataAttribute; ?>
+    type="text"
+    name="<?php echo $name; ?>"
+    id="<?php echo $id; ?>"
+    value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+    <?php echo $attr; ?>
+    data-list="<?php echo implode(', ', $val); ?>"
+    <?php echo $dataAttribute; ?>
 />

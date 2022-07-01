@@ -16,12 +16,7 @@
     display: block;
     position: absolute;
     top: 0;
-    right: 0;
-}
-html[dir=rtl] .btn.jmodedit
-{
-    right: auto;
-    left: 0;
+    inset-inline-end: 0;
 }
 
 /* Menu edit in front-end */

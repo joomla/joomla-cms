@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -9,14 +10,11 @@
 
 namespace Joomla\Component\Menus\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 /**
  * Menu table
  *
  * @since  1.6
  */
-class MenuTypeTable extends \JTableMenuType
+class MenuTypeTable extends \Joomla\CMS\Table\MenuType
 {
-
 }

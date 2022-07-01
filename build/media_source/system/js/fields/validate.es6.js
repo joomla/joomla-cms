@@ -19,7 +19,7 @@ class JFormValidator {
 
     // Default handlers
     this.setHandler('username', (value) => {
-      const regex = new RegExp('[<|>|"|\'|%|;|(|)|&]', 'i');
+      const regex = /[<|>|"|'|%|;|(|)|&]/i;
       return !regex.test(value);
     });
     this.setHandler('password', (value) => {

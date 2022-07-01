@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_tags
@@ -15,8 +16,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
-\defined('_JEXEC') or die;
-
 /**
  * HTML View class for the Tags component
  *
@@ -24,84 +23,78 @@ use Joomla\CMS\Router\Route;
  */
 class FeedView extends BaseHtmlView
 {
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 */
-	public function display($tpl = null)
-	{
-		$app    = Factory::getApplication();
-		$ids    = $app->input->get('id', array(), 'array');
-		$i      = 0;
-		$tagIds = '';
-		$filter = new InputFilter;
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed  A string if successful, otherwise an Error object.
+     */
+    public function display($tpl = null)
+    {
+        $app    = Factory::getApplication();
+        $ids    = (array) $app->input->get('id', array(), 'int');
+        $i      = 0;
+        $tagIds = '';
 
-		foreach ($ids as $id)
-		{
-			if ($i !== 0)
-			{
-				$tagIds .= '&';
-			}
+        // Remove zero values resulting from input filter
+        $ids = array_filter($ids);
 
-			$tagIds .= 'id[' . $i . ']=' . $filter->clean($id, 'INT');
+        foreach ($ids as $id) {
+            if ($i !== 0) {
+                $tagIds .= '&';
+            }
 
-			$i++;
-		}
+            $tagIds .= 'id[' . $i . ']=' . $id;
 
-		$this->document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
+            $i++;
+        }
 
-		$app->input->set('limit', $app->get('feed_limit'));
-		$siteEmail = $app->get('mailfrom');
-		$fromName  = $app->get('fromname');
-		$feedEmail = $app->get('feed_email', 'none');
+        $this->document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
-		$this->document->editor = $fromName;
+        $app->input->set('limit', $app->get('feed_limit'));
+        $siteEmail = $app->get('mailfrom');
+        $fromName  = $app->get('fromname');
+        $feedEmail = $app->get('feed_email', 'none');
 
-		if ($feedEmail !== 'none')
-		{
-			$this->document->editorEmail = $siteEmail;
-		}
+        $this->document->editor = $fromName;
 
-		// Get some data from the model
-		$items    = $this->get('Items');
+        if ($feedEmail !== 'none') {
+            $this->document->editorEmail = $siteEmail;
+        }
 
-		if ($items !== false)
-		{
-			foreach ($items as $item)
-			{
-				// Strip HTML from feed item title
-				$title = $this->escape($item->core_title);
-				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+        // Get some data from the model
+        $items    = $this->get('Items');
 
-				// Strip HTML from feed item description text
-				$description = $item->core_body;
-				$author      = $item->core_created_by_alias ?: $item->author;
-				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+        if ($items !== false) {
+            foreach ($items as $item) {
+                // Strip HTML from feed item title
+                $title = $this->escape($item->core_title);
+                $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-				// Load individual item creator class
-				$feeditem              = new FeedItem;
-				$feeditem->title       = $title;
-				$feeditem->link        = Route::_($item->link);
-				$feeditem->description = $description;
-				$feeditem->date        = $date;
-				$feeditem->category    = $title;
-				$feeditem->author      = $author;
+                // Strip HTML from feed item description text
+                $description = $item->core_body;
+                $author      = $item->core_created_by_alias ?: $item->author;
+                $date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
-				if ($feedEmail === 'site')
-				{
-					$item->authorEmail = $siteEmail;
-				}
-				elseif ($feedEmail === 'author')
-				{
-					$item->authorEmail = $item->author_email;
-				}
+                // Load individual item creator class
+                $feeditem              = new FeedItem();
+                $feeditem->title       = $title;
+                $feeditem->link        = Route::_($item->link);
+                $feeditem->description = $description;
+                $feeditem->date        = $date;
+                $feeditem->category    = $title;
+                $feeditem->author      = $author;
 
-				// Loads item info into RSS array
-				$this->document->addItem($feeditem);
-			}
-		}
-	}
+                if ($feedEmail === 'site') {
+                    $item->authorEmail = $siteEmail;
+                } elseif ($feedEmail === 'author') {
+                    $item->authorEmail = $item->author_email;
+                }
+
+                // Loads item info into RSS array
+                $this->document->addItem($feeditem);
+            }
+        }
+    }
 }

@@ -1,15 +1,13 @@
 <?php
+
 /**
- * @package     Joomla.Libraries
- * @subpackage  Service
+ * Joomla! Content Management System
  *
- * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Service\Provider;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -23,26 +21,25 @@ use Joomla\Event\DispatcherInterface as EventDispatcherInterface;
  */
 class Dispatcher implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('dispatcher', EventDispatcherInterface::class)
-			->alias(EventDispatcher::class, EventDispatcherInterface::class)
-			->share(
-				EventDispatcherInterface::class,
-				function (Container $container)
-				{
-					return new EventDispatcher;
-				},
-				true
-			);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('dispatcher', EventDispatcherInterface::class)
+            ->alias(EventDispatcher::class, EventDispatcherInterface::class)
+            ->share(
+                EventDispatcherInterface::class,
+                function (Container $container) {
+                    return new EventDispatcher();
+                },
+                true
+            );
+    }
 }

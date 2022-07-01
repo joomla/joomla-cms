@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -9,12 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
+
 extract($displayData);
 
 /**
  * Layout variables
  * -----------------
- * @var   JForm   $tmpl             The Empty form for template
+ * @var   Form    $tmpl             The Empty form for template
  * @var   array   $forms            Array of JForm instances for render the rows
  * @var   bool    $multiple         The multiple state for the form field
  * @var   int     $min              Count of minimum repeating in multiple mode
@@ -28,13 +31,11 @@ extract($displayData);
  * @var   array   $buttons          Array of the buttons that will be rendered
  * @var   bool    $groupByFieldset  Whether group the subform fields by it`s fieldset
  */
-
 $form = $forms[0];
 ?>
 
 <div class="subform-wrapper">
 <?php foreach ($form->getGroup('') as $field) : ?>
-	<?php echo $field->renderField(); ?>
+    <?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>
-

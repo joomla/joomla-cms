@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_CONTACT_FORM_VIEW_DEFAULT_TITLE">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_CONTACT_CREATE"
+			key="Menu_Item:_Create_Contact"
 		/>
 		<message>
 			<![CDATA[COM_CONTACT_FORM_VIEW_DEFAULT_DESC]]>

@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	addfieldprefix="Joomla\Component\Scheduler\Administrator\Field"
+	addruleprefix="Joomla\Component\Scheduler\Administrator\Rule"
+	>
+	<fields>
+		<field
+			name="title"
+			type="text"
+			label="JGLOBAL_TITLE"
+			size="40"
+			maxlength="100"
+			required="true"
+		/>
+
+		<fieldset name="aside">
+			<field
+				name="state"
+				type="taskState"
+				label="JSTATUS"
+				default="1"
+				class="form-select-color-state"
+				size="1"
+				validate="options"
+				optionsFilter="-2,0,1"
+			/>
+			<field
+				name="note"
+				type="text"
+				label="COM_SCHEDULER_LABEL_NOTES"
+				maxlength="255"
+			/>
+		</fieldset>
+
+		<fieldset name="exec_hist">
+			<field
+				name="last_exit_code"
+				type="number"
+				label="COM_SCHEDULER_LABEL_EXIT_CODE"
+				default="0"
+				disabled="true"
+				filter="unset"
+			/>
+			<field
+				name="last_execution"
+				type="text"
+				label="COM_SCHEDULER_LABEL_LAST_EXEC"
+				disabled="true"
+				filter="unset"
+			/>
+			<field
+				name="next_execution"
+				type="text"
+				label="COM_SCHEDULER_LABEL_NEXT_EXEC"
+				disabled="true"
+				filter="unset"
+			/>
+			<field
+				name="times_executed"
+				type="number"
+				label="COM_SCHEDULER_LABEL_TIMES_EXEC"
+				disabled="true"
+				filter="unset"
+			/>
+			<field
+				name="times_failed"
+				type="number"
+				label="COM_SCHEDULER_LABEL_TIMES_FAIL"
+				disabled="true"
+				filter="unset"
+			/>
+		</fieldset>
+
+		<fieldset name="details">
+			<field
+				name="id"
+				type="text"
+				label="JGLOBAL_FIELD_ID_LABEL"
+				default="0"
+				class="readonly"
+				readonly="true"
+			/>
+			<field
+				name="type"
+				type="text"
+				label="COM_SCHEDULER_FIELD_TASK_TYPE"
+				required="true"
+				readonly="true"
+				maxlength="1024"
+			/>
+			<field
+				name="asset_id"
+				type="hidden"
+				filter="unset"
+			/>
+			<field
+				name="created"
+				type="calendar"
+				label="JGLOBAL_CREATED"
+				size="22"
+				translateformat="true"
+				showtime="true"
+				filter="user_utc"
+			/>
+			<field
+				name="created_by"
+				type="user"
+				label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+				validate="UserId"
+			/>
+		</fieldset>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			filter="rules"
+			component="com_scheduler"
+			section="task"
+			validate="rules"
+		/>
+	</fields>
+
+	<fields name="execution_rules">
+		<fieldset name="basic">
+			<field
+				name="rule-type"
+				type="ExecutionRule"
+				label="COM_SCHEDULER_FIELD_LABEL_EXEC_RULE"
+				required="true"
+				validate="options"
+			/>
+			<field
+				name="interval-minutes"
+				type="interval"
+				label="COM_SCHEDULER_FIELD_LABEL_INTERVAL_MINUTES"
+				subtype="minutes"
+				validate="ExecutionRules"
+				showon="rule-type:interval-minutes">
+				<option value="" disabled="true" hidden="true">
+					COM_SCHEDULER_SELECT_INTERVAL_MINUTES
+				</option>
+			</field>
+			<field
+				name="interval-hours"
+				type="interval"
+				label="COM_SCHEDULER_FIELD_LABEL_INTERVAL_HOURS"
+				subtype="hours"
+				validate="ExecutionRules"
+				showon="rule-type:interval-hours"
+			/>
+			<field
+				name="interval-days"
+				type="interval"
+				label="COM_SCHEDULER_FIELD_LABEL_INTERVAL_DAYS"
+				subtype="days"
+				validate="ExecutionRules"
+				showon="rule-type:interval-days"
+			/>
+			<field
+				name="interval-months"
+				type="interval"
+				label="COM_SCHEDULER_FIELD_LABEL_INTERVAL_MONTHS"
+				subtype="months"
+				onlyNumericLabels="true"
+				validate="ExecutionRules"
+				showon="rule-type:interval-months"
+			/>
+			<field
+				name="exec-day"
+				type="number"
+				label="COM_SCHEDULER_LABEL_EXEC_DAY"
+				min="1"
+				max="31"
+				step="1"
+				showon="rule-type:interval-months"
+			/>
+			<field
+				name="exec-time"
+				type="time"
+				label="COM_SCHEDULER_LABEL_EXEC_TIME"
+				showon="rule-type:interval-days[OR]rule-type:interval-months"
+			/>
+		</fieldset>
+
+		<fieldset
+			name="custom-cron-rules"
+			label="COM_SCHEDULER_LABEL_EXEC_INTERVAL"
+			>
+			<fields name="cron-expression">
+				<field
+					name="minutes"
+					type="cron"
+					label="COM_SCHEDULER_FIELD_OPTION_INTERVAL_MATCH_MINUTES"
+					subtype="minutes"
+					multiple="true"
+					validate="ExecutionRules"
+				/>
+				<field
+					name="hours"
+					type="cron"
+					label="COM_SCHEDULER_FIELD_OPTION_INTERVAL_MATCH_HOURS"
+					subtype="hours"
+					multiple="true"
+					validate="ExecutionRules"
+				/>
+				<field
+					name="days_month"
+					type="cron"
+					label="COM_SCHEDULER_FIELD_OPTION_INTERVAL_MATCH_DAYS_M"
+					subtype="days_month"
+					multiple="true"
+					validate="ExecutionRules"
+				/>
+				<field
+					name="months"
+					type="cron"
+					label="COM_SCHEDULER_FIELD_OPTION_INTERVAL_MATCH_MONTHS"
+					subtype="months"
+					multiple="true"
+					validate="ExecutionRules"
+				/>
+				<field
+					name="days_week"
+					type="cron"
+					label="COM_SCHEDULER_FIELD_OPTION_INTERVAL_MATCH_DAYS_W"
+					subtype="days_week"
+					multiple="true"
+					validate="ExecutionRules"
+				/>
+			</fields>
+		</fieldset>
+	</fields>
+
+	<fieldset name="priority">
+		<field
+			name="priority"
+			type="list"
+			label="COM_SCHEDULER_LABEL_TASK_PRIORITY"
+			description="COM_SCHEDULER_DESCRIPTION_TASK_PRIORITY"
+			validate="options"
+			required="true"
+			default="0"
+			>
+			<option value="-1">COM_SCHEDULER_LABEL_TASK_PRIORITY_LOW</option>
+			<option value="0">COM_SCHEDULER_LABEL_TASK_PRIORITY_NORMAL</option>
+			<option value="1">COM_SCHEDULER_LABEL_TASK_PRIORITY_HIGH</option>
+		</field>
+	</fieldset>
+
+	<fields name="params">
+		<fieldset name="logging">
+				<field
+					name="individual_log"
+					type="radio"
+					label="COM_SCHEDULER_FIELD_LABEL_INDIVIDUAL_LOG"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					required="true"
+					filter="boolean"
+					>
+					<option value="0">JDISABLED</option>
+					<option value="1">JENABLED</option>
+				</field>
+				<field
+					name="log_file"
+					type="text"
+					label="COM_SCHEDULER_FIELD_LABEL_LOG_FILE"
+					showon="individual_log:1"
+					hint="COM_SCHEDULER_FIELD_HINT_LOG_FILE_AUTO"
+				/>
+		</fieldset>
+	</fields>
+</form>

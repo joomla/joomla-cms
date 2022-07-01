@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -9,13 +10,11 @@
 
 namespace Joomla\Component\Content\Administrator\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 /**
  * Article table
  *
  * @since  1.5
  */
-class ArticleTable extends \JTableContent
+class ArticleTable extends \Joomla\CMS\Table\Content
 {
 }
