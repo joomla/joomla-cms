@@ -169,9 +169,9 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         return $lang->load($extension, $basePath)
-						|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name)
-						|| $lang->load($extensionLow, $basePath)
-						|| $lang->load($extensionLow, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
+					|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name)
+					|| $lang->load($extensionLow, $basePath)
+					|| $lang->load($extensionLow, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
     }
 
     /**
