@@ -394,6 +394,12 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      */
     public function setApplication(CMSApplicationInterface $application): void
     {
+        // @todo: Workaround for possible missed $app property in override #38153, #38060. Remove in 5.0.
+        if (empty($this->app))
+        {
+            $this->app = $application;
+        }
+
         $this->application = $application;
     }
 }
