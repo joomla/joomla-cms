@@ -157,14 +157,14 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
     {
         if (empty($extension)) {
-            $extension = 'Plg_' . $this->_type . '_' . $this->_name;
+            $extension = 'plg_' . $this->_type . '_' . $this->_name;
         }
 
         $extensionLow = strtolower($extension);
         $lang      = $this->getApplication() ? $this->getApplication()->getLanguage() : Factory::getLanguage();
 
         // If language already loaded, don't load it again.
-        if ($lang->getPaths($extension) || $lang->getPaths($extensionLow)) {
+        if ($lang->getPaths($extensionLow) || $lang->getPaths($extension)) {
             return true;
         }
 
