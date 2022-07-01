@@ -39,8 +39,7 @@ $hideLabel       = !empty($options['hiddenLabel']);
 $hideDescription = empty($options['hiddenDescription']) ? false : $options['hiddenDescription'];
 $descClass       = ($options['descClass'] ?? '') ?: (!empty($options['inlineHelp']) ? 'hide-aware-inline-help d-none' : '');
 
-if ($controlclass)
-{
+if ($controlclass) {
 	$class .= ' ' . $controlclass;
 }
 
