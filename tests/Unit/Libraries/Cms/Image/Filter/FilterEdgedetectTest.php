@@ -15,7 +15,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @since  4.0.0
  */
-class ImageFilterEdgedetectTest extends UnitTestCase
+class FilterEdgedetectTest extends UnitTestCase
 {
     /**
      * Setup for testing.
