@@ -261,9 +261,9 @@ class PluginModel extends AdminModel
 
         foreach ($elements as $elementa) {
             $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR)
-						|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa)
-						|| $lang->load('plg_' . $folder . '_' . strtolower($elementa) . '.sys', JPATH_ADMINISTRATOR)
-						|| $lang->load('plg_' . $folder . '_' . strtolower($elementa) . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
+					|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa)
+					|| $lang->load('plg_' . $folder . '_' . strtolower($elementa) . '.sys', JPATH_ADMINISTRATOR)
+					|| $lang->load('plg_' . $folder . '_' . strtolower($elementa) . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
         }
 
         if (empty($folder) || empty($element)) {
