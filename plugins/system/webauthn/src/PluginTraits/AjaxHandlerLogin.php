@@ -106,8 +106,7 @@ trait AjaxHandlerLogin
 
             $response                = $this->getAuthenticationResponseObject();
             $response->status        = Authentication::STATUS_UNKNOWN;
-			// phpcs:ignore
-			$response->error_message = $e->getMessage();
+            $response->error_message = $e->getMessage();
 
             Log::add(sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR, 'webauthn.system');
 
@@ -163,8 +162,7 @@ trait AjaxHandlerLogin
         $response->status        = $statusSuccess;
         $response->username      = $user->username;
         $response->fullname      = $user->name;
-		// phpcs:ignore
-		$response->error_message = '';
+        $response->error_message = '';
         $response->language      = $user->getParam('language');
         $response->type          = 'Passwordless';
 
@@ -224,12 +222,10 @@ trait AjaxHandlerLogin
         $this->getApplication()->getDispatcher()->dispatch($event->getName(), $event);
 
         // Log the failure
-		// phpcs:ignore
-		Log::add($response->error_message, Log::WARNING, 'jerror');
+        Log::add($response->error_message, Log::WARNING, 'jerror');
 
         // Throw an exception to let the caller know that the login failed
-		// phpcs:ignore
-		throw new RuntimeException($response->error_message);
+        throw new RuntimeException($response->error_message);
     }
 
     /**
@@ -275,8 +271,7 @@ trait AjaxHandlerLogin
             Log::add('The login failure has been logged in Joomla\'s error log', Log::INFO, 'webauthn.system');
 
             // Everything logged in the 'jerror' category ends up being enqueued in the application message queue.
-			// phpcs:ignore
-			Log::add($response->error_message, Log::WARNING, 'jerror');
+            Log::add($response->error_message, Log::WARNING, 'jerror');
         } else {
             $message = 'A login failure was caused by a third party user plugin but it did not return any' .
                 'further information.';
