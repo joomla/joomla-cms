@@ -279,9 +279,9 @@ class PluginModel extends AdminModel
 
         // Load the core and/or local language file(s).
             $lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
-                ||	$lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element)
-                ||	$lang->load('plg_' . $folder . '_' . strtolower($element), JPATH_ADMINISTRATOR)
-                ||	$lang->load('plg_' . $folder . '_' . strtolower($element), JPATH_PLUGINS . '/' . $folder . '/' . $element);
+                || $lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element)
+                || $lang->load('plg_' . $folder . '_' . strtolower($element), JPATH_ADMINISTRATOR)
+                || $lang->load('plg_' . $folder . '_' . strtolower($element), JPATH_PLUGINS . '/' . $folder . '/' . $element);
 
         if (file_exists($formFile)) {
             // Get the plugin form.
