@@ -185,7 +185,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @see     sprintf
      */
-    protected function translate(string $key): string
+    protected function translateKey(string $key): string
     {
         $language = $this->getApplication()->getLanguage();
 

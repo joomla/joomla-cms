@@ -264,7 +264,7 @@ class CMSPluginTest extends UnitTestCase
         {
             public function test(): string
             {
-                return parent::translate('unit');
+                return parent::translateKey('unit');
             }
         };
         $plugin->setApplication($app);
@@ -292,7 +292,7 @@ class CMSPluginTest extends UnitTestCase
         {
             public function test(): string
             {
-                return parent::translate('unit', 1, 'two');
+                return parent::translateKey('unit', 1, 'two');
             }
         };
         $plugin->setApplication($app);
