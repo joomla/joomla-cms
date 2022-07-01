@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  UnitTester
@@ -7,6 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:ignoreFile
 use Codeception\Actor;
 use Codeception\Lib\Friend;
 
@@ -32,9 +34,9 @@ use Codeception\Lib\Friend;
  */
 class UnitTester extends Actor
 {
-	use _generated\UnitTesterActions;
+    use _generated\UnitTesterActions;
 
-	/**
-	 * Define custom actions here
-	 */
+    /**
+     * Define custom actions here
+     */
 }
