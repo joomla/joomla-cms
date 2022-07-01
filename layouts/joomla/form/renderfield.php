@@ -40,7 +40,7 @@ $hideDescription = empty($options['hiddenDescription']) ? false : $options['hidd
 $descClass       = ($options['descClass'] ?? '') ?: (!empty($options['inlineHelp']) ? 'hide-aware-inline-help d-none' : '');
 
 if ($controlclass) {
-	$class .= ' ' . $controlclass;
+    $class .= ' ' . $controlclass;
 }
 
 ?>
