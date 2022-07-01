@@ -97,8 +97,7 @@ class MethodsController extends BaseController
         }
 
         // Redirect
-		// phpcs:ignore
-		$url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
+        $url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
         $returnURL = $this->input->getBase64('returnurl');
 
         if (!empty($returnURL)) {
