@@ -187,9 +187,7 @@ class PluginModel extends AdminModel
             if (file_exists($path))
             {
                 $this->_cache[$cacheId]->xml = simplexml_load_file($path);
-            } 
-            else
-            {
+            } else {
                 $this->_cache[$cacheId]->xml = null;
             }
         }
