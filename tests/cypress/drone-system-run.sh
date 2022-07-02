@@ -25,5 +25,5 @@ export cypress_db_password=joomla_ut
 
 npm run cypress:install
 npx cypress verify
-npx cypress run --browser=chrome --e2e --config baseUrl=http://localhost/$DB_ENGINE
+npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$DB_ENGINE
 
