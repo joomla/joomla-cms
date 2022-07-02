@@ -22,6 +22,6 @@ export cypress_db_host=$DB_ENGINE
 export cypress_db_password=joomla_ut
 
 npm run cypress:install
-cypress cache clear
+npx cypress cache clear
 npx cypress verify
 npm run cypress:run-chrome --config baseUrl=http://localhost/$DB_ENGINE
