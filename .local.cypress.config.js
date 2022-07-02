@@ -6,7 +6,7 @@ module.exports = defineConfig({
   screenshotsFolder: 'tests/cypress/output/screenshots',
   e2e: {
     setupNodeEvents(on, config) {},
-    baseUrl: 'http://localhost',
+    baseUrl: 'http://itrdev10.verlauf.at',
     specPattern: 'tests/cypress/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'tests/cypress/support/index.js',
     scrollBehavior: 'center',
@@ -21,10 +21,10 @@ module.exports = defineConfig({
     username: 'ci-admin',
     password: 'joomla-17082005',
     db_type: 'MySQLi',
-    db_host: 'localhost',
-    db_name: 'test_joomla',
-    db_user: 'root',
-    db_password: '',
+    db_host: '172.22.14.61',
+    db_name: 'itrdev1_cypress',
+    db_user: 'itrdev-itrdev1',
+    db_password: 'cNDr8QVjkB',
     db_prefix: 'jos_',
   },
 })
