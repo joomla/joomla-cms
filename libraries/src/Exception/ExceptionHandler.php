@@ -38,7 +38,7 @@ class ExceptionHandler
         // We only want to handle user deprecation messages, these will be triggered in code
         if ($errorNumber === E_USER_DEPRECATED) {
             try {
-                Log::add($errorMessage, Log::WARNING, 'deprecated');
+                Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
             } catch (\Exception $e) {
                 // Silence
             }
