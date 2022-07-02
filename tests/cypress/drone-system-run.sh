@@ -18,8 +18,6 @@ apache2ctl -D FOREGROUND &
 echo "[RUNNER] Run cypress"
 cd /tests/www/$DB_ENGINE
 chmod +rwx /root
-mkdir /root/.cache
-chmod +rwx /root/.cache
 
 export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
 export cypress_db_host=$DB_ENGINE
