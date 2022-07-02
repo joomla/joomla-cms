@@ -7,15 +7,15 @@ Joomla = window.Joomla || {};
         for (var i = 0; i < btnGoods.length; i++) {
             btnGoods[i].addEventListener("click", function() {
                 var dataID = this.getAttribute("data-id");
-                var mainID = obj.findIndex((x) => x.id == dataID);
-                sessionStorage.setItem("tourid", mainID);
+                var tourId = obj.findIndex((x) => x.id == dataID);
+                sessionStorage.setItem("tourId", tourId);
 
                 var currentURL = window.location.href;
-                if (currentURL != obj[mainID].url) {
-                    window.location.href = obj[mainID].url;
+                if (currentURL != obj[tourId].url) {
+                    window.location.href = obj[tourId].url;
                 }
                 var overlay = true;
-                if (obj[mainID].overlay == 0) {
+                if (obj[tourId].overlay == 0) {
                     overlay = false;
                 }
 
@@ -33,10 +33,10 @@ Joomla = window.Joomla || {};
                     useModalOverlay: overlay,
                 });
 
-                if (sessionStorage.getItem("tourid")) {
+                if (sessionStorage.getItem("tourId")) {
                     tour.addStep({
-                        title: obj[mainID].title,
-                        text: obj[mainID].description,
+                        title: obj[tourId].title,
+                        text: obj[tourId].description,
                         classes: "intro-step shepherd-theme-arrows",
                         attachTo: {
                             on: "bottom",
@@ -44,17 +44,17 @@ Joomla = window.Joomla || {};
                         buttons: [
                             {
                                 action() {
-                                    return this.next();
+                                    return tour.next();
                                 },
                                 text: "Next",
                             },
                         ],
-                        id: obj[mainID].id,
+                        id: obj[tourId].id,
                     });
 
-                    for (index = 0; index < obj[mainID].steps.length; index++) {
+                    for (index = 0; index < obj[tourId].steps.length; index++) {
                         var buttons = [];
-                        var len = obj[mainID].steps.length;
+                        var len = obj[tourId].steps.length;
                             buttons.push({
                                 text: "Back",
                                 classes: "shepherd-button-secondary",
@@ -62,7 +62,7 @@ Joomla = window.Joomla || {};
                                     return tour.back();
                                 },
                             });
-                            
+
                         if (index != len - 1) {
                             buttons.push({
                                 text: "Next",
@@ -82,24 +82,34 @@ Joomla = window.Joomla || {};
                         }
 
                         tour.addStep({
-                            title: obj[mainID].steps[index].title,
-                            text: obj[mainID].steps[index].description,
+                            title: obj[tourId].steps[index].title,
+                            text: obj[tourId].steps[index].description,
                             classes: "intro-step shepherd-theme-arrows",
                             attachTo: {
-                                element: obj[mainID].steps[index].target,
-                                on: obj[mainID].steps[index].position,
+                                element: obj[tourId].steps[index].target,
+                                on: obj[tourId].steps[index].position,
+                                url: obj[tourId].steps[index].url,
                             },
 
                             buttons: buttons,
-                            id: obj[mainID].steps[index].id,
+                            id: obj[tourId].steps[index].id,
                             arrow: true,
-                            showOn: obj[mainID].steps[index].position,
+                            showOn: obj[tourId].steps[index].position,
                             when: {
                                 show() {
-                                    var thisId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
-                                    var Id = `${tour.currentStep.id}` - "0";
-                                    sessionStorage.setItem("stepID", thisId);
-                                    sessionStorage.setItem("newstepID", Id);
+                                    var stepId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
+                                    var newstepId = `${tour.currentStep.id}` - "0";
+                                    var idIndex = `${tour.steps.indexOf(tour.currentStep)}`;
+
+                                    sessionStorage.setItem("stepId", stepId);
+                                    sessionStorage.setItem("newstepId", newstepId);
+                                    sessionStorage.setItem("currentStepindex", idIndex);
+
+                                  var currentTourUrl = window.location.href;
+
+                                  if(currentTourUrl != tour.currentStep.options.attachTo.url){
+                                    window.location.href = tour.currentStep.options.attachTo.url;
+                                  }
                                 },
                             },
                         });
@@ -111,14 +121,13 @@ Joomla = window.Joomla || {};
                 });
             });
         }
-        var mainID = sessionStorage.getItem("tourid");
-        var newIndex = sessionStorage.getItem("stepID");
-        var newId = sessionStorage.getItem("newstepID");
-        newIndex = newIndex - 1;
-
+        var tourId = sessionStorage.getItem("tourId");
+        var stepId = sessionStorage.getItem("stepId");
+        var newstepId = sessionStorage.getItem("newstepId");
+        var newidIndex = sessionStorage.getItem("currentStepindex");
 
         var overlay = true;
-        if (obj[mainID].overlay == 0) {
+        if (obj[tourId].overlay == 0) {
             overlay = false;
         }
 
@@ -136,11 +145,11 @@ Joomla = window.Joomla || {};
             useModalOverlay: overlay,
         });
 
-        if (mainID && newId) {
-            for (index = newId; index < obj[mainID].steps.length; index++) {
+        if (tourId && newidIndex) {
+            for (index = newidIndex-1; index < obj[tourId].steps.length; index++) {
                 var buttons = [];
-                var len = tour.steps.length;
-                if (index > 0) {
+                var len = obj[tourId].steps.length;
+
                     buttons.push({
                         text: "Back",
                         classes: "shepherd-button-secondary",
@@ -148,7 +157,7 @@ Joomla = window.Joomla || {};
                             return tour.back();
                         },
                     });
-                }
+
                 if (index != len - 1) {
                     buttons.push({
                         text: "Next",
@@ -162,30 +171,39 @@ Joomla = window.Joomla || {};
                         text: "Complete",
                         classes: "shepherd-button-primary",
                         action: function() {
-                            return tour.close();
+                            return tour.cancel();
                         },
                     });
                 }
 
                 tour.addStep({
-                    title: obj[mainID].steps[index].title,
-                    text: obj[mainID].steps[index].description,
+                    title: obj[tourId].steps[index].title,
+                    text: obj[tourId].steps[index].description,
                     classes: "intro-step shepherd-theme-arrows",
                     attachTo: {
-                        element: obj[mainID].steps[index].target,
-                        on: obj[mainID].steps[index].position,
+                        element: obj[tourId].steps[index].target,
+                        on: obj[tourId].steps[index].position,
+                        url: obj[tourId].steps[index].url,
                     },
 
                     buttons: buttons,
-                    id: obj[mainID].steps[index].id,
+                    id: obj[tourId].steps[index].id,
                     arrow: true,
-                    showOn: obj[mainID].steps[index].position,
+                    showOn: obj[tourId].steps[index].position,
                     when: {
                         show() {
-                            var thisId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
-                            var Id = `${tour.currentStep.id}` - "0";
-                            sessionStorage.setItem("stepID", thisId);
-                            sessionStorage.setItem("newstepID", Id);
+                            var stepId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
+                            var newstepId = `${tour.currentStep.id}` - "0";
+                            var idIndex = `${tour.steps.indexOf(tour.currentStep)}`;
+
+                            sessionStorage.setItem("stepId", stepId);
+                            sessionStorage.setItem("newstepId", newstepId);
+                            sessionStorage.setItem("currentStepindex", newstepId);
+
+                          var currentUrl = window.location.href;
+                          if(currentUrl != tour.currentStep.options.attachTo.url){
+                            window.location.href = tour.currentStep.options.attachTo.url;
+                          }
                         },
                     },
                 });
