@@ -6,7 +6,7 @@ module.exports = defineConfig({
   screenshotsFolder: 'tests/cypress/output/screenshots',
   e2e: {
     setupNodeEvents(on, config) {},
-    baseUrl: 'http://localhost',
+    baseUrl: 'http://localhost/test-install',
     specPattern: 'tests/cypress/integration/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'tests/cypress/support/index.js',
     scrollBehavior: 'center',
