@@ -99,11 +99,11 @@ Joomla = window.Joomla || {};
                                 show() {
                                     var stepId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
                                     var newstepId = `${tour.currentStep.id}` - "0";
-                                    var idIndex = `${tour.steps.indexOf(tour.currentStep)}`;
+                                    var currentStepindex = `${tour.steps.indexOf(tour.currentStep)}`;
 
                                     sessionStorage.setItem("stepId", stepId);
                                     sessionStorage.setItem("newstepId", newstepId);
-                                    sessionStorage.setItem("currentStepindex", idIndex);
+                                    sessionStorage.setItem("currentStepindex", currentStepindex);
 
                                   var currentTourUrl = window.location.href;
 
@@ -124,7 +124,7 @@ Joomla = window.Joomla || {};
         var tourId = sessionStorage.getItem("tourId");
         var stepId = sessionStorage.getItem("stepId");
         var newstepId = sessionStorage.getItem("newstepId");
-        var newidIndex = sessionStorage.getItem("currentStepindex");
+        var currentStepindex = sessionStorage.getItem("currentStepindex");
 
         var overlay = true;
         if (obj[tourId].overlay == 0) {
@@ -145,8 +145,8 @@ Joomla = window.Joomla || {};
             useModalOverlay: overlay,
         });
 
-        if (tourId && newidIndex) {
-            for (index = newidIndex-1; index < obj[tourId].steps.length; index++) {
+        if (tourId && currentStepindex) {
+            for (index = currentStepindex-1; index < obj[tourId].steps.length; index++) {
                 var buttons = [];
                 var len = obj[tourId].steps.length;
 
@@ -194,7 +194,7 @@ Joomla = window.Joomla || {};
                         show() {
                             var stepId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
                             var newstepId = `${tour.currentStep.id}` - "0";
-                            var idIndex = `${tour.steps.indexOf(tour.currentStep)}`;
+                            var currentStepindex = `${tour.steps.indexOf(tour.currentStep)}`;
 
                             sessionStorage.setItem("stepId", stepId);
                             sessionStorage.setItem("newstepId", newstepId);
