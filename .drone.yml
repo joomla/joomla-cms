@@ -28,7 +28,7 @@ steps:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 
     commands:
-      - bash tests/cypress/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" mysql
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
