@@ -17,11 +17,15 @@ apache2ctl -D FOREGROUND &
 
 echo "[RUNNER] Run cypress"
 cd /tests/www/$DB_ENGINE
+chmod +rwx /root
+mkdir /root/.cache
+chmod +rwx /root/.cache
+
 export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
 export cypress_db_host=$DB_ENGINE
 export cypress_db_password=joomla_ut
 
 npm run cypress:install
-npx cypress cache clear
 npx cypress verify
-npm run cypress:run-chrome --config baseUrl=http://localhost/$DB_ENGINE
+npx cypress run --browser=chrome --e2e --config baseUrl=http://localhost/$DB_ENGINE
+
