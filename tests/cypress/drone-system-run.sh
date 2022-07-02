@@ -20,6 +20,6 @@ cd /tests/www/$DB_ENGINE
 export cypress_db_host=$DB_ENGINE
 export cypress_db_password=joomla_ut
 
-#npm run cypress:install
+npm run cypress:install
 npx cypress verify
 npm run cypress:run-chrome --config baseUrl=http://localhost/$DB_ENGINE
