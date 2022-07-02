@@ -954,7 +954,7 @@ CREATE TABLE IF NOT EXISTS `#__guidedtours` (
 -- Dumping data for table `#__guidedtours`
 --
 INSERT INTO `#__guidedtours` (`id`, `asset_id`, `title`,`description`, `ordering`, `extensions`, `url`,`overlay`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`, `published`) VALUES
-(1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you that how you can create Guided Tour in Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours', 1, '', 0, '', 0, '', 0, 1);
+(1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you that how you can create Guided Tour in Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'http://localhost/gsoc22_guided-tour/administrator/index.php?option=com_guidedtours&view=tours', 1, '', 0, '', 0, '', 0, 1);
 
 -- --------------------------------------------------------
 
