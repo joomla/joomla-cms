@@ -21,9 +21,12 @@ describe('Install Joomla', () => {
     }
 
     cy.installJoomla(config)
+
+    /*
     cy.doAdministratorLogin(config.username, config.password)
     cy.disableStatistics()
     cy.setErrorReportingToDevelopment()
     cy.doAdministratorLogout()
+    */
   })
 })
