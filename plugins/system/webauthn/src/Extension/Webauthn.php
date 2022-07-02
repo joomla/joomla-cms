@@ -45,7 +45,27 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  */
 final class Webauthn extends CMSPlugin implements SubscriberInterface
 {
+    // Add WebAuthn buttons
+    use AdditionalLoginButtons;
+
+    // AJAX request handlers
+    use AjaxHandler;
+    use AjaxHandlerInitCreate;
+    use AjaxHandlerCreate;
+    use AjaxHandlerSaveLabel;
+    use AjaxHandlerDelete;
+    use AjaxHandlerChallenge;
+    use AjaxHandlerLogin;
+
+    // Utility methods for setting the events' return values
+    use EventReturnAware;
     use CoreEventAware;
+
+    // Custom user profile fields
+    use UserProfileFields;
+
+    // Handle user profile deletion
+    use UserDeletion;
 
     /**
      * Autoload the language files
@@ -72,27 +92,6 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      * @since __DEPLOY_VERSION__
      */
     protected $authenticationHelper;
-
-    // AJAX request handlers
-    use AjaxHandler;
-    use AjaxHandlerInitCreate;
-    use AjaxHandlerCreate;
-    use AjaxHandlerSaveLabel;
-    use AjaxHandlerDelete;
-    use AjaxHandlerChallenge;
-    use AjaxHandlerLogin;
-
-    // Custom user profile fields
-    use UserProfileFields;
-
-    // Handle user profile deletion
-    use UserDeletion;
-
-    // Add WebAuthn buttons
-    use AdditionalLoginButtons;
-
-    // Utility methods for setting the events' return values
-    use EventReturnAware;
 
     /**
      * Constructor. Loads the language files as well.
