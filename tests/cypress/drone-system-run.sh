@@ -19,7 +19,7 @@ echo "[RUNNER] Run cypress"
 #cd /tests/www/$DB_ENGINE
 chmod +rwx /root
 
-export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
+#export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
 export cypress_db_host=$DB_ENGINE
 export cypress_db_password=joomla_ut
 
