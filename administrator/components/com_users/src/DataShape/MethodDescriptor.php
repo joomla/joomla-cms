@@ -80,8 +80,7 @@ class MethodDescriptor extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $help_url = '';
+    protected $help_url = '';
 
     /**
      * Allow authentication against all entries of this MFA Method.

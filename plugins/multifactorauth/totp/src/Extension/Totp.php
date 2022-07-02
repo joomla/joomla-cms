@@ -194,8 +194,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         }
 
         // Generate a QR code for the key
-		// phpcs:ignore
-		$user     = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
+        $user     = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
         $hostname = Uri::getInstance()->toString(['host']);
         $otpURL   = sprintf("otpauth://totp/%s@%s?secret=%s", $user->username, $hostname, $key);
         $document = $this->getApplication()->getDocument();
@@ -335,9 +334,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
         }
 
         // Double check the MFA Method is for the correct user
-		// phpcs:ignore
-		if ($user->id != $record->user_id)
-        {
+        if ($user->id != $record->user_id) {
             $event->addResult(false);
 
             return;
