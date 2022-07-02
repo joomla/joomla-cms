@@ -4,6 +4,8 @@ module.exports = defineConfig({
   fixturesFolder: 'tests/cypress/fixtures',
   videosFolder: 'tests/cypress/output/videos',
   screenshotsFolder: 'tests/cypress/output/screenshots',
+  viewportHeight: 1000,
+  viewportWidth: 1200,
   e2e: {
     setupNodeEvents(on, config) {},
     baseUrl: 'http://localhost',
