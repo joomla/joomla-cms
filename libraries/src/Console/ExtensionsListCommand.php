@@ -239,7 +239,7 @@ class ExtensionsListCommand extends AbstractCommand
         $extensions = $this->getExtensionsNameAndId($extensions);
 
         $this->ioStyle->title('Installed Extensions');
-        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
+        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Enabled'], $extensions);
 
         return Command::SUCCESS;
     }
