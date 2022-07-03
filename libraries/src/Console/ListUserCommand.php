@@ -71,7 +71,7 @@ class ListUserCommand extends AbstractCommand
         $db = $this->getDatabase();
 
         $this->configureIO($input, $output);
-        $this->ioStyle->title('List users');
+        $this->ioStyle->title('List Users');
 
         $groupsQuery = $db->getQuery(true)
             ->select($db->quoteName(['title', 'id']))
@@ -101,7 +101,7 @@ class ListUserCommand extends AbstractCommand
             $users[] = $user;
         }
 
-        $this->ioStyle->table(['id', 'username', 'name', 'email', 'blocked', 'groups'], $users);
+        $this->ioStyle->table(['ID', 'Username', 'Name', 'Email', 'Blocked', 'Groups'], $users);
 
         return Command::SUCCESS;
     }
