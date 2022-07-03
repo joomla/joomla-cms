@@ -96,7 +96,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 
         $discovered_extensions = $this->getExtensionsNameAndId($discovered_extensions);
 
-        $this->ioStyle->title('Discovered extensions.');
+        $this->ioStyle->title('Discovered Extensions');
         $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $discovered_extensions);
 
         return Command::SUCCESS;

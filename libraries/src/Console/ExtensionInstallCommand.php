@@ -179,6 +179,7 @@ class ExtensionInstallCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Install Extension');
 
         if ($path = $this->cliInput->getOption('path')) {
             $result = $this->processPathInstallation($path);
