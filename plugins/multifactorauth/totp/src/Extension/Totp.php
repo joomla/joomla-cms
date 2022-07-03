@@ -138,7 +138,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
                         'pattern' => "{0,9}", 'maxlength' => "6", 'inputmode' => "numeric"
                     ],
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'      => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_SETUP_PLACEHOLDER'),
+                    'placeholder'      => '',
                     // Label to show above the HTML input box. Leave empty if you don't need it.
                     'label'            => Text::_('PLG_MULTIFACTORAUTH_TOTP_LBL_LABEL'),
                     // Custom HTML. Only used when field_type = custom.

@@ -136,7 +136,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                     // The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
                     'input_type'         => 'text',
                     // Placeholder text for the HTML input box. Leave empty if you don't need it.
-                    'placeholder'        => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_LBL_SETUP_PLACEHOLDER'),
+                    'placeholder'        => '',
                     // Label to show above the HTML input box. Leave empty if you don't need it.
                     'label'              => Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_CODE_LABEL'),
                     // Custom HTML. Only used when field_type = custom.
