@@ -10,7 +10,6 @@
     <exclude-pattern type="relative">media/*</exclude-pattern>
     <exclude-pattern type="relative">node_modules/*</exclude-pattern>
     <exclude-pattern type="relative">tmp/*</exclude-pattern>
-    <exclude-pattern type="relative">tests/*</exclude-pattern>
 
     <!-- Exclude 3rd party libraries and Framework code. -->
     <exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
@@ -245,6 +244,7 @@
         <exclude-pattern type="relative">plugins/content/pagebreak/pagebreak\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/editors/none/none\.php</exclude-pattern>
         <exclude-pattern type="relative">plugins/user/joomla/joomla\.php</exclude-pattern>
+        <exclude-pattern type="relative">tests/</exclude-pattern>
     </rule>
 
     <rule ref="PSR1.Classes.ClassDeclaration.MultipleClasses">
