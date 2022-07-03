@@ -7799,7 +7799,7 @@ class JoomlaInstallerScript
             // From 4.2.0-beta1 to 4.2.0-beta2
             '/layouts/plugins/user/profile/fields',
             '/layouts/plugins/user/profile',
-             // From 4.2.0-beta2 to 4.2.0-beta3
+            // From 4.2.0-beta2 to 4.2.0-beta3
             '/plugins/system/webauthn/src/Helper',
             '/plugins/system/webauthn/src/Exception',
         );
