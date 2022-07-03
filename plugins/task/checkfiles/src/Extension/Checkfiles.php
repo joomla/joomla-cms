@@ -108,7 +108,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
         $numImages = max(1, (int) $params->numImages ?? 1);
 
         if (!is_dir($path)) {
-            $this->logTask($this->translate('PLG_TASK_CHECK_FILES_LOG_IMAGE_PATH_NA'), 'warning');
+            $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_IMAGE_PATH_NA'), 'warning');
 
             return TaskStatus::NO_RUN;
         }
@@ -127,20 +127,27 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
             $newHeight = $dimension === 'height' ? $limit : $height * $limit / $width;
             $newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
 
-            $this->logTask($this->translate('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE', $width, $height, $newWidth, $newHeight, $imageFilename));
+            $this->logTask(sprintf(
+				$this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE'),
+				$width,
+				$height,
+				$newWidth,
+				$newHeight,
+				$imageFilename
+			));
 
             $image = new Image($imageFilename);
 
             try {
                 $image->resize($newWidth, $newHeight, false);
             } catch (LogicException $e) {
-                $this->logTask($this->translate('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL'), 'error');
+                $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL'), 'error');
 
                 return TaskStatus::KNOCKOUT;
             }
 
             if (!$image->toFile($imageFilename, $properties->type)) {
-                $this->logTask($this->translate('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL'), 'error');
+                $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL'), 'error');
 
                 return TaskStatus::KNOCKOUT;
             }
