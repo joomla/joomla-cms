@@ -128,13 +128,13 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
             $newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
 
             $this->logTask(sprintf(
-				$this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE'),
-				$width,
-				$height,
-				$newWidth,
-				$newHeight,
-				$imageFilename
-			));
+                $this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE'),
+                $width,
+                $height,
+                $newWidth,
+                $newHeight,
+                $imageFilename
+            ));
 
             $image = new Image($imageFilename);
 
