@@ -94,6 +94,7 @@ class SiteDownCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Site Offline');
 
         $returnCode = $this->getApplication()->getCommand(SetConfigurationCommand::getDefaultName())->execute(
             new ArrayInput(['options' => ['offline=true']]),
