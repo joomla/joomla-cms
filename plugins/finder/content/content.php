@@ -312,14 +312,17 @@ class PlgFinderContent extends Adapter
             $item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author, $item->state);
         }
 
+        $categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
+
+        $category = $categories->get($item->catid);
+
+        if (!$category) {
+            return;
+        }
+
         // Add the category taxonomy data.
         if (in_array('category', $taxonomies)) {
-            $categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
-            $category   = $categories->get($item->catid);
-
-            if ($category) {
-                $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
-            }
+            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.

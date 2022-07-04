@@ -335,16 +335,16 @@ class PlgFinderContacts extends Adapter
             $item->addTaxonomy('Type', 'Contact');
         }
 
+        $categories = Categories::getInstance('com_contact', ['published' => false, 'access' => false]);
+
+        $category = $categories->get($item->catid);
+
+        if (!$category) {
+            return;
+        }
+
         // Add the category taxonomy data.
         if (in_array('category', $taxonomies)) {
-            $categories = Categories::getInstance('com_contact', ['published' => false, 'access' => false]);
-
-            $category = $categories->get($item->catid);
-
-            if (!$category) {
-                return;
-            }
-
             $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 

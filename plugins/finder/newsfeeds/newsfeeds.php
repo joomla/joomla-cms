@@ -283,15 +283,17 @@ class PlgFinderNewsfeeds extends Adapter
             $item->addTaxonomy('Type', 'News Feed');
         }
 
+        $categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
+
+        $category = $categories->get($item->catid);
+
+        if (!$category) {
+            return;
+        }
+
         // Add the category taxonomy data.
         if (in_array('category', $taxonomies)) {
-            $categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
-
-            $category = $categories->get($item->catid);
-
-            if ($category) {
-                $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
-            }
+            $item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
         }
 
         // Add the language taxonomy data.
