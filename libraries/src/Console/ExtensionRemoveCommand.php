@@ -165,6 +165,8 @@ class ExtensionRemoveCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Remove Extension');
+
         $extensionId = $this->cliInput->getArgument('extensionId');
 
         $response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
