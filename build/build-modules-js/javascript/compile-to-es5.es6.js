@@ -1,9 +1,10 @@
 const { basename, resolve } = require('path');
+const { writeFile } = require('fs').promises;
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const { babel } = require('@rollup/plugin-babel');
 const commonjs = require('@rollup/plugin-commonjs');
-const { minifyJs } = require('./minify.es6.js');
+const { minifyJsCode } = require('./minify.es6.js');
 
 /**
  * Compiles es6 files to es5.
@@ -46,10 +47,19 @@ module.exports.handleESMToLegacy = async (file) => {
     format: 'iife',
     sourcemap: false,
     file: resolve(`${file.replace(/\.js$/, '')}-es5.js`),
-  });
+  })
+    .then((value) => minifyJsCode(value.output[0].code))
+    .then((content) => {
+    // eslint-disable-next-line no-console
+      console.log(`ES5 file: ${basename(file).replace('.js', '-es5.js')}: ✅ transpiled`);
 
-  // eslint-disable-next-line no-console
-  console.log(`ES5 file: ${basename(file).replace('.js', '-es5.js')}: ✅ transpiled`);
+      return writeFile(resolve(`${file.replace(/\.js$/, '')}-es5.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
+    })
+    .catch((error) => {
+    // eslint-disable-next-line no-console
+      console.error(error);
+    });
 
-  minifyJs(resolve(`${file.replace(/\.js$/, '')}-es5.js`));
+  // closes the bundle
+  await bundleLegacy.close();
 };

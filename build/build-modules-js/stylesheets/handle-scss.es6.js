@@ -20,28 +20,23 @@ module.exports.handleScssFile = async (file) => {
     process.exit(1);
   }
 
-  // Auto prefixing
-  const cleaner = Postcss([Autoprefixer()]);
-  const res = await cleaner.process(compiled.css.toString(), { from: undefined });
-
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile), {});
-  await writeFile(
-    cssFile,
-    res.css,
-    { encoding: 'utf8', mode: 0o644 },
-  );
-
-  const cssMin = await Postcss([CssNano]).process(res.css, { from: undefined });
-
   // Ensure the folder exists or create it
   await ensureDir(dirname(cssFile.replace('.css', '.min.css')), {});
-  await writeFile(
-    cssFile.replace('.css', '.min.css'),
-    cssMin.css,
-    { encoding: 'utf8', mode: 0o644 },
-  );
 
+  // Auto prefixing
+  const cleaner = Postcss([Autoprefixer()]);
+  cleaner.process(compiled.css.toString(), { from: undefined })
+    .then((res) => {
+      writeFile(cssFile, res.css, { encoding: 'utf8', mode: 0o644 });
+      return Postcss([CssNano]).process(res.css, { from: undefined });
+    })
+    .then((cssMin) => writeFile(cssFile.replace('.css', '.min.css'), cssMin.css, { encoding: 'utf8', mode: 0o644 }))
   // eslint-disable-next-line no-console
-  console.log(`✅ SCSS File compiled: ${cssFile}`);
+    .then(() => console.log(`✅ SCSS File compiled: ${cssFile}`))
+    .catch((error) => {
+    // eslint-disable-next-line no-console
+      console.error(error);
+    });
 };
