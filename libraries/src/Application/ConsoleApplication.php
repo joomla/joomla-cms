@@ -463,4 +463,29 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
         return Router::getInstance($name, $options);
     }
+
+    /**
+     * Gets the name of the current template.
+     *
+     * @param   boolean  $params  True to return the template parameters
+     *
+     * @return  string|\stdClass
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getTemplate($params = false)
+    {
+        // The CLI application should not need to use a template
+        if ($params) {
+            $template              = new \stdClass();
+            $template->template    = 'system';
+            $template->params      = new Registry();
+            $template->inheritable = 0;
+            $template->parent      = '';
+
+            return $template;
+        }
+
+        return 'system';
+    }
 }
