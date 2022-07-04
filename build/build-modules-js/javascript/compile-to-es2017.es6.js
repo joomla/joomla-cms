@@ -96,14 +96,14 @@ module.exports.handleESMFile = async (file) => {
   })
     .then((value) => minifyJsCode(value.output[0].code))
     .then((content) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.log(`ES2017 file: ${basename(file).replace('.es6.js', '.js')}: ✅ transpiled`);
 
       return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .then(() => handleESMToLegacy(resolve(`${newPath}.js`)))
     .catch((error) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     });
 
