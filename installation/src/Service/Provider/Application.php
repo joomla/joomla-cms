@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installation\Service\Provider;
 
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -54,12 +55,33 @@ class Application implements ServiceProviderInterface
             true
         );
 
-        // Inject a custom JSON error renderer
-        $container->share(
-            JsonRenderer::class,
-            function (Container $container) {
-                return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer();
-            }
-        );
-    }
+		$container->share(
+			CliInstallationApplication::class,
+			function (Container $container)
+			{
+				$app = new CliInstallationApplication(null, null, $container->get('config'));
+
+				// The session service provider needs Factory::$application, set it if still null
+				if (Factory::$application === null)
+				{
+					Factory::$application = $app;
+				}
+
+				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+				$app->setLogger($container->get(LoggerInterface::class));
+
+				return $app;
+			},
+			true
+		);
+
+		// Inject a custom JSON error renderer
+		$container->share(
+			JsonRenderer::class,
+			function (Container $container)
+			{
+				return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer;
+			}
+		);
+	}
 }
