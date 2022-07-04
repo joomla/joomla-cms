@@ -52,12 +52,12 @@ const buildLegacy = async (file) => {
   })
     .then((value) => minifyJsCode(value.output[0].code))
     .then((content) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.log('Legacy Media Manager ready ✅');
       return writeFile(resolve('media/com_media/js/media-manager-es5.js'), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .catch((error) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     });
 
@@ -117,14 +117,14 @@ module.exports.mediaManager = async () => {
   })
     .then((value) => minifyJsCode(value.output[0].code))
     .then((content) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.log('✅ ES2017 Media Manager ready');
 
       return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .then(() => buildLegacy(resolve('media/com_media/js/media-manager.js')))
     .catch((error) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     });
 
