@@ -50,13 +50,13 @@ module.exports.handleESMToLegacy = async (file) => {
   })
     .then((value) => minifyJsCode(value.output[0].code))
     .then((content) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.log(`ES5 file: ${basename(file).replace('.js', '-es5.js')}: ✅ transpiled`);
 
       return writeFile(resolve(`${file.replace(/\.js$/, '')}-es5.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .catch((error) => {
-    // eslint-disable-next-line no-console
+      // eslint-disable-next-line no-console
       console.error(error);
     });
 
