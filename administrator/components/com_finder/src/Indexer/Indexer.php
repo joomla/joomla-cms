@@ -160,7 +160,7 @@ class Indexer
 
         // If the state is empty, load the values for the first time.
         if (empty($data)) {
-            $data = new \stdClass();
+            $data = new CMSObject();
             $data->force = false;
 
             // Load the default configuration options.
