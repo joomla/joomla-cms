@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class Adapter extends CMSPlugin
+abstract class DebugAdapter extends CMSPlugin
 {
     /**
      * The context is somewhat arbitrary but it must be unique or there will be

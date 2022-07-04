@@ -17,7 +17,9 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Finder\Administrator\Indexer\Debugindexer;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\DebugAdapter;
+use Joomla\Component\Finder\Administrator\Indexer\DebugIndexer;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Response\Response;
 
@@ -301,9 +303,9 @@ class IndexerController extends BaseController
         // Start the indexer.
         try {
             // Import the finder plugins.
-            require_once JPATH_ADMINISTRATOR . '/components/com_finder/src/Indexer/Debugadapter.php';
+            class_alias(DebugAdapter::class, Adapter::class);
             $plugin = Factory::getApplication()->bootPlugin($this->app->input->get('plugin'), 'finder');
-            $plugin->setIndexer(new Debugindexer());
+            $plugin->setIndexer(new DebugIndexer());
             $plugin->debug($this->app->input->get('id'));
 
             $output = '';
@@ -312,7 +314,7 @@ class IndexerController extends BaseController
             $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ATTRIBUTES') . '</legend>';
             $output .= '<dl class="row">';
 
-            foreach (Debugindexer::$item as $key => $value) {
+            foreach (DebugIndexer::$item as $key => $value) {
                 $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $value . '</dd>';
             }
 
@@ -322,7 +324,7 @@ class IndexerController extends BaseController
             $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_ELEMENTS') . '</legend>';
             $output .= '<dl class="row">';
 
-            foreach (Debugindexer::$item->getElements() as $key => $element) {
+            foreach (DebugIndexer::$item->getElements() as $key => $element) {
                 $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . $element . '</dd>';
             }
 
@@ -339,7 +341,7 @@ class IndexerController extends BaseController
                 5 => 'Misc context'
             ];
 
-            foreach (Debugindexer::$item->getInstructions() as $key => $element) {
+            foreach (DebugIndexer::$item->getInstructions() as $key => $element) {
                 $output .= '<dt class="col-sm-2">' . $contexts[$key] . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
             }
 
@@ -349,7 +351,7 @@ class IndexerController extends BaseController
             $output .= '<fieldset><legend>' . Text::_('COM_FINDER_INDEXER_FIELDSET_TAXONOMIES') . '</legend>';
             $output .= '<dl class="row">';
 
-            foreach (Debugindexer::$item->getTaxonomy() as $key => $element) {
+            foreach (DebugIndexer::$item->getTaxonomy() as $key => $element) {
                 $output .= '<dt class="col-sm-2">' . $key . '</dt><dd class="col-sm-10">' . json_encode($element) . '</dd>';
             }
 

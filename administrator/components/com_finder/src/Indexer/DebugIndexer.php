@@ -15,7 +15,7 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Debugindexer extends Indexer
+class DebugIndexer extends Indexer
 {
     /**
      * The result object from the last call to self::index()
