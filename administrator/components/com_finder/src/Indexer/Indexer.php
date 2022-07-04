@@ -411,7 +411,7 @@ class Indexer
                         }
 
                         // Tokenize a string of content and add it to the database.
-                        $count += $this->tokenizeToDb($ip, $group, $item->language, $format);
+                        $count += $this->tokenizeToDb($ip, $group, $item->language, $format, $count);
 
                         // Check if we're approaching the memory limit of the token table.
                         if ($count > static::$state->options->get('memory_table_limit', 7500)) {
@@ -431,7 +431,7 @@ class Indexer
                     }
 
                     // Tokenize a string of content and add it to the database.
-                    $count += $this->tokenizeToDb($item->$property, $group, $item->language, $format);
+                    $count += $this->tokenizeToDb($item->$property, $group, $item->language, $format, $count);
 
                     // Check if we're approaching the memory limit of the token table.
                     if ($count > static::$state->options->get('memory_table_limit', 30000)) {
@@ -786,8 +786,8 @@ class Indexer
         // Get the relevant configuration variables.
         $config = array(
             $state->weights,
-            $state->options->get('stem', 1),
-            $state->options->get('stemmer', 'porter_en')
+            $state->options->get('tuplecount', 1),
+            $state->options->get('language_default', '')
         );
 
         return md5(serialize(array($item, $config)));
@@ -801,14 +801,14 @@ class Indexer
      * @param   integer  $context  The context of the input. See context constants.
      * @param   string   $lang     The language of the input.
      * @param   string   $format   The format of the input.
+     * @param   integer  $count    Number of words indexed so far.
      *
      * @return  integer  The number of tokens extracted from the input.
      *
      * @since   2.5
      */
-    protected function tokenizeToDb($input, $context, $lang, $format)
+    protected function tokenizeToDb($input, $context, $lang, $format, $count = 0)
     {
-        $count = 0;
         $buffer = null;
 
         if (empty($input)) {
