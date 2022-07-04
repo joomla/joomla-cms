@@ -118,7 +118,7 @@ module.exports.mediaManager = async () => {
     .then((value) => minifyJsCode(value.output[0].code))
     .then((content) => {
       // eslint-disable-next-line no-console
-      console.log('✅ ES2017 Media Manager ready');
+      console.log('ES2017 Media Manager ready ✅');
 
       return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
     })
