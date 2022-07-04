@@ -54,7 +54,7 @@ const buildLegacy = async (file) => {
     .then((content) => {
       // eslint-disable-next-line no-console
       console.log('Legacy Media Manager ready ✅');
-      return writeFile(resolve('media/com_media/js/media-manager-es5.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+      return writeFile(resolve('media/com_media/js/media-manager-es5.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
     })
     .catch((error) => {
       // eslint-disable-next-line no-console
