@@ -34,7 +34,7 @@ module.exports.handleScssFile = async (file) => {
     })
     .then((cssMin) => writeFile(cssFile.replace('.css', '.min.css'), cssMin.css, { encoding: 'utf8', mode: 0o644 }))
     // eslint-disable-next-line no-console
-    .then(() => console.log(`✅ SCSS File compiled: ${cssFile}`))
+    .then(() => console.log(`SCSS File compiled: ${cssFile} ✅`))
     .catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error);
