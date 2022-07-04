@@ -99,8 +99,8 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Remove User From Group');
         $this->username = $this->getStringFromOption('username', 'Please enter a username');
-        $this->ioStyle->title('Remove user from group');
 
         $userId = UserHelper::getUserId($this->username);
 

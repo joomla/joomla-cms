@@ -139,7 +139,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         $newStatus = $config['offline'] ? 'offline' : 'online';
         $exit      = $this->writeConfigFile(new Registry($config));
-        $this->logTask($this->translate('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS', $oldStatus, $newStatus));
+        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_TASK_LOG_SITE_STATUS'), $oldStatus, $newStatus));
 
         $this->endRoutine($event, $exit);
     }
@@ -161,7 +161,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         // Attempt to make the file writeable.
         if (file_exists($file) && Path::isOwner($file) && !Path::setPermissions($file)) {
-            $this->logTask($this->translate('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+            $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
         }
 
         try {
@@ -169,7 +169,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
             $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
             File::write($file, $configuration);
         } catch (Exception $e) {
-            $this->logTask($this->translate('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
+            $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
             return Status::KNOCKOUT;
         }
@@ -181,7 +181,7 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         // Attempt to make the file un-writeable.
         if (Path::isOwner($file) && !Path::setPermissions($file, '0444')) {
-            $this->logTask($this->translate('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+            $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
         }
 
         return Status::OK;
