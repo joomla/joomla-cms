@@ -1,218 +1,167 @@
+/**
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+function checkAndRedirect(redirectUrl) {
+  var currentURL = window.location.href;
+  if (currentURL != redirectUrl) {
+    window.location.href = redirectUrl;
+  }
+}
+function createTour() {
+  return new Shepherd.Tour({
+    defaultStepOptions: {
+      scrollTo: true,
+      classes: "shadow",
+      cancelIcon: {
+        enabled: true,
+      },
+      classes: "class-1 class-2 shepherd-theme-arrows",
+      scrollTo: { behavior: "smooth", block: "center" },
+    },
+    useModalOverlay: true,
+    keyboardNavigation: true,
+  });
+}
+function addCancelTourButton(tour) {
+  tour.on("cancel", () => {
+    sessionStorage.clear();
+  });
+}
+function addStepToTourButton(tour, obj, tourId, index, buttons) {
+  tour.addStep({
+    title: obj[tourId].steps[index].title,
+    text: obj[tourId].steps[index].description,
+    classes: "intro-step shepherd-theme-arrows",
+    attachTo: {
+      element: obj[tourId].steps[index].target,
+      on: obj[tourId].steps[index].position,
+      url: obj[tourId].steps[index].url,
+    },
+
+    buttons: buttons,
+    id: obj[tourId].steps[index].id,
+    arrow: true,
+    showOn: obj[tourId].steps[index].position,
+    when: {
+      show() {
+        var currentstepIndex = `${tour.currentStep.id}` - "0";
+        sessionStorage.setItem("currentStepId", currentstepIndex);
+        checkAndRedirect(tour.currentStep.options.attachTo.url);
+      },
+    },
+  });
+}
+function addInitialStepToTourButton(tour, obj, tourId) {
+  tour.addStep({
+    title: obj[tourId].title,
+    text: obj[tourId].description,
+    classes: "intro-step shepherd-theme-arrows",
+    attachTo: {
+      on: "bottom",
+    },
+    buttons: [
+      {
+        action() {
+          return tour.next();
+        },
+        text: "Next",
+      },
+    ],
+    id: obj[tourId].id,
+  });
+}
+function pushCompleteButton(buttons, tour) {
+  buttons.push({
+    text: "Complete",
+    classes: "shepherd-button-primary",
+    action: function () {
+      return tour.cancel();
+    },
+  });
+}
+function pushNextButton(buttons, tour) {
+  buttons.push({
+    text: "Next",
+    classes: "shepherd-button-primary",
+    action: function () {
+      return tour.next();
+    },
+  });
+}
+function pushBackButton(buttons, tour) {
+  buttons.push({
+    text: "Back",
+    classes: "shepherd-button-secondary",
+    action: function () {
+      return tour.back();
+    },
+  });
+}
+
 Joomla = window.Joomla || {};
-(function(Joomla, window) {
-    document.addEventListener("DOMContentLoaded", function() {
-        var myTours = Joomla.getOptions("myTours");
-        var obj = JSON.parse(myTours);
-        let btnGoods = document.querySelectorAll(".button-tour");
-        for (var i = 0; i < btnGoods.length; i++) {
-            btnGoods[i].addEventListener("click", function() {
-                var dataID = this.getAttribute("data-id");
-                var tourId = obj.findIndex((x) => x.id == dataID);
-                sessionStorage.setItem("tourId", tourId);
+(function (Joomla, window) {
+  document.addEventListener("DOMContentLoaded", function () {
+    let myTours = Joomla.getOptions("myTours");
+    let obj = JSON.parse(myTours);
+    let btnGoods = document.querySelectorAll(".button-tour");
+    for (var i = 0; i < btnGoods.length; i++) {
+      btnGoods[i].addEventListener("click", function () {
+        var dataID = this.getAttribute("data-id");
+        var tourId = obj.findIndex((x) => x.id == dataID);
+        sessionStorage.setItem("tourId", dataID);
 
-                var currentURL = window.location.href;
-                if (currentURL != obj[tourId].url) {
-                    window.location.href = obj[tourId].url;
-                }
-                var overlay = true;
-                if (obj[tourId].overlay == 0) {
-                    overlay = false;
-                }
+        checkAndRedirect(obj[tourId].url);
 
-                const tour = new Shepherd.Tour({
-                    defaultStepOptions: {
-                        scrollTo: true,
-                        classes: "shadow",
-                        cancelIcon: {
-                            enabled: true,
-                        },
-                        classes: "class-1 class-2 shepherd-theme-arrows",
-                        scrollTo: { behavior: "smooth", block: "center" },
-                    },
-                    keyboardNavigation: true,
-                    useModalOverlay: overlay,
-                });
+        const tour = createTour();
 
-                if (sessionStorage.getItem("tourId")) {
-                    tour.addStep({
-                        title: obj[tourId].title,
-                        text: obj[tourId].description,
-                        classes: "intro-step shepherd-theme-arrows",
-                        attachTo: {
-                            on: "bottom",
-                        },
-                        buttons: [
-                            {
-                                action() {
-                                    return tour.next();
-                                },
-                                text: "Next",
-                            },
-                        ],
-                        id: obj[tourId].id,
-                    });
-
-                    for (index = 0; index < obj[tourId].steps.length; index++) {
-                        var buttons = [];
-                        var len = obj[tourId].steps.length;
-                            buttons.push({
-                                text: "Back",
-                                classes: "shepherd-button-secondary",
-                                action: function() {
-                                    return tour.back();
-                                },
-                            });
-
-                        if (index != len - 1) {
-                            buttons.push({
-                                text: "Next",
-                                classes: "shepherd-button-primary",
-                                action: function() {
-                                    return tour.next();
-                                },
-                            });
-                        } else {
-                            buttons.push({
-                                text: "Complete",
-                                classes: "shepherd-button-primary",
-                                action: function() {
-                                    return tour.cancel();
-                                },
-                            });
-                        }
-
-                        tour.addStep({
-                            title: obj[tourId].steps[index].title,
-                            text: obj[tourId].steps[index].description,
-                            classes: "intro-step shepherd-theme-arrows",
-                            attachTo: {
-                                element: obj[tourId].steps[index].target,
-                                on: obj[tourId].steps[index].position,
-                                url: obj[tourId].steps[index].url,
-                            },
-
-                            buttons: buttons,
-                            id: obj[tourId].steps[index].id,
-                            arrow: true,
-                            showOn: obj[tourId].steps[index].position,
-                            when: {
-                                show() {
-                                    var stepId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
-                                    var newstepId = `${tour.currentStep.id}` - "0";
-                                    var currentStepindex = `${tour.steps.indexOf(tour.currentStep)}`;
-
-                                    sessionStorage.setItem("stepId", stepId);
-                                    sessionStorage.setItem("newstepId", newstepId);
-                                    sessionStorage.setItem("currentStepindex", currentStepindex);
-
-                                  var currentTourUrl = window.location.href;
-
-                                  if(currentTourUrl != tour.currentStep.options.attachTo.url){
-                                    window.location.href = tour.currentStep.options.attachTo.url;
-                                  }
-                                },
-                            },
-                        });
-                    }
-                }
-                tour.start();
-                tour.on("cancel", () => {
-                    sessionStorage.clear();
-                });
-            });
-        }
-        var tourId = sessionStorage.getItem("tourId");
-        var stepId = sessionStorage.getItem("stepId");
-        var newstepId = sessionStorage.getItem("newstepId");
-        var currentStepindex = sessionStorage.getItem("currentStepindex");
-
-        var overlay = true;
-        if (obj[tourId].overlay == 0) {
-            overlay = false;
-        }
-
-        const tour = new Shepherd.Tour({
-            defaultStepOptions: {
-                scrollTo: true,
-                classes: "shadow",
-                cancelIcon: {
-                    enabled: true,
-                },
-                classes: "class-1 class-2 shepherd-theme-arrows",
-                scrollTo: { behavior: "smooth", block: "center" },
-            },
-            keyboardNavigation: true,
-            useModalOverlay: overlay,
-        });
-
-        if (tourId && currentStepindex) {
-            for (index = currentStepindex-1; index < obj[tourId].steps.length; index++) {
-                var buttons = [];
-                var len = obj[tourId].steps.length;
-
-                    buttons.push({
-                        text: "Back",
-                        classes: "shepherd-button-secondary",
-                        action: function() {
-                            return tour.back();
-                        },
-                    });
-
-                if (index != len - 1) {
-                    buttons.push({
-                        text: "Next",
-                        classes: "shepherd-button-primary",
-                        action: function() {
-                            return tour.next();
-                        },
-                    });
-                } else {
-                    buttons.push({
-                        text: "Complete",
-                        classes: "shepherd-button-primary",
-                        action: function() {
-                            return tour.cancel();
-                        },
-                    });
-                }
-
-                tour.addStep({
-                    title: obj[tourId].steps[index].title,
-                    text: obj[tourId].steps[index].description,
-                    classes: "intro-step shepherd-theme-arrows",
-                    attachTo: {
-                        element: obj[tourId].steps[index].target,
-                        on: obj[tourId].steps[index].position,
-                        url: obj[tourId].steps[index].url,
-                    },
-
-                    buttons: buttons,
-                    id: obj[tourId].steps[index].id,
-                    arrow: true,
-                    showOn: obj[tourId].steps[index].position,
-                    when: {
-                        show() {
-                            var stepId = `${tour.steps.indexOf(tour.currentStep) + 1}`;
-                            var newstepId = `${tour.currentStep.id}` - "0";
-                            var currentStepindex = `${tour.steps.indexOf(tour.currentStep)}`;
-
-                            sessionStorage.setItem("stepId", stepId);
-                            sessionStorage.setItem("newstepId", newstepId);
-                            sessionStorage.setItem("currentStepindex", newstepId);
-
-                          var currentUrl = window.location.href;
-                          if(currentUrl != tour.currentStep.options.attachTo.url){
-                            window.location.href = tour.currentStep.options.attachTo.url;
-                          }
-                        },
-                    },
-                });
+        if (sessionStorage.getItem("tourId")) {
+          addInitialStepToTourButton(tour, obj, tourId);
+          for (index = 0; index < obj[tourId].steps.length; index++) {
+            var buttons = [];
+            var len = obj[tourId].steps.length;
+            pushBackButton(buttons, tour);
+            if (index != len - 1) {
+              pushNextButton(buttons, tour);
+            } else {
+              pushCompleteButton(buttons, tour);
             }
+            addStepToTourButton(tour, obj, tourId, index, buttons);
+          }
+        }
+        tour.start();
+        addCancelTourButton(tour);
+      });
+    }
+    var tourId = sessionStorage.getItem("tourId");
+    var currentStepId = sessionStorage.getItem("currentStepId");
+
+    if (tourId) {
+      tourId = obj.findIndex((x) => x.id == tourId);
+      const tour = createTour();
+      var ind = 0;
+      if (currentStepId) {
+        ind = obj[tourId].steps.findIndex((x) => x.id == currentStepId);
+      } else {
+        ind = 0;
+      }
+      for (index = ind; index < obj[tourId].steps.length; index++) {
+        let buttons = [];
+        var len = obj[tourId].steps.length;
+
+        pushBackButton(buttons, tour);
+
+        if (index != len - 1) {
+          pushNextButton(buttons, tour);
+        } else {
+          pushCompleteButton(buttons, tour);
         }
 
-        tour.start();
-        tour.on("cancel", () => {
-            sessionStorage.clear();
-        });
-    });
+        addStepToTourButton(tour, obj, tourId, index, buttons);
+      }
+      tour.start();
+      addCancelTourButton(tour);
+    }
+  });
 })(Joomla, window);
