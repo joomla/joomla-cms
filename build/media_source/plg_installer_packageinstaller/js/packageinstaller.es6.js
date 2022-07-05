@@ -120,7 +120,7 @@ Joomla = window.Joomla || {};
       const file = files[0];
       const data = new FormData();
 
-      if (!file.length) {
+      if (!file.type) {
         Joomla.renderMessages({ error: [Joomla.Text._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE')] });
         return;
       }
