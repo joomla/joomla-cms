@@ -203,7 +203,7 @@ trait UserProfileFields
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function canEditUser(?User $user = null): bool
     {
