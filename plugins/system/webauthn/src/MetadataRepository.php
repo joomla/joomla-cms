@@ -130,8 +130,12 @@ final class MetadataRepository implements MetadataStatementRepository
             // Only try to download anything if we can actually cache it!
             if ((file_exists($jwtFilename) && is_writable($jwtFilename)) || (!file_exists($jwtFilename) && is_writable(JPATH_CACHE))) {
                 $http     = HttpFactory::getHttp();
-                $response = $http->get('https://mds.fidoalliance.org/', [], 5);
-                $content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
+                try {
+                    $response = $http->get('https://mds.fidoalliance.org/', [], 5);
+                    $content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
+                } catch (\Throwable $e) {
+                    $content = '';
+                }
             }
 
             /**
