@@ -135,7 +135,7 @@ trait AjaxHandlerLogin
      *
      * @return  void
      * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function loginUser(int $userId): void
     {
@@ -233,7 +233,7 @@ trait AjaxHandlerLogin
      *
      * @return  AuthenticationResponse
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getAuthenticationResponseObject(): AuthenticationResponse
     {
@@ -250,7 +250,7 @@ trait AjaxHandlerLogin
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function processLoginFailure(AuthenticationResponse $response): bool
     {
@@ -289,7 +289,7 @@ trait AjaxHandlerLogin
      * @return  string|null  The user handle or null
      *
      * @throws  Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function getUserHandleFromResponse(User $user): ?string
     {

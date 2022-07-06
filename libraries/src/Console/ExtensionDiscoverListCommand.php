@@ -82,6 +82,7 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Discovered Extensions');
 
         $extensions = $this->getExtensions();
         $state = -1;
@@ -96,7 +97,6 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
 
         $discovered_extensions = $this->getExtensionsNameAndId($discovered_extensions);
 
-        $this->ioStyle->title('Discovered Extensions');
         $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Enabled'], $discovered_extensions);
 
         return Command::SUCCESS;
