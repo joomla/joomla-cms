@@ -29,7 +29,7 @@ function addCancelTourButton(tour) {
     sessionStorage.clear();
   });
 }
-function addStepToTourButton(tour, obj, tourId, index, buttons) {
+function addStepToTourButton(tour, obj, tourId, index, buttons, uri) {
   tour.addStep({
     title: obj[tourId].steps[index].title,
     text: obj[tourId].steps[index].description,
@@ -48,7 +48,7 @@ function addStepToTourButton(tour, obj, tourId, index, buttons) {
       show() {
         var currentstepIndex = `${tour.currentStep.id}` - "0";
         sessionStorage.setItem("currentStepId", currentstepIndex);
-        checkAndRedirect(tour.currentStep.options.attachTo.url);
+        checkAndRedirect(uri + tour.currentStep.options.attachTo.url);
       },
     },
   });
@@ -103,6 +103,9 @@ function pushBackButton(buttons, tour) {
 Joomla = window.Joomla || {};
 (function (Joomla, window) {
   document.addEventListener("DOMContentLoaded", function () {
+    const paths = Joomla.getOptions('system.paths');
+    const uri = paths.rootFull;
+
     let myTours = Joomla.getOptions("myTours");
     let obj = JSON.parse(myTours);
     let btnGoods = document.querySelectorAll(".button-tour");
@@ -112,7 +115,7 @@ Joomla = window.Joomla || {};
         var tourId = obj.findIndex((x) => x.id == dataID);
         sessionStorage.setItem("tourId", dataID);
 
-        checkAndRedirect(obj[tourId].url);
+        checkAndRedirect(uri + obj[tourId].url);
 
         const tour = createTour();
 
@@ -127,7 +130,7 @@ Joomla = window.Joomla || {};
             } else {
               pushCompleteButton(buttons, tour);
             }
-            addStepToTourButton(tour, obj, tourId, index, buttons);
+            addStepToTourButton(tour, obj, tourId, index, buttons, uri);
           }
         }
         tour.start();
@@ -158,7 +161,7 @@ Joomla = window.Joomla || {};
           pushCompleteButton(buttons, tour);
         }
 
-        addStepToTourButton(tour, obj, tourId, index, buttons);
+        addStepToTourButton(tour, obj, tourId, index, buttons, uri);
       }
       tour.start();
       addCancelTourButton(tour);
