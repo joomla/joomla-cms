@@ -245,8 +245,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 -- Plugins
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
 (0, 'plg_actionlog_joomla', 'plugin', 'joomla', 'actionlog', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
-(0, 'plg_api-authentication_basic', 'plugin', 'basic', 'api-authentication', 0, 0, 1, 0, 1, '', '{}', '', 1, 0),
-(0, 'plg_api-authentication_token', 'plugin', 'token', 'api-authentication', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
+(0, 'plg_api-authentication_token', 'plugin', 'token', 'api-authentication', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, 1, '', '', '', 2, 0),
 (0, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, 1, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', 3, 0),
