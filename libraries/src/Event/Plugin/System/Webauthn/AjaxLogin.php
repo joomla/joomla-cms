@@ -14,7 +14,7 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 /**
  * Concrete event class for the onAjaxWebauthnLogin event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class AjaxLogin extends AbstractImmutableEvent
 {
