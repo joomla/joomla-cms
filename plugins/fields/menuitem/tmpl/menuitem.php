@@ -20,4 +20,3 @@ $url   = \Joomla\CMS\Router\Route::_("index.php?Itemid={$value}");
 $title = \Joomla\CMS\Factory::getApplication()->getMenu()->getItem($value)->title;
 
 echo "<a href=\"{$url}\">{$title}</a>";
-
