@@ -287,6 +287,12 @@ class SysinfoModel extends BaseDatabaseModel
             $this->config[$key] = 'xxxxxx';
         }
 
+        foreach ($this->config as $key => $value) {
+			if (\is_array($value)) {
+				$this->config[$key] = \json_encode($value);
+			}
+		}
+
         return $this->config;
     }
 
