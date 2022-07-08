@@ -992,7 +992,7 @@ INSERT INTO `#__guidedtour_steps` (`id`, `tour_id`, `title`, `published`, `descr
 (5, 1, 'URL', 1, '<p>Add Relative URL of the page from where you want to start your Tour. </p>', 0, 1, 'bottom', '#jform_url', 'administrator/index.php?option=com_guidedtours&view=tour&layout=edit','', 430, '', 430),
 (6, 1, 'Overlay', 1, '<p>Select if you want an overlay effect or not.</p>', 0, 1, 'bottom', '#jform_overlay1','administrator/index.php?option=com_guidedtours&view=tour&layout=edit' ,'', 430, '', 430),
 (7, 1, 'Save and Close', 1, '<p>Save and close the tour</p>', 0, 1, 'bottom', '#save-group-children-save','administrator/index.php?option=com_guidedtours&view=tour&layout=edit' ,'', 430, '', 430),
-(8, 1, 'Create steps for your Tour', 1, '<p>Click on steps icon in the right</p>', 0, 1, 'right', '','administrator/index.php?option=com_guidedtours&view=tours' ,'', 430, '', 430),
+(8, 1, 'Create steps for your Tour', 1, '<p>Click on steps icon in the right</p>', 0, 1, 'right', '.btn-info','administrator/index.php?option=com_guidedtours&view=tours' ,'', 430, '', 430),
 (9, 1, 'Click here!', 1, '<p>Click here to create a new Step for your Tour</p>', 0, 1, 'bottom', '.button-new', 'administrator/index.php?option=com_guidedtours&view=steps&tour_id=1','', 430, '', 430),
 (10, 1, 'Add title for your Tour.', 1, '<p>Here you have to add the title of your Tour Step. </p>', 0, 1, 'bottom', '#jform_title','administrator/index.php?option=com_guidedtours&view=step&layout=edit' ,'', 430, '', 430),
 (11, 1, 'Add Content', 1, '<p>Add the content of your Tour here!</p>', 0, 1, 'bottom', '#details', 'administrator/index.php?option=com_guidedtours&view=step&layout=edit','', 430, '', 430),
