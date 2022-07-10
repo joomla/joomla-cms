@@ -60,10 +60,10 @@ class PlgSystemSef extends CMSPlugin implements SubscriberInterface
 
         // Get current URI
         $uri   = Uri::getInstance();
-        $lPath = StringHelper::strtolower($uri->getPath());
+        $lPath = $uri->getPath() ? StringHelper::strtolower($uri->getPath()) : false;
 
         // Always redirect to lowercase counterpart
-        if ($lPath !== $uri->getPath()) {
+        if ($lPath && $lPath !== $uri->getPath()) {
             $uri->setPath($lPath);
             $this->app->redirect($uri, 301);
         }
