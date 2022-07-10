@@ -23,9 +23,10 @@ if ($params->get('backgroundimage')) {
 ', ['name' => $modId]);
 }
 
+// @todo: Remove id="..." in future Major version
 ?>
 
-<div class="mod-custom custom banner-overlay <?php echo $modId; ?>">
+<div id="<?php echo $modId; ?>" class="mod-custom custom banner-overlay <?php echo $modId; ?>">
     <div class="overlay">
         <?php echo $module->content; ?>
     </div>
