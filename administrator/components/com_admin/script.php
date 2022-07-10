@@ -6428,6 +6428,13 @@ class JoomlaInstallerScript
             '/plugins/task/requests/requests.php',
             '/plugins/task/sitestatus/sitestatus.php',
             '/plugins/user/profile/src/Field/DobField.php',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Exception/AjaxNonCmsAppException.php',
+            '/plugins/system/webauthn/src/Helper/CredentialsCreation.php',
+            '/plugins/system/webauthn/src/Helper/Joomla.php',
+            '/plugins/system/webauthn/webauthn.php',
+            '/plugins/task/checkfiles/checkfiles.php',
+            '/plugins/task/demotasks/demotasks.php',
         );
 
         $folders = array(
@@ -7792,6 +7799,9 @@ class JoomlaInstallerScript
             // From 4.2.0-beta1 to 4.2.0-beta2
             '/layouts/plugins/user/profile/fields',
             '/layouts/plugins/user/profile',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Helper',
+            '/plugins/system/webauthn/src/Exception',
         );
 
         $status['files_checked'] = $files;
