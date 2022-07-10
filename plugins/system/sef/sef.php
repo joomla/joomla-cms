@@ -13,13 +13,15 @@
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\SubscriberInterface;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! SEF Plugin.
  *
  * @since  1.5
  */
-class PlgSystemSef extends CMSPlugin
+class PlgSystemSef extends CMSPlugin implements SubscriberInterface
 {
     /**
      * @var    \Joomla\CMS\Application\CMSApplication
@@ -27,6 +29,45 @@ class PlgSystemSef extends CMSPlugin
      * @since  3.5
      */
     protected $app;
+
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onAfterInitialise' => 'onAfterInitialise',
+            'onAfterDispatch'   => 'onAfterDispatch',
+            'onAfterRender'     => 'onAfterRender',
+        ];
+    }
+
+    /**
+     * Implement Case insensitive url, but only for path part of URL
+     *
+     * @return  void
+     * @since  __DEPLOY_VERSION__
+     */
+    public function onAfterInitialise()
+    {
+        if (!$this->app->isClient('site')) {
+            return;
+        }
+
+        // Get current URI
+        $uri   = Uri::getInstance();
+        $lPath = StringHelper::strtolower($uri->getPath());
+
+        // Always redirect to lowercase counterpart
+        if ($lPath !== $uri->getPath()) {
+            $uri->setPath($lPath);
+            $this->app->redirect($uri, 301);
+        }
+    }
 
     /**
      * Add the canonical uri to the head.
