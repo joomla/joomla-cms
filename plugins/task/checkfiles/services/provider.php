@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Task.DemoTasks
+ * @subpackage  Task.CheckFiles
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Task\DemoTasks\Extension\DemoTasks;
+use Joomla\Plugin\Task\Checkfiles\Extension\Checkfiles;
 
 return new class implements ServiceProviderInterface
 {
@@ -34,11 +34,10 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
-                $dispatcher = $container->get(DispatcherInterface::class);
-
-                $plugin = new DemoTasks(
-                    $dispatcher,
-                    (array) PluginHelper::getPlugin('task', 'demotasks')
+                $plugin = new Checkfiles(
+                    $container->get(DispatcherInterface::class),
+                    (array) PluginHelper::getPlugin('task', 'checkfiles'),
+                    JPATH_ROOT . '/images/'
                 );
                 $plugin->setApplication(Factory::getApplication());
 

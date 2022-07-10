@@ -6,19 +6,20 @@
  *
  * @copyright   (C) 2021 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Filesystem\Folder;
+namespace Joomla\Plugin\Task\Checkfiles\Extension;
+
 use Joomla\CMS\Image\Image;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Scheduler\Administrator\Event\ExecuteTaskEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Status as TaskStatus;
 use Joomla\Component\Scheduler\Administrator\Traits\TaskPluginTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
+use LogicException;
 
 /**
  * Task plugin with routines that offer checks on files.
@@ -26,7 +27,7 @@ use Joomla\Filesystem\Path;
  *
  * @since  4.1.0
  */
-class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
+final class Checkfiles extends CMSPlugin implements SubscriberInterface
 {
     use TaskPluginTrait;
 
@@ -42,12 +43,6 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
             'method'          => 'checkImages',
         ],
     ];
-
-    /**
-     * @var boolean
-     * @since 4.1.0
-     */
-    protected $autoloadLanguage = true;
 
     /**
      * @inheritDoc
@@ -66,6 +61,36 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
     }
 
     /**
+     * @var boolean
+     * @since 4.1.0
+     */
+    protected $autoloadLanguage = true;
+
+    /**
+     * The root directory path
+     *
+     * @var    string
+     * @since  4.2.0
+     */
+    private $rootDirectory;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher     The dispatcher
+     * @param   array                $config         An optional associative array of configuration settings
+     * @param   string               $rootDirectory  The root directory to look for images
+     *
+     * @since   4.2.0
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->rootDirectory = $rootDirectory;
+    }
+
+    /**
      * @param   ExecuteTaskEvent  $event  The onExecuteTask event
      *
      * @return integer  The exit code
@@ -76,22 +101,19 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
      */
     protected function checkImages(ExecuteTaskEvent $event): int
     {
-        $params = $event->getArgument('params');
-
-        $path      = Path::check(JPATH_ROOT . '/images/' . $params->path);
+        $params    = $event->getArgument('params');
+        $path      = Path::check($this->rootDirectory . $params->path);
         $dimension = $params->dimension;
         $limit     = $params->limit;
         $numImages = max(1, (int) $params->numImages ?? 1);
 
-        if (!Folder::exists($path)) {
-            $this->logTask(Text::_('PLG_TASK_CHECK_FILES_LOG_IMAGE_PATH_NA'), 'warning');
+        if (!is_dir($path)) {
+            $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_IMAGE_PATH_NA'), 'warning');
 
             return TaskStatus::NO_RUN;
         }
 
-        $images = Folder::files($path, '^.*\.(jpg|jpeg|png|gif|webp)', 2, true);
-
-        foreach ($images as $imageFilename) {
+        foreach (Folder::files($path, '^.*\.(jpg|jpeg|png|gif|webp)', 2, true) as $imageFilename) {
             $properties = Image::getImageFileProperties($imageFilename);
             $resize     = $properties->$dimension > $limit;
 
@@ -105,23 +127,29 @@ class PlgTaskCheckfiles extends CMSPlugin implements SubscriberInterface
             $newHeight = $dimension === 'height' ? $limit : $height * $limit / $width;
             $newWidth  = $dimension === 'width' ? $limit : $width * $limit / $height;
 
-            $this->logTask(Text::sprintf('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE', $width, $height, $newWidth, $newHeight, $imageFilename));
+            $this->logTask(sprintf(
+                $this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZING_IMAGE'),
+                $width,
+                $height,
+                $newWidth,
+                $newHeight,
+                $imageFilename
+            ));
 
             $image = new Image($imageFilename);
 
             try {
                 $image->resize($newWidth, $newHeight, false);
             } catch (LogicException $e) {
-                $this->logTask('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL', 'error');
-                $resizeFail = true;
-            }
+                $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL'), 'error');
 
-            if (!empty($resizeFail)) {
                 return TaskStatus::KNOCKOUT;
             }
 
             if (!$image->toFile($imageFilename, $properties->type)) {
-                $this->logTask('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL', 'error');
+                $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_IMAGE_SAVE_FAIL'), 'error');
+
+                return TaskStatus::KNOCKOUT;
             }
 
             --$numImages;
