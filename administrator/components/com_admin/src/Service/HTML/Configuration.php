@@ -29,16 +29,19 @@ class Configuration
 	 */
 	public function value($value): string
 	{
-		if (\is_bool($value))
-		{
+		if (\is_bool($value)) {
 			return $value ? 'true' : 'false';
 		}
 
-		if (\is_array($value))
-		{
-			$value = implode(', ', $value);
-		}
+        if (\is_array($value)) {
+            if (\count($value) === \count($value, \COUNT_RECURSIVE)) {
+                $value = \implode(', ', $value);
+            } else {
+                // Multidimensional array
+                $value = \json_encode($value, \JSON_UNESCAPED_UNICODE);
+            }
+        }
 
-		return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+		return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 	}
 }
