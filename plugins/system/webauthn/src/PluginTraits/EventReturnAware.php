@@ -15,7 +15,7 @@ use Joomla\Event\Event;
 /**
  * Utility trait to facilitate returning data from event handlers.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 trait EventReturnAware
 {
@@ -26,7 +26,7 @@ trait EventReturnAware
      * @param   mixed   $value  The value to append to the event's results
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function returnFromEvent(Event $event, $value = null): void
     {

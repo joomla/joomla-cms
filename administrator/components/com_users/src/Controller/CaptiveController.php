@@ -208,8 +208,7 @@ class CaptiveController extends BaseController
         // Update the Last Used, UA and IP columns
         $jNow = Date::getInstance();
 
-		// phpcs:ignore
-		$record->last_used = $jNow->toSql();
+        $record->last_used = $jNow->toSql();
         $record->store();
 
         // Flag the user as fully logged in
