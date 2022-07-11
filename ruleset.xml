@@ -29,11 +29,6 @@
         </properties>
     </rule>
 
-
-    <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
-        <exclude-pattern type="relative">administrator/components/com_banners/src/Controller/BannersController\.php</exclude-pattern>
-    </rule>
-
     <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
         <exclude-pattern type="relative">administrator/components/com_banners/src/Model/DownloadModel\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_banners/src/Table/BannerTable\.php</exclude-pattern>
@@ -128,6 +123,7 @@
     </rule>
 
     <rule ref="PSR1.Methods.CamelCapsMethodName.NotCamelCaps">
+        <exclude-pattern type="relative">administrator/components/com_banners/src/Controller/BannersController\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_content/src/Service/HTML/Icon\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Controller/InstallController\.php</exclude-pattern>
         <exclude-pattern type="relative">administrator/components/com_installer/src/Model/DiscoverModel\.php</exclude-pattern>
