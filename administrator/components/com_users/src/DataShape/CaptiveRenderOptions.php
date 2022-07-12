@@ -48,8 +48,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $pre_message = '';
+    protected $pre_message = '';
 
     /**
      * How to render the MFA code field. "input" (HTML input element) or "custom" (custom HTML)
@@ -57,8 +56,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $field_type = 'input';
+    protected $field_type = 'input';
 
     /**
      * The type attribute for the HTML input box. Typically "text" or "password". Use any HTML5 input type.
@@ -66,8 +64,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $input_type = '';
+    protected $input_type = '';
 
     /**
      * Attributes other than type and id which will be added to the HTML input box.
@@ -75,8 +72,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var    array
      * @@since 4.2.0
      */
-	// phpcs:ignore
-	protected $input_attributes = [];
+    protected $input_attributes = [];
 
     /**
      * Placeholder text for the HTML input box. Leave empty if you don't need it.
@@ -108,8 +104,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $post_message = '';
+    protected $post_message = '';
 
     /**
      * Should I hide the default Submit button?
@@ -117,8 +112,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var   boolean
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $hide_submit = false;
+    protected $hide_submit = false;
 
     /**
      * Additional CSS classes for the submit button (apply the MFA setup)
@@ -126,8 +120,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $submit_class = '';
+    protected $submit_class = '';
 
     /**
      * Icon class to use for the submit button
@@ -135,8 +128,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var    string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $submit_icon = 'icon icon-rightarrow icon-arrow-right';
+    protected $submit_icon = 'icon icon-rightarrow icon-arrow-right';
 
     /**
      * Language key to use for the text on the submit button
@@ -144,8 +136,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var    string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $submit_text = 'COM_USERS_MFA_VALIDATE';
+    protected $submit_text = 'COM_USERS_MFA_VALIDATE';
 
     /**
      * Is this MFA method validating against all configured authenticators of the same type?
@@ -161,8 +152,7 @@ class CaptiveRenderOptions extends DataShapeObject
      * @var   string
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $help_url = '';
+    protected $help_url = '';
 
     /**
      * Setter for the field_type property
@@ -172,15 +162,14 @@ class CaptiveRenderOptions extends DataShapeObject
      * @since   4.2.0
      * @throws  InvalidArgumentException
      */
-	// phpcs:ignore
-	protected function setField_type(string $value)
+    // phpcs:ignore
+    protected function setField_type(string $value)
     {
         if (!in_array($value, [self::FIELD_INPUT, self::FIELD_CUSTOM])) {
             throw new InvalidArgumentException('Invalid value for property field_type.');
         }
 
-		// phpcs:ignore
-		$this->field_type = $value;
+        $this->field_type = $value;
     }
 
     /**
@@ -191,8 +180,8 @@ class CaptiveRenderOptions extends DataShapeObject
      * @return  void
      * @@since  4.2.0
      */
-	// phpcs:ignore
-	protected function setInput_attributes(array $value)
+    // phpcs:ignore
+    protected function setInput_attributes(array $value)
     {
         $forbiddenAttributes = ['id', 'type', 'name', 'value'];
 
@@ -202,7 +191,6 @@ class CaptiveRenderOptions extends DataShapeObject
             }
         }
 
-		// phpcs:ignore
-		$this->input_attributes = $value;
+        $this->input_attributes = $value;
     }
 }

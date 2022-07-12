@@ -128,7 +128,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
         try {
             $response = $this->httpFactory->getHttp([])->get($url, $headers, $timeout);
         } catch (Exception $e) {
-            $this->logTask($this->translate('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
+            $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_TIMEOUT'));
 
             return TaskStatus::TIMEOUT;
         }
@@ -144,7 +144,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
             $this->snapshot['output_file'] = $responseFilename;
             $responseStatus = 'SAVED';
         } catch (Exception $e) {
-            $this->logTask($this->translate('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
+            $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_UNWRITEABLE_OUTPUT'), 'error');
             $responseStatus = 'NOT_SAVED';
         }
 
@@ -155,7 +155,7 @@ final class Requests extends CMSPlugin implements SubscriberInterface
 > Response: $responseStatus
 EOF;
 
-        $this->logTask($this->translate('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE', $responseCode));
+        $this->logTask(sprintf($this->getApplication()->getLanguage()->_('PLG_TASK_REQUESTS_TASK_GET_REQUEST_LOG_RESPONSE'), $responseCode));
 
         if ($response->code !== 200) {
             return TaskStatus::KNOCKOUT;
