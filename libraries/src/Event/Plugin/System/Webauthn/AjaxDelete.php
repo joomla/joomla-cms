@@ -17,7 +17,7 @@ use Joomla\CMS\Event\Result\ResultTypeBooleanAware;
 /**
  * Concrete event class for the onAjaxWebauthnDelete event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class AjaxDelete extends AbstractImmutableEvent implements ResultAwareInterface
 {

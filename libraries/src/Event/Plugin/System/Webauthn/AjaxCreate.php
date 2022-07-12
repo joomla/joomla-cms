@@ -17,7 +17,7 @@ use Joomla\CMS\Event\Result\ResultTypeStringAware;
 /**
  * Concrete event class for the onAjaxWebauthnCreate event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class AjaxCreate extends AbstractImmutableEvent implements ResultAwareInterface
 {

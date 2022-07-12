@@ -28,7 +28,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The Checkfiles plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.2.0
  */
 class CheckfilesPluginTest extends UnitTestCase
 {
@@ -37,7 +37,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function setUp(): void
     {
@@ -56,7 +56,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function tearDown(): void
     {
@@ -70,7 +70,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function testResize()
     {
@@ -107,7 +107,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function testResizeWithLimit()
     {
@@ -150,7 +150,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function testIgnoreResize()
     {
@@ -187,7 +187,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function testInvalidFolder()
     {
