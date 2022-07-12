@@ -176,6 +176,7 @@ class ExtensionHelper
         array('plugin', 'recaptcha_invisible', 'captcha', 0),
 
         // Core plugin extensions - content
+        array('plugin', 'adaptiveimage', 'content', 0),
         array('plugin', 'confirmconsent', 'content', 0),
         array('plugin', 'contact', 'content', 0),
         array('plugin', 'emailcloak', 'content', 0),
@@ -244,6 +245,7 @@ class ExtensionHelper
 
         // Core plugin extensions - media-action
         array('plugin', 'crop', 'media-action', 0),
+        array('plugin', 'focus', 'media-action', 0),
         array('plugin', 'resize', 'media-action', 0),
         array('plugin', 'rotate', 'media-action', 0),
 
