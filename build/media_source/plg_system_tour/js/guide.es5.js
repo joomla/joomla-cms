@@ -90,11 +90,17 @@ function pushNextButton(buttons, tour) {
     },
   });
 }
-function pushBackButton(buttons, tour) {
+function pushBackButton(buttons, tour, prev_step) {
   buttons.push({
     text: "Back",
     classes: "shepherd-button-secondary",
     action: function () {
+      if(prev_step)
+      {
+        const paths = Joomla.getOptions('system.paths');
+        sessionStorage.setItem("currentStepId", prev_step.id);
+        checkAndRedirect(paths.rootFull + prev_step.url);
+      }
       return tour.back();
     },
   });
@@ -120,17 +126,19 @@ Joomla = window.Joomla || {};
         const tour = createTour();
 
         if (sessionStorage.getItem("tourId")) {
+          let prev_step = '';
           addInitialStepToTourButton(tour, obj, tourId);
           for (index = 0; index < obj[tourId].steps.length; index++) {
             var buttons = [];
             var len = obj[tourId].steps.length;
-            pushBackButton(buttons, tour);
+            pushBackButton(buttons, tour, prev_step);
             if (index != len - 1) {
               pushNextButton(buttons, tour);
             } else {
               pushCompleteButton(buttons, tour);
             }
             addStepToTourButton(tour, obj, tourId, index, buttons, uri);
+            prev_step = obj[tourId].steps[index];
           }
         }
         tour.start();
@@ -139,6 +147,7 @@ Joomla = window.Joomla || {};
     }
     var tourId = sessionStorage.getItem("tourId");
     var currentStepId = sessionStorage.getItem("currentStepId");
+    let prev_step = '';
 
     if (tourId) {
       tourId = obj.findIndex((x) => x.id == tourId);
@@ -146,6 +155,9 @@ Joomla = window.Joomla || {};
       var ind = 0;
       if (currentStepId) {
         ind = obj[tourId].steps.findIndex((x) => x.id == currentStepId);
+        if( ind > 0){
+          prev_step = obj[tourId].steps[ind-1]
+        }
       } else {
         ind = 0;
       }
@@ -153,7 +165,7 @@ Joomla = window.Joomla || {};
         let buttons = [];
         var len = obj[tourId].steps.length;
 
-        pushBackButton(buttons, tour);
+        pushBackButton(buttons, tour, prev_step);
 
         if (index != len - 1) {
           pushNextButton(buttons, tour);
@@ -162,6 +174,7 @@ Joomla = window.Joomla || {};
         }
 
         addStepToTourButton(tour, obj, tourId, index, buttons, uri);
+        prev_step = obj[tourId].steps[index];
       }
       tour.start();
       addCancelTourButton(tour);
