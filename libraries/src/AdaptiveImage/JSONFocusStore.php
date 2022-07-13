@@ -56,6 +56,7 @@ class JSONFocusStore implements FocusStoreInterface
     {
         $this->checkStorage(static::$dataLocation);
     }
+
     /**
      * Function to set the focus point
      *
@@ -71,16 +72,16 @@ class JSONFocusStore implements FocusStoreInterface
      */
     public function setFocus($dataFocus, $width, $imgPath)
     {
-        $newEntry = array(
-            $imgPath => array(
-                $width => array(
+        $newEntry = [
+            $imgPath => [
+                $width => [
                     "box-left"   => $dataFocus['box-left'],
                     "box-top"    => $dataFocus['box-top'],
                     "box-width"  => $dataFocus['box-width'],
                     "box-height" => $dataFocus['box-height']
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         if (filesize(static::$dataLocation) > 0) {
             $prevData = file_get_contents(static::$dataLocation);
@@ -101,6 +102,7 @@ class JSONFocusStore implements FocusStoreInterface
 
             file_put_contents(static::$dataLocation, json_encode($newEntry));
         }
+
         return true;
     }
 
@@ -110,7 +112,7 @@ class JSONFocusStore implements FocusStoreInterface
      * @param   string   $imgPath  Image Path
      * @param   integer  $width    Width of the corresponding data focus point
      *
-     * @return  array
+     * @return  array|boolean
      *
      * @since __DEPLOY_VERSION__
      */
@@ -155,6 +157,7 @@ class JSONFocusStore implements FocusStoreInterface
 
             file_put_contents(static::$dataLocation, json_encode($prevData));
         }
+
         return true;
     }
 
@@ -233,12 +236,12 @@ class JSONFocusStore implements FocusStoreInterface
             }
         }
 
-        $maxFocus = array(
+        $maxFocus = [
             "box-left"   => $minX,
             "box-top"    => $minY,
             "box-width"  => $maxX - $minX,
             "box-height" => $maxY - $minY
-        );
+        ];
 
         return $maxFocus;
     }

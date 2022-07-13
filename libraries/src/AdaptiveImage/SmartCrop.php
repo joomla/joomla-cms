@@ -17,14 +17,33 @@ use Joomla\Image\Image;
  */
 class SmartCrop
 {
-    // Location for storing cache images
+    /**
+     * Location for storing cache images
+     *
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
     public $dataLocation = JPATH_SITE . "/media/focus";
 
-    // Absolute image path
+    /**
+     * Absolute image path
+     *
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
     public $imgPath;
 
-    // Image object
+    /** Image object
+     *
+     * @var Image
+     *
+     * @since __DEPLOY_VERSION__
+     */
+
     public $image;
+
     /**
      * Initialize parent image class
      *
@@ -39,6 +58,7 @@ class SmartCrop
         $this->imgPath = $imgPath;
         $this->checkDir();
     }
+
     /**
      * Crop the image around focus point and save it
      *
@@ -94,6 +114,7 @@ class SmartCrop
 
             $finalImage = $this->image->crop($twidth, $theight, $fx, $fy);
         }
+
         $imgPath = explode('.', $this->imgPath);
         $imgName = "/" . $twidth . "_" . base64_encode($imgPath[2]) . "." . $imgPath[3];
         $path = $this->dataLocation . $imgName;
@@ -104,6 +125,7 @@ class SmartCrop
 
         return true;
     }
+
     /**
      * Check if the cache directory is present or not
      *
