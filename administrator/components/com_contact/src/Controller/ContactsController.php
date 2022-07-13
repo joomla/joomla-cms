@@ -13,8 +13,8 @@ namespace Joomla\Component\Contact\Administrator\Controller;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
