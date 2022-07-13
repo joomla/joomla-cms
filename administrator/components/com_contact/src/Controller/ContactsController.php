@@ -13,6 +13,7 @@ namespace Joomla\Component\Contact\Administrator\Controller;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
@@ -116,5 +117,29 @@ class ContactsController extends AdminController
     public function getModel($name = 'Contact', $prefix = 'Administrator', $config = array('ignore_request' => true))
     {
         return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Method to get the number of published contacts for quickicons
+     *
+     * @return  string  The JSON-encoded amount of published contacts
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('contacts');
+
+        $model->setState('filter.published', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_CONTACT_N_QUICKICON_SRONLY', $amount);
+        $result['name'] = Text::plural('COM_CONTACT_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
     }
 }
