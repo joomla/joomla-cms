@@ -97,9 +97,9 @@ class FeaturedController extends ArticlesController
     }
 
     /**
-     * Method to get the number of published featured for quickicons
+     * Method to get the number of published featured articles for quickicons
      *
-     * @return  string  The JSON-encoded amount of published featured
+     * @return  string  The JSON-encoded amount of published featured articles
      *
      * @since   __DEPLOY_VERSION__
      */
