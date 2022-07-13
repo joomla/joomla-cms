@@ -216,6 +216,7 @@ class ExtensionHelper
         array('plugin', 'integer', 'fields', 0),
         array('plugin', 'list', 'fields', 0),
         array('plugin', 'media', 'fields', 0),
+        array('plugin', 'menuitem', 'fields', 0),
         array('plugin', 'radio', 'fields', 0),
         array('plugin', 'sql', 'fields', 0),
         array('plugin', 'subform', 'fields', 0),
