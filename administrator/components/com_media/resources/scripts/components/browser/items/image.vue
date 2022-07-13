@@ -20,7 +20,11 @@
           :width="width"
           :height="height"
         >
-        <span v-if="!getURL" class="icon-eye-slash image-placeholder" aria-hidden="true"></span>
+        <span
+          v-if="!getURL"
+          class="icon-eye-slash image-placeholder"
+          aria-hidden="true"
+        />
       </div>
     </div>
     <div
