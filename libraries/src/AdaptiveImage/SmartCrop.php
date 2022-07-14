@@ -41,7 +41,6 @@ class SmartCrop
      *
      * @since __DEPLOY_VERSION__
      */
-
     public $image;
 
     /**
@@ -138,6 +137,7 @@ class SmartCrop
         if (!is_dir($this->dataLocation)) {
             mkdir($this->dataLocation, 0755, true);
         }
+
         return true;
     }
 }

@@ -78,7 +78,7 @@ class JSONFocusStore implements FocusStoreInterface
                     "box-left"   => $dataFocus['box-left'],
                     "box-top"    => $dataFocus['box-top'],
                     "box-width"  => $dataFocus['box-width'],
-                    "box-height" => $dataFocus['box-height']
+                    "box-height" => $dataFocus['box-height'],
                 ]
             ]
         ];
@@ -240,7 +240,7 @@ class JSONFocusStore implements FocusStoreInterface
             "box-left"   => $minX,
             "box-top"    => $minY,
             "box-width"  => $maxX - $minX,
-            "box-height" => $maxY - $minY
+            "box-height" => $maxY - $minY,
         ];
 
         return $maxFocus;

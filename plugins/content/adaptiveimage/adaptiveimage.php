@@ -60,8 +60,10 @@ class PlgContentAdaptiveImage extends CMSPlugin
         if (is_object($row)) {
             return $this->insertFocus($row->text, $params);
         }
+
         return $this->insertFocus($row, $params);
     }
+
     /**
      * Inserts focus points into the image.
      *
@@ -73,7 +75,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
     protected function insertFocus(&$text, &$params)
     {
         // Check if the directory is present or not
-        if (! is_dir(JPATH_SITE . $this->cacheDir)) {
+        if (!is_dir(JPATH_SITE . $this->cacheDir)) {
             return false;
         }
 
@@ -109,7 +111,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
             $imageName = explode("/", $imgPath);
             $imageName = $imageName[max(array_keys($imageName))];
 
-            $cacheImages = array();
+            $cacheImages = [];
             foreach ($cacheFolderImages as $key => $name) {
                 // Decrypting the image name
                 $imgWidth = explode("_", $name);
@@ -122,6 +124,7 @@ class PlgContentAdaptiveImage extends CMSPlugin
                 $imgData["name"]  = Uri::base() . $this->cacheDir . "/" . $name;
                 array_push($cacheImages, $imgData);
             }
+
             // Arranging widths in the order
             arsort($cacheImages);
 
@@ -139,11 +142,13 @@ class PlgContentAdaptiveImage extends CMSPlugin
                 $source = "<source media=\"(min-width: " . $attributes["width"] . "px)\" srcset=\"" . $attributes["name"] . "\">\n";
                 $element .= $source;
             }
+
             $element .= $image . "\n</picture>";
 
             // Replacing the previous tag with new one in the article.
             $text = str_replace($image, $element, $text);
         }
+
         return true;
     }
 }

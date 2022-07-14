@@ -4,7 +4,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Media-Action.focus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
 
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
@@ -30,6 +30,7 @@ class PlgMediaActionFocus extends CMSPlugin
      * @since  __DEPLOY_VERSION__
      */
     protected $autoloadLanguage = true;
+
     /**
      * The form event. Load additional parameters when available into the field form.
      * Only when the type of the form is of interest.
