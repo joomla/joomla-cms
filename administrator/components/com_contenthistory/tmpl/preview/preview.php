@@ -45,7 +45,10 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
                     </td>
                 </tr>
                 <?php foreach ($value->value as $subName => $subValue) : ?>
-                    <?php if ($subValue) : ?>
+                    <?php if ($subValue) : 
+                        if (\is_object($subValue->value) || \is_array($subValue->value)) {
+                            $subValue->value = \json_encode($subValue->value, \JSON_UNESCAPED_UNICODE);
+                        } ?>
                         <tr>
                             <th scope="row"><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></th>
                             <td><?php echo $subValue->value; ?></td>
