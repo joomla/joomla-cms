@@ -112,7 +112,8 @@
         "codeception/module-rest": "^1.0",
         "codeception/module-webdriver": "^1.0",
         "codeception/module-phpbrowser": "^1.0",
-        "hoa/console": "^3.17"
+        "hoa/console": "^3.17",
+        "rector/rector": "^0.13.8"
     },
     "replace": {
         "paragonie/random_compat": "9.99.99"
