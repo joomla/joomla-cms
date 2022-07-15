@@ -51,7 +51,7 @@
 
 		<field
 			name="restrict_uploads_extensions"
-			type="text"
+			type="textarea"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_EXTENSIONS_DESC"
 			default="bmp,gif,jpg,jpeg,png,webp,ico,mp3,mp4,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv"
