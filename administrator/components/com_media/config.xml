@@ -112,7 +112,7 @@
 
 		<field
 			name="upload_mime"
-			type="text"
+			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			default="image/jpeg,image/gif,image/png,image/bmp,image/webp,audio/ogg,audio/mpeg,audio/mp4,video/mp4,video/mpeg,video/quicktime,video/webm,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
