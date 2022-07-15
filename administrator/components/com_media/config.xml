@@ -73,7 +73,7 @@
 
 		<field
 			name="image_extensions"
-			type="text"
+			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			default="bmp,gif,jpg,jpeg,png,webp"
