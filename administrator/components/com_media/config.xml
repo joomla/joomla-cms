@@ -89,7 +89,7 @@
 
 		<field
 			name="video_extensions"
-			type="text"
+			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_VIDEO_EXTENSIONS_DESC"
 			default="mp4,mp4v,mpeg,mov,webm"
@@ -97,7 +97,7 @@
 
 		<field
 			name="doc_extensions"
-			type="text"
+			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_DOCUMENT_EXTENSIONS_DESC"
 			default="doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv"
