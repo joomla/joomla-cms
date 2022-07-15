@@ -81,7 +81,7 @@
 
 		<field
 			name="audio_extensions"
-			type="text"
+			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_DESC"
 			default="mp3,m4a,mp4a,ogg"
