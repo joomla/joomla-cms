@@ -3,7 +3,7 @@
  * Joomla! Content Management System
  *
  * @copyright  (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Console;
@@ -12,11 +12,12 @@ namespace Joomla\CMS\Installation\Console;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Installation\Model\ChecksModel;
+use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\Console\Command\AbstractCommand;
-use Joomla\Registry\Registry;
-use phpDocumentor\GraphViz\Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,186 +29,258 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  __DEPLOY_VERSION__
  */
-
 class InstallCommand extends AbstractCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $defaultName = 'install';
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static $defaultName = 'install';
 
-	/**
-	 * @var  SymfonyStyle
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $ioStyle;
+    /**
+     * @var  SymfonyStyle
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $ioStyle;
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$this->configureIO($input, $output);
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO($input, $output);
 
-		$this->ioStyle->title('Install Joomla');
+        $this->ioStyle->title('Install Joomla');
 
-		$cfg = $this->getCLIOptions();
+        /* @var CliInstallationApplication $app */
+        $app = $this->getApplication();
 
-		if ($cfg instanceof \Exception)
-		{
-			return Command::FAILURE;
-		}
+        /** @var ChecksModel $checkModel */
+        $checkModel = $app->getMVCFactory()->createModel('Checks', 'Installation');
+        $this->ioStyle->write('Check system requirements...');
 
+        if (!$checkModel->getPhpOptionsSufficient()) {
+            $options = $checkModel->getPhpOptions();
 
+            foreach ($options as $option) {
+                if (!$option->state) {
+                    $this->ioStyle->error($option->notice);
 
-		var_dump($cfg);
+                    return Command::FAILURE;
+                }
+            }
+        }
 
+        $this->ioStyle->writeln('OK');
 
-		$this->ioStyle->success('Joomla has been successfully installed');
+        // Collect the configuration
+        $this->ioStyle->write('Collect configuration...');
+        $cfg = $this->getCLIOptions();
+        $cfg['db_pass_plain'] = $cfg['db_pass'];
+        $cfg['admin_password_plain'] = $cfg['admin_password'];
+        $this->ioStyle->writeln('OK');
 
-		return Command::SUCCESS;
-	}
+        /** @var SetupModel $setupModel */
+        $setupModel = $app->getMVCFactory()->createModel('Setup', 'Installation');
 
-	protected function getCLIOptions()
-	{
-		/* @var CliInstallationApplication $app */
-		$app = $this->getApplication();
+        // Validate DB connection
+        $this->ioStyle->write('Validate DB connection...');
+        $setupModel->storeOptions($cfg);
+        $setupModel->validateDbConnection();
+        $this->ioStyle->writeln('OK');
+die;
+        /** @var DatabaseModel $databaseModel */
+        $databaseModel = $app->getMVCFactory()->createModel('Database', 'Installation');
 
-		/* @var SetupModel $setupmodel */
-		$setupmodel = $app->getMVCFactory()->createModel('Setup', 'Installation');
-		$form = $setupmodel->getForm('setup');
+        // Validate DB connection
+        $databaseModel->createDatabase();
+        $db = $databaseModel->initialise();
 
-		$cfg['site_name'] = $this->getStringFromOption('site_name', 'Please provide the sites name', $form->getField('site_name'));
-		$cfg['admin_user'] = $this->getStringFromOption('admin_user', 'Please provide a name for the main administrator user', $form->getField('admin_user'));
-		$cfg['admin_username'] = $this->getStringFromOption('admin_username', 'Please provide a username for the main administrator user');
-		$cfg['admin_email'] = $this->getStringFromOption('admin_email', 'Please provide an e-mail adress for the main administrator user');
-		$cfg['admin_password'] = $this->getStringFromOption('admin_password', 'Please provide a password for the main administrator user');
-		$cfg['db_type'] = $this->getStringFromOption('db_type', 'Please select the type of database you want to use. [mysql, mysqli, pgsql, postgresql]');
-		$cfg['db_host'] = $this->getStringFromOption('db_host', 'Please provide the host of the database');
-		$cfg['db_user'] = $this->getStringFromOption('db_user', 'Please provide the username for the database');
-		$cfg['db_pass'] = $this->getStringFromOption('db_pass', 'Please provide the password for the database user');
-		$cfg['db_name'] = $this->getStringFromOption('db_name', 'Please provide the name of the database to be used');
-		$cfg['db_prefix'] = $this->getStringFromOption('db_prefix', 'Please provide the prefix for the database tables');
-		$cfg['db_encryption'] = $this->getStringFromOption('db_encryption', 'Should the connection to the database be encrypted? Values: 0=None, 1=One way, 2=Two way');
+        $files = [
+            'populate1' => 'base',
+            'populate2' => 'supports',
+            'populate3' => 'extensions',
+            'custom1' => 'localise',
+            'custom2' => 'custom'
+        ];
 
-		if ($cfg['db_encryption'] == 2)
-		{
-			$cfg['db_sslkey'] = $this->getStringFromOption('db_sslkey', 'Please provide the SSL key for the database connection');
-			$cfg['db_sslcert'] = $this->getStringFromOption('db_sslcert', 'Please provide the path to SSL certificate for the database connection');
-		}
+        foreach ($files as $step => $schema) {
+            $serverType = $db->getServerType();
 
-		if ($cfg['db_encryption'])
-		{
-			$cfg['db_sslverifyservercert'] = $this->getStringFromOption('db_sslverifyservercert', 'Should Joomla verify the SSL certificates for database conection. Values: 0=No, 1=Yes');
-			$cfg['db_sslca'] = $this->getStringFromOption('db_sslca', 'Path to CA file to verify encryption against');
-			$cfg['db_sslcipher'] = $this->getStringFromOption('db_sslcipher', 'Supported Cipher Suite (optional)');
-		}
+            if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
+                continue;
+            }
 
-		return $cfg;
-	}
+            $databaseModel->createTables($schema);
+        }
 
-	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> will install Joomla
+        /** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+        $configurationModel = $app->getMVCFactory()->createModel('Configuration', 'Installation');
+
+        // Attempt to setup the configuration.
+        $configurationModel->setup($cfg);
+
+        $this->ioStyle->success('Joomla has been successfully installed');
+
+        return Command::SUCCESS;
+    }
+
+    protected function getCLIOptions()
+    {
+        /* @var CliInstallationApplication $app */
+        $app = $this->getApplication();
+
+        /* @var SetupModel $setupmodel */
+        $setupmodel = $app->getMVCFactory()->createModel('Setup', 'Installation');
+        $form       = $setupmodel->getForm('setup');
+        $cfg        = [];
+
+        foreach ($form->getFieldset() as $field) {
+            if (\in_array($field->fieldname, ['language', 'db_old'])) {
+                continue;
+            }
+
+            if ($field->showon) {
+                $conditions = FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group);
+                $show       = false;
+
+                foreach ($conditions as $cond) {
+                    // remove jform[] from the name
+                    $f    = rtrim(substr($cond['field'], 6), ']');
+                    $temp = false;
+
+                    if ($cond['sign'] == '=' && \in_array($cfg[$f], $cond['values'])) {
+                        $temp = true;
+                    } elseif ($cond['sign'] == '!=' && !\in_array($cfg[$f], $cond['values'])) {
+                        $temp = true;
+                    }
+
+                    if ($cond['op'] == '' || $cond['op'] == 'OR') {
+                        $show |= $temp;
+                    } else {
+                        $show &= $temp;
+                    }
+                }
+
+                if ($show) {
+                    $cfg[$field->fieldname] = $this->getStringFromOption(
+                    	$field->fieldname,
+                    	(string) $field->getAttribute('clilabel'),
+                    	$field
+                    );
+                } else {
+                    $cfg[$field->fieldname] = $field->filter($field->default);
+                }
+            } else {
+                $cfg[$field->fieldname] = $field->filter($this->getStringFromOption(
+                	$field->fieldname,
+                	(string) $field->getAttribute('clilabel'),
+                	$field
+                ));
+            }
+        }
+
+        return $cfg;
+    }
+
+    /**
+     * Configure the command.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> will install Joomla
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('Install the Joomla CMS');
-		$this->addOption('site_name', null, InputOption::VALUE_REQUIRED, 'Name of the website');
-		$this->addOption('admin_user', null, InputOption::VALUE_OPTIONAL, 'Name of the administrator account');
-		$this->addOption('admin_username', null, InputOption::VALUE_OPTIONAL, 'Username of the administrator account');
-		$this->addOption('admin_email', null, InputOption::VALUE_OPTIONAL, 'Email of the administrator account');
-		$this->addOption('admin_password', null, InputOption::VALUE_OPTIONAL, 'Password of the administrator account');
-		$this->addOption('db_type', null, InputOption::VALUE_OPTIONAL, 'Database type. Supported: mysql, mysqli, pgsql, postgresql', 'mysqli');
-		$this->addOption('db_host', null, InputOption::VALUE_OPTIONAL, 'Database host');
-		$this->addOption('db_user', null, InputOption::VALUE_OPTIONAL, 'Database username');
-		$this->addOption('db_pass', null, InputOption::VALUE_OPTIONAL, 'Database password');
-		$this->addOption('db_name', null, InputOption::VALUE_OPTIONAL, 'Database name');
-		$this->addOption('db_prefix', null, InputOption::VALUE_OPTIONAL, 'Prefix for the database tables');
-		$this->addOption('db_encryption', null, InputOption::VALUE_OPTIONAL, 'Encryption for the connection the database. Values: 0=None, 1=One way, 2=Two way', 0);
-		$this->addOption('db_sslkey', null, InputOption::VALUE_OPTIONAL, 'SSL key for the database connection. Requires encryption to be set to 2');
-		$this->addOption('db_sslcert', null, InputOption::VALUE_OPTIONAL, 'Path to SSL certificate for the database connection. Requires encryption to be set to 2');
-		$this->addOption('db_sslverifyservercert', null, InputOption::VALUE_OPTIONAL, 'Verify SSL certificates for database conection. Values: 0=No, 1=Yes. Requires encryption to be set to 1 or 2');
-		$this->addOption('db_sslca', null, InputOption::VALUE_OPTIONAL, 'Path to CA file to verify encryption against.');
-		$this->addOption('db_sslcipher', null, InputOption::VALUE_OPTIONAL, 'Supported Cipher Suite (optional)');
+        /* @var CliInstallationApplication $app */
+        $app = Factory::getApplication();
 
-		$this->setHelp($help);
-	}
+        /* @var SetupModel $setupmodel */
+        $setupmodel = $app->getMVCFactory()->createModel('Setup', 'Installation');
+        $form       = $setupmodel->getForm('setup');
 
-	/**
-	 * Method to get a value from option
-	 *
-	 * @param   string     $option    set the option name
-	 * @param   string     $question  set the question if user enters no value to option
-	 * @param   FormField  $field     Field to validate against
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getStringFromOption($option, $question, $field): string
-	{
-		$answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
+        $this->setDescription('Install the Joomla CMS');
 
-		if ($answer)
-		{
-			$valid = $field->validate($answer);
+        foreach ($form->getFieldset() as $field) {
+            if (\in_array($field->fieldname, ['language', 'db_old'])) {
+                continue;
+            }
 
-			if ($valid instanceof \Exception)
-			{
-				throw new Exception('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
-			}
-		}
+            $this->addOption(
+            	$field->fieldname,
+            	null,
+            	$field->required ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
+            	(string) $field->getAttribute('clilabel'),
+            	$field->getAttribute('default')
+            );
+        }
 
+        $this->setHelp($help);
+    }
 
-		while (!$answer)
-		{
-			$answer = (string) $this->ioStyle->ask($question);
+    /**
+     * Method to get a value from option
+     *
+     * @param   string     $option    set the option name
+     * @param   string     $question  set the question if user enters no value to option
+     * @param   FormField  $field     Field to validate against
+     *
+     * @return  string
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    protected function getStringFromOption($option, $question, $field): string
+    {
+        $answer = $this->getApplication()->getConsoleInput()->getOption($option);
 
-			if ($answer)
-			{
-				$valid = $field->validate($answer);
+        if (!\is_null($answer)) {
+            $valid = $field->validate($answer);
 
-				if ($valid instanceof \Exception)
-				{
-					$this->ioStyle->warning('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
-					$answer = false;
-				}
-			}
-		}
+            if ($valid instanceof \Exception) {
+                throw new \Exception('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
+            }
+        }
 
-		return $answer;
-	}
+        while (\is_null($answer) || $answer === false) {
+            $answer = $this->ioStyle->ask($question);
 
-	/**
-	 * Configure the IO.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function configureIO(InputInterface $input, OutputInterface $output)
-	{
-		$this->cliInput = $input;
-		$this->ioStyle = new SymfonyStyle($input, $output);
-	}
+            $valid = $field->validate($answer);
+
+            if ($valid instanceof \Exception) {
+                $this->ioStyle->warning('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
+                $answer = false;
+            }
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Configure the IO.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    private function configureIO(InputInterface $input, OutputInterface $output)
+    {
+        $this->cliInput = $input;
+        $this->ioStyle  = new SymfonyStyle($input, $output);
+    }
 }

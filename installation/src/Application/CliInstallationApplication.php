@@ -14,7 +14,6 @@ namespace Joomla\CMS\Installation\Application;
 use Joomla\Application\Web\WebClient;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Installation\Console\InstallCommand;
 use Joomla\CMS\Language\Language;
@@ -43,6 +42,8 @@ final class CliInstallationApplication extends Application
 	 * @since __DEPLOY_VERSION__
 	 */
 	protected $MVCFactory;
+
+    protected $session;
 
 	/**
 	 * Class constructor.
@@ -205,6 +206,11 @@ final class CliInstallationApplication extends Application
 		$document->setTitle(Text::_('INSTL_PAGE_TITLE'));
 	}
 
+    public function enqueueMessage($msg, $type = 'info')
+    {
+        throw new \Exception($msg);
+    }
+
 	/**
 	 * Executed a controller from the input task.
 	 *
@@ -257,6 +263,42 @@ final class CliInstallationApplication extends Application
 		);
 	}
 
+    public function getLocalise()
+    {
+        return false;
+    }
+
+    /**
+     * Returns the installed language files in the administrative and frontend area.
+     *
+     * @param   DatabaseInterface|null  $db  Database driver.
+     *
+     * @return  array  Array with installed language packs in admin and site area.
+     *
+     * @since   3.1
+     */
+    public function getLocaliseAdmin(DatabaseInterface $db = null)
+    {
+        $langfiles = array();
+
+        // If db connection, fetch them from the database.
+        if ($db) {
+            foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language) {
+                $clientName = $clientId === 0 ? 'site' : 'admin';
+
+                foreach ($language as $languageCode => $lang) {
+                    $langfiles[$clientName][] = $lang->element;
+                }
+            }
+        } else {
+            // Read the folder names in the site and admin area.
+            $langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+            $langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+        }
+
+        return $langfiles;
+    }
+
 	/**
 	 *
 	 * @return MVCFactory
@@ -275,7 +317,26 @@ final class CliInstallationApplication extends Application
 
     public function getSession()
     {
-        return new Registry();
+        if (!$this->session)
+        {
+            $this->session = new Registry();
+        }
+
+        return $this->session;
+    }
+
+    /**
+     * Check the client interface by name.
+     *
+     * @param   string  $identifier  String identifier for the application interface
+     *
+     * @return  boolean  True if this application is of the given type client interface.
+     *
+     * @since   3.7.0
+     */
+    public function isClient($identifier)
+    {
+        return 'cli_installation' === $identifier;
     }
 
 	/**
