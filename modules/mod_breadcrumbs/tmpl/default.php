@@ -74,21 +74,21 @@ use Joomla\CMS\WebAsset\WebAssetManager;
             'itemListElement' => []
     ];
 
-	// Use an independent counter for positions. E.g. if headline items in pathway.
-	$itemsCounter = 0;
+    // Use an independent counter for positions. E.g. if headline items in pathway.
+    $itemsCounter = 0;
 
-	// If showHome is disabled use the fallback $homeCrumb for startpage at first position.
-	if (isset($homeCrumb))
-	{
-		$data['itemListElement'][] = [
-				'@type'    => 'ListItem',
-				'position' => ++$itemsCounter,
-				'item'     => [
-						'@id'  => Route::_($homeCrumb->link, true, Route::TLS_IGNORE, true),
-						'name' => $homeCrumb->name,
-				],
-		];
-	}
+    // If showHome is disabled use the fallback $homeCrumb for startpage at first position.
+    if (isset($homeCrumb))
+    {
+        $data['itemListElement'][] = [
+                '@type'    => 'ListItem',
+                'position' => ++$itemsCounter,
+                'item'     => [
+                        '@id'  => Route::_($homeCrumb->link, true, Route::TLS_IGNORE, true),
+                        'name' => $homeCrumb->name,
+                ],
+        ];
+    }
 
     foreach ($list as $key => $item) {
         // Only add item to JSON if it has a valid link, otherwise skip it.
@@ -114,10 +114,10 @@ use Joomla\CMS\WebAsset\WebAssetManager;
         }
     }
 
-		if ($itemsCounter) {
-			/** @var WebAssetManager $wa */
-			$wa = $app->getDocument()->getWebAssetManager();
-			$wa->addInline('script', json_encode($data, JSON_UNESCAPED_UNICODE), [], ['type' => 'application/ld+json']);
-		}
+    if ($itemsCounter) {
+        /** @var WebAssetManager $wa */
+        $wa = $app->getDocument()->getWebAssetManager();
+        $wa->addInline('script', json_encode($data, JSON_UNESCAPED_UNICODE), [], ['type' => 'application/ld+json']);
+    }
     ?>
 </nav>
