@@ -57,7 +57,8 @@ class InstallCommand extends AbstractCommand
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
-        $this->configureIO($input, $output);
+        $this->cliInput = $input;
+        $this->ioStyle  = new SymfonyStyle($input, $output);
 
         $this->ioStyle->title('Install Joomla');
 
@@ -84,8 +85,8 @@ class InstallCommand extends AbstractCommand
 
         // Collect the configuration
         $this->ioStyle->write('Collect configuration...');
-        $cfg = $this->getCLIOptions();
-        $cfg['db_pass_plain'] = $cfg['db_pass'];
+        $cfg                         = $this->getCLIOptions();
+        $cfg['db_pass_plain']        = $cfg['db_pass'];
         $cfg['admin_password_plain'] = $cfg['admin_password'];
         $this->ioStyle->writeln('OK');
 
@@ -97,11 +98,12 @@ class InstallCommand extends AbstractCommand
         $setupModel->storeOptions($cfg);
         $setupModel->validateDbConnection();
         $this->ioStyle->writeln('OK');
-die;
+
         /** @var DatabaseModel $databaseModel */
         $databaseModel = $app->getMVCFactory()->createModel('Database', 'Installation');
 
-        // Validate DB connection
+        // Create and fill database
+        $this->ioStyle->write('Create and fill database...');
         $databaseModel->createDatabase();
         $db = $databaseModel->initialise();
 
@@ -109,25 +111,29 @@ die;
             'populate1' => 'base',
             'populate2' => 'supports',
             'populate3' => 'extensions',
-            'custom1' => 'localise',
-            'custom2' => 'custom'
+            'custom1'   => 'localise',
+            'custom2'   => 'custom',
         ];
 
         foreach ($files as $step => $schema) {
             $serverType = $db->getServerType();
 
-            if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
+            if (\in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql')) {
                 continue;
             }
 
             $databaseModel->createTables($schema);
         }
 
+        $this->ioStyle->writeln('OK');
+
         /** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
         $configurationModel = $app->getMVCFactory()->createModel('Configuration', 'Installation');
 
         // Attempt to setup the configuration.
+        $this->ioStyle->write('Write configuration.php and do additional setup...');
         $configurationModel->setup($cfg);
+        $this->ioStyle->writeln('OK');
 
         $this->ioStyle->success('Joomla has been successfully installed');
 
@@ -173,19 +179,21 @@ die;
 
                 if ($show) {
                     $cfg[$field->fieldname] = $this->getStringFromOption(
-                    	$field->fieldname,
-                    	(string) $field->getAttribute('clilabel'),
-                    	$field
+                        $field->fieldname,
+                        (string)$field->getAttribute('clilabel'),
+                        $field
                     );
                 } else {
                     $cfg[$field->fieldname] = $field->filter($field->default);
                 }
             } else {
-                $cfg[$field->fieldname] = $field->filter($this->getStringFromOption(
-                	$field->fieldname,
-                	(string) $field->getAttribute('clilabel'),
-                	$field
-                ));
+                $cfg[$field->fieldname] = $field->filter(
+                    $this->getStringFromOption(
+                        $field->fieldname,
+                        (string) $field->getAttribute('clilabel'),
+                        $field
+                    )
+                );
             }
         }
 
@@ -218,12 +226,39 @@ die;
                 continue;
             }
 
+            $default = $field->getAttribute('default');
+
+            if ($field->fieldname == 'db_prefix')
+            {
+                // Create the random prefix.
+                $prefix  = '';
+                $size = 5;
+                $chars   = range('a', 'z');
+                $numbers = range(0, 9);
+
+                // We want the fist character to be a random letter.
+                shuffle($chars);
+                $prefix .= $chars[0];
+
+                // Next we combine the numbers and characters to get the other characters.
+                $symbols = array_merge($numbers, $chars);
+                shuffle($symbols);
+
+                for ($i = 0, $j = $size - 1; $i < $j; ++$i) {
+                    $prefix .= $symbols[$i];
+                }
+
+                // Add in the underscore.
+                $prefix .= '_';
+                $default = $prefix;
+            }
+
             $this->addOption(
-            	$field->fieldname,
-            	null,
-            	$field->required ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
-            	(string) $field->getAttribute('clilabel'),
-            	$field->getAttribute('default')
+                $field->fieldname,
+                null,
+                $field->required ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
+                (string) $field->getAttribute('clilabel'),
+                $default
             );
         }
 
@@ -239,23 +274,36 @@ die;
      *
      * @return  string
      *
-     * @since   __DEPLOY_VERSION__
      * @throws  \Exception
+     * @since   __DEPLOY_VERSION__
      */
-    protected function getStringFromOption($option, $question, $field): string
+    protected function getStringFromOption($option, $question, FormField $field): string
     {
-        $answer = $this->getApplication()->getConsoleInput()->getOption($option);
+        // The symfony console unfortunately does not allow to check for parameters given by CLI without the defaults
+        $givenOption = false;
+        $answer      = null;
 
-        if (!\is_null($answer)) {
-            $valid = $field->validate($answer);
+        foreach ($_SERVER['argv'] as $arg) {
+            if ($arg == '--' . $option || strpos($arg, $option . '=')) {
+                $givenOption = true;
+            }
+        }
+
+        // If an option is given via CLI, we validate that value and return it.
+        if ($givenOption) {
+            $answer = $this->getApplication()->getConsoleInput()->getOption($option);
+            $valid  = $field->validate($answer);
 
             if ($valid instanceof \Exception) {
                 throw new \Exception('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
             }
+
+            return $answer;
         }
 
+        // We don't have a CLI option and now interactively get that from the user.
         while (\is_null($answer) || $answer === false) {
-            $answer = $this->ioStyle->ask($question);
+            $answer = $this->ioStyle->ask($question, $this->getApplication()->getConsoleInput()->getOption($option));
 
             $valid = $field->validate($answer);
 
@@ -266,21 +314,5 @@ die;
         }
 
         return $answer;
-    }
-
-    /**
-     * Configure the IO.
-     *
-     * @param   InputInterface   $input   The input to inject into the command.
-     * @param   OutputInterface  $output  The output to inject into the command.
-     *
-     * @return  void
-     *
-     * @since   4.0.0
-     */
-    private function configureIO(InputInterface $input, OutputInterface $output)
-    {
-        $this->cliInput = $input;
-        $this->ioStyle  = new SymfonyStyle($input, $output);
     }
 }
