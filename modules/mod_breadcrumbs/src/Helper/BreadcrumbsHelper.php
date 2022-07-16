@@ -55,35 +55,32 @@ class BreadcrumbsHelper
         return $crumbs;
     }
 
-	/**
-	 * Retrieve home item (start page)
-	 *
-	 * @param   Registry        $params  The module parameters
-	 * @param   CMSApplication  $app     The application
-	 *
-	 * @return  object
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static function getHome(Registry $params, CMSApplication $app)
-	{
-		$menu = $app->getMenu();
+    /**
+     * Retrieve home item (start page)
+     *
+     * @param   Registry        $params  The module parameters
+     * @param   CMSApplication  $app     The application
+     *
+     * @return  object
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public static function getHome(Registry $params, CMSApplication $app)
+    {
+        $menu = $app->getMenu();
 
-		if (Multilanguage::isEnabled())
-		{
-			$home = $menu->getDefault($app->getLanguage()->getTag());
-		}
-		else
-		{
-			$home = $menu->getDefault();
-		}
+        if (Multilanguage::isEnabled()) {
+            $home = $menu->getDefault($app->getLanguage()->getTag());
+        } else {
+            $home = $menu->getDefault();
+        }
 
-		$item       = new \stdClass;
-		$item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
-		$item->link = 'index.php?Itemid=' . $home->id;
+        $item       = new \stdClass();
+        $item->name = htmlspecialchars($params->get('homeText', Text::_('MOD_BREADCRUMBS_HOME')), ENT_COMPAT, 'UTF-8');
+        $item->link = 'index.php?Itemid=' . $home->id;
 
-		return $item;
-	}
+        return $item;
+    }
 
     /**
      * Set the breadcrumbs separator for the breadcrumbs display.
