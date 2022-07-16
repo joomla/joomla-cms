@@ -78,8 +78,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
     $itemsCounter = 0;
 
     // If showHome is disabled use the fallback $homeCrumb for startpage at first position.
-    if (isset($homeCrumb))
-    {
+    if (isset($homeCrumb)) {
         $data['itemListElement'][] = [
                 '@type'    => 'ListItem',
                 'position' => ++$itemsCounter,
