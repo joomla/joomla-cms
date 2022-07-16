@@ -74,7 +74,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
             'itemListElement' => []
     ];
 
-    // Use an independent counter for positions. E.g. if headline items in pathway.
+    // Use an independent counter for positions. E.g. if Heading items in pathway.
     $itemsCounter = 0;
 
     // If showHome is disabled use the fallback $homeCrumb for startpage at first position.
