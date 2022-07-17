@@ -118,8 +118,6 @@
 		type="url"
 		label="COM_GUIDEDTOURS_URL_LABEL"
 		size="40"
-		filter="url"
-		validate="url"
 		description="COM_GUIDEDTOURS_URL_DESC"
 	/>
 	
