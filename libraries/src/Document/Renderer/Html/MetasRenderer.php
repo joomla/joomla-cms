@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -24,179 +23,158 @@ use Joomla\Utilities\ArrayHelper;
  */
 class MetasRenderer extends DocumentRenderer
 {
-	/**
-	 * Renders the document metas and returns the results as a string
-	 *
-	 * @param   string  $head     (unused)
-	 * @param   array   $params   Associative array of values
-	 * @param   string  $content  The script
-	 *
-	 * @return  string  The output of the script
-	 *
-	 * @since   4.0.0
-	 */
-	public function render($head, $params = array(), $content = null)
-	{
-		// Convert the tagids to titles
-		if (isset($this->_doc->_metaTags['name']['tags']))
-		{
-			$tagsHelper = new TagsHelper;
-			$this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
-		}
+    /**
+     * Renders the document metas and returns the results as a string
+     *
+     * @param   string  $head     (unused)
+     * @param   array   $params   Associative array of values
+     * @param   string  $content  The script
+     *
+     * @return  string  The output of the script
+     *
+     * @since   4.0.0
+     */
+    public function render($head, $params = array(), $content = null)
+    {
+        // Convert the tagids to titles
+        if (isset($this->_doc->_metaTags['name']['tags'])) {
+            $tagsHelper = new TagsHelper();
+            $this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
+        }
 
-		/** @var \Joomla\CMS\Application\CMSApplication $app */
-		$app = Factory::getApplication();
-		$wa  = $this->_doc->getWebAssetManager();
+        /** @var \Joomla\CMS\Application\CMSApplication $app */
+        $app = Factory::getApplication();
+        $wa  = $this->_doc->getWebAssetManager();
 
-		// Check for AttachBehavior and web components
-		foreach ($wa->getAssets('script', true) as $asset)
-		{
-			if ($asset instanceof WebAssetAttachBehaviorInterface)
-			{
-				$asset->onAttachCallback($this->_doc);
-			}
-		}
+        // Check for AttachBehavior and web components
+        foreach ($wa->getAssets('script', true) as $asset) {
+            if ($asset instanceof WebAssetAttachBehaviorInterface) {
+                $asset->onAttachCallback($this->_doc);
+            }
+        }
 
-		// Trigger the onBeforeCompileHead event
-		$app->triggerEvent('onBeforeCompileHead');
+        // Trigger the onBeforeCompileHead event
+        $app->triggerEvent('onBeforeCompileHead');
 
-		// Add Script Options as inline asset
-		$scriptOptions = $this->_doc->getScriptOptions();
+        // Add Script Options as inline asset
+        $scriptOptions = $this->_doc->getScriptOptions();
 
-		if ($scriptOptions)
-		{
-			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
-			$jsonOptions = $jsonOptions ?: '{}';
+        if ($scriptOptions) {
+            $prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+            $jsonOptions = json_encode($scriptOptions, $prettyPrint);
+            $jsonOptions = $jsonOptions ?: '{}';
 
-			$wa->addInlineScript(
-				$jsonOptions,
-				['name' => 'joomla.script.options', 'position' => 'before'],
-				['type' => 'application/json', 'class' => 'joomla-script-options new'],
-				['core']
-			);
-		}
+            $wa->addInlineScript(
+                $jsonOptions,
+                ['name' => 'joomla.script.options', 'position' => 'before'],
+                ['type' => 'application/json', 'class' => 'joomla-script-options new'],
+                ['core']
+            );
+        }
 
-		// Lock the AssetManager
-		$wa->lock();
+        // Lock the AssetManager
+        $wa->lock();
 
-		// Get line endings
-		$lnEnd        = $this->_doc->_getLineEnd();
-		$tab          = $this->_doc->_getTab();
-		$buffer       = '';
+        // Get line endings
+        $lnEnd        = $this->_doc->_getLineEnd();
+        $tab          = $this->_doc->_getTab();
+        $buffer       = '';
 
-		// Generate charset when using HTML5 (should happen first)
-		if ($this->_doc->isHtml5())
-		{
-			$buffer .= $tab . '<meta charset="' . $this->_doc->getCharset() . '">' . $lnEnd;
-		}
+        // Generate charset when using HTML5 (should happen first)
+        if ($this->_doc->isHtml5()) {
+            $buffer .= $tab . '<meta charset="' . $this->_doc->getCharset() . '">' . $lnEnd;
+        }
 
-		// Generate base tag (need to happen early)
-		$base = $this->_doc->getBase();
+        // Generate base tag (need to happen early)
+        $base = $this->_doc->getBase();
 
-		if (!empty($base))
-		{
-			$buffer .= $tab . '<base href="' . $base . '">' . $lnEnd;
-		}
+        if (!empty($base)) {
+            $buffer .= $tab . '<base href="' . $base . '">' . $lnEnd;
+        }
 
-		$noFavicon = true;
-		$searchFor = 'image/vnd.microsoft.icon';
+        $noFavicon = true;
+        $searchFor = 'image/vnd.microsoft.icon';
 
-		// @codingStandardsIgnoreStart
-		array_map(function($value) use(&$noFavicon, $searchFor) {
-			if (isset($value['attribs']['type']) && $value['attribs']['type'] === $searchFor)
-			{
-				$noFavicon = false;
-			}
-		}, array_values((array)$this->_doc->_links));
-		// @codingStandardsIgnoreEnd
+        array_map(function ($value) use (&$noFavicon, $searchFor) {
+            if (isset($value['attribs']['type']) && $value['attribs']['type'] === $searchFor) {
+                $noFavicon = false;
+            }
+        }, array_values((array)$this->_doc->_links));
 
-		if ($noFavicon)
-		{
-			$client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
-			$template = $app->getTemplate(true);
+        if ($noFavicon) {
+            $client   = $app->isClient('administrator') === true ? 'administrator/' : 'site/';
+            $template = $app->getTemplate(true);
 
-			// Try to find a favicon by checking the template and root folder
-			$icon = '/favicon.ico';
-			$foldersToCheck = [
-				JPATH_BASE,
-				JPATH_ROOT . '/media/templates/' . $client . $template->template,
-				JPATH_BASE . '/templates/' . $template->template,
-			];
+            // Try to find a favicon by checking the template and root folder
+            $icon = '/favicon.ico';
+            $foldersToCheck = [
+                JPATH_BASE,
+                JPATH_ROOT . '/media/templates/' . $client . $template->template,
+                JPATH_BASE . '/templates/' . $template->template,
+            ];
 
-			foreach ($foldersToCheck as $base => $dir)
-			{
-				if ($template->parent !== ''
-					&& $base === 1
-					&& !is_file(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon))
-				{
-					$dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
-				}
+            foreach ($foldersToCheck as $base => $dir) {
+                if (
+                    $template->parent !== ''
+                    && $base === 1
+                    && !is_file(JPATH_ROOT . '/media/templates/' . $client . $template->template . $icon)
+                ) {
+                    $dir = JPATH_ROOT . '/media/templates/' . $client . $template->parent;
+                }
 
-				if (is_file($dir . $icon))
-				{
-					$urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
-					$base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
-					$path    = str_replace($base, '', $dir);
-					$path    = str_replace('\\', '/', $path);
-					$this->_doc->addFavicon($urlBase . $path . $icon);
-					break;
-				}
-			}
-		}
+                if (is_file($dir . $icon)) {
+                    $urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
+                    $base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
+                    $path    = str_replace($base, '', $dir);
+                    $path    = str_replace('\\', '/', $path);
+                    $this->_doc->addFavicon($urlBase . $path . $icon);
+                    break;
+                }
+            }
+        }
 
-		// Generate META tags (needs to happen as early as possible in the head)
-		foreach ($this->_doc->_metaTags as $type => $tag)
-		{
-			foreach ($tag as $name => $contents)
-			{
-				if ($type === 'http-equiv' && !($this->_doc->isHtml5() && $name === 'content-type'))
-				{
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
-						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
-				}
-				elseif ($type !== 'http-equiv' && !empty($contents))
-				{
-					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
-						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
-				}
-			}
-		}
+        // Generate META tags (needs to happen as early as possible in the head)
+        foreach ($this->_doc->_metaTags as $type => $tag) {
+            foreach ($tag as $name => $contents) {
+                if ($type === 'http-equiv' && !($this->_doc->isHtml5() && $name === 'content-type')) {
+                    $buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
+                        . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+                } elseif ($type !== 'http-equiv' && !empty($contents)) {
+                    $buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
+                        . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+                }
+            }
+        }
 
-		// Don't add empty descriptions
-		$documentDescription = $this->_doc->getDescription();
+        // Don't add empty descriptions
+        $documentDescription = $this->_doc->getDescription();
 
-		if ($documentDescription)
-		{
-			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
-		}
+        if ($documentDescription) {
+            $buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+        }
 
-		// Don't add empty generators
-		$generator = $this->_doc->getGenerator();
+        // Don't add empty generators
+        $generator = $this->_doc->getGenerator();
 
-		if ($generator)
-		{
-			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
-		}
+        if ($generator) {
+            $buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+        }
 
-		$buffer .= $tab . '<title>' . htmlspecialchars($this->_doc->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
+        $buffer .= $tab . '<title>' . htmlspecialchars($this->_doc->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
 
-		// Generate link declarations
-		foreach ($this->_doc->_links as $link => $linkAtrr)
-		{
-			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
+        // Generate link declarations
+        foreach ($this->_doc->_links as $link => $linkAtrr) {
+            $buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-			if (\is_array($linkAtrr['attribs']))
-			{
-				if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
-				{
-					$buffer .= ' ' . $temp;
-				}
-			}
+            if (\is_array($linkAtrr['attribs'])) {
+                if ($temp = ArrayHelper::toString($linkAtrr['attribs'])) {
+                    $buffer .= ' ' . $temp;
+                }
+            }
 
-			$buffer .= '>' . $lnEnd;
-		}
+            $buffer .= '>' . $lnEnd;
+        }
 
-		return ltrim($buffer, $tab);
-	}
+        return ltrim($buffer, $tab);
+    }
 }

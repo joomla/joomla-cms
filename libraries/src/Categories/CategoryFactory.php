@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,8 @@
 
 namespace Joomla\CMS\Categories;
 
-\defined('_JEXEC') or die;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 
 /**
  * Option based categories factory.
@@ -17,48 +19,55 @@ namespace Joomla\CMS\Categories;
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
-	/**
-	 * The namespace to create the categories from.
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	private $namespace;
+    use DatabaseAwareTrait;
 
-	/**
-	 * The namespace must be like:
-	 * Joomla\Component\Content
-	 *
-	 * @param   string  $namespace  The namespace
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct($namespace)
-	{
-		$this->namespace = $namespace;
-	}
+    /**
+     * The namespace to create the categories from.
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    private $namespace;
 
-	/**
-	 * Creates a category.
-	 *
-	 * @param   array   $options  The options
-	 * @param   string  $section  The section
-	 *
-	 * @return  CategoryInterface
-	 *
-	 * @since   3.10.0
-	 *
-	 * @throws  SectionNotFoundException
-	 */
-	public function createCategory(array $options = [], string $section = ''): CategoryInterface
-	{
-		$className = trim($this->namespace, '\\') . '\\Site\\Service\\' . ucfirst($section) . 'Category';
+    /**
+     * The namespace must be like:
+     * Joomla\Component\Content
+     *
+     * @param   string  $namespace  The namespace
+     *
+     * @since   4.0.0
+     */
+    public function __construct($namespace)
+    {
+        $this->namespace = $namespace;
+    }
 
-		if (!class_exists($className))
-		{
-			throw new SectionNotFoundException;
-		}
+    /**
+     * Creates a category.
+     *
+     * @param   array   $options  The options
+     * @param   string  $section  The section
+     *
+     * @return  CategoryInterface
+     *
+     * @since   3.10.0
+     *
+     * @throws  SectionNotFoundException
+     */
+    public function createCategory(array $options = [], string $section = ''): CategoryInterface
+    {
+        $className = trim($this->namespace, '\\') . '\\Site\\Service\\' . ucfirst($section) . 'Category';
 
-		return new $className($options);
-	}
+        if (!class_exists($className)) {
+            throw new SectionNotFoundException();
+        }
+
+        $category = new $className($options);
+
+        if ($category instanceof DatabaseAwareInterface) {
+            $category->setDatabase($this->getDatabase());
+        }
+
+        return $category;
+    }
 }

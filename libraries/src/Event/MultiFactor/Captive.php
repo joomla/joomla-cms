@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Event\MultiFactor;
-
-\defined('JPATH_PLATFORM') or die;
 
 use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
@@ -21,45 +20,44 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 /**
  * Concrete Event class for the onUserMultifactorCaptive event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class Captive extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeObjectAware;
+    use ResultAware;
+    use ResultTypeObjectAware;
 
-	/**
-	 * Public constructor
-	 *
-	 * @param   MfaTable  $record  The MFA record to use in the captive login page
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct(MfaTable $record)
-	{
-		parent::__construct('onUserMultifactorCaptive', ['record' => $record]);
+    /**
+     * Public constructor
+     *
+     * @param   MfaTable  $record  The MFA record to use in the captive login page
+     *
+     * @since   4.2.0
+     */
+    public function __construct(MfaTable $record)
+    {
+        parent::__construct('onUserMultifactorCaptive', ['record' => $record]);
 
-		$this->resultIsNullable        = true;
-		$this->resultAcceptableClasses = [
-			CaptiveRenderOptions::class,
-		];
-	}
+        $this->resultIsNullable        = true;
+        $this->resultAcceptableClasses = [
+            CaptiveRenderOptions::class,
+        ];
+    }
 
-	/**
-	 * Validate the value of the 'record' named parameter
-	 *
-	 * @param   MfaTable  $value  The value to validate
-	 *
-	 * @return  MfaTable
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setRecord(MfaTable $value): MfaTable
-	{
-		if (empty($value))
-		{
-			throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
-		}
+    /**
+     * Validate the value of the 'record' named parameter
+     *
+     * @param   MfaTable  $value  The value to validate
+     *
+     * @return  MfaTable
+     * @since   4.2.0
+     */
+    public function setRecord(MfaTable $value): MfaTable
+    {
+        if (empty($value)) {
+            throw new DomainException(sprintf('Argument \'record\' of event %s must be a MfaTable object.', $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }
