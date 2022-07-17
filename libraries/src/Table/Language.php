@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Table;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -20,138 +19,130 @@ use Joomla\Database\DatabaseDriver;
  */
 class Language extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
-	 *
-	 * @since   1.7.0
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__languages', 'lang_id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database driver object.
+     *
+     * @since   1.7.0
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__languages', 'lang_id', $db);
+    }
 
-	/**
-	 * Overloaded check method to ensure data integrity
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   1.7.0
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+    /**
+     * Overloaded check method to ensure data integrity
+     *
+     * @return  boolean  True on success
+     *
+     * @since   1.7.0
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		if (trim($this->title) == '')
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
+        if (trim($this->title) == '') {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_NO_TITLE'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Overrides Table::store to check unique fields.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5.0
-	 */
-	public function store($updateNulls = false)
-	{
-		$table = Table::getInstance('Language', 'JTable', array('dbo' => $this->getDbo()));
+    /**
+     * Overrides Table::store to check unique fields.
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   2.5.0
+     */
+    public function store($updateNulls = false)
+    {
+        $table = Table::getInstance('Language', 'JTable', array('dbo' => $this->getDbo()));
 
-		// Verify that the language code is unique
-		if ($table->load(array('lang_code' => $this->lang_code)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
+        // Verify that the language code is unique
+        if ($table->load(array('lang_code' => $this->lang_code)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_LANG_CODE'));
 
-			return false;
-		}
+            return false;
+        }
 
-		// Verify that the sef field is unique
-		if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
+        // Verify that the sef field is unique
+        if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 
-			return false;
-		}
+            return false;
+        }
 
-		// Verify that the image field is unique
-		if ($this->image && $table->load(array('image' => $this->image)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
+        // Verify that the image field is unique
+        if ($this->image && $table->load(array('image' => $this->image)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0)) {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_LANGUAGE_UNIQUE_IMAGE'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return parent::store($updateNulls);
-	}
+        return parent::store($updateNulls);
+    }
 
-	/**
-	 * Method to compute the default name of the asset.
-	 * The default name is in the form table_name.id
-	 * where id is the value of the primary key of the table.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.8.0
-	 */
-	protected function _getAssetName()
-	{
-		return 'com_languages.language.' . $this->lang_id;
-	}
+    /**
+     * Method to compute the default name of the asset.
+     * The default name is in the form table_name.id
+     * where id is the value of the primary key of the table.
+     *
+     * @return  string
+     *
+     * @since   3.8.0
+     */
+    protected function _getAssetName()
+    {
+        return 'com_languages.language.' . $this->lang_id;
+    }
 
-	/**
-	 * Method to return the title to use for the asset table.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.8.0
-	 */
-	protected function _getAssetTitle()
-	{
-		return $this->title;
-	}
+    /**
+     * Method to return the title to use for the asset table.
+     *
+     * @return  string
+     *
+     * @since   3.8.0
+     */
+    protected function _getAssetTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * Method to get the parent asset under which to register this one.
-	 * By default, all assets are registered to the ROOT node with ID,
-	 * which will default to 1 if none exists.
-	 * The extended class can define a table and id to lookup.  If the
-	 * asset does not exist it will be created.
-	 *
-	 * @param   Table    $table  A Table object for the asset parent.
-	 * @param   integer  $id     Id to look up
-	 *
-	 * @return  integer
-	 *
-	 * @since   3.8.0
-	 */
-	protected function _getAssetParentId(Table $table = null, $id = null)
-	{
-		$assetId = null;
-		$asset   = Table::getInstance('asset');
+    /**
+     * Method to get the parent asset under which to register this one.
+     * By default, all assets are registered to the ROOT node with ID,
+     * which will default to 1 if none exists.
+     * The extended class can define a table and id to lookup.  If the
+     * asset does not exist it will be created.
+     *
+     * @param   Table    $table  A Table object for the asset parent.
+     * @param   integer  $id     Id to look up
+     *
+     * @return  integer
+     *
+     * @since   3.8.0
+     */
+    protected function _getAssetParentId(Table $table = null, $id = null)
+    {
+        $assetId = null;
+        $asset   = Table::getInstance('asset');
 
-		if ($asset->loadByName('com_languages'))
-		{
-			$assetId = $asset->id;
-		}
+        if ($asset->loadByName('com_languages')) {
+            $assetId = $asset->id;
+        }
 
-		return $assetId ?? parent::_getAssetParentId($table, $id);
-	}
+        return $assetId ?? parent::_getAssetParentId($table, $id);
+    }
 }

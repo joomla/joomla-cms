@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Administrator
  * @subpackage com_users
@@ -12,9 +13,8 @@ namespace Joomla\Component\Users\Site\Model;
 /**
  * Captive Multi-factor Authentication page's model
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class CaptiveModel extends \Joomla\Component\Users\Administrator\Model\CaptiveModel
 {
-
 }

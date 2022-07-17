@@ -3,6 +3,12 @@ The following document is intended to be a checklist for each release for use by
 
 At all stages here it is assumed you have a copy of the joomla-cms repo downloaded. Your release branch is clean and in the code snippets below that you have two remotes - an `upstream` remote that points to this repo and a `security` remote which points to the security private repository. You should also ensure all your commits and tags are signed by a GPG key that GitHub recognises.
 
+## Checklist (Beta 1 - Preparation)
+
+- [ ] Update Composer dependencies to their latest version
+- [ ] Update NPM dependencies to their latest version
+- [ ] If a new major/minor release - update the Wiki PHP configuration file to create alias for the new help screen alias')
+
 ## Checklist (Release Candidate - Preparation)
 
 - [ ] Agree Stable Announcement URL with the marketing team

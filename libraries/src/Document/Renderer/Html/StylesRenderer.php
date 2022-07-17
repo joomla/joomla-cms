@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Document\Renderer\Html;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
@@ -20,326 +19,295 @@ use Joomla\CMS\WebAsset\WebAssetItemInterface;
  */
 class StylesRenderer extends DocumentRenderer
 {
-	/**
-	 * List of already rendered src
-	 *
-	 * @var array
-	 *
-	 * @since   4.0.0
-	 */
-	private $renderedSrc = [];
+    /**
+     * List of already rendered src
+     *
+     * @var array
+     *
+     * @since   4.0.0
+     */
+    private $renderedSrc = [];
 
-	/**
-	 * Renders the document stylesheets and style tags and returns the results as a string
-	 *
-	 * @param   string  $head     (unused)
-	 * @param   array   $params   Associative array of values
-	 * @param   string  $content  The script
-	 *
-	 * @return  string  The output of the script
-	 *
-	 * @since   4.0.0
-	 */
-	public function render($head, $params = array(), $content = null)
-	{
-		$tab          = $this->_doc->_getTab();
-		$buffer       = '';
-		$wam          = $this->_doc->getWebAssetManager();
-		$assets       = $wam->getAssets('style', true);
+    /**
+     * Renders the document stylesheets and style tags and returns the results as a string
+     *
+     * @param   string  $head     (unused)
+     * @param   array   $params   Associative array of values
+     * @param   string  $content  The script
+     *
+     * @return  string  The output of the script
+     *
+     * @since   4.0.0
+     */
+    public function render($head, $params = array(), $content = null)
+    {
+        $tab          = $this->_doc->_getTab();
+        $buffer       = '';
+        $wam          = $this->_doc->getWebAssetManager();
+        $assets       = $wam->getAssets('style', true);
 
-		// Get a list of inline assets and their relation with regular assets
-		$inlineAssets   = $wam->filterOutInlineAssets($assets);
-		$inlineRelation = $wam->getInlineRelation($inlineAssets);
+        // Get a list of inline assets and their relation with regular assets
+        $inlineAssets   = $wam->filterOutInlineAssets($assets);
+        $inlineRelation = $wam->getInlineRelation($inlineAssets);
 
-		// Merge with existing styleSheets, for rendering
-		$assets = array_merge(array_values($assets), $this->_doc->_styleSheets);
+        // Merge with existing styleSheets, for rendering
+        $assets = array_merge(array_values($assets), $this->_doc->_styleSheets);
 
-		// Generate stylesheet links
-		foreach ($assets as $key => $item)
-		{
-			$asset = $item instanceof WebAssetItemInterface ? $item : null;
+        // Generate stylesheet links
+        foreach ($assets as $key => $item) {
+            $asset = $item instanceof WebAssetItemInterface ? $item : null;
 
-			// Add href attribute for non Asset item
-			if (!$asset)
-			{
-				$item['href'] = $key;
-			}
+            // Add href attribute for non Asset item
+            if (!$asset) {
+                $item['href'] = $key;
+            }
 
-			// Check for inline content "before"
-			if ($asset && !empty($inlineRelation[$asset->getName()]['before']))
-			{
-				foreach ($inlineRelation[$asset->getName()]['before'] as $itemBefore)
-				{
-					$buffer .= $this->renderInlineElement($itemBefore);
+            // Check for inline content "before"
+            if ($asset && !empty($inlineRelation[$asset->getName()]['before'])) {
+                foreach ($inlineRelation[$asset->getName()]['before'] as $itemBefore) {
+                    $buffer .= $this->renderInlineElement($itemBefore);
 
-					// Remove this item from inline queue
-					unset($inlineAssets[$itemBefore->getName()]);
-				}
-			}
+                    // Remove this item from inline queue
+                    unset($inlineAssets[$itemBefore->getName()]);
+                }
+            }
 
-			$buffer .= $this->renderElement($item);
+            $buffer .= $this->renderElement($item);
 
-			// Check for inline content "after"
-			if ($asset && !empty($inlineRelation[$asset->getName()]['after']))
-			{
-				foreach ($inlineRelation[$asset->getName()]['after'] as $itemBefore)
-				{
-					$buffer .= $this->renderInlineElement($itemBefore);
+            // Check for inline content "after"
+            if ($asset && !empty($inlineRelation[$asset->getName()]['after'])) {
+                foreach ($inlineRelation[$asset->getName()]['after'] as $itemBefore) {
+                    $buffer .= $this->renderInlineElement($itemBefore);
 
-					// Remove this item from inline queue
-					unset($inlineAssets[$itemBefore->getName()]);
-				}
-			}
-		}
+                    // Remove this item from inline queue
+                    unset($inlineAssets[$itemBefore->getName()]);
+                }
+            }
+        }
 
-		// Generate script declarations for assets
-		foreach ($inlineAssets as $item)
-		{
-			$buffer .= $this->renderInlineElement($item);
-		}
+        // Generate script declarations for assets
+        foreach ($inlineAssets as $item) {
+            $buffer .= $this->renderInlineElement($item);
+        }
 
-		// Generate stylesheet declarations
-		foreach ($this->_doc->_style as $type => $contents)
-		{
-			// Test for B.C. in case someone still store stylesheet declarations as single string
-			if (\is_string($contents))
-			{
-				$contents = [$contents];
-			}
+        // Generate stylesheet declarations
+        foreach ($this->_doc->_style as $type => $contents) {
+            // Test for B.C. in case someone still store stylesheet declarations as single string
+            if (\is_string($contents)) {
+                $contents = [$contents];
+            }
 
-			foreach ($contents as $content)
-			{
-				$buffer .= $this->renderInlineElement(
-					[
-						'type' => $type,
-						'content' => $content,
-					]
-				);
-			}
-		}
+            foreach ($contents as $content) {
+                $buffer .= $this->renderInlineElement(
+                    [
+                        'type' => $type,
+                        'content' => $content,
+                    ]
+                );
+            }
+        }
 
-		return ltrim($buffer, $tab);
-	}
+        return ltrim($buffer, $tab);
+    }
 
-	/**
-	 * Renders the element
-	 *
-	 * @param   WebAssetItemInterface|array  $item  The element
-	 *
-	 * @return  string  The resulting string
-	 *
-	 * @since   4.0.0
-	 */
-	private function renderElement($item) : string
-	{
-		$buffer = '';
-		$asset  = $item instanceof WebAssetItemInterface ? $item : null;
-		$src    = $asset ? $asset->getUri() : ($item['href'] ?? '');
+    /**
+     * Renders the element
+     *
+     * @param   WebAssetItemInterface|array  $item  The element
+     *
+     * @return  string  The resulting string
+     *
+     * @since   4.0.0
+     */
+    private function renderElement($item): string
+    {
+        $buffer = '';
+        $asset  = $item instanceof WebAssetItemInterface ? $item : null;
+        $src    = $asset ? $asset->getUri() : ($item['href'] ?? '');
 
-		// Make sure we have a src, and it not already rendered
-		if (!$src || !empty($this->renderedSrc[$src]))
-		{
-			return '';
-		}
+        // Make sure we have a src, and it not already rendered
+        if (!$src || !empty($this->renderedSrc[$src])) {
+            return '';
+        }
 
-		$lnEnd        = $this->_doc->_getLineEnd();
-		$tab          = $this->_doc->_getTab();
-		$mediaVersion = $this->_doc->getMediaVersion();
+        $lnEnd        = $this->_doc->_getLineEnd();
+        $tab          = $this->_doc->_getTab();
+        $mediaVersion = $this->_doc->getMediaVersion();
 
-		// Get the attributes and other options
-		if ($asset)
-		{
-			$attribs     = $asset->getAttributes();
-			$version     = $asset->getVersion();
-			$conditional = $asset->getOption('conditional');
+        // Get the attributes and other options
+        if ($asset) {
+            $attribs     = $asset->getAttributes();
+            $version     = $asset->getVersion();
+            $conditional = $asset->getOption('conditional');
 
-			// Add an asset info for debugging
-			if (JDEBUG)
-			{
-				$attribs['data-asset-name'] = $asset->getName();
+            // Add an asset info for debugging
+            if (JDEBUG) {
+                $attribs['data-asset-name'] = $asset->getName();
 
-				if ($asset->getDependencies())
-				{
-					$attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
-				}
-			}
-		}
-		else
-		{
-			$attribs     = $item;
-			$version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
-			$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
-		}
+                if ($asset->getDependencies()) {
+                    $attribs['data-asset-dependencies'] = implode(',', $asset->getDependencies());
+                }
+            }
+        } else {
+            $attribs     = $item;
+            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+        }
 
-		// To prevent double rendering
-		$this->renderedSrc[$src] = true;
+        // Add "nonce" attribute if exist
+        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+            $attribs['nonce'] = $this->_doc->cspNonce;
+        }
 
-		// Check if script uses media version.
-		if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
-		{
-			$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
-		}
+        // To prevent double rendering
+        $this->renderedSrc[$src] = true;
 
-		$buffer .= $tab;
+        // Check if script uses media version.
+        if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto')) {
+            $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
+        }
 
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<!--[if ' . $conditional . ']>';
-		}
+        $buffer .= $tab;
 
-		$relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
+        // This is for IE conditional statements support.
+        if (!\is_null($conditional)) {
+            $buffer .= '<!--[if ' . $conditional . ']>';
+        }
 
-		if (isset($attribs['rel']))
-		{
-			unset($attribs['rel']);
-		}
+        $relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
 
-		// Render the element with attributes
-		$buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= ' />';
+        if (isset($attribs['rel'])) {
+            unset($attribs['rel']);
+        }
 
-		if ($relation === 'lazy-stylesheet')
-		{
-			$buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
-		}
+        // Render the element with attributes
+        $buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
+        $buffer .= $this->renderAttributes($attribs);
+        $buffer .= ' />';
 
-		// This is for IE conditional statements support.
-		if (!\is_null($conditional))
-		{
-			$buffer .= '<![endif]-->';
-		}
+        if ($relation === 'lazy-stylesheet') {
+            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
+        }
 
-		$buffer .= $lnEnd;
+        // This is for IE conditional statements support.
+        if (!\is_null($conditional)) {
+            $buffer .= '<![endif]-->';
+        }
 
-		return $buffer;
-	}
+        $buffer .= $lnEnd;
 
-	/**
-	 * Renders the inline element
-	 *
-	 * @param   WebAssetItemInterface|array  $item  The element
-	 *
-	 * @return  string  The resulting string
-	 *
-	 * @since   4.0.0
-	 */
-	private function renderInlineElement($item) : string
-	{
-		$buffer = '';
-		$lnEnd  = $this->_doc->_getLineEnd();
-		$tab    = $this->_doc->_getTab();
+        return $buffer;
+    }
 
-		if ($item instanceof WebAssetItemInterface)
-		{
-			$attribs = $item->getAttributes();
-			$content = $item->getOption('content');
-		}
-		else
-		{
-			$attribs = $item;
-			$content = $item['content'] ?? '';
+    /**
+     * Renders the inline element
+     *
+     * @param   WebAssetItemInterface|array  $item  The element
+     *
+     * @return  string  The resulting string
+     *
+     * @since   4.0.0
+     */
+    private function renderInlineElement($item): string
+    {
+        $buffer = '';
+        $lnEnd  = $this->_doc->_getLineEnd();
+        $tab    = $this->_doc->_getTab();
 
-			unset($attribs['content']);
-		}
+        if ($item instanceof WebAssetItemInterface) {
+            $attribs = $item->getAttributes();
+            $content = $item->getOption('content');
+        } else {
+            $attribs = $item;
+            $content = $item['content'] ?? '';
 
-		// Do not produce empty elements
-		if (!$content)
-		{
-			return '';
-		}
+            unset($attribs['content']);
+        }
 
-		// Add "nonce" attribute if exist
-		if ($this->_doc->cspNonce)
-		{
-			$attribs['nonce'] = $this->_doc->cspNonce;
-		}
+        // Do not produce empty elements
+        if (!$content) {
+            return '';
+        }
 
-		$buffer .= $tab . '<style';
-		$buffer .= $this->renderAttributes($attribs);
-		$buffer .= '>';
+        // Add "nonce" attribute if exist
+        if ($this->_doc->cspNonce && !is_null($this->_doc->cspNonce)) {
+            $attribs['nonce'] = $this->_doc->cspNonce;
+        }
 
-		// This is for full XHTML support.
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
-		}
+        $buffer .= $tab . '<style';
+        $buffer .= $this->renderAttributes($attribs);
+        $buffer .= '>';
 
-		$buffer .= $content;
+        // This is for full XHTML support.
+        if ($this->_doc->_mime !== 'text/html') {
+            $buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
+        }
 
-		// See above note
-		if ($this->_doc->_mime !== 'text/html')
-		{
-			$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
-		}
+        $buffer .= $content;
 
-		$buffer .= '</style>' . $lnEnd;
+        // See above note
+        if ($this->_doc->_mime !== 'text/html') {
+            $buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
+        }
 
-		return $buffer;
-	}
+        $buffer .= '</style>' . $lnEnd;
 
-	/**
-	 * Renders the element attributes
-	 *
-	 * @param   array  $attributes  The element attributes
-	 *
-	 * @return  string  The attributes string
-	 *
-	 * @since   4.0.0
-	 */
-	private function renderAttributes(array $attributes) : string
-	{
-		$buffer = '';
+        return $buffer;
+    }
 
-		$defaultCssMimes = array('text/css');
+    /**
+     * Renders the element attributes
+     *
+     * @param   array  $attributes  The element attributes
+     *
+     * @return  string  The attributes string
+     *
+     * @since   4.0.0
+     */
+    private function renderAttributes(array $attributes): string
+    {
+        $buffer = '';
 
-		foreach ($attributes as $attrib => $value)
-		{
-			// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
-			if ($attrib === 'options' || $attrib === 'href')
-			{
-				continue;
-			}
+        $defaultCssMimes = array('text/css');
 
-			// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-			if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes))
-			{
-				continue;
-			}
+        foreach ($attributes as $attrib => $value) {
+            // Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
+            if ($attrib === 'options' || $attrib === 'href') {
+                continue;
+            }
 
-			// Skip the attribute if value is bool:false.
-			if ($value === false)
-			{
-				continue;
-			}
+            // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+            if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes)) {
+                continue;
+            }
 
-			// NoValue attribute, if it have bool:true
-			$isNoValueAttrib = $value === true;
+            // Skip the attribute if value is bool:false.
+            if ($value === false) {
+                continue;
+            }
 
-			// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-			if ($attrib === 'mime')
-			{
-				$attrib = 'type';
-			}
-			// NoValue attribute in non HTML5 should contain a value, set it equal to attribute name.
-			elseif ($isNoValueAttrib)
-			{
-				$value = $attrib;
-			}
+            // NoValue attribute, if it have bool:true
+            $isNoValueAttrib = $value === true;
 
-			// Add attribute to script tag output.
-			$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+            // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+            if ($attrib === 'mime') {
+                $attrib = 'type';
+            } elseif ($isNoValueAttrib) {
+                // NoValue attribute in non HTML5 should contain a value, set it equal to attribute name.
+                $value = $attrib;
+            }
 
-			if (!($this->_doc->isHtml5() && $isNoValueAttrib))
-			{
-				// Json encode value if it's an array.
-				$value = !is_scalar($value) ? json_encode($value) : $value;
+            // Add attribute to script tag output.
+            $buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
 
-				$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
-			}
-		}
+            if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
+                // Json encode value if it's an array.
+                $value = !is_scalar($value) ? json_encode($value) : $value;
 
-		return $buffer;
-	}
+                $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+            }
+        }
+
+        return $buffer;
+    }
 }

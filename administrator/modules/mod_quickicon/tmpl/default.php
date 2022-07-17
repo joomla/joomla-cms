@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
@@ -21,9 +22,9 @@ $wa->registerAndUseScript('mod_quickicon-es5', 'mod_quickicon/quickicon-es5.min.
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-	<nav class="quick-icons px-3 pb-3" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
-		<ul class="nav flex-wrap">
-			<?php echo $html; ?>
-		</ul>
-	</nav>
+    <nav class="quick-icons px-3 pb-3" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
+        <ul class="nav flex-wrap">
+            <?php echo $html; ?>
+        </ul>
+    </nav>
 <?php endif; ?>
