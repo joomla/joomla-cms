@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-\defined('JPATH_PLATFORM') or die;
-
 use DomainException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
@@ -18,39 +17,38 @@ use Joomla\CMS\User\User;
 /**
  * Concrete Event class for the onUserMultifactorBeforeDisplayMethods event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class BeforeDisplayMethods extends AbstractImmutableEvent
 {
-	use ResultAware;
+    use ResultAware;
 
-	/**
-	 * Public constructor
-	 *
-	 * @param   User  $user  The user the MFA methods are displayed for
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct(User $user)
-	{
-		parent::__construct('onUserMultifactorBeforeDisplayMethods', ['user' => $user]);
-	}
+    /**
+     * Public constructor
+     *
+     * @param   User  $user  The user the MFA methods are displayed for
+     *
+     * @since   4.2.0
+     */
+    public function __construct(User $user)
+    {
+        parent::__construct('onUserMultifactorBeforeDisplayMethods', ['user' => $user]);
+    }
 
-	/**
-	 * Validate the value of the 'user' named parameter
-	 *
-	 * @param   User  $value  The value to validate
-	 *
-	 * @return  User
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function setUser(User $value): User
-	{
-		if (empty($value) || ($value->id <= 0) || ($value->guest == 1))
-		{
-			throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
-		}
+    /**
+     * Validate the value of the 'user' named parameter
+     *
+     * @param   User  $value  The value to validate
+     *
+     * @return  User
+     * @since   4.2.0
+     */
+    public function setUser(User $value): User
+    {
+        if (empty($value) || ($value->id <= 0) || ($value->guest == 1)) {
+            throw new DomainException(sprintf('Argument \'user\' of event %s must be a non-guest User object.', $this->name));
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

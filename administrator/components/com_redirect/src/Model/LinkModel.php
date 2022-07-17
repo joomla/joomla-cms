@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Redirect\Administrator\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -25,217 +24,201 @@ use Joomla\Utilities\ArrayHelper;
  */
 class LinkModel extends AdminModel
 {
-	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
-	 */
-	protected $text_prefix = 'COM_REDIRECT';
+    /**
+     * @var        string    The prefix to use with controller messages.
+     * @since   1.6
+     */
+    protected $text_prefix = 'COM_REDIRECT';
 
-	/**
-	 * Method to test whether a record can be deleted.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 *
-	 * @since   1.6
-	 */
-	protected function canDelete($record)
-	{
-		if ($record->published != -2)
-		{
-			return false;
-		}
+    /**
+     * Method to test whether a record can be deleted.
+     *
+     * @param   object  $record  A record object.
+     *
+     * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+     *
+     * @since   1.6
+     */
+    protected function canDelete($record)
+    {
+        if ($record->published != -2) {
+            return false;
+        }
 
-		return parent::canDelete($record);
-	}
+        return parent::canDelete($record);
+    }
 
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  \Joomla\CMS\Form\Form A JForm object on success, false on failure
-	 *
-	 * @since   1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_redirect.link', 'link', array('control' => 'jform', 'load_data' => $loadData));
+    /**
+     * Method to get the record form.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  \Joomla\CMS\Form\Form A JForm object on success, false on failure
+     *
+     * @since   1.6
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        // Get the form.
+        $form = $this->loadForm('com_redirect.link', 'link', array('control' => 'jform', 'load_data' => $loadData));
 
-		if (empty($form))
-		{
-			return false;
-		}
+        if (empty($form)) {
+            return false;
+        }
 
-		// Modify the form based on access controls.
-		if ($this->canEditState((object) $data) != true)
-		{
-			// Disable fields for display.
-			$form->setFieldAttribute('published', 'disabled', 'true');
+        // Modify the form based on access controls.
+        if ($this->canEditState((object) $data) != true) {
+            // Disable fields for display.
+            $form->setFieldAttribute('published', 'disabled', 'true');
 
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('published', 'filter', 'unset');
-		}
+            // Disable fields while saving.
+            // The controller has already verified this is a record you can edit.
+            $form->setFieldAttribute('published', 'filter', 'unset');
+        }
 
-		// If in advanced mode then we make sure the new URL field is not compulsory and the header
-		// field compulsory in case people select non-3xx redirects
-		if (ComponentHelper::getParams('com_redirect')->get('mode', 0) == true)
-		{
-			$form->setFieldAttribute('new_url', 'required', 'false');
-			$form->setFieldAttribute('header', 'required', 'true');
-		}
+        // If in advanced mode then we make sure the new URL field is not compulsory and the header
+        // field compulsory in case people select non-3xx redirects
+        if (ComponentHelper::getParams('com_redirect')->get('mode', 0) == true) {
+            $form->setFieldAttribute('new_url', 'required', 'false');
+            $form->setFieldAttribute('header', 'required', 'true');
+        }
 
-		return $form;
-	}
+        return $form;
+    }
 
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 *
-	 * @since   1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_redirect.edit.link.data', array());
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     *
+     * @since   1.6
+     */
+    protected function loadFormData()
+    {
+        // Check the session for previously entered form data.
+        $data = Factory::getApplication()->getUserState('com_redirect.edit.link.data', array());
 
-		if (empty($data))
-		{
-			$data = $this->getItem();
-		}
+        if (empty($data)) {
+            $data = $this->getItem();
+        }
 
-		$this->preprocessData('com_redirect.link', $data);
+        $this->preprocessData('com_redirect.link', $data);
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Method to activate links.
-	 *
-	 * @param   array   &$pks     An array of link ids.
-	 * @param   string  $url      The new URL to set for the redirect.
-	 * @param   string  $comment  A comment for the redirect links.
-	 *
-	 * @return  boolean  Returns true on success, false on failure.
-	 *
-	 * @since   1.6
-	 */
-	public function activate(&$pks, $url, $comment = null)
-	{
-		$user = Factory::getUser();
-		$db = $this->getDbo();
+    /**
+     * Method to activate links.
+     *
+     * @param   array   &$pks     An array of link ids.
+     * @param   string  $url      The new URL to set for the redirect.
+     * @param   string  $comment  A comment for the redirect links.
+     *
+     * @return  boolean  Returns true on success, false on failure.
+     *
+     * @since   1.6
+     */
+    public function activate(&$pks, $url, $comment = null)
+    {
+        $user = Factory::getUser();
+        $db = $this->getDatabase();
 
-		// Sanitize the ids.
-		$pks = (array) $pks;
-		$pks = ArrayHelper::toInteger($pks);
+        // Sanitize the ids.
+        $pks = (array) $pks;
+        $pks = ArrayHelper::toInteger($pks);
 
-		// Populate default comment if necessary.
-		$comment = (!empty($comment)) ? $comment : Text::sprintf('COM_REDIRECT_REDIRECTED_ON', HTMLHelper::_('date', time()));
+        // Populate default comment if necessary.
+        $comment = (!empty($comment)) ? $comment : Text::sprintf('COM_REDIRECT_REDIRECTED_ON', HTMLHelper::_('date', time()));
 
-		// Access checks.
-		if (!$user->authorise('core.edit', 'com_redirect'))
-		{
-			$pks = array();
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+        // Access checks.
+        if (!$user->authorise('core.edit', 'com_redirect')) {
+            $pks = array();
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
-			return false;
-		}
+            return false;
+        }
 
-		if (!empty($pks))
-		{
-			// Update the link rows.
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = :url')
-				->set($db->quoteName('published') . ' = 1')
-				->set($db->quoteName('comment') . ' = :comment')
-				->whereIn($db->quoteName('id'), $pks)
-				->bind(':url', $url)
-				->bind(':comment', $comment);
-			$db->setQuery($query);
+        if (!empty($pks)) {
+            // Update the link rows.
+            $query = $db->getQuery(true)
+                ->update($db->quoteName('#__redirect_links'))
+                ->set($db->quoteName('new_url') . ' = :url')
+                ->set($db->quoteName('published') . ' = 1')
+                ->set($db->quoteName('comment') . ' = :comment')
+                ->whereIn($db->quoteName('id'), $pks)
+                ->bind(':url', $url)
+                ->bind(':comment', $comment);
+            $db->setQuery($query);
 
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
+            try {
+                $db->execute();
+            } catch (\RuntimeException $e) {
+                $this->setError($e->getMessage());
 
-				return false;
-			}
-		}
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Method to batch update URLs to have new redirect urls and comments. Note will publish any unpublished URLs.
-	 *
-	 * @param   array   &$pks     An array of link ids.
-	 * @param   string  $url      The new URL to set for the redirect.
-	 * @param   string  $comment  A comment for the redirect links.
-	 *
-	 * @return  boolean  Returns true on success, false on failure.
-	 *
-	 * @since   3.6.0
-	 */
-	public function duplicateUrls(&$pks, $url, $comment = null)
-	{
-		$user = Factory::getUser();
-		$db = $this->getDbo();
+    /**
+     * Method to batch update URLs to have new redirect urls and comments. Note will publish any unpublished URLs.
+     *
+     * @param   array   &$pks     An array of link ids.
+     * @param   string  $url      The new URL to set for the redirect.
+     * @param   string  $comment  A comment for the redirect links.
+     *
+     * @return  boolean  Returns true on success, false on failure.
+     *
+     * @since   3.6.0
+     */
+    public function duplicateUrls(&$pks, $url, $comment = null)
+    {
+        $user = Factory::getUser();
+        $db = $this->getDatabase();
 
-		// Sanitize the ids.
-		$pks = (array) $pks;
-		$pks = ArrayHelper::toInteger($pks);
+        // Sanitize the ids.
+        $pks = (array) $pks;
+        $pks = ArrayHelper::toInteger($pks);
 
-		// Access checks.
-		if (!$user->authorise('core.edit', 'com_redirect'))
-		{
-			$pks = array();
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+        // Access checks.
+        if (!$user->authorise('core.edit', 'com_redirect')) {
+            $pks = array();
+            $this->setError(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 
-			return false;
-		}
+            return false;
+        }
 
-		if (!empty($pks))
-		{
-			$date = Factory::getDate()->toSql();
+        if (!empty($pks)) {
+            $date = Factory::getDate()->toSql();
 
-			// Update the link rows.
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__redirect_links'))
-				->set($db->quoteName('new_url') . ' = :url')
-				->set($db->quoteName('modified_date') . ' = :date')
-				->set($db->quoteName('published') . ' = 1')
-				->whereIn($db->quoteName('id'), $pks)
-				->bind(':url', $url)
-				->bind(':date', $date);
+            // Update the link rows.
+            $query = $db->getQuery(true)
+                ->update($db->quoteName('#__redirect_links'))
+                ->set($db->quoteName('new_url') . ' = :url')
+                ->set($db->quoteName('modified_date') . ' = :date')
+                ->set($db->quoteName('published') . ' = 1')
+                ->whereIn($db->quoteName('id'), $pks)
+                ->bind(':url', $url)
+                ->bind(':date', $date);
 
-			if (!empty($comment))
-			{
-				$query->set($db->quoteName('comment') . ' = ' . $db->quote($comment));
-			}
+            if (!empty($comment)) {
+                $query->set($db->quoteName('comment') . ' = ' . $db->quote($comment));
+            }
 
-			$db->setQuery($query);
+            $db->setQuery($query);
 
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
+            try {
+                $db->execute();
+            } catch (\RuntimeException $e) {
+                $this->setError($e->getMessage());
 
-				return false;
-			}
-		}
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

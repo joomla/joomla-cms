@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Administrator
  * @subpackage com_users
@@ -9,14 +10,12 @@
 
 namespace Joomla\Component\Users\Administrator\Field;
 
-defined('_JEXEC') || die();
-
 /**
  * Select modules positions.
  *
  * Reuses the same field from com_modules. Don't lose it; reuse it!
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class ModulesPositionField extends \Joomla\Component\Modules\Administrator\Field\ModulesPositionField
 {

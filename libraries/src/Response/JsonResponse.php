@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Response;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -22,106 +21,98 @@ use Joomla\CMS\Factory;
  */
 class JsonResponse
 {
-	/**
-	 * Determines whether the request was successful
-	 *
-	 * @var    boolean
-	 *
-	 * @since  3.1
-	 */
-	public $success = true;
+    /**
+     * Determines whether the request was successful
+     *
+     * @var    boolean
+     *
+     * @since  3.1
+     */
+    public $success = true;
 
-	/**
-	 * The main response message
-	 *
-	 * @var    string
-	 *
-	 * @since  3.1
-	 */
-	public $message = null;
+    /**
+     * The main response message
+     *
+     * @var    string
+     *
+     * @since  3.1
+     */
+    public $message = null;
 
-	/**
-	 * Array of messages gathered in the Application object
-	 *
-	 * @var    array
-	 *
-	 * @since  3.1
-	 */
-	public $messages = null;
+    /**
+     * Array of messages gathered in the Application object
+     *
+     * @var    array
+     *
+     * @since  3.1
+     */
+    public $messages = null;
 
-	/**
-	 * The response data
-	 *
-	 * @var    mixed
-	 *
-	 * @since  3.1
-	 */
-	public $data = null;
+    /**
+     * The response data
+     *
+     * @var    mixed
+     *
+     * @since  3.1
+     */
+    public $data = null;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   mixed    $response        The Response data
-	 * @param   string   $message         The main response message
-	 * @param   boolean  $error           True, if the success flag shall be set to false, defaults to false
-	 * @param   boolean  $ignoreMessages  True, if the message queue shouldn't be included, defaults to false
-	 *
-	 * @since   3.1
-	 */
-	public function __construct($response = null, $message = null, $error = false, $ignoreMessages = false)
-	{
-		$this->message = $message;
+    /**
+     * Constructor
+     *
+     * @param   mixed    $response        The Response data
+     * @param   string   $message         The main response message
+     * @param   boolean  $error           True, if the success flag shall be set to false, defaults to false
+     * @param   boolean  $ignoreMessages  True, if the message queue shouldn't be included, defaults to false
+     *
+     * @since   3.1
+     */
+    public function __construct($response = null, $message = null, $error = false, $ignoreMessages = false)
+    {
+        $this->message = $message;
 
-		// Get the message queue if requested and available
-		$app = Factory::getApplication();
+        // Get the message queue if requested and available
+        $app = Factory::getApplication();
 
-		if (!$ignoreMessages && $app !== null && \is_callable(array($app, 'getMessageQueue')))
-		{
-			$messages = $app->getMessageQueue();
+        if (!$ignoreMessages && $app !== null && \is_callable(array($app, 'getMessageQueue'))) {
+            $messages = $app->getMessageQueue();
 
-			// Build the sorted messages list
-			if (\is_array($messages) && \count($messages))
-			{
-				foreach ($messages as $message)
-				{
-					if (isset($message['type']) && isset($message['message']))
-					{
-						$lists[$message['type']][] = $message['message'];
-					}
-				}
-			}
+            // Build the sorted messages list
+            if (\is_array($messages) && \count($messages)) {
+                foreach ($messages as $message) {
+                    if (isset($message['type']) && isset($message['message'])) {
+                        $lists[$message['type']][] = $message['message'];
+                    }
+                }
+            }
 
-			// If messages exist add them to the output
-			if (isset($lists) && \is_array($lists))
-			{
-				$this->messages = $lists;
-			}
-		}
+            // If messages exist add them to the output
+            if (isset($lists) && \is_array($lists)) {
+                $this->messages = $lists;
+            }
+        }
 
-		// Check if we are dealing with an error
-		if ($response instanceof \Throwable)
-		{
-			// Prepare the error response
-			$this->success = false;
-			$this->message = $response->getMessage();
-		}
-		else
-		{
-			// Prepare the response data
-			$this->success = !$error;
-			$this->data    = $response;
-		}
-	}
+        // Check if we are dealing with an error
+        if ($response instanceof \Throwable) {
+            // Prepare the error response
+            $this->success = false;
+            $this->message = $response->getMessage();
+        } else {
+            // Prepare the response data
+            $this->success = !$error;
+            $this->data    = $response;
+        }
+    }
 
-	/**
-	 * Magic toString method for sending the response in JSON format
-	 *
-	 * @return  string  The response in JSON format
-	 *
-	 * @since   3.1
-	 */
-	public function __toString()
-	{
-		return json_encode($this);
-	}
+    /**
+     * Magic toString method for sending the response in JSON format
+     *
+     * @return  string  The response in JSON format
+     *
+     * @since   3.1
+     */
+    public function __toString()
+    {
+        return json_encode($this);
+    }
 }

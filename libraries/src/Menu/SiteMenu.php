@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,10 +9,9 @@
 
 namespace Joomla\CMS\Menu;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
+use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
@@ -26,275 +26,253 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  1.5
  */
-class SiteMenu extends AbstractMenu
+class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterface
 {
-	/**
-	 * Application object
-	 *
-	 * @var    CMSApplication
-	 * @since  3.5
-	 */
-	protected $app;
+    use CacheControllerFactoryAwareTrait;
 
-	/**
-	 * Database driver
-	 *
-	 * @var    DatabaseDriver
-	 * @since  3.5
-	 */
-	protected $db;
+    /**
+     * Application object
+     *
+     * @var    CMSApplication
+     * @since  3.5
+     */
+    protected $app;
 
-	/**
-	 * Language object
-	 *
-	 * @var    Language
-	 * @since  3.5
-	 */
-	protected $language;
+    /**
+     * Database driver
+     *
+     * @var    DatabaseDriver
+     * @since  3.5
+     */
+    protected $db;
 
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  An array of configuration options.
-	 *
-	 * @since   1.5
-	 */
-	public function __construct($options = array())
-	{
-		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
-		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
-		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
+    /**
+     * Language object
+     *
+     * @var    Language
+     * @since  3.5
+     */
+    protected $language;
 
-		if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver))
-		{
-			@trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
-			$options['db'] = Factory::getContainer()->get(DatabaseDriver::class);
-		}
+    /**
+     * Class constructor
+     *
+     * @param   array  $options  An array of configuration options.
+     *
+     * @since   1.5
+     */
+    public function __construct($options = array())
+    {
+        // Extract the internal dependencies before calling the parent constructor since it calls $this->load()
+        $this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
+        $this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
-		$this->db = $options['db'];
+        if (!isset($options['db']) || !($options['db'] instanceof DatabaseDriver)) {
+            @trigger_error(sprintf('Database will be mandatory in 5.0.'), E_USER_DEPRECATED);
+            $options['db'] = Factory::getContainer()->get(DatabaseDriver::class);
+        }
 
-		parent::__construct($options);
-	}
+        $this->db = $options['db'];
 
-	/**
-	 * Loads the entire menu table into memory.
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @since   1.5
-	 */
-	public function load()
-	{
-		$loader = function ()
-		{
-			$currentDate = Factory::getDate()->toSql();
+        parent::__construct($options);
+    }
 
-			$query = $this->db->getQuery(true)
-				->select(
-					$this->db->quoteName(
-						[
-							'm.id',
-							'm.menutype',
-							'm.title',
-							'm.alias',
-							'm.note',
-							'm.link',
-							'm.type',
-							'm.level',
-							'm.language',
-							'm.browserNav',
-							'm.access',
-							'm.params',
-							'm.home',
-							'm.img',
-							'm.template_style_id',
-							'm.component_id',
-							'm.parent_id',
-						]
-					)
-				)
-				->select(
-					$this->db->quoteName(
-						[
-							'm.path',
-							'e.element',
-						],
-						[
-							'route',
-							'component',
-						]
-					)
-				)
-				->from($this->db->quoteName('#__menu', 'm'))
-				->join(
-					'LEFT',
-					$this->db->quoteName('#__extensions', 'e'),
-					$this->db->quoteName('m.component_id') . ' = ' . $this->db->quoteName('e.extension_id')
-				)
-				->where(
-					[
-						$this->db->quoteName('m.published') . ' = 1',
-						$this->db->quoteName('m.parent_id') . ' > 0',
-						$this->db->quoteName('m.client_id') . ' = 0',
-					]
-				)
-				->extendWhere(
-					'AND',
-					[
-						$this->db->quoteName('m.publish_up') . ' IS NULL',
-						$this->db->quoteName('m.publish_up') . ' <= :currentDate1',
-					],
-					'OR'
-				)
-				->bind(':currentDate1', $currentDate)
-				->extendWhere(
-					'AND',
-					[
-						$this->db->quoteName('m.publish_down') . ' IS NULL',
-						$this->db->quoteName('m.publish_down') . ' >= :currentDate2',
-					],
-					'OR'
-				)
-				->bind(':currentDate2', $currentDate)
-				->order($this->db->quoteName('m.lft'));
+    /**
+     * Loads the entire menu table into memory.
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @since   1.5
+     */
+    public function load()
+    {
+        $loader = function () {
+            $currentDate = Factory::getDate()->toSql();
 
-			$items    = [];
-			$iterator = $this->db->setQuery($query)->getIterator();
+            $query = $this->db->getQuery(true)
+                ->select(
+                    $this->db->quoteName(
+                        [
+                            'm.id',
+                            'm.menutype',
+                            'm.title',
+                            'm.alias',
+                            'm.note',
+                            'm.link',
+                            'm.type',
+                            'm.level',
+                            'm.language',
+                            'm.browserNav',
+                            'm.access',
+                            'm.params',
+                            'm.home',
+                            'm.img',
+                            'm.template_style_id',
+                            'm.component_id',
+                            'm.parent_id',
+                        ]
+                    )
+                )
+                ->select(
+                    $this->db->quoteName(
+                        [
+                            'm.path',
+                            'e.element',
+                        ],
+                        [
+                            'route',
+                            'component',
+                        ]
+                    )
+                )
+                ->from($this->db->quoteName('#__menu', 'm'))
+                ->join(
+                    'LEFT',
+                    $this->db->quoteName('#__extensions', 'e'),
+                    $this->db->quoteName('m.component_id') . ' = ' . $this->db->quoteName('e.extension_id')
+                )
+                ->where(
+                    [
+                        $this->db->quoteName('m.published') . ' = 1',
+                        $this->db->quoteName('m.parent_id') . ' > 0',
+                        $this->db->quoteName('m.client_id') . ' = 0',
+                    ]
+                )
+                ->extendWhere(
+                    'AND',
+                    [
+                        $this->db->quoteName('m.publish_up') . ' IS NULL',
+                        $this->db->quoteName('m.publish_up') . ' <= :currentDate1',
+                    ],
+                    'OR'
+                )
+                ->bind(':currentDate1', $currentDate)
+                ->extendWhere(
+                    'AND',
+                    [
+                        $this->db->quoteName('m.publish_down') . ' IS NULL',
+                        $this->db->quoteName('m.publish_down') . ' >= :currentDate2',
+                    ],
+                    'OR'
+                )
+                ->bind(':currentDate2', $currentDate)
+                ->order($this->db->quoteName('m.lft'));
 
-			foreach ($iterator as $item)
-			{
-				$items[$item->id] = new MenuItem((array) $item);
-			}
+            $items    = [];
+            $iterator = $this->db->setQuery($query)->getIterator();
 
-			return $items;
-		};
+            foreach ($iterator as $item) {
+                $items[$item->id] = new MenuItem((array) $item);
+            }
 
-		try
-		{
-			/** @var CallbackController $cache */
-			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-				->createCacheController('callback', ['defaultgroup' => 'com_menus']);
+            return $items;
+        };
 
-			$this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
-		}
-		catch (CacheExceptionInterface $e)
-		{
-			try
-			{
-				$this->items = $loader();
-			}
-			catch (ExecutionFailureException $databaseException)
-			{
-				$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
+        try {
+            /** @var CallbackController $cache */
+            $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-				return false;
-			}
-		}
-		catch (ExecutionFailureException $e)
-		{
-			$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
+            $this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
+        } catch (CacheExceptionInterface $e) {
+            try {
+                $this->items = $loader();
+            } catch (ExecutionFailureException $databaseException) {
+                $this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
 
-			return false;
-		}
+                return false;
+            }
+        } catch (ExecutionFailureException $e) {
+            $this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
 
-		foreach ($this->items as &$item)
-		{
-			// Get parent information.
-			$parent_tree = array();
+            return false;
+        }
 
-			if (isset($this->items[$item->parent_id]))
-			{
-				$item->setParent($this->items[$item->parent_id]);
-				$parent_tree  = $this->items[$item->parent_id]->tree;
-			}
+        foreach ($this->items as &$item) {
+            // Get parent information.
+            $parent_tree = array();
 
-			// Create tree.
-			$parent_tree[] = $item->id;
-			$item->tree    = $parent_tree;
+            if (isset($this->items[$item->parent_id])) {
+                $item->setParent($this->items[$item->parent_id]);
+                $parent_tree  = $this->items[$item->parent_id]->tree;
+            }
 
-			// Create the query array.
-			$url = str_replace('index.php?', '', $item->link);
-			$url = str_replace('&amp;', '&', $url);
+            // Create tree.
+            $parent_tree[] = $item->id;
+            $item->tree    = $parent_tree;
 
-			parse_str($url, $item->query);
-		}
+            // Create the query array.
+            $url = str_replace('index.php?', '', $item->link);
+            $url = str_replace('&amp;', '&', $url);
 
-		return true;
-	}
+            parse_str($url, $item->query);
+        }
 
-	/**
-	 * Gets menu items by attribute
-	 *
-	 * @param   string   $attributes  The field name
-	 * @param   string   $values      The value of the field
-	 * @param   boolean  $firstonly   If true, only returns the first item found
-	 *
-	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
-	 *
-	 * @since   1.6
-	 */
-	public function getItems($attributes, $values, $firstonly = false)
-	{
-		$attributes = (array) $attributes;
-		$values     = (array) $values;
+        return true;
+    }
 
-		if ($this->app->isClient('site'))
-		{
-			// Filter by language if not set
-			if (($key = array_search('language', $attributes)) === false)
-			{
-				if (Multilanguage::isEnabled())
-				{
-					$attributes[] = 'language';
-					$values[]     = array(Factory::getLanguage()->getTag(), '*');
-				}
-			}
-			elseif ($values[$key] === null)
-			{
-				unset($attributes[$key], $values[$key]);
-			}
+    /**
+     * Gets menu items by attribute
+     *
+     * @param   string   $attributes  The field name
+     * @param   string   $values      The value of the field
+     * @param   boolean  $firstonly   If true, only returns the first item found
+     *
+     * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
+     *
+     * @since   1.6
+     */
+    public function getItems($attributes, $values, $firstonly = false)
+    {
+        $attributes = (array) $attributes;
+        $values     = (array) $values;
 
-			// Filter by access level if not set
-			if (($key = array_search('access', $attributes)) === false)
-			{
-				$attributes[] = 'access';
-				$values[]     = $this->user->getAuthorisedViewLevels();
-			}
-			elseif ($values[$key] === null)
-			{
-				unset($attributes[$key], $values[$key]);
-			}
-		}
+        if ($this->app->isClient('site')) {
+            // Filter by language if not set
+            if (($key = array_search('language', $attributes)) === false) {
+                if (Multilanguage::isEnabled()) {
+                    $attributes[] = 'language';
+                    $values[]     = array(Factory::getLanguage()->getTag(), '*');
+                }
+            } elseif ($values[$key] === null) {
+                unset($attributes[$key], $values[$key]);
+            }
 
-		// Reset arrays or we get a notice if some values were unset
-		$attributes = array_values($attributes);
-		$values     = array_values($values);
+            // Filter by access level if not set
+            if (($key = array_search('access', $attributes)) === false) {
+                $attributes[] = 'access';
+                $values[]     = $this->user->getAuthorisedViewLevels();
+            } elseif ($values[$key] === null) {
+                unset($attributes[$key], $values[$key]);
+            }
+        }
 
-		return parent::getItems($attributes, $values, $firstonly);
-	}
+        // Reset arrays or we get a notice if some values were unset
+        $attributes = array_values($attributes);
+        $values     = array_values($values);
 
-	/**
-	 * Get menu item by id
-	 *
-	 * @param   string  $language  The language code.
-	 *
-	 * @return  MenuItem|null  The item object or null when not found for given language
-	 *
-	 * @since   1.6
-	 */
-	public function getDefault($language = '*')
-	{
-		// Get menu items first to ensure defaults have been populated
-		$items = $this->getMenu();
+        return parent::getItems($attributes, $values, $firstonly);
+    }
 
-		if (\array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
-		{
-			return $items[$this->default[$language]];
-		}
+    /**
+     * Get menu item by id
+     *
+     * @param   string  $language  The language code.
+     *
+     * @return  MenuItem|null  The item object or null when not found for given language
+     *
+     * @since   1.6
+     */
+    public function getDefault($language = '*')
+    {
+        // Get menu items first to ensure defaults have been populated
+        $items = $this->getMenu();
 
-		if (\array_key_exists('*', $this->default))
-		{
-			return $items[$this->default['*']];
-		}
-	}
+        if (\array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter()) {
+            return $items[$this->default[$language]];
+        }
+
+        if (\array_key_exists('*', $this->default)) {
+            return $items[$this->default['*']];
+        }
+    }
 }
