@@ -119,17 +119,17 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         $shortcuts = array_merge(
             $shortcuts,
             [
-                'applyKey'   => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => Text::_('JAPPLY')],
-                'saveKey'    => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => Text::_('JTOOLBAR_SAVE')],
-                'save2newKey'=> (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'SN', 'title' => Text::_('JTOOLBAR_SAVE_AND_NEW')],
-                'save2copyKey'=> (object) ['selector' => 'joomla-toolbar-button .button-save-copy', 'shortcut' => 'SC', 'title' => Text::_('JTOOLBAR_SAVE_AS_COPY')],
-                'cancelKey'  => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => Text::_('JCANCEL')],
-                'newKey'     => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_NEW')],
-                'searchKey'  => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => Text::_('JSEARCH_FILTER')],
-                'optionKey'  => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
-                'helpKey'    => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
-                'toggleMenu' => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
-                'dashboard'  => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE')],
+                'applyKey'     => (object) ['selector' => 'joomla-toolbar-button .button-apply', 'shortcut' => 'A', 'title' => Text::_('JAPPLY')],
+                'saveKey'      => (object) ['selector' => 'joomla-toolbar-button .button-save', 'shortcut' => 'S', 'title' => Text::_('JTOOLBAR_SAVE')],
+                'save2newKey'  => (object) ['selector' => 'joomla-toolbar-button .button-save-new', 'shortcut' => 'SN', 'title' => Text::_('JTOOLBAR_SAVE_AND_NEW')],
+                'save2copyKey' => (object) ['selector' => 'joomla-toolbar-button .button-save-copy', 'shortcut' => 'SC', 'title' => Text::_('JTOOLBAR_SAVE_AS_COPY')],
+                'cancelKey'    => (object) ['selector' => 'joomla-toolbar-button .button-cancel', 'shortcut' => 'Q', 'title' => Text::_('JCANCEL')],
+                'newKey'       => (object) ['selector' => 'joomla-toolbar-button .button-new', 'shortcut' => 'N', 'title' => Text::_('JTOOLBAR_NEW')],
+                'searchKey'    => (object) ['selector' => 'input[placeholder=' . Text::_('JSEARCH_FILTER') . ']', 'shortcut' => 'F', 'title' => Text::_('JSEARCH_FILTER')],
+                'optionKey'    => (object) ['selector' => 'joomla-toolbar-button .button-options', 'shortcut' => 'O', 'title' => Text::_('JOPTIONS')],
+                'helpKey'      => (object) ['selector' => 'joomla-toolbar-button .button-help', 'shortcut' => 'H', 'title' => Text::_('JHELP')],
+                'toggleMenu'   => (object) ['selector' => '#menu-collapse', 'shortcut' => 'M', 'title' => Text::_('JTOGGLE_SIDEBAR_MENU')],
+                'dashboard'    => (object) ['selector' => (string) new Uri(Route::_('index.php?')), 'shortcut' => 'D', 'title' => Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE')],
             ]
         );
 
