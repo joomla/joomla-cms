@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\MVC\Model;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Database\DatabaseInterface;
 
@@ -19,12 +18,12 @@ use Joomla\Database\DatabaseInterface;
  */
 interface DatabaseModelInterface
 {
-	/**
-	 * Method to get the database driver object.
-	 *
-	 * @return  DatabaseInterface
-	 *
-	 * @since   4.0.0
-	 */
-	public function getDbo();
+    /**
+     * Method to get the database driver object.
+     *
+     * @return  DatabaseInterface
+     *
+     * @since   4.0.0
+     */
+    public function getDbo();
 }

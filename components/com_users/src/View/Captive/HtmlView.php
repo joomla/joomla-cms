@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -12,9 +13,8 @@ namespace Joomla\Component\Users\Site\View\Captive;
 /**
  * View for Multi-factor Authentication captive page
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class HtmlView extends \Joomla\Component\Users\Administrator\View\Captive\HtmlView
 {
-
 }
