@@ -16,6 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\String\StringHelper;
 
 /**
  * Item Model for a single tour.
@@ -85,6 +86,19 @@ class StepModel extends AdminModel
 
 		$app       = Factory::getApplication();
 		$context   = $this->option . '.' . $this->name;
+	}
+
+	protected function generateNewTitle($categoryId, $alias, $title)
+	{
+		// Alter the title
+		$table = $this->getTable();
+
+		while ($table->load(array('title' => $title)))
+		{
+			$title = StringHelper::increment($title);
+		}
+
+		return array($title, $alias);
 	}
 
 	/**

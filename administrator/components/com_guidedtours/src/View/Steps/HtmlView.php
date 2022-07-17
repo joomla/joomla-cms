@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
 		ToolbarHelper::link(
-			Route::_('index.php?option=com_guidedtours'),
+			Route::_('index.php?option=com_guidedtours&view=tours'),
 			'JTOOLBAR_BACK',
 			$arrow
 		);
