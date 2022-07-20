@@ -40,7 +40,7 @@ trait ExtensionManagerTrait
         // Normalize the component name
         $component = strtolower(str_replace('com_', '', $component));
 
-        // Path to to look for services
+        // Path to look for services
         $path = JPATH_ADMINISTRATOR . '/components/com_' . $component;
 
         return $this->loadExtension(ComponentInterface::class, $component, $path);
@@ -61,7 +61,7 @@ trait ExtensionManagerTrait
         // Normalize the module name
         $module = strtolower(str_replace('mod_', '', $module));
 
-        // Path to to look for services
+        // Path to look for services
         $path = JPATH_SITE . '/modules/mod_' . $module;
 
         if ($applicationName === 'administrator') {
@@ -83,10 +83,10 @@ trait ExtensionManagerTrait
      */
     public function bootPlugin($plugin, $type): PluginInterface
     {
-        // Normalize the module name
+        // Normalize the plugin name
         $plugin = strtolower(str_replace('plg_', '', $plugin));
 
-        // Path to to look for services
+        // Path to look for services
         $path = JPATH_SITE . '/plugins/' . $type . '/' . $plugin;
 
         return $this->loadExtension(PluginInterface::class, $plugin . ':' . $type, $path);
