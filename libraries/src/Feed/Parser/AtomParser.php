@@ -190,9 +190,7 @@ class AtomParser extends FeedParser
      */
     protected function initialise()
     {
-        // We want to move forward to the first XML Element after the xml doc type declaration
-        $this->moveToNextElement();
-
+        // We are on the first XML Element after the xml doc type declaration
         $this->version = ($this->stream->getAttribute('version') == '0.3') ? '0.3' : '1.0';
     }
 
