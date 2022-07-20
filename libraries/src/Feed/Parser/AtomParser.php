@@ -192,6 +192,7 @@ class AtomParser extends FeedParser
     {
         // We are on the first XML Element after the xml doc type declaration
         $this->version = ($this->stream->getAttribute('version') == '0.3') ? '0.3' : '1.0';
+        $this->moveToNextElement();
     }
 
     /**
