@@ -603,13 +603,13 @@ class RssParserTest extends UnitTestCase
         } catch (\Exception $e) {
             throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
         }
-        
+
         $rssParser->parse();
-		
+
         // Use reflection to check the value
         $reflectionClass = new ReflectionClass($rssParser);
         $attribute = $reflectionClass->getProperty('version');
-		
+
         $attribute->setAccessible(true);
         $this->assertEquals('2.0', $attribute->getValue($rssParser));
     }
