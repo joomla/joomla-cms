@@ -210,8 +210,8 @@ class PlgQuickiconEos310 extends CMSPlugin
 			);
 		}
 
-		// The security support is ending in 6 months
-		if ($monthsUntilEOS <= 6)
+		// The security support is ending in 6 months; The calculation is a month off so we use 5 here.
+		if ($monthsUntilEOS <= 5)
 		{
 			return array(
 				'id'            => 4,
@@ -225,8 +225,8 @@ class PlgQuickiconEos310 extends CMSPlugin
 			);
 		}
 
-		// We are in security only mode now, 12 month to go from now on
-		if ($monthsUntilEOS <= 12)
+		// We are in security only mode now, 12 month to go from now on; The calculation is a month off so we use 11 here.
+		if ($monthsUntilEOS <= 11)
 		{
 			return array(
 				'id'            => 3,
@@ -240,8 +240,8 @@ class PlgQuickiconEos310 extends CMSPlugin
 			);
 		}
 
-		// We still have 16 month to go, lets remind our users about the pre upgrade checker
-		if ($monthsUntilEOS <= 16)
+		// We still have 16 month to go, lets remind our users about the pre upgrade checker; The calculation is a month off so we use 15 here.
+		if ($monthsUntilEOS <= 15)
 		{
 			return array(
 				'id'            => 2,
@@ -255,8 +255,8 @@ class PlgQuickiconEos310 extends CMSPlugin
 			);
 		}
 
-		// Lets start our messages 2 month after the initial release, still 22 month to go
-		if ($monthsUntilEOS <= 22)
+		// Lets start our messages 2 month after the initial release, still 22 month to go; The calculation is a month off so we use 21 here.
+		if ($monthsUntilEOS <= 21)
 		{
 			return array(
 				'id'            => 1,
