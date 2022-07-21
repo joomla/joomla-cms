@@ -370,7 +370,7 @@ class AtomParserTest extends UnitTestCase
         } catch (\Exception $e) {
             throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
         }
-        
+
         $atomParser->parse();
 
         // Use reflection to check the value
@@ -409,7 +409,7 @@ class AtomParserTest extends UnitTestCase
         } catch (\Exception $e) {
             throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
         }
-        
+
         $atomParser->parse();
 
         // Use reflection to check the value
