@@ -124,7 +124,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
      */
     private $nonceDirectives = [
         'script-src',
+        'script-src-elem',
         'style-src',
+        'style-src-elem',
     ];
 
     /**
