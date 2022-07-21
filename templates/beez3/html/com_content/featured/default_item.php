@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,11 +20,13 @@ $images         = json_decode($this->item->images);
 $app            = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 
-?>
+$currentDate   = JFactory::getDate()->format('Y-m-d H:i:s');
+$isUnpublished = ($this->item->state == 0 || $this->item->publish_up > $currentDate)
+	|| ($this->item->publish_down < $currentDate && $this->item->publish_down !== JFactory::getDbo()->getNullDate());
 
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| (strtotime($this->item->publish_down) < strtotime(JFactory::getDate()) && $this->item->publish_down !== JFactory::getDbo()->getNullDate())) : ?>
-<div class="system-unpublished">
+?>
+<?php if ($isUnpublished) : ?>
+	<div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
 	<h2>
@@ -169,9 +171,8 @@ $templateparams = $app->getTemplate(true)->params;
 		</p>
 <?php endif; ?>
 
-<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| (strtotime($this->item->publish_down) < strtotime(JFactory::getDate()) && $this->item->publish_down !== JFactory::getDbo()->getNullDate())) : ?>
-</div>
+<?php if ($isUnpublished) : ?>
+	</div>
 <?php endif; ?>
 
 <div class="item-separator"></div>

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset addfieldpath="/administrator/components/com_menus/models/fields" />
+		<field
+			name="menutype"
+			type="menu"
+			label="COM_MENUS_SELECT_MENU_FILTER"
+			accesstype="manage"
+			clientid=""
+			showAll="false"
+			filtermode="selector"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_MENUS_SELECT_MENU</option>
+		</field>
 		<fields name="filter">
 			<field
 				name="search"
@@ -51,6 +63,14 @@
 				onchange="this.form.submit();"
 				>
 				<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+			</field>
+			<field
+				name="parent_id"
+				type="MenuItemByType"
+				label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
+				onchange="this.form.submit();"
+				>
+				<option value="">COM_MENUS_FILTER_SELECT_PARENT_MENU_ITEM</option>
 			</field>
 		</fields>
 		<fields name="list">

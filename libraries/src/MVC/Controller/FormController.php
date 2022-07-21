@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -61,15 +63,16 @@ class FormController extends BaseController
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \JControllerLegacy
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 
 		// Guess the option as com_NameOfController
 		if (empty($this->option))
@@ -252,7 +255,10 @@ class FormController extends BaseController
 	public function batch($model)
 	{
 		$vars = $this->input->post->get('batch', array(), 'array');
-		$cid  = $this->input->post->get('cid', array(), 'array');
+		$cid  = (array) $this->input->post->get('cid', array(), 'int');
+
+		// Remove zero values resulting from input filter
+		$cid = array_filter($cid);
 
 		// Build an array of item contexts to check
 		$contexts = array();
@@ -360,7 +366,7 @@ class FormController extends BaseController
 
 		$model = $this->getModel();
 		$table = $model->getTable();
-		$cid   = $this->input->post->get('cid', array(), 'array');
+		$cid   = (array) $this->input->post->get('cid', array(), 'int');
 		$context = "$this->option.edit.$this->context";
 
 		// Determine the name of the primary key for the data.
@@ -947,9 +953,19 @@ class FormController extends BaseController
 			{
 				$fieldName = $field->fieldname;
 
-				if (isset($filteredData[$fieldName]))
+				if ($field->group)
 				{
-					$data[$fieldName] = $filteredData[$fieldName];
+					if (isset($filteredData[$field->group][$fieldName]))
+					{
+						$data[$field->group][$fieldName] = $filteredData[$field->group][$fieldName];
+					}
+				}
+				else
+				{
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
 				}
 			}
 		}

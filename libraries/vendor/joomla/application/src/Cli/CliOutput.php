@@ -60,16 +60,10 @@ abstract class CliOutput
 	 * @return  ProcessorInterface
 	 *
 	 * @since   1.0
-	 * @throws  \RuntimeException
 	 */
 	public function getProcessor()
 	{
-		if ($this->processor)
-		{
-			return $this->processor;
-		}
-
-		throw new \RuntimeException('A ProcessorInterface object has not been set.');
+		return $this->processor;
 	}
 
 	/**

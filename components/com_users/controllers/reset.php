@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class UsersControllerReset extends UsersController
 		$return	= $model->processResetRequest($data);
 
 		// Check for a hard error.
-		if ($return instanceof Exception)
+		if ($return instanceof Exception && JDEBUG)
 		{
 			// Get the error message to display.
 			if ($app->get('error_reporting'))
@@ -55,7 +55,7 @@ class UsersControllerReset extends UsersController
 
 			return false;
 		}
-		elseif ($return === false)
+		elseif ($return === false && JDEBUG)
 		{
 			// The request failed.
 			// Go back to the request form.
@@ -64,14 +64,12 @@ class UsersControllerReset extends UsersController
 
 			return false;
 		}
-		else
-		{
-			// The request succeeded.
-			// Proceed to step two.
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false));
 
-			return true;
-		}
+		// To not expose if the user exists or not we send a generic message.
+		$message = JText::_('COM_USERS_RESET_REQUEST');
+		$this->setRedirect(JRoute::_('index.php?option=com_users&view=reset&layout=confirm', false), $message, 'notice');
+
+		return true;
 	}
 
 	/**

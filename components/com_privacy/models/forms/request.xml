@@ -2,16 +2,6 @@
 <form>
 	<fieldset name="default">
 		<field
-			name="email"
-			type="email"
-			label="JGLOBAL_EMAIL"
-			description="COM_PRIVACY_FIELD_CONFIRM_EMAIL_DESC"
-			validate="email"
-			required="true"
-			size="30"
-		/>
-
-		<field
 			name="request_type"
 			type="list"
 			label="COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL"

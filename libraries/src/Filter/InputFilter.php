@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -351,24 +351,7 @@ class InputFilter extends BaseInputFilter
 
 				break;
 			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-
-				if (is_array($source))
-				{
-					$result = array();
-
-					// Iterate through the array
-					foreach ($source as $eachString)
-					{
-						preg_match($pattern, (string) $eachString, $matches);
-						$result[] = isset($matches[0]) ? (string) $matches[0] : '';
-					}
-				}
-				else
-				{
-					preg_match($pattern, $source, $matches);
-					$result = isset($matches[0]) ? (string) $matches[0] : '';
-				}
+				$result = parent::clean($source, 'path');
 
 				break;
 			case 'TRIM':
@@ -510,7 +493,8 @@ class InputFilter extends BaseInputFilter
 
 			// Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
 			'forbidden_extensions'       => array(
-				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
+				'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7',
+				'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py',
 			),
 
 			// <?php tag in file contents
@@ -524,7 +508,7 @@ class InputFilter extends BaseInputFilter
 
 			// Which file extensions to scan for short tags
 			'shorttag_extensions'        => array(
-				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'txt', 'dat', 'tpl', 'tmpl',
+				'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
 			),
 
 			// Forbidden extensions anywhere in the content
@@ -627,7 +611,7 @@ class InputFilter extends BaseInputFilter
 					|| $options['shorttag_in_content'] || $options['phar_stub_in_content']
 					|| ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions'])))
 				{
-					$fp = @fopen($tempName, 'r');
+					$fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
 
 					if ($fp !== false)
 					{

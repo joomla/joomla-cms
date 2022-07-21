@@ -246,5 +246,3 @@ try {
 	err($fa.$ex->getMessage());
 	exit(1);
 }
-
-?>

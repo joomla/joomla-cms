@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,8 @@ class NomenuRules implements RulesInterface
 		{
 			$item = $this->router->menu->getItem($query['Itemid']);
 
-			if (!isset($query['option']) || ($item && $item->query['option'] === $query['option']))
+			if (!isset($query['option'])
+				|| ($item && isset($item->query['option']) && $item->query['option'] === $query['option']))
 			{
 				$menu_found = true;
 			}

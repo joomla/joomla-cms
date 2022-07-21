@@ -1,13 +1,16 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Base
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\CMS\Adapter;
+
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Adapter Class
@@ -17,12 +20,12 @@ defined('JPATH_PLATFORM') or die;
  * @since       1.6
  * @deprecated  5.0 Will be removed without replacement
  */
-class JAdapter extends JObject
+class Adapter extends CMSObject
 {
 	/**
 	 * Associative array of adapters
 	 *
-	 * @var    JAdapterInstance[]
+	 * @var    static[]
 	 * @since  1.6
 	 */
 	protected $_adapters = array();
@@ -54,7 +57,7 @@ class JAdapter extends JObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  1.6
 	 */
 	protected $_db;
@@ -74,13 +77,13 @@ class JAdapter extends JObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = JFactory::getDbo();
+		$this->_db = \JFactory::getDbo();
 	}
 
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  JDatabaseDriver  Database connector object
+	 * @return  \JDatabaseDriver  Database connector object
 	 *
 	 * @since   1.6
 	 */
@@ -95,7 +98,7 @@ class JAdapter extends JObject
 	 * @param   string  $name     Name of adapter to return
 	 * @param   array   $options  Adapter options
 	 *
-	 * @return  JAdapterInstance|boolean  Adapter of type 'name' or false
+	 * @return  static|boolean  Adapter of type 'name' or false
 	 *
 	 * @since   1.6
 	 */
@@ -162,7 +165,7 @@ class JAdapter extends JObject
 		// Try to load the adapter object
 		$class = $this->_classprefix . ucfirst($name);
 
-		JLoader::register($class, $fullpath);
+		\JLoader::register($class, $fullpath);
 
 		if (!class_exists($class))
 		{
@@ -185,9 +188,9 @@ class JAdapter extends JObject
 	 */
 	public function loadAllAdapters($options = array())
 	{
-		$files = new DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
+		$files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
-		/* @type  $file  DirectoryIterator */
+		/* @type  $file  \DirectoryIterator */
 		foreach ($files as $file)
 		{
 			$fileName = $file->getFilename();

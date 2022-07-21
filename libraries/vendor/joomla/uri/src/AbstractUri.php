@@ -23,55 +23,55 @@ abstract class AbstractUri implements UriInterface
 	 * @var    string  Original URI
 	 * @since  1.0
 	 */
-	protected $uri = null;
+	protected $uri;
 
 	/**
 	 * @var    string  Protocol
 	 * @since  1.0
 	 */
-	protected $scheme = null;
+	protected $scheme;
 
 	/**
 	 * @var    string  Host
 	 * @since  1.0
 	 */
-	protected $host = null;
+	protected $host;
 
 	/**
 	 * @var    integer  Port
 	 * @since  1.0
 	 */
-	protected $port = null;
+	protected $port;
 
 	/**
 	 * @var    string  Username
 	 * @since  1.0
 	 */
-	protected $user = null;
+	protected $user;
 
 	/**
 	 * @var    string  Password
 	 * @since  1.0
 	 */
-	protected $pass = null;
+	protected $pass;
 
 	/**
 	 * @var    string  Path
 	 * @since  1.0
 	 */
-	protected $path = null;
+	protected $path;
 
 	/**
 	 * @var    string  Query
 	 * @since  1.0
 	 */
-	protected $query = null;
+	protected $query;
 
 	/**
 	 * @var    string  Anchor
 	 * @since  1.0
 	 */
-	protected $fragment = null;
+	protected $fragment;
 
 	/**
 	 * @var    array  Query variable hash
@@ -89,7 +89,7 @@ abstract class AbstractUri implements UriInterface
 	 */
 	public function __construct($uri = null)
 	{
-		if (!\is_null($uri))
+		if ($uri !== null)
 		{
 			$this->parse($uri);
 		}
@@ -126,7 +126,7 @@ abstract class AbstractUri implements UriInterface
 
 			if (\defined($const))
 			{
-				$bitmask |= constant($const);
+				$bitmask |= \constant($const);
 			}
 		}
 
@@ -211,7 +211,7 @@ abstract class AbstractUri implements UriInterface
 		}
 
 		// If the query is empty build it first
-		if (\is_null($this->query))
+		if ($this->query === null)
 		{
 			$this->query = self::buildQuery($this->vars);
 		}
@@ -360,7 +360,7 @@ abstract class AbstractUri implements UriInterface
 		$retval = ($parts) ? true : false;
 
 		// We need to replace &amp; with & for parse_str to work right...
-		if (isset($parts['query']) && strpos($parts['query'], '&amp;'))
+		if (isset($parts['query']) && strpos($parts['query'], '&amp;') !== false)
 		{
 			$parts['query'] = str_replace('&amp;', '&', $parts['query']);
 		}
@@ -414,8 +414,8 @@ abstract class AbstractUri implements UriInterface
 				}
 				elseif ($path[$i] == '..' && ($i > 1 || ($i == 1 && $path[0] != '')))
 				{
-					unset($path[$i]);
-					unset($path[$i - 1]);
+					unset($path[$i], $path[$i - 1]);
+
 					$path = array_values($path);
 					$i -= 2;
 					$n -= 2;

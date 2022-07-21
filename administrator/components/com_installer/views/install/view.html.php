@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,6 +29,11 @@ class InstallerViewInstall extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$paths = new stdClass;
 		$paths->first = '';
 		$state = $this->get('state');

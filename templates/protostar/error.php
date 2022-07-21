@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,22 +26,13 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $format   = $app->input->getCmd('format', 'html');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
-if ($task === 'edit' || $layout === 'form')
-{
-	$fullWidth = 1;
-}
-else
-{
-	$fullWidth = 0;
-}
-
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
 // Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $params->get('logoFile') . '" alt="' . $sitename . '" />';
+	$logo = '<img src="' . htmlspecialchars(JUri::root() . $params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '" />';
 }
 elseif ($params->get('sitetitle'))
 {
@@ -118,20 +109,26 @@ else
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
 					</a>
-					<div class="header-search pull-right">
-						<?php // Display position-0 modules ?>
-						<?php echo $this->getBuffer('modules', 'position-0', array('style' => 'none')); ?>
-					</div>
+					<?php if ($format === 'html') : ?>
+						<div class="header-search pull-right">
+							<?php // Display position-0 modules ?>
+							<?php echo $this->loadRenderer('modules')->render('position-0', array('style' => 'none')); ?>
+						</div>
+					<?php endif; ?>
 				</div>
 			</header>
-			<nav class="navigation" role="navigation">
-				<?php // Display position-1 modules ?>
-				<?php echo $this->getBuffer('modules', 'position-1', array('style' => 'none')); ?>
-			</nav>
+			<?php if ($format === 'html') : ?>
+				<nav class="navigation" role="navigation">
+					<?php // Display position-1 modules ?>
+					<?php echo $this->loadRenderer('modules')->render('position-1', array('style' => 'none')); ?>
+				</nav>
+			<?php endif; ?>
 			<!-- Banner -->
-			<div class="banner">
-				<?php echo $this->getBuffer('modules', 'banner', array('style' => 'xhtml')); ?>
-			</div>
+			<?php if ($format === 'html') : ?>
+				<div class="banner">
+					<?php echo $this->loadRenderer('modules')->render('banner', array('style' => 'xhtml')); ?>
+				</div>
+			<?php endif; ?>
 			<div class="row-fluid">
 				<main id="content" role="main" class="span12">
 					<!-- Begin Content -->
@@ -200,7 +197,9 @@ else
 	<footer class="footer" role="contentinfo">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<hr />
-			<?php echo $this->getBuffer('modules', 'footer', array('style' => 'none')); ?>
+			<?php if ($format === 'html') : ?>
+				<?php echo $this->loadRenderer('modules')->render('footer', array('style' => 'none')); ?>
+			<?php endif; ?>
 			<p class="pull-right">
 				<a href="#top" id="back-top">
 					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
@@ -211,6 +210,8 @@ else
 			</p>
 		</div>
 	</footer>
-	<?php echo $this->getBuffer('modules', 'debug', array('style' => 'none')); ?>
+	<?php if ($format === 'html') : ?>
+		<?php echo $this->loadRenderer('modules')->render('debug', array('style' => 'none')); ?>
+	<?php endif; ?>
 </body>
 </html>

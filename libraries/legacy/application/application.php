@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -472,8 +472,6 @@ class JApplication extends BaseApplication
 
 	/**
 	 * Gets a configuration value.
-	 *
-	 * An example is in application/japplication-getcfg.php Getting a configuration
 	 *
 	 * @param   string  $varname  The name of the value to get.
 	 * @param   string  $default  Default value to return

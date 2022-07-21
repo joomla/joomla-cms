@@ -400,7 +400,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 			}
 			else
 			{
-				// Check if we have a boolean for the status variable for compatability with v1 of the framework
+				// Check if we have a boolean for the status variable for compatibility with v1 of the framework
 				// @deprecated 3.0
 				if (\is_bool($status))
 				{
@@ -595,7 +595,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @param   boolean  $asArray  True to return the body as an array of strings.
 	 *
-	 * @return  mixed  The response body either as an array or concatenated string.
+	 * @return  string|string[]  The response body either as an array or concatenated string.
 	 *
 	 * @since   1.0
 	 */

@@ -1,6 +1,6 @@
 # Important Security Information
 
-If you're going to use JCrypt in any of your extensions, make *sure* you use **CryptoCipher** or **SodiumCipher**; These are the only two which are cryptographically secure.
+If you're going to use JCrypt in any of your extensions, make *sure* you use **CryptoCipher** (requires mcrypt to be installed on the server) or **SodiumCipher**; These are the only two which are cryptographically secure.
 
 ```php
 use Joomla\CMS\Crypt\Cipher\SodiumCipher;

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 JHtml::_('formbehavior.chosen', 'select');
 
-$pageClass = $this->params->get('pageclass_sfx');
+$pageClass = $this->params->get('pageclass_sfx', '');
 
 ?>
 <div class="newsfeed-category<?php echo $this->pageclass_sfx; ?>">

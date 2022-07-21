@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -239,7 +239,9 @@ class BannersModelBanners extends JModelList
 	 */
 	public function impress()
 	{
-		$trackDate = JFactory::getDate()->toSql();
+		$trackDate = JFactory::getDate()->format('Y-m-d H:00:00');
+		$trackDate = JFactory::getDate($trackDate)->toSql();
+
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);

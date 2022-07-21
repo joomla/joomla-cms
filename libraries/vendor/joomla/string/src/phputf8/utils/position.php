@@ -117,7 +117,7 @@ function utf8_byte_position() {
 * position. If the current character begins at the same place as the
 * supplied byte index, that byte index will be returned. Otherwise
 * this function will step backwards, looking for the index where
-* curent UTF-8 character begins
+* current UTF-8 character begins
 * @author Chris Smith<chris@jalakai.co.uk>
 * @param string
 * @param int byte index in the string

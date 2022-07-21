@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.9"
+	version="3.10"
 	client="installation">
 	<name>Swahili (East Africa)</name>
-	<version>3.9.17</version>
-	<creationDate>March 2020</creationDate>
+	<version>3.10.4</version>
+	<creationDate>November 2021</creationDate>
 	<author>Hassan Abdalla</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>sw-KE.ini</filename>

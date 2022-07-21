@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -246,12 +246,13 @@ class ActionlogsHelper
 	 * @param   string   $contentType
 	 * @param   integer  $id
 	 * @param   string   $urlVar
+	 * @param   JObject  $object
 	 *
 	 * @return  string  Link to the content item
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
+	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id', $object = null)
 	{
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
@@ -266,7 +267,7 @@ class ActionlogsHelper
 
 			if (class_exists($cName) && is_callable(array($cName, 'getContentTypeLink')))
 			{
-				return $cName::getContentTypeLink($contentType, $id);
+				return $cName::getContentTypeLink($contentType, $id, $object);
 			}
 		}
 

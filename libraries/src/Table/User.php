@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -166,7 +166,7 @@ class User extends Table
 	 */
 	public function check()
 	{
-		// Set user id to null istead of 0, if needed
+		// Set user id to null instead of 0, if needed
 		if ($this->id === 0)
 		{
 			$this->id = null;
@@ -478,7 +478,7 @@ class User extends Table
 		}
 
 		// If no timestamp value is passed to function, than current time is used.
-		$date = \JFactory::getDate($timeStamp);
+		$date = \JFactory::getDate($timeStamp === null ? 'now' : $timeStamp);
 
 		// Update the database row for the user.
 		$db = $this->_db;

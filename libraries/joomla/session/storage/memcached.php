@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,7 +66,14 @@ class JSessionStorageMemcached extends JSessionStorage
 
 			if (!headers_sent())
 			{
-				ini_set('session.save_path', "{$serverConf['host']}:{$serverConf['port']}");
+				$path = $serverConf['host'];
+
+				if ($serverConf['port'] > 0)
+				{
+					$path .= ':' . $serverConf['port'];
+				}
+
+				ini_set('session.save_path', $path);
 				ini_set('session.save_handler', 'memcached');
 			}
 		}

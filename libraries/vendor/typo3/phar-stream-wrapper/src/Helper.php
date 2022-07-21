@@ -31,9 +31,9 @@ class Helper
         if (function_exists('opcache_reset')
             && function_exists('opcache_get_status')
         ) {
-            $status = opcache_get_status();
+            $status = @opcache_get_status();
             if (!empty($status['opcache_enabled'])) {
-                opcache_reset();
+                @opcache_reset();
             }
         }
     }

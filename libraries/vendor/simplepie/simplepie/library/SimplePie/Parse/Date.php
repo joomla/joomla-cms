@@ -33,7 +33,6 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3.1
  * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
@@ -541,8 +540,8 @@ class SimplePie_Parse_Date
 	 */
 	public function __construct()
 	{
-		$this->day_pcre = '(' . implode(array_keys($this->day), '|') . ')';
-		$this->month_pcre = '(' . implode(array_keys($this->month), '|') . ')';
+		$this->day_pcre = '(' . implode('|', array_keys($this->day)) . ')';
+		$this->month_pcre = '(' . implode('|', array_keys($this->month)) . ')';
 
 		static $cache;
 		if (!isset($cache[get_class($this)]))

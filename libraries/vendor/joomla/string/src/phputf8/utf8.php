@@ -3,7 +3,7 @@
 * This is the dynamic loader for the library. It checks whether you have
 * the mbstring extension available and includes relevant files
 * on that basis, falling back to the native (as in written in PHP) version
-* if mbstring is unavailabe.
+* if mbstring is unavailable.
 *
 * It's probably easiest to use this, if you don't want to understand
 * the dependencies involved, in conjunction with PHP versions etc. At
@@ -34,7 +34,7 @@ if ( !defined('UTF8') ) {
 * Also need to check we have the correct internal mbstring
 * encoding
 */
-if ( extension_loaded('mbstring')) {
+if (extension_loaded('mbstring')) {
     /*
      * Joomla modification - As of PHP 8, the `mbstring.func_overload` configuration has been removed and the
      * MB_OVERLOAD_STRING constant will no longer be present, so this check only runs for PHP 7 and older
@@ -42,9 +42,10 @@ if ( extension_loaded('mbstring')) {
      * and https://github.com/php/php-src/commit/97df99a6d7d96a886ac143337fecad775907589a
      * for additional references
      */
-    if ( PHP_VERSION_ID < 80000 && ((int) ini_get('mbstring.func_overload')) & MB_OVERLOAD_STRING ) {
+    if (defined('MB_OVERLOAD_STRING') && ((int) ini_get('mbstring.func_overload')) & MB_OVERLOAD_STRING) {
         trigger_error('String functions are overloaded by mbstring',E_USER_ERROR);
     }
+
     mb_internal_encoding('UTF-8');
 }
 

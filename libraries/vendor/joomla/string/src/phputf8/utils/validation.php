@@ -1,6 +1,6 @@
 <?php
 /**
-* Tools for validing a UTF-8 string is well formed.
+* Tools for validating a UTF-8 string is well formed.
 * The Original Code is Mozilla Communicator client code.
 * The Initial Developer of the Original Code is
 * Netscape Communications Corporation.

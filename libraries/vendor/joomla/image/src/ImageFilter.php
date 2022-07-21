@@ -8,9 +8,9 @@
 
 namespace Joomla\Image;
 
-use Psr\Log\NullLogger;
-use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Class to manipulate an image.
@@ -21,7 +21,7 @@ use Psr\Log\LoggerAwareInterface;
 abstract class ImageFilter implements LoggerAwareInterface
 {
 	/**
-	 * @var    resource  The image resource handle.
+	 * @var    resource|\GdImage  The image resource handle.
 	 * @since  1.0
 	 */
 	protected $handle;
@@ -30,12 +30,12 @@ abstract class ImageFilter implements LoggerAwareInterface
 	 * @var    LoggerInterface  Logger object
 	 * @since  1.0
 	 */
-	protected $logger = null;
+	protected $logger;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   resource  $handle  The image resource on which to apply the filter.
+	 * @param   resource|\GdImage  $handle  The image resource on which to apply the filter.
 	 *
 	 * @since   1.0
 	 * @throws  \InvalidArgumentException
@@ -44,7 +44,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 	public function __construct($handle)
 	{
 		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter'))
+		if (!\function_exists('imagefilter'))
 		{
 			// @codeCoverageIgnoreStart
 			$this->getLogger()->error('The imagefilter function for PHP is not available.');
@@ -55,7 +55,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 		}
 
 		// Make sure the file handle is valid.
-		if (!is_resource($handle) || (get_resource_type($handle) != 'gd'))
+		if (!$this->isValidImage($handle))
 		{
 			$this->getLogger()->error('The image handle is invalid for the image filter.');
 
@@ -88,7 +88,7 @@ abstract class ImageFilter implements LoggerAwareInterface
 	 *
 	 * @param   LoggerInterface  $logger  A PSR-3 compliant logger.
 	 *
-	 * @return  Image  This object for message chaining.
+	 * @return  ImageFilter  This object for message chaining.
 	 *
 	 * @since   1.0
 	 */
@@ -109,4 +109,16 @@ abstract class ImageFilter implements LoggerAwareInterface
 	 * @since   1.0
 	 */
 	abstract public function execute(array $options = array());
+
+	/**
+	 * @param   mixed  $handle  A potential image handle
+	 *
+	 * @return  boolean
+	 */
+	private function isValidImage($handle)
+	{
+		// @todo Remove resource check, once PHP7 support is dropped.
+		return (\is_resource($handle) && \get_resource_type($handle) === 'gd')
+			   || (\is_object($handle) && $handle instanceof \GDImage);
+	}
 }

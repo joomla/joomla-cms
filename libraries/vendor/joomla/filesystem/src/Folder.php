@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,8 +42,8 @@ abstract class Folder
 		}
 
 		// Eliminate trailing directory separators, if any
-		$src  = rtrim($src, DIRECTORY_SEPARATOR);
-		$dest = rtrim($dest, DIRECTORY_SEPARATOR);
+		$src  = rtrim($src, \DIRECTORY_SEPARATOR);
+		$dest = rtrim($dest, \DIRECTORY_SEPARATOR);
 
 		if (!is_dir(Path::clean($src)))
 		{
@@ -250,7 +250,13 @@ abstract class Folder
 		// Is this really a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Remove all the files in folder if they exist; disable all filtering
@@ -365,7 +371,13 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Compute the excludefilter string
@@ -412,7 +424,13 @@ abstract class Folder
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			throw new \UnexpectedValueException(sprintf('%1$s: Path is not a folder. Path: %2$s', __METHOD__, $path));
+			throw new \UnexpectedValueException(
+				sprintf(
+					'%1$s: Path is not a folder. Path: %2$s',
+					__METHOD__,
+					Path::removeRoot($path)
+				)
+			);
 		}
 
 		// Compute the excludefilter string

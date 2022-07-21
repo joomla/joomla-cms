@@ -4,9 +4,9 @@
 	client="installation">
 	<name>Kazakh (Kazakhstan)</name>
 	<version>3.9.4</version>
-	<creationDate>March 2019</creationDate>
+	<creationDate>2019-03-01</creationDate>
 	<author>Sarvarov Akylkerey</author>
-	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2019 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>Kazakh language pack (site) for Joomla!</description>
 	<files>

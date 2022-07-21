@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 		class="form-horizontal form-validate"
 		id="download-form"
 		name="adminForm"
-		action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw'); ?>"
+		action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw&' . JSession::getFormToken() . '=1'); ?>"
 		method="post">
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>

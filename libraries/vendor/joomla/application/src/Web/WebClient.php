@@ -540,13 +540,13 @@ class WebClient
 		}
 		elseif (stripos($userAgent, 'iPad') !== false)
 		{
-			// In case where iPhone is not mentioed in iPad user agent string
+			// In case where iPhone is not mentioned in iPad user agent string
 			$this->mobile   = true;
 			$this->platform = self::IPAD;
 		}
 		elseif (stripos($userAgent, 'iPod') !== false)
 		{
-			// In case where iPhone is not mentioed in iPod user agent string
+			// In case where iPhone is not mentioned in iPod user agent string
 			$this->mobile   = true;
 			$this->platform = self::IPOD;
 		}

@@ -9,13 +9,13 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 --
 
 CREATE TABLE IF NOT EXISTS `#__action_logs` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `message_language_key` varchar(255) NOT NULL DEFAULT '',
   `message` text NOT NULL,
   `log_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `extension` varchar(50) NOT NULL DEFAULT '',
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `item_id` int(11) NOT NULL DEFAULT 0,
+  `user_id` int NOT NULL DEFAULT 0,
+  `item_id` int NOT NULL DEFAULT 0,
   `ip_address` VARCHAR(40) NOT NULL DEFAULT '0.0.0.0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__action_logs_extensions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `extension` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -54,7 +54,7 @@ INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__action_log_config` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `type_title` varchar(255) NOT NULL DEFAULT '',
   `type_alias` varchar(255) NOT NULL DEFAULT '',
   `id_holder` varchar(255),
