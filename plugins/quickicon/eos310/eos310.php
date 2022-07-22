@@ -211,7 +211,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 		}
 
 		// The security support is ending in 6 months
-		if ($monthsUntilEOS <= 6)
+		if ($monthsUntilEOS < 6)
 		{
 			return array(
 				'id'            => 4,
@@ -226,7 +226,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 		}
 
 		// We are in security only mode now, 12 month to go from now on
-		if ($monthsUntilEOS <= 12)
+		if ($monthsUntilEOS < 12)
 		{
 			return array(
 				'id'            => 3,
@@ -241,7 +241,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 		}
 
 		// We still have 16 month to go, lets remind our users about the pre upgrade checker
-		if ($monthsUntilEOS <= 16)
+		if ($monthsUntilEOS < 16)
 		{
 			return array(
 				'id'            => 2,
@@ -256,7 +256,7 @@ class PlgQuickiconEos310 extends CMSPlugin
 		}
 
 		// Lets start our messages 2 month after the initial release, still 22 month to go
-		if ($monthsUntilEOS <= 22)
+		if ($monthsUntilEOS < 22)
 		{
 			return array(
 				'id'            => 1,
