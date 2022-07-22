@@ -992,6 +992,7 @@ CREATE INDEX "#__guidedtours_idx_checked_out" ON "#__guidedtours" ("checked_out"
 --
 -- Dumping data for table `#__guidedtours`
 --
+
 INSERT INTO "#__guidedtours" ("id", "asset_id", "title", "description", "ordering", "extensions", "url", "overlay", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out", "published") VALUES
 (1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you that how you can create Guided Tour in Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours&view=tours', 1, '', 0, '', 0, '', 0, 1);
 
