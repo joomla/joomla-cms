@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS "#__guidedtour_steps"
   "modified_by" int unsigned NOT NULL DEFAULT 0,
   "state" tinyint NOT NULL DEFAULT '1'
 );
- CREATE INDEX "#__guidedtours_idx_tour_id" ON "#__guidedtour_steps" ("tour_id");
+CREATE INDEX "#__guidedtours_idx_tour_id" ON "#__guidedtour_steps" ("tour_id");
 
 --
 -- Dumping data for table `#__guidedtour_steps`
