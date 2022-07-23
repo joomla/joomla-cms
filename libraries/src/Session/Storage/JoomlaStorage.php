@@ -291,7 +291,7 @@ class JoomlaStorage extends NativeStorage
         parent::start();
 
         // Try loading data from the session
-        if (isset($_SESSION['joomla']) && !empty($_SESSION['joomla'])) {
+        if (!empty($_SESSION['joomla'])) {
             $this->data = unserialize(base64_decode($_SESSION['joomla']));
         }
     }
