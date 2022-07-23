@@ -71,7 +71,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      * Autoload the language files
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     protected $autoloadLanguage = true;
 
@@ -79,7 +79,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      * Should I try to detect and register legacy event listeners?
      *
      * @var    boolean
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      *
      * @deprecated
      */
@@ -89,7 +89,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      * The WebAuthn authentication helper object
      *
      * @var   Authentication
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     protected $authenticationHelper;
 
@@ -137,7 +137,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @return Authentication
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     public function getAuthenticationHelper(): Authentication
     {
@@ -149,7 +149,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public static function getSubscribedEvents(): array
     {
