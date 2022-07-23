@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_admin
+ * @package         Joomla.Administrator
+ * @subpackage      com_admin
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Admin\Administrator\Service\HTML;
@@ -18,20 +18,20 @@ namespace Joomla\Component\Admin\Administrator\Service\HTML;
  */
 class Configuration
 {
-	/**
-	 * Method to generate a string for a value
-	 *
-	 * @param   mixed  $value  The configuration value
-	 *
-	 * @return  string  Formatted and escaped string
-	 *
-	 * @since  4.0.0
-	 */
-	public function value($value): string
-	{
-		if (\is_bool($value)) {
-			return $value ? 'true' : 'false';
-		}
+    /**
+     * Method to generate a string for a value
+     *
+     * @param   mixed  $value  The configuration value
+     *
+     * @return  string  Formatted and escaped string
+     *
+     * @since  4.0.0
+     */
+    public function value($value): string
+    {
+        if (\is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
 
         if (\is_array($value)) {
             if (\count($value) === \count($value, \COUNT_RECURSIVE)) {
@@ -42,6 +42,6 @@ class Configuration
             }
         }
 
-		return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
-	}
+        return \htmlspecialchars($value ?? 'NULL', ENT_QUOTES, 'UTF-8');
+    }
 }
