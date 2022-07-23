@@ -142,6 +142,7 @@ class UpdateCoreCommand extends AbstractCommand
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Updating Joomla');
 
         $this->progressBar->setMessage("Starting up ...");
         $this->progressBar->start();

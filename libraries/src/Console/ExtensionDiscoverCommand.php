@@ -138,7 +138,7 @@ class ExtensionDiscoverCommand extends AbstractCommand
         $this->configureIO($input, $output);
 
         $count = $this->processDiscover();
-
+        $this->ioStyle->title('Discover Extensions');
         $this->ioStyle->note($this->getNote($count));
 
         return Command::SUCCESS;

@@ -23,7 +23,7 @@ use Joomla\Database\DatabaseInterface;
 class QueryHelper
 {
     /**
-     * Translate an order code to a field for primary category ordering.
+     * Translate an order code to a field for category ordering.
      *
      * @param   string  $orderby  The ordering code.
      *
@@ -55,7 +55,7 @@ class QueryHelper
     }
 
     /**
-     * Translate an order code to a field for secondary category ordering.
+     * Translate an order code to a field for article ordering.
      *
      * @param   string             $orderby    The ordering code.
      * @param   string             $orderDate  The ordering code for the date.
@@ -157,7 +157,7 @@ class QueryHelper
     }
 
     /**
-     * Translate an order code to a field for primary category ordering.
+     * Translate an order code to a field for date ordering.
      *
      * @param   string             $orderDate  The ordering code.
      * @param   DatabaseInterface  $db         The database
