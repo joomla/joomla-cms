@@ -40,8 +40,10 @@ class Configuration
                 // Multidimensional array
                 $value = \json_encode($value, \JSON_UNESCAPED_UNICODE);
             }
+        } elseif ($value === null) {
+            $value = 'NULL';
         }
 
-        return \htmlspecialchars($value ?? 'NULL', ENT_QUOTES, 'UTF-8');
+        return \htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     }
 }
