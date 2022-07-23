@@ -33,6 +33,10 @@ class Configuration
             return $value ? 'true' : 'false';
         }
 
+        if ($value === null) {
+            return 'NULL';
+        }
+
         if (\is_array($value)) {
             if (\count($value) === \count($value, \COUNT_RECURSIVE)) {
                 $value = \implode(', ', $value);
@@ -40,8 +44,6 @@ class Configuration
                 // Multidimensional array
                 $value = \json_encode($value, \JSON_UNESCAPED_UNICODE);
             }
-        } elseif ($value === null) {
-            $value = 'NULL';
         }
 
         return \htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
