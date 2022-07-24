@@ -23,7 +23,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_guidedtours
  *
- * @since 4.0.0
+ * @since __DEPLOY_VERSION__
  */
 class GuidedtoursComponent extends MVCComponent implements
 	BootableExtensionInterface,

@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Guiedtours\Administrator\View\Steps\HtmlView;
+use Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView;
 
 
 /** @var  HtmlView  $this*/

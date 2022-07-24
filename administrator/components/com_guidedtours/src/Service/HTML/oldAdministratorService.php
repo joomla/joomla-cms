@@ -7,7 +7,7 @@
  * @category  Component
  * @package   Joomla.Administrator
  * @author    Joomla! <admin@joomla.org>
- * @copyright (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license   GNU General Public License version 2 or later; see LICENSE.txt
  * @link      admin@joomla.org
  */
@@ -27,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * guidedtours HTML helper
  *
- * @since 3.0
+ * @since __DEPLOY_VERSION__
  */
 class AdministratorService
 {
