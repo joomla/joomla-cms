@@ -13,9 +13,11 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
+use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
+use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -135,6 +137,19 @@ class InstallCommand extends AbstractCommand
         $this->ioStyle->write('Write configuration.php and do additional setup...');
         $configurationModel->setup($cfg);
         $this->ioStyle->writeln('OK');
+
+        if ((new Version())->isInDevelopmentState()) {
+            $this->ioStyle->write('Delete /installation folder...');
+
+            /** @var CleanupModel $cleanupModel */
+            $cleanupModel = $app->getMVCFactory()->createModel('Cleanup', 'Installation');
+
+            if (!$cleanupModel->deleteInstallationFolder()) {
+                return Command::FAILURE;
+            }
+
+            $this->ioStyle->writeln('OK');
+        }
 
         $this->ioStyle->success('Joomla has been successfully installed');
 

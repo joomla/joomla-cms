@@ -20,9 +20,7 @@
     <exclude-pattern type="relative">configuration.php</exclude-pattern>
 
     <rule ref="PSR12" />
-	<rule ref="Generic.Files.LineEndings">
-		<exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
-	</rule>
+
     <!-- temporary extend the line length -->
     <rule ref="Generic.Files.LineLength">
         <properties>
