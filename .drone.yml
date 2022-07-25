@@ -207,6 +207,7 @@ steps:
   - name: phpmax-api-postgres
     depends_on:
       - prepare_codeception_tests
+      - phpmin-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -475,6 +476,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 50c58342ceeedd73808e9154faf18448eb1b297916581ac4878c8358250fab3e
+hmac: 530e63b7f06a5935b34c54c26807404e9fa15f3e7a770e46ed4603ee8b619aad
 
 ...
