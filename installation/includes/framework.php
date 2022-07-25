@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Ensure sensible default for JDEBUG is set.
-const JDEBUG = true;
+const JDEBUG = false;
 
 // Check if a configuration file already exists.
 if (

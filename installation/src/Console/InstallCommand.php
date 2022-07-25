@@ -156,6 +156,15 @@ class InstallCommand extends AbstractCommand
         return Command::SUCCESS;
     }
 
+    /**
+     * Retrieve all necessary options either from CLI options
+     * or from interactive mode.
+     *
+     * @return  array  Array of configuration options
+     *
+     * @throws  \Exception
+     * @since   __DEPLOY_VERSION__
+     */
     protected function getCLIOptions()
     {
         /* @var CliInstallationApplication $app */

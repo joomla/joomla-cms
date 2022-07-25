@@ -4,7 +4,7 @@
  * @package         Joomla.Installation
  * @subpackage      Application
  *
- * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Joomla! Installation Application class.
  *
- * @since  3.1
+ * @since  __DEPLOY_VERSION__
  */
 final class CliInstallationApplication extends Application
 {
@@ -57,7 +57,7 @@ final class CliInstallationApplication extends Application
      *                                      application's client object, otherwise a default client object is created.
      * @param   Container|null  $container  Dependency injection container.
      *
-     * @since   3.1
+     * @since   __DEPLOY_VERSION__
      */
     public function __construct(
         ?InputInterface $input = null,
@@ -92,7 +92,7 @@ final class CliInstallationApplication extends Application
      *
      * @return  string  Language debug output.
      *
-     * @since   3.1
+     * @since   __DEPLOY_VERSION__
      */
     public function debugLanguage()
     {
@@ -161,7 +161,7 @@ final class CliInstallationApplication extends Application
      *
      * @return  void
      *
-     * @since   3.1
+     * @since   __DEPLOY_VERSION__
      */
     public function dispatch()
     {
@@ -196,6 +196,16 @@ final class CliInstallationApplication extends Application
         $document->setTitle(Text::_('INSTL_PAGE_TITLE'));
     }
 
+    /**
+     * Enqueue a system message.
+     *
+     * @param   string  $msg   The message to enqueue.
+     * @param   string  $type  The message type. Default is message.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function enqueueMessage($msg, $type = 'info')
     {
         throw new \Exception($msg);
@@ -206,7 +216,7 @@ final class CliInstallationApplication extends Application
      *
      * @return  void
      *
-     * @since   4.0.0
+     * @since   __DEPLOY_VERSION__
      */
     private function executeController()
     {
@@ -230,6 +240,13 @@ final class CliInstallationApplication extends Application
         $controller->execute($task);
     }
 
+    /**
+     * Retrieve the application configuration object.
+     *
+     * @return  Registry
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function getConfig()
     {
         return new Registry();
@@ -252,6 +269,13 @@ final class CliInstallationApplication extends Application
         );
     }
 
+    /**
+     * This is a dummy method, forcing to en-GB on CLI installation
+     *
+     * @return  boolean  False on failure, array on success.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
     public function getLocalise()
     {
         return false;
@@ -264,7 +288,7 @@ final class CliInstallationApplication extends Application
      *
      * @return  array  Array with installed language packs in admin and site area.
      *
-     * @since   3.1
+     * @since   __DEPLOY_VERSION__
      */
     public function getLocaliseAdmin(DatabaseInterface $db = null)
     {
@@ -289,8 +313,9 @@ final class CliInstallationApplication extends Application
     }
 
     /**
+     * Get the MVC factory for the installation application
      *
-     * @return MVCFactory
+     * @return  MVCFactory  MVC Factory of the installation application
      *
      * @since __DEPLOY_VERSION__
      */
@@ -303,6 +328,13 @@ final class CliInstallationApplication extends Application
         return $this->MVCFactory;
     }
 
+    /**
+     * We need to imitate the session object
+     *
+     * @return  Registry  Object imitating the session object
+     *
+     * @since  __DEPLOY_VERSION__
+     */
     public function getSession()
     {
         if (!$this->session) {
@@ -319,7 +351,7 @@ final class CliInstallationApplication extends Application
      *
      * @return  boolean  True if this application is of the given type client interface.
      *
-     * @since   3.7.0
+     * @since   __DEPLOY_VERSION__
      */
     public function isClient($identifier)
     {
@@ -334,7 +366,7 @@ final class CliInstallationApplication extends Application
      *
      * @return  void
      *
-     * @since   3.1
+     * @since   __DEPLOY_VERSION__
      */
     public function setCfg(array $vars = array(), $namespace = 'config')
     {
