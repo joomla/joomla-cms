@@ -174,7 +174,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql
 
   - name: phpmax-api-mysql
     depends_on:
@@ -183,7 +183,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql8
 
 #  - name: phpnext-api-mysql
 #    depends_on:
@@ -193,7 +193,7 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql8
 
   - name: phpmin-api-postgres
     depends_on:
@@ -202,7 +202,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres
 
   - name: phpmax-api-postgres
     depends_on:
@@ -211,7 +211,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -221,7 +221,7 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres
 
   - name: phpmin-system-mysql
     depends_on:
@@ -475,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 783273e5140ae315f2403b13eb12f4773b77995a3d44a38551b55c89b9d40350
+hmac: 50c58342ceeedd73808e9154faf18448eb1b297916581ac4878c8358250fab3e
 
 ...

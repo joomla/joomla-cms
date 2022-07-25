@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -7,8 +8,6 @@
  */
 
 namespace Joomla\CMS\Installation\Console;
-
-\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -88,6 +87,8 @@ class InstallCommand extends AbstractCommand
         $cfg                         = $this->getCLIOptions();
         $cfg['db_pass_plain']        = $cfg['db_pass'];
         $cfg['admin_password_plain'] = $cfg['admin_password'];
+        $cfg['language']             = 'en-GB';
+        $cfg['helpurl']              = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
         $this->ioStyle->writeln('OK');
 
         /** @var SetupModel $setupModel */
@@ -190,7 +191,7 @@ class InstallCommand extends AbstractCommand
                 $cfg[$field->fieldname] = $field->filter(
                     $this->getStringFromOption(
                         $field->fieldname,
-                        (string) $field->getAttribute('clilabel'),
+                        (string)$field->getAttribute('clilabel'),
                         $field
                     )
                 );
@@ -228,11 +229,10 @@ class InstallCommand extends AbstractCommand
 
             $default = $field->getAttribute('default');
 
-            if ($field->fieldname == 'db_prefix')
-            {
+            if ($field->fieldname == 'db_prefix') {
                 // Create the random prefix.
                 $prefix  = '';
-                $size = 5;
+                $size    = 5;
                 $chars   = range('a', 'z');
                 $numbers = range(0, 9);
 
@@ -249,7 +249,7 @@ class InstallCommand extends AbstractCommand
                 }
 
                 // Add in the underscore.
-                $prefix .= '_';
+                $prefix  .= '_';
                 $default = $prefix;
             }
 
@@ -257,7 +257,7 @@ class InstallCommand extends AbstractCommand
                 $field->fieldname,
                 null,
                 $field->required ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
-                (string) $field->getAttribute('clilabel'),
+                (string)$field->getAttribute('clilabel'),
                 $default
             );
         }
@@ -290,7 +290,7 @@ class InstallCommand extends AbstractCommand
         }
 
         // If an option is given via CLI, we validate that value and return it.
-        if ($givenOption) {
+        if ($givenOption || $option == 'db_prefix') {
             $answer = $this->getApplication()->getConsoleInput()->getOption($option);
             $valid  = $field->validate($answer);
 

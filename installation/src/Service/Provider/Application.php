@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @package     Joomla.Installation
- * @subpackage  Service
+ * @package         Joomla.Installation
+ * @subpackage      Service
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license         GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installation\Service\Provider;
@@ -55,33 +55,30 @@ class Application implements ServiceProviderInterface
             true
         );
 
-		$container->share(
-			CliInstallationApplication::class,
-			function (Container $container)
-			{
-				$app = new CliInstallationApplication(null, null, $container->get('config'));
+        $container->share(
+            CliInstallationApplication::class,
+            function (Container $container) {
+                $app = new CliInstallationApplication(null, null, $container->get('config'));
 
-				// The session service provider needs Factory::$application, set it if still null
-				if (Factory::$application === null)
-				{
-					Factory::$application = $app;
-				}
+                // The session service provider needs Factory::$application, set it if still null
+                if (Factory::$application === null) {
+                    Factory::$application = $app;
+                }
 
-				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-				$app->setLogger($container->get(LoggerInterface::class));
+                $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                $app->setLogger($container->get(LoggerInterface::class));
 
-				return $app;
-			},
-			true
-		);
+                return $app;
+            },
+            true
+        );
 
-		// Inject a custom JSON error renderer
-		$container->share(
-			JsonRenderer::class,
-			function (Container $container)
-			{
-				return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer;
-			}
-		);
-	}
+        // Inject a custom JSON error renderer
+        $container->share(
+            JsonRenderer::class,
+            function (Container $container) {
+                return new \Joomla\CMS\Installation\Error\Renderer\JsonRenderer();
+            }
+        );
+    }
 }
