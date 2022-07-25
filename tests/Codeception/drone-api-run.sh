@@ -29,7 +29,7 @@ until $(curl --output /dev/null --silent --head --fail http://localhost:4444/wd/
 done
 echo .
 
-echo "[RUNNER] Run Codeception"
+echo "[RUNNER] Install Joomla"
 cd /tests/www/$TEST_SUITE
 php installation/joomla.php install --verbose --site_name="Joomla CMS test" --admin_email=admin@example.org --admin_username=ci-admin --admin_user="jane doe" --admin_password=joomla-17082005 --db_type=$DB_ENGINE --db_host=$DB_HOST --db_name=test_joomla --db_pass=joomla_ut --db_user=root --db_encryption=0 --db_prefix=$DB_PREFIX
 
@@ -37,5 +37,6 @@ php installation/joomla.php install --verbose --site_name="Joomla CMS test" --ad
 # This replaces the site secret in configuration.php so we can guarantee a consistent API token for our super user.
 sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/$TEST_SUITE/configuration.php
 
+echo "[RUNNER] Run Codeception"
 # Executing API tests
 php libraries/vendor/bin/codecept run api --fail-fast --steps --debug --env $TEST_SUITE
