@@ -183,7 +183,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql8 phpmax_
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql phpmax_
 
 #  - name: phpnext-api-mysql
 #    depends_on:
@@ -475,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: ce044c3c4359a854819cead0fc3046f117c27719a16ce5a71d3ecdc2fe3626a9
+hmac: 74ce1c64fc9afdaf1c1b695e9fde238e292972c28ffe2eaf7f69a7b19ef36bec
 
 ...
