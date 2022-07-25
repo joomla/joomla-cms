@@ -120,8 +120,8 @@ INSTALLATION
 
 	php installation/joomla.php install
 
-	in the folder of the Joomla installation and you will be guided through the
-	rest of the installation. You can get further help by running
+	in the root folder of Joomla and you will be guided through the rest of the
+	installation. You can get further help by running
 
 	php installation/joomla.php help install
 
