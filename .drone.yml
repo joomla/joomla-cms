@@ -174,7 +174,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql jos_
 
   - name: phpmax-api-mysql
     depends_on:
@@ -183,7 +183,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql8
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql8 phpmax_
 
 #  - name: phpnext-api-mysql
 #    depends_on:
@@ -193,7 +193,7 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql8
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql8 phpmax_
 
   - name: phpmin-api-postgres
     depends_on:
@@ -202,17 +202,16 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres jos_
 
   - name: phpmax-api-postgres
     depends_on:
       - prepare_codeception_tests
-      - phpmin-api-postgres
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres phpmax_
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -476,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 530e63b7f06a5935b34c54c26807404e9fa15f3e7a770e46ed4603ee8b619aad
+hmac: ce044c3c4359a854819cead0fc3046f117c27719a16ce5a71d3ecdc2fe3626a9
 
 ...
