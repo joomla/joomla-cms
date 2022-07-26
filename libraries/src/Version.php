@@ -35,7 +35,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MAJOR_VERSION = 4;
+    public const MAJOR_VERSION = 5;
 
     /**
      * Minor release version.
@@ -43,7 +43,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const MINOR_VERSION = 3;
+    public const MINOR_VERSION = 0;
 
     /**
      * Patch release version.
@@ -94,7 +94,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:34';
+    public const RELTIME = '16:40';
 
     /**
      * Release timezone.
