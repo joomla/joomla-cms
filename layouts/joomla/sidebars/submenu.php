@@ -14,7 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filter\OutputFilter;
 
-HTMLHelper::_('behavior.core');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->useScript('core');
+
 ?>
 <?php if ($displayData->displayMenu || $displayData->displayFilters) : ?>
 <div id="j-toggle-sidebar-wrapper">
