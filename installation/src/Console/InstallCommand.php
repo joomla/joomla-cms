@@ -68,7 +68,7 @@ class InstallCommand extends AbstractCommand
 
         /** @var ChecksModel $checkModel */
         $checkModel = $app->getMVCFactory()->createModel('Checks', 'Installation');
-        $this->ioStyle->write('Check system requirements...');
+        $this->ioStyle->write('Checking system requirements...');
 
         if (!$checkModel->getPhpOptionsSufficient()) {
             $options = $checkModel->getPhpOptions();
@@ -85,7 +85,7 @@ class InstallCommand extends AbstractCommand
         $this->ioStyle->writeln('OK');
 
         // Collect the configuration
-        $this->ioStyle->write('Collect configuration...');
+        $this->ioStyle->write('Collecting configuration...');
         $cfg                         = $this->getCLIOptions();
         $cfg['db_pass_plain']        = $cfg['db_pass'];
         $cfg['admin_password_plain'] = $cfg['admin_password'];
@@ -97,7 +97,7 @@ class InstallCommand extends AbstractCommand
         $setupModel = $app->getMVCFactory()->createModel('Setup', 'Installation');
 
         // Validate DB connection
-        $this->ioStyle->write('Validate DB connection...');
+        $this->ioStyle->write('Validating DB connection...');
         $setupModel->storeOptions($cfg);
         $setupModel->validateDbConnection();
         $this->ioStyle->writeln('OK');
@@ -106,7 +106,7 @@ class InstallCommand extends AbstractCommand
         $databaseModel = $app->getMVCFactory()->createModel('Database', 'Installation');
 
         // Create and fill database
-        $this->ioStyle->write('Create and fill database...');
+        $this->ioStyle->write('Creating and filling database...');
         $databaseModel->createDatabase();
         $db = $databaseModel->initialise();
 
@@ -134,12 +134,12 @@ class InstallCommand extends AbstractCommand
         $configurationModel = $app->getMVCFactory()->createModel('Configuration', 'Installation');
 
         // Attempt to setup the configuration.
-        $this->ioStyle->write('Write configuration.php and do additional setup...');
+        $this->ioStyle->write('Writing configuration.php and doing additional setup...');
         $configurationModel->setup($cfg);
         $this->ioStyle->writeln('OK');
 
         if ((new Version())->isInDevelopmentState()) {
-            $this->ioStyle->write('Delete /installation folder...');
+            $this->ioStyle->write('Deleting /installation folder...');
 
             /** @var CleanupModel $cleanupModel */
             $cleanupModel = $app->getMVCFactory()->createModel('Cleanup', 'Installation');
