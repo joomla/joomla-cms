@@ -125,7 +125,7 @@ class AddUserCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
-        $this->ioStyle->title('Add user');
+        $this->ioStyle->title('Add User');
         $this->user = $this->getStringFromOption('username', 'Please enter a username');
         $this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
         $this->email = $this->getStringFromOption('email', 'Please enter an email address');

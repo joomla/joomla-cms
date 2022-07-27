@@ -166,6 +166,29 @@
       "attributes": {
         "type": "module"
       }
+    },
+    {
+      "name": "com_content.articles-status.es5",
+      "type": "script",
+      "uri": "com_content/articles-status-es5.min.js",
+      "dependencies": [
+        "core"
+      ],
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      }
+    },
+    {
+      "name": "com_content.articles-status",
+      "type": "script",
+      "uri": "com_content/articles-status.min.js",
+      "dependencies": [
+        "com_content.articles-status.es5"
+      ],
+      "attributes": {
+        "type": "module"
+      }
     }
   ]
 }
