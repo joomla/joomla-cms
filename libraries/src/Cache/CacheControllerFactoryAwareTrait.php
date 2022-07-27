@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Defines the trait for a CacheControllerFactoryInterface Aware Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait CacheControllerFactoryAwareTrait
 {
@@ -24,7 +24,7 @@ trait CacheControllerFactoryAwareTrait
 	 *
 	 * @var    CacheControllerFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.2.0
 	 */
 	private $cacheControllerFactory;
 
@@ -33,7 +33,7 @@ trait CacheControllerFactoryAwareTrait
 	 *
 	 * @return  CacheControllerFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	protected function getCacheControllerFactory(): CacheControllerFactoryInterface
 	{
@@ -57,7 +57,7 @@ trait CacheControllerFactoryAwareTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.2.0
 	 */
 	public function setCacheControllerFactory(CacheControllerFactoryInterface $cacheControllerFactory = null): void
 	{
