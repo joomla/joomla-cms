@@ -26,13 +26,9 @@ steps:
     image: joomlaprojects/docker-images:cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-      cypress_db_host: mysql
-      cypress_db_password: joomla_ut
 
     commands:
-      - apache2ctl -D FOREGROUND &
-      - npm run cypress:install
-      - npm run cypress:run-firefox
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" mysql
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
@@ -182,6 +178,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 11f6fd3946948f2e72f4ccd96419cf11463bc1edac7d2c1d7c08b11b35d0bcfc
+hmac: 1730ea4b48d7082ecd58f85bd7792fa01bae2a8d80a46967c9eb211cb2c1c17b
 
 ...

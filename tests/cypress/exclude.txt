@@ -1,0 +1,16 @@
+.git
+.github
+build
+dev
+.appveyor.yml
+.drone.yml
+.editorconfig
+.gitignore
+.php-cs-fixer.dist.php
+build.xml
+composer.json
+composer.lock
+crowdin.yml
+phpunit.xml.dist
+phpunit-pgsql.xml.dist
+selenium.log
