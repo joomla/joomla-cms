@@ -327,7 +327,14 @@ class InstallCommand extends AbstractCommand
 
         // We don't have a CLI option and now interactively get that from the user.
         while (\is_null($answer) || $answer === false) {
-            $answer = $this->ioStyle->ask($question, $this->getApplication()->getConsoleInput()->getOption($option));
+            if (in_array($option, ['password', 'db_pass'])) {
+                $answer = $this->ioStyle->askHidden($question);
+            } else {
+                $answer = $this->ioStyle->ask(
+                    $question,
+                    $this->getApplication()->getConsoleInput()->getOption($option)
+                );
+            }
 
             $valid = $field->validate($answer);
 
