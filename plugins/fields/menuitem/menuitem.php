@@ -13,7 +13,7 @@
 /**
  * Fields Menuitem Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class PlgFieldsMenuitem extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
