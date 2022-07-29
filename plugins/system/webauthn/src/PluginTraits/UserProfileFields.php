@@ -36,12 +36,6 @@ use Joomla\Registry\Registry;
 trait UserProfileFields
 {
     /**
-     * @var  CMSApplication
-     * @since  4.2.0
-     */
-    protected $app;
-
-    /**
      * User object derived from the displayed user profile data.
      *
      * This is required to display the number and names of authenticators already registered when
@@ -115,7 +109,10 @@ trait UserProfileFields
         }
 
         // This feature only applies in the site and administrator applications
-        if (!$this->app->isClient('site') && !$this->app->isClient('administrator')) {
+        if (
+            !$this->getApplication()->isClient('site')
+            && !$this->getApplication()->isClient('administrator')
+        ) {
             return;
         }
 
