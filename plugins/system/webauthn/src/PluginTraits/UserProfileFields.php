@@ -40,6 +40,7 @@ trait UserProfileFields
      * @since  4.2.0
      */
     protected $app;
+
     /**
      * User object derived from the displayed user profile data.
      *
