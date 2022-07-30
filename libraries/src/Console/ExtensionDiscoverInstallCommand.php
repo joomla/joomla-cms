@@ -118,7 +118,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     public function processDiscover($eid): int
     {
         $jInstaller = new Installer();
-        $jInstaller->setDatabase($this->db);
+        $jInstaller->setDatabase($this->getDatabase());
         $count = 0;
 
         if ($eid === -1) {
@@ -194,6 +194,7 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Install Discovered Extensions');
 
         if ($eid = $this->cliInput->getOption('eid')) {
             $result = $this->processDiscover($eid);
