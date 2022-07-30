@@ -1,7 +1,6 @@
 --
 -- Table structure for table `#__guidedtours`
 --
---
 
 CREATE TABLE IF NOT EXISTS "#__guidedtours"
 (
