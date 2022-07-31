@@ -6435,6 +6435,8 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/webauthn.php',
             '/plugins/task/checkfiles/checkfiles.php',
             '/plugins/task/demotasks/demotasks.php',
+            // From 4.2.0-rc1
+            '/build/media_source/com_menus/css/admin-item-edit_modules.css',
         );
 
         $folders = array(
