@@ -49,14 +49,15 @@
   }
 }
 
-.stack .control-label {
-  width: 100%;
+.field-spacer {
+  .control-label {
+    padding: 0;
+    width: 100%;
+  }
 }
 
-.spacer {
-  hr {
-    width: 380px;
-  }
+.stack .control-label {
+  width: 100%;
 }
 
 td .form-control {

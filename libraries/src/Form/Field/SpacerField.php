@@ -31,6 +31,14 @@ class SpacerField extends FormField
     protected $type = 'Spacer';
 
     /**
+     * Hide the description when rendering the form field.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $hiddenDescription = true;
+
+    /**
      * Method to get the field input markup for a spacer.
      * The spacer does not have accept input.
      *
