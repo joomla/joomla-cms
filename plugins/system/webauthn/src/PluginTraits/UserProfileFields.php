@@ -127,10 +127,12 @@ trait UserProfileFields
         }
 
         // Add the fields to the form.
-        Log::add('Injecting WebAuthn Passwordless Login fields in user profile edit page', Log::DEBUG, 'webauthn.system');
+        if ($name !== 'com_users.registration') {
+            Log::add('Injecting WebAuthn Passwordless Login fields in user profile edit page', Log::DEBUG, 'webauthn.system');
 
-        Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
-        $form->loadFile('webauthn', false);
+            Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
+            $form->loadFile('webauthn', false);
+        }
     }
 
     /**
@@ -203,7 +205,7 @@ trait UserProfileFields
      *
      * @return  boolean
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function canEditUser(?User $user = null): bool
     {

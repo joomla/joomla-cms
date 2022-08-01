@@ -20,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -32,7 +33,7 @@ use Joomla\DI\ContainerAwareInterface;
  *
  * @since  3.1
  */
-class Installer extends Adapter
+class Installer extends Adapter implements DatabaseAwareInterface
 {
     use DatabaseAwareTrait;
 

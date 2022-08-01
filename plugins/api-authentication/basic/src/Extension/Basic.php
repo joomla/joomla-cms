@@ -70,7 +70,7 @@ final class Basic extends CMSPlugin
 
         if ($password === '') {
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = $this->translate('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
             return;
         }
@@ -106,7 +106,7 @@ final class Basic extends CMSPlugin
             } else {
                 // Invalid password
                 $response->status        = Authentication::STATUS_FAILURE;
-                $response->error_message = $this->translate('JGLOBAL_AUTH_INVALID_PASS');
+                $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
             }
         } else {
             // Let's hash the entered password even if we don't have a matching user for some extra response time
@@ -115,7 +115,7 @@ final class Basic extends CMSPlugin
 
             // Invalid user
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = $this->translate('JGLOBAL_AUTH_NO_USER');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
         }
     }
 }
