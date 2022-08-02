@@ -69,7 +69,7 @@ CREATE INDEX "#__guidedtours_idx_tour_id" ON "#__guidedtour_steps" ("tour_id");
 --
 
 INSERT INTO "#__guidedtour_steps" ("id", "tour_id", "title", "published", "description", "ordering", "step-no", "position", "target", "url", "created", "created_by", "modified", "modified_by") VALUES
-(1, 1, 'Click here!', 1, '<p>This Tour will show you that how you can create a new Guided Tour in Joomla! Backend</p>', 0, 1, 'bottom', '.button-new','administrator/index.php?option=com_guidedtours&view=tours' ,'', 430, '', 430),
+(1, 1, 'Click here!', 1, '<p>This Tour will show you how you can create a Guided Tour in the Joomla! Backend</p>', 0, 1, 'bottom', '.button-new','administrator/index.php?option=com_guidedtours&view=tours' ,'', 430, '', 430),
 (2, 1, 'Add title for your Tour', 1, '<p>Here you have to add the title of your Tour Step. </p>', 0, 1, 'bottom', '#jform_title', 'administrator/index.php?option=com_guidedtours&view=tour&layout=edit','', 430, '', 430),
 (3, 1, 'Add Content', 1, '<p>Add the content of your Tour here!</p>', 0, 1, 'bottom', '#details','administrator/index.php?option=com_guidedtours&view=tour&layout=edit' ,'', 430, '', 430),
 (4, 1, 'Plugin selector', 1, '<p>Select the extensions where you want to show your Tour. e.g If you are creating a tour which is only in \'Users\' extensions then select Users here.</p>', 0, 1, 'bottom', '.choices__inner', 'administrator/index.php?option=com_guidedtours&view=tour&layout=edit','', 430, '', 430),
@@ -87,7 +87,8 @@ INSERT INTO "#__guidedtour_steps" ("id", "tour_id", "title", "published", "descr
 (16, 1, 'Congratulations!!!', 1, '<p>You successfully created your first Guided Tour!</p>', 0, 1, 'bottom', '', 'administrator/index.php?option=com_guidedtours&view=step&layout=edit','', 430, '', 430);
 
 -- Add `com_guidedtours` to `#__extensions`
-INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data") VALUES
+INSERT INTO "#__extensions" ("package_
+id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data") VALUES
 (0, 'com_guidedtours', 'component', 'com_guidedtours', '', 1, 1, 1, 0, 1, '', '', '');
 
 -- Add `plg_system_tour` to `#__extensions`
