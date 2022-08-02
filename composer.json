@@ -11,7 +11,7 @@
     "config": {
         "optimize-autoloader": true,
         "platform": {
-            "php": "7.2.5"
+            "php": "8.1"
         },
         "vendor-dir": "libraries/vendor",
         "github-protocols": ["https"],
@@ -43,7 +43,7 @@
         }
     },
     "require": {
-        "php": "^7.2.5",
+        "php": "^8.1",
         "joomla/application": "~2.0",
         "joomla/archive": "~2.0",
         "joomla/authentication": "~2.0",
