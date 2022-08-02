@@ -17,10 +17,11 @@ body,
 .form-check {
   padding-right: 1.25rem;
   padding-left: 0;
-}
 
-.form-check-input {
-  margin-right: -1.25rem;
+  .form-check-input {
+    float: right;
+    margin-right: -1.25rem;
+  }
 }
 
 .list-unstyled {
