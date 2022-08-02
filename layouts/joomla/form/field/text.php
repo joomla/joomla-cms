@@ -50,6 +50,7 @@ extract($displayData);
  * @var   string   $dirname         The directory name
  * @var   string   $addonBefore     The text to use in a bootstrap input group prepend
  * @var   string   $addonAfter      The text to use in a bootstrap input group append
+ * @var   string   $dir             The direction of the text if different to the document
  */
 
 $list = '';
@@ -75,6 +76,7 @@ $attributes = array(
     $spellcheck ? '' : 'spellcheck="false"',
     !empty($inputmode) ? $inputmode : '',
     !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
+    !empty($dir) ? 'dir="' . $dir . '"' : '',
 
     // @TODO add a proper string here!!!
     !empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',

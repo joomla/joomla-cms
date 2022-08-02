@@ -337,7 +337,6 @@ abstract class FormField implements DatabaseAwareInterface
      */
     protected $showon;
 
-
     /**
      * The direction of the field input if different to the document.
      *
