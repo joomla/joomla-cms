@@ -64,7 +64,7 @@ $attributes = array(
     $required ? 'required' : '',
     $dataAttribute,
     // Force LTR input value in RTL
-    $dir = Factory::getLanguage()->isRtl() ? ' dir="ltr"' : '',
+    Factory::getLanguage()->isRtl() ? ' dir="ltr"' : '',
 );
 ?>
 <input
