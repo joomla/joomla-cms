@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
@@ -9,9 +10,7 @@
 namespace Joomla\Component\Guidedtours\Administrator\Controller;
 
 \defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\FormController;
-
 /**
  * Controller for a single tour
  *
@@ -19,9 +18,8 @@ use Joomla\CMS\MVC\Controller\FormController;
  */
 class StepController extends FormController
 {
-
-	public function cancel($key = null)
-	{
-		$this->setRedirect('index.php?option=com_guidedtours&view=steps');
-	}
+    public function cancel($key = null)
+    {
+        $this->setRedirect('index.php?option=com_guidedtours&view=steps');
+    }
 }

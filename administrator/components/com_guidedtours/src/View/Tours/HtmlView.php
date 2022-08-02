@@ -25,117 +25,112 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var array
-	 */
-	protected $items;
+    /**
+     * An array of items
+     *
+     * @var array
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var \JPagination
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var \JPagination
+     */
+    protected $pagination;
 
-	/**
-	 * The model state
-	 *
-	 * @var \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var \JObject
+     */
+    protected $state;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var \JForm
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var \JForm
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var array
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var array
+     */
+    public $activeFilters;
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return mixed  A string if successful, otherwise an Error object.
-	 */
-	public function display($tpl = null)
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * Display the view.
+     *
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return mixed  A string if successful, otherwise an Error object.
+     */
+    public function display($tpl = null)
+    {
+        $this->items         = $this->get('Items');
+        $this->pagination    = $this->get('Pagination');
+        $this->state         = $this->get('State');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$this->addToolbar();
+        $this->addToolbar();
 
-		return parent::display($tpl);
-	}
+        return parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected function addToolbar()
-	{
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    protected function addToolbar()
+    {
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('Guided Tour - List of Tours'), 'tours');
+        ToolbarHelper::title(Text::_('Guided Tour - List of Tours'), 'tours');
 
-		$canDo = ContentHelper::getActions('com_guidedtours');
+        $canDo = ContentHelper::getActions('com_guidedtours');
 
-		if ($canDo->get('core.create'))
-		{
-			$toolbar->addNew('tour.add');
-		}
+        if ($canDo->get('core.create')) {
+            $toolbar->addNew('tour.add');
+        }
 
-		if ($canDo->get('core.edit.state'))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        if ($canDo->get('core.edit.state')) {
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
 
-			$childBar = $dropdown->getChildToolbar();
+            $childBar = $dropdown->getChildToolbar();
 
-			$childBar->publish('tours.publish')->listCheck(true);
+            $childBar->publish('tours.publish')->listCheck(true);
 
-			$childBar->unpublish('tours.unpublish')->listCheck(true);
+            $childBar->unpublish('tours.unpublish')->listCheck(true);
 
-			$childBar->archive('tours.archive')->listCheck(true);
+            $childBar->archive('tours.archive')->listCheck(true);
 
-			if ($this->state->get('filter.published') != -2)
-			{
-				$childBar->trash('tours.trash')->listCheck(true);
-			}
-		}
+            if ($this->state->get('filter.published') != -2) {
+                $childBar->trash('tours.trash')->listCheck(true);
+            }
+        }
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('tours.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
-		}
-	}
+        if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+            $toolbar->delete('tours.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+        }
+    }
 }

@@ -26,131 +26,124 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The \JForm object
-	 *
-	 * @var \JForm
-	 */
-	protected $form;
+    /**
+     * The \JForm object
+     *
+     * @var \JForm
+     */
+    protected $form;
 
-	/**
-	 * The active item
-	 *
-	 * @var object
-	 */
-	protected $item;
+    /**
+     * The active item
+     *
+     * @var object
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var object
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var object
+     */
+    protected $state;
 
-	/**
-	 * The actions the user is authorised to perform
-	 *
-	 * @var \JObject
-	 */
-	protected $canDo;
+    /**
+     * The actions the user is authorised to perform
+     *
+     * @var \JObject
+     */
+    protected $canDo;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function display($tpl = null)
-	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return mixed  A string if successful, otherwise an Error object.
+     *
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    public function display($tpl = null)
+    {
+        $this->form  = $this->get('Form');
+        $this->item  = $this->get('Item');
+        $this->state = $this->get('State');
 
-		if (\count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        if (\count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$this->addToolbar();
+        $this->addToolbar();
 
-		return parent::display($tpl);
-	}
+        return parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 *
-	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     *
+     * @throws \Exception
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = Factory::getUser();
-		$userId     = $user->id;
-		$isNew      = empty($this->item->id);
+        $user       = Factory::getUser();
+        $userId     = $user->id;
+        $isNew      = empty($this->item->id);
 
-		$canDo = ContentHelper::getActions('com_guidedtours');
+        $canDo = ContentHelper::getActions('com_guidedtours');
 
-		$toolbar = Toolbar::getInstance();
+        $toolbar = Toolbar::getInstance();
 
-		ToolbarHelper::title(
-			Text::_('Guided Tours - ' . ($isNew ? 'Add Step' : 'Edit Step'))
-		);
+        ToolbarHelper::title(
+            Text::_('Guided Tours - ' . ($isNew ? 'Add Step' : 'Edit Step'))
+        );
 
-		$toolbarButtons = [];
+        $toolbarButtons = [];
 
-		if ($isNew)
-		{
-			// For new records, check the create permission.
-			if ($canDo->get('core.create'))
-			{
-				ToolbarHelper::apply('step.apply');
-				$toolbarButtons = [['save', 'step.save'], ['save2new', 'step.save2new']];
-			}
+        if ($isNew) {
+            // For new records, check the create permission.
+            if ($canDo->get('core.create')) {
+                ToolbarHelper::apply('step.apply');
+                $toolbarButtons = [['save', 'step.save'], ['save2new', 'step.save2new']];
+            }
 
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
+            ToolbarHelper::saveGroup(
+                $toolbarButtons,
+                'btn-success'
+            );
 
-			ToolbarHelper::cancel(
-				'step.cancel'
-			);
-		}
-		else
-		{
-			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            ToolbarHelper::cancel(
+                'step.cancel'
+            );
+        } else {
+            // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			if ($itemEditable)
-			{
-				ToolbarHelper::apply('step.apply');
-				$toolbarButtons = [['save', 'step.save']];
+            if ($itemEditable) {
+                ToolbarHelper::apply('step.apply');
+                $toolbarButtons = [['save', 'step.save']];
 
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
-				{
-					$toolbarButtons[] = ['save2new', 'step.save2new'];
-					$toolbarButtons[] = ['save2copy', 'step.save2copy'];
-				}
-			}
+                // We can save this record, but check the create permission to see if we can return to make a new one.
+                if ($canDo->get('core.create')) {
+                    $toolbarButtons[] = ['save2new', 'step.save2new'];
+                    $toolbarButtons[] = ['save2copy', 'step.save2copy'];
+                }
+            }
 
-			ToolbarHelper::saveGroup(
-				$toolbarButtons,
-				'btn-success'
-			);
+            ToolbarHelper::saveGroup(
+                $toolbarButtons,
+                'btn-success'
+            );
 
-					ToolbarHelper::cancel(
-						'step.cancel',
-						'JTOOLBAR_CLOSE'
-					);
-		}
-	}
+                    ToolbarHelper::cancel(
+                        'step.cancel',
+                        'JTOOLBAR_CLOSE'
+                    );
+        }
+    }
 }

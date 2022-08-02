@@ -22,77 +22,68 @@ use Joomla\CMS\Factory;
  */
 class StepTable extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver $db Database connector object
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__guidedtour_steps', 'id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver $db Database connector object
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__guidedtour_steps', 'id', $db);
+    }
 
-	/**
-	 * Overloaded store function
-	 *
-	 * @param   boolean $updateNulls True to update fields even if they are null.
-	 *
-	 * @return mixed  False on failure, positive integer on success.
-	 *
-	 * @see   Table::store()
-	 * @since __DEPLOY_VERSION__
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function store($updateNulls = true)
-	{
-		$date = Factory::getDate();
-		$user = Factory::getUser();
+    /**
+     * Overloaded store function
+     *
+     * @param   boolean $updateNulls True to update fields even if they are null.
+     *
+     * @return mixed  False on failure, positive integer on success.
+     *
+     * @see   Table::store()
+     * @since __DEPLOY_VERSION__
+     * @since __DEPLOY_VERSION__
+     */
+    public function store($updateNulls = true)
+    {
+        $date = Factory::getDate();
+        $user = Factory::getUser();
 
-		$table = new TourTable($this->getDbo());
+        $table = new TourTable($this->getDbo());
 
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_by = $user->id;
-			$this->modified = $date->toSql();
-		}
-		else
-		{
-			$this->modified_by = 0;
-		}
+        if ($this->id) {
+            // Existing item
+            $this->modified_by = $user->id;
+            $this->modified = $date->toSql();
+        } else {
+            $this->modified_by = 0;
+        }
 
-		if (!(int) $this->created)
-		{
-			$this->created = $date->toSql();
-		}
+        if (!(int) $this->created) {
+            $this->created = $date->toSql();
+        }
 
-		if (empty($this->created_by))
-		{
-			$this->created_by = $user->id;
-		}
+        if (empty($this->created_by)) {
+            $this->created_by = $user->id;
+        }
 
-		if (!(int) $this->modified)
-		{
-			$this->modified = $this->created;
-		}
+        if (!(int) $this->modified) {
+            $this->modified = $this->created;
+        }
 
-		if (empty($this->modified_by))
-		{
-			$this->modified_by = $this->created_by;
-		}
+        if (empty($this->modified_by)) {
+            $this->modified_by = $this->created_by;
+        }
 
-		if ($this->default == '1')
-		{
-			// Verify that the default is unique for this workflow
-			if ($table->load(array('default' => '1')))
-			{
-				$table->default = 0;
-				$table->store();
-			}
-		}
+        if ($this->default == '1') {
+            // Verify that the default is unique for this workflow
+            if ($table->load(array('default' => '1'))) {
+                $table->default = 0;
+                $table->store();
+            }
+        }
 
-		return parent::store($updateNulls);
-	}
+        return parent::store($updateNulls);
+    }
 }

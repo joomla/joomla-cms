@@ -21,19 +21,19 @@ use Joomla\CMS\MVC\Controller\AdminController;
 
 class ToursController extends AdminController
 {
-	/**
-	 * Proxy for getModel.
-	 *
-	 * @param   string $name   The model name. Optional.
-	 * @param   string $prefix The class prefix. Optional.
-	 * @param   array  $config The array of possible config values. Optional.
-	 *
-	 * @return \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 *
-	 * @since _DEPLOY_VERSION_
-	 */
-	public function getModel($name = 'Tour', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Proxy for getModel.
+     *
+     * @param   string $name   The model name. Optional.
+     * @param   string $prefix The class prefix. Optional.
+     * @param   array  $config The array of possible config values. Optional.
+     *
+     * @return \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     *
+     * @since _DEPLOY_VERSION_
+     */
+    public function getModel($name = 'Tour', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
 }
