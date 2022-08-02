@@ -1297,6 +1297,7 @@ abstract class FormField implements DatabaseAwareInterface
             'dataAttribute'  => $this->renderDataAttributes(),
             'dataAttributes' => $this->dataAttributes,
             'parentclass'    => $this->parentclass,
+            'dir'            => $this->dir,
         ];
     }
 
