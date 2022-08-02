@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\String\PunycodeHelper;
 
 extract($displayData);
@@ -62,6 +63,8 @@ $attributes = array(
     !empty($maxLength) ? $maxLength : '',
     $required ? ' required' : '',
     $dataAttribute,
+    // Force LTR input value in RTL
+    $dir = Factory::getLanguage()->isRtl() ? ' dir="ltr"' : '',
 );
 
 // @deprecated  5.0 The unicode conversion of the URL will be moved to \Joomla\CMS\Form\Field\UrlField::getLayoutData

@@ -47,6 +47,7 @@
 			default=""
 			length="50"
 			showon="updatesource:custom"
+			dir="ltr"
 		/>
 
 		<field

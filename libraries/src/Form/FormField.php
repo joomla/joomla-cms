@@ -337,6 +337,15 @@ abstract class FormField implements DatabaseAwareInterface
      */
     protected $showon;
 
+
+    /**
+     * The direction of the field input if different to the document.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $dir;
+
     /**
      * The parent class of the field
      *
@@ -459,6 +468,7 @@ abstract class FormField implements DatabaseAwareInterface
             case 'validationtext':
             case 'showon':
             case 'parentclass':
+            case 'dir':
                 return $this->$name;
 
             case 'input':
@@ -522,6 +532,7 @@ abstract class FormField implements DatabaseAwareInterface
             case 'parentclass':
             case 'default':
             case 'autocomplete':
+            case 'dir':
                 $this->$name = (string) $value;
                 break;
 
@@ -640,7 +651,7 @@ abstract class FormField implements DatabaseAwareInterface
         $attributes = array(
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'dir');
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
