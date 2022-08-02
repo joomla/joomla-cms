@@ -26,7 +26,7 @@ class TourTable extends Table
      * @var    array
      * @since  __DEPLOY_VERSION__
      */
-    protected $_jsonEncode = array('extensions');
+    protected $jsonEncode = array('extensions');
 
     /**
      * Constructor
