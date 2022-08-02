@@ -29,31 +29,31 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container $container The DI container.
-	 *
-	 * @return void
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Guidedtours'));
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Guidedtours'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Guidedtours'));
-		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Guidedtours'));
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container) {
-				$component = new GuidedtoursComponent($container->get(ComponentDispatcherFactoryInterface::class));
-				$component->setRegistry($container->get(Registry::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container $container The DI container.
+     *
+     * @return void
+     *
+     * @since __DEPLOY_VERSION__
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Guidedtours'));
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Guidedtours'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Guidedtours'));
+        $container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Guidedtours'));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new GuidedtoursComponent($container->get(ComponentDispatcherFactoryInterface::class));
+                $component->setRegistry($container->get(Registry::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

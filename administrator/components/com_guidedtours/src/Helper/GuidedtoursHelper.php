@@ -20,21 +20,20 @@ use Joomla\CMS\Factory;
  */
 class GuidedtoursHelper
 {
-	public static function getTourTitle($id)
-	{
-		if (empty($id))
-		{
-			// Throw an error or ...
-			return false;
-		}
+    public static function getTourTitle($id)
+    {
+        if (empty($id)) {
+            // Throw an error or ...
+            return false;
+        }
 
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('title');
-		$query->from('#__guidedtours');
-		$query->where('id = ' . $id);
-		$db->setQuery($query);
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('title');
+        $query->from('#__guidedtours');
+        $query->where('id = ' . $id);
+        $db->setQuery($query);
 
-		return $db->loadObject();
-	}
+        return $db->loadObject();
+    }
 }
