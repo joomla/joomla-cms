@@ -10,8 +10,6 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -80,8 +78,16 @@ class PlgSystemTour extends CMSPlugin implements SubscriberInterface
             /**
              * Booting of the Component to get the data in JSON Format
              */
-            $myTours = $this->app->bootComponent('com_guidedtours')->getMVCFactory()->createModel('Tours', 'Administrator', ['ignore_request' => true]);
-            $mySteps = $this->app->bootComponent('com_guidedtours')->getMVCFactory()->createModel('Steps', 'Administrator', ['ignore_request' => true]);
+            $myTours = $this->app->bootComponent('com_guidedtours')->getMVCFactory()->createModel(
+                'Tours',
+                'Administrator',
+                ['ignore_request' => true]
+            );
+            $mySteps = $this->app->bootComponent('com_guidedtours')->getMVCFactory()->createModel(
+                'Steps',
+                'Administrator',
+                ['ignore_request' => true]
+            );
 
             $theCurrentExtension = $this->app->input->get('option');
             $myTours->setState('list.extensions', $theCurrentExtension);

@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -269,7 +267,8 @@ class TourModel extends AdminModel
      *
      * @param   object  $record  A record object.
      *
-     * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+     * @return  boolean  True if allowed to change the state of the record.
+     * Defaults to the permission set in the component.
      *
      * @since   __DEPLOY_VERSION__
      */

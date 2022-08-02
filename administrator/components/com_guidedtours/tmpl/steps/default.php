@@ -7,8 +7,6 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -16,7 +14,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Guidedtours\Administrator\View\Steps\HtmlView;
-
 
 /** @var  HtmlView  $this*/
 
@@ -37,12 +34,14 @@ $section = null;
 $mode = false;
 
 if ($saveOrder && !empty($this->items)) {
-    $saveOrderingUrl = 'index.php?option=com_guidedtours&step=steps.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+    $saveOrderingUrl = 'index.php?option=com_guidedtours&step=steps.saveOrderAjax&tmpl=component&' .
+    Session::getFormToken() . '=1';
     HTMLHelper::_('draggablelist.draggable');
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps'); ?>"
+ method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
@@ -54,7 +53,8 @@ if ($saveOrder && !empty($this->items)) {
             ?>
             <!-- No steps -->
             <div class="alert alert-info">
-                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+                <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden">
+                <?php echo Text::_('INFO'); ?></span>
                 <?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
             </div>
         <?php endif; ?>
@@ -79,26 +79,61 @@ if ($saveOrder && !empty($this->items)) {
                         </td>
                         <!-- Ordering?-->
                         <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-sort'); ?>
+                            <?php echo HTMLHelper::_(
+                                'searchtools.sort',
+                                '',
+                                'a.ordering',
+                                $listDirn,
+                                $listOrder,
+                                null,
+                                'asc',
+                                'JGRID_HEADING_ORDERING',
+                                'icon-sort'
+                            ); ?>
                         </th>
                         <th scope="col" class="w-3 text-center d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_('searchtools.sort', 'COM_GUIDEDTOURS_STATUS', 'a.published', $listDirn, $listOrder); ?>
+                            <?php echo HTMLHelper::_(
+                                'searchtools.sort',
+                                'COM_GUIDEDTOURS_STATUS',
+                                'a.published',
+                                $listDirn,
+                                $listOrder
+                            ); ?>
                         </th>
                         <th scope="col">
-                            <?php echo HTMLHelper::_('searchtools.sort', 'COM_GUIDEDTOURS_STEP_TITLE', 'a.title', $listDirn, $listOrder); ?>
+                            <?php echo HTMLHelper::_(
+                                'searchtools.sort',
+                                'COM_GUIDEDTOURS_STEP_TITLE',
+                                'a.title',
+                                $listDirn,
+                                $listOrder
+                            ); ?>
                         </th>
                         <th scope="col">
-                            <?php echo HTMLHelper::_('searchtools.sort', 'COM_GUIDEDTOURS_DESCRIPTION', 'a.description', $listDirn, $listOrder); ?>
+                            <?php echo HTMLHelper::_(
+                                'searchtools.sort',
+                                'COM_GUIDEDTOURS_DESCRIPTION',
+                                'a.description',
+                                $listDirn,
+                                $listOrder
+                            ); ?>
                         </th>
                         <th scope="col" class="w-10 text-center d-none d-md-table-cell">
-                            <?php echo HTMLHelper::_('searchtools.sort', 'COM_GUIDEDTOURS_STEP_ID', 'a.id', $listDirn, $listOrder); ?>
+                            <?php echo HTMLHelper::_(
+                                'searchtools.sort',
+                                'COM_GUIDEDTOURS_STEP_ID',
+                                'a.id',
+                                $listDirn,
+                                $listOrder
+                            ); ?>
                         </th>
                     </tr>
                 </thead>
 
                 <!-- Table body begins -->
                 <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
+                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="
+                    <?php echo strtolower($listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                     <?php
                     foreach ($this->items as $i => $item) :
@@ -132,20 +167,30 @@ if ($saveOrder && !empty($this->items)) {
 
                                 <?php if ($canChange && $saveOrder) :
                                     ?>
-                                    <input type="text" class="hidden text-area-order" name="order[]" size="5" value="<?php echo $item->ordering; ?>">
+                                    <input type="text" class="hidden text-area-order" name="order[]" size="5"
+                                    value="<?php echo $item->ordering; ?>">
                                 <?php endif; ?>
                             </td>
 
                             <!-- Step State -->
                             <td class="text-center">
-                                <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'steps.', $canChange); ?>
+                                <?php echo HTMLHelper::_(
+                                    'jgrid.published',
+                                    $item->published,
+                                    $i,
+                                    'steps.',
+                                    $canChange
+                                ); ?>
                             </td>
 
                             <!-- Step name, edit link, and note (@todo: should it be moved?) -->
                             <th scope="row">
                                 <?php if ($canEdit) :
                                     ?>
-                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->title); ?>"> <?php echo $this->escape($item->title); ?></a>
+                                    <a href="<?php echo Route::_('index.php?option=com_guidedtours&task=step.edit&id=' .
+                                    $item->id); ?> " title="<?php echo Text::_('JACTION_EDIT'); ?>
+                                    <?php echo $this->escape($item->title); ?>"> 
+                                    <?php echo $this->escape($item->title); ?> </a>
                                 <?php else :
                                     ?>
                                     <?php echo $this->escape($item->title); ?>

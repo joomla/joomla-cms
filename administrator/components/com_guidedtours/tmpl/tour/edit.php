@@ -7,8 +7,6 @@
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -24,7 +22,8 @@ HTMLHelper::_('behavior.keepalive');
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtours-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
+(int) $this->item->id); ?>"method="post" name="adminForm" id="guidedtours-form" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Helper;
 
-defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 
 /**

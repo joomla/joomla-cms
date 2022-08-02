@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\View\Step;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -122,7 +120,8 @@ class HtmlView extends BaseHtmlView
             );
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own')
+            && $this->item->created_by == $userId);
 
             if ($itemEditable) {
                 ToolbarHelper::apply('step.apply');

@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Guidedtours\Administrator\Table;
 
-defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Factory;
