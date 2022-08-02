@@ -33,12 +33,11 @@ class JsonRenderer extends AbstractRenderer
      *
      * @param   \Throwable  $error  The error object to be rendered
      *
-     * @return  string
      *
      * @since   4.0.0
      */
     public function render(\Throwable $error): string
     {
-        return json_encode(new JsonResponse($error));
+        return json_encode(new JsonResponse($error), JSON_THROW_ON_ERROR);
     }
 }

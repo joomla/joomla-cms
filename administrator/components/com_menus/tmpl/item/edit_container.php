@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -17,7 +18,7 @@ use Joomla\Registry\Registry;
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('joomla.treeselectmenu')
     ->useStyle('com_menus.admin-item-edit-container')
@@ -49,7 +50,7 @@ $wa->useScript('joomla.treeselectmenu')
             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
             <?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
         </div>
-            <?php if (count($menuLinks)) : ?>
+            <?php if (is_countable($menuLinks) ? count($menuLinks) : 0) : ?>
                 <ul class="treeselect">
                     <?php $prevlevel = 0; ?>
                     <li>

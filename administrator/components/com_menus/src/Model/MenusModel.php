@@ -32,15 +32,10 @@ class MenusModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'menutype', 'a.menutype',
-                'client_id', 'a.client_id',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'menutype', 'a.menutype', 'client_id', 'a.client_id'];
         }
 
         parent::__construct($config, $factory);
@@ -68,7 +63,7 @@ class MenusModel extends ListModel
 
         // If empty or an error, just return.
         if (empty($items)) {
-            return array();
+            return [];
         }
 
         // Getting the following metric by joins is WAY TOO SLOW.
@@ -173,7 +168,7 @@ class MenusModel extends ListModel
             ->bind(':clientId', $clientId, ParameterType::INTEGER);
 
         // Filter by search in title or menutype
-        if ($search = trim($this->getState('filter.search', ''))) {
+        if ($search = trim((string) $this->getState('filter.search', ''))) {
             $search = '%' . str_replace(' ', '%', $search) . '%';
             $query->extendWhere(
                 'AND',
@@ -262,7 +257,6 @@ class MenusModel extends ListModel
     /**
      * Returns the missing module languages.
      *
-     * @return  array
      *
      * @since   _DEPLOY_VERSION__
      */

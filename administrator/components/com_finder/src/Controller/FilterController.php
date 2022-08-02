@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\Component\Finder\Administrator\Model\FilterModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -37,10 +38,10 @@ class FilterController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        /** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
+        /** @var FilterModel $model */
         $model = $this->getModel();
         $table = $model->getTable();
-        $data = $this->input->post->get('jform', array(), 'array');
+        $data = $this->input->post->get('jform', [], 'array');
         $checkin = $table->hasField('checked_out');
         $context = "$this->option.edit.$this->context";
         $task = $this->getTask();
@@ -134,7 +135,7 @@ class FilterController extends FormController
         }
 
         // Get and sanitize the filter data.
-        $validData['data'] = $this->input->post->get('t', array(), 'array');
+        $validData['data'] = $this->input->post->get('t', [], 'array');
         $validData['data'] = array_unique($validData['data']);
         $validData['data'] = ArrayHelper::toInteger($validData['data']);
 

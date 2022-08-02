@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -16,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
@@ -68,11 +69,7 @@ $user = Factory::getUser();
             <div class="col-lg-3">
                 <?php
                 // Set main fields.
-                $this->fields = array(
-                    'home',
-                    'client_id',
-                    'template'
-                );
+                $this->fields = ['home', 'client_id', 'template'];
                 ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
                 <?php echo $this->form->renderField('inheritable'); ?>
@@ -93,8 +90,8 @@ $user = Factory::getUser();
         <?php endif; ?>
 
         <?php
-        $this->fieldsets = array();
-        $this->ignore_fieldsets = array('basic', 'description');
+        $this->fieldsets = [];
+        $this->ignore_fieldsets = ['basic', 'description'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

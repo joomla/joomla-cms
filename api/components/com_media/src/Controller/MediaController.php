@@ -9,6 +9,7 @@
 
 namespace Joomla\Component\Media\Api\Controller;
 
+use Joomla\CMS\Helper\MediaHelper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
@@ -41,12 +42,11 @@ class MediaController extends ApiController
 	protected $contentType = 'media';
 
 	/**
-	 * Query parameters => model state mappings
-	 *
-	 * @var    array
-	 * @since  4.1.0
-	 */
-	private static $listQueryModelStateMap = [
+  * Query parameters => model state mappings
+  *
+  * @since  4.1.0
+  */
+ private static array $listQueryModelStateMap = [
 		'path'    => [
 			'name' => 'path',
 			'type' => 'STRING',
@@ -66,12 +66,11 @@ class MediaController extends ApiController
 	];
 
 	/**
-	 * Item query parameters => model state mappings
-	 *
-	 * @var    array
-	 * @since  4.1.0
-	 */
-	private static $itemQueryModelStateMap = [
+  * Item query parameters => model state mappings
+  *
+  * @since  4.1.0
+  */
+ private static array $itemQueryModelStateMap = [
 		'path'    => [
 			'name' => 'path',
 			'type' => 'STRING',
@@ -171,15 +170,14 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Set model state using a list of mappings between query parameters and model state names.
-	 *
-	 * @param   array  $mappings  A list of mappings between query parameters and model state names.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 */
-	private function setModelState(array $mappings): void
+  * Set model state using a list of mappings between query parameters and model state names.
+  *
+  * @param   array  $mappings  A list of mappings between query parameters and model state names.
+  *
+  *
+  * @since   4.1.0
+  */
+ private function setModelState(array $mappings): void
 	{
 		foreach ($mappings as $queryName => $modelState)
 		{
@@ -191,19 +189,18 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Method to add a new file or folder.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 *
-	 * @throws  FileExistsException
-	 * @throws  InvalidPathException
-	 * @throws  InvalidParameterException
-	 * @throws  \RuntimeException
-	 * @throws  \Exception
-	 */
-	public function add(): void
+  * Method to add a new file or folder.
+  *
+  *
+  * @since   4.1.0
+  *
+  * @throws  FileExistsException
+  * @throws  InvalidPathException
+  * @throws  InvalidParameterException
+  * @throws  \RuntimeException
+  * @throws  \Exception
+  */
+ public function add(): void
 	{
 		$path = $this->input->json->get('path', '', 'STRING');
 		$content = $this->input->json->get('content', '', 'RAW');
@@ -216,7 +213,7 @@ class MediaController extends ApiController
 		}
 
 		// Content is only required when it is a file
-		if (empty($content) && strpos($path, '.') !== false)
+		if (empty($content) && str_contains((string) $path, '.'))
 		{
 			$missingParameters[] = 'content';
 		}
@@ -237,15 +234,14 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Method to check if it's allowed to add a new file or folder
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.1.0
-	 */
-	protected function allowAdd($data = array()): bool
+  * Method to check if it's allowed to add a new file or folder
+  *
+  * @param   array  $data  An array of input data.
+  *
+  *
+  * @since   4.1.0
+  */
+ protected function allowAdd($data = []): bool
 	{
 		$user = $this->app->getIdentity();
 
@@ -253,18 +249,17 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Method to modify an existing file or folder.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 *
-	 * @throws  FileExistsException
-	 * @throws  InvalidPathException
-	 * @throws  \RuntimeException
-	 * @throws  \Exception
-	 */
-	public function edit(): void
+  * Method to modify an existing file or folder.
+  *
+  *
+  * @since   4.1.0
+  *
+  * @throws  FileExistsException
+  * @throws  InvalidPathException
+  * @throws  \RuntimeException
+  * @throws  \Exception
+  */
+ public function edit(): void
 	{
 		// Access check.
 		if (!$this->allowEdit())
@@ -294,15 +289,14 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Method to check if it's allowed to modify an existing file or folder.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.1.0
-	 */
-	protected function allowEdit($data = array(), $key = 'id'): bool
+  * Method to check if it's allowed to modify an existing file or folder.
+  *
+  * @param   array  $data  An array of input data.
+  *
+  *
+  * @since   4.1.0
+  */
+ protected function allowEdit($data = [], $key = 'id'): bool
 	{
 		$user = $this->app->getIdentity();
 
@@ -330,7 +324,7 @@ class MediaController extends ApiController
 		$json = $this->input->json;
 
 		// Decode content, if any
-		if ($content = base64_decode($json->get('content', '', 'raw')))
+		if ($content = base64_decode((string) $json->get('content', '', 'raw')))
 		{
 			$this->checkContent();
 		}
@@ -342,18 +336,16 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Performs various checks to see if it is allowed to save the content.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 *
-	 * @throws  \RuntimeException
-	 */
-	private function checkContent(): void
+  * Performs various checks to see if it is allowed to save the content.
+  *
+  *
+  * @since   4.1.0
+  * @throws  \RuntimeException
+  */
+ private function checkContent(): void
 	{
 		$params       = ComponentHelper::getParams('com_media');
-		$helper       = new \Joomla\CMS\Helper\MediaHelper();
+		$helper       = new MediaHelper();
 		$serverlength = $this->input->server->getInt('CONTENT_LENGTH');
 
 		// Check if the size of the request body does not exceed various server imposed limits.
@@ -367,17 +359,16 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Method to delete an existing file or folder.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 *
-	 * @throws  InvalidPathException
-	 * @throws  \RuntimeException
-	 * @throws  \Exception
-	 */
-	public function delete($id = null): void
+  * Method to delete an existing file or folder.
+  *
+  *
+  * @since   4.1.0
+  *
+  * @throws  InvalidPathException
+  * @throws  \RuntimeException
+  * @throws  \Exception
+  */
+ public function delete($id = null): void
 	{
 		if (!$this->allowDelete())
 		{
@@ -395,13 +386,12 @@ class MediaController extends ApiController
 	}
 
 	/**
-	 * Method to check if it's allowed to delete an existing file or folder.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.1.0
-	 */
-	protected function allowDelete(): bool
+  * Method to check if it's allowed to delete an existing file or folder.
+  *
+  *
+  * @since   4.1.0
+  */
+ protected function allowDelete(): bool
 	{
 		$user = $this->app->getIdentity();
 

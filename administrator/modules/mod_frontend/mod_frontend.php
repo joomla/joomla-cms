@@ -12,6 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-$sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
+$sitename = htmlspecialchars((string) $app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 require ModuleHelper::getLayoutPath('mod_frontend', $params->get('layout', 'default'));

@@ -80,7 +80,7 @@ abstract class Manifest
      * @var    array
      * @since  3.1
      */
-    public $filelist = array();
+    public $filelist = [];
 
     /**
      * Constructor

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
@@ -79,7 +80,7 @@ class ArchiveModel extends ArticlesModel
     /**
      * Get the master query for retrieving a list of articles subject to the model state.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -87,8 +88,8 @@ class ArchiveModel extends ArticlesModel
     {
         $params           = $this->state->params;
         $app              = Factory::getApplication();
-        $catids           = $app->input->get('catid', array(), 'array');
-        $catids           = array_values(array_diff($catids, array('')));
+        $catids           = $app->input->get('catid', [], 'array');
+        $catids           = array_values(array_diff($catids, ['']));
 
         $articleOrderDate = $params->get('order_date');
 
@@ -197,7 +198,7 @@ class ArchiveModel extends ArticlesModel
     /**
      * Generate column expression for slug or catslug.
      *
-     * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+     * @param DatabaseQuery $query Current query instance.
      * @param   string                          $id     Column id name.
      * @param   string                          $alias  Column alias name.
      *

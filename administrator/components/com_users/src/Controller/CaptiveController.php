@@ -60,7 +60,6 @@ class CaptiveController extends BaseController
      * @param   boolean        $cachable   Ignored. This page is never cached.
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
@@ -107,7 +106,7 @@ class CaptiveController extends BaseController
         try {
             // Suppress all modules on the page except those explicitly allowed
             $model->suppressAllModules();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't kill the modules we can still survive.
         }
 
@@ -187,9 +186,7 @@ class CaptiveController extends BaseController
 
         $isValidCode = array_reduce(
             $results,
-            function (bool $carry, $result) {
-                return $carry || boolval($result);
-            },
+            fn(bool $carry, $result) => $carry || boolval($result),
             false
         );
 

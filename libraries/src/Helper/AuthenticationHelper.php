@@ -93,7 +93,7 @@ abstract class AuthenticationHelper
         try {
             /** @var CMSApplication $app */
             $app = Factory::getApplication();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return [];
         }
 

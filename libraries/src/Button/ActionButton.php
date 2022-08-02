@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  4.0.0
  */
-class ActionButton
+class ActionButton implements \Stringable
 {
     /**
      * The button states profiles.
@@ -212,7 +212,6 @@ class ActionButton
     /**
      * Method to get property layout.
      *
-     * @return  string
      *
      * @since  4.0.0
      */
@@ -240,7 +239,6 @@ class ActionButton
     /**
      * Method to get property options.
      *
-     * @return  array
      *
      * @since  4.0.0
      */
@@ -313,6 +311,6 @@ class ActionButton
         // It's an ugly hack, but this allows templates to define the icon classes for the toolbar
         $layout = new FileLayout('joomla.button.iconclass');
 
-        return $layout->render(array('icon' => $identifier));
+        return $layout->render(['icon' => $identifier]);
     }
 }

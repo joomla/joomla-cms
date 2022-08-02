@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Tags\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Tags\Administrator\Model\TagModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
@@ -29,11 +31,11 @@ class TagsController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  An optional associative array of configuration settings.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   3.1
      */
-    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Tag', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -51,7 +53,7 @@ class TagsController extends AdminController
 
         $this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 
-        /** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
+        /** @var TagModel $model */
         $model = $this->getModel();
 
         if ($model->rebuild()) {

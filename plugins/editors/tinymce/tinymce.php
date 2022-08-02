@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
@@ -42,7 +43,7 @@ class PlgEditorTinymce extends CMSPlugin
     /**
      * Loads the application object
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.2
      */
     protected $app = null;

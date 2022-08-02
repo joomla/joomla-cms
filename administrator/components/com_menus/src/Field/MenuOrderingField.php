@@ -38,9 +38,9 @@ class MenuOrderingField extends ListField
      *
      * @since   1.7
      */
-    protected function getOptions()
+    protected function getOptions(): array|bool
     {
-        $options = array();
+        $options = [];
 
         // Get the parent
         $parent_id = (int) $this->form->getValue('parent_id', 0);
@@ -90,9 +90,9 @@ class MenuOrderingField extends ListField
         }
 
         $options = array_merge(
-            array(array('value' => '-1', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+            [['value' => '-1', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST')]],
             $options,
-            array(array('value' => '-2', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+            [['value' => '-2', 'text' => Text::_('COM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')]]
         );
 
         // Merge any additional options in the XML definition.

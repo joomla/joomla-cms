@@ -39,7 +39,7 @@ class MenuParentField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $db = $this->getDatabase();
         $query = $db->getQuery(true)
@@ -95,7 +95,7 @@ class MenuParentField extends ListField
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = count($options); $i < $n; $i++) {
+        for ($i = 0, $n = is_countable($options) ? count($options) : 0; $i < $n; $i++) {
             if ($clientId != 0) {
                 // Allow translation of custom admin menus
                 $options[$i]->text = str_repeat('- ', $options[$i]->level) . Text::_($options[$i]->text);

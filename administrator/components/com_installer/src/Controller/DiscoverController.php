@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
+use Joomla\Component\Installer\Administrator\Model\DiscoverModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -33,7 +34,7 @@ class DiscoverController extends BaseController
     {
         $this->checkToken('request');
 
-        /** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+        /** @var DiscoverModel $model */
         $model = $this->getModel('discover');
         $model->discover();
 
@@ -55,7 +56,7 @@ class DiscoverController extends BaseController
     {
         $this->checkToken();
 
-        /** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+        /** @var DiscoverModel $model */
         $model = $this->getModel('discover');
         $model->discover_install();
         $this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false));
@@ -72,7 +73,7 @@ class DiscoverController extends BaseController
     {
         $this->checkToken('request');
 
-        /** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
+        /** @var DiscoverModel $model */
         $model = $this->getModel('discover');
         $model->purge();
         $this->setRedirect(Route::_('index.php?option=com_installer&view=discover', false), $model->_message);

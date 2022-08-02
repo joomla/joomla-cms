@@ -23,7 +23,6 @@ class Argon2idHandler extends BaseArgon2idHandler implements CheckIfRehashNeeded
      *
      * @param   string  $hash  The password hash to check
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

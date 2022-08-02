@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -16,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
@@ -41,16 +42,7 @@ $this->useCoreUI = true;
             <div class="col-lg-3">
                 <?php $this->set(
                     'fields',
-                    array(
-                            array(
-                                'published',
-                                'state',
-                                'enabled',
-                            ),
-                            'access',
-                            'language',
-                            'note',
-                        )
+                    [['published', 'state', 'enabled'], 'access', 'language', 'note']
                 ); ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
                 <?php $this->set('fields', null); ?>
@@ -65,7 +57,7 @@ $this->useCoreUI = true;
                 </div>
             </fieldset>
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
-        <?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
+        <?php $this->set('ignore_fieldsets', ['fieldparams']); ?>
         <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
         <?php if ($this->canDo->get('core.admin')) : ?>
             <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>

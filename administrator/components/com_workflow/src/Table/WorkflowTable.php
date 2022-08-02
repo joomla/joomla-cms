@@ -119,7 +119,7 @@ class WorkflowTable extends Table
             return false;
         }
 
-        if (trim($this->title) === '') {
+        if (trim((string) $this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_WORKFLOW'));
 
             return false;
@@ -228,7 +228,7 @@ class WorkflowTable extends Table
      * @since   4.0.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Bind the rules.
         if (isset($src['rules']) && \is_array($src['rules'])) {
@@ -252,7 +252,7 @@ class WorkflowTable extends Table
     {
         $k = $this->_tbl_key;
 
-        $parts = explode('.', $this->extension);
+        $parts = explode('.', (string) $this->extension);
 
         $extension = array_shift($parts);
 
@@ -285,7 +285,7 @@ class WorkflowTable extends Table
     {
         $assetId = null;
 
-        $parts = explode('.', $this->extension);
+        $parts = explode('.', (string) $this->extension);
 
         $extension = array_shift($parts);
 

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\Component\Banners\Administrator\View\Tracks\HtmlView;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -15,12 +17,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
 
-/** @var \Joomla\Component\Banners\Administrator\View\Tracks\HtmlView $this */
-
+/** @var HtmlView $this */
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 ?>
@@ -89,7 +90,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                     <?php // Load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>

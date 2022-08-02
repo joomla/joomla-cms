@@ -39,7 +39,6 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Retrieve the Document instance attached to this renderer
      *
-     * @return  Document
      *
      * @since   4.0.0
      */
@@ -85,7 +84,6 @@ abstract class AbstractRenderer implements RendererInterface
     /**
      * Create the Document object for this renderer
      *
-     * @return  Document
      *
      * @since   4.0.0
      */

@@ -9,6 +9,12 @@
 
 namespace Joomla\CMS\Session;
 
+use Joomla\Session\Handler\ApcuHandler;
+use Joomla\Session\Handler\DatabaseHandler;
+use Joomla\Session\Handler\FilesystemHandler;
+use Joomla\Session\Handler\MemcachedHandler;
+use Joomla\Session\Handler\RedisHandler;
+use Joomla\Session\Handler\WincacheHandler;
 use InvalidArgumentException;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\ContainerAwareInterface;
@@ -35,7 +41,6 @@ class SessionFactory implements ContainerAwareInterface
      *
      * @param   array  $options  The options used to instantiate the SessionInterface instance.
      *
-     * @return  HandlerInterface
      *
      * @since   4.0.0
      */
@@ -53,14 +58,14 @@ class SessionFactory implements ContainerAwareInterface
 
         switch ($handlerType) {
             case 'apcu':
-                if (!Handler\ApcuHandler::isSupported()) {
+                if (!ApcuHandler::isSupported()) {
                     throw new RuntimeException('APCu is not supported on this system.');
                 }
 
-                return new Handler\ApcuHandler();
+                return new ApcuHandler();
 
             case 'database':
-                return new Handler\DatabaseHandler($this->getContainer()->get(DatabaseInterface::class));
+                return new DatabaseHandler($this->getContainer()->get(DatabaseInterface::class));
 
             case 'filesystem':
             case 'none':
@@ -72,10 +77,10 @@ class SessionFactory implements ContainerAwareInterface
                     $path = sys_get_temp_dir();
                 }
 
-                return new Handler\FilesystemHandler($path);
+                return new FilesystemHandler($path);
 
             case 'memcached':
-                if (!Handler\MemcachedHandler::isSupported()) {
+                if (!MemcachedHandler::isSupported()) {
                     throw new RuntimeException('Memcached is not supported on this system.');
                 }
 
@@ -88,10 +93,10 @@ class SessionFactory implements ContainerAwareInterface
                 ini_set('session.save_path', "$host:$port");
                 ini_set('session.save_handler', 'memcached');
 
-                return new Handler\MemcachedHandler($memcached, ['ttl' => $options['expire']]);
+                return new MemcachedHandler($memcached, ['ttl' => $options['expire']]);
 
             case 'redis':
-                if (!Handler\RedisHandler::isSupported()) {
+                if (!RedisHandler::isSupported()) {
                     throw new RuntimeException('Redis is not supported on this system.');
                 }
 
@@ -123,15 +128,15 @@ class SessionFactory implements ContainerAwareInterface
                     $redis->select($db);
                 }
 
-                return new Handler\RedisHandler($redis, ['ttl' => $options['expire']]);
+                return new RedisHandler($redis, ['ttl' => $options['expire']]);
 
             case 'wincache':
                 // @TODO Remove WinCache with Joomla 5.0
-                if (!Handler\WincacheHandler::isSupported()) {
+                if (!WincacheHandler::isSupported()) {
                     throw new RuntimeException('Wincache is not supported on this system.');
                 }
 
-                return new Handler\WincacheHandler();
+                return new WincacheHandler();
 
             default:
                 throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));

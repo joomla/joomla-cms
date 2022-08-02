@@ -17,7 +17,7 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
         str_replace(
             '{{phpversion}}',
             JOOMLA_MINIMUM_PHP,
-            file_get_contents(dirname(__FILE__) . '/../templates/system/incompatible.html')
+            file_get_contents(__DIR__ . '/../templates/system/incompatible.html')
         )
     );
 }
@@ -29,4 +29,4 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
 define('_JEXEC', 1);
 
 // Run the application - All executable code should be triggered through this file
-require_once dirname(__FILE__) . '/includes/app.php';
+require_once __DIR__ . '/includes/app.php';

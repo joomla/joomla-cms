@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\Model\BeforeBatchEvent;
 use Joomla\CMS\Factory;
@@ -124,11 +125,7 @@ abstract class AdminModel extends FormModel
      * @var    array
      * @since  3.4
      */
-    protected $batch_commands = array(
-        'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
-        'tag' => 'batchTag'
-    );
+    protected $batch_commands = ['assetgroup_id' => 'batchAccess', 'language_id' => 'batchLanguage', 'tag' => 'batchTag'];
 
     /**
      * The context used for the associations table
@@ -196,7 +193,7 @@ abstract class AdminModel extends FormModel
      * @since   1.6
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
         parent::__construct($config, $factory, $formFactory);
 
@@ -242,21 +239,16 @@ abstract class AdminModel extends FormModel
             $this->event_before_batch = 'onBeforeBatch';
         }
 
-        $config['events_map'] = $config['events_map'] ?? array();
+        $config['events_map'] ??= [];
 
         $this->events_map = array_merge(
-            array(
-                'delete'       => 'content',
-                'save'         => 'content',
-                'change_state' => 'content',
-                'validate'     => 'content',
-            ),
+            ['delete'       => 'content', 'save'         => 'content', 'change_state' => 'content', 'validate'     => 'content'],
             $config['events_map']
         );
 
         // Guess the \Text message prefix. Defaults to the option.
         if (isset($config['text_prefix'])) {
-            $this->text_prefix = strtoupper($config['text_prefix']);
+            $this->text_prefix = strtoupper((string) $config['text_prefix']);
         } elseif (empty($this->text_prefix)) {
             $this->text_prefix = strtoupper($this->option);
         }
@@ -414,7 +406,7 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
-        $newIds = array();
+        $newIds = [];
         $db     = $this->getDatabase();
 
         // Parent exists so let's proceed
@@ -685,20 +677,16 @@ abstract class AdminModel extends FormModel
     {
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
-        $tags = array($value);
+        $tags = [$value];
 
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
                 $this->table->load($pk);
 
-                $setTagsEvent = \Joomla\CMS\Event\AbstractEvent::create(
+                $setTagsEvent = AbstractEvent::create(
                     'onTableSetNewTags',
-                    array(
-                        'subject'     => $this->table,
-                        'newTags'     => $tags,
-                        'replaceTags' => false,
-                    )
+                    ['subject'     => $this->table, 'newTags'     => $tags, 'replaceTags' => false]
                 );
 
                 try {
@@ -758,14 +746,14 @@ abstract class AdminModel extends FormModel
      *
      * @since   1.6
      */
-    public function checkin($pks = array())
+    public function checkin($pks = [])
     {
         $pks = (array) $pks;
         $table = $this->getTable();
         $count = 0;
 
         if (empty($pks)) {
-            $pks = array((int) $this->getState($this->getName() . '.id'));
+            $pks = [(int) $this->getState($this->getName() . '.id')];
         }
 
         $checkedOutField = $table->getColumnAlias('checked_out');
@@ -830,7 +818,7 @@ abstract class AdminModel extends FormModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the before delete event.
-                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent($this->event_before_delete, [$context, $table]);
 
                     if (\in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -892,7 +880,7 @@ abstract class AdminModel extends FormModel
                     }
 
                     // Trigger the after event.
-                    Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+                    Factory::getApplication()->triggerEvent($this->event_after_delete, [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -940,7 +928,7 @@ abstract class AdminModel extends FormModel
         $catidField = $table->getColumnAlias('catid');
         $titleField = $table->getColumnAlias('title');
 
-        while ($table->load(array($aliasField => $alias, $catidField => $categoryId))) {
+        while ($table->load([$aliasField => $alias, $catidField => $categoryId])) {
             if ($title === $table->$titleField) {
                 $title = StringHelper::increment($title);
             }
@@ -948,7 +936,7 @@ abstract class AdminModel extends FormModel
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -1106,7 +1094,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the before change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent($this->event_before_change_state, [$context, $pks, $value]);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1122,7 +1110,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Trigger the change state event.
-        $result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent($this->event_change_state, [$context, $pks, $value]);
 
         if (\in_array(false, $result, true)) {
             $this->setError($table->getError());
@@ -1219,7 +1207,7 @@ abstract class AdminModel extends FormModel
         }
 
         $key = $table->getKeyName();
-        $pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
         $isNew = true;
 
         // Include the plugins for the save events.
@@ -1251,7 +1239,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Trigger the before save event.
-            $result = $app->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+            $result = $app->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
             if (\in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -1270,7 +1258,7 @@ abstract class AdminModel extends FormModel
             $this->cleanCache();
 
             // Trigger the after save event.
-            $app->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+            $app->triggerEvent($this->event_after_save, [$context, $table, $isNew, $data]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -1347,7 +1335,7 @@ abstract class AdminModel extends FormModel
 
             if (\count($associations) > 1) {
                 // Adding new association for these items
-                $key   = md5(json_encode($associations));
+                $key   = md5(json_encode($associations, JSON_THROW_ON_ERROR));
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
@@ -1392,12 +1380,12 @@ abstract class AdminModel extends FormModel
      *
      * @since   1.6
      */
-    public function saveorder($pks = array(), $order = null)
+    public function saveorder($pks = [], $order = null)
     {
         // Initialize re-usable member properties
         $this->initBatch();
 
-        $conditions = array();
+        $conditions = [];
 
         if (empty($pks)) {
             Factory::getApplication()->enqueueMessage(Text::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
@@ -1443,7 +1431,7 @@ abstract class AdminModel extends FormModel
 
                 if (!$found) {
                     $key = $this->table->getKeyName();
-                    $conditions[] = array($this->table->$key, $condition);
+                    $conditions[] = [$this->table->$key, $condition];
                 }
             }
         }
@@ -1548,7 +1536,7 @@ abstract class AdminModel extends FormModel
             $this->table = $this->getTable();
 
             // Get table class name
-            $tc = explode('\\', \get_class($this->table));
+            $tc = explode('\\', $this->table::class);
             $this->tableClassName = end($tc);
 
             // Get UCM Type data
@@ -1624,7 +1612,7 @@ abstract class AdminModel extends FormModel
             return false;
         }
 
-        $languages = LanguageHelper::getContentLanguages(array(0, 1));
+        $languages = LanguageHelper::getContentLanguages([0, 1]);
         $target    = '';
 
         /**
@@ -1637,7 +1625,7 @@ abstract class AdminModel extends FormModel
                 $lang_code[] = $language->lang_code;
             }
 
-            $refLang    = array($data['language']);
+            $refLang    = [$data['language']];
             $targetLang = array_diff($lang_code, $refLang);
             $targetLang = implode(',', $targetLang);
             $targetId   = $data['associations'][$targetLang];

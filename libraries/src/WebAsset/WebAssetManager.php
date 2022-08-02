@@ -45,7 +45,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since  4.0.0
      */
-    public const ASSET_STATE_INACTIVE = 0;
+    final public const ASSET_STATE_INACTIVE = 0;
 
     /**
      * Mark active asset. Just enabled, but WITHOUT dependency resolved
@@ -54,7 +54,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since  4.0.0
      */
-    public const ASSET_STATE_ACTIVE = 1;
+    final public const ASSET_STATE_ACTIVE = 1;
 
     /**
      * Mark active asset that is enabled as dependency to another asset
@@ -63,16 +63,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since  4.0.0
      */
-    public const ASSET_STATE_DEPENDENCY = 2;
-
-    /**
-     * The WebAsset Registry instance
-     *
-     * @var    WebAssetRegistry
-     *
-     * @since  4.0.0
-     */
-    protected $registry;
+    final public const ASSET_STATE_DEPENDENCY = 2;
 
     /**
      * A list of active assets (including their dependencies).
@@ -110,10 +101,8 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @since   4.0.0
      */
-    public function __construct(WebAssetRegistry $registry)
+    public function __construct(protected WebAssetRegistry $registry)
     {
-        $this->registry = $registry;
-
         // Listen to changes in the registry
         $this->registry->getDispatcher()->addListener(
             'onWebAssetRegistryChangedAssetOverride',
@@ -139,7 +128,6 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * Get associated registry instance
      *
-     * @return   WebAssetRegistry
      *
      * @since  4.0.0
      */
@@ -183,7 +171,7 @@ class WebAssetManager implements WebAssetManagerInterface
     {
         $method = strtolower($method);
 
-        if (0 === strpos($method, 'use')) {
+        if (str_starts_with($method, 'use')) {
             $type = substr($method, 3);
 
             if (empty($arguments[0])) {
@@ -193,7 +181,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->useAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'addinline')) {
+        if (str_starts_with($method, 'addinline')) {
             $type = substr($method, 9);
 
             if (empty($arguments[0])) {
@@ -203,7 +191,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->addInline($type, ...$arguments);
         }
 
-        if (0 === strpos($method, 'disable')) {
+        if (str_starts_with($method, 'disable')) {
             $type = substr($method, 7);
 
             if (empty($arguments[0])) {
@@ -213,7 +201,7 @@ class WebAssetManager implements WebAssetManagerInterface
             return $this->disableAsset($type, $arguments[0]);
         }
 
-        if (0 === strpos($method, 'register')) {
+        if (str_starts_with($method, 'register')) {
             // Check for registerAndUse<Type>
             $andUse = substr($method, 8, 6) === 'anduse';
 
@@ -233,7 +221,7 @@ class WebAssetManager implements WebAssetManagerInterface
             }
         }
 
-        throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));
+        throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, $this::class));
     }
 
     /**
@@ -349,12 +337,12 @@ class WebAssetManager implements WebAssetManagerInterface
         foreach ($asset->getDependencies() as $dependency) {
             $depType = '';
             $depName = $dependency;
-            $pos     = strrpos($dependency, '#');
+            $pos     = strrpos((string) $dependency, '#');
 
             // Check for cross-dependency "dependency-name#type" case
             if ($pos) {
-                $depType = substr($dependency, $pos + 1);
-                $depName = substr($dependency, 0, $pos);
+                $depType = substr((string) $dependency, $pos + 1);
+                $depName = substr((string) $dependency, 0, $pos);
             }
 
             $depType = $depType ?: 'preset';
@@ -392,12 +380,12 @@ class WebAssetManager implements WebAssetManagerInterface
         foreach ($asset->getDependencies() as $dependency) {
             $depType = '';
             $depName = $dependency;
-            $pos     = strrpos($dependency, '#');
+            $pos     = strrpos((string) $dependency, '#');
 
             // Check for cross-dependency "dependency-name#type" case
             if ($pos) {
-                $depType = substr($dependency, $pos + 1);
-                $depName = substr($dependency, 0, $pos);
+                $depType = substr((string) $dependency, $pos + 1);
+                $depName = substr((string) $dependency, 0, $pos);
             }
 
             $depType = $depType ?: 'preset';
@@ -421,10 +409,8 @@ class WebAssetManager implements WebAssetManagerInterface
      * @param   string  $type  The asset type, script or style
      * @param   string  $name  The asset name
      *
-     * @return  integer
      *
      * @throws  UnknownAssetException  When Asset cannot be found
-     *
      * @since  4.0.0
      */
     public function getAssetState(string $type, string $name): int
@@ -450,10 +436,8 @@ class WebAssetManager implements WebAssetManagerInterface
      * @param   string  $type  The asset type, script or style
      * @param   string  $name  The asset name
      *
-     * @return  boolean
      *
      * @throws  UnknownAssetException  When Asset cannot be found
-     *
      * @since  4.0.0
      */
     public function isAssetActive(string $type, string $name): bool
@@ -467,7 +451,6 @@ class WebAssetManager implements WebAssetManagerInterface
      * @param   string  $type  Asset type, script or style
      * @param   string  $name  Asset name
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -494,7 +477,7 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @throws  \InvalidArgumentException
      */
-    public function registerAsset(string $type, $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
+    public function registerAsset(string $type, WebAssetItem|string $asset, string $uri = '', array $options = [], array $attributes = [], array $dependencies = [])
     {
         if ($asset instanceof WebAssetItemInterface) {
             $this->registry->add($type, $asset);
@@ -508,7 +491,7 @@ class WebAssetManager implements WebAssetManagerInterface
                     '%s(): Argument #2 ($asset) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
-                    \is_object($asset) ? \get_class($asset) : \gettype($asset)
+                    get_debug_type($asset)
                 )
             );
         }
@@ -522,10 +505,8 @@ class WebAssetManager implements WebAssetManagerInterface
      * @param   string  $type  Asset type, script or style
      * @param   string  $name  Asset name
      *
-     * @return  WebAssetItemInterface
      *
      * @throws  UnknownAssetException  When Asset cannot be found
-     *
      * @since   4.0.0
      */
     public function getAsset(string $type, string $name): WebAssetItemInterface
@@ -580,7 +561,6 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @param   WebAssetItem[]  $assets  The assets list
      *
-     * @return  array
      *
      * @since  4.0.0
      */
@@ -650,13 +630,11 @@ class WebAssetManager implements WebAssetManagerInterface
      * @param   array                $attributes    Attributes for the asset
      * @param   array                $dependencies  Asset dependencies
      *
-     * @return  self
      *
      * @since  4.0.0
-     *
      * @throws \InvalidArgumentException
      */
-    public function addInline(string $type, $content, array $options = [], array $attributes = [], array $dependencies = []): self
+    public function addInline(string $type, WebAssetItem|string $content, array $options = [], array $attributes = [], array $dependencies = []): self
     {
         if ($content instanceof WebAssetItemInterface) {
             $assetInstance = $content;
@@ -670,7 +648,7 @@ class WebAssetManager implements WebAssetManagerInterface
                     '%s(): Argument #2 ($content) must be a string or an instance of %s, %s given.',
                     __METHOD__,
                     WebAssetItemInterface::class,
-                    \is_object($content) ? \get_class($content) : \gettype($content)
+                    get_debug_type($content)
                 )
             );
         }
@@ -694,7 +672,6 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * Lock the manager to prevent further modifications
      *
-     * @return self
      *
      * @since  4.0.0
      */
@@ -708,7 +685,6 @@ class WebAssetManager implements WebAssetManagerInterface
     /**
      * Get the manager state. A collection of registry files and active asset names (per type).
      *
-     * @return array
      *
      * @since  4.0.0
      */
@@ -726,7 +702,6 @@ class WebAssetManager implements WebAssetManagerInterface
      * @param   string        $type   The asset type, script or style
      * @param   WebAssetItem  $asset  The asset instance to which need to enable dependencies
      *
-     * @return  self
      *
      * @since  4.0.0
      */
@@ -756,9 +731,7 @@ class WebAssetManager implements WebAssetManagerInterface
             foreach ($this->activeAssets as $type => $activeAsset) {
                 $this->activeAssets[$type] = array_filter(
                     $activeAsset,
-                    function ($state) {
-                        return $state === WebAssetManager::ASSET_STATE_ACTIVE;
-                    }
+                    fn($state) => $state === WebAssetManager::ASSET_STATE_ACTIVE
                 );
             }
 
@@ -804,9 +777,7 @@ class WebAssetManager implements WebAssetManagerInterface
         $emptyIncoming = array_keys(
             array_filter(
                 $graphIncoming,
-                function ($el) {
-                    return !$el;
-                }
+                fn($el) => !$el
             )
         );
 
@@ -903,7 +874,6 @@ class WebAssetManager implements WebAssetManagerInterface
      *
      * @param   WebAssetItem[]  $assets  Asset instances
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -945,10 +915,8 @@ class WebAssetManager implements WebAssetManagerInterface
      * @param   string        $recursionType  The type of initial item to prevent loop
      * @param   WebAssetItem  $recursionRoot  Initial item to prevent loop
      *
-     * @return  array
      *
      * @throws  UnsatisfiedDependencyException When Dependency cannot be found
-     *
      * @since   4.0.0
      */
     protected function getDependenciesForAsset(
@@ -959,8 +927,8 @@ class WebAssetManager implements WebAssetManagerInterface
         WebAssetItem $recursionRoot = null
     ): array {
         $assets        = [];
-        $recursionRoot = $recursionRoot ?? $asset;
-        $recursionType = $recursionType ?? $type;
+        $recursionRoot ??= $asset;
+        $recursionType ??= $type;
 
         foreach ($asset->getDependencies() as $depName) {
             $depType = $type;

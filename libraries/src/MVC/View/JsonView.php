@@ -40,7 +40,7 @@ class JsonView extends AbstractView
      * @var    array
      * @since  4.0.0
      */
-    protected $_output = array();
+    protected $_output = [];
 
     /**
      * Constructor
@@ -56,7 +56,7 @@ class JsonView extends AbstractView
      *
      * @since   4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         parent::__construct($config);
 
@@ -89,7 +89,7 @@ class JsonView extends AbstractView
     public function display($tpl = null)
     {
         // Serializing the output
-        $result = json_encode($this->_output);
+        $result = json_encode($this->_output, JSON_THROW_ON_ERROR);
 
         // Pushing output to the document
         $this->document->setBuffer($result);

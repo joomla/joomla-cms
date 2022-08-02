@@ -14,6 +14,19 @@
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Hotfix;
 
+use Cose\Algorithm\Signature\RSA\RS1;
+use Cose\Algorithm\Signature\RSA\RS256;
+use Cose\Algorithm\Signature\RSA\RS384;
+use Cose\Algorithm\Signature\RSA\RS512;
+use Cose\Algorithm\Signature\RSA\PS256;
+use Cose\Algorithm\Signature\RSA\PS384;
+use Cose\Algorithm\Signature\RSA\PS512;
+use Cose\Algorithm\Signature\ECDSA\ES256;
+use Cose\Algorithm\Signature\ECDSA\ES256K;
+use Cose\Algorithm\Signature\ECDSA\ES384;
+use Cose\Algorithm\Signature\ECDSA\ES512;
+use Cose\Algorithm\Signature\EdDSA\Ed25519;
+use Assert\AssertionFailedException;
 use Assert\Assertion;
 use Cose\Algorithm\Algorithm;
 use Cose\Algorithm\ManagerFactory;
@@ -91,22 +104,10 @@ class Server extends \Webauthn\Server
     public $challengeSize = 32;
 
     /**
-     * @var   PublicKeyCredentialRpEntity
-     * @since 4.2.0
-     */
-    private $rpEntity;
-
-    /**
      * @var   ManagerFactory
      * @since 4.2.0
      */
     private $coseAlgorithmManagerFactory;
-
-    /**
-     * @var   PublicKeyCredentialSourceRepository
-     * @since 4.2.0
-     */
-    private $publicKeyCredentialSourceRepository;
 
     /**
      * @var   TokenBindingNotSupportedHandler
@@ -125,12 +126,6 @@ class Server extends \Webauthn\Server
      * @since 4.2.0
      */
     private $selectedAlgorithms;
-
-    /**
-     * @var   MetadataStatementRepository|null
-     * @since 4.2.0
-     */
-    private $metadataStatementRepository;
 
     /**
      * @var   ClientInterface
@@ -153,44 +148,39 @@ class Server extends \Webauthn\Server
     /**
      * Overridden constructor.
      *
-     * @param   PublicKeyCredentialRpEntity          $relayingParty                       Obvious
+     * @param PublicKeyCredentialRpEntity $rpEntity Obvious
      * @param   PublicKeyCredentialSourceRepository  $publicKeyCredentialSourceRepository Obvious
      * @param   MetadataStatementRepository|null     $metadataStatementRepository         Obvious
      *
      * @since   4.2.0
      */
     public function __construct(
-        PublicKeyCredentialRpEntity $relayingParty,
-        PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository,
-        ?MetadataStatementRepository $metadataStatementRepository
+        private readonly PublicKeyCredentialRpEntity $rpEntity,
+        private readonly PublicKeyCredentialSourceRepository $publicKeyCredentialSourceRepository,
+        private readonly ?MetadataStatementRepository $metadataStatementRepository
     ) {
-        $this->rpEntity = $relayingParty;
-
         $this->coseAlgorithmManagerFactory = new ManagerFactory();
-        $this->coseAlgorithmManagerFactory->add('RS1', new RSA\RS1());
-        $this->coseAlgorithmManagerFactory->add('RS256', new RSA\RS256());
-        $this->coseAlgorithmManagerFactory->add('RS384', new RSA\RS384());
-        $this->coseAlgorithmManagerFactory->add('RS512', new RSA\RS512());
-        $this->coseAlgorithmManagerFactory->add('PS256', new RSA\PS256());
-        $this->coseAlgorithmManagerFactory->add('PS384', new RSA\PS384());
-        $this->coseAlgorithmManagerFactory->add('PS512', new RSA\PS512());
-        $this->coseAlgorithmManagerFactory->add('ES256', new ECDSA\ES256());
-        $this->coseAlgorithmManagerFactory->add('ES256K', new ECDSA\ES256K());
-        $this->coseAlgorithmManagerFactory->add('ES384', new ECDSA\ES384());
-        $this->coseAlgorithmManagerFactory->add('ES512', new ECDSA\ES512());
-        $this->coseAlgorithmManagerFactory->add('Ed25519', new EdDSA\Ed25519());
+        $this->coseAlgorithmManagerFactory->add('RS1', new RS1());
+        $this->coseAlgorithmManagerFactory->add('RS256', new RS256());
+        $this->coseAlgorithmManagerFactory->add('RS384', new RS384());
+        $this->coseAlgorithmManagerFactory->add('RS512', new RS512());
+        $this->coseAlgorithmManagerFactory->add('PS256', new PS256());
+        $this->coseAlgorithmManagerFactory->add('PS384', new PS384());
+        $this->coseAlgorithmManagerFactory->add('PS512', new PS512());
+        $this->coseAlgorithmManagerFactory->add('ES256', new ES256());
+        $this->coseAlgorithmManagerFactory->add('ES256K', new ES256K());
+        $this->coseAlgorithmManagerFactory->add('ES384', new ES384());
+        $this->coseAlgorithmManagerFactory->add('ES512', new ES512());
+        $this->coseAlgorithmManagerFactory->add('Ed25519', new Ed25519());
 
         $this->selectedAlgorithms = ['RS256', 'RS512', 'PS256', 'PS512', 'ES256', 'ES512', 'Ed25519'];
-        $this->publicKeyCredentialSourceRepository = $publicKeyCredentialSourceRepository;
         $this->tokenBindingHandler = new TokenBindingNotSupportedHandler();
         $this->extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
-        $this->metadataStatementRepository = $metadataStatementRepository;
     }
 
     /**
      * @param   string[]  $selectedAlgorithms  Obvious
      *
-     * @return  void
      * @since   4.2.0
      */
     public function setSelectedAlgorithms(array $selectedAlgorithms): void
@@ -201,7 +191,6 @@ class Server extends \Webauthn\Server
     /**
      * @param   TokenBindingNotSupportedHandler  $tokenBindingHandler Obvious
      *
-     * @return  void
      * @since   4.2.0
      */
     public function setTokenBindingHandler(TokenBindingNotSupportedHandler $tokenBindingHandler): void
@@ -213,7 +202,6 @@ class Server extends \Webauthn\Server
      * @param   string     $alias      Obvious
      * @param   Algorithm  $algorithm  Obvious
      *
-     * @return  void
      * @since   4.2.0
      */
     public function addAlgorithm(string $alias, Algorithm $algorithm): void
@@ -226,7 +214,6 @@ class Server extends \Webauthn\Server
     /**
      * @param   ExtensionOutputCheckerHandler  $extensionOutputCheckerHandler Obvious
      *
-     * @return  void
      * @since   4.2.0
      */
     public function setExtensionOutputCheckerHandler(ExtensionOutputCheckerHandler $extensionOutputCheckerHandler): void
@@ -239,7 +226,6 @@ class Server extends \Webauthn\Server
      * @param   PublicKeyCredentialDescriptor[]            $allowedPublicKeyDescriptors  Obvious
      * @param   AuthenticationExtensionsClientInputs|null  $extensions                   Obvious
      *
-     * @return PublicKeyCredentialRequestOptions
      * @throws \Exception
      * @since   4.2.0
      */
@@ -265,7 +251,6 @@ class Server extends \Webauthn\Server
      * @param   AuthenticatorSelectionCriteria|null        $criteria                      Obvious
      * @param   AuthenticationExtensionsClientInputs|null  $extensions                    Obvious
      *
-     * @return  PublicKeyCredentialCreationOptions
      * @throws  \Exception
      * @since   4.2.0
      */
@@ -286,8 +271,8 @@ class Server extends \Webauthn\Server
             );
         }
 
-        $criteria   = $criteria ?? new AuthenticatorSelectionCriteria();
-        $extensions = $extensions ?? new AuthenticationExtensionsClientInputs();
+        $criteria ??= new AuthenticatorSelectionCriteria();
+        $extensions ??= new AuthenticationExtensionsClientInputs();
         $challenge  = random_bytes($this->challengeSize);
 
         return new PublicKeyCredentialCreationOptions(
@@ -308,8 +293,7 @@ class Server extends \Webauthn\Server
      * @param   PublicKeyCredentialCreationOptions  $publicKeyCredentialCreationOptions  Obvious
      * @param   ServerRequestInterface              $serverRequest                       Obvious
      *
-     * @return  PublicKeyCredentialSource
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     public function loadAndCheckAttestationResponse(
@@ -341,8 +325,7 @@ class Server extends \Webauthn\Server
      * @param   PublicKeyCredentialUserEntity|null  $userEntity                         Obvious
      * @param   ServerRequestInterface              $serverRequest                      Obvious
      *
-     * @return  PublicKeyCredentialSource
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     public function loadAndCheckAssertionResponse(
@@ -381,7 +364,6 @@ class Server extends \Webauthn\Server
      * @param   string                   $apiKey          Obvious
      * @param   RequestFactoryInterface  $requestFactory  Obvious
      *
-     * @return  void
      * @since   4.2.0
      */
     public function enforceAndroidSafetyNetVerification(
@@ -395,7 +377,6 @@ class Server extends \Webauthn\Server
     }
 
     /**
-     * @return  AttestationStatementSupportManager
      * @since   4.2.0
      */
     private function getAttestationStatementSupportManager(): AttestationStatementSupportManager

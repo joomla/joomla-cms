@@ -73,7 +73,7 @@ class TagTable extends Nested implements VersionableTableInterface
         }
 
         // Check for valid name.
-        if (trim($this->title) == '') {
+        if (trim((string) $this->title) == '') {
             throw new \UnexpectedValueException('The title is empty');
         }
 
@@ -95,7 +95,7 @@ class TagTable extends Nested implements VersionableTableInterface
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = array("\"", '<', '>');
+            $bad_characters = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
@@ -187,7 +187,7 @@ class TagTable extends Nested implements VersionableTableInterface
         // Verify that the alias is unique
         $table = new static($this->getDbo());
 
-        if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
             return false;

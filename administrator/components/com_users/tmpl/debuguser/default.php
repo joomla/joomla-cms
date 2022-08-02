@@ -33,7 +33,7 @@ endforeach;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <div class="d-flex flex-wrap">
             <?php foreach ($loginActions as $action) :
                 $name  = $action[0];
@@ -98,7 +98,7 @@ endforeach;
                             <?php echo $this->escape(Text::_($item->title)); ?>
                         </td>
                         <td>
-                            <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
+                            <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level + 1]) . $this->escape($item->name); ?>
                         </td>
                         <?php foreach ($actions as $action) : ?>
                             <?php

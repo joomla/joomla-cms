@@ -22,14 +22,6 @@ class CategoryFactory implements CategoryFactoryInterface
     use DatabaseAwareTrait;
 
     /**
-     * The namespace to create the categories from.
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    private $namespace;
-
-    /**
      * The namespace must be like:
      * Joomla\Component\Content
      *
@@ -37,9 +29,8 @@ class CategoryFactory implements CategoryFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct($namespace)
+    public function __construct(private $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -48,10 +39,8 @@ class CategoryFactory implements CategoryFactoryInterface
      * @param   array   $options  The options
      * @param   string  $section  The section
      *
-     * @return  CategoryInterface
      *
      * @since   3.10.0
-     *
      * @throws  SectionNotFoundException
      */
     public function createCategory(array $options = [], string $section = ''): CategoryInterface

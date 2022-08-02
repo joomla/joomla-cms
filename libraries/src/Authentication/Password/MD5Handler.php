@@ -26,7 +26,6 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
      *
      * @param   string  $hash  The password hash to check
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -83,7 +82,7 @@ class MD5Handler implements HandlerInterface, CheckIfRehashNeededHandlerInterfac
 
         // Compile the hash to compare
         // If the salt is empty AND there is a ':' in the original hash, we must append ':' at the end
-        $testcrypt = md5($plaintext . $salt) . ($salt ? ':' . $salt : (strpos($hashed, ':') !== false ? ':' : ''));
+        $testcrypt = md5($plaintext . $salt) . ($salt ? ':' . $salt : (str_contains($hashed, ':') ? ':' : ''));
 
         return Crypt::timingSafeCompare($hashed, $testcrypt);
     }

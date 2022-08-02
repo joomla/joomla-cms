@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -47,21 +50,21 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
     /**
      * The page parameters
      *
-     * @var  \Joomla\Registry\Registry|null
+     * @var Registry|null
      */
     protected $params = null;
 
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
     /**
      * The logged in user
      *
-     * @var  \Joomla\CMS\User\User|null
+     * @var User|null
      */
     protected $user = null;
 
@@ -148,7 +151,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $this->pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -158,7 +161,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         }
 
         // Check for a double quote in the query string.
-        if (strpos($this->query->input, '"')) {
+        if (strpos((string) $this->query->input, '"')) {
             $router = $this->getSiteRouter();
 
             // Fix the q variable in the URL.
@@ -173,7 +176,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
             PluginHelper::importPlugin('finder');
 
             foreach ($this->results as $result) {
-                $app->triggerEvent('onFinderResult', array(&$result, &$this->query));
+                $app->triggerEvent('onFinderResult', [&$result, &$this->query]);
             }
         }
 
@@ -185,7 +188,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $this->explained = HTMLHelper::_('query.explained', $this->query);
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->params->get('pageclass_sfx', ''));
 
         // Check for layout override only if this is not the active menu item
         // If it is the active menu item, then the view and category id will match
@@ -253,7 +256,7 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
         $file = $this->_layout . '_' . preg_replace('/[^A-Z0-9_\.-]/i', '', $layout);
 
         // Check if the file exists.
-        $filetofind = $this->_createFileName('template', array('name' => $file));
+        $filetofind = $this->_createFileName('template', ['name' => $file]);
         $exists     = Path::find($this->_path['template'], $filetofind);
 
         return ($exists ? $layout : 'result');
@@ -305,22 +308,22 @@ class HtmlView extends BaseHtmlView implements SiteRouterAwareInterface
                 Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename')
             );
             $this->document->addHeadLink(
-                Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
+                Uri::getInstance()->toString(['scheme', 'host', 'port']) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
                 'search',
                 'rel',
-                array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
+                ['title' => $ostitle, 'type' => 'application/opensearchdescription+xml']
             );
         }
 
         // Add feed link to the document head.
         if ($this->params->get('show_feed_link', 1) == 1) {
             // Add the RSS link.
-            $props = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $props = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $route = Route::_($this->query->toUri() . '&format=feed&type=rss');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
 
             // Add the ATOM link.
-            $props = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $props = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $route = Route::_($this->query->toUri() . '&format=feed&type=atom');
             $this->document->addHeadLink($route, 'alternate', 'rel', $props);
         }

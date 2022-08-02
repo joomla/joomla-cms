@@ -45,15 +45,15 @@ class EqualsRule extends FormRule
 
         // Check that a validation field is set.
         if (!$field) {
-            throw new \UnexpectedValueException(sprintf('$field empty in %s::test', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('$field empty in %s::test', $this::class));
         }
 
         if (\is_null($form)) {
-            throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', \get_class($this)));
+            throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', $this::class));
         }
 
         if (\is_null($input)) {
-            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', \get_class($this)));
+            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', $this::class));
         }
 
         $test = $input->get($field);

@@ -50,10 +50,8 @@ class HtmlView extends InstallerViewDefault
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void
      *
      * @since   4.0.0
-     *
      * @throws \Exception
      */
     public function display($tpl = null): void
@@ -82,10 +80,8 @@ class HtmlView extends InstallerViewDefault
     /**
      * Add the page title and toolbar.
      *
-     * @return  void
      *
      * @since   4.0.0
-     *
      * @throws  \Exception
      */
     protected function addToolbar(): void

@@ -25,15 +25,6 @@ use Joomla\Utilities\ArrayHelper;
 class Router extends RouterBase
 {
     /**
-     * The db
-     *
-     * @var DatabaseInterface
-     *
-     * @since  4.0.0
-     */
-    private $db;
-
-    /**
      * Tags Component router constructor
      *
      * @param   SiteApplication           $app              The application object
@@ -43,10 +34,8 @@ class Router extends RouterBase
      *
      * @since  4.0.0
      */
-    public function __construct(SiteApplication $app, AbstractMenu $menu, ?CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
+    public function __construct(SiteApplication $app, AbstractMenu $menu, ?CategoryFactoryInterface $categoryFactory, private readonly DatabaseInterface $db)
     {
-        $this->db = $db;
-
         parent::__construct($app, $menu);
     }
 
@@ -61,7 +50,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         // Get a menu item based on Itemid or currently active
 
@@ -123,7 +112,7 @@ class Router extends RouterBase
         $total = count($segments);
 
         for ($i = 0; $i < $total; $i++) {
-            $segments[$i] = str_replace(':', '-', $segments[$i]);
+            $segments[$i] = str_replace(':', '-', (string) $segments[$i]);
             $position     = strpos($segments[$i], '-');
 
             if ($position) {
@@ -147,7 +136,7 @@ class Router extends RouterBase
     public function parse(&$segments)
     {
         $total = count($segments);
-        $vars = array();
+        $vars = [];
 
         for ($i = 0; $i < $total; $i++) {
             $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

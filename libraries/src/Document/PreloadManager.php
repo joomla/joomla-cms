@@ -43,7 +43,6 @@ class PreloadManager implements PreloadManagerInterface
     /**
      * Get the link provider
      *
-     * @return  EvolvableLinkProviderInterface
      *
      * @since   4.0.0
      */

@@ -23,7 +23,6 @@ class BCryptHandler extends BaseBCryptHandler implements CheckIfRehashNeededHand
      *
      * @param   string  $hash  The password hash to check
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

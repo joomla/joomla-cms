@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Toolbar;
 
+use Joomla\DI\Exception\KeyNotFoundException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -45,14 +46,6 @@ class Toolbar
     use CoreButtonsTrait;
 
     /**
-     * Toolbar name
-     *
-     * @var    string
-     * @since  1.5
-     */
-    protected $_name = '';
-
-    /**
      * Toolbar array
      *
      * @var    array
@@ -74,7 +67,7 @@ class Toolbar
      * @var    Toolbar[]
      * @since  2.5
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Factory for creating Toolbar API objects
@@ -87,22 +80,20 @@ class Toolbar
     /**
      * Constructor
      *
-     * @param   string                   $name     The toolbar name.
+     * @param string $_name The toolbar name.
      * @param   ToolbarFactoryInterface  $factory  The toolbar factory.
      *
      * @since   1.5
      */
-    public function __construct($name = 'toolbar', ToolbarFactoryInterface $factory = null)
+    public function __construct(protected $_name = 'toolbar', ToolbarFactoryInterface $factory = null)
     {
-        $this->_name = $name;
-
         // At 5.0, require the factory to be injected
         if (!$factory) {
             @trigger_error(
                 sprintf(
                     'As of Joomla! 5.0, a %1$s must be provided to a %2$s object when creating it.',
                     ToolbarFactoryInterface::class,
-                    \get_class($this)
+                    $this::class
                 ),
                 E_USER_DEPRECATED
             );
@@ -127,7 +118,7 @@ class Toolbar
      * @since       1.5
      * @deprecated  5.0 Use the ToolbarFactoryInterface instead
      *
-     * @throws \Joomla\DI\Exception\KeyNotFoundException
+     * @throws KeyNotFoundException
      */
     public static function getInstance($name = 'toolbar')
     {
@@ -165,7 +156,7 @@ class Toolbar
      *
      * @since   1.5
      */
-    public function appendButton($button, ...$args)
+    public function appendButton($button, ...$args): ToolbarButton|bool
     {
         if ($button instanceof ToolbarButton) {
             $button->setParent($this);
@@ -242,7 +233,7 @@ class Toolbar
      *
      * @since   1.5
      */
-    public function prependButton($button, ...$args)
+    public function prependButton($button, ...$args): ToolbarButton|bool
     {
         if ($button instanceof ToolbarButton) {
             $button->setParent($this);
@@ -350,11 +341,10 @@ class Toolbar
      * @param   string   $type  Button Type
      * @param   boolean  $new   False by default
      *
-     * @return  false|ToolbarButton
      *
      * @since   1.5
      */
-    public function loadButtonType($type, $new = false)
+    public function loadButtonType($type, $new = false): false|ToolbarButton
     {
         // For B/C, catch the exceptions thrown by the factory
         try {
@@ -397,7 +387,7 @@ class Toolbar
         // Loop through the path directories.
         foreach ((array) $path as $dir) {
             // No surrounding spaces allowed!
-            $dir = trim($dir);
+            $dir = trim((string) $dir);
 
             // Add trailing separators as needed.
             if (substr($dir, -1) !== DIRECTORY_SEPARATOR) {
@@ -413,7 +403,6 @@ class Toolbar
     /**
      * Get the lookup paths for button objects
      *
-     * @return  array
      *
      * @since   4.0.0
      * @deprecated  5.0  ToolbarButton classes should be autoloaded

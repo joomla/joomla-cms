@@ -17,17 +17,10 @@ namespace Joomla\CMS\Installer;
 class LegacyInstallerScript implements InstallerScriptInterface
 {
     /**
-     * @var    \stdClass
-     * @since  4.2.0
-     */
-    private $installerScript;
-
-    /**
      * @param   \stdClass  $installerScript  The script instance
      */
-    public function __construct($installerScript)
+    public function __construct(private $installerScript)
     {
-        $this->installerScript = $installerScript;
     }
 
     /**
@@ -154,7 +147,6 @@ class LegacyInstallerScript implements InstallerScriptInterface
      * @param   string $name       The name of the function
      * @param   array  $arguments  The arguments
      *
-     * @return  bool
      *
      * @since   4.2.0
      */

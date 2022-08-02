@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
@@ -96,7 +97,6 @@ class PlgContentJoomla extends CMSPlugin
      * @param   object   $article  A JTableContent object
      * @param   boolean  $isNew    If the content is just about to be created
      *
-     * @return  void
      *
      * @since   1.6
      */
@@ -143,11 +143,7 @@ class PlgContentJoomla extends CMSPlugin
                 $receiver = User::getInstance($user_id);
                 $lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
                 $lang->load('com_content');
-                $message = array(
-                    'user_id_to' => $user_id,
-                    'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-                    'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
-                );
+                $message = ['user_id_to' => $user_id, 'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'), 'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)];
                 $model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
                 $model_message->save($message);
@@ -235,14 +231,7 @@ class PlgContentJoomla extends CMSPlugin
         // Default to true if not a core extension
         $result = true;
 
-        $tableInfo = array(
-            'com_banners' => array('table_name' => '#__banners'),
-            'com_contact' => array('table_name' => '#__contact_details'),
-            'com_content' => array('table_name' => '#__content'),
-            'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
-            'com_users' => array('table_name' => '#__user_notes'),
-            'com_weblinks' => array('table_name' => '#__weblinks'),
-        );
+        $tableInfo = ['com_banners' => ['table_name' => '#__banners'], 'com_contact' => ['table_name' => '#__contact_details'], 'com_content' => ['table_name' => '#__content'], 'com_newsfeeds' => ['table_name' => '#__newsfeeds'], 'com_users' => ['table_name' => '#__user_notes'], 'com_weblinks' => ['table_name' => '#__weblinks']];
 
         // Now check to see if this is a known core extension
         if (isset($tableInfo[$extension])) {
@@ -307,7 +296,7 @@ class PlgContentJoomla extends CMSPlugin
             throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
         }
 
-        $parts = explode('.', $table->extension);
+        $parts = explode('.', (string) $table->extension);
 
         $component = $this->app->bootComponent($parts[0]);
 
@@ -322,7 +311,7 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        /** @var \Joomla\Component\Workflow\Administrator\Model\StagesModel $model */
+        /** @var StagesModel $model */
         $model = $this->app->bootComponent('com_workflow')->getMVCFactory()
             ->createModel('Stages', 'Administrator', ['ignore_request' => true]);
 
@@ -375,7 +364,7 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $component = $this->app->bootComponent($parts[0]);
 
@@ -435,7 +424,6 @@ class PlgContentJoomla extends CMSPlugin
      * @param   array   $stageIds   The stage ids to test for
      * @param   string  $extension  The extension of the workflow
      *
-     * @return  bool
      *
      * @since   4.0.0
      */
@@ -501,7 +489,7 @@ class PlgContentJoomla extends CMSPlugin
 
         // First element in tree is the current category, so we can skip that one
         unset($childCategoryTree[0]);
-        $childCategoryIds = array();
+        $childCategoryIds = [];
 
         foreach ($childCategoryTree as $node) {
             $childCategoryIds[] = (int) $node->id;
@@ -597,7 +585,7 @@ class PlgContentJoomla extends CMSPlugin
         }
 
         // Display error if catid is not set when enable_category is enabled
-        $params = json_decode($table->params, true);
+        $params = json_decode((string) $table->params, true, 512, JSON_THROW_ON_ERROR);
 
         if ($params['enable_category'] == 1 && empty($params['catid'])) {
             $table->setError(Text::_('COM_CONTENT_CREATE_ARTICLE_ERROR'));

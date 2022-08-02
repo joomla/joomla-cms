@@ -37,10 +37,10 @@ class LoginModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
-        $form = $this->loadForm('com_users.login', 'login', array('load_data' => $loadData));
+        $form = $this->loadForm('com_users.login', 'login', ['load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -61,13 +61,13 @@ class LoginModel extends FormModel
     {
         // Check the session for previously entered login form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('users.login.form.data', array());
+        $data = $app->getUserState('users.login.form.data', []);
 
         $input = $app->input->getInputForRequestMethod();
 
         // Check for return URL from the request first
         if ($return = $input->get('return', '', 'BASE64')) {
-            $data['return'] = base64_decode($return);
+            $data['return'] = base64_decode((string) $return);
 
             if (!Uri::isInternal($data['return'])) {
                 $data['return'] = '';
@@ -122,7 +122,6 @@ class LoginModel extends FormModel
      *
      * @param  int  $id  The menu id
      *
-     * @return string
      *
      * @since  4.2.0
      */
@@ -144,7 +143,7 @@ class LoginModel extends FormModel
 
         try {
             return $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return '';
         }
     }

@@ -14,6 +14,7 @@
 
 namespace
 {
+    use Joomla\CMS\Filesystem\File;
     // Require the restoration environment or fail cold. Prevents direct web access.
     \defined('_JOOMLA_UPDATE') or die();
 
@@ -47,7 +48,6 @@ namespace
          * @param   string  $siteRoot     The root to the Joomla! site
          * @param   string  $restorePath  The base path to extract.php
          *
-         * @return  void
          *
          * @since   3.5.1
          */
@@ -77,8 +77,8 @@ namespace
              */
             $namespaceMapFile = JPATH_ROOT . '/administrator/cache/autoload_psr4.php';
 
-            if (\Joomla\CMS\Filesystem\File::exists($namespaceMapFile)) {
-                \Joomla\CMS\Filesystem\File::delete($namespaceMapFile);
+            if (File::exists($namespaceMapFile)) {
+                File::delete($namespaceMapFile);
             }
         }
     }
@@ -87,7 +87,7 @@ namespace
 namespace Joomla\CMS\Filesystem
 {
     // Fake the File class
-    if (!class_exists('\Joomla\CMS\Filesystem\File')) {
+    if (!class_exists(\Joomla\CMS\Filesystem\File::class)) {
         /**
          * File mock class
          *
@@ -100,7 +100,6 @@ namespace Joomla\CMS\Filesystem
              *
              * @param   string  $fileName  The path to the file to be checked
              *
-             * @return  boolean
              *
              * @since   3.5.1
              */
@@ -114,7 +113,6 @@ namespace Joomla\CMS\Filesystem
              *
              * @param   string  $fileName  The path to the file to be deleted
              *
-             * @return  boolean
              *
              * @since   3.5.1
              */
@@ -168,7 +166,7 @@ namespace Joomla\CMS\Filesystem
     }
 
     // Fake the Folder class, mapping it to Restore's post-processing class
-    if (!class_exists('\Joomla\CMS\Filesystem\Folder')) {
+    if (!class_exists(\Joomla\CMS\Filesystem\Folder::class)) {
         /**
          * Folder mock class
          *
@@ -181,7 +179,6 @@ namespace Joomla\CMS\Filesystem
              *
              * @param   string  $folderName  The path to the folder to be checked
              *
-             * @return  boolean
              *
              * @since   3.5.1
              */
@@ -195,7 +192,6 @@ namespace Joomla\CMS\Filesystem
              *
              * @param   string  $folderName  The path to the folder to be deleted
              *
-             * @return  boolean
              *
              * @since   3.5.1
              */
@@ -241,7 +237,7 @@ namespace Joomla\CMS\Filesystem
 namespace Joomla\CMS\Language
 {
     // Fake the Text class - we aren't going to show errors to people anyhow
-    if (!class_exists('\Joomla\CMS\Language\Text')) {
+    if (!class_exists(\Joomla\CMS\Language\Text::class)) {
         /**
          * Text mock class
          *
@@ -254,7 +250,6 @@ namespace Joomla\CMS\Language
              *
              * @param   string  $text  A language constant
              *
-             * @return  string
              *
              * @since   3.5.1
              */

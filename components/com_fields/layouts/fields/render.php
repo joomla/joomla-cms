@@ -30,7 +30,7 @@ if (!$context) {
     return;
 }
 
-$parts     = explode('.', $context);
+$parts     = explode('.', (string) $context);
 $component = $parts[0];
 $fields    = null;
 
@@ -44,17 +44,17 @@ if (empty($fields)) {
     return;
 }
 
-$output = array();
+$output = [];
 
 foreach ($fields as $field) {
     // If the value is empty do nothing
-    if (!isset($field->value) || trim($field->value) === '') {
+    if (!isset($field->value) || trim((string) $field->value) === '') {
         continue;
     }
 
     $class = $field->name . ' ' . $field->params->get('render_class');
     $layout = $field->params->get('layout', 'render');
-    $content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
+    $content = FieldsHelper::render($context, 'field.' . $layout, ['field' => $field]);
 
     // If the content is empty do nothing
     if (trim($content) === '') {

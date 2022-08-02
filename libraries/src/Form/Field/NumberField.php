@@ -83,14 +83,10 @@ class NumberField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'max':
-            case 'min':
-            case 'step':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'max', 'min', 'step' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -200,12 +196,7 @@ class NumberField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
-            'max'   => $this->max,
-            'min'   => $this->min,
-            'step'  => $this->step,
-            'value' => $this->value,
-        );
+        $extraData = ['max'   => $this->max, 'min'   => $this->min, 'step'  => $this->step, 'value' => $this->value];
 
         return array_merge($data, $extraData);
     }

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\Component\Users\Site\Model\ProfileModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -81,13 +82,13 @@ class ProfileController extends BaseController
 
         $app    = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
+        /** @var ProfileModel $model */
         $model  = $this->getModel('Profile', 'Site');
         $user   = $this->app->getIdentity();
         $userId = (int) $user->get('id');
 
         // Get the user data.
-        $requestData = $app->input->post->get('jform', array(), 'array');
+        $requestData = $app->input->post->get('jform', [], 'array');
 
         // Force the ID to this user.
         $requestData['id'] = $userId;
@@ -103,7 +104,7 @@ class ProfileController extends BaseController
         $objData = (object) $requestData;
         $app->triggerEvent(
             'onContentNormaliseRequestData',
-            array('com_users.user', $objData, $form)
+            ['com_users.user', $objData, $form]
         );
         $requestData = (array) $objData;
 

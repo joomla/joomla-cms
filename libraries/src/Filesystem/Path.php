@@ -148,7 +148,7 @@ class Path
      */
     public static function check($path)
     {
-        if (strpos($path, '..') !== false) {
+        if (str_contains($path, '..')) {
             // Don't translate
             throw new \Exception(
                 sprintf(
@@ -160,7 +160,7 @@ class Path
 
         $path = self::clean($path);
 
-        if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0) {
+        if ((JPATH_ROOT != '') && !str_starts_with($path, self::clean(JPATH_ROOT))) {
             throw new \Exception(
                 sprintf(
                     '%1$s() - Snooping out of bounds @ %2$s',
@@ -199,7 +199,7 @@ class Path
 
         if (empty($path)) {
             $path = JPATH_ROOT;
-        } elseif (($ds === '\\') && substr($path, 0, 2) === '\\\\') {
+        } elseif (($ds === '\\') && str_starts_with($path, '\\\\')) {
             // Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
             // If dealing with a UNC path don't forget to prepend the path with a backslash.
             $path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
@@ -278,7 +278,7 @@ class Path
             $fullname = $path . '/' . $file;
 
             // Is the path based on a stream?
-            if (strpos($path, '://') === false) {
+            if (!str_contains((string) $path, '://')) {
                 // Not a stream, so do a realpath() to avoid directory
                 // traversal attempts on the local file system.
 
@@ -293,7 +293,7 @@ class Path
              * non-registered directories are not accessible via directory
              * traversal attempts.
              */
-            if (file_exists($fullname) && substr($fullname, 0, \strlen($path)) === $path) {
+            if (file_exists($fullname) && str_starts_with($fullname, (string) $path)) {
                 return $fullname;
             }
         }
@@ -360,9 +360,7 @@ class Path
             $rootDirectory = JPATH_ROOT;
         }
 
-        $makePattern = static function ($dir) {
-            return '~' . str_replace('~', '\\~', preg_replace('~[/\\\\]+~', '[/\\\\\\\\]+', $dir)) . '~';
-        };
+        $makePattern = static fn($dir) => '~' . str_replace('~', '\\~', preg_replace('~[/\\\\]+~', '[/\\\\\\\\]+', $dir)) . '~';
 
         $replacements = [
             $makePattern(static::clean($rootDirectory)) => '[ROOT]',

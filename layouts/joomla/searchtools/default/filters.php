@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -18,7 +19,7 @@ $data = $displayData;
 // Load the form filters
 $filters = $data['view']->filterForm->getGroup('filter');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 ?>
@@ -28,7 +29,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
             <?php $dataShowOn = ''; ?>
             <?php if ($field->showon) : ?>
                 <?php $wa->useScript('showon'); ?>
-                <?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
+                <?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group), JSON_THROW_ON_ERROR) . "'"; ?>
             <?php endif; ?>
             <div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
                 <span class="visually-hidden"><?php echo $field->label; ?></span>

@@ -30,8 +30,5 @@ class PluginstatusField extends PredefinedlistField
      * @var  array
      * @since  3.5
      */
-    protected $predefinedOptions = array(
-        '0'  => 'JDISABLED',
-        '1'  => 'JENABLED',
-    );
+    protected $predefinedOptions = ['0'  => 'JDISABLED', '1'  => 'JENABLED'];
 }

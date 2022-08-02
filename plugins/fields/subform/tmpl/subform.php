@@ -21,17 +21,17 @@ $result = '';
 // Iterate over each row that we have
 foreach ($field->subform_rows as $subform_row) {
     // Placeholder array to generate this rows output
-    $row_output = array();
+    $row_output = [];
 
     // Iterate over each sub field inside of that row
     foreach ($subform_row as $subfield) {
-        $class   = trim($subfield->params->get('render_class', ''));
-        $layout  = trim($subfield->params->get('layout', 'render'));
+        $class   = trim((string) $subfield->params->get('render_class', ''));
+        $layout  = trim((string) $subfield->params->get('layout', 'render'));
         $content = trim(
             FieldsHelper::render(
                 $context,
                 'field.' . $layout, // normally just 'field.render'
-                array('field' => $subfield)
+                ['field' => $subfield]
             )
         );
 

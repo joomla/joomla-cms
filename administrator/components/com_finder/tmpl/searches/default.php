@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -15,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect');
 
@@ -27,7 +28,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -73,7 +74,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>

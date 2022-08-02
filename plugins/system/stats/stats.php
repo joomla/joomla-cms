@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Layout\LayoutInterface;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.stats
@@ -38,7 +41,7 @@ class PlgSystemStats extends CMSPlugin
      *
      * @since  3.5
      */
-    public const MODE_ALLOW_ALWAYS = 1;
+    final public const MODE_ALLOW_ALWAYS = 1;
 
     /**
      * Indicates sending statistics is never allowed.
@@ -47,17 +50,17 @@ class PlgSystemStats extends CMSPlugin
      *
      * @since  3.5
      */
-    public const MODE_ALLOW_NEVER = 3;
+    final public const MODE_ALLOW_NEVER = 3;
 
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.5
      */
     protected $app;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  3.5
      */
@@ -157,7 +160,7 @@ class PlgSystemStats extends CMSPlugin
             throw new RuntimeException('Unable to save plugin settings', 500);
         }
 
-        echo json_encode(['sent' => (int) $this->sendStats()]);
+        echo json_encode(['sent' => (int) $this->sendStats()], JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -213,7 +216,7 @@ class PlgSystemStats extends CMSPlugin
                 'html' => $this->getRenderer('message')->render($this->getLayoutData()),
             ];
 
-            echo json_encode($data);
+            echo json_encode($data, JSON_THROW_ON_ERROR);
 
             return;
         }
@@ -222,7 +225,7 @@ class PlgSystemStats extends CMSPlugin
             throw new RuntimeException('Unable to save plugin settings', 500);
         }
 
-        echo json_encode(['sent' => (int) $this->sendStats()]);
+        echo json_encode(['sent' => (int) $this->sendStats()], JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -294,7 +297,7 @@ class PlgSystemStats extends CMSPlugin
      *
      * @param   string  $layoutId  Layout identifier
      *
-     * @return  \Joomla\CMS\Layout\LayoutInterface
+     * @return LayoutInterface
      *
      * @since   3.5
      */
@@ -407,7 +410,7 @@ class PlgSystemStats extends CMSPlugin
      */
     private function isAjaxRequest()
     {
-        return strtolower($this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
+        return strtolower((string) $this->app->input->server->get('HTTP_X_REQUESTED_WITH', '')) === 'xmlhttprequest';
     }
 
     /**
@@ -456,7 +459,7 @@ class PlgSystemStats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -466,7 +469,7 @@ class PlgSystemStats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -475,7 +478,7 @@ class PlgSystemStats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -503,7 +506,7 @@ class PlgSystemStats extends CMSPlugin
             if (!$response) {
                 $error = 'Could not send site statistics to remote server: No response';
             } elseif ($response->code !== 200) {
-                $data = json_decode($response->body);
+                $data = json_decode($response->body, null, 512, JSON_THROW_ON_ERROR);
 
                 $error = 'Could not send site statistics to remote server: ' . $data->message;
             }
@@ -553,7 +556,7 @@ class PlgSystemStats extends CMSPlugin
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (Exception $e) {
+            } catch (Exception) {
                 // Ignore it
             }
         }
@@ -581,7 +584,7 @@ class PlgSystemStats extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return false;
         }
@@ -591,7 +594,7 @@ class PlgSystemStats extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -600,7 +603,7 @@ class PlgSystemStats extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }

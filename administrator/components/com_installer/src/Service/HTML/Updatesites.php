@@ -34,26 +34,7 @@ class Updatesites
      */
     public function state($value, $i, $enabled = true, $checkbox = 'cb')
     {
-        $states = array(
-            1 => array(
-                'unpublish',
-                'COM_INSTALLER_UPDATESITE_ENABLED',
-                'COM_INSTALLER_UPDATESITE_DISABLE',
-                'COM_INSTALLER_UPDATESITE_ENABLED',
-                true,
-                'publish',
-                'publish',
-            ),
-            0 => array(
-                'publish',
-                'COM_INSTALLER_UPDATESITE_DISABLED',
-                'COM_INSTALLER_UPDATESITE_ENABLE',
-                'COM_INSTALLER_UPDATESITE_DISABLED',
-                true,
-                'unpublish',
-                'unpublish',
-            ),
-        );
+        $states = [1 => ['unpublish', 'COM_INSTALLER_UPDATESITE_ENABLED', 'COM_INSTALLER_UPDATESITE_DISABLE', 'COM_INSTALLER_UPDATESITE_ENABLED', true, 'publish', 'publish'], 0 => ['publish', 'COM_INSTALLER_UPDATESITE_DISABLED', 'COM_INSTALLER_UPDATESITE_ENABLE', 'COM_INSTALLER_UPDATESITE_DISABLED', true, 'unpublish', 'unpublish']];
 
         return HTMLHelper::_('jgrid.state', $states, $value, $i, 'updatesites.', $enabled, true, $checkbox);
     }

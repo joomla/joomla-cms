@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Module\Version\Administrator\Helper\VersionHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_version
@@ -10,6 +12,6 @@
 
 defined('_JEXEC') or die;
 
-$version = \Joomla\Module\Version\Administrator\Helper\VersionHelper::getVersion();
+$version = VersionHelper::getVersion();
 
-require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_version', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_version', $params->get('layout', 'default'));

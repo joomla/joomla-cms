@@ -35,18 +35,14 @@ class Redirect
      */
     public function published($value = 0, $i = null, $canChange = true)
     {
+        $html = null;
         // Note: $i is required but has to be an optional argument in the function call due to argument order
         if (null === $i) {
             throw new \InvalidArgumentException('$i is a required argument in JHtmlRedirect::published');
         }
 
         // Array of image, task, title, action
-        $states = array(
-            1  => array('publish', 'links.unpublish', 'JENABLED', 'COM_REDIRECT_DISABLE_LINK'),
-            0  => array('unpublish', 'links.publish', 'JDISABLED', 'COM_REDIRECT_ENABLE_LINK'),
-            2  => array('archive', 'links.unpublish', 'JARCHIVED', 'JUNARCHIVE'),
-            -2 => array('trash', 'links.publish', 'JTRASHED', 'COM_REDIRECT_ENABLE_LINK'),
-        );
+        $states = [1  => ['publish', 'links.unpublish', 'JENABLED', 'COM_REDIRECT_DISABLE_LINK'], 0  => ['unpublish', 'links.publish', 'JDISABLED', 'COM_REDIRECT_ENABLE_LINK'], 2  => ['archive', 'links.unpublish', 'JARCHIVED', 'JUNARCHIVE'], -2 => ['trash', 'links.publish', 'JTRASHED', 'COM_REDIRECT_ENABLE_LINK']];
 
         $state = ArrayHelper::getValue($states, (int) $value, $states[0]);
         $icon  = $state[0];

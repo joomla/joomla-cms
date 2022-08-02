@@ -36,9 +36,9 @@ trait LegacyModelLoaderTrait
      * @since       3.0
      * @deprecated  5.0 See getInstance
      */
-    protected static function _createFileName($type, $parts = array())
+    protected static function _createFileName($type, $parts = [])
     {
-        return $type === 'model' ? strtolower($parts['name']) . '.php' : '';
+        return $type === 'model' ? strtolower((string) $parts['name']) . '.php' : '';
     }
 
     /**
@@ -53,7 +53,7 @@ trait LegacyModelLoaderTrait
      * @since       3.0
      * @deprecated  5.0 Get the model through the MVCFactory instead
      */
-    public static function getInstance($type, $prefix = '', $config = array())
+    public static function getInstance($type, $prefix = '', $config = []): self|bool
     {
         @trigger_error(
             sprintf(
@@ -72,10 +72,10 @@ trait LegacyModelLoaderTrait
         $modelClass = $prefix . ucfirst($type);
 
         if (!class_exists($modelClass)) {
-            $path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+            $path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', ['name' => $type]));
 
             if (!$path) {
-                $path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+                $path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', ['name' => $type]));
             }
 
             if (!$path) {
@@ -145,12 +145,12 @@ trait LegacyModelLoaderTrait
         $sitePath  = Path::clean(JPATH_SITE . '/components/' . $componentName);
 
         foreach (self::addIncludePath() as $path) {
-            if (strpos($path, $adminPath) !== false) {
+            if (str_contains((string) $path, $adminPath)) {
                 $client = 'Administrator';
                 break;
             }
 
-            if (strpos($path, $sitePath) !== false) {
+            if (str_contains((string) $path, $sitePath)) {
                 $client = 'Site';
                 break;
             }

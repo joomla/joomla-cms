@@ -22,14 +22,6 @@ use Joomla\Registry\Registry;
 abstract class AbstractDataCollector extends DataCollector implements Renderable
 {
     /**
-     * Parameters.
-     *
-     * @var   Registry
-     * @since 4.0.0
-     */
-    protected $params;
-
-    /**
      * The default formatter.
      *
      * @var   DataFormatter
@@ -44,9 +36,8 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
      *
      * @since 4.0.0
      */
-    public function __construct(Registry $params)
+    public function __construct(protected Registry $params)
     {
-        $this->params = $params;
     }
 
     /**

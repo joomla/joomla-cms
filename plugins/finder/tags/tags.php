@@ -89,7 +89,6 @@ class PlgFinderTags extends Adapter
      * @param   string  $context  The context of the action being performed.
      * @param   Table   $table    A Table object containing the record to be deleted
      *
-     * @return  void
      *
      * @since   3.1
      * @throws  Exception on database error.
@@ -115,7 +114,6 @@ class PlgFinderTags extends Adapter
      * @param   Table    $row      A Table object
      * @param   boolean  $isNew    If the content has just been created
      *
-     * @return  void
      *
      * @since   3.1
      * @throws  Exception on database error.
@@ -295,7 +293,7 @@ class PlgFinderTags extends Adapter
         $case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
         $case_when_item_alias .= ' THEN ';
         $a_id = $query->castAsChar('a.id');
-        $case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
+        $case_when_item_alias .= $query->concatenate([$a_id, 'a.alias'], ':');
         $case_when_item_alias .= ' ELSE ';
         $case_when_item_alias .= $a_id . ' END as slug';
         $query->select($case_when_item_alias)

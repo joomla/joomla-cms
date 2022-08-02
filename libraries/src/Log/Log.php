@@ -28,7 +28,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const ALL = 30719;
+    final public const ALL = 30719;
 
     /**
      * The system is unusable.
@@ -36,7 +36,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const EMERGENCY = 1;
+    final public const EMERGENCY = 1;
 
     /**
      * Action must be taken immediately.
@@ -44,7 +44,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const ALERT = 2;
+    final public const ALERT = 2;
 
     /**
      * Critical conditions.
@@ -52,7 +52,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const CRITICAL = 4;
+    final public const CRITICAL = 4;
 
     /**
      * Error conditions.
@@ -60,7 +60,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const ERROR = 8;
+    final public const ERROR = 8;
 
     /**
      * Warning conditions.
@@ -68,7 +68,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const WARNING = 16;
+    final public const WARNING = 16;
 
     /**
      * Normal, but significant condition.
@@ -76,7 +76,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const NOTICE = 32;
+    final public const NOTICE = 32;
 
     /**
      * Informational message.
@@ -84,7 +84,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const INFO = 64;
+    final public const INFO = 64;
 
     /**
      * Debugging message.
@@ -92,7 +92,7 @@ class Log
      * @var    integer
      * @since  1.7.0
      */
-    public const DEBUG = 128;
+    final public const DEBUG = 128;
 
     /**
      * The global Log instance.
@@ -108,7 +108,7 @@ class Log
      * @var    array
      * @since  1.7.0
      */
-    protected $configurations = array();
+    protected $configurations = [];
 
     /**
      * Container for Logger objects.
@@ -116,7 +116,7 @@ class Log
      * @var    Logger[]
      * @since  1.7.0
      */
-    protected $loggers = array();
+    protected $loggers = [];
 
     /**
      * Lookup array for loggers.
@@ -124,7 +124,7 @@ class Log
      * @var    array
      * @since  1.7.0
      */
-    protected $lookup = array();
+    protected $lookup = [];
 
     /**
      * The registry of available loggers
@@ -157,7 +157,7 @@ class Log
      *
      * @since   1.7.0
      */
-    public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = array())
+    public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = [])
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
@@ -184,7 +184,7 @@ class Log
      *
      * @since   1.7.0
      */
-    public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+    public static function addLogger(array $options, $priorities = self::ALL, $categories = [], $exclude = false)
     {
         // Automatically instantiate the singleton object if not already done.
         if (empty(static::$instance)) {
@@ -228,14 +228,14 @@ class Log
      *
      * @since   1.7.0
      */
-    protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
+    protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = [], $exclude = false)
     {
         // The default logger is the formatted text log file.
         if (empty($options['logger'])) {
             $options['logger'] = 'formattedtext';
         }
 
-        $options['logger'] = strtolower($options['logger']);
+        $options['logger'] = strtolower((string) $options['logger']);
 
         // Special case - if a Closure object is sent as the callback (in case of CallbackLogger)
         // Closure objects are not serializable so swap it out for a unique id first then back again later
@@ -262,11 +262,7 @@ class Log
             $this->configurations[$signature] = $options;
         }
 
-        $this->lookup[$signature] = (object) array(
-            'priorities' => $priorities,
-            'categories' => array_map('strtolower', (array) $categories),
-            'exclude' => (bool) $exclude,
-        );
+        $this->lookup[$signature] = (object) ['priorities' => $priorities, 'categories' => array_map('strtolower', (array) $categories), 'exclude' => (bool) $exclude];
     }
 
     /**
@@ -333,7 +329,7 @@ class Log
                         E_USER_DEPRECATED
                     );
 
-                    $class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
+                    $class = __NAMESPACE__ . '\\Logger\\' . ucfirst((string) $this->configurations[$signature]['logger']) . 'Logger';
 
                     if (!class_exists($class)) {
                         throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
@@ -360,7 +356,7 @@ class Log
      */
     protected function findLoggers($priority, $category)
     {
-        $loggers = array();
+        $loggers = [];
 
         // Sanitize inputs.
         $priority = (int) $priority;

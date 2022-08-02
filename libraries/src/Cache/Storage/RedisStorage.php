@@ -45,7 +45,7 @@ class RedisStorage extends CacheStorage
 	 *
 	 * @since   3.4
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		parent::__construct($options);
 
@@ -63,7 +63,7 @@ class RedisStorage extends CacheStorage
 	 * @since   3.4
 	 * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
 	 */
-	protected function getConnection()
+	protected function getConnection(): \Redis|bool
 	{
 		if (static::isSupported() == false)
 		{
@@ -74,12 +74,7 @@ class RedisStorage extends CacheStorage
 
 		$this->_persistent = $app->get('redis_persist', true);
 
-		$server = array(
-			'host' => $app->get('redis_server_host', 'localhost'),
-			'port' => $app->get('redis_server_port', 6379),
-			'auth' => $app->get('redis_server_auth', null),
-			'db'   => (int) $app->get('redis_server_db', null),
-		);
+		$server = ['host' => $app->get('redis_server_host', 'localhost'), 'port' => $app->get('redis_server_port', 6379), 'auth' => $app->get('redis_server_auth', null), 'db'   => (int) $app->get('redis_server_db', null)];
 
 		// If you are trying to connect to a socket file, ignore the supplied port
 		if ($server['host'][0] === '/')
@@ -143,7 +138,7 @@ class RedisStorage extends CacheStorage
 		{
 			static::$_redis->ping();
 		}
-		catch (\RedisException $e)
+		catch (\RedisException)
 		{
 			static::$_redis = null;
 
@@ -210,7 +205,7 @@ class RedisStorage extends CacheStorage
 		}
 
 		$allKeys = static::$_redis->keys('*');
-		$data    = array();
+		$data    = [];
 		$secret  = $this->_hash;
 
 		if (!empty($allKeys))
@@ -308,19 +303,19 @@ class RedisStorage extends CacheStorage
 
 		if ($allKeys === false)
 		{
-			$allKeys = array();
+			$allKeys = [];
 		}
 
 		$secret = $this->_hash;
 
 		foreach ($allKeys as $key)
 		{
-			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode === 'group')
+			if (str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode === 'group')
 			{
 				static::$_redis->del($key);
 			}
 
-			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode !== 'group')
+			if (!str_starts_with($key, $secret . '-cache-' . $group . '-') && $mode !== 'group')
 			{
 				static::$_redis->del($key);
 			}

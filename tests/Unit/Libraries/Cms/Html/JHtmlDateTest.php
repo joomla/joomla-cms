@@ -26,7 +26,6 @@ class JHtmlDateTest extends UnitTestCase
     /**
      * Test data for the testRelative method
      *
-     * @return  array
      *
      * @since   3.1
      */

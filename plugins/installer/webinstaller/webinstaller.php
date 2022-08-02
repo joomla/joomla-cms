@@ -32,7 +32,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
      * @var    string
      * @since  4.0.0
      */
-    public const REMOTE_URL = 'https://appscdn.joomla.org/webapps/';
+    final public const REMOTE_URL = 'https://appscdn.joomla.org/webapps/';
 
     /**
      * The application object.
@@ -45,18 +45,16 @@ class PlgInstallerWebinstaller extends CMSPlugin
     /**
      * The URL to install from
      *
-     * @var    string|null
      * @since  4.0.0
      */
-    private $installfrom = null;
+    private ?string $installfrom = null;
 
     /**
      * Flag if the document is in a RTL direction
      *
-     * @var    integer|null
      * @since  4.0.0
      */
-    private $rtl = null;
+    private ?int $rtl = null;
 
     /**
      * Event listener for the `onInstallerAddInstallationTab` event.
@@ -156,7 +154,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
             if ((new UrlRule())->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)) {
                 $update = new Update();
                 $update->loadFromXml($installfrom);
-                $package_url = trim($update->get('downloadurl', false)->_data);
+                $package_url = trim((string) $update->get('downloadurl', false)->_data);
 
                 if ($package_url) {
                     $installfrom = $package_url;

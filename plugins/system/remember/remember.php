@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.remember
@@ -24,14 +26,14 @@ use Joomla\CMS\User\UserHelper;
 class PlgSystemRemember extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.2
      */
     protected $app;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  4.0.0
      */

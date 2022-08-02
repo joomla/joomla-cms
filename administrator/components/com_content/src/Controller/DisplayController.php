@@ -39,7 +39,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = []): BaseController|bool
     {
         $view   = $this->input->get('view', 'articles');
         $layout = $this->input->get('layout', 'articles');

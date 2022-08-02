@@ -27,7 +27,7 @@ class ContentHistory extends Table
      * @var    array
      * @since  3.2
      */
-    public $ignoreChanges = array();
+    public $ignoreChanges = [];
 
     /**
      * Array of object fields to convert to integers before calculating SHA1 hash. Some values are stored differently
@@ -37,7 +37,7 @@ class ContentHistory extends Table
      * @var    array
      * @since  3.2
      */
-    public $convertToInt = array();
+    public $convertToInt = [];
 
     /**
      * Constructor
@@ -49,18 +49,8 @@ class ContentHistory extends Table
     public function __construct(DatabaseDriver $db)
     {
         parent::__construct('#__history', 'version_id', $db);
-        $this->ignoreChanges = array(
-            'modified_by',
-            'modified_user_id',
-            'modified',
-            'modified_time',
-            'checked_out',
-            'checked_out_time',
-            'version',
-            'hits',
-            'path',
-        );
-        $this->convertToInt  = array('publish_up', 'publish_down', 'ordering', 'featured');
+        $this->ignoreChanges = ['modified_by', 'modified_user_id', 'modified', 'modified_time', 'checked_out', 'checked_out_time', 'version', 'hits', 'path'];
+        $this->convertToInt  = ['publish_up', 'publish_down', 'ordering', 'featured'];
     }
 
     /**
@@ -74,11 +64,11 @@ class ContentHistory extends Table
      */
     public function store($updateNulls = false)
     {
-        $this->set('character_count', \strlen($this->get('version_data')));
-        $typeTable = Table::getInstance('ContentType', 'JTable', array('dbo' => $this->getDbo()));
-        $typeAlias = explode('.', $this->item_id);
+        $this->set('character_count', \strlen((string) $this->get('version_data')));
+        $typeTable = Table::getInstance('ContentType', 'JTable', ['dbo' => $this->getDbo()]);
+        $typeAlias = explode('.', (string) $this->item_id);
         array_pop($typeAlias);
-        $typeTable->load(array('type_alias' => implode('.', $typeAlias)));
+        $typeTable->load(['type_alias' => implode('.', $typeAlias)]);
 
         if (!isset($this->sha1_hash)) {
             $this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
@@ -106,10 +96,10 @@ class ContentHistory extends Table
      */
     public function getSha1($jsonData, ContentType $typeTable)
     {
-        $object = \is_object($jsonData) ? $jsonData : json_decode($jsonData);
+        $object = \is_object($jsonData) ? $jsonData : json_decode((string) $jsonData, null, 512, JSON_THROW_ON_ERROR);
 
-        if (isset($typeTable->content_history_options) && \is_object(json_decode($typeTable->content_history_options))) {
-            $options = json_decode($typeTable->content_history_options);
+        if (isset($typeTable->content_history_options) && \is_object(json_decode((string) $typeTable->content_history_options, null, 512, JSON_THROW_ON_ERROR))) {
+            $options = json_decode((string) $typeTable->content_history_options, null, 512, JSON_THROW_ON_ERROR);
             $this->ignoreChanges = $options->ignoreChanges ?? $this->ignoreChanges;
             $this->convertToInt = $options->convertToInt ?? $this->convertToInt;
         }
@@ -143,7 +133,7 @@ class ContentHistory extends Table
             $object->review_time = (int) $object->review_time;
         }
 
-        return sha1(json_encode($object));
+        return sha1(json_encode($object, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -202,7 +192,7 @@ class ContentHistory extends Table
         $idsToSave = $db->loadColumn(0);
 
         // Don't process delete query unless we have at least the maximum allowed versions
-        if (\count($idsToSave) === (int) $maxVersions) {
+        if ((is_countable($idsToSave) ? \count($idsToSave) : 0) === (int) $maxVersions) {
             // Delete any rows not in our list and and not flagged to keep forever.
             $query = $db->getQuery(true);
             $query->delete($db->quoteName('#__history'))

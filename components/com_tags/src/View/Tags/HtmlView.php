@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Tags\Site\View\Tags;
 
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -27,7 +30,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  3.1
      */
@@ -44,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      * @since  3.1
      */
     protected $pagination;
@@ -52,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      * @since  3.1
      */
     protected $params = null;
@@ -68,7 +71,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The logged in user
      *
-     * @var    \Joomla\CMS\User\User|null
+     * @var User|null
      * @since  4.0.0
      */
     protected $user = null;
@@ -89,7 +92,7 @@ class HtmlView extends BaseHtmlView
         $this->params     = $this->state->get('params');
         $this->user       = $this->getCurrentUser();
 
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -102,12 +105,12 @@ class HtmlView extends BaseHtmlView
                 $temp = new Registry($itemElement->params);
                 $itemElement->params = clone $this->params;
                 $itemElement->params->merge($temp);
-                $itemElement->params = (array) json_decode($itemElement->params);
+                $itemElement->params = (array) json_decode((string) $itemElement->params, null, 512, JSON_THROW_ON_ERROR);
             }
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->params->get('pageclass_sfx', ''));
 
         $active = Factory::getApplication()->getMenu()->getActive();
 
@@ -160,9 +163,9 @@ class HtmlView extends BaseHtmlView
         // Add alternative feed link
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $attribs = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $attribs = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }

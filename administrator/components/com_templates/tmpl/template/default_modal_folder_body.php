@@ -31,7 +31,7 @@ $input = Factory::getApplication()->input;
                             <?php echo $this->loadTemplate('folders'); ?>
                         </li>
                     </ul>
-                    <?php if (count($this->mediaFiles)) : ?>
+                    <?php if (is_countable($this->mediaFiles) ? count($this->mediaFiles) : 0) : ?>
                         <ul class="directory-tree treeselect">
                             <li class="folder-select">
                                 <a class="folder-url" data-id="" href="" data-base="media">

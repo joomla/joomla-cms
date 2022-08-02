@@ -45,7 +45,6 @@ trait TaggableTableTrait
      *
      * @param   TagsHelper   $tagsHelper  The tags helper to be set
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -57,7 +56,6 @@ trait TaggableTableTrait
     /**
      * Clears the tags helper
      *
-     * @return  void
      *
      * @since   4.0.0
      */

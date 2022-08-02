@@ -1,5 +1,6 @@
 <?php
 
+use Codeception\Util\HttpCode;
 /**
  * @package     Joomla.Tests
  * @subpackage  Api.tests
@@ -7,9 +8,7 @@
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
-
 /**
  * Class basicCest.
  *
@@ -33,7 +32,7 @@ class BasicCest
         $I->amBearerAuthenticated('BADTOKEN');
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
         $I->sendGET('/content/articles/1');
-        $I->seeResponseCodeIs(Codeception\Util\HttpCode::UNAUTHORIZED);
+        $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
 
     /**
@@ -50,7 +49,7 @@ class BasicCest
         $I->amBearerAuthenticated($I->getBearerToken());
         $I->haveHttpHeader('Accept', 'text/xml');
         $I->sendGET('/content/articles/1');
-        $I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_ACCEPTABLE);
+        $I->seeResponseCodeIs(HttpCode::NOT_ACCEPTABLE);
     }
 
     /**
@@ -67,6 +66,6 @@ class BasicCest
         $I->amBearerAuthenticated($I->getBearerToken());
         $I->haveHttpHeader('Accept', 'application/vnd.api+json');
         $I->sendGET('/not/existing/1');
-        $I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_FOUND);
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
     }
 }

@@ -63,9 +63,7 @@ class TelephoneField extends TextField
         // Initialize some field attributes.
         $maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
 
-        $extraData = array(
-            'maxLength' => $maxLength,
-        );
+        $extraData = ['maxLength' => $maxLength];
 
         return array_merge($data, $extraData);
     }

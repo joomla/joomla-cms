@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Site\Controller;
 
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Language\Text;
@@ -31,11 +32,11 @@ class ConfigController extends BaseController
      *                                                  'view_path' (this list is not meant to be comprehensive).
      * @param   MVCFactoryInterface|null      $factory  The factory.
      * @param   CMSApplication|null           $app      The JApplication for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
+     * @param Input|null $input The Input object for the request
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -79,7 +80,7 @@ class ConfigController extends BaseController
         $model = $this->getModel();
 
         $form  = $model->getForm();
-        $data  = $this->app->input->post->get('jform', array(), 'array');
+        $data  = $this->app->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $return = $model->validate($form, $data);

@@ -119,19 +119,10 @@ class EditorField extends TextareaField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'height':
-            case 'width':
-            case 'assetField':
-            case 'authorField':
-            case 'asset':
-            case 'buttons':
-            case 'hide':
-            case 'editorType':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'height', 'width', 'assetField', 'authorField', 'asset', 'buttons', 'hide', 'editorType' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -169,7 +160,7 @@ class EditorField extends TextareaField
 
             case 'hide':
                 $value = (string) $value;
-                $this->hide = $value ? explode(',', $value) : array();
+                $this->hide = $value ? explode(',', $value) : [];
                 break;
 
             case 'editorType':
@@ -216,11 +207,11 @@ class EditorField extends TextareaField
             } elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0') {
                 $this->buttons = false;
             } else {
-                $this->buttons = !empty($hide) ? explode(',', $buttons) : array();
+                $this->buttons = !empty($hide) ? explode(',', $buttons) : [];
             }
 
-            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
-            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
+            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : [];
+            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : [];
         }
 
         return $result;
@@ -237,15 +228,11 @@ class EditorField extends TextareaField
     {
         // Get an editor object.
         $editor = $this->getEditor();
-        $params = array(
-            'autofocus' => $this->autofocus,
-            'readonly'  => $this->readonly || $this->disabled,
-            'syntax'    => (string) $this->element['syntax'],
-        );
+        $params = ['autofocus' => $this->autofocus, 'readonly'  => $this->readonly || $this->disabled, 'syntax'    => (string) $this->element['syntax']];
 
         return $editor->display(
             $this->name,
-            htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'),
+            htmlspecialchars((string) $this->value, ENT_COMPAT, 'UTF-8'),
             $this->width,
             $this->height,
             $this->columns,

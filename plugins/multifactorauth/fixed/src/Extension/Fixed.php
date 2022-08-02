@@ -50,10 +50,9 @@ class Fixed extends CMSPlugin implements SubscriberInterface
     /**
      * The MFA Method name handled by this plugin
      *
-     * @var   string
      * @since 4.2.0
      */
-    private $mfaMethodName = 'fixed';
+    private string $mfaMethodName = 'fixed';
 
     /**
      * Should I try to detect and register legacy event listeners?
@@ -68,7 +67,6 @@ class Fixed extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.2.0
      */
@@ -88,7 +86,6 @@ class Fixed extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetMethod  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorGetMethod(GetMethod $event): void
@@ -111,7 +108,6 @@ class Fixed extends CMSPlugin implements SubscriberInterface
      *
      * @param   Captive  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorCaptive(Captive $event): void
@@ -155,7 +151,6 @@ class Fixed extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetSetup  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorGetSetup(GetSetup $event): void
@@ -244,7 +239,6 @@ class Fixed extends CMSPlugin implements SubscriberInterface
      *
      * @param   Validate  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorValidate(Validate $event): void
@@ -284,7 +278,6 @@ class Fixed extends CMSPlugin implements SubscriberInterface
      *
      * @param   MfaTable  $record  The record to decode options for
      *
-     * @return  object
      * @since 4.2.0
      */
     private function decodeRecordOptions(MfaTable $record): object

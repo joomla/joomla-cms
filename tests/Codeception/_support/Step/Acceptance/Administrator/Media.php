@@ -48,7 +48,7 @@ class Media extends Admin
 
             // Add a small timeout to wait for rendering (otherwise it will fail when executed in headless browser)
             $I->wait(0.5);
-        } catch (TimeoutException $e) {
+        } catch (TimeoutException) {
             /*
              * Continue if we cant find the loader within 3 seconds.
              * In most cases this means that the loader disappeared so quickly, that selenium was not able to see it.
@@ -253,7 +253,7 @@ class Media extends Admin
 
         try {
             $I->seeElement(MediaListPage::$infoBar);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $I->click(MediaListPage::$toggleInfoBarButton);
             $I->waitForElementVisible(MediaListPage::$infoBar);
         }
@@ -274,7 +274,7 @@ class Media extends Admin
             $I->seeElement(MediaListPage::$infoBar);
             $I->click(MediaListPage::$toggleInfoBarButton);
             $I->waitForElementNotVisible(MediaListPage::$infoBar);
-        } catch (Exception $e) {
+        } catch (Exception) {
             // Do nothing
         }
     }

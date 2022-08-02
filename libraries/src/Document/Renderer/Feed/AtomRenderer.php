@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
+use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -26,7 +27,7 @@ use Joomla\CMS\Version;
  * @link   http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since  3.5
  *
- * @property-read  \Joomla\CMS\Document\FeedDocument  $_doc  Reference to the Document object that instantiated the renderer
+ * @property-read FeedDocument $_doc Reference to the Document object that instantiated the renderer
  */
 class AtomRenderer extends DocumentRenderer
 {
@@ -61,7 +62,7 @@ class AtomRenderer extends DocumentRenderer
 
         $data = $this->_doc;
 
-        $url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+        $url = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
         $syndicationURL = Route::_('&format=feed&type=atom');
 
         $title = $data->getTitle();
@@ -166,7 +167,7 @@ class AtomRenderer extends DocumentRenderer
             if (!empty($data->items[$i]->category)) {
                 if (\is_array($data->items[$i]->category)) {
                     foreach ($data->items[$i]->category as $cat) {
-                        $feed .= "		<category term=\"" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "\" />\n";
+                        $feed .= "		<category term=\"" . htmlspecialchars((string) $cat, ENT_COMPAT, 'UTF-8') . "\" />\n";
                     }
                 } else {
                     $feed .= "		<category term=\"" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "\" />\n";

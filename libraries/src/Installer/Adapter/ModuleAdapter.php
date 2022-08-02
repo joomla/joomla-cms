@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
+use Joomla\CMS\Table\Module;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -54,11 +55,7 @@ class ModuleAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array(
-                    'element'   => $this->element,
-                    'type'      => $this->type,
-                    'client_id' => $this->clientId,
-                )
+                ['element'   => $this->element, 'type'      => $this->type, 'client_id' => $this->clientId]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -84,6 +81,7 @@ class ModuleAdapter extends InstallerAdapter
      */
     protected function copyBaseFiles()
     {
+        $path = [];
         // Copy all necessary files
         if ($this->parent->parseFiles($this->getManifest()->files, -1) === false) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_MOD_COPY_FILES'));
@@ -95,7 +93,7 @@ class ModuleAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -117,7 +115,7 @@ class ModuleAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
+        $results = [];
         $site_list = Folder::folders(JPATH_SITE . '/modules');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/modules');
         $site_info = ApplicationHelper::getClientInfo('site', true);
@@ -133,7 +131,7 @@ class ModuleAdapter extends InstallerAdapter
                 $extension->set('folder', '');
                 $extension->set('name', $module);
                 $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
+                $extension->set('manifest_cache', json_encode($manifest_details, JSON_THROW_ON_ERROR));
                 $extension->set('params', '{}');
                 $results[] = clone $extension;
             }
@@ -149,7 +147,7 @@ class ModuleAdapter extends InstallerAdapter
                 $extension->set('folder', '');
                 $extension->set('name', $module);
                 $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
+                $extension->set('manifest_cache', json_encode($manifest_details, JSON_THROW_ON_ERROR));
                 $extension->set('params', '{}');
                 $results[] = clone $extension;
             }
@@ -171,11 +169,7 @@ class ModuleAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
         $uid    = $update->find(
-            array(
-                'element'   => $this->element,
-                'type'      => 'module',
-                'client_id' => $this->clientId,
-            )
+            ['element'   => $this->element, 'type'      => 'module', 'client_id' => $this->clientId]
         );
 
         if ($uid) {
@@ -199,7 +193,6 @@ class ModuleAdapter extends InstallerAdapter
     /**
      * Method to finalise the uninstallation processing
      *
-     * @return  boolean
      *
      * @since   4.0.0
      * @throws  \RuntimeException
@@ -239,7 +232,7 @@ class ModuleAdapter extends InstallerAdapter
         }
 
         // Do we have any module copies?
-        if (\count($modules)) {
+        if (is_countable($modules) ? \count($modules) : 0) {
             // Ensure the list is sane
             $modules = ArrayHelper::toInteger($modules);
             $modID = implode(',', $modules);
@@ -258,7 +251,7 @@ class ModuleAdapter extends InstallerAdapter
             }
 
             // Wipe out any instances in the modules table
-            /** @var \Joomla\CMS\Table\Module $module */
+            /** @var Module $module */
             $module = Table::getInstance('Module');
 
             foreach ($modules as $modInstanceId) {
@@ -284,7 +277,7 @@ class ModuleAdapter extends InstallerAdapter
         try {
             // Clean up any other ones that might exist as well
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Ignore the error...
         }
 
@@ -412,7 +405,7 @@ class ModuleAdapter extends InstallerAdapter
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
         $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-        $this->parent->extension->manifest_cache = json_encode($manifest_details);
+        $this->parent->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
         $this->parent->extension->name = $manifest_details['name'];
 
         if ($this->parent->extension->store()) {
@@ -535,7 +528,7 @@ class ModuleAdapter extends InstallerAdapter
         if ($this->route === 'discover_install') {
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
-            $this->extension->manifest_cache = json_encode($manifest_details);
+            $this->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
             $this->extension->state = 0;
             $this->extension->name = $manifest_details['name'];
             $this->extension->enabled = 1;
@@ -619,16 +612,13 @@ class ModuleAdapter extends InstallerAdapter
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
             $this->parent->pushStep(
-                array(
-                    'type' => 'extension',
-                    'extension_id' => $this->extension->extension_id,
-                )
+                ['type' => 'extension', 'extension_id' => $this->extension->extension_id]
             );
 
             // Create unpublished module
             $name = preg_replace('#[\*?]#', '', Text::_($this->name));
 
-            /** @var \Joomla\CMS\Table\Module $module */
+            /** @var Module $module */
             $module            = Table::getInstance('module');
             $module->title     = $name;
             $module->content   = '';
@@ -669,7 +659,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }
@@ -700,7 +690,7 @@ class ModuleAdapter extends InstallerAdapter
 
         try {
             return $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
     }

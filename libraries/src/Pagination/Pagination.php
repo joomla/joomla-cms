@@ -42,12 +42,6 @@ class Pagination
     public $total = null;
 
     /**
-     * @var    integer  Prefix used for request variables.
-     * @since  1.6
-     */
-    public $prefix = null;
-
-    /**
      * @var    integer  Value pagination object begins at
      * @since  3.0
      */
@@ -90,7 +84,7 @@ class Pagination
      * @var    array
      * @since  3.0
      */
-    protected $additionalUrlParams = array();
+    protected $additionalUrlParams = [];
 
     /**
      * @var    CMSApplication  The application object
@@ -117,13 +111,12 @@ class Pagination
      *
      * @since   1.5
      */
-    public function __construct($total, $limitstart, $limit, $prefix = '', CMSApplication $app = null)
+    public function __construct($total, $limitstart, $limit, public $prefix = '', CMSApplication $app = null)
     {
         // Value/type checking.
         $this->total = (int) $total;
         $this->limitstart = (int) max($limitstart, 0);
         $this->limit = (int) max($limit, 0);
-        $this->prefix = $prefix;
         $this->app = $app ?: Factory::getApplication();
 
         if ($this->limit > $this->total) {
@@ -306,7 +299,7 @@ class Pagination
         // Build the page navigation list.
         $data = $this->_buildDataObject();
 
-        $list           = array();
+        $list           = [];
         $list['prefix'] = $this->prefix;
 
         $chromePath = JPATH_THEMES . '/' . $this->app->getTemplate() . '/html/pagination.php';
@@ -341,7 +334,7 @@ class Pagination
         }
 
         // Make sure it exists
-        $list['pages'] = array();
+        $list['pages'] = [];
 
         foreach ($data->pages as $i => $page) {
             if ($page->base !== null) {
@@ -386,23 +379,14 @@ class Pagination
      *
      * @since   3.3
      */
-    public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = array())
+    public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = [])
     {
         // Allow to receive a null layout
-        $layoutId = $layoutId ?? 'joomla.pagination.links';
+        $layoutId ??= 'joomla.pagination.links';
 
-        $list = array(
-            'prefix'       => $this->prefix,
-            'limit'        => $this->limit,
-            'limitstart'   => $this->limitstart,
-            'total'        => $this->total,
-            'limitfield'   => $this->getLimitBox(),
-            'pagescounter' => $this->getPagesCounter(),
-            'pages'        => $this->getPaginationPages(),
-            'pagesTotal'   => $this->pagesTotal,
-        );
+        $list = ['prefix'       => $this->prefix, 'limit'        => $this->limit, 'limitstart'   => $this->limitstart, 'total'        => $this->total, 'limitfield'   => $this->getLimitBox(), 'pagescounter' => $this->getPagesCounter(), 'pages'        => $this->getPaginationPages(), 'pagesTotal'   => $this->pagesTotal];
 
-        return LayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
+        return LayoutHelper::render($layoutId, ['list' => $list, 'options' => $options]);
     }
 
     /**
@@ -414,7 +398,7 @@ class Pagination
      */
     public function getPaginationPages()
     {
-        $list = array();
+        $list = [];
 
         if ($this->total > $this->limit) {
             // Build the page navigation list.
@@ -433,7 +417,7 @@ class Pagination
             $list['previous']['data']   = $data->previous;
 
             // Make sure it exists
-            $list['pages'] = array();
+            $list['pages'] = [];
 
             foreach ($data->pages as $i => $page) {
                 $list['pages'][$i]['active'] = $page->base !== null;
@@ -471,15 +455,7 @@ class Pagination
                     E_USER_DEPRECATED
                 );
 
-                $list = array(
-                    'prefix'       => $this->prefix,
-                    'limit'        => $this->limit,
-                    'limitstart'   => $this->limitstart,
-                    'total'        => $this->total,
-                    'limitfield'   => $this->getLimitBox(),
-                    'pagescounter' => $this->getPagesCounter(),
-                    'pageslinks'   => $this->getPagesLinks(),
-                );
+                $list = ['prefix'       => $this->prefix, 'limit'        => $this->limit, 'limitstart'   => $this->limitstart, 'total'        => $this->total, 'limitfield'   => $this->getLimitBox(), 'pagescounter' => $this->getPagesCounter(), 'pageslinks'   => $this->getPagesLinks()];
 
                 return pagination_list_footer($list);
             }
@@ -497,7 +473,7 @@ class Pagination
      */
     public function getLimitBox()
     {
-        $limits = array();
+        $limits = [];
 
         // Make the option list.
         for ($i = 5; $i <= 30; $i += 5) {
@@ -617,7 +593,7 @@ class Pagination
      */
     protected function _list_render($list)
     {
-        return LayoutHelper::render('joomla.pagination.list', array('list' => $list));
+        return LayoutHelper::render('joomla.pagination.list', ['list' => $list]);
     }
 
     /**
@@ -712,7 +688,7 @@ class Pagination
             $data->end->link  = Route::_($params . '&' . $this->prefix . 'limitstart=' . $end);
         }
 
-        $data->pages = array();
+        $data->pages = [];
         $stop        = $this->pagesStop;
 
         for ($i = $this->pagesStart; $i <= $stop; $i++) {

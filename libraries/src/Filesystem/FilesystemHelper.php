@@ -30,6 +30,7 @@ class FilesystemHelper
      */
     public static function remotefsize($url)
     {
+        $ftpid = null;
         $sch = parse_url($url, PHP_URL_SCHEME);
 
         if (($sch !== 'http') && ($sch !== 'https') && ($sch !== 'ftp') && ($sch !== 'ftps')) {
@@ -113,6 +114,7 @@ class FilesystemHelper
      */
     public static function ftpChmod($url, $mode)
     {
+        $ftpid = null;
         $sch = parse_url($url, PHP_URL_SCHEME);
 
         if (($sch !== 'ftp') && ($sch !== 'ftps')) {
@@ -176,7 +178,7 @@ class FilesystemHelper
      */
     public static function getWriteModes()
     {
-        return array('w', 'w+', 'a', 'a+', 'r+', 'x', 'x+');
+        return ['w', 'w+', 'a', 'a+', 'r+', 'x', 'x+'];
     }
 
     /**
@@ -237,7 +239,7 @@ class FilesystemHelper
      */
     public static function getJStreams()
     {
-        static $streams = array();
+        static $streams = [];
 
         if (!$streams) {
             $files = new \DirectoryIterator(__DIR__ . '/Streams');
@@ -281,7 +283,7 @@ class FilesystemHelper
      *
      * @since   3.4
      */
-    public static function fileUploadMaxSize($unitOutput = true)
+    public static function fileUploadMaxSize($unitOutput = true): float|string
     {
         static $max_size = false;
         static $output_type = true;
@@ -321,7 +323,7 @@ class FilesystemHelper
         $return = round($size);
 
         if ($unit) {
-            $return = round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+            $return = round($size * 1024 ** stripos('bkmgtpezy', $unit[0]));
         }
 
         return $return;
@@ -339,8 +341,8 @@ class FilesystemHelper
     private static function parseSizeUnit($maxSize)
     {
         $base     = log($maxSize) / log(1024);
-        $suffixes = array('', 'k', 'M', 'G', 'T');
+        $suffixes = ['', 'k', 'M', 'G', 'T'];
 
-        return round(pow(1024, $base - floor($base)), 0) . $suffixes[floor($base)];
+        return round(1024 ** ($base - floor($base)), 0) . $suffixes[floor($base)];
     }
 }

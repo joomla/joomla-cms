@@ -324,7 +324,7 @@ class AdminPage extends AcceptanceTester
 
         try {
             $I->seeElement(['class' => 'js-stools-btn-filter']);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $I->comment("Search tools button does not exist on this page, skipping");
 
             return;
@@ -332,7 +332,7 @@ class AdminPage extends AcceptanceTester
 
         try {
             $I->dontSeeElement(['class' => 'js-stools-container-filters']);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $I->comment("Search tools already visible on the page, skipping");
 
             return;

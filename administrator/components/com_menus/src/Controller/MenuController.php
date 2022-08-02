@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\Component\Menus\Administrator\Model\MenuModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -55,13 +56,13 @@ class MenuController extends FormController
         $this->checkToken();
 
         $app      = $this->app;
-        $data     = $this->input->post->get('jform', array(), 'array');
+        $data     = $this->input->post->get('jform', [], 'array');
         $context  = 'com_menus.edit.menu';
         $task     = $this->getTask();
         $recordId = $this->input->getInt('id');
 
         // Prevent using 'main' as menutype as this is reserved for backend menus
-        if (strtolower($data['menutype']) == 'main') {
+        if (strtolower((string) $data['menutype']) == 'main') {
             $this->setMessage(Text::_('COM_MENUS_ERROR_MENUTYPE'), 'error');
 
             // Redirect back to the edit screen.
@@ -76,7 +77,7 @@ class MenuController extends FormController
         $data['id'] = $recordId;
 
         // Get the model and attempt to validate the posted data.
-        /** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+        /** @var MenuModel $model */
         $model = $this->getModel('Menu', '', ['ignore_request' => false]);
         $form  = $model->getForm();
 
@@ -110,7 +111,7 @@ class MenuController extends FormController
         }
 
         if (isset($validData['preset'])) {
-            $preset = trim($validData['preset']) ?: null;
+            $preset = trim((string) $validData['preset']) ?: null;
 
             unset($validData['preset']);
         }
@@ -188,7 +189,7 @@ class MenuController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // We know the first element is the one we need because we don't allow multi selection of rows
         $id = empty($cid) ? 0 : reset($cid);

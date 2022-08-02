@@ -35,14 +35,10 @@ class LevelsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'ordering', 'a.ordering',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'ordering', 'a.ordering'];
         }
 
         parent::__construct($config, $factory);
@@ -116,12 +112,12 @@ class LevelsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
                 $query->where('a.title LIKE :title')
                     ->bind(':title', $search);
             }
@@ -189,7 +185,7 @@ class LevelsModel extends ListModel
     {
         $table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
         $user = Factory::getUser();
-        $conditions = array();
+        $conditions = [];
 
         if (empty($pks)) {
             Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Banners\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Banners\Administrator\Model\BannerModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -42,7 +44,7 @@ class BannersController extends AdminController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -56,11 +58,11 @@ class BannersController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6
      */
-    public function getModel($name = 'Banner', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Banner', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -77,8 +79,8 @@ class BannersController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['sticky_publish' => 1, 'sticky_unpublish' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -89,7 +91,7 @@ class BannersController extends AdminController
             $this->app->enqueueMessage(Text::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
         } else {
             // Get the model.
-            /** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $model */
+            /** @var BannerModel $model */
             $model = $this->getModel();
 
             // Change the state of the records.
@@ -102,7 +104,7 @@ class BannersController extends AdminController
                     $ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
                 }
 
-                $this->setMessage(Text::plural($ntext, \count($ids)));
+                $this->setMessage(Text::plural($ntext, is_countable($ids) ? \count($ids) : 0));
             }
         }
 

@@ -44,7 +44,7 @@ class LevelModel extends AdminModel
      */
     protected function canDelete($record)
     {
-        $groups = json_decode($record->rules);
+        $groups = json_decode((string) $record->rules, null, 512, JSON_THROW_ON_ERROR);
 
         if ($groups === null) {
             throw new \RuntimeException('Invalid rules schema');
@@ -64,7 +64,7 @@ class LevelModel extends AdminModel
         // Check if the access level is being used by any content.
         if ($this->levelsInUse === null) {
             // Populate the list once.
-            $this->levelsInUse = array();
+            $this->levelsInUse = [];
 
             $db    = $this->getDatabase();
             $query = $db->getQuery(true)
@@ -83,7 +83,7 @@ class LevelModel extends AdminModel
                  * than the 'access' field they are on their own unfortunately.
                  * Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
                  */
-                if (strpos($table, $prefix) === 0 && isset($fields['access'])) {
+                if (str_starts_with((string) $table, (string) $prefix) && isset($fields['access'])) {
                     // Lookup the distinct values of the field.
                     $query->clear('from')
                         ->from($db->quoteName($table));
@@ -130,7 +130,7 @@ class LevelModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'ViewLevel', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ViewLevel', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         $return = Table::getInstance($type, $prefix, $config);
 
@@ -151,7 +151,7 @@ class LevelModel extends AdminModel
         $result = parent::getItem($pk);
 
         // Convert the params field to an array.
-        $result->rules = json_decode($result->rules);
+        $result->rules = json_decode((string) $result->rules, null, 512, JSON_THROW_ON_ERROR);
 
         return $result;
     }
@@ -166,10 +166,10 @@ class LevelModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_users.level', 'level', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_users.level', 'level', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -189,7 +189,7 @@ class LevelModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_users.edit.level.data', array());
+        $data = Factory::getApplication()->getUserState('com_users.edit.level.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -230,7 +230,7 @@ class LevelModel extends AdminModel
     public function save($data)
     {
         if (!isset($data['rules'])) {
-            $data['rules'] = array();
+            $data['rules'] = [];
         }
 
         $data['title'] = InputFilter::getInstance()->clean($data['title'], 'TRIM');
@@ -251,26 +251,26 @@ class LevelModel extends AdminModel
      * @see     \JFilterInput
      * @since   3.8.8
      */
-    public function validate($form, $data, $group = null)
+    public function validate($form, $data, $group = null): array|bool
     {
         $isSuperAdmin = Factory::getUser()->authorise('core.admin');
 
         // Non Super user should not be able to change the access levels of super user groups
         if (!$isSuperAdmin) {
             if (!isset($data['rules']) || !is_array($data['rules'])) {
-                $data['rules'] = array();
+                $data['rules'] = [];
             }
 
             $groups = array_values(UserGroupsHelper::getInstance()->getAll());
 
-            $rules = array();
+            $rules = [];
 
             if (!empty($data['id'])) {
                 $table = $this->getTable();
 
                 $table->load($data['id']);
 
-                $rules = json_decode($table->rules);
+                $rules = json_decode((string) $table->rules, null, 512, JSON_THROW_ON_ERROR);
             }
 
             $rules = ArrayHelper::toInteger($rules);

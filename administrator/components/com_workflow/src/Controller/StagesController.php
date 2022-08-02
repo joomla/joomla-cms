@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -68,7 +69,7 @@ class StagesController extends AdminController
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension or workflow id is set
      */
-    public function __construct(array $config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct(array $config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -108,11 +109,11 @@ class StagesController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since  4.0.0
      */
-    public function getModel($name = 'Stage', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Stage', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -130,8 +131,8 @@ class StagesController extends AdminController
         $this->checkToken();
 
         // Get items to publish from the request.
-        $cid   = (array) $this->input->get('cid', array(), 'int');
-        $data  = array('setDefault' => 1, 'unsetDefault' => 0);
+        $cid   = (array) $this->input->get('cid', [], 'int');
+        $data  = ['setDefault' => 1, 'unsetDefault' => 0];
         $task  = $this->getTask();
         $value = ArrayHelper::getValue($data, $task, 0, 'int');
 

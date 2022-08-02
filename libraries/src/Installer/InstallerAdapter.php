@@ -104,14 +104,6 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     protected $name = null;
 
     /**
-     * Installer used with this adapter
-     *
-     * @var    Installer
-     * @since  4.0.0
-     */
-    protected $parent = null;
-
-    /**
      * Install function routing
      *
      * @var    string
@@ -146,9 +138,8 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
      *
      * @since   3.4
      */
-    public function __construct(Installer $parent, DatabaseDriver $db, array $options = array())
+    public function __construct(protected Installer $parent, DatabaseDriver $db, array $options = [])
     {
-        $this->parent = $parent;
         $this->setDatabase($db);
 
         foreach ($options as $key => $value) {
@@ -165,7 +156,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // Sanity check, make sure the type is set by taking the adapter name from the class name
         if (!$this->type) {
             // This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-            $reflection = new \ReflectionClass(\get_called_class());
+            $reflection = new \ReflectionClass(static::class);
             $this->type = str_replace('Adapter', '', $reflection->getShortName());
         }
 
@@ -218,12 +209,12 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array('element' => $this->element, 'type' => $this->type)
+                ['element' => $this->element, 'type' => $this->type]
             );
 
             // If it does exist, load it
             if ($this->currentExtensionId) {
-                $this->extension->load(array('element' => $this->element, 'type' => $this->type));
+                $this->extension->load(['element' => $this->element, 'type' => $this->type]);
             }
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -323,10 +314,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
         if ($created) {
             $this->parent->pushStep(
-                array(
-                    'type' => 'folder',
-                    'path' => $this->parent->getPath('extension_root'),
-                )
+                ['type' => 'folder', 'path' => $this->parent->getPath('extension_root')]
             );
         }
     }
@@ -475,7 +463,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
             // If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
             if ($route === 'install' && isset($this->getManifest()->uninstall->sql)) {
-                $this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
+                $this->parent->pushStep(['type' => 'query', 'script' => $this->getManifest()->uninstall->sql]);
             }
         }
 
@@ -552,7 +540,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         }
 
         // Filter the name for illegal characters
-        return strtolower(InputFilter::getInstance()->clean($element, 'cmd'));
+        return strtolower((string) InputFilter::getInstance()->clean($element, 'cmd'));
     }
 
     /**
@@ -816,7 +804,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
     protected function parseQueries()
     {
         // Let's run the queries for the extension
-        if (\in_array($this->route, array('install', 'discover_install', 'uninstall'))) {
+        if (\in_array($this->route, ['install', 'discover_install', 'uninstall'])) {
             // This method may throw an exception, but it is caught by the parent caller
             if (!$this->doDatabaseTransactions()) {
                 throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_INSTALL_ABORTED'));
@@ -985,9 +973,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
 
             $container->set(
                 InstallerScriptInterface::class,
-                function (Container $container) use ($classname) {
-                    return new LegacyInstallerScript(new $classname($this));
-                }
+                fn(Container $container) => new LegacyInstallerScript(new $classname($this))
             );
         }
 

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\View\Menu;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -32,7 +33,7 @@ class XmlView extends BaseHtmlView
     protected $items;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  3.8.0
      */
@@ -49,6 +50,7 @@ class XmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        $root = null;
         $app      = Factory::getApplication();
         $menutype = $app->input->getCmd('menutype');
 
@@ -113,7 +115,7 @@ class XmlView extends BaseHtmlView
         $node['type'] = $item->type;
 
         if ($item->title) {
-            $node['title'] = htmlentities($item->title, ENT_XML1);
+            $node['title'] = htmlentities((string) $item->title, ENT_XML1);
         }
 
         if ($item->link) {
@@ -125,7 +127,7 @@ class XmlView extends BaseHtmlView
         }
 
         if (isset($item->class) && $item->class) {
-            $node['class'] = htmlentities($item->class, ENT_XML1);
+            $node['class'] = htmlentities((string) $item->class, ENT_XML1);
         }
 
         if ($item->access) {

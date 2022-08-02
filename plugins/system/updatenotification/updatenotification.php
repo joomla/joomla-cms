@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
@@ -46,7 +49,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
     /**
      * Application object
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -54,7 +57,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
     /**
      * Database driver
      *
-     * @var    \Joomla\Database\DatabaseInterface
+     * @var DatabaseInterface
      * @since  4.0.0
      */
     protected $db;
@@ -79,7 +82,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
         // Get the timeout for Joomla! updates, as configured in com_installer's component parameters
         $component = ComponentHelper::getComponent('com_installer');
 
-        /** @var \Joomla\Registry\Registry $params */
+        /** @var Registry $params */
         $params        = $component->getParams();
         $cache_timeout = (int) $params->get('cachetimeout', 6);
         $cache_timeout = 3600 * $cache_timeout;
@@ -111,7 +114,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return;
         }
@@ -121,7 +124,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
             $result = $db->setQuery($query)->execute();
 
             $this->clearCacheGroups(['com_plugins']);
-        } catch (Exception $exc) {
+        } catch (Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -130,7 +133,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -174,7 +177,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
         // If we're here, we have updates. First, get a link to the Joomla! Update component.
         $baseURL  = Uri::base();
         $baseURL  = rtrim($baseURL, '/');
-        $baseURL .= (substr($baseURL, -13) !== 'administrator') ? '/administrator/' : '/';
+        $baseURL .= (!str_ends_with($baseURL, 'administrator')) ? '/administrator/' : '/';
         $baseURL .= 'index.php?option=com_joomlaupdate';
         $uri      = new Uri($baseURL);
 
@@ -309,7 +312,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
             if (empty($groups)) {
                 return $ret;
             }
-        } catch (Exception $exc) {
+        } catch (Exception) {
             return $ret;
         }
 
@@ -326,7 +329,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
             if (empty($userIDs)) {
                 return $ret;
             }
-        } catch (Exception $exc) {
+        } catch (Exception) {
             return $ret;
         }
 
@@ -346,7 +349,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
             $db->setQuery($query);
             $ret = $db->loadObjectList();
-        } catch (Exception $exc) {
+        } catch (Exception) {
             return $ret;
         }
 
@@ -373,7 +376,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
                 $cache = Cache::getInstance('callback', $options);
                 $cache->clean();
-            } catch (Exception $e) {
+            } catch (Exception) {
                 // Ignore it
             }
         }

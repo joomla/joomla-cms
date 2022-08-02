@@ -25,7 +25,6 @@ class DataFormatter extends DebugBarDataFormatter
      * @param   string  $path         The path.
      * @param   string  $replacement  The replacement
      *
-     * @return string
      *
      * @since 4.0.0
      */
@@ -39,7 +38,6 @@ class DataFormatter extends DebugBarDataFormatter
      *
      * @param   array  $call  The array to format
      *
-     * @return string
      *
      * @since 4.0.0
      */
@@ -51,12 +49,12 @@ class DataFormatter extends DebugBarDataFormatter
             // If entry has Class/Method print it.
             $string .= htmlspecialchars($call['class'] . $call['type'] . $call['function']) . '()';
         } elseif (isset($call['args'][0]) && \is_array($call['args'][0])) {
-            $string .= htmlspecialchars($call['function']) . ' (';
+            $string .= htmlspecialchars((string) $call['function']) . ' (';
 
             foreach ($call['args'][0] as $arg) {
                 // Check if the arguments can be used as string
                 if (\is_object($arg) && !method_exists($arg, '__toString')) {
-                    $arg = \get_class($arg);
+                    $arg = $arg::class;
                 }
 
                 // Keep only the size of array
@@ -64,15 +62,15 @@ class DataFormatter extends DebugBarDataFormatter
                     $arg = 'Array(count=' . \count($arg) . ')';
                 }
 
-                $string .= htmlspecialchars($arg) . ', ';
+                $string .= htmlspecialchars((string) $arg) . ', ';
             }
 
             $string = rtrim($string, ', ') . ')';
         } elseif (isset($call['args'][0])) {
-            $string .= htmlspecialchars($call['function']) . ' ' . $call['args'][0];
+            $string .= htmlspecialchars((string) $call['function']) . ' ' . $call['args'][0];
         } else {
             // It's a function.
-            $string .= htmlspecialchars($call['function']) . '()';
+            $string .= htmlspecialchars((string) $call['function']) . '()';
         }
 
         return $string;

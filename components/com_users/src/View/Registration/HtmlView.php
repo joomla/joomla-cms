@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Users\Site\View\Registration;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -34,14 +36,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
     /**
      * The page parameters
      *
-     * @var  \Joomla\Registry\Registry|null
+     * @var Registry|null
      */
     protected $params;
 
@@ -86,7 +88,7 @@ class HtmlView extends BaseHtmlView
         $this->params = $this->state->get('params');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -98,7 +100,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+        $this->pageclass_sfx = htmlspecialchars((string) $this->params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
         $this->prepareDocument();
 

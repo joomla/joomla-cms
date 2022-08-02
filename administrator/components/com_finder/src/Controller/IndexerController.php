@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -36,6 +37,7 @@ class IndexerController extends BaseController
      */
     public function start()
     {
+        $options = [];
         // Check for a valid token. If invalid, send a 403 with the error message.
         if (!Session::checkToken('request')) {
             static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
@@ -54,7 +56,7 @@ class IndexerController extends BaseController
         // Log the start
         try {
             Log::add('Starting the indexer', Log::INFO);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -100,6 +102,7 @@ class IndexerController extends BaseController
      */
     public function batch()
     {
+        $options = [];
         // Check for a valid token. If invalid, send a 403 with the error message.
         if (!Session::checkToken('request')) {
             static::sendResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
@@ -118,7 +121,7 @@ class IndexerController extends BaseController
         // Log the start
         try {
             Log::add('Starting the indexer batch process', Log::INFO);
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -151,13 +154,7 @@ class IndexerController extends BaseController
         $lang = Factory::getLanguage();
 
         // Get the document properties.
-        $attributes = array (
-            'charset'   => 'utf-8',
-            'lineend'   => 'unix',
-            'tab'       => '  ',
-            'language'  => $lang->getTag(),
-            'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
-        );
+        $attributes = ['charset'   => 'utf-8', 'lineend'   => 'unix', 'tab'       => '  ', 'language'  => $lang->getTag(), 'direction' => $lang->isRtl() ? 'rtl' : 'ltr'];
 
         // Start the indexer.
         try {
@@ -175,7 +172,7 @@ class IndexerController extends BaseController
             // Log batch completion and memory high-water mark.
             try {
                 Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 
@@ -236,14 +233,15 @@ class IndexerController extends BaseController
      * can be an \Exception object for when an error has occurred or
      * a CMSObject for a good response.
      *
-     * @param   \Joomla\CMS\Object\CMSObject|\Exception  $data  CMSObject on success, \Exception on error. [optional]
+     * @param CMSObject|\Exception $data CMSObject on success, \Exception on error. [optional]
      *
      * @return  void
      *
      * @since   2.5
      */
-    public static function sendResponse($data = null)
+    public static function sendResponse(CMSObject|\Exception $data = null)
     {
+        $options = [];
         $app = Factory::getApplication();
 
         $params = ComponentHelper::getParams('com_finder');
@@ -258,7 +256,7 @@ class IndexerController extends BaseController
         if ($data instanceof \Exception) {
             try {
                 Log::add($data->getMessage(), Log::ERROR);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 
@@ -275,6 +273,6 @@ class IndexerController extends BaseController
         }
 
         // Send the JSON response.
-        echo json_encode($response);
+        echo json_encode($response, JSON_THROW_ON_ERROR);
     }
 }

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Media\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -27,11 +28,11 @@ class FileModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
+     * @return Form|boolean A Form object on success, false on failure
      *
      * @since   4.0.0
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         PluginHelper::importPlugin('media-action');
 
@@ -61,7 +62,7 @@ class FileModel extends FormModel
      */
     public function getFileInformation($path)
     {
-        list($adapter, $path) = explode(':', $path, 2);
+        [$adapter, $path] = explode(':', $path, 2);
 
         return $this->bootComponent('com_media')->getMVCFactory()->createModel('Api', 'Administrator')
             ->getFile($adapter, $path, ['url' => true, 'content' => true]);

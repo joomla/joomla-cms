@@ -20,7 +20,6 @@ class FilterEdgedetectTest extends UnitTestCase
     /**
      * Setup for testing.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -37,7 +36,6 @@ class FilterEdgedetectTest extends UnitTestCase
     /**
      * Overrides the parent tearDown method.
      *
-     * @return  void
      *
      * @see     PHPUnit_Framework_TestCase::tearDown()
      * @since   4.0.0
@@ -70,7 +68,7 @@ class FilterEdgedetectTest extends UnitTestCase
 
         $filter = new FilterEdgedetect($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
 
         $this->assertEquals(
             187,

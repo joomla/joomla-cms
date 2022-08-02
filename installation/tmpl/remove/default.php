@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Installation\View\Remove\HtmlView;
+use Joomla\CMS\Version;
 /**
  * @package    Joomla.Installation
  *
@@ -15,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.formvalidator');
 
-/** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
+/** @var HtmlView $this */
 ?>
 <div id="installer-view" data-page-name="remove">
 
@@ -32,7 +34,7 @@ HTMLHelper::_('behavior.formvalidator');
             </div>
         </div>
 
-        <?php if (count($this->installed_languages->administrator) > 1) : ?>
+        <?php if ((is_countable($this->installed_languages->administrator) ? count($this->installed_languages->administrator) : 0) > 1) : ?>
                 <div id="defaultLanguage"
                     class="j-install-step-form flex-column mt-5 border rounded"
                 >
@@ -249,11 +251,11 @@ HTMLHelper::_('behavior.formvalidator');
                     </tr>
                     </thead>
                     <tbody>
-                    <?php $version = new \Joomla\CMS\Version(); ?>
+                    <?php $version = new Version(); ?>
                     <?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
                     <?php foreach ($this->items as $i => $language) : ?>
                         <?php // Get language code and language image. ?>
-                        <?php preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element); ?>
+                        <?php preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', (string) $language->element, $element); ?>
                         <?php $language->code = $element[1]; ?>
                         <tr>
                             <td>
@@ -267,14 +269,14 @@ HTMLHelper::_('behavior.formvalidator');
                             </td>
                             <td class="text-center">
                                 <?php // Display a Note if language pack version is not equal to Joomla version ?>
-                                <?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
+                                <?php if (substr((string) $language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr((string) $language->version, 0, 5) != $currentShortVersion) : ?>
                                     <span class="badge bg-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
                                 <?php else : ?>
                                     <span class="badge bg-success"><?php echo $language->version; ?></span>
                                 <?php endif; ?>
                             </td>
                         </tr>
-                    <?php endforeach; ?>
+<?php endforeach; ?>
                     </tbody>
                 </table>
                 <?php echo HTMLHelper::_('form.token'); ?>

@@ -48,10 +48,9 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
     /**
      * The MFA Method name handled by this plugin
      *
-     * @var   string
      * @since 4.2.0
      */
-    private $mfaMethodName = 'yubikey';
+    private string $mfaMethodName = 'yubikey';
 
     /**
      * Should I try to detect and register legacy event listeners?
@@ -66,7 +65,6 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.2.0
      */
@@ -87,7 +85,6 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetMethod  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorGetMethod(GetMethod $event): void
@@ -111,7 +108,6 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      *
      * @param   Captive  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorCaptive(Captive $event): void
@@ -157,7 +153,6 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetSetup  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorGetSetup(GetSetup $event): void
@@ -240,14 +235,14 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
          */
         $code = $input->getString('code');
 
-        if ($isKeyAlreadySetup || ((strlen($code) == 12) && ($code == $keyID))) {
+        if ($isKeyAlreadySetup || ((strlen((string) $code) == 12) && ($code == $keyID))) {
             $event->addResult($options);
 
             return;
         }
 
         // If an empty code or something other than 44 characters was submitted I'm not having any of this!
-        if (empty($code) || (strlen($code) != 44)) {
+        if (empty($code) || (strlen((string) $code) != 44)) {
             throw new RuntimeException(Text::_('PLG_MULTIFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 500);
         }
 
@@ -259,7 +254,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         }
 
         // The code is valid. Keep the Yubikey ID (first twelve characters)
-        $keyID = substr($code, 0, 12);
+        $keyID = substr((string) $code, 0, 12);
 
         // Return the configuration to be serialized
         $event->addResult(['id' => $keyID]);
@@ -271,7 +266,6 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      *
      * @param   Validate  $event  The event we are handling
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
@@ -304,20 +298,16 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $records = MfaHelper::getUserMfaRecords($record->user_id);
             $records = array_filter(
                 $records,
-                function ($rec) use ($record) {
-                    return $rec->method === $record->method;
-                }
+                fn($rec) => $rec->method === $record->method
             );
-        } catch (Exception $e) {
+        } catch (Exception) {
             $records = [];
         }
 
         // Loop all records, stop if at least one matches
         $result = array_reduce(
             $records,
-            function (bool $carry, $aRecord) use ($code) {
-                return $carry || $this->validateAgainstRecord($aRecord, $code);
-            },
+            fn(bool $carry, $aRecord) => $carry || $this->validateAgainstRecord($aRecord, $code),
             false
         );
 
@@ -338,7 +328,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
         // Let the user define a client ID and a secret key in the plugin's configuration
         $clientID    = $this->params->get('client_id', 1);
         $secretKey   = $this->params->get('secret', '');
-        $serverQueue = trim($this->params->get('servers', ''));
+        $serverQueue = trim((string) $this->params->get('servers', ''));
 
         if (!empty($serverQueue)) {
             $serverQueue = explode("\r", $serverQueue);
@@ -387,7 +377,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
             $this->signRequest($uri, $secretKey);
 
             if ($uri->hasVar('h')) {
-                $uri->setVar('h', urlencode($uri->getVar('h')));
+                $uri->setVar('h', urlencode((string) $uri->getVar('h')));
             }
 
             try {
@@ -398,7 +388,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
                 } else {
                     continue;
                 }
-            } catch (Exception $exc) {
+            } catch (Exception) {
                 // No response, continue with the next server
                 continue;
             }
@@ -468,9 +458,7 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @param   Uri     $uri     The request URI to sign
      * @param   string  $secret  The secret key to sign with
      *
-     * @return  void
      * @since   4.2.0
-     *
      * @see     https://developers.yubico.com/yubikey-val/Validation_Protocol_V2.0.html
      */
     private function signRequest(Uri $uri, string $secret): void
@@ -552,7 +540,6 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      *
      * @param   MfaTable  $record  The record to decode
      *
-     * @return  array
      * @since   4.2.0
      */
     private function decodeRecordOptions(MfaTable $record): array
@@ -574,7 +561,6 @@ class Yubikey extends CMSPlugin implements SubscriberInterface
      * @param   MfaTable  $record  The record to validate against
      * @param   string    $code    The code given to us by the user
      *
-     * @return  boolean
      * @throws  Exception
      * @since   4.2.0
      */

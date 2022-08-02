@@ -49,5 +49,5 @@ interface EventAwareInterface extends DispatcherAwareInterface
      * @throws      \InvalidArgumentException
      * @deprecated  5.0
      */
-    public function triggerEvent($eventName, $args = []);
+    public function triggerEvent($eventName, array|Event $args = []);
 }

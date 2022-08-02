@@ -57,7 +57,6 @@ trait UserProfileFields
      * @param   mixed  $value  Ignored. The WebAuthn profile field is virtual, it doesn't have a
      *                         stored value. We only use it as a proxy to render a sub-form.
      *
-     * @return  string
      * @since   4.0.0
      */
     public static function renderWebauthnProfileField($value): string
@@ -71,9 +70,7 @@ trait UserProfileFields
         $credentialRepository = $plugin->getAuthenticationHelper()->getCredentialsRepository();
         $credentials          = $credentialRepository->getAll(self::$userFromFormData->id);
         $authenticators       = array_map(
-            function (array $credential) {
-                return $credential['label'];
-            },
+            fn(array $credential) => $credential['label'],
             $credentials
         );
 
@@ -136,7 +133,6 @@ trait UserProfileFields
     /**
      * @param   Event  $event  The event we are handling
      *
-     * @return  void
      *
      * @throws  Exception
      * @since   4.0.0
@@ -156,7 +152,7 @@ trait UserProfileFields
         self::$userFromFormData = $this->getUserFromData($data);
 
         if (!HTMLHelper::isRegistered('users.webauthnWebauthn')) {
-            HTMLHelper::register('users.webauthn', [__CLASS__, 'renderWebauthnProfileField']);
+            HTMLHelper::register('users.webauthn', self::renderWebauthnProfileField(...));
         }
     }
 
@@ -201,7 +197,6 @@ trait UserProfileFields
      *
      * @param   ?User   $user   The user you want to know if we're allowed to edit
      *
-     * @return  boolean
      *
      * @since   4.2.0
      */

@@ -29,7 +29,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         // Check for required arguments
         if (!\array_key_exists('adapter', $arguments) || !is_string($arguments['adapter'])) {
@@ -60,7 +60,6 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
      *
      * @param   string  $value  The value to set
      *
-     * @return string
      *
      * @since   4.1.0
      */
@@ -78,7 +77,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
      *
      * @throws \BadMethodCallException
      */
-    protected function setPath(string $value): string
+    protected function setPath(string $value): never
     {
         throw new \BadMethodCallException('Cannot set the argument "path" of the immutable event ' . $this->name . '.');
     }
@@ -92,7 +91,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
      *
      * @throws \BadMethodCallException
      */
-    protected function setAdapter(string $value): string
+    protected function setAdapter(string $value): never
     {
         throw new \BadMethodCallException('Cannot set the argument "adapter" of the immutable event ' . $this->name . '.');
     }

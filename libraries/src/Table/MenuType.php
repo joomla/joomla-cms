@@ -61,7 +61,7 @@ class MenuType extends Table
         }
 
         // Sanitise data.
-        if (trim($this->title) === '') {
+        if (trim((string) $this->title) === '') {
             $this->title = $this->menutype;
         }
 
@@ -106,7 +106,7 @@ class MenuType extends Table
             $notIn  = [0, $userId];
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($this->id);
 
             // Verify that no items are checked out
@@ -120,14 +120,14 @@ class MenuType extends Table
 
             if ($this->_db->loadRowList()) {
                 $this->setError(
-                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', $this::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
 
                 return false;
             }
 
             // Verify that no module for this menu are checked out
-            $searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
+            $searchParams = '%"menutype":' . json_encode($table->menutype, JSON_THROW_ON_ERROR) . '%';
             $query->clear()
                 ->select($this->_db->quoteName('id'))
                 ->from($this->_db->quoteName('#__modules'))
@@ -139,7 +139,7 @@ class MenuType extends Table
 
             if ($this->_db->loadRowList()) {
                 $this->setError(
-                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+                    Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', $this::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
                 );
 
                 return false;
@@ -156,9 +156,9 @@ class MenuType extends Table
             $this->_db->execute();
 
             // Update the module items
-            $whereParams   = '%"menutype":' . json_encode($table->menutype) . '%';
-            $searchParams  = '"menutype":' . json_encode($table->menutype);
-            $replaceParams = '"menutype":' . json_encode($this->menutype);
+            $whereParams   = '%"menutype":' . json_encode($table->menutype, JSON_THROW_ON_ERROR) . '%';
+            $searchParams  = '"menutype":' . json_encode($table->menutype, JSON_THROW_ON_ERROR);
+            $replaceParams = '"menutype":' . json_encode($this->menutype, JSON_THROW_ON_ERROR);
             $query->clear()
                 ->update($this->_db->quoteName('#__modules'))
                 ->set(
@@ -188,7 +188,7 @@ class MenuType extends Table
     public function delete($pk = null)
     {
         $k = $this->_tbl_key;
-        $pk = $pk === null ? $this->$k : $pk;
+        $pk ??= $this->$k;
 
         // If no primary key is given, return false.
         if ($pk !== null) {
@@ -198,7 +198,7 @@ class MenuType extends Table
             $star   = '*';
 
             // Get the old value of the table
-            $table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
+            $table = Table::getInstance('Menutype', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($pk);
 
             // Verify that no items are checked out
@@ -217,13 +217,13 @@ class MenuType extends Table
             $this->_db->setQuery($query);
 
             if ($this->_db->loadRowList()) {
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', $this::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;
             }
 
             // Verify that no module for this menu are checked out
-            $searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
+            $searchParams = '%"menutype":' . json_encode($table->menutype, JSON_THROW_ON_ERROR) . '%';
             $query->clear()
                 ->select($this->_db->quoteName('id'))
                 ->from($this->_db->quoteName('#__modules'))
@@ -234,7 +234,7 @@ class MenuType extends Table
             $this->_db->setQuery($query);
 
             if ($this->_db->loadRowList()) {
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', $this::class, Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
                 return false;
             }
@@ -250,7 +250,7 @@ class MenuType extends Table
             $query->clear()
                 ->delete('#__modules')
                 ->where('module=' . $this->_db->quote('mod_menu'))
-                ->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
+                ->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype, JSON_THROW_ON_ERROR) . '%'));
             $this->_db->setQuery($query);
             $this->_db->execute();
         }
@@ -307,6 +307,6 @@ class MenuType extends Table
             $assetId = $asset->id;
         }
 
-        return $assetId === null ? parent::_getAssetParentId($table, $id) : $assetId;
+        return $assetId ?? parent::_getAssetParentId($table, $id);
     }
 }

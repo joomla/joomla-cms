@@ -24,24 +24,6 @@ use Joomla\Input\Input;
 class Module implements ModuleInterface, HelperFactoryInterface
 {
     /**
-     * The dispatcher factory.
-     *
-     * @var ModuleDispatcherFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $dispatcherFactory;
-
-    /**
-     * The helper factory.
-     *
-     * @var HelperFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $helperFactory;
-
-    /**
      * Module constructor.
      *
      * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
@@ -49,10 +31,8 @@ class Module implements ModuleInterface, HelperFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory, HelperFactoryInterface $helperFactory)
+    public function __construct(private readonly ModuleDispatcherFactoryInterface $dispatcherFactory, private readonly HelperFactoryInterface $helperFactory)
     {
-        $this->dispatcherFactory = $dispatcherFactory;
-        $this->helperFactory     = $helperFactory;
     }
 
     /**
@@ -62,7 +42,6 @@ class Module implements ModuleInterface, HelperFactoryInterface
      * @param   CMSApplicationInterface  $application  The application
      * @param   Input                    $input        The input object, defaults to the one in the application
      *
-     * @return  DispatcherInterface
      *
      * @since   4.0.0
      */

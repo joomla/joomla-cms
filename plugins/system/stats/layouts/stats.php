@@ -20,7 +20,7 @@ extract($displayData);
  * @var   array  $statsData  Array containing the data that will be sent to the stats server
  */
 
-$versionFields = array('php_version', 'db_version', 'cms_version');
+$versionFields = ['php_version', 'db_version', 'cms_version'];
 ?>
 <table class="table mb-3 d-none" id="js-pstats-data-details">
     <caption class="visually-hidden">
@@ -40,7 +40,7 @@ $versionFields = array('php_version', 'db_version', 'cms_version');
     <?php foreach ($statsData as $key => $value) : ?>
         <tr>
             <th scope="row"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_' . strtoupper($key)); ?></th>
-            <td><?php echo in_array($key, $versionFields) ? (preg_match('/\d+(?:\.\d+)+/', $value, $matches) ? $matches[0] : $value) : $value; ?></td>
+            <td><?php echo in_array($key, $versionFields) ? (preg_match('/\d+(?:\.\d+)+/', (string) $value, $matches) ? $matches[0] : $value) : $value; ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Finder\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;
@@ -38,7 +39,7 @@ class FinderHelper
      */
     public static function getGetFields($route = null, $paramItem = 0)
     {
-        $fields = array();
+        $fields = [];
         $uri = Uri::getInstance(Route::_($route));
         $uri->delVar('q');
 
@@ -53,7 +54,7 @@ class FinderHelper
     /**
      * Get Smart Search query object.
      *
-     * @param   \Joomla\Registry\Registry  $params  Module parameters.
+     * @param Registry $params Module parameters.
      *
      * @return  Query object
      *
@@ -65,7 +66,7 @@ class FinderHelper
         $filter  = InputFilter::getInstance();
 
         // Get the static taxonomy filters.
-        $options = array();
+        $options = [];
         $options['filter'] = ($request->get('f', 0, 'int') !== 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
         $options['filter'] = $filter->clean($options['filter'], 'int');
 

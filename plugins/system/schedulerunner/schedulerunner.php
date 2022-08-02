@@ -96,7 +96,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event  The onBeforeCompileHead event.
      *
-     * @return void
      *
      * @since 4.1.0
      */
@@ -175,7 +174,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
         // Suppress all errors to avoid any output
         try {
             $this->runScheduler();
-        } catch (Exception $e) {
+        } catch (Exception) {
         }
 
         ob_end_clean();
@@ -210,7 +209,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
             throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (!strlen($hash) || $hash !== $this->app->input->get('hash')) {
+        if (!strlen((string) $hash) || $hash !== $this->app->input->get('hash')) {
             throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
@@ -287,7 +286,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
      *
      * @param   integer  $id  The optional ID of the task to run
      *
-     * @return ?Task
      *
      * @since 4.1.0
      * @throws RuntimeException
@@ -302,11 +300,9 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event  The onContentPrepareForm event.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws UnexpectedValueException|RuntimeException
-     *
      * @todo  Move to another plugin?
      */
     public function enhanceSchedulerConfig(EventInterface $event): void
@@ -341,7 +337,6 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
      *
      * @param   EventInterface  $event The onExtensionBeforeSave event.
      *
-     * @return void
      *
      * @since 4.1.0
      */

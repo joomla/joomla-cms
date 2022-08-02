@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Menus\Administrator\Controller;
 
+use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -35,7 +37,7 @@ class ItemController extends FormController
      *
      * @since   3.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
 
@@ -63,7 +65,7 @@ class ItemController extends FormController
      *
      * @since   3.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $user = $this->app->getIdentity();
 
@@ -100,7 +102,7 @@ class ItemController extends FormController
         $model = $this->getModel();
         $table = $model->getTable('MenuType');
 
-        $table->load(array('menutype' => $menutype));
+        $table->load(['menutype' => $menutype]);
 
         return (int) $table->id;
     }
@@ -139,8 +141,8 @@ class ItemController extends FormController
     {
         $this->checkToken();
 
-        /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
-        $model = $this->getModel('Item', 'Administrator', array());
+        /** @var ItemModel $model */
+        $model = $this->getModel('Item', 'Administrator', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
@@ -221,7 +223,7 @@ class ItemController extends FormController
         $append = parent::getRedirectToItemAppend($recordId, $urlVar);
 
         if ($recordId) {
-            /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+            /** @var ItemModel $model */
             $model    = $this->getModel();
             $item     = $model->getItem($recordId);
             $clientId = $item->client_id;
@@ -250,10 +252,10 @@ class ItemController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        /** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
-        $model    = $this->getModel('Item', 'Administrator', array());
+        /** @var ItemModel $model */
+        $model    = $this->getModel('Item', 'Administrator', []);
         $table    = $model->getTable();
-        $data     = $this->input->post->get('jform', array(), 'array');
+        $data     = $this->input->post->get('jform', [], 'array');
         $task     = $this->getTask();
         $context  = 'com_menus.edit.item';
         $app      = $this->app;
@@ -290,7 +292,7 @@ class ItemController extends FormController
 
             // Reset the ID and then treat the request as for Apply.
             $data['id'] = 0;
-            $data['associations'] = array();
+            $data['associations'] = [];
             $task = 'apply';
         }
 
@@ -318,17 +320,12 @@ class ItemController extends FormController
         }
 
         if ($data['type'] == 'url') {
-            $data['link'] = str_replace(array('"', '>', '<'), '', $data['link']);
+            $data['link'] = str_replace(['"', '>', '<'], '', (string) $data['link']);
 
             if (strstr($data['link'], ':')) {
                 $segments = explode(':', $data['link']);
                 $protocol = strtolower($segments[0]);
-                $scheme   = array(
-                    'http', 'https', 'ftp', 'ftps', 'gopher', 'mailto',
-                    'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais',
-                    'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax',
-                    'modem', 'git', 'sms',
-                );
+                $scheme   = ['http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git', 'sms'];
 
                 if (!in_array($protocol, $scheme)) {
                     $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
@@ -348,10 +345,10 @@ class ItemController extends FormController
 
         // Check for the special 'request' entry.
         if ($data['type'] == 'component' && !empty($request)) {
-            $removeArgs = array();
+            $removeArgs = [];
 
             if (!isset($data['request']) || !is_array($data['request'])) {
-                $data['request'] = array();
+                $data['request'] = [];
             }
 
             foreach ($request as $field) {
@@ -363,8 +360,8 @@ class ItemController extends FormController
             }
 
             // Parse the submitted link arguments.
-            $args = array();
-            parse_str(parse_url($data['link'], PHP_URL_QUERY), $args);
+            $args = [];
+            parse_str(parse_url((string) $data['link'], PHP_URL_QUERY), $args);
 
             // Merge in the user supplied request arguments.
             $args = array_merge($args, $data['request']);
@@ -487,16 +484,16 @@ class ItemController extends FormController
         $app = $this->app;
 
         // Get the posted values from the request.
-        $data = $this->input->post->get('jform', array(), 'array');
+        $data = $this->input->post->get('jform', [], 'array');
 
         // Get the type.
         $type = $data['type'];
 
-        $type = json_decode(base64_decode($type));
+        $type = json_decode(base64_decode((string) $type), null, 512, JSON_THROW_ON_ERROR);
         $title = $type->title ?? null;
         $recordId = $type->id ?? 0;
 
-        $specialTypes = array('alias', 'separator', 'url', 'heading', 'container');
+        $specialTypes = ['alias', 'separator', 'url', 'heading', 'container'];
 
         if (!in_array($title, $specialTypes)) {
             $title = 'component';
@@ -550,12 +547,12 @@ class ItemController extends FormController
     {
         $app = $this->app;
 
-        $results  = array();
+        $results  = [];
         $menutype = $this->input->get->get('menutype');
 
         if ($menutype) {
-            /** @var \Joomla\Component\Menus\Administrator\Model\ItemsModel $model */
-            $model = $this->getModel('Items', 'Administrator', array());
+            /** @var ItemsModel $model */
+            $model = $this->getModel('Items', 'Administrator', []);
             $model->getState();
             $model->setState('filter.menutype', $menutype);
             $model->setState('list.select', 'a.id, a.title, a.level');
@@ -565,13 +562,13 @@ class ItemController extends FormController
             $results = $model->getItems();
 
             // Pad the option text with spaces using depth level as a multiplier.
-            for ($i = 0, $n = count($results); $i < $n; $i++) {
+            for ($i = 0, $n = is_countable($results) ? count($results) : 0; $i < $n; $i++) {
                 $results[$i]->title = str_repeat(' - ', $results[$i]->level) . $results[$i]->title;
             }
         }
 
         // Output a \JSON object
-        echo json_encode($results);
+        echo json_encode($results, JSON_THROW_ON_ERROR);
 
         $app->close();
     }

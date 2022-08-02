@@ -129,7 +129,6 @@ class PlgFinderCategories extends Adapter
      * @param   Table    $row      A Table object.
      * @param   boolean  $isNew    True if the category has just been created.
      *
-     * @return  void
      *
      * @since   2.5
      * @throws  Exception on database error.
@@ -254,7 +253,7 @@ class PlgFinderCategories extends Adapter
         }
 
         // Extract the extension element
-        $parts = explode('.', $item->extension);
+        $parts = explode('.', (string) $item->extension);
         $extension_element = $parts[0];
 
         // Check if the extension that owns the category is also enabled.

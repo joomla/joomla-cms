@@ -72,7 +72,6 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
      *
      * @param   string  $publicKeyCredentialId  The public credential ID to look for
      *
-     * @return  PublicKeyCredentialSource|null
      * @since   4.2.0
      */
     public function findOneByCredentialId(string $publicKeyCredentialId): ?PublicKeyCredentialSource
@@ -129,14 +128,14 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
             }
 
             if (isset($options['attested']) && is_string($options['attested'])) {
-                $options['attested'] = json_decode($options['attested'], true);
+                $options['attested'] = json_decode($options['attested'], true, 512, JSON_THROW_ON_ERROR);
 
                 $return[$result->id] = $this->attestedCredentialToPublicKeyCredentialSource(
                     AttestedCredentialData::createFromArray($options['attested']),
                     $userId
                 );
             } elseif (isset($options['pubkeysource']) && is_string($options['pubkeysource'])) {
-                $options['pubkeysource'] = json_decode($options['pubkeysource'], true);
+                $options['pubkeysource'] = json_decode($options['pubkeysource'], true, 512, JSON_THROW_ON_ERROR);
                 $return[$result->id]     = PublicKeyCredentialSource::createFromArray($options['pubkeysource']);
             } elseif (isset($options['pubkeysource']) && is_array($options['pubkeysource'])) {
                 $return[$result->id] = PublicKeyCredentialSource::createFromArray($options['pubkeysource']);
@@ -162,7 +161,6 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
      * @param   AttestedCredentialData  $record  Legacy attested credential data object
      * @param   int                     $userId  User ID we are getting the credential source for
      *
-     * @return  PublicKeyCredentialSource
      * @since   4.2.0
      */
     private function attestedCredentialToPublicKeyCredentialSource(AttestedCredentialData $record, int $userId): PublicKeyCredentialSource
@@ -190,7 +188,6 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
      *
      * @param   PublicKeyCredentialSource  $publicKeyCredentialSource  The record to save
      *
-     * @return  void
      * @throws  \Exception
      * @since   4.2.0
      */

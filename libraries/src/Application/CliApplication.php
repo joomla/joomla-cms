@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Input\Cli;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
@@ -51,7 +53,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
     /**
      * The input.
      *
-     * @var    \Joomla\Input\Input
+     * @var Input
      * @since  4.0.0
      */
     protected $input = null;
@@ -122,17 +124,17 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 
         $container = $container ?: Factory::getContainer();
         $this->setContainer($container);
-        $this->setDispatcher($dispatcher ?: $container->get(\Joomla\Event\DispatcherInterface::class));
+        $this->setDispatcher($dispatcher ?: $container->get(DispatcherInterface::class));
 
         if (!$container->has('session')) {
             $container->alias('session', 'session.cli')
                 ->alias('JSession', 'session.cli')
-                ->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+                ->alias(Session::class, 'session.cli')
                 ->alias(\Joomla\Session\Session::class, 'session.cli')
-                ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+                ->alias(SessionInterface::class, 'session.cli');
         }
 
-        $this->input    = new \Joomla\CMS\Input\Cli();
+        $this->input    = new Cli();
         $this->language = Factory::getLanguage();
         $this->output   = $output ?: new Stdout();
         $this->cliInput = $cliInput ?: new CliInput();
@@ -184,7 +186,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
     /**
      * Method to get the application input object.
      *
-     * @return  Input
      *
      * @since   4.0.0
      */

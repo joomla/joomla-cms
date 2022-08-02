@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Maps;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -37,7 +40,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.6.1
      */
@@ -46,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  3.6.1
      */
@@ -64,7 +67,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -113,7 +116,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

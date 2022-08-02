@@ -35,7 +35,7 @@ Factory::getDocument()->getWebAssetManager()
     ->useScript('core')
     ->useScript('webcomponent.toolbar-button');
 
-$tagName  = $tagName ?? 'button';
+$tagName ??= 'button';
 
 $taskAttr = '';
 $idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';

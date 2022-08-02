@@ -199,7 +199,6 @@ class RemoveModel extends BaseDatabaseModel
     /**
      * Method to fetch an instance of the action log model.
      *
-     * @return  ActionlogModel
      *
      * @since   4.0.0
      */

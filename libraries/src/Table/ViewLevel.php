@@ -47,7 +47,7 @@ class ViewLevel extends Table
         // Bind the rules as appropriate.
         if (isset($array['rules'])) {
             if (\is_array($array['rules'])) {
-                $array['rules'] = json_encode($array['rules']);
+                $array['rules'] = json_encode($array['rules'], JSON_THROW_ON_ERROR);
             }
         }
 
@@ -72,7 +72,7 @@ class ViewLevel extends Table
         }
 
         // Validate the title.
-        if ((trim($this->title)) == '') {
+        if ((trim((string) $this->title)) == '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
 
             return false;

@@ -87,7 +87,6 @@ class JoomlatokenField extends TextField
      *
      * @param   string  $tokenSeed  The token seed data stored in the database
      *
-     * @return  string
      * @since   4.0.0
      */
     private function getTokenForDisplay(string $tokenSeed): string
@@ -100,7 +99,7 @@ class JoomlatokenField extends TextField
 
         try {
             $siteSecret = Factory::getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 
@@ -110,9 +109,9 @@ class JoomlatokenField extends TextField
         }
 
         $rawToken  = base64_decode($tokenSeed);
-        $tokenHash = hash_hmac($algorithm, $rawToken, $siteSecret);
+        $tokenHash = hash_hmac((string) $algorithm, $rawToken, (string) $siteSecret);
         $userId    = $this->form->getData()->get('id');
-        $message   = base64_encode("$algorithm:$userId:$tokenHash");
+        $message   = base64_encode((string) "$algorithm:$userId:$tokenHash");
 
         if ($userId != Factory::getUser()->id) {
             $message = '';

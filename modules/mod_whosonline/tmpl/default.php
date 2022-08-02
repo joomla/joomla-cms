@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
         <p><?php echo Text::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $member); ?></p>
     <?php endif; ?>
 
-    <?php if (($showmode > 0) && count($names)) : ?>
+    <?php if (($showmode > 0) && (is_countable($names) ? count($names) : 0)) : ?>
         <?php if ($params->get('filter_groups', 0)) : ?>
             <p><?php echo Text::_('MOD_WHOSONLINE_SAME_GROUP_MESSAGE'); ?></p>
         <?php endif; ?>

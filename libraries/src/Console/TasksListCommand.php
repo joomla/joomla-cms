@@ -41,10 +41,9 @@ class TasksListCommand extends AbstractCommand
     protected $application;
 
     /**
-     * @var SymfonyStyle
      * @since  4.1.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
 
     /**
@@ -90,7 +89,6 @@ class TasksListCommand extends AbstractCommand
     /**
      * Returns a stdClass object array of scheduled tasks.
      *
-     * @return array
      *
      * @since 4.1.0
      * @throws \RunTimeException
@@ -123,7 +121,6 @@ class TasksListCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.1.0
      */

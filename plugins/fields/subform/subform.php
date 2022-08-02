@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Registry\Registry;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Subform
@@ -30,7 +31,7 @@ class PlgFieldsSubform extends FieldsPlugin
      *
      * @since 4.0.0
      */
-    protected $renderCache = array();
+    protected $renderCache = [];
 
     /**
      * Array to do a fast in-memory caching of all custom field items.
@@ -118,7 +119,7 @@ class PlgFieldsSubform extends FieldsPlugin
             return;
         }
 
-        $decoded_value = json_decode($field->value, true);
+        $decoded_value = json_decode((string) $field->value, true, 512, JSON_THROW_ON_ERROR);
 
         if (!$decoded_value || !is_array($decoded_value)) {
             return;
@@ -158,19 +159,19 @@ class PlgFieldsSubform extends FieldsPlugin
          * Each array entry is another array representing a row, containing all of the sub fields that
          * are valid for this row and their raw and rendered values.
          */
-        $subform_rows = array();
+        $subform_rows = [];
 
         // Create an array with entries being subfields forms, and if not repeatable, containing only one element.
         $rows = $field->value;
 
         if ($field_params->get('repeat', '1') == '0') {
-            $rows = array($field->value);
+            $rows = [$field->value];
         }
 
         // Iterate over each row of the data
         foreach ($rows as $row) {
             // Holds all sub fields of this row, incl. their raw and rendered value
-            $row_subfields = array();
+            $row_subfields = [];
 
             // For each row, iterate over all the subfields
             foreach ($this->getSubfieldsFromField($field) as $subfield) {
@@ -188,11 +189,7 @@ class PlgFieldsSubform extends FieldsPlugin
                      * rendered the same when it has the same rawvalue).
                      */
                     $renderCache_key = serialize(
-                        array(
-                            $subfield->type,
-                            $subfield->id,
-                            $subfield->rawvalue,
-                        )
+                        [$subfield->type, $subfield->id, $subfield->rawvalue]
                     );
 
                     // Let's see if we have a fast in-memory result for this
@@ -202,7 +199,7 @@ class PlgFieldsSubform extends FieldsPlugin
                         // Render this virtual subfield
                         $subfield->value = Factory::getApplication()->triggerEvent(
                             'onCustomFieldsPrepareField',
-                            array($context, $item, $subfield)
+                            [$context, $item, $subfield]
                         );
                         $this->renderCache[$renderCache_key] = $subfield->value;
                     }
@@ -295,7 +292,7 @@ class PlgFieldsSubform extends FieldsPlugin
             // DOMElement's into our $parent_fieldset.
             Factory::getApplication()->triggerEvent(
                 'onCustomFieldsPrepareDom',
-                array($subfield, $parent_fieldset, $form)
+                [$subfield, $parent_fieldset, $form]
             );
         }
 
@@ -313,12 +310,12 @@ class PlgFieldsSubform extends FieldsPlugin
      */
     protected function getOptionsFromField(\stdClass $field)
     {
-        $result = array();
+        $result = [];
 
         // Fetch the options from the plugin
         $params = $this->getParamsFromField($field);
 
-        foreach ($params->get('options', array()) as $option) {
+        foreach ($params->get('options', []) as $option) {
             $result[] = (object) $option;
         }
 
@@ -330,7 +327,7 @@ class PlgFieldsSubform extends FieldsPlugin
      *
      * @param   \stdClass  $field  The field
      *
-     * @return  \Joomla\Registry\Registry
+     * @return Registry
      *
      * @since 4.0.0
      */
@@ -359,7 +356,7 @@ class PlgFieldsSubform extends FieldsPlugin
     {
         if (static::$customFieldsCache === null) {
             // Prepare our cache
-            static::$customFieldsCache = array();
+            static::$customFieldsCache = [];
 
             // Get all custom field instances
             $customFields = FieldsHelper::getFields('', null, false, null, true);
@@ -370,7 +367,7 @@ class PlgFieldsSubform extends FieldsPlugin
             }
         }
 
-        $result = array();
+        $result = [];
 
         // Iterate over all configured options for this field
         foreach ($this->getOptionsFromField($field) as $option) {

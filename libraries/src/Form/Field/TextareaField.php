@@ -79,15 +79,10 @@ class TextareaField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'rows':
-            case 'columns':
-            case 'maxlength':
-            case 'charcounter':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'rows', 'columns', 'maxlength', 'charcounter' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -110,7 +105,7 @@ class TextareaField extends FormField
                 break;
 
             case 'charcounter':
-                $this->charcounter = strtolower($value) === 'true';
+                $this->charcounter = strtolower((string) $value) === 'true';
                 break;
 
             default:
@@ -176,12 +171,7 @@ class TextareaField extends FormField
         $rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
         $maxlength    = $this->maxlength ? ' maxlength="' . $this->maxlength . '"' : '';
 
-        $extraData = array(
-            'maxlength'    => $maxlength,
-            'rows'         => $rows,
-            'columns'      => $columns,
-            'charcounter'  => $this->charcounter
-        );
+        $extraData = ['maxlength'    => $maxlength, 'rows'         => $rows, 'columns'      => $columns, 'charcounter'  => $this->charcounter];
 
         return array_merge($data, $extraData);
     }

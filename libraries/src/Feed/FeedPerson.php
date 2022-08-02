@@ -17,38 +17,6 @@ namespace Joomla\CMS\Feed;
 class FeedPerson
 {
     /**
-     * The email address of the person.
-     *
-     * @var    string
-     * @since  3.1.4
-     */
-    public $email;
-
-    /**
-     * The full name of the person.
-     *
-     * @var    string
-     * @since  3.1.4
-     */
-    public $name;
-
-    /**
-     * The type of person.
-     *
-     * @var    string
-     * @since  3.1.4
-     */
-    public $type;
-
-    /**
-     * The URI for the person.
-     *
-     * @var    string
-     * @since  3.1.4
-     */
-    public $uri;
-
-    /**
      * Constructor.
      *
      * @param   string  $name   The full name of the person.
@@ -58,11 +26,7 @@ class FeedPerson
      *
      * @since   3.1.4
      */
-    public function __construct($name = null, $email = null, $uri = null, $type = null)
+    public function __construct(public $name = null, public $email = null, public $uri = null, public $type = null)
     {
-        $this->name = $name;
-        $this->email = $email;
-        $this->uri = $uri;
-        $this->type = $type;
     }
 }

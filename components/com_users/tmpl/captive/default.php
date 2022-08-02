@@ -91,7 +91,7 @@ if ($this->renderOptions['field_type'] !== 'custom') {
                         $this->renderOptions['input_attributes']
                     );
 
-                    if (strpos($attributes['class'], 'form-control') === false) {
+                    if (!str_contains((string) $attributes['class'], 'form-control')) {
                         $attributes['class'] .= ' form-control';
                     }
                     ?>
@@ -116,7 +116,7 @@ if ($this->renderOptions['field_type'] !== 'custom') {
                     <?php echo Text::_('COM_USERS_MFA_LOGOUT'); ?>
                 </a>
 
-                <?php if (count($this->records) > 1) : ?>
+                <?php if ((is_countable($this->records) ? count($this->records) : 0) > 1) : ?>
                     <div id="users-mfa-captive-form-choose-another" class="my-3">
                         <a href="<?php echo Route::_('index.php?option=com_users&view=captive&task=select') ?>">
                             <?php echo Text::_('COM_USERS_MFA_USE_DIFFERENT_METHOD'); ?>

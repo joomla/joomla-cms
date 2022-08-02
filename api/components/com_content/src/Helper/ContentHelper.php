@@ -23,8 +23,6 @@ class ContentHelper
      * Fully Qualified Domain name for the image url
      *
      * @param   string  $uri      The uri to resolve
-     *
-     * @return  string
      */
     public static function resolve(string $uri): string
     {

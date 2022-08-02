@@ -25,4 +25,4 @@ if (is_array($value)) {
 
 $formatString =  $field->fieldparams->get('showtime', 0) ? 'DATE_FORMAT_LC5' : 'DATE_FORMAT_LC4';
 
-echo htmlentities(HTMLHelper::_('date', $value, Text::_($formatString)));
+echo htmlentities((string) HTMLHelper::_('date', $value, Text::_($formatString)));

@@ -63,10 +63,7 @@ class Languages
      */
     public function clients()
     {
-        return array(
-            HTMLHelper::_('select.option', 0, Text::_('JSITE')),
-            HTMLHelper::_('select.option', 1, Text::_('JADMINISTRATOR'))
-        );
+        return [HTMLHelper::_('select.option', 0, Text::_('JSITE')), HTMLHelper::_('select.option', 1, Text::_('JADMINISTRATOR'))];
     }
 
     /**
@@ -79,7 +76,7 @@ class Languages
     public function publishedOptions()
     {
         // Build the active state filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
         $options[] = HTMLHelper::_('select.option', '0', 'JUNPUBLISHED');
         $options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');

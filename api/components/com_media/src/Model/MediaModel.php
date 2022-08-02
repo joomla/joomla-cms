@@ -30,21 +30,19 @@ class MediaModel extends BaseModel implements ListModelInterface
 	use ProviderManagerHelperTrait;
 
 	/**
-	 * Instance of com_media's ApiModel
-	 *
-	 * @var ApiModel
-	 * @since  4.1.0
-	 */
-	private $mediaApiModel;
+  * Instance of com_media's ApiModel
+  *
+  * @since  4.1.0
+  */
+ private readonly ApiModel $mediaApiModel;
 
 	/**
-	 * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
-	 * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
-	 *
-	 * @var int
-	 * @since  4.1.0
-	 */
-	private $total = 0;
+  * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
+  * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
+  *
+  * @since  4.1.0
+  */
+ private int $total = 0;
 
 	public function __construct($config = [])
 	{
@@ -76,7 +74,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 		{
 			$files = $this->mediaApiModel->getFiles($adapterName, $path, $options);
 		}
-		catch (FileNotFoundException $e)
+		catch (FileNotFoundException)
 		{
 			throw new ResourceNotFound(
 				Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
@@ -89,7 +87,7 @@ class MediaModel extends BaseModel implements ListModelInterface
 		 * Because com_media's ApiModel does not support pagination as we know from regular ListModel
 		 * derived models, we always return all retrieved items.
 		 */
-		$this->total = \count($files);
+		$this->total = is_countable($files) ? \count($files) : 0;
 
 		return $files;
 	}

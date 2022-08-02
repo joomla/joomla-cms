@@ -32,7 +32,6 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -52,7 +51,6 @@ class ExtensionDiscoverListCommand extends ExtensionsListCommand
      * @param   array   $extensions  The Extensions
      * @param   string  $state       The Extension state
      *
-     * @return array
      *
      * @since 4.0.0
      */

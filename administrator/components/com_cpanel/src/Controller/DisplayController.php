@@ -41,7 +41,7 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         /*
          * Set the template - this will display cpanel.php
@@ -70,7 +70,7 @@ class DisplayController extends BaseController
             $appendLink .= '&function=' . $function;
         }
 
-        if (substr($position, 0, 6) != 'cpanel') {
+        if (substr((string) $position, 0, 6) != 'cpanel') {
             $position = 'cpanel';
         }
 

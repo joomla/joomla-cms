@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -22,8 +23,7 @@ use Joomla\Component\Scheduler\Administrator\Task\Status;
 use Joomla\Component\Scheduler\Administrator\View\Tasks\HtmlView;
 
 /** @var  HtmlView  $this*/
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
@@ -46,7 +46,7 @@ Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 try {
     /** @var CMSWebApplicationInterface $app */
     $app = Factory::getApplication();
-} catch (Exception $e) {
+} catch (Exception) {
     die('Failed to get app');
 }
 
@@ -71,7 +71,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
-        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
         ?>
 
         <!-- If no tasks -->
@@ -149,7 +149,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
 
                 <!-- Table body begins -->
                 <tbody <?php if ($saveOrder) : ?>
-                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true" <?php
+                    class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true" <?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $canCreate  = $user->authorise('core.create', 'com_scheduler');
@@ -242,7 +242,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
 
                         <!-- Test task -->
                         <td class="small d-none d-md-table-cell">
-                            <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars($item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
+                            <button type="button" class="btn btn-sm btn-warning" <?php echo $item->state < 0 ? 'disabled' : ''; ?> data-id="<?php echo (int) $item->id; ?>" data-title="<?php echo htmlspecialchars((string) $item->title); ?>" data-bs-toggle="modal" data-bs-backdrop="static" data-bs-target="#scheduler-test-modal">
                                 <span class="fa fa-play fa-sm me-2"></span>
                                 <?php echo Text::_('COM_SCHEDULER_TEST_RUN'); ?>
                             </button>
@@ -283,7 +283,7 @@ $this->document->addScriptOptions('com_scheduler.test-task.token', Session::getF
 
                 ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">

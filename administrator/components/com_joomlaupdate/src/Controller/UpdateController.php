@@ -35,20 +35,21 @@ class UpdateController extends BaseController
      */
     public function download()
     {
+        $options = [];
         $this->checkToken();
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
         $user = $this->app->getIdentity();
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model  = $this->getModel('Update');
         $result = $model->download();
         $file   = $result['basename'];
@@ -67,7 +68,7 @@ class UpdateController extends BaseController
 
             try {
                 Log::add($message, Log::ERROR, 'Update');
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 
@@ -80,7 +81,7 @@ class UpdateController extends BaseController
 
             try {
                 Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
         } else {
@@ -102,20 +103,21 @@ class UpdateController extends BaseController
      */
     public function install()
     {
+        $options = [];
         $this->checkToken('get');
         $this->app->setUserState('com_joomlaupdate.oldversion', JVERSION);
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
@@ -133,6 +135,7 @@ class UpdateController extends BaseController
      */
     public function finalise()
     {
+        $options = [];
         /*
          * Finalize with login page. Used for pre-token check versions
          * to allow updates without problems but with a maximum of security.
@@ -145,15 +148,15 @@ class UpdateController extends BaseController
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         $model->finaliseUpgrade();
@@ -171,6 +174,7 @@ class UpdateController extends BaseController
      */
     public function cleanup()
     {
+        $options = [];
         /*
          * Cleanup with login page. Used for pre-token check versions to be able to update
          * from =< 3.2.7 to allow updates without problems but with a maximum of security.
@@ -183,15 +187,15 @@ class UpdateController extends BaseController
 
         $options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         $model->cleanUp();
@@ -201,7 +205,7 @@ class UpdateController extends BaseController
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', \JVERSION), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
     }
@@ -219,7 +223,7 @@ class UpdateController extends BaseController
         $this->checkToken('request');
 
         // Purge updates
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
         $model->purge();
 
@@ -242,7 +246,7 @@ class UpdateController extends BaseController
         // Did a non Super User tried to upload something (a.k.a. pathetic hacking attempt)?
         $this->app->getIdentity()->authorise('core.admin') or jexit(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         try {
@@ -306,7 +310,7 @@ class UpdateController extends BaseController
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         // Get the captive file before the session resets
@@ -318,11 +322,7 @@ class UpdateController extends BaseController
         }
 
         // Try to log in
-        $credentials = array(
-            'username'  => $this->input->post->get('username', '', 'username'),
-            'password'  => $this->input->post->get('passwd', '', 'raw'),
-            'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
-        );
+        $credentials = ['username'  => $this->input->post->get('username', '', 'username'), 'password'  => $this->input->post->get('passwd', '', 'raw'), 'secretkey' => $this->input->post->get('secretkey', '', 'raw')];
 
         $result = $model->captiveLogin($credentials);
 
@@ -333,11 +333,11 @@ class UpdateController extends BaseController
         }
 
         // Set the update source in the session
-        $this->app->setUserState('com_joomlaupdate.file', basename($tempFile));
+        $this->app->setUserState('com_joomlaupdate.file', basename((string) $tempFile));
 
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -356,7 +356,7 @@ class UpdateController extends BaseController
      *
      * @since   2.5.4
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         // Get the document object.
         $document = $this->app->getDocument();
@@ -369,7 +369,7 @@ class UpdateController extends BaseController
         // Get and render the view.
         if ($view = $this->getView($vName, $vFormat)) {
             // Get the model for the view.
-            /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+            /** @var UpdateModel $model */
             $model = $this->getModel('Update');
 
             // Push the model into the view (as default).
@@ -402,15 +402,11 @@ class UpdateController extends BaseController
         }
 
         // Get the model
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         // Try to log in
-        $credentials = array(
-            'username'  => $this->input->post->get('username', '', 'username'),
-            'password'  => $this->input->post->get('passwd', '', 'raw'),
-            'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
-        );
+        $credentials = ['username'  => $this->input->post->get('username', '', 'username'), 'password'  => $this->input->post->get('passwd', '', 'raw'), 'secretkey' => $this->input->post->get('secretkey', '', 'raw')];
 
         $result = $model->captiveLogin($credentials);
 
@@ -443,7 +439,7 @@ class UpdateController extends BaseController
         $joomlaCurrentVersion = $this->input->get('joomla-current-version', '', JVERSION);
         $extensionVersion = $this->input->get('extension-version', '', 'DEFAULT');
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
         $upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
         $currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
@@ -496,18 +492,7 @@ class UpdateController extends BaseController
         }
 
         // Do we need to capture
-        $combinedCompatibilityStatus = array(
-            'upgradeCompatibilityStatus' => (object) array(
-                'state' => $upgradeCompatibilityStatus->state,
-                'compatibleVersion' => $upgradeUpdateVersion
-            ),
-            'currentCompatibilityStatus' => (object) array(
-                'state' => $currentCompatibilityStatus->state,
-                'compatibleVersion' => $currentUpdateVersion
-            ),
-            'resultGroup' => $resultGroup,
-            'upgradeWarning' => $upgradeWarning,
-        );
+        $combinedCompatibilityStatus = ['upgradeCompatibilityStatus' => (object) ['state' => $upgradeCompatibilityStatus->state, 'compatibleVersion' => $upgradeUpdateVersion], 'currentCompatibilityStatus' => (object) ['state' => $currentCompatibilityStatus->state, 'compatibleVersion' => $currentUpdateVersion], 'resultGroup' => $resultGroup, 'upgradeWarning' => $upgradeWarning];
 
         $this->app = Factory::getApplication();
         $this->app->mimeType = 'application/json';
@@ -539,7 +524,7 @@ class UpdateController extends BaseController
         $joomlaCurrentVersion = $this->input->post->get('joomla-current-version', JVERSION);
         $extensionInformation = $this->input->post->get('extensions', []);
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+        /** @var UpdateModel $model */
         $model = $this->getModel('Update');
 
         $extensionResults = [];

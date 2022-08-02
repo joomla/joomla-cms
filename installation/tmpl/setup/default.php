@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Installation\View\Setup\HtmlView;
 /**
  * @package     Joomla.Installation
  * @subpackage  View
@@ -15,7 +16,7 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.formvalidator');
 
-/** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
+/** @var HtmlView $this */
 ?>
 
 <div id="installer-view" data-page-name="setup">

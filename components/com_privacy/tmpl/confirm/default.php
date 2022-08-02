@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Privacy\Site\View\Confirm\HtmlView;
 /**
  * @package     Joomla.Site
  * @subpackage  com_privacy
@@ -14,8 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Privacy\Site\View\Confirm\HtmlView $this */
-
+/** @var HtmlView $this */
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 

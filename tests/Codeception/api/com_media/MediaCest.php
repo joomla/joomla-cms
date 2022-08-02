@@ -22,13 +22,12 @@ use Codeception\Util\HttpCode;
 class MediaCest
 {
 	/**
-	 * The name of the test directory, which gets deleted after each test.
-	 *
-	 * @var     string
-	 *
-	 * @since   4.1.0
-	 */
-	private $testDirectory = 'test-dir';
+  * The name of the test directory, which gets deleted after each test.
+  *
+  *
+  * @since   4.1.0
+  */
+ private string $testDirectory = 'test-dir';
 
 	/**
 	 * Runs before every test.

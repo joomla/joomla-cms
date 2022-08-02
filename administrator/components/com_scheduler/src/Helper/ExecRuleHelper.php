@@ -34,10 +34,9 @@ class ExecRuleHelper
     private $type;
 
     /**
-     * @var array
      * @since  4.1.0
      */
-    private $task;
+    private readonly array $task;
 
     /**
      * @var object
@@ -55,7 +54,7 @@ class ExecRuleHelper
         $this->task = \is_array($task) ? $task : ArrayHelper::fromObject($task);
         $rule       = $this->getFromTask('cron_rules');
         $this->rule = \is_string($rule)
-            ? (object) json_decode($rule)
+            ? (object) json_decode($rule, null, 512, JSON_THROW_ON_ERROR)
             : (\is_array($rule) ? (object) $rule : $rule);
         $this->type = $this->rule->type;
     }
@@ -117,14 +116,13 @@ class ExecRuleHelper
      *
      * @param   \DateTime  $dateTime  A DateTime object to format
      *
-     * @return string
      *
      * @since  4.1.0
      */
     private function dateTimeToSql(\DateTime $dateTime): string
     {
         static $db;
-        $db = $db ?? Factory::getContainer()->get(DatabaseDriver::class);
+        $db ??= Factory::getContainer()->get(DatabaseDriver::class);
 
         return $dateTime->format($db->getDateFormat());
     }

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Filter;
 
+use Joomla\Component\Finder\Administrator\Table\FilterTable;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -28,7 +30,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The filter object
      *
-     * @var    \Joomla\Component\Finder\Administrator\Table\FilterTable
+     * @var FilterTable
      *
      * @since  3.6.2
      */
@@ -37,7 +39,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  3.6.2
      */
@@ -89,7 +91,7 @@ class HtmlView extends BaseHtmlView
         $this->total = $this->get('Total');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -121,8 +121,8 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
-            $url = base64_decode($return);
+        if (!is_null($return) && Uri::isInternal(base64_decode((string) $return))) {
+            $url = base64_decode((string) $return);
         }
 
         // Redirect to the list screen.
@@ -160,8 +160,8 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
-            $url = base64_decode($return);
+        if (!is_null($return) && Uri::isInternal(base64_decode((string) $return))) {
+            $url = base64_decode((string) $return);
         }
 
         // Redirect to the list screen.
@@ -278,8 +278,8 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
-            $url = base64_decode($return);
+        if (!is_null($return) && Uri::isInternal(base64_decode((string) $return))) {
+            $url = base64_decode((string) $return);
         }
 
         // Redirect to the list screen.
@@ -326,8 +326,8 @@ class RequestController extends FormController
         // Check if there is a return value
         $return = $this->input->get('return', null, 'base64');
 
-        if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
-            $url = base64_decode($return);
+        if (!is_null($return) && Uri::isInternal(base64_decode((string) $return))) {
+            $url = base64_decode((string) $return);
         }
 
         // Redirect to the list screen.
@@ -380,20 +380,10 @@ class RequestController extends FormController
      */
     private function canTransition($item, $newStatus)
     {
-        switch ($item->status) {
-            case '0':
-                // A pending item can only move to invalid through this controller due to the requirement for a user to confirm the request
-                return $newStatus === '-1';
-
-            case '1':
-                // A confirmed item can be marked completed or invalid
-                return in_array($newStatus, ['-1', '2'], true);
-
-            // An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
-            case '-1':
-            case '2':
-            default:
-                return false;
-        }
+        return match ($item->status) {
+            '0' => $newStatus === '-1',
+            '1' => in_array($newStatus, ['-1', '2'], true),
+            default => false,
+        };
     }
 }

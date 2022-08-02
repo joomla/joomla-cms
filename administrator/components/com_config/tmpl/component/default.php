@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
@@ -24,7 +25,7 @@ Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('form.validate')
     ->useScript('keepalive');
@@ -66,7 +67,7 @@ $xml = $this->form->getXml();
                     <?php $dataShowOn = ''; ?>
                     <?php if (!empty($fieldSet->showon)) : ?>
                         <?php $wa->useScript('showon'); ?>
-                        <?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
+                        <?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl), JSON_THROW_ON_ERROR) . '\''; ?>
                     <?php endif; ?>
 
                     <?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>

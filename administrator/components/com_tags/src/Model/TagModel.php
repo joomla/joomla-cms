@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Tags\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Component\Tags\Administrator\Table\TagTable;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
@@ -46,10 +49,7 @@ class TagModel extends AdminModel
      * @var    array
      * @since  3.7.0
      */
-    protected $batch_commands = array(
-        'assetgroup_id' => 'batchAccess',
-        'language_id' => 'batchLanguage',
-    );
+    protected $batch_commands = ['assetgroup_id' => 'batchAccess', 'language_id' => 'batchLanguage'];
 
     /**
      * Method to test whether a record can be deleted.
@@ -144,16 +144,16 @@ class TagModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  bool|\Joomla\CMS\Form\Form  A Form object on success, false on failure
+     * @return bool|Form A Form object on success, false on failure
      *
      * @since   3.1
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): bool|Form
     {
         $jinput = Factory::getApplication()->input;
 
         // Get the form.
-        $form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_tags.tag', 'tag', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -185,7 +185,7 @@ class TagModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_tags.edit.tag.data', array());
+        $data = Factory::getApplication()->getUserState('com_tags.edit.tag.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -207,7 +207,7 @@ class TagModel extends AdminModel
      */
     public function save($data)
     {
-        /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
+        /** @var TagTable $table */
         $table      = $this->getTable();
         $input      = Factory::getApplication()->input;
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
@@ -235,7 +235,7 @@ class TagModel extends AdminModel
                 $origTable->load($input->getInt('id'));
 
                 if ($data['title'] == $origTable->title) {
-                    list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+                    [$title, $alias] = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
                     $data['title'] = $title;
                     $data['alias'] = $alias;
                 } elseif ($data['alias'] == $origTable->alias) {
@@ -263,7 +263,7 @@ class TagModel extends AdminModel
             }
 
             // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
 
             if (in_array(false, $result, true)) {
                 $this->setError($table->getError());
@@ -279,7 +279,7 @@ class TagModel extends AdminModel
             }
 
             // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew));
+            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew]);
 
             // Rebuild the path for the tag:
             if (!$table->rebuildPath($table->id)) {
@@ -312,7 +312,7 @@ class TagModel extends AdminModel
     /**
      * Prepare and sanitise the table data prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  A Table object.
+     * @param Table $table A Table object.
      *
      * @return  void
      *
@@ -334,8 +334,7 @@ class TagModel extends AdminModel
     public function rebuild()
     {
         // Get an instance of the table object.
-        /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
-
+        /** @var TagTable $table */
         $table = $this->getTable();
 
         if (!$table->rebuild()) {
@@ -365,8 +364,7 @@ class TagModel extends AdminModel
     public function saveorder($idArray = null, $lftArray = null)
     {
         // Get an instance of the table object.
-        /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
-
+        /** @var TagTable $table */
         $table = $this->getTable();
 
         if (!$table->saveorder($idArray, $lftArray)) {
@@ -395,15 +393,14 @@ class TagModel extends AdminModel
     protected function generateNewTitle($parentId, $alias, $title)
     {
         // Alter the title & alias
-        /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
-
+        /** @var TagTable $table */
         $table = $this->getTable();
 
-        while ($table->load(array('alias' => $alias, 'parent_id' => $parentId))) {
+        while ($table->load(['alias' => $alias, 'parent_id' => $parentId])) {
             $title = ($table->title != $title) ? $title : StringHelper::increment($title);
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 }

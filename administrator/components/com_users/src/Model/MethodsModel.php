@@ -35,9 +35,7 @@ class MethodsModel extends BaseDatabaseModel
      *
      * @param   User|null  $user  The user object. Skip to use the current user.
      *
-     * @return  array
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     public function getMethods(?User $user = null): array
@@ -81,9 +79,7 @@ class MethodsModel extends BaseDatabaseModel
      *
      * @param   User|null  $user  The user object to reset MFA for. Null to use the current user.
      *
-     * @return  void
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     public function deleteAll(?User $user = null): void
@@ -181,7 +177,6 @@ class MethodsModel extends BaseDatabaseModel
      * @param   User  $user  The user to check
      * @param   bool  $flag  True to set the flag, false to unset it (it will be set to 0, actually)
      *
-     * @return  void
      *
      * @since 4.2.0
      */
@@ -199,7 +194,7 @@ class MethodsModel extends BaseDatabaseModel
 
         try {
             $result = $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return;
         }
 

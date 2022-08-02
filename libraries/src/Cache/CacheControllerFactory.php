@@ -18,17 +18,16 @@ namespace Joomla\CMS\Cache;
 class CacheControllerFactory implements CacheControllerFactoryInterface
 {
 	/**
-	 * Method to get an instance of a cache controller.
-	 *
-	 * @param   string  $type     The cache object type to instantiate
-	 * @param   array   $options  Array of options
-	 *
-	 * @return  CacheController
-	 *
-	 * @since   4.0.0
-	 * @throws  \RuntimeException
-	 */
-	public function createCacheController($type = 'output', $options = array()): CacheController
+  * Method to get an instance of a cache controller.
+  *
+  * @param   string  $type     The cache object type to instantiate
+  * @param   array   $options  Array of options
+  *
+  *
+  * @since   4.0.0
+  * @throws  \RuntimeException
+  */
+ public function createCacheController($type = 'output', $options = []): CacheController
 	{
 		if (!$type)
 		{

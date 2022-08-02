@@ -45,7 +45,6 @@ class Mcrypt extends AbstractAES implements AesInterface
     public function setEncryptionMode($mode = 'cbc', $strength = 128)
     {
         switch ((int) $strength) {
-            default:
             case '128':
                 $this->cipherType = MCRYPT_RIJNDAEL_128;
                 break;
@@ -57,17 +56,17 @@ class Mcrypt extends AbstractAES implements AesInterface
             case '256':
                 $this->cipherType = MCRYPT_RIJNDAEL_256;
                 break;
+            default:
         }
 
         switch (strtolower($mode)) {
             case 'ecb':
                 $this->cipherMode = MCRYPT_MODE_ECB;
                 break;
-
-            default:
             case 'cbc':
                 $this->cipherMode = MCRYPT_MODE_CBC;
                 break;
+            default:
         }
     }
 

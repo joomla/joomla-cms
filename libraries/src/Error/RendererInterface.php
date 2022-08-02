@@ -21,7 +21,6 @@ interface RendererInterface
     /**
      * Retrieve the Document instance attached to this renderer
      *
-     * @return  Document
      *
      * @since   4.0.0
      */
@@ -32,7 +31,6 @@ interface RendererInterface
      *
      * @param   \Throwable  $error  The error object to be rendered
      *
-     * @return  string
      *
      * @since   4.0.0
      */

@@ -33,13 +33,10 @@ class OverridesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   2.5
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'key',
-                'text',
-            );
+            $config['filter_fields'] = ['key', 'text'];
         }
 
         parent::__construct($config, $factory);
@@ -64,14 +61,14 @@ class OverridesModel extends ListModel
             return $this->cache[$store];
         }
 
-        $client = strtoupper($this->getState('filter.client'));
+        $client = strtoupper((string) $this->getState('filter.client'));
 
         // Parse the override.ini file in order to get the keys and strings.
         $fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         // Delete the override.ini file if empty.
-        if (file_exists($fileName) && $strings === array()) {
+        if (file_exists($fileName) && $strings === []) {
             File::delete($fileName);
         }
 
@@ -79,7 +76,7 @@ class OverridesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if ($search != '') {
-            $search = preg_quote($search, '~');
+            $search = preg_quote((string) $search, '~');
             $matchvals = preg_grep('~' . $search . '~i', $strings);
             $matchkeys = array_intersect_key($strings, array_flip(preg_grep('~' . $search . '~i', array_keys($strings))));
             $strings = array_merge($matchvals, $matchkeys);
@@ -87,13 +84,13 @@ class OverridesModel extends ListModel
 
         // Consider the ordering
         if ($this->getState('list.ordering') == 'text') {
-            if (strtoupper($this->getState('list.direction')) == 'DESC') {
+            if (strtoupper((string) $this->getState('list.direction')) == 'DESC') {
                 arsort($strings);
             } else {
                 asort($strings);
             }
         } else {
-            if (strtoupper($this->getState('list.direction')) == 'DESC') {
+            if (strtoupper((string) $this->getState('list.direction')) == 'DESC') {
                 krsort($strings);
             } else {
                 ksort($strings);
@@ -158,8 +155,8 @@ class OverridesModel extends ListModel
         }
 
         $language_client = $this->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client', '', 'cmd');
-        $client          = substr($language_client, -1);
-        $language        = substr($language_client, 0, -1);
+        $client          = substr((string) $language_client, -1);
+        $language        = substr((string) $language_client, 0, -1);
 
         // Sets the search filter.
         $search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -206,7 +203,7 @@ class OverridesModel extends ListModel
         }
 
         // Parse the override.ini file in order to get the keys and strings.
-        $fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+        $fileName = constant('JPATH_' . strtoupper((string) $client)) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
         $strings  = LanguageHelper::parseIniFile($fileName);
 
         // Unset strings that shall be deleted

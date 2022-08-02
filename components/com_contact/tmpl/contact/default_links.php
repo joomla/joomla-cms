@@ -28,7 +28,7 @@ use Joomla\CMS\Language\Text;
             endif;
 
             // Add 'http://' if not present
-            $link = (0 === strpos($link, 'http')) ? $link : 'http://' . $link;
+            $link = (str_starts_with((string) $link, 'http')) ? $link : 'http://' . $link;
 
             // If no label is present, take the link
             $label = $label ?: $link;

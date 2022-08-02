@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -85,7 +86,6 @@ class LanguageAdapter extends InstallerAdapter
     /**
      * Method to finalise the uninstallation processing
      *
-     * @return  boolean
      *
      * @since   4.0.0
      * @throws  \RuntimeException
@@ -233,7 +233,7 @@ class LanguageAdapter extends InstallerAdapter
      *
      * @since   3.1
      */
-    public function install()
+    public function install(): bool|int
     {
         $source = $this->parent->getPath('source');
 
@@ -286,7 +286,7 @@ class LanguageAdapter extends InstallerAdapter
      *
      * @since   3.1
      */
-    protected function _install($cname, $basePath, $clientId, &$element)
+    protected function _install($cname, $basePath, $clientId, &$element): bool|int
     {
         $this->setManifest($this->parent->getManifest());
 
@@ -310,7 +310,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
         // Do we have a meta file in the file list?  In other words... is this a core language pack?
-        if ($element && \count($element->children())) {
+        if ($element && (is_countable($element->children()) ? \count($element->children()) : 0)) {
             $files = $element->children();
 
             foreach ($files as $file) {
@@ -386,7 +386,7 @@ class LanguageAdapter extends InstallerAdapter
          * step stack
          */
         if ($created) {
-            $this->parent->pushStep(array('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
+            $this->parent->pushStep(['type' => 'folder', 'path' => $this->parent->getPath('extension_site')]);
         }
 
         // Copy all the necessary files
@@ -439,7 +439,7 @@ class LanguageAdapter extends InstallerAdapter
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
-        $uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'folder' => ''));
+        $uid = $update->find(['element' => $this->tag, 'type' => 'language', 'folder' => '']);
 
         if ($uid) {
             $update->delete($uid);
@@ -569,7 +569,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
-        $uid = $update->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+        $uid = $update->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($uid) {
             $update->delete($uid);
@@ -577,7 +577,7 @@ class LanguageAdapter extends InstallerAdapter
 
         // Update an entry to the extension table
         $row = Table::getInstance('extension');
-        $eid = $row->find(array('element' => $this->tag, 'type' => 'language', 'client_id' => $clientId));
+        $eid = $row->find(['element' => $this->tag, 'type' => 'language', 'client_id' => $clientId]);
 
         if ($eid) {
             $row->load($eid);
@@ -620,7 +620,7 @@ class LanguageAdapter extends InstallerAdapter
      * Custom discover method
      * Finds language files
      *
-     * @return  \Joomla\CMS\Table\Extension[]  Array of discovered extensions.
+     * @return Extension[] Array of discovered extensions.
      *
      * @since  3.1
      */
@@ -651,7 +651,7 @@ class LanguageAdapter extends InstallerAdapter
                 $extension->set('folder', '');
                 $extension->set('name', $language);
                 $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
+                $extension->set('manifest_cache', json_encode($manifest_details, JSON_THROW_ON_ERROR));
                 $extension->set('params', '{}');
                 $results[] = $extension;
             }
@@ -684,7 +684,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->setPath('source', $client->path . '/language/' . $short_element);
         $this->parent->setPath('extension_root', $this->parent->getPath('source'));
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-        $this->parent->extension->manifest_cache = json_encode($manifest_details);
+        $this->parent->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
         $this->parent->extension->state          = 0;
         $this->parent->extension->name           = $manifest_details['name'];
         $this->parent->extension->enabled        = 1;
@@ -693,7 +693,7 @@ class LanguageAdapter extends InstallerAdapter
         try {
             $this->parent->extension->check();
             $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), Log::WARNING, 'jerror');
 
             return false;
@@ -728,7 +728,7 @@ class LanguageAdapter extends InstallerAdapter
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-        $this->parent->extension->manifest_cache = json_encode($manifest_details);
+        $this->parent->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
         $this->parent->extension->name           = $manifest_details['name'];
 
         if ($this->parent->extension->store()) {
@@ -743,7 +743,6 @@ class LanguageAdapter extends InstallerAdapter
     /**
      * Resets user language to default language
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -816,7 +815,7 @@ class LanguageAdapter extends InstallerAdapter
         $tableLanguage = Table::getInstance('language');
 
         // Check if content language already exists.
-        if ($tableLanguage->load(array('lang_code' => $tag))) {
+        if ($tableLanguage->load(['lang_code' => $tag])) {
             return;
         }
 
@@ -868,20 +867,7 @@ class LanguageAdapter extends InstallerAdapter
         }
 
         // Prepare language data for store.
-        $languageData = array(
-            'lang_id'      => 0,
-            'lang_code'    => $tag,
-            'title'        => $contentLanguageTitle,
-            'title_native' => $contentLanguageNativeTitle,
-            'sef'          => $this->getSefString($tag),
-            'image'        => strtolower(str_replace('-', '_', $tag)),
-            'published'    => 0,
-            'ordering'     => 0,
-            'access'       => (int) Factory::getApplication()->get('access', 1),
-            'description'  => '',
-            'metadesc'     => '',
-            'sitename'     => '',
-        );
+        $languageData = ['lang_id'      => 0, 'lang_code'    => $tag, 'title'        => $contentLanguageTitle, 'title_native' => $contentLanguageNativeTitle, 'sef'          => $this->getSefString($tag), 'image'        => strtolower(str_replace('-', '_', (string) $tag)), 'published'    => 0, 'ordering'     => 0, 'access'       => (int) Factory::getApplication()->get('access', 1), 'description'  => '', 'metadesc'     => '', 'sitename'     => ''];
 
         if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder()) {
             Log::add(

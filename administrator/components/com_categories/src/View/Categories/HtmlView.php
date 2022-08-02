@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Categories;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -60,7 +62,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 
@@ -98,12 +100,12 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Written this way because we only want to call IsEmptyState if no items, to prevent always calling it when not needed.
-        if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!(is_countable($this->items) ? count($this->items) : 0) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -177,7 +179,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load specific css component
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->document->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 
@@ -188,7 +190,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Prepare the toolbar.
-        ToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
+        ToolbarHelper::title($title, 'folder categories ' . substr((string) $component, 4) . ($section ? "-$section" : '') . '-categories');
 
         if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0) {
             $toolbar->addNew('category.add');
@@ -281,7 +283,7 @@ class HtmlView extends BaseHtmlView
             if ($lang->hasKey($languageKey)) {
                 $ref_key = $languageKey;
             } else {
-                $languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
+                $languageKey = 'JHELP_COMPONENTS_' . strtoupper(substr((string) $component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
 
                 if ($lang->hasKey($languageKey)) {
                     $ref_key = $languageKey;
@@ -297,7 +299,7 @@ class HtmlView extends BaseHtmlView
          * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
          */
         if (!$url) {
-            if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL')) {
+            if ($lang->hasKey($lang_help_url = strtoupper((string) $component) . '_HELP_URL')) {
                 $debug = $lang->setDebug(false);
                 $url   = Text::_($lang_help_url);
                 $lang->setDebug($debug);

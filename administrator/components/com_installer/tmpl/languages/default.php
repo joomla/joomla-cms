@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -16,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -29,7 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
         <div class="row">
             <div class="col-md-12">
                 <div id="j-main-container" class="j-main-container">
-                    <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+                    <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                     <?php if (empty($this->items)) : ?>
                         <div class="alert alert-info">
                             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -65,7 +66,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
                         $i = 0;
                         foreach ($this->items as $language) :
-                            preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
+                            preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', (string) $language->element, $element);
                             $language->code  = $element[1];
                             ?>
                             <tr class="row<?php echo $i % 2; ?>">
@@ -89,7 +90,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <td class="d-none d-md-table-cell">
                                         <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
                                         <?php // Display a Note if language pack version is not equal to Joomla version ?>
-                                        <?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
+                                        <?php if (!str_starts_with((string) $language->version, $minorVersion) || !str_starts_with((string) $language->version, $currentShortVersion)) : ?>
                                             <span class="badge bg-warning text-dark"><?php echo $language->version; ?></span>
                                             <span class="icon-info-circle" aria-hidden="true" tabindex="0"></span>
                                             <div role="tooltip" class="text-start" id="tip<?php echo $language->code; ?>">
@@ -104,14 +105,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </td>
                             </tr>
                             <?php $i++; ?>
-                        <?php endforeach; ?>
+<?php endforeach; ?>
                         </tbody>
                     </table>
 
                         <?php // load the pagination. ?>
                         <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php endif; ?>
+<?php endif; ?>
                     <input type="hidden" name="task" value="">
                     <input type="hidden" name="return" value="<?php echo base64_encode('index.php?option=com_installer&view=languages') ?>">
                     <input type="hidden" id="install_url" name="install_url">

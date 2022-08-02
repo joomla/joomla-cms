@@ -52,8 +52,8 @@ class LinkTable extends Table
             return false;
         }
 
-        $this->old_url = trim(rawurldecode($this->old_url));
-        $this->new_url = trim(rawurldecode($this->new_url));
+        $this->old_url = trim(rawurldecode((string) $this->old_url));
+        $this->new_url = trim(rawurldecode((string) $this->new_url));
 
         // Check for valid name.
         if (empty($this->old_url)) {

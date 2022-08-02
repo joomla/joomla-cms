@@ -31,7 +31,7 @@ abstract class Links
      */
     public static function linksgroups($groupsOfLinks)
     {
-        $html = array();
+        $html = [];
 
         if (count($groupsOfLinks) > 0) {
             $layout = new FileLayout('joomla.links.groupsopen');
@@ -75,7 +75,7 @@ abstract class Links
      */
     public static function links($links)
     {
-        $html = array();
+        $html = [];
 
         foreach ($links as $link) {
             $html[] = HTMLHelper::_('links.link', $link);
@@ -105,7 +105,7 @@ abstract class Links
                 $user = Factory::getUser();
 
                 // Take each pair of permission, context values.
-                for ($i = 0, $n = count($link['access']); $i < $n; $i += 2) {
+                for ($i = 0, $n = is_countable($link['access']) ? count($link['access']) : 0; $i < $n; $i += 2) {
                     if (!$user->authorise($link['access'][$i], $link['access'][$i + 1])) {
                         return '';
                     }

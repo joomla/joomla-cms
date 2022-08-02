@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Users\Administrator\View\Debuguser;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -45,7 +47,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object.
      *
-     * @var   \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      * @since 1.6
      */
     protected $pagination;
@@ -68,7 +70,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 
@@ -102,7 +104,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

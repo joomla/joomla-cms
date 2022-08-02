@@ -28,7 +28,6 @@ class ModuleAdapterTest extends UnitTestCase
     protected $moduleAdapter;
 
     /**
-     * @return void
      * @since   4.0.0
      */
     protected function setUp(): void
@@ -44,7 +43,6 @@ class ModuleAdapterTest extends UnitTestCase
     /**
      * This method is called after a test is executed.
      *
-     * @return void
      * @since   4.0.0
      */
     protected function tearDown(): void

@@ -47,11 +47,7 @@ class TemplateAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array(
-                    'element'   => $this->element,
-                    'type'      => $this->type,
-                    'client_id' => $this->clientId,
-                )
+                ['element'   => $this->element, 'type'      => $this->type, 'client_id' => $this->clientId]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -77,6 +73,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     protected function copyBaseFiles()
     {
+        $path = [];
         // Copy all the necessary files
         if ($this->parent->parseFiles($this->getManifest()->files, -1) === false) {
             throw new \RuntimeException(
@@ -111,7 +108,7 @@ class TemplateAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     throw new \RuntimeException(
                         Text::sprintf(
                             'JLIB_INSTALLER_ABORT_MANIFEST',
@@ -138,11 +135,7 @@ class TemplateAdapter extends InstallerAdapter
         $update = Table::getInstance('update');
 
         $uid = $update->find(
-            array(
-                'element'   => $this->element,
-                'type'      => $this->type,
-                'client_id' => $this->clientId,
-            )
+            ['element'   => $this->element, 'type'      => $this->type, 'client_id' => $this->clientId]
         );
 
         if ($uid) {
@@ -166,7 +159,6 @@ class TemplateAdapter extends InstallerAdapter
     /**
      * Method to finalise the uninstallation processing
      *
-     * @return  boolean
      *
      * @since   4.0.0
      * @throws  \RuntimeException
@@ -299,7 +291,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     protected function parseQueries()
     {
-        if (\in_array($this->route, array('install', 'discover_install'))) {
+        if (\in_array($this->route, ['install', 'discover_install'])) {
             $db    = $this->getDatabase();
             $query = $db->getQuery(true);
             $lang  = Factory::getLanguage();
@@ -492,7 +484,7 @@ class TemplateAdapter extends InstallerAdapter
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
         }
 
-        $this->parent->setPath('extension_root', $client->path . '/templates/' . strtolower($name));
+        $this->parent->setPath('extension_root', $client->path . '/templates/' . strtolower((string) $name));
         $this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
         // We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
@@ -527,7 +519,7 @@ class TemplateAdapter extends InstallerAdapter
         if ($this->route === 'discover_install') {
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
-            $this->extension->manifest_cache = json_encode($manifest_details);
+            $this->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
             $this->extension->state = 0;
             $this->extension->name = $manifest_details['name'];
             $this->extension->enabled = 1;
@@ -593,7 +585,7 @@ class TemplateAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results    = array();
+        $results    = [];
         $site_list  = Folder::folders(JPATH_SITE . '/templates');
         $admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
         $site_info  = ApplicationHelper::getClientInfo('site', true);
@@ -614,7 +606,7 @@ class TemplateAdapter extends InstallerAdapter
                 $extension->set('folder', '');
                 $extension->set('name', $template);
                 $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
+                $extension->set('manifest_cache', json_encode($manifest_details, JSON_THROW_ON_ERROR));
                 $extension->set('params', '{}');
                 $results[] = $extension;
             }
@@ -635,7 +627,7 @@ class TemplateAdapter extends InstallerAdapter
                 $extension->set('folder', '');
                 $extension->set('name', $template);
                 $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
+                $extension->set('manifest_cache', json_encode($manifest_details, JSON_THROW_ON_ERROR));
                 $extension->set('params', '{}');
                 $results[] = $extension;
             }
@@ -660,12 +652,12 @@ class TemplateAdapter extends InstallerAdapter
         $this->parent->setPath('manifest', $manifestPath);
 
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-        $this->parent->extension->manifest_cache = json_encode($manifest_details);
+        $this->parent->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
         $this->parent->extension->name           = $manifest_details['name'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

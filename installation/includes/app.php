@@ -1,5 +1,12 @@
 <?php
 
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Installation\Router\InstallationRouter;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installation\Service\Provider\Application;
+use Joomla\CMS\Session\Session;
+use Joomla\Session\SessionInterface;
+use Joomla\CMS\Installation\Application\InstallationApplication;
 /**
  * @package     Joomla.Installation
  * @subpackage  Application
@@ -27,12 +34,12 @@ require_once __DIR__ . '/framework.php';
 
 // Check if the default log directory can be written to, add a logger for errors to use it
 if (is_writable(JPATH_ADMINISTRATOR . '/logs')) {
-    \Joomla\CMS\Log\Log::addLogger(
+    Log::addLogger(
         [
             'format'    => '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}',
             'text_file' => 'error.php'
         ],
-        \Joomla\CMS\Log\Log::ALL,
+        Log::ALL,
         ['error']
     );
 }
@@ -40,11 +47,11 @@ if (is_writable(JPATH_ADMINISTRATOR . '/logs')) {
 // Register the Installation application
 JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false);
 
-JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\InstallationRouter::class);
+JLoader::registerAlias('JRouterInstallation', InstallationRouter::class);
 
 // Get the dependency injection container
-$container = \Joomla\CMS\Factory::getContainer();
-$container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application());
+$container = Factory::getContainer();
+$container->registerServiceProvider(new Application());
 
 /*
  * Alias the session service keys to the web session service as that is the primary session backend for this application
@@ -56,9 +63,9 @@ $container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provide
 $container->alias('session.web', 'session.web.installation')
     ->alias('session', 'session.web.installation')
     ->alias('JSession', 'session.web.installation')
-    ->alias(\Joomla\CMS\Session\Session::class, 'session.web.installation')
+    ->alias(Session::class, 'session.web.installation')
     ->alias(\Joomla\Session\Session::class, 'session.web.installation')
-    ->alias(\Joomla\Session\SessionInterface::class, 'session.web.installation');
+    ->alias(SessionInterface::class, 'session.web.installation');
 
 // Instantiate and execute the application
-$container->get(\Joomla\CMS\Installation\Application\InstallationApplication::class)->execute();
+$container->get(InstallationApplication::class)->execute();

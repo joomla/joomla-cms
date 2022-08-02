@@ -1,23 +1,20 @@
 <?php
 
+use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Checkboxes
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
-
-
-
 /**
  * Fields Checkboxes Plugin
  *
  * @since  3.7.0
  */
-class PlgFieldsCheckboxes extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
+class PlgFieldsCheckboxes extends FieldsListPlugin
 {
     /**
      * Before prepares the field value.

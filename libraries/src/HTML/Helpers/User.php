@@ -32,6 +32,7 @@ abstract class User
      */
     public static function groups($includeSuperAdmin = false)
     {
+        $groups = [];
         $options = array_values(UserGroupsHelper::getInstance()->getAll());
 
         for ($i = 0, $n = count($options); $i < $n; $i++) {
@@ -42,7 +43,7 @@ abstract class User
 
         // Exclude super admin groups if requested
         if (!$includeSuperAdmin) {
-            $filteredGroups = array();
+            $filteredGroups = [];
 
             foreach ($groups as $group) {
                 if (!Access::checkGroup($group->value, 'core.admin')) {

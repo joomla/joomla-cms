@@ -50,7 +50,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -71,7 +71,7 @@ class FormModelTest extends UnitTestCase
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -101,7 +101,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -129,7 +129,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -158,7 +158,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -192,7 +192,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -227,7 +227,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -258,7 +258,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -279,7 +279,7 @@ class FormModelTest extends UnitTestCase
     {
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $this->createStub(MVCFactoryInterface::class)) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -309,7 +309,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -337,7 +337,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -365,7 +365,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }
@@ -394,7 +394,7 @@ class FormModelTest extends UnitTestCase
 
         $model = new class (['dbo' => $this->createStub(DatabaseInterface::class)], $mvcFactory) extends FormModel
         {
-            public function getForm($data = array(), $loadData = true)
+            public function getForm($data = [], $loadData = true)
             {
                 return null;
             }

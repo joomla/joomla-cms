@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_tags
@@ -19,7 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -29,9 +30,9 @@ $user      = Factory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) == 'asc');
 $extension = $this->escape($this->state->get('filter.extension'));
-$parts     = explode('.', $extension);
+$parts     = explode('.', (string) $extension);
 $component = $parts[0];
 $section   = null;
 $mode      = false;
@@ -60,7 +61,7 @@ if ($saveOrder && !empty($this->items)) {
     <div id="j-main-container" class="j-main-container">
         <?php
         // Search tools bar
-        echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+        echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
         ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -127,7 +128,7 @@ if ($saveOrder && !empty($this->items)) {
                     </tr>
                 </thead>
                 <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true"<?php
                        endif; ?>>
                 <?php
                 foreach ($this->items as $i => $item) :
@@ -146,7 +147,7 @@ if ($saveOrder && !empty($this->items)) {
                             foreach ($this->ordering as $k => $v) {
                                 $v = implode('-', $v);
                                 $v = '-' . $v . '-';
-                                if (strpos($v, '-' . $_currentParentId . '-') !== false) {
+                                if (str_contains($v, '-' . $_currentParentId . '-')) {
                                     $parentsStr .= ' ' . $k;
                                     $_currentParentId = $k;
                                     break;
@@ -183,7 +184,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
                             </td>
                             <th scope="row">
-                                <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                 <?php if ($item->checked_out) : ?>
                                     <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
                                 <?php endif; ?>
@@ -259,14 +260,11 @@ if ($saveOrder && !empty($this->items)) {
                 <?php echo HTMLHelper::_(
                     'bootstrap.renderModal',
                     'collapseModal',
-                    array(
-                        'title'  => Text::_('COM_TAGS_BATCH_OPTIONS'),
-                        'footer' => $this->loadTemplate('batch_footer'),
-                    ),
+                    ['title'  => Text::_('COM_TAGS_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                     $this->loadTemplate('batch_body')
                 ); ?>
             <?php endif; ?>
-        <?php endif; ?>
+<?php endif; ?>
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">

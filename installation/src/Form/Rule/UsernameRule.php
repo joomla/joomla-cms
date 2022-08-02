@@ -39,9 +39,9 @@ class UsernameRule extends FormRule
         $filterInput = InputFilter::getInstance();
 
         if (
-            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $value) || strlen(utf8_decode($value)) < 2
+            preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', (string) $value) || strlen(utf8_decode((string) $value)) < 2
             || $filterInput->clean($value, 'TRIM') !== $value
-            || strlen(utf8_decode($value)) > $element['size']
+            || strlen(utf8_decode((string) $value)) > $element['size']
         ) {
             return false;
         }

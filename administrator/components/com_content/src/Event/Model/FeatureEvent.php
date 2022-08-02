@@ -29,7 +29,7 @@ class FeatureEvent extends AbstractImmutableEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!isset($arguments['extension'])) {
             throw new BadMethodCallException("Argument 'extension' of event $this->name is required but has not been provided");
@@ -39,15 +39,15 @@ class FeatureEvent extends AbstractImmutableEvent
             throw new BadMethodCallException("Argument 'extension' of event $this->name is not of type 'string'");
         }
 
-        if (strpos($arguments['extension'], '.') === false) {
+        if (!str_contains($arguments['extension'], '.')) {
             throw new BadMethodCallException("Argument 'extension' of event $this->name has wrong format. Valid format: 'component.section'");
         }
 
         if (!\array_key_exists('extensionName', $arguments) || !\array_key_exists('section', $arguments)) {
             $parts = explode('.', $arguments['extension']);
 
-            $arguments['extensionName'] = $arguments['extensionName'] ?? $parts[0];
-            $arguments['section']       = $arguments['section'] ?? $parts[1];
+            $arguments['extensionName'] ??= $parts[0];
+            $arguments['section'] ??= $parts[1];
         }
 
         if (!isset($arguments['pks']) || !is_array($arguments['pks'])) {

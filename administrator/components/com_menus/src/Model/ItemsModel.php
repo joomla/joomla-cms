@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -36,30 +37,10 @@ class ItemsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'menutype', 'a.menutype', 'menutype_title',
-                'title', 'a.title',
-                'alias', 'a.alias',
-                'published', 'a.published',
-                'access', 'a.access', 'access_level',
-                'language', 'a.language',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'lft', 'a.lft',
-                'rgt', 'a.rgt',
-                'level', 'a.level',
-                'path', 'a.path',
-                'client_id', 'a.client_id',
-                'home', 'a.home',
-                'parent_id', 'a.parent_id',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'a.ordering'
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'menutype', 'a.menutype', 'menutype_title', 'title', 'a.title', 'alias', 'a.alias', 'published', 'a.published', 'access', 'a.access', 'access_level', 'language', 'a.language', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'lft', 'a.lft', 'rgt', 'a.rgt', 'level', 'a.level', 'path', 'a.path', 'client_id', 'a.client_id', 'home', 'a.home', 'parent_id', 'a.parent_id', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'a.ordering'];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -226,7 +207,7 @@ class ItemsModel extends ListModel
     /**
      * Builds an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    A query object.
+     * @return DatabaseQuery A query object.
      *
      * @since   1.6
      */
@@ -346,7 +327,7 @@ class ItemsModel extends ListModel
         }
 
         // Filter by search in title, alias or id
-        if ($search = trim($this->getState('filter.search', ''))) {
+        if ($search = trim((string) $this->getState('filter.search', ''))) {
             if (stripos($search, 'id:') === 0) {
                 $search = (int) substr($search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
@@ -433,7 +414,7 @@ class ItemsModel extends ListModel
             $menuTypes = $db->setQuery($query2)->loadObjectList();
 
             if ($menuTypes) {
-                $types = array();
+                $types = [];
 
                 foreach ($menuTypes as $type) {
                     if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id)) {
@@ -447,7 +428,7 @@ class ItemsModel extends ListModel
                     $query->where(0);
                 }
             }
-        } elseif (strlen($menuType)) {
+        } elseif (strlen((string) $menuType)) {
             // Default behavior => load all items from a specific menu
             $query->where($db->quoteName('a.menutype') . ' = :menuType')
                 ->bind(':menuType', $menuType);
@@ -500,7 +481,7 @@ class ItemsModel extends ListModel
         if ($name == 'com_menus.items.filter') {
             $clientId = $this->getState('filter.client_id');
             $form->setFieldAttribute('menutype', 'clientid', $clientId);
-        } elseif (false !== strpos($name, 'com_menus.items.modal.')) {
+        } elseif (str_contains($name, 'com_menus.items.modal.')) {
             $form->removeField('client_id');
 
             $clientId = $this->getState('filter.client_id');

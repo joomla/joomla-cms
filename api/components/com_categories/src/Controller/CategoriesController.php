@@ -41,7 +41,6 @@ class CategoriesController extends ApiController
      *
      * @param   array  $data  An array of input data.
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -74,7 +73,7 @@ class CategoriesController extends ApiController
             return $recordId;
         }
 
-        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data = $this->input->get('data', json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR), 'array');
 
         if (empty($data['location'])) {
             return $recordId;

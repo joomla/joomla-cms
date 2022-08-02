@@ -10,6 +10,8 @@
 
 namespace Joomla\Module\RelatedItems\Site\Helper;
 
+use Joomla\Registry\Registry;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -28,7 +30,7 @@ abstract class RelatedItemsHelper
     /**
      * Get a list of related articles
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
      * @return  array
      */
@@ -42,7 +44,7 @@ abstract class RelatedItemsHelper
         $factory   = $app->bootComponent('com_content')->getMVCFactory();
 
         // Get an instance of the generic articles model
-        /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articles */
+        /** @var ArticlesModel $articles */
         $articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
         // Set application parameters in model
@@ -72,11 +74,11 @@ abstract class RelatedItemsHelper
             $db->setQuery($query);
 
             try {
-                $metakey = trim($db->loadResult());
-            } catch (\RuntimeException $e) {
+                $metakey = trim((string) $db->loadResult());
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-                return array();
+                return [];
             }
 
             // Explode the meta keys on a comma
@@ -137,13 +139,13 @@ abstract class RelatedItemsHelper
 
                 try {
                     $articleIds = $db->loadColumn();
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
                     return [];
                 }
 
-                if (\count($articleIds)) {
+                if (is_countable($articleIds) ? \count($articleIds) : 0) {
                     $articles->setState('filter.article_id', $articleIds);
                     $articles->setState('filter.published', 1);
                     $related = $articles->getItems();
@@ -153,7 +155,7 @@ abstract class RelatedItemsHelper
             }
         }
 
-        if (\count($related)) {
+        if (is_countable($related) ? \count($related) : 0) {
             // Prepare data for display using display options
             foreach ($related as &$item) {
                 $item->slug  = $item->id . ':' . $item->alias;

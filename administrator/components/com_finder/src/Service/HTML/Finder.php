@@ -46,12 +46,12 @@ class Finder
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            return array();
+        } catch (\RuntimeException) {
+            return [];
         }
 
         // Compile the options.
-        $options = array();
+        $options = [];
 
         $lang = Factory::getLanguage();
 
@@ -99,7 +99,7 @@ class Finder
         $branches = ArrayHelper::sortObjects($branches, 'translatedText', 1, true, true);
 
         // Compile the options.
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '', Text::_('COM_FINDER_MAPS_SELECT_BRANCH'));
 
         // Convert the values to options.
@@ -119,9 +119,6 @@ class Finder
      */
     public static function statelist()
     {
-        return array(
-            HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
-            HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
-        );
+        return [HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))), HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Export\Item;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
@@ -77,25 +79,25 @@ class PlgPrivacyUser extends PrivacyPlugin
      * @param   RequestTable  $request  The request record being processed
      * @param   User          $user     The user account associated with this request if available
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
+     * @return Domain[]
      *
      * @since   3.9.0
      */
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user) {
-            return array();
+            return [];
         }
 
         /** @var TableUser $userTable */
         $userTable = User::getTable();
         $userTable->load($user->id);
 
-        $domains = array();
+        $domains = [];
         $domains[] = $this->createUserDomain($userTable);
         $domains[] = $this->createNotesDomain($userTable);
         $domains[] = $this->createProfileDomain($userTable);
-        $domains[] = $this->createCustomFieldsDomain('com_users.user', array($userTable));
+        $domains[] = $this->createCustomFieldsDomain('com_users.user', [$userTable]);
 
         return $domains;
     }
@@ -139,7 +141,7 @@ class PlgPrivacyUser extends PrivacyPlugin
      *
      * @param   TableUser  $user  The TableUser object to process
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
+     * @return Domain
      *
      * @since   3.9.0
      */
@@ -173,7 +175,7 @@ class PlgPrivacyUser extends PrivacyPlugin
      *
      * @param   TableUser  $user  The TableUser object to process
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
+     * @return Domain
      *
      * @since   3.9.0
      */
@@ -203,7 +205,7 @@ class PlgPrivacyUser extends PrivacyPlugin
      *
      * @param   TableUser  $user  The TableUser object to process
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain
+     * @return Domain
      *
      * @since   3.9.0
      */
@@ -220,7 +222,7 @@ class PlgPrivacyUser extends PrivacyPlugin
      *
      * @param   TableUser  $user  The TableUser object to convert
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Item
+     * @return Item
      *
      * @since   3.9.0
      */

@@ -21,29 +21,12 @@ use Psr\Log\LogLevel;
 class DelegatingPsrLogger extends AbstractLogger
 {
     /**
-     * The Log instance to delegate messages to.
-     *
-     * @var    Log
-     * @since  3.8.0
-     */
-    protected $logger;
-
-    /**
      * Mapping array to map a PSR-3 level to a Joomla priority.
      *
      * @var    array
      * @since  3.8.0
      */
-    protected $priorityMap = array(
-        LogLevel::EMERGENCY => Log::EMERGENCY,
-        LogLevel::ALERT     => Log::ALERT,
-        LogLevel::CRITICAL  => Log::CRITICAL,
-        LogLevel::ERROR     => Log::ERROR,
-        LogLevel::WARNING   => Log::WARNING,
-        LogLevel::NOTICE    => Log::NOTICE,
-        LogLevel::INFO      => Log::INFO,
-        LogLevel::DEBUG     => Log::DEBUG
-    );
+    protected $priorityMap = [LogLevel::EMERGENCY => Log::EMERGENCY, LogLevel::ALERT     => Log::ALERT, LogLevel::CRITICAL  => Log::CRITICAL, LogLevel::ERROR     => Log::ERROR, LogLevel::WARNING   => Log::WARNING, LogLevel::NOTICE    => Log::NOTICE, LogLevel::INFO      => Log::INFO, LogLevel::DEBUG     => Log::DEBUG];
 
     /**
      * Constructor.
@@ -52,9 +35,8 @@ class DelegatingPsrLogger extends AbstractLogger
      *
      * @since   3.8.0
      */
-    public function __construct(Log $logger)
+    public function __construct(protected Log $logger)
     {
-        $this->logger = $logger;
     }
 
     /**
@@ -69,7 +51,7 @@ class DelegatingPsrLogger extends AbstractLogger
      * @since   3.8.0
      * @throws  InvalidArgumentException
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         // Make sure the log level is valid
         if (!\array_key_exists($level, $this->priorityMap)) {

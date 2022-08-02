@@ -43,7 +43,7 @@ class PlgContentPagebreak extends CMSPlugin
      * @var    array
      * @since  4.0.0
      */
-    protected $list = array();
+    protected $list = [];
 
     /**
      * Plugin that adds a pagebreak into the text and truncates text at that point
@@ -59,6 +59,7 @@ class PlgContentPagebreak extends CMSPlugin
      */
     public function onContentPrepare($context, &$row, &$params, $page = 0)
     {
+        $t = [];
         $canProceed = $context === 'com_content.article';
 
         if (!$canProceed) {
@@ -111,8 +112,8 @@ class PlgContentPagebreak extends CMSPlugin
         $this->loadLanguage();
 
         // Find all instances of plugin and put in $matches.
-        $matches = array();
-        preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
+        $matches = [];
+        preg_match_all($regex, (string) $row->text, $matches, PREG_SET_ORDER);
 
         if ($showall && $this->params->get('showall', 1)) {
             $hasToc = $this->params->get('multipage_toc', 1);
@@ -131,7 +132,7 @@ class PlgContentPagebreak extends CMSPlugin
         }
 
         // Split the text around the plugin.
-        $text = preg_split($regex, $row->text);
+        $text = preg_split($regex, (string) $row->text);
 
         if (!isset($text[$page])) {
             throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
@@ -200,7 +201,7 @@ class PlgContentPagebreak extends CMSPlugin
                 if ($style === 'tabs') {
                     $t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'article' . $row->id . '-' . $style . '0', 'view' => 'tabs']);
                 } else {
-                    $t[] = (string) HTMLHelper::_('bootstrap.startAccordion', 'myAccordion', array('active' => 'article' . $row->id . '-' . $style . '0'));
+                    $t[] = (string) HTMLHelper::_('bootstrap.startAccordion', 'myAccordion', ['active' => 'article' . $row->id . '-' . $style . '0']);
                 }
 
                 foreach ($text as $key => $subtext) {
@@ -211,9 +212,9 @@ class PlgContentPagebreak extends CMSPlugin
                         $match = (array) Utility::parseAttributes($match[0]);
 
                         if (isset($match['alt'])) {
-                            $title = stripslashes($match['alt']);
+                            $title = stripslashes((string) $match['alt']);
                         } elseif (isset($match['title'])) {
-                            $title = stripslashes($match['title']);
+                            $title = stripslashes((string) $match['title']);
                         } else {
                             $title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
                         }
@@ -268,7 +269,7 @@ class PlgContentPagebreak extends CMSPlugin
             $headingtext = Text::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
             if ($this->params->get('article_index_text')) {
-                $headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
+                $headingtext = htmlspecialchars((string) $this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
             }
         }
 
@@ -285,9 +286,9 @@ class PlgContentPagebreak extends CMSPlugin
                 $attrs2 = Utility::parseAttributes($bot[0]);
 
                 if (@$attrs2['alt']) {
-                    $title = stripslashes($attrs2['alt']);
+                    $title = stripslashes((string) $attrs2['alt']);
                 } elseif (@$attrs2['title']) {
-                    $title = stripslashes($attrs2['title']);
+                    $title = stripslashes((string) $attrs2['title']);
                 } else {
                     $title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
                 }
@@ -330,10 +331,7 @@ class PlgContentPagebreak extends CMSPlugin
      */
     protected function _createNavigation(&$row, $page, $n)
     {
-        $links = array(
-            'next' => '',
-            'previous' => '',
-        );
+        $links = ['next' => '', 'previous' => ''];
 
         if ($page < $n - 1) {
             $links['next'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);

@@ -39,7 +39,6 @@ trait AjaxHandlerLogin
      *
      * @param   AjaxLogin  $event  The event we are handling
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -133,14 +132,13 @@ trait AjaxHandlerLogin
      *
      * @param   int   $userId   The user ID to log in
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
     private function loginUser(int $userId): void
     {
         // Trick the class auto-loader into loading the necessary classes
-        class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
+        class_exists(Authentication::class, true);
 
         // Fake a successful login message
         $isAdmin = $this->getApplication()->isClient('administrator');
@@ -231,14 +229,13 @@ trait AjaxHandlerLogin
     /**
      * Returns a (blank) Joomla! authentication response
      *
-     * @return  AuthenticationResponse
      *
      * @since   4.2.0
      */
     private function getAuthenticationResponseObject(): AuthenticationResponse
     {
         // Force the class auto-loader to load the JAuthentication class
-        class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
+        class_exists(Authentication::class, true);
 
         return new AuthenticationResponse();
     }
@@ -248,7 +245,6 @@ trait AjaxHandlerLogin
      *
      * @param   AuthenticationResponse   $response   The Joomla! auth response object
      *
-     * @return  boolean
      *
      * @since   4.2.0
      */

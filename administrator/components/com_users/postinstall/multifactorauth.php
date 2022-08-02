@@ -18,12 +18,11 @@ use Joomla\Database\ParameterType;
  *
  * Returns true if neither of the two new core MFA plugins are enabled.
  *
- * @return  boolean
  * @since   4.2.0
  */
 function com_users_postinstall_mfa_condition(): bool
 {
-    return count(PluginHelper::getPlugin('multifactorauth')) < 1;
+    return (is_countable(PluginHelper::getPlugin('multifactorauth')) ? count(PluginHelper::getPlugin('multifactorauth')) : 0) < 1;
 }
 
 /**
@@ -31,7 +30,6 @@ function com_users_postinstall_mfa_condition(): bool
  *
  * Enables the core MFA plugins.
  *
- * @return  void
  * @since   4.2.0
  */
 function com_users_postinstall_mfa_action(): void

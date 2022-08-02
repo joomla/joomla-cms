@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\View\Group;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
@@ -28,7 +29,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  3.7.0
      */
@@ -85,7 +86,7 @@ class HtmlView extends BaseHtmlView
         $this->canDo = ContentHelper::getActions($component, 'fieldgroup', $this->item->id);
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -128,12 +129,12 @@ class HtmlView extends BaseHtmlView
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-        $title = Text::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper($component)));
+        $title = Text::sprintf('COM_FIELDS_VIEW_GROUP_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', Text::_(strtoupper((string) $component)));
 
         // Prepare the toolbar.
         ToolbarHelper::title(
             $title,
-            'puzzle-piece field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . '-group-' .
+            'puzzle-piece field-' . ($isNew ? 'add' : 'edit') . ' ' . substr((string) $component, 4) . '-group-' .
             ($isNew ? 'add' : 'edit')
         );
 

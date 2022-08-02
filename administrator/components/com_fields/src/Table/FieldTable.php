@@ -73,10 +73,10 @@ class FieldTable extends Table
             // Make sure $registry->options contains no duplicates when the field type is subform
             if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options'])) {
                 // Fast lookup map to check which custom field ids we have already seen
-                $seen_customfields = array();
+                $seen_customfields = [];
 
                 // Container for the new $src['fieldparams']['options']
-                $options = array();
+                $options = [];
 
                 // Iterate through the old options
                 $i = 0;
@@ -123,7 +123,7 @@ class FieldTable extends Table
     public function check()
     {
         // Check for valid name
-        if (trim($this->title) == '') {
+        if (trim((string) $this->title) == '') {
             $this->setError(Text::_('COM_FIELDS_MUSTCONTAIN_A_TITLE_FIELD'));
 
             return false;
@@ -144,7 +144,7 @@ class FieldTable extends Table
         // Verify that the name is unique
         $table = new static($this->_db);
 
-        if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
             return false;
@@ -219,7 +219,7 @@ class FieldTable extends Table
      */
     protected function _getAssetName()
     {
-        $contextArray = explode('.', $this->context);
+        $contextArray = explode('.', (string) $this->context);
 
         return $contextArray[0] . '.field.' . (int) $this->id;
     }
@@ -257,7 +257,7 @@ class FieldTable extends Table
      */
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        $contextArray = explode('.', $this->context);
+        $contextArray = explode('.', (string) $this->context);
         $component = $contextArray[0];
 
         if ($this->group_id) {
@@ -282,11 +282,10 @@ class FieldTable extends Table
      *
      * @param   string  $name  The asset name
      *
-     * @return  number|boolean
      *
      * @since    3.7.0
      */
-    private function getAssetId($name)
+    private function getAssetId($name): \number|bool
     {
         $db = $this->getDbo();
         $query = $db->getQuery(true)

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Workflow;
 
+use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Extension\ComponentInterface;
@@ -35,14 +36,6 @@ class Workflow
     protected $component = null;
 
     /**
-     * Name of the extension the workflow belong to
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    protected $extension = null;
-
-    /**
      * Application Object
      *
      * @var    CMSApplication
@@ -63,7 +56,7 @@ class Workflow
      *
      * @since  4.0.0
      */
-    public const CONDITION_NAMES = [
+    final public const CONDITION_NAMES = [
         self::CONDITION_PUBLISHED   => 'JPUBLISHED',
         self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
         self::CONDITION_TRASHED     => 'JTRASHED',
@@ -73,22 +66,22 @@ class Workflow
     /**
      * Every item with a state which has the condition PUBLISHED is visible/active on the page
      */
-    public const CONDITION_PUBLISHED = 1;
+    final public const CONDITION_PUBLISHED = 1;
 
     /**
      * Every item with a state which has the condition UNPUBLISHED is not visible/inactive on the page
      */
-    public const CONDITION_UNPUBLISHED = 0;
+    final public const CONDITION_UNPUBLISHED = 0;
 
     /**
      * Every item with a state which has the condition TRASHED is trashed
      */
-    public const CONDITION_TRASHED = -2;
+    final public const CONDITION_TRASHED = -2;
 
     /**
      * Every item with a state which has the condition ARCHIVED is archived
      */
-    public const CONDITION_ARCHIVED = 2;
+    final public const CONDITION_ARCHIVED = 2;
 
     /**
      * Class constructor
@@ -99,10 +92,8 @@ class Workflow
      *
      * @since   4.0.0
      */
-    public function __construct(string $extension, ?CMSApplication $app = null, ?DatabaseDriver $db = null)
+    public function __construct(protected string $extension, ?CMSApplication $app = null, ?DatabaseDriver $db = null)
     {
-        $this->extension = $extension;
-
         // Initialise default objects if none have been provided
         $this->app = $app ?: Factory::getApplication();
         $this->db = $db ?: Factory::getDbo();
@@ -113,7 +104,6 @@ class Workflow
      *
      * @param   integer  $value  The condition ID
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -156,7 +146,7 @@ class Workflow
      * @return  boolean|integer  An integer, holding the stage ID or false
      * @since   4.0.0
      */
-    public function getDefaultStageByCategory($catId = 0)
+    public function getDefaultStageByCategory($catId = 0): bool|int
     {
         // Let's check if a workflow ID is assigned to a category
         $category = new Category($this->db);
@@ -321,8 +311,6 @@ class Workflow
      *
      * @param   integer[]  $pks           The item IDs, which should use the transition
      * @param   integer    $transitionId  The transition which should be executed
-     *
-     * @return  boolean
      */
     public function executeTransition(array $pks, int $transitionId): bool
     {
@@ -363,7 +351,7 @@ class Workflow
             AbstractEvent::create(
                 'onWorkflowBeforeTransition',
                 [
-                    'eventClass'     => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                    'eventClass'     => WorkflowTransitionEvent::class,
                     'subject'        => $this,
                     'extension'      => $this->extension,
                     'pks'            => $pks,
@@ -385,7 +373,7 @@ class Workflow
                 AbstractEvent::create(
                     'onWorkflowAfterTransition',
                     [
-                        'eventClass' => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+                        'eventClass' => WorkflowTransitionEvent::class,
                         'subject'    => $this,
                         'extension'  => $this->extension,
                         'pks'        => $pks,
@@ -404,7 +392,6 @@ class Workflow
      * @param   integer  $pk     ID of the item
      * @param   integer  $state  ID of state
      *
-     * @return  boolean
      *
      * @since  4.0.0
      */
@@ -427,7 +414,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -440,7 +427,6 @@ class Workflow
      * @param   array    $pks    An Array of item IDs which should be changed
      * @param   integer  $state  The new state ID
      *
-     * @return  boolean
      *
      * @since  4.0.0
      */
@@ -459,7 +445,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -471,7 +457,6 @@ class Workflow
      *
      * @param   integer[]  $pks  ID of content
      *
-     * @return  boolean
      *
      * @since  4.0.0
      */
@@ -489,7 +474,7 @@ class Workflow
                 ->bind(':extension', $this->extension);
 
             $this->db->setQuery($query)->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -501,7 +486,6 @@ class Workflow
      *
      * @param   integer  $itemId  The item ID to load
      *
-     * @return  \stdClass|null
      *
      * @since  4.0.0
      */

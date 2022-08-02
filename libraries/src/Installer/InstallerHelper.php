@@ -34,7 +34,7 @@ abstract class InstallerHelper
      * @var    integer
      * @since  3.9.0
      */
-    public const HASH_NOT_VALIDATED = 0;
+    final public const HASH_NOT_VALIDATED = 0;
 
     /**
      * Hash validated identifier.
@@ -42,7 +42,7 @@ abstract class InstallerHelper
      * @var    integer
      * @since  3.9.0
      */
-    public const HASH_VALIDATED = 1;
+    final public const HASH_VALIDATED = 1;
 
     /**
      * Hash not provided identifier.
@@ -50,7 +50,7 @@ abstract class InstallerHelper
      * @var    integer
      * @since  3.9.0
      */
-    public const HASH_NOT_PROVIDED = 2;
+    final public const HASH_NOT_PROVIDED = 2;
 
     /**
      * Downloads a package
@@ -62,7 +62,7 @@ abstract class InstallerHelper
      *
      * @since   3.1
      */
-    public static function downloadPackage($url, $target = false)
+    public static function downloadPackage($url, string|bool $target = false): string|bool
     {
         // Capture PHP errors
         $track_errors = ini_get('track_errors');
@@ -73,9 +73,9 @@ abstract class InstallerHelper
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers = array();
+        $headers = [];
         PluginHelper::importPlugin('installer');
-        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
+        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', [&$url, &$headers]);
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
@@ -99,9 +99,9 @@ abstract class InstallerHelper
         // Parse the Content-Disposition header to get the file name
         if (
             !empty($headers['content-disposition'])
-            && preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts)
+            && preg_match("/\s*filename\s?=\s?(.*)/", (string) $headers['content-disposition'][0], $parts)
         ) {
-            $flds = explode(';', $parts[1]);
+            $flds = explode(';', (string) $parts[1]);
             $target = trim($flds[0], '"');
         }
 
@@ -138,8 +138,9 @@ abstract class InstallerHelper
      *
      * @since   3.1
      */
-    public static function unpack($packageFilename, $alwaysReturnArray = false)
+    public static function unpack($packageFilename, $alwaysReturnArray = false): array|bool
     {
+        $retval = [];
         // Path to the archive
         $archivename = $packageFilename;
 
@@ -152,15 +153,11 @@ abstract class InstallerHelper
 
         // Do the unpacking of the archive
         try {
-            $archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
+            $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
             $extract = $archive->extract($archivename, $extractdir);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             if ($alwaysReturnArray) {
-                return array(
-                    'extractdir'  => null,
-                    'packagefile' => $archivename,
-                    'type'        => false,
-                );
+                return ['extractdir'  => null, 'packagefile' => $archivename, 'type'        => false];
             }
 
             return false;
@@ -168,11 +165,7 @@ abstract class InstallerHelper
 
         if (!$extract) {
             if ($alwaysReturnArray) {
-                return array(
-                    'extractdir'  => null,
-                    'packagefile' => $archivename,
-                    'type'        => false,
-                );
+                return ['extractdir'  => null, 'packagefile' => $archivename, 'type'        => false];
             }
 
             return false;
@@ -233,7 +226,7 @@ abstract class InstallerHelper
         // Search the install dir for an XML file
         $files = Folder::files($packageDirectory, '\.xml$', 1, true);
 
-        if (!$files || !\count($files)) {
+        if (!$files || !(is_countable($files) ? \count($files) : 0)) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
             return false;
@@ -277,7 +270,7 @@ abstract class InstallerHelper
     {
         $default = uniqid();
 
-        if (!\is_string($url) || strpos($url, '/') === false) {
+        if (!\is_string($url) || !str_contains($url, '/')) {
             return $default;
         }
 
@@ -333,7 +326,7 @@ abstract class InstallerHelper
      */
     public static function isChecksumValid($packagefile, $updateObject)
     {
-        $hashes     = array('sha256', 'sha384', 'sha512');
+        $hashes     = ['sha256', 'sha384', 'sha512'];
         $hashOnFile = false;
 
         foreach ($hashes as $hash) {
@@ -342,7 +335,7 @@ abstract class InstallerHelper
                 $hashRemote  = $updateObject->$hash->_data;
                 $hashOnFile  = true;
 
-                if ($hashPackage !== strtolower($hashRemote)) {
+                if ($hashPackage !== strtolower((string) $hashRemote)) {
                     return self::HASH_NOT_VALIDATED;
                 }
             }

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -25,7 +26,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -37,11 +38,11 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 
-if (strpos($listOrder, 'publish_up') !== false) {
+if (str_contains((string) $listOrder, 'publish_up')) {
     $orderingColumn = 'publish_up';
-} elseif (strpos($listOrder, 'publish_down') !== false) {
+} elseif (str_contains((string) $listOrder, 'publish_down')) {
     $orderingColumn = 'publish_down';
-} elseif (strpos($listOrder, 'modified') !== false) {
+} elseif (str_contains((string) $listOrder, 'modified')) {
     $orderingColumn = 'modified';
 } else {
     $orderingColumn = 'created';
@@ -74,7 +75,7 @@ $assoc = Associations::isEnabled();
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -148,7 +149,7 @@ $assoc = Associations::isEnabled();
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true"<?php
                               endif; ?>>
                         <?php foreach ($this->items as $i => $item) :
                             $item->max_ordering = 0;
@@ -377,14 +378,11 @@ $assoc = Associations::isEnabled();
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
-                                'title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ['title'  => Text::_('COM_CONTENT_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>
-                <?php endif; ?>
+<?php endif; ?>
 
                 <?php if ($workflow_enabled) : ?>
                 <input type="hidden" name="transition_id" value="">

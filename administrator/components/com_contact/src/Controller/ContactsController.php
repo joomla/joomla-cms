@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Administrator\Controller;
 
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -36,7 +38,7 @@ class ContactsController extends AdminController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -55,13 +57,13 @@ class ContactsController extends AdminController
         // Check for request forgeries
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('featured' => 1, 'unfeatured' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['featured' => 1, 'unfeatured' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
         // Get the model.
-        /** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
+        /** @var ContactModel $model */
         $model  = $this->getModel();
 
         // Access checks.
@@ -109,11 +111,11 @@ class ContactsController extends AdminController
      * @param   string  $prefix  The prefix for the PHP class name.
      * @param   array   $config  Array of configuration parameters.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   1.6
      */
-    public function getModel($name = 'Contact', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Contact', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

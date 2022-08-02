@@ -65,7 +65,6 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -191,7 +190,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 
         $form->setFieldAttribute($fieldname, 'type', 'spacer');
 
-        $label = '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>';
+        $label = '<span class="text-' . $textclass . '">' . htmlentities((string) $text, ENT_COMPAT, 'UTF-8') . '</span>';
         $form->setFieldAttribute($fieldname, 'label', Text::sprintf('PLG_WORKFLOW_PUBLISHING_PUBLISHED', $label));
 
         return true;
@@ -200,7 +199,6 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * Manipulate the generic list view
      *
-     * @param   DisplayEvent    $event
      *
      * @since   4.0.0
      */
@@ -261,10 +259,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * Check if we can execute the transition
      *
-     * @param   WorkflowTransitionEvent  $event
      *
      * @return boolean
-     *
      * @since   4.0.0
      */
     public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
@@ -311,10 +307,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * Change State of an item. Used to disable state change
      *
-     * @param   WorkflowTransitionEvent  $event
      *
      * @return boolean
-     *
      * @since   4.0.0
      */
     public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
@@ -352,7 +346,6 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * Change State of an item. Used to disable state change
      *
-     * @param   EventInterface  $event
      *
      * @return boolean
      *
@@ -380,10 +373,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * The save event.
      *
-     * @param   EventInterface  $event
      *
      * @return  boolean
-     *
      * @since   4.0.0
      */
     public function onContentBeforeSave(EventInterface $event)
@@ -422,10 +413,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * We remove the publishing field from the versioning
      *
-     * @param   EventInterface  $event
      *
      * @return  boolean
-     *
      * @since   4.0.0
      */
     public function onContentVersioningPrepareTable(EventInterface $event)
@@ -437,7 +426,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
             return true;
         }
 
-        $parts = explode('.', $context);
+        $parts = explode('.', (string) $context);
 
         $component = $this->app->bootComponent($parts[0]);
 
@@ -467,7 +456,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $parts = explode('.', $subject->item_id);
+        $parts = explode('.', (string) $subject->item_id);
 
         $typeAlias = $parts[0] . (isset($parts[1]) ? '.' . $parts[1] : '');
 
@@ -544,7 +533,6 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
     /**
      * If plugin supports the functionality we set the used variable
      *
-     * @param   WorkflowFunctionalityUsedEvent  $event
      *
      * @since 4.0.0
      */

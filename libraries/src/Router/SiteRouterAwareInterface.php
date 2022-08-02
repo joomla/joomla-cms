@@ -21,7 +21,6 @@ interface SiteRouterAwareInterface
      *
      * @param   SiteRouter  $router  The router to use.
      *
-     * @return  void
      *
      * @since   4.2.0
      */

@@ -36,15 +36,6 @@ class ComponentDispatcher extends Dispatcher
     protected $option;
 
     /**
-     * The MVC factory
-     *
-     * @var  MVCFactoryInterface
-     *
-     * @since   4.0.0
-     */
-    protected $mvcFactory;
-
-    /**
      * Constructor for ComponentDispatcher
      *
      * @param   CMSApplicationInterface  $app         The application instance
@@ -53,17 +44,15 @@ class ComponentDispatcher extends Dispatcher
      *
      * @since   4.0.0
      */
-    public function __construct(CMSApplicationInterface $app, Input $input, MVCFactoryInterface $mvcFactory)
+    public function __construct(CMSApplicationInterface $app, Input $input, protected MVCFactoryInterface $mvcFactory)
     {
         parent::__construct($app, $input);
-
-        $this->mvcFactory = $mvcFactory;
 
         // If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
         if (empty($this->option)) {
             $this->option = ComponentHelper::getComponentName(
                 $this,
-                str_replace('com_', '', $input->get('option'))
+                str_replace('com_', '', (string) $input->get('option'))
             );
         }
 
@@ -108,15 +97,16 @@ class ComponentDispatcher extends Dispatcher
      */
     public function dispatch()
     {
+        $config = [];
         // Check component access permission
         $this->checkAccess();
 
         $command = $this->input->getCmd('task', 'display');
 
         // Check for a controller.task command.
-        if (strpos($command, '.') !== false) {
+        if (str_contains($command, '.')) {
             // Explode the controller.task command.
-            list ($controller, $task) = explode('.', $command);
+            [$controller, $task] = explode('.', $command);
 
             $this->input->set('controller', $controller);
             $this->input->set('task', $task);
@@ -131,7 +121,7 @@ class ComponentDispatcher extends Dispatcher
 
         // Set name of controller if it is passed in the request
         if ($this->input->exists('controller')) {
-            $config['name'] = strtolower($this->input->get('controller'));
+            $config['name'] = strtolower((string) $this->input->get('controller'));
         }
 
         // Execute the task for this component
@@ -151,7 +141,7 @@ class ComponentDispatcher extends Dispatcher
      *
      * @since   4.0.0
      */
-    public function getController(string $name, string $client = '', array $config = array()): BaseController
+    public function getController(string $name, string $client = '', array $config = []): BaseController
     {
         // Set up the client
         $client = $client ?: ucfirst($this->app->getName());

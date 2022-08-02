@@ -26,7 +26,7 @@ class ApplicationHelper
      * @var    array
      * @since  1.6
      */
-    protected static $_clients = array();
+    protected static $_clients = [];
 
     /**
      * Return the name of the request component [main component]
@@ -46,7 +46,7 @@ class ApplicationHelper
         }
 
         $input = Factory::getApplication()->input;
-        $option = strtolower($input->get('option', ''));
+        $option = strtolower((string) $input->get('option', ''));
 
         if (empty($option)) {
             $option = $default;
@@ -191,7 +191,7 @@ class ApplicationHelper
         $info = self::getClientInfo();
 
         if (!isset($client->id)) {
-            $client->id = \count($info);
+            $client->id = is_countable($info) ? \count($info) : 0;
         }
 
         self::$_clients[$client->id] = clone $client;

@@ -27,7 +27,7 @@ foreach ($modules as $key => $mod) {
     $out = $renderer->render($mod);
 
     if ($out !== '') {
-        if (strpos($out, 'data-bs-toggle="modal"') !== false) {
+        if (str_contains($out, 'data-bs-toggle="modal"')) {
             $dom = new \DOMDocument();
             $dom->loadHTML($out);
             $els = $dom->getElementsByTagName('a');

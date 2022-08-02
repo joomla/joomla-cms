@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -23,7 +24,7 @@ Text::script('MESSAGE');
 
 Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
     ->usePreset('com_installer.installer')
@@ -63,7 +64,7 @@ $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []);
                         <?php endforeach; ?>
 
                         <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-                    <?php endif; ?>
+<?php endif; ?>
 
                     <input type="hidden" name="installtype" value="">
                     <input type="hidden" name="task" value="install.install">

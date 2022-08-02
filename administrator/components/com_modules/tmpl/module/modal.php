@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -12,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->addInlineScript('
     document.addEventListener("DOMContentLoaded", function() {

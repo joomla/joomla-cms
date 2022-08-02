@@ -33,22 +33,6 @@ class SessionMetadataGcCommand extends AbstractCommand
     protected static $defaultName = 'session:metadata:gc';
 
     /**
-     * The session metadata manager.
-     *
-     * @var    MetadataManager
-     * @since  4.0.0
-     */
-    private $metadataManager;
-
-    /**
-     * The session object.
-     *
-     * @var    SessionInterface
-     * @since  4.0.0
-     */
-    private $session;
-
-    /**
      * Instantiate the command.
      *
      * @param   SessionInterface  $session          The session object.
@@ -56,11 +40,8 @@ class SessionMetadataGcCommand extends AbstractCommand
      *
      * @since   4.0.0
      */
-    public function __construct(SessionInterface $session, MetadataManager $metadataManager)
+    public function __construct(private readonly SessionInterface $session, private readonly MetadataManager $metadataManager)
     {
-        $this->session         = $session;
-        $this->metadataManager = $metadataManager;
-
         parent::__construct();
     }
 
@@ -92,7 +73,6 @@ class SessionMetadataGcCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

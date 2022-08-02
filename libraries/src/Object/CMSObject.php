@@ -18,7 +18,7 @@ namespace Joomla\CMS\Object;
  * @since       1.7.0
  * @deprecated  4.0.0  Use \stdClass or \Joomla\Registry\Registry instead.
  */
-class CMSObject
+class CMSObject implements \Stringable
 {
     /**
      * An array of error messages or Exception objects.
@@ -27,7 +27,7 @@ class CMSObject
      * @since  1.7.0
      * @deprecated  3.1.4  JError has been deprecated
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Class constructor, overridden in descendant classes.
@@ -52,9 +52,9 @@ class CMSObject
      * @since   1.7.0
      * @deprecated 3.1.4  Classes should provide their own __toString() implementation.
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return \get_class($this);
+        return $this::class;
     }
 
     /**

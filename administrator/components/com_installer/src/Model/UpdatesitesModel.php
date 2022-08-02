@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -236,7 +237,6 @@ class UpdatesitesModel extends InstallerModel
     /**
      * Rebuild update sites tables.
      *
-     * @return  void
      *
      * @throws  Exception on ACL error
      * @since   3.6
@@ -476,16 +476,10 @@ class UpdatesitesModel extends InstallerModel
         foreach ($stateKeys as $key => $filterType) {
             $stateKey = 'filter.' . $key;
 
-            switch ($filterType) {
-                case 'int':
-                case 'bool':
-                    $default = null;
-                    break;
-
-                default:
-                    $default = '';
-                    break;
-            }
+            $default = match ($filterType) {
+                'int', 'bool' => null,
+                default => '',
+            };
 
             $stateValue = $this->getUserStateFromRequest(
                 $this->context . '.' . $stateKey,
@@ -515,7 +509,7 @@ class UpdatesitesModel extends InstallerModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return DatabaseQuery The database query
      *
      * @since   3.4
      */
@@ -616,8 +610,8 @@ class UpdatesitesModel extends InstallerModel
         // Process search filter (update site id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $uid = (int) substr($search, 3);
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $uid = (int) substr((string) $search, 3);
             $query->where($db->quoteName('s.update_site_id') . ' = :siteId')
                 ->bind(':siteId', $uid, ParameterType::INTEGER);
         }

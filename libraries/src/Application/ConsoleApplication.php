@@ -9,6 +9,17 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Input\Cli;
+use Joomla\Console\Command\AbstractCommand;
+use Joomla\CMS\Console\CleanCacheCommand;
+use Joomla\CMS\Console\CheckUpdatesCommand;
+use Joomla\CMS\Console\RemoveOldFilesCommand;
+use Joomla\CMS\Console\AddUserCommand;
+use Joomla\CMS\Console\AddUserToGroupCommand;
+use Joomla\CMS\Console\RemoveUserFromGroupCommand;
+use Joomla\CMS\Console\DeleteUserCommand;
+use Joomla\CMS\Console\ChangeUserPasswordCommand;
+use Joomla\CMS\Console\ListUserCommand;
 use InvalidArgumentException;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
@@ -63,28 +74,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     protected $name = null;
 
     /**
-     * The application language object.
-     *
-     * @var    Language
-     * @since  4.0.0
-     */
-    protected $language;
-
-    /**
      * The application message queue.
      *
-     * @var    array
      * @since  4.0.0
      */
-    private $messages = [];
+    private array $messages = [];
 
     /**
      * The application session object.
      *
-     * @var    SessionInterface
      * @since  4.0.0
      */
-    private $session;
+    private ?SessionInterface $session = null;
 
     /**
      * Class constructor.
@@ -111,7 +112,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         Registry $config,
         DispatcherInterface $dispatcher,
         Container $container,
-        Language $language,
+        protected Language $language,
         ?InputInterface $input = null,
         ?OutputInterface $output = null
     ) {
@@ -121,8 +122,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         }
 
         // Set up a Input object for Controllers etc to use
-        $this->input    = new \Joomla\CMS\Input\Cli();
-        $this->language = $language;
+        $this->input    = new Cli();
 
         parent::__construct($input, $output, $config);
 
@@ -270,7 +270,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     /**
      * Get the commands which should be registered by default to the application.
      *
-     * @return  \Joomla\Console\Command\AbstractCommand[]
+     * @return AbstractCommand[]
      *
      * @since   4.0.0
      */
@@ -279,15 +279,15 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         return array_merge(
             parent::getDefaultCommands(),
             [
-                new Console\CleanCacheCommand(),
-                new Console\CheckUpdatesCommand(),
-                new Console\RemoveOldFilesCommand(),
-                new Console\AddUserCommand($this->getDatabase()),
-                new Console\AddUserToGroupCommand($this->getDatabase()),
-                new Console\RemoveUserFromGroupCommand($this->getDatabase()),
-                new Console\DeleteUserCommand($this->getDatabase()),
-                new Console\ChangeUserPasswordCommand(),
-                new Console\ListUserCommand($this->getDatabase()),
+                new CleanCacheCommand(),
+                new CheckUpdatesCommand(),
+                new RemoveOldFilesCommand(),
+                new AddUserCommand($this->getDatabase()),
+                new AddUserToGroupCommand($this->getDatabase()),
+                new RemoveUserFromGroupCommand($this->getDatabase()),
+                new DeleteUserCommand($this->getDatabase()),
+                new ChangeUserPasswordCommand(),
+                new ListUserCommand($this->getDatabase()),
             ]
         );
     }
@@ -307,7 +307,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     /**
      * Method to get the application input object.
      *
-     * @return  Input
      *
      * @since   4.0.0
      */
@@ -415,7 +414,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * Overrides the parent method due to conflicting use of the getName method between the console application and
      * the CMS application interface.
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -429,7 +427,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @param   string  $name  The new application name.
      *
-     * @return  void
      *
      * @since   4.0.0
      * @throws  \RuntimeException because the application name cannot be changed
@@ -453,7 +450,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = null, array $options = array())
+    public static function getRouter($name = null, array $options = [])
     {
         if (empty($name)) {
             throw new InvalidArgumentException('A router name must be set in console application.');

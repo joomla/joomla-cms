@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console\Loader;
 
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -34,7 +35,6 @@ class WritableContainerLoaderTest extends UnitTestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -104,7 +104,7 @@ class WritableContainerLoaderTest extends UnitTestCase
         $commandName = 'test:loader';
         $serviceId   = 'test.loader';
 
-        $this->expectException(\Symfony\Component\Console\Exception\CommandNotFoundException::class);
+        $this->expectException(CommandNotFoundException::class);
 
         $this->container->expects($this->once())
             ->method('has')

@@ -203,7 +203,7 @@ class RequestModel extends AdminModel
      *
      * @since   3.9.0
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         return $this->loadForm('com_privacy.request', 'request', ['control' => 'jform']);
     }
@@ -246,7 +246,6 @@ class RequestModel extends AdminModel
     /**
      * Method to fetch an instance of the action log model.
      *
-     * @return  ActionlogModel
      *
      * @since   4.0.0
      */

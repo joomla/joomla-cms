@@ -22,7 +22,6 @@ interface WorkflowServiceInterface
      * @param   string  $functionality  The functionality
      * @param   string  $context        The context of the functionality
      *
-     * @return boolean
      *
      * @since  4.0.0
      */
@@ -32,8 +31,6 @@ interface WorkflowServiceInterface
      * Returns the model name, based on the context
      *
      * @param   string  $context  The context of the workflow
-     *
-     * @return boolean
      */
     public function getModelName($context): string;
 
@@ -41,8 +38,6 @@ interface WorkflowServiceInterface
      * Check if the workflow is active
      *
      * @param   string  $context  The context of the workflow
-     *
-     * @return boolean
      */
     public function isWorkflowActive($context): bool;
 
@@ -52,7 +47,6 @@ interface WorkflowServiceInterface
      * @param   integer[]  $transitions  Array of transitions to filter for
      * @param   integer    $pk           Id of the state on which the transitions are performed
      *
-     * @return  array
      *
      * @since  4.0.0
      */
@@ -63,7 +57,6 @@ interface WorkflowServiceInterface
      *
      * @param   string  $extension  Full extension string
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -74,7 +67,6 @@ interface WorkflowServiceInterface
      *
      * @param   string  $section  An optional section to differ different areas in the component
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -83,7 +75,6 @@ interface WorkflowServiceInterface
     /**
      * Returns valid contexts.
      *
-     * @return  array
      *
      * @since   4.0.0
      */

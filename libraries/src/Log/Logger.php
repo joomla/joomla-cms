@@ -25,7 +25,7 @@ abstract class Logger
      * @var    array
      * @since  3.0.1
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Translation array for LogEntry priorities to text strings.
@@ -33,16 +33,7 @@ abstract class Logger
      * @var    array
      * @since  3.0.1
      */
-    protected $priorities = array(
-        Log::EMERGENCY => 'EMERGENCY',
-        Log::ALERT     => 'ALERT',
-        Log::CRITICAL  => 'CRITICAL',
-        Log::ERROR     => 'ERROR',
-        Log::WARNING   => 'WARNING',
-        Log::NOTICE    => 'NOTICE',
-        Log::INFO      => 'INFO',
-        Log::DEBUG     => 'DEBUG',
-    );
+    protected $priorities = [Log::EMERGENCY => 'EMERGENCY', Log::ALERT     => 'ALERT', Log::CRITICAL  => 'CRITICAL', Log::ERROR     => 'ERROR', Log::WARNING   => 'WARNING', Log::NOTICE    => 'NOTICE', Log::INFO      => 'INFO', Log::DEBUG     => 'DEBUG'];
 
     /**
      * Constructor.

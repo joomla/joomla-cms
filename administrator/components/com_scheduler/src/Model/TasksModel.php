@@ -98,7 +98,6 @@ class TasksModel extends ListModel
     /**
      * Method to create a query for a list of items.
      *
-     * @return QueryInterface
      *
      * @since  4.1.0
      * @throws \Exception
@@ -195,9 +194,7 @@ class TasksModel extends ListModel
 
             // Array of all active routine ids
             $activeRoutines = array_map(
-                static function (TaskOption $taskOption): string {
-                    return $taskOption->id;
-                },
+                static fn(TaskOption $taskOption): string => $taskOption->id,
                 $taskOptions->options
             );
 
@@ -299,12 +296,12 @@ class TasksModel extends ListModel
 
         if (!empty($searchStr)) {
             // Allow search by ID
-            if (stripos($searchStr, 'id:') === 0) {
+            if (stripos((string) $searchStr, 'id:') === 0) {
                 // Add array support [?]
-                $id = (int) substr($searchStr, 3);
+                $id = (int) substr((string) $searchStr, 3);
                 $query->where($db->quoteName('a.id') . '= :id')
                     ->bind(':id', $id, ParameterType::INTEGER);
-            } elseif (stripos($searchStr, 'type:') !== 0) {
+            } elseif (stripos((string) $searchStr, 'type:') !== 0) {
                 // Search by type is handled exceptionally in _getList() [@todo: remove refs]
                 $searchStr = "%$searchStr%";
 
@@ -362,7 +359,7 @@ class TasksModel extends ListModel
     {
         // Get stuff from the model state
         $listOrder      = $this->getState('list.ordering', 'a.title');
-        $listDirectionN = strtolower($this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
+        $listDirectionN = strtolower((string) $this->getState('list.direction', 'asc')) == 'desc' ? -1 : 1;
 
         // Set limit parameters and get object list
         $query->setLimit($limit, $limitstart);
@@ -403,7 +400,6 @@ class TasksModel extends ListModel
      *
      * @param   array  $items  Array of items, passed by reference
      *
-     * @return void
      *
      * @since  4.1.0
      * @throws \Exception
@@ -425,7 +421,6 @@ class TasksModel extends ListModel
      * @param   string  $ordering   Field to order/sort list by
      * @param   string  $direction  Direction in which to sort list
      *
-     * @return void
      * @since  4.1.0
      */
     protected function populateState($ordering = 'a.title', $direction = 'ASC'): void

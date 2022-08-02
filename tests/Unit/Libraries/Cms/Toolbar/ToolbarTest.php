@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Toolbar;
 
+use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarButton;
@@ -22,7 +23,7 @@ use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
  * @subpackage  Toolbar
  * @since       3.0
  */
-class ToolbarTest extends \PHPUnit\Framework\TestCase
+class ToolbarTest extends TestCase
 {
     /**
      * Tests the constructor
@@ -295,7 +296,6 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
      *
      * @param   string   $name  Name
      *
-     * @return Toolbar
      *
      * @since   4.0.0
      */

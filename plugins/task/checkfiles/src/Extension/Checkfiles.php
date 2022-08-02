@@ -67,14 +67,6 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
     protected $autoloadLanguage = true;
 
     /**
-     * The root directory path
-     *
-     * @var    string
-     * @since  4.2.0
-     */
-    private $rootDirectory;
-
-    /**
      * Constructor.
      *
      * @param   DispatcherInterface  $dispatcher     The dispatcher
@@ -83,11 +75,9 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, string $rootDirectory)
+    public function __construct(DispatcherInterface $dispatcher, array $config, private readonly string $rootDirectory)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->rootDirectory = $rootDirectory;
     }
 
     /**
@@ -140,7 +130,7 @@ final class Checkfiles extends CMSPlugin implements SubscriberInterface
 
             try {
                 $image->resize($newWidth, $newHeight, false);
-            } catch (LogicException $e) {
+            } catch (LogicException) {
                 $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_CHECK_FILES_LOG_RESIZE_FAIL'), 'error');
 
                 return TaskStatus::KNOCKOUT;

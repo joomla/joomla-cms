@@ -39,28 +39,15 @@ const PHP_TAB = "\t";
 // File paths.
 $versionFile = '/libraries/src/Version.php';
 
-$coreXmlFiles = array(
-    '/administrator/manifests/files/joomla.xml',
-);
+$coreXmlFiles = ['/administrator/manifests/files/joomla.xml'];
 
-$languageXmlFiles = array(
-    '/language/en-GB/langmetadata.xml',
-    '/language/en-GB/install.xml',
-    '/administrator/language/en-GB/langmetadata.xml',
-    '/administrator/language/en-GB/install.xml',
-    '/installation/language/en-GB/langmetadata.xml',
-    '/api/language/en-GB/langmetadata.xml',
-    '/api/language/en-GB/install.xml',
-);
+$languageXmlFiles = ['/language/en-GB/langmetadata.xml', '/language/en-GB/install.xml', '/administrator/language/en-GB/langmetadata.xml', '/administrator/language/en-GB/install.xml', '/installation/language/en-GB/langmetadata.xml', '/api/language/en-GB/langmetadata.xml', '/api/language/en-GB/install.xml'];
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
-$readMeFiles = array(
-    '/README.md',
-    '/README.txt',
-);
+$readMeFiles = ['/README.md', '/README.txt'];
 
 /*
  * Change copyright date exclusions.
@@ -68,17 +55,9 @@ $readMeFiles = array(
  * Also exclude build resources such as the packaging space or the API documentation build
  * as well as external libraries.
  */
-$directoryLoopExcludeDirectories = array(
-    '/.git',
-    '/build/api/',
-    '/build/coverage/',
-    '/build/tmp/',
-    '/libraries/vendor/',
-    '/libraries/php-encryption/',
-    '/libraries/phpass/',
-);
+$directoryLoopExcludeDirectories = ['/.git', '/build/api/', '/build/coverage/', '/build/tmp/', '/libraries/vendor/', '/libraries/php-encryption/', '/libraries/phpass/'];
 
-$directoryLoopExcludeFiles = array();
+$directoryLoopExcludeFiles = [];
 
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
@@ -139,21 +118,7 @@ if (!isset($versionParts[2])) {
 // Set version properties.
 $versionSubParts = explode('.', $versionParts[0]);
 
-$version = array(
-    'main'       => $versionSubParts[0] . '.' . $versionSubParts[1],
-    'major'      => $versionSubParts[0],
-    'minor'      => $versionSubParts[1],
-    'patch'      => $versionSubParts[2],
-    'extra'      => (!empty($versionParts[1]) ? $versionParts[1] : '') . (!empty($versionParts[2]) ? (!empty($versionParts[1]) ? '-' : '') . $versionParts[2] : ''),
-    'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2],
-    'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''),
-    'dev_status' => $dev_status,
-    'build'      => '',
-    'reldate'    => date('j-F-Y'),
-    'reltime'    => date('H:i'),
-    'reltz'      => 'GMT',
-    'credate'    => date('Y-m'),
-);
+$version = ['main'       => $versionSubParts[0] . '.' . $versionSubParts[1], 'major'      => $versionSubParts[0], 'minor'      => $versionSubParts[1], 'patch'      => $versionSubParts[2], 'extra'      => (!empty($versionParts[1]) ? $versionParts[1] : '') . (!empty($versionParts[2]) ? (!empty($versionParts[1]) ? '-' : '') . $versionParts[2] : ''), 'release'    => $versionSubParts[0] . '.' . $versionSubParts[1] . '.' . $versionSubParts[2], 'dev_devel'  => $versionSubParts[2] . (!empty($versionParts[1]) ? '-' . $versionParts[1] : '') . (!empty($versionParts[2]) ? '-' . $versionParts[2] : ''), 'dev_status' => $dev_status, 'build'      => '', 'reldate'    => date('j-F-Y'), 'reltime'    => date('H:i'), 'reltz'      => 'GMT', 'credate'    => date('Y-m')];
 
 // Version Codename.
 if (!empty($opts['c'])) {
@@ -257,10 +222,10 @@ $iterator                  = new RecursiveIteratorIterator($directory, Recursive
 foreach ($iterator as $file) {
     if ($file->isFile()) {
         $filePath     = $file->getPathname();
-        $relativePath = str_replace($rootPath, '', $filePath);
+        $relativePath = str_replace($rootPath, '', (string) $filePath);
 
         // Exclude certain extensions.
-        if (preg_match('#\.(png|jpeg|jpg|gif|bmp|ico|webp|svg|woff|woff2|ttf|eot)$#', $filePath)) {
+        if (preg_match('#\.(png|jpeg|jpg|gif|bmp|ico|webp|svg|woff|woff2|ttf|eot)$#', (string) $filePath)) {
             continue;
         }
 

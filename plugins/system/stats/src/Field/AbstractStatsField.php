@@ -31,10 +31,6 @@ abstract class AbstractStatsField extends FormField
     {
         $template = Factory::getApplication()->getTemplate();
 
-        return array(
-            JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/system/stats',
-            JPATH_PLUGINS . '/system/stats/layouts',
-            JPATH_SITE . '/layouts',
-        );
+        return [JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/system/stats', JPATH_PLUGINS . '/system/stats/layouts', JPATH_SITE . '/layouts'];
     }
 }

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Associations\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -35,25 +36,10 @@ class AssociationsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id',
-                'title',
-                'ordering',
-                'itemtype',
-                'language',
-                'association',
-                'menutype',
-                'menutype_title',
-                'level',
-                'state',
-                'category_id',
-                'category_title',
-                'access',
-                'access_level',
-            );
+            $config['filter_fields'] = ['id', 'title', 'ordering', 'itemtype', 'language', 'association', 'menutype', 'menutype_title', 'level', 'state', 'category_id', 'category_title', 'access', 'access_level'];
         }
 
         parent::__construct($config, $factory);
@@ -148,15 +134,14 @@ class AssociationsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery|boolean
      *
      * @since  3.7.0
      */
-    protected function getListQuery()
+    protected function getListQuery(): DatabaseQuery|bool
     {
         $type         = null;
 
-        list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+        [$extensionName, $typeName] = explode('.', (string) $this->state->get('itemtype'), 2);
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');
@@ -240,14 +225,7 @@ class AssociationsModel extends ListModel
             ->bind(':context', $extensionNameItem);
 
         // Prepare the group by clause.
-        $groupby = array(
-            $fields['id'],
-            $fields['title'],
-            $fields['alias'],
-            $fields['language'],
-            'l.title',
-            'l.image',
-        );
+        $groupby = [$fields['id'], $fields['title'], $fields['alias'], $fields['language'], 'l.title', 'l.image'];
 
         // Select author for ACL checks.
         if (!empty($fields['created_user_id'])) {
@@ -425,12 +403,12 @@ class AssociationsModel extends ListModel
 
         // Filter by search in name.
         if ($search = $this->getState('filter.search')) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName($fields['id']) . ' = :searchid')
                     ->bind(':searchid', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->where('(' . $db->quoteName($fields['title']) . ' LIKE :title'
                     . ' OR ' . $db->quoteName($fields['alias']) . ' LIKE :alias)')
                     ->bind(':title', $search)
@@ -482,7 +460,7 @@ class AssociationsModel extends ListModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_PURGE_FAILED'), 'error');
 
             return false;
@@ -545,7 +523,7 @@ class AssociationsModel extends ListModel
 
             try {
                 $db->execute();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 $app->enqueueMessage(Text::_('COM_ASSOCIATIONS_DELETE_ORPHANS_FAILED'), 'error');
 
                 return false;

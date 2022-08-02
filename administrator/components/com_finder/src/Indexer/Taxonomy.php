@@ -27,7 +27,7 @@ class Taxonomy
      * @var    object[]
      * @since  4.0.0
      */
-    public static $taxonomies = array();
+    public static $taxonomies = [];
 
     /**
      * An internal cache of branch data.
@@ -35,7 +35,7 @@ class Taxonomy
      * @var    object[]
      * @since  4.0.0
      */
-    public static $branches = array();
+    public static $branches = [];
 
     /**
      * An internal cache of taxonomy node data for inserting it.
@@ -43,7 +43,7 @@ class Taxonomy
      * @var    object[]
      * @since  2.5
      */
-    public static $nodes = array();
+    public static $nodes = [];
 
     /**
      * Method to add a branch to the taxonomy tree.
@@ -440,13 +440,13 @@ class Taxonomy
      *
      * @since   4.0.0
      */
-    public static function getTaxonomy($id = 0)
+    public static function getTaxonomy($id = 0): object|array
     {
         if (!count(self::$taxonomies)) {
             $db    = Factory::getDbo();
             $query = $db->getQuery(true);
 
-            $query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))
+            $query->select(['id', 'parent_id', 'lft', 'rgt', 'level', 'path', 'title', 'alias', 'state', 'access', 'language'])
                 ->from($db->quoteName('#__finder_taxonomy'))
                 ->order($db->quoteName('lft'));
 
@@ -474,7 +474,7 @@ class Taxonomy
      *
      * @since   4.0.0
      */
-    public static function getBranch($title = '')
+    public static function getBranch($title = ''): object|array
     {
         if (!count(self::$branches)) {
             $taxonomies = self::getTaxonomy();

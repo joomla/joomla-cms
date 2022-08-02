@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+use Joomla\CMS\MVC\Controller\ControllerInterface;
+use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
@@ -36,12 +38,12 @@ class LegacyFactory implements MVCFactoryInterface
      * @param   CMSApplicationInterface  $app     The app
      * @param   Input                    $input   The input
      *
-     * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+     * @return ControllerInterface
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input)
+    public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input): ?ControllerInterface
     {
         throw new \BadFunctionCallException('Legacy controller creation not supported.');
     }
@@ -75,7 +77,7 @@ class LegacyFactory implements MVCFactoryInterface
      * @param   string  $type    Optional type of view.
      * @param   array   $config  Optional configuration array for the view.
      *
-     * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
+     * @return ViewInterface The view object
      *
      * @since   3.10.0
      * @throws  \Exception
@@ -91,7 +93,7 @@ class LegacyFactory implements MVCFactoryInterface
         $viewClass = $classPrefix . $viewName;
 
         if (!class_exists($viewClass)) {
-            $path = Path::find($config['paths'], BaseController::createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+            $path = Path::find($config['paths'], BaseController::createFileName('view', ['name' => $viewName, 'type' => $viewType]));
 
             if (!$path) {
                 return null;
@@ -114,7 +116,7 @@ class LegacyFactory implements MVCFactoryInterface
      * @param   string  $prefix  Optional table prefix.
      * @param   array   $config  Optional configuration array for the table.
      *
-     * @return  \Joomla\CMS\Table\Table  The table object
+     * @return Table The table object
      *
      * @since   3.10.0
      * @throws  \Exception

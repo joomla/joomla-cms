@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -24,7 +25,7 @@ class VcfView extends AbstractView
     /**
      * The contact item
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $item;
 
@@ -39,18 +40,19 @@ class VcfView extends AbstractView
      */
     public function display($tpl = null)
     {
+        $middlename = null;
         // Get model data.
         $item = $this->get('Item');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $this->document->setMimeEncoding('text/directory', true);
 
         // Compute lastname, firstname and middlename
-        $item->name = trim($item->name);
+        $item->name = trim((string) $item->name);
 
         // "Lastname, Firstname Middlename" format support
         // e.g. "de Gaulle, Charles"
@@ -80,7 +82,7 @@ class VcfView extends AbstractView
             $card_name = $firstname . ($middlename ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
         }
 
-        $rev = date('c', strtotime($item->modified));
+        $rev = date('c', strtotime((string) $item->modified));
 
         Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 

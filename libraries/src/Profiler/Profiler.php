@@ -24,12 +24,6 @@ class Profiler
     protected $start = 0;
 
     /**
-     * @var    string  The prefix to use in the output
-     * @since  3.0.0
-     */
-    protected $prefix = '';
-
-    /**
      * @var    array  The buffer of profiling messages.
      * @since  3.0.0
      */
@@ -57,7 +51,7 @@ class Profiler
      * @var    array  JProfiler instances container.
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor
@@ -66,12 +60,11 @@ class Profiler
      *
      * @since   1.7.0
      */
-    public function __construct($prefix = '')
+    public function __construct(protected $prefix = '')
     {
         $this->start = microtime(1);
-        $this->prefix = $prefix;
-        $this->marks = array();
-        $this->buffer = array();
+        $this->marks = [];
+        $this->buffer = [];
     }
 
     /**
@@ -105,16 +98,9 @@ class Profiler
     public function mark($label)
     {
         $current = microtime(1) - $this->start;
-        $currentMem = memory_get_usage() / 1048576;
+        $currentMem = memory_get_usage() / 1_048_576;
 
-        $m = (object) array(
-            'prefix' => $this->prefix,
-            'time' => ($current - $this->previousTime) * 1000,
-            'totalTime' => ($current * 1000),
-            'memory' => $currentMem - $this->previousMem,
-            'totalMemory' => $currentMem,
-            'label' => $label,
-        );
+        $m = (object) ['prefix' => $this->prefix, 'time' => ($current - $this->previousTime) * 1000, 'totalTime' => ($current * 1000), 'memory' => $currentMem - $this->previousMem, 'totalMemory' => $currentMem, 'label' => $label];
         $this->marks[] = $m;
 
         $mark = sprintf(
@@ -177,7 +163,7 @@ class Profiler
     public function setStart($startTime = 0.0, $startMem = 0)
     {
         $this->start       = (double) $startTime;
-        $this->previousMem = (int) $startMem / 1048576;
+        $this->previousMem = (int) $startMem / 1_048_576;
 
         return $this;
     }

@@ -24,24 +24,21 @@ class SessionManagerTest extends UnitTestCase
     /**
      * Session manager being tested.
      *
-     * @var    SessionManager
      * @since  4.0.0
      */
-    private $manager;
+    private SessionManager $manager;
 
     /**
      * Session handler in use by the manager.
      *
-     * @var    \SessionHandlerInterface|MockObject
      * @since  4.0.0
      */
-    private $sessionHandler;
+    private \SessionHandlerInterface|MockObject $sessionHandler;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

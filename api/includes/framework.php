@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Exception\ExceptionHandler;
+use Symfony\Component\ErrorHandler\ErrorHandler;
 /**
  * @package    Joomla.API
  *
@@ -24,14 +26,14 @@ if (
     if (file_exists(JPATH_INSTALLATION . '/index.php')) {
         header('HTTP/1.1 500 Internal Server Error');
         echo json_encode(
-            array('error' => 'You must install Joomla to use the API')
+            ['error' => 'You must install Joomla to use the API']
         );
 
         exit();
     } else {
         header('HTTP/1.1 500 Internal Server Error');
         echo json_encode(
-            array('error' => 'No configuration file found and no installation code available. Exiting...')
+            ['error' => 'No configuration file found and no installation code available. Exiting...']
         );
 
         exit;
@@ -86,14 +88,14 @@ if (empty($config->log_deprecated)) {
     set_error_handler(null, E_USER_DEPRECATED);
 } else {
     // Make sure handler for E_USER_DEPRECATED is registered
-    set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+    set_error_handler(ExceptionHandler::handleUserDeprecatedErrors(...), E_USER_DEPRECATED);
 }
 
 if (JDEBUG || $config->error_reporting === 'maximum') {
     // Set new Exception handler with debug enabled
     $errorHandler->setExceptionHandler(
         [
-            new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+            new ErrorHandler(null, true),
             'renderException',
         ]
     );

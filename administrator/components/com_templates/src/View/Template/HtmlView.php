@@ -156,8 +156,8 @@ class HtmlView extends BaseHtmlView
     {
         $app               = Factory::getApplication();
         $this->file        = $app->input->get('file');
-        $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
-        $explodeArray      = explode('.', $this->fileName);
+        $this->fileName    = InputFilter::getInstance()->clean(base64_decode((string) $this->file), 'string');
+        $explodeArray      = explode('.', (string) $this->fileName);
         $ext               = end($explodeArray);
         $this->files       = $this->get('Files');
         $this->mediaFiles  = $this->get('MediaFiles');
@@ -170,10 +170,10 @@ class HtmlView extends BaseHtmlView
         $this->stylesHTML  = '';
 
         $params       = ComponentHelper::getParams('com_templates');
-        $imageTypes   = explode(',', $params->get('image_formats'));
-        $sourceTypes  = explode(',', $params->get('source_formats'));
-        $fontTypes    = explode(',', $params->get('font_formats'));
-        $archiveTypes = explode(',', $params->get('compressed_formats'));
+        $imageTypes   = explode(',', (string) $params->get('image_formats'));
+        $sourceTypes  = explode(',', (string) $params->get('source_formats'));
+        $fontTypes    = explode(',', (string) $params->get('font_formats'));
+        $archiveTypes = explode(',', (string) $params->get('compressed_formats'));
 
         if (in_array($ext, $sourceTypes)) {
             $this->form   = $this->get('Form');
@@ -184,7 +184,7 @@ class HtmlView extends BaseHtmlView
             try {
                 $this->image = $this->get('Image');
                 $this->type  = 'image';
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_GD_EXTENSION_NOT_AVAILABLE'));
                 $this->type = 'home';
             }
@@ -202,7 +202,7 @@ class HtmlView extends BaseHtmlView
         $this->id            = $this->state->get('extension.id');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             $app->enqueueMessage(implode("\n", $errors));
 
             return false;
@@ -238,7 +238,7 @@ class HtmlView extends BaseHtmlView
         $explodeArray = explode('.', $this->fileName);
         $ext = end($explodeArray);
 
-        ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'icon-code thememanager');
+        ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst((string) $this->template->name)), 'icon-code thememanager');
 
         // Only show file edit buttons for global SuperUser
         if ($isSuperUser) {
@@ -290,7 +290,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState) {
+        if ((is_countable($this->updatedList) ? count($this->updatedList) : 0) !== 0 && $this->pluginState) {
             ToolbarHelper::custom('template.deleteOverrideHistory', 'times', '', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
         }
 

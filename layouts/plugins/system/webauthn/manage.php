@@ -42,7 +42,7 @@ try {
 
     $app->getDocument()->getWebAssetManager()
         ->registerAndUseStyle('plg_system_webauthn.backend', 'plg_system_webauthn/backend.css');
-} catch (Exception $e) {
+} catch (Exception) {
     $loggedInUser = new User();
 }
 
@@ -110,7 +110,7 @@ HTMLHelper::_('bootstrap.tooltip', '.plg_system_webauth-has-tooltip');
                          title="<?php echo $authMetadata->description ?>">
                 </td>
                 <?php endif; ?>
-                <th scope="row" class="webauthnManagementCell"><?php echo htmlentities($method['label']) ?></th>
+                <th scope="row" class="webauthnManagementCell"><?php echo htmlentities((string) $method['label']) ?></th>
                 <td class="webauthnManagementCell">
                     <button class="plg_system_webauthn-manage-edit btn btn-secondary">
                         <span class="icon-edit" aria-hidden="true"></span>

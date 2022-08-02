@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Workflow;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -35,7 +36,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -87,13 +88,13 @@ class HtmlView extends BaseHtmlView
         $this->item       = $this->get('Item');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $extension = $this->state->get('filter.extension');
 
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         $this->extension = array_shift($parts);
 

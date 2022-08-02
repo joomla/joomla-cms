@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  mod_menu
@@ -12,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['type' => 'module']);
 $wa->registerAndUseScript('mod_menu', 'mod_menu/menu-es5.min.js', [], ['nomodule' => true, 'defer' => true]);
@@ -43,7 +44,7 @@ if ($tagId = $params->get('tag_id', '')) {
     } elseif ($item->type === 'alias') {
         $aliasToId = $itemParams->get('aliasoptions');
 
-        if (count($path) > 0 && $aliasToId == $path[count($path) - 1]) {
+        if ((is_countable($path) ? count($path) : 0) > 0 && $aliasToId == $path[(is_countable($path) ? count($path) : 0) - 1]) {
             $class .= ' active';
         } elseif (in_array($aliasToId, $path)) {
             $class .= ' alias-parent-active';

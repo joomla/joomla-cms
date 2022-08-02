@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Site\Model;
 
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -158,7 +159,7 @@ class BannerModel extends BaseDatabaseModel
     public function &getItem()
     {
         if (!isset($this->_item)) {
-            /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
+            /** @var CallbackController $cache */
             $cache = Factory::getCache('com_banners', 'callback');
 
             $id = (int) $this->getState('banner.id');
@@ -188,8 +189,8 @@ class BannerModel extends BaseDatabaseModel
             };
 
             try {
-                $this->_item = $cache->get($loader, array($id), md5(__METHOD__ . $id));
-            } catch (CacheExceptionInterface $e) {
+                $this->_item = $cache->get($loader, [$id], md5(__METHOD__ . $id));
+            } catch (CacheExceptionInterface) {
                 $this->_item = $loader($id);
             }
         }
@@ -210,7 +211,7 @@ class BannerModel extends BaseDatabaseModel
         $url = $item->clickurl;
 
         // Check for links
-        if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {
+        if (!preg_match('#http[s]?://|index[2]?\.php#', (string) $url)) {
             $url = "http://$url";
         }
 

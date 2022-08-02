@@ -25,7 +25,6 @@ class FolderPathExistsRuleTest extends UnitTestCase
     /**
      * Test data for the testRule method
      *
-     * @return  array
      *
      * @since   4.0.0
      */

@@ -29,7 +29,7 @@ class Cache
 	 * @var    CacheStorage[]
 	 * @since  1.7.0
 	 */
-	public static $_handler = array();
+	public static $_handler = [];
 
 	/**
 	 * Cache options
@@ -50,17 +50,7 @@ class Cache
 	{
 		$app = Factory::getApplication();
 
-		$this->_options = array(
-			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
-			'lifetime'     => (int) $app->get('cachetime'),
-			'language'     => $app->get('language', 'en-GB'),
-			'storage'      => $app->get('cache_handler', ''),
-			'defaultgroup' => 'default',
-			'locking'      => true,
-			'locktime'     => 15,
-			'checkTime'    => true,
-			'caching'      => ($app->get('caching') >= 1),
-		);
+		$this->_options = ['cachebase'    => $app->get('cache_path', JPATH_CACHE), 'lifetime'     => (int) $app->get('cachetime'), 'language'     => $app->get('language', 'en-GB'), 'storage'      => $app->get('cache_handler', ''), 'defaultgroup' => 'default', 'locking'      => true, 'locktime'     => 15, 'checkTime'    => true, 'caching'      => ($app->get('caching') >= 1)];
 
 		// Overwrite default options with given options
 		foreach ($options as $option => $value)
@@ -88,7 +78,7 @@ class Cache
 	 * @since       1.7.0
 	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
-	public static function getInstance($type = 'output', $options = array())
+	public static function getInstance($type = 'output', $options = [])
 	{
 		@trigger_error(
 			sprintf(
@@ -110,7 +100,7 @@ class Cache
 	 */
 	public static function getStores()
 	{
-		$handlers = array();
+		$handlers = [];
 
 		// Get an iterator and loop through the driver classes.
 		$iterator = new \DirectoryIterator(__DIR__ . '/Storage');
@@ -523,7 +513,7 @@ class Cache
 	 *
 	 * @since   1.7.0
 	 */
-	public static function getWorkarounds($data, $options = array())
+	public static function getWorkarounds($data, $options = [])
 	{
 		$app      = Factory::getApplication();
 		$document = Factory::getDocument();
@@ -560,7 +550,7 @@ class Cache
 			// Iterate through the module positions and push them into the document buffer.
 			foreach ($data['module'] as $name => $contents)
 			{
-				$document->setBuffer($contents, 'module', $name);
+				$document->setBuffer($contents, 'module');
 			}
 		}
 
@@ -600,7 +590,9 @@ class Cache
 	 */
 	public static function setWorkarounds($data, $options = [])
 	{
-		$loptions = [
+		$cached = [];
+  $buffer1 = [];
+  $loptions = [
 			'nopathway'  => 0,
 			'nohead'     => 0,
 			'nomodules'  => 0,
@@ -739,14 +731,7 @@ class Cache
 		}
 
 		// Platform defaults
-		$defaulturlparams = array(
-			'format' => 'WORD',
-			'option' => 'WORD',
-			'view'   => 'WORD',
-			'layout' => 'WORD',
-			'tpl'    => 'CMD',
-			'id'     => 'INT',
-		);
+		$defaulturlparams = ['format' => 'WORD', 'option' => 'WORD', 'view'   => 'WORD', 'layout' => 'WORD', 'tpl'    => 'CMD', 'id'     => 'INT'];
 
 		// Use platform defaults if parameter doesn't already exist.
 		foreach ($defaulturlparams as $param => $type)
@@ -801,13 +786,13 @@ class Cache
 	 *
 	 * @since   1.7.0
 	 */
-	public static function addIncludePath($path = '')
+	public static function addIncludePath(array|string $path = '')
 	{
 		static $paths;
 
 		if (!isset($paths))
 		{
-			$paths = array();
+			$paths = [];
 		}
 
 		if (!empty($path) && !\in_array($path, $paths))

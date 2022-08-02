@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.sessiongc
@@ -33,7 +34,7 @@ class PlgSystemSessionGc extends CMSPlugin
     /**
      * Database driver
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.8.6
      */
     protected $db;

@@ -36,9 +36,7 @@ class CacheController implements ServiceProviderInterface
             ->alias(CacheControllerFactory::class, CacheControllerFactoryInterface::class)
             ->share(
                 CacheControllerFactoryInterface::class,
-                function (Container $container) {
-                    return new CacheControllerFactory();
-                },
+                fn(Container $container) => new CacheControllerFactory(),
                 true
             );
     }

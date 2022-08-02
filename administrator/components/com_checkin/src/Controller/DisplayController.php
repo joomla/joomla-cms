@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Checkin\Administrator\Controller;
 
+use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -37,7 +38,7 @@ class DisplayController extends BaseController
      *
      * @return  static  A \JControllerLegacy object to support chaining.
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         return parent::display();
     }
@@ -52,13 +53,13 @@ class DisplayController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'string');
+        $ids = (array) $this->input->get('cid', [], 'string');
 
         if (empty($ids)) {
             $this->app->enqueueMessage(Text::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'), 'warning');
         } else {
             // Get the model.
-            /** @var \Joomla\Component\Checkin\Administrator\Model\CheckinModel $model */
+            /** @var CheckinModel $model */
             $model = $this->getModel('Checkin');
 
             // Checked in the items.
@@ -84,7 +85,7 @@ class DisplayController extends BaseController
 
         $model = $this->getModel('Checkin');
 
-        $amount = (int) count($model->getItems());
+        $amount = (int) (is_countable($model->getItems()) ? count($model->getItems()) : 0);
 
         echo new JsonResponse($amount);
     }
@@ -105,7 +106,7 @@ class DisplayController extends BaseController
 
         $model = $this->getModel('Checkin');
 
-        $amount = (int) count($model->getItems());
+        $amount = (int) (is_countable($model->getItems()) ? count($model->getItems()) : 0);
 
         $result = [];
 

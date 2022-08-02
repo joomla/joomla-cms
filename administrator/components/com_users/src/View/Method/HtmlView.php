@@ -97,7 +97,6 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void
      *
      * @throws  \Exception
      * @see     \JViewLegacy::loadTemplate()
@@ -132,9 +131,7 @@ class HtmlView extends BaseHtmlView
 
             $backupCodes = array_filter(
                 $backupCodes,
-                function ($x) {
-                    return !empty($x);
-                }
+                fn($x) => !empty($x)
             );
 
             if (count($backupCodes) % 2 != 0) {

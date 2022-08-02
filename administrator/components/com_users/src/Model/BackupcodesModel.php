@@ -73,7 +73,6 @@ class BackupcodesModel extends BaseDatabaseModel
      *
      * @param   User|null   $user   Which user to generate codes for?
      *
-     * @return void
      * @throws \Exception
      * @since 4.2.0
      */
@@ -103,7 +102,6 @@ class BackupcodesModel extends BaseDatabaseModel
      * @param   array       $codes   An array of exactly 10 elements
      * @param   User|null   $user    The user for which to save the backup codes
      *
-     * @return  boolean
      * @throws  \Exception
      * @since 4.2.0
      */
@@ -207,7 +205,6 @@ class BackupcodesModel extends BaseDatabaseModel
      * @param   string      $code   The code to check
      * @param   User|null   $user   The user to check against
      *
-     * @return  boolean
      * @throws  \Exception
      * @since 4.2.0
      */
@@ -257,7 +254,7 @@ class BackupcodesModel extends BaseDatabaseModel
         $temp1 = '';
 
         for ($i = 0; $i < 10; $i++) {
-            $temp1[$i] = random_int(0, 99999999);
+            $temp1[$i] = random_int(0, 99_999_999);
         }
 
         for ($i = 0; $i < $restLength; $i++) {

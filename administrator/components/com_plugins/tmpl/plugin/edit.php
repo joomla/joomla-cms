@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
@@ -16,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
@@ -69,7 +70,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
                             if (!$long_description) {
                                 $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
 
-                                if (strlen($truncated) > 500) {
+                                if (strlen((string) $truncated) > 500) {
                                     $long_description  = $short_description;
                                     $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
 
@@ -104,14 +105,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
             <div class="col-lg-3">
                 <?php
                 // Set main fields.
-                $this->fields = array(
-                    'enabled',
-                    'access',
-                    'ordering',
-                    'folder',
-                    'element',
-                    'note',
-                ); ?>
+                $this->fields = ['enabled', 'access', 'ordering', 'folder', 'element', 'note']; ?>
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
             </div>
         </div>
@@ -124,8 +118,8 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
         <?php endif; ?>
 
         <?php
-        $this->fieldsets = array();
-        $this->ignore_fieldsets = array('basic', 'description');
+        $this->fieldsets = [];
+        $this->ignore_fieldsets = ['basic', 'description'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

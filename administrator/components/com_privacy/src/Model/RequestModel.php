@@ -59,7 +59,7 @@ class RequestModel extends AdminModel
      *
      * @since   3.9.0
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
         $form = $this->loadForm('com_privacy.request', 'request', ['control' => 'jform', 'load_data' => $loadData]);
@@ -382,7 +382,7 @@ class RequestModel extends AdminModel
      * @see     JFilterInput
      * @since   3.9.0
      */
-    public function validate($form, $data, $group = null)
+    public function validate($form, $data, $group = null): array|bool
     {
         $validatedData = parent::validate($form, $data, $group);
 
@@ -395,7 +395,7 @@ class RequestModel extends AdminModel
         $validatedData['status'] = 0;
 
         // The user cannot create a request for their own account
-        if (strtolower(Factory::getUser()->email) === strtolower($validatedData['email'])) {
+        if (strtolower(Factory::getUser()->email) === strtolower((string) $validatedData['email'])) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_FOR_SELF'));
 
             return false;
@@ -427,7 +427,6 @@ class RequestModel extends AdminModel
     /**
      * Method to fetch an instance of the action log model.
      *
-     * @return  ActionlogModel
      *
      * @since   4.0.0
      */

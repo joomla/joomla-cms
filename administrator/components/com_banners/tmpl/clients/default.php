@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -18,8 +19,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Clients\HtmlView $this */
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -180,7 +180,7 @@ $params     = $this->state->params ?? new CMSObject();
                     <?php // Load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">

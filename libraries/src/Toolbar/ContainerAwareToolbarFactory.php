@@ -31,7 +31,6 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
      * @param   Toolbar  $toolbar  The Toolbar instance to attach to the button
      * @param   string   $type     Button Type
      *
-     * @return  ToolbarButton
      *
      * @since   3.8.0
      * @throws  \InvalidArgumentException
@@ -75,7 +74,6 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
      *
      * @param   string  $name  The toolbar name.
      *
-     * @return  Toolbar
      *
      * @since   4.0.0
      */

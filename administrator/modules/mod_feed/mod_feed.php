@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Module\Feed\Administrator\Helper\FeedHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_feed
@@ -10,8 +12,8 @@
 
 defined('_JEXEC') or die;
 
-$feed   = \Joomla\Module\Feed\Administrator\Helper\FeedHelper::getFeed($params);
+$feed   = FeedHelper::getFeed($params);
 $rssurl = $params->get('rssurl', '');
 $rssrtl = $params->get('rssrtl', 0);
 
-require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

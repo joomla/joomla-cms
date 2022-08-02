@@ -36,10 +36,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     /**
      * Include paths for searching for Table classes.
      *
-     * @var    array
      * @since  3.0.0
      */
-    private static $_includePaths = array();
+    private static array $_includePaths = [];
 
     /**
      * Table fields cache
@@ -48,14 +47,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @since 3.10.4
      */
     private static $tableFields;
-
-    /**
-     * Name of the database table to model.
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $_tbl = '';
 
     /**
      * Name of the primary key field in the table.
@@ -71,15 +62,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @var    array
      * @since  3.0.1
      */
-    protected $_tbl_keys = array();
-
-    /**
-     * DatabaseDriver object.
-     *
-     * @var    DatabaseDriver
-     * @since  1.7.0
-     */
-    protected $_db;
+    protected $_tbl_keys = [];
 
     /**
      * Should rows be tracked as ACL assets?
@@ -119,7 +102,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @var    array
      * @since  3.4.0
      */
-    protected $_columnAlias = array();
+    protected $_columnAlias = [];
 
     /**
      * An array of key names to be json encoded in the bind function
@@ -127,7 +110,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @var    array
      * @since  3.3
      */
-    protected $_jsonEncode = array();
+    protected $_jsonEncode = [];
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -150,30 +133,27 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * be overridden by child classes to explicitly set the table and key fields
      * for a particular database table.
      *
-     * @param   string               $table       Name of the table to model.
+     * @param string $_tbl Name of the table to model.
      * @param   mixed                $key         Name of the primary key field in the table or array of field names that compose the primary key.
-     * @param   DatabaseDriver       $db          DatabaseDriver object.
+     * @param DatabaseDriver $_db DatabaseDriver object.
      * @param   DispatcherInterface  $dispatcher  Event dispatcher for this table
      *
      * @since   1.7.0
      */
-    public function __construct($table, $key, DatabaseDriver $db, DispatcherInterface $dispatcher = null)
+    public function __construct(protected $_tbl, $key, protected DatabaseDriver $_db, DispatcherInterface $dispatcher = null)
     {
         parent::__construct();
 
-        // Set internal variables.
-        $this->_tbl = $table;
-
         // Set the key to be an array.
         if (\is_string($key)) {
-            $key = array($key);
+            $key = [$key];
         } elseif (\is_object($key)) {
             $key = (array) $key;
         }
 
         $this->_tbl_keys = $key;
 
-        if (\count($key) == 1) {
+        if ((is_countable($key) ? \count($key) : 0) == 1) {
             $this->_autoincrement = true;
         } else {
             $this->_autoincrement = false;
@@ -181,8 +161,6 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Set the singular table key for backwards compatibility.
         $this->_tbl_key = $this->getKeyName();
-
-        $this->_db = $db;
 
         // Initialise the table properties.
         $fields = $this->getFields();
@@ -266,7 +244,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @since       1.7.0
      * @deprecated  5.0 Use the MvcFactory instead
      */
-    public static function getInstance($type, $prefix = 'JTable', $config = array())
+    public static function getInstance($type, $prefix = 'JTable', $config = [])
     {
         // Sanitize and prepare the table class name.
         $type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
@@ -323,7 +301,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // If the internal paths have not been initialised, do so with the base table path.
         if (empty(self::$_includePaths)) {
-            self::$_includePaths = array(__DIR__);
+            self::$_includePaths = [__DIR__];
         }
 
         // Convert the passed path(s) to add to an array.
@@ -334,7 +312,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             // Check and add each individual new path.
             foreach ($path as $dir) {
                 // Sanitize path.
-                $dir = trim($dir);
+                $dir = trim((string) $dir);
 
                 // Add to the front of the list so that custom paths are searched first.
                 if (!\in_array($dir, self::$_includePaths)) {
@@ -357,7 +335,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      */
     protected function _getAssetName()
     {
-        $keys = array();
+        $keys = [];
 
         foreach ($this->_tbl_keys as $k) {
             $keys[] = (int) $this->$k;
@@ -399,7 +377,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // For simple cases, parent to the asset root.
         /** @var Asset $assets */
-        $assets = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+        $assets = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
         $rootId = $assets->getRootId();
 
         if (!empty($rootId)) {
@@ -427,7 +405,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             }
         } else {
             if (\is_string($pk)) {
-                $pk = array($this->_tbl_key => $pk);
+                $pk = [$this->_tbl_key => $pk];
             }
 
             $pk = (object) $pk;
@@ -569,13 +547,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Get the default values for the class from the table.
         foreach ($this->getFields() as $k => $v) {
             // If the property is not the primary key or private, reset it.
-            if (!\in_array($k, $this->_tbl_keys) && (strpos($k, '_') !== 0)) {
+            if (!\in_array($k, $this->_tbl_keys) && (!str_starts_with((string) $k, '_'))) {
                 $this->$k = $v->Default;
             }
         }
 
         // Reset table errors
-        $this->_errors = array();
+        $this->_errors = [];
 
         $event = AbstractEvent::create(
             'onTableAfterReset',
@@ -599,14 +577,14 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      * @since   1.7.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Check if the source value is an array or object
         if (!\is_object($src) && !\is_array($src)) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Could not bind the data source in %1$s::bind(), the source must be an array or object but a "%2$s" was given.',
-                    \get_class($this),
+                    $this::class,
                     \gettype($src)
                 )
             );
@@ -636,7 +614,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         if (!empty($this->_jsonEncode)) {
             foreach ($this->_jsonEncode as $field) {
                 if (isset($src[$field]) && \is_array($src[$field])) {
-                    $src[$field] = json_encode($src[$field]);
+                    $src[$field] = json_encode($src[$field], JSON_THROW_ON_ERROR);
                 }
             }
         }
@@ -693,7 +671,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         if (empty($keys)) {
             $empty = true;
-            $keys  = array();
+            $keys  = [];
 
             // If empty, use the value of the current key
             foreach ($this->_tbl_keys as $key) {
@@ -714,7 +692,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                     throw new \InvalidArgumentException('Table has multiple primary keys specified, only one primary key value provided.');
                 }
 
-                $keys = array($this->getKeyName() => $keys);
+                $keys = [$this->getKeyName() => $keys];
             } else {
                 throw new \RuntimeException('No table keys defined.');
             }
@@ -733,7 +711,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         foreach ($keys as $field => $value) {
             // Check that $field is in the table.
             if (!\in_array($field, $fields)) {
-                throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', \get_class($this), $field));
+                throw new \UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', $this::class, $field));
             }
 
             // Add the search tuple to the query.
@@ -861,7 +839,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             $title    = $this->_getAssetTitle();
 
             /** @var Asset $asset */
-            $asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+            $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
             $asset->loadByName($name);
 
             // Re-inject the asset id.
@@ -986,13 +964,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     public function delete($pk = null)
     {
         if (\is_null($pk)) {
-            $pk = array();
+            $pk = [];
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = array($this->_tbl_key => $pk);
+            $pk = [$this->_tbl_key => $pk];
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1089,13 +1067,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         if (\is_null($pk)) {
-            $pk = array();
+            $pk = [];
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = array($this->_tbl_key => $pk);
+            $pk = [$this->_tbl_key => $pk];
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1170,13 +1148,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         if (\is_null($pk)) {
-            $pk = array();
+            $pk = [];
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$this->$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = array($this->_tbl_key => $pk);
+            $pk = [$this->_tbl_key => $pk];
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1219,7 +1197,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         );
         $this->getDispatcher()->dispatch('onTableAfterCheckin', $event);
 
-        Factory::getApplication()->triggerEvent('onAfterCheckin', array($this->_tbl));
+        Factory::getApplication()->triggerEvent('onAfterCheckin', [$this->_tbl]);
 
         return true;
     }
@@ -1286,13 +1264,13 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         }
 
         if (\is_null($pk)) {
-            $pk = array();
+            $pk = [];
 
             foreach ($this->_tbl_keys as $key) {
                 $pk[$key] = $this->$key;
             }
         } elseif (!\is_array($pk)) {
-            $pk = array($this->_tbl_key => $pk);
+            $pk = [$this->_tbl_key => $pk];
         }
 
         foreach ($this->_tbl_keys as $key) {
@@ -1389,7 +1367,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', $this::class));
         }
 
         // Get the largest ordering value for a given where clause.
@@ -1417,7 +1395,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
      *
      * @since   3.1.4
      */
-    public function getPrimaryKey(array $keys = array())
+    public function getPrimaryKey(array $keys = [])
     {
         foreach ($this->_tbl_keys as $key) {
             if (!isset($keys[$key])) {
@@ -1444,7 +1422,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', $this::class));
         }
 
         $quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
@@ -1457,7 +1435,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
             ->update($this->_tbl)
             ->set($quotedOrderingField . ' = sq.new_ordering');
 
-        $innerOn = array();
+        $innerOn = [];
 
         // Get the primary keys for the selection.
         foreach ($this->_tbl_keys as $i => $k) {
@@ -1523,7 +1501,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
     {
         // Check if there is an ordering field set
         if (!$this->hasField('ordering')) {
-            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('%s does not support ordering.', $this::class));
         }
 
         $orderingField       = $this->getColumnAlias('ordering');
@@ -1651,19 +1629,19 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         if (!\is_null($pks)) {
             if (!\is_array($pks)) {
-                $pks = array($pks);
+                $pks = [$pks];
             }
 
             foreach ($pks as $key => $pk) {
                 if (!\is_array($pk)) {
-                    $pks[$key] = array($this->_tbl_key => $pk);
+                    $pks[$key] = [$this->_tbl_key => $pk];
                 }
             }
         }
 
         // If there are no primary keys set check to see if the instance key is set.
         if (empty($pks)) {
-            $pk = array();
+            $pk = [];
 
             foreach ($this->_tbl_keys as $key) {
                 if ($this->$key) {
@@ -1676,7 +1654,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                 }
             }
 
-            $pks = array($pk);
+            $pks = [$pk];
         }
 
         $publishedField = $this->getColumnAlias('published');

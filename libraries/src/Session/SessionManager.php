@@ -17,23 +17,14 @@ namespace Joomla\CMS\Session;
 final class SessionManager
 {
     /**
-     * Session handler.
-     *
-     * @var    \SessionHandlerInterface
-     * @since  4.0.0
-     */
-    private $sessionHandler;
-
-    /**
      * SessionManager constructor.
      *
      * @param   \SessionHandlerInterface  $sessionHandler  Session handler.
      *
      * @since   4.0.0
      */
-    public function __construct(\SessionHandlerInterface $sessionHandler)
+    public function __construct(private readonly \SessionHandlerInterface $sessionHandler)
     {
-        $this->sessionHandler = $sessionHandler;
     }
 
     /**
@@ -41,7 +32,6 @@ final class SessionManager
      *
      * @param   string  $sessionId  The session ID to destroy.
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -55,7 +45,6 @@ final class SessionManager
      *
      * @param   string[]  $sessionIds  The session IDs to destroy.
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Updater;
 
+use Joomla\CMS\Table\Update;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Adapter\Adapter;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
@@ -27,7 +29,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    public const STABILITY_DEV = 0;
+    final public const STABILITY_DEV = 0;
 
     /**
      * Alpha versions (work in progress, things are likely to be broken)
@@ -35,7 +37,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    public const STABILITY_ALPHA = 1;
+    final public const STABILITY_ALPHA = 1;
 
     /**
      * Beta versions (major functionality in place, show-stopper bugs are likely to be present)
@@ -43,7 +45,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    public const STABILITY_BETA = 2;
+    final public const STABILITY_BETA = 2;
 
     /**
      * Release Candidate versions (almost stable, minor bugs might be present)
@@ -51,7 +53,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    public const STABILITY_RC = 3;
+    final public const STABILITY_RC = 3;
 
     /**
      * Stable versions (production quality code)
@@ -59,7 +61,7 @@ class Updater extends Adapter
      * @var    integer
      * @since  3.4
      */
-    public const STABILITY_STABLE = 4;
+    final public const STABILITY_STABLE = 4;
 
     /**
      * Updater instance container.
@@ -115,7 +117,7 @@ class Updater extends Adapter
      *
      * @since   1.7.0
      */
-    public function findUpdates($eid = 0, $cacheTimeout = 0, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
+    public function findUpdates(int|array $eid = 0, $cacheTimeout = 0, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
     {
         $retval = false;
 
@@ -127,7 +129,7 @@ class Updater extends Adapter
 
         $now              = time();
         $earliestTime     = $now - $cacheTimeout;
-        $sitesWithUpdates = array();
+        $sitesWithUpdates = [];
 
         if ($cacheTimeout > 0) {
             $sitesWithUpdates = $this->getSitesWithUpdates($earliestTime);
@@ -163,7 +165,7 @@ class Updater extends Adapter
             if (!empty($updateObjects)) {
                 $retval = true;
 
-                /** @var \Joomla\CMS\Table\Update $update */
+                /** @var Update $update */
                 foreach ($updateObjects as $update) {
                     $update->check();
                     $update->store();
@@ -224,7 +226,7 @@ class Updater extends Adapter
         $result = $db->loadAssocList();
 
         if (!\is_array($result)) {
-            return array();
+            return [];
         }
 
         return $result;
@@ -243,7 +245,7 @@ class Updater extends Adapter
      */
     private function getUpdateObjectsForSite($updateSite, $minimumStability = self::STABILITY_STABLE, $includeCurrent = false)
     {
-        $retVal = array();
+        $retVal = [];
 
         $this->setAdapter($updateSite['type']);
 
@@ -264,12 +266,12 @@ class Updater extends Adapter
 
         if (\is_array($update_result)) {
             // If we have additional update sites in the remote (collection) update XML document, parse them
-            if (\array_key_exists('update_sites', $update_result) && \count($update_result['update_sites'])) {
-                $thisUrl = trim($updateSite['location']);
+            if (\array_key_exists('update_sites', $update_result) && (is_countable($update_result['update_sites']) ? \count($update_result['update_sites']) : 0)) {
+                $thisUrl = trim((string) $updateSite['location']);
                 $thisId  = (int) $updateSite['update_site_id'];
 
                 foreach ($update_result['update_sites'] as $extraUpdateSite) {
-                    $extraUrl = trim($extraUpdateSite['location']);
+                    $extraUrl = trim((string) $extraUpdateSite['location']);
                     $extraId  = (int) $extraUpdateSite['update_site_id'];
 
                     // Do not try to fetch the same update site twice
@@ -285,35 +287,25 @@ class Updater extends Adapter
                 }
             }
 
-            if (\array_key_exists('updates', $update_result) && \count($update_result['updates'])) {
-                /** @var \Joomla\CMS\Table\Update $current_update */
+            if (\array_key_exists('updates', $update_result) && (is_countable($update_result['updates']) ? \count($update_result['updates']) : 0)) {
+                /** @var Update $current_update */
                 foreach ($update_result['updates'] as $current_update) {
                     $current_update->extra_query = $updateSite['extra_query'];
 
-                    /** @var \Joomla\CMS\Table\Update $update */
+                    /** @var Update $update */
                     $update = Table::getInstance('update');
 
-                    /** @var \Joomla\CMS\Table\Extension $extension */
+                    /** @var Extension $extension */
                     $extension = Table::getInstance('extension');
 
                     $uid = $update
                         ->find(
-                            array(
-                                'element'   => $current_update->get('element'),
-                                'type'      => $current_update->get('type'),
-                                'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
-                            )
+                            ['element'   => $current_update->get('element'), 'type'      => $current_update->get('type'), 'client_id' => $current_update->get('client_id'), 'folder'    => $current_update->get('folder')]
                         );
 
                     $eid = $extension
                         ->find(
-                            array(
-                                'element'   => $current_update->get('element'),
-                                'type'      => $current_update->get('type'),
-                                'client_id' => $current_update->get('client_id'),
-                                'folder'    => $current_update->get('folder'),
-                            )
+                            ['element'   => $current_update->get('element'), 'type'      => $current_update->get('type'), 'client_id' => $current_update->get('client_id'), 'folder'    => $current_update->get('folder')]
                         );
 
                     if (!$uid) {
@@ -321,7 +313,7 @@ class Updater extends Adapter
                         if ($eid) {
                             // We have an installed extension, check the update is actually newer
                             $extension->load($eid);
-                            $data = json_decode($extension->manifest_cache, true);
+                            $data = json_decode((string) $extension->manifest_cache, true, 512, JSON_THROW_ON_ERROR);
 
                             if (version_compare($current_update->version, $data['version'], $operator) == 1) {
                                 $current_update->extension_id = $eid;
@@ -390,7 +382,7 @@ class Updater extends Adapter
         $retVal = $db->setQuery($query)->loadColumn(0);
 
         if (empty($retVal)) {
-            return array();
+            return [];
         }
 
         return $retVal;

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\CMS\Form\Form;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -18,7 +20,7 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
@@ -29,7 +31,7 @@ $script = $wa->getAsset('script', 'com_media.edit-images')->getUri(true);
 $params = ComponentHelper::getParams('com_media');
 $input  = Factory::getApplication()->input;
 
-/** @var \Joomla\CMS\Form\Form $form */
+/** @var Form $form */
 $form = $this->form;
 
 $tmpl = $input->getCmd('tmpl');
@@ -51,10 +53,10 @@ $config = [
     'csrfToken'          => Session::getFormToken(),
     'uploadPath'         => $this->file->path,
     'editViewUrl'        => Uri::base() . 'index.php?option=com_media&view=file' . ($tmpl ? '&tmpl=' . $tmpl : '') . '&mediatypes=' . $mediaTypes,
-    'imagesExtensions'   => explode(',', $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp')),
-    'audioExtensions'    => explode(',', $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg')),
-    'videoExtensions'    => explode(',', $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm')),
-    'documentExtensions' => explode(',', $params->get('doc_extensions', 'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')),
+    'imagesExtensions'   => explode(',', (string) $params->get('image_extensions', 'bmp,gif,jpg,jpeg,png,webp')),
+    'audioExtensions'    => explode(',', (string) $params->get('audio_extensions', 'mp3,m4a,mp4a,ogg')),
+    'videoExtensions'    => explode(',', (string) $params->get('video_extensions', 'mp4,mp4v,mpeg,mov,webm')),
+    'documentExtensions' => explode(',', (string) $params->get('doc_extensions', 'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')),
     'maxUploadSizeMb'    => $params->get('upload_maxsize', 10),
     'contents'           => $this->file->content,
 ];

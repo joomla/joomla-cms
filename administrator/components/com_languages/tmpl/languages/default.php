@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -17,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -37,7 +38,7 @@ if ($saveOrder && !empty($this->items)) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -88,7 +89,7 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>"<?php
                               endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
@@ -141,7 +142,7 @@ if ($saveOrder && !empty($this->items)) {
                                 </td>
                                 <td class="d-none d-md-table-cell">
                                     <?php if ($item->image) : ?>
-                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('class' => 'me-1'), true); ?><?php echo $this->escape($item->image); ?>
+                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, ['class' => 'me-1'], true); ?><?php echo $this->escape($item->image); ?>
                                     <?php else : ?>
                                         <?php echo Text::_('JNONE'); ?>
                                     <?php endif; ?>
@@ -163,7 +164,7 @@ if ($saveOrder && !empty($this->items)) {
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>

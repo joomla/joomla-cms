@@ -33,13 +33,10 @@ class PositionsModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'value',
-                'templates',
-            );
+            $config['filter_fields'] = ['value', 'templates'];
         }
 
         parent::__construct($config);
@@ -74,7 +71,7 @@ class PositionsModel extends ListModel
 
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array((int) $clientId, array (0, 1))) ? 0 : (int) $clientId;
+        $clientId = (!in_array((int) $clientId, [0, 1])) ? 0 : (int) $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.
@@ -119,7 +116,8 @@ class PositionsModel extends ListModel
                     ->bind(':clientid', $clientId, ParameterType::INTEGER);
 
                 if ($search) {
-                    $search = '%' . str_replace(' ', '%', trim($search), true) . '%';
+                    $true = true;
+                    $search = '%' . str_replace(' ', '%', trim((string) $search), $true) . '%';
                     $query->where($db->quoteName('position') . ' LIKE :position')
                         ->bind(':position', $search);
                 }
@@ -135,10 +133,10 @@ class PositionsModel extends ListModel
                 }
 
                 foreach ($positions as $value => $position) {
-                    $positions[$value] = array();
+                    $positions[$value] = [];
                 }
             } else {
-                $positions = array();
+                $positions = [];
             }
 
             // Load the positions from the installed templates.
@@ -170,7 +168,7 @@ class PositionsModel extends ListModel
                                 unset($positions[$value]);
                             } elseif (preg_match(chr(1) . $search . chr(1) . 'i', $value) && ($filter_template == '' || $filter_template == $template->element)) {
                                 if (!isset($positions[$value])) {
-                                    $positions[$value] = array();
+                                    $positions[$value] = [];
                                 }
 
                                 $positions[$value][$template->name] = $label;
@@ -180,7 +178,7 @@ class PositionsModel extends ListModel
                 }
             }
 
-            $this->total = count($positions);
+            $this->total = is_countable($positions) ? count($positions) : 0;
 
             if ($limitstart >= $this->total) {
                 $limitstart = $limitstart < $limit ? 0 : $limitstart - $limit;

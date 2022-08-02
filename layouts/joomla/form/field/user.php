@@ -60,11 +60,11 @@ if ($required) {
 }
 
 if (!empty($groups)) {
-    $uri->setVar('groups', base64_encode(json_encode($groups)));
+    $uri->setVar('groups', base64_encode(json_encode($groups, JSON_THROW_ON_ERROR)));
 }
 
 if (!empty($excluded)) {
-    $uri->setVar('excluded', base64_encode(json_encode($excluded)));
+    $uri->setVar('excluded', base64_encode(json_encode($excluded, JSON_THROW_ON_ERROR)));
 }
 
 // Invalidate the input value if no user selected
@@ -72,9 +72,7 @@ if ($this->escape($userName) === Text::_('JLIB_FORM_SELECT_USER')) {
     $userName = '';
 }
 
-$inputAttributes = array(
-    'type' => 'text', 'id' => $id, 'class' => 'form-control field-user-input-name', 'value' => $this->escape($userName)
-);
+$inputAttributes = ['type' => 'text', 'id' => $id, 'class' => 'form-control field-user-input-name', 'value' => $this->escape($userName)];
 if ($class) {
     $inputAttributes['class'] .= ' ' . $class;
 }
@@ -92,16 +90,7 @@ if (!$readonly) {
     $modalHTML = HTMLHelper::_(
         'bootstrap.renderModal',
         'userModal_' . $id,
-        array(
-            'url'         => $uri,
-            'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
-            'closeButton' => true,
-            'height'      => '100%',
-            'width'       => '100%',
-            'modalWidth'  => 80,
-            'bodyHeight'  => 60,
-            'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-        )
+        ['url'         => $uri, 'title'       => Text::_('JLIB_FORM_CHANGE_USER'), 'closeButton' => true, 'height'      => '100%', 'width'       => '100%', 'modalWidth'  => 80, 'bodyHeight'  => 60, 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>']
     );
 
     Factory::getDocument()->getWebAssetManager()

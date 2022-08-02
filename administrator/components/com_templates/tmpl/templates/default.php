@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -16,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -30,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'client_id']]); ?>
                 <?php if ($this->total > 0) : ?>
                     <table class="table" id="templateList">
                         <caption class="visually-hidden">
@@ -71,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </td>
                                 <th scope="row" class="template-name">
                                     <a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
-                                        <?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
+                                        <?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst((string) $item->name)); ?></a>
                                     <div>
                                         <?php if ($this->preview) : ?>
                                             <?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
@@ -132,7 +133,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">

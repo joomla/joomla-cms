@@ -9,6 +9,9 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
+use Joomla\String\Inflector;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -35,7 +38,7 @@ class ListView extends HtmlView
     /**
      * The pagination object
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
@@ -56,7 +59,7 @@ class ListView extends HtmlView
     /**
      * Form object for search filters
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     public $filterForm;
 
@@ -151,7 +154,7 @@ class ListView extends HtmlView
         $this->initializeView();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -176,7 +179,7 @@ class ListView extends HtmlView
 
         if ($this->getLayout() !== 'modal') {
             if (\is_callable($helperClass . '::addSubmenu')) {
-                \call_user_func(array($helperClass, 'addSubmenu'), $this->getName());
+                \call_user_func([$helperClass, 'addSubmenu'], $this->getName());
             }
 
             $this->sidebar = \JHtmlSidebar::render();
@@ -205,7 +208,7 @@ class ListView extends HtmlView
         $bar = Toolbar::getInstance('toolbar');
 
         $viewName = $this->getName();
-        $singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
+        $singularViewName = Inflector::getInstance()->toSingular($viewName);
 
         ToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
@@ -241,7 +244,7 @@ class ListView extends HtmlView
             // Instantiate a new LayoutFile instance and render the popup button
             $layout = new FileLayout('joomla.toolbar.popup');
 
-            $dhtml = $layout->render(array('title' => $title));
+            $dhtml = $layout->render(['title' => $title]);
             $bar->appendButton('Custom', $dhtml, 'batch');
         }
 

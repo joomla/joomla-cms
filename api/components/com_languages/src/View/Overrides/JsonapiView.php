@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Languages\Api\View\Overrides;
 
+use Joomla\Component\Languages\Administrator\Model\OverrideModel;
+use Joomla\Component\Languages\Administrator\Model\OverridesModel;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
@@ -46,7 +48,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayItem($item = null)
     {
-        /** @var \Joomla\Component\Languages\Administrator\Model\OverrideModel $model */
+        /** @var OverrideModel $model */
         $model = $this->getModel();
         $id    = $model->getState($model->getName() . '.id');
         $item  = $this->prepareItem($model->getItem($id));
@@ -64,7 +66,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayList(array $items = null)
     {
-        /** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
+        /** @var OverridesModel $model */
         $model = $this->getModel();
         $items = [];
 

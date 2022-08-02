@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Associations\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
@@ -38,11 +39,10 @@ class AssociationsController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel|boolean
      *
      * @since  3.7.0
      */
-    public function getModel($name = 'Associations', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Associations', $prefix = 'Administrator', $config = ['ignore_request' => true]): BaseDatabaseModel|bool
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -90,7 +90,7 @@ class AssociationsController extends AdminController
         $this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 
         // Figure out if the item supports checking and check it in
-        list($extensionName, $typeName) = explode('.', $this->input->get('itemtype'));
+        [$extensionName, $typeName] = explode('.', (string) $this->input->get('itemtype'));
 
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
         $types     = $extension->get('types');
@@ -104,7 +104,7 @@ class AssociationsController extends AdminController
             return;
         }
 
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         if (empty($cid)) {
             // Seems we don't have an id to work with.

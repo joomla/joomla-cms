@@ -49,7 +49,6 @@ class GetSetup extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @param   MfaTable  $value  The value to validate
      *
-     * @return  MfaTable
      * @since   4.2.0
      */
     public function setRecord(MfaTable $value): MfaTable

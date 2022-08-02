@@ -47,14 +47,14 @@ class MysqlChangeItem extends ChangeItem
         $this->updateQuery = str_replace("\n", '', $this->updateQuery);
 
         // Fix up extra spaces around () and in general
-        $find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-        $replace = array('($3)', '$1');
+        $find = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
+        $replace = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
         $wordArray = preg_split("~'[^']*'(*SKIP)(*F)|\s+~u", trim($updateQuery, "; \t\n\r\0\x0B"));
 
         // First, make sure we have an array of at least 5 elements
         // if not, we can't make a check query for this one
-        if (\count($wordArray) < 5) {
+        if ((is_countable($wordArray) ? \count($wordArray) : 0) < 5) {
             // Done with method
             return;
         }
@@ -67,7 +67,7 @@ class MysqlChangeItem extends ChangeItem
 
             $this->checkQuery  = 'SHOW TABLES LIKE ' . $table;
             $this->queryType   = 'RENAME_TABLE';
-            $this->msgElements = array($table);
+            $this->msgElements = [$table];
             $this->checkStatus = 0;
 
             // Done with method
@@ -75,7 +75,7 @@ class MysqlChangeItem extends ChangeItem
         }
 
         // For the remaining query types make sure we have an array of at least 6 elements
-        if (\count($wordArray) < 6) {
+        if ((is_countable($wordArray) ? \count($wordArray) : 0) < 6) {
             // Done with method
             return;
         }
@@ -86,7 +86,7 @@ class MysqlChangeItem extends ChangeItem
             if ($alterCommand === 'ADD COLUMN') {
                 $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
                 $this->queryType = 'ADD_COLUMN';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5])];
             } elseif ($alterCommand === 'ADD INDEX' || $alterCommand === 'ADD KEY') {
                 if ($pos = strpos($wordArray[5], '(')) {
                     $index = $this->fixQuote(substr($wordArray[5], 0, $pos));
@@ -96,7 +96,7 @@ class MysqlChangeItem extends ChangeItem
 
                 $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
                 $this->queryType = 'ADD_INDEX';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'ADD UNIQUE') {
                 $idxIndexName = 5;
 
@@ -116,19 +116,19 @@ class MysqlChangeItem extends ChangeItem
 
                 $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
                 $this->queryType = 'ADD_INDEX';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'DROP INDEX' || $alterCommand === 'DROP KEY') {
                 $index = $this->fixQuote($wordArray[5]);
                 $result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
                 $this->queryType = 'DROP_INDEX';
                 $this->checkQueryExpected = 0;
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif ($alterCommand === 'DROP COLUMN') {
                 $index = $this->fixQuote($wordArray[5]);
                 $result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE Field = ' . $index;
                 $this->queryType = 'DROP_COLUMN';
                 $this->checkQueryExpected = 0;
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $index];
             } elseif (strtoupper($wordArray[3]) === 'MODIFY') {
                 // Kludge to fix problem with "integer unsigned"
                 $type = $wordArray[5];
@@ -153,7 +153,7 @@ class MysqlChangeItem extends ChangeItem
                     . ($defaultCheck ? ' AND ' . $defaultCheck : '')
                     . ($nullCheck ? ' AND ' . $nullCheck : '');
                 $this->queryType = 'CHANGE_COLUMN_TYPE';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type];
             } elseif (strtoupper($wordArray[3]) === 'CHANGE') {
                 // Kludge to fix problem with "integer unsigned"
                 $type = $wordArray[6];
@@ -178,7 +178,7 @@ class MysqlChangeItem extends ChangeItem
                     . ($defaultCheck ? ' AND ' . $defaultCheck : '')
                     . ($nullCheck ? ' AND ' . $nullCheck : '');
                 $this->queryType = 'CHANGE_COLUMN_TYPE';
-                $this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type];
             }
         }
 
@@ -191,7 +191,7 @@ class MysqlChangeItem extends ChangeItem
 
             $result = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
             $this->queryType = 'CREATE_TABLE';
-            $this->msgElements = array($this->fixQuote($table));
+            $this->msgElements = [$this->fixQuote($table)];
         }
 
         // Set fields based on results
@@ -224,7 +224,7 @@ class MysqlChangeItem extends ChangeItem
         $result = $type1;
 
         if (preg_match('/^(?P<type>(big|medium|small|tiny)?int)(\([0-9]+\))?$/i', $type1, $matches)) {
-            $result = strtolower($matches['type']);
+            $result = strtolower((string) $matches['type']);
         }
 
         if (strtolower(substr($type2, 0, 8)) === 'unsigned') {
@@ -271,46 +271,20 @@ class MysqlChangeItem extends ChangeItem
     {
         $uType = strtoupper(str_replace(';', '', $type));
 
-        switch ($uType) {
-            case 'BIGINT UNSIGNED':
-            case 'INT UNSIGNED':
-            case 'MEDIUMINT UNSIGNED':
-            case 'SMALLINT UNSIGNED':
-            case 'TINYINT UNSIGNED':
-                // Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])? UNSIGNED$'"
-                $typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . str_replace(' ', '([(][0-9]+[)])? ', $uType) . '$');
-                break;
-
-            case 'BIGINT':
-            case 'INT':
-            case 'MEDIUMINT':
-            case 'SMALLINT':
-            case 'TINYINT':
-                // Eg for "INT": "UPPER(type) REGEXP '^INT([(][0-9]+[)])?$'"
-                $typeCheck = 'UPPER(type) REGEXP ' . $this->db->quote('^' . $uType . '([(][0-9]+[)])?$');
-                break;
-
-            case 'MEDIUMTEXT':
-                $typeCheck = $this->db->hasUTF8mb4Support()
-                    ? 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')'
-                    : 'UPPER(type) = ' . $this->db->quote('MEDIUMTEXT');
-                break;
-
-            case 'TEXT':
-                $typeCheck = $this->db->hasUTF8mb4Support()
-                    ? 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')'
-                    : 'UPPER(type) = ' . $this->db->quote('TEXT');
-                break;
-
-            case 'TINYTEXT':
-                $typeCheck = $this->db->hasUTF8mb4Support()
-                    ? 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')'
-                    : 'UPPER(type) = ' . $this->db->quote('TINYTEXT');
-                break;
-
-            default:
-                $typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
-        }
+        $typeCheck = match ($uType) {
+            'BIGINT UNSIGNED', 'INT UNSIGNED', 'MEDIUMINT UNSIGNED', 'SMALLINT UNSIGNED', 'TINYINT UNSIGNED' => 'UPPER(type) REGEXP ' . $this->db->quote('^' . str_replace(' ', '([(][0-9]+[)])? ', $uType) . '$'),
+            'BIGINT', 'INT', 'MEDIUMINT', 'SMALLINT', 'TINYINT' => 'UPPER(type) REGEXP ' . $this->db->quote('^' . $uType . '([(][0-9]+[)])?$'),
+            'MEDIUMTEXT' => $this->db->hasUTF8mb4Support()
+                ? 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')'
+                : 'UPPER(type) = ' . $this->db->quote('MEDIUMTEXT'),
+            'TEXT' => $this->db->hasUTF8mb4Support()
+                ? 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')'
+                : 'UPPER(type) = ' . $this->db->quote('TEXT'),
+            'TINYTEXT' => $this->db->hasUTF8mb4Support()
+                ? 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')'
+                : 'UPPER(type) = ' . $this->db->quote('TINYTEXT'),
+            default => 'UPPER(type) = ' . $this->db->quote($uType),
+        };
 
         return $typeCheck;
     }
@@ -331,7 +305,7 @@ class MysqlChangeItem extends ChangeItem
 
         // Create the check
         if ($index !== false) {
-            if ($index == 0 || strtolower($changesArray[$index - 1]) !== 'not') {
+            if ($index == 0 || strtolower((string) $changesArray[$index - 1]) !== 'not') {
                 return ' `null` = ' . $this->db->quote('YES');
             } else {
                 return ' `null` = ' . $this->db->quote('NO');
@@ -356,7 +330,7 @@ class MysqlChangeItem extends ChangeItem
         // Skip types that do not support default values
         $type = strtolower($type);
 
-        if (substr($type, -4) === 'text' || substr($type, -4) === 'blob') {
+        if (str_ends_with($type, 'text') || str_ends_with($type, 'blob')) {
             return false;
         }
 
@@ -365,7 +339,7 @@ class MysqlChangeItem extends ChangeItem
 
         // Create the check
         if ($index !== false) {
-            if (strtolower($changesArray[$index + 1]) === 'null') {
+            if (strtolower((string) $changesArray[$index + 1]) === 'null') {
                 return ' `default` IS NULL';
             } else {
                 return ' `default` = ' . $changesArray[$index + 1];

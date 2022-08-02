@@ -27,7 +27,6 @@
 class PasswordHash {
 	var $itoa64;
 	var $iteration_count_log2;
-	var $portable_hashes;
 	var $random_state;
 
 	function __construct($iteration_count_log2, $portable_hashes)
@@ -37,8 +36,6 @@ class PasswordHash {
 		if ($iteration_count_log2 < 4 || $iteration_count_log2 > 31)
 			$iteration_count_log2 = 8;
 		$this->iteration_count_log2 = $iteration_count_log2;
-
-		$this->portable_hashes = $portable_hashes;
 
 		$this->random_state = microtime();
 		if (function_exists('getmypid'))
@@ -108,21 +105,21 @@ class PasswordHash {
 	function crypt_private($password, $setting)
 	{
 		$output = '*0';
-		if (substr($setting, 0, 2) === $output)
+		if (substr((string) $setting, 0, 2) === $output)
 			$output = '*1';
 
-		$id = substr($setting, 0, 3);
+		$id = substr((string) $setting, 0, 3);
 		# We use "$P$", phpBB3 uses "$H$" for the same thing
 		if ($id !== '$P$' && $id !== '$H$')
 			return $output;
 
-		$count_log2 = strpos($this->itoa64, $setting[3]);
+		$count_log2 = strpos((string) $this->itoa64, (string) $setting[3]);
 		if ($count_log2 < 7 || $count_log2 > 30)
 			return $output;
 
 		$count = 1 << $count_log2;
 
-		$salt = substr($setting, 4, 8);
+		$salt = substr((string) $setting, 4, 8);
 		if (strlen($salt) !== 8)
 			return $output;
 
@@ -137,7 +134,7 @@ class PasswordHash {
 			$hash = md5($hash . $password, TRUE);
 		} while (--$count);
 
-		$output = substr($setting, 0, 12);
+		$output = substr((string) $setting, 0, 12);
 		$output .= $this->encode64($hash, 16);
 
 		return $output;
@@ -191,17 +188,17 @@ class PasswordHash {
 		if (CRYPT_BLOWFISH === 1 && !$this->portable_hashes) {
 			$random = $this->get_random_bytes(16);
 			$hash =
-			    crypt($password, $this->gensalt_blowfish($random));
+			    crypt((string) $password, (string) $this->gensalt_blowfish($random));
 			if (strlen($hash) === 60)
 				return $hash;
 		}
 
-		if (strlen($random) < 6)
+		if (strlen((string) $random) < 6)
 			$random = $this->get_random_bytes(6);
 		$hash =
 		    $this->crypt_private($password,
 		    $this->gensalt_private($random));
-		if (strlen($hash) === 34)
+		if (strlen((string) $hash) === 34)
 			return $hash;
 
 		# Returning '*' on error is safe here, but would _not_ be safe
@@ -214,7 +211,7 @@ class PasswordHash {
 	{
 		$hash = $this->crypt_private($password, $stored_hash);
 		if ($hash[0] === '*')
-			$hash = crypt($password, $stored_hash);
+			$hash = crypt((string) $password, (string) $stored_hash);
 
 		# This is not constant-time.  In order to keep the code simple,
 		# for timing safety we currently rely on the salts being

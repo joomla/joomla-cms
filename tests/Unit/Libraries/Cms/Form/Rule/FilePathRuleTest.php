@@ -25,7 +25,6 @@ class FilePathRuleTest extends UnitTestCase
     /**
      * Test data for the testRule method
      *
-     * @return  array
      *
      * @since   3.9.26
      */

@@ -39,18 +39,14 @@ class LanguageHelper
      */
     public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
     {
-        $list      = array();
+        $list      = [];
         $clientId  = $basePath === JPATH_ADMINISTRATOR ? 1 : 0;
         $languages = $installed ? static::getInstalledLanguages($clientId, true) : self::getKnownLanguages($basePath);
 
         foreach ($languages as $languageCode => $language) {
             $metadata = $installed ? $language->metadata : $language;
 
-            $list[] = array(
-                'text'     => $metadata['nativeName'] ?? $metadata['name'],
-                'value'    => $languageCode,
-                'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null,
-            );
+            $list[] = ['text'     => $metadata['nativeName'] ?? $metadata['name'], 'value'    => $languageCode, 'selected' => $languageCode === $actualLanguage ? 'selected="selected"' : null];
         }
 
         return $list;
@@ -66,7 +62,7 @@ class LanguageHelper
     public static function detectLanguage()
     {
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            $browserLangs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $browserLangs = explode(',', (string) $_SERVER['HTTP_ACCEPT_LANGUAGE']);
             $systemLangs = self::getLanguages();
 
             foreach ($browserLangs as $browserLang) {
@@ -78,10 +74,10 @@ class LanguageHelper
                     // Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
                     $Jinstall_lang = $systemLang->lang_code;
 
-                    if (\strlen($Jinstall_lang) < 6) {
-                        if (strtolower($browserLang) == strtolower(substr($systemLang->lang_code, 0, \strlen($browserLang)))) {
+                    if (\strlen((string) $Jinstall_lang) < 6) {
+                        if (strtolower($browserLang) == strtolower(substr((string) $systemLang->lang_code, 0, \strlen($browserLang)))) {
                             return $systemLang->lang_code;
-                        } elseif ($primary_browserLang == substr($systemLang->lang_code, 0, 2)) {
+                        } elseif ($primary_browserLang == substr((string) $systemLang->lang_code, 0, 2)) {
                             $primaryDetectedLang = $systemLang->lang_code;
                         }
                     }
@@ -110,7 +106,7 @@ class LanguageHelper
         if (empty($languages)) {
             // Installation uses available languages
             if (Factory::getApplication()->isClient('installation')) {
-                $languages[$key] = array();
+                $languages[$key] = [];
                 $knownLangs = self::getKnownLanguages(JPATH_BASE);
 
                 foreach ($knownLangs as $metadata) {
@@ -136,8 +132,8 @@ class LanguageHelper
                     $db->setQuery($query);
 
                     $languages['default'] = $db->loadObjectList();
-                    $languages['sef'] = array();
-                    $languages['lang_code'] = array();
+                    $languages['sef'] = [];
+                    $languages['lang_code'] = [];
 
                     if (isset($languages['default'][0])) {
                         foreach ($languages['default'] as $lang) {
@@ -212,11 +208,8 @@ class LanguageHelper
             }
         }
 
-        $clients   = $clientId === null ? array(0, 1) : array((int) $clientId);
-        $languages = array(
-            0 => array(),
-            1 => array(),
-        );
+        $clients   = $clientId === null ? [0, 1] : [(int) $clientId];
+        $languages = [0 => [], 1 => []];
 
         foreach ($installedLanguages as $language) {
             // If the language client is not needed continue cycle. Drop for performance.
@@ -238,7 +231,7 @@ class LanguageHelper
                 if ($processMetaData) {
                     try {
                         $lang->metadata = self::parseXMLLanguageFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -257,7 +250,7 @@ class LanguageHelper
                 if ($processManifest) {
                     try {
                         $lang->manifest = Installer::parseXMLInstallFile($metafile);
-                    } catch (\Exception $e) {
+                    } catch (\Exception) {
                         // Not able to process xml language file. Fail silently.
                         Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
@@ -319,7 +312,7 @@ class LanguageHelper
      * @since   3.7.0
      */
     public static function getContentLanguages(
-        $publishedStates = array(1),
+        $publishedStates = [1],
         $checkInstalled = true,
         $pivot = 'lang_code',
         $orderField = null,
@@ -351,9 +344,9 @@ class LanguageHelper
 
         // B/C layer. Before 3.8.3.
         if ($publishedStates === true) {
-            $publishedStates = array(1);
+            $publishedStates = [1];
         } elseif ($publishedStates === false) {
-            $publishedStates = array();
+            $publishedStates = [];
         }
 
         // Check the language published state, if needed.
@@ -397,7 +390,7 @@ class LanguageHelper
     {
         // Check if file exists.
         if (!is_file($fileName)) {
-            return array();
+            return [];
         }
 
         // Capture hidden PHP errors from the parsing.
@@ -426,7 +419,7 @@ class LanguageHelper
             ini_set('track_errors', $trackErrors);
         }
 
-        return \is_array($strings) ? $strings : array();
+        return \is_array($strings) ? $strings : [];
     }
 
     /**
@@ -443,7 +436,7 @@ class LanguageHelper
     {
         // Escape double quotes.
         foreach ($strings as $key => $string) {
-            $strings[$key] = addcslashes($string, '"');
+            $strings[$key] = addcslashes((string) $string, '"');
         }
 
         // Write override.ini file with the strings.
@@ -466,7 +459,7 @@ class LanguageHelper
      */
     public static function exists($lang, $basePath = JPATH_BASE)
     {
-        static $paths = array();
+        static $paths = [];
 
         // Return false if no language was specified
         if (!$lang) {
@@ -556,13 +549,13 @@ class LanguageHelper
      */
     public static function parseLanguageFiles($dir = null)
     {
-        $languages = array();
+        $languages = [];
 
         // Search main language directory for subdirectories
         foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory) {
             // But only directories with lang code format
-            if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory)) {
-                $dirPathParts = pathinfo($directory);
+            if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', (string) $directory)) {
+                $dirPathParts = pathinfo((string) $directory);
                 $file         = $directory . '/langmetadata.xml';
 
                 if (!is_file($file)) {
@@ -576,9 +569,9 @@ class LanguageHelper
                 try {
                     // Get installed language metadata from xml file and merge it with lang array
                     if ($metadata = self::parseXMLLanguageFile($file)) {
-                        $languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
+                        $languages = array_replace($languages, [$dirPathParts['filename'] => $metadata]);
                     }
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     // Ignore it
                 }
             }
@@ -615,7 +608,7 @@ class LanguageHelper
             return;
         }
 
-        $metadata = array();
+        $metadata = [];
 
         foreach ($xml->metadata->children() as $child) {
             $metadata[$child->getName()] = (string) $child;

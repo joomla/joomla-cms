@@ -176,7 +176,7 @@ class PlgExtensionFinder extends CMSPlugin
         try {
             $db->setQuery($query);
             $db->execute();
-        } catch (Exception $ex) {
+        } catch (Exception) {
             // It would be nice if the common word is stored to the DB, but it isn't super important
         }
     }

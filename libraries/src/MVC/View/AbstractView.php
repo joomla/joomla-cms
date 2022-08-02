@@ -60,7 +60,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      * @var    array
      * @since  3.0
      */
-    protected $_models = array();
+    protected $_models = [];
 
     /**
      * The default model
@@ -84,7 +84,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @since   3.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         // Set the view name
         if (empty($this->_name)) {
@@ -214,7 +214,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
                     $this->_name = strtolower(substr($viewNamespace, $pos + 1));
                 }
             } else {
-                $className = \get_class($this);
+                $className = $this::class;
                 $viewPos   = strpos($className, 'View');
 
                 if ($viewPos != false) {
@@ -243,7 +243,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
     {
         try {
             $this->getDispatcher()->dispatch($event->getName(), $event);
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
         }
     }

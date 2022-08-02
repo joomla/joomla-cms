@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -19,7 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -38,7 +39,7 @@ if ($saveOrder && !empty($this->items)) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
 
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -72,9 +73,9 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody<?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>"<?php
                               endif; ?>>
-                        <?php $count = count($this->items); ?>
+                        <?php $count = is_countable($this->items) ? count($this->items) : 0; ?>
                         <?php foreach ($this->items as $i => $item) :
                             $ordering  = ($listOrder == 'a.ordering');
                             $canCreate = $user->authorise('core.create', 'com_users');
@@ -82,7 +83,7 @@ if ($saveOrder && !empty($this->items)) {
                             $canChange = $user->authorise('core.edit.state', 'com_users');
 
                             // Decode level groups
-                            $groups = json_decode($item->rules);
+                            $groups = json_decode((string) $item->rules, null, 512, JSON_THROW_ON_ERROR);
 
                             // If this group is super admin and this user is not super admin, $canEdit is false
                             if (!Factory::getUser()->authorise('core.admin') && $groups && Access::checkGroup($groups[0], 'core.admin')) {
@@ -134,7 +135,7 @@ if ($saveOrder && !empty($this->items)) {
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>

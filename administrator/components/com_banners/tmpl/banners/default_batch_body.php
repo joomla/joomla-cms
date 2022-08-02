@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Banners\Administrator\View\Banners\HtmlView;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -14,8 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 
-/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
-
+/** @var HtmlView $this */
 $published = $this->state->get('filter.published');
 ?>
 

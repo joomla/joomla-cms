@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Updater;
 
+use Joomla\CMS\Http\Response;
 use Joomla\CMS\Adapter\AdapterInstance;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
@@ -39,7 +40,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $stack = array('base');
+    protected $stack = ['base'];
 
     /**
      * ID of update site
@@ -55,7 +56,7 @@ abstract class UpdateAdapter extends AdapterInstance
      * @var    array
      * @since  3.0.0
      */
-    protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY');
+    protected $updatecols = ['NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'CHANGELOGURL', 'EXTRA_QUERY'];
 
     /**
      * Should we try appending a .xml extension to the update site's URL?
@@ -158,7 +159,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
     }
@@ -190,7 +191,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         try {
             $name = $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Do nothing
         }
 
@@ -202,13 +203,13 @@ abstract class UpdateAdapter extends AdapterInstance
      *
      * @param   array  $options  The update options, see findUpdate() in children classes
      *
-     * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
+     * @return Response|bool False if we can't connect to the site, HTTP Response object otherwise
      *
      * @throws  \Exception
      */
-    protected function getUpdateSiteResponse($options = array())
+    protected function getUpdateSiteResponse($options = []): Response|bool
     {
-        $url = trim($options['location']);
+        $url = trim((string) $options['location']);
         $this->_url = &$url;
         $this->updateSiteId = $options['update_site_id'];
 
@@ -223,8 +224,8 @@ abstract class UpdateAdapter extends AdapterInstance
             $this->appendExtension = $options['append_extension'];
         }
 
-        if ($this->appendExtension && (substr($url, -4) !== '.xml')) {
-            if (substr($url, -1) !== '/') {
+        if ($this->appendExtension && (!str_ends_with($url, '.xml'))) {
+            if (!str_ends_with($url, '/')) {
                 $url .= '/';
             }
 
@@ -244,8 +245,8 @@ abstract class UpdateAdapter extends AdapterInstance
         // JHttp transport throws an exception when there's no response.
         try {
             $http = HttpFactory::getHttp($httpOption);
-            $response = $http->get($url, array(), 20);
-        } catch (\RuntimeException $e) {
+            $response = $http->get($url, [], 20);
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -264,7 +265,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         if ($response === null || $response->code !== 200) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->getUpdateSiteResponse($options);

@@ -24,7 +24,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $htmlAttributes
  */
 
-$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ms-auto';
+$margin = (!str_contains($url ?? '', 'index.php?option=com_config')) ? '' : 'ms-auto';
 $target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
 <joomla-toolbar-button class="<?php echo $margin; ?>">

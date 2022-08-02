@@ -41,7 +41,7 @@ class UsersHelper extends ContentHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JENABLED'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JDISABLED'));
 
@@ -58,7 +58,7 @@ class UsersHelper extends ContentHelper
     public static function getActiveOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('COM_USERS_ACTIVATED'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('COM_USERS_UNACTIVATED'));
 
@@ -94,15 +94,7 @@ class UsersHelper extends ContentHelper
      */
     public static function getRangeOptions()
     {
-        $options = array(
-            HTMLHelper::_('select.option', 'today', Text::_('COM_USERS_OPTION_RANGE_TODAY')),
-            HTMLHelper::_('select.option', 'past_week', Text::_('COM_USERS_OPTION_RANGE_PAST_WEEK')),
-            HTMLHelper::_('select.option', 'past_1month', Text::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')),
-            HTMLHelper::_('select.option', 'past_3month', Text::_('COM_USERS_OPTION_RANGE_PAST_3MONTH')),
-            HTMLHelper::_('select.option', 'past_6month', Text::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')),
-            HTMLHelper::_('select.option', 'past_year', Text::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
-            HTMLHelper::_('select.option', 'post_year', Text::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
-        );
+        $options = [HTMLHelper::_('select.option', 'today', Text::_('COM_USERS_OPTION_RANGE_TODAY')), HTMLHelper::_('select.option', 'past_week', Text::_('COM_USERS_OPTION_RANGE_PAST_WEEK')), HTMLHelper::_('select.option', 'past_1month', Text::_('COM_USERS_OPTION_RANGE_PAST_1MONTH')), HTMLHelper::_('select.option', 'past_3month', Text::_('COM_USERS_OPTION_RANGE_PAST_3MONTH')), HTMLHelper::_('select.option', 'past_6month', Text::_('COM_USERS_OPTION_RANGE_PAST_6MONTH')), HTMLHelper::_('select.option', 'past_year', Text::_('COM_USERS_OPTION_RANGE_PAST_YEAR')), HTMLHelper::_('select.option', 'post_year', Text::_('COM_USERS_OPTION_RANGE_POST_YEAR'))];
 
         return $options;
     }
@@ -133,7 +125,7 @@ class UsersHelper extends ContentHelper
      */
     public static function getVisibleByGroups($rules)
     {
-        $rules = json_decode($rules);
+        $rules = json_decode($rules, null, 512, JSON_THROW_ON_ERROR);
 
         if (!$rules) {
             return false;

@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <?php $fields = $this->form->getFieldset('params'); ?>
-<?php if (count($fields)) : ?>
+<?php if (is_countable($fields) ? count($fields) : 0) : ?>
     <fieldset id="users-profile-custom" class="com-users-profile__params">
         <legend><?php echo Text::_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
         <dl class="dl-horizontal">

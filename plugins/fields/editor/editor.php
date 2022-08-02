@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Editor
@@ -17,7 +18,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  3.7.0
  */
-class PlgFieldsEditor extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
+class PlgFieldsEditor extends FieldsPlugin
 {
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
@@ -39,7 +40,7 @@ class PlgFieldsEditor extends \Joomla\Component\Fields\Administrator\Plugin\Fiel
         }
 
         $fieldNode->setAttribute('buttons', $field->fieldparams->get('buttons', $this->params->get('buttons', 0)) ? 'true' : 'false');
-        $fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', array())));
+        $fieldNode->setAttribute('hide', implode(',', $field->fieldparams->get('hide', [])));
 
         return $fieldNode;
     }

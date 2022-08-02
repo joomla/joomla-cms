@@ -44,10 +44,9 @@ class UpdateCoreCommand extends AbstractCommand
 
     /**
      * SymfonyStyle Object
-     * @var SymfonyStyle
      * @since 4.0.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Update Information
@@ -74,25 +73,19 @@ class UpdateCoreCommand extends AbstractCommand
      * Return code for successful update
      * @since 4.0.0
      */
-    public const UPDATE_SUCCESSFUL = 0;
+    final public const UPDATE_SUCCESSFUL = 0;
 
     /**
      * Return code for failed update
      * @since 4.0.0
      */
-    public const ERR_UPDATE_FAILED = 2;
+    final public const ERR_UPDATE_FAILED = 2;
 
     /**
      * Return code for failed checks
      * @since 4.0.0
      */
-    public const ERR_CHECKS_FAILED = 1;
-
-    /**
-     * @var DatabaseInterface
-     * @since 4.0.0
-     */
-    private $db;
+    final public const ERR_CHECKS_FAILED = 1;
 
     /**
      * UpdateCoreCommand constructor.
@@ -101,9 +94,8 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @since 4.0.0
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(private readonly DatabaseInterface $db)
     {
-        $this->db = $db;
         parent::__construct();
     }
 
@@ -181,7 +173,6 @@ class UpdateCoreCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -242,8 +233,6 @@ class UpdateCoreCommand extends AbstractCommand
      * @param   array  $data  Stores the update information
      *
      * @since 4.0.0
-     *
-     * @return void
      */
     public function setUpdateInfo($data): void
     {
@@ -271,7 +260,6 @@ class UpdateCoreCommand extends AbstractCommand
     /**
      * Sets the Update Model
      *
-     * @return void
      *
      * @since 4.0.0
      */
@@ -297,11 +285,10 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @param   array  $updateInformation  Stores the update information
      *
-     * @return array | boolean
      *
      * @since 4.0.0
      */
-    public function processUpdatePackage($updateInformation)
+    public function processUpdatePackage($updateInformation): array|bool
     {
         if (!$updateInformation['object']) {
             return false;
@@ -330,11 +317,10 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @param   string  $url  URL to update file
      *
-     * @return boolean | string
      *
      * @since 4.0.0
      */
-    public function downloadFile($url)
+    public function downloadFile($url): bool|string
     {
         $file = InstallerHelper::downloadPackage($url);
 
@@ -350,11 +336,10 @@ class UpdateCoreCommand extends AbstractCommand
      *
      * @param   string  $file  Full path to file location
      *
-     * @return array | boolean
      *
      * @since 4.0.0
      */
-    public function extractFile($file)
+    public function extractFile($file): array|bool
     {
         $package = InstallerHelper::unpack($file, true);
 
@@ -367,7 +352,6 @@ class UpdateCoreCommand extends AbstractCommand
      * @param   string  $file  Full path to file
      * @param   string  $dir   Destination directory
      *
-     * @return void
      *
      * @since 4.0.0
      */

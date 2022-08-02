@@ -45,7 +45,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
      * @var    array
      * @since  3.3
      */
-    protected $_jsonEncode = array('params', 'metadata');
+    protected $_jsonEncode = ['params', 'metadata'];
 
     /**
      * Constructor
@@ -112,9 +112,9 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
+        $table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', ['dbo' => $this->getDbo()]);
 
-        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
 
             return false;
@@ -143,14 +143,14 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
 
         $this->default_con = (int) $this->default_con;
 
-        if ($this->webpage !== null && InputFilter::checkAttribute(array('href', $this->webpage))) {
+        if ($this->webpage !== null && InputFilter::checkAttribute(['href', $this->webpage])) {
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
 
             return false;
         }
 
         // Check for valid name
-        if (trim($this->name) == '') {
+        if (trim((string) $this->name) == '') {
             $this->setError(Text::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -186,7 +186,7 @@ class ContactTable extends Table implements VersionableTableInterface, TaggableT
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $badCharacters = array("\"", '<', '>');
+            $badCharacters = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($badCharacters, '', $this->metadesc);
         } else {
             $this->metadesc = '';

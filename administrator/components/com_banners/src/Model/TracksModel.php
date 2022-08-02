@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -42,18 +43,10 @@ class TracksModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'b.name', 'banner_name',
-                'cl.name', 'client_name', 'client_id',
-                'c.title', 'category_title', 'category_id',
-                'track_type', 'a.track_type', 'type',
-                'count', 'a.count',
-                'track_date', 'a.track_date', 'end', 'begin',
-                'level', 'c.level',
-            );
+            $config['filter_fields'] = ['b.name', 'banner_name', 'cl.name', 'client_name', 'client_id', 'c.title', 'category_title', 'category_id', 'track_type', 'a.track_type', 'type', 'count', 'a.count', 'track_date', 'a.track_date', 'end', 'begin', 'level', 'c.level'];
         }
 
         parent::__construct($config);
@@ -83,7 +76,7 @@ class TracksModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -261,7 +254,7 @@ class TracksModel extends ListModel
     public function getBaseName()
     {
         if (!isset($this->basename)) {
-            $basename   = str_replace('__SITE__', Factory::getApplication()->get('sitename'), $this->getState('basename'));
+            $basename   = str_replace('__SITE__', Factory::getApplication()->get('sitename'), (string) $this->getState('basename'));
             $categoryId = $this->getState('filter.category_id');
 
             if (is_numeric($categoryId)) {
@@ -274,7 +267,7 @@ class TracksModel extends ListModel
                 $categoryName = $this->getCategoryName();
                 $basename = str_replace('__CATNAME__', $categoryName, $basename);
             } else {
-                $basename = str_replace(array('__CATID__', '__CATNAME__'), '', $basename);
+                $basename = str_replace(['__CATID__', '__CATNAME__'], '', $basename);
             }
 
             $clientId = $this->getState('filter.client_id');
@@ -289,7 +282,7 @@ class TracksModel extends ListModel
                 $clientName = $this->getClientName();
                 $basename = str_replace('__CLIENTNAME__', $clientName, $basename);
             } else {
-                $basename = str_replace(array('__CLIENTID__', '__CLIENTNAME__'), '', $basename);
+                $basename = str_replace(['__CLIENTID__', '__CLIENTNAME__'], '', $basename);
             }
 
             $type = $this->getState('filter.type');
@@ -299,7 +292,7 @@ class TracksModel extends ListModel
                 $typeName = Text::_('COM_BANNERS_TYPE' . $type);
                 $basename = str_replace('__TYPENAME__', $typeName, $basename);
             } else {
-                $basename = str_replace(array('__TYPE__', '__TYPENAME__'), '', $basename);
+                $basename = str_replace(['__TYPE__', '__TYPENAME__'], '', $basename);
             }
 
             $begin = $this->getState('filter.begin');
@@ -434,24 +427,18 @@ class TracksModel extends ListModel
                 . str_replace('"', '""', Text::_('JDATE')) . '"' . "\n";
 
             foreach ($this->getItems() as $item) {
-                $this->content .= '"' . str_replace('"', '""', $item->banner_name) . '","'
-                    . str_replace('"', '""', $item->client_name) . '","'
-                    . str_replace('"', '""', $item->category_title) . '","'
+                $this->content .= '"' . str_replace('"', '""', (string) $item->banner_name) . '","'
+                    . str_replace('"', '""', (string) $item->client_name) . '","'
+                    . str_replace('"', '""', (string) $item->category_title) . '","'
                     . str_replace('"', '""', ($item->track_type == 1 ? Text::_('COM_BANNERS_IMPRESSION') : Text::_('COM_BANNERS_CLICK'))) . '","'
-                    . str_replace('"', '""', $item->count) . '","'
-                    . str_replace('"', '""', $item->track_date) . '"' . "\n";
+                    . str_replace('"', '""', (string) $item->count) . '","'
+                    . str_replace('"', '""', (string) $item->track_date) . '"' . "\n";
             }
 
             if ($this->getState('compressed')) {
                 $app = Factory::getApplication();
 
-                $files = array(
-                    'track' => array(
-                        'name' => $this->getBaseName() . '.csv',
-                        'data' => $this->content,
-                        'time' => time()
-                    )
-                );
+                $files = ['track' => ['name' => $this->getBaseName() . '.csv', 'data' => $this->content, 'time' => time()]];
                 $ziproot = $app->get('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 
                 // Run the packager

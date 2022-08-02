@@ -58,12 +58,12 @@ class ActionlogModel extends BaseDatabaseModel
             $ip = 'COM_ACTIONLOGS_DISABLED';
         }
 
-        $loggedMessages = array();
+        $loggedMessages = [];
 
         foreach ($messages as $message) {
             $logMessage                       = new \stdClass();
             $logMessage->message_language_key = $messageLanguageKey;
-            $logMessage->message              = json_encode($message);
+            $logMessage->message              = json_encode($message, JSON_THROW_ON_ERROR);
             $logMessage->log_date             = (string) $date;
             $logMessage->extension            = $context;
             $logMessage->user_id              = $user->id;
@@ -73,7 +73,7 @@ class ActionlogModel extends BaseDatabaseModel
             try {
                 $db->insertObject('#__action_logs', $logMessage);
                 $loggedMessages[] = $logMessage;
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Ignore it
             }
         }
@@ -81,7 +81,7 @@ class ActionlogModel extends BaseDatabaseModel
         try {
             // Send notification email to users who choose to be notified about the action logs
             $this->sendNotificationEmails($loggedMessages, $user->name, $context);
-        } catch (MailDisabledException | phpMailerException $e) {
+        } catch (MailDisabledException | phpMailerException) {
             // Ignore it
         }
     }
@@ -108,7 +108,7 @@ class ActionlogModel extends BaseDatabaseModel
         $query = $db->getQuery(true);
 
         $query
-            ->select($db->quoteName(array('u.email', 'l.extensions')))
+            ->select($db->quoteName(['u.email', 'l.extensions']))
             ->from($db->quoteName('#__users', 'u'))
             ->where($db->quoteName('u.block') . ' = 0')
             ->join(
@@ -121,10 +121,10 @@ class ActionlogModel extends BaseDatabaseModel
 
         $users = $db->loadObjectList();
 
-        $recipients = array();
+        $recipients = [];
 
         foreach ($users as $user) {
-            $extensions = json_decode($user->extensions, true);
+            $extensions = json_decode((string) $user->extensions, true, 512, JSON_THROW_ON_ERROR);
 
             if ($extensions && \in_array(strtok($context, '.'), $extensions)) {
                 $recipients[] = $user->email;

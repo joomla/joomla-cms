@@ -38,7 +38,7 @@ abstract class CategoryAssociationHelper
      */
     public static function getCategoryAssociations($id = 0, $extension = 'com_content', $layout = null)
     {
-        $return = array();
+        $return = [];
 
         if ($id) {
             $helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
@@ -46,7 +46,7 @@ abstract class CategoryAssociationHelper
             $associations = CategoriesHelper::getAssociations($id, $extension);
 
             foreach ($associations as $tag => $item) {
-                if (class_exists($helperClassname) && \is_callable(array($helperClassname, 'getCategoryRoute'))) {
+                if (class_exists($helperClassname) && \is_callable([$helperClassname, 'getCategoryRoute'])) {
                     $return[$tag] = $helperClassname::getCategoryRoute($item, $tag, $layout);
                 } else {
                     $viewLayout = $layout ? '&layout=' . $layout : '';

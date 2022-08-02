@@ -30,7 +30,6 @@ class PlgContentFinder extends CMSPlugin
      * @param   object  $article  A JTableContent object
      * @param   bool    $isNew    If the content has just been created
      *
-     * @return  void
      *
      * @since   2.5
      */
@@ -39,7 +38,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderAfterSave event.
-        Factory::getApplication()->triggerEvent('onFinderAfterSave', array($context, $article, $isNew));
+        Factory::getApplication()->triggerEvent('onFinderAfterSave', [$context, $article, $isNew]);
     }
 
     /**
@@ -59,7 +58,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderBeforeSave event.
-        Factory::getApplication()->triggerEvent('onFinderBeforeSave', array($context, $article, $isNew));
+        Factory::getApplication()->triggerEvent('onFinderBeforeSave', [$context, $article, $isNew]);
     }
 
     /**
@@ -69,7 +68,6 @@ class PlgContentFinder extends CMSPlugin
      * @param   string  $context  The context of the content passed to the plugin (added in 1.6).
      * @param   object  $article  A JTableContent object.
      *
-     * @return  void
      *
      * @since   2.5
      */
@@ -78,7 +76,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderAfterDelete event.
-        Factory::getApplication()->triggerEvent('onFinderAfterDelete', array($context, $article));
+        Factory::getApplication()->triggerEvent('onFinderAfterDelete', [$context, $article]);
     }
 
     /**
@@ -100,7 +98,7 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderChangeState event.
-        Factory::getApplication()->triggerEvent('onFinderChangeState', array($context, $pks, $value));
+        Factory::getApplication()->triggerEvent('onFinderChangeState', [$context, $pks, $value]);
     }
 
     /**
@@ -121,6 +119,6 @@ class PlgContentFinder extends CMSPlugin
         PluginHelper::importPlugin('finder');
 
         // Trigger the onFinderCategoryChangeState event.
-        Factory::getApplication()->triggerEvent('onFinderCategoryChangeState', array($extension, $pks, $value));
+        Factory::getApplication()->triggerEvent('onFinderCategoryChangeState', [$extension, $pks, $value]);
     }
 }

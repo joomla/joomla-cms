@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -13,8 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
-
+/** @var HtmlView $this */
 ?>
 <div class="sysinfo">
     <table class="table">
@@ -125,7 +125,7 @@ use Joomla\CMS\Language\Text;
                     <?php echo Text::_('COM_ADMIN_USER_AGENT'); ?>
                 </th>
                 <td>
-                    <?php echo htmlspecialchars($this->info['useragent'], ENT_COMPAT, 'UTF-8'); ?>
+                    <?php echo htmlspecialchars((string) $this->info['useragent'], ENT_COMPAT, 'UTF-8'); ?>
                 </td>
             </tr>
         </tbody>

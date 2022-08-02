@@ -46,13 +46,13 @@ class CalendarRule extends FormRule
             return true;
         }
 
-        if (strtolower($value) === 'now') {
+        if (strtolower((string) $value) === 'now') {
             return true;
         }
 
         try {
             return Factory::getDate($value) instanceof Date;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

@@ -45,11 +45,11 @@ class LogoutUniqueFieldRule extends FormRule
         $logoutRedirectMenuitem = $input['params']->logout_redirect_menuitem;
 
         if ($form === null) {
-            throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
+            throw new \InvalidArgumentException(sprintf('The value for $form must not be null in %s', $this::class));
         }
 
         if ($input === null) {
-            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
+            throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', $this::class));
         }
 
         // Test the input values for logout.

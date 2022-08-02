@@ -133,14 +133,12 @@ class TransitionField extends ListField
 
         $component = reset($parts);
 
-        if (\count($items)) {
+        if (is_countable($items) ? \count($items) : 0) {
             $user = Factory::getUser();
 
             $items = array_filter(
                 $items,
-                function ($item) use ($user, $component) {
-                    return $user->authorise('core.execute.transition', $component . '.transition.' . $item->value);
-                }
+                fn($item) => $user->authorise('core.execute.transition', $component . '.transition.' . $item->value)
             );
 
             foreach ($items as $item) {

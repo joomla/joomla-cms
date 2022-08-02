@@ -58,11 +58,7 @@ class RangeField extends NumberField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
-            'max' => $this->max,
-            'min' => $this->min,
-            'step' => $this->step,
-        );
+        $extraData = ['max' => $this->max, 'min' => $this->min, 'step' => $this->step];
 
         return array_merge($data, $extraData);
     }

@@ -35,7 +35,7 @@ class ComponentHelper
      * @var    ComponentRecord[]
      * @since  1.6
      */
-    protected static $components = array();
+    protected static $components = [];
 
     /**
      * Get the component information.
@@ -131,14 +131,14 @@ class ComponentHelper
 
         $filters = $config->get('filters');
 
-        $forbiddenListTags       = array();
-        $forbiddenListAttributes = array();
+        $forbiddenListTags       = [];
+        $forbiddenListAttributes = [];
 
-        $customListTags       = array();
-        $customListAttributes = array();
+        $customListTags       = [];
+        $customListAttributes = [];
 
-        $allowedListTags       = array();
-        $allowedListAttributes = array();
+        $allowedListTags       = [];
+        $allowedListAttributes = [];
 
         $allowedList    = false;
         $forbiddenList  = false;
@@ -155,7 +155,7 @@ class ComponentHelper
 
             // Each group the user is in could have different filtering properties.
             $filterData = $filters->$groupId;
-            $filterType = strtoupper($filterData->filter_type);
+            $filterType = strtoupper((string) $filterData->filter_type);
 
             if ($filterType === 'NH') {
                 // Maximum HTML filtering.
@@ -165,10 +165,10 @@ class ComponentHelper
             } else {
                 // Forbidden list or allowed list.
                 // Preprocess the tags and attributes.
-                $tags           = explode(',', $filterData->filter_tags);
-                $attributes     = explode(',', $filterData->filter_attributes);
-                $tempTags       = array();
-                $tempAttributes = array();
+                $tags           = explode(',', (string) $filterData->filter_tags);
+                $attributes     = explode(',', (string) $filterData->filter_attributes);
+                $tempTags       = [];
+                $tempAttributes = [];
 
                 foreach ($tags as $tag) {
                     $tag = trim($tag);
@@ -190,19 +190,19 @@ class ComponentHelper
                 // Each list is cumulative.
                 if ($filterType === 'BL') {
                     $forbiddenList           = true;
-                    $forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
-                    $forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
+                    $forbiddenListTags       = [...$forbiddenListTags, ...$tempTags];
+                    $forbiddenListAttributes = [...$forbiddenListAttributes, ...$tempAttributes];
                 } elseif ($filterType === 'CBL') {
                     // Only set to true if Tags or Attributes were added
                     if ($tempTags || $tempAttributes) {
                         $customList           = true;
-                        $customListTags       = array_merge($customListTags, $tempTags);
-                        $customListAttributes = array_merge($customListAttributes, $tempAttributes);
+                        $customListTags       = [...$customListTags, ...$tempTags];
+                        $customListAttributes = [...$customListAttributes, ...$tempAttributes];
                     }
                 } elseif ($filterType === 'WL') {
                     $allowedList           = true;
-                    $allowedListTags       = array_merge($allowedListTags, $tempTags);
-                    $allowedListAttributes = array_merge($allowedListAttributes, $tempAttributes);
+                    $allowedListTags       = [...$allowedListTags, ...$tempTags];
+                    $allowedListAttributes = [...$allowedListAttributes, ...$tempAttributes];
                 }
             }
         }
@@ -218,7 +218,7 @@ class ComponentHelper
         if (!$unfiltered) {
             // Custom Forbidden list precedes Default forbidden list.
             if ($customList) {
-                $filter = InputFilter::getInstance(array(), array(), 1, 1);
+                $filter = InputFilter::getInstance([], [], 1, 1);
 
                 // Override filter's default forbidden tags and attributes
                 if ($customListTags) {
@@ -276,7 +276,7 @@ class ComponentHelper
      * @since   1.5
      * @throws  MissingComponentException
      */
-    public static function renderComponent($option, $params = array())
+    public static function renderComponent($option, $params = [])
     {
         $app = Factory::getApplication();
         $lang = Factory::getLanguage();
@@ -397,8 +397,8 @@ class ComponentHelper
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
         try {
-            static::$components = $cache->get($loader, array(), __METHOD__);
-        } catch (CacheExceptionInterface $e) {
+            static::$components = $cache->get($loader, [], __METHOD__);
+        } catch (CacheExceptionInterface) {
             static::$components = $loader();
         }
 
@@ -436,7 +436,7 @@ class ComponentHelper
     {
         $reflect = new \ReflectionClass($object);
 
-        if (!$reflect->getNamespaceName() || \get_class($object) === ComponentDispatcher::class || \get_class($object) === ApiDispatcher::class) {
+        if (!$reflect->getNamespaceName() || $object::class === ComponentDispatcher::class || $object::class === ApiDispatcher::class) {
             return 'com_' . strtolower($alternativeName);
         }
 

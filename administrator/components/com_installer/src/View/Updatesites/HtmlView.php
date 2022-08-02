@@ -90,7 +90,6 @@ class HtmlView extends InstallerViewDefault
     /**
      * Add the page title and toolbar.
      *
-     * @return  void
      *
      * @since   3.4
      */

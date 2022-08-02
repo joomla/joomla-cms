@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -39,19 +40,10 @@ class HistoryModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'version_id',
-                'h.version_id',
-                'version_note',
-                'h.version_note',
-                'save_date',
-                'h.save_date',
-                'editor_user_id',
-                'h.editor_user_id',
-            );
+            $config['filter_fields'] = ['version_id', 'h.version_id', 'version_note', 'h.version_note', 'save_date', 'h.save_date', 'editor_user_id', 'h.editor_user_id'];
         }
 
         parent::__construct($config, $factory);
@@ -86,11 +78,11 @@ class HistoryModel extends ListModel
         /** @var ContentType $contentTypeTable */
         $contentTypeTable = $this->getTable('ContentType');
 
-        $typeAlias        = explode('.', $record->item_id);
+        $typeAlias        = explode('.', (string) $record->item_id);
         $id = array_pop($typeAlias);
         $typeAlias        = implode('.', $typeAlias);
-        $contentTypeTable->load(array('type_alias' => $typeAlias));
-        $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+        $contentTypeTable->load(['type_alias' => $typeAlias]);
+        $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', (string) $contentTypeTable->type_alias) . '.id');
         $result = in_array((int) $id, $typeEditables);
 
         return $result;
@@ -147,7 +139,7 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
@@ -155,7 +147,7 @@ class HistoryModel extends ListModel
                     } else {
                         try {
                             Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                         }
 
@@ -217,7 +209,7 @@ class HistoryModel extends ListModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -254,7 +246,7 @@ class HistoryModel extends ListModel
                     if ($error) {
                         try {
                             Log::add($error, Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage($error, 'warning');
                         }
 
@@ -262,7 +254,7 @@ class HistoryModel extends ListModel
                     } else {
                         try {
                             Log::add(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                        } catch (\RuntimeException $exception) {
+                        } catch (\RuntimeException) {
                             Factory::getApplication()->enqueueMessage(Text::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), 'warning');
                         }
 
@@ -313,7 +305,7 @@ class HistoryModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   3.2
      */
@@ -382,7 +374,7 @@ class HistoryModel extends ListModel
             $helper = new CMSHelper();
 
             $dataObject = $helper->getDataObject($contentTable);
-            $result = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject), $typeTable);
+            $result = $this->getTable('ContentHistory')->getSha1(json_encode($dataObject, JSON_THROW_ON_ERROR), $typeTable);
         }
 
         return $result;

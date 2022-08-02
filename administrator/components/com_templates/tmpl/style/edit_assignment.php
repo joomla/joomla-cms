@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -19,7 +20,7 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 $menuTypes = MenusHelper::getMenuLinks();
 $user      = Factory::getUser();
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_templates.admin-template-toggle-assignment');
 
@@ -50,7 +51,7 @@ $wa->useScript('com_templates.admin-template-toggle-assignment');
                                                                                else :
                                                                                     ?> class="form-check-input chk-menulink menutype-<?php echo $type->menutype; ?>"<?php
                                                                                endif; ?> />
-                        <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $link->level)) . $link->text; ?>
+                        <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $link->level]) . $link->text; ?>
                         </label>
                     <?php endforeach; ?>
 

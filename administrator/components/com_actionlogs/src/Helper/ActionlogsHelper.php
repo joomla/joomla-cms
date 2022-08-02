@@ -29,21 +29,18 @@ class ActionlogsHelper
     /**
      * Array of characters starting a formula
      *
-     * @var    array
      *
      * @since  3.9.7
      */
-    private static $characters = array('=', '+', '-', '@');
+    private static array $characters = ['=', '+', '-', '@'];
 
     /**
      * Method to convert logs objects array to an iterable type for use with a CSV export
      *
      * @param   array|\Traversable  $data  The logs data objects to be exported
      *
-     * @return  Generator
      *
      * @since   3.9.0
-     *
      * @throws  \InvalidArgumentException
      */
     public static function getCsvData($data): Generator
@@ -53,7 +50,7 @@ class ActionlogsHelper
                 sprintf(
                     '%s() requires an array or object implementing the Traversable interface, a %s was given.',
                     __METHOD__,
-                    \gettype($data) === 'object' ? \get_class($data) : \gettype($data)
+                    \gettype($data) === 'object' ? $data::class : \gettype($data)
                 )
             );
         }
@@ -68,14 +65,7 @@ class ActionlogsHelper
 
             static::loadTranslationFiles($extension);
 
-            yield array(
-                'id'         => $log->id,
-                'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
-                'extension'  => self::escapeCsvFormula(Text::_($extension)),
-                'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
-                'name'       => self::escapeCsvFormula($log->name),
-                'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
-            );
+            yield ['id'         => $log->id, 'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))), 'extension'  => self::escapeCsvFormula(Text::_($extension)), 'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'), 'name'       => self::escapeCsvFormula($log->name), 'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)];
         }
     }
 
@@ -90,7 +80,7 @@ class ActionlogsHelper
      */
     public static function loadTranslationFiles($extension)
     {
-        static $cache = array();
+        static $cache = [];
         $extension = strtolower($extension);
 
         if (isset($cache[$extension])) {
@@ -101,11 +91,6 @@ class ActionlogsHelper
         $source = '';
 
         switch (substr($extension, 0, 3)) {
-            case 'com':
-            default:
-                $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-                break;
-
             case 'lib':
                 $source = JPATH_LIBRARIES . '/' . substr($extension, 4);
                 break;
@@ -128,6 +113,9 @@ class ActionlogsHelper
 
             case 'tpl':
                 $source = JPATH_BASE . '/templates/' . substr($extension, 4);
+                break;
+            default:
+                $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
                 break;
         }
 
@@ -171,10 +159,10 @@ class ActionlogsHelper
      */
     public static function getHumanReadableLogMessage($log, $generateLinks = true)
     {
-        static $links = array();
+        static $links = [];
 
         $message     = Text::_($log->message_language_key);
-        $messageData = json_decode($log->message, true);
+        $messageData = json_decode((string) $log->message, true, 512, JSON_THROW_ON_ERROR);
 
         // Special handling for translation extension name
         if (isset($messageData['extension_name'])) {
@@ -196,7 +184,7 @@ class ActionlogsHelper
 
         foreach ($messageData as $key => $value) {
             // Escape any markup in the values to prevent XSS attacks
-            $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+            $value = htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 
             // Convert relative url to absolute url so that it is clickable in action logs notification email
             if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0) {
@@ -238,7 +226,7 @@ class ActionlogsHelper
 
             \JLoader::register($cName, $file);
 
-            if (class_exists($cName) && \is_callable(array($cName, 'getContentTypeLink'))) {
+            if (class_exists($cName) && \is_callable([$cName, 'getContentTypeLink'])) {
                 return $cName::getContentTypeLink($contentType, $id, $object);
             }
         }
@@ -269,18 +257,8 @@ class ActionlogsHelper
         $query = $db->getQuery(true)
             ->select(
                 $db->quoteName(
-                    array(
-                        'folder',
-                        'element',
-                        'params',
-                        'extension_id'
-                    ),
-                    array(
-                        'type',
-                        'name',
-                        'params',
-                        'id'
-                    )
+                    ['folder', 'element', 'params', 'extension_id'],
+                    ['type', 'name', 'params', 'id']
                 )
             )
             ->from('#__extensions')
@@ -292,8 +270,8 @@ class ActionlogsHelper
 
         try {
             $rows = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            $rows = array();
+        } catch (\RuntimeException) {
+            $rows = [];
         }
 
         if (empty($rows)) {

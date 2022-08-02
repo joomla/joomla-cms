@@ -20,11 +20,11 @@ echo HTMLHelper::_('bootstrap.startAccordion', 'collapseTypes');
 $i = 0;
 
 foreach ($fieldSets as $name => $fieldSet) :
-    $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . strtoupper($name) . '_FIELDSET_LABEL';
+    $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_' . strtoupper((string) $name) . '_FIELDSET_LABEL';
     $class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 
 
-    if (isset($fieldSet->description) && trim($fieldSet->description)) :
+    if (isset($fieldSet->description) && trim((string) $fieldSet->description)) :
         echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
     endif;
     ?>
@@ -40,7 +40,7 @@ foreach ($fieldSets as $name => $fieldSet) :
         <?php echo $field->renderField(); ?>
     </li>
 
-    <?php endforeach; ?>
+<?php endforeach; ?>
 </ul>
 
     <?php echo HTMLHelper::_('bootstrap.endSlide'); ?>

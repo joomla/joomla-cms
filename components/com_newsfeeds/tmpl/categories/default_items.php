@@ -16,9 +16,9 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 ?>
-<?php if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) : ?>
+<?php if ($this->maxLevelcat != 0 && (is_countable($this->items[$this->parent->id]) ? count($this->items[$this->parent->id]) : 0) > 0) : ?>
     <?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
-        <?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
+        <?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || (is_countable($item->getChildren()) ? count($item->getChildren()) : 0)) : ?>
             <div class="com-newsfeeds-categories__items">
                 <h3 class="page-header item-title">
                     <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
@@ -30,7 +30,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
                             <?php echo $item->numitems; ?>
                         </span>
                     <?php endif; ?>
-                    <?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
+                    <?php if ((is_countable($item->getChildren()) ? count($item->getChildren()) : 0) > 0 && $this->maxLevelcat > 1) : ?>
                         <button
                             type="button"
                             id="category-btn-<?php echo $item->id; ?>"
@@ -50,7 +50,7 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
                         </div>
                     <?php endif; ?>
                 <?php endif; ?>
-                <?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
+                <?php if ((is_countable($item->getChildren()) ? count($item->getChildren()) : 0) > 0 && $this->maxLevelcat > 1) : ?>
                     <div class="com-newsfeeds-categories__children collapse fade" id="category-<?php echo $item->id; ?>">
                         <?php $this->items[$item->id] = $item->getChildren(); ?>
                         <?php $this->parent = $item; ?>

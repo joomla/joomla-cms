@@ -19,23 +19,14 @@ use Joomla\CMS\Component\Router\RouterView;
 class NomenuRules implements RulesInterface
 {
     /**
-     * Router this rule belongs to
-     *
-     * @var RouterView
-     * @since 3.4
-     */
-    protected $router;
-
-    /**
      * Class constructor.
      *
      * @param   RouterView  $router  Router this rule belongs to
      *
      * @since   3.4
      */
-    public function __construct(RouterView $router)
+    public function __construct(protected RouterView $router)
     {
-        $this->router = $router;
     }
 
     /**
@@ -74,7 +65,7 @@ class NomenuRules implements RulesInterface
                 $view = $views[$vars['view']];
 
                 if (isset($view->key) && isset($segments[0])) {
-                    if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id'))) {
+                    if (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
                         if ($view->parent_key && $this->router->app->input->get($view->parent_key)) {
                             $vars[$view->parent->key] = $this->router->app->input->get($view->parent_key);
                             $vars[$view->parent_key] = $this->router->app->input->get($view->parent_key);
@@ -85,7 +76,7 @@ class NomenuRules implements RulesInterface
 
                             while (count($segments)) {
                                 $segment = array_shift($segments);
-                                $result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+                                $result  = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
                                 if (!$result) {
                                     array_unshift($segments, $segment);
@@ -96,7 +87,7 @@ class NomenuRules implements RulesInterface
                             }
                         } else {
                             $segment = array_shift($segments);
-                            $result  = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+                            $result  = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
                             $vars[$view->key] = preg_replace('/-/', ':', $result, 1);
                         }
@@ -141,20 +132,20 @@ class NomenuRules implements RulesInterface
                 $segments[] = $query['view'];
 
                 if ($view->key && isset($query[$view->key])) {
-                    if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Segment'))) {
-                        $result = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+                    if (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Segment'])) {
+                        $result = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Segment'], [$query[$view->key], $query]);
 
                         if ($view->nestable) {
                             array_pop($result);
 
-                            while (count($result)) {
-                                $segments[] = str_replace(':', '-', array_pop($result));
+                            while (is_countable($result) ? count($result) : 0) {
+                                $segments[] = str_replace(':', '-', (string) array_pop($result));
                             }
                         } else {
-                            $segments[] = str_replace(':', '-', array_pop($result));
+                            $segments[] = str_replace(':', '-', (string) array_pop($result));
                         }
                     } else {
-                        $segments[] = str_replace(':', '-', $query[$view->key]);
+                        $segments[] = str_replace(':', '-', (string) $query[$view->key]);
                     }
 
                     unset($query[$views[$query['view']]->key]);

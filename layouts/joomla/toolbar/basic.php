@@ -38,7 +38,7 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $caretClass
  * @var   string  $toggleSplit
  */
-$tagName = $tagName ?? 'button';
+$tagName ??= 'button';
 
 $taskAttr = '';
 $title    = '';

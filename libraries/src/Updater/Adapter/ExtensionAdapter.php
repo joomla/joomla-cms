@@ -36,7 +36,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @since   1.7.0
      */
-    protected function _startElement($parser, $name, $attrs = array())
+    protected function _startElement($parser, $name, $attrs = [])
     {
         $this->stack[] = $name;
         $tag           = $this->_getStackLocation();
@@ -98,12 +98,12 @@ class ExtensionAdapter extends UpdateAdapter
         switch ($name) {
             case 'UPDATE':
                 // Lower case and remove the exclamation mark
-                $product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
+                $product = strtolower((string) InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
 
                 // Check that the product matches and that the version matches (optionally a regexp)
                 if (
                     $product == $this->currentUpdate->targetplatform['NAME']
-                    && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
+                    && preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', (string) JVERSION)
                 ) {
                     // Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
                     if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>=')) {
@@ -260,7 +260,7 @@ class ExtensionAdapter extends UpdateAdapter
      *
      * @since   1.7.0
      */
-    public function findUpdate($options)
+    public function findUpdate($options): array|bool
     {
         $response = $this->getUpdateSiteResponse($options);
 
@@ -279,14 +279,14 @@ class ExtensionAdapter extends UpdateAdapter
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->findUpdate($options);
             }
 
             $app = Factory::getApplication();
-            $app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
+            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
             $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
             return false;
@@ -295,18 +295,18 @@ class ExtensionAdapter extends UpdateAdapter
         xml_parser_free($this->xmlParser);
 
         if (isset($this->latest)) {
-            if (isset($this->latest->client) && \strlen($this->latest->client)) {
+            if (isset($this->latest->client) && \strlen((string) $this->latest->client)) {
                 $this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
                 unset($this->latest->client);
             }
 
-            $updates = array($this->latest);
+            $updates = [$this->latest];
         } else {
-            $updates = array();
+            $updates = [];
         }
 
-        return array('update_sites' => array(), 'updates' => $updates);
+        return ['update_sites' => [], 'updates' => $updates];
     }
 
     /**

@@ -27,7 +27,6 @@ trait MVCFactoryAwareTrait
     /**
      * Returns the MVC factory.
      *
-     * @return  MVCFactoryInterface
      *
      * @since   4.0.0
      * @throws  \UnexpectedValueException
@@ -38,7 +37,7 @@ trait MVCFactoryAwareTrait
             return $this->mvcFactory;
         }
 
-        throw new \UnexpectedValueException('MVC Factory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('MVC Factory not set in ' . self::class);
     }
 
     /**

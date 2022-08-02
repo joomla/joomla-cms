@@ -42,7 +42,7 @@ class UpdateController extends BaseController
         /** @var UpdateModel $model */
         $model = $this->getModel('update');
 
-        $uid = (array) $this->input->get('cid', array(), 'int');
+        $uid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $uid = array_filter($uid);
@@ -137,7 +137,7 @@ class UpdateController extends BaseController
         $app->getSession()->abort();
 
         $eid               = $this->input->getInt('eid', 0);
-        $skip              = $this->input->get('skip', array(), 'array');
+        $skip              = $this->input->get('skip', [], 'array');
         $cache_timeout     = $this->input->getInt('cache_timeout', 0);
         $minimum_stability = $this->input->getInt('minimum_stability', -1);
 
@@ -167,7 +167,7 @@ class UpdateController extends BaseController
 
         if (!empty($skip)) {
             $unfiltered_updates = $updates;
-            $updates            = array();
+            $updates            = [];
 
             foreach ($unfiltered_updates as $update) {
                 if (!in_array($update->extension_id, $skip)) {
@@ -176,7 +176,7 @@ class UpdateController extends BaseController
             }
         }
 
-        echo json_encode($updates);
+        echo json_encode($updates, JSON_THROW_ON_ERROR);
 
         $app->close();
     }

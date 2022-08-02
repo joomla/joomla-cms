@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Form\Form;
 /**
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
@@ -32,14 +35,14 @@ use Joomla\Registry\Registry;
 class PlgUserJoomla extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.2
      */
     protected $app;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  3.2
      */
@@ -48,7 +51,7 @@ class PlgUserJoomla extends CMSPlugin
     /**
      * Set as required the passwords fields when mail to user is set to No
      *
-     * @param   \Joomla\CMS\Form\Form  $form  The form to be altered.
+     * @param Form $form The form to be altered.
      * @param   mixed                  $data  The associated data for the form.
      *
      * @return  boolean
@@ -64,7 +67,7 @@ class PlgUserJoomla extends CMSPlugin
             // In case there is a validation error (like duplicated user), $data is an empty array on save.
             // After returning from error, $data is an array but populated
             if (!$data) {
-                $data = Factory::getApplication()->input->get('jform', array(), 'array');
+                $data = Factory::getApplication()->input->get('jform', [], 'array');
             }
 
             if (is_array($data)) {
@@ -90,7 +93,6 @@ class PlgUserJoomla extends CMSPlugin
      * @param   boolean  $success  True if user was successfully stored in the database
      * @param   string   $msg      Message
      *
-     * @return  void
      *
      * @since   1.6
      */
@@ -114,7 +116,7 @@ class PlgUserJoomla extends CMSPlugin
                     ->where($this->db->quoteName('user_id_from') . ' = :userId')
                     ->bind(':userId', $userId, ParameterType::INTEGER)
             )->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Do nothing.
         }
 
@@ -129,7 +131,7 @@ class PlgUserJoomla extends CMSPlugin
 
         try {
             $this->db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // Do nothing
         }
 
@@ -141,7 +143,7 @@ class PlgUserJoomla extends CMSPlugin
 
         try {
             $this->db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // Do nothing
         }
     }
@@ -156,7 +158,6 @@ class PlgUserJoomla extends CMSPlugin
      * @param   boolean  $success  True if user was successfully stored in the database.
      * @param   string   $msg      Message.
      *
-     * @return  void
      *
      * @since   1.6
      */
@@ -175,7 +176,7 @@ class PlgUserJoomla extends CMSPlugin
         }
 
         // Check if we have a sensible from email address, if not bail out as mail would not be sent anyway
-        if (strpos($this->app->get('mailfrom'), '@') === false) {
+        if (!str_contains((string) $this->app->get('mailfrom'), '@')) {
             $this->app->enqueueMessage(Text::_('JERROR_SENDING_EMAIL'), 'warning');
 
             return;
@@ -310,7 +311,7 @@ class PlgUserJoomla extends CMSPlugin
 
         try {
             $this->db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             // The old session is already invalidated, don't let this block logging in
         }
 
@@ -393,7 +394,6 @@ class PlgUserJoomla extends CMSPlugin
      *
      * @param   array  $options  Passed by Joomla. user: a User object; responseType: string, authentication response type.
      *
-     * @return void
      * @since  4.2.0
      */
     public function onUserAfterLogin(array $options): void
@@ -410,7 +410,6 @@ class PlgUserJoomla extends CMSPlugin
      *
      * @param   array  $options  The array of login options and login result
      *
-     * @return  void
      * @since   4.2.0
      */
     private function disableMfaOnSilentLogin(array $options): void
@@ -433,7 +432,7 @@ class PlgUserJoomla extends CMSPlugin
 
         $silentResponseTypes = array_map(
             'trim',
-            explode(',', $userParams->get('silentresponses', '') ?: '')
+            explode(',', (string) ($userParams->get('silentresponses', '') ?: ''))
         );
         $silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
 

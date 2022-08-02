@@ -64,7 +64,7 @@ class TransitionTable extends Table
      * @since   4.0.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Bind the rules.
         if (isset($src['rules']) && \is_array($src['rules'])) {
@@ -90,7 +90,7 @@ class TransitionTable extends Table
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $extension = array_shift($parts);
 
@@ -121,12 +121,12 @@ class TransitionTable extends Table
      */
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        $asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+        $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $extension = array_shift($parts);
 

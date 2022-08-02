@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -66,7 +67,7 @@ class TransitionsController extends AdminController
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension or workflow id is set
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -104,11 +105,11 @@ class TransitionsController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since  4.0.0
      */
-    public function getModel($name = 'Transition', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Transition', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

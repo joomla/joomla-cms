@@ -71,7 +71,7 @@ $htag    = $tparams->get('show_page_heading') ? 'h2' : 'h1';
 
     <?php echo $this->item->event->afterDisplayTitle; ?>
 
-    <?php if ($tparams->get('show_contact_list') && count($this->contacts) > 1) : ?>
+    <?php if ($tparams->get('show_contact_list') && (is_countable($this->contacts) ? count($this->contacts) : 0) > 1) : ?>
         <form action="#" method="get" name="selectForm" id="selectForm">
             <label for="select_contact"><?php echo Text::_('COM_CONTACT_SELECT_CONTACT'); ?></label>
             <?php echo HTMLHelper::_(

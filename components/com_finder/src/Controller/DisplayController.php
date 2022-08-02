@@ -31,7 +31,7 @@ class DisplayController extends BaseController
      *
      * @since   2.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $input = $this->app->input;
         $cachable = true;
@@ -48,10 +48,7 @@ class DisplayController extends BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array(
-            'f'    => 'INT',
-            'lang' => 'CMD'
-        );
+        $safeurlparams = ['f'    => 'INT', 'lang' => 'CMD'];
 
         return parent::display($cachable, $safeurlparams);
     }

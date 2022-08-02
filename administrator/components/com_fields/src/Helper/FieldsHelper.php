@@ -97,7 +97,7 @@ class FieldsHelper
     public static function getFields(
         $context,
         $item = null,
-        $prepareValue = false,
+        int|bool $prepareValue = false,
         array $valuesToOverride = null,
         bool $includeSubformFields = false
     ) {
@@ -121,11 +121,11 @@ class FieldsHelper
         }
 
         if (Multilanguage::isEnabled() && isset($item->language) && $item->language != '*') {
-            self::$fieldsCache->setState('filter.language', array('*', $item->language));
+            self::$fieldsCache->setState('filter.language', ['*', $item->language]);
         }
 
         self::$fieldsCache->setState('filter.context', $context);
-        self::$fieldsCache->setState('filter.assigned_cat_ids', array());
+        self::$fieldsCache->setState('filter.assigned_cat_ids', []);
 
         /*
          * If item has assigned_cat_ids parameter display only fields which
@@ -135,7 +135,7 @@ class FieldsHelper
             $assignedCatIds = $item->catid ?? $item->fieldscatid;
 
             if (!is_array($assignedCatIds)) {
-                $assignedCatIds = explode(',', $assignedCatIds);
+                $assignedCatIds = explode(',', (string) $assignedCatIds);
             }
 
             // Fields without any category assigned should show as well
@@ -147,7 +147,7 @@ class FieldsHelper
         $fields = self::$fieldsCache->getItems();
 
         if ($fields === false) {
-            return array();
+            return [];
         }
 
         if ($item && isset($item->id)) {
@@ -157,15 +157,13 @@ class FieldsHelper
             }
 
             $fieldIds = array_map(
-                function ($f) {
-                    return $f->id;
-                },
+                fn($f) => $f->id,
                 $fields
             );
 
             $fieldValues = self::$fieldCache->getFieldValues($fieldIds, $item->id);
 
-            $new = array();
+            $new = [];
 
             foreach ($fields as $key => $original) {
                 /*
@@ -196,10 +194,10 @@ class FieldsHelper
                      * On before field prepare
                      * Event allow plugins to modify the output of the field before it is prepared
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
+                    Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', [$context, $item, &$field]);
 
                     // Gathering the value for the field
-                    $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', array($context, $item, &$field));
+                    $value = Factory::getApplication()->triggerEvent('onCustomFieldsPrepareField', [$context, $item, &$field]);
 
                     if (is_array($value)) {
                         $value = implode(' ', $value);
@@ -209,7 +207,7 @@ class FieldsHelper
                      * On after field render
                      * Event allows plugins to modify the output of the prepared field
                      */
-                    Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
+                    Factory::getApplication()->triggerEvent('onCustomFieldsAfterPrepareField', [$context, $item, $field, &$value]);
 
                     // Assign the value
                     $field->value = $value;
@@ -249,12 +247,12 @@ class FieldsHelper
          */
         if ($parts = self::extract($context)) {
             // Trying to render the layout on the component from the context
-            $value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
+            $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => $parts[0], 'client' => 0]);
         }
 
         if ($value == '') {
             // Trying to render the layout on Fields itself
-            $value = LayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
+            $value = LayoutHelper::render($layoutFile, $displayData, null, ['component' => 'com_fields', 'client' => 0]);
         }
 
         return $value;
@@ -342,7 +340,7 @@ class FieldsHelper
         $fieldsNode->setAttribute('name', 'com_fields');
 
         // Organizing the fields according to their group
-        $fieldsPerGroup = array(0 => array());
+        $fieldsPerGroup = [0 => []];
 
         foreach ($fields as $field) {
             if (!array_key_exists($field->type, $fieldTypes)) {
@@ -351,7 +349,7 @@ class FieldsHelper
             }
 
             if (!array_key_exists($field->group_id, $fieldsPerGroup)) {
-                $fieldsPerGroup[$field->group_id] = array();
+                $fieldsPerGroup[$field->group_id] = [];
             }
 
             if ($path = $fieldTypes[$field->type]['path']) {
@@ -380,7 +378,7 @@ class FieldsHelper
         $defaultGroup->id = 0;
         $defaultGroup->title = '';
         $defaultGroup->description = '';
-        $iterateGroups = array_merge(array($defaultGroup), $model->getItems());
+        $iterateGroups = array_merge([$defaultGroup], $model->getItems());
 
         // Looping through the groups
         foreach ($iterateGroups as $group) {
@@ -417,12 +415,12 @@ class FieldsHelper
             }
 
             $fieldset->setAttribute('label', $label);
-            $fieldset->setAttribute('description', strip_tags($description));
+            $fieldset->setAttribute('description', strip_tags((string) $description));
 
             // Looping through the fields for that context
             foreach ($fieldsPerGroup[$group->id] as $field) {
                 try {
-                    Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($field, $fieldset, $form));
+                    Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$field, $fieldset, $form]);
 
                     /*
                      * If the field belongs to an assigned_cat_id but the assigned_cat_ids in the data
@@ -555,7 +553,7 @@ class FieldsHelper
         $fieldId = (int) $fieldId;
 
         if (!$fieldId) {
-            return array();
+            return [];
         }
 
         $db    = Factory::getDbo();
@@ -645,7 +643,7 @@ class FieldsHelper
         PluginHelper::importPlugin('fields');
         $eventData = Factory::getApplication()->triggerEvent('onCustomFieldsGetTypes');
 
-        $data = array();
+        $data = [];
 
         foreach ($eventData as $fields) {
             foreach ($fields as $fieldDescription) {

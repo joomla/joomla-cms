@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Languages\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -37,16 +38,10 @@ class LanguageModel extends AdminModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
-            array(
-                'event_after_save'  => 'onExtensionAfterSave',
-                'event_before_save' => 'onExtensionBeforeSave',
-                'events_map'        => array(
-                    'save' => 'extension'
-                )
-            ),
+            ['event_after_save'  => 'onExtensionAfterSave', 'event_before_save' => 'onExtensionBeforeSave', 'events_map'        => ['save' => 'extension']],
             $config
         );
 
@@ -64,7 +59,7 @@ class LanguageModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         return Table::getInstance('Language', 'Joomla\\CMS\\Table\\');
     }
@@ -134,14 +129,14 @@ class LanguageModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure.
+     * @return Form|bool A Form object on success, false on failure.
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_languages.language', 'language', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_languages.language', 'language', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -160,7 +155,7 @@ class LanguageModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_languages.edit.language.data', array());
+        $data = Factory::getApplication()->getUserState('com_languages.edit.language.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -197,9 +192,9 @@ class LanguageModel extends AdminModel
         }
 
         // Prevent white spaces, including East Asian double bytes.
-        $spaces = array('/\xE3\x80\x80/', ' ');
+        $spaces = ['/\xE3\x80\x80/', ' '];
 
-        $data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
+        $data['lang_code'] = str_replace($spaces, '', (string) $data['lang_code']);
 
         // Prevent saving an incorrect language tag
         if (!preg_match('#\b([a-z]{2,3})[-]([A-Z]{2})\b#', $data['lang_code'])) {
@@ -208,7 +203,7 @@ class LanguageModel extends AdminModel
             return false;
         }
 
-        $data['sef'] = str_replace($spaces, '', $data['sef']);
+        $data['sef'] = str_replace($spaces, '', (string) $data['sef']);
         $data['sef'] = ApplicationHelper::stringURLSafe($data['sef']);
 
         // Prevent saving an empty url language code
@@ -233,7 +228,7 @@ class LanguageModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew]);
 
         // Check the event responses.
         if (in_array(false, $result, true)) {
@@ -250,7 +245,7 @@ class LanguageModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
 
         $this->setState('language.id', $table->lang_id);
 

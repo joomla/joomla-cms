@@ -34,29 +34,27 @@ class ExtensionInstallCommand extends AbstractCommand
 
     /**
      * Stores the Input Object
-     * @var InputInterface
      * @since 4.0.0
      */
-    private $cliInput;
+    private ?InputInterface $cliInput = null;
 
     /**
      * SymfonyStyle Object
-     * @var SymfonyStyle
      * @since 4.0.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Exit Code For installation failure
      * @since 4.0.0
      */
-    public const INSTALLATION_FAILED = 1;
+    final public const INSTALLATION_FAILED = 1;
 
     /**
      * Exit Code For installation Success
      * @since 4.0.0
      */
-    public const INSTALLATION_SUCCESSFUL = 0;
+    final public const INSTALLATION_SUCCESSFUL = 0;
 
     /**
      * Configures the IO
@@ -64,7 +62,6 @@ class ExtensionInstallCommand extends AbstractCommand
      * @param   InputInterface   $input   Console Input
      * @param   OutputInterface  $output  Console Output
      *
-     * @return void
      *
      * @since 4.0.0
      *
@@ -78,7 +75,6 @@ class ExtensionInstallCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -104,10 +100,8 @@ class ExtensionInstallCommand extends AbstractCommand
      *
      * @param   string  $path  Path to the extension zip file
      *
-     * @return boolean
      *
      * @since 4.0.0
-     *
      * @throws \Exception
      */
     public function processPathInstallation($path): bool
@@ -139,10 +133,8 @@ class ExtensionInstallCommand extends AbstractCommand
      *
      * @param   string  $url  URL to the extension zip file
      *
-     * @return boolean
      *
      * @since 4.0.0
-     *
      * @throws \Exception
      */
     public function processUrlInstallation($url): bool

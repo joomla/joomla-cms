@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  User.profile
@@ -28,14 +30,14 @@ use Joomla\Utilities\ArrayHelper;
 class PlgUserProfile extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  4.0.0
      */
     protected $app;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  4.0.0
      */
@@ -53,11 +55,10 @@ class PlgUserProfile extends CMSPlugin
     /**
      * Date of birth.
      *
-     * @var    string
      *
      * @since  3.1
      */
-    private $date = '';
+    private string $date = '';
 
     /**
      * Runs on content preparation
@@ -102,8 +103,8 @@ class PlgUserProfile extends CMSPlugin
                 $data->profile = [];
 
                 foreach ($results as $v) {
-                    $k = str_replace('profile.', '', $v[0]);
-                    $data->profile[$k] = json_decode($v[1], true);
+                    $k = str_replace('profile.', '', (string) $v[0]);
+                    $data->profile[$k] = json_decode((string) $v[1], true, 512, JSON_THROW_ON_ERROR);
 
                     if ($data->profile[$k] === null) {
                         $data->profile[$k] = $v[1];
@@ -112,19 +113,19 @@ class PlgUserProfile extends CMSPlugin
             }
 
             if (!HTMLHelper::isRegistered('users.url')) {
-                HTMLHelper::register('users.url', [__CLASS__, 'url']);
+                HTMLHelper::register('users.url', [self::class, 'url']);
             }
 
             if (!HTMLHelper::isRegistered('users.calendar')) {
-                HTMLHelper::register('users.calendar', [__CLASS__, 'calendar']);
+                HTMLHelper::register('users.calendar', [self::class, 'calendar']);
             }
 
             if (!HTMLHelper::isRegistered('users.tos')) {
-                HTMLHelper::register('users.tos', [__CLASS__, 'tos']);
+                HTMLHelper::register('users.tos', [self::class, 'tos']);
             }
 
             if (!HTMLHelper::isRegistered('users.dob')) {
-                HTMLHelper::register('users.dob', [__CLASS__, 'dob']);
+                HTMLHelper::register('users.dob', [self::class, 'dob']);
             }
         }
 
@@ -146,7 +147,7 @@ class PlgUserProfile extends CMSPlugin
             // Convert website URL to utf8 for display
             $value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
 
-            if (strpos($value, 'http') === 0) {
+            if (str_starts_with($value, 'http')) {
                 return '<a href="' . $value . '">' . $value . '</a>';
             } else {
                 return '<a href="http://' . $value . '">' . $value . '</a>';
@@ -314,7 +315,7 @@ class PlgUserProfile extends CMSPlugin
             try {
                 $date = new Date($data['profile']['dob']);
                 $this->date = $date->format('Y-m-d H:i:s');
-            } catch (Exception $e) {
+            } catch (Exception) {
                 // Throw an exception if date is not valid.
                 throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
             }
@@ -346,14 +347,12 @@ class PlgUserProfile extends CMSPlugin
      * @param   boolean  $isNew   true if this is a new user
      * @param   boolean  $result  true if saving the user worked
      * @param   string   $error   error message
-     *
-     * @return  void
      */
     public function onUserAfterSave($data, $isNew, $result, $error): void
     {
         $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
-        if ($userId && $result && isset($data['profile']) && count($data['profile'])) {
+        if ($userId && $result && isset($data['profile']) && (is_countable($data['profile']) ? count($data['profile']) : 0)) {
             $db = $this->db;
 
             // Sanitize the date
@@ -399,7 +398,7 @@ class PlgUserProfile extends CMSPlugin
                             [
                                 $userId,
                                 'profile.' . $k,
-                                json_encode($v),
+                                json_encode($v, JSON_THROW_ON_ERROR),
                                 $order++,
                             ],
                             [
@@ -426,8 +425,6 @@ class PlgUserProfile extends CMSPlugin
      * @param   array    $user     Holds the user data
      * @param   boolean  $success  True if user was successfully stored in the database
      * @param   string   $msg      Message
-     *
-     * @return  void
      */
     public function onUserAfterDelete($user, $success, $msg): void
     {

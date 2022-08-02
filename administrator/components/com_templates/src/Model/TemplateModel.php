@@ -200,16 +200,16 @@ class TemplateModel extends FormModel
             return $pks;
         }
 
-        $results = array();
+        $results = [];
 
         foreach ($pks as $pk) {
             $client = ApplicationHelper::getClientInfo($pk->client_id);
-            $path = Path::clean($client->path . '/templates/' . $pk->template . base64_decode($pk->hash_id));
+            $path = Path::clean($client->path . '/templates/' . $pk->template . base64_decode((string) $pk->hash_id));
 
             if (file_exists($path)) {
                 $results[] = $pk;
             } elseif ($cleanup) {
-                $cleanupIds = array();
+                $cleanupIds = [];
                 $cleanupIds[] = $pk->hash_id;
                 $this->publish($cleanupIds, -3, $pk->extension_id);
             }
@@ -231,7 +231,7 @@ class TemplateModel extends FormModel
         $templates = $this->getTemplateList();
 
         // Initialize the array variable to store core file list.
-        $this->coreFileList = array();
+        $this->coreFileList = [];
 
         $app = Factory::getApplication();
 
@@ -248,9 +248,7 @@ class TemplateModel extends FormModel
         // Sort list of stdClass array.
         usort(
             $this->coreFileList,
-            function ($a, $b) {
-                return strcmp($a->id, $b->id);
-            }
+            fn($a, $b) => strcmp((string) $a->id, (string) $b->id)
         );
 
         return $this->coreFileList;
@@ -272,7 +270,7 @@ class TemplateModel extends FormModel
         $dirFiles = scandir($dir);
 
         foreach ($dirFiles as $key => $value) {
-            if (in_array($value, array('.', '..', 'node_modules'))) {
+            if (in_array($value, ['.', '..', 'node_modules'])) {
                 continue;
             }
 
@@ -308,6 +306,7 @@ class TemplateModel extends FormModel
      */
     public function publish($ids, $value, $exid)
     {
+        $result = null;
         $db = $this->getDatabase();
 
         foreach ($ids as $id) {
@@ -358,7 +357,7 @@ class TemplateModel extends FormModel
      */
     public function getFiles()
     {
-        $result = array();
+        $result = [];
 
         if ($template = $this->getTemplate()) {
             $app    = Factory::getApplication();
@@ -403,12 +402,12 @@ class TemplateModel extends FormModel
      */
     public function getDirectoryTree($dir)
     {
-        $result = array();
+        $result = [];
 
         $dirFiles = scandir($dir);
 
         foreach ($dirFiles as $key => $value) {
-            if (!in_array($value, array('.', '..', 'node_modules'))) {
+            if (!in_array($value, ['.', '..', 'node_modules'])) {
                 if (is_dir($dir . $value)) {
                     $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . 'media' . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? 'site' : 'administrator') . DIRECTORY_SEPARATOR . $this->template->element, '', $dir . $value);
                     $relativePath = str_replace(JPATH_ROOT . DIRECTORY_SEPARATOR . ($this->template->client_id === 0 ? '' : 'administrator' . DIRECTORY_SEPARATOR) . 'templates' . DIRECTORY_SEPARATOR . $this->template->element, '', $relativePath);
@@ -522,7 +521,7 @@ class TemplateModel extends FormModel
      */
     private function getSafeName($name)
     {
-        if (strpos($name, '-') !== false && preg_match('/[0-9]/', $name)) {
+        if (str_contains($name, '-') && preg_match('/[0-9]/', $name)) {
             // Get the extension
             $extension = File::getExt($name);
 
@@ -763,18 +762,20 @@ class TemplateModel extends FormModel
      */
     protected function fixTemplateName()
     {
+        $pattern = [];
+        $replace = [];
         // Rename Language files
         // Get list of language files
         $result   = true;
         $files    = Folder::files($this->getState('to_path'), '\.ini$', true, true);
-        $newName  = strtolower($this->getState('new_name'));
+        $newName  = strtolower((string) $this->getState('new_name'));
         $template = $this->getTemplate();
         $oldName  = $template->element;
-        $manifest = json_decode($template->manifest_cache);
+        $manifest = json_decode((string) $template->manifest_cache, null, 512, JSON_THROW_ON_ERROR);
 
         foreach ($files as $file) {
-            $newFile = '/' . str_replace($oldName, $newName, basename($file));
-            $result  = File::move($file, dirname($file) . $newFile) && $result;
+            $newFile = '/' . str_replace($oldName, $newName, basename((string) $file));
+            $result  = File::move($file, dirname((string) $file) . $newFile) && $result;
         }
 
         // Edit XML file
@@ -805,7 +806,7 @@ class TemplateModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         $app = Factory::getApplication();
 
@@ -828,7 +829,7 @@ class TemplateModel extends FormModel
         }
 
         // Get the form.
-        $form = $this->loadForm('com_templates.source', 'source', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_templates.source', 'source', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -871,7 +872,7 @@ class TemplateModel extends FormModel
 
         if ($this->template) {
             $input    = Factory::getApplication()->input;
-            $fileName = base64_decode($input->get('file'));
+            $fileName = base64_decode((string) $input->get('file'));
             $fileName = str_replace('//', '/', $fileName);
             $isMedia  = $input->getInt('isMedia', 0);
 
@@ -880,7 +881,7 @@ class TemplateModel extends FormModel
 
             try {
                 $filePath = Path::check($fileName);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
 
                 return;
@@ -925,7 +926,7 @@ class TemplateModel extends FormModel
         }
 
         $app      = Factory::getApplication();
-        $fileName = base64_decode($app->input->get('file'));
+        $fileName = base64_decode((string) $app->input->get('file'));
         $isMedia  = $app->input->getInt('isMedia', 0);
         $fileName = $isMedia ? JPATH_ROOT . '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . $fileName  :
             JPATH_ROOT . '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . $fileName;
@@ -952,10 +953,10 @@ class TemplateModel extends FormModel
         }
 
         // Make sure EOL is Unix
-        $data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
+        $data['source'] = str_replace(["\r\n", "\r"], "\n", (string) $data['source']);
 
         // If the asset file for the template ensure we have valid template so we don't instantly destroy it
-        if ($fileName === '/joomla.asset.json' && json_decode($data['source']) === null) {
+        if ($fileName === '/joomla.asset.json' && json_decode($data['source'], null, 512, JSON_THROW_ON_ERROR) === null) {
             $this->setError(Text::_('COM_TEMPLATES_ERROR_ASSET_FILE_INVALID_JSON'));
 
             return false;
@@ -1034,7 +1035,7 @@ class TemplateModel extends FormModel
                         $path = $folder . '/' . $view . '/tmpl';
 
                         // The new scheme, the views are directly in the component/tmpl folder
-                        if (!is_dir($path) && substr($folder, -4) == 'tmpl') {
+                        if (!is_dir($path) && substr((string) $folder, -4) == 'tmpl') {
                             $path = $folder . '/' . $view;
                         }
 
@@ -1192,7 +1193,7 @@ class TemplateModel extends FormModel
 
         if (!empty($folders)) {
             foreach ($folders as $folder) {
-                $htmlFolder = $htmlPath . str_replace($overridePath, '', $folder);
+                $htmlFolder = $htmlPath . str_replace($overridePath, '', (string) $folder);
 
                 if (!Folder::exists($htmlFolder)) {
                     Folder::create($htmlFolder);
@@ -1208,7 +1209,7 @@ class TemplateModel extends FormModel
         }
 
         foreach ($files as $file) {
-            $overrideFilePath = str_replace($overridePath, '', $file);
+            $overrideFilePath = str_replace($overridePath, '', (string) $file);
             $htmlFilePath = $htmlPath . $overrideFilePath;
 
             if (File::exists($htmlFilePath)) {
@@ -1446,9 +1447,10 @@ class TemplateModel extends FormModel
      */
     public function getImage()
     {
+        $image = [];
         if ($this->getTemplate()) {
             $app      = Factory::getApplication();
-            $fileName = base64_decode($app->input->get('file'));
+            $fileName = base64_decode((string) $app->input->get('file'));
             $path     = $this->getBasePath();
 
             $uri = Uri::root(false) . ltrim(str_replace(JPATH_ROOT, '', $this->getBasePath()), '/');
@@ -1492,19 +1494,12 @@ class TemplateModel extends FormModel
                 $image      = new Image($path);
                 $properties = $image->getImageFileProperties($path);
 
-                switch ($properties->mime) {
-                    case 'image/webp':
-                        $imageType = \IMAGETYPE_WEBP;
-                        break;
-                    case 'image/png':
-                        $imageType = \IMAGETYPE_PNG;
-                        break;
-                    case 'image/gif':
-                        $imageType = \IMAGETYPE_GIF;
-                        break;
-                    default:
-                        $imageType = \IMAGETYPE_JPEG;
-                }
+                $imageType = match ($properties->mime) {
+                    'image/webp' => \IMAGETYPE_WEBP,
+                    'image/png' => \IMAGETYPE_PNG,
+                    'image/gif' => \IMAGETYPE_GIF,
+                    default => \IMAGETYPE_JPEG,
+                };
 
                 $image->crop($w, $h, $x, $y, false);
                 $image->toFile($path, $imageType);
@@ -1537,19 +1532,12 @@ class TemplateModel extends FormModel
                 $image      = new Image($path);
                 $properties = $image->getImageFileProperties($path);
 
-                switch ($properties->mime) {
-                    case 'image/webp':
-                        $imageType = \IMAGETYPE_WEBP;
-                        break;
-                    case 'image/png':
-                        $imageType = \IMAGETYPE_PNG;
-                        break;
-                    case 'image/gif':
-                        $imageType = \IMAGETYPE_GIF;
-                        break;
-                    default:
-                        $imageType = \IMAGETYPE_JPEG;
-                }
+                $imageType = match ($properties->mime) {
+                    'image/webp' => \IMAGETYPE_WEBP,
+                    'image/png' => \IMAGETYPE_PNG,
+                    'image/gif' => \IMAGETYPE_GIF,
+                    default => \IMAGETYPE_JPEG,
+                };
 
                 $image->resize($width, $height, false, Image::SCALE_FILL);
                 $image->toFile($path, $imageType);
@@ -1603,15 +1591,16 @@ class TemplateModel extends FormModel
      */
     public function getFont()
     {
+        $font = [];
         if ($template = $this->getTemplate()) {
             $app          = Factory::getApplication();
             $client       = ApplicationHelper::getClientInfo($template->client_id);
-            $relPath      = base64_decode($app->input->get('file'));
+            $relPath      = base64_decode((string) $app->input->get('file'));
             $explodeArray = explode('/', $relPath);
             $fileName     = end($explodeArray);
-            $path         = $this->getBasePath() . base64_decode($app->input->get('file'));
+            $path         = $this->getBasePath() . base64_decode((string) $app->input->get('file'));
 
-            if (stristr($client->path, 'administrator') == false) {
+            if (stristr((string) $client->path, 'administrator') == false) {
                 $folder = '/templates/';
             } else {
                 $folder = '/administrator/templates/';
@@ -1683,10 +1672,10 @@ class TemplateModel extends FormModel
     {
         if ($this->getTemplate()) {
             $app  = Factory::getApplication();
-            $path = $this->getBasePath() . base64_decode($app->input->get('file'));
+            $path = $this->getBasePath() . base64_decode((string) $app->input->get('file'));
 
             if (file_exists(Path::clean($path))) {
-                $files = array();
+                $files = [];
                 $zip = new \ZipArchive();
 
                 if ($zip->open($path) === true) {
@@ -1770,12 +1759,12 @@ class TemplateModel extends FormModel
     {
         if (!isset($this->allowedFormats)) {
             $params       = ComponentHelper::getParams('com_templates');
-            $imageTypes   = explode(',', $params->get('image_formats'));
-            $sourceTypes  = explode(',', $params->get('source_formats'));
-            $fontTypes    = explode(',', $params->get('font_formats'));
-            $archiveTypes = explode(',', $params->get('compressed_formats'));
+            $imageTypes   = explode(',', (string) $params->get('image_formats'));
+            $sourceTypes  = explode(',', (string) $params->get('source_formats'));
+            $fontTypes    = explode(',', (string) $params->get('font_formats'));
+            $archiveTypes = explode(',', (string) $params->get('compressed_formats'));
 
-            $this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+            $this->allowedFormats = [...$imageTypes, ...$sourceTypes, ...$fontTypes, ...$archiveTypes];
             $this->allowedFormats = array_map('strtolower', $this->allowedFormats);
         }
 
@@ -1877,7 +1866,7 @@ class TemplateModel extends FormModel
         }
 
         // Check manifest for additional files
-        $newName  = strtolower($this->getState('new_name'));
+        $newName  = strtolower((string) $this->getState('new_name'));
         $template = $this->getTemplate();
 
         // Edit XML file
@@ -1891,7 +1880,7 @@ class TemplateModel extends FormModel
 
         try {
             $xml = simplexml_load_string(file_get_contents($xmlFile));
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
 
             return false;
@@ -2014,7 +2003,7 @@ class TemplateModel extends FormModel
     {
         $app         = Factory::getApplication();
         $template    = $this->getTemplate();
-        $newName     = strtolower($this->getState('new_name'));
+        $newName     = strtolower((string) $this->getState('new_name'));
         $applyStyles = $this->getState('stylesToCopy');
 
         // Get a db connection.
@@ -2031,7 +2020,7 @@ class TemplateModel extends FormModel
 
         try {
             $parentStyle = $db->loadObjectList();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'), 'error');
 
             return false;
@@ -2054,7 +2043,7 @@ class TemplateModel extends FormModel
 
             try {
                 $db->execute();
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 $app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_READ'), 'error');
 
                 return false;

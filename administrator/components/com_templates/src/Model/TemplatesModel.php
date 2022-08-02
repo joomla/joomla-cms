@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -34,20 +35,10 @@ class TemplatesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'folder', 'a.folder',
-                'element', 'a.element',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'state', 'a.state',
-                'enabled', 'a.enabled',
-                'ordering', 'a.ordering',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'name', 'a.name', 'folder', 'a.folder', 'element', 'a.element', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'state', 'a.state', 'enabled', 'a.enabled', 'ordering', 'a.ordering'];
         }
 
         parent::__construct($config, $factory);
@@ -102,7 +93,7 @@ class TemplatesModel extends ListModel
         $db->setQuery($query);
 
         // Load the results as a list of stdClass objects.
-        $num = count($db->loadObjectList());
+        $num = is_countable($db->loadObjectList()) ? count($db->loadObjectList()) : 0;
 
         if ($num > 0) {
             return $num;
@@ -114,7 +105,7 @@ class TemplatesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -140,8 +131,8 @@ class TemplatesModel extends ListModel
 
         // Filter by search in title.
         if ($search = $this->getState('filter.search')) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
@@ -206,7 +197,7 @@ class TemplatesModel extends ListModel
 
         // Special case for the client id.
         $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-        $clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+        $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
         $this->setState('client_id', $clientId);
 
         // Load the parameters.

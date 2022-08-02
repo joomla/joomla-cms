@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Tags\Site\View\Tag;
 
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -28,7 +30,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  3.1
      */
@@ -46,7 +48,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Tag data for the current tag or tags (on success, false on failure)
      *
-     * @var    \Joomla\CMS\Object\CMSObject|boolean
+     * @var CMSObject|boolean
      *
      * @since  3.1
      */
@@ -73,7 +75,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.1
      */
@@ -82,7 +84,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  3.1
      */
@@ -140,7 +142,7 @@ class HtmlView extends BaseHtmlView
         // Flag indicates to not add limitstart=0 to URL
         $pagination->hideEmptyLimitstart = true;
 
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -159,7 +161,7 @@ class HtmlView extends BaseHtmlView
                 $temp = new Registry($itemElement->params);
                 $itemElement->params   = clone $params;
                 $itemElement->params->merge($temp);
-                $itemElement->params   = (array) json_decode($itemElement->params);
+                $itemElement->params   = (array) json_decode((string) $itemElement->params, null, 512, JSON_THROW_ON_ERROR);
                 $itemElement->metadata = new Registry($itemElement->metadata);
             }
         }
@@ -203,10 +205,7 @@ class HtmlView extends BaseHtmlView
                 // Categories store the images differently so lets re-map it so the display is correct
                 if ($itemElement->type_alias === 'com_content.category') {
                     $itemElement->core_images = json_encode(
-                        array(
-                            'image_intro' => $itemElement->core_params->get('image', ''),
-                            'image_intro_alt' => $itemElement->core_params->get('image_alt', '')
-                        )
+                        ['image_intro' => $itemElement->core_params->get('image', ''), 'image_intro_alt' => $itemElement->core_params->get('image_alt', '')], JSON_THROW_ON_ERROR
                     );
                 }
             }
@@ -221,7 +220,7 @@ class HtmlView extends BaseHtmlView
         $this->item       = $item;
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
 
         // Merge tag params. If this is single-tag view, menu params override tag params
         // Otherwise, article params override menu item params
@@ -237,7 +236,7 @@ class HtmlView extends BaseHtmlView
             $currentLink = $active->link;
 
             // If the current view is the active item and a tag view for one tag, then the menu item params take priority
-            if (strpos($currentLink, 'view=tag') && strpos($currentLink, '&id[0]=' . (string) $item[0]->id)) {
+            if (strpos((string) $currentLink, 'view=tag') && strpos((string) $currentLink, '&id[0]=' . (string) $item[0]->id)) {
                 // $item[0]->params are the tag params, $temp are the menu item params
                 // Merge so that the menu item params take priority
                 $item[0]->params->merge($temp);
@@ -320,7 +319,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->item) === 1) {
+        if ((is_countable($this->item) ? count($this->item) : 0) === 1) {
             foreach ($this->item[0]->metadata->toArray() as $k => $v) {
                 if ($v) {
                     $this->document->setMetaData($k, $v);
@@ -330,9 +329,9 @@ class HtmlView extends BaseHtmlView
 
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $attribs = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $attribs = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }
@@ -346,7 +345,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function getTagsTitle()
     {
-        $tags_title = array();
+        $tags_title = [];
 
         if (!empty($this->item)) {
             $user   = $this->getCurrentUser();

@@ -29,44 +29,7 @@ abstract class DaemonApplication extends CliApplication
      * @link   https://www.php.net/manual/pcntl.constants.php
      * @since  1.7.0
      */
-    protected static $signals = array(
-        'SIGHUP',
-        'SIGINT',
-        'SIGQUIT',
-        'SIGILL',
-        'SIGTRAP',
-        'SIGABRT',
-        'SIGIOT',
-        'SIGBUS',
-        'SIGFPE',
-        'SIGUSR1',
-        'SIGSEGV',
-        'SIGUSR2',
-        'SIGPIPE',
-        'SIGALRM',
-        'SIGTERM',
-        'SIGSTKFLT',
-        'SIGCLD',
-        'SIGCHLD',
-        'SIGCONT',
-        'SIGTSTP',
-        'SIGTTIN',
-        'SIGTTOU',
-        'SIGURG',
-        'SIGXCPU',
-        'SIGXFSZ',
-        'SIGVTALRM',
-        'SIGPROF',
-        'SIGWINCH',
-        'SIGPOLL',
-        'SIGIO',
-        'SIGPWR',
-        'SIGSYS',
-        'SIGBABY',
-        'SIG_BLOCK',
-        'SIG_UNBLOCK',
-        'SIG_SETMASK',
-    );
+    protected static $signals = ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT', 'SIGIOT', 'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGPIPE', 'SIGALRM', 'SIGTERM', 'SIGSTKFLT', 'SIGCLD', 'SIGCHLD', 'SIGCONT', 'SIGTSTP', 'SIGTTIN', 'SIGTTOU', 'SIGURG', 'SIGXCPU', 'SIGXFSZ', 'SIGVTALRM', 'SIGPROF', 'SIGWINCH', 'SIGPOLL', 'SIGIO', 'SIGPWR', 'SIGSYS', 'SIGBABY', 'SIG_BLOCK', 'SIG_UNBLOCK', 'SIG_SETMASK'];
 
     /**
      * @var    boolean  True if the daemon is in the process of exiting.
@@ -159,7 +122,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Fire the onReceiveSignal event.
-        static::$instance->triggerEvent('onReceiveSignal', array($signal));
+        static::$instance->triggerEvent('onReceiveSignal', [$signal]);
 
         switch ($signal) {
             case SIGINT:
@@ -275,11 +238,11 @@ abstract class DaemonApplication extends CliApplication
          */
 
         // The application executable daemon.  This string is used in generating startup scripts.
-        $tmp = (string) $this->config->get('application_executable', basename($this->input->executable));
+        $tmp = (string) $this->config->get('application_executable', basename((string) $this->input->executable));
         $this->config->set('application_executable', $tmp);
 
         // The home directory of the daemon.
-        $tmp = (string) $this->config->get('application_directory', \dirname($this->input->executable));
+        $tmp = (string) $this->config->get('application_directory', \dirname((string) $this->input->executable));
         $this->config->set('application_directory', $tmp);
 
         // The pid file location.  This defaults to a path inside the /tmp directory.
@@ -295,12 +258,12 @@ abstract class DaemonApplication extends CliApplication
 
         // The user id under which to run the daemon.
         $tmp = (int) $this->config->get('application_uid', 0);
-        $options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+        $options = ['options' => ['min_range' => 0, 'max_range' => 65000]];
         $this->config->set('application_uid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
         // The group id under which to run the daemon.
         $tmp = (int) $this->config->get('application_gid', 0);
-        $options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+        $options = ['options' => ['min_range' => 0, 'max_range' => 65000]];
         $this->config->set('application_gid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
         // Option to kill the daemon if it cannot switch to the chosen identity.
@@ -496,7 +459,7 @@ abstract class DaemonApplication extends CliApplication
                 $this->processId = (int) posix_getpid();
                 $this->parentId = $this->processId;
             }
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add('Unable to fork.', Log::EMERGENCY);
 
             return false;
@@ -647,7 +610,7 @@ abstract class DaemonApplication extends CliApplication
             }
 
             // Attach the signal handler for the signal.
-            if (!$this->pcntlSignal(\constant($signal), array('DaemonApplication', 'signal'))) {
+            if (!$this->pcntlSignal(\constant($signal), ['DaemonApplication', 'signal'])) {
                 Log::add(sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
                 return false;
@@ -730,7 +693,7 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Make sure that the folder where we are writing the process id file exists.
-        $folder = \dirname($file);
+        $folder = \dirname((string) $file);
 
         if (!is_dir($folder) && !Folder::create($folder)) {
             Log::add('Unable to create directory: ' . $folder, Log::ERROR);

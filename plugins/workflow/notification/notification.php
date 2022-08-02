@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Workflow.Notification
@@ -51,7 +52,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
     protected $app;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  3.9.0
      */
@@ -60,7 +61,6 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return   array
      *
      * @since   4.0.0
      */
@@ -211,7 +211,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
                     );
 
                     if (!empty($transition->options['notification_text'])) {
-                        $messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+                        $messageText .= '<br>' . htmlspecialchars((string) $lang->_($transition->options['notification_text']));
                     }
 
                     $message = [

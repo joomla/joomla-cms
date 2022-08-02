@@ -38,14 +38,6 @@ class Editor implements DispatcherAwareInterface
     protected $_editor = null;
 
     /**
-     * Editor Plugin name
-     *
-     * @var    string
-     * @since  1.5
-     */
-    protected $_name = null;
-
-    /**
      * Object asset
      *
      * @var    string
@@ -67,18 +59,16 @@ class Editor implements DispatcherAwareInterface
      * @var    Editor[]
      * @since  2.5
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor
      *
-     * @param   string               $editor      The editor name
+     * @param string $_name The editor name
      * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
      */
-    public function __construct($editor = 'none', DispatcherInterface $dispatcher = null)
+    public function __construct(protected $_name = 'none', DispatcherInterface $dispatcher = null)
     {
-        $this->_name = $editor;
-
         // Set the dispatcher
         if (!\is_object($dispatcher)) {
             $dispatcher = Factory::getContainer()->get('dispatcher');
@@ -90,10 +80,10 @@ class Editor implements DispatcherAwareInterface
         $this->getDispatcher()->addListener(
             'getButtons',
             function (AbstractEvent $event) {
-                $editor = $event->getArgument('editor', null);
+                $_name = $event->getArgument('editor', null);
                 $buttons = $event->getArgument('buttons', null);
                 $result = $event->getArgument('result', []);
-                $newResult = $this->getButtons($editor, $buttons);
+                $newResult = $this->getButtons($_name, $buttons);
                 $newResult = (array) $newResult;
                 $event['result'] = array_merge($result, $newResult);
             }
@@ -136,7 +126,7 @@ class Editor implements DispatcherAwareInterface
         }
 
         if (method_exists($this->_editor, 'onInit')) {
-            \call_user_func(array($this->_editor, 'onInit'));
+            \call_user_func([$this->_editor, 'onInit']);
         }
     }
 
@@ -159,8 +149,9 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      */
-    public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+    public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = [])
     {
+        $args = [];
         $this->asset = $asset;
         $this->author = $author;
         $this->_loadEditor($params);
@@ -189,7 +180,7 @@ class Editor implements DispatcherAwareInterface
         $args['author'] = $author;
         $args['params'] = $params;
 
-        return \call_user_func_array(array($this->_editor, 'onDisplay'), $args);
+        return \call_user_func_array([$this->_editor, 'onDisplay'], $args);
     }
 
     /**
@@ -205,7 +196,7 @@ class Editor implements DispatcherAwareInterface
      */
     public function getButtons($editor, $buttons = true)
     {
-        $result = array();
+        $result = [];
 
         if (\is_bool($buttons) && !$buttons) {
             return $result;
@@ -262,7 +253,7 @@ class Editor implements DispatcherAwareInterface
      *
      * @since   1.5
      */
-    protected function _loadEditor($config = array())
+    protected function _loadEditor($config = [])
     {
         // Check whether editor is already loaded
         if ($this->_editor !== null) {

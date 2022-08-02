@@ -74,16 +74,16 @@ class ConsentsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
-            } elseif (stripos($search, 'uid:') === 0) {
-                $uid = (int) substr($search, 4);
+            } elseif (stripos((string) $search, 'uid:') === 0) {
+                $uid = (int) substr((string) $search, 4);
                 $query->where($db->quoteName('a.user_id') . ' = :uid')
                     ->bind(':uid', $uid, ParameterType::INTEGER);
-            } elseif (stripos($search, 'name:') === 0) {
-                $search = '%' . substr($search, 5) . '%';
+            } elseif (stripos((string) $search, 'name:') === 0) {
+                $search = '%' . substr((string) $search, 5) . '%';
                 $query->where($db->quoteName('u.name') . ' LIKE :search')
                     ->bind(':search', $search);
             } else {

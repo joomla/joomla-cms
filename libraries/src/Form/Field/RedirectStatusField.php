@@ -30,11 +30,5 @@ class RedirectStatusField extends PredefinedlistField
      * @var  array
      * @since  3.8.0
      */
-    protected $predefinedOptions = array(
-        '-2' => 'JTRASHED',
-        '0'  => 'JDISABLED',
-        '1'  => 'JENABLED',
-        '2'  => 'JARCHIVED',
-        '*'  => 'JALL',
-    );
+    protected $predefinedOptions = ['-2' => 'JTRASHED', '0'  => 'JDISABLED', '1'  => 'JENABLED', '2'  => 'JARCHIVED', '*'  => 'JALL'];
 }

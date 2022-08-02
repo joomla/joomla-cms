@@ -34,44 +34,11 @@ use Joomla\Event\SubscriberInterface;
 final class Cache extends CMSPlugin implements SubscriberInterface
 {
 	/**
-	 * Cache instance.
-	 *
-	 * @var    CacheController
-	 * @since  1.5
-	 */
-	private $cache;
-
-	/**
-	 * The application's document factory interface
-	 *
-	 * @var   DocumentFactoryInterface
-	 * @since 4.2.0
-	 */
-	private $documentFactory;
-
-	/**
-	 * Cache controller factory interface
-	 *
-	 * @var    CacheControllerFactoryInterface
-	 * @since  4.2.0
-	 */
-	private $cacheControllerFactory;
-
-	/**
-	 * The application profiler, used when Debug Site is set to Yes in Global Configuration.
-	 *
-	 * @var    Profiler|null
-	 * @since  4.2.0
-	 */
-	private $profiler;
-
-	/**
-	 * The frontend router, injected by the service provider.
-	 *
-	 * @var   SiteRouter|null
-	 * @since 4.2.0
-	 */
-	private $router;
+  * Cache instance.
+  *
+  * @since  1.5
+  */
+ private ?CacheController $cache = null;
 
 	/**
 	 * Constructor
@@ -96,28 +63,22 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	public function __construct(
 		&$subject,
 		$config,
-		DocumentFactoryInterface $documentFactory,
-		CacheControllerFactoryInterface $cacheControllerFactory,
-		?Profiler $profiler,
-		?SiteRouter $router
+		private readonly DocumentFactoryInterface $documentFactory,
+		private readonly CacheControllerFactoryInterface $cacheControllerFactory,
+		private readonly ?Profiler $profiler,
+		private readonly ?SiteRouter $router
 	)
 	{
 		parent::__construct($subject, $config);
-
-		$this->documentFactory        = $documentFactory;
-		$this->cacheControllerFactory = $cacheControllerFactory;
-		$this->profiler               = $profiler;
-		$this->router                 = $router;
 	}
 
 	/**
-	 * Returns an array of CMS events this plugin will listen to and the respective handlers.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.2.0
-	 */
-	public static function getSubscribedEvents(): array
+  * Returns an array of CMS events this plugin will listen to and the respective handlers.
+  *
+  *
+  * @since   4.2.0
+  */
+ public static function getSubscribedEvents(): array
 	{
 		/**
 		 * Note that onAfterRender and onAfterRespond must be the last handlers to run for this
@@ -189,25 +150,24 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Does the current application state allow for caching?
-	 *
-	 * The following conditions must be met:
-	 * * This is the frontend application. This plugin does not apply to other applications.
-	 * * This is a GET request. This plugin does not apply to POST, PUT etc.
-	 * * There is no currently logged in user (pages might have user–specific content).
-	 * * The message queue is empty.
-	 *
-	 * The first two tests are cached to make early returns possible; these conditions cannot change
-	 * throughout the lifetime of the request.
-	 *
-	 * The other two tests MUST NOT be cached because auto–login plugins may fire anytime within
-	 * the application lifetime logging in a user and messages can be generated anytime within the
-	 * application's lifetime.
-	 *
-	 * @return  boolean
-	 * @since   4.2.0
-	 */
-	private function appStateSupportsCaching(): bool
+  * Does the current application state allow for caching?
+  *
+  * The following conditions must be met:
+  * * This is the frontend application. This plugin does not apply to other applications.
+  * * This is a GET request. This plugin does not apply to POST, PUT etc.
+  * * There is no currently logged in user (pages might have user–specific content).
+  * * The message queue is empty.
+  *
+  * The first two tests are cached to make early returns possible; these conditions cannot change
+  * throughout the lifetime of the request.
+  *
+  * The other two tests MUST NOT be cached because auto–login plugins may fire anytime within
+  * the application lifetime logging in a user and messages can be generated anytime within the
+  * application's lifetime.
+  *
+  * @since   4.2.0
+  */
+ private function appStateSupportsCaching(): bool
 	{
 		static $isSite = null;
 		static $isGET = null;
@@ -226,14 +186,14 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Get the cache controller
-	 *
-	 * @return  CacheController
-	 * @since   4.2.0
-	 */
-	private function getCacheController(): CacheController
+  * Get the cache controller
+  *
+  * @since   4.2.0
+  */
+ private function getCacheController(): CacheController
 	{
-		if (!empty($this->cache))
+		$options = null;
+  if (!empty($this->cache))
 		{
 			return $this->cache;
 		}
@@ -252,13 +212,12 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Get a cache key for the current page based on the url and possible other factors.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.7
-	 */
-	private function getCacheKey(): string
+  * Get a cache key for the current page based on the url and possible other factors.
+  *
+  *
+  * @since   3.7
+  */
+ private function getCacheKey(): string
 	{
 		static $key;
 
@@ -331,12 +290,9 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		if ($exclusions)
 		{
 			// Convert the exclusions into a normalised array
-			$exclusions       = str_replace(["\r\n", "\r"], "\n", $exclusions);
+			$exclusions       = str_replace(["\r\n", "\r"], "\n", (string) $exclusions);
 			$exclusions       = explode("\n", $exclusions);
-			$filterExpression = function ($x)
-			{
-				return $x !== '';
-			};
+			$filterExpression = fn($x) => $x !== '';
 			$exclusions       = array_filter($exclusions, $filterExpression);
 
 			// Gets the internal (non-SEF) and the external (possibly SEF) URIs.
@@ -345,14 +301,11 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 			$externalUrl = Uri::getInstance()->toString();
 
 			$reduceCallback
-				= function (bool $carry, string $exclusion) use ($internalUrl, $externalUrl)
-				{
-					// Test both external and internal URIs
-					return $carry && preg_match(
+				= fn(bool $carry, string $exclusion) => // Test both external and internal URIs
+$carry && preg_match(
 						'#' . $exclusion . '#i',
 						$externalUrl . ' ' . $internalUrl, $match
 					);
-				};
 			$excluded       = array_reduce($exclusions, $reduceCallback, false);
 
 			if ($excluded)

@@ -47,11 +47,9 @@ class LegacyComponent implements
     }
 
     /**
-     * @var string
-     *
      * @since  4.0.0
      */
-    private $component;
+    private readonly string $component;
 
     /**
      * LegacyComponentContainer constructor.
@@ -70,7 +68,6 @@ class LegacyComponent implements
      *
      * @param   CMSApplicationInterface  $application  The application
      *
-     * @return  DispatcherInterface
      *
      * @since   4.0.0
      */
@@ -82,7 +79,6 @@ class LegacyComponent implements
     /**
      * Get the factory.
      *
-     * @return  MVCFactoryInterface
      *
      * @since   4.0.0
      * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
@@ -98,7 +94,6 @@ class LegacyComponent implements
      * @param   array   $options  The options
      * @param   string  $section  The section
      *
-     * @return  CategoryInterface
      *
      * @since   4.0.0
      * @throws  SectionNotFoundException
@@ -139,7 +134,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countItems'])) {
             return;
         }
 
@@ -161,7 +156,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'countTagItems'))) {
+        if (!$helper || !\is_callable([$helper, 'countTagItems'])) {
             return;
         }
 
@@ -183,7 +178,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'validateSection'))) {
+        if (!$helper || !\is_callable([$helper, 'validateSection'])) {
             return $section;
         }
 
@@ -193,7 +188,6 @@ class LegacyComponent implements
     /**
      * Returns valid contexts.
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -201,7 +195,7 @@ class LegacyComponent implements
     {
         $helper = $this->loadHelper();
 
-        if (!$helper || !\is_callable(array($helper, 'getContexts'))) {
+        if (!$helper || !\is_callable([$helper, 'getContexts'])) {
             return [];
         }
 
@@ -214,7 +208,6 @@ class LegacyComponent implements
      * @param   CMSApplicationInterface  $application  The application object
      * @param   AbstractMenu             $menu         The menu object to work with
      *
-     * @return  RouterInterface
      *
      * @since  4.0.0
      */
@@ -236,7 +229,7 @@ class LegacyComponent implements
         if (class_exists($class)) {
             $reflection = new \ReflectionClass($class);
 
-            if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames())) {
+            if (\in_array(RouterInterface::class, $reflection->getInterfaceNames())) {
                 return new $class($application, $menu);
             }
         }
@@ -247,11 +240,10 @@ class LegacyComponent implements
     /**
      * Returns the classname of the legacy helper class. If none is found it returns false.
      *
-     * @return  boolean|string
      *
      * @since   4.0.0
      */
-    private function loadHelper()
+    private function loadHelper(): bool|string
     {
         $className = ucfirst($this->component) . 'Helper';
 

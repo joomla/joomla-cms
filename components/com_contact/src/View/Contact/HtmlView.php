@@ -10,6 +10,11 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\User;
+use Joomla\Component\Contact\Site\Model\CategoryModel;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -30,7 +35,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  1.6
      */
@@ -39,7 +44,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The form object for the contact item
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  1.6
      */
@@ -48,7 +53,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item object details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  1.6
      */
@@ -77,7 +82,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -86,7 +91,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The user object
      *
-     * @var    \Joomla\CMS\User\User
+     * @var User
      *
      * @since  4.0.0
      */
@@ -128,6 +133,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        $options = [];
         $app        = Factory::getApplication();
         $user       = $this->getCurrentUser();
         $state      = $this->get('State');
@@ -172,7 +178,7 @@ class HtmlView extends BaseHtmlView
         // Collect extra contact information when this information is required
         if ($item && $item->params->get('show_contact_list')) {
             // Get Category Model data
-            /** @var \Joomla\Component\Contact\Site\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = $app->bootComponent('com_contact')->getMVCFactory()
                 ->createModel('Category', 'Site', ['ignore_request' => true]);
 
@@ -185,7 +191,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -306,7 +312,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add links to contacts
-        if ($item->params->get('show_contact_list') && count($contacts) > 1) {
+        if ($item->params->get('show_contact_list') && (is_countable($contacts) ? count($contacts) : 0) > 1) {
             foreach ($contacts as &$contact) {
                 $contact->link = Route::_(RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language));
             }
@@ -325,17 +331,17 @@ class HtmlView extends BaseHtmlView
             $item->text = $item->misc;
         }
 
-        $app->triggerEvent('onContentPrepare', array ('com_contact.contact', &$item, &$item->params, $offset));
+        $app->triggerEvent('onContentPrepare', ['com_contact.contact', &$item, &$item->params, $offset]);
 
         // Store the events for later
         $item->event = new \stdClass();
-        $results = $app->triggerEvent('onContentAfterTitle', array('com_contact.contact', &$item, &$item->params, $offset));
+        $results = $app->triggerEvent('onContentAfterTitle', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results = $app->triggerEvent('onContentBeforeDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+        $results = $app->triggerEvent('onContentBeforeDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results = $app->triggerEvent('onContentAfterDisplay', array('com_contact.contact', &$item, &$item->params, $offset));
+        $results = $app->triggerEvent('onContentAfterDisplay', ['com_contact.contact', &$item, &$item->params, $offset]);
         $item->event->afterDisplayContent = trim(implode("\n", $results));
 
         if (!empty($item->text)) {
@@ -346,15 +352,15 @@ class HtmlView extends BaseHtmlView
 
         if ($item->params->get('show_user_custom_fields') && $item->user_id && $contactUser = Factory::getUser($item->user_id)) {
             $contactUser->text = '';
-            $app->triggerEvent('onContentPrepare', array ('com_users.user', &$contactUser, &$item->params, 0));
+            $app->triggerEvent('onContentPrepare', ['com_users.user', &$contactUser, &$item->params, 0]);
 
             if (!isset($contactUser->jcfields)) {
-                $contactUser->jcfields = array();
+                $contactUser->jcfields = [];
             }
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $item->params->get('pageclass_sfx', ''));
 
         $this->params      = &$item->params;
         $this->state       = &$state;
@@ -421,11 +427,11 @@ class HtmlView extends BaseHtmlView
                 $id = 0;
             }
 
-            $path = array(array('title' => $this->item->name, 'link' => ''));
+            $path = [['title' => $this->item->name, 'link' => '']];
             $category = Categories::getInstance('Contact')->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
-                $path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
+                $path[] = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
                 $category = $category->getParent();
             }
 

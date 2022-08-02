@@ -82,7 +82,7 @@ class HtmlView extends BaseHtmlView
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         $this->app = Factory::getApplication();
         parent::__construct($config);
@@ -91,7 +91,6 @@ class HtmlView extends BaseHtmlView
     /**
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return void
      *
      * @since  4.1.0
      * @throws \Exception
@@ -114,7 +113,6 @@ class HtmlView extends BaseHtmlView
     /**
      * Adds the page title and toolbar
      *
-     * @return void
      *
      * @since  4.1.0
      */

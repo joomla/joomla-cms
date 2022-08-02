@@ -63,7 +63,7 @@ class RulesRule extends FormRule
      */
     protected function getValueActions($value)
     {
-        $actions = array();
+        $actions = [];
 
         // Iterate over the asset actions and add to the actions.
         foreach ((array) $value as $name => $rules) {
@@ -84,7 +84,7 @@ class RulesRule extends FormRule
      */
     protected function getFieldActions(\SimpleXMLElement $element)
     {
-        $actions = array();
+        $actions = [];
 
         // Initialise some field attributes.
         $section = $element['section'] ? (string) $element['section'] : '';

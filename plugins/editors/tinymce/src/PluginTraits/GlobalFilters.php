@@ -60,7 +60,7 @@ trait GlobalFilters
 
             // Each group the user is in could have different filtering properties.
             $filterData = $filters->$groupId;
-            $filterType = strtoupper($filterData->filter_type);
+            $filterType = strtoupper((string) $filterData->filter_type);
 
             if ($filterType === 'NH') {
                 // Maximum HTML filtering.
@@ -72,8 +72,8 @@ trait GlobalFilters
                  * Forbidden or allowed lists.
                  * Preprocess the tags and attributes.
                  */
-                $tags           = explode(',', $filterData->filter_tags);
-                $attributes     = explode(',', $filterData->filter_attributes);
+                $tags           = explode(',', (string) $filterData->filter_tags);
+                $attributes     = explode(',', (string) $filterData->filter_attributes);
                 $tempTags       = [];
                 $tempAttributes = [];
 
@@ -100,21 +100,21 @@ trait GlobalFilters
                  */
                 if (in_array($filterType, ['BL', 'FL'])) {
                     $forbiddenList           = true;
-                    $forbiddenListTags       = array_merge($forbiddenListTags, $tempTags);
-                    $forbiddenListAttributes = array_merge($forbiddenListAttributes, $tempAttributes);
+                    $forbiddenListTags       = [...$forbiddenListTags, ...$tempTags];
+                    $forbiddenListAttributes = [...$forbiddenListAttributes, ...$tempAttributes];
                 } elseif (in_array($filterType, ['CBL', 'CFL'])) {
                     // "CBL" is deprecated in Joomla! 4, will be removed in Joomla! 5
                     // Only set to true if Tags or Attributes were added
                     if ($tempTags || $tempAttributes) {
                         $customList           = true;
-                        $customListTags       = array_merge($customListTags, $tempTags);
-                        $customListAttributes = array_merge($customListAttributes, $tempAttributes);
+                        $customListTags       = [...$customListTags, ...$tempTags];
+                        $customListAttributes = [...$customListAttributes, ...$tempAttributes];
                     }
                 } elseif (in_array($filterType, ['WL', 'AL'])) {
                     // "WL" is deprecated in Joomla! 4, will be removed in Joomla! 5
                     $allowedList           = true;
-                    $allowedListTags       = array_merge($allowedListTags, $tempTags);
-                    $allowedListAttributes = array_merge($allowedListAttributes, $tempAttributes);
+                    $allowedListTags       = [...$allowedListTags, ...$tempTags];
+                    $allowedListAttributes = [...$allowedListAttributes, ...$tempAttributes];
                 }
             }
         }

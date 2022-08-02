@@ -35,7 +35,7 @@ abstract class Icons
             return '';
         }
 
-        $html = array();
+        $html = [];
 
         foreach ($buttons as $button) {
             $html[] = HTMLHelper::_('icons.button', $button);
@@ -65,7 +65,7 @@ abstract class Icons
                 $user = Factory::getUser();
 
                 // Take each pair of permission, context values.
-                for ($i = 0, $n = count($button['access']); $i < $n; $i += 2) {
+                for ($i = 0, $n = is_countable($button['access']) ? count($button['access']) : 0; $i < $n; $i += 2) {
                     if (!$user->authorise($button['access'][$i], $button['access'][$i + 1])) {
                         return '';
                     }

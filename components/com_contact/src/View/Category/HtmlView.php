@@ -71,7 +71,7 @@ class HtmlView extends CategoryView
             $item->params->merge($temp);
 
             if ($item->params->get('show_email_headings', 0) == 1) {
-                $item->email_to = trim($item->email_to);
+                $item->email_to = trim((string) $item->email_to);
 
                 if (!empty($item->email_to) && MailHelper::isEmailAddress($item->email_to)) {
                     $item->email_to = HTMLHelper::_('email.cloak', $item->email_to);

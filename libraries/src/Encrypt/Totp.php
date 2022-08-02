@@ -19,41 +19,14 @@ namespace Joomla\CMS\Encrypt;
 class Totp
 {
     /**
-     * Passcode length
-     *
-     * @var   integer
-     */
-    private $_passCodeLength = 6;
-
-    /**
      * Pin modulo
-     *
-     * @var   integer
      */
-    private $_pinModulo;
-
-    /**
-     * The length of the secret in bytes.
-     * RFC 4226: "The length of the shared secret MUST be at least 128 bits. This document RECOMMENDs a shared secret length of 160 bits."
-     * The original value was 10 bytes (80 bits) this value has been increased to 20 (160 bits) with Joomla! 3.9.25
-     *
-     * @var   integer
-     */
-    private $_secretLength = 20;
-
-    /**
-     * Timestep
-     *
-     * @var   integer
-     */
-    private $_timeStep = 30;
+    private readonly int $_pinModulo;
 
     /**
      * Base32
-     *
-     * @var   integer
      */
-    private $_base32 = null;
+    private ?int $_base32 = null;
 
     /**
      * Initialises an RFC6238-compatible TOTP generator. Please note that this
@@ -61,17 +34,14 @@ class Totp
      * of RFC6238. It's up to you to ensure that the same user/device does not
      * retry validation within the same Time Step.
      *
-     * @param   int     $timeStep        The Time Step (in seconds). Use 30 to be compatible with Google Authenticator.
-     * @param   int     $passCodeLength  The generated passcode length. Default: 6 digits.
-     * @param   int     $secretLength    The length of the secret key. Default: 10 bytes (80 bits).
+     * @param int $_timeStep The Time Step (in seconds). Use 30 to be compatible with Google Authenticator.
+     * @param int $_passCodeLength The generated passcode length. Default: 6 digits.
+     * @param int $_secretLength The length of the secret key. Default: 10 bytes (80 bits).
      * @param   Object  $base32          The base32 en/decrypter
      */
-    public function __construct($timeStep = 30, $passCodeLength = 6, $secretLength = 10, $base32 = null)
+    public function __construct(private $_timeStep = 30, private $_passCodeLength = 6, private $_secretLength = 10, $base32 = null)
     {
-        $this->_timeStep       = $timeStep;
-        $this->_passCodeLength = $passCodeLength;
-        $this->_secretLength   = $secretLength;
-        $this->_pinModulo      = pow(10, $this->_passCodeLength);
+        $this->_pinModulo      = 10 ** $this->_passCodeLength;
 
         if (\is_null($base32)) {
             $this->_base32 = new Base32();
@@ -139,7 +109,7 @@ class Totp
         $time = pack("N", $period);
         $time = str_pad($time, 8, \chr(0), STR_PAD_LEFT);
 
-        $hash = hash_hmac('sha1', $time, $secret, true);
+        $hash = hash_hmac('sha1', $time, (string) $secret, true);
         $offset = \ord(substr($hash, -1));
         $offset = $offset & 0xF;
 

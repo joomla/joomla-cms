@@ -17,7 +17,7 @@ $cacheparams->cachemode = 'safeuri';
 $cacheparams->class = 'Joomla\Module\TagsSimilar\Site\Helper\TagsSimilarHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
+$cacheparams->modeparams = ['id' => 'array', 'Itemid' => 'int'];
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 

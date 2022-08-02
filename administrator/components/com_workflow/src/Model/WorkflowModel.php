@@ -61,11 +61,11 @@ class WorkflowModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -89,7 +89,7 @@ class WorkflowModel extends AdminModel
 
         // Make sure we use the correct extension when editing an existing workflow
         $key = $table->getKeyName();
-        $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -106,7 +106,7 @@ class WorkflowModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                [$title] = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -142,20 +142,17 @@ class WorkflowModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean A Form object on success, false on failure
+     * @return Form|boolean A Form object on success, false on failure
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
         $form = $this->loadForm(
             'com_workflow.workflow',
             'workflow',
-            array(
-                'control'   => 'jform',
-                'load_data' => $loadData
-            )
+            ['control'   => 'jform', 'load_data' => $loadData]
         );
 
         if (empty($form)) {
@@ -199,7 +196,7 @@ class WorkflowModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_workflow.edit.workflow.data',
-            array()
+            []
         );
 
         if (empty($data)) {
@@ -224,7 +221,7 @@ class WorkflowModel extends AdminModel
     {
         $extension = Factory::getApplication()->input->get('extension');
 
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         $extension = array_shift($parts);
 
@@ -362,6 +359,7 @@ class WorkflowModel extends AdminModel
      */
     public function publish(&$pks, $value = 1)
     {
+        $pk = null;
         $table = $this->getTable();
         $pks   = (array) $pks;
 

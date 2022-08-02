@@ -19,7 +19,7 @@ use Joomla\CMS\Factory;
  *
  * @since  3.1
  */
-class JsonResponse
+class JsonResponse implements \Stringable
 {
     /**
      * Determines whether the request was successful
@@ -29,15 +29,6 @@ class JsonResponse
      * @since  3.1
      */
     public $success = true;
-
-    /**
-     * The main response message
-     *
-     * @var    string
-     *
-     * @since  3.1
-     */
-    public $message = null;
 
     /**
      * Array of messages gathered in the Application object
@@ -67,14 +58,12 @@ class JsonResponse
      *
      * @since   3.1
      */
-    public function __construct($response = null, $message = null, $error = false, $ignoreMessages = false)
+    public function __construct($response = null, public $message = null, $error = false, $ignoreMessages = false)
     {
-        $this->message = $message;
-
         // Get the message queue if requested and available
         $app = Factory::getApplication();
 
-        if (!$ignoreMessages && $app !== null && \is_callable(array($app, 'getMessageQueue'))) {
+        if (!$ignoreMessages && $app !== null && \is_callable($app->getMessageQueue(...))) {
             $messages = $app->getMessageQueue();
 
             // Build the sorted messages list
@@ -111,8 +100,8 @@ class JsonResponse
      *
      * @since   3.1
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return json_encode($this);
+        return (string) json_encode($this, JSON_THROW_ON_ERROR);
     }
 }

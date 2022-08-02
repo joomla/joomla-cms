@@ -82,14 +82,10 @@ class RulesField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'section':
-            case 'component':
-            case 'assetField':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'section', 'component', 'assetField' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -175,11 +171,7 @@ class RulesField extends FormField
         // Iterate over the children and add to the actions.
         foreach ($this->element->children() as $el) {
             if ($el->getName() === 'action') {
-                $this->actions[] = (object) array(
-                    'name' => (string) $el['name'],
-                    'title' => (string) $el['title'],
-                    'description' => (string) $el['description'],
-                );
+                $this->actions[] = (object) ['name' => (string) $el['name'], 'title' => (string) $el['title'], 'description' => (string) $el['description']];
             }
         }
 
@@ -247,17 +239,7 @@ class RulesField extends FormField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
-            'groups'         => $this->groups,
-            'section'        => $this->section,
-            'actions'        => $this->actions,
-            'assetId'        => $this->assetId,
-            'newItem'        => $this->newItem,
-            'assetRules'     => $this->assetRules,
-            'isGlobalConfig' => $this->isGlobalConfig,
-            'parentAssetId'  => $this->parentAssetId,
-            'component'      => $this->component,
-        );
+        $extraData = ['groups'         => $this->groups, 'section'        => $this->section, 'actions'        => $this->actions, 'assetId'        => $this->assetId, 'newItem'        => $this->newItem, 'assetRules'     => $this->assetRules, 'isGlobalConfig' => $this->isGlobalConfig, 'parentAssetId'  => $this->parentAssetId, 'component'      => $this->component];
 
         return array_merge($data, $extraData);
     }

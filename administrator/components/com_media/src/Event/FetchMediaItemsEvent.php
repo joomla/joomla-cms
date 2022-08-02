@@ -27,7 +27,7 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         parent::__construct($name, $arguments);
 
@@ -42,7 +42,6 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
      *
      * @param   array  $items  The value to set
      *
-     * @return array
      *
      * @since   4.1.0
      */
@@ -66,7 +65,6 @@ final class FetchMediaItemsEvent extends AbstractMediaItemValidationEvent
      *
      * @param   array  $items  The value to set
      *
-     * @return array
      *
      * @since   4.1.0
      */

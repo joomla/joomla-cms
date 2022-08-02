@@ -20,4 +20,4 @@ if (is_array($value)) {
     $value = implode(', ', $value);
 }
 
-echo htmlentities($value);
+echo htmlentities((string) $value);

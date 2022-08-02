@@ -57,13 +57,10 @@ class TemplatestyleField extends GroupedlistField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'clientName':
-            case 'template':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'clientName', 'template' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -127,7 +124,7 @@ class TemplatestyleField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
         $lang = Factory::getLanguage();
 
         // Get the client and client_id.
@@ -181,7 +178,7 @@ class TemplatestyleField extends GroupedlistField
 
                 // Initialize the group if necessary.
                 if (!isset($groups[$name])) {
-                    $groups[$name] = array();
+                    $groups[$name] = [];
                 }
 
                 $groups[$name][] = HTMLHelper::_('select.option', $style->id, $style->title);

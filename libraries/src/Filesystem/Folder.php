@@ -67,7 +67,7 @@ abstract class Folder
         // If we're using ftp and don't have streams enabled
         if ($FTPOptions['enabled'] == 1 && !$useStreams) {
             // Connect the FTP client
-            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
             if (!($dh = @opendir($src))) {
                 throw new \RuntimeException('Cannot open source folder', -1);
@@ -198,7 +198,7 @@ abstract class Folder
         // Check for safe mode
         if ($FTPOptions['enabled'] == 1) {
             // Connect the FTP client
-            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
             // Translate path to FTP path
             $path = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
@@ -224,7 +224,7 @@ abstract class Folder
                 foreach ($obdArray as $test) {
                     $test = Path::clean($test);
 
-                    if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0) {
+                    if (str_starts_with($path, $test) || str_starts_with($path, realpath($test))) {
                         $inBaseDir = true;
                         break;
                     }
@@ -271,6 +271,7 @@ abstract class Folder
      */
     public static function delete($path)
     {
+        $ftp = null;
         @set_time_limit(ini_get('max_execution_time'));
 
         // Sanity check
@@ -294,7 +295,7 @@ abstract class Folder
         }
 
         // Remove all the files in folder if they exist; disable all filtering
-        $files = self::files($path, '.', false, true, array(), array());
+        $files = self::files($path, '.', false, true, [], []);
 
         if (!empty($files)) {
             if (File::delete($files) !== true) {
@@ -304,7 +305,7 @@ abstract class Folder
         }
 
         // Remove sub-folders of folder; disable all filtering
-        $folders = self::folders($path, '.', false, true, array(), array());
+        $folders = self::folders($path, '.', false, true, [], []);
 
         foreach ($folders as $folder) {
             if (is_link($folder)) {
@@ -321,7 +322,7 @@ abstract class Folder
 
         if ($FTPOptions['enabled'] == 1) {
             // Connect the FTP client
-            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+            $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
         }
 
         // In case of restricted permissions we zap it one way or the other
@@ -382,7 +383,7 @@ abstract class Folder
         } else {
             if ($FTPOptions['enabled'] == 1) {
                 // Connect the FTP client
-                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+                $ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], [], $FTPOptions['user'], $FTPOptions['pass']);
 
                 // Translate path for the FTP account
                 $src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
@@ -440,10 +441,10 @@ abstract class Folder
         $filter = '.',
         $recurse = false,
         $full = false,
-        $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-        $excludeFilter = array('^\..*', '.*~'),
+        $exclude = ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+        $excludeFilter = ['^\..*', '.*~'],
         $naturalSort = false
-    ) {
+    ): array|bool {
         // Check to make sure the path valid and clean
         $path = Path::clean($path);
 
@@ -493,8 +494,8 @@ abstract class Folder
         $filter = '.',
         $recurse = false,
         $full = false,
-        $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-        $excludeFilter = array('^\..*')
+        $exclude = ['.svn', 'CVS', '.DS_Store', '__MACOSX'],
+        $excludeFilter = ['^\..*']
     ) {
         // Check to make sure the path valid and clean
         $path = Path::clean($path);
@@ -541,7 +542,7 @@ abstract class Folder
     {
         @set_time_limit(ini_get('max_execution_time'));
 
-        $arr = array();
+        $arr = [];
 
         // Read the source directory
         if (!($handle = @opendir($path))) {
@@ -602,7 +603,7 @@ abstract class Folder
      */
     public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
     {
-        $dirs = array();
+        $dirs = [];
 
         if ($level == 0) {
             $GLOBALS['_JFolder_folder_tree_index'] = 0;
@@ -615,13 +616,7 @@ abstract class Folder
             foreach ($folders as $name) {
                 $id = ++$GLOBALS['_JFolder_folder_tree_index'];
                 $fullName = Path::clean($path . '/' . $name);
-                $dirs[] = array(
-                    'id' => $id,
-                    'parent' => $parent,
-                    'name' => $name,
-                    'fullname' => $fullName,
-                    'relname' => str_replace(JPATH_ROOT, '', $fullName),
-                );
+                $dirs[] = ['id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName, 'relname' => str_replace(JPATH_ROOT, '', $fullName)];
                 $dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
                 $dirs = array_merge($dirs, $dirs2);
             }
@@ -641,7 +636,7 @@ abstract class Folder
      */
     public static function makeSafe($path)
     {
-        $regex = array('#[^A-Za-z0-9_\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#');
+        $regex = ['#[^A-Za-z0-9_\\\/\(\)\[\]\{\}\#\$\^\+\.\'~`!@&=;,-]#'];
 
         return preg_replace($regex, '', $path);
     }

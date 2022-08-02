@@ -27,7 +27,7 @@ class ProviderManager
      *
      * @since  4.0.0
      */
-    private $providers = [];
+    private array $providers = [];
 
     /**
      * Returns an associative array of adapters with provider name as the key
@@ -61,7 +61,6 @@ class ProviderManager
      *
      * @param   ProviderInterface|null  $provider  The provider to be unregistered
      *
-     * @return  void
      *
      * @since   4.0.6
      */
@@ -112,7 +111,7 @@ class ProviderManager
      */
     public function getAdapter($name)
     {
-        list($provider, $account) = array_pad(explode('-', $name, 2), 2, null);
+        [$provider, $account] = array_pad(explode('-', $name, 2), 2, null);
 
         if ($account == null) {
             throw new \Exception(Text::_('COM_MEDIA_ERROR_ACCOUNT_NOT_SET'));

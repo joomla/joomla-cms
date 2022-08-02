@@ -1,5 +1,15 @@
 <?php
 
+use Composer\Autoload\ClassLoader;
+use Symfony\Component\ErrorHandler\ErrorHandler;
+use Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer;
+use Joomla\CMS\Exception\ExceptionHandler;
+use TYPO3\PharStreamWrapper\Behavior;
+use TYPO3\PharStreamWrapper\Manager;
+use TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor;
+use TYPO3\PharStreamWrapper\PharStreamWrapper;
+use Joomla\CMS\Version;
+use Joomla\CMS\Log\Log;
 /**
  * Bootstrap file for the Joomla! CMS [with legacy libraries].
  * Including this file into your application will make Joomla libraries available for use.
@@ -33,11 +43,11 @@ if (!class_exists('JLoader')) {
 JLoader::setup();
 
 // Create the Composer autoloader
-/** @var \Composer\Autoload\ClassLoader $loader */
+/** @var ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
 
 // We need to pull our decorated class loader into memory before unregistering Composer's loader
-class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+class_exists(\Joomla\CMS\Autoload\ClassLoader::class);
 
 $loader->unregister();
 
@@ -52,31 +62,31 @@ require_once JPATH_LIBRARIES . '/classmap.php';
  * The error level may be changed later in boot up process, after application config will be loaded.
  * Do not remove the variable, to allow to use it further, after including this file.
  */
-$errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
-\Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer::setTemplate(__DIR__ . '/../templates/system/fatal.php');
+$errorHandler = ErrorHandler::register();
+HtmlErrorRenderer::setTemplate(__DIR__ . '/../templates/system/fatal.php');
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 if (error_reporting() & E_USER_DEPRECATED) {
-    set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+    set_error_handler(ExceptionHandler::handleUserDeprecatedErrors(...), E_USER_DEPRECATED);
 }
 
 // Suppress phar stream wrapper for non .phar files
-$behavior = new \TYPO3\PharStreamWrapper\Behavior();
-\TYPO3\PharStreamWrapper\Manager::initialize(
-    $behavior->withAssertion(new \TYPO3\PharStreamWrapper\Interceptor\PharExtensionInterceptor())
+$behavior = new Behavior();
+Manager::initialize(
+    $behavior->withAssertion(new PharExtensionInterceptor())
 );
 
 if (in_array('phar', stream_get_wrappers())) {
     stream_wrapper_unregister('phar');
-    stream_wrapper_register('phar', 'TYPO3\\PharStreamWrapper\\PharStreamWrapper');
+    stream_wrapper_register('phar', PharStreamWrapper::class);
 }
 
 // Define the Joomla version if not already defined.
-defined('JVERSION') or define('JVERSION', (new \Joomla\CMS\Version())->getShortVersion());
+defined('JVERSION') or define('JVERSION', (new Version())->getShortVersion());
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
-    \Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], \Joomla\CMS\Log\Log::ALL, ['jerror']);
+    Log::addLogger(['logger' => 'messagequeue'], Log::ALL, ['jerror']);
 }
 
 // Register the Crypto lib

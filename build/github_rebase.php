@@ -45,8 +45,8 @@ if (empty($argv)) {
 }
 
 foreach ($argv as $arg) {
-    if (substr($arg, 0, 2) === '--') {
-            $argi = explode('=', $arg, 2);
+    if (str_starts_with((string) $arg, '--')) {
+            $argi = explode('=', (string) $arg, 2);
         switch ($argi[0]) {
             case '--base':
                 $baseBranches = $argi[1];
@@ -128,9 +128,9 @@ if (!empty($prNumber)) {
         $json = '[' . $json . ']';
 }
 
-$list = json_decode($json, true);
+$list = json_decode((string) $json, true, 512, JSON_THROW_ON_ERROR);
 
-echo "\nFound " . count($list) . " pull request(s).\n";
+echo "\nFound " . (is_countable($list) ? count($list) : 0) . " pull request(s).\n";
 
 foreach ($list as $pr) {
         echo "Rebase #" . $pr['number'] . "\n";

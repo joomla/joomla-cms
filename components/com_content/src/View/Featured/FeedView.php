@@ -50,7 +50,7 @@ class FeedView extends AbstractView
 
         foreach ($rows as $row) {
             // Strip html from feed item title
-            $title = htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
+            $title = htmlspecialchars((string) $row->title, ENT_QUOTES, 'UTF-8');
             $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
             // Compute the article slug
@@ -60,7 +60,7 @@ class FeedView extends AbstractView
             $link = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
             $description = '';
-            $obj = json_decode($row->images);
+            $obj = json_decode((string) $row->images, null, 512, JSON_THROW_ON_ERROR);
 
             if (!empty($obj->image_intro)) {
                 $description = '<p>' . HTMLHelper::_('image', $obj->image_intro, $obj->image_intro_alt) . '</p>';
@@ -74,7 +74,7 @@ class FeedView extends AbstractView
             $item->title    = $title;
             $item->link     = Route::_($link);
             $item->date     = $row->publish_up;
-            $item->category = array();
+            $item->category = [];
 
             // All featured articles are categorized as "Featured"
             $item->category[] = Text::_('JFEATURED');

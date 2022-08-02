@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_login
@@ -14,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('field.passwordview')
@@ -75,9 +76,7 @@ Text::script('JHIDEPASSWORD');
                 </div>
             <?php endif; ?>
             <?php foreach ($extraButtons as $button) :
-                $dataAttributeKeys = array_filter(array_keys($button), function ($key) {
-                    return substr($key, 0, 5) == 'data-';
-                });
+                $dataAttributeKeys = array_filter(array_keys($button), fn($key) => substr((string) $key, 0, 5) == 'data-');
                 ?>
             <div class="form-group">
                 <button type="button"

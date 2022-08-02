@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.accessibility
@@ -22,7 +23,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemAccessibility extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  4.0.0
      */

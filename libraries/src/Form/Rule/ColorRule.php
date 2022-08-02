@@ -37,7 +37,7 @@ class ColorRule extends FormRule
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
-        $value = trim($value);
+        $value = trim((string) $value);
 
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');

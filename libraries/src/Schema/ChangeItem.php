@@ -32,22 +32,6 @@ use Joomla\Database\Exception\ExecutionFailureException;
 abstract class ChangeItem
 {
     /**
-     * Update file: full path file name where query was found
-     *
-     * @var    string
-     * @since  2.5
-     */
-    public $file = null;
-
-    /**
-     * Update query: query used to change the db schema (one line from the file)
-     *
-     * @var    string
-     * @since  2.5
-     */
-    public $updateQuery = null;
-
-    /**
      * Check query: query used to check the db schema
      *
      * @var    string
@@ -62,14 +46,6 @@ abstract class ChangeItem
      * @since  2.5
      */
     public $checkQueryExpected = 1;
-
-    /**
-     * DatabaseDriver object
-     *
-     * @var    DatabaseDriver
-     * @since  2.5
-     */
-    public $db = null;
 
     /**
      * Query type: To be used in building a language key for a
@@ -93,7 +69,7 @@ abstract class ChangeItem
      * @var    array
      * @since  2.5
      */
-    public $msgElements = array();
+    public $msgElements = [];
 
     /**
      * Checked status
@@ -116,15 +92,12 @@ abstract class ChangeItem
      *
      * @param   DatabaseDriver  $db     Database connector object
      * @param   string          $file   Full path name of the sql file
-     * @param   string          $query  Text of the sql query (one line of the file)
+     * @param string $updateQuery Text of the sql query (one line of the file)
      *
      * @since   2.5
      */
-    public function __construct($db, $file, $query)
+    public function __construct(public $db, public $file, public $updateQuery)
     {
-        $this->updateQuery = $query;
-        $this->file = $file;
-        $this->db = $db;
         $this->buildCheckQuery();
     }
 
@@ -237,7 +210,7 @@ abstract class ChangeItem
                 } else {
                     $this->rerunStatus = -2;
                 }
-            } catch (ExecutionFailureException | \RuntimeException $e) {
+            } catch (ExecutionFailureException | \RuntimeException) {
                 $this->rerunStatus = -2;
             }
         }

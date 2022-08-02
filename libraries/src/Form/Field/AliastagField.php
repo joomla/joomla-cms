@@ -54,7 +54,7 @@ class AliastagField extends ListField
         $lang = Factory::getLanguage();
 
         foreach ($options as $i => $item) {
-            $parts     = explode('.', $item->value);
+            $parts     = explode('.', (string) $item->value);
             $extension = $parts[0];
             $lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
             || $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension));
@@ -67,9 +67,7 @@ class AliastagField extends ListField
         // Sort by language value
         usort(
             $options,
-            function ($a, $b) {
-                return strcmp($a->text, $b->text);
-            }
+            fn($a, $b) => strcmp((string) $a->text, (string) $b->text)
         );
 
         return $options;

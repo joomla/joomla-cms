@@ -25,7 +25,7 @@ use Joomla\CMS\Layout\LayoutHelper;
         <?php endif; ?>
         <div class="form-group col-md-6">
             <div class="controls">
-                <?php echo LayoutHelper::render('joomla.html.batch.access', array()); ?>
+                <?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
             </div>
         </div>
     </div>

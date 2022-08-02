@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\ArticlesNews\Site\Helper;
 
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -44,7 +45,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
      */
     public function getArticles(Registry $params, SiteApplication $app)
     {
-        /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
+        /** @var ArticlesModel $model */
         $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
         // Set application parameters in model
@@ -66,13 +67,13 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $model->setState('filter.access', $access);
 
         // Category filter
-        $model->setState('filter.category_id', $params->get('catid', array()));
+        $model->setState('filter.category_id', $params->get('catid', []));
 
         // Filter by language
         $model->setState('filter.language', $app->getLanguageFilter());
 
         // Filter by tag
-        $model->setState('filter.tag', $params->get('tag', array()));
+        $model->setState('filter.tag', $params->get('tag', []));
 
         // Featured switch
         $featured = $params->get('show_featured', '');
@@ -100,7 +101,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $ordering = $params->get('ordering', 'a.publish_up');
         $model->setState('list.ordering', $ordering);
 
-        if (trim($ordering) === 'rand()') {
+        if (trim((string) $ordering) === 'rand()') {
             $model->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
         } else {
             $direction = $params->get('direction', 1) ? 'DESC' : 'ASC';
@@ -115,7 +116,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         $items = $model->getItems();
 
         foreach ($items as &$item) {
-            $item->readmore = \strlen(trim($item->fulltext));
+            $item->readmore = \strlen(trim((string) $item->fulltext));
             $item->slug     = $item->id . ':' . $item->alias;
 
             if ($access || \in_array($item->access, $authorised)) {
@@ -124,7 +125,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
                 $item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE');
             } else {
                 $item->link = new Uri(Route::_('index.php?option=com_users&view=login', false));
-                $item->link->setVar('return', base64_encode(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)));
+                $item->link->setVar('return', base64_encode((string) RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)));
                 $item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
             }
 
@@ -137,39 +138,39 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
 
             // Show the Intro/Full image field of the article
             if ($params->get('img_intro_full') !== 'none') {
-                $images = json_decode($item->images);
+                $images = json_decode((string) $item->images, null, 512, JSON_THROW_ON_ERROR);
                 $item->imageSrc = '';
                 $item->imageAlt = '';
                 $item->imageCaption = '';
 
                 if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro)) {
-                    $item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
-                    $item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
+                    $item->imageSrc = htmlspecialchars((string) $images->image_intro, ENT_COMPAT, 'UTF-8');
+                    $item->imageAlt = htmlspecialchars((string) $images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
                     if ($images->image_intro_caption) {
-                        $item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
+                        $item->imageCaption = htmlspecialchars((string) $images->image_intro_caption, ENT_COMPAT, 'UTF-8');
                     }
                 } elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext)) {
-                    $item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
-                    $item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
+                    $item->imageSrc = htmlspecialchars((string) $images->image_fulltext, ENT_COMPAT, 'UTF-8');
+                    $item->imageAlt = htmlspecialchars((string) $images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
 
                     if ($images->image_intro_caption) {
-                        $item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
+                        $item->imageCaption = htmlspecialchars((string) $images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
                     }
                 }
             }
 
             if ($triggerEvents) {
                 $item->text = '';
-                $app->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$params, 0));
+                $app->triggerEvent('onContentPrepare', ['com_content.article', &$item, &$params, 0]);
 
-                $results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
+                $results                 = $app->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$params, 0]);
                 $item->afterDisplayTitle = trim(implode("\n", $results));
 
-                $results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
+                $results                    = $app->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$params, 0]);
                 $item->beforeDisplayContent = trim(implode("\n", $results));
 
-                $results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
+                $results                   = $app->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$params, 0]);
                 $item->afterDisplayContent = trim(implode("\n", $results));
             } else {
                 $item->afterDisplayTitle    = '';
@@ -184,7 +185,7 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
     /**
      * Get a list of the latest articles from the article model
      *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+     * @param Registry &$params object holding the models parameters
      *
      * @return  mixed
      *

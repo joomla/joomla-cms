@@ -44,7 +44,6 @@ trait ResultTypeArrayAware
      *
      * @param   mixed  $data  The data to type check
      *
-     * @return  void
      * @throws  InvalidArgumentException
      *
      * @internal

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -27,7 +28,7 @@ class FormView extends HtmlView
     /**
      * The \JForm object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -118,7 +119,7 @@ class FormView extends HtmlView
         $this->initializeView();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

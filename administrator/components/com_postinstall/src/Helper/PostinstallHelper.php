@@ -28,9 +28,9 @@ class PostinstallHelper
      */
     public function parsePath($path)
     {
-        if (strpos($path, 'site://') !== false) {
+        if (str_contains($path, 'site://')) {
             $path = JPATH_ROOT . str_replace('site://', '/', $path);
-        } elseif (strpos($path, 'admin://') !== false) {
+        } elseif (str_contains($path, 'admin://')) {
             $path = JPATH_ADMINISTRATOR . str_replace('admin://', '/', $path);
         }
 

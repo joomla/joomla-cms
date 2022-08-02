@@ -72,7 +72,7 @@ class FormRule
     {
         // Check for a valid regex.
         if (empty($this->regex)) {
-            throw new \UnexpectedValueException(sprintf('%s has invalid regex.', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('%s has invalid regex.', $this::class));
         }
 
         // Detect if we have full UTF-8 and unicode PCRE support.
@@ -84,11 +84,11 @@ class FormRule
 
         // Add unicode property support if available.
         if ($unicodePropertiesSupport) {
-            $this->modifiers = (strpos($this->modifiers, 'u') !== false) ? $this->modifiers : $this->modifiers . 'u';
+            $this->modifiers = (str_contains($this->modifiers, 'u')) ? $this->modifiers : $this->modifiers . 'u';
         }
 
         // Test the value against the regular expression.
-        if (preg_match(\chr(1) . $this->regex . \chr(1) . $this->modifiers, $value)) {
+        if (preg_match(\chr(1) . $this->regex . \chr(1) . $this->modifiers, (string) $value)) {
             return true;
         }
 

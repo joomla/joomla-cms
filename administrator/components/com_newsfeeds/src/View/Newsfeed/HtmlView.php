@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeed;
 
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -29,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item object for the newsfeed
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  1.6
      */
@@ -38,7 +40,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The form object for the newsfeed
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  1.6
      */
@@ -47,7 +49,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state of the newsfeed
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  1.6
      */
@@ -69,7 +71,7 @@ class HtmlView extends BaseHtmlView
         $this->form  = $this->get('Form');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

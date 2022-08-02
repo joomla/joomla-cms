@@ -78,11 +78,10 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     /**
      * The application object
      *
-     * @var    CMSApplicationInterface
      *
      * @since  4.2.0
      */
-    private $application;
+    private ?CMSApplicationInterface $application = null;
 
     /**
      * Constructor
@@ -94,7 +93,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @since   1.5
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         // Get the parameters.
         if (isset($config['params'])) {
@@ -201,7 +200,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 
         /** @var \ReflectionMethod $method */
         foreach ($methods as $method) {
-            if (substr($method->name, 0, 2) !== 'on') {
+            if (!str_starts_with($method->name, 'on')) {
                 continue;
             }
 
@@ -304,9 +303,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     /**
      * Checks if parameter is typehinted to accept \Joomla\Event\EventInterface.
      *
-     * @param   \ReflectionParameter  $parameter
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -346,7 +343,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
     /**
      * Returns the internal application or null when not set.
      *
-     * @return  CMSApplicationInterface|null
      *
      * @since   4.2.0
      */
@@ -360,7 +356,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      *
      * @param   CMSApplicationInterface  $application  The application
      *
-     * @return  void
      *
      * @since   4.2.0
      */

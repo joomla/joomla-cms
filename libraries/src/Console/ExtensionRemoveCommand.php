@@ -39,58 +39,56 @@ class ExtensionRemoveCommand extends AbstractCommand
     protected static $defaultName = 'extension:remove';
 
     /**
-     * @var InputInterface
      * @since 4.0.0
      */
-    private $cliInput;
+    private ?InputInterface $cliInput = null;
 
     /**
-     * @var SymfonyStyle
      * @since 4.0.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Exit Code for extensions remove abort
      * @since 4.0.0
      */
-    public const REMOVE_ABORT = 3;
+    final public const REMOVE_ABORT = 3;
 
     /**
      * Exit Code for extensions remove failure
      * @since 4.0.0
      */
-    public const REMOVE_FAILED = 1;
+    final public const REMOVE_FAILED = 1;
 
     /**
      * Exit Code for invalid response
      * @since 4.0.0
      */
-    public const REMOVE_INVALID_RESPONSE = 5;
+    final public const REMOVE_INVALID_RESPONSE = 5;
 
     /**
      * Exit Code for invalid type
      * @since 4.0.0
      */
-    public const REMOVE_INVALID_TYPE = 6;
+    final public const REMOVE_INVALID_TYPE = 6;
 
     /**
      * Exit Code for extensions locked remove failure
      * @since 4.0.0
      */
-    public const REMOVE_LOCKED = 4;
+    final public const REMOVE_LOCKED = 4;
 
     /**
      * Exit Code for extensions not found
      * @since 4.0.0
      */
-    public const REMOVE_NOT_FOUND = 2;
+    final public const REMOVE_NOT_FOUND = 2;
 
     /**
      * Exit Code for extensions remove success
      * @since 4.0.0
      */
-    public const REMOVE_SUCCESSFUL = 0;
+    final public const REMOVE_SUCCESSFUL = 0;
 
     /**
      * Command constructor.
@@ -112,7 +110,6 @@ class ExtensionRemoveCommand extends AbstractCommand
      * @param   InputInterface   $input   Console Input
      * @param   OutputInterface  $output  Console Output
      *
-     * @return void
      *
      * @since 4.0.0
      *
@@ -131,7 +128,6 @@ class ExtensionRemoveCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -171,7 +167,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 
         $response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
 
-        if (strtolower($response) === 'yes') {
+        if (strtolower((string) $response) === 'yes') {
             // Get an installer object for the extension type
             $installer = Installer::getInstance();
             $row       = new Extension($this->getDatabase());
@@ -202,7 +198,7 @@ class ExtensionRemoveCommand extends AbstractCommand
             }
 
             return self::REMOVE_INVALID_TYPE;
-        } elseif (strtolower($response) === 'no') {
+        } elseif (strtolower((string) $response) === 'no') {
             $this->ioStyle->note('Extension not removed.');
 
             return self::REMOVE_ABORT;

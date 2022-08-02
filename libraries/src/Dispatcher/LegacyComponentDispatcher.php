@@ -22,23 +22,14 @@ use Joomla\CMS\Language\Text;
 class LegacyComponentDispatcher implements DispatcherInterface
 {
     /**
-     * The application instance
-     *
-     * @var    CMSApplication
-     * @since  4.0.0
-     */
-    private $app;
-
-    /**
      * Constructor for Dispatcher
      *
      * @param   CMSApplication  $app  The application instance
      *
      * @since   4.0.0
      */
-    public function __construct(CMSApplication $app)
+    public function __construct(private readonly CMSApplication $app)
     {
-        $this->app = $app;
     }
 
     /**

@@ -40,22 +40,19 @@ class PlgWebservicesModules extends CMSPlugin
      */
     public function onBeforeApiRoute(&$router)
     {
-        $routes = array(
-            new Route(
-                ['GET'],
-                'v1/modules/types/site',
-                'modules.getTypes',
-                [],
-                ['public' => false, 'component' => 'com_modules', 'client_id' => 0]
-            ),
-            new Route(
-                ['GET'],
-                'v1/modules/types/administrator',
-                'modules.getTypes',
-                [],
-                ['public' => false, 'component' => 'com_modules', 'client_id' => 1]
-            ),
-        );
+        $routes = [new Route(
+            ['GET'],
+            'v1/modules/types/site',
+            'modules.getTypes',
+            [],
+            ['public' => false, 'component' => 'com_modules', 'client_id' => 0]
+        ), new Route(
+            ['GET'],
+            'v1/modules/types/administrator',
+            'modules.getTypes',
+            [],
+            ['public' => false, 'component' => 'com_modules', 'client_id' => 1]
+        )];
 
         $router->addRoutes($routes);
 

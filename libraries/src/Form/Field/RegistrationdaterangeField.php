@@ -33,15 +33,7 @@ class RegistrationdaterangeField extends PredefinedlistField
      * @var  array
      * @since  3.2
      */
-    protected $predefinedOptions = array(
-        'today'       => 'COM_USERS_OPTION_RANGE_TODAY',
-        'past_week'   => 'COM_USERS_OPTION_RANGE_PAST_WEEK',
-        'past_1month' => 'COM_USERS_OPTION_RANGE_PAST_1MONTH',
-        'past_3month' => 'COM_USERS_OPTION_RANGE_PAST_3MONTH',
-        'past_6month' => 'COM_USERS_OPTION_RANGE_PAST_6MONTH',
-        'past_year'   => 'COM_USERS_OPTION_RANGE_PAST_YEAR',
-        'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR',
-    );
+    protected $predefinedOptions = ['today'       => 'COM_USERS_OPTION_RANGE_TODAY', 'past_week'   => 'COM_USERS_OPTION_RANGE_PAST_WEEK', 'past_1month' => 'COM_USERS_OPTION_RANGE_PAST_1MONTH', 'past_3month' => 'COM_USERS_OPTION_RANGE_PAST_3MONTH', 'past_6month' => 'COM_USERS_OPTION_RANGE_PAST_6MONTH', 'past_year'   => 'COM_USERS_OPTION_RANGE_PAST_YEAR', 'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR'];
 
     /**
      * Method to instantiate the form field object.

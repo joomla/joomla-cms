@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -20,7 +21,7 @@ use Joomla\CMS\Session\Session;
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 HTMLHelper::_('bootstrap.modal');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa    = $this->document->getWebAssetManager();
 $input = Factory::getApplication()->input;
 
@@ -62,7 +63,7 @@ if ($this->type == 'font') {
     <div class="row mt-2">
         <div class="col-md-8" id="conditional-section">
             <?php if ($this->type == 'file') : ?>
-                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode($this->file)) : '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode($this->file))), $this->template->element); ?></p>
+                <p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . ($input->get('isMedia', 0) ? '/media/templates/' . ($this->template->client_id === 0 ? 'site' : 'administrator') . '/' . $this->template->element . str_replace('//', '/', base64_decode((string) $this->file)) : '/' . ($this->template->client_id === 0 ? '' : 'administrator/') . 'templates/' . $this->template->element . str_replace('//', '/', base64_decode((string) $this->file))), $this->template->element); ?></p>
                 <p class="lead path hidden"><?php echo $this->source->filename; ?></p>
             <?php endif; ?>
             <?php if ($this->type == 'image') : ?>
@@ -95,7 +96,7 @@ if ($this->type == 'font') {
                         <?php echo $this->loadTemplate('tree'); ?>
                     </li>
                 </ul>
-                <?php if (count($this->mediaFiles)) : ?>
+                <?php if (is_countable($this->mediaFiles) ? count($this->mediaFiles) : 0) : ?>
                     <ul class="directory-tree treeselect">
                         <li class="folder-select">
                             <a class="folder-url" data-id="" href="">
@@ -125,7 +126,7 @@ if ($this->type == 'font') {
                 <?php elseif ($this->type == 'file') : ?>
                     <div class="row">
                         <div class="col-md-12" id="override-pane">
-                            <?php $overrideCheck = explode(DIRECTORY_SEPARATOR, $this->source->filename); ?>
+                            <?php $overrideCheck = explode(DIRECTORY_SEPARATOR, (string) $this->source->filename); ?>
                             <?php if (!empty($this->source->coreFile)) : ?>
                                 <h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
                             <?php endif; ?>
@@ -165,10 +166,10 @@ if ($this->type == 'font') {
                         <ul class="nav flex-column well">
                             <?php foreach ($this->archive as $file) : ?>
                                 <li>
-                                    <?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
+                                    <?php if (substr((string) $file, -1) === DIRECTORY_SEPARATOR) : ?>
                                         <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
                                     <?php endif; ?>
-                                    <?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
+                                    <?php if (substr((string) $file, -1) != DIRECTORY_SEPARATOR) : ?>
                                         <span class="icon-file icon-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
                                     <?php endif; ?>
                                 </li>
@@ -178,7 +179,7 @@ if ($this->type == 'font') {
                         <?php echo HTMLHelper::_('form.token'); ?>
                     </form>
                 <?php elseif ($this->type == 'image') : ?>
-                    <legend><?php echo $this->escape(basename($this->image['address'])); ?></legend>
+                    <legend><?php echo $this->escape(basename((string) $this->image['address'])); ?></legend>
                     <img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" style="max-width: 100%">
                     <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post" name="adminForm" id="adminForm">
                         <fieldset class="adminform">
@@ -376,14 +377,7 @@ if ($this->type == 'font') {
 
     <?php // Collapse Modal
     $taskName = isset($this->template->xmldata->inheritable) && (string) $this->template->xmldata->inheritable === '1' ? 'child' : 'copy';
-    $copyModalData = array(
-        'selector' => $taskName . 'Modal',
-        'params'   => array(
-            'title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)),
-            'footer' => $this->loadTemplate('modal_' . $taskName . '_footer')
-        ),
-        'body' => $this->loadTemplate('modal_' . $taskName . '_body')
-    );
+    $copyModalData = ['selector' => $taskName . 'Modal', 'params'   => ['title'  => Text::_('COM_TEMPLATES_TEMPLATE_' . strtoupper($taskName)), 'footer' => $this->loadTemplate('modal_' . $taskName . '_footer')], 'body' => $this->loadTemplate('modal_' . $taskName . '_body')];
     ?>
     <form action="<?php echo Route::_('index.php?option=com_templates&task=template.' . $taskName . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
         <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $copyModalData); ?>
@@ -391,14 +385,7 @@ if ($this->type == 'font') {
     </form>
     <?php if ($this->type != 'home') : ?>
         <?php // Rename Modal
-        $renameModalData = array(
-            'selector' => 'renameModal',
-            'params'   => array(
-                'title'  => Text::sprintf('COM_TEMPLATES_RENAME_FILE', str_replace('//', '/', $this->fileName)),
-                'footer' => $this->loadTemplate('modal_rename_footer')
-            ),
-            'body' => $this->loadTemplate('modal_rename_body')
-        );
+        $renameModalData = ['selector' => 'renameModal', 'params'   => ['title'  => Text::sprintf('COM_TEMPLATES_RENAME_FILE', str_replace('//', '/', (string) $this->fileName)), 'footer' => $this->loadTemplate('modal_rename_footer')], 'body' => $this->loadTemplate('modal_rename_body')];
         ?>
         <form action="<?php echo Route::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post">
             <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $renameModalData); ?>
@@ -407,57 +394,21 @@ if ($this->type == 'font') {
     <?php endif; ?>
     <?php if ($this->type != 'home') : ?>
         <?php // Delete Modal
-        $deleteModalData = array(
-            'selector' => 'deleteModal',
-            'params'   => array(
-                'title'  => Text::_('COM_TEMPLATES_ARE_YOU_SURE'),
-                'footer' => $this->loadTemplate('modal_delete_footer')
-            ),
-            'body' => $this->loadTemplate('modal_delete_body')
-        );
+        $deleteModalData = ['selector' => 'deleteModal', 'params'   => ['title'  => Text::_('COM_TEMPLATES_ARE_YOU_SURE'), 'footer' => $this->loadTemplate('modal_delete_footer')], 'body' => $this->loadTemplate('modal_delete_body')];
         ?>
         <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $deleteModalData); ?>
     <?php endif; ?>
     <?php // File Modal
-    $fileModalData = array(
-        'selector' => 'fileModal',
-        'params'   => array(
-            'title'      => Text::_('COM_TEMPLATES_NEW_FILE_HEADER'),
-            'footer'     => $this->loadTemplate('modal_file_footer'),
-            'height'     => '400px',
-            'width'      => '800px',
-            'bodyHeight' => 70,
-            'modalWidth' => 80,
-        ),
-        'body' => $this->loadTemplate('modal_file_body')
-    );
+    $fileModalData = ['selector' => 'fileModal', 'params'   => ['title'      => Text::_('COM_TEMPLATES_NEW_FILE_HEADER'), 'footer'     => $this->loadTemplate('modal_file_footer'), 'height'     => '400px', 'width'      => '800px', 'bodyHeight' => 70, 'modalWidth' => 80], 'body' => $this->loadTemplate('modal_file_body')];
     ?>
     <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $fileModalData); ?>
     <?php // Folder Modal
-    $folderModalData = array(
-        'selector' => 'folderModal',
-        'params'   => array(
-            'title'      => Text::_('COM_TEMPLATES_MANAGE_FOLDERS'),
-            'footer'     => $this->loadTemplate('modal_folder_footer'),
-            'height'     => '400px',
-            'width'      => '800px',
-            'bodyHeight' => 70,
-            'modalWidth' => 80,
-        ),
-        'body' => $this->loadTemplate('modal_folder_body')
-    );
+    $folderModalData = ['selector' => 'folderModal', 'params'   => ['title'      => Text::_('COM_TEMPLATES_MANAGE_FOLDERS'), 'footer'     => $this->loadTemplate('modal_folder_footer'), 'height'     => '400px', 'width'      => '800px', 'bodyHeight' => 70, 'modalWidth' => 80], 'body' => $this->loadTemplate('modal_folder_body')];
     ?>
     <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $folderModalData); ?>
     <?php if ($this->type == 'image') : ?>
         <?php // Resize Modal
-        $resizeModalData = array(
-            'selector' => 'resizeModal',
-            'params'   => array(
-                'title'  => Text::_('COM_TEMPLATES_RESIZE_IMAGE'),
-                'footer' => $this->loadTemplate('modal_resize_footer')
-            ),
-            'body' => $this->loadTemplate('modal_resize_body')
-        );
+        $resizeModalData = ['selector' => 'resizeModal', 'params'   => ['title'  => Text::_('COM_TEMPLATES_RESIZE_IMAGE'), 'footer' => $this->loadTemplate('modal_resize_footer')], 'body' => $this->loadTemplate('modal_resize_body')];
         ?>
         <form action="<?php echo Route::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file . '&isMedia=' . $input->get('isMedia', 0)); ?>" method="post">
             <?php echo LayoutHelper::render('libraries.html.bootstrap.modal.main', $resizeModalData); ?>

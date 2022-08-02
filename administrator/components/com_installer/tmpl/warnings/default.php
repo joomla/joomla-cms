@@ -20,7 +20,7 @@ use Joomla\CMS\Router\Route;
         <div class="row">
             <div class="col-md-12">
                 <div id="j-main-container" class="j-main-container">
-                    <?php if (count($this->messages)) : ?>
+                    <?php if (is_countable($this->messages) ? count($this->messages) : 0) : ?>
                         <?php foreach ($this->messages as $message) : ?>
                             <div class="alert alert-warning">
                                 <h4 class="alert-heading">

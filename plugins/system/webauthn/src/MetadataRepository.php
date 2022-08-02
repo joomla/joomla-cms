@@ -37,15 +37,14 @@ final class MetadataRepository implements MetadataStatementRepository
      * @var   MetadataStatement[]
      * @since 4.2.0
      */
-    private $mdsCache = [];
+    private array $mdsCache = [];
 
     /**
      * Map of AAGUID to $mdsCache index
      *
-     * @var   array
      * @since 4.2.0
      */
-    private $mdsMap = [];
+    private array $mdsMap = [];
 
     /**
      * Public constructor.
@@ -80,22 +79,16 @@ final class MetadataRepository implements MetadataStatementRepository
      */
     public function getKnownAuthenticators(): array
     {
-        $mapKeys = function (MetadataStatement $meta) {
-            return $meta->getAaguid();
-        };
-        $mapvalues = function (MetadataStatement $meta) {
-            return $meta->getAaguid() ? (object) [
-                'description' => $meta->getDescription(),
-                'icon'        => $meta->getIcon(),
-            ] : null;
-        };
+        $mapKeys = fn(MetadataStatement $meta) => $meta->getAaguid();
+        $mapvalues = fn(MetadataStatement $meta) => $meta->getAaguid() ? (object) [
+            'description' => $meta->getDescription(),
+            'icon'        => $meta->getIcon(),
+        ] : null;
         $keys    = array_map($mapKeys, $this->mdsCache);
         $values  = array_map($mapvalues, $this->mdsCache);
         $return  = array_combine($keys, $values) ?: [];
 
-        $filter = function ($x) {
-            return !empty($x);
-        };
+        $filter = fn($x) => !empty($x);
 
         return array_filter($return, $filter);
     }
@@ -105,7 +98,6 @@ final class MetadataRepository implements MetadataStatementRepository
      *
      * @param   bool  $force  Force reload from the web service
      *
-     * @return  void
      * @since   4.2.0
      */
     private function load(bool $force = false): void
@@ -115,7 +107,7 @@ final class MetadataRepository implements MetadataStatementRepository
         $jwtFilename    = JPATH_CACHE . '/fido.jwt';
 
         // If the file exists and it's over one month old do retry loading it.
-        if (file_exists($jwtFilename) && filemtime($jwtFilename) < (time() - 2592000)) {
+        if (file_exists($jwtFilename) && filemtime($jwtFilename) < (time() - 2_592_000)) {
             $force = true;
         }
 
@@ -133,7 +125,7 @@ final class MetadataRepository implements MetadataStatementRepository
                 try {
                     $response = $http->get('https://mds.fidoalliance.org/', [], 5);
                     $content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
-                } catch (\Throwable $e) {
+                } catch (\Throwable) {
                     $content = '';
                 }
             }
@@ -161,7 +153,7 @@ final class MetadataRepository implements MetadataStatementRepository
         try {
             $jwtConfig = Configuration::forUnsecuredSigner();
             $token     = $jwtConfig->parser()->parse($rawJwt);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return;
         }
 
@@ -180,13 +172,13 @@ final class MetadataRepository implements MetadataStatementRepository
 
                 return;
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             // OK, don't worry if don't know when the next update is.
         }
 
         $entriesMapper = function (object $entry) {
             try {
-                $array = json_decode(json_encode($entry->metadataStatement), true);
+                $array = json_decode(json_encode($entry->metadataStatement, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
 
                 /**
                  * This prevents an error when we're asking for attestation on authenticators which
@@ -199,7 +191,7 @@ final class MetadataRepository implements MetadataStatementRepository
                 }
 
                 return MetadataStatement::createFromArray($array);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 return null;
             }
         };
@@ -207,9 +199,7 @@ final class MetadataRepository implements MetadataStatementRepository
 
         unset($token);
 
-        $entriesFilter                = function ($x) {
-            return !empty($x);
-        };
+        $entriesFilter                = fn($x) => !empty($x);
         $this->mdsCache = array_filter($entries, $entriesFilter);
 
         foreach ($this->mdsCache as $idx => $meta) {

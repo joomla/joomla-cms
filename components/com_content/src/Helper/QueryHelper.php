@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -33,23 +34,12 @@ class QueryHelper
      */
     public static function orderbyPrimary($orderby)
     {
-        switch ($orderby) {
-            case 'alpha':
-                $orderby = 'c.path, ';
-                break;
-
-            case 'ralpha':
-                $orderby = 'c.path DESC, ';
-                break;
-
-            case 'order':
-                $orderby = 'c.lft, ';
-                break;
-
-            default:
-                $orderby = '';
-                break;
-        }
+        $orderby = match ($orderby) {
+            'alpha' => 'c.path, ',
+            'ralpha' => 'c.path DESC, ',
+            'order' => 'c.lft, ',
+            default => '',
+        };
 
         return $orderby;
     }
@@ -170,24 +160,12 @@ class QueryHelper
     {
         $db = $db ?: Factory::getDbo();
 
-        switch ($orderDate) {
-            case 'modified':
-                $queryDate = ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END';
-                break;
-
-            // Use created if publish_up is not set
-            case 'published':
-                $queryDate = ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ';
-                break;
-
-            case 'unpublished':
-                $queryDate = ' CASE WHEN a.publish_down IS NULL THEN a.created ELSE a.publish_down END ';
-                break;
-            case 'created':
-            default:
-                $queryDate = ' a.created ';
-                break;
-        }
+        $queryDate = match ($orderDate) {
+            'modified' => ' CASE WHEN a.modified IS NULL THEN a.created ELSE a.modified END',
+            'published' => ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ',
+            'unpublished' => ' CASE WHEN a.publish_down IS NULL THEN a.created ELSE a.publish_down END ',
+            default => ' a.created ',
+        };
 
         return $queryDate;
     }
@@ -195,7 +173,7 @@ class QueryHelper
     /**
      * Get join information for the voting query.
      *
-     * @param   \Joomla\Registry\Registry  $params  An options object for the article.
+     * @param Registry $params An options object for the article.
      *
      * @return  array  A named array with "select" and "join" keys.
      *
@@ -220,6 +198,6 @@ class QueryHelper
             $join = '';
         }
 
-        return array('select' => $select, 'join' => $join);
+        return ['select' => $select, 'join' => $join];
     }
 }

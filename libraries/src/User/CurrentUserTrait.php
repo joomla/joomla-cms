@@ -30,7 +30,6 @@ trait CurrentUserTrait
      * Returns the current user, if none is set the identity of the global app
      * is returned. This will change in 5.0 and an empty user will be returned.
      *
-     * @return  User
      *
      * @since   4.2.0
      */
@@ -52,7 +51,6 @@ trait CurrentUserTrait
      *
      * @param   User  $currentUser  The current user object
      *
-     * @return  void
      *
      * @since   4.2.0
      */

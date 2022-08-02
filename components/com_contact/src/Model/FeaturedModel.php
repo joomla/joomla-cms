@@ -31,18 +31,10 @@ class FeaturedModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'con_position', 'a.con_position',
-                'suburb', 'a.suburb',
-                'state', 'a.state',
-                'country', 'a.country',
-                'ordering', 'a.ordering',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'name', 'a.name', 'con_position', 'a.con_position', 'suburb', 'a.suburb', 'state', 'a.state', 'country', 'a.country', 'ordering', 'a.ordering'];
         }
 
         parent::__construct($config);
@@ -59,7 +51,7 @@ class FeaturedModel extends ListModel
         $items = parent::getItems();
 
         // Convert the params field into an object, saving original in _params
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = is_countable($items) ? count($items) : 0; $i < $n; $i++) {
             $item = &$items[$i];
 
             if (!isset($this->_params)) {
@@ -126,7 +118,7 @@ class FeaturedModel extends ListModel
 
         // Filter by search in title
         if (!empty($search)) {
-            $search = '%' . trim($search) . '%';
+            $search = '%' . trim((string) $search) . '%';
             $query->where($db->quoteName('a.name') . ' LIKE :name ');
             $query->bind(':name', $search);
         }
@@ -179,7 +171,7 @@ class FeaturedModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 

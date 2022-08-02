@@ -23,29 +23,29 @@ $params    = $displayData->params;
 $category  = $displayData->get('category');
 $extension = $category->extension;
 $canEdit   = $params->get('access-edit');
-$className = substr($extension, 4);
+$className = substr((string) $extension, 4);
 $htag      = $params->get('show_page_heading') ? 'h2' : 'h1';
 
 $app = Factory::getApplication();
 
 $category->text = $category->description;
-$app->triggerEvent('onContentPrepare', array($extension . '.categories', &$category, &$params, 0));
+$app->triggerEvent('onContentPrepare', [$extension . '.categories', &$category, &$params, 0]);
 $category->description = $category->text;
 
-$results = $app->triggerEvent('onContentAfterTitle', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentAfterTitle', [$extension . '.categories', &$category, &$params, 0]);
 $afterDisplayTitle = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentBeforeDisplay', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentBeforeDisplay', [$extension . '.categories', &$category, &$params, 0]);
 $beforeDisplayContent = trim(implode("\n", $results));
 
-$results = $app->triggerEvent('onContentAfterDisplay', array($extension . '.categories', &$category, &$params, 0));
+$results = $app->triggerEvent('onContentAfterDisplay', [$extension . '.categories', &$category, &$params, 0]);
 $afterDisplayContent = trim(implode("\n", $results));
 
 /**
  * This will work for the core components but not necessarily for other components
  * that may have different pluralisation rules.
  */
-if (substr($className, -1) === 's') {
+if (str_ends_with($className, 's')) {
     $className = rtrim($className, 's');
 }
 

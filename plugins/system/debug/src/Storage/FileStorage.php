@@ -36,7 +36,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
             Folder::create($this->dirname);
         }
 
-        $dataStr = '<?php die(); ?>#(^-^)#' . json_encode($data);
+        $dataStr = '<?php die(); ?>#(^-^)#' . json_encode($data, JSON_THROW_ON_ERROR);
 
         File::write($this->makeFilename($id), $dataStr);
     }
@@ -55,7 +55,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         $dataStr = file_get_contents($this->makeFilename($id));
         $dataStr = str_replace('<?php die(); ?>#(^-^)#', '', $dataStr);
 
-        return json_decode($dataStr, true) ?: [];
+        return json_decode($dataStr, true, 512, JSON_THROW_ON_ERROR) ?: [];
     }
 
     /**
@@ -86,13 +86,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
         // Sort the files, newest first
         usort(
             $files,
-            function ($a, $b) {
-                if ($a['time'] === $b['time']) {
-                    return 0;
-                }
-
-                return $a['time'] < $b['time'] ? 1 : -1;
-            }
+            fn($a, $b) => $b['time'] <=> $a['time']
         );
 
         // Load the metadata and filter the results.

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
@@ -35,11 +36,11 @@ class GroupsController extends AdminController
      * @param   string  $prefix  The prefix for the PHP class name.
      * @param   array   $config  Array of configuration parameters.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   3.7.0
      */
-    public function getModel($name = 'Group', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Group', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

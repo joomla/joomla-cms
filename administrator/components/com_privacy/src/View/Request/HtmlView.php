@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Request;
 
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -81,7 +82,7 @@ class HtmlView extends BaseHtmlView
 
         // Variables only required for the default layout
         if ($this->getLayout() === 'default') {
-            /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $logsModel */
+            /** @var ActionlogsModel $logsModel */
             $logsModel = $this->getModel('actionlogs');
 
             $this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
@@ -98,7 +99,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

@@ -26,30 +26,19 @@ if ($component == 'com_categories') {
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: array(
-    array('parent', 'parent_id'),
-    array('published', 'state', 'enabled'),
-    array('category', 'catid'),
-    'featured',
-    'sticky',
-    'access',
-    'language',
-    'tags',
-    'note',
-    'version_note',
-);
+$fields = $displayData->get('fields') ?: [['parent', 'parent_id'], ['published', 'state', 'enabled'], ['category', 'catid'], 'featured', 'sticky', 'access', 'language', 'tags', 'note', 'version_note'];
 
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields = $displayData->get('hidden_fields') ?: [];
 
 if (!$saveHistory) {
     $hiddenFields[] = 'version_note';
 }
 
-$html   = array();
+$html   = [];
 $html[] = '<fieldset><ul class="list-unstyled">';
 
 foreach ($fields as $field) {
-    $field = is_array($field) ? $field : array($field);
+    $field = is_array($field) ? $field : [$field];
 
     foreach ($field as $f) {
         if ($form->getField($f)) {

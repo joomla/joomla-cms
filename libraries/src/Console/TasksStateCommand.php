@@ -47,11 +47,9 @@ class TasksStateCommand extends AbstractCommand
     protected $application;
 
     /**
-     * @var SymfonyStyle
-     *
      * @since  4.1.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Internal function to execute the command.
@@ -160,7 +158,6 @@ class TasksStateCommand extends AbstractCommand
      * @param   InputInterface   $input   The input to inject into the command.
      * @param   OutputInterface  $output  The output to inject into the command.
      *
-     * @return  void
      *
      * @since  4.1.0
      */
@@ -172,7 +169,6 @@ class TasksStateCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.1.0
      */

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Media-Action.resize
@@ -17,7 +18,7 @@ use Joomla\CMS\Image\Image;
  *
  * @since  4.0.0
  */
-class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
+class PlgMediaActionResize extends MediaActionPlugin
 {
     /**
      * The save event.
@@ -31,7 +32,7 @@ class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave($context, $item, $isNew, $data = array())
+    public function onContentBeforeSave($context, $item, $isNew, $data = [])
     {
         if ($context != 'com_media.file') {
             return;

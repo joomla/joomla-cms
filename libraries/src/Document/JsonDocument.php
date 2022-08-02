@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory as CmsFactory;
 
 /**
@@ -34,15 +35,15 @@ class JsonDocument extends Document
      *
      * @since  1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
         // Set mime type
         if (
             isset($_SERVER['HTTP_ACCEPT'])
-            && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === false
-            && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false
+            && !str_contains((string) $_SERVER['HTTP_ACCEPT'], 'application/json')
+            && str_contains((string) $_SERVER['HTTP_ACCEPT'], 'text/html')
         ) {
             // Internet Explorer < 10
             $this->_mime = 'text/plain';
@@ -64,9 +65,9 @@ class JsonDocument extends Document
      *
      * @since  1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
-        /** @var \Joomla\CMS\Application\CMSApplication $app */
+        /** @var CMSApplication $app */
         $app = CmsFactory::getApplication();
 
         $app->allowCache($cache);

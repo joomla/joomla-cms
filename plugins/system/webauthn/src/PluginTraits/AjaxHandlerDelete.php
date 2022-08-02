@@ -29,7 +29,6 @@ trait AjaxHandlerDelete
      *
      * @param   AjaxDelete  $event  The event we are handling
      *
-     * @return  void
      * @since   4.0.0
      */
     public function onAjaxWebauthnDelete(AjaxDelete $event): void
@@ -48,7 +47,7 @@ trait AjaxHandlerDelete
             return;
         }
 
-        $credentialId = base64_decode($credentialId);
+        $credentialId = base64_decode((string) $credentialId);
 
         if (empty($credentialId) || !$repository->has($credentialId)) {
             $event->addResult(false);
@@ -61,7 +60,7 @@ trait AjaxHandlerDelete
             $user             = $this->getApplication()->getIdentity() ?? new User();
             $credentialHandle = $repository->getUserHandleFor($credentialId);
             $myHandle         = $repository->getHandleFromUserId($user->id);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $event->addResult(false);
 
             return;
@@ -76,7 +75,7 @@ trait AjaxHandlerDelete
         // Delete the record
         try {
             $repository->remove($credentialId);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $event->addResult(false);
 
             return;

@@ -50,7 +50,7 @@ class LibraryAdapter extends InstallerAdapter
 
                 // Clear the cached data
                 $this->currentExtensionId = null;
-                $this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->getDatabase()));
+                $this->extension = Table::getInstance('Extension', 'JTable', ['dbo' => $this->getDatabase()]);
 
                 // From this point we'll consider this an update
                 $this->setRoute('update');
@@ -86,14 +86,12 @@ class LibraryAdapter extends InstallerAdapter
      */
     protected function finaliseInstall()
     {
+        $path = [];
         // Clobber any possible pending updates
         /** @var Update $update */
         $update = Table::getInstance('update');
         $uid    = $update->find(
-            array(
-                'element' => $this->element,
-                'type'    => $this->type,
-            )
+            ['element' => $this->element, 'type'    => $this->type]
         );
 
         if ($uid) {
@@ -102,7 +100,7 @@ class LibraryAdapter extends InstallerAdapter
 
         // Lastly, we will copy the manifest file to its appropriate place.
         if ($this->route !== 'discover_install') {
-            $manifest         = array();
+            $manifest         = [];
             $manifest['src']  = $this->parent->getPath('manifest');
             $manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
 
@@ -118,7 +116,7 @@ class LibraryAdapter extends InstallerAdapter
                 );
             }
 
-            if (!$this->parent->copyFiles(array($manifest), true)) {
+            if (!$this->parent->copyFiles([$manifest], true)) {
                 // Install failed, rollback changes
                 throw new \RuntimeException(
                     Text::sprintf(
@@ -134,7 +132,7 @@ class LibraryAdapter extends InstallerAdapter
                 $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
                 if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                    if (!$this->parent->copyFiles(array($path))) {
+                    if (!$this->parent->copyFiles([$path])) {
                         // Install failed, rollback changes
                         throw new \RuntimeException(
                             Text::sprintf(
@@ -151,7 +149,6 @@ class LibraryAdapter extends InstallerAdapter
     /**
      * Method to finalise the uninstallation processing
      *
-     * @return  boolean
      *
      * @since   4.0.0
      * @throws  \RuntimeException
@@ -277,7 +274,7 @@ class LibraryAdapter extends InstallerAdapter
             if (is_dir($this->parent->getPath('extension_root'))) {
                 $files = Folder::files($this->parent->getPath('extension_root'));
 
-                if (!\count($files)) {
+                if (!(is_countable($files) ? \count($files) : 0)) {
                     Folder::delete($this->parent->getPath('extension_root'));
                 }
             }
@@ -286,7 +283,7 @@ class LibraryAdapter extends InstallerAdapter
         $this->parent->removeFiles($this->getManifest()->media);
         $this->parent->removeFiles($this->getManifest()->languages);
 
-        $elementParts = explode('/', $this->extension->element);
+        $elementParts = explode('/', (string) $this->extension->element);
 
         // Delete empty vendor folders
         if (2 === \count($elementParts)) {
@@ -316,7 +313,7 @@ class LibraryAdapter extends InstallerAdapter
         }
 
         // Don't install libraries which would override core folders
-        $restrictedFolders = array('php-encryption', 'phpass', 'src', 'vendor');
+        $restrictedFolders = ['php-encryption', 'phpass', 'src', 'vendor'];
 
         if (in_array($group, $restrictedFolders)) {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
@@ -384,7 +381,7 @@ class LibraryAdapter extends InstallerAdapter
         if ($this->route === 'discover_install') {
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
-            $this->extension->manifest_cache = json_encode($manifest_details);
+            $this->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
             $this->extension->state          = 0;
             $this->extension->name           = $manifest_details['name'];
             $this->extension->enabled        = 1;
@@ -426,7 +423,7 @@ class LibraryAdapter extends InstallerAdapter
 
         // Since we have created a library item, we add it to the installation step stack
         // so that if we have to rollback the changes we can undo it.
-        $this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+        $this->parent->pushStep(['type' => 'extension', 'id' => $this->extension->extension_id]);
     }
 
     /**
@@ -438,7 +435,7 @@ class LibraryAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
+        $results = [];
 
         $mainFolder = JPATH_MANIFESTS . '/libraries';
         $folder = new \RecursiveDirectoryIterator($mainFolder);
@@ -449,7 +446,7 @@ class LibraryAdapter extends InstallerAdapter
         );
 
         foreach ($iterator as $file => $pattern) {
-            $element       = str_replace(array($mainFolder . DIRECTORY_SEPARATOR, '.xml'), '', $file);
+            $element       = str_replace([$mainFolder . DIRECTORY_SEPARATOR, '.xml'], '', (string) $file);
             $manifestCache = Installer::parseXMLInstallFile($file);
 
             $extension = Table::getInstance('extension');
@@ -459,7 +456,7 @@ class LibraryAdapter extends InstallerAdapter
             $extension->set('folder', '');
             $extension->set('name', $element);
             $extension->set('state', -1);
-            $extension->set('manifest_cache', json_encode($manifestCache));
+            $extension->set('manifest_cache', json_encode($manifestCache, JSON_THROW_ON_ERROR));
             $extension->set('params', '{}');
             $results[] = $extension;
         }
@@ -482,12 +479,12 @@ class LibraryAdapter extends InstallerAdapter
         $this->parent->setPath('manifest', $manifestPath);
 
         $manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-        $this->parent->extension->manifest_cache = json_encode($manifest_details);
+        $this->parent->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
         $this->parent->extension->name           = $manifest_details['name'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

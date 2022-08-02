@@ -34,10 +34,9 @@ class TasksRunCommand extends AbstractCommand
     protected static $defaultName = 'scheduler:run';
 
     /**
-     * @var SymfonyStyle
      * @since  4.1.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * @param   InputInterface   $input   The input to inject into the command.
@@ -51,6 +50,7 @@ class TasksRunCommand extends AbstractCommand
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
+        $records = [];
         /**
          * Not as a class constant because of some the autoload order doesn't let us
          * load the namespace when it's time to do that (why?)
@@ -92,7 +92,7 @@ class TasksRunCommand extends AbstractCommand
         }
 
         $status    = ['startTime' => microtime(true)];
-        $taskCount = \count($records);
+        $taskCount = is_countable($records) ? \count($records) : 0;
         $exit      = Status::OK;
 
         foreach ($records as $record) {
@@ -129,7 +129,6 @@ class TasksRunCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.1.0
      */

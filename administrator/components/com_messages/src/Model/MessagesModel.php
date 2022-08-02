@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -31,18 +32,10 @@ class MessagesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'message_id', 'a.id',
-                'subject', 'a.subject',
-                'state', 'a.state',
-                'user_id_from', 'a.user_id_from',
-                'user_id_to', 'a.user_id_to',
-                'date_time', 'a.date_time',
-                'priority', 'a.priority',
-            );
+            $config['filter_fields'] = ['message_id', 'a.id', 'subject', 'a.subject', 'state', 'a.state', 'user_id_from', 'a.user_id_from', 'user_id_to', 'a.user_id_to', 'date_time', 'a.date_time', 'priority', 'a.priority'];
         }
 
         parent::__construct($config, $factory);
@@ -95,7 +88,7 @@ class MessagesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -143,7 +136,7 @@ class MessagesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->extendWhere(
                 'AND',
                 [
@@ -167,7 +160,6 @@ class MessagesModel extends ListModel
      *
      * @param   int  $userId  The user id
      *
-     * @return  void
      *
      * @since   4.2.0
      */

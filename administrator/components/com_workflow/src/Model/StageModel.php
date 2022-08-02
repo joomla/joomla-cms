@@ -61,11 +61,11 @@ class StageModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -94,7 +94,7 @@ class StageModel extends AdminModel
 
         $workflow->load($data['workflow_id']);
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         if (isset($data['rules']) && !$user->authorise('core.admin', $parts[0])) {
             unset($data['rules']);
@@ -102,7 +102,7 @@ class StageModel extends AdminModel
 
         // Make sure we use the correct extension when editing an existing workflow
         $key = $table->getKeyName();
-        $pk  = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+        $pk  = $data[$key] ?? (int) $this->getState($this->getName() . '.id');
 
         if ($pk > 0) {
             $table->load($pk);
@@ -117,7 +117,7 @@ class StageModel extends AdminModel
 
             // Alter the title for save as copy
             if ($origTable->load(['title' => $data['title']])) {
-                list($title) = $this->generateNewTitle(0, '', $data['title']);
+                [$title] = $this->generateNewTitle(0, '', $data['title']);
                 $data['title'] = $title;
             }
 
@@ -150,7 +150,7 @@ class StageModel extends AdminModel
         $app = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_workflow.stage.filter.extension', 'extension', null, 'cmd');
 
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         $component = reset($parts);
 
@@ -203,16 +203,13 @@ class StageModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
         $form = $this->loadForm(
             'com_workflow.state',
             'stage',
-            array(
-                'control' => 'jform',
-                'load_data' => $loadData
-            )
+            ['control' => 'jform', 'load_data' => $loadData]
         );
 
         if (empty($form)) {
@@ -253,7 +250,7 @@ class StageModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_workflow.edit.state.data',
-            array()
+            []
         );
 
         if (empty($data)) {
@@ -293,7 +290,7 @@ class StageModel extends AdminModel
 
         if ($value) {
             // Verify that the home page for this language is unique per client id
-            if ($table->load(array('default' => '1', 'workflow_id' => $table->workflow_id))) {
+            if ($table->load(['default' => '1', 'workflow_id' => $table->workflow_id])) {
                 $table->default = 0;
                 $table->store();
             }
@@ -357,7 +354,7 @@ class StageModel extends AdminModel
     {
         $extension = Factory::getApplication()->input->get('extension');
 
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         $extension = array_shift($parts);
 

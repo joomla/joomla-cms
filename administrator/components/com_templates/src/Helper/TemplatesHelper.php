@@ -33,7 +33,7 @@ class TemplatesHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -77,10 +77,8 @@ class TemplatesHelper
     /**
      * @param   string  $templateBaseDir
      * @param   string  $templateDir
-     *
-     * @return boolean|CMSObject
      */
-    public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
+    public static function parseXMLTemplateFile($templateBaseDir, $templateDir): bool|CMSObject
     {
         $data = new CMSObject();
 
@@ -106,13 +104,12 @@ class TemplatesHelper
      * @param   integer  $clientId
      * @param   string   $templateDir
      *
-     * @return  boolean|array
      *
      * @since   3.0
      */
-    public static function getPositions($clientId, $templateDir)
+    public static function getPositions($clientId, $templateDir): bool|array
     {
-        $positions = array();
+        $positions = [];
 
         $templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
         $filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
@@ -140,7 +137,7 @@ class TemplatesHelper
             if (isset($positions['position'])) {
                 $positions = (array) $positions['position'];
             } else {
-                $positions = array();
+                $positions = [];
             }
         }
 

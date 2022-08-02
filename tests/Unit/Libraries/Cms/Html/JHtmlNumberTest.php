@@ -25,7 +25,6 @@ class JHtmlNumberTest extends UnitTestCase
     /**
      * Test...
      *
-     * @return  array
      *
      * @since   3.1
      */

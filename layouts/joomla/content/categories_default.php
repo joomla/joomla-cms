@@ -32,5 +32,5 @@ use Joomla\CMS\HTML\HTMLHelper;
                 <?php echo HTMLHelper::_('content.prepare', $displayData->parent->description, '', $displayData->parent->extension . '.categories'); ?>
             </div>
         <?php endif; ?>
-    <?php endif; ?>
+<?php endif; ?>
 <?php endif; ?>

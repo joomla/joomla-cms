@@ -85,15 +85,13 @@ class Email extends CMSPlugin implements SubscriberInterface
     /**
      * The MFA Method name handled by this plugin
      *
-     * @var   string
      * @since 4.2.0
      */
-    private $mfaMethodName = 'email';
+    private string $mfaMethodName = 'email';
 
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since 4.2.0
      */
@@ -114,7 +112,6 @@ class Email extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetMethod  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorGetMethod(GetMethod $event): void
@@ -137,7 +134,6 @@ class Email extends CMSPlugin implements SubscriberInterface
      *
      * @param   Captive  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorCaptive(Captive $event): void
@@ -161,7 +157,7 @@ class Email extends CMSPlugin implements SubscriberInterface
 
         try {
             $this->sendCode($key, $user);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return;
         }
 
@@ -202,7 +198,6 @@ class Email extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetSetup  $event  The event we are handling
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
@@ -347,7 +342,6 @@ class Email extends CMSPlugin implements SubscriberInterface
      *
      * @param   Validate  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorValidate(Validate $event): void
@@ -398,7 +392,6 @@ class Email extends CMSPlugin implements SubscriberInterface
      *
      * @param   BeforeDisplayMethods  $event  The event we are handling
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
@@ -433,9 +426,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         // If I already have the email Method go back
         $emailRecords = array_filter(
             $userMfaRecords,
-            function (MfaTable $record) {
-                return $record->method == 'email';
-            }
+            fn(MfaTable $record) => $record->method == 'email'
         );
 
         if (count($emailRecords)) {
@@ -464,7 +455,7 @@ class Email extends CMSPlugin implements SubscriberInterface
                     'user_id' => $user->id,
                 ]
             );
-        } catch (Exception $event) {
+        } catch (Exception) {
             // Fail gracefully
         }
     }
@@ -474,7 +465,6 @@ class Email extends CMSPlugin implements SubscriberInterface
      *
      * @param   MfaTable  $record  The record to decode
      *
-     * @return  array
      * @since   4.2.0
      */
     private function decodeRecordOptions(MfaTable $record): array

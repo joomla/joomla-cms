@@ -157,7 +157,7 @@ abstract class ToolbarButton
             $action = $this->renderButton($this->options);
         } elseif (\is_array($definition)) {
             // For B/C
-            $action = $this->fetchButton(...$definition);
+            $action = $this->fetchButton();
         } else {
             throw new \InvalidArgumentException('Wrong argument: $definition, should be NULL or array.');
         }
@@ -233,7 +233,7 @@ abstract class ToolbarButton
         // It's an ugly hack, but this allows templates to define the icon classes for the toolbar
         $layout = new FileLayout('joomla.toolbar.iconclass');
 
-        return $layout->render(array('icon' => $identifier));
+        return $layout->render(['icon' => $identifier]);
     }
 
     /**
@@ -445,7 +445,7 @@ abstract class ToolbarButton
                     throw new \InvalidArgumentException(
                         sprintf(
                             '%s::%s() miss first argument.',
-                            \get_called_class(),
+                            static::class,
                             $name
                         )
                     );
@@ -459,7 +459,7 @@ abstract class ToolbarButton
             sprintf(
                 'Method %s() not found in class: %s',
                 $name,
-                \get_called_class()
+                static::class
             )
         );
     }

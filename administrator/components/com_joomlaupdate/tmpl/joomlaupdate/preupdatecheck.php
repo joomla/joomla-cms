@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
@@ -19,8 +20,7 @@ use Joomla\CMS\Version;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
@@ -50,41 +50,10 @@ Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
-$compatibilityTypes = array(
-    'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => array(
-        'class' => 'info',
-        'icon'  => 'hourglass fa-spin',
-        'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES',
-        'group' => 0,
-    ),
-    'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE' => array(
-        'class' => 'danger',
-        'icon'  => 'times',
-        'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE_NOTES',
-        'group' => 2,
-    ),
-    'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED' => array(
-        'class' => 'warning',
-        'icon'  => 'exclamation-triangle',
-        'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED_NOTES',
-        'group' => 4,
-    ),
-    'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION' => array(
-        'class' => 'warning',
-        'icon'  => 'exclamation-triangle',
-        'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES',
-        'group' => 1,
-    ),
-    'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE' => array(
-        'class' => 'success',
-        'icon'  => 'check',
-        'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES',
-        'group' => 3,
-    ),
-);
+$compatibilityTypes = ['COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS' => ['class' => 'info', 'icon'  => 'hourglass fa-spin', 'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS_NOTES', 'group' => 0], 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE' => ['class' => 'danger', 'icon'  => 'times', 'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPDATES_TO_BE_COMPATIBLE_NOTES', 'group' => 2], 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED' => ['class' => 'warning', 'icon'  => 'exclamation-triangle', 'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PRE_UPDATE_CHECKS_FAILED_NOTES', 'group' => 4], 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION' => ['class' => 'warning', 'icon'  => 'exclamation-triangle', 'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION_NOTES', 'group' => 1], 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE' => ['class' => 'success', 'icon'  => 'check', 'notes' => 'COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE_NOTES', 'group' => 3]];
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
+$currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
 
 $updatePossible = true;
 
@@ -92,7 +61,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
     Factory::getApplication()->enqueueMessage(
         Text::sprintf(
             'COM_JOOMLAUPDATE_VIEW_DEFAULT_NON_CORE_BACKEND_TEMPLATE_USED_NOTICE',
-            ucfirst($this->defaultBackendTemplate)
+            ucfirst((string) $this->defaultBackendTemplate)
         ),
         'info'
     );
@@ -303,7 +272,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                                                 <?php echo $extension->name; ?>
                                             </th>
                                             <td class="extype">
-                                                <?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
+                                                <?php echo Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $extension->type)); ?>
                                             </td>
                                             <td class="instver hidden">
                                                 <?php echo $extension->version; ?>
@@ -323,7 +292,7 @@ if (version_compare($this->updateInfo['latest'], Version::MAJOR_VERSION + 1, '>=
                             </table>
                         </div>
                     </div>
-                    <?php endforeach; ?>
+<?php endforeach; ?>
                 </div>
             <?php else : ?>
                 <div class="alert alert-info">

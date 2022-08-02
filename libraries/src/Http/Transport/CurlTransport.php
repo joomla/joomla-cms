@@ -46,23 +46,13 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // Setup the cURL handle.
         $ch = curl_init();
 
-        $options = array();
+        $options = [];
 
-        // Set the request method.
-        switch (strtoupper($method)) {
-            case 'GET':
-                $options[CURLOPT_HTTPGET] = true;
-                break;
-
-            case 'POST':
-                $options[CURLOPT_POST] = true;
-                break;
-
-            case 'PUT':
-            default:
-                $options[CURLOPT_CUSTOMREQUEST] = strtoupper($method);
-                break;
-        }
+        $options[CURLOPT_HTTPGET] = match (strtoupper($method)) {
+            'GET' => true,
+            'POST' => true,
+            default => strtoupper($method),
+        };
 
         // Don't wait for body when $method is HEAD
         $options[CURLOPT_NOBODY] = ($method === 'HEAD');
@@ -73,7 +63,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         // If data exists let's encode it and make sure our Content-type header is set.
         if (isset($data)) {
             // If the data is a scalar value simply add it to the cURL post fields.
-            if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0)) {
+            if (is_scalar($data) || (isset($headers['Content-Type']) && str_starts_with((string) $headers['Content-Type'], 'multipart/form-data'))) {
                 $options[CURLOPT_POSTFIELDS] = $data;
             } else {
                 // Otherwise we need to encode the value first.
@@ -91,7 +81,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         }
 
         // Build the headers string for the request.
-        $headerArray = array();
+        $headerArray = [];
 
         if (isset($headers)) {
             foreach ($headers as $key => $value) {
@@ -148,7 +138,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         }
 
         // Set any custom transport options
-        foreach ($this->getOption('transport.curl', array()) as $key => $value) {
+        foreach ($this->getOption('transport.curl', []) as $key => $value) {
             $options[$key] = $value;
         }
 
@@ -188,7 +178,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
         if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->getOption('follow_location', true)) {
             $redirect_uri = new Uri($response->headers['Location']);
 
-            if (\in_array($redirect_uri->getScheme(), array('file', 'scp'))) {
+            if (\in_array($redirect_uri->getScheme(), ['file', 'scp'])) {
                 throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
             }
 

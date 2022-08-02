@@ -34,7 +34,6 @@ class TaskOptions
      * @param   array  $taskRoutines  An associative array of {@var TaskOption} constructor argument pairs:
      *                                [ 'routineId' => 'languageConstantPrefix', ... ]
      *
-     * @return void
      *
      * @since  4.1.0
      */

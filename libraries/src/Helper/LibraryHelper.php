@@ -30,7 +30,7 @@ class LibraryHelper
      * @var    array
      * @since  3.2
      */
-    protected static $libraries = array();
+    protected static $libraries = [];
 
     /**
      * Get the library information.
@@ -102,7 +102,7 @@ class LibraryHelper
      * @see     Registry
      * @since   3.2
      */
-    public static function saveParams($element, $params)
+    public static function saveParams($element, $params): Registry|bool
     {
         if (static::isEnabled($element)) {
             // Save params in DB
@@ -158,8 +158,8 @@ class LibraryHelper
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
         try {
-            static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
-        } catch (CacheExceptionInterface $e) {
+            static::$libraries[$element] = $cache->get($loader, [$element], __METHOD__ . $element);
+        } catch (CacheExceptionInterface) {
             static::$libraries[$element] = $loader($element);
         }
 

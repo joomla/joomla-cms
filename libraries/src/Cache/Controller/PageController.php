@@ -66,7 +66,7 @@ class PageController extends CacheController
 		// If the etag matches the page id ... set a no change header and exit : utilize browser cache
 		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']))
 		{
-			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
+			$etag = stripslashes((string) $_SERVER['HTTP_IF_NONE_MATCH']);
 
 			if ($etag == $id)
 			{
@@ -82,7 +82,7 @@ class PageController extends CacheController
 		// We got a cache hit... set the etag header and echo the page data
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = (object) array('locked' => null, 'locklooped' => null);
+		$this->_locktest = (object) ['locked' => null, 'locklooped' => null];
 
 		if ($data === false)
 		{
@@ -102,7 +102,7 @@ class PageController extends CacheController
 				$this->cache->unlock($id, $group);
 			}
 
-			$data = unserialize(trim($data));
+			$data = unserialize(trim((string) $data));
 			$data = Cache::getWorkarounds($data);
 
 			$this->_setEtag($id);
@@ -164,12 +164,7 @@ class PageController extends CacheController
 		{
 			$data = Cache::setWorkarounds(
 				$data,
-				array(
-					'nopathway' => 1,
-					'nohead'    => 1,
-					'nomodules' => 1,
-					'headers'   => true,
-				)
+				['nopathway' => 1, 'nohead'    => 1, 'nomodules' => 1, 'headers'   => true]
 			);
 		}
 

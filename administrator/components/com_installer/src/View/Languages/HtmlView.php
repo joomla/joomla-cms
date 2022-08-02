@@ -57,7 +57,7 @@ class HtmlView extends InstallerViewDefault
         $this->installedLang = LanguageHelper::getInstalledLanguages();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

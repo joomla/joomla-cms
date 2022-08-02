@@ -77,7 +77,7 @@ $home_pages        = array_column($this->homepages, 'language');
                     <?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_HOME_UNPUBLISHED', $status->lang_code, $status->lang_code); ?>
                 </div>
             <?php endif; ?>
-        <?php endforeach; ?>
+<?php endforeach; ?>
         <?php if ($notice_disabled) : ?>
             <div class="alert alert-warning">
                 <span class="icon-exclamation-triangle" aria-hidden="true"></span>
@@ -272,7 +272,7 @@ $home_pages        = array_column($this->homepages, 'language');
                             <?php endif; ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+<?php endforeach; ?>
                 <?php foreach ($this->contentlangs as $contentlang) : ?>
                     <?php if (!array_key_exists($contentlang->lang_code, $this->site_langs)) : ?>
                         <tr>
@@ -331,5 +331,5 @@ $home_pages        = array_column($this->homepages, 'language');
                 <?php endforeach; ?>
             </tbody>
         </table>
-    <?php endif; ?>
+<?php endif; ?>
 </div>

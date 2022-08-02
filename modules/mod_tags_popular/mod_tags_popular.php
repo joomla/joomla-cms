@@ -17,11 +17,11 @@ $cacheparams->cachemode = 'safeuri';
 $cacheparams->class = 'Joomla\Module\TagsPopular\Site\Helper\TagsPopularHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
+$cacheparams->modeparams = ['id' => 'array', 'Itemid' => 'int'];
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_text')) {
+if (!(is_countable($list) ? count($list) : 0) && !$params->get('no_results_text')) {
     return;
 }
 

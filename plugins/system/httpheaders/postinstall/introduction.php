@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Plugin\PluginHelper;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.HttpHeaders
@@ -20,7 +21,7 @@ use Joomla\CMS\Factory;
  */
 function httpheaders_postinstall_condition()
 {
-    return !Joomla\CMS\Plugin\PluginHelper::isEnabled('system', 'httpheaders');
+    return !PluginHelper::isEnabled('system', 'httpheaders');
 }
 
 /**

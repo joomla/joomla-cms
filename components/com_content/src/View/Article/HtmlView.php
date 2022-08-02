@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Content\Site\View\Article;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -42,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -58,14 +61,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
     /**
      * The user object
      *
-     * @var   \Joomla\CMS\User\User|null
+     * @var User|null
      */
     protected $user = null;
 
@@ -109,7 +112,7 @@ class HtmlView extends BaseHtmlView
         $this->user  = $user;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -185,7 +188,7 @@ class HtmlView extends BaseHtmlView
          * - Deny access to logged users with 403 code
          * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
          */
-        if ($item->params->get('access-view') == false && !strlen($item->fulltext)) {
+        if ($item->params->get('access-view') == false && !strlen((string) $item->fulltext)) {
             if ($this->user->get('guest')) {
                 $return = base64_encode(Uri::getInstance());
                 $login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
@@ -220,20 +223,20 @@ class HtmlView extends BaseHtmlView
 
         // Process the content plugins.
         PluginHelper::importPlugin('content');
-        $this->dispatchEvent(new Event('onContentPrepare', array('com_content.article', &$item, &$item->params, $offset)));
+        $this->dispatchEvent(new Event('onContentPrepare', ['com_content.article', &$item, &$item->params, $offset]));
 
         $item->event = new \stdClass();
-        $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
+        $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-        $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$item->params, $offset));
+        $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-        $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
+        $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.article', &$item, &$item->params, $offset]);
         $item->event->afterDisplayContent = trim(implode("\n", $results));
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->item->params->get('pageclass_sfx', ''));
 
         $this->_prepareDocument();
 
@@ -279,11 +282,11 @@ class HtmlView extends BaseHtmlView
                 $id = 0;
             }
 
-            $path     = array(array('title' => $this->item->title, 'link' => ''));
+            $path     = [['title' => $this->item->title, 'link' => '']];
             $category = Categories::getInstance('Content')->get($this->item->catid);
 
             while ($category !== null && $category->id != $id && $category->id !== 'root') {
-                $path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
+                $path[]   = ['title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language)];
                 $category = $category->getParent();
             }
 

@@ -32,7 +32,7 @@ class StringsModel extends BaseDatabaseModel
      *
      * @since       2.5
      */
-    public function refresh()
+    public function refresh(): bool|\Exception
     {
         $app = Factory::getApplication();
         $db  = $this->getDatabase();
@@ -64,7 +64,7 @@ class StringsModel extends BaseDatabaseModel
         $base = constant('JPATH_' . strtoupper($client));
         $path = $base . '/language/' . $language;
 
-        $files = array();
+        $files = [];
 
         // Parse common language directory.
         if (is_dir($path)) {
@@ -86,7 +86,7 @@ class StringsModel extends BaseDatabaseModel
         // Parse all found ini files and add the strings to the database cache.
         foreach ($files as $file) {
             // Only process if language file is for selected language
-            if (strpos($file, $language, strlen($base)) === false) {
+            if (!str_contains((string) $file, (string) $language)) {
                 continue;
             }
 
@@ -124,9 +124,9 @@ class StringsModel extends BaseDatabaseModel
      *
      * @since       2.5
      */
-    public function search()
+    public function search(): array|\Exception
     {
-        $results = array();
+        $results = [];
         $input   = Factory::getApplication()->input;
         $filter  = InputFilter::getInstance();
         $db      = $this->getDatabase();

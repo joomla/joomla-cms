@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper;
+use Joomla\CMS\Helper\ModuleHelper;
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
@@ -10,9 +12,9 @@
 
 defined('_JEXEC') or die;
 
-$items = \Joomla\Module\Sampledata\Administrator\Helper\SampledataHelper::getList();
+$items = SampledataHelper::getList();
 
 // Filter out empty entries
 $items = array_filter($items);
 
-require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));

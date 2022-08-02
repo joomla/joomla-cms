@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
@@ -96,14 +97,14 @@ class ConfigModel extends FormModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return Form|bool A Form object on success, false on failure
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_messages.config', 'config', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_messages.config', 'config', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;

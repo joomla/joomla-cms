@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Associations\Administrator\Helper;
 
+use Joomla\CMS\Association\AssociationExtensionHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
@@ -42,7 +44,7 @@ class AssociationsHelper extends ContentHelper
      * @var    array
      * @since  3.7.0
      */
-    public static $supportedExtensionsList = array();
+    public static $supportedExtensionsList = [];
 
     /**
      * Get the associated items for an item
@@ -58,7 +60,7 @@ class AssociationsHelper extends ContentHelper
     public static function getAssociationList($extensionName, $typeName, $itemId)
     {
         if (!self::hasSupport($extensionName)) {
-            return array();
+            return [];
         }
 
         // Get the extension specific helper method
@@ -72,7 +74,7 @@ class AssociationsHelper extends ContentHelper
      *
      * @param   string  $extensionName  The extension name with com_
      *
-     * @return  \Joomla\CMS\Association\AssociationExtensionHelper|null
+     * @return AssociationExtensionHelper|null
      *
      * @since  3.7.0
      */
@@ -94,7 +96,7 @@ class AssociationsHelper extends ContentHelper
      * @param   string  $typeName       The item type
      * @param   int     $itemId         The id of item for which we need the associated items
      *
-     * @return  \Joomla\CMS\Table\Table|null
+     * @return Table|null
      *
      * @since  3.7.0
      */
@@ -189,7 +191,7 @@ class AssociationsHelper extends ContentHelper
      */
     private static function getExtensionRealName($extensionName)
     {
-        return strpos($extensionName, 'com_') === false ? $extensionName : substr($extensionName, 4);
+        return !str_contains($extensionName, 'com_') ? $extensionName : substr($extensionName, 4);
     }
 
     /**
@@ -214,7 +216,7 @@ class AssociationsHelper extends ContentHelper
         $titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
         // Get all content languages.
-        $languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
         $content_languages = array_column($languages, 'lang_code');
 
         // Display warning if Content Language is trashed or deleted
@@ -288,7 +290,7 @@ class AssociationsHelper extends ContentHelper
 
                 $additional .= $addLink && $allow ? Text::_('COM_ASSOCIATIONS_EDIT_ASSOCIATION') : '';
             } else {
-                $items[$langCode] = array();
+                $items[$langCode] = [];
 
                 $title      = Text::_('COM_ASSOCIATIONS_NO_ASSOCIATION');
                 $additional = $addLink ? Text::_('COM_ASSOCIATIONS_ADD_NEW_ASSOCIATION') : '';
@@ -298,22 +300,14 @@ class AssociationsHelper extends ContentHelper
             }
 
             // Generate item Html.
-            $options   = array(
-                'option'   => 'com_associations',
-                'view'     => 'association',
-                'layout'   => 'edit',
-                'itemtype' => $extensionName . '.' . $typeName,
-                'task'     => 'association.edit',
-                'id'       => $itemId,
-                'target'   => $target,
-            );
+            $options   = ['option'   => 'com_associations', 'view'     => 'association', 'layout'   => 'edit', 'itemtype' => $extensionName . '.' . $typeName, 'task'     => 'association.edit', 'id'       => $itemId, 'target'   => $target];
 
             $url     = Route::_('index.php?' . http_build_query($options));
             $url     = $allow && $addLink ? $url : '';
             $text    = $language->lang_code;
 
-            $tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-                . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
+            $tooltip = '<strong>' . htmlspecialchars((string) $language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+                . htmlspecialchars((string) $title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
             $classes = 'badge ' . $labelClass;
 
             $items[$langCode]['link'] = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
@@ -336,7 +330,7 @@ class AssociationsHelper extends ContentHelper
             return self::$extensionsSupport;
         }
 
-        self::$extensionsSupport = array();
+        self::$extensionsSupport = [];
 
         $extensions = self::getEnabledExtensions();
 
@@ -358,7 +352,7 @@ class AssociationsHelper extends ContentHelper
      *
      * @param   string  $extensionName  The extension identifier.
      *
-     * @return  \Joomla\Registry\Registry  The item properties.
+     * @return Registry The item properties.
      *
      * @since  3.7.0
      */
@@ -397,7 +391,7 @@ class AssociationsHelper extends ContentHelper
 
         // Get the supported types
         $types  = $helper->getItemTypes();
-        $rTypes = array();
+        $rTypes = [];
 
         foreach ($types as $typeName) {
             $details     = $helper->getType($typeName);
@@ -405,7 +399,7 @@ class AssociationsHelper extends ContentHelper
             $title       = $helper->getTypeTitle($typeName);
             $languageKey = $typeName;
 
-            $typeNameExploded = explode('.', $typeName);
+            $typeNameExploded = explode('.', (string) $typeName);
 
             if (array_pop($typeNameExploded) === 'category') {
                 $languageKey = strtoupper($extensionName) . '_CATEGORIES';
@@ -464,7 +458,7 @@ class AssociationsHelper extends ContentHelper
      */
     public static function getContentLanguages()
     {
-        return LanguageHelper::getContentLanguages(array(0, 1));
+        return LanguageHelper::getContentLanguages([0, 1]);
     }
 
     /**
@@ -648,6 +642,7 @@ class AssociationsHelper extends ContentHelper
      */
     public static function getLanguagefilterPluginId()
     {
+        $result = null;
         $db    = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))

@@ -110,6 +110,7 @@ class PluginsField extends ListField
      */
     protected function getOptions()
     {
+        $options = [];
         $folder        = $this->folder;
         $parentOptions = parent::getOptions();
 

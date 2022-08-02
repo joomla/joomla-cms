@@ -187,9 +187,9 @@ class Application implements ServiceProviderInterface
                         Factory::$application = $app;
                     }
 
-                    $app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+                    $app->setDispatcher($container->get(DispatcherInterface::class));
                     $app->setLogger($container->get(LoggerInterface::class));
-                    $app->setSession($container->get('Joomla\Session\SessionInterface'));
+                    $app->setSession($container->get(SessionInterface::class));
                     $app->setMenuFactory($container->get(MenuFactoryInterface::class));
 
                     return $app;

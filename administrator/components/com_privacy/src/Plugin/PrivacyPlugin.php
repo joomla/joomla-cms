@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\Plugin;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -27,7 +28,7 @@ abstract class PrivacyPlugin extends CMSPlugin
     /**
      * Database object
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.9.0
      */
     protected $db;
@@ -123,7 +124,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      *
      * @since   3.9.0
      */
-    protected function createCustomFieldsDomain($context, $items = array())
+    protected function createCustomFieldsDomain($context, $items = [])
     {
         if (!is_array($items)) {
             $items = [$items];
@@ -135,7 +136,7 @@ abstract class PrivacyPlugin extends CMSPlugin
             return [];
         }
 
-        $type = str_replace('com_', '', $parts[0]);
+        $type = str_replace('com_', '', (string) $parts[0]);
 
         $domain = $this->createDomain($type . '_' . $parts[1] . '_custom_fields', 'joomla_' . $type . '_' . $parts[1] . '_custom_fields_data');
 

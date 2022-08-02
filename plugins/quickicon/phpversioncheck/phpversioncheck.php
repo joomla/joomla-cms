@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.phpversioncheck
@@ -27,7 +28,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      * @var    integer
      * @since  3.7.0
      */
-    public const PHP_SUPPORTED = 0;
+    final public const PHP_SUPPORTED = 0;
 
     /**
      * Constant representing the active PHP version receiving security support only
@@ -35,7 +36,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      * @var    integer
      * @since  3.7.0
      */
-    public const PHP_SECURITY_ONLY = 1;
+    final public const PHP_SECURITY_ONLY = 1;
 
     /**
      * Constant representing the active PHP version being unsupported
@@ -43,12 +44,12 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      * @var    integer
      * @since  3.7.0
      */
-    public const PHP_UNSUPPORTED = 2;
+    final public const PHP_UNSUPPORTED = 2;
 
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.7.0
      */
     protected $app;
@@ -108,34 +109,10 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
      */
     private function getPhpSupport()
     {
-        $phpSupportData = array(
-            '7.2' => array(
-                'security' => '2019-11-30',
-                'eos'      => '2020-11-30',
-            ),
-            '7.3' => array(
-                'security' => '2020-12-06',
-                'eos'      => '2021-12-06',
-            ),
-            '7.4' => array(
-                'security' => '2021-11-28',
-                'eos'      => '2022-11-28',
-            ),
-            '8.0' => array(
-                'security' => '2022-11-26',
-                'eos'      => '2023-11-26',
-            ),
-            '8.1' => array(
-                'security' => '2023-11-25',
-                'eos'      => '2024-11-25',
-            ),
-        );
+        $phpSupportData = ['7.2' => ['security' => '2019-11-30', 'eos'      => '2020-11-30'], '7.3' => ['security' => '2020-12-06', 'eos'      => '2021-12-06'], '7.4' => ['security' => '2021-11-28', 'eos'      => '2022-11-28'], '8.0' => ['security' => '2022-11-26', 'eos'      => '2023-11-26'], '8.1' => ['security' => '2023-11-25', 'eos'      => '2024-11-25']];
 
         // Fill our return array with default values
-        $supportStatus = array(
-            'status'  => self::PHP_SUPPORTED,
-            'message' => null,
-        );
+        $supportStatus = ['status'  => self::PHP_SUPPORTED, 'message' => null];
 
         // Check the PHP version's support status using the minor version
         $activePhpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;

@@ -40,10 +40,8 @@ abstract class AbstractMediaItemValidationEvent extends AbstractImmutableEvent
      *
      * @param   \stdClass  $item  The item to set
      *
-     * @return  void
      *
      * @since   4.1.0
-     *
      * @throws \BadMethodCallException
      */
     protected function validate(\stdClass $item): void

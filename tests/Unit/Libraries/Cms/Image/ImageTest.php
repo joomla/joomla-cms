@@ -7,6 +7,8 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Image;
 
+use Joomla\CMS\Image\Filter\Brightness;
+use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Image\Image;
 use Joomla\Test\TestHelper;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -63,7 +65,6 @@ class ImageTest extends UnitTestCase
     /**
      * Setup for testing.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -78,7 +79,7 @@ class ImageTest extends UnitTestCase
 
         $this->instance = new Image();
 
-        $randFile = __DIR__ . '/tmp/koala-' . rand();
+        $randFile = __DIR__ . '/tmp/koala-' . random_int(0, mt_getrandmax());
 
         // 500*341 resolution
         $this->testFile = $randFile . '.jpg';
@@ -100,7 +101,6 @@ class ImageTest extends UnitTestCase
     /**
      * This method is called after a test is executed.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -128,16 +128,16 @@ class ImageTest extends UnitTestCase
      */
     public function getPrepareDimensionsData()
     {
-        return array(
+        return [
             // Note: inputHeight, inputWidth, inputScale, imageHeight, imageWidth, expectedHeight, expectedWidth
-            array(43, 56, Image::SCALE_FILL, 100, 100, 43, 56),
-            array(33, 56, Image::SCALE_FILL, 10, 10, 33, 56),
-            array(24, 76, Image::SCALE_INSIDE, 100, 100, 24, 24),
-            array(44, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80),
-            array(24, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80),
-            array(33, 50, Image::SCALE_INSIDE, 20, 100, 10, 50),
-            array(12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50)
-        );
+            [43, 56, Image::SCALE_FILL, 100, 100, 43, 56],
+            [33, 56, Image::SCALE_FILL, 10, 10, 33, 56],
+            [24, 76, Image::SCALE_INSIDE, 100, 100, 24, 24],
+            [44, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
+            [24, 80, Image::SCALE_OUTSIDE, 100, 50, 160, 80],
+            [33, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
+            [12, 50, Image::SCALE_INSIDE, 20, 100, 10, 50],
+        ];
     }
 
     /**
@@ -149,15 +149,15 @@ class ImageTest extends UnitTestCase
      */
     public function getSanitizeDimensionData()
     {
-        return array(
+        return [
             // Note: inputHeight, inputWidth, imageHeight, imageWidth, expectedHeight, expectedWidth
-            array(42.5, 56.2, 10, 10, 43, 56),
-            array(33, 56.2, 10, 10, 33, 56),
-            array('40%', 56.2, 10, 10, 4, 56),
-            array(42.5, '5%', 10, 10, 43, 1),
-            array('33%', '25%', 10, 10, 3, 3),
-            array('40%', null, 10, 10, 4, 4)
-        );
+            [42.5, 56.2, 10, 10, 43, 56],
+            [33, 56.2, 10, 10, 33, 56],
+            ['40%', 56.2, 10, 10, 4, 56],
+            [42.5, '5%', 10, 10, 43, 1],
+            ['33%', '25%', 10, 10, 3, 3],
+            ['40%', null, 10, 10, 4, 4],
+        ];
     }
 
     /**
@@ -173,14 +173,14 @@ class ImageTest extends UnitTestCase
      */
     public function getCropData()
     {
-        return array(
+        return [
             // Note: startHeight, startWidth, cropHeight, cropWidth, cropTop, cropLeft, transparency
-            array(100, 100, 10, 10, 25, 25, false),
-            array(100, 100, 25, 25, 40, 31, true),
-            array(225, 432, 45, 11, 123, 12, true),
-            array(100, 100, 10, 10, null, 25, false),
-            array(100, 100, 10, 10, 25, null, false),
-        );
+            [100, 100, 10, 10, 25, 25, false],
+            [100, 100, 25, 25, 40, 31, true],
+            [225, 432, 45, 11, 123, 12, true],
+            [100, 100, 10, 10, null, 25, false],
+            [100, 100, 10, 10, 25, null, false],
+        ];
     }
 
     /**
@@ -192,11 +192,11 @@ class ImageTest extends UnitTestCase
      */
     public function getSanitizeOffsetData()
     {
-        return array(
+        return [
             // Note: input, expected
-            array(42.5, 43),
-            array(56.2, 56)
-        );
+            [42.5, 43],
+            [56.2, 56],
+        ];
     }
 
     /**
@@ -498,7 +498,7 @@ class ImageTest extends UnitTestCase
      */
     public function testToFileGif()
     {
-        $outFileGif = __DIR__ . '/tmp/out-' . rand() . '.gif';
+        $outFileGif = __DIR__ . '/tmp/out-' . random_int(0, mt_getrandmax()) . '.gif';
 
         $image = new Image($this->testFile);
         $image->toFile($outFileGif, IMAGETYPE_GIF);
@@ -538,7 +538,7 @@ class ImageTest extends UnitTestCase
      */
     public function testToFilePng()
     {
-        $outFilePng = __DIR__ . '/tmp/out-' . rand() . '.png';
+        $outFilePng = __DIR__ . '/tmp/out-' . random_int(0, mt_getrandmax()) . '.png';
 
         $image = new Image($this->testFile);
         $image->toFile($outFilePng, IMAGETYPE_PNG);
@@ -579,7 +579,7 @@ class ImageTest extends UnitTestCase
     public function testToFileJpg()
     {
         // Write the file out to a JPG.
-        $outFileJpg = __DIR__ . '/tmp/out-' . rand() . '.jpg';
+        $outFileJpg = __DIR__ . '/tmp/out-' . random_int(0, mt_getrandmax()) . '.jpg';
 
         $image = new Image($this->testFile);
         $image->toFile($outFileJpg, IMAGETYPE_JPEG);
@@ -618,7 +618,7 @@ class ImageTest extends UnitTestCase
      */
     public function testToFileWebp()
     {
-        $outFileWebp = __DIR__ . '/tmp/out-' . rand() . '.webp';
+        $outFileWebp = __DIR__ . '/tmp/out-' . random_int(0, mt_getrandmax()) . '.webp';
 
         $image = new Image($this->testFile);
         $image->toFile($outFileWebp, IMAGETYPE_WEBP);
@@ -659,7 +659,7 @@ class ImageTest extends UnitTestCase
     public function testToFileDefault()
     {
         // Write the file out to a JPG.
-        $outFileDefault = __DIR__ . '/tmp/out-' . rand() . '.default';
+        $outFileDefault = __DIR__ . '/tmp/out-' . random_int(0, mt_getrandmax()) . '.default';
 
         $image = new Image($this->testFile);
         $image->toFile($outFileDefault);
@@ -698,7 +698,7 @@ class ImageTest extends UnitTestCase
         // Get the filter instance.
         $filter = TestHelper::invoke($image, 'getFilterInstance', 'brightness');
 
-        $this->assertInstanceOf('\\Joomla\\CMS\\Image\\Filter\\Brightness', $filter);
+        $this->assertInstanceOf(Brightness::class, $filter);
     }
 
     /**
@@ -1233,14 +1233,14 @@ class ImageTest extends UnitTestCase
         $handle = imagecreatetruecolor(1, 1);
 
         // Create the mock filter.
-        $mockFilter = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\ImageFilter', array($handle), 'ImageFilterMock', true, false, true);
+        $mockFilter = $this->getMockForAbstractClass(ImageFilter::class, [$handle], 'ImageFilterMock', true, false, true);
 
         // Setup the mock method call expectation.
         $mockFilter->expects($this->once())
             ->method('execute');
 
         // Create a new Image mock
-        $mockImage = $this->getMockForAbstractClass('\\Joomla\\CMS\\Image\\Image', [$handle], 'ImageMock', true, false, true, ['getFilterInstance']);
+        $mockImage = $this->getMockForAbstractClass(Image::class, [$handle], 'ImageMock', true, false, true, ['getFilterInstance']);
         $mockImage->expects($this->once())
             ->method('getFilterInstance')
             ->willReturn($mockFilter);

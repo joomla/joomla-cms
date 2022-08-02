@@ -28,7 +28,7 @@ class Cookie extends Input
      * @since   1.7.0
      * @deprecated  5.0  Use Joomla\Input\Cookie instead
      */
-    public function __construct(array $source = null, array $options = array())
+    public function __construct(array $source = null, array $options = [])
     {
         if (isset($options['filter'])) {
             $this->filter = $options['filter'];
@@ -86,10 +86,10 @@ class Cookie extends Input
     {
         if (\is_array($value)) {
             foreach ($value as $key => $val) {
-                setcookie($name . "[$key]", $val, $expire, $path, $domain, $secure, $httpOnly);
+                setcookie($name . "[$key]", $val, ['expires' => $expire, 'path' => $path, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httpOnly]);
             }
         } else {
-            setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
+            setcookie($name, $value, ['expires' => $expire, 'path' => $path, 'domain' => $domain, 'secure' => $secure, 'httponly' => $httpOnly]);
         }
 
         $this->data[$name] = $value;

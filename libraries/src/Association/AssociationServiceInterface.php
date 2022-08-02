@@ -19,7 +19,6 @@ interface AssociationServiceInterface
     /**
      * Returns the associations extension helper class.
      *
-     * @return  AssociationExtensionInterface
      *
      * @since  4.0.0
      */

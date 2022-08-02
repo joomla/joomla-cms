@@ -22,10 +22,9 @@ class QuickIconsEvent extends AbstractEvent
     /**
      * The event context
      *
-     * @var    string
      * @since  4.0.0
      */
-    private $context;
+    private ?string $context = null;
 
     /**
      * Get the event context

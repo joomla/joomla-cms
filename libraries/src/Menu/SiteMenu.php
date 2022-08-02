@@ -61,7 +61,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
      *
      * @since   1.5
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         // Extract the internal dependencies before calling the parent constructor since it calls $this->load()
         $this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
@@ -172,7 +172,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-            $this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
+            $this->items = $cache->get($loader, [], md5($this::class), false);
         } catch (CacheExceptionInterface $e) {
             try {
                 $this->items = $loader();
@@ -189,7 +189,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
 
         foreach ($this->items as &$item) {
             // Get parent information.
-            $parent_tree = array();
+            $parent_tree = [];
 
             if (isset($this->items[$item->parent_id])) {
                 $item->setParent($this->items[$item->parent_id]);
@@ -201,7 +201,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             $item->tree    = $parent_tree;
 
             // Create the query array.
-            $url = str_replace('index.php?', '', $item->link);
+            $url = str_replace('index.php?', '', (string) $item->link);
             $url = str_replace('&amp;', '&', $url);
 
             parse_str($url, $item->query);
@@ -221,7 +221,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
      *
      * @since   1.6
      */
-    public function getItems($attributes, $values, $firstonly = false)
+    public function getItems($attributes, $values, $firstonly = false): MenuItem|array
     {
         $attributes = (array) $attributes;
         $values     = (array) $values;
@@ -231,7 +231,7 @@ class SiteMenu extends AbstractMenu implements CacheControllerFactoryAwareInterf
             if (($key = array_search('language', $attributes)) === false) {
                 if (Multilanguage::isEnabled()) {
                     $attributes[] = 'language';
-                    $values[]     = array(Factory::getLanguage()->getTag(), '*');
+                    $values[]     = [Factory::getLanguage()->getTag(), '*'];
                 }
             } elseif ($values[$key] === null) {
                 unset($attributes[$key], $values[$key]);

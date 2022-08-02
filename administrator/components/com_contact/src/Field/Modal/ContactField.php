@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Administrator\Field\Modal;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -48,7 +49,7 @@ class ContactField extends FormField
         $allowSelect    = ((string) $this->element['select'] != 'false');
         $allowPropagate = ((string) $this->element['propagate'] == 'true');
 
-        $languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
         Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
@@ -59,7 +60,7 @@ class ContactField extends FormField
         // Create the modal id.
         $modalId = 'Contact_' . $this->id;
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
         // Add the modal field script to the document head.
@@ -70,7 +71,7 @@ class ContactField extends FormField
             static $scriptSelect = null;
 
             if (is_null($scriptSelect)) {
-                $scriptSelect = array();
+                $scriptSelect = [];
             }
 
             if (!isset($scriptSelect[$this->id])) {
@@ -120,7 +121,7 @@ class ContactField extends FormField
             }
         }
 
-        $title = empty($title) ? Text::_('COM_CONTACT_SELECT_A_CONTACT') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+        $title = empty($title) ? Text::_('COM_CONTACT_SELECT_A_CONTACT') : htmlspecialchars((string) $title, ENT_QUOTES, 'UTF-8');
 
         // The current contact display field.
         $html  = '';
@@ -203,16 +204,8 @@ class ContactField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
-                array(
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-                                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                )
+                ['title'       => $modalTitle, 'url'         => $urlSelect, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>']
             );
         }
 
@@ -221,29 +214,18 @@ class ContactField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalNew' . $modalId,
-                array(
-                    'title'       => Text::_('COM_CONTACT_NEW_CONTACT'),
-                    'backdrop'    => 'static',
-                    'keyboard'    => false,
-                    'closeButton' => false,
-                    'url'         => $urlNew,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary"'
-                            . ' onclick="window.processModalEdit(this, \''
-                            . $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                            . '<button type="button" class="btn btn-primary"'
-                            . ' onclick="window.processModalEdit(this, \''
-                            . $this->id . '\', \'add\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-                            . Text::_('JSAVE') . '</button>'
-                            . '<button type="button" class="btn btn-success"'
-                            . ' onclick="window.processModalEdit(this, \''
-                            . $this->id . '\', \'add\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-                            . Text::_('JAPPLY') . '</button>',
-                )
+                ['title'       => Text::_('COM_CONTACT_NEW_CONTACT'), 'backdrop'    => 'static', 'keyboard'    => false, 'closeButton' => false, 'url'         => $urlNew, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-secondary"'
+                        . ' onclick="window.processModalEdit(this, \''
+                        . $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                        . '<button type="button" class="btn btn-primary"'
+                        . ' onclick="window.processModalEdit(this, \''
+                        . $this->id . '\', \'add\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+                        . Text::_('JSAVE') . '</button>'
+                        . '<button type="button" class="btn btn-success"'
+                        . ' onclick="window.processModalEdit(this, \''
+                        . $this->id . '\', \'add\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+                        . Text::_('JAPPLY') . '</button>']
             );
         }
 
@@ -252,29 +234,18 @@ class ContactField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalEdit' . $modalId,
-                array(
-                    'title'       => Text::_('COM_CONTACT_EDIT_CONTACT'),
-                    'backdrop'    => 'static',
-                    'keyboard'    => false,
-                    'closeButton' => false,
-                    'url'         => $urlEdit,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary"'
-                            . ' onclick="window.processModalEdit(this, \'' . $this->id
-                            . '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                            . '<button type="button" class="btn btn-primary"'
-                            . ' onclick="window.processModalEdit(this, \''
-                            . $this->id . '\', \'edit\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-                            . Text::_('JSAVE') . '</button>'
-                            . '<button type="button" class="btn btn-success"'
-                            . ' onclick="window.processModalEdit(this, \''
-                            . $this->id . '\', \'edit\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
-                            . Text::_('JAPPLY') . '</button>',
-                )
+                ['title'       => Text::_('COM_CONTACT_EDIT_CONTACT'), 'backdrop'    => 'static', 'keyboard'    => false, 'closeButton' => false, 'url'         => $urlEdit, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-secondary"'
+                        . ' onclick="window.processModalEdit(this, \'' . $this->id
+                        . '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                        . '<button type="button" class="btn btn-primary"'
+                        . ' onclick="window.processModalEdit(this, \''
+                        . $this->id . '\', \'edit\', \'contact\', \'save\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+                        . Text::_('JSAVE') . '</button>'
+                        . '<button type="button" class="btn btn-success"'
+                        . ' onclick="window.processModalEdit(this, \''
+                        . $this->id . '\', \'edit\', \'contact\', \'apply\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
+                        . Text::_('JAPPLY') . '</button>']
             );
         }
 

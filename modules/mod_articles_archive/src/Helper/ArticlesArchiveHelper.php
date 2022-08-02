@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -27,7 +28,7 @@ class ArticlesArchiveHelper
     /**
      * Retrieve list of archived articles
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
      * @return  array
      *
@@ -57,7 +58,7 @@ class ArticlesArchiveHelper
 
         try {
             $rows = (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
             return [];
@@ -68,7 +69,7 @@ class ArticlesArchiveHelper
         $itemid = (isset($item) && !empty($item->id)) ? '&Itemid=' . $item->id : '';
 
         $i     = 0;
-        $lists = array();
+        $lists = [];
 
         foreach ($rows as $row) {
             $date = Factory::getDate($row->created);

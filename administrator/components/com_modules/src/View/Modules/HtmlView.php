@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Modules;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -37,21 +40,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -92,7 +95,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
         $this->clientId      = $this->state->get('client_id');
 
-        if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!(is_countable($this->items) ? count($this->items) : 0) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
@@ -103,7 +106,7 @@ class HtmlView extends BaseHtmlView
          * 1. Edit the module, change it to new position, save it and come back to Modules Management Screen
          * 2. Or move that module to new position using Batch action
          */
-        if (count($this->items) === 0 && $this->state->get('filter.position')) {
+        if ((is_countable($this->items) ? count($this->items) : 0) === 0 && $this->state->get('filter.position')) {
             $selectedPosition = $this->state->get('filter.position');
             $positionField    = $this->filterForm->getField('position', 'filter');
 
@@ -122,7 +125,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

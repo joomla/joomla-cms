@@ -35,7 +35,6 @@ class SiteStatusPluginTest extends UnitTestCase
     /**
      * Setup
      *
-     * @return  void
      *
      * @since   4.2.0
      */
@@ -51,7 +50,6 @@ class SiteStatusPluginTest extends UnitTestCase
     /**
      * Cleanup
      *
-     * @return  void
      *
      * @since   4.2.0
      */

@@ -113,7 +113,7 @@ class ComponentController extends ApiController
         // Must load after serving service-requests
         $form = $model->getForm();
 
-        $data = json_decode($this->input->json->getRaw(), true);
+        $data = json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR);
 
         $component = ComponentHelper::getComponent($option);
         $oldData   = $component->getParams()->toArray();

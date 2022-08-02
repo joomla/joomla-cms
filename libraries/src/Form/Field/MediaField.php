@@ -259,8 +259,8 @@ class MediaField extends FormField
         }
 
         // Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
-        if ($this->value && strpos($this->value, '#') !== false) {
-            $uri     = new Uri(explode('#', $this->value)[1]);
+        if ($this->value && str_contains((string) $this->value, '#')) {
+            $uri     = new Uri(explode('#', (string) $this->value)[1]);
             $adapter = $uri->getHost();
             $path    = $uri->getPath();
 
@@ -282,7 +282,7 @@ class MediaField extends FormField
              * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
              * displayed in manage when users click on Select button to select a new image
              */
-            $paths = explode('/', $this->value);
+            $paths = explode('/', (string) $this->value);
 
             // Remove filename from $paths array
             array_pop($paths);
@@ -321,7 +321,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'image_extensions',
                     'bmp,gif,jpg,jpeg,png,webp'
                 )
@@ -331,7 +331,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'audio_extensions',
                     'mp3,m4a,mp4a,ogg'
                 )
@@ -341,7 +341,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'video_extensions',
                     'mp4,mp4v,mpeg,mov,webm'
                 )
@@ -351,7 +351,7 @@ class MediaField extends FormField
             'trim',
             explode(
                 ',',
-                ComponentHelper::getParams('com_media')->get(
+                (string) ComponentHelper::getParams('com_media')->get(
                     'doc_extensions',
                     'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
                 )
@@ -392,25 +392,7 @@ class MediaField extends FormField
 
         sort($types);
 
-        $extraData = array(
-            'asset'               => $asset,
-            'authorField'         => $this->authorField,
-            'authorId'            => $this->form->getValue($this->authorField),
-            'folder'              => $this->folder,
-            'link'                => $this->link,
-            'preview'             => $this->preview,
-            'previewHeight'       => $this->previewHeight,
-            'previewWidth'        => $this->previewWidth,
-            'mediaTypes'          => implode(',', $types),
-            'imagesExt'           => $imagesExt,
-            'audiosExt'           => $audiosExt,
-            'videosExt'           => $videosExt,
-            'documentsExt'        => $documentsExt,
-            'imagesAllowedExt'    => $imagesAllowedExt,
-            'audiosAllowedExt'    => $audiosAllowedExt,
-            'videosAllowedExt'    => $videosAllowedExt,
-            'documentsAllowedExt' => $documentsAllowedExt,
-        );
+        $extraData = ['asset'               => $asset, 'authorField'         => $this->authorField, 'authorId'            => $this->form->getValue($this->authorField), 'folder'              => $this->folder, 'link'                => $this->link, 'preview'             => $this->preview, 'previewHeight'       => $this->previewHeight, 'previewWidth'        => $this->previewWidth, 'mediaTypes'          => implode(',', $types), 'imagesExt'           => $imagesExt, 'audiosExt'           => $audiosExt, 'videosExt'           => $videosExt, 'documentsExt'        => $documentsExt, 'imagesAllowedExt'    => $imagesAllowedExt, 'audiosAllowedExt'    => $audiosAllowedExt, 'videosAllowedExt'    => $videosAllowedExt, 'documentsAllowedExt' => $documentsAllowedExt];
 
         return array_merge($data, $extraData);
     }

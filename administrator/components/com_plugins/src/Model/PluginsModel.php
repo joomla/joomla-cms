@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Plugins\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -34,22 +35,10 @@ class PluginsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'extension_id', 'a.extension_id',
-                'name', 'a.name',
-                'folder', 'a.folder',
-                'element', 'a.element',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'state', 'a.state',
-                'enabled', 'a.enabled',
-                'access', 'a.access', 'access_level',
-                'ordering', 'a.ordering',
-                'client_id', 'a.client_id',
-            );
+            $config['filter_fields'] = ['extension_id', 'a.extension_id', 'name', 'a.name', 'folder', 'a.folder', 'element', 'a.element', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'state', 'a.state', 'enabled', 'a.enabled', 'access', 'a.access', 'access_level', 'ordering', 'a.ordering', 'client_id', 'a.client_id'];
         }
 
         parent::__construct($config, $factory);
@@ -103,7 +92,7 @@ class PluginsModel extends ListModel
     /**
      * Returns an object list.
      *
-     * @param   \Joomla\Database\DatabaseQuery  $query       A database query object.
+     * @param DatabaseQuery $query A database query object.
      * @param   integer                         $limitstart  Offset.
      * @param   integer                         $limit       The number of records.
      *
@@ -121,7 +110,7 @@ class PluginsModel extends ListModel
 
         $db = $this->getDatabase();
 
-        if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
+        if ($ordering == 'name' || (!empty($search) && stripos((string) $search, 'id:') !== 0)) {
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
@@ -130,13 +119,13 @@ class PluginsModel extends ListModel
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 foreach ($result as $i => $item) {
-                    if (!preg_match("/$escapedSearchString/i", $item->name)) {
+                    if (!preg_match("/$escapedSearchString/i", (string) $item->name)) {
                         unset($result[$i]);
                     }
                 }
             }
 
-            $orderingDirection = strtolower($this->getState('list.direction'));
+            $orderingDirection = strtolower((string) $this->getState('list.direction'));
             $direction         = ($orderingDirection == 'desc') ? -1 : 1;
             $result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
@@ -192,7 +181,7 @@ class PluginsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      */
     protected function getListQuery()
     {
@@ -256,8 +245,8 @@ class PluginsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.extension_id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             }

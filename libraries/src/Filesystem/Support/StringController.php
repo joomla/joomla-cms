@@ -25,7 +25,7 @@ class StringController
      */
     public function _getArray()
     {
-        static $strings = array();
+        static $strings = [];
 
         return $strings;
     }

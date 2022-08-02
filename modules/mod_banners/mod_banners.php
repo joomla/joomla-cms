@@ -14,8 +14,8 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper as BannersComponentHelper;
 use Joomla\Module\Banners\Site\Helper\BannersHelper;
 
-$headerText = trim($params->get('header_text', ''));
-$footerText = trim($params->get('footer_text', ''));
+$headerText = trim((string) $params->get('header_text', ''));
+$footerText = trim((string) $params->get('footer_text', ''));
 
 BannersComponentHelper::updateReset();
 

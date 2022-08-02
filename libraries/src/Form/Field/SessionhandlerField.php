@@ -38,11 +38,11 @@ class SessionhandlerField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Get the options from the session object.
         foreach (Session::getHandlers() as $store) {
-            $options[] = HTMLHelper::_('select.option', strtolower($store), Text::_('JLIB_FORM_VALUE_SESSION_' . $store), 'value', 'text');
+            $options[] = HTMLHelper::_('select.option', strtolower((string) $store), Text::_('JLIB_FORM_VALUE_SESSION_' . $store), 'value', 'text');
         }
 
         // Merge any additional options in the XML definition.

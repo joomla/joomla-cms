@@ -20,7 +20,7 @@ $maxsize = $params->get('maxsize', 2);
 ?>
 <div class="mod-tagspopular-cloud tagspopular tagscloud">
 <?php
-if (!count($list)) : ?>
+if (!(is_countable($list) ? count($list) : 0)) : ?>
     <div class="alert alert-info">
         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
         <?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?>
@@ -48,7 +48,7 @@ if (!count($list)) : ?>
         ?>
         <span class="tag">
             <a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?php echo Route::_(RouteHelper::getComponentTagRoute($item->tag_id . ':' . $item->alias, $item->language)); ?>">
-                <?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?></a>
+                <?php echo htmlspecialchars((string) $item->title, ENT_COMPAT, 'UTF-8'); ?></a>
             <?php if ($display_count) : ?>
                 <span class="tag-count badge bg-info"><?php echo $item->count; ?></span>
             <?php endif; ?>

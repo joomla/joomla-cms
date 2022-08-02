@@ -177,10 +177,9 @@ class HtmlView extends BaseHtmlView
     /**
      * Set if the option is set to save as copy
      *
-     * @var    boolean
      * @since  3.7.0
      */
-    private $save2copy = false;
+    private bool $save2copy = false;
 
     /**
      * The type of language
@@ -193,28 +192,24 @@ class HtmlView extends BaseHtmlView
     /**
      * The supported types
      *
-     * @var    array
      * @since  3.7.0
      */
-    private $typeSupports = [];
+    private array $typeSupports = [];
 
     /**
      * The extension name
      *
-     * @var    string
      * @since  3.7.0
      */
-    private $extensionName = '';
+    private string $extensionName = '';
 
     /**
      * Display the view
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void
      *
      * @since   3.7.0
-     *
      * @throws  \Exception
      */
     public function display($tpl = null): void
@@ -233,7 +228,7 @@ class HtmlView extends BaseHtmlView
         $input             = $this->app->input;
         $this->referenceId = $input->get('id', 0, 'int');
 
-        [$extensionName, $typeName] = explode('.', $input->get('itemtype', '', 'string'), 2);
+        [$extensionName, $typeName] = explode('.', (string) $input->get('itemtype', '', 'string'), 2);
 
         /** @var Registry $extension */
         $extension = AssociationsHelper::getSupportedExtension($extensionName);
@@ -303,7 +298,7 @@ class HtmlView extends BaseHtmlView
         $this->targetTitle      = '';
 
         if ($target = $input->get('target', '', 'string')) {
-            $matches              = preg_split("#[\:]+#", $target);
+            $matches              = preg_split("#[\:]+#", (string) $target);
             $this->targetAction   = $matches[2];
             $this->targetId       = $matches[1];
             $this->targetLanguage = $matches[0];
@@ -326,10 +321,8 @@ class HtmlView extends BaseHtmlView
     /**
      * Add the page title and toolbar.
      *
-     * @return  void
      *
      * @since  3.7.0
-     *
      * @throws \Exception
      */
     protected function addToolbar(): void

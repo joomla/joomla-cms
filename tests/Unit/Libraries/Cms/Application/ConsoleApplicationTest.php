@@ -38,7 +38,6 @@ class ConsoleApplicationTest extends UnitTestCase
     /**
      * Helper function to create a ConsoleApplication with mocked dependencies
      *
-     * @return ConsoleApplication
      *
      * @since   4.0.0
      */

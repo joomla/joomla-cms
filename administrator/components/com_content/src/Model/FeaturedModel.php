@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 /**
  * Methods supporting a list of featured article records.
  *
@@ -25,37 +26,10 @@ class FeaturedModel extends ArticlesModel
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'alias', 'a.alias',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'catid', 'a.catid', 'category_title',
-                'state', 'a.state',
-                'access', 'a.access', 'access_level',
-                'created', 'a.created',
-                'created_by', 'a.created_by',
-                'created_by_alias', 'a.created_by_alias',
-                'ordering', 'a.ordering',
-                'featured_up', 'fp.featured_up',
-                'featured_down', 'fp.featured_down',
-                'language', 'a.language',
-                'hits', 'a.hits',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'fp.ordering',
-                'published', 'a.published',
-                'author_id',
-                'category_id',
-                'level',
-                'tag',
-                'rating_count', 'rating',
-                'ws.title',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'alias', 'a.alias', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'catid', 'a.catid', 'category_title', 'state', 'a.state', 'access', 'a.access', 'access_level', 'created', 'a.created', 'created_by', 'a.created_by', 'created_by_alias', 'a.created_by_alias', 'ordering', 'a.ordering', 'featured_up', 'fp.featured_up', 'featured_down', 'fp.featured_down', 'language', 'a.language', 'hits', 'a.hits', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'fp.ordering', 'published', 'a.published', 'author_id', 'category_id', 'level', 'tag', 'rating_count', 'rating', 'ws.title'];
         }
 
         parent::__construct($config);
@@ -84,7 +58,7 @@ class FeaturedModel extends ArticlesModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   4.0.0
      */

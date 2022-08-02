@@ -51,7 +51,7 @@ class Usergroup extends Table
         }
 
         // Validate the title.
-        if ((trim($this->title)) == '') {
+        if ((trim((string) $this->title)) == '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
             return false;
@@ -68,7 +68,7 @@ class Usergroup extends Table
         // There is a unique index on the (parent_id, title) field in the table.
         $db       = $this->_db;
         $parentId = (int) $this->parent_id;
-        $title    = trim($this->title);
+        $title    = trim((string) $this->title);
         $id       = (int) $this->id;
         $query    = $db->getQuery(true)
             ->select('COUNT(title)')
@@ -89,7 +89,7 @@ class Usergroup extends Table
 
         // We do not allow to move non public to root and public to non-root
         if (!empty($this->id)) {
-            $table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+            $table = self::getInstance('Usergroup', 'JTable', ['dbo' => $this->getDbo()]);
 
             $table->load($this->id);
 
@@ -107,7 +107,7 @@ class Usergroup extends Table
 
         // The new parent_id has to be a valid group
         if ($this->parent_id) {
-            $table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+            $table = self::getInstance('Usergroup', 'JTable', ['dbo' => $this->getDbo()]);
             $table->load($this->parent_id);
 
             if ($table->id != $this->parent_id) {
@@ -152,7 +152,7 @@ class Usergroup extends Table
         $right = $left + 1;
 
         // Execute this function recursively over all children
-        for ($i = 0, $n = \count($children); $i < $n; $i++) {
+        for ($i = 0, $n = is_countable($children) ? \count($children) : 0; $i < $n; $i++) {
             // $right is the current right value, which is incremented on recursion return
             $right = $this->rebuild($children[$i], $right);
 
@@ -180,7 +180,7 @@ class Usergroup extends Table
         // If there is an update failure, return false to break out of the recursion
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -267,7 +267,7 @@ class Usergroup extends Table
         $this->rebuild();
 
         // Delete the usergroup in view levels
-        $replace = array();
+        $replace = [];
 
         foreach ($ids as $id) {
             $replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[');
@@ -291,7 +291,7 @@ class Usergroup extends Table
 
         foreach ($rules as $rule) {
             foreach ($ids as $id) {
-                if (strstr($rule->rules, '[' . $id) || strstr($rule->rules, ',' . $id) || strstr($rule->rules, $id . ']')) {
+                if (strstr((string) $rule->rules, '[' . $id) || strstr((string) $rule->rules, ',' . $id) || strstr((string) $rule->rules, $id . ']')) {
                     $matchIds[] = $rule->id;
                 }
             }
@@ -300,7 +300,7 @@ class Usergroup extends Table
         if (!empty($matchIds)) {
             $query->clear()
                 ->update($db->quoteName('#__viewlevels'))
-                ->set($db->quoteName('rules') . ' = ' . str_repeat('REPLACE(', 4 * \count($ids)) . $db->quoteName('rules') . implode(')', $replace) . ')')
+                ->set($db->quoteName('rules') . ' = ' . str_repeat('REPLACE(', 4 * (is_countable($ids) ? \count($ids) : 0)) . $db->quoteName('rules') . implode(')', $replace) . ')')
                 ->whereIn($db->quoteName('id'), $matchIds);
             $db->setQuery($query);
             $db->execute();

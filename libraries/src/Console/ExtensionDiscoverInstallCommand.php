@@ -39,18 +39,16 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     /**
      * Stores the Input Object
      *
-     * @var    InputInterface
      * @since  4.0.0
      */
-    private $cliInput;
+    private ?InputInterface $cliInput = null;
 
     /**
      * SymfonyStyle Object
      *
-     * @var    SymfonyStyle
      * @since  4.0.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Instantiate the command.
@@ -72,7 +70,6 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
      * @param   InputInterface   $input   Console Input
      * @param   OutputInterface  $output  Console Output
      *
-     * @return  void
      *
      * @since   4.0.0
      *
@@ -86,7 +83,6 @@ class ExtensionDiscoverInstallCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

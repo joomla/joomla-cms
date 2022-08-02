@@ -34,7 +34,6 @@ class HtmlRenderer extends AbstractRenderer
      *
      * @param   \Throwable  $error  The error object to be rendered
      *
-     * @return  string
      *
      * @since   4.0.0
      */

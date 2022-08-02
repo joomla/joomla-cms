@@ -36,7 +36,7 @@ class UsersModel extends ListModel
      * @var    array
      * @since  4.0.0
      */
-    protected $filterForbiddenList = array('groups', 'excluded');
+    protected $filterForbiddenList = ['groups', 'excluded'];
 
     /**
      * Override parent constructor.
@@ -47,26 +47,10 @@ class UsersModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'username', 'a.username',
-                'email', 'a.email',
-                'block', 'a.block',
-                'sendEmail', 'a.sendEmail',
-                'registerDate', 'a.registerDate',
-                'lastvisitDate', 'a.lastvisitDate',
-                'activation', 'a.activation',
-                'active',
-                'group_id',
-                'range',
-                'lastvisitrange',
-                'state',
-                'mfa'
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'name', 'a.name', 'username', 'a.username', 'email', 'a.email', 'block', 'a.block', 'sendEmail', 'a.sendEmail', 'registerDate', 'a.registerDate', 'lastvisitDate', 'a.lastvisitDate', 'activation', 'a.activation', 'active', 'group_id', 'range', 'lastvisitrange', 'state', 'mfa'];
         }
 
         parent::__construct($config, $factory);
@@ -94,7 +78,7 @@ class UsersModel extends ListModel
             $this->context .= '.' . $layout;
         }
 
-        $groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
+        $groups = json_decode(base64_decode((string) $app->input->get('groups', '', 'BASE64')), null, 512, JSON_THROW_ON_ERROR);
 
         if (isset($groups)) {
             $groups = ArrayHelper::toInteger($groups);
@@ -102,7 +86,7 @@ class UsersModel extends ListModel
 
         $this->setState('filter.groups', $groups);
 
-        $excluded = json_decode(base64_decode($app->input->get('excluded', '', 'BASE64')));
+        $excluded = json_decode(base64_decode((string) $app->input->get('excluded', '', 'BASE64')), null, 512, JSON_THROW_ON_ERROR);
 
         if (isset($excluded)) {
             $excluded = ArrayHelper::toInteger($excluded);
@@ -165,7 +149,7 @@ class UsersModel extends ListModel
             $groupId = $this->getState('filter.group_id');
 
             if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups))) {
-                $items = array();
+                $items = [];
             } else {
                 $items = parent::getItems();
             }
@@ -181,7 +165,7 @@ class UsersModel extends ListModel
             // Find the information only on the result set.
 
             // First pass: get list of the user ids and reset the counts.
-            $userIds = array();
+            $userIds = [];
 
             foreach ($items as $item) {
                 $userIds[] = (int) $item->id;
@@ -365,24 +349,7 @@ class UsersModel extends ListModel
             $query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
                 ->group(
                     $db->quoteName(
-                        array(
-                            'a.id',
-                            'a.name',
-                            'a.username',
-                            'a.password',
-                            'a.block',
-                            'a.sendEmail',
-                            'a.registerDate',
-                            'a.lastvisitDate',
-                            'a.activation',
-                            'a.params',
-                            'a.email',
-                            'a.lastResetTime',
-                            'a.resetCount',
-                            'a.otpKey',
-                            'a.otep',
-                            'a.requireReset'
-                        )
+                        ['a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email', 'a.lastResetTime', 'a.resetCount', 'a.otpKey', 'a.otep', 'a.requireReset']
                     )
                 );
 
@@ -401,16 +368,16 @@ class UsersModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
-            } elseif (stripos($search, 'username:') === 0) {
-                $search = '%' . substr($search, 9) . '%';
+            } elseif (stripos((string) $search, 'username:') === 0) {
+                $search = '%' . substr((string) $search, 9) . '%';
                 $query->where($db->quoteName('a.username') . ' LIKE :username');
                 $query->bind(':username', $search);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
 
                 // Add the clauses to the query.
                 $query->where(
@@ -571,7 +538,7 @@ class UsersModel extends ListModel
                 break;
         }
 
-        return array('dNow' => $dNow, 'dStart' => $dStart);
+        return ['dNow' => $dNow, 'dStart' => $dStart];
     }
 
     /**
@@ -593,8 +560,8 @@ class UsersModel extends ListModel
 
         try {
             $result = $db->setQuery($query)->loadColumn();
-        } catch (\RuntimeException $e) {
-            $result = array();
+        } catch (\RuntimeException) {
+            $result = [];
         }
 
         return implode("\n", $result);

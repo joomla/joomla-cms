@@ -334,36 +334,14 @@ echo "Create list of changed files from git repository for version $fullVersion.
  * So we add the index file for each top-level directory.
  * Note: If we add new top-level directories or files, be sure to include them here.
  */
-$filesArray = array(
-    "administrator/index.php\n" => true,
-    "api/index.php\n" => true,
-    "cache/index.html\n" => true,
-    "cli/index.html\n" => true,
-    "components/index.html\n" => true,
-    "images/index.html\n" => true,
-    "includes/index.html\n" => true,
-    "language/index.html\n" => true,
-    "layouts/index.html\n" => true,
-    "libraries/index.html\n" => true,
-    "media/index.html\n" => true,
-    "modules/index.html\n" => true,
-    "plugins/index.html\n" => true,
-    "templates/index.html\n" => true,
-    "tmp/index.html\n" => true,
-    "htaccess.txt\n" => true,
-    "index.php\n" => true,
-    "LICENSE.txt\n" => true,
-    "README.txt\n" => true,
-    "robots.txt.dist\n" => true,
-    "web.config.txt\n" => true
-);
+$filesArray = ["administrator/index.php\n" => true, "api/index.php\n" => true, "cache/index.html\n" => true, "cli/index.html\n" => true, "components/index.html\n" => true, "images/index.html\n" => true, "includes/index.html\n" => true, "language/index.html\n" => true, "layouts/index.html\n" => true, "libraries/index.html\n" => true, "media/index.html\n" => true, "modules/index.html\n" => true, "plugins/index.html\n" => true, "templates/index.html\n" => true, "tmp/index.html\n" => true, "htaccess.txt\n" => true, "index.php\n" => true, "LICENSE.txt\n" => true, "README.txt\n" => true, "robots.txt.dist\n" => true, "web.config.txt\n" => true];
 
 /*
  * Here we set the files/folders which should not be packaged at any time
  * These paths are from the repository root without the leading slash
  * Because this is a fresh copy from a git tag, local environment files may be ignored
  */
-$doNotPackage = array(
+$doNotPackage = [
     '.appveyor.yml',
     '.drone.yml',
     '.editorconfig',
@@ -393,18 +371,13 @@ $doNotPackage = array(
     'tests',
     // Media Manager Node Assets
     'administrator/components/com_media/resources',
-);
+];
 
 /*
  * Here we set the files/folders which should not be packaged with patch packages only
  * These paths are from the repository root without the leading slash
  */
-$doNotPatch = array(
-    'administrator/cache',
-    'administrator/logs',
-    'installation',
-    'images',
-);
+$doNotPatch = ['administrator/cache', 'administrator/logs', 'installation', 'images'];
 
 /*
  * This array will contain the checksums for all files which are created by this script.
@@ -416,7 +389,7 @@ $doNotPatch = array(
  *   ),
  * )
  */
-$checksums = array();
+$checksums = [];
 
 // For the packages, replace spaces in stability (RC) with underscores
 $packageStability = str_replace(' ', '_', Version::DEV_STATUS);
@@ -444,15 +417,15 @@ for ($num = $release - 1; $num >= 0; $num--) {
     system($command);
 
     // $filesArray will hold the array of files to include in diff package
-    $deletedFiles = array();
+    $deletedFiles = [];
     $files        = file('diffdocs/' . $version . '.' . $num);
 
     // Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
     foreach ($files as $file) {
-        if (substr($file, 0, 1) === 'R') {
-            $fileName = substr($file, strrpos($file, "\t") + 1);
+        if (str_starts_with((string) $file, 'R')) {
+            $fileName = substr((string) $file, strrpos((string) $file, "\t") + 1);
         } else {
-            $fileName = substr($file, 2);
+            $fileName = substr((string) $file, 2);
         }
 
         $folderPath             = explode('/', $fileName);
@@ -475,11 +448,11 @@ for ($num = $release - 1; $num >= 0; $num--) {
         }
 
         // Act on the file based on the action
-        switch (substr($file, 0, 1)) {
+        switch (substr((string) $file, 0, 1)) {
             // This is a new case with git 2.9 to handle renamed files
             case 'R':
                 // Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
-                $renamedFileData = explode("\t", $file);
+                $renamedFileData = explode("\t", (string) $file);
 
                 // Add the new file for packaging
                 $filesArray[$renamedFileData[2]] = true;
@@ -524,7 +497,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         echo "Building " . $packageName . "... ";
         system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 
     if (!$excludeGzip) {
@@ -532,7 +505,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         echo "Building " . $packageName . "... ";
         system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 
     if (!$excludeZip) {
@@ -542,7 +515,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
         chdir('..');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 
     if (!$excludeZstd) {
@@ -550,7 +523,7 @@ for ($num = $release - 1; $num >= 0; $num--) {
         echo "Building " . $packageName . "... ";
         system('tar --create --use-compress-program=zstd --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
         echo "done.\n";
-        $checksums[$packageName] = array();
+        $checksums[$packageName] = [];
     }
 }
 
@@ -569,7 +542,7 @@ if (!$excludeBzip2) {
     echo "Building " . $packageName . "... ";
     system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeGzip) {
@@ -577,7 +550,7 @@ if (!$excludeGzip) {
     echo "Building " . $packageName . "... ";
     system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZip) {
@@ -585,7 +558,7 @@ if (!$excludeZip) {
     echo "Building " . $packageName . "... ";
     system('zip -r ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZstd) {
@@ -593,7 +566,7 @@ if (!$excludeZstd) {
     echo "Building " . $packageName . "... ";
     system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 // Create full update file without the default logs directory, installation folder, or sample images.
@@ -617,7 +590,7 @@ if (!$excludeBzip2) {
     echo "Building " . $packageName . "... ";
     system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeGzip) {
@@ -625,7 +598,7 @@ if (!$excludeGzip) {
     echo "Building " . $packageName . "... ";
     system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZip) {
@@ -633,7 +606,7 @@ if (!$excludeZip) {
     echo "Building " . $packageName . "... ";
     system('zip -r ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 if (!$excludeZstd) {
@@ -641,7 +614,7 @@ if (!$excludeZstd) {
     echo "Building " . $packageName . "... ";
     system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
     echo "done.\n";
-    $checksums[$packageName] = array();
+    $checksums[$packageName] = [];
 }
 
 chdir('..');
@@ -651,7 +624,7 @@ if ($includeExtraTextfiles) {
     foreach (array_keys($checksums) as $packageName) {
         echo "Generating checksums for $packageName\n";
 
-        foreach (array('sha256', 'sha384', 'sha512') as $hash) {
+        foreach (['sha256', 'sha384', 'sha512'] as $hash) {
             if (file_exists('packages/' . $packageName)) {
                 $checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
             } else {
@@ -678,14 +651,9 @@ if ($includeExtraTextfiles) {
 
     echo "Generating github_release.txt file\n";
 
-    $githubContent = array();
+    $githubContent = [];
     $githubText    = '';
-    $releaseText   = array(
-        'FULL'    => 'New Joomla! Installations ',
-        'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ',
-        'MINOR'   => 'Update from Joomla! ' . $version . '.x ',
-        'UPGRADE' => 'Update from Joomla! 3.10 ',
-    );
+    $releaseText   = ['FULL'    => 'New Joomla! Installations ', 'POINT'   => 'Update from Joomla! ' . $version . '.' . $previousRelease . ' ', 'MINOR'   => 'Update from Joomla! ' . $version . '.x ', 'UPGRADE' => 'Update from Joomla! 3.10 '];
 
     if (!$buildPatchPackages) {
         $releaseText['UPGRADE'] = 'Update from a previous version of Joomla! ';
@@ -696,15 +664,15 @@ if ($includeExtraTextfiles) {
     foreach ($checksums as $packageName => $packageHashes) {
         $type = '';
 
-        if (strpos($packageName, 'Full_Package') !== false) {
+        if (str_contains($packageName, 'Full_Package')) {
             $type = 'FULL';
-        } elseif (strpos($packageName, 'Patch_Package') !== false) {
-            if (strpos($packageName, '.x_to') !== false) {
+        } elseif (str_contains($packageName, 'Patch_Package')) {
+            if (str_contains($packageName, '.x_to')) {
                 $type = 'MINOR';
             } else {
                 $type = 'POINT';
             }
-        } elseif (strpos($packageName, 'Update_Package') !== false) {
+        } elseif (str_contains($packageName, 'Update_Package')) {
             $type = 'UPGRADE';
         }
 

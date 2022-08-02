@@ -66,10 +66,7 @@ class UrlField extends TextField
         // we have to use the input type "text" instead.
         $inputType    = $this->element['relative'] ? 'type="text"' : 'type="url"';
 
-        $extraData = array(
-            'maxLength' => $maxLength,
-            'inputType' => $inputType,
-        );
+        $extraData = ['maxLength' => $maxLength, 'inputType' => $inputType];
 
         return array_merge($data, $extraData);
     }

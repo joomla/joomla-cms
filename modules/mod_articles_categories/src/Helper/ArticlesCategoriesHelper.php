@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\ArticlesCategories\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Categories\Categories;
 
 /**
@@ -22,7 +23,7 @@ abstract class ArticlesCategoriesHelper
     /**
      * Get list of articles
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
      * @return  array
      *

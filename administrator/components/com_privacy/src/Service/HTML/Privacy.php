@@ -39,10 +39,9 @@ class Privacy
 
             case -1:
                 return '<span class="badge bg-danger">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
-
-            default:
             case 0:
                 return '<span class="badge bg-warning text-dark">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
+            default:
         }
     }
 }

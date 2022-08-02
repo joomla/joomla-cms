@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -44,7 +46,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      * @since  4.0.0
      */
     protected $pagination;
@@ -60,7 +62,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      * @since  4.0.0
      */
     public $filterForm;
@@ -107,13 +109,13 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters    = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $extension = $this->state->get('filter.extension');
 
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         $this->extension = array_shift($parts);
 

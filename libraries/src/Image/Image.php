@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Image;
 
+use Joomla\CMS\Image\Exception\UnparsableImageException;
 /**
  * Class to manipulate an image.
  *
@@ -20,55 +21,55 @@ class Image
      * @const  integer
      * @since  2.5.0
      */
-    public const SCALE_FILL = 1;
+    final public const SCALE_FILL = 1;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    public const SCALE_INSIDE = 2;
+    final public const SCALE_INSIDE = 2;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    public const SCALE_OUTSIDE = 3;
+    final public const SCALE_OUTSIDE = 3;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    public const CROP = 4;
+    final public const CROP = 4;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    public const CROP_RESIZE = 5;
+    final public const CROP_RESIZE = 5;
 
     /**
      * @const  integer
      * @since  2.5.0
      */
-    public const SCALE_FIT = 6;
+    final public const SCALE_FIT = 6;
 
     /**
      * @const  string
      * @since  3.4.2
      */
-    public const ORIENTATION_LANDSCAPE = 'landscape';
+    final public const ORIENTATION_LANDSCAPE = 'landscape';
 
     /**
      * @const  string
      * @since  3.4.2
      */
-    public const ORIENTATION_PORTRAIT = 'portrait';
+    final public const ORIENTATION_PORTRAIT = 'portrait';
 
     /**
      * @const  string
      * @since  3.4.2
      */
-    public const ORIENTATION_SQUARE = 'square';
+    final public const ORIENTATION_SQUARE = 'square';
 
     /**
      * @var    resource  The image resource handle.
@@ -126,7 +127,7 @@ class Image
          * @todo: Remove check for resource when we only support PHP 8
          */
         if (
-            $source && (\is_object($source) && get_class($source) == 'GdImage')
+            $source && (\is_object($source) && $source::class == \GdImage::class)
             || (\is_resource($source) && get_resource_type($source) == 'gd')
         ) {
             $this->handle = $source;
@@ -178,7 +179,7 @@ class Image
         $info = getimagesize($path);
 
         if (!$info) {
-            throw new Exception\UnparsableImageException('Unable to get properties for the image.');
+            throw new UnparsableImageException('Unable to get properties for the image.');
         }
 
         // Build the response object.
@@ -225,16 +226,11 @@ class Image
      */
     private static function getOrientationString(int $width, int $height): string
     {
-        switch (true) {
-            case ($width > $height):
-                return self::ORIENTATION_LANDSCAPE;
-
-            case ($width < $height):
-                return self::ORIENTATION_PORTRAIT;
-
-            default:
-                return self::ORIENTATION_SQUARE;
-        }
+        return match (true) {
+            $width > $height => self::ORIENTATION_LANDSCAPE,
+            $width < $height => self::ORIENTATION_PORTRAIT,
+            default => self::ORIENTATION_SQUARE,
+        };
     }
 
     /**
@@ -267,7 +263,7 @@ class Image
         if (!empty($thumbSizes)) {
             foreach ($thumbSizes as $thumbSize) {
                 // Desired thumbnail size
-                $size = explode('x', strtolower($thumbSize));
+                $size = explode('x', strtolower((string) $thumbSize));
 
                 if (\count($size) != 2) {
                     throw new \InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
@@ -276,19 +272,11 @@ class Image
                 $thumbWidth  = $size[0];
                 $thumbHeight = $size[1];
 
-                switch ($creationMethod) {
-                    case self::CROP:
-                        $thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
-                        break;
-
-                    case self::CROP_RESIZE:
-                        $thumb = $this->cropResize($thumbWidth, $thumbHeight, true);
-                        break;
-
-                    default:
-                        $thumb = $this->resize($thumbWidth, $thumbHeight, true, $creationMethod);
-                        break;
-                }
+                $thumb = match ($creationMethod) {
+                    self::CROP => $this->crop($thumbWidth, $thumbHeight, null, null, true),
+                    self::CROP_RESIZE => $this->cropResize($thumbWidth, $thumbHeight, true),
+                    default => $this->resize($thumbWidth, $thumbHeight, true, $creationMethod),
+                };
 
                 // Store the thumb in the results array
                 $generated[] = $thumb;
@@ -516,7 +504,7 @@ class Image
          * @todo: Remove check for resource when we only support PHP 8
          */
         if (
-            !((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
+            !((\is_object($this->handle) && $this->handle::class == \GdImage::class)
             || (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd'))
         ) {
             return false;
@@ -620,7 +608,7 @@ class Image
          * Check if handle has been created successfully
          * @todo: Remove check for resource when we only support PHP 8
          */
-        if (!(\is_object($handle) || \is_resource($handle))) {
+        if (!(\is_object($handle) || $handle instanceof \GdImage)) {
             throw new \RuntimeException('Unable to process ' . $type . ' image.');
         }
 
@@ -899,19 +887,12 @@ class Image
      */
     public function toFile($path, $type = IMAGETYPE_JPEG, array $options = [])
     {
-        switch ($type) {
-            case IMAGETYPE_GIF:
-                return imagegif($this->getHandle(), $path);
-
-            case IMAGETYPE_PNG:
-                return imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0);
-
-            case IMAGETYPE_WEBP:
-                return imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
-        }
-
-        // Case IMAGETYPE_JPEG & default
-        return imagejpeg($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100);
+        return match ($type) {
+            IMAGETYPE_GIF => imagegif($this->getHandle(), $path),
+            IMAGETYPE_PNG => imagepng($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 0),
+            IMAGETYPE_WEBP => imagewebp($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100),
+            default => imagejpeg($this->getHandle(), $path, (\array_key_exists('quality', $options)) ? $options['quality'] : 100),
+        };
     }
 
     /**
@@ -1010,11 +991,11 @@ class Image
     protected function sanitizeHeight($height, $width)
     {
         // If no height was given we will assume it is a square and use the width.
-        $height = ($height === null) ? $width : $height;
+        $height ??= $width;
 
         // If we were given a percentage, calculate the integer value.
-        if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height)) {
-            $height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
+        if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', (string) $height)) {
+            $height = (int) round($this->getHeight() * (float) str_replace('%', '', (string) $height) / 100);
         } else // Else do some rounding so we come out with a sane integer value.
         {
             $height = (int) round((float) $height);
@@ -1050,11 +1031,11 @@ class Image
     protected function sanitizeWidth($width, $height)
     {
         // If no width was given we will assume it is a square and use the height.
-        $width = ($width === null) ? $height : $width;
+        $width ??= $height;
 
         // If we were given a percentage, calculate the integer value.
-        if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width)) {
-            $width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
+        if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', (string) $width)) {
+            $width = (int) round($this->getWidth() * (float) str_replace('%', '', (string) $width) / 100);
         } else // Else do some rounding so we come out with a sane integer value.
         {
             $width = (int) round((float) $width);

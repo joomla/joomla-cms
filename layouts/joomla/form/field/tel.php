@@ -48,20 +48,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$attributes = array(
-    !empty($size) ? 'size="' . $size . '"' : '',
-    !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
-    $disabled ? 'disabled' : '',
-    $readonly ? 'readonly' : '',
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-    !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-    $autofocus ? 'autofocus' : '',
-    $spellcheck ? '' : 'spellcheck="false"',
-    $onchange ? 'onchange="' . $onchange . '"' : '',
-    !empty($maxLength) ? $maxLength : '',
-    $required ? 'required' : '',
-    $dataAttribute,
-);
+$attributes = [!empty($size) ? 'size="' . $size . '"' : '', !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '', $disabled ? 'disabled' : '', $readonly ? 'readonly' : '', strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '', !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '', $autofocus ? 'autofocus' : '', $spellcheck ? '' : 'spellcheck="false"', $onchange ? 'onchange="' . $onchange . '"' : '', !empty($maxLength) ? $maxLength : '', $required ? 'required' : '', $dataAttribute];
 ?>
 <input
     type="tel"

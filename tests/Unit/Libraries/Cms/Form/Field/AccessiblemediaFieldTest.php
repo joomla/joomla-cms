@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Form\Field;
 
+use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Form\Field\AccessiblemediaField;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\CMS\Form\Field\AccessiblemediaField;
  * @subpackage  Form
  * @since       4.0.0
  */
-class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
+class AccessiblemediaFieldTest extends TestCase
 {
     /**
      * Tests the constructor
@@ -44,15 +45,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     public function testGetWithDefaultValues()
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
-        $properties = array(
-            "type" => 'Accessiblemedia',
-            "directory" => null,
-            "preview" => null,
-            "previewWidth" => null,
-            "previewHeight" => null,
-            "didnotexist" => null,
-            "layout" => null,
-        );
+        $properties = ["type" => 'Accessiblemedia', "directory" => null, "preview" => null, "previewWidth" => null, "previewHeight" => null, "didnotexist" => null, "layout" => null];
 
         foreach ($properties as $property => $propertyvalue) {
             $this->assertEquals($propertyvalue, $accessiblemediafield->__get($property));
@@ -70,13 +63,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     public function testSetAndGetShouldBeEquals()
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
-        $properties = array(
-            "directory" => 'mydirectory',
-            "preview" => 'tooltip',
-            "previewWidth" => "300",
-            "previewHeight" => "300",
-            "layout" => 'joomla.form.field.media.accessiblemedia',
-        );
+        $properties = ["directory" => 'mydirectory', "preview" => 'tooltip', "previewWidth" => "300", "previewHeight" => "300", "layout" => 'joomla.form.field.media.accessiblemedia'];
 
         foreach ($properties as $property => $propertyvalue) {
             $accessiblemediafield->__set($property, $propertyvalue);
@@ -95,9 +82,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     public function testSetAndGetShouldNotBeEquals()
     {
         $accessiblemediafield = $this->createAccessiblemediaField();
-        $properties = array(
-            "didnotexist" => "thisshouldbenull",
-        );
+        $properties = ["didnotexist" => "thisshouldbenull"];
 
         foreach ($properties as $property => $propertyvalue) {
             $accessiblemediafield->__set($property, $propertyvalue);
@@ -137,10 +122,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $accessiblemediafield = $this->createAccessiblemediaField();
 
         $element = new \SimpleXMLElement('<field name="testfield" />');
-        $fieldvalue = array(
-            "imagefile" => '/images/joomla_black.png',
-            "alt_text" => '',
-        );
+        $fieldvalue = ["imagefile" => '/images/joomla_black.png', "alt_text" => ''];
 
         $this->assertTrue($accessiblemediafield->setup($element, '/images/joomla_black.png', null));
         $this->assertEquals($fieldvalue, $accessiblemediafield->__get('value'));
@@ -160,10 +142,7 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
         $accessiblemediafield = $this->createAccessiblemediaField();
 
         $element = new \SimpleXMLElement('<field name="testfield" />');
-        $fieldvalue = array(
-            "imagefile" => 'pathtofile',
-            "alt_text" => 'alt text',
-        );
+        $fieldvalue = ["imagefile" => 'pathtofile', "alt_text" => 'alt text'];
 
         $this->assertTrue($accessiblemediafield->setup($element, '{"imagefile":"pathtofile","alt_text":"alt text"}', null));
         $this->assertEquals($fieldvalue, $accessiblemediafield->__get('value'));
@@ -258,7 +237,6 @@ class AccessiblemediaFieldTest extends \PHPUnit\Framework\TestCase
     /**
      * Helper function to create a AccessiblemediaField
      *
-     * @return  AccessiblemediaField
      *
      * @since   4.0.0
      */

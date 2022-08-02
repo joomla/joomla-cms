@@ -25,18 +25,16 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
     /**
      * Collector name.
      *
-     * @var   string
      * @since 4.0.0
      */
-    private $name = 'languageFiles';
+    private string $name = 'languageFiles';
 
     /**
      * The count.
      *
-     * @var   integer
      * @since 4.0.0
      */
-    private $count = 0;
+    private int $count = 0;
 
     /**
      * Called by the DebugBar when data needs to be collected
@@ -74,8 +72,6 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
      * Returns the unique name of the collector
      *
      * @since  4.0.0
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -87,8 +83,6 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
      * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
      *
      * @since  4.0.0
-     *
-     * @return array
      */
     public function getWidgets(): array
     {
@@ -114,7 +108,6 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
      *  - js: an array of filenames
      *
      * @since  4.0.0
-     * @return array
      */
     public function getAssets(): array
     {

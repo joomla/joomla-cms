@@ -26,13 +26,12 @@ class AdaptersModel extends BaseModel implements ListModelInterface
 	use ProviderManagerHelperTrait;
 
 	/**
-	 * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
-	 * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
-	 *
-	 * @var    int
-	 * @since  4.1.0
-	 */
-	private $total = 0;
+  * A hacky way to enable the standard jsonapiView::displayList() to create a Pagination object,
+  * since com_media's ApiModel does not support pagination as we know from regular ListModel derived models.
+  *
+  * @since  4.1.0
+  */
+ private int $total = 0;
 
 	/**
 	 * Method to get a list of files and/or folders.

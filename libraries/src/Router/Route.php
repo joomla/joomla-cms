@@ -26,21 +26,21 @@ class Route
      *
      * @since  3.9.7
      */
-    public const TLS_IGNORE = 0;
+    final public const TLS_IGNORE = 0;
 
     /**
      * Make URI secure using http over TLS (https).
      *
      * @since  3.9.7
      */
-    public const TLS_FORCE = 1;
+    final public const TLS_FORCE = 1;
 
     /**
      * Make URI unsecure using plain http (http).
      *
      * @since  3.9.7
      */
-    public const TLS_DISABLE = 2;
+    final public const TLS_DISABLE = 2;
 
     /**
      * The route object so we don't have to keep fetching it.
@@ -48,7 +48,7 @@ class Route
      * @var    Router[]
      * @since  3.0.1
      */
-    private static $_router = array();
+    private static array $_router = [];
 
     /**
      * Translates an internal Joomla URL to a humanly readable URL. This method builds links for the current active client.
@@ -87,7 +87,7 @@ class Route
             $client = $app->getName();
 
             return static::link($client, $url, $xhtml, $tls, $absolute);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // @deprecated  4.0 Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
             return null;
         }
@@ -115,7 +115,7 @@ class Route
     public static function link($client, $url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
     {
         // If we cannot process this $url exit early.
-        if (!\is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0)) {
+        if (!\is_array($url) && (!str_starts_with($url, '&')) && (!str_starts_with($url, 'index.php'))) {
             return $url;
         }
 
@@ -123,7 +123,7 @@ class Route
         if ($client && !isset(self::$_router[$client])) {
             try {
                 self::$_router[$client] = Factory::getContainer()->get(ucfirst($client) . 'Router') ?: Factory::getApplication()::getRouter($client);
-            } catch (KeyNotFoundException $e) {
+            } catch (KeyNotFoundException) {
                 self::$_router[$client] = Factory::getApplication()::getRouter($client);
             }
         }
@@ -135,7 +135,7 @@ class Route
 
         // Build route.
         $uri    = self::$_router[$client]->build($url);
-        $scheme = array('path', 'query', 'fragment');
+        $scheme = ['path', 'query', 'fragment'];
 
         /*
          * Get the secure/unsecure URLs.
@@ -156,7 +156,7 @@ class Route
 
             if (!\is_array($scheme_host_port)) {
                 $uri2             = Uri::getInstance();
-                $scheme_host_port = array($uri2->getScheme(), $uri2->getHost(), $uri2->getPort());
+                $scheme_host_port = [$uri2->getScheme(), $uri2->getHost(), $uri2->getPort()];
             }
 
             if (is_null($uri->getScheme())) {
@@ -166,7 +166,7 @@ class Route
             $uri->setHost($scheme_host_port[1]);
             $uri->setPort($scheme_host_port[2]);
 
-            $scheme = array_merge($scheme, array('host', 'port', 'scheme'));
+            $scheme = array_merge($scheme, ['host', 'port', 'scheme']);
         }
 
         $url = $uri->toString($scheme);

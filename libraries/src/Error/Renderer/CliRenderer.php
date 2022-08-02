@@ -31,7 +31,6 @@ class CliRenderer extends AbstractRenderer
      *
      * @param   \Throwable  $error  The error object to be rendered
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -51,7 +50,6 @@ class CliRenderer extends AbstractRenderer
      *
      * @param   \Throwable  $error  The error
      *
-     * @return  string
      *
      * @since   4.0.0
      */

@@ -143,6 +143,7 @@ class ConsentBoxField extends CheckboxesField
      */
     protected function getLabel()
     {
+        $attribs = [];
         if ($this->hidden) {
             return '';
         }
@@ -168,12 +169,7 @@ class ConsentBoxField extends CheckboxesField
         }
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
-        $extraData = array(
-            'text'     => $data['label'],
-            'for'      => $this->id,
-            'classes'  => explode(' ', $data['labelclass']),
-            'position' => $position,
-        );
+        $extraData = ['text'     => $data['label'], 'for'      => $this->id, 'classes'  => explode(' ', (string) $data['labelclass']), 'position' => $position];
 
         return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
     }
@@ -187,6 +183,7 @@ class ConsentBoxField extends CheckboxesField
      */
     protected function getInput()
     {
+        $modalParams = [];
         $modalHtml  = '';
         $layoutData = $this->getLayoutData();
 
@@ -217,11 +214,7 @@ class ConsentBoxField extends CheckboxesField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
-            'articleid' => (int) $this->articleid,
-            'menuItemId' => (int) $this->menuItemId,
-            'privacyType' => (string) $this->privacyType,
-        );
+        $extraData = ['articleid' => (int) $this->articleid, 'menuItemId' => (int) $this->menuItemId, 'privacyType' => (string) $this->privacyType];
 
         return array_merge($data, $extraData);
     }
@@ -239,14 +232,14 @@ class ConsentBoxField extends CheckboxesField
 
         // Get the info from the article
         $query = $db->getQuery(true)
-            ->select($db->quoteName(array('id', 'catid', 'language')))
+            ->select($db->quoteName(['id', 'catid', 'language']))
             ->from($db->quoteName('#__content'))
             ->where($db->quoteName('id') . ' = ' . (int) $this->articleid);
         $db->setQuery($query);
 
         try {
             $article = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // Something at the database layer went wrong
             return Route::_(
                 'index.php?option=com_content&view=article&id='

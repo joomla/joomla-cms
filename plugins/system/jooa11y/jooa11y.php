@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.jooa11y
@@ -266,7 +267,7 @@ class PlgSystemJooa11y extends CMSPlugin implements SubscriberInterface
             Text::script($constant);
         }
 
-        /** @var Joomla\CMS\WebAsset\WebAssetManager $wa*/
+        /** @var WebAssetManager $wa*/
         $wa = $document->getWebAssetManager();
 
         $wa->getRegistry()->addRegistryFile('media/plg_system_jooa11y/joomla.asset.json');

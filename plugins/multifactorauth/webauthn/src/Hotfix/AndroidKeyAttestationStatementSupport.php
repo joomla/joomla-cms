@@ -14,6 +14,8 @@
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Hotfix;
 
+use Assert\AssertionFailedException;
+use FG\ASN1\Exception\ParserException;
 use Assert\Assertion;
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
@@ -58,16 +60,9 @@ use Webauthn\TrustPath\CertificateTrustPath;
 final class AndroidKeyAttestationStatementSupport implements AttestationStatementSupport
 {
     /**
-     * @var   Decoder
      * @since 4.2.0
      */
-    private $decoder;
-
-    /**
-     * @var   MetadataStatementRepository|null
-     * @since 4.2.0
-     */
-    private $metadataStatementRepository;
+    private readonly ?MetadataStatementRepository $metadataStatementRepository;
 
     /**
      * @param   Decoder|null                      $decoder                      Obvious
@@ -76,7 +71,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      * @since   4.2.0
      */
     public function __construct(
-        ?Decoder $decoder = null,
+        private readonly Decoder $decoder = new Decoder(new TagObjectManager(), new OtherObjectManager()),
         ?MetadataStatementRepository $metadataStatementRepository = null
     ) {
         if ($decoder !== null) {
@@ -89,13 +84,10 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
                 E_USER_DEPRECATED
             );
         }
-
-        $this->decoder = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
         $this->metadataStatementRepository = $metadataStatementRepository;
     }
 
     /**
-     * @return  string
      * @since   4.2.0
      */
     public function name(): string
@@ -106,8 +98,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
     /**
      * @param   array  $attestation Obvious
      *
-     * @return  AttestationStatement
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     public function load(array $attestation): AttestationStatement
@@ -121,7 +112,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
         $certificates = $attestation['attStmt']['x5c'];
 
         Assertion::isArray($certificates, 'The attestation statement value "x5c" must be a list with at least one certificate.');
-        Assertion::greaterThan(\count($certificates), 0, 'The attestation statement value "x5c" must be a list with at least one certificate.');
+        Assertion::greaterThan(is_countable($certificates) ? \count($certificates) : 0, 0, 'The attestation statement value "x5c" must be a list with at least one certificate.');
         Assertion::allString($certificates, 'The attestation statement value "x5c" must be a list with at least one certificate.');
 
         $certificates = CertificateToolbox::convertAllDERToPEM($certificates);
@@ -134,8 +125,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      * @param   AttestationStatement  $attestationStatement  Obvious
      * @param   AuthenticatorData     $authenticatorData     Obvious
      *
-     * @return  boolean
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     public function isValid(
@@ -172,9 +162,8 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
      * @param   string             $clientDataHash     Obvious
      * @param   AuthenticatorData  $authenticatorData  Obvious
      *
-     * @return  void
-     * @throws  \Assert\AssertionFailedException
-     * @throws  \FG\ASN1\Exception\ParserException
+     * @throws AssertionFailedException
+     * @throws ParserException
      * @since   4.2.0
      */
     private function checkCertificateAndGetPublicKey(
@@ -226,7 +215,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
         // Check that attestationChallenge is set to the clientDataHash.
         Assertion::keyExists($objects, 4, 'The certificate extension "1.3.6.1.4.1.11129.2.1.17" is invalid');
         Assertion::isInstanceOf($objects[4], OctetString::class, 'The certificate extension "1.3.6.1.4.1.11129.2.1.17" is invalid');
-        Assertion::eq($clientDataHash, hex2bin(($objects[4])->getContent()), 'The client data hash is not valid');
+        Assertion::eq($clientDataHash, hex2bin((string) ($objects[4])->getContent()), 'The client data hash is not valid');
 
         // Check that both teeEnforced and softwareEnforced structures don’t contain allApplications(600) tag.
         Assertion::keyExists($objects, 6, 'The certificate extension "1.3.6.1.4.1.11129.2.1.17" is invalid');
@@ -243,8 +232,7 @@ final class AndroidKeyAttestationStatementSupport implements AttestationStatemen
     /**
      * @param   Sequence  $sequence Obvious
      *
-     * @return  void
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     private function checkAbsenceOfAllApplicationsTag(Sequence $sequence): void

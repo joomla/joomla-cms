@@ -85,7 +85,7 @@ class RemindModel extends AdminModel
 
         try {
             $remind = $db->loadObject();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
             return false;
@@ -132,7 +132,7 @@ class RemindModel extends AdminModel
      *
      * @since   3.9.0
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
         $form = $this->loadForm('com_privacy.remind', 'remind', ['control' => 'jform']);

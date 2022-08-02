@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  mod_custom
@@ -17,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 $modId = 'mod-custom' . $module->id;
 
 if ($params->get('backgroundimage')) {
-    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+    /** @var WebAssetManager $wa */
     $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
     $wa->addInlineStyle('
 #' . $modId . '{background-image: url("' . Uri::root(true) . '/' . HTMLHelper::_('cleanImageURL', $params->get('backgroundimage'))->url . '");}

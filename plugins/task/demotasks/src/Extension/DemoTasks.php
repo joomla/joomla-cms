@@ -84,7 +84,6 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
      *
      * @param   ExecuteTaskEvent  $event  The event we are handling
      *
-     * @return  integer
      *
      * @since   4.1.0
      * @throws  \Exception
@@ -194,7 +193,6 @@ final class DemoTasks extends CMSPlugin implements SubscriberInterface
     /**
      * Processes the PHP ini memory_limit setting, returning the memory limit in KB
      *
-     * @return float
      *
      * @since 4.1.0
      */

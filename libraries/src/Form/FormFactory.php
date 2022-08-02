@@ -26,11 +26,10 @@ class FormFactory implements FormFactoryInterface
      * @param   string  $name     The name of the form.
      * @param   array   $options  An array of form options.
      *
-     * @return  Form
      *
      * @since   4.0.0
      */
-    public function createForm(string $name, array $options = array()): Form
+    public function createForm(string $name, array $options = []): Form
     {
         $form = new Form($name, $options);
 

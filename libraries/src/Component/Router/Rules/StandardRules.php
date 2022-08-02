@@ -19,23 +19,14 @@ use Joomla\CMS\Component\Router\RouterView;
 class StandardRules implements RulesInterface
 {
     /**
-     * Router this rule belongs to
-     *
-     * @var    RouterView
-     * @since  3.4
-     */
-    protected $router;
-
-    /**
      * Class constructor.
      *
      * @param   RouterView  $router  Router this rule belongs to
      *
      * @since   3.4
      */
-    public function __construct(RouterView $router)
+    public function __construct(protected RouterView $router)
     {
-        $this->router = $router;
     }
 
     /**
@@ -83,8 +74,8 @@ class StandardRules implements RulesInterface
         foreach ($tempSegments as $segment) {
             // Our current view is nestable. We need to check first if the segment fits to that
             if ($views[$vars['view']]->nestable) {
-                if (\is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'))) {
-                    $key = \call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'), array($segment, $vars));
+                if (\is_callable([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'])) {
+                    $key = \call_user_func_array([$this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'], [$segment, $vars]);
 
                     // Did we get a proper key? If not, we need to look in the child-views
                     if ($key) {
@@ -120,9 +111,9 @@ class StandardRules implements RulesInterface
 
                         break;
                     }
-                } elseif (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id'))) {
+                } elseif (\is_callable([$this->router, 'get' . ucfirst($view->name) . 'Id'])) {
                     // Hand the data over to the router specific method and see if there is a content item that fits
-                    $key = \call_user_func_array(array($this->router, 'get' . ucfirst($view->name) . 'Id'), array($segment, $vars));
+                    $key = \call_user_func_array([$this->router, 'get' . ucfirst($view->name) . 'Id'], [$segment, $vars]);
 
                     if ($key) {
                         // Found the right view and the right item
@@ -180,7 +171,7 @@ class StandardRules implements RulesInterface
         }
 
         // Get menu item layout
-        $mLayout = isset($item->query['layout']) ? $item->query['layout'] : null;
+        $mLayout = $item->query['layout'] ?? null;
 
         // Get all views for this component
         $views = $this->router->getViews();
@@ -246,7 +237,7 @@ class StandardRules implements RulesInterface
 
                     foreach (array_reverse($ids, true) as $id => $segment) {
                         if ($found2) {
-                            $segments[] = str_replace(':', '-', $segment);
+                            $segments[] = str_replace(':', '-', (string) $segment);
                         } elseif ((int) $item->query[$view->key] === (int) $id) {
                             $found2 = true;
                         }
@@ -254,7 +245,7 @@ class StandardRules implements RulesInterface
                 } elseif ($ids === true) {
                     $segments[] = $element;
                 } else {
-                    $segments[] = str_replace(':', '-', current($ids));
+                    $segments[] = str_replace(':', '-', (string) current($ids));
                 }
             }
 

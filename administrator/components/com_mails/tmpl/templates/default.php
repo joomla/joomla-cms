@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_mails
@@ -17,7 +18,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns');
 
@@ -30,7 +31,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -52,7 +53,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                                 <th scope="col" class="w-15 d-none d-md-table-cell">
                                     <?php echo Text::_('COM_MAILS_HEADING_EXTENSION'); ?>
                                 </th>
-                                <?php if (count($this->languages) > 1) : ?>
+                                <?php if ((is_countable($this->languages) ? count($this->languages) : 0) > 1) : ?>
                                 <th scope="col" class="w-10 text-center">
                                     <?php echo Text::_('COM_MAILS_HEADING_EDIT_TEMPLATES'); ?>
                                 </th>
@@ -67,7 +68,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                         </thead>
                         <tbody>
                         <?php foreach ($this->items as $i => $item) :
-                            list($component, $sub_id) = explode('.', $item->template_id, 2);
+                            [$component, $sub_id] = explode('.', (string) $item->template_id, 2);
                             $sub_id = str_replace('.', '_', $sub_id);
                             ?>
                             <tr class="row<?php echo $i % 2; ?>">
@@ -79,14 +80,14 @@ $listDirn = $this->escape($this->state->get('list.direction'));
                                 <td class="d-none d-md-table-cell">
                                     <?php echo Text::_($component); ?>
                                 </td>
-                                <?php if (count($this->languages) > 1) : ?>
+                                <?php if ((is_countable($this->languages) ? count($this->languages) : 0) > 1) : ?>
                                     <td>
                                         <ul class="list-unstyled d-flex justify-content-center">
                                         <?php foreach ($this->languages as $language) : ?>
                                             <li class="p-1">
                                                 <a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
                                                     <?php if ($language->image) : ?>
-                                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+                                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, ['title' => $language->title_native], true); ?>
                                                     <?php else : ?>
                                                         <span class="badge bg-secondary" title="<?php echo $language->title_native; ?>"><?php echo $language->lang_code; ?></span>
                                                     <?php endif; ?>
@@ -109,7 +110,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">

@@ -215,15 +215,15 @@ class MessagesModel extends BaseDatabaseModel
             /** @var CallbackController $cache */
             $cache = $this->getCacheControllerFactory()->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
-            $result = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
+            $result = $cache->get($db->loadObjectList(...), [], md5($cacheId), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
 
-            return array();
+            return [];
         }
 
         $this->onProcessList($result);
@@ -262,12 +262,12 @@ class MessagesModel extends BaseDatabaseModel
                 ->createCacheController('callback', ['defaultgroup' => 'com_postinstall']);
 
             // Get the resulting data object for cache ID 'all.1' from com_postinstall group.
-            $result = $cache->get(array($db, 'loadObjectList'), array(), md5('all.1'), false);
+            $result = $cache->get($db->loadObjectList(...), [], md5('all.1'), false);
         } catch (\RuntimeException $e) {
             $app = Factory::getApplication();
             $app->getLogger()->warning(
                 Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
 
             return 0;
@@ -275,7 +275,7 @@ class MessagesModel extends BaseDatabaseModel
 
         $this->onProcessList($result);
 
-        return \count($result);
+        return is_countable($result) ? \count($result) : 0;
     }
 
     /**
@@ -325,7 +325,7 @@ class MessagesModel extends BaseDatabaseModel
         $lang->load($extension->element, $basePath);
 
         // Return the localised name
-        return Text::_(strtoupper($extension->name));
+        return Text::_(strtoupper((string) $extension->name));
     }
 
     /**
@@ -398,8 +398,8 @@ class MessagesModel extends BaseDatabaseModel
      */
     protected function onProcessList(&$resultArray)
     {
-        $unset_keys          = array();
-        $language_extensions = array();
+        $unset_keys          = [];
+        $language_extensions = [];
 
         // Order the results DESC so the newest is on the top.
         $resultArray = array_reverse($resultArray);
@@ -457,7 +457,7 @@ class MessagesModel extends BaseDatabaseModel
         $db->setQuery($query);
         $extension_ids = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         Factory::getApplication()->getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
@@ -544,21 +544,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Initialise array keys
-        $defaultOptions = array(
-            'extension_id'       => '',
-            'type'               => '',
-            'title_key'          => '',
-            'description_key'    => '',
-            'action_key'         => '',
-            'language_extension' => '',
-            'language_client_id' => '',
-            'action_file'        => '',
-            'action'             => '',
-            'condition_file'     => '',
-            'condition_method'   => '',
-            'version_introduced' => '',
-            'enabled'            => '1',
-        );
+        $defaultOptions = ['extension_id'       => '', 'type'               => '', 'title_key'          => '', 'description_key'    => '', 'action_key'         => '', 'language_extension' => '', 'language_client_id' => '', 'action_file'        => '', 'action'             => '', 'condition_file'     => '', 'condition_method'   => '', 'version_introduced' => '', 'enabled'            => '1'];
 
         $options = array_merge($defaultOptions, $options);
 
@@ -579,7 +565,7 @@ class MessagesModel extends BaseDatabaseModel
         $options['enabled']            = (int) $options['enabled'];
 
         // Normalisation of 0/1 values
-        foreach (array('language_client_id', 'enabled') as $key) {
+        foreach (['language_client_id', 'enabled'] as $key) {
             $options[$key] = $options[$key] ? 1 : 0;
         }
 
@@ -589,7 +575,7 @@ class MessagesModel extends BaseDatabaseModel
         }
 
         // Make sure there's a valid type
-        if (!in_array($options['type'], array('message', 'link', 'action'))) {
+        if (!in_array($options['type'], ['message', 'link', 'action'])) {
             throw new \Exception('Post-installation message definitions need to declare a type of message, link or action', 500);
         }
 

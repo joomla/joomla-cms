@@ -10,6 +10,7 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
+use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\View\AbstractView;
 
@@ -26,7 +27,7 @@ class DisplayController extends BaseController
      * @param   boolean  $cachable   If true, the view output will be cached.
      * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
      *
-     * @return  \Joomla\CMS\MVC\Controller\BaseController  This object to support chaining.
+     * @return BaseController This object to support chaining.
      *
      * @since   1.5
      */
@@ -45,7 +46,7 @@ class DisplayController extends BaseController
             $defaultView = 'remove';
         }
 
-        /** @var \Joomla\CMS\Installation\Model\ChecksModel $model */
+        /** @var ChecksModel $model */
         $model = $this->getModel('Checks');
 
         $vName = $this->input->getWord('view', $defaultView);
@@ -88,7 +89,7 @@ class DisplayController extends BaseController
      * @since   3.0
      * @throws  \Exception
      */
-    public function getView($name = '', $type = '', $prefix = '', $config = array())
+    public function getView($name = '', $type = '', $prefix = '', $config = [])
     {
         $view = parent::getView($name, $type, $prefix, $config);
 

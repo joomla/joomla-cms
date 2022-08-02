@@ -29,7 +29,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $cachable = true;
 
@@ -37,6 +37,6 @@ class DisplayController extends BaseController
         $vName = $this->input->get('view', 'wrapper');
         $this->input->set('view', $vName);
 
-        return parent::display($cachable, array('Itemid' => 'INT'));
+        return parent::display($cachable, ['Itemid' => 'INT']);
     }
 }

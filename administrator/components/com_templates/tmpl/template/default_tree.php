@@ -19,8 +19,8 @@ ksort($this->files, SORT_NATURAL);
     <?php foreach ($this->files as $key => $value) : ?>
         <?php if (is_array($value)) : ?>
             <?php
-            $keyArray  = explode('/', rtrim($key, '\\'));
-            $fileArray = explode('/', $this->fileName);
+            $keyArray  = explode('/', rtrim((string) $key, '\\'));
+            $fileArray = explode('/', (string) $this->fileName);
             $count     = 0;
 
             $keyArrayCount = count($keyArray);
@@ -44,7 +44,7 @@ ksort($this->files, SORT_NATURAL);
             ?>
             <li class="<?php echo $class; ?>">
                 <a class="folder-url" href="">
-                    <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', $key);
+                    <span class="icon-folder icon-fw" aria-hidden="true"></span>&nbsp;<?php $explodeArray = explode('/', (string) $key);
                     echo $this->escape(end($explodeArray)); ?>
                 </a>
                 <?php echo $this->directoryTree($value); ?>

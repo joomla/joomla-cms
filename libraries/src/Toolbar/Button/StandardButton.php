@@ -43,10 +43,10 @@ class StandardButton extends BasicButton
         if (empty($options['is_child'])) {
             $class = $this->fetchButtonClass($this->getName());
 
-            $options['btnClass'] = $options['button_class'] = ($options['button_class'] ?? $class);
+            $options['btnClass'] = $options['button_class'] ??= $class;
         }
 
-        $options['onclick'] = $options['onclick'] ?? $this->_getCommand();
+        $options['onclick'] ??= $this->_getCommand();
     }
 
     /**
@@ -90,28 +90,12 @@ class StandardButton extends BasicButton
      */
     public function fetchButtonClass(string $name): string
     {
-        switch ($name) {
-            case 'apply':
-            case 'new':
-            case 'save':
-            case 'save-new':
-            case 'save-copy':
-            case 'save-close':
-            case 'publish':
-                return 'btn btn-success';
-
-            case 'featured':
-                return 'btn btn-warning';
-
-            case 'cancel':
-            case 'trash':
-            case 'delete':
-            case 'unpublish':
-                return 'btn btn-danger';
-
-            default:
-                return 'btn btn-primary';
-        }
+        return match ($name) {
+            'apply', 'new', 'save', 'save-new', 'save-copy', 'save-close', 'publish' => 'btn btn-success',
+            'featured' => 'btn btn-warning',
+            'cancel', 'trash', 'delete', 'unpublish' => 'btn btn-danger',
+            default => 'btn btn-primary',
+        };
     }
 
     /**

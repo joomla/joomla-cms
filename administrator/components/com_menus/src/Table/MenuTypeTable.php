@@ -10,11 +10,12 @@
 
 namespace Joomla\Component\Menus\Administrator\Table;
 
+use Joomla\CMS\Table\MenuType;
 /**
  * Menu table
  *
  * @since  1.6
  */
-class MenuTypeTable extends \Joomla\CMS\Table\MenuType
+class MenuTypeTable extends MenuType
 {
 }

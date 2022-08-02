@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Login\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
@@ -24,7 +25,7 @@ class LoginHelper
     /**
      * Retrieve the URL where the user should be returned after logging in
      *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
+     * @param Registry $params module parameters
      * @param   string                     $type    return type
      *
      * @return  string
@@ -64,7 +65,7 @@ class LoginHelper
     /**
      * Retrieve the URL for the registration page
      *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
+     * @param Registry $params module parameters
      *
      * @return  string
      */

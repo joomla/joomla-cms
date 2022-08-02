@@ -16,10 +16,10 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 defined('_JEXEC') or die;
 
 ?>
-<?php if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?>
+<?php if ($this->maxLevel != 0 && (is_countable($this->children[$this->category->id]) ? count($this->children[$this->category->id]) : 0) > 0) : ?>
     <ul>
         <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
-            <?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
+            <?php if ($this->params->get('show_empty_categories') || $child->numitems || (is_countable($child->getChildren()) ? count($child->getChildren()) : 0)) : ?>
                 <li>
                     <span class="item-title">
                         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
                             <?php echo $child->numitems; ?>
                         </span>
                     <?php endif; ?>
-                    <?php if (count($child->getChildren()) > 0) : ?>
+                    <?php if ((is_countable($child->getChildren()) ? count($child->getChildren()) : 0) > 0) : ?>
                         <?php $this->children[$child->id] = $child->getChildren(); ?>
                         <?php $this->category = $child; ?>
                         <?php $this->maxLevel--; ?>

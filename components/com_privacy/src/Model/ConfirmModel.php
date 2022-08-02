@@ -101,7 +101,7 @@ class ConfirmModel extends AdminModel
 
             try {
                 $table->store();
-            } catch (ExecutionFailureException $exception) {
+            } catch (ExecutionFailureException) {
                 // The error will be logged in the database API, we just need to catch it here to not let things fatal out
             }
 
@@ -162,7 +162,7 @@ class ConfirmModel extends AdminModel
      *
      * @since   3.9.0
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
         $form = $this->loadForm('com_privacy.confirm', 'confirm', ['control' => 'jform']);
@@ -218,7 +218,6 @@ class ConfirmModel extends AdminModel
     /**
      * Method to fetch an instance of the action log model.
      *
-     * @return  ActionlogModel
      *
      * @since   4.0.0
      */

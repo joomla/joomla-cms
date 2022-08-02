@@ -35,7 +35,6 @@ class CheckfilesPluginTest extends UnitTestCase
     /**
      * Setup
      *
-     * @return  void
      *
      * @since   4.2.0
      */
@@ -54,7 +53,6 @@ class CheckfilesPluginTest extends UnitTestCase
     /**
      * Cleanup
      *
-     * @return  void
      *
      * @since   4.2.0
      */
@@ -97,7 +95,7 @@ class CheckfilesPluginTest extends UnitTestCase
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        [$width, $height] = getimagesize(__DIR__ . '/tmp/test.png');
         $this->assertEquals(20, $width);
         $this->assertEquals(20, $height);
     }
@@ -136,11 +134,11 @@ class CheckfilesPluginTest extends UnitTestCase
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        [$width, $height] = getimagesize(__DIR__ . '/tmp/test.png');
         $this->assertEquals(20, $width);
         $this->assertEquals(20, $height);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test1.png');
+        [$width, $height] = getimagesize(__DIR__ . '/tmp/test1.png');
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);
     }
@@ -177,7 +175,7 @@ class CheckfilesPluginTest extends UnitTestCase
 
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        [$width, $height] = getimagesize(__DIR__ . '/tmp/test.png');
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);
     }
@@ -212,7 +210,7 @@ class CheckfilesPluginTest extends UnitTestCase
         );
         $plugin->standardRoutineHandler($event);
 
-        list($width, $height) = getimagesize(__DIR__ . '/tmp/test.png');
+        [$width, $height] = getimagesize(__DIR__ . '/tmp/test.png');
         $this->assertEquals(Status::NO_RUN, $event->getResultSnapshot()['status']);
         $this->assertEquals(200, $width);
         $this->assertEquals(200, $height);

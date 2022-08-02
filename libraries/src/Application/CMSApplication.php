@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Document\Document;
 use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
@@ -57,7 +58,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    array
      * @since  3.2
      */
-    protected $docOptions = array();
+    protected $docOptions = [];
 
     /**
      * Application instances container.
@@ -65,7 +66,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    CmsApplication[]
      * @since  3.2
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * The scope of the application.
@@ -89,7 +90,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    array
      * @since  4.0.0
      */
-    protected $messageQueue = array();
+    protected $messageQueue = [];
 
     /**
      * The name of the application.
@@ -228,10 +229,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         );
 
         // Build the message array and apply the HTML InputFilter with the default blacklist to the message
-        $message = array(
-            'message' => $inputFilter->clean($msg, 'html'),
-            'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
-        );
+        $message = ['message' => $inputFilter->clean($msg, 'html'), 'type'    => $inputFilter->clean(strtolower($type), 'cmd')];
 
         // For empty queue, if messages exists in the session, enqueue them first.
         $messages = $this->getMessageQueue();
@@ -255,10 +253,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Get invalid input variables
         $invalidInputVariables = array_filter(
-            array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
-            function ($systemVariable) use ($input) {
-                return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
-            }
+            ['option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'],
+            fn($systemVariable) => $input->exists($systemVariable) && is_array($input->getRaw($systemVariable))
         );
 
         // Unset invalid system variables
@@ -290,7 +286,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $this->doExecute();
 
             // If we have an application document object, render it.
-            if ($this->document instanceof \Joomla\CMS\Document\Document) {
+            if ($this->document instanceof Document) {
                 // Render the application output.
                 $this->render();
             }
@@ -367,7 +363,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
             // Check task or option/view/layout
             if (!empty($task)) {
-                $tasks = explode(',', $tasks);
+                $tasks = explode(',', (string) $tasks);
 
                 // Check full task version "option/task"
                 if (array_search($this->input->getCmd('option', '') . '/' . $task, $tasks) === false) {
@@ -423,7 +419,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 Log::WARNING,
                 'deprecated'
             );
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             // Informational log only
         }
 
@@ -492,7 +488,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function getMenu($name = null, $options = array())
+    public function getMenu($name = null, $options = [])
     {
         if (!isset($name)) {
             $name = $this->getName();
@@ -544,7 +540,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $messageQueue = $this->messageQueue;
 
         if ($clear) {
-            $this->messageQueue = array();
+            $this->messageQueue = [];
         }
 
         return $messageQueue;
@@ -599,7 +595,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = null, array $options = array())
+    public static function getRouter($name = null, array $options = [])
     {
         $app = Factory::getApplication();
 
@@ -694,7 +690,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    protected function initialiseApp($options = array())
+    protected function initialiseApp($options = [])
     {
         // Check that we were given a language in the array (since by default may be blank).
         if (isset($options['language'])) {
@@ -746,7 +742,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      */
     public function isHttpsForced($clientId = null)
     {
-        $clientId = (int) ($clientId !== null ? $clientId : $this->getClientId());
+        $clientId = (int) ($clientId ?? $this->getClientId());
         $forceSsl = (int) $this->get('force_ssl');
 
         if ($clientId === 0 && $forceSsl === 2) {
@@ -801,11 +797,11 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @param   array  $credentials  Array('username' => string, 'password' => string)
      * @param   array  $options      Array('remember' => boolean)
      *
-     * @return  boolean|\Exception  True on success, false if failed or silent handling is configured, or a \Exception object on authentication error.
+     * @return  boolean  True on success, false if failed or silent handling is configured.
      *
      * @since   3.2
      */
-    public function login($credentials, $options = array())
+    public function login($credentials, $options = []): bool
     {
         // Get the global Authentication object.
         $authenticate = Authentication::getInstance($this->authenticationPluginType);
@@ -825,7 +821,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             foreach ($authorisations as $authorisation) {
                 if ((int) $authorisation->status & $denied_states) {
                     // Trigger onUserAuthorisationFailure Event.
-                    $this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
+                    $this->triggerEvent('onUserAuthorisationFailure', [(array) $authorisation]);
 
                     // If silent is set, just return false.
                     if (isset($options['silent']) && $options['silent']) {
@@ -853,7 +849,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
-            $results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
+            $results = $this->triggerEvent('onUserLogin', [(array) $response, $options]);
 
             /*
              * If any of the user plugins did not successfully complete the login routine
@@ -873,14 +869,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $options['responseType'] = $response->type;
 
                 // The user is successfully logged in. Run the after login events
-                $this->triggerEvent('onUserAfterLogin', array($options));
+                $this->triggerEvent('onUserAfterLogin', [$options]);
 
                 return true;
             }
         }
 
         // Trigger onUserLoginFailure Event.
-        $this->triggerEvent('onUserLoginFailure', array((array) $response));
+        $this->triggerEvent('onUserLoginFailure', [(array) $response]);
 
         // If silent is set, just return false.
         if (isset($options['silent']) && $options['silent']) {
@@ -889,7 +885,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // If status is success, any error will have been raised by the user plugin
         if ($response->status !== Authentication::STATUS_SUCCESS) {
-            $this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
+            $this->getLogger()->warning($response->error_message, ['category' => 'jerror']);
         }
 
         return false;
@@ -912,8 +908,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function logout($userid = null, $options = array())
+    public function logout($userid = null, $options = [])
     {
+        $parameters = [];
         // Get a user object from the Application.
         $user = Factory::getUser($userid);
 
@@ -930,18 +927,18 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         PluginHelper::importPlugin('user');
 
         // OK, the credentials are built. Lets fire the onLogout event.
-        $results = $this->triggerEvent('onUserLogout', array($parameters, $options));
+        $results = $this->triggerEvent('onUserLogout', [$parameters, $options]);
 
         // Check if any of the plugins failed. If none did, success.
         if (!\in_array(false, $results, true)) {
             $options['username'] = $user->get('username');
-            $this->triggerEvent('onUserAfterLogout', array($options));
+            $this->triggerEvent('onUserAfterLogout', [$options]);
 
             return true;
         }
 
         // Trigger onUserLogoutFailure Event.
-        $this->triggerEvent('onUserLogoutFailure', array($parameters));
+        $this->triggerEvent('onUserLogoutFailure', [$parameters]);
 
         return false;
     }
@@ -1050,7 +1047,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $active !== null
             && $active->type === 'alias'
             && $active->getParams()->get('alias_redirect')
-            && \in_array($this->input->getMethod(), array('GET', 'HEAD'), true)
+            && \in_array($this->input->getMethod(), ['GET', 'HEAD'], true)
         ) {
             $item = $this->getMenu()->getItem($active->getParams()->get('aliasoptions'));
 
@@ -1065,7 +1062,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
                 $activePathPrefix = StringHelper::strtolower($active->route);
 
-                $position = strpos($oldPath, $activePathPrefix);
+                $position = strpos($oldPath, (string) $activePathPrefix);
 
                 if ($position !== false) {
                     $oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
@@ -1188,7 +1185,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     /**
      * No longer used
      *
-     * @return  boolean
      *
      * @since   4.0.0
      *
@@ -1203,7 +1199,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     /**
      * No longer used
      *
-     * @return  boolean
      *
      * @since   4.0.0
      *
@@ -1218,7 +1213,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     /**
      * Setup logging functionality.
      *
-     * @return void
      *
      * @since   4.0.0
      */
@@ -1252,7 +1246,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $priority = 0;
 
             foreach ($this->get('log_priorities', ['all']) as $p) {
-                $const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper($p);
+                $const = '\\Joomla\\CMS\\Log\\Log::' . strtoupper((string) $p);
 
                 if (defined($const)) {
                     $priority |= constant($const);
@@ -1260,7 +1254,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // Split into an array at any character other than alphabet, numbers, _, ., or -
-            $categories = preg_split('/[^\w.-]+/', $this->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
+            $categories = preg_split('/[^\w.-]+/', (string) $this->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
             $mode       = (bool) $this->get('log_category_mode', false);
 
             if (!$categories) {
@@ -1276,7 +1270,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @param  MenuFactoryInterface  $menuFactory  The menu factory
      *
-     * @return void
      *
      * @since  4.2.0
      */

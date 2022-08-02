@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Document\HtmlDocument;
 /**
  * @package Joomla.Installation
  *
@@ -14,7 +15,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 
-/** @var \Joomla\CMS\Document\HtmlDocument $this */
+/** @var HtmlDocument $this */
 // Add required assets
 $this->getWebAssetManager()
     ->registerAndUseStyle('template.installation', 'installation/template/css/template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto'], [], [])

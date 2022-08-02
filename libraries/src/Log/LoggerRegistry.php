@@ -9,6 +9,14 @@
 
 namespace Joomla\CMS\Log;
 
+use Joomla\CMS\Log\Logger\CallbackLogger;
+use Joomla\CMS\Log\Logger\DatabaseLogger;
+use Joomla\CMS\Log\Logger\EchoLogger;
+use Joomla\CMS\Log\Logger\FormattedtextLogger;
+use Joomla\CMS\Log\Logger\MessagequeueLogger;
+use Joomla\CMS\Log\Logger\SyslogLogger;
+use Joomla\CMS\Log\Logger\W3cLogger;
+use Joomla\CMS\Log\Logger\InMemoryLogger;
 /**
  * Service registry for loggers
  *
@@ -22,15 +30,15 @@ final class LoggerRegistry
      * @var    string[]
      * @since  4.0.0
      */
-    private $loggerMap = [
-        'callback'      => Logger\CallbackLogger::class,
-        'database'      => Logger\DatabaseLogger::class,
-        'echo'          => Logger\EchoLogger::class,
-        'formattedtext' => Logger\FormattedtextLogger::class,
-        'messagequeue'  => Logger\MessagequeueLogger::class,
-        'syslog'        => Logger\SyslogLogger::class,
-        'w3c'           => Logger\W3cLogger::class,
-        'inmemory'      => Logger\InMemoryLogger::class,
+    private array $loggerMap = [
+        'callback'      => CallbackLogger::class,
+        'database'      => DatabaseLogger::class,
+        'echo'          => EchoLogger::class,
+        'formattedtext' => FormattedtextLogger::class,
+        'messagequeue'  => MessagequeueLogger::class,
+        'syslog'        => SyslogLogger::class,
+        'w3c'           => W3cLogger::class,
+        'inmemory'      => InMemoryLogger::class,
     ];
 
     /**
@@ -38,7 +46,6 @@ final class LoggerRegistry
      *
      * @param   string  $key  The key to look up
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \InvalidArgumentException
@@ -57,7 +64,6 @@ final class LoggerRegistry
      *
      * @param   string  $key  The key to look up
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

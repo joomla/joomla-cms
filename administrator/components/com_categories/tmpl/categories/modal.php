@@ -36,7 +36,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
     <form action="<?php echo Route::_('index.php?option=com_categories&view=categories&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -71,20 +71,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 </thead>
                 <tbody>
                     <?php
-                    $iconStates = array(
-                        -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
-                    );
+                    $iconStates = [-2 => 'icon-trash', 0  => 'icon-times', 1  => 'icon-check', 2  => 'icon-folder'];
                     ?>
                     <?php foreach ($this->items as $i => $item) : ?>
                         <?php if ($item->language && Multilanguage::isEnabled()) {
-                            $tag = strlen($item->language);
+                            $tag = strlen((string) $item->language);
                             if ($tag == 5) {
-                                $lang = substr($item->language, 0, 2);
+                                $lang = substr((string) $item->language, 0, 2);
                             } elseif ($tag == 6) {
-                                $lang = substr($item->language, 0, 3);
+                                $lang = substr((string) $item->language, 0, 3);
                             } else {
                                 $lang = '';
                             }
@@ -99,8 +94,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 </span>
                             </td>
                             <th scope="row">
-                                <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
-                                <a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+                                <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
+                                <a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes((string) $item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
                                     <?php echo $this->escape($item->title); ?></a>
                                 <div class="small" title="<?php echo $this->escape($item->path); ?>">
                                     <?php if (empty($item->note)) : ?>
@@ -127,7 +122,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <input type="hidden" name="extension" value="<?php echo $extension; ?>">
         <input type="hidden" name="task" value="">

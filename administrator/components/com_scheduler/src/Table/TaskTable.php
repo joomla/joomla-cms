@@ -165,11 +165,10 @@ class TaskTable extends Table
      * @param   array|object  $src     An associative array or object to bind to the Table instance.
      * @param   array|string  $ignore  An optional array or space separated list of properties to ignore while binding.
      *
-     * @return  boolean
      *
      * @since   4.1.0
      */
-    public function bind($src, $ignore = array()): bool
+    public function bind($src, $ignore = []): bool
     {
         $fields = ['next_execution'];
 
@@ -213,7 +212,7 @@ class TaskTable extends Table
         if (!empty($pks)) {
             foreach ($pks as $key => $pk) {
                 if (!\is_array($pk)) {
-                    $pks[$key] = array($this->_tbl_key => $pk);
+                    $pks[$key] = [$this->_tbl_key => $pk];
                 }
             }
         }

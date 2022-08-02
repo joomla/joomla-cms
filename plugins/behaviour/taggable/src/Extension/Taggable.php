@@ -37,7 +37,6 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.2.0
      */
@@ -122,7 +121,7 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper            = $table->getTagsHelper();
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
-        $newTags = $table->newTags ?? array();
+        $newTags = $table->newTags ?? [];
 
         if (empty($newTags)) {
             $tagsHelper->preStoreProcess($table);
@@ -165,12 +164,12 @@ final class Taggable extends CMSPlugin implements SubscriberInterface
         $tagsHelper            = $table->getTagsHelper();
         $tagsHelper->typeAlias = $table->getTypeAlias();
 
-        $newTags = $table->newTags ?? array();
+        $newTags = $table->newTags ?? [];
 
         if (empty($newTags)) {
             $result = $tagsHelper->postStoreProcess($table);
         } else {
-            if (is_string($newTags) && (strpos($newTags, ',') !== false)) {
+            if (is_string($newTags) && (str_contains($newTags, ','))) {
                 $newTags = explode(',', $newTags);
             } elseif (!is_array($newTags)) {
                 $newTags = (array) $newTags;

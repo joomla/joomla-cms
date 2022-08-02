@@ -23,7 +23,7 @@ class CachingLanguageFactory extends LanguageFactory
      * @var    Language[]
      * @since  4.0.0
      */
-    private static $languages = array();
+    private static array $languages = [];
 
     /**
      * Method to get an instance of a language.
@@ -31,7 +31,6 @@ class CachingLanguageFactory extends LanguageFactory
      * @param   string   $lang   The language to use
      * @param   boolean  $debug  The debug mode
      *
-     * @return  Language
      *
      * @since   4.0.0
      */

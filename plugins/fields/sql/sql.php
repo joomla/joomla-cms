@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin;
+use Joomla\CMS\Table\Table;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Sql
@@ -19,7 +21,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  3.7.0
  */
-class PlgFieldsSql extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
+class PlgFieldsSql extends FieldsListPlugin
 {
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.
@@ -50,7 +52,7 @@ class PlgFieldsSql extends \Joomla\Component\Fields\Administrator\Plugin\FieldsL
      * The save event.
      *
      * @param   string                   $context  The context
-     * @param   \Joomla\CMS\Table\Table  $item     The table
+     * @param Table $item The table
      * @param   boolean                  $isNew    Is new item
      * @param   array                    $data     The validated data
      *

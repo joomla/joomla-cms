@@ -25,10 +25,8 @@ trait SiteRouterAwareTrait
     /**
      * Get the site router.
      *
-     * @return  SiteRouter
      *
      * @since   4.2.0
-     *
      * @throws  \UnexpectedValueException May be thrown if the router has not been set.
      */
     public function getSiteRouter(): SiteRouter
@@ -37,7 +35,7 @@ trait SiteRouterAwareTrait
             return $this->router;
         }
 
-        throw new \UnexpectedValueException('SiteRouter not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('SiteRouter not set in ' . self::class);
     }
 
     /**
@@ -45,7 +43,6 @@ trait SiteRouterAwareTrait
      *
      * @param   SiteRouter  $router  The router to use.
      *
-     * @return  void
      *
      * @since   4.2.0
      */

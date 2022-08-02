@@ -19,20 +19,12 @@ use Joomla\Database\DatabaseInterface;
 class UserFactory implements UserFactoryInterface
 {
     /**
-     * The database.
-     *
-     * @var  DatabaseInterface
-     */
-    private $db;
-
-    /**
      * UserFactory constructor.
      *
      * @param   DatabaseInterface  $db  The database
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(private readonly DatabaseInterface $db)
     {
-        $this->db = $db;
     }
 
     /**
@@ -40,7 +32,6 @@ class UserFactory implements UserFactoryInterface
      *
      * @param   int  $id  The id
      *
-     * @return  User
      *
      * @since   4.0.0
      */
@@ -54,7 +45,6 @@ class UserFactory implements UserFactoryInterface
      *
      * @param   string  $username  The username
      *
-     * @return  User
      *
      * @since   4.0.0
      */

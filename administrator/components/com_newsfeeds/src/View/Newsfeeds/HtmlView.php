@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\View\Newsfeeds;
 
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -39,7 +40,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  1.6
      */
@@ -80,12 +81,12 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!(is_countable($this->items) ? \count($this->items) : 0) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

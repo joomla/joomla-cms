@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\Component\Users\Site\Model\ResetModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -35,9 +36,9 @@ class ResetController extends BaseController
 
         $app   = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
+        /** @var ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the password reset request.
         $return = $model->processResetRequest($data);
@@ -86,9 +87,9 @@ class ResetController extends BaseController
 
         $app   = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
+        /** @var ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->get('jform', array(), 'array');
+        $data  = $this->input->get('jform', [], 'array');
 
         // Confirm the password reset request.
         $return = $model->processResetConfirm($data);
@@ -136,9 +137,9 @@ class ResetController extends BaseController
 
         $app   = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\ResetModel $model */
+        /** @var ResetModel $model */
         $model = $this->getModel('Reset', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Complete the password reset request.
         $return = $model->processResetComplete($data);

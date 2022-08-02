@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Helper;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
@@ -71,7 +72,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      */
-    public function addTagMapping($ucmId, TableInterface $table, $tags = array())
+    public function addTagMapping($ucmId, TableInterface $table, $tags = [])
     {
         $db = $table->getDbo();
         $key = $table->getKeyName();
@@ -80,7 +81,7 @@ class TagsHelper extends CMSHelper
         $typeId = $ucm->getTypeId();
 
         // Insert the new tag maps
-        if (strpos('#', implode(',', $tags)) === false) {
+        if (!str_contains('#', implode(',', $tags))) {
             $tags = self::createTagsFromField($tags);
         }
 
@@ -136,12 +137,12 @@ class TagsHelper extends CMSHelper
         // We will replace path aliases with tag names
         if ($tags) {
             // Create an array with all the aliases of the results
-            $aliases = array();
+            $aliases = [];
 
             foreach ($tags as $tag) {
                 if (!empty($tag->path)) {
-                    if ($pathParts = explode('/', $tag->path)) {
-                        $aliases = array_merge($aliases, $pathParts);
+                    if ($pathParts = explode('/', (string) $tag->path)) {
+                        $aliases = [...$aliases, ...$pathParts];
                     }
                 }
             }
@@ -166,17 +167,17 @@ class TagsHelper extends CMSHelper
 
                 try {
                     $aliasesMapper = $db->loadAssocList('alias');
-                } catch (\RuntimeException $e) {
+                } catch (\RuntimeException) {
                     return false;
                 }
 
                 // Rebuild the items path
                 if ($aliasesMapper) {
                     foreach ($tags as $tag) {
-                        $namesPath = array();
+                        $namesPath = [];
 
                         if (!empty($tag->path)) {
-                            if ($pathParts = explode('/', $tag->path)) {
+                            if ($pathParts = explode('/', (string) $tag->path)) {
                                 foreach ($pathParts as $alias) {
                                     if (isset($aliasesMapper[$alias])) {
                                         $namesPath[] = $aliasesMapper[$alias]['title'];
@@ -212,17 +213,17 @@ class TagsHelper extends CMSHelper
         } else {
             // We will use the tags table to store them
             $tagTable  = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
-            $newTags   = array();
+            $newTags   = [];
             $canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
 
             foreach ($tags as $key => $tag) {
                 // User is not allowed to create tags, so don't create.
-                if (!$canCreate && strpos($tag, '#new#') !== false) {
+                if (!$canCreate && str_contains((string) $tag, '#new#')) {
                     continue;
                 }
 
                 // Remove the #new# prefix that identifies new tags
-                $tagText = str_replace('#new#', '', $tag);
+                $tagText = str_replace('#new#', '', (string) $tag);
 
                 if ($tagText === $tag) {
                     $newTags[] = (int) $tag;
@@ -231,7 +232,7 @@ class TagsHelper extends CMSHelper
                     $tagTable->reset();
 
                     // Try to load the selected tag
-                    if ($tagTable->load(array('title' => $tagText))) {
+                    if ($tagTable->load(['title' => $tagText])) {
                         $newTags[] = (int) $tagTable->id;
                     } else {
                         // Prepare tag data
@@ -281,12 +282,12 @@ class TagsHelper extends CMSHelper
      * @since   3.1
      * @throws  \InvalidArgumentException
      */
-    public function deleteTagData(TableInterface $table, $contentItemId)
+    public function deleteTagData(TableInterface $table, int|array $contentItemId)
     {
         $key = $table->getKeyName();
 
         if (!\is_array($contentItemId)) {
-            $contentItemId = array($key => $contentItemId);
+            $contentItemId = [$key => $contentItemId];
         }
 
         // If we have multiple items for the content item primary key we currently don't support this so
@@ -491,7 +492,7 @@ class TagsHelper extends CMSHelper
      * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
      * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
      *
-     * @return  \Joomla\Database\DatabaseQuery  Query to retrieve a list of tags
+     * @return DatabaseQuery Query to retrieve a list of tags
      *
      * @since   3.1
      */
@@ -523,7 +524,7 @@ class TagsHelper extends CMSHelper
         // If we want to include children we have to adjust the list of tags.
         // We do not search child tags when the match all option is selected.
         if ($includeChildren) {
-            $tagTreeArray = array();
+            $tagTreeArray = [];
 
             foreach ($tagIds as $tag) {
                 $this->getTagTreeArray($tag, $tagTreeArray);
@@ -678,7 +679,7 @@ class TagsHelper extends CMSHelper
      */
     public function getTagNames($tagIds)
     {
-        $tagNames = array();
+        $tagNames = [];
 
         if (\is_array($tagIds) && \count($tagIds) > 0) {
             $tagIds = ArrayHelper::toInteger($tagIds);
@@ -707,7 +708,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      */
-    public function getTagTreeArray($id, &$tagTreeArray = array())
+    public function getTagTreeArray($id, &$tagTreeArray = [])
     {
         // Get a level row instance.
         $table = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
@@ -765,20 +766,11 @@ class TagsHelper extends CMSHelper
 
         $db->setQuery($query);
 
-        switch ($arrayType) {
-            case 'assocList':
-                $types = $db->loadAssocList();
-                break;
-
-            case 'rowList':
-                $types = $db->loadRowList();
-                break;
-
-            case 'objectList':
-            default:
-                $types = $db->loadObjectList();
-                break;
-        }
+        $types = match ($arrayType) {
+            'assocList' => $db->loadAssocList(),
+            'rowList' => $db->loadRowList(),
+            default => $db->loadObjectList(),
+        };
 
         return $types;
     }
@@ -794,7 +786,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      */
-    public function postStoreProcess(TableInterface $table, $newTags = array(), $replace = true)
+    public function postStoreProcess(TableInterface $table, $newTags = [], $replace = true)
     {
         if (!empty($table->newTags) && empty($newTags)) {
             $newTags = $table->newTags;
@@ -845,9 +837,9 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      */
-    public function preStoreProcess(TableInterface $table, $newTags = array())
+    public function preStoreProcess(TableInterface $table, $newTags = [])
     {
-        if ($newTags != array()) {
+        if ($newTags != []) {
             $this->newTags = $newTags;
         }
 
@@ -881,7 +873,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      */
-    public static function searchTags($filters = array())
+    public static function searchTags($filters = [])
     {
         $db = Factory::getDbo();
         $query = $db->getQuery(true)
@@ -970,8 +962,8 @@ class TagsHelper extends CMSHelper
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            return array();
+        } catch (\RuntimeException) {
+            return [];
         }
 
         // We will replace path aliases with tag names
@@ -1014,7 +1006,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      */
-    public function tagItem($ucmId, TableInterface $table, $tags = array(), $replace = true)
+    public function tagItem($ucmId, TableInterface $table, $tags = [], $replace = true)
     {
         $key = $table->get('_tbl_key');
         $oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
@@ -1024,7 +1016,7 @@ class TagsHelper extends CMSHelper
         if ($replace) {
             $newTags = $tags;
         } else {
-            if ($tags == array()) {
+            if ($tags == []) {
                 $newTags = $table->newTags;
             } else {
                 $newTags = $tags;
@@ -1053,7 +1045,7 @@ class TagsHelper extends CMSHelper
      *
      * @since   3.1
      */
-    public function unTagItem($contentId, TableInterface $table, $tags = array())
+    public function unTagItem($contentId, TableInterface $table, $tags = [])
     {
         $key = $table->getKeyName();
         $id = (int) $table->$key;

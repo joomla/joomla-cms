@@ -78,17 +78,15 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * Display a view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 *
-	 * @throws  GenericDataException
-	 */
-	public function display($tpl = null): void
+  * Display a view.
+  *
+  * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+  *
+  *
+  * @since   1.6
+  * @throws  GenericDataException
+  */
+ public function display($tpl = null): void
 	{
 		/** @var CacheModel $model */
 		$model               = $this->getModel();
@@ -100,7 +98,7 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
-		if (\count($errors = $this->get('Errors')))
+		if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0)
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -116,13 +114,12 @@ class HtmlView extends BaseHtmlView
 	}
 
 	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar(): void
+  * Add the page title and toolbar.
+  *
+  *
+  * @since   1.6
+  */
+ protected function addToolbar(): void
 	{
 		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'bolt clear');
 

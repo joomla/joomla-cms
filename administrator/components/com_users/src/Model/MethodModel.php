@@ -42,7 +42,6 @@ class MethodModel extends BaseDatabaseModel
      *
      * @param   string  $method  The Method to retrieve.
      *
-     * @return  array
      * @since 4.2.0
      */
     public function getMethod(string $method): array
@@ -66,7 +65,6 @@ class MethodModel extends BaseDatabaseModel
      *
      * @param   string  $method  The Method to check.
      *
-     * @return  boolean
      * @since 4.2.0
      */
     public function methodExists(string $method): bool
@@ -120,9 +118,7 @@ class MethodModel extends BaseDatabaseModel
      *
      * @param   User|null  $user  The user record. Null to use the currently logged in user.
      *
-     * @return  MfaTable
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     public function getRecord(User $user = null): MfaTable
@@ -162,7 +158,6 @@ class MethodModel extends BaseDatabaseModel
     /**
      * Return the title to use for the page
      *
-     * @return  string
      *
      * @since 4.2.0
      */
@@ -186,9 +181,7 @@ class MethodModel extends BaseDatabaseModel
     /**
      * @param   User|null  $user  The user record. Null to use the current user.
      *
-     * @return  MfaTable
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     protected function getDefaultRecord(?User $user = null): MfaTable
@@ -229,7 +222,6 @@ class MethodModel extends BaseDatabaseModel
     /**
      * Populate the list of MFA Methods
      *
-     * @return void
      * @since 4.2.0
      */
     private function populateMfaMethods(): void

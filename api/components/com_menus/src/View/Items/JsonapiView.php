@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Api\View\Items;
 
+use Joomla\Component\Menus\Administrator\Model\MenutypesModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
@@ -118,7 +119,7 @@ class JsonapiView extends BaseApiView
      */
     public function displayListTypes()
     {
-        /** @var \Joomla\Component\Menus\Administrator\Model\MenutypesModel $model */
+        /** @var MenutypesModel $model */
         $model = $this->getModel();
         $items = [];
 
@@ -134,7 +135,7 @@ class JsonapiView extends BaseApiView
                 $groupItems[] = $item;
             }
 
-            $items = array_merge($items, $groupItems);
+            $items = [...$items, ...$groupItems];
         }
 
         // Set up links for pagination
@@ -197,7 +198,7 @@ class JsonapiView extends BaseApiView
     protected function prepareItem($item)
     {
         if (\is_string($item->params)) {
-            $item->params = json_decode($item->params);
+            $item->params = json_decode($item->params, null, 512, JSON_THROW_ON_ERROR);
         }
 
         return parent::prepareItem($item);

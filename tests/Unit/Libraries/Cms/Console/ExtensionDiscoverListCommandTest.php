@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console;
 
+use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Console\ExtensionDiscoverListCommand;
 use Joomla\Database\DatabaseInterface;
 
@@ -18,7 +19,7 @@ use Joomla\Database\DatabaseInterface;
  *
  * @since   4.0.0
  */
-class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
+class ExtensionDiscoverListCommandTest extends TestCase
 {
     /**
      * Tests the constructor
@@ -46,17 +47,17 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
 
         $state = -1;
 
-        $extensions0 = array();
-        $extensions0[0] = array('state' => 0);
-        $extensions0[1] = array('state' => 0);
+        $extensions0 = [];
+        $extensions0[0] = ['state' => 0];
+        $extensions0[1] = ['state' => 0];
 
-        $extensions1 = array();
-        $extensions1[0] = array('state' => 0);
-        $extensions1[1] = array('state' => -1);
+        $extensions1 = [];
+        $extensions1[0] = ['state' => 0];
+        $extensions1[1] = ['state' => -1];
 
-        $extensions2 = array();
-        $extensions2[0] = array('state' => -1);
-        $extensions2[1] = array('state' => -1);
+        $extensions2 = [];
+        $extensions2[0] = ['state' => -1];
+        $extensions2[1] = ['state' => -1];
 
         $filteredextensionsArray0 = $command->filterExtensionsBasedOnState($extensions0, $state);
         $filteredextensionsArray1 = $command->filterExtensionsBasedOnState($extensions1, $state);
@@ -78,7 +79,6 @@ class ExtensionDiscoverListCommandTest extends \PHPUnit\Framework\TestCase
     /**
      * Helper function to create a ExtensionDiscoverCommand
      *
-     * @return  ExtensionDiscoverListCommand
      *
      * @since   4.0.0
      */

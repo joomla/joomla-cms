@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Console;
 
+use Joomla\Database\DatabaseInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
@@ -44,10 +45,9 @@ class SetConfigurationCommand extends AbstractCommand
 
     /**
      * SymfonyStyle Object
-     * @var SymfonyStyle
      * @since 4.0.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Options Array
@@ -61,31 +61,31 @@ class SetConfigurationCommand extends AbstractCommand
      * Return code if configuration is set successfully
      * @since 4.0.0
      */
-    public const CONFIG_SET_SUCCESSFUL = 0;
+    final public const CONFIG_SET_SUCCESSFUL = 0;
 
     /**
      * Return code if configuration set failed
      * @since 4.0.0
      */
-    public const CONFIG_SET_FAILED = 1;
+    final public const CONFIG_SET_FAILED = 1;
 
     /**
      * Return code if config validation failed
      * @since 4.0.0
      */
-    public const CONFIG_VALIDATION_FAILED = 2;
+    final public const CONFIG_VALIDATION_FAILED = 2;
 
     /**
      * Return code if options are wrong
      * @since 4.0.0
      */
-    public const CONFIG_OPTIONS_WRONG = 3;
+    final public const CONFIG_OPTIONS_WRONG = 3;
 
     /**
      * Return code if database validation failed
      * @since 4.0.0
      */
-    public const DB_VALIDATION_FAILED = 4;
+    final public const DB_VALIDATION_FAILED = 4;
 
     /**
      * Configures the IO
@@ -114,7 +114,6 @@ class SetConfigurationCommand extends AbstractCommand
      *
      * @param   array  $options  Options input by users
      *
-     * @return boolean
      *
      * @since 4.0.0
      */
@@ -123,13 +122,13 @@ class SetConfigurationCommand extends AbstractCommand
         $collected = [];
 
         foreach ($options as $option) {
-            if (strpos($option, '=') === false) {
+            if (!str_contains((string) $option, '=')) {
                 $this->ioStyle->error('Options and values should be separated by "="');
 
                 return false;
             }
 
-            list($option, $value) = explode('=', $option);
+            [$option, $value] = explode('=', (string) $option);
 
             $collected[$option] = $value;
         }
@@ -142,7 +141,6 @@ class SetConfigurationCommand extends AbstractCommand
     /**
      * Validates the options provided
      *
-     * @return boolean
      *
      * @since 4.0.0
      */
@@ -195,7 +193,6 @@ class SetConfigurationCommand extends AbstractCommand
     /**
      * Returns Default configuration Object
      *
-     * @return Registry
      *
      * @since 4.0.0
      */
@@ -210,7 +207,6 @@ class SetConfigurationCommand extends AbstractCommand
      *
      * @param   array  $options  Options array
      *
-     * @return boolean
      *
      * @since 4.0.0
      */
@@ -233,7 +229,6 @@ class SetConfigurationCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return void
      *
      * @since 4.0.0
      */
@@ -257,7 +252,7 @@ class SetConfigurationCommand extends AbstractCommand
      *
      * @param   array  $options  Options array
      *
-     * @return boolean|\Joomla\Database\DatabaseInterface
+     * @return boolean|DatabaseInterface
      *
      * @since 4.0.0
      * @throws \Exception
@@ -279,34 +274,34 @@ class SetConfigurationCommand extends AbstractCommand
         }
 
         // Validate database table prefix.
-        if (isset($options['dbprefix']) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options['dbprefix'])) {
+        if (isset($options['dbprefix']) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', (string) $options['dbprefix'])) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_PREFIX_MSG'));
 
             return false;
         }
 
         // Validate length of database table prefix.
-        if (isset($options['dbprefix']) && strlen($options['dbprefix']) > 15) {
-            $this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+        if (isset($options['dbprefix']) && strlen((string) $options['dbprefix']) > 15) {
+            $this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_TOO_LONG'));
 
             return false;
         }
 
         // Validate length of database name.
-        if (strlen($options['db']) > 64) {
+        if (strlen((string) $options['db']) > 64) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_TOO_LONG'));
 
             return false;
         }
 
         // Validate database name.
-        if (in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db'])) {
+        if (in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', (string) $options['db'])) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES'));
 
             return false;
         }
 
-        if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options['db'])) {
+        if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', (string) $options['db'])) {
             $this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'));
 
             return false;
@@ -314,7 +309,7 @@ class SetConfigurationCommand extends AbstractCommand
 
         // Workaround for UPPERCASE table prefix for PostgreSQL
         if (in_array($options['dbtype'], ['pgsql', 'postgresql'])) {
-            if (isset($options['dbprefix']) && strtolower($options['dbprefix']) !== $options['dbprefix']) {
+            if (isset($options['dbprefix']) && strtolower((string) $options['dbprefix']) !== $options['dbprefix']) {
                 $this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_LOWERCASE'));
 
                 return false;
@@ -349,7 +344,7 @@ class SetConfigurationCommand extends AbstractCommand
             ];
 
             foreach (['cipher', 'ca', 'key', 'cert'] as $value) {
-                $confVal = trim($options['dbssl' . $value]);
+                $confVal = trim((string) $options['dbssl' . $value]);
 
                 if ($confVal !== '') {
                     $settings['ssl'][$value] = $confVal;
@@ -432,7 +427,6 @@ class SetConfigurationCommand extends AbstractCommand
      *
      * @param   array  $options  Options array
      *
-     * @return array
      *
      * @since 4.0.0
      */

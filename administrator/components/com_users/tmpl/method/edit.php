@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 $cancelURL = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
 if (!empty($this->returnURL)) {
-    $cancelURL = $this->escape(base64_decode($this->returnURL));
+    $cancelURL = $this->escape(base64_decode((string) $this->returnURL));
 }
 
 $recordId     = (int)$this->record->id ?? 0;
@@ -145,7 +145,7 @@ $hideSubmit   = !$this->renderOptions['show_submit'] && !$this->isEditExisting
                     $this->renderOptions['input_attributes']
                 );
 
-                if (strpos($attributes['class'], 'form-control') === false) {
+                if (!str_contains((string) $attributes['class'], 'form-control')) {
                     $attributes['class'] .= ' form-control';
                 }
                 ?>

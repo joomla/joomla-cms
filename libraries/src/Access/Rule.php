@@ -14,7 +14,7 @@ namespace Joomla\CMS\Access;
  *
  * @since  2.5.0
  */
-class Rule
+class Rule implements \Stringable
 {
     /**
      * A named array
@@ -22,7 +22,7 @@ class Rule
      * @var    array
      * @since  1.7.0
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Constructor.
@@ -38,7 +38,7 @@ class Rule
     {
         // Convert string input to an array.
         if (\is_string($identities)) {
-            $identities = json_decode($identities, true);
+            $identities = json_decode($identities ?: '{}', true, 512, JSON_THROW_ON_ERROR);
         }
 
         $this->mergeIdentities($identities);
@@ -124,7 +124,7 @@ class Rule
         // Check that the inputs are valid.
         if (!empty($identities)) {
             if (!\is_array($identities)) {
-                $identities = array($identities);
+                $identities = [$identities];
             }
 
             foreach ($identities as $identity) {
@@ -153,8 +153,8 @@ class Rule
      *
      * @since   1.7.0
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return json_encode($this->data);
+        return (string) json_encode($this->data, JSON_THROW_ON_ERROR);
     }
 }

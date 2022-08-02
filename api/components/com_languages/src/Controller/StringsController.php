@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Languages\Api\Controller;
 
+use Joomla\Component\Languages\Api\View\Strings\JsonapiView;
+use Joomla\Component\Languages\Administrator\Model\StringsModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
@@ -48,7 +50,7 @@ class StringsController extends ApiController
      */
     public function search()
     {
-        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data = $this->input->get('data', json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR), 'array');
 
         if (!isset($data['searchstring']) || !\is_string($data['searchstring'])) {
             throw new InvalidParameterException("Invalid param 'searchstring'");
@@ -68,7 +70,7 @@ class StringsController extends ApiController
         $viewLayout = $this->input->get('layout', 'default', 'string');
 
         try {
-            /** @var \Joomla\Component\Languages\Api\View\Strings\JsonapiView $view */
+            /** @var JsonapiView $view */
             $view = $this->getView(
                 $viewName,
                 $viewType,
@@ -79,7 +81,7 @@ class StringsController extends ApiController
             throw new \RuntimeException($e->getMessage());
         }
 
-        /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
+        /** @var StringsModel $model */
         $model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
         if (!$model) {
@@ -105,7 +107,7 @@ class StringsController extends ApiController
      */
     public function refresh()
     {
-        /** @var \Joomla\Component\Languages\Administrator\Model\StringsModel $model */
+        /** @var StringsModel $model */
         $model = $this->getModel($this->contentType, '', ['ignore_request' => true]);
 
         if (!$model) {

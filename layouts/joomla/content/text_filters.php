@@ -32,7 +32,7 @@ use Joomla\CMS\Language\Text;
         <summary class="filter-notes"><?php echo Text::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL'); ?></summary>
         <div class="filter-notes"><?php echo Text::_('JGLOBAL_FILTER_ATTRIBUTES_DESC'); ?></div>
     </details>
-    <?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
+    <?php $fieldsnames = explode(',', (string) $displayData->fieldsname); ?>
     <?php foreach ($fieldsnames as $fieldname) : ?>
         <?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
             <div class="table-responsive"><?php echo $field->input; ?></div>

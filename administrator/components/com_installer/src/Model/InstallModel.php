@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
@@ -30,7 +31,7 @@ use Joomla\CMS\Uri\Uri;
 class InstallModel extends BaseDatabaseModel
 {
     /**
-     * @var \Joomla\CMS\Table\Table Table object
+     * @var Table Table object
      */
     protected $_table = null;
 
@@ -87,7 +88,7 @@ class InstallModel extends BaseDatabaseModel
 
         // This event allows an input pre-treatment, a custom pre-packing or custom installation.
         // (e.g. from a \JSON description).
-        $results = $app->triggerEvent('onInstallerBeforeInstallation', array($this, &$package));
+        $results = $app->triggerEvent('onInstallerBeforeInstallation', [$this, &$package]);
 
         if (in_array(true, $results, true)) {
             return true;
@@ -124,14 +125,14 @@ class InstallModel extends BaseDatabaseModel
         }
 
         // This event allows a custom installation of the package or a customization of the package:
-        $results = $app->triggerEvent('onInstallerBeforeInstaller', array($this, &$package));
+        $results = $app->triggerEvent('onInstallerBeforeInstaller', [$this, &$package]);
 
         if (in_array(true, $results, true)) {
             return true;
         }
 
         if (in_array(false, $results, true)) {
-            if (in_array($installType, array('upload', 'url'))) {
+            if (in_array($installType, ['upload', 'url'])) {
                 InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
             }
 
@@ -162,7 +163,7 @@ class InstallModel extends BaseDatabaseModel
                 // If a manifest isn't found at the source, this may be a Joomla package; check the package directory for the Joomla manifest
                 if (file_exists($package['dir'] . '/administrator/manifests/files/joomla.xml')) {
                     // We have a Joomla package
-                    if (in_array($installType, array('upload', 'url'))) {
+                    if (in_array($installType, ['upload', 'url'])) {
                         InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
                     }
 
@@ -178,7 +179,7 @@ class InstallModel extends BaseDatabaseModel
 
         // Was the package unpacked?
         if (empty($package['type'])) {
-            if (in_array($installType, array('upload', 'url'))) {
+            if (in_array($installType, ['upload', 'url'])) {
                 InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
             }
 
@@ -190,7 +191,7 @@ class InstallModel extends BaseDatabaseModel
         // Install the package.
         if (!$installer->install($package['dir'])) {
             // There was an error installing the package.
-            $msg = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+            $msg = Text::sprintf('COM_INSTALLER_INSTALL_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper((string) $package['type'])));
             $result = false;
             $msgType = 'error';
         } else {
@@ -201,7 +202,7 @@ class InstallModel extends BaseDatabaseModel
         }
 
         // This event allows a custom a post-flight:
-        $app->triggerEvent('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
+        $app->triggerEvent('onInstallerAfterInstaller', [$this, &$package, $installer, &$result, &$msg]);
 
         // Set some model state values.
         $app->enqueueMessage($msg, $msgType);
@@ -311,6 +312,7 @@ class InstallModel extends BaseDatabaseModel
      */
     protected function _getPackageFromFolder()
     {
+        $package = [];
         $input = Factory::getApplication()->input;
 
         // Get the path to the package to install.
@@ -347,7 +349,7 @@ class InstallModel extends BaseDatabaseModel
      *
      * @since   1.5
      */
-    protected function _getPackageFromUrl()
+    protected function _getPackageFromUrl(): bool|array
     {
         $input = Factory::getApplication()->input;
 
@@ -374,7 +376,7 @@ class InstallModel extends BaseDatabaseModel
         if (preg_match('/\.xml\s*$/', $url)) {
             $update = new Update();
             $update->loadFromXml($url);
-            $package_url = trim($update->get('downloadurl', false)->_data);
+            $package_url = trim((string) $update->get('downloadurl', false)->_data);
 
             if ($package_url) {
                 $url = $package_url;

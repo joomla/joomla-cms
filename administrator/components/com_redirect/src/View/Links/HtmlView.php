@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Redirect\Administrator\View\Links;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Registry\Registry;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -59,28 +63,28 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
     /**
      * The model state
      *
-     * @var  \Joomla\Registry\Registry
+     * @var Registry
      */
     protected $params;
 
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -122,12 +126,12 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters        = $this->get('ActiveFilters');
         $this->params               = ComponentHelper::getParams('com_redirect');
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!(is_countable($this->items) ? \count($this->items) : 0) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

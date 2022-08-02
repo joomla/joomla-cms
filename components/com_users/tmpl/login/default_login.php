@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Users\Site\View\Login\HtmlView;
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -16,8 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $cookieLogin */
-
+/** @var HtmlView $cookieLogin */
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
@@ -33,7 +33,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
     </div>
     <?php endif; ?>
 
-    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
+    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', (string) $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
     <div class="com-users-login__description login-description">
     <?php endif; ?>
 
@@ -45,7 +45,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
             <?php echo HTMLHelper::_('image', $this->params->get('login_image'), empty($this->params->get('login_image_alt')) && empty($this->params->get('login_image_alt_empty')) ? false : $this->params->get('login_image_alt'), ['class' => 'com-users-login__image login-image']); ?>
         <?php endif; ?>
 
-    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
+    <?php if (($this->params->get('logindescription_show') == 1 && str_replace(' ', '', (string) $this->params->get('login_description')) != '') || $this->params->get('login_image') != '') : ?>
     </div>
     <?php endif; ?>
 
@@ -66,9 +66,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
             <?php endif; ?>
 
             <?php foreach ($this->extraButtons as $button) :
-                $dataAttributeKeys = array_filter(array_keys($button), function ($key) {
-                    return substr($key, 0, 5) == 'data-';
-                });
+                $dataAttributeKeys = array_filter(array_keys($button), fn($key) => substr((string) $key, 0, 5) == 'data-');
                 ?>
                 <div class="com-users-login__submit control-group">
                     <div class="controls">
@@ -107,7 +105,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
             </div>
 
             <?php $return = $this->form->getValue('return', '', $this->params->get('login_redirect_url', $this->params->get('login_redirect_menuitem', ''))); ?>
-            <input type="hidden" name="return" value="<?php echo base64_encode($return); ?>">
+            <input type="hidden" name="return" value="<?php echo base64_encode((string) $return); ?>">
             <?php echo HTMLHelper::_('form.token'); ?>
         </fieldset>
     </form>

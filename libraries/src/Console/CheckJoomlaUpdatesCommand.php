@@ -42,7 +42,6 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -93,7 +92,6 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
      *
      * @param   null  $info  stores update Information
      *
-     * @return void
      *
      * @since 4.0.0
      */

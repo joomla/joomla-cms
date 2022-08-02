@@ -47,11 +47,11 @@ abstract class Menu
          * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
+        $app->triggerEvent('onPreprocessMenuItems', ['administrator.module.mod_submenu', $children]);
 
         foreach ($children as $item) {
-            if (substr($item->link, 0, 8) === 'special:') {
-                $special = substr($item->link, 8);
+            if (str_starts_with((string) $item->link, 'special:')) {
+                $special = substr((string) $item->link, 8);
 
                 if ($special === 'language-forum') {
                     $item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
@@ -89,7 +89,7 @@ abstract class Menu
 
             // Exclude item with menu item option set to exclude from menu modules
             if ($itemParams->get('menu-permission')) {
-                @list($action, $asset) = explode(';', $itemParams->get('menu-permission'));
+                @[$action, $asset] = explode(';', (string) $itemParams->get('menu-permission'));
 
                 if (!$user->authorise($action, $asset)) {
                     $parent->removeChild($item);
@@ -99,7 +99,7 @@ abstract class Menu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $exclude    = (array) $itemParams->get('hideitems') ?: [];
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -130,13 +130,13 @@ abstract class Menu
             }
 
             if ($item->element === 'com_fields') {
-                parse_str($item->link, $query);
+                parse_str((string) $item->link, $query);
 
                 // Only display Fields menus when enabled in the component
                 $createFields = null;
 
                 if (isset($query['context'])) {
-                    $createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+                    $createFields = ComponentHelper::getParams(strstr((string) $query['context'], '.', true))->get('custom_fields_enable', 1);
                 }
 
                 if (!$createFields || !$user->authorise('core.manage', 'com_users')) {
@@ -144,13 +144,13 @@ abstract class Menu
                     continue;
                 }
             } elseif ($item->element === 'com_workflow') {
-                parse_str($item->link, $query);
+                parse_str((string) $item->link, $query);
 
                 // Only display Workflow menus when enabled in the component
                 $workflow = null;
 
                 if (isset($query['extension'])) {
-                    $parts = explode('.', $query['extension']);
+                    $parts = explode('.', (string) $query['extension']);
 
                     $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
                 }
@@ -160,8 +160,8 @@ abstract class Menu
                     continue;
                 }
 
-                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                [$assetName] = isset($query['extension']) ? explode('.', (string) $query['extension'], 2) : ['com_workflow'];
+            } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
@@ -174,7 +174,7 @@ abstract class Menu
             ) {
                 continue;
             } elseif ($item->element === 'com_admin') {
-                parse_str($item->link, $query);
+                parse_str((string) $item->link, $query);
 
                 if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin')) {
                     $parent->removeChild($item);
@@ -188,11 +188,11 @@ abstract class Menu
                 $iconImage = $item->icon;
 
                 if ($iconImage) {
-                    if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home') {
+                    if (str_starts_with((string) $iconImage, 'class:') && substr((string) $iconImage, 6) === 'icon-home') {
                         $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
                         $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
-                    } elseif (substr($iconImage, 0, 6) === 'image:') {
-                        $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
+                    } elseif (str_starts_with((string) $iconImage, 'image:')) {
+                        $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr((string) $iconImage, 6) . '</span>';
                     }
 
                     $item->iconImage = $iconImage;

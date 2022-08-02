@@ -30,7 +30,7 @@ class QuickIconHelper
      * @var     array[]
      * @since   1.6
      */
-    protected $buttons = array();
+    protected $buttons = [];
 
     /**
      * Helper method to return button list.
@@ -66,7 +66,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_users&view=users'),
                     'linkadd' => Route::_('index.php?option=com_users&task=user.add'),
                     'name'    => 'MOD_QUICKICON_USER_MANAGER',
-                    'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
+                    'access'  => ['core.manage', 'com_users', 'core.create', 'com_users'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
@@ -83,7 +83,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_menus&view=items&menutype='),
                     'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
                     'name'    => 'MOD_QUICKICON_MENUITEMS_MANAGER',
-                    'access'  => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
+                    'access'  => ['core.manage', 'com_menus', 'core.create', 'com_menus'],
                     'group'   => 'MOD_QUICKICON_STRUCTURE',
                 ];
 
@@ -100,7 +100,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_content&view=articles'),
                     'linkadd' => Route::_('index.php?option=com_content&task=article.add'),
                     'name'    => 'MOD_QUICKICON_ARTICLE_MANAGER',
-                    'access'  => array('core.manage', 'com_content', 'core.create', 'com_content'),
+                    'access'  => ['core.manage', 'com_content', 'core.create', 'com_content'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
@@ -117,7 +117,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_tags&view=tags'),
                     'linkadd' => Route::_('index.php?option=com_tags&task=tag.edit'),
                     'name'    => 'MOD_QUICKICON_TAGS_MANAGER',
-                    'access'  => array('core.manage', 'com_tags', 'core.create', 'com_tags'),
+                    'access'  => ['core.manage', 'com_tags', 'core.create', 'com_tags'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
@@ -134,7 +134,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
                     'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
                     'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
-                    'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+                    'access'  => ['core.manage', 'com_categories', 'core.create', 'com_categories'],
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
@@ -150,7 +150,7 @@ class QuickIconHelper
                     'image'  => 'icon-images',
                     'link'   => Route::_('index.php?option=com_media'),
                     'name'   => 'MOD_QUICKICON_MEDIA_MANAGER',
-                    'access' => array('core.manage', 'com_media'),
+                    'access' => ['core.manage', 'com_media'],
                     'group'  => 'MOD_QUICKICON_SITE',
                 ];
             }
@@ -161,7 +161,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_modules&view=modules&client_id=0'),
                     'linkadd' => Route::_('index.php?option=com_modules&view=select&client_id=0'),
                     'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
-                    'access'  => array('core.manage', 'com_modules'),
+                    'access'  => ['core.manage', 'com_modules'],
                     'group'   => 'MOD_QUICKICON_SITE'
                 ];
 
@@ -177,7 +177,7 @@ class QuickIconHelper
                     'image'  => 'icon-plug',
                     'link'   => Route::_('index.php?option=com_plugins'),
                     'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
-                    'access' => array('core.manage', 'com_plugins'),
+                    'access' => ['core.manage', 'com_plugins'],
                     'group'  => 'MOD_QUICKICON_SITE'
                 ];
 
@@ -193,7 +193,7 @@ class QuickIconHelper
                     'image'  => 'icon-paint-brush',
                     'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
                     'name'   => 'MOD_QUICKICON_TEMPLATE_STYLES',
-                    'access' => array('core.admin', 'com_templates'),
+                    'access' => ['core.admin', 'com_templates'],
                     'group'  => 'MOD_QUICKICON_SITE'
                 ];
             }
@@ -203,7 +203,7 @@ class QuickIconHelper
                     'image'  => 'icon-code',
                     'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
                     'name'   => 'MOD_QUICKICON_TEMPLATE_CODE',
-                    'access' => array('core.admin', 'com_templates'),
+                    'access' => ['core.admin', 'com_templates'],
                     'group'  => 'MOD_QUICKICON_SITE'
                 ];
             }
@@ -213,7 +213,7 @@ class QuickIconHelper
                     'image'   => 'icon-unlock-alt',
                     'link'    => Route::_('index.php?option=com_checkin'),
                     'name'    => 'MOD_QUICKICON_CHECKINS',
-                    'access'  => array('core.admin', 'com_checkin'),
+                    'access'  => ['core.admin', 'com_checkin'],
                     'group'   => 'MOD_QUICKICON_SYSTEM'
                 ];
 
@@ -229,7 +229,7 @@ class QuickIconHelper
                     'image'   => 'icon-cloud',
                     'link'    => Route::_('index.php?option=com_cache'),
                     'name'    => 'MOD_QUICKICON_CACHE',
-                    'access'  => array('core.admin', 'com_cache'),
+                    'access'  => ['core.admin', 'com_cache'],
                     'group'   => 'MOD_QUICKICON_SYSTEM'
                 ];
 
@@ -245,7 +245,7 @@ class QuickIconHelper
                     'image'  => 'icon-cog',
                     'link'   => Route::_('index.php?option=com_config'),
                     'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
-                    'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+                    'access' => ['core.manage', 'com_config', 'core.admin', 'com_config'],
                     'group'  => 'MOD_QUICKICON_SYSTEM',
                 ];
             }
@@ -263,16 +263,7 @@ class QuickIconHelper
                 }
 
                 foreach ($response as $icon) {
-                    $default = array(
-                        'link'    => null,
-                        'image'   => null,
-                        'text'    => null,
-                        'name'    => null,
-                        'linkadd' => null,
-                        'access'  => true,
-                        'class'   => null,
-                        'group'   => 'MOD_QUICKICON',
-                    );
+                    $default = ['link'    => null, 'image'   => null, 'text'    => null, 'name'    => null, 'linkadd' => null, 'access'  => true, 'class'   => null, 'group'   => 'MOD_QUICKICON'];
 
                     $icon = array_merge($default, $icon);
 

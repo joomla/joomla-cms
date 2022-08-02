@@ -38,7 +38,7 @@ $icon = $this->params->get('contact_icons') == 0;
         <?php if ($this->item->address && $this->params->get('show_street_address')) : ?>
             <dd>
                 <span class="contact-street" itemprop="streetAddress">
-                    <?php echo nl2br($this->item->address, false); ?>
+                    <?php echo nl2br((string) $this->item->address, false); ?>
                 </span>
             </dd>
         <?php endif; ?>

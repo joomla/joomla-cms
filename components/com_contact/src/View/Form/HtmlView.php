@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\View\Form;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -25,7 +27,7 @@ use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      * @since  4.0.0
      */
     protected $form;
@@ -49,13 +51,13 @@ class HtmlView extends BaseHtmlView
     protected $pageclass_sfx;
 
     /**
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.0.0
      */
     protected $state;
 
     /**
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  4.0.0
      */
     protected $params;
@@ -103,7 +105,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             $app->enqueueMessage(implode("\n", $errors), 'error');
 
             return false;
@@ -113,7 +115,7 @@ class HtmlView extends BaseHtmlView
         $this->params = $this->state->params;
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->params->get('pageclass_sfx', ''));
 
         // Override global params with contact specific params
         $this->params->merge($this->item->params);

@@ -1,4 +1,5 @@
 <?php
+use Joomla\Component\Privacy\Administrator\Export\Domain;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Privacy.actionlogs
@@ -23,20 +24,20 @@ use Joomla\Database\ParameterType;
 class PlgPrivacyActionlogs extends PrivacyPlugin
 {
 	/**
-	 * Processes an export request for Joomla core actionlog data
-	 *
-	 * @param   RequestTable  $request  The request record being processed
-	 * @param   User          $user     The user account associated with this request if available
-	 *
-	 * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
-	 *
-	 * @since   3.9.0
-	 */
-	public function onPrivacyExportRequest(RequestTable $request, User $user = null)
+  * Processes an export request for Joomla core actionlog data
+  *
+  * @param   RequestTable  $request  The request record being processed
+  * @param   User          $user     The user account associated with this request if available
+  *
+  * @return Domain[]
+  *
+  * @since   3.9.0
+  */
+ public function onPrivacyExportRequest(RequestTable $request, User $user = null)
 	{
 		if (!$user)
 		{
-			return array();
+			return [];
 		}
 
 		$domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
@@ -54,9 +55,9 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 
 		$data = $db->loadObjectList();
 
-		if (!count($data))
+		if (!(is_countable($data) ? count($data) : 0))
 		{
-			return array();
+			return [];
 		}
 
 		$data    = ActionlogsHelper::getCsvData($data);
@@ -74,6 +75,6 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			$domain->addItem($this->createItemFromArray($item));
 		}
 
-		return array($domain);
+		return [$domain];
 	}
 }

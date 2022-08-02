@@ -23,22 +23,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 class WebAssetItem implements WebAssetItemInterface
 {
     /**
-     * Asset name
-     *
-     * @var    string  $name
-     * @since  4.0.0
-     */
-    protected $name = '';
-
-    /**
-     * The URI for the asset
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    protected $uri = '';
-
-    /**
      * Additional options for the asset
      *
      * @var    array
@@ -82,15 +66,12 @@ class WebAssetItem implements WebAssetItemInterface
      * @since   4.0.0
      */
     public function __construct(
-        string $name,
-        string $uri = null,
+        protected string $name,
+        protected string $uri = null,
         array $options = [],
         array $attributes = [],
         array $dependencies = []
     ) {
-        $this->name    = $name;
-        $this->uri     = $uri;
-
         if (array_key_exists('version', $options)) {
             $this->version = $options['version'];
             unset($options['version']);
@@ -319,7 +300,7 @@ class WebAssetItem implements WebAssetItemInterface
      */
     protected function isPathExternal(string $path): bool
     {
-        return strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0 || strpos($path, '//') === 0;
+        return str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '//');
     }
 
     /**

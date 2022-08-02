@@ -38,7 +38,7 @@ abstract class PunycodeHelper
     {
         try {
             $converted = (new ToIdn())->convert($utfString);
-        } catch (AlreadyPunycodeException $e) {
+        } catch (AlreadyPunycodeException) {
             $converted = $utfString;
         }
 
@@ -78,7 +78,7 @@ abstract class PunycodeHelper
         }
 
         $host = $parsed['host'];
-        $hostExploded = explode('.', $host);
+        $hostExploded = explode('.', (string) $host);
         $newhost = '';
 
         foreach ($hostExploded as $hostex) {
@@ -140,7 +140,7 @@ abstract class PunycodeHelper
         }
 
         $host = $parsed['host'];
-        $hostExploded = explode('.', $host);
+        $hostExploded = explode('.', (string) $host);
         $newhost = '';
 
         foreach ($hostExploded as $hostex) {

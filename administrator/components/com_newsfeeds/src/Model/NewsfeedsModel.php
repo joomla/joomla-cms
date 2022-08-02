@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -34,30 +35,10 @@ class NewsfeedsModel extends ListModel
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'alias', 'a.alias',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'catid', 'a.catid', 'category_id', 'category_title',
-                'published', 'a.published',
-                'access', 'a.access', 'access_level',
-                'created', 'a.created',
-                'created_by', 'a.created_by',
-                'ordering', 'a.ordering',
-                'language', 'a.language', 'language_title',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'cache_time', 'a.cache_time',
-                'numarticles',
-                'tag',
-                'level', 'c.level',
-                'tag',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'name', 'a.name', 'alias', 'a.alias', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'catid', 'a.catid', 'category_id', 'category_title', 'published', 'a.published', 'access', 'a.access', 'access_level', 'created', 'a.created', 'created_by', 'a.created_by', 'ordering', 'a.ordering', 'language', 'a.language', 'language_title', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'cache_time', 'a.cache_time', 'numarticles', 'tag', 'level', 'c.level', 'tag'];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -136,7 +117,7 @@ class NewsfeedsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      */
     protected function getListQuery()
     {
@@ -238,12 +219,12 @@ class NewsfeedsModel extends ListModel
 
         // Filter by search in title
         if ($search = $this->getState('filter.search')) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->where('(' . $db->quoteName('a.name') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
             }

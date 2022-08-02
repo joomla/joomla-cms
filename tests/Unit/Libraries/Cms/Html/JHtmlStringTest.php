@@ -25,7 +25,6 @@ class JHtmlStringTest extends UnitTestCase
     /**
      * Test cases for truncate.
      *
-     * @return  array
      *
      * @since   3.1
      */
@@ -50,7 +49,6 @@ class JHtmlStringTest extends UnitTestCase
     /**
      * Test cases for truncate.
      *
-     * @return  array
      *
      * @since   3.1
      */
@@ -237,7 +235,6 @@ class JHtmlStringTest extends UnitTestCase
     /**
      * Test cases for complex truncate.
      *
-     * @return  array
      *
      * @since   3.1
      */

@@ -47,12 +47,10 @@ class ModulesPositionField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'client':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'client' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

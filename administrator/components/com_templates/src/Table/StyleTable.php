@@ -141,7 +141,7 @@ class StyleTable extends Table
             $this->_db->setQuery($query);
             $results = $this->_db->loadColumn();
 
-            if (count($results) == 1 && $results[0] == $pk) {
+            if ((is_countable($results) ? count($results) : 0) == 1 && $results[0] == $pk) {
                 $this->setError(Text::_('COM_TEMPLATES_ERROR_CANNOT_DELETE_LAST_STYLE'));
 
                 return false;

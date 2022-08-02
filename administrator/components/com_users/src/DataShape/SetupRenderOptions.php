@@ -45,14 +45,14 @@ class SetupRenderOptions extends DataShapeObject
      *
      * @since  4.2.0
      */
-    public const FIELD_INPUT = 'input';
+    final public const FIELD_INPUT = 'input';
 
     /**
      * Display a custom HTML document. Use the html property to set it up.
      *
      * @since  4.2.0
      */
-    public const FIELD_CUSTOM = 'custom';
+    final public const FIELD_CUSTOM = 'custom';
 
     /**
      * Default title if you are setting up this MFA Method for the first time

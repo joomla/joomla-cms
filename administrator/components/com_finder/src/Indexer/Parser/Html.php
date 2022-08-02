@@ -45,14 +45,8 @@ class Html extends Parser
 
         // Convert <style> and <noscript> tags to <script> tags
         // so we can remove them efficiently.
-        $search = array(
-            '<style', '</style',
-            '<noscript', '</noscript',
-        );
-        $replace = array(
-            '<script', '</script',
-            '<script', '</script',
-        );
+        $search = ['<style', '</style', '<noscript', '</noscript'];
+        $replace = ['<script', '</script', '<script', '</script'];
         $input = str_replace($search, $replace, $input);
 
         // Strip all script blocks.
@@ -62,7 +56,7 @@ class Html extends Parser
         $input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
 
         // Convert entities equivalent to spaces to actual spaces.
-        $input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
+        $input = str_replace(['&nbsp;', '&#160;'], ' ', $input);
 
         // Add a space before both the OPEN and CLOSE tags of BLOCK and LINE BREAKING elements,
         // e.g. 'all<h1><em>m</em>obile  List</h1>' will become 'all mobile  List'

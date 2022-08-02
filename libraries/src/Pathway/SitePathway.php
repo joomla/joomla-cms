@@ -29,7 +29,7 @@ class SitePathway extends Pathway
      */
     public function __construct(SiteApplication $app = null)
     {
-        $this->pathway = array();
+        $this->pathway = [];
 
         $app  = $app ?: Factory::getContainer()->get(SiteApplication::class);
         $menu = $app->getMenu();
@@ -56,7 +56,7 @@ class SitePathway extends Pathway
                             break;
 
                         case 'url':
-                            if ((strpos($link->link, 'index.php?') === 0) && (strpos($link->link, 'Itemid=') === false)) {
+                            if ((str_starts_with((string) $link->link, 'index.php?')) && (!str_contains((string) $link->link, 'Itemid='))) {
                                 // If this is an internal Joomla link, ensure the Itemid is set.
                                 $url = $link->link . '&Itemid=' . $link->id;
                             } else {

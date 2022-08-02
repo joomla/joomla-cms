@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Privacy\Administrator\Export\Domain;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Privacy.contact
@@ -32,17 +33,17 @@ class PlgPrivacyContact extends PrivacyPlugin
      * @param   RequestTable  $request  The request record being processed
      * @param   User          $user     The user account associated with this request if available
      *
-     * @return  \Joomla\Component\Privacy\Administrator\Export\Domain[]
+     * @return Domain[]
      *
      * @since   3.9.0
      */
     public function onPrivacyExportRequest(RequestTable $request, User $user = null)
     {
         if (!$user && !$request->email) {
-            return array();
+            return [];
         }
 
-        $domains   = array();
+        $domains   = [];
         $domain    = $this->createDomain('user_contact', 'joomla_user_contact_data');
         $domains[] = $domain;
 

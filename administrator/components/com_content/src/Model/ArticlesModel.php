@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -37,39 +39,10 @@ class ArticlesModel extends ListModel
      * @since   1.6
      * @see     \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'alias', 'a.alias',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'catid', 'a.catid', 'category_title',
-                'state', 'a.state',
-                'access', 'a.access', 'access_level',
-                'created', 'a.created',
-                'modified', 'a.modified',
-                'created_by', 'a.created_by',
-                'created_by_alias', 'a.created_by_alias',
-                'ordering', 'a.ordering',
-                'featured', 'a.featured',
-                'featured_up', 'fp.featured_up',
-                'featured_down', 'fp.featured_down',
-                'language', 'a.language',
-                'hits', 'a.hits',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'published', 'a.published',
-                'author_id',
-                'category_id',
-                'level',
-                'tag',
-                'rating_count', 'rating',
-                'stage', 'wa.stage_id',
-                'ws.title'
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'alias', 'a.alias', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'catid', 'a.catid', 'category_title', 'state', 'a.state', 'access', 'a.access', 'access_level', 'created', 'a.created', 'modified', 'a.modified', 'created_by', 'a.created_by', 'created_by_alias', 'a.created_by_alias', 'ordering', 'a.ordering', 'featured', 'a.featured', 'featured_up', 'fp.featured_up', 'featured_down', 'fp.featured_down', 'language', 'a.language', 'hits', 'a.hits', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'published', 'a.published', 'author_id', 'category_id', 'level', 'tag', 'rating_count', 'rating', 'stage', 'wa.stage_id', 'ws.title'];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -85,11 +58,11 @@ class ArticlesModel extends ListModel
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  \Joomla\CMS\Form\Form|null  The Form object or null if the form can't be found
+     * @return Form|null The Form object or null if the form can't be found
      *
      * @since   3.2
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -212,7 +185,7 @@ class ArticlesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -379,18 +352,18 @@ class ArticlesModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
+        $categoryId = $this->getState('filter.category_id', []);
         $level      = (int) $this->getState('filter.level');
 
         if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
             $categoryId = ArrayHelper::toInteger($categoryId);
             $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+            $subCatItemsWhere = [];
 
             foreach ($categoryId as $key => $filter_catid) {
                 $categoryTable->load($filter_catid);
@@ -444,20 +417,20 @@ class ArticlesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':search', $search, ParameterType::INTEGER);
-            } elseif (stripos($search, 'author:') === 0) {
-                $search = '%' . substr($search, 7) . '%';
+            } elseif (stripos((string) $search, 'author:') === 0) {
+                $search = '%' . substr((string) $search, 7) . '%';
                 $query->where('(' . $db->quoteName('ua.name') . ' LIKE :search1 OR ' . $db->quoteName('ua.username') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
-            } elseif (stripos($search, 'content:') === 0) {
-                $search = '%' . substr($search, 8) . '%';
+            } elseif (stripos((string) $search, 'content:') === 0) {
+                $search = '%' . substr((string) $search, 8) . '%';
                 $query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
                     ->bind([':search1', ':search2'], $search);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2'
                         . ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
@@ -534,11 +507,10 @@ class ArticlesModel extends ListModel
     /**
      * Method to get all transitions at once for all articles
      *
-     * @return  array|boolean
      *
      * @since   4.0.0
      */
-    public function getTransitions()
+    public function getTransitions(): array|bool
     {
         // Get a storage key.
         $store = $this->getStoreId('getTransitions');
@@ -565,7 +537,7 @@ class ArticlesModel extends ListModel
         $workflow_ids = ArrayHelper::toInteger($workflow_ids);
         $workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
 
-        $this->cache[$store] = array();
+        $this->cache[$store] = [];
 
         try {
             if (count($stage_ids) || count($workflow_ids)) {

@@ -73,7 +73,6 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -95,7 +94,6 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
      *
      * @param   string  $application  The application session service to retrieve
      *
-     * @return  SessionInterface
      *
      * @since   4.0.0
      */

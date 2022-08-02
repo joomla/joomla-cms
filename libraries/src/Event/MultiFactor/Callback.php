@@ -36,7 +36,6 @@ class Callback extends AbstractImmutableEvent
      *
      * @param   string|null  $value  The value to validate
      *
-     * @return  string
      * @throws  DomainException
      * @since   4.2.0
      */

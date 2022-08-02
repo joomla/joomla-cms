@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
@@ -25,7 +26,7 @@ class PlgSystemLanguagecode extends CMSPlugin
     /**
      * Application object
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -53,24 +54,18 @@ class PlgSystemLanguagecode extends CMSPlugin
             // Replace the old code by the new code in the <html /> tag.
             if ($new_code) {
                 // Replace the new code in the HTML document.
-                $patterns = array(
-                    chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
-                    chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
-                );
-                $replace = array(
-                    '${1}' . strtolower($new_code) . '${3}',
-                    '${1}' . strtolower($new_code) . '${3}',
-                );
+                $patterns = [chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . chr(1) . 'i', chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . chr(1) . 'i'];
+                $replace = ['${1}' . strtolower((string) $new_code) . '${3}', '${1}' . strtolower((string) $new_code) . '${3}'];
             } else {
-                $patterns = array();
-                $replace  = array();
+                $patterns = [];
+                $replace  = [];
             }
 
             // Replace codes in <link hreflang="" /> attributes.
             preg_match_all(chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*>)' . chr(1) . 'i', $body, $matches);
 
             foreach ($matches[2] as $match) {
-                $new_code = $this->params->get(strtolower($match));
+                $new_code = $this->params->get(strtolower((string) $match));
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . chr(1) . 'i';
@@ -81,7 +76,7 @@ class PlgSystemLanguagecode extends CMSPlugin
             preg_match_all(chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
 
             foreach ($matches[2] as $match) {
-                $new_code = $this->params->get(strtolower($match));
+                $new_code = $this->params->get(strtolower((string) $match));
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . chr(1) . 'i';
@@ -93,7 +88,7 @@ class PlgSystemLanguagecode extends CMSPlugin
             preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
 
             foreach ($matches[2] as $match) {
-                $new_code = $this->params->get(strtolower($match));
+                $new_code = $this->params->get(strtolower((string) $match));
 
                 if ($new_code) {
                     $patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . chr(1) . 'i';

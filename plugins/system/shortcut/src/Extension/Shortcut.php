@@ -46,7 +46,6 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
      *  * array('eventName' => 'methodName')
      *  * array('eventName' => array('methodName', $priority))
      *
-     * @return  array
      *
      * @since   4.2.0
      */

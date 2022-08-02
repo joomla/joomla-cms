@@ -24,10 +24,8 @@ class Content extends Admin
 {
     /**
      * Flag if workflows are enabled by default
-     *
-     * @var bool
      */
-    private $workflowsEnabled = false;
+    private bool $workflowsEnabled = false;
 
     /**
      * Method to create an article.

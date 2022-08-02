@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseInterface;
 /**
  * @package     Joomla.Plugin
  * @subpackage  User.token
@@ -37,7 +39,7 @@ class PlgUserToken extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -45,7 +47,7 @@ class PlgUserToken extends CMSPlugin
     /**
      * Database object.
      *
-     * @var    \Joomla\Database\DatabaseInterface
+     * @var DatabaseInterface
      * @since  4.0.0
      */
     protected $db;
@@ -53,10 +55,9 @@ class PlgUserToken extends CMSPlugin
     /**
      * Joomla XML form contexts where we should inject our token management user interface.
      *
-     * @var     array
      * @since   4.0.0
      */
-    private $allowedContexts = [
+    private array $allowedContexts = [
         'com_users.profile',
         'com_users.user',
     ];
@@ -64,18 +65,16 @@ class PlgUserToken extends CMSPlugin
     /**
      * The prefix of the user profile keys, without the dot.
      *
-     * @var     string
      * @since   4.0.0
      */
-    private $profileKeyPrefix = 'joomlatoken';
+    private string $profileKeyPrefix = 'joomlatoken';
 
     /**
      * Token length, in bytes.
      *
-     * @var     integer
      * @since   4.0.0
      */
-    private $tokenLength = 32;
+    private int $tokenLength = 32;
 
     /**
      * Inject the Joomla token management panel's data into the User Profile.
@@ -85,7 +84,6 @@ class PlgUserToken extends CMSPlugin
      * @param   string  $context  Form context, passed by Joomla
      * @param   mixed   $data     Form data
      *
-     * @return  boolean
      * @since   4.0.0
      */
     public function onContentPrepareData(string $context, &$data): bool
@@ -144,11 +142,11 @@ class PlgUserToken extends CMSPlugin
             $results = $db->setQuery($query)->loadRowList();
 
             foreach ($results as $v) {
-                $k = str_replace($this->profileKeyPrefix . '.', '', $v[0]);
+                $k = str_replace($this->profileKeyPrefix . '.', '', (string) $v[0]);
 
                 $data->{$this->profileKeyPrefix}[$k] = $v[1];
             }
-        } catch (Exception $e) {
+        } catch (Exception) {
             // We suppress any database error. It means we get no token saved by default.
         }
 
@@ -186,7 +184,6 @@ class PlgUserToken extends CMSPlugin
      * @param   Form   $form  The form to be altered.
      * @param   mixed  $data  The associated data for the form.
      *
-     * @return  boolean
      *
      * @throws  Exception  When $form is not a valid form object
      * @since   4.0.0
@@ -266,7 +263,6 @@ class PlgUserToken extends CMSPlugin
      * @param   bool    $result  Has Joomla successfully saved the user?
      * @param   string  $error   Error string
      *
-     * @return  void
      * @since   4.0.0
      */
     public function onUserAfterSave($data, bool $isNew, bool $result, ?string $error): void
@@ -386,7 +382,6 @@ class PlgUserToken extends CMSPlugin
      * @param   boolean  $success  True if user was successfully stored in the database
      * @param   string   $msg      Message
      *
-     * @return  void
      *
      * @throws  Exception
      * @since   4.0.0
@@ -415,7 +410,7 @@ class PlgUserToken extends CMSPlugin
             $query->bind(':profileKey', $profileKey, ParameterType::STRING);
 
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // Do nothing.
         }
     }
@@ -426,7 +421,6 @@ class PlgUserToken extends CMSPlugin
      * This is used when saving the form data of a user (new or existing) without a token already
      * set.
      *
-     * @return  array
      * @since   4.0.0
      */
     private function getDefaultProfileFieldValues(): array
@@ -460,7 +454,7 @@ class PlgUserToken extends CMSPlugin
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return null;
         }
     }
@@ -526,7 +520,6 @@ class PlgUserToken extends CMSPlugin
      * @param   string   $tokenSeed  The token seed data stored in the database
      * @param   string   $algorithm  The hashing algorithm to use for the token (default: sha256)
      *
-     * @return  string
      * @since   4.0.0
      */
     private function getTokenForDisplay(
@@ -540,7 +533,7 @@ class PlgUserToken extends CMSPlugin
 
         try {
             $siteSecret = $this->app->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $siteSecret = '';
         }
 
@@ -550,8 +543,8 @@ class PlgUserToken extends CMSPlugin
         }
 
         $rawToken  = base64_decode($tokenSeed);
-        $tokenHash = hash_hmac($algorithm, $rawToken, $siteSecret);
-        $message   = base64_encode("$algorithm:$userId:$tokenHash");
+        $tokenHash = hash_hmac($algorithm, $rawToken, (string) $siteSecret);
+        $message   = base64_encode((string) "$algorithm:$userId:$tokenHash");
 
         if ($userId !== $this->app->getIdentity()->id) {
             $message = '';
@@ -607,7 +600,7 @@ class PlgUserToken extends CMSPlugin
 
         try {
             $numRows = $db->setQuery($q)->loadResult() ?? 0;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
 

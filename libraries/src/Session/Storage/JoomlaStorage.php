@@ -24,26 +24,16 @@ class JoomlaStorage extends NativeStorage
     /**
      * Internal data store for the session data
      *
-     * @var    Registry
      * @since  4.0.0
      */
-    private $data;
+    private Registry $data;
 
     /**
      * Force cookies to be SSL only
      *
-     * @var    boolean
      * @since  4.0.0
      */
-    private $forceSSL = false;
-
-    /**
-     * Input object
-     *
-     * @var    Input
-     * @since  4.0.0
-     */
-    private $input;
+    private bool $forceSSL = false;
 
     /**
      * Constructor
@@ -54,7 +44,7 @@ class JoomlaStorage extends NativeStorage
      *
      * @since   4.0.0
      */
-    public function __construct(Input $input, \SessionHandlerInterface $handler = null, array $options = [])
+    public function __construct(private readonly Input $input, \SessionHandlerInterface $handler = null, array $options = [])
     {
         // Disable transparent sid support and default use cookies
         $options += [
@@ -71,7 +61,6 @@ class JoomlaStorage extends NativeStorage
         $this->setCookieParams();
 
         $this->data = new Registry();
-        $this->input = $input;
 
         // Register our function as shutdown method, so we can manipulate it
         register_shutdown_function([$this, 'close']);
@@ -80,7 +69,6 @@ class JoomlaStorage extends NativeStorage
     /**
      * Retrieves all variables from the session store
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -92,7 +80,6 @@ class JoomlaStorage extends NativeStorage
     /**
      * Clears all variables from the session store
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -110,7 +97,7 @@ class JoomlaStorage extends NativeStorage
             $cookie_domain = $app->get('cookie_domain', '');
             $cookie_path   = $app->get('cookie_path', '/');
             $cookie = session_get_cookie_params();
-            setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
+            setcookie($session_name, '', ['expires' => time() - 42000, 'path' => $cookie_path, 'domain' => $cookie_domain, 'secure' => $cookie['secure'], 'httponly' => true]);
         }
 
         $this->data = new Registry();
@@ -119,7 +106,6 @@ class JoomlaStorage extends NativeStorage
     /**
      * Writes session data and ends session
      *
-     * @return  void
      *
      * @see     session_write_close()
      * @since   4.0.0
@@ -217,7 +203,6 @@ class JoomlaStorage extends NativeStorage
     /**
      * Set session cookie parameters
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -268,7 +253,6 @@ class JoomlaStorage extends NativeStorage
     /**
      * Start a session
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -292,7 +276,7 @@ class JoomlaStorage extends NativeStorage
 
         // Try loading data from the session
         if (isset($_SESSION['joomla']) && !empty($_SESSION['joomla'])) {
-            $this->data = unserialize(base64_decode($_SESSION['joomla']));
+            $this->data = unserialize(base64_decode((string) $_SESSION['joomla']));
         }
     }
 }

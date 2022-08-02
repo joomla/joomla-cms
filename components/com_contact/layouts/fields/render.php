@@ -30,7 +30,7 @@ if (!$context) {
     return;
 }
 
-$parts     = explode('.', $context);
+$parts     = explode('.', (string) $context);
 $component = $parts[0];
 $fields    = null;
 
@@ -55,12 +55,12 @@ if (!$isMail) {
 // Loop through the fields and print them
 foreach ($fields as $field) {
     // If the value is empty do nothing
-    if (!strlen($field->value) && !$isMail) {
+    if (!strlen((string) $field->value) && !$isMail) {
         continue;
     }
 
     $layout = $field->params->get('layout', 'render');
-    echo FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
+    echo FieldsHelper::render($context, 'field.' . $layout, ['field' => $field]);
 }
 
 if (!$isMail) {

@@ -29,7 +29,7 @@ class Mail extends PHPMailer
      * @var    Mail[]
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Charset of the message.
@@ -179,7 +179,7 @@ class Mail extends PHPMailer
      * @throws  \UnexpectedValueException  if the sender is not a valid address
      * @throws  phpmailerException          if setting the sender failed and exception throwing is enabled
      */
-    public function setSender($from)
+    public function setSender($from): \Joomla\CMS\Mail\Mail|bool
     {
         if (\is_array($from)) {
             // If $from is an array we assume it has an address and a name
@@ -256,7 +256,7 @@ class Mail extends PHPMailer
      * @throws  \InvalidArgumentException if the argument array counts do not match
      * @throws  phpmailerException  if setting the address failed and exception throwing is enabled
      */
-    protected function add($recipient, $name = '', $method = 'addAddress')
+    protected function add($recipient, $name = '', $method = 'addAddress'): \Joomla\CMS\Mail\Mail|bool
     {
         $method = lcfirst($method);
 
@@ -314,7 +314,7 @@ class Mail extends PHPMailer
      *
      * @throws  phpmailerException  if exception throwing is enabled
      */
-    public function addRecipient($recipient, $name = '')
+    public function addRecipient($recipient, $name = ''): \Joomla\CMS\Mail\Mail|bool
     {
         return $this->add($recipient, $name, 'addAddress');
     }
@@ -331,7 +331,7 @@ class Mail extends PHPMailer
      *
      * @throws  phpmailerException  if exception throwing is enabled
      */
-    public function addCc($cc, $name = '')
+    public function addCc($cc, $name = ''): \Joomla\CMS\Mail\Mail|bool
     {
         // If the carbon copy recipient is an array, add each recipient... otherwise just add the one
         if (isset($cc)) {
@@ -353,7 +353,7 @@ class Mail extends PHPMailer
      *
      * @throws  phpmailerException  if exception throwing is enabled
      */
-    public function addBcc($bcc, $name = '')
+    public function addBcc($bcc, $name = ''): \Joomla\CMS\Mail\Mail|bool
     {
         // If the blind carbon copy recipient is an array, add each recipient... otherwise just add the one
         if (isset($bcc)) {
@@ -379,14 +379,14 @@ class Mail extends PHPMailer
      * @throws  \InvalidArgumentException  if the argument array counts do not match
      * @throws  phpmailerException          if setting the attachment failed and exception throwing is enabled
      */
-    public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
+    public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment'): \Joomla\CMS\Mail\Mail|bool
     {
         // If the file attachments is an array, add each file... otherwise just add the one
         if (isset($path)) {
             $result = true;
 
             if (\is_array($path)) {
-                if (!empty($name) && \count($path) != \count($name)) {
+                if (!empty($name) && \count($path) != (is_countable($name) ? \count($name) : 0)) {
                     throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
                 }
 
@@ -463,7 +463,7 @@ class Mail extends PHPMailer
      *
      * @throws  phpmailerException  if exception throwing is enabled
      */
-    public function addReplyTo($replyto, $name = '')
+    public function addReplyTo($replyto, $name = ''): \Joomla\CMS\Mail\Mail|bool
     {
         return $this->add($replyto, $name, 'addReplyTo');
     }
@@ -655,7 +655,7 @@ class Mail extends PHPMailer
         // Add sender to replyTo only if no replyTo received
         $autoReplyTo = empty($this->ReplyTo);
 
-        if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false) {
+        if ($this->setSender([$from, $fromName, $autoReplyTo]) === false) {
             return false;
         }
 

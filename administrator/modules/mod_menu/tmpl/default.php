@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
@@ -16,7 +17,7 @@ use Joomla\CMS\Language\Text;
 $doc       = $app->getDocument();
 $class     = $enabled ? 'nav flex-column main-nav' : 'nav flex-column main-nav disabled';
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $doc->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_cpanel');
 $wa->useScript('metismenujs')

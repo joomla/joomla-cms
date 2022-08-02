@@ -40,7 +40,6 @@ class BeforeDisplayMethods extends AbstractImmutableEvent
      *
      * @param   User  $value  The value to validate
      *
-     * @return  User
      * @since   4.2.0
      */
     public function setUser(User $value): User

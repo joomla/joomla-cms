@@ -19,8 +19,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 <li>
     <?php if ($params->get('link_titles') == 1) : ?>
         <?php $attributes = ['class' => 'mod-articles-category-title ' . $item->active]; ?>
-        <?php $link = htmlspecialchars($item->link, ENT_COMPAT, 'UTF-8', false); ?>
-        <?php $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false); ?>
+        <?php $link = htmlspecialchars((string) $item->link, ENT_COMPAT, 'UTF-8', false); ?>
+        <?php $title = htmlspecialchars((string) $item->title, ENT_COMPAT, 'UTF-8', false); ?>
         <?php echo HTMLHelper::_('link', $link, $title, $attributes); ?>
     <?php else : ?>
         <?php echo $item->title; ?>

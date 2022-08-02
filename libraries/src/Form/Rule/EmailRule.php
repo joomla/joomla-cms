@@ -83,7 +83,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
                 throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
             }
         } else {
-            $values = explode(',', $value);
+            $values = explode(',', (string) $value);
 
             foreach ($values as $value) {
                 // Handle idn email addresses by converting to punycode.
@@ -120,7 +120,7 @@ class EmailRule extends FormRule implements DatabaseAwareInterface
                 $allowed     = true;
 
                 foreach ($domains as $domain) {
-                    $domainParts = array_reverse(explode('.', $domain->name));
+                    $domainParts = array_reverse(explode('.', (string) $domain->name));
                     $status      = 0;
 
                     // Don't run if the email has less segments than the rule.

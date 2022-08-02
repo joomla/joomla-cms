@@ -59,7 +59,7 @@ trait WorkflowPluginTrait
      *
      * @since   4.0.0
      */
-    protected function getWorkflow(int $workflowId = null)
+    protected function getWorkflow(int $workflowId = null): CMSObject|bool
     {
         $workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
 

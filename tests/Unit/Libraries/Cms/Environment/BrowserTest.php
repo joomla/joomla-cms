@@ -43,7 +43,6 @@ class BrowserTest extends UnitTestCase
     /**
      * This method is called before a test is executed.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -57,7 +56,6 @@ class BrowserTest extends UnitTestCase
     /**
      * This method is called after a test is executed.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -71,7 +69,6 @@ class BrowserTest extends UnitTestCase
     /**
      * Data provider for the testBrowserMatching method
      *
-     * @return  array
      *
      * @since   4.0.0
      */

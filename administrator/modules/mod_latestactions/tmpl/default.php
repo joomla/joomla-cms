@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+<table class="table" id="<?php echo str_replace(' ', '', (string) $module->title) . $module->id; ?>">
     <caption class="visually-hidden"><?php echo $module->title; ?></caption>
     <thead>
         <tr>
@@ -23,7 +23,7 @@ use Joomla\CMS\Language\Text;
         </tr>
     </thead>
     <tbody>
-        <?php if (count($list)) : ?>
+        <?php if (is_countable($list) ? count($list) : 0) : ?>
             <?php foreach ($list as $i => $item) : ?>
         <tr>
             <td>

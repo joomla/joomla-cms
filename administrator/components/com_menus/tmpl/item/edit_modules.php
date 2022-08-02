@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -20,7 +21,7 @@ foreach ($this->levels as $key => $value) {
 
 $this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useStyle('com_menus.admin-item-edit-modules')
     ->useScript('com_menus.admin-item-edit-modules');
@@ -29,26 +30,18 @@ $wa->useStyle('com_menus.admin-item-edit-modules')
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     'moduleEditModal',
-    array(
-        'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-        'backdrop'    => 'static',
-        'keyboard'    => false,
-        'closeButton' => false,
-        'bodyHeight'  => '70',
-        'modalWidth'  => '80',
-        'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
-                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
-                . Text::_('JSAVE') . '</button>'
-                . '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
-                . Text::_('JAPPLY') . '</button>',
-    )
+    ['title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'), 'backdrop'    => 'static', 'keyboard'    => false, 'closeButton' => false, 'bodyHeight'  => '70', 'modalWidth'  => '80', 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-target="#closeBtn">'
+            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+            . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-target="#saveBtn">'
+            . Text::_('JSAVE') . '</button>'
+            . '<button type="button" class="btn btn-success" data-bs-target="#applyBtn">'
+            . Text::_('JAPPLY') . '</button>']
 );
 
 ?>
 <?php
 // Set main fields.
-$this->fields = array('toggle_modules_assigned','toggle_modules_published');
+$this->fields = ['toggle_modules_assigned', 'toggle_modules_published'];
 
 echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 

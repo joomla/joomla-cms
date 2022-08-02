@@ -27,7 +27,7 @@ class Router
      * @var    string
      * @since  3.4
      */
-    public const PROCESS_BEFORE = 'preprocess';
+    final public const PROCESS_BEFORE = 'preprocess';
 
     /**
      * Mask for the during process stage
@@ -35,7 +35,7 @@ class Router
      * @var    string
      * @since  3.4
      */
-    public const PROCESS_DURING = '';
+    final public const PROCESS_DURING = '';
 
     /**
      * Mask for the after process stage
@@ -43,7 +43,7 @@ class Router
      * @var    string
      * @since  3.4
      */
-    public const PROCESS_AFTER = 'postprocess';
+    final public const PROCESS_AFTER = 'postprocess';
 
     /**
      * An array of variables
@@ -51,7 +51,7 @@ class Router
      * @var     array
      * @since   1.5
      */
-    protected $vars = array();
+    protected $vars = [];
 
     /**
      * An array of rules
@@ -59,14 +59,7 @@ class Router
      * @var    array
      * @since  1.5
      */
-    protected $rules = array(
-        'buildpreprocess' => array(),
-        'build' => array(),
-        'buildpostprocess' => array(),
-        'parsepreprocess' => array(),
-        'parse' => array(),
-        'parsepostprocess' => array(),
-    );
+    protected $rules = ['buildpreprocess' => [], 'build' => [], 'buildpostprocess' => [], 'parsepreprocess' => [], 'parse' => [], 'parsepostprocess' => []];
 
     /**
      * Caching of processed URIs
@@ -74,7 +67,7 @@ class Router
      * @var    array
      * @since  3.3
      */
-    protected $cache = array();
+    protected $cache = [];
 
     /**
      * Router instances container.
@@ -82,7 +75,7 @@ class Router
      * @var    Router[]
      * @since  1.7
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Returns the global Router object, only creating it if it
@@ -99,7 +92,7 @@ class Router
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getInstance($client, $options = array())
+    public static function getInstance($client, $options = [])
     {
         if (empty(self::$instances[$client])) {
             // Create a Router object
@@ -145,7 +138,7 @@ class Router
 
         // Check if all parts of the URL have been parsed.
         // Otherwise we have an invalid URL
-        if (\strlen($uri->getPath()) > 0) {
+        if (\strlen((string) $uri->getPath()) > 0) {
             throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
         }
 
@@ -167,7 +160,7 @@ class Router
      *
      * @since   1.5
      */
-    public function build($url)
+    public function build(string|array|Uri $url)
     {
         $key = md5(serialize($url));
 
@@ -223,7 +216,7 @@ class Router
      *
      * @since   1.5
      */
-    public function setVars($vars = array(), $merge = true)
+    public function setVars($vars = [], $merge = true)
     {
         if ($merge) {
             $this->vars = array_merge($this->vars, $vars);
@@ -325,7 +318,7 @@ class Router
      */
     public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
     {
-        if (!\in_array($type, array('parse', 'build'))) {
+        if (!\in_array($type, ['parse', 'build'])) {
             throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
         }
 
@@ -359,7 +352,7 @@ class Router
     /**
      * Process the parsed router variables based on custom defined rules
      *
-     * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI to parse
+     * @param Uri &$uri The URI to parse
      * @param   string               $stage  The stage that should be processed.
      *                                       Possible values: 'preprocess', 'postprocess'
      *                                       and '' for the main parse stage
@@ -382,7 +375,7 @@ class Router
     /**
      * Process the build uri query data based on custom defined rules
      *
-     * @param   \Joomla\CMS\Uri\Uri  &$uri   The URI
+     * @param Uri &$uri The URI
      * @param   string               $stage  The stage that should be processed.
      *                                       Possible values: 'preprocess', 'postprocess'
      *                                       and '' for the main build stage
@@ -398,7 +391,7 @@ class Router
         }
 
         foreach ($this->rules['build' . $stage] as $rule) {
-            \call_user_func_array($rule, array(&$this, &$uri));
+            \call_user_func_array($rule, [&$this, &$uri]);
         }
     }
 
@@ -413,16 +406,16 @@ class Router
      */
     protected function createUri($url)
     {
-        if (!\is_array($url) && substr($url, 0, 1) !== '&') {
+        if (!\is_array($url) && !str_starts_with($url, '&')) {
             return new Uri($url);
         }
 
         $uri = new Uri('index.php');
 
         if (\is_string($url)) {
-            $vars = array();
+            $vars = [];
 
-            if (strpos($url, '&amp;') !== false) {
+            if (str_contains($url, '&amp;')) {
                 $url = str_replace('&amp;', '&', $url);
             }
 

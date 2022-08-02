@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -25,7 +26,7 @@ $branchFilter  = $this->escape($this->state->get('filter.branch'));
 
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_finder.maps')
     ->useScript('table.columns')
@@ -36,7 +37,7 @@ $wa->useScript('com_finder.maps')
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -92,7 +93,7 @@ $wa->useScript('com_finder.maps')
                             </td>
                             <th scope="row">
                                 <?php
-                                if (trim($item->branch_title, '*') === 'Language') {
+                                if (trim((string) $item->branch_title, '*') === 'Language') {
                                     $title = LanguageHelper::branchLanguageTitle($item->title);
                                 } else {
                                     $key = LanguageHelper::branchSingular($item->title);
@@ -101,7 +102,7 @@ $wa->useScript('com_finder.maps')
                                 ?>
                                 <?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
                                 <?php echo $this->escape($title); ?>
-                                <?php if ($this->escape(trim($title, '*')) === 'Language' && Multilanguage::isEnabled()) : ?>
+                                <?php if ($this->escape(trim((string) $title, '*')) === 'Language' && Multilanguage::isEnabled()) : ?>
                                 <div class="small">
                                     <strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
                                 </div>
@@ -163,7 +164,7 @@ $wa->useScript('com_finder.maps')
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
             </div>
 
             <input type="hidden" name="task" value="display">

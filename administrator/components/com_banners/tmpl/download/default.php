@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -15,8 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Download\HtmlView $this */
-
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('form.validate');
 

@@ -29,24 +29,14 @@ use Joomla\Registry\Registry;
 class Icon
 {
     /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     *
-     * @since  4.2.0
-     */
-    private $userFactory;
-
-    /**
      * Service constructor
      *
      * @param   UserFactoryInterface  $userFactory  The userFactory
      *
      * @since   4.0.0
      */
-    public function __construct(UserFactoryInterface $userFactory)
+    public function __construct(private readonly UserFactoryInterface $userFactory)
     {
-        $this->userFactory = $userFactory;
     }
 
     /**
@@ -60,7 +50,7 @@ class Icon
      *
      * @since  4.0.0
      */
-    public function create($category, $params, $attribs = array())
+    public function create($category, $params, $attribs = [])
     {
         $uri = Uri::getInstance();
 
@@ -101,7 +91,7 @@ class Icon
      *
      * @since   4.0.0
      */
-    public function edit($contact, $params, $attribs = array(), $legacy = false)
+    public function edit($contact, $params, $attribs = [], $legacy = false)
     {
         $user = Factory::getUser();
         $uri  = Uri::getInstance();
@@ -128,7 +118,7 @@ class Icon
             $tooltip      = Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
                 . ' <br> ' . $date;
 
-            $text = LayoutHelper::render('joomla.content.icons.edit_lock', array('contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy));
+            $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['contact' => $contact, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editcontact-' . (int) $contact->id;
             $output = HTMLHelper::_('link', '#', $text, $attribs);
@@ -149,8 +139,8 @@ class Icon
         $icon    = $contact->published ? 'edit' : 'eye-slash';
 
         if (
-            ($contact->publish_up !== null && strtotime($contact->publish_up) > $nowDate)
-            || ($contact->publish_down !== null && strtotime($contact->publish_down) < $nowDate)
+            ($contact->publish_up !== null && strtotime((string) $contact->publish_up) > $nowDate)
+            || ($contact->publish_down !== null && strtotime((string) $contact->publish_down) < $nowDate)
         ) {
             $icon = 'eye-slash';
         }

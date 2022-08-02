@@ -33,9 +33,9 @@ class AssociationController extends FormController
      *
      * @since  3.7.0
      */
-    public function edit($key = null, $urlVar = null)
+    public function edit($key = null, $urlVar = null): FormController|bool
     {
-        list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
+        [$extensionName, $typeName] = explode('.', (string) $this->input->get('itemtype', '', 'string'), 2);
 
         $id = $this->input->get('id', 0, 'int');
 
@@ -63,15 +63,15 @@ class AssociationController extends FormController
     {
         $this->checkToken();
 
-        list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'), 2);
+        [$extensionName, $typeName] = explode('.', (string) $this->input->get('itemtype', '', 'string'), 2);
 
         // Only check in, if component item type allows to check out.
         if (AssociationsHelper::typeSupportsCheckout($extensionName, $typeName)) {
-            $ids      = array();
+            $ids      = [];
             $targetId = $this->input->get('target-id', '', 'string');
 
             if ($targetId !== '') {
-                $ids = array_unique(explode(',', $targetId));
+                $ids = array_unique(explode(',', (string) $targetId));
             }
 
             $ids[] = $this->input->get('id', 0, 'int');

@@ -25,7 +25,7 @@ class ImageDocument extends Document
      *
      * @since   3.0.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -46,24 +46,16 @@ class ImageDocument extends Document
      *
      * @since   3.0.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         // Get the image type
         $type = Factory::getApplication()->input->get('type', 'png');
 
-        switch ($type) {
-            case 'jpg':
-            case 'jpeg':
-                $this->_mime = 'image/jpeg';
-                break;
-            case 'gif':
-                $this->_mime = 'image/gif';
-                break;
-            case 'png':
-            default:
-                $this->_mime = 'image/png';
-                break;
-        }
+        $this->_mime = match ($type) {
+            'jpg', 'jpeg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            default => 'image/png',
+        };
 
         $this->_charset = null;
 

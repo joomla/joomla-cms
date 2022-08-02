@@ -45,7 +45,6 @@ class UsersController extends ApiController
      *
      * @param   array  $data  An array of input data.
      *
-     * @return  array
      *
      * @since   4.0.0
      */

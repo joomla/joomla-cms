@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Global definitions
-$parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
+$parts = explode(DIRECTORY_SEPARATOR, (string) JPATH_BASE);
 array_pop($parts);
 
 // Defines

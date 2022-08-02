@@ -28,18 +28,10 @@ class InputFilter extends BaseInputFilter
      *
      * @since 4.0.0
      */
-    public const FORBIDDEN_FILE_EXTENSIONS = [
+    final public const FORBIDDEN_FILE_EXTENSIONS = [
         'php', 'phps', 'pht', 'phtml', 'php3', 'php4', 'php5', 'php6', 'php7', 'asp',
         'php8', 'phar', 'inc', 'pl', 'cgi', 'fcgi', 'java', 'jar', 'py', 'aspx'
     ];
-
-    /**
-     * A flag for Unicode Supplementary Characters (4-byte Unicode character) stripping.
-     *
-     * @var    integer
-     * @since  3.5
-     */
-    private $stripUSC = 0;
 
     /**
      * A container for InputFilter instances.
@@ -47,7 +39,7 @@ class InputFilter extends BaseInputFilter
      * @var    InputFilter[]
      * @since  4.0.0
      */
-    protected static $instances = array();
+    protected static $instances = [];
     /**
      * Constructor for inputFilter class. Only first parameter is required.
      *
@@ -60,12 +52,9 @@ class InputFilter extends BaseInputFilter
      *
      * @since   1.7.0
      */
-    public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
+    public function __construct($tagsArray = [], $attrArray = [], $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, private $stripUSC = 0)
     {
         parent::__construct($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
-
-        // Assign member variables
-        $this->stripUSC = $stripUSC;
     }
 
     /**
@@ -82,9 +71,9 @@ class InputFilter extends BaseInputFilter
      *
      * @since   1.7.0
      */
-    public static function getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
+    public static function getInstance($tagsArray = [], $attrArray = [], $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
     {
-        $sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
+        $sig = md5(serialize([$tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto]));
 
         if (empty(self::$instances[$sig])) {
             self::$instances[$sig] = new InputFilter($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto, $stripUSC);
@@ -147,7 +136,7 @@ class InputFilter extends BaseInputFilter
 
         if (preg_match_all($pattern, $text, $matches)) {
             foreach ($matches[0] as $match) {
-                $match  = (string) str_replace(array('?', '"'), '', $match);
+                $match  = (string) str_replace(['?', '"'], '', (string) $match);
                 $text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
             }
         }
@@ -178,36 +167,26 @@ class InputFilter extends BaseInputFilter
      *
      * @since   3.4
      */
-    public static function isSafeFile($file, $options = array())
+    public static function isSafeFile($file, $options = [])
     {
-        $defaultOptions = array(
-
+        $defaultOptions = [
             // Null byte in file name
             'null_byte'                  => true,
-
             // Forbidden string in extension (e.g. php matched .php, .xxx.php, .php.xxx and so on)
             'forbidden_extensions'       => self::FORBIDDEN_FILE_EXTENSIONS,
-
             // <?php tag in file contents
             'php_tag_in_content'         => true,
-
             // <? tag in file contents
             'shorttag_in_content'        => true,
-
             // __HALT_COMPILER()
             'phar_stub_in_content'        => true,
-
             // Which file extensions to scan for short tags
-            'shorttag_extensions'        => array(
-                'inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl',
-            ),
-
+            'shorttag_extensions'        => ['inc', 'phps', 'class', 'php3', 'php4', 'php5', 'php6', 'php7', 'php8', 'txt', 'dat', 'tpl', 'tmpl'],
             // Forbidden extensions anywhere in the content
             'fobidden_ext_in_content'    => true,
-
             // Which file extensions to scan for .php in the content
-            'php_ext_content_extensions' => array('zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'),
-        );
+            'php_ext_content_extensions' => ['zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'],
+        ];
 
         $options = array_merge($defaultOptions, $options);
 
@@ -216,19 +195,13 @@ class InputFilter extends BaseInputFilter
 
         if (isset($file['name']) && isset($file['tmp_name'])) {
             $descriptors = static::decodeFileData(
-                array(
-                    $file['name'],
-                    $file['type'],
-                    $file['tmp_name'],
-                    $file['error'],
-                    $file['size'],
-                )
+                [$file['name'], $file['type'], $file['tmp_name'], $file['error'], $file['size']]
             );
         }
 
         // Handle non-nested descriptors (single files)
         if (isset($descriptors['name'])) {
-            $descriptors = array($descriptors);
+            $descriptors = [$descriptors];
         }
 
         // Scan all descriptors detected
@@ -246,11 +219,11 @@ class InputFilter extends BaseInputFilter
             $intendedNames = $fileDescriptor['name'];
 
             if (!\is_array($tempNames)) {
-                $tempNames = array($tempNames);
+                $tempNames = [$tempNames];
             }
 
             if (!\is_array($intendedNames)) {
-                $intendedNames = array($intendedNames);
+                $intendedNames = [$intendedNames];
             }
 
             $len = \count($tempNames);
@@ -261,14 +234,14 @@ class InputFilter extends BaseInputFilter
 
                 // 1. Null byte check
                 if ($options['null_byte']) {
-                    if (strstr($intendedName, "\x00")) {
+                    if (strstr((string) $intendedName, "\x00")) {
                         return false;
                     }
                 }
 
                 // 2. PHP-in-extension check (.php, .php.xxx[.yyy[.zzz[...]]], .xxx[.yyy[.zzz[...]]].php)
                 if (!empty($options['forbidden_extensions'])) {
-                    $explodedName = explode('.', $intendedName);
+                    $explodedName = explode('.', (string) $intendedName);
                     $explodedName = array_reverse($explodedName);
                     array_pop($explodedName);
                     $explodedName = array_map('strtolower', $explodedName);
@@ -290,7 +263,7 @@ class InputFilter extends BaseInputFilter
                     || $options['shorttag_in_content'] || $options['phar_stub_in_content']
                     || ($options['fobidden_ext_in_content'] && !empty($options['forbidden_extensions']))
                 ) {
-                    $fp = strlen($tempName) ? @fopen($tempName, 'r') : false;
+                    $fp = strlen((string) $tempName) ? @fopen($tempName, 'r') : false;
 
                     if ($fp !== false) {
                         $data = '';
@@ -310,9 +283,7 @@ class InputFilter extends BaseInputFilter
                                 $suspiciousExtensions = $options['shorttag_extensions'];
 
                                 if (empty($suspiciousExtensions)) {
-                                    $suspiciousExtensions = array(
-                                        'inc', 'phps', 'class', 'php3', 'php4', 'txt', 'dat', 'tpl', 'tmpl',
-                                    );
+                                    $suspiciousExtensions = ['inc', 'phps', 'class', 'php3', 'php4', 'txt', 'dat', 'tpl', 'tmpl'];
                                 }
 
                                 /*
@@ -341,9 +312,7 @@ class InputFilter extends BaseInputFilter
                                 $suspiciousExtensions = $options['php_ext_content_extensions'];
 
                                 if (empty($suspiciousExtensions)) {
-                                    $suspiciousExtensions = array(
-                                        'zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa',
-                                    );
+                                    $suspiciousExtensions = ['zip', 'rar', 'tar', 'gz', 'tgz', 'bz2', 'tbz', 'jpa'];
                                 }
 
                                 /*
@@ -400,17 +369,17 @@ class InputFilter extends BaseInputFilter
      */
     protected static function decodeFileData(array $data)
     {
-        $result = array();
+        $result = [];
 
         if (\is_array($data[0])) {
             foreach ($data[0] as $k => $v) {
-                $result[$k] = static::decodeFileData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
+                $result[$k] = static::decodeFileData([$data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]]);
             }
 
             return $result;
         }
 
-        return array('name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]);
+        return ['name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]];
     }
 
     /**
@@ -440,18 +409,14 @@ class InputFilter extends BaseInputFilter
         // Convert decimal
         $source = preg_replace_callback(
             '/&#(\d+);/m',
-            function ($m) {
-                return utf8_encode(\chr($m[1]));
-            },
+            fn($m) => utf8_encode(\chr($m[1])),
             $source
         );
 
         // Convert hex
         $source = preg_replace_callback(
             '/&#x([a-f0-9]+);/mi',
-            function ($m) {
-                return utf8_encode(\chr('0x' . $m[1]));
-            },
+            fn($m) => utf8_encode(\chr('0x' . $m[1])),
             $source
         );
 
@@ -474,7 +439,7 @@ class InputFilter extends BaseInputFilter
         }
 
         if (\is_array($source)) {
-            $filteredArray = array();
+            $filteredArray = [];
 
             foreach ($source as $k => $v) {
                 $filteredArray[$k] = $this->stripUSC($v);

@@ -44,7 +44,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    array
      * @since  3.1
      */
-    protected $paths = array();
+    protected $paths = [];
 
     /**
      * True if package is an upgrade
@@ -77,7 +77,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @var    array
      * @since  3.1
      */
-    protected $stepStack = array();
+    protected $stepStack = [];
 
     /**
      * Extension Table Entry
@@ -203,7 +203,6 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @param   string|null  $sql  Input SQL string with which to split into individual queries.
      *
-     * @return  array
      *
      * @since   4.2.0
      */
@@ -511,6 +510,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function abort($msg = null, $type = null)
     {
+        $stepval = null;
         $retval = true;
         $step = array_pop($this->stepStack);
 
@@ -552,7 +552,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                         $db->execute();
 
                         $stepval = true;
-                    } catch (ExecutionFailureException $e) {
+                    } catch (ExecutionFailureException) {
                         // The database API will have already logged the error it caught, we just need to alert the user to the issue
                         Log::add(Text::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), Log::WARNING, 'jerror');
 
@@ -629,12 +629,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         PluginHelper::importPlugin('extension');
         Factory::getApplication()->triggerEvent(
             'onExtensionBeforeInstall',
-            array(
-                'method' => 'install',
-                'type' => $this->manifest->attributes()->type,
-                'manifest' => $this->manifest,
-                'extension' => 0,
-            )
+            ['method' => 'install', 'type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest, 'extension' => 0]
         );
 
         // Run the install
@@ -646,7 +641,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Fire the onExtensionAfterInstall
         Factory::getApplication()->triggerEvent(
             'onExtensionAfterInstall',
-            array('installer' => clone $this, 'eid' => $result)
+            ['installer' => clone $this, 'eid' => $result]
         );
 
         if ($result !== false) {
@@ -690,7 +685,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // Load the adapter(s) for the install manifest
         $type   = $this->extension->type;
-        $params = array('extension' => $this->extension, 'route' => 'discover_install');
+        $params = ['extension' => $this->extension, 'route' => 'discover_install'];
 
         $adapter = $this->loadAdapter($type, $params);
 
@@ -724,12 +719,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         PluginHelper::importPlugin('extension');
         Factory::getApplication()->triggerEvent(
             'onExtensionBeforeInstall',
-            array(
-                'method' => 'discover_install',
-                'type' => $this->extension->get('type'),
-                'manifest' => null,
-                'extension' => $this->extension->get('extension_id'),
-            )
+            ['method' => 'discover_install', 'type' => $this->extension->get('type'), 'manifest' => null, 'extension' => $this->extension->get('extension_id')]
         );
 
         // Run the install
@@ -738,7 +728,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Fire the onExtensionAfterInstall
         Factory::getApplication()->triggerEvent(
             'onExtensionAfterInstall',
-            array('installer' => clone $this, 'eid' => $result)
+            ['installer' => clone $this, 'eid' => $result]
         );
 
         if ($result !== false) {
@@ -762,7 +752,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function discover()
     {
-        $results = array();
+        $results = [];
 
         foreach ($this->getAdapters() as $adapter) {
             $instance = $this->loadAdapter($adapter);
@@ -820,7 +810,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         PluginHelper::importPlugin('extension');
         Factory::getApplication()->triggerEvent(
             'onExtensionBeforeUpdate',
-            array('type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest)
+            ['type' => $this->manifest->attributes()->type, 'manifest' => $this->manifest]
         );
 
         // Run the update
@@ -829,7 +819,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Fire the onExtensionAfterUpdate
         Factory::getApplication()->triggerEvent(
             'onExtensionAfterUpdate',
-            array('installer' => clone $this, 'eid' => $result)
+            ['installer' => clone $this, 'eid' => $result]
         );
 
         if ($result !== false) {
@@ -851,7 +841,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function uninstall($type, $identifier)
     {
-        $params = array('extension' => $this->extension, 'route' => 'uninstall');
+        $params = ['extension' => $this->extension, 'route' => 'uninstall'];
 
         $adapter = $this->loadAdapter($type, $params);
 
@@ -864,7 +854,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         PluginHelper::importPlugin('extension');
         Factory::getApplication()->triggerEvent(
             'onExtensionBeforeUninstall',
-            array('eid' => $identifier)
+            ['eid' => $identifier]
         );
 
         // Run the uninstall
@@ -873,7 +863,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Fire the onExtensionAfterInstall
         Factory::getApplication()->triggerEvent(
             'onExtensionAfterUninstall',
-            array('installer' => clone $this, 'eid' => $identifier, 'removed' => $result)
+            ['installer' => clone $this, 'eid' => $identifier, 'removed' => $result]
         );
 
         // Refresh versionable assets cache
@@ -946,7 +936,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @since   3.1
      */
-    public function setupInstall($route = 'install', $returnAdapter = false)
+    public function setupInstall($route = 'install', $returnAdapter = false): bool|InstallerAdapter
     {
         // We need to find the installation manifest file
         if (!$this->findManifest()) {
@@ -955,7 +945,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // Load the adapter(s) for the install manifest
         $type   = (string) $this->manifest->attributes()->type;
-        $params = array('route' => $route, 'manifest' => $this->getManifest());
+        $params = ['route' => $route, 'manifest' => $this->getManifest()];
 
         // Load the adapter
         $adapter = $this->loadAdapter($type, $params);
@@ -1024,7 +1014,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function parseSQLFiles($element)
     {
-        if (!$element || !\count($element->children())) {
+        if (!$element || !(is_countable($element->children()) ? \count($element->children()) : 0)) {
             // The tag does not exist.
             return 0;
         }
@@ -1035,8 +1025,8 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
         // Get the name of the sql file to process
         foreach ($element->children() as $file) {
-            $fCharset = strtolower($file->attributes()->charset) === 'utf8' ? 'utf8' : '';
-            $fDriver  = strtolower($file->attributes()->driver);
+            $fCharset = strtolower((string) $file->attributes()->charset) === 'utf8' ? 'utf8' : '';
+            $fDriver  = strtolower((string) $file->attributes()->driver);
 
             if ($fDriver === 'mysqli' || $fDriver === 'pdomysql') {
                 $fDriver = 'mysql';
@@ -1048,7 +1038,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                 continue;
             }
 
-            $sqlfile = $this->getPath('extension_root') . '/' . trim($file);
+            $sqlfile = $this->getPath('extension_root') . '/' . trim((string) $file);
 
             // Check that sql files exists before reading. Otherwise raise error for rollback
             if (!file_exists($sqlfile)) {
@@ -1076,9 +1066,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
-                    strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
-                $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
+                $canFail = strlen((string) $query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                    strtoupper(substr((string) $query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
+                $query   = $canFail ? (substr((string) $query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
                 try {
                     $db->setQuery($query)->execute();
@@ -1147,7 +1137,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
                         $query->clear()
                             ->insert($db->quoteName('#__schemas'))
-                            ->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
+                            ->columns([$db->quoteName('extension_id'), $db->quoteName('version_id')])
                             ->values(':extension_id, :version_id')
                             ->bind(':extension_id', $eid, ParameterType::INTEGER)
                             ->bind(':version_id', $schemaVersion);
@@ -1169,7 +1159,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @since   3.1
      */
-    public function parseSchemaUpdates(\SimpleXMLElement $schema, $eid)
+    public function parseSchemaUpdates(\SimpleXMLElement $schema, $eid): bool|int
     {
         $updateCount = 0;
 
@@ -1193,7 +1183,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $attrs = $entry->attributes();
 
             // Assuming that the type is a mandatory attribute but if it is not mandatory then there should be a discussion for it.
-            $uDriver = strtolower($attrs['type']);
+            $uDriver = strtolower((string) $attrs['type']);
 
             if ($uDriver === 'mysqli' || $uDriver === 'pdomysql') {
                 $uDriver = 'mysql';
@@ -1265,9 +1255,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
             // Process each query in the $queries array (split out of sql file).
             foreach ($queries as $query) {
-                $canFail = strlen($query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
-                    strtoupper(substr($query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
-                $query   = $canFail ? (substr($query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
+                $canFail = strlen((string) $query) > self::CAN_FAIL_MARKER_LENGTH + 1 &&
+                    strtoupper(substr((string) $query, -self::CAN_FAIL_MARKER_LENGTH - 1)) === (self::CAN_FAIL_MARKER . ';');
+                $query   = $canFail ? (substr((string) $query, 0, -self::CAN_FAIL_MARKER_LENGTH - 1) . ';') : $query;
 
                 $queryString = (string) $query;
                 $queryString = str_replace(["\r", "\n"], ['', ' '], substr($queryString, 0, 80));
@@ -1318,7 +1308,6 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @param   string  $version  Latest schema version ID.
      * @param   boolean $update   Should I run an update against an existing record or insert a new one?
      *
-     * @return  void
      *
      * @since   4.2.0
      */
@@ -1338,7 +1327,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             } else {
                 $db->insertObject('#__schemas', $o);
             }
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             /**
              * Safe fallback: delete any existing record and insert afresh.
              *
@@ -1386,7 +1375,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             return 0;
         }
 
-        $copyfiles = array();
+        $copyfiles = [];
 
         // Get the client info
         $client = ApplicationHelper::getClientInfo($cid);
@@ -1424,7 +1413,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         if ($oldFiles && ($oldFiles instanceof \SimpleXMLElement)) {
             $oldEntries = $oldFiles->children();
 
-            if (\count($oldEntries)) {
+            if (is_countable($oldEntries) ? \count($oldEntries) : 0) {
                 $deletions = $this->findDeletedFiles($oldEntries, $element->children());
 
                 foreach ($deletions['folders'] as $deleted_folder) {
@@ -1437,7 +1426,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
         }
 
-        $path = array();
+        $path = [];
 
         // Copy the MD5SUMS file if it exists
         if (file_exists($source . '/MD5SUMS')) {
@@ -1505,7 +1494,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             return 0;
         }
 
-        $copyfiles = array();
+        $copyfiles = [];
 
         // Get the client info
         $client = ApplicationHelper::getClientInfo($cid);
@@ -1614,7 +1603,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             return 0;
         }
 
-        $copyfiles = array();
+        $copyfiles = [];
 
         // Here we set the folder we are going to copy the files to.
         // Default 'media' Files are copied to the JPATH_BASE/media folder
@@ -1697,11 +1686,11 @@ class Installer extends Adapter implements DatabaseAwareInterface
         $fieldsets = $this->manifest->config->fields->fieldset;
 
         // Creating the data collection variable:
-        $ini = array();
+        $ini = [];
 
         // Iterating through the fieldsets:
         foreach ($fieldsets as $fieldset) {
-            if (!\count($fieldset->children())) {
+            if (!(is_countable($fieldset->children()) ? \count($fieldset->children()) : 0)) {
                 // Either the tag does not exist or has no children therefore we return zero files processed.
                 return '{}';
             }
@@ -1723,7 +1712,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
         }
 
-        return json_encode($ini);
+        return json_encode($ini, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -1789,7 +1778,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                             return false;
                         }
 
-                        $step = array('type' => 'folder', 'path' => $filedest);
+                        $step = ['type' => 'folder', 'path' => $filedest];
                     } else {
                         if (!File::copy($filesource, $filedest, null)) {
                             Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), Log::WARNING, 'jerror');
@@ -1802,7 +1791,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                             return false;
                         }
 
-                        $step = array('type' => 'file', 'path' => $filedest);
+                        $step = ['type' => 'file', 'path' => $filedest];
                     }
 
                     /*
@@ -1835,7 +1824,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function removeFiles($element, $cid = 0)
     {
-        if (!$element || !\count($element->children())) {
+        if (!$element || !(is_countable($element->children()) ? \count($element->children()) : 0)) {
             // Either the tag does not exist or has no children therefore we return zero files processed.
             return true;
         }
@@ -1852,7 +1841,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
         // Get the array of file nodes to process
         $files = $element->children();
 
-        if (\count($files) === 0) {
+        if ((is_countable($files) ? \count($files) : 0) === 0) {
             // No files to process
             return true;
         }
@@ -1960,6 +1949,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function copyManifest($cid = 1)
     {
+        $path = [];
         // Get the client info
         $client = ApplicationHelper::getClientInfo($cid);
 
@@ -1973,7 +1963,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $path['dest'] = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
         }
 
-        return $this->copyFiles(array($path), true);
+        return $this->copyFiles([$path], true);
     }
 
     /**
@@ -2022,7 +2012,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
                     $this->setPath('manifest', $file);
 
                     // Set the installation source path to that of the manifest file
-                    $this->setPath('source', \dirname($file));
+                    $this->setPath('source', \dirname((string) $file));
 
                     return true;
                 }
@@ -2076,7 +2066,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      */
     public function generateManifestCache()
     {
-        return json_encode(self::parseXMLInstallFile($this->getPath('manifest')));
+        return json_encode(self::parseXMLInstallFile($this->getPath('manifest')), JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -2124,19 +2114,19 @@ class Installer extends Adapter implements DatabaseAwareInterface
     {
         // The magic find deleted files function!
         // The files that are new
-        $files = array();
+        $files = [];
 
         // The folders that are new
-        $folders = array();
+        $folders = [];
 
         // The folders of the files that are new
-        $containers = array();
+        $containers = [];
 
         // A list of files to delete
-        $files_deleted = array();
+        $files_deleted = [];
 
         // A list of folders to delete
-        $folders_deleted = array();
+        $folders_deleted = [];
 
         foreach ($newFiles as $file) {
             switch ($file->getName()) {
@@ -2202,7 +2192,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             }
         }
 
-        return array('files' => $files_deleted, 'folders' => $folders_deleted);
+        return ['files' => $files_deleted, 'folders' => $folders_deleted];
     }
 
     /**
@@ -2222,11 +2212,11 @@ class Installer extends Adapter implements DatabaseAwareInterface
         }
 
         $data = file($filename, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $retval = array();
+        $retval = [];
 
         foreach ($data as $row) {
             // Split up the data
-            $results = explode('  ', $row);
+            $results = explode('  ', (string) $row);
 
             // Cull any potential prefix
             $results[1] = str_replace('./', '', $results[1]);
@@ -2275,7 +2265,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             return false;
         }
 
-        $data = array();
+        $data = [];
 
         $data['name'] = (string) $xml->name;
 
@@ -2326,8 +2316,9 @@ class Installer extends Adapter implements DatabaseAwareInterface
      *
      * @since   3.4
      */
-    public function getAdapters($options = array(), array $custom = array())
+    public function getAdapters($options = [], array $custom = [])
     {
+        $adapters = [];
         $files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
         // Process the core adapters
@@ -2368,7 +2359,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
             foreach ($custom as $adapter) {
                 // Setup the class name
                 // TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
-                $class = $this->_classprefix . ucfirst(trim($adapter));
+                $class = $this->_classprefix . ucfirst(trim((string) $adapter));
 
                 // If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
                 if (!class_exists($class)) {
@@ -2393,7 +2384,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
      * @since   3.4
      * @throws  \InvalidArgumentException
      */
-    public function loadAdapter($adapter, $options = array())
+    public function loadAdapter($adapter, $options = [])
     {
         $class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($adapter) . 'Adapter';
 

@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit;
 
+use PHPUnit\Framework\TestCase;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
@@ -19,7 +20,7 @@ use Joomla\Database\QueryInterface;
  *
  * @since   4.0.0
  */
-abstract class UnitTestCase extends \PHPUnit\Framework\TestCase
+abstract class UnitTestCase extends TestCase
 {
     /**
      * Returns a database query instance.

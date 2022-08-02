@@ -31,7 +31,7 @@ class BeforeLoadEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('keys', $arguments)) {
             throw new BadMethodCallException("Argument 'keys' is required for event $name");

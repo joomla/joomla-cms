@@ -45,7 +45,7 @@ abstract class JGrid
     public static function action(
         $i,
         $task,
-        $prefix = '',
+        string|array $prefix = '',
         $activeTitle = '',
         $inactiveTitle = '',
         $tip = false,
@@ -56,6 +56,9 @@ abstract class JGrid
         $checkbox = 'cb',
         $formId = null
     ) {
+        $html = [];
+        $ariaid = null;
+        $title = null;
         if (is_array($prefix)) {
             $options = $prefix;
             $activeTitle = array_key_exists('active_title', $options) ? $options['active_title'] : $activeTitle;
@@ -127,7 +130,7 @@ abstract class JGrid
      *
      * @since   1.6
      */
-    public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null)
+    public static function state($states, $value, $i, string|array $prefix = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null)
     {
         if (is_array($prefix)) {
             $options = $prefix;
@@ -182,7 +185,7 @@ abstract class JGrid
     public static function published(
         $value,
         $i,
-        $prefix = '',
+        string|array $prefix = '',
         $enabled = true,
         $checkbox = 'cb',
         $publishUp = null,
@@ -196,12 +199,7 @@ abstract class JGrid
             $prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $states = array(
-            1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'),
-            0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'),
-            2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
-            -2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'),
-        );
+        $states = [1 => ['unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'], 0 => ['publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'], 2 => ['unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'], -2 => ['publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash']];
 
         // Special state for dates
         if ($publishUp || $publishDown) {
@@ -214,7 +212,7 @@ abstract class JGrid
             $publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimezone($tz) : false;
 
             // Create tip text, only we have publish up or down settings
-            $tips = array();
+            $tips = [];
 
             if ($publishUp) {
                 $tips[] = Text::sprintf('JLIB_HTML_PUBLISHED_START', HTMLHelper::_('date', $publishUp, Text::_('DATE_FORMAT_LC5'), 'UTC'));
@@ -252,7 +250,7 @@ abstract class JGrid
                 }
             }
 
-            return static::state($states, $value, $i, array('prefix' => $prefix, 'translate' => !$tip), $enabled, true, $checkbox, $formId);
+            return static::state($states, $value, $i, ['prefix' => $prefix, 'translate' => !$tip], $enabled, true, $checkbox, $formId);
         }
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
@@ -275,7 +273,7 @@ abstract class JGrid
      * @see     JHtmlJGrid::state()
      * @since   1.6
      */
-    public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-unfeatured')
+    public static function isdefault($value, $i, string|array $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured icon-star', $inactive_class = 'icon-unfeatured')
     {
         if (is_array($prefix)) {
             $options  = $prefix;
@@ -284,10 +282,7 @@ abstract class JGrid
             $prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
         }
 
-        $states = array(
-            0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class),
-            1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class),
-        );
+        $states = [0 => ['setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, $inactive_class, $inactive_class], 1 => ['unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, $active_class, $active_class]];
 
         return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox, $formId);
     }
@@ -304,10 +299,10 @@ abstract class JGrid
      *
      * @since   1.6
      */
-    public static function publishedOptions($config = array())
+    public static function publishedOptions($config = [])
     {
         // Build the active state filter options.
-        $options = array();
+        $options = [];
 
         if (!array_key_exists('published', $config) || $config['published']) {
             $options[] = HTMLHelper::_('select.option', '1', 'JPUBLISHED');
@@ -347,7 +342,7 @@ abstract class JGrid
      *
      * @since   1.6
      */
-    public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb', $formId = null)
+    public static function checkedout($i, $editorName, $time, string|array $prefix = '', $enabled = false, $checkbox = 'cb', $formId = null)
     {
         if (is_array($prefix)) {
             $options = $prefix;
@@ -364,8 +359,8 @@ abstract class JGrid
             $i,
             'checkin',
             $prefix,
-            html_entity_decode($activeTitle, ENT_QUOTES, 'UTF-8'),
-            html_entity_decode($inactiveTitle, ENT_QUOTES, 'UTF-8'),
+            html_entity_decode((string) $activeTitle, ENT_QUOTES, 'UTF-8'),
+            html_entity_decode((string) $inactiveTitle, ENT_QUOTES, 'UTF-8'),
             true,
             'checkedout',
             'checkedout',
@@ -391,7 +386,7 @@ abstract class JGrid
      *
      * @since   1.6
      */
-    public static function orderUp($i, $task = 'orderup', $prefix = '', $text = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb', $formId = null)
+    public static function orderUp($i, $task = 'orderup', string|array $prefix = '', $text = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb', $formId = null)
     {
         if (is_array($prefix)) {
             $options = $prefix;
@@ -422,7 +417,7 @@ abstract class JGrid
     public static function orderDown(
         $i,
         $task = 'orderdown',
-        $prefix = '',
+        string|array $prefix = '',
         $text = 'JLIB_HTML_MOVE_DOWN',
         $enabled = true,
         $checkbox = 'cb',

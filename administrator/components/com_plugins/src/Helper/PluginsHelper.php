@@ -33,7 +33,7 @@ class PluginsHelper
     public static function publishedOptions()
     {
         // Build the active state filter options.
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
         $options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
@@ -47,6 +47,7 @@ class PluginsHelper
      */
     public static function folderOptions()
     {
+        $options = null;
         $db = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('DISTINCT(folder) AS value, folder AS text')
@@ -72,6 +73,7 @@ class PluginsHelper
      */
     public static function elementOptions()
     {
+        $options = null;
         $db = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select('DISTINCT(element) AS value, element AS text')
@@ -94,10 +96,8 @@ class PluginsHelper
      *
      * @param   string  $templateBaseDir  Base path to the template directory.
      * @param   string  $templateDir      Template directory.
-     *
-     * @return  CMSObject|bool
      */
-    public function parseXMLTemplateFile($templateBaseDir, $templateDir)
+    public function parseXMLTemplateFile($templateBaseDir, $templateDir): CMSObject|bool
     {
         $data = new CMSObject();
 

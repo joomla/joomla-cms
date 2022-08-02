@@ -34,15 +34,7 @@ class FeedEntry
      * @var    array  The entry properties.
      * @since  3.1.4
      */
-    protected $properties = array(
-        'uri'  => '',
-        'title' => '',
-        'updatedDate' => '',
-        'content' => '',
-        'categories' => array(),
-        'contributors' => array(),
-        'links' => array(),
-    );
+    protected $properties = ['uri'  => '', 'title' => '', 'updatedDate' => '', 'content' => '', 'categories' => [], 'contributors' => [], 'links' => []];
 
     /**
      * Magic method to return values for feed entry properties.
@@ -80,8 +72,8 @@ class FeedEntry
             throw new \InvalidArgumentException(
                 sprintf(
                     '%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
-                    \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    $this::class,
+                    \gettype($value) === 'object' ? $value::class : \gettype($value)
                 )
             );
         }
@@ -91,18 +83,18 @@ class FeedEntry
             throw new \InvalidArgumentException(
                 sprintf(
                     '%1$s "source" must be an instance of Joomla\\CMS\\Feed\\Feed. %2$s given.',
-                    \get_class($this),
-                    \gettype($value) === 'object' ? \get_class($value) : \gettype($value)
+                    $this::class,
+                    \gettype($value) === 'object' ? $value::class : \gettype($value)
                 )
             );
         }
 
         // Disallow setting categories, contributors, or links directly.
-        if (\in_array($name, array('categories', 'contributors', 'links'))) {
+        if (\in_array($name, ['categories', 'contributors', 'links'])) {
             throw new \InvalidArgumentException(
                 sprintf(
                     'Cannot directly set %1$s property "%2$s".',
-                    \get_class($this),
+                    $this::class,
                     $name
                 )
             );

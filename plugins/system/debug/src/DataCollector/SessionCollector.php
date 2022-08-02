@@ -23,10 +23,9 @@ class SessionCollector extends AbstractDataCollector
     /**
      * Collector name.
      *
-     * @var   string
      * @since 4.0.0
      */
-    private $name = 'session';
+    private string $name = 'session';
 
     /**
      * Called by the DebugBar when data needs to be collected

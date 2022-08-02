@@ -45,20 +45,18 @@ class DatabaseModel extends InstallerModel
     /**
      * ChangeSet of all extensions
      *
-     * @var    array
      *
      * @since  4.0.0
      */
-    private $changeSetList = array();
+    private array $changeSetList = [];
 
     /**
      * Total of errors
      *
-     * @var    integer
      *
      * @since  4.0.0
      */
-    private $errorCount = 0;
+    private int $errorCount = 0;
 
     /**
      * Constructor.
@@ -69,19 +67,10 @@ class DatabaseModel extends InstallerModel
      * @see     ListModel
      * @since   4.0.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'update_site_name',
-                'name',
-                'client_id',
-                'client', 'client_translated',
-                'status',
-                'type', 'type_translated',
-                'folder', 'folder_translated',
-                'extension_id'
-            );
+            $config['filter_fields'] = ['update_site_name', 'name', 'client_id', 'client', 'client_translated', 'status', 'type', 'type_translated', 'folder', 'folder_translated', 'extension_id'];
         }
 
         parent::__construct($config, $factory);
@@ -128,10 +117,10 @@ class DatabaseModel extends InstallerModel
         $results = $this->_getList($this->getListQuery());
 
         foreach ($results as $result) {
-            $errorMessages = array();
+            $errorMessages = [];
             $errorCount    = 0;
 
-            if (strcmp($result->element, 'joomla') === 0) {
+            if (strcmp((string) $result->element, 'joomla') === 0) {
                 $result->element = 'com_admin';
 
                 if (!$this->getDefaultTextFilters()) {
@@ -231,14 +220,7 @@ class DatabaseModel extends InstallerModel
             $this->errorCount += $errorCount;
 
             // Collect the extension details
-            $this->changeSetList[$result->extension_id] = array(
-                'folderTmp'     => $folderTmp,
-                'errorsMessage' => $errorMessages,
-                'errorsCount'   => $errorCount,
-                'results'       => $changeSet->getStatus(),
-                'schema'        => $schema,
-                'extension'     => $result
-            );
+            $this->changeSetList[$result->extension_id] = ['folderTmp'     => $folderTmp, 'errorsMessage' => $errorMessages, 'errorsCount'   => $errorCount, 'results'       => $changeSet->getStatus(), 'schema'        => $schema, 'extension'     => $result];
         }
     }
 
@@ -275,7 +257,7 @@ class DatabaseModel extends InstallerModel
      *
      * @since   4.0.0
      */
-    public function fix($cids = array())
+    public function fix($cids = [])
     {
         $db = $this->getDatabase();
 
@@ -301,7 +283,7 @@ class DatabaseModel extends InstallerModel
                  */
                 $statusArray = $changeSet['changeset']->getStatus();
 
-                if (count($statusArray['error']) == 0) {
+                if ((is_countable($statusArray['error']) ? count($statusArray['error']) : 0) == 0) {
                     $installer->convertTablesToUtf8mb4(false);
                 }
             }
@@ -386,7 +368,7 @@ class DatabaseModel extends InstallerModel
                 ->bind(':extensionid', $extensionId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, array('plugin', 'library', ''))) {
+        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('extensions.folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -395,8 +377,8 @@ class DatabaseModel extends InstallerModel
         // Process search filter (update site id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $ids = (int) substr($search, 3);
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $ids = (int) substr((string) $search, 3);
             $query->where($db->quoteName('schemas.extension_id') . ' = :eid')
                 ->bind(':eid', $ids, ParameterType::INTEGER);
         }
@@ -416,7 +398,7 @@ class DatabaseModel extends InstallerModel
     protected function mergeSchemaCache($results)
     {
         $changeSetList = $this->changeSetList;
-        $finalResults  = array();
+        $finalResults  = [];
 
         foreach ($results as $result) {
             if (array_key_exists($result->extension_id, $changeSetList) && $changeSetList[$result->extension_id]) {
@@ -494,7 +476,7 @@ class DatabaseModel extends InstallerModel
 
         try {
             $db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -512,7 +494,7 @@ class DatabaseModel extends InstallerModel
      */
     public function compareUpdateVersion($extension)
     {
-        $updateVersion = json_decode($extension->manifest_cache)->version;
+        $updateVersion = json_decode((string) $extension->manifest_cache, null, 512, JSON_THROW_ON_ERROR)->version;
 
         if ($extension->element === 'com_admin') {
             $extensionVersion = JVERSION;
@@ -545,9 +527,9 @@ class DatabaseModel extends InstallerModel
      */
     private function getOtherInformationMessage($status)
     {
-        $problemsMessage = array();
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', count($status['ok']));
-        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', count($status['skipped']));
+        $problemsMessage = [];
+        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_CHECKED_OK', is_countable($status['ok']) ? count($status['ok']) : 0);
+        $problemsMessage[] = Text::sprintf('COM_INSTALLER_MSG_DATABASE_SKIPPED', is_countable($status['skipped']) ? count($status['skipped']) : 0);
 
         return $problemsMessage;
     }
@@ -563,15 +545,15 @@ class DatabaseModel extends InstallerModel
      */
     private function getErrorsMessage($errors)
     {
-        $errorMessages = array();
+        $errorMessages = [];
 
         foreach ($errors as $line => $error) {
             $key             = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
             $messages        = $error->msgElements;
-            $file            = basename($error->file);
-            $message0        = isset($messages[0]) ? $messages[0] : ' ';
-            $message1        = isset($messages[1]) ? $messages[1] : ' ';
-            $message2        = isset($messages[2]) ? $messages[2] : ' ';
+            $file            = basename((string) $error->file);
+            $message0        = $messages[0] ?? ' ';
+            $message1        = $messages[1] ?? ' ';
+            $message2        = $messages[2] ?? ' ';
             $errorMessages[] = Text::sprintf($key, $file, $message0, $message1, $message2);
         }
 
@@ -632,7 +614,7 @@ class DatabaseModel extends InstallerModel
     public function getDefaultTextFilters()
     {
         $table = new Extension($this->getDatabase());
-        $table->load($table->find(array('name' => 'com_config')));
+        $table->load($table->find(['name' => 'com_config']));
 
         return $table->params;
     }
@@ -648,7 +630,7 @@ class DatabaseModel extends InstallerModel
     private function fixDefaultTextFilters()
     {
         $table = new Extension($this->getDatabase());
-        $table->load($table->find(array('name' => 'com_config')));
+        $table->load($table->find(['name' => 'com_config']));
 
         // Check for empty $config and non-empty content filters.
         if (!$table->params) {

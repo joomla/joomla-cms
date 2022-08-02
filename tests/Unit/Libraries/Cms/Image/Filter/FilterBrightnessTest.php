@@ -20,7 +20,6 @@ class FilterBrightnessTest extends UnitTestCase
     /**
      * Setup for testing.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -37,7 +36,6 @@ class FilterBrightnessTest extends UnitTestCase
     /**
      * Overrides the parent tearDown method.
      *
-     * @return  void
      *
      * @see     PHPUnit_Framework_TestCase::tearDown()
      * @since   4.0.0
@@ -69,7 +67,7 @@ class FilterBrightnessTest extends UnitTestCase
 
         $filter = new FilterBrightness($imageHandle);
 
-        $filter->execute(array(IMG_FILTER_BRIGHTNESS => 10));
+        $filter->execute([IMG_FILTER_BRIGHTNESS => 10]);
 
         $this->assertEquals(
             137,
@@ -101,6 +99,6 @@ class FilterBrightnessTest extends UnitTestCase
 
         $filter = new FilterBrightness($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
     }
 }

@@ -53,7 +53,7 @@ if (!empty($feed) && is_string($feed)) {
         if ($feed->title !== null && $params->get('rsstitle', 1)) {
             ?>
                 <h2 class="<?php echo $direction; ?>">
-                    <a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
+                    <a href="<?php echo htmlspecialchars((string) $rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
                     <?php echo $feed->title; ?></a>
                 </h2>
             <?php
@@ -80,19 +80,19 @@ if (!empty($feed) && is_string($feed)) {
     <!-- Show items -->
         <?php if (!empty($feed)) { ?>
         <ul class="newsfeed">
-            <?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
+            <?php for ($i = 0, $max = min(is_countable($feed) ? count($feed) : 0, $params->get('rssitems', 3)); $i < $max; $i++) { ?>
                 <?php
-                $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+                $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim((string) $feed[$i]->uri) : trim((string) $feed[$i]->guid);
                 $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
-                $text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+                $text = $feed[$i]->content !== '' ? trim((string) $feed[$i]->content) : '';
                 ?>
                 <li>
                     <?php if (!empty($uri)) : ?>
                         <span class="feed-link">
-                        <a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
-                        <?php echo trim($feed[$i]->title); ?></a></span>
+                        <a href="<?php echo htmlspecialchars((string) $uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank" rel="noopener">
+                        <?php echo trim((string) $feed[$i]->title); ?></a></span>
                     <?php else : ?>
-                        <span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
+                        <span class="feed-link"><?php echo trim((string) $feed[$i]->title); ?></span>
                     <?php endif; ?>
 
                     <?php if ($params->get('rssitemdate', 0)) : ?>
@@ -107,7 +107,7 @@ if (!empty($feed) && is_string($feed)) {
                             // Strip the images.
                             $text = OutputFilter::stripImages($text);
                             $text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0));
-                            echo str_replace('&apos;', "'", $text);
+                            echo str_replace('&apos;', "'", (string) $text);
                         ?>
                         </div>
                     <?php endif; ?>

@@ -54,7 +54,7 @@ class UCMContent extends UCMBase
         if ($table) {
             $this->table = $table;
         } else {
-            $tableObject = json_decode($this->type->type->table);
+            $tableObject = json_decode((string) $this->type->type->table, null, 512, JSON_THROW_ON_ERROR);
             $this->table = Table::getInstance($tableObject->special->type, $tableObject->special->prefix, $tableObject->special->config);
         }
     }
@@ -102,7 +102,7 @@ class UCMContent extends UCMBase
         $type = $type ?: $this->type;
 
         if (!\is_array($pk)) {
-            $pk = explode(',', $pk);
+            $pk = explode(',', (string) $pk);
         }
 
         $query = $db->getQuery(true)
@@ -131,9 +131,9 @@ class UCMContent extends UCMBase
     {
         $contentType = $type ?: $this->type;
 
-        $fields = json_decode($contentType->type->field_mappings);
+        $fields = json_decode((string) $contentType->type->field_mappings, null, 512, JSON_THROW_ON_ERROR);
 
-        $ucmData = array();
+        $ucmData = [];
 
         $common = \is_object($fields->common) ? $fields->common : $fields->common[0];
 
@@ -185,7 +185,7 @@ class UCMContent extends UCMBase
 
         if (!$primaryKey) {
             // Store the core UCM mappings
-            $baseData = array();
+            $baseData = [];
             $baseData['ucm_type_id']     = $typeId;
             $baseData['ucm_item_id']     = $data['core_content_item_id'];
             $baseData['ucm_language_id'] = ContentHelper::getLanguageId($data['core_language']);

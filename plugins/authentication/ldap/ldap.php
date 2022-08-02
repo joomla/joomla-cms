@@ -47,7 +47,7 @@ class PlgAuthenticationLdap extends CMSPlugin
         $response->type = 'LDAP';
 
         // Strip null bytes from the password
-        $credentials['password'] = str_replace(chr(0), '', $credentials['password']);
+        $credentials['password'] = str_replace(chr(0), '', (string) $credentials['password']);
 
         // LDAP does not like Blank passwords (tries to Anon Bind which is bad)
         if (empty($credentials['password'])) {
@@ -77,10 +77,10 @@ class PlgAuthenticationLdap extends CMSPlugin
         switch ($auth_method) {
             case 'search':
                 try {
-                    $dn = str_replace('[username]', $this->params->get('username', ''), $this->params->get('users_dn', ''));
+                    $dn = str_replace('[username]', $this->params->get('username', ''), (string) $this->params->get('users_dn', ''));
 
                     $ldap->bind($dn, $this->params->get('password', ''));
-                } catch (ConnectionException | LdapException $exception) {
+                } catch (ConnectionException | LdapException) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
 
@@ -93,11 +93,11 @@ class PlgAuthenticationLdap extends CMSPlugin
                         str_replace(
                             '[search]',
                             str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
-                            $this->params->get('search_string')
+                            (string) $this->params->get('search_string')
                         ),
                         $ldap
                     );
-                } catch (LdapException $exception) {
+                } catch (LdapException) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
 
@@ -114,7 +114,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                 try {
                     // Verify Users Credentials
                     $ldap->bind($entry->getDn(), $credentials['password']);
-                } catch (ConnectionException $exception) {
+                } catch (ConnectionException) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
 
@@ -127,7 +127,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                 // We just accept the result here
                 try {
                     $ldap->bind($ldap->escape($credentials['username'], '', LDAP_ESCAPE_DN), $credentials['password']);
-                } catch (ConnectionException | LdapException $exception) {
+                } catch (ConnectionException | LdapException) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
 
@@ -139,11 +139,11 @@ class PlgAuthenticationLdap extends CMSPlugin
                         str_replace(
                             '[search]',
                             str_replace(';', '\3b', $ldap->escape($credentials['username'], '', LDAP_ESCAPE_FILTER)),
-                            $this->params->get('search_string')
+                            (string) $this->params->get('search_string')
                         ),
                         $ldap
                     );
-                } catch (LdapException $exception) {
+                } catch (LdapException) {
                     $response->status = Authentication::STATUS_FAILURE;
                     $response->error_message = Text::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
 
@@ -163,7 +163,7 @@ class PlgAuthenticationLdap extends CMSPlugin
         // Grab some details from LDAP and return them
         $response->username = $entry->getAttribute($ldap_uid)[0] ?? false;
         $response->email    = $entry->getAttribute($ldap_email)[0] ?? false;
-        $response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? trim($entry->getAttribute($ldap_fullname)[0]) ?: $credentials['username'];
+        $response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? trim((string) $entry->getAttribute($ldap_fullname)[0]) ?: $credentials['username'];
 
         // Were good - So say so.
         $response->status        = Authentication::STATUS_SUCCESS;

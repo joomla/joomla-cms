@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Languages\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -29,7 +30,7 @@ abstract class LanguagesHelper
     /**
      * Gets a list of available languages
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
+     * @param Registry &$params module params
      *
      * @return  array
      */
@@ -69,11 +70,11 @@ abstract class LanguagesHelper
                 $cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
             } else {
                 // Load component associations
-                $class = str_replace('com_', '', $option) . 'HelperAssociation';
+                $class = str_replace('com_', '', (string) $option) . 'HelperAssociation';
                 \JLoader::register($class, JPATH_SITE . '/components/' . $option . '/helpers/association.php');
 
-                if (class_exists($class) && \is_callable(array($class, 'getAssociations'))) {
-                    $cassociations = \call_user_func(array($class, 'getAssociations'));
+                if (class_exists($class) && \is_callable([$class, 'getAssociations'])) {
+                    $cassociations = \call_user_func([$class, 'getAssociations']);
                 }
             }
         }
@@ -116,7 +117,7 @@ abstract class LanguagesHelper
                         $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $active->id);
                     } else {
                         if ($language->active) {
-                            $language->link = Uri::getInstance()->toString(array('path', 'query'));
+                            $language->link = Uri::getInstance()->toString(['path', 'query']);
                         } else {
                             $itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
                             $language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);

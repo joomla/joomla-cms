@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Document\HtmlDocument;
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
@@ -12,12 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
-/** @var \Joomla\CMS\Document\HtmlDocument $this */
-
+/** @var HtmlDocument $this */
 $wa = $this->getWebAssetManager();
 
 // Get the hue value
-preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', (string) $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))

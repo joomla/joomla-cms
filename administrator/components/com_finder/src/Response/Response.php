@@ -31,6 +31,7 @@ class Response
      */
     public function __construct($state)
     {
+        $options = [];
         $params = ComponentHelper::getParams('com_finder');
 
         if ($params->get('enable_logging', '0')) {
@@ -44,7 +45,7 @@ class Response
             // Log the error
             try {
                 Log::add($state->getMessage(), Log::ERROR);
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 // Informational log only
             }
 

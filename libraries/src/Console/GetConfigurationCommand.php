@@ -40,17 +40,16 @@ class GetConfigurationCommand extends AbstractCommand
 
     /**
      * SymfonyStyle Object
-     * @var SymfonyStyle
      * @since 4.0.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Constant defining the Database option group
      * @var array
      * @since 4.0.0
      */
-    public const DB_GROUP = [
+    final public const DB_GROUP = [
         'name' => 'db',
         'options' => [
             'dbtype',
@@ -73,7 +72,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @var array
      * @since 4.0.0
      */
-    public const SESSION_GROUP = [
+    final public const SESSION_GROUP = [
         'name' => 'session',
         'options' => [
             'session_handler',
@@ -87,7 +86,7 @@ class GetConfigurationCommand extends AbstractCommand
      * @var array
      * @since 4.0.0
      */
-    public const MAIL_GROUP = [
+    final public const MAIL_GROUP = [
         'name' => 'mail',
         'options' => [
             'mailonline',
@@ -108,25 +107,25 @@ class GetConfigurationCommand extends AbstractCommand
      * Return code if configuration is get successfully
      * @since 4.0.0
      */
-    public const CONFIG_GET_SUCCESSFUL = 0;
+    final public const CONFIG_GET_SUCCESSFUL = 0;
 
     /**
      * Return code if configuration group option is not found
      * @since 4.0.0
      */
-    public const CONFIG_GET_GROUP_NOT_FOUND = 1;
+    final public const CONFIG_GET_GROUP_NOT_FOUND = 1;
 
     /**
      * Return code if configuration option is not found
      * @since 4.0.0
      */
-    public const CONFIG_GET_OPTION_NOT_FOUND = 2;
+    final public const CONFIG_GET_OPTION_NOT_FOUND = 2;
 
     /**
      * Return code if the command has been invoked with wrong options
      * @since 4.0.0
      */
-    public const CONFIG_GET_OPTION_FAILED = 3;
+    final public const CONFIG_GET_OPTION_FAILED = 3;
 
     /**
      * Configures the IO
@@ -151,7 +150,6 @@ class GetConfigurationCommand extends AbstractCommand
      *
      * @param   string  $group  The group to be processed
      *
-     * @return integer
      *
      * @since 4.0.0
      */
@@ -207,7 +205,6 @@ class GetConfigurationCommand extends AbstractCommand
      *
      * @param   array  $configs  Array of the configurations
      *
-     * @return array
      *
      * @since 4.0.0
      */
@@ -232,7 +229,6 @@ class GetConfigurationCommand extends AbstractCommand
      *
      * @param   string  $option  The option we want to get its value
      *
-     * @return integer
      *
      * @since 4.0.0
      */
@@ -258,7 +254,6 @@ class GetConfigurationCommand extends AbstractCommand
      *
      * @param   mixed  $value  Value to be formatted
      *
-     * @return string
      *
      * @since 4.0.0
      */
@@ -271,9 +266,9 @@ class GetConfigurationCommand extends AbstractCommand
         } elseif ($value === null) {
             return 'Not Set';
         } elseif (\is_array($value)) {
-            return \json_encode($value);
+            return \json_encode($value, JSON_THROW_ON_ERROR);
         } elseif (\is_object($value)) {
-            return \json_encode(\get_object_vars($value));
+            return \json_encode(\get_object_vars($value), JSON_THROW_ON_ERROR);
         } else {
             return $value;
         }
@@ -282,12 +277,12 @@ class GetConfigurationCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
     protected function configure(): void
     {
+        $groupNames = [];
         $groups = $this->getGroups();
 
         foreach ($groups as $key => $group) {

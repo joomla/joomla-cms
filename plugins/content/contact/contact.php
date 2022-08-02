@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
@@ -26,7 +27,7 @@ use Joomla\Registry\Registry;
 class PlgContentContact extends CMSPlugin
 {
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  3.3
      */
@@ -44,7 +45,7 @@ class PlgContentContact extends CMSPlugin
      */
     public function onContentPrepare($context, &$row, $params, $page = 0)
     {
-        $allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+        $allowed_contexts = ['com_content.category', 'com_content.article', 'com_content.featured'];
 
         if (!in_array($context, $allowed_contexts)) {
             return;
@@ -96,7 +97,7 @@ class PlgContentContact extends CMSPlugin
      */
     protected function getContactData($userId)
     {
-        static $contacts = array();
+        static $contacts = [];
 
         // Note: don't use isset() because value could be null.
         if (array_key_exists($userId, $contacts)) {

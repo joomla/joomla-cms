@@ -38,7 +38,7 @@ class CollectionAdapter extends UpdateAdapter
      * @var    array
      * @since  1.7.0
      */
-    protected $parent = array(0);
+    protected $parent = [0];
 
     /**
      * Used to control if an item has a child or not
@@ -53,14 +53,14 @@ class CollectionAdapter extends UpdateAdapter
      *
      * @var  array
      */
-    protected $update_sites = array();
+    protected $update_sites = [];
 
     /**
      * A list of discovered updates
      *
      * @var  array
      */
-    protected $updates = array();
+    protected $updates = [];
 
     /**
      * Gets the reference to the current direct parent
@@ -97,8 +97,9 @@ class CollectionAdapter extends UpdateAdapter
      *
      * @since   1.7.0
      */
-    public function _startElement($parser, $name, $attrs = array())
+    public function _startElement($parser, $name, $attrs = [])
     {
+        $values = [];
         $this->stack[] = $name;
         $tag           = $this->_getStackLocation();
 
@@ -110,7 +111,7 @@ class CollectionAdapter extends UpdateAdapter
         switch ($name) {
             case 'CATEGORY':
                 if (isset($attrs['REF'])) {
-                    $this->update_sites[] = array('type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId);
+                    $this->update_sites[] = ['type' => 'collection', 'location' => $attrs['REF'], 'update_site_id' => $this->updateSiteId];
                 } else {
                     // This item will have children, so prepare to attach them
                     $this->pop_parent = 1;
@@ -146,7 +147,7 @@ class CollectionAdapter extends UpdateAdapter
                 $ver = new Version();
 
                 // Lower case and remove the exclamation mark
-                $product = strtolower(InputFilter::getInstance()->clean($ver::PRODUCT, 'cmd'));
+                $product = strtolower((string) InputFilter::getInstance()->clean($ver::PRODUCT, 'cmd'));
 
                 /*
                  * Set defaults, the extension file should clarify in case but it may be only available in one version
@@ -167,7 +168,7 @@ class CollectionAdapter extends UpdateAdapter
 
                 // Set this to ourselves as a default
                 // validate that we can install the extension
-                if ($product == $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', JVERSION)) {
+                if ($product == $values['targetplatform'] && preg_match('/^' . $values['targetplatformversion'] . '/', (string) JVERSION)) {
                     $update->bind($values);
                     $this->updates[] = $update;
                 }
@@ -207,7 +208,7 @@ class CollectionAdapter extends UpdateAdapter
      *
      * @since   1.7.0
      */
-    public function findUpdate($options)
+    public function findUpdate($options): array|bool
     {
         $response = $this->getUpdateSiteResponse($options);
 
@@ -221,20 +222,20 @@ class CollectionAdapter extends UpdateAdapter
 
         if (!xml_parse($this->xmlParser, $response->body)) {
             // If the URL is missing the .xml extension, try appending it and retry loading the update
-            if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml')) {
+            if (!$this->appendExtension && (!str_ends_with($this->_url, '.xml'))) {
                 $options['append_extension'] = true;
 
                 return $this->findUpdate($options);
             }
 
             $app = Factory::getApplication();
-            $app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
+            $app->getLogger()->warning("Error parsing url: {$this->_url}", ['category' => 'updater']);
             $app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
             return false;
         }
 
         // @todo: Decrement the bad counter if non-zero
-        return array('update_sites' => $this->update_sites, 'updates' => $this->updates);
+        return ['update_sites' => $this->update_sites, 'updates' => $this->updates];
     }
 }

@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -23,7 +26,7 @@ abstract class ActionLogPlugin extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.9.0
      */
     protected $app;
@@ -31,7 +34,7 @@ abstract class ActionLogPlugin extends CMSPlugin
     /**
      * Database object.
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.9.0
      */
     protected $db;
@@ -76,17 +79,17 @@ abstract class ActionLogPlugin extends CMSPlugin
             }
 
             if (\array_key_exists('type', $message)) {
-                $message['type'] = strtoupper($message['type']);
+                $message['type'] = strtoupper((string) $message['type']);
             }
 
             if (\array_key_exists('app', $message)) {
-                $message['app'] = strtoupper($message['app']);
+                $message['app'] = strtoupper((string) $message['app']);
             }
 
             $messages[$index] = $message;
         }
 
-        /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel $model */
+        /** @var ActionlogModel $model */
         $model = $this->app->bootComponent('com_actionlogs')
             ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 

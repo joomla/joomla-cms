@@ -16,7 +16,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
-$n         = count($this->items);
+$n         = is_countable($this->items) ? count($this->items) : 0;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
@@ -93,6 +93,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php endif; ?>
             <?php endif; ?>
         </form>
-    <?php endif; ?>
+<?php endif; ?>
 </div>
 

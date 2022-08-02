@@ -78,7 +78,6 @@ class CleanCacheCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

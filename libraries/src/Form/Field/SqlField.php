@@ -73,15 +73,10 @@ class SqlField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'keyField':
-            case 'valueField':
-            case 'translate':
-            case 'query':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'keyField', 'valueField', 'translate', 'query' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -133,8 +128,8 @@ class SqlField extends ListField
 
             if (empty($this->query)) {
                 // Get the query from the form
-                $query    = array();
-                $defaults = array();
+                $query    = [];
+                $defaults = [];
 
                 $sql_select = (string) $this->element['sql_select'];
                 $sql_from   = (string) $this->element['sql_from'];
@@ -218,7 +213,7 @@ class SqlField extends ListField
 
         // Process the filters
         if (\is_array($filters)) {
-            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
 
             foreach ($filters as $k => $value) {
                 if (!empty($html_filters[$value])) {
@@ -251,7 +246,7 @@ class SqlField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Initialize some field attributes.
         $key   = $this->keyField;
@@ -267,7 +262,7 @@ class SqlField extends ListField
 
             try {
                 $items = $db->loadObjectList();
-            } catch (ExecutionFailureException $e) {
+            } catch (ExecutionFailureException) {
                 Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
             }
         }

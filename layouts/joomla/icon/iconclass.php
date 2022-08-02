@@ -33,10 +33,10 @@ $html       = $displayData['html'] ?? true;
 
 // Replace double set icon-icon-
 // @todo: Joomla should be cleaned so this replacement is not needed.
-$icon       = str_replace('icon-icon-', 'icon-', $icon);
+$icon       = str_replace('icon-icon-', 'icon-', (string) $icon);
 
 switch ($icon) {
-    case (strpos($icon, 'icon-') !== false):
+    case (str_contains($icon, 'icon-')):
         $iconPrefix = $displayData['prefix'] ?? null;
         break;
 

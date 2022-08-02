@@ -1,4 +1,6 @@
 <?php
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
@@ -29,18 +31,18 @@ use Joomla\Database\ParameterType;
 class PlgSystemActionLogs extends CMSPlugin
 {
 	/**
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 *
-	 * @since  3.9.0
-	 */
-	protected $app;
+  * @var CMSApplication
+  *
+  * @since  3.9.0
+  */
+ protected $app;
 
 	/**
-	 * @var    \Joomla\Database\DatabaseDriver
-	 *
-	 * @since  3.9.0
-	 */
-	protected $db;
+  * @var DatabaseDriver
+  *
+  * @since  3.9.0
+  */
+ protected $db;
 
 	/**
 	 * Constructor.
@@ -186,7 +188,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		{
 			$values = $db->setQuery($query)->loadObject();
 		}
-		catch (ExecutionFailureException $e)
+		catch (ExecutionFailureException)
 		{
 			return false;
 		}
@@ -202,12 +204,12 @@ class PlgSystemActionLogs extends CMSPlugin
 
 		if (!HTMLHelper::isRegistered('users.actionlogsNotify'))
 		{
-			HTMLHelper::register('users.actionlogsNotify', array(__CLASS__, 'renderActionlogsNotify'));
+			HTMLHelper::register('users.actionlogsNotify', [self::class, 'renderActionlogsNotify']);
 		}
 
 		if (!HTMLHelper::isRegistered('users.actionlogsExtensions'))
 		{
-			HTMLHelper::register('users.actionlogsExtensions', array(__CLASS__, 'renderActionlogsExtensions'));
+			HTMLHelper::register('users.actionlogsExtensions', [self::class, 'renderActionlogsExtensions']);
 		}
 
 		return true;
@@ -260,7 +262,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			// Lock the tables to prevent multiple plugin executions causing a race condition
 			$db->lockTable('#__extensions');
 		}
-		catch (Exception $e)
+		catch (Exception)
 		{
 			// If we can't lock the tables it's too risky to continue execution
 			return;
@@ -273,7 +275,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 			$this->clearCacheGroups(['com_plugins'], [0, 1]);
 		}
-		catch (Exception $exc)
+		catch (Exception)
 		{
 			// If we failed to execute
 			$db->unlockTables();
@@ -285,7 +287,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			// Unlock the tables after writing
 			$db->unlockTables();
 		}
-		catch (Exception $e)
+		catch (Exception)
 		{
 			// If we can't lock the tables assume we have somehow failed
 			$result = false;
@@ -314,7 +316,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (RuntimeException)
 			{
 				// Ignore it
 				return;
@@ -349,7 +351,7 @@ class PlgSystemActionLogs extends CMSPlugin
 					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
 				}
-				catch (Exception $e)
+				catch (Exception)
 				{
 					// Ignore it
 				}
@@ -358,18 +360,17 @@ class PlgSystemActionLogs extends CMSPlugin
 	}
 
 	/**
-	 * Utility method to act on a user after it has been saved.
-	 *
-	 * @param   array    $user     Holds the new user data.
-	 * @param   boolean  $isNew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was successfully stored in the database.
-	 * @param   string   $msg      Message.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function onUserAfterSave($user, $isNew, $success, $msg): void
+  * Utility method to act on a user after it has been saved.
+  *
+  * @param   array    $user     Holds the new user data.
+  * @param   boolean  $isNew    True if a new user is stored.
+  * @param   boolean  $success  True if user was successfully stored in the database.
+  * @param   string   $msg      Message.
+  *
+  *
+  * @since   3.9.0
+  */
+ public function onUserAfterSave($user, $isNew, $success, $msg): void
 	{
 		if (!$success)
 		{
@@ -394,7 +395,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		{
 			$exists = (bool) $db->setQuery($query)->loadResult();
 		}
-		catch (ExecutionFailureException $e)
+		catch (ExecutionFailureException)
 		{
 			return;
 		}
@@ -415,7 +416,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			{
 				$values[]  = ':extension';
 				$columns[] = 'extensions';
-				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions'], JSON_THROW_ON_ERROR);
 				$query->bind(':extension', $extension);
 			}
 
@@ -434,7 +435,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			if (isset($user['actionlogs']['actionlogsExtensions']))
 			{
 				$values[] = $db->quoteName('extensions') . ' = :extension';
-				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions'], JSON_THROW_ON_ERROR);
 				$query->bind(':extension', $extension);
 			}
 
@@ -459,26 +460,25 @@ class PlgSystemActionLogs extends CMSPlugin
 		{
 			$db->setQuery($query)->execute();
 		}
-		catch (ExecutionFailureException $e)
+		catch (ExecutionFailureException)
 		{
 			// Do nothing.
 		}
 	}
 
 	/**
-	 * Removes user preferences
-	 *
-	 * Method is called after user data is deleted from the database
-	 *
-	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was successfully stored in the database
-	 * @param   string   $msg      Message
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	public function onUserAfterDelete($user, $success, $msg): void
+  * Removes user preferences
+  *
+  * Method is called after user data is deleted from the database
+  *
+  * @param   array    $user     Holds the user data
+  * @param   boolean  $success  True if user was successfully stored in the database
+  * @param   string   $msg      Message
+  *
+  *
+  * @since   3.9.0
+  */
+ public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
@@ -497,7 +497,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		{
 			$db->setQuery($query)->execute();
 		}
-		catch (ExecutionFailureException $e)
+		catch (ExecutionFailureException)
 		{
 			// Do nothing.
 		}
@@ -512,7 +512,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @since   3.9.16
 	 */
-	public static function renderActionlogsNotify($value)
+	public static function renderActionlogsNotify(int|string $value)
 	{
 		return Text::_($value ? 'JYES' : 'JNO');
 	}
@@ -526,7 +526,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 *
 	 * @since   3.9.16
 	 */
-	public static function renderActionlogsExtensions($extensions)
+	public static function renderActionlogsExtensions(array|string $extensions)
 	{
 		// No extensions selected.
 		if (!$extensions)

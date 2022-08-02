@@ -18,7 +18,7 @@ $totalRequests  = 0;
 $activeRequests = 0;
 
 ?>
-<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+<table class="table" id="<?php echo str_replace(' ', '', (string) $module->title) . $module->id; ?>">
     <caption class="visually-hidden"><?php echo $module->title; ?></caption>
     <thead>
         <tr>
@@ -28,9 +28,9 @@ $activeRequests = 0;
         </tr>
     </thead>
     <tbody>
-        <?php if (count($list)) : ?>
+        <?php if (is_countable($list) ? count($list) : 0) : ?>
             <?php foreach ($list as $i => $item) : ?>
-                <?php if (in_array($item->status, array(0, 1))) : ?>
+                <?php if (in_array($item->status, [0, 1])) : ?>
                     <?php $activeRequests += $item->count; ?>
                 <?php endif; ?>
                 <?php $totalRequests += $item->count; ?>
@@ -57,7 +57,7 @@ $activeRequests = 0;
         <?php endif; ?>
     </tbody>
 </table>
-<?php if (count($list)) : ?>
+<?php if (is_countable($list) ? count($list) : 0) : ?>
     <div class="row p-3">
         <div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
         <div class="col-md-6"><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>

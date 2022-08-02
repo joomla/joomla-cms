@@ -16,7 +16,7 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  2.5.0
  */
-class Rules
+class Rules implements \Stringable
 {
     /**
      * A named array.
@@ -24,7 +24,7 @@ class Rules
      * @var    array
      * @since  1.7.0
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Constructor.
@@ -40,7 +40,7 @@ class Rules
     {
         // Convert in input to an array.
         if (\is_string($input)) {
-            $input = json_decode($input, true);
+            $input = json_decode($input ?: '{}', true, 512, JSON_THROW_ON_ERROR);
         } elseif (\is_object($input)) {
             $input = (array) $input;
         }
@@ -96,7 +96,7 @@ class Rules
     public function merge($actions)
     {
         if (\is_string($actions)) {
-            $actions = json_decode($actions, true);
+            $actions = json_decode($actions, true, 512, JSON_THROW_ON_ERROR);
         }
 
         if (\is_array($actions)) {
@@ -184,9 +184,9 @@ class Rules
      *
      * @since   1.7.0
      */
-    public function __toString()
+    public function __toString(): string
     {
-        $temp = array();
+        $temp = [];
 
         foreach ($this->data as $name => $rule) {
             if ($data = $rule->getData()) {
@@ -194,6 +194,6 @@ class Rules
             }
         }
 
-        return json_encode($temp, JSON_FORCE_OBJECT);
+        return (string) json_encode($temp, JSON_FORCE_OBJECT);
     }
 }

@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $params  = $displayData->params;
-$images  = json_decode($displayData->images);
+$images  = json_decode((string) $displayData->images, null, 512, JSON_THROW_ON_ERROR);
 
 if (empty($images->image_intro)) {
     return;

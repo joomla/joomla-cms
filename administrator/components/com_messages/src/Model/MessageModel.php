@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Messages\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
@@ -94,7 +95,7 @@ class MessageModel extends AdminModel
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -159,7 +160,7 @@ class MessageModel extends AdminModel
                         $this->item->set('user_id_to', $message->user_id_from);
                         $re = Text::_('COM_MESSAGES_RE');
 
-                        if (stripos($message->subject, $re) !== 0) {
+                        if (stripos((string) $message->subject, $re) !== 0) {
                             $this->item->set('subject', $re . ' ' . $message->subject);
                         }
                     }
@@ -194,14 +195,14 @@ class MessageModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|bool  A Form object on success, false on failure
+     * @return Form|bool A Form object on success, false on failure
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_messages.message', 'message', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_messages.message', 'message', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -220,7 +221,7 @@ class MessageModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_messages.edit.message.data', array());
+        $data = Factory::getApplication()->getUserState('com_messages.edit.message.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -258,7 +259,7 @@ class MessageModel extends AdminModel
 
                     try {
                         Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-                    } catch (\RuntimeException $exception) {
+                    } catch (\RuntimeException) {
                         Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
                     }
 
@@ -366,8 +367,8 @@ class MessageModel extends AdminModel
                 $linkMode,
                 true
             );
-            $subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
-            $message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
+            $subject  = html_entity_decode((string) $table->subject, ENT_COMPAT, 'UTF-8');
+            $message  = strip_tags(html_entity_decode((string) $table->message, ENT_COMPAT, 'UTF-8'));
 
             // Send the email
             $mailer = new MailTemplate('com_messages.new_message', $lang->getTag());
@@ -436,7 +437,7 @@ class MessageModel extends AdminModel
                 return false;
             }
 
-            $groups = array();
+            $groups = [];
 
             foreach ($rawGroups as $g => $enabled) {
                 if ($enabled) {

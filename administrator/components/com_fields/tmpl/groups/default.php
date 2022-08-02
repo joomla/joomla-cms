@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -19,7 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -38,7 +39,7 @@ if ($parts) {
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.ordering');
-$saveOrder = ($listOrder == 'a.ordering' && strtolower($listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.ordering' && strtolower((string) $listDirn) == 'asc');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
@@ -50,7 +51,7 @@ $context = $this->escape($this->state->get('filter.context'));
 $searchToolsOptions = [];
 
 // Only show field contexts filter if there are more than one option
-if (count($this->filterForm->getField('context')->options) > 1) {
+if ((is_countable($this->filterForm->getField('context')->options) ? count($this->filterForm->getField('context')->options) : 0) > 1) {
     $searchToolsOptions['selectorFieldName'] = 'context';
 }
 ?>
@@ -59,7 +60,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => $searchToolsOptions)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => $searchToolsOptions]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -100,7 +101,7 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true"<?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php $ordering   = ($listOrder == 'a.ordering'); ?>
@@ -175,14 +176,11 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
-                                    'title' => Text::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'),
-                                    'footer' => $this->loadTemplate('batch_footer')
-                                ),
+                            ['title' => Text::_('COM_FIELDS_VIEW_GROUPS_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>
-                <?php endif; ?>
+<?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>

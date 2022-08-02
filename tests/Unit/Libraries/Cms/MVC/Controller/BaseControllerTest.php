@@ -224,7 +224,7 @@ class BaseControllerTest extends UnitTestCase
             $this->createStub(CMSApplication::class)
         ) extends BaseController
         {
-            public function display($cachable = false, $urlparams = array())
+            public function display($cachable = false, $urlparams = [])
             {
                 return 'unit test';
             }
@@ -534,7 +534,7 @@ class BaseControllerTest extends UnitTestCase
             }
         };
 
-        $this->arrayHasKey('view', $controller->getPaths());
+        $this->arrayHasKey('view');
         $this->assertEquals([$path . '/'], $controller->getPaths()['view']);
     }
 
@@ -561,7 +561,7 @@ class BaseControllerTest extends UnitTestCase
 
         $controller->addViewPath(__DIR__);
 
-        $this->arrayHasKey('view', $controller->getPaths());
+        $this->arrayHasKey('view');
         $this->assertContains(__DIR__ . '/', $controller->getPaths()['view']);
     }
 

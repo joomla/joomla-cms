@@ -41,7 +41,7 @@ class ComponentsCategoryField extends ListField
     {
         // Initialise variable.
         $db      = $this->getDatabase();
-        $options = array();
+        $options = [];
 
         $query = $db->getQuery(true);
         $query->select('DISTINCT ' . $db->quoteName('extension'))
@@ -56,7 +56,7 @@ class ComponentsCategoryField extends ListField
             $option->value = $categoryType;
 
             // Extract the component name and optional section name
-            $parts     = explode('.', $categoryType);
+            $parts     = explode('.', (string) $categoryType);
             $component = $parts[0];
             $section   = (\count($parts) > 1) ? $parts[1] : null;
 

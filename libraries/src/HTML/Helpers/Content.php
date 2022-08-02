@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -43,7 +45,7 @@ abstract class Content
         $article = new \stdClass();
         $article->text = $text;
         PluginHelper::importPlugin('content');
-        Factory::getApplication()->triggerEvent('onContentPrepare', array($context, &$article, &$params, 0));
+        Factory::getApplication()->triggerEvent('onContentPrepare', [$context, &$article, &$params, 0]);
 
         return $article->text;
     }
@@ -59,10 +61,10 @@ abstract class Content
      */
     public static function months($state)
     {
-        /** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
+        /** @var ContentComponent $contentComponent */
         $contentComponent = Factory::getApplication()->bootComponent('com_content');
 
-        /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $model */
+        /** @var ArticlesModel $model */
         $model = $contentComponent->getMVCFactory()
             ->createModel('Articles', 'Site', ['ignore_request' => true]);
 
@@ -76,7 +78,7 @@ abstract class Content
         $model->setState('list.direction', 'asc');
         $model->setState('list.filter', '');
 
-        $items = array();
+        $items = [];
 
         foreach ($model->countItemsByMonth() as $item) {
             $date    = new Date($item->d);

@@ -82,26 +82,23 @@ class CronField extends ListField
     /**
      * The subtype of the CronIntervals field
      *
-     * @var string
      * @since  4.1.0
      */
-    private $subtype;
+    private ?string $subtype = null;
 
     /**
      * If true, field options will include a wildcard
      *
-     * @var boolean
      * @since  4.1.0
      */
-    private $wildcard;
+    private ?bool $wildcard = null;
 
     /**
      * If true, field will only have numeric labels (for days_week and months)
      *
-     * @var boolean
      * @since  4.1.0
      */
-    private $onlyNumericLabels;
+    private ?bool $onlyNumericLabels = null;
 
     /**
      * Override the parent method to set deal with subtypes.
@@ -155,7 +152,7 @@ class CronField extends ListField
         if ($this->wildcard) {
             try {
                 $options[] = HTMLHelper::_('select.option', '*', '*');
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
             }
         }
 
@@ -164,9 +161,7 @@ class CronField extends ListField
         // If we need text labels, we translate them first
         if (\array_key_exists($subtype, self::PREPARED_RESPONSE_LABELS) && !$this->onlyNumericLabels) {
             $labels = array_map(
-                static function (string $string): string {
-                    return Text::_($string);
-                },
+                static fn(string $string): string => Text::_($string),
                 self::PREPARED_RESPONSE_LABELS[$subtype]
             );
         } else {
@@ -176,7 +171,7 @@ class CronField extends ListField
         for ([$i, $l] = [$optionLower, 0]; $i <= $optionUpper; $i++, $l++) {
             try {
                 $options[] = HTMLHelper::_('select.option', (string) ($i), $labels[$l]);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
             }
         }
 

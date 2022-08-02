@@ -60,7 +60,7 @@ class TaskModel extends AdminModel
      * @var  string
      * @since 4.1.0
      */
-    public const TASK_TABLE = '#__scheduler_tasks';
+    final public const TASK_TABLE = '#__scheduler_tasks';
 
     /**
      * Prefix used with controller messages
@@ -112,9 +112,9 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
     {
-        $config['events_map'] = $config['events_map'] ?? [];
+        $config['events_map'] ??= [];
 
         $config['events_map'] = array_merge(
             [
@@ -154,7 +154,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         Form::addFieldPath(JPATH_ADMINISTRATOR . 'components/com_scheduler/src/Field');
 
@@ -212,7 +212,6 @@ class TaskModel extends AdminModel
     /**
      * Populate the model state, we use these instead of toying with input or the global state
      *
-     * @return  void
      *
      * @since  4.1.0
      * @throws \Exception
@@ -245,12 +244,11 @@ class TaskModel extends AdminModel
      * @param   string  $prefix   Class prefix
      * @param   array   $options  Model config array
      *
-     * @return Table
      *
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getTable($name = 'Task', $prefix = 'Table', $options = array()): Table
+    public function getTable($name = 'Task', $prefix = 'Table', $options = []): Table
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -265,7 +263,7 @@ class TaskModel extends AdminModel
      */
     protected function loadFormData()
     {
-        $data = $this->app->getUserState('com_scheduler.edit.task.data', array());
+        $data = $this->app->getUserState('com_scheduler.edit.task.data', []);
 
         // If the data from UserState is empty, we fetch it with getItem()
         if (empty($data)) {
@@ -297,7 +295,7 @@ class TaskModel extends AdminModel
      * @since  4.1.0
      * @throws \Exception
      */
-    public function getItem($pk = null)
+    public function getItem($pk = null): object|bool
     {
         $item = parent::getItem($pk);
 
@@ -306,8 +304,8 @@ class TaskModel extends AdminModel
         }
 
         // Parent call leaves `execution_rules` and `cron_rules` JSON encoded
-        $item->set('execution_rules', json_decode($item->get('execution_rules', '')));
-        $item->set('cron_rules', json_decode($item->get('cron_rules', '')));
+        $item->set('execution_rules', json_decode((string) $item->get('execution_rules', ''), null, 512, JSON_THROW_ON_ERROR));
+        $item->set('cron_rules', json_decode((string) $item->get('cron_rules', ''), null, 512, JSON_THROW_ON_ERROR));
 
         $taskOption = SchedulerHelper::getTaskOptions()->findOption(
             ($item->id ?? 0) ? ($item->type ?? 0) : $this->getState('task.type')
@@ -344,7 +342,7 @@ class TaskModel extends AdminModel
         $resolver = new OptionsResolver();
 
         try {
-            $this->configureTaskGetterOptions($resolver);
+            static::configureTaskGetterOptions($resolver);
         } catch (\Exception $e) {
         }
 
@@ -372,7 +370,7 @@ class TaskModel extends AdminModel
 
             try {
                 $runningCount = $db->setQuery($lockCountQuery)->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $db->unlockTables();
 
                 return null;
@@ -393,9 +391,7 @@ class TaskModel extends AdminModel
 
         // Array of all active routine ids
         $activeRoutines = array_map(
-            static function (TaskOption $taskOption): string {
-                return $taskOption->id;
-            },
+            static fn(TaskOption $taskOption): string => $taskOption->id,
             SchedulerHelper::getTaskOptions()->options
         );
 
@@ -434,13 +430,13 @@ class TaskModel extends AdminModel
 
             try {
                 $ids = $db->setQuery($idQuery)->loadColumn();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $db->unlockTables();
 
                 return null;
             }
 
-            if (count($ids) === 0) {
+            if ((is_countable($ids) ? count($ids) : 0) === 0) {
                 $db->unlockTables();
 
                 return null;
@@ -451,7 +447,7 @@ class TaskModel extends AdminModel
 
         try {
             $db->setQuery($lockQuery)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
         } finally {
             $affectedRows = $db->getAffectedRows();
 
@@ -479,8 +475,8 @@ class TaskModel extends AdminModel
 
         $task = $db->setQuery($getQuery)->loadObject();
 
-        $task->execution_rules = json_decode($task->execution_rules);
-        $task->cron_rules      = json_decode($task->cron_rules);
+        $task->execution_rules = json_decode((string) $task->execution_rules, null, 512, JSON_THROW_ON_ERROR);
+        $task->cron_rules      = json_decode((string) $task->cron_rules, null, 512, JSON_THROW_ON_ERROR);
 
         $task->taskOption = SchedulerHelper::getTaskOptions()->findOption($task->type);
 
@@ -492,7 +488,6 @@ class TaskModel extends AdminModel
      *
      * @param   OptionsResolver  $resolver  The {@see OptionsResolver} instance to set up.
      *
-     * @return OptionsResolver
      *
      * @since 4.1.0
      * @throws AccessException
@@ -536,7 +531,7 @@ class TaskModel extends AdminModel
         // If a new entry, we'll have to put in place a pseudo-last_execution
         if ($isNew) {
             $basisDayOfMonth = $data['execution_rules']['exec-day'];
-            [$basisHour, $basisMinute] = explode(':', $data['execution_rules']['exec-time']);
+            [$basisHour, $basisMinute] = explode(':', (string) $data['execution_rules']['exec-time']);
 
             $data['last_execution'] = Factory::getDate('now', 'GMT')->format('Y-m')
                 . "-$basisDayOfMonth $basisHour:$basisMinute:00";
@@ -556,7 +551,7 @@ class TaskModel extends AdminModel
 
         // If no params, we set as empty array.
         // ? Is this the right place to do this
-        $data['params'] = $data['params'] ?? [];
+        $data['params'] ??= [];
 
         // Parent method takes care of saving to the table
         return parent::save($data);
@@ -600,7 +595,6 @@ class TaskModel extends AdminModel
      *
      * @param   array  $executionRules  Execution rules from the Task form, post-processing.
      *
-     * @return array
      *
      * @since  4.1.0
      * @throws \Exception
@@ -617,12 +611,12 @@ class TaskModel extends AdminModel
         ];
 
         $ruleType        = $executionRules['rule-type'];
-        $ruleClass       = strpos($ruleType, 'interval') === 0 ? 'interval' : $ruleType;
+        $ruleClass       = str_starts_with((string) $ruleType, 'interval') ? 'interval' : $ruleType;
         $buildExpression = '';
 
         if ($ruleClass === 'interval') {
             // Rule type for intervals interval-<minute/hours/...>
-            $intervalType    = explode('-', $ruleType)[1];
+            $intervalType    = explode('-', (string) $ruleType)[1];
             $interval        = $executionRules["interval-$intervalType"];
             $buildExpression = sprintf($intervalStringMap[$intervalType], $interval);
         }
@@ -758,9 +752,7 @@ class TaskModel extends AdminModel
     {
         if ($targetToInt) {
             $target = array_map(
-                static function (string $x): int {
-                    return (int) $x;
-                },
+                static fn(string $x): int => (int) $x,
                 $target
             );
         }
@@ -777,7 +769,6 @@ class TaskModel extends AdminModel
      * @param   mixed   $data   The data expected for the form.
      * @param   string  $group  The name of the plugin group to import (defaults to "content").
      *
-     * @return  void
      *
      * @since   4.1.0
      * @throws  \Exception if there is an error in the form event.

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -17,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect')
@@ -43,7 +44,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['filterButton' => false]]); ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -196,26 +197,15 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                                 <?php echo HTMLHelper::_(
                                                     'bootstrap.renderModal',
                                                     'moduleEdit' . $module->id . 'Modal',
-                                                    array(
-                                                            'title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-                                                            'backdrop'    => 'static',
-                                                            'keyboard'    => false,
-                                                            'closeButton' => false,
-                                                            'url'         => $link,
-                                                            'height'      => '400px',
-                                                            'width'       => '800px',
-                                                            'bodyHeight'  => 70,
-                                                            'modalWidth'  => 80,
-                                                            'footer'      => '<button type="button" class="btn btn-danger" data-bs-dismiss="modal"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                                                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                                                    . '<button type="button" class="btn btn-success"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                                                                    . Text::_('JSAVE') . '</button>'
-                                                                    . '<button type="button" class="btn btn-success"'
-                                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
-                                                                    . Text::_('JAPPLY') . '</button>',
-                                                        )
+                                                    ['title'       => Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'), 'backdrop'    => 'static', 'keyboard'    => false, 'closeButton' => false, 'url'         => $link, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-danger" data-bs-dismiss="modal"'
+                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+                                                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                                                            . '<button type="button" class="btn btn-success"'
+                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+                                                            . Text::_('JSAVE') . '</button>'
+                                                            . '<button type="button" class="btn btn-success"'
+                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
+                                                            . Text::_('JAPPLY') . '</button>']
                                                 ); ?>
                                             <?php endif; ?>
                                         <?php endforeach; ?>
@@ -225,26 +215,15 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                                         <?php echo HTMLHelper::_(
                                             'bootstrap.renderModal',
                                             'moduleAddModal',
-                                            array(
-                                                    'title'       => Text::_('COM_MENUS_ADD_MENU_MODULE'),
-                                                    'backdrop'    => 'static',
-                                                    'keyboard'    => false,
-                                                    'closeButton' => false,
-                                                    'url'         => $link,
-                                                    'height'      => '400px',
-                                                    'width'       => '800px',
-                                                    'bodyHeight'  => 70,
-                                                    'modalWidth'  => 80,
-                                                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
-                                                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                                            . '<button type="button" class="btn btn-primary"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
-                                                            . Text::_('JSAVE') . '</button>'
-                                                            . '<button type="button" class="btn btn-success"'
-                                                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
-                                                            . Text::_('JAPPLY') . '</button>',
-                                                )
+                                            ['title'       => Text::_('COM_MENUS_ADD_MENU_MODULE'), 'backdrop'    => 'static', 'keyboard'    => false, 'closeButton' => false, 'url'         => $link, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
+                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
+                                                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                                                    . '<button type="button" class="btn btn-primary"'
+                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
+                                                    . Text::_('JSAVE') . '</button>'
+                                                    . '<button type="button" class="btn btn-success"'
+                                                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
+                                                    . Text::_('JAPPLY') . '</button>']
                                         ); ?>
                                     <?php endif; ?>
                                 </td>
@@ -259,7 +238,7 @@ $this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">

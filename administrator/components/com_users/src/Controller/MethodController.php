@@ -81,11 +81,10 @@ class MethodController extends BaseControllerAlias
      * @param   boolean        $cachable   Ignored. This page is never cached.
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
-    public function add($cachable = false, $urlparams = []): void
+    public function add($cachable = false, bool|array $urlparams = []): void
     {
         $this->assertLoggedInUser();
 
@@ -126,11 +125,10 @@ class MethodController extends BaseControllerAlias
      * @param   boolean        $cachable   Ignored. This page is never cached.
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
-    public function edit($cachable = false, $urlparams = []): void
+    public function edit($cachable = false, bool|array $urlparams = []): void
     {
         $this->assertLoggedInUser();
 
@@ -175,11 +173,10 @@ class MethodController extends BaseControllerAlias
      * @param   boolean        $cachable   Ignored. This page is never cached.
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
-     * @return  void
      * @throws Exception
      * @since   4.2.0
      */
-    public function regenerateBackupCodes($cachable = false, $urlparams = []): void
+    public function regenerateBackupCodes($cachable = false, bool|array $urlparams = []): void
     {
         $this->assertLoggedInUser();
 
@@ -216,10 +213,9 @@ class MethodController extends BaseControllerAlias
      * @param   boolean        $cachable   Ignored. This page is never cached.
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
-     * @return  void
      * @since   4.2.0
      */
-    public function delete($cachable = false, $urlparams = []): void
+    public function delete($cachable = false, bool|array $urlparams = []): void
     {
         $this->assertLoggedInUser();
 
@@ -268,10 +264,9 @@ class MethodController extends BaseControllerAlias
      * @param   boolean        $cachable   Ignored. This page is never cached.
      * @param   boolean|array  $urlparams  Ignored. This page is never cached.
      *
-     * @return  void
      * @since   4.2.0
      */
-    public function save($cachable = false, $urlparams = []): void
+    public function save($cachable = false, bool|array $urlparams = []): void
     {
         $this->assertLoggedInUser();
 
@@ -421,7 +416,6 @@ class MethodController extends BaseControllerAlias
      *
      * @param   User|null  $user  User record. Null to use current user.
      *
-     * @return  void
      * @throws  RuntimeException|Exception
      * @since   4.2.0
      */
@@ -437,7 +431,6 @@ class MethodController extends BaseControllerAlias
      *
      * @param   User|null  $user  User record. Null to use current user.
      *
-     * @return  void
      * @throws  RuntimeException|Exception
      * @since   4.2.0
      */
@@ -453,7 +446,6 @@ class MethodController extends BaseControllerAlias
      *
      * @param   string|null  $method  The Method to check
      *
-     * @return  void
      * @since   4.2.0
      */
     private function assertMethodExists(?string $method): void
@@ -469,7 +461,6 @@ class MethodController extends BaseControllerAlias
     /**
      * Assert that there is a logged in user.
      *
-     * @return  void
      * @since   4.2.0
      */
     private function assertLoggedInUser(): void

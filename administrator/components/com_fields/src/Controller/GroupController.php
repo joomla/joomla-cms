@@ -54,7 +54,7 @@ class GroupController extends FormController
      *
      * @since   3.7.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -96,7 +96,7 @@ class GroupController extends FormController
      *
      * @since   3.7.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         return $this->app->getIdentity()->authorise('core.create', $this->component);
     }
@@ -111,7 +111,7 @@ class GroupController extends FormController
      *
      * @since   3.7.0
      */
-    protected function allowEdit($data = array(), $key = 'parent_id')
+    protected function allowEdit($data = [], $key = 'parent_id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
         $user = $this->app->getIdentity();
@@ -152,7 +152,7 @@ class GroupController extends FormController
      *
      * @since   3.7.0
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $item = $model->getItem();
 

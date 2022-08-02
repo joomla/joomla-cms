@@ -22,11 +22,10 @@ class ScriptsRenderer extends DocumentRenderer
     /**
      * List of already rendered src
      *
-     * @var array
      *
      * @since   4.0.0
      */
-    private $renderedSrc = [];
+    private array $renderedSrc = [];
 
     /**
      * Renders the document script tags and returns the results as a string
@@ -39,7 +38,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Get line endings
         $lnEnd        = $this->_doc->_getLineEnd();
@@ -127,7 +126,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    private function renderElement($item): string
+    private function renderElement(WebAssetItemInterface|array $item): string
     {
         $buffer = '';
         $asset  = $item instanceof WebAssetItemInterface ? $item : null;
@@ -158,7 +157,7 @@ class ScriptsRenderer extends DocumentRenderer
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 
@@ -171,7 +170,7 @@ class ScriptsRenderer extends DocumentRenderer
         $this->renderedSrc[$src] = true;
 
         // Check if script uses media version.
-        if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto')) {
+        if ($version && !str_contains((string) $src, '?') && ($mediaVersion || $version !== 'auto')) {
             $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
         }
 
@@ -183,7 +182,7 @@ class ScriptsRenderer extends DocumentRenderer
         }
 
         // Render the element with attributes
-        $buffer .= '<script src="' . htmlspecialchars($src) . '"';
+        $buffer .= '<script src="' . htmlspecialchars((string) $src) . '"';
         $buffer .= $this->renderAttributes($attribs);
         $buffer .= '></script>';
 
@@ -206,7 +205,7 @@ class ScriptsRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    private function renderInlineElement($item): string
+    private function renderInlineElement(WebAssetItemInterface|array $item): string
     {
         $buffer = '';
         $lnEnd  = $this->_doc->_getLineEnd();
@@ -266,8 +265,8 @@ class ScriptsRenderer extends DocumentRenderer
     {
         $buffer = '';
 
-        $defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
-        $html5NoValueAttributes = array('defer', 'async', 'nomodule');
+        $defaultJsMimes         = ['text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'];
+        $html5NoValueAttributes = ['defer', 'async', 'nomodule'];
 
         foreach ($attributes as $attrib => $value) {
             // Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
@@ -276,12 +275,12 @@ class ScriptsRenderer extends DocumentRenderer
             }
 
             // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-            if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes)) {
+            if (\in_array($attrib, ['type', 'mime']) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes)) {
                 continue;
             }
 
             // B/C: If defer and async is false or empty don't render the attribute. Also skip if value is bool:false.
-            if (\in_array($attrib, array('defer', 'async')) && !$value || $value === false) {
+            if (\in_array($attrib, ['defer', 'async']) && !$value || $value === false) {
                 continue;
             }
 
@@ -301,7 +300,7 @@ class ScriptsRenderer extends DocumentRenderer
 
             if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
                 // Json encode value if it's an array.
-                $value = !is_scalar($value) ? json_encode($value) : $value;
+                $value = !is_scalar($value) ? json_encode($value, JSON_THROW_ON_ERROR) : $value;
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }

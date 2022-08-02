@@ -119,7 +119,7 @@ class PlgWebservicesLanguages extends CMSPlugin
     private function createLanguageInstallerRoutes(&$router)
     {
         $defaults    = ['component' => 'com_installer'];
-        $getDefaults = array_merge(['public' => false], $defaults);
+        $getDefaults = [...['public' => false], ...$defaults];
 
         $routes = [
             new Route(['GET'], 'v1/languages', 'languages.displayList', [], $getDefaults),

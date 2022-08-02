@@ -65,15 +65,6 @@ class CssMenu
     protected $enabled;
 
     /**
-     * The application
-     *
-     * @var    boolean
-     *
-     * @since  4.0.0
-     */
-    protected $application;
-
-    /**
      * A counter for unique IDs
      *
      * @var   integer
@@ -89,9 +80,8 @@ class CssMenu
      *
      * @since 4.0.0
      */
-    public function __construct(CMSApplication $application)
+    public function __construct(protected CMSApplication $application)
     {
-        $this->application = $application;
         $this->root = new AdministratorMenuItem();
     }
 
@@ -209,7 +199,7 @@ class CssMenu
                 return true;
             }
 
-            $missing = array();
+            $missing = [];
 
             if ($rMenu) {
                 $missing[] = Text::_('MOD_MENU_IMPORTANT_ITEM_MENU_MANAGER');
@@ -229,7 +219,7 @@ class CssMenu
             $table    = Table::getInstance('MenuType');
             $menutype = $params->get('menutype');
 
-            $table->load(array('menutype' => $menutype));
+            $table->load(['menutype' => $menutype]);
 
             $menutype = $table->get('title', $menutype);
             $message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
@@ -262,7 +252,7 @@ class CssMenu
          * $children is an array of AdministratorMenuItem objects. A plugin can traverse the whole tree,
          * but new nodes will only be run through this method if their parents have not been processed yet.
          */
-        $this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
+        $this->application->triggerEvent('onPreprocessMenuItems', ['com_menus.administrator.module', $children, $this->params, $this->enabled]);
 
         foreach ($children as $item) {
             $itemParams = $item->getParams();
@@ -273,8 +263,8 @@ class CssMenu
                 continue;
             }
 
-            $item->scope = $item->scope ?? 'default';
-            $item->icon  = $item->icon ?? '';
+            $item->scope ??= 'default';
+            $item->icon ??= '';
 
             // Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
             if (($item->scope === 'help' && $this->params->get('showhelp', 1) == 0) || ($item->scope === 'edit' && !$this->params->get('shownew', 1))) {
@@ -282,8 +272,8 @@ class CssMenu
                 continue;
             }
 
-            if (substr($item->link, 0, 8) === 'special:') {
-                $special = substr($item->link, 8);
+            if (str_starts_with((string) $item->link, 'special:')) {
+                $special = substr((string) $item->link, 8);
 
                 if ($special === 'language-forum') {
                     $item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
@@ -336,7 +326,7 @@ class CssMenu
                 $createFields = null;
 
                 if (isset($query['context'])) {
-                    $createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+                    $createFields = ComponentHelper::getParams(strstr((string) $query['context'], '.', true))->get('custom_fields_enable', 1);
                 }
 
                 if (!$createFields) {
@@ -344,7 +334,7 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+                [$assetName] = isset($query['context']) ? explode('.', (string) $query['context'], 2) : ['com_fields'];
             } elseif ($item->element === 'com_cpanel' && $item->link === 'index.php') {
                 continue;
             } elseif (
@@ -363,7 +353,7 @@ class CssMenu
                 $workflow = null;
 
                 if (isset($query['extension'])) {
-                    $parts = explode('.', $query['extension']);
+                    $parts = explode('.', (string) $query['extension']);
 
                     $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
                 }
@@ -373,8 +363,8 @@ class CssMenu
                     continue;
                 }
 
-                list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                [$assetName] = isset($query['extension']) ? explode('.', (string) $query['extension'], 2) : ['com_workflow'];
+            } elseif (\in_array($item->element, ['com_config', 'com_privacy', 'com_actionlogs'], true) && !$user->authorise('core.admin')) {
                 // Special case for components which only allow super user access
                 $parent->removeChild($item);
                 continue;
@@ -402,7 +392,7 @@ class CssMenu
             }
 
             // Exclude if link is invalid
-            if (is_null($item->link) || !\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '') {
+            if (is_null($item->link) || !\in_array($item->type, ['separator', 'heading', 'container']) && trim((string) $item->link) === '') {
                 $parent->removeChild($item);
                 continue;
             }
@@ -414,7 +404,7 @@ class CssMenu
 
             // Populate automatic children for container items
             if ($item->type === 'container') {
-                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $exclude    = (array) $itemParams->get('hideitems') ?: [];
                 $components = MenusHelper::getMenuItems('main', false, $exclude);
 
                 // We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -431,7 +421,7 @@ class CssMenu
             }
 
             // Exclude if there are no child items under heading or container
-            if (\in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components)) {
+            if (\in_array($item->type, ['heading', 'container']) && !$item->hasChildren() && empty($item->components)) {
                 $parent->removeChild($item);
                 continue;
             }
@@ -460,9 +450,10 @@ class CssMenu
 
             $item->text = Text::_($item->title);
         }
+        $getChildren = $parent->getChildren();
 
         // If last one was a separator remove it too.
-        $last = end($parent->getChildren());
+        $last = end($getChildren);
 
         if ($last && $last->type === 'separator' && $last->getSibling(false) && $last->getSibling(false)->type === 'separator') {
             $parent->removeChild($last);
@@ -484,20 +475,20 @@ class CssMenu
         $identifier = $node->class;
 
         // Top level is special
-        if (trim($identifier) == '') {
+        if (trim((string) $identifier) == '') {
             return null;
         }
 
         // We were passed a class name
-        if (substr($identifier, 0, 6) == 'class:') {
-            $class = substr($identifier, 6);
+        if (substr((string) $identifier, 0, 6) == 'class:') {
+            $class = substr((string) $identifier, 6);
         } else {
             // We were passed background icon url. Build the CSS class for the icon
             if ($identifier == null) {
                 return null;
             }
 
-            $class = preg_replace('#\.[^.]*$#', '', basename($identifier));
+            $class = preg_replace('#\.[^.]*$#', '', basename((string) $identifier));
             $class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
         }
 

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Document\HtmlDocument;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
@@ -26,7 +28,7 @@ class PlgSystemHighlight extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.7.0
      */
     protected $app;
@@ -65,7 +67,7 @@ class PlgSystemHighlight extends CMSPlugin
 
         // Get the terms to highlight from the request.
         $terms = $input->request->get('highlight', null, 'base64');
-        $terms = $terms ? json_decode(base64_decode($terms)) : null;
+        $terms = $terms ? json_decode(base64_decode((string) $terms), null, 512, JSON_THROW_ON_ERROR) : null;
 
         // Check the terms.
         if (empty($terms)) {
@@ -75,10 +77,10 @@ class PlgSystemHighlight extends CMSPlugin
         // Clean the terms array.
         $filter     = InputFilter::getInstance();
 
-        $cleanTerms = array();
+        $cleanTerms = [];
 
         foreach ($terms as $term) {
-            $cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));
+            $cleanTerms[] = htmlspecialchars((string) $filter->clean($term, 'string'));
         }
 
         // Activate the highlighter.
@@ -96,7 +98,7 @@ class PlgSystemHighlight extends CMSPlugin
         }
 
         // Adjust the component buffer.
-        /** @var \Joomla\CMS\Document\HtmlDocument $doc */
+        /** @var HtmlDocument $doc */
         $doc = $this->app->getDocument();
         $buf = $doc->getBuffer('component');
         $buf = '<div class="js-highlight">' . $buf . '</div>';
@@ -127,7 +129,7 @@ class PlgSystemHighlight extends CMSPlugin
             && empty($item->mime)
             && $params->get('highlight_terms', 1)
         ) {
-            $item->route .= '&highlight=' . base64_encode(json_encode($query->highlight));
+            $item->route .= '&highlight=' . base64_encode(json_encode($query->highlight, JSON_THROW_ON_ERROR));
         }
     }
 }

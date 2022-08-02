@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Captcha;
 
+use Joomla\CMS\Form\Field\CaptchaField;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -32,18 +33,9 @@ class Captcha implements DispatcherAwareInterface
     /**
      * Captcha Plugin object
      *
-     * @var    CMSPlugin
      * @since  2.5
      */
-    private $captcha;
-
-    /**
-     * Editor Plugin name
-     *
-     * @var    string
-     * @since  2.5
-     */
-    private $name;
+    private CMSPlugin $captcha;
 
     /**
      * Array of instances of this class.
@@ -51,21 +43,19 @@ class Captcha implements DispatcherAwareInterface
      * @var    Captcha[]
      * @since  2.5
      */
-    private static $instances = array();
+    private static array $instances = [];
 
     /**
      * Class constructor.
      *
-     * @param   string  $captcha  The plugin to use.
+     * @param string $name The plugin to use.
      * @param   array   $options  Associative array of options.
      *
      * @since   2.5
      * @throws  \RuntimeException
      */
-    public function __construct($captcha, $options)
+    public function __construct(private $name, $options)
     {
-        $this->name = $captcha;
-
         if (!empty($options['dispatcher']) && $options['dispatcher'] instanceof DispatcherInterface) {
             $this->setDispatcher($options['dispatcher']);
         } else {
@@ -87,9 +77,9 @@ class Captcha implements DispatcherAwareInterface
      * @since   2.5
      * @throws  \RuntimeException
      */
-    public static function getInstance($captcha, array $options = array())
+    public static function getInstance($captcha, array $options = [])
     {
-        $signature = md5(serialize(array($captcha, $options)));
+        $signature = md5(serialize([$captcha, $options]));
 
         if (empty(self::$instances[$signature])) {
             self::$instances[$signature] = new Captcha($captcha, $options);
@@ -180,12 +170,12 @@ class Captcha implements DispatcherAwareInterface
      * Method to react on the setup of a captcha field. Gives the possibility
      * to change the field and/or the XML element for the field.
      *
-     * @param   \Joomla\CMS\Form\Field\CaptchaField  $field    Captcha field instance
+     * @param CaptchaField $field Captcha field instance
      * @param   \SimpleXMLElement                    $element  XML form definition
      *
      * @return void
      */
-    public function setupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
+    public function setupField(CaptchaField $field, \SimpleXMLElement $element)
     {
         if ($this->captcha === null) {
             return;
@@ -214,7 +204,7 @@ class Captcha implements DispatcherAwareInterface
     private function update($name, &$args)
     {
         if (method_exists($this->captcha, $name)) {
-            return call_user_func_array(array($this->captcha, $name), array_values($args));
+            return call_user_func_array([$this->captcha, $name], array_values($args));
         }
 
         return null;
@@ -230,7 +220,7 @@ class Captcha implements DispatcherAwareInterface
      * @since   2.5
      * @throws  \RuntimeException
      */
-    private function _load(array $options = array())
+    private function _load(array $options = [])
     {
         // Build the path to the needed captcha plugin
         $name = InputFilter::getInstance()->clean($this->name, 'cmd');

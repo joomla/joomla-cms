@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Application\ExtensionNamespaceMapper;
+use Joomla\DI\Container;
+use Joomla\Event\DispatcherInterface;
 /**
  * @package    Joomla.Build
  *
@@ -50,7 +53,7 @@ ini_set('display_errors', 1);
  */
 class StubGenerator extends CliApplication
 {
-    use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+    use ExtensionNamespaceMapper;
 
     /**
      * Entry point for CLI script
@@ -78,7 +81,7 @@ class StubGenerator extends CliApplication
             $modifier   = (!$reflection->isInterface() && $reflection->isFinal()) ? 'final ' : '';
             $modifier   = ($reflection->isAbstract() && !$reflection->isInterface()) ? $modifier . 'abstract ' : $modifier;
 
-            $namespaceSegments = explode('\\', $oldName);
+            $namespaceSegments = explode('\\', (string) $oldName);
             $className         = array_pop($namespaceSegments);
             $targetNamespace   = ltrim(implode('\\', $namespaceSegments), '\\');
 
@@ -135,7 +138,7 @@ PHP;
      *
      * @since   4.0.0
      */
-    public function getMenu($name = null, $options = array())
+    public function getMenu($name = null, $options = []): never
     {
         throw new \BadMethodCallException('CLI Application has no menu');
     }
@@ -143,16 +146,14 @@ PHP;
 
 Factory::getContainer()->share(
     'StubGenerator',
-    function (\Joomla\DI\Container $container) {
-        return new \StubGenerator(
-            null,
-            null,
-            null,
-            null,
-            $container->get(\Joomla\Event\DispatcherInterface::class),
-            $container
-        );
-    },
+    fn(Container $container) => new \StubGenerator(
+        null,
+        null,
+        null,
+        null,
+        $container->get(DispatcherInterface::class),
+        $container
+    ),
     true
 );
 

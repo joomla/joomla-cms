@@ -33,10 +33,9 @@ final class HttpBridgePostRequestMethod implements RequestMethod
     /**
      * The HTTP adapter
      *
-     * @var    Http
      * @since  3.9.0
      */
-    private $http;
+    private readonly Http $http;
 
     /**
      * Class constructor.
@@ -65,7 +64,7 @@ final class HttpBridgePostRequestMethod implements RequestMethod
             $response = $this->http->post(self::SITE_VERIFY_URL, $params->toArray());
 
             return (string) $response->getBody();
-        } catch (InvalidResponseCodeException $exception) {
+        } catch (InvalidResponseCodeException) {
             return '';
         }
     }

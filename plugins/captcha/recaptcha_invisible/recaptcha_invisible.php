@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Form\Field\CaptchaField;
+use ReCaptcha\ReCaptcha;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Captcha
@@ -36,7 +39,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -52,11 +55,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
-                Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+        return [Text::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => [Text::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS')]];
     }
 
     /**
@@ -147,7 +146,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
         }
 
         // Discard spam submissions
-        if (trim($response) == '') {
+        if (trim((string) $response) == '') {
             throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_EMPTY_SOLUTION'));
         }
 
@@ -158,14 +157,14 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
      * Method to react on the setup of a captcha field. Gives the possibility
      * to change the field and/or the XML element for the field.
      *
-     * @param   \Joomla\CMS\Form\Field\CaptchaField  $field    Captcha field instance
+     * @param CaptchaField $field Captcha field instance
      * @param   \SimpleXMLElement                    $element  XML form definition
      *
      * @return void
      *
      * @since 3.9.0
      */
-    public function onSetupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
+    public function onSetupField(CaptchaField $field, \SimpleXMLElement $element)
     {
         // Hide the label for the invisible recaptcha type
         $element['hiddenLabel'] = 'true';
@@ -185,7 +184,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
      */
     private function getResponse($privatekey, $remoteip, $response)
     {
-        $reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
+        $reCaptcha = new ReCaptcha($privatekey, new HttpBridgePostRequestMethod());
         $response = $reCaptcha->verify($response, $remoteip);
 
         if (!$response->isSuccess()) {

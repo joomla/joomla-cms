@@ -83,7 +83,6 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void
      *
      * @since   4.1.0
      * @throws  \Exception
@@ -96,12 +95,12 @@ class HtmlView extends BaseHtmlView
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!(is_countable($this->items) ? \count($this->items) : 0) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('empty_state');
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -116,7 +115,6 @@ class HtmlView extends BaseHtmlView
     /**
      * Add the page title and toolbar.
      *
-     * @return  void
      *
      * @since  4.1.0
      * @throws  \Exception

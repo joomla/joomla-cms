@@ -15,15 +15,14 @@ namespace Joomla\CMS\Application\CLI;
  * @since       4.0.0
  * @deprecated  5.0  Use the `joomla/console` package instead
  */
-final class ColorStyle
+final class ColorStyle implements \Stringable
 {
     /**
      * Known colors
      *
-     * @var    array
      * @since  4.0.0
      */
-    private static $knownColors = [
+    private static array $knownColors = [
         'black'   => 0,
         'red'     => 1,
         'green'   => 2,
@@ -37,10 +36,9 @@ final class ColorStyle
     /**
      * Known styles
      *
-     * @var    array
      * @since  4.0.0
      */
-    private static $knownOptions = [
+    private static array $knownOptions = [
         'bold'       => 1,
         'underscore' => 4,
         'blink'      => 5,
@@ -50,42 +48,37 @@ final class ColorStyle
     /**
      * Foreground base value
      *
-     * @var    integer
      * @since  4.0.0
      */
-    private static $fgBase = 30;
+    private static int $fgBase = 30;
 
     /**
      * Background base value
      *
-     * @var    integer
      * @since  4.0.0
      */
-    private static $bgBase = 40;
+    private static int $bgBase = 40;
 
     /**
      * Foreground color
      *
-     * @var    integer
      * @since  4.0.0
      */
-    private $fgColor = 0;
+    private int $fgColor = 0;
 
     /**
      * Background color
      *
-     * @var    integer
      * @since  4.0.0
      */
-    private $bgColor = 0;
+    private int $bgColor = 0;
 
     /**
      * Array of style options
      *
-     * @var    array
      * @since  4.0.0
      */
-    private $options = [];
+    private array $options = [];
 
     /**
      * Constructor
@@ -149,7 +142,7 @@ final class ColorStyle
      *
      * @since   4.0.0
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getStyle();
     }
@@ -208,7 +201,6 @@ final class ColorStyle
     /**
      * Get the translated color code.
      *
-     * @return  string
      *
      * @since   4.0.0
      */

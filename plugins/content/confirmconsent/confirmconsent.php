@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\SiteApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Content.confirmconsent
@@ -22,7 +23,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgContentConfirmConsent extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\SiteApplication
+     * @var SiteApplication
      *
      * @since  3.9.0
      */

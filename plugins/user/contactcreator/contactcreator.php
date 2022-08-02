@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
@@ -35,7 +37,7 @@ class PlgUserContactCreator extends CMSPlugin
     /**
      * Application Instance
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -43,7 +45,7 @@ class PlgUserContactCreator extends CMSPlugin
     /**
      * Database Driver Instance
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  4.0.0
      */
     protected $db;
@@ -58,7 +60,6 @@ class PlgUserContactCreator extends CMSPlugin
      * @param   boolean  $success  True if user was successfully stored in the database.
      * @param   string   $msg      Message.
      *
-     * @return  void
      *
      * @since   1.6
      */
@@ -95,7 +96,7 @@ class PlgUserContactCreator extends CMSPlugin
              * Try to pre-load a contact for this user. Apparently only possible if other plugin creates it
              * Note: $user_id is cleaned above
              */
-            if (!$contact->load(array('user_id' => (int) $user_id))) {
+            if (!$contact->load(['user_id' => (int) $user_id])) {
                 $contact->published = $this->params->get('autopublish', 0);
             }
 
@@ -109,7 +110,7 @@ class PlgUserContactCreator extends CMSPlugin
 
             // Check if the contact already exists to generate new name & alias if required
             if ($contact->id == 0) {
-                list($name, $alias) = $this->generateAliasAndName($contact->alias, $contact->name, $categoryId);
+                [$name, $alias] = $this->generateAliasAndName($contact->alias, $contact->name, $categoryId);
 
                 $contact->name  = $name;
                 $contact->alias = $alias;
@@ -119,13 +120,13 @@ class PlgUserContactCreator extends CMSPlugin
 
             if (!empty($autowebpage)) {
                 // Search terms
-                $search_array = array('[name]', '[username]', '[userid]', '[email]');
+                $search_array = ['[name]', '[username]', '[userid]', '[email]'];
 
                 // Replacement terms, urlencoded
-                $replace_array = array_map('urlencode', array($user['name'], $user['username'], $user['id'], $user['email']));
+                $replace_array = array_map('urlencode', [$user['name'], $user['username'], $user['id'], $user['email']]);
 
                 // Now replace it in together
-                $contact->webpage = str_replace($search_array, $replace_array, $autowebpage);
+                $contact->webpage = str_replace($search_array, $replace_array, (string) $autowebpage);
             }
 
             if ($contact->check() && $contact->store()) {
@@ -151,7 +152,7 @@ class PlgUserContactCreator extends CMSPlugin
     {
         $table = $this->getContactTable();
 
-        while ($table->load(array('alias' => $alias, 'catid' => $categoryId))) {
+        while ($table->load(['alias' => $alias, 'catid' => $categoryId])) {
             if ($name === $table->name) {
                 $name = StringHelper::increment($name);
             }
@@ -159,7 +160,7 @@ class PlgUserContactCreator extends CMSPlugin
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($name, $alias);
+        return [$name, $alias];
     }
 
     /**

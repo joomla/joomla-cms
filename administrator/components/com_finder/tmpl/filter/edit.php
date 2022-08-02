@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -23,7 +24,7 @@ $this->ignore_fieldsets = ['jbasic'];
 
 $this->useCoreUI = true;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
@@ -52,7 +53,7 @@ $wa->useScript('keepalive')
                     <hr>
                 <?php endif; ?>
 
-                <?php echo HTMLHelper::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+                <?php echo HTMLHelper::_('filter.slider', ['selected_nodes' => $this->filter->data]); ?>
             </div>
             <div class="col-lg-3">
                 <?php echo LayoutHelper::render('joomla.edit.global', $this); ?>

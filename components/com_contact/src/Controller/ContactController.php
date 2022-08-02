@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Site\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -58,13 +59,13 @@ class ContactController extends FormController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6.4
      */
-    public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
+    public function getModel($name = 'form', $prefix = '', $config = ['ignore_request' => true])
     {
-        return parent::getModel($name, $prefix, array('ignore_request' => false));
+        return parent::getModel($name, $prefix, ['ignore_request' => false]);
     }
 
     /**
@@ -85,7 +86,7 @@ class ContactController extends FormController
         $id     = (int) $stub;
 
         // Get the data from POST
-        $data = $this->input->post->get('jform', array(), 'array');
+        $data = $this->input->post->get('jform', [], 'array');
 
         // Get item
         $model->setState('filter.published', 1);
@@ -165,7 +166,7 @@ class ContactController extends FormController
         }
 
         // Validation succeeded, continue with custom handlers
-        $results = $this->app->triggerEvent('onValidateContact', array(&$contact, &$data));
+        $results = $this->app->triggerEvent('onValidateContact', [&$contact, &$data]);
 
         foreach ($results as $result) {
             if ($result instanceof \Exception) {
@@ -174,7 +175,7 @@ class ContactController extends FormController
         }
 
         // Passed Validation: Process the contact plugins to integrate with other applications
-        $this->app->triggerEvent('onSubmitContact', array(&$contact, &$data));
+        $this->app->triggerEvent('onSubmitContact', [&$contact, &$data]);
 
         // Send the email
         $sent = false;
@@ -229,7 +230,7 @@ class ContactController extends FormController
             'contactname' => $contact->name,
             'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
             'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
+            'body'     => stripslashes((string) $data['contact_message']),
             'url'      => Uri::base(),
             'customfields' => ''
         ];
@@ -239,11 +240,7 @@ class ContactController extends FormController
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
-                array(
-                    'context' => 'com_contact.mail',
-                    'item'    => $contact,
-                    'fields'  => $fields,
-                )
+                ['context' => 'com_contact.mail', 'item'    => $contact, 'fields'  => $fields]
             );
 
             if ($output) {
@@ -290,7 +287,7 @@ class ContactController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         if ($categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int')) {
             $user = $this->app->getIdentity();
@@ -313,7 +310,7 @@ class ContactController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
@@ -421,10 +418,10 @@ class ContactController extends FormController
     {
         $return = $this->input->get('return', null, 'base64');
 
-        if (empty($return) || !Uri::isInternal(base64_decode($return))) {
+        if (empty($return) || !Uri::isInternal(base64_decode((string) $return))) {
             return Uri::base();
         }
 
-        return base64_decode($return);
+        return base64_decode((string) $return);
     }
 }

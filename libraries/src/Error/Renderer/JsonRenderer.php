@@ -33,7 +33,6 @@ class JsonRenderer extends AbstractRenderer
      *
      * @param   \Throwable  $error  The error object to be rendered
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -64,7 +63,7 @@ class JsonRenderer extends AbstractRenderer
         }
 
         // Push the data object into the document
-        $this->getDocument()->setBuffer(json_encode($data));
+        $this->getDocument()->setBuffer(json_encode($data, JSON_THROW_ON_ERROR));
 
         if (ob_get_contents()) {
             ob_end_clean();

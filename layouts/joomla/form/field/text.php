@@ -58,7 +58,7 @@ if ($options) {
     $list = 'list="' . $id . '_datalist"';
 }
 
-$attributes = array(
+$attributes = [
     !empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
     !empty($size) ? 'size="' . $size . '"' : '',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
@@ -75,10 +75,9 @@ $attributes = array(
     $spellcheck ? '' : 'spellcheck="false"',
     !empty($inputmode) ? $inputmode : '',
     !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
-
     // @TODO add a proper string here!!!
     !empty($validationtext) ? 'data-validation-text="' . $validationtext . '"' : '',
-);
+];
 
 $addonBeforeHtml = '<span class="input-group-text">' . Text::_($addonBefore) . '</span>';
 $addonAfterHtml  = '<span class="input-group-text">' . Text::_($addonAfter) . '</span>';

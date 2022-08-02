@@ -24,7 +24,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 $cancelURL = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $this->user->id);
 
 if (!empty($this->returnURL)) {
-    $cancelURL = $this->escape(base64_decode($this->returnURL));
+    $cancelURL = $this->escape(base64_decode((string) $this->returnURL));
 }
 
 if ($this->record->method != 'backupcodes') {
@@ -41,21 +41,21 @@ if ($this->record->method != 'backupcodes') {
 </div>
 
 <table class="table table-striped">
-    <?php for ($i = 0; $i < (count($this->backupCodes) / 2); $i++) : ?>
+    <?php for ($i = 0; $i < ((is_countable($this->backupCodes) ? count($this->backupCodes) : 0) / 2); $i++) : ?>
         <tr>
             <td>
                 <?php if (!empty($this->backupCodes[2 * $i])) : ?>
                     <?php // This is a Key emoji; we can hide it from screen readers ?>
                     <span aria-hidden="true">&#128273;</span>
                     <?php echo $this->backupCodes[2 * $i] ?>
-                <?php endif; ?>
+<?php endif; ?>
             </td>
             <td>
                 <?php if (!empty($this->backupCodes[1 + 2 * $i])) : ?>
                     <?php // This is a Key emoji; we can hide it from screen readers ?>
                     <span aria-hidden="true">&#128273;</span>
                     <?php echo $this->backupCodes[1 + 2 * $i] ?>
-                <?php endif ;?>
+<?php endif ;?>
             </td>
         </tr>
     <?php endfor; ?>

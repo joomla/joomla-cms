@@ -43,7 +43,7 @@ class FormHelper
      * @var   string
      * @since 3.8.0
      */
-    protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
+    protected static $prefixes = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
     /**
      * Static array of Form's entity objects for re-use.
@@ -57,7 +57,7 @@ class FormHelper
      * @var    array
      * @since  1.7.0
      */
-    protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
+    protected static $entities = ['field' => [], 'form' => [], 'rule' => [], 'filter' => []];
 
     /**
      * Method to load a form field object given a type.
@@ -69,7 +69,7 @@ class FormHelper
      *
      * @since   1.7.0
      */
-    public static function loadFieldType($type, $new = true)
+    public static function loadFieldType($type, $new = true): FormField|bool
     {
         return self::loadType('field', $type, $new);
     }
@@ -84,7 +84,7 @@ class FormHelper
      *
      * @since   1.7.0
      */
-    public static function loadRuleType($type, $new = true)
+    public static function loadRuleType($type, $new = true): FormRule|bool
     {
         return self::loadType('rule', $type, $new);
     }
@@ -99,7 +99,7 @@ class FormHelper
      *
      * @since   4.0.0
      */
-    public static function loadFilterType($type, $new = true)
+    public static function loadFilterType($type, $new = true): FormFilterInterface|bool
     {
         return self::loadType('filter', $type, $new);
     }
@@ -151,7 +151,7 @@ class FormHelper
      *
      * @since   1.7.0
      */
-    public static function loadFieldClass($type)
+    public static function loadFieldClass($type): string|bool
     {
         return self::loadClass('field', $type);
     }
@@ -166,7 +166,7 @@ class FormHelper
      *
      * @since   1.7.0
      */
-    public static function loadRuleClass($type)
+    public static function loadRuleClass($type): string|bool
     {
         return self::loadClass('rule', $type);
     }
@@ -181,7 +181,7 @@ class FormHelper
      *
      * @since   4.0.0
      */
-    public static function loadFilterClass($type)
+    public static function loadFilterClass($type): string|bool
     {
         return self::loadClass('filter', $type);
     }
@@ -198,7 +198,7 @@ class FormHelper
      *
      * @since   1.7.0
      */
-    protected static function loadClass($entity, $type)
+    protected static function loadClass($entity, $type): string|bool
     {
         // Check if there is a class in the registered namespaces
         foreach (self::addPrefix($entity) as $prefix) {
@@ -209,12 +209,12 @@ class FormHelper
             $subPrefix = '';
 
             if (strpos($name, '.')) {
-                list($subPrefix, $name) = explode('.', $name);
+                [$subPrefix, $name] = explode('.', $name);
                 $subPrefix = ucfirst($subPrefix) . '\\';
             }
 
             // Compile the classname
-            $class = rtrim($prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
+            $class = rtrim((string) $prefix, '\\') . '\\' . $subPrefix . ucfirst($name) . ucfirst($entity);
 
             // Check if the class exists
             if (class_exists($class)) {
@@ -225,7 +225,7 @@ class FormHelper
         $prefix = 'J';
 
         if (strpos($type, '.')) {
-            list($prefix, $type) = explode('.', $type);
+            [$prefix, $type] = explode('.', $type);
         }
 
         $class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
@@ -356,7 +356,7 @@ class FormHelper
 
         // Add the new paths to the stack if not already there.
         foreach ($new as $path) {
-            $path = \trim($path);
+            $path = \trim((string) $path);
 
             if (!\in_array($path, $paths)) {
                 \array_unshift($paths, $path);
@@ -448,7 +448,7 @@ class FormHelper
 
         // Add the new paths to the stack if not already there.
         foreach ($new as $prefix) {
-            $prefix = trim($prefix);
+            $prefix = trim((string) $prefix);
 
             if (\in_array($prefix, $prefixes)) {
                 continue;
@@ -475,7 +475,7 @@ class FormHelper
     {
         // Process the showon data.
         if (!$showOn) {
-            return array();
+            return [];
         }
 
         $formPath = $formControl ?: '';
@@ -495,7 +495,7 @@ class FormHelper
             }
         }
 
-        $showOnData  = array();
+        $showOnData  = [];
         $showOnParts = preg_split('#(\[AND\]|\[OR\])#', $showOn, -1, PREG_SPLIT_DELIM_CAPTURE);
         $op          = '';
 
@@ -505,8 +505,8 @@ class FormHelper
                 continue;
             }
 
-            $compareEqual     = strpos($showOnPart, '!:') === false;
-            $showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
+            $compareEqual     = !str_contains((string) $showOnPart, '!:');
+            $showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), (string) $showOnPart, 2);
 
             $dotPos = strpos($showOnPartBlocks[0], '.');
 
@@ -526,12 +526,7 @@ class FormHelper
                 }
             }
 
-            $showOnData[] = array(
-                'field'  => $field,
-                'values' => explode(',', $showOnPartBlocks[1]),
-                'sign'   => $compareEqual === true ? '=' : '!=',
-                'op'     => $op,
-            );
+            $showOnData[] = ['field'  => $field, 'values' => explode(',', $showOnPartBlocks[1]), 'sign'   => $compareEqual === true ? '=' : '!=', 'op'     => $op];
 
             if ($op !== '') {
                 $op = '';

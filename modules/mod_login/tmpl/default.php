@@ -76,9 +76,7 @@ Text::script('JHIDEPASSWORD');
         <?php endif; ?>
 
         <?php foreach ($extraButtons as $button) :
-            $dataAttributeKeys = array_filter(array_keys($button), function ($key) {
-                return substr($key, 0, 5) == 'data-';
-            });
+            $dataAttributeKeys = array_filter(array_keys($button), fn($key) => substr((string) $key, 0, 5) == 'data-');
             ?>
             <div class="mod-login__submit form-group">
                 <button type="button"

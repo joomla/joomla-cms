@@ -1,4 +1,5 @@
 <?php
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Media
@@ -17,7 +18,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  3.7.0
  */
-class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
+class PlgFieldsMedia extends FieldsPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
@@ -87,9 +88,9 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 
 		if (json_last_error() === JSON_ERROR_NONE)
 		{
-			return (array) json_decode($value, true);
+			return (array) json_decode($value, true, 512, JSON_THROW_ON_ERROR);
 		}
 
-		return array('imagefile' => $value, 'alt_text' => '');
+		return ['imagefile' => $value, 'alt_text' => ''];
 	}
 }

@@ -51,7 +51,7 @@ class UpdateSite extends Table
         }
 
         // Check for valid name
-        if (trim($this->name) == '' || trim($this->location) == '') {
+        if (trim((string) $this->name) == '' || trim((string) $this->location) == '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
             return false;

@@ -42,10 +42,10 @@ class WrapperHelper
 
         if ($params->get('add')) {
             // Adds 'http://' if none is set
-            if (strpos($url, '/') === 0) {
+            if (str_starts_with((string) $url, '/')) {
                 // Relative URL in component. use server http_host.
                 $url = 'http://' . Factory::getApplication()->input->server->get('HTTP_HOST') . $url;
-            } elseif (strpos($url, 'http') === false && strpos($url, 'https') === false) {
+            } elseif (!str_contains((string) $url, 'http') && !str_contains((string) $url, 'https')) {
                 $url = 'http://' . $url;
             }
         }

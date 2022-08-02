@@ -57,20 +57,18 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     /**
      * The username
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $username;
+    private ?string $username = null;
 
     /**
      * The usergroups
      *
-     * @var    array
      *
      * @since  4.0.0
      */
-    private $userGroups = array();
+    private array $userGroups = [];
 
     /**
      * Command constructor.
@@ -173,7 +171,6 @@ class RemoveUserFromGroupCommand extends AbstractCommand
      *
      * @param   object  $user  user object
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -210,7 +207,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
         }
 
         $groupList = [];
-        $option = explode(',', $option);
+        $option = explode(',', (string) $option);
 
         foreach ($option as $group) {
             $groupId = $this->getGroupId($group);
@@ -255,7 +252,6 @@ class RemoveUserFromGroupCommand extends AbstractCommand
      *
      * @param   string  $question  set the question if user enters no value to option
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -289,7 +285,6 @@ class RemoveUserFromGroupCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

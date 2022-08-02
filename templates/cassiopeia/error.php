@@ -26,7 +26,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
+$sitename = htmlspecialchars((string) $app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
@@ -43,15 +43,15 @@ $paramsFontScheme = $this->params->get('useFontScheme', false);
 $fontStyles       = '';
 
 if ($paramsFontScheme) {
-    if (stripos($paramsFontScheme, 'https://') === 0) {
+    if (stripos((string) $paramsFontScheme, 'https://') === 0) {
         $this->getPreloadManager()->preconnect('https://fonts.googleapis.com/', ['crossorigin' => 'anonymous']);
         $this->getPreloadManager()->preconnect('https://fonts.gstatic.com/', ['crossorigin' => 'anonymous']);
         $this->getPreloadManager()->preload($paramsFontScheme, ['as' => 'style', 'crossorigin' => 'anonymous']);
         $wa->registerAndUseStyle('fontscheme.current', $paramsFontScheme, [], ['media' => 'print', 'rel' => 'lazy-stylesheet', 'onload' => 'this.media=\'all\'', 'crossorigin' => 'anonymous']);
 
-        if (preg_match_all('/family=([^?:]*):/i', $paramsFontScheme, $matches) > 0) {
-            $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', $matches[1][0]) . '", sans-serif;
-			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', isset($matches[1][1]) ? $matches[1][1] : $matches[1][0]) . '", sans-serif;
+        if (preg_match_all('/family=([^?:]*):/i', (string) $paramsFontScheme, $matches) > 0) {
+            $fontStyles = '--cassiopeia-font-family-body: "' . str_replace('+', ' ', (string) $matches[1][0]) . '", sans-serif;
+			--cassiopeia-font-family-headings: "' . str_replace('+', ' ', $matches[1][1] ?? $matches[1][0]) . '", sans-serif;
 			--cassiopeia-font-weight-normal: 400;
 			--cassiopeia-font-weight-headings: 700;';
         }
@@ -88,7 +88,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 if ($this->params->get('logoFile')) {
     $logo = '<img src="' . htmlspecialchars(Uri::root() . $this->params->get('logoFile'), ENT_QUOTES, 'UTF-8') . '" alt="' . $sitename . '">';
 } elseif ($this->params->get('siteTitle')) {
-    $logo = '<span title="' . $sitename . '">' . htmlspecialchars($this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
+    $logo = '<span title="' . $sitename . '">' . htmlspecialchars((string) $this->params->get('siteTitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 } else {
     $logo = HTMLHelper::_('image', 'logo.svg', $sitename, ['class' => 'logo d-inline-block'], true, 0);
 }
@@ -126,7 +126,7 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
                         <?php echo $logo; ?>
                     </a>
                     <?php if ($this->params->get('siteDescription')) : ?>
-                        <div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+                        <div class="site-description"><?php echo htmlspecialchars((string) $this->params->get('siteDescription')); ?></div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -183,9 +183,9 @@ $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
                                 <?php endwhile; ?>
                                 <?php // Reset the main error object to the base error ?>
                                 <?php $this->setError($this->error); ?>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
-                    <?php endif; ?>
+<?php endif; ?>
                 </div>
             </div>
         </div>

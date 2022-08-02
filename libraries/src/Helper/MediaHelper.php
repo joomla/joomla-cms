@@ -33,11 +33,7 @@ class MediaHelper
      * @var    string[]
      * @since  4.0.0
      */
-    public const EXECUTABLES = array(
-        'js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta',
-        'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
-        'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'
-    );
+    final public const EXECUTABLES = ['js', 'exe', 'dll', 'go', 'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp', 'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh', 'html', 'htm', 'msi'];
 
     /**
      * Checks if the file is an image
@@ -99,7 +95,7 @@ class MediaHelper
                 $mime  = finfo_file($finfo, $file);
                 finfo_close($finfo);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // If we have any kind of error here => false;
             return false;
         }
@@ -135,7 +131,7 @@ class MediaHelper
             );
 
             // Get the mime type configuration
-            $allowedMime = array_map('trim', explode(',', $allowedMime));
+            $allowedMime = array_map('trim', explode(',', (string) $allowedMime));
 
             // Mime should be available and in the allowed list
             return !empty($mime) && \in_array($mime, $allowedMime);
@@ -155,7 +151,7 @@ class MediaHelper
      *
      * @since   4.0.0
      */
-    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = array()): bool
+    public static function checkFileExtension($extension, $component = 'com_media', $allowedExecutables = []): bool
     {
         $params = ComponentHelper::getParams($component);
 
@@ -163,7 +159,7 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (is_countable($allowedExecutables) ? count($allowedExecutables) : 0) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
@@ -171,8 +167,8 @@ class MediaHelper
             return false;
         }
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
-        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
+        $allowable = array_map('trim', explode(',', (string) $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', (string) $params->get('ignore_extensions', '')));
 
         if ($extension == '' || $extension == false || (!\in_array($extension, $allowable, true) && !\in_array($extension, $ignored, true))) {
             return false;
@@ -193,7 +189,7 @@ class MediaHelper
      *
      * @since   3.2
      */
-    public function canUpload($file, $component = 'com_media', $allowedExecutables = array())
+    public function canUpload($file, $component = 'com_media', $allowedExecutables = [])
     {
         $app    = Factory::getApplication();
         $params = ComponentHelper::getParams($component);
@@ -225,7 +221,7 @@ class MediaHelper
         $executables = array_merge(self::EXECUTABLES, InputFilter::FORBIDDEN_FILE_EXTENSIONS);
 
         // Remove allowed executables from array
-        if (count($allowedExecutables)) {
+        if (is_countable($allowedExecutables) ? count($allowedExecutables) : 0) {
             $executables = array_diff($executables, $allowedExecutables);
         }
 
@@ -239,8 +235,8 @@ class MediaHelper
 
         $filetype = array_pop($filetypes);
 
-        $allowable = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
-        $ignored   = array_map('trim', explode(',', $params->get('ignore_extensions', '')));
+        $allowable = array_map('trim', explode(',', (string) $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+        $ignored   = array_map('trim', explode(',', (string) $params->get('ignore_extensions', '')));
 
         if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored))) {
             $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
@@ -257,7 +253,7 @@ class MediaHelper
         }
 
         if ($params->get('restrict_uploads', 1)) {
-            $allowedExtensions = array_map('trim', explode(',', $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
+            $allowedExtensions = array_map('trim', explode(',', (string) $params->get('restrict_uploads_extensions', 'bmp,gif,jpg,jpeg,png,webp,ico,mp3,m4a,mp4a,ogg,mp4,mp4v,mpeg,mov,odg,odp,ods,odt,pdf,png,ppt,txt,xcf,xls,csv')));
 
             if (\in_array($filetype, $allowedExtensions)) {
                 // If tmp_name is empty, then the file was bigger than the PHP limit
@@ -367,7 +363,7 @@ class MediaHelper
         $width  = round($width * $percentage);
         $height = round($height * $percentage);
 
-        return array($width, $height);
+        return [$width, $height];
     }
 
     /**
@@ -388,7 +384,7 @@ class MediaHelper
             $d = dir($dir);
 
             while (($entry = $d->read()) !== false) {
-                if ($entry[0] !== '.' && strpos($entry, '.html') === false && strpos($entry, '.php') === false && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
+                if ($entry[0] !== '.' && !str_contains($entry, '.html') && !str_contains($entry, '.php') && is_file($dir . DIRECTORY_SEPARATOR . $entry)) {
                     $total_file++;
                 }
 
@@ -400,7 +396,7 @@ class MediaHelper
             $d->close();
         }
 
-        return array($total_file, $total_dir);
+        return [$total_file, $total_dir];
     }
 
     /**
@@ -413,21 +409,14 @@ class MediaHelper
      *
      * @since 3.3
      */
-    public function toBytes($val)
+    public function toBytes(string|int $val)
     {
-        switch ($val[\strlen($val) - 1]) {
-            case 'M':
-            case 'm':
-                return (int) $val * 1048576;
-            case 'K':
-            case 'k':
-                return (int) $val * 1024;
-            case 'G':
-            case 'g':
-                return (int) $val * 1073741824;
-            default:
-                return $val;
-        }
+        return match ($val[\strlen($val) - 1]) {
+            'M', 'm' => (int) $val * 1_048_576,
+            'K', 'k' => (int) $val * 1024,
+            'G', 'g' => (int) $val * 1_073_741_824,
+            default => $val,
+        };
     }
 
     /**
@@ -451,7 +440,7 @@ class MediaHelper
             // Do a check if default settings are not saved by user
             // If not initialize them manually
             if (is_string($directories)) {
-                $directories = json_decode($directories);
+                $directories = json_decode($directories, null, 512, JSON_THROW_ON_ERROR);
             }
 
             foreach ($directories as $directoryEntity) {

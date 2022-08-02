@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -39,7 +40,7 @@ class DatabaseController extends BaseController
         $this->checkToken();
 
         // Get items to fix the database.
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);
@@ -49,14 +50,14 @@ class DatabaseController extends BaseController
                 Text::_(
                     'COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'
                 ),
-                array('category' => 'jerror')
+                ['category' => 'jerror']
             );
         } else {
             /** @var DatabaseModel $model */
             $model = $this->getModel('Database');
             $model->fix($cid);
 
-            /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $updateModel */
+            /** @var UpdateModel $updateModel */
             $updateModel = $this->app->bootComponent('com_joomlaupdate')
                 ->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
             $updateModel->purge();

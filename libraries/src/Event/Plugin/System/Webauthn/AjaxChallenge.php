@@ -28,7 +28,6 @@ class AjaxChallenge extends AbstractImmutableEvent implements ResultAwareInterfa
      *
      * @param   mixed  $data  The data to check
      *
-     * @return  void
      * @since   4.2.0
      */
     public function typeCheckResult($data): void
@@ -37,7 +36,7 @@ class AjaxChallenge extends AbstractImmutableEvent implements ResultAwareInterfa
             return;
         }
 
-        if (!is_string($data) || @json_decode($data) === null) {
+        if (!is_string($data) || @json_decode($data, null, 512, JSON_THROW_ON_ERROR) === null) {
             throw new InvalidArgumentException(sprintf('Event %s only accepts JSON results.', $this->getName()));
         }
     }

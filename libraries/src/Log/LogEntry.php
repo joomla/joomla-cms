@@ -31,14 +31,6 @@ class LogEntry
     public $category;
 
     /**
-     * The message context.
-     *
-     * @var    array
-     * @since  3.8.0
-     */
-    public $context;
-
-    /**
      * The date the message was logged.
      *
      * @var    Date
@@ -69,23 +61,14 @@ class LogEntry
      * @var    array
      * @since  1.7.0
      */
-    protected $priorities = array(
-        Log::EMERGENCY,
-        Log::ALERT,
-        Log::CRITICAL,
-        Log::ERROR,
-        Log::WARNING,
-        Log::NOTICE,
-        Log::INFO,
-        Log::DEBUG,
-    );
+    protected $priorities = [Log::EMERGENCY, Log::ALERT, Log::CRITICAL, Log::ERROR, Log::WARNING, Log::NOTICE, Log::INFO, Log::DEBUG];
 
     /**
      * Call stack and back trace of the logged call.
      * @var    array
      * @since  3.1.4
      */
-    public $callStack = array();
+    public $callStack = [];
 
     /**
      * Constructor
@@ -100,7 +83,7 @@ class LogEntry
      * @change  3.10.7  If the message contains a full path, the root path (JPATH_ROOT) is removed from it
      *          to avoid any full path disclosure. Before 3.10.7, the path was propagated as provided.
      */
-    public function __construct($message, $priority = Log::INFO, $category = '', $date = null, array $context = array())
+    public function __construct($message, $priority = Log::INFO, $category = '', $date = null, public array $context = [])
     {
         $this->message = Path::removeRoot((string) $message);
 
@@ -110,7 +93,6 @@ class LogEntry
         }
 
         $this->priority = $priority;
-        $this->context  = $context;
 
         // Sanitize category if it exists.
         if (!empty($category)) {

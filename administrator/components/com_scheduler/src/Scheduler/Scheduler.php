@@ -50,7 +50,7 @@ class Scheduler
      * @since 4.1.0
      * @todo  remove?
      */
-    public const TASK_QUEUE_FILTERS = [
+    final public const TASK_QUEUE_FILTERS = [
         'due'    => 1,
         'locked' => -1,
     ];
@@ -61,7 +61,7 @@ class Scheduler
      * @since 4.1.0
      * @todo  remove?
      */
-    public const TASK_QUEUE_LIST_CONFIG = [
+    final public const TASK_QUEUE_LIST_CONFIG = [
         'multi_ordering' => ['a.priority DESC ', 'a.next_execution ASC'],
     ];
 
@@ -134,7 +134,7 @@ class Scheduler
 
         try {
             $task->run();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // We suppress the exception here, it's still accessible with `$task->getContent()['exception']`.
         }
 
@@ -163,7 +163,6 @@ class Scheduler
      *
      * @param   OptionsResolver  $resolver  The {@see OptionsResolver} instance to set up.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws AccessException
@@ -216,7 +215,7 @@ class Scheduler
 
             /** @var TaskModel $model */
             $model = $component->getMVCFactory()->createModel('Task', 'Administrator', ['ignore_request' => true]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         if (!isset($model)) {
@@ -272,7 +271,6 @@ class Scheduler
      * @param   array  $filters     The filters to set to the model
      * @param   array  $listConfig  The list config (ordering, etc.) to set to the model
      *
-     * @return array
      *
      * @since 4.1.0
      * @throws \RunTimeException
@@ -288,7 +286,7 @@ class Scheduler
             /** @var TasksModel $model */
             $model = $component->getMVCFactory()
                 ->createModel('Tasks', 'Administrator', ['ignore_request' => true]);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         if (!$model) {

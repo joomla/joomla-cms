@@ -22,14 +22,6 @@ use Joomla\Registry\Registry;
 abstract class AbstractModuleDispatcher extends Dispatcher
 {
     /**
-     * The module instance
-     *
-     * @var    \stdClass
-     * @since  4.0.0
-     */
-    protected $module;
-
-    /**
      * Constructor for Dispatcher
      *
      * @param   \stdClass                $module  The module
@@ -38,11 +30,9 @@ abstract class AbstractModuleDispatcher extends Dispatcher
      *
      * @since   4.0.0
      */
-    public function __construct(\stdClass $module, CMSApplicationInterface $app, Input $input)
+    public function __construct(protected \stdClass $module, CMSApplicationInterface $app, Input $input)
     {
         parent::__construct($app, $input);
-
-        $this->module = $module;
     }
 
     /**
@@ -92,11 +82,10 @@ abstract class AbstractModuleDispatcher extends Dispatcher
      *
      * If false is returned, then it means that the dispatch process should be aborted.
      *
-     * @return  array|false
      *
      * @since   4.0.0
      */
-    protected function getLayoutData()
+    protected function getLayoutData(): array|false
     {
         return [
             'module'   => $this->module,

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
+use Joomla\CMS\Event\WebAsset\WebAssetRegistryAssetChanged;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
@@ -196,7 +197,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      * @param   string  $type  Asset type, script or style
      * @param   string  $name  Asset name
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -214,7 +214,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      * @param   array   $attributes    Attributes for the asset
      * @param   array   $dependencies  Asset dependencies
      *
-     * @return  WebAssetItem
      *
      * @since   4.0.0
      */
@@ -242,7 +241,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      *
      * @param   string  $path  Relative path
      *
-     * @return  self
      *
      * @since  4.0.0
      */
@@ -264,7 +262,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
     /**
      * Get a list of the registry files
      *
-     * @return  array
      *
      * @since  4.0.0
      */
@@ -279,7 +276,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      * @param   string   $template  The template name
      * @param   integer  $client    The application client id
      *
-     * @return  self
      *
      * @since  4.0.0
      */
@@ -304,7 +300,6 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
      *
      * @param   string  $name  A full extension name, actually a name in the /media folder, eg: com_example, plg_system_example etc.
      *
-     * @return  self
      *
      * @since  4.0.0
      */
@@ -356,7 +351,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
     protected function parseRegistryFile($path)
     {
         $data = file_get_contents(JPATH_ROOT . '/' . $path);
-        $data = $data ? json_decode($data, true) : null;
+        $data = $data ? json_decode($data, true, 512, JSON_THROW_ON_ERROR) : null;
 
         if ($data === null) {
             throw new \RuntimeException(sprintf('Asset registry file "%s" contains invalid JSON', $path));
@@ -388,7 +383,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
                 );
             }
 
-            $item['type'] = strtolower($item['type']);
+            $item['type'] = strtolower((string) $item['type']);
 
             $name    = $item['name'];
             $uri     = $item['uri'] ?? '';
@@ -428,7 +423,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
         $event = AbstractEvent::create(
             'onWebAssetRegistryChangedAsset' . ucfirst($change),
             [
-                'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetRegistryAssetChanged',
+                'eventClass' => WebAssetRegistryAssetChanged::class,
                 'subject'    => $this,
                 'assetType'  => $type,
                 'asset'      => $asset,

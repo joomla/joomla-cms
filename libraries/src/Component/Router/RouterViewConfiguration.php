@@ -18,14 +18,6 @@ namespace Joomla\CMS\Component\Router;
 class RouterViewConfiguration
 {
 	/**
-	 * Name of the view
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	public $name;
-
-	/**
 	 * Key of the view
 	 *
 	 * @var    string
@@ -63,7 +55,7 @@ class RouterViewConfiguration
 	 * @var    array
 	 * @since  3.5
 	 */
-	public $layouts = array('default');
+	public $layouts = ['default'];
 
 	/**
 	 * Child-views of this view
@@ -71,7 +63,7 @@ class RouterViewConfiguration
 	 * @var    RouterViewConfiguration[]
 	 * @since  3.5
 	 */
-	public $children = array();
+	public $children = [];
 
 	/**
 	 * Keys used for this parent view by the child views
@@ -79,7 +71,7 @@ class RouterViewConfiguration
 	 * @var    array
 	 * @since  3.5
 	 */
-	public $child_keys = array();
+	public $child_keys = [];
 
 	/**
 	 * Path of views from this one to the root view
@@ -87,7 +79,7 @@ class RouterViewConfiguration
 	 * @var    array
 	 * @since  3.5
 	 */
-	public $path = array();
+	public $path = [];
 
 	/**
 	 * Constructor for the View-configuration class
@@ -96,9 +88,8 @@ class RouterViewConfiguration
 	 *
 	 * @since   3.5
 	 */
-	public function __construct($name)
+	public function __construct(public $name)
 	{
-		$this->name   = $name;
 		$this->path[] = $name;
 	}
 

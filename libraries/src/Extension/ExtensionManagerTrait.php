@@ -31,7 +31,6 @@ trait ExtensionManagerTrait
      *
      * @param   string  $component  The component to boot.
      *
-     * @return  ComponentInterface
      *
      * @since   4.0.0
      */
@@ -52,7 +51,6 @@ trait ExtensionManagerTrait
      * @param   string  $module           The module to boot
      * @param   string  $applicationName  The application name
      *
-     * @return  ModuleInterface
      *
      * @since   4.0.0
      */
@@ -77,7 +75,6 @@ trait ExtensionManagerTrait
      * @param   string  $plugin  The plugin name
      * @param   string  $type    The type of the plugin
      *
-     * @return  PluginInterface
      *
      * @since   4.0.0
      */
@@ -99,11 +96,10 @@ trait ExtensionManagerTrait
      * @param   string  $extensionName  The extension name
      * @param   string  $extensionPath  The path of the extension
      *
-     * @return  ComponentInterface|ModuleInterface|PluginInterface
      *
      * @since   4.0.0
      */
-    private function loadExtension($type, $extensionName, $extensionPath)
+    private function loadExtension($type, $extensionName, $extensionPath): ComponentInterface|ModuleInterface|PluginInterface
     {
         // Check if the extension is already loaded
         if (!empty(ExtensionHelper::$extensions[$type][$extensionName])) {
@@ -149,7 +145,7 @@ trait ExtensionManagerTrait
                     $container->set($type, new Module(new ModuleDispatcherFactory(''), new HelperFactory('')));
                     break;
                 case PluginInterface::class:
-                    list($pluginName, $pluginType) = explode(':', $extensionName);
+                    [$pluginName, $pluginType] = explode(':', $extensionName);
                     $container->set($type, $this->loadPluginFromFilesystem($pluginName, $pluginType));
             }
         }

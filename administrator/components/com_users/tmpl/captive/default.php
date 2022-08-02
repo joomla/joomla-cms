@@ -88,7 +88,7 @@ $this->document->getWebAssetManager()
                     $this->renderOptions['input_attributes']
                 );
 
-                if (strpos($attributes['class'], 'form-control') === false) {
+                if (!str_contains((string) $attributes['class'], 'form-control')) {
                     $attributes['class'] .= ' form-control';
                 }
                 ?>
@@ -113,7 +113,7 @@ $this->document->getWebAssetManager()
                     <?php echo Text::_('COM_USERS_MFA_LOGOUT'); ?>
                 </a>
 
-                <?php if (count($this->records) > 1) : ?>
+                <?php if ((is_countable($this->records) ? count($this->records) : 0) > 1) : ?>
                     <a id="users-mfa-captive-form-choose-another"
                        class="btn btn-link"
                        href="<?php echo Route::_('index.php?option=com_users&view=captive&task=select') ?>">

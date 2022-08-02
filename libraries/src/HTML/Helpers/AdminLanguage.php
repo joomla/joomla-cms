@@ -41,7 +41,7 @@ abstract class AdminLanguage
     public static function existing($all = false, $translate = false)
     {
         if (empty(static::$items)) {
-            $languages       = array();
+            $languages       = [];
             $admin_languages = LanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
 
             foreach ($admin_languages as $tag => $language) {
@@ -54,7 +54,7 @@ abstract class AdminLanguage
         }
 
         if ($all) {
-            $all_option = array(new CMSObject(array('value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+            $all_option = [new CMSObject(['value' => '*', 'text' => $translate ? Text::alt('JALL', 'language') : 'JALL_LANGUAGE'])];
 
             return array_merge($all_option, static::$items);
         } else {

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -15,7 +16,7 @@ use Joomla\CMS\Language\Text;
 
 Text::script('COM_FINDER_INDEXER_MESSAGE_COMPLETE', true);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useStyle('com_finder.indexer')

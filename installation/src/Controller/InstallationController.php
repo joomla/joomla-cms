@@ -10,6 +10,12 @@
 
 namespace Joomla\CMS\Installation\Controller;
 
+use Joomla\CMS\Input\Input;
+use Joomla\CMS\Installation\Model\SetupModel;
+use Joomla\CMS\Installation\Model\DatabaseModel;
+use Joomla\CMS\Installation\Model\ConfigurationModel;
+use Joomla\CMS\Installation\Model\LanguagesModel;
+use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -29,7 +35,7 @@ class InstallationController extends JSONController
      *                                                  'view_path' (this list is not meant to be comprehensive).
      * @param   MVCFactoryInterface|null      $factory  The factory.
      * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object.
+     * @param Input|null $input The Input object.
      *
      * @since   3.0
      */
@@ -61,7 +67,7 @@ class InstallationController extends JSONController
         $r->view = 'setup';
 
         // Check the form
-        /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
+        /** @var SetupModel $model */
         $model = $this->getModel('Setup');
 
         if ($model->checkForm('setup') === false) {
@@ -90,7 +96,7 @@ class InstallationController extends JSONController
 
         $r = new \stdClass();
 
-        /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
+        /** @var DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
 
         // Create Db
@@ -124,7 +130,7 @@ class InstallationController extends JSONController
     {
         $this->checkValidToken();
         $step = $this->getTask();
-        /** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
+        /** @var DatabaseModel $model */
         $model = $this->getModel('Database');
 
         $r = new \stdClass();
@@ -171,7 +177,7 @@ class InstallationController extends JSONController
     {
         $this->checkValidToken();
 
-        /** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
+        /** @var SetupModel $setUpModel */
         $setUpModel = $this->getModel('Setup');
 
         // Get the options from the session
@@ -180,7 +186,7 @@ class InstallationController extends JSONController
         $r = new \stdClass();
         $r->view = 'remove';
 
-        /** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+        /** @var ConfigurationModel $configurationModel */
         $configurationModel = $this->getModel('Configuration');
 
         // Attempt to setup the configuration.
@@ -213,7 +219,7 @@ class InstallationController extends JSONController
             $this->app->enqueueMessage(Text::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
         } else {
             // Get the languages model.
-            /** @var \Joomla\CMS\Installation\Model\LanguagesModel $model */
+            /** @var LanguagesModel $model */
             $model = $this->getModel('Languages');
 
             // Install selected languages
@@ -238,7 +244,7 @@ class InstallationController extends JSONController
     {
         $this->checkValidToken();
 
-        /** @var \Joomla\CMS\Installation\Model\CleanupModel $model */
+        /** @var CleanupModel $model */
         $model = $this->getModel('Cleanup');
 
         if (!$model->deleteInstallationFolder()) {
@@ -256,7 +262,7 @@ class InstallationController extends JSONController
                 ]
             ];
 
-            echo json_encode($error);
+            echo json_encode($error, JSON_THROW_ON_ERROR);
 
             return;
         }

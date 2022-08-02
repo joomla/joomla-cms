@@ -34,7 +34,6 @@ class SchedulerComponent extends MVCComponent implements BootableExtensionInterf
      *
      * @param   ContainerInterface  $container  The container
      *
-     * @return void
      *
      * @since  4.1.0
      */

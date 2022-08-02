@@ -22,10 +22,9 @@ final class OnGetApiRelation extends AbstractImmutableEvent
     /**
      * The relationship
      *
-     * @var     Relationship
      * @since   4.0.0
      */
-    private $relationship;
+    private ?Relationship $relationship = null;
 
     /**
      * Constructor.
@@ -41,7 +40,7 @@ final class OnGetApiRelation extends AbstractImmutableEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('model', $arguments)) {
             throw new \BadMethodCallException("Argument 'model' is required for event $name");
@@ -75,7 +74,6 @@ final class OnGetApiRelation extends AbstractImmutableEvent
      *
      * @param   Relationship  $relationship  The relationship object that should be rendered.
      *
-     * @return  void
      * @since   4.0.0
      */
     public function setRelationship(Relationship $relationship): void

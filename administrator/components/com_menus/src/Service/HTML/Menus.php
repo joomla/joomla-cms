@@ -76,15 +76,15 @@ class Menus
 
             // Construct html
             if ($items) {
-                $languages = LanguageHelper::getContentLanguages(array(0, 1));
+                $languages = LanguageHelper::getContentLanguages([0, 1]);
                 $content_languages = array_column($languages, 'lang_code');
 
                 foreach ($items as &$item) {
                     if (in_array($item->lang_code, $content_languages)) {
                         $text    = $item->lang_code;
                         $url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-                        $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-                            . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+                        $tooltip = '<strong>' . htmlspecialchars((string) $item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+                            . htmlspecialchars((string) $item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
                         $classes = 'badge bg-secondary';
 
                         $item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
@@ -117,7 +117,7 @@ class Menus
 
         try {
             $registry->loadString($params);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // Invalid JSON
         }
 

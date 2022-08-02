@@ -19,14 +19,6 @@ use Joomla\CMS\Uri\Uri;
 abstract class DocumentRenderer implements RendererInterface
 {
     /**
-     * Reference to the Document object that instantiated the renderer
-     *
-     * @var    Document
-     * @since  1.7.0
-     */
-    protected $_doc = null;
-
-    /**
      * Renderer mime type
      *
      * @var    string
@@ -37,13 +29,12 @@ abstract class DocumentRenderer implements RendererInterface
     /**
      * Class constructor
      *
-     * @param   Document  $doc  A reference to the Document object that instantiated the renderer
+     * @param Document $_doc A reference to the Document object that instantiated the renderer
      *
      * @since   1.7.0
      */
-    public function __construct(Document $doc)
+    public function __construct(protected Document $_doc)
     {
-        $this->_doc = $doc;
     }
 
     /**

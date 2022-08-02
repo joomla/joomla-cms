@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Installer.urlinstaller
@@ -24,7 +25,7 @@ class PlgInstallerUrlInstaller extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -41,7 +42,7 @@ class PlgInstallerUrlInstaller extends CMSPlugin
         // Load language files
         $this->loadLanguage();
 
-        $tab            = array();
+        $tab            = [];
         $tab['name']    = 'url';
         $tab['label']   = Text::_('PLG_INSTALLER_URLINSTALLER_TEXT');
 

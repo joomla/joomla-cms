@@ -69,7 +69,6 @@ class TextView extends AbstractView
     /**
      * Get the data for the view
      *
-     * @return  array
      *
      * @since   3.5
      */
@@ -113,7 +112,6 @@ class TextView extends AbstractView
      * @param   array    $sectionData  Data of the section to render
      * @param   integer  $level        Depth level for indentation
      *
-     * @return  string
      *
      * @since   3.5
      */
@@ -159,7 +157,6 @@ class TextView extends AbstractView
      * @param   array    $sectionData  Directories information
      * @param   integer  $level        Starting level
      *
-     * @return  string
      *
      * @since   3.5
      */

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Exception\ExceptionHandler;
+use Symfony\Component\ErrorHandler\ErrorHandler;
 /**
  * @package    Joomla.Site
  *
@@ -22,7 +24,7 @@ if (
     || (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version())->isInDevelopmentState()))
 ) {
     if (file_exists(JPATH_INSTALLATION . '/index.php')) {
-        header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
+        header('Location: ' . substr((string) $_SERVER['REQUEST_URI'], 0, strpos((string) $_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
 
         exit;
     } else {
@@ -82,14 +84,14 @@ if (empty($config->log_deprecated)) {
     set_error_handler(null, E_USER_DEPRECATED);
 } else {
     // Make sure handler for E_USER_DEPRECATED is registered
-    set_error_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
+    set_error_handler(ExceptionHandler::handleUserDeprecatedErrors(...), E_USER_DEPRECATED);
 }
 
 if (JDEBUG || $config->error_reporting === 'maximum') {
     // Set new Exception handler with debug enabled
     $errorHandler->setExceptionHandler(
         [
-            new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+            new ErrorHandler(null, true),
             'renderException'
         ]
     );

@@ -9,6 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
@@ -40,13 +41,10 @@ class LanguagesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'name',
-                'element',
-            );
+            $config['filter_fields'] = ['name', 'element'];
         }
 
         parent::__construct($config, $factory);
@@ -132,7 +130,7 @@ class LanguagesModel extends ListModel
 
         try {
             $response = HttpFactory::getHttp()->get($updateSite);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $response = null;
         }
 
@@ -150,8 +148,8 @@ class LanguagesModel extends ListModel
             return;
         }
 
-        $languages     = array();
-        $search        = strtolower($this->getState('filter.search'));
+        $languages     = [];
+        $search        = strtolower((string) $this->getState('filter.search'));
 
         foreach ($updateSiteXML->extension as $extension) {
             $language = new \stdClass();
@@ -162,8 +160,8 @@ class LanguagesModel extends ListModel
 
             if ($search) {
                 if (
-                    strpos(strtolower($language->name), $search) === false
-                    && strpos(strtolower($language->element), $search) === false
+                    !str_contains(strtolower((string) $language->name), $search)
+                    && !str_contains(strtolower((string) $language->element), $search)
                 ) {
                     continue;
                 }
@@ -181,7 +179,7 @@ class LanguagesModel extends ListModel
             function ($a, $b) use ($that) {
                 $ordering = $that->getState('list.ordering');
 
-                if (strtolower($that->getState('list.direction')) === 'asc') {
+                if (strtolower((string) $that->getState('list.direction')) === 'asc') {
                     return StringHelper::strcmp($a->$ordering, $b->$ordering);
                 } else {
                     return StringHelper::strcmp($b->$ordering, $a->$ordering);
@@ -199,7 +197,7 @@ class LanguagesModel extends ListModel
     /**
      * Returns a record count for the updatesite.
      *
-     * @param   \Joomla\Database\DatabaseQuery|string  $query  The query.
+     * @param DatabaseQuery|string $query The query.
      *
      * @return  integer  Number of rows for query.
      *
@@ -260,6 +258,6 @@ class LanguagesModel extends ListModel
      */
     protected function compareLanguages($lang1, $lang2)
     {
-        return strcmp($lang1->name, $lang2->name);
+        return strcmp((string) $lang1->name, (string) $lang2->name);
     }
 }

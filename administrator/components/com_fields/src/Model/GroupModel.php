@@ -38,10 +38,7 @@ class GroupModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
-        'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
-    );
+    protected $batch_commands = ['assetgroup_id' => 'batchAccess', 'language_id'   => 'batchLanguage'];
 
     /**
      * Method to save the form data.
@@ -77,7 +74,7 @@ class GroupModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Group', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }
@@ -92,7 +89,7 @@ class GroupModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         $context = $this->getState('filter.context');
         $jinput = Factory::getApplication()->input;
@@ -106,10 +103,7 @@ class GroupModel extends AdminModel
         $form = $this->loadForm(
             'com_fields.group.' . $context,
             'group',
-            array(
-                'control'   => 'jform',
-                'load_data' => $loadData,
-            )
+            ['control'   => 'jform', 'load_data' => $loadData]
         );
 
         if (empty($form)) {
@@ -240,7 +234,7 @@ class GroupModel extends AdminModel
         $component = $parts[0];
 
         // Extract the optional section name
-        $section = (count($parts) > 1) ? $parts[1] : null;
+        $section = (count((array) $parts) > 1) ? $parts[1] : null;
 
         if ($parts) {
             // Set the access control rules field component value.
@@ -276,7 +270,7 @@ class GroupModel extends AdminModel
      * @see     JFilterInput
      * @since   3.9.23
      */
-    public function validate($form, $data, $group = null)
+    public function validate($form, $data, $group = null): array|bool
     {
         if (!Factory::getUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
@@ -298,7 +292,7 @@ class GroupModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.group.data', array());
+        $data = $app->getUserState('com_fields.edit.group.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -306,7 +300,7 @@ class GroupModel extends AdminModel
             // Pre-select some filters (Status, Language, Access) in edit form if those have been selected in Field Group Manager
             if (!$data->id) {
                 // Check for which context the Field Group Manager is used and get selected fields
-                $context = substr($app->getUserState('com_fields.groups.filter.context', ''), 4);
+                $context = substr((string) $app->getUserState('com_fields.groups.filter.context', ''), 4);
                 $filters = (array) $app->getUserState('com_fields.groups.' . $context . '.filter');
 
                 $data->set(

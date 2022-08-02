@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contact
@@ -25,7 +26,7 @@ if ($app->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_contact.admin-contacts-modal');
 
@@ -38,7 +39,7 @@ $multilang = Multilanguage::isEnabled();
 
 if (!empty($editor)) {
     // This view is used also in com_menus. Load the xtd script only if the editor is set!
-    $this->document->addScriptOptions('xtd-contacts', array('editor' => $editor));
+    $this->document->addScriptOptions('xtd-contacts', ['editor' => $editor]);
     $onclick = "jSelectContact";
 }
 ?>
@@ -46,7 +47,7 @@ if (!empty($editor)) {
 
     <form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&editor=' . $editor . '&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
@@ -86,20 +87,15 @@ if (!empty($editor)) {
                 </thead>
                 <tbody>
                 <?php
-                $iconStates = array(
-                    -2 => 'icon-trash',
-                    0  => 'icon-times',
-                    1  => 'icon-check',
-                    2  => 'icon-folder',
-                );
+                $iconStates = [-2 => 'icon-trash', 0  => 'icon-times', 1  => 'icon-check', 2  => 'icon-folder'];
                 ?>
                 <?php foreach ($this->items as $i => $item) : ?>
                     <?php if ($item->language && $multilang) {
-                        $tag = strlen($item->language);
+                        $tag = strlen((string) $item->language);
                         if ($tag == 5) {
-                            $lang = substr($item->language, 0, 2);
+                            $lang = substr((string) $item->language, 0, 2);
                         } elseif ($tag == 6) {
-                            $lang = substr($item->language, 0, 3);
+                            $lang = substr((string) $item->language, 0, 3);
                         } else {
                             $lang = '';
                         }
@@ -145,7 +141,7 @@ if (!empty($editor)) {
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'CMD'); ?>">

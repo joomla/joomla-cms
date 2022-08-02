@@ -21,7 +21,6 @@ class ImageFilterTest extends UnitTestCase
     /**
      * Setup for testing.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

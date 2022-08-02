@@ -6,6 +6,9 @@ use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
 
 return static function(RectorConfig $rectorConfig): void {
+    $rectorConfig->importNames(true);
+    $rectorConfig->importShortClasses(false);
+
     $rectorConfig->paths([
         __DIR__,
     ]);

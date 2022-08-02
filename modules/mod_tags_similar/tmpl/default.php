@@ -22,12 +22,12 @@ if (!$list) {
     <li>
         <?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
             <?php if (!empty($item->core_title)) : ?>
-                <?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
+                <?php echo htmlspecialchars((string) $item->core_title, ENT_COMPAT, 'UTF-8'); ?>
             <?php endif; ?>
         <?php else : ?>
             <a href="<?php echo Route::_($item->link); ?>">
                 <?php if (!empty($item->core_title)) : ?>
-                    <?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
+                    <?php echo htmlspecialchars((string) $item->core_title, ENT_COMPAT, 'UTF-8'); ?>
                 <?php endif; ?>
             </a>
         <?php endif; ?>

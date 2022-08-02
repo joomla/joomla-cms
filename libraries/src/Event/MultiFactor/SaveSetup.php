@@ -53,7 +53,6 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @param   MfaTable  $value  The value to validate
      *
-     * @return  MfaTable
      * @since   4.2.0
      */
     public function setRecord(MfaTable $value): MfaTable
@@ -70,7 +69,6 @@ class SaveSetup extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @param   Input  $value  The value to validate
      *
-     * @return  Input
      * @since   4.2.0
      */
     public function setInput(Input $value): Input

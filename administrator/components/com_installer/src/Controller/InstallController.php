@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
+use Joomla\Component\Installer\Administrator\Model\InstallModel;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -41,7 +42,7 @@ class InstallController extends BaseController
             throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        /** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $model */
+        /** @var InstallModel $model */
         $model = $this->getModel('install');
 
         // @todo: Reset the users acl here as well to kill off any missing bits.
@@ -104,7 +105,7 @@ class InstallController extends BaseController
 
         header('Content-Type: application/json');
 
-        echo new JsonResponse(array('redirect' => $redirect), $message, !$result);
+        echo new JsonResponse(['redirect' => $redirect], $message, !$result);
 
         $this->app->close();
     }

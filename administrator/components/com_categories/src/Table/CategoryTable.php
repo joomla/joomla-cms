@@ -10,12 +10,13 @@
 
 namespace Joomla\Component\Categories\Administrator\Table;
 
+use Joomla\CMS\Table\Category;
 /**
  * Category table
  *
  * @since  1.6
  */
-class CategoryTable extends \Joomla\CMS\Table\Category
+class CategoryTable extends Category
 {
     /**
      * Method to delete a node and, optionally, its child nodes from the table.

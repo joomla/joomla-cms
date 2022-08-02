@@ -22,7 +22,7 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
         <?php echo HTMLHelper::_('templates.thumb', $this->template); ?>
         <?php echo HTMLHelper::_('templates.thumbModal', $this->template); ?>
     </div>
-    <h2><?php echo ucfirst($this->template->element); ?></h2>
+    <h2><?php echo ucfirst((string) $this->template->element); ?></h2>
     <?php $client = ApplicationHelper::getClientInfo($this->template->client_id); ?>
     <p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element); ?></p>
     <p><?php echo Text::_($this->template->xmldata->get('description')); ?></p>

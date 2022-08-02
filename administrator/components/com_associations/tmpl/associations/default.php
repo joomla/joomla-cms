@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_associations
@@ -17,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_associations.admin-associations-default')
     ->useScript('table.columns')
@@ -27,12 +28,7 @@ $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
-$iconStates = array(
-    -2 => 'icon-trash',
-    0  => 'icon-times',
-    1  => 'icon-check',
-    2  => 'icon-folder',
-);
+$iconStates = [-2 => 'icon-trash', 0  => 'icon-times', 1  => 'icon-check', 2  => 'icon-folder'];
 
 Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
 
@@ -41,7 +37,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if ($this->state->get('itemtype') == '' || $this->state->get('language') == '') : ?>
                     <div class="alert alert-info">
                         <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -109,7 +105,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                                 <th scope="row" class="has-context">
                                     <div class="break-word">
                                         <?php if (isset($item->level)) : ?>
-                                            <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                            <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                         <?php endif; ?>
                                         <?php if ($canCheckin && $isCheckout) : ?>
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
@@ -162,7 +158,7 @@ Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <?php echo HTMLHelper::_('form.token'); ?>
             </div>

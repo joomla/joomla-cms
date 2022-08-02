@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Index;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -40,7 +42,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.6.1
      */
@@ -85,7 +87,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -140,7 +142,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -218,7 +220,7 @@ class HtmlView extends BaseHtmlView
 
                 $childBar = $dropdown->getChildToolbar();
 
-                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise', false);
+                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise');
                 $childBar->confirmButton('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', 'index.purge')
                     ->icon('icon-trash')
                     ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');

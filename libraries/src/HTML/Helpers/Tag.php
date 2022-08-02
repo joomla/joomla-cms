@@ -30,7 +30,7 @@ abstract class Tag
      * @var    array
      * @since  3.1
      */
-    protected static $items = array();
+    protected static $items = [];
 
     /**
      * Returns an array of tags.
@@ -42,7 +42,7 @@ abstract class Tag
      *
      * @since   3.1
      */
-    public static function options($config = array('filter.published' => array(0, 1)))
+    public static function options($config = ['filter.published' => [0, 1]])
     {
         $hash = md5(serialize($config));
 
@@ -87,7 +87,7 @@ abstract class Tag
             $items = $db->loadObjectList();
 
             // Assemble the list options.
-            static::$items[$hash] = array();
+            static::$items[$hash] = [];
 
             foreach ($items as &$item) {
                 $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
@@ -108,7 +108,7 @@ abstract class Tag
      *
      * @since   3.1
      */
-    public static function tags($config = array('filter.published' => array(0, 1)))
+    public static function tags($config = ['filter.published' => [0, 1]])
     {
         $hash = md5(serialize($config));
         $config = (array) $config;
@@ -142,7 +142,7 @@ abstract class Tag
         $items = $db->loadObjectList();
 
         // Assemble the list options.
-        static::$items[$hash] = array();
+        static::$items[$hash] = [];
 
         foreach ($items as &$item) {
             $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
@@ -178,32 +178,19 @@ abstract class Tag
         HTMLHelper::_('behavior.core');
         HTMLHelper::_('jquery.framework');
         HTMLHelper::_('formbehavior.chosen');
-        HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', array('version' => 'auto', 'relative' => true));
+        HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', ['version' => 'auto', 'relative' => true]);
 
         Factory::getDocument()->addScriptOptions(
             'ajax-chosen',
-            array(
-                'url'            => Uri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
-                'debug'          => JDEBUG,
-                'selector'       => $selector,
-                'type'           => 'GET',
-                'dataType'       => 'json',
-                'jsonTermKey'    => 'like',
-                'afterTypeDelay' => 500,
-                'minTermLength'  => $minTermLength
-            )
+            ['url'            => Uri::root() . 'index.php?option=com_tags&task=tags.searchAjax', 'debug'          => JDEBUG, 'selector'       => $selector, 'type'           => 'GET', 'dataType'       => 'json', 'jsonTermKey'    => 'like', 'afterTypeDelay' => 500, 'minTermLength'  => $minTermLength]
         );
 
         // Allow custom values ?
         if ($allowCustom) {
-            HTMLHelper::_('script', 'system/fields/tag.min.js', array('version' => 'auto', 'relative' => true));
+            HTMLHelper::_('script', 'system/fields/tag.min.js', ['version' => 'auto', 'relative' => true]);
             Factory::getDocument()->addScriptOptions(
                 'field-tag-custom',
-                array(
-                    'minTermLength' => $minTermLength,
-                    'selector'      => $selector,
-                    'allowCustom'   => Factory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
-                )
+                ['minTermLength' => $minTermLength, 'selector'      => $selector, 'allowCustom'   => Factory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false]
             );
         }
     }

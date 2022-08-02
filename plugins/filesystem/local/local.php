@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
+use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 /**
  * @package     Joomla.Plugin
  * @subpackage  FileSystem.Local
@@ -73,7 +75,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
     /**
      * Returns and array of adapters
      *
-     * @return  \Joomla\Component\Media\Administrator\Adapter\AdapterInterface[]
+     * @return AdapterInterface[]
      *
      * @since  4.0.0
      */
@@ -85,7 +87,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
         // Do a check if default settings are not saved by user
         // If not initialize them manually
         if (is_string($directories)) {
-            $directories = json_decode($directories);
+            $directories = json_decode($directories, null, 512, JSON_THROW_ON_ERROR);
         }
 
         foreach ($directories as $directoryEntity) {
@@ -93,7 +95,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
                 $directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
                 $directoryPath = rtrim($directoryPath) . '/';
 
-                $adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
+                $adapter = new LocalAdapter(
                     $directoryPath,
                     $directoryEntity->directory
                 );

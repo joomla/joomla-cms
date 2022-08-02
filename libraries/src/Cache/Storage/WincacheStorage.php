@@ -67,12 +67,12 @@ class WincacheStorage extends CacheStorage
 		$allinfo = wincache_ucache_info();
 		$keys    = $allinfo['ucache_entries'];
 		$secret  = $this->_hash;
-		$data    = array();
+		$data    = [];
 
 		foreach ($keys as $key)
 		{
 			$name    = $key['key_name'];
-			$namearr = explode('-', $name);
+			$namearr = explode('-', (string) $name);
 
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 			{
@@ -159,7 +159,7 @@ class WincacheStorage extends CacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
+			if (str_starts_with((string) $key['key_name'], $secret . '-cache-' . $group . '-') xor $mode !== 'group')
 			{
 				wincache_ucache_delete($key['key_name']);
 			}
@@ -184,7 +184,7 @@ class WincacheStorage extends CacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['key_name'], $secret . '-cache-'))
+			if (strpos((string) $key['key_name'], $secret . '-cache-'))
 			{
 				wincache_ucache_get($key['key_name']);
 			}

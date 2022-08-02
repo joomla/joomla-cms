@@ -23,10 +23,8 @@ class PlgExtensionNamespacemap extends CMSPlugin
 {
     /**
      * The namespace map file creator
-     *
-     * @var JNamespacePsr4Map
      */
-    private $fileCreator = null;
+    private ?\JNamespacePsr4Map $fileCreator = null;
 
     /**
      * Constructor
@@ -38,7 +36,7 @@ class PlgExtensionNamespacemap extends CMSPlugin
      *
      * @since   4.0.0
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         $this->fileCreator = new JNamespacePsr4Map();
 

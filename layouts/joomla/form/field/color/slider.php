@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -66,7 +67,7 @@ $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $displayValues = explode(',', $display);
 $allSliders    = $display === 'full' || empty($display);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('field.color-slider');
 

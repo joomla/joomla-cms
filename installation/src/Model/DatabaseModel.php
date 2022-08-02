@@ -35,7 +35,7 @@ class DatabaseModel extends BaseInstallationModel
      */
     public function getOptions()
     {
-        return Factory::getSession()->get('setup.options', array());
+        return Factory::getSession()->get('setup.options', []);
     }
 
     /**
@@ -47,7 +47,7 @@ class DatabaseModel extends BaseInstallationModel
      *
      * @since   3.1
      */
-    public function initialise($select = true)
+    public function initialise($select = true): DatabaseInterface|bool
     {
         $options = $this->getOptions();
 
@@ -110,6 +110,7 @@ class DatabaseModel extends BaseInstallationModel
      */
     public function createDatabase()
     {
+        $e = null;
         $options = (object) $this->getOptions();
 
         $db = $this->initialise(false);
@@ -143,27 +144,10 @@ class DatabaseModel extends BaseInstallationModel
                  */
                 if ($type === 'mysql') {
                     // MySQL (PDO): Don't specify database name
-                    $altDBoptions = array(
-                        'driver'   => $options->db_type,
-                        'host'     => $options->db_host,
-                        'user'     => $options->db_user,
-                        'password' => $options->db_pass_plain,
-                        'prefix'   => $options->db_prefix,
-                        'select'   => false,
-                        DatabaseHelper::getEncryptionSettings($options),
-                    );
+                    $altDBoptions = ['driver'   => $options->db_type, 'host'     => $options->db_host, 'user'     => $options->db_user, 'password' => $options->db_pass_plain, 'prefix'   => $options->db_prefix, 'select'   => false, DatabaseHelper::getEncryptionSettings($options)];
                 } else {
                     // PostgreSQL (PDO): Use 'postgres'
-                    $altDBoptions = array(
-                        'driver'   => $options->db_type,
-                        'host'     => $options->db_host,
-                        'user'     => $options->db_user,
-                        'password' => $options->db_pass_plain,
-                        'database' => 'postgres',
-                        'prefix'   => $options->db_prefix,
-                        'select'   => false,
-                        DatabaseHelper::getEncryptionSettings($options),
-                    );
+                    $altDBoptions = ['driver'   => $options->db_type, 'host'     => $options->db_host, 'user'     => $options->db_user, 'password' => $options->db_pass_plain, 'database' => 'postgres', 'prefix'   => $options->db_prefix, 'select'   => false, DatabaseHelper::getEncryptionSettings($options)];
                 }
 
                 $altDB = DatabaseDriver::getInstance($altDBoptions);
@@ -206,12 +190,12 @@ class DatabaseModel extends BaseInstallationModel
         }
 
         // @internal Check for spaces in beginning or end of name.
-        if (strlen(trim($options->db_name)) <> strlen($options->db_name)) {
+        if (strlen(trim((string) $options->db_name)) <> strlen((string) $options->db_name)) {
             throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
         }
 
         // @internal Check for asc(00) Null in name.
-        if (strpos($options->db_name, chr(00)) !== false) {
+        if (str_contains((string) $options->db_name, chr(00))) {
             throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
         }
 
@@ -233,7 +217,7 @@ class DatabaseModel extends BaseInstallationModel
         // Set the character set to UTF-8 for pre-existing databases.
         try {
             $db->alterDbCharacterSet($options->db_name);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Continue Anyhow
         }
 
@@ -267,7 +251,7 @@ class DatabaseModel extends BaseInstallationModel
         $options = $this->getOptions();
 
         if (!isset($options['db_created']) || !$options['db_created']) {
-            return $this->createDatabase($options);
+            return $this->createDatabase();
         }
 
         // Get the options as an object for easier handling.
@@ -280,7 +264,7 @@ class DatabaseModel extends BaseInstallationModel
         // Set the character set to UTF-8 for pre-existing databases.
         try {
             $db->alterDbCharacterSet($options->db_name);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Continue Anyhow
         }
 
@@ -348,9 +332,9 @@ class DatabaseModel extends BaseInstallationModel
         if ($tables) {
             foreach ($tables as $table) {
                 // If the table uses the given prefix, back it up.
-                if (strpos($table, $prefix) === 0) {
+                if (str_starts_with((string) $table, $prefix)) {
                     // Backup table name.
-                    $backupTable = str_replace($prefix, $backup, $table);
+                    $backupTable = str_replace($prefix, $backup, (string) $table);
 
                     // Drop the backup table.
                     try {
@@ -394,7 +378,7 @@ class DatabaseModel extends BaseInstallationModel
         try {
             // Run the create database query.
             $db->createDatabase($options, $utf);
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // If an error occurred return false.
             return false;
         }
@@ -405,7 +389,7 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to import a database schema from a file.
      *
-     * @param   \Joomla\Database\DatabaseInterface  $db      JDatabase object.
+     * @param DatabaseInterface $db JDatabase object.
      * @param   string                              $schema  Path to the schema file.
      *
      * @return  boolean  True on success.
@@ -428,7 +412,7 @@ class DatabaseModel extends BaseInstallationModel
 
         foreach ($queries as $query) {
             // Trim any whitespace.
-            $query = trim($query);
+            $query = trim((string) $query);
 
             // If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
             if (!empty($query) && ($query[0] != '#') && ($query[0] != '-')) {
@@ -459,8 +443,8 @@ class DatabaseModel extends BaseInstallationModel
      */
     protected function splitQueries($query)
     {
-        $buffer    = array();
-        $queries   = array();
+        $buffer    = [];
+        $queries   = [];
         $in_string = false;
 
         // Trim any whitespace.

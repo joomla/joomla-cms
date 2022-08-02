@@ -25,7 +25,7 @@ abstract class Sidebar
      * @var    array
      * @since  3.0
      */
-    protected static $entries = array();
+    protected static $entries = [];
 
     /**
      * Filters
@@ -33,7 +33,7 @@ abstract class Sidebar
      * @var    array
      * @since  3.0
      */
-    protected static $filters = array();
+    protected static $filters = [];
 
     /**
      * Value for the action attribute of the form.
@@ -80,7 +80,7 @@ abstract class Sidebar
      */
     public static function addEntry($name, $link = '', $active = false)
     {
-        static::$entries[] = array($name, $link, $active);
+        static::$entries[] = [$name, $link, $active];
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class Sidebar
      */
     public static function addFilter($label, $name, $options, $noDefault = false)
     {
-        static::$filters[] = array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault);
+        static::$filters[] = ['label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault];
     }
 
     /**

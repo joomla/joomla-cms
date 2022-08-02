@@ -54,6 +54,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        $icon = null;
         $app = Factory::getApplication();
         $dashboard = $app->input->getCmd('dashboard', '');
 
@@ -64,7 +65,7 @@ class HtmlView extends BaseHtmlView
             $parts     = explode('.', $dashboard);
             $component = $parts[0];
 
-            if (strpos($component, 'com_') === false) {
+            if (!str_contains($component, 'com_')) {
                 $component = 'com_' . $component;
             }
 

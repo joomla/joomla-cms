@@ -21,7 +21,6 @@ interface CheckIfRehashNeededHandlerInterface
      *
      * @param   string  $hash  The password hash to check
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

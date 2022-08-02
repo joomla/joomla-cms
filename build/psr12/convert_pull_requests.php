@@ -60,8 +60,8 @@ if (empty($argv)) {
 }
 
 foreach ($argv as $arg) {
-    if (substr($arg, 0, 2) === '--') {
-        $argi = explode('=', $arg, 2);
+    if (str_starts_with((string) $arg, '--')) {
+        $argi = explode('=', (string) $arg, 2);
         switch ($argi[0]) {
             case '--pr':
                 $prNumber = $argi[1];
@@ -162,9 +162,9 @@ if (!empty($prNumber)) {
     $json = '[' . $json . ']';
 }
 
-$list = json_decode($json, true);
+$list = json_decode((string) $json, true, 512, JSON_THROW_ON_ERROR);
 
-echo "\nFound " . count($list) . " pull request(s).\n";
+echo "\nFound " . (is_countable($list) ? count($list) : 0) . " pull request(s).\n";
 
 foreach ($list as $pr) {
     echo "Checkout #" . $pr['number'] . "\n";
@@ -197,7 +197,7 @@ foreach ($list as $pr) {
     $cmd = $git . ' diff --name-only psr12anchor..HEAD';
     $output = [];
     exec($cmd, $output, $result);
-    if (count($output) > 500) {
+    if ((is_countable($output) ? count($output) : 0) > 500) {
         var_dump([$cmd, $output, $result]);
         echo 'Too many files changed between psr12anchor and HEAD pr #' . $pr['number'] ."\n";
         continue;
@@ -239,7 +239,7 @@ foreach ($list as $pr) {
         echo "Push directly to PR branch\n";
 
         $cmd    = $git . ' push git@github.com:' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . '.git '
-            . 'psr12/merge/' . $pr['number'] . ':' . str_replace('"', '\"', $pr['headRefName']);
+            . 'psr12/merge/' . $pr['number'] . ':' . str_replace('"', '\"', (string) $pr['headRefName']);
         $output = [];
 
         exec($cmd, $output, $result);
@@ -268,7 +268,7 @@ foreach ($list as $pr) {
         }
 
         $cmd    = $gh . ' pr create --title "PSR-12 conversion" --body "This pull requests converts the branch to the PSR-12 coding standard." '
-            . '-R ' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . ' -B ' . str_replace('"', '\"', $pr['headRefName']);
+            . '-R ' . $pr['headRepositoryOwner']['login'] . '/' . $pr['headRepository']['name'] . ' -B ' . str_replace('"', '\"', (string) $pr['headRefName']);
         $output = [];
         exec($cmd, $output, $result);
         if ($result !== 0) {

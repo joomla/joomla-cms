@@ -74,7 +74,6 @@ class LinkButton extends ToolbarButton
     /**
      * Method to configure available option accessors.
      *
-     * @return  array
      *
      * @since  4.0.0
      */

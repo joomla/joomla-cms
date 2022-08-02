@@ -34,29 +34,10 @@ class ModulesModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'published', 'a.published', 'state',
-                'access', 'a.access',
-                'ag.title', 'access_level',
-                'ordering', 'a.ordering',
-                'module', 'a.module',
-                'language', 'a.language',
-                'l.title', 'language_title',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'client_id', 'a.client_id',
-                'position', 'a.position',
-                'pages',
-                'name', 'e.name',
-                'menuitem',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'published', 'a.published', 'state', 'access', 'a.access', 'ag.title', 'access_level', 'ordering', 'a.ordering', 'module', 'a.module', 'language', 'a.language', 'l.title', 'language_title', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'client_id', 'a.client_id', 'position', 'a.position', 'pages', 'name', 'e.name', 'menuitem'];
         }
 
         parent::__construct($config);
@@ -111,7 +92,7 @@ class ModulesModel extends ListModel
             $clientId = 0;
         } else {
             $clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
-            $clientId = (!in_array($clientId, array(0, 1))) ? 0 : $clientId;
+            $clientId = (!in_array($clientId, [0, 1])) ? 0 : $clientId;
             $this->setState('client_id', $clientId);
         }
 
@@ -171,7 +152,7 @@ class ModulesModel extends ListModel
         $db = $this->getDatabase();
 
         // If ordering by fields that need translate we need to sort the array of objects after translating them.
-        if (in_array($listOrder, array('pages', 'name'))) {
+        if (in_array($listOrder, ['pages', 'name'])) {
             // Fetch the results.
             $db->setQuery($query);
             $result = $db->loadObjectList();
@@ -180,7 +161,7 @@ class ModulesModel extends ListModel
             $this->translate($result);
 
             // Sort the array of translated objects.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, true, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) == 'desc' ? -1 : 1, true, true);
 
             // Process pagination.
             $total = count($result);
@@ -385,8 +366,8 @@ class ModulesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {

@@ -34,41 +34,10 @@ class TagsModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id',
-                'a.id',
-                'title',
-                'a.title',
-                'alias',
-                'a.alias',
-                'published',
-                'a.published',
-                'access',
-                'a.access',
-                'access_level',
-                'language',
-                'a.language',
-                'checked_out',
-                'a.checked_out',
-                'checked_out_time',
-                'a.checked_out_time',
-                'created_time',
-                'a.created_time',
-                'created_user_id',
-                'a.created_user_id',
-                'lft',
-                'a.lft',
-                'rgt',
-                'a.rgt',
-                'level',
-                'a.level',
-                'path',
-                'a.path',
-                'countTaggedItems',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'alias', 'a.alias', 'published', 'a.published', 'access', 'a.access', 'access_level', 'language', 'a.language', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'created_time', 'a.created_time', 'created_user_id', 'a.created_user_id', 'lft', 'a.lft', 'rgt', 'a.rgt', 'level', 'a.level', 'path', 'a.path', 'countTaggedItems'];
         }
 
         parent::__construct($config, $factory);
@@ -91,7 +60,7 @@ class TagsModel extends ListModel
         $extension = $this->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
 
         $this->setState('filter.extension', $extension);
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         // Extract the component name
         $this->setState('filter.component', $parts[0]);
@@ -220,12 +189,12 @@ class TagsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->extendWhere(
                     'AND',
                     [

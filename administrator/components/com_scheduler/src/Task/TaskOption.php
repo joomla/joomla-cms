@@ -45,14 +45,6 @@ class TaskOption
     protected $desc;
 
     /**
-     * Routine type-ID.
-     *
-     * @var string
-     * @since  4.1.0
-     */
-    protected $id;
-
-    /**
      * @var string
      * @since  4.1.0
      */
@@ -61,14 +53,13 @@ class TaskOption
     /**
      * TaskOption constructor.
      *
-     * @param   string  $type             A unique ID string for a plugin task routine.
+     * @param string $id A unique ID string for a plugin task routine.
      * @param   string  $langConstPrefix  The Language constant prefix $p. Expects $p . _TITLE and $p . _DESC to exist.
      *
      * @since  4.1.0
      */
-    public function __construct(string $type, string $langConstPrefix)
+    public function __construct(protected string $id, string $langConstPrefix)
     {
-        $this->id              = $type;
         $this->title           = Text::_("${langConstPrefix}_TITLE");
         $this->desc            = Text::_("${langConstPrefix}_DESC");
         $this->langConstPrefix = $langConstPrefix;
@@ -101,7 +92,7 @@ class TaskOption
                     Log::WARNING,
                     'deprecated'
                 );
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 // Pass
             }
 

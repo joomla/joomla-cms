@@ -136,7 +136,7 @@ class User extends CMSObject
      * @var    array
      * @since  1.7.0
      */
-    public $groups = array();
+    public $groups = [];
 
     /**
      * Guest status
@@ -214,7 +214,7 @@ class User extends CMSObject
      * @var    array  User instances container.
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Constructor activating the default information of the language
@@ -256,7 +256,7 @@ class User extends CMSObject
             sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -401,7 +401,7 @@ class User extends CMSObject
             ->bind(':component', $component);
         $db->setQuery($query);
         $allCategories = $db->loadObjectList('id');
-        $allowedCategories = array();
+        $allowedCategories = [];
 
         foreach ($allCategories as $category) {
             if ($this->authorise($action, $category->name)) {
@@ -422,7 +422,7 @@ class User extends CMSObject
     public function getAuthorisedViewLevels()
     {
         if ($this->_authLevels === null) {
-            $this->_authLevels = array();
+            $this->_authLevels = [];
         }
 
         if (empty($this->_authLevels)) {
@@ -442,7 +442,7 @@ class User extends CMSObject
     public function getAuthorisedGroups()
     {
         if ($this->_authGroups === null) {
-            $this->_authGroups = array();
+            $this->_authGroups = [];
         }
 
         if (empty($this->_authGroups)) {
@@ -480,7 +480,7 @@ class User extends CMSObject
     {
         // Create the user table object
         /** @var \Joomla\CMS\Table\User $table */
-        $table = $this->getTable();
+        $table = static::getTable();
         $table->load($this->id);
 
         return $table->setLastVisit($timestamp);
@@ -656,7 +656,7 @@ class User extends CMSObject
     public function save($updateOnly = false)
     {
         // Create the user table object
-        $table = $this->getTable();
+        $table = static::getTable();
         $this->params = (string) $this->_params;
         $table->bind($this->getProperties());
 
@@ -727,7 +727,7 @@ class User extends CMSObject
             // Fire the onUserBeforeSave event.
             PluginHelper::importPlugin('user');
 
-            $result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+            $result = Factory::getApplication()->triggerEvent('onUserBeforeSave', [$oldUser->getProperties(), $isNew, $this->getProperties()]);
 
             if (\in_array(false, $result, true)) {
                 // Plugin will have to raise its own error or throw an exception.
@@ -748,7 +748,7 @@ class User extends CMSObject
             }
 
             // Fire the onUserAfterSave event
-            Factory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+            Factory::getApplication()->triggerEvent('onUserAfterSave', [$this->getProperties(), $isNew, $result, $this->getError()]);
         } catch (\Exception $e) {
             $this->setError($e->getMessage());
 
@@ -770,17 +770,17 @@ class User extends CMSObject
         PluginHelper::importPlugin('user');
 
         // Trigger the onUserBeforeDelete event
-        Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
+        Factory::getApplication()->triggerEvent('onUserBeforeDelete', [$this->getProperties()]);
 
         // Create the user table object
-        $table = $this->getTable();
+        $table = static::getTable();
 
         if (!$result = $table->delete($this->id)) {
             $this->setError($table->getError());
         }
 
         // Trigger the onUserAfterDelete event
-        Factory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+        Factory::getApplication()->triggerEvent('onUserAfterDelete', [$this->getProperties(), $result, $this->getError()]);
 
         return $result;
     }
@@ -797,7 +797,7 @@ class User extends CMSObject
     public function load($id)
     {
         // Create the user table object
-        $table = $this->getTable();
+        $table = static::getTable();
 
         // Load the UserModel object based on the user id or throw a warning.
         if (!$table->load($id)) {
@@ -841,7 +841,7 @@ class User extends CMSObject
      */
     public function __sleep()
     {
-        return array('id');
+        return ['id'];
     }
 
     /**

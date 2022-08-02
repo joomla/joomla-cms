@@ -69,7 +69,7 @@ class FileAdapter extends InstallerAdapter
                 // Since we created a directory and will want to remove it if we have to roll back.
                 // The installation due to some errors, let's add it to the installation step stack.
                 if ($created) {
-                    $this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
+                    $this->parent->pushStep(['type' => 'folder', 'path' => $folder]);
                 }
             }
         }
@@ -88,14 +88,12 @@ class FileAdapter extends InstallerAdapter
      */
     protected function finaliseInstall()
     {
+        $path = [];
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
 
         $uid = $update->find(
-            array(
-                'element' => $this->element,
-                'type' => $this->type,
-            )
+            ['element' => $this->element, 'type' => $this->type]
         );
 
         if ($uid) {
@@ -103,11 +101,11 @@ class FileAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        $manifest = array();
+        $manifest = [];
         $manifest['src'] = $this->parent->getPath('manifest');
         $manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
 
-        if (!$this->parent->copyFiles(array($manifest), true)) {
+        if (!$this->parent->copyFiles([$manifest], true)) {
             // Install failed, rollback changes
             throw new \RuntimeException(
                 Text::sprintf(
@@ -128,7 +126,7 @@ class FileAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -144,7 +142,6 @@ class FileAdapter extends InstallerAdapter
     /**
      * Method to finalise the uninstallation processing
      *
-     * @return  boolean
      *
      * @since   4.0.0
      * @throws  \RuntimeException
@@ -271,7 +268,7 @@ class FileAdapter extends InstallerAdapter
             foreach ($folderList as $folder) {
                 $files = Folder::files($folder);
 
-                if ($files !== false && !\count($files)) {
+                if ($files !== false && !(is_countable($files) ? \count($files) : 0)) {
                     Folder::delete($folder);
                 }
             }
@@ -409,7 +406,7 @@ class FileAdapter extends InstallerAdapter
 
             // Since we have created a module item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $this->parent->pushStep(array('type' => 'extension', 'extension_id' => $this->extension->extension_id));
+            $this->parent->pushStep(['type' => 'extension', 'extension_id' => $this->extension->extension_id]);
         }
     }
 
@@ -437,7 +434,7 @@ class FileAdapter extends InstallerAdapter
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             // Install failed, rollback changes - error logged by the installer
             return false;
         }
@@ -461,8 +458,8 @@ class FileAdapter extends InstallerAdapter
     protected function populateFilesAndFolderList()
     {
         // Initialise variable
-        $this->folderList = array();
-        $this->fileList = array();
+        $this->folderList = [];
+        $this->fileList = [];
 
         // Set root folder names
         $packagePath = $this->parent->getPath('source');
@@ -550,12 +547,12 @@ class FileAdapter extends InstallerAdapter
         $this->parent->setPath('manifest', $manifestPath);
 
         $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-        $this->parent->extension->manifest_cache = json_encode($manifest_details);
+        $this->parent->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
         $this->parent->extension->name = $manifest_details['name'];
 
         try {
             return $this->parent->extension->store();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Log::add(Text::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
             return false;

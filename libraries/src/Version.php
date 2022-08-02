@@ -131,7 +131,6 @@ final class Version
     /**
      * Check if we are in development mode
      *
-     * @return  boolean
      *
      * @since   3.4.3
      */
@@ -228,7 +227,6 @@ final class Version
      * Generate a media version string for assets
      * Public to allow third party developers to use it
      *
-     * @return  string
      *
      * @since   3.2
      */
@@ -253,7 +251,7 @@ final class Version
         // Load the media version and cache it for future use
         if (self::$mediaVersion === null) {
             self::$mediaVersion = $this->getMediaVersionCache()
-                ->get([$this, 'generateMediaVersion'], [], md5('_media_version' . $this->getLongVersion()));
+                ->get($this->generateMediaVersion(...), [], md5('_media_version' . $this->getLongVersion()));
         }
 
         return self::$mediaVersion;
@@ -296,7 +294,6 @@ final class Version
     /**
      * Get cache instance for MediaVersion caching.
      *
-     * @return CacheController
      *
      * @since   4.2.0
      */

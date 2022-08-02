@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
@@ -22,7 +23,7 @@ class CategoriesView extends HtmlView
     /**
      * State data
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.2
      */
     protected $state;
@@ -62,7 +63,7 @@ class CategoriesView extends HtmlView
         $app = Factory::getApplication();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             $app->enqueueMessage($errors, 'error');
 
             return false;
@@ -82,10 +83,10 @@ class CategoriesView extends HtmlView
 
         $params = &$state->params;
 
-        $items = array($parent->id => $items);
+        $items = [$parent->id => $items];
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
         $this->maxLevelcat = $params->get('maxLevelcat', -1) < 0 ? PHP_INT_MAX : $params->get('maxLevelcat', PHP_INT_MAX);
         $this->params      = &$params;

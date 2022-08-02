@@ -29,7 +29,6 @@ class ExceptionHandler
      * @param   string   $errorFile     The file the error was triggered from.
      * @param   integer  $errorLine     The line number the error was triggered from.
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -39,7 +38,7 @@ class ExceptionHandler
         if ($errorNumber === E_USER_DEPRECATED) {
             try {
                 Log::add("$errorMessage - $errorFile - Line $errorLine", Log::WARNING, 'deprecated');
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // Silence
             }
 
@@ -62,7 +61,7 @@ class ExceptionHandler
      *
      * @since   3.10.0
      */
-    public static function handleException(\Throwable $error)
+    public static function handleException(\Exception|\Throwable $error)
     {
         static::logException($error);
         static::render($error);
@@ -105,7 +104,7 @@ class ExceptionHandler
 
             try {
                 $renderer = AbstractRenderer::getRenderer($format);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
                 // Default to the HTML renderer
                 $renderer = AbstractRenderer::getRenderer('html');
             }
@@ -199,14 +198,14 @@ class ExceptionHandler
             Log::add(
                 sprintf(
                     'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
-                    \get_class($error),
+                    $error::class,
                     $error->getMessage(),
                     $error->getTraceAsString()
                 ),
                 Log::CRITICAL,
                 'error'
             );
-        } catch (\Throwable $e) {
+        } catch (\Throwable) {
             // Logging failed, don't make a stink about it though
         }
     }

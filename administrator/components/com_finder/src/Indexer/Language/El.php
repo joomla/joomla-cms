@@ -149,11 +149,11 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . 'I';
             }
 
-            if (preg_match($exceptS2, $token)) {
+            if (preg_match($exceptS2, (string) $token)) {
                 $token = $token . 'IΖ';
             }
 
@@ -167,7 +167,7 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . 'ΩΝ';
             }
 
@@ -188,11 +188,11 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . 'Ι';
             }
 
-            if (preg_match($exceptS2, $token)) {
+            if (preg_match($exceptS2, (string) $token)) {
                 $token = $token . 'ΙΣ';
             }
 
@@ -206,7 +206,7 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . 'Ι';
             }
 
@@ -221,11 +221,11 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . 'ΙΣΤ';
             }
 
-            if (preg_match($exceptS2, $token)) {
+            if (preg_match($exceptS2, (string) $token)) {
                 $token = $token . 'Ι';
             }
 
@@ -242,20 +242,20 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
-                $token = str_replace('ΙΚ', "", $token);
+            if (preg_match($exceptS1, (string) $token)) {
+                $token = str_replace('ΙΚ', "", (string) $token);
             }
 
-            if (preg_match($exceptS2, $token)) {
+            if (preg_match($exceptS2, (string) $token)) {
                 $token = $token . "ΙΣΜ";
             }
 
-            if (preg_match($exceptS3, $token)) {
+            if (preg_match($exceptS3, (string) $token)) {
                 $token = $token . "Ι";
             }
 
-            if (preg_match($exceptS4, $token)) {
-                $token = str_replace('ΙΝ', "", $token);
+            if (preg_match($exceptS4, (string) $token)) {
+                $token = str_replace('ΙΝ', "", (string) $token);
             }
 
             return $this->toLowerCase($token, $wCase);
@@ -268,7 +268,7 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . "AΡΑΚ";
             }
 
@@ -287,15 +287,15 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . "ΑΚ";
             }
 
-            if (preg_match($exceptS2, $token)) {
+            if (preg_match($exceptS2, (string) $token)) {
                 $token = $token . "ΙΤΣ";
             }
 
-            if (preg_match($exceptS3, $token)) {
+            if (preg_match($exceptS3, (string) $token)) {
                 $token = $token . "ΙΤΣ";
             }
 
@@ -310,11 +310,11 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . "ΙΔ";
             }
 
-            if (preg_match($exceptS2, $token)) {
+            if (preg_match($exceptS2, (string) $token)) {
                 $token = $token . "ΙΔ";
             }
 
@@ -328,7 +328,7 @@ class El extends Language
         if (preg_match($re, $token, $match)) {
             $token = $match[1];
 
-            if (preg_match($exceptS1, $token)) {
+            if (preg_match($exceptS1, (string) $token)) {
                 $token = $token . "ΙΣΚ";
             }
 
@@ -337,7 +337,7 @@ class El extends Language
 
         // Step 1
         // step1list is used in Step 1. 41 stems
-        $step1list             = array();
+        $step1list             = [];
         $step1list["ΦΑΓΙΑ"]    = "ΦΑ";
         $step1list["ΦΑΓΙΟΥ"]   = "ΦΑ";
         $step1list["ΦΑΓΙΩΝ"]   = "ΦΑ";
@@ -399,7 +399,7 @@ class El extends Language
             $token = $match[1];
             $re    = '/(ΟΚ|ΜΑΜ|ΜΑΝ|ΜΠΑΜΠ|ΠΑΤΕΡ|ΓΙΑΓΙ|ΝΤΑΝΤ|ΚΥΡ|ΘΕΙ|ΠΕΘΕΡ)$/';
 
-            if (!preg_match($re, $token)) {
+            if (!preg_match($re, (string) $token)) {
                 $token = $token . "ΑΔ";
             }
         }
@@ -407,12 +407,12 @@ class El extends Language
         // Step 2b. 2 stems
         $re = '/^(.+?)(ΕΔΕΣ|ΕΔΩΝ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token  = $match[1];
             $exept2 = '/(ΟΠ|ΙΠ|ΕΜΠ|ΥΠ|ΓΗΠ|ΔΑΠ|ΚΡΑΣΠ|ΜΙΛ)$/';
 
-            if (preg_match($exept2, $token)) {
+            if (preg_match($exept2, (string) $token)) {
                 $token = $token . 'ΕΔ';
             }
         }
@@ -420,13 +420,13 @@ class El extends Language
         // Step 2c
         $re = '/^(.+?)(ΟΥΔΕΣ|ΟΥΔΩΝ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token = $match[1];
 
             $exept3 = '/(ΑΡΚ|ΚΑΛΙΑΚ|ΠΕΤΑΛ|ΛΙΧ|ΠΛΕΞ|ΣΚ|Σ|ΦΛ|ΦΡ|ΒΕΛ|ΛΟΥΛ|ΧΝ|ΣΠ|ΤΡΑΓ|ΦΕ)$/';
 
-            if (preg_match($exept3, $token)) {
+            if (preg_match($exept3, (string) $token)) {
                 $token = $token . 'ΟΥΔ';
             }
         }
@@ -434,13 +434,13 @@ class El extends Language
         // Step 2d
         $re = '/^(.+?)(ΕΩΣ|ΕΩΝ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token  = $match[1];
             $test1  = false;
             $exept4 = '/^(Θ|Δ|ΕΛ|ΓΑΛ|Ν|Π|ΙΔ|ΠΑΡ)$/';
 
-            if (preg_match($exept4, $token)) {
+            if (preg_match($exept4, (string) $token)) {
                 $token = $token . 'Ε';
             }
         }
@@ -448,13 +448,13 @@ class El extends Language
         // Step 3
         $re = '/^(.+?)(ΙΑ|ΙΟΥ|ΙΩΝ)$/';
 
-        if (preg_match($re, $token, $fp)) {
+        if (preg_match($re, (string) $token, $fp)) {
             $stem  = $fp[1];
             $token = $stem;
             $re    = '/' . $v . '$/';
             $test1 = false;
 
-            if (preg_match($re, $token)) {
+            if (preg_match($re, (string) $token)) {
                 $token = $stem . 'Ι';
             }
         }
@@ -462,15 +462,15 @@ class El extends Language
         // Step 4
         $re = '/^(.+?)(ΙΚΑ|ΙΚΟ|ΙΚΟΥ|ΙΚΩΝ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token  = $match[1];
             $test1  = false;
             $re     = '/' . $v . '$/';
             $exept5 = '/^(ΑΛ|ΑΔ|ΕΝΔ|ΑΜΑΝ|ΑΜΜΟΧΑΛ|ΗΘ|ΑΝΗΘ|ΑΝΤΙΔ|ΦΥΣ|ΒΡΩΜ|ΓΕΡ|ΕΞΩΔ|ΚΑΛΠ|ΚΑΛΛΙΝ|ΚΑΤΑΔ|ΜΟΥΛ|ΜΠΑΝ|ΜΠΑΓΙΑΤ|ΜΠΟΛ|ΜΠΟΣ|ΝΙΤ|ΞΙΚ|ΣΥΝΟΜΗΛ|ΠΕΤΣ|'
                     . 'ΠΙΤΣ|ΠΙΚΑΝΤ|ΠΛΙΑΤΣ|ΠΟΣΤΕΛΝ|ΠΡΩΤΟΔ|ΣΕΡΤ|ΣΥΝΑΔ|ΤΣΑΜ|ΥΠΟΔ|ΦΙΛΟΝ|ΦΥΛΟΔ|ΧΑΣ)$/';
 
-            if (preg_match($re, $token) || preg_match($exept5, $token)) {
+            if (preg_match($re, (string) $token) || preg_match($exept5, (string) $token)) {
                 $token = $token . 'ΙΚ';
             }
         }
@@ -483,19 +483,19 @@ class El extends Language
             $token = "ΑΓΑΜ";
         }
 
-        if (preg_match($re2, $token)) {
-            preg_match($re2, $token, $match);
+        if (preg_match($re2, (string) $token)) {
+            preg_match($re2, (string) $token, $match);
             $token = $match[1];
             $test1 = false;
         }
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token  = $match[1];
             $test1  = false;
             $exept6 = '/^(ΑΝΑΠ|ΑΠΟΘ|ΑΠΟΚ|ΑΠΟΣΤ|ΒΟΥΒ|ΞΕΘ|ΟΥΛ|ΠΕΘ|ΠΙΚΡ|ΠΟΤ|ΣΙΧ|Χ)$/';
 
-            if (preg_match($exept6, $token)) {
+            if (preg_match($exept6, (string) $token)) {
                 $token = $token . "ΑΜ";
             }
         }
@@ -504,19 +504,19 @@ class El extends Language
         $re2 = '/^(.+?)(ΑΝΕ)$/';
         $re3 = '/^(.+?)(ΑΓΑΝΕ|ΗΣΑΝΕ|ΟΥΣΑΝΕ|ΙΟΝΤΑΝΕ|ΙΟΤΑΝΕ|ΙΟΥΝΤΑΝΕ|ΟΝΤΑΝΕ|ΟΤΑΝΕ|ΟΥΝΤΑΝΕ|ΗΚΑΝΕ|ΗΘΗΚΑΝΕ)$/';
 
-        if (preg_match($re3, $token)) {
-            preg_match($re3, $token, $match);
+        if (preg_match($re3, (string) $token)) {
+            preg_match($re3, (string) $token, $match);
             $token = $match[1];
             $test1 = false;
             $re3   = '/^(ΤΡ|ΤΣ)$/';
 
-            if (preg_match($re3, $token)) {
+            if (preg_match($re3, (string) $token)) {
                 $token = $token . "ΑΓΑΝ";
             }
         }
 
-        if (preg_match($re2, $token)) {
-            preg_match($re2, $token, $match);
+        if (preg_match($re2, (string) $token)) {
+            preg_match($re2, (string) $token, $match);
             $token  = $match[1];
             $test1  = false;
             $re2    = '/' . $v2 . '$/';
@@ -526,7 +526,7 @@ class El extends Language
                     . 'ΘΥΣ|ΚΑΠΝΟΒΙΟΜΗΧ|ΚΑΤΑΓΑΛ|ΚΛΙΒ|ΚΟΙΛΑΡΦ|ΛΙΒ|ΜΕΓΛΟΒΙΟΜΗΧ|ΜΙΚΡΟΒΙΟΜΗΧ|ΝΤΑΒ|ΞΗΡΟΚΛΙΒ|ΟΛΙΓΟΔΑΜ|ΟΛΟΓΑΛ|ΠΕΝΤΑΡΦ|ΠΕΡΗΦ|ΠΕΡΙΤΡ|ΠΛΑΤ|'
                     . 'ΠΟΛΥΔΑΠ|ΠΟΛΥΜΗΧ|ΣΤΕΦ|ΤΑΒ|ΤΕΤ|ΥΠΕΡΗΦ|ΥΠΟΚΟΠ|ΧΑΜΗΛΟΔΑΠ|ΨΗΛΟΤΑΒ)$/';
 
-            if (preg_match($re2, $token) || preg_match($exept7, $token)) {
+            if (preg_match($re2, (string) $token) || preg_match($exept7, (string) $token)) {
                 $token = $token . "ΑΝ";
             }
         }
@@ -535,21 +535,21 @@ class El extends Language
         $re3 = '/^(.+?)(ΕΤΕ)$/';
         $re4 = '/^(.+?)(ΗΣΕΤΕ)$/';
 
-        if (preg_match($re4, $token)) {
-            preg_match($re4, $token, $match);
+        if (preg_match($re4, (string) $token)) {
+            preg_match($re4, (string) $token, $match);
             $token = $match[1];
             $test1 = false;
         }
 
-        if (preg_match($re3, $token)) {
-            preg_match($re3, $token, $match);
+        if (preg_match($re3, (string) $token)) {
+            preg_match($re3, (string) $token, $match);
             $token  = $match[1];
             $test1  = false;
             $re3    = '/' . $v2 . '$/';
             $exept8 = '/(ΟΔ|ΑΙΡ|ΦΟΡ|ΤΑΘ|ΔΙΑΘ|ΣΧ|ΕΝΔ|ΕΥΡ|ΤΙΘ|ΥΠΕΡΘ|ΡΑΘ|ΕΝΘ|ΡΟΘ|ΣΘ|ΠΥΡ|ΑΙΝ|ΣΥΝΔ|ΣΥΝ|ΣΥΝΘ|ΧΩΡ|ΠΟΝ|ΒΡ|ΚΑΘ|ΕΥΘ|ΕΚΘ|ΝΕΤ|ΡΟΝ|ΑΡΚ|ΒΑΡ|ΒΟΛ|ΩΦΕΛ)$/';
             $exept9 = '/^(ΑΒΑΡ|ΒΕΝ|ΕΝΑΡ|ΑΒΡ|ΑΔ|ΑΘ|ΑΝ|ΑΠΛ|ΒΑΡΟΝ|ΝΤΡ|ΣΚ|ΚΟΠ|ΜΠΟΡ|ΝΙΦ|ΠΑΓ|ΠΑΡΑΚΑΛ|ΣΕΡΠ|ΣΚΕΛ|ΣΥΡΦ|ΤΟΚ|Υ|Δ|ΕΜ|ΘΑΡΡ|Θ)$/';
 
-            if (preg_match($re3, $token) || preg_match($exept8, $token) || preg_match($exept9, $token)) {
+            if (preg_match($re3, (string) $token) || preg_match($exept8, (string) $token) || preg_match($exept9, (string) $token)) {
                 $token = $token . "ΕΤ";
             }
         }
@@ -557,18 +557,18 @@ class El extends Language
         // Step 5d
         $re = '/^(.+?)(ΟΝΤΑΣ|ΩΝΤΑΣ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept10 = '/^(ΑΡΧ)$/';
             $exept11 = '/(ΚΡΕ)$/';
 
-            if (preg_match($exept10, $token)) {
+            if (preg_match($exept10, (string) $token)) {
                 $token = $token . "ΟΝΤ";
             }
 
-            if (preg_match($exept11, $token)) {
+            if (preg_match($exept11, (string) $token)) {
                 $token = $token . "ΩΝΤ";
             }
         }
@@ -576,13 +576,13 @@ class El extends Language
         // Step 5e
         $re = '/^(.+?)(ΟΜΑΣΤΕ|ΙΟΜΑΣΤΕ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept11 = '/^(ΟΝ)$/';
 
-            if (preg_match($exept11, $token)) {
+            if (preg_match($exept11, (string) $token)) {
                 $token = $token . "ΟΜΑΣΤ";
             }
         }
@@ -591,24 +591,24 @@ class El extends Language
         $re  = '/^(.+?)(ΕΣΤΕ)$/';
         $re2 = '/^(.+?)(ΙΕΣΤΕ)$/';
 
-        if (preg_match($re2, $token)) {
-            preg_match($re2, $token, $match);
+        if (preg_match($re2, (string) $token)) {
+            preg_match($re2, (string) $token, $match);
             $token = $match[1];
             $test1 = false;
             $re2   = '/^(Π|ΑΠ|ΣΥΜΠ|ΑΣΥΜΠ|ΑΚΑΤΑΠ|ΑΜΕΤΑΜΦ)$/';
 
-            if (preg_match($re2, $token)) {
+            if (preg_match($re2, (string) $token)) {
                 $token = $token . "ΙΕΣΤ";
             }
         }
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept12 = '/^(ΑΛ|ΑΡ|ΕΚΤΕΛ|Ζ|Μ|Ξ|ΠΑΡΑΚΑΛ|ΑΡ|ΠΡΟ|ΝΙΣ)$/';
 
-            if (preg_match($exept12, $token)) {
+            if (preg_match($exept12, (string) $token)) {
                 $token = $token . "ΕΣΤ";
             }
         }
@@ -617,20 +617,20 @@ class El extends Language
         $re  = '/^(.+?)(ΗΚΑ|ΗΚΕΣ|ΗΚΕ)$/';
         $re2 = '/^(.+?)(ΗΘΗΚΑ|ΗΘΗΚΕΣ|ΗΘΗΚΕ)$/';
 
-        if (preg_match($re2, $token)) {
-            preg_match($re2, $token, $match);
+        if (preg_match($re2, (string) $token)) {
+            preg_match($re2, (string) $token, $match);
             $token = $match[1];
             $test1 = false;
         }
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept13 = '/(ΣΚΩΛ|ΣΚΟΥΛ|ΝΑΡΘ|ΣΦ|ΟΘ|ΠΙΘ)$/';
             $exept14 = '/^(ΔΙΑΘ|Θ|ΠΑΡΑΚΑΤΑΘ|ΠΡΟΣΘ|ΣΥΝΘ|)$/';
 
-            if (preg_match($exept13, $token) || preg_match($exept14, $token)) {
+            if (preg_match($exept13, (string) $token) || preg_match($exept14, (string) $token)) {
                 $token = $token . "ΗΚ";
             }
         }
@@ -638,14 +638,14 @@ class El extends Language
         // Step 5h
         $re = '/^(.+?)(ΟΥΣΑ|ΟΥΣΕΣ|ΟΥΣΕ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept15 = '/^(ΦΑΡΜΑΚ|ΧΑΔ|ΑΓΚ|ΑΝΑΡΡ|ΒΡΟΜ|ΕΚΛΙΠ|ΛΑΜΠΙΔ|ΛΕΧ|Μ|ΠΑΤ|Ρ|Λ|ΜΕΔ|ΜΕΣΑΖ|ΥΠΟΤΕΙΝ|ΑΜ|ΑΙΘ|ΑΝΗΚ|ΔΕΣΠΟΖ|ΕΝΔΙΑΦΕΡ|ΔΕ|ΔΕΥΤΕΡΕΥ|ΚΑΘΑΡΕΥ|ΠΛΕ|ΤΣΑ)$/';
             $exept16 = '/(ΠΟΔΑΡ|ΒΛΕΠ|ΠΑΝΤΑΧ|ΦΡΥΔ|ΜΑΝΤΙΛ|ΜΑΛΛ|ΚΥΜΑΤ|ΛΑΧ|ΛΗΓ|ΦΑΓ|ΟΜ|ΠΡΩΤ)$/';
 
-            if (preg_match($exept15, $token) || preg_match($exept16, $token)) {
+            if (preg_match($exept15, (string) $token) || preg_match($exept16, (string) $token)) {
                 $token = $token . "ΟΥΣ";
             }
         }
@@ -653,8 +653,8 @@ class El extends Language
         // Step 5i
         $re = '/^(.+?)(ΑΓΑ|ΑΓΕΣ|ΑΓΕ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept17 = '/^(ΨΟΦ|ΝΑΥΛΟΧ)$/';
@@ -664,8 +664,8 @@ class El extends Language
             $exept19 = '/(ΟΦ|ΠΕΛ|ΧΟΡΤ|ΛΛ|ΣΦ|ΡΠ|ΦΡ|ΠΡ|ΛΟΧ|ΣΜΗΝ)$/';
 
             if (
-                (preg_match($exept18, $token) || preg_match($exept19, $token))
-                && !(preg_match($exept17, $token) || preg_match($exept20, $token))
+                (preg_match($exept18, (string) $token) || preg_match($exept19, (string) $token))
+                && !(preg_match($exept17, (string) $token) || preg_match($exept20, (string) $token))
             ) {
                 $token = $token . "ΑΓ";
             }
@@ -674,13 +674,13 @@ class El extends Language
         // Step 5j
         $re = '/^(.+?)(ΗΣΕ|ΗΣΟΥ|ΗΣΑ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept21 = '/^(Ν|ΧΕΡΣΟΝ|ΔΩΔΕΚΑΝ|ΕΡΗΜΟΝ|ΜΕΓΑΛΟΝ|ΕΠΤΑΝ)$/';
 
-            if (preg_match($exept21, $token)) {
+            if (preg_match($exept21, (string) $token)) {
                 $token = $token . "ΗΣ";
             }
         }
@@ -688,13 +688,13 @@ class El extends Language
         // Step 5k
         $re = '/^(.+?)(ΗΣΤΕ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept22 = '/^(ΑΣΒ|ΣΒ|ΑΧΡ|ΧΡ|ΑΠΛ|ΑΕΙΜΝ|ΔΥΣΧΡ|ΕΥΧΡ|ΚΟΙΝΟΧΡ|ΠΑΛΙΜΨ)$/';
 
-            if (preg_match($exept22, $token)) {
+            if (preg_match($exept22, (string) $token)) {
                 $token = $token . "ΗΣΤ";
             }
         }
@@ -702,13 +702,13 @@ class El extends Language
         // Step 5l
         $re = '/^(.+?)(ΟΥΝΕ|ΗΣΟΥΝΕ|ΗΘΟΥΝΕ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept23 = '/^(Ν|Ρ|ΣΠΙ|ΣΤΡΑΒΟΜΟΥΤΣ|ΚΑΚΟΜΟΥΤΣ|ΕΞΩΝ)$/';
 
-            if (preg_match($exept23, $token)) {
+            if (preg_match($exept23, (string) $token)) {
                 $token = $token . "ΟΥΝ";
             }
         }
@@ -716,13 +716,13 @@ class El extends Language
         // Step 5m
         $re = '/^(.+?)(ΟΥΜΕ|ΗΣΟΥΜΕ|ΗΘΟΥΜΕ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token   = $match[1];
             $test1   = false;
             $exept24 = '/^(ΠΑΡΑΣΟΥΣ|Φ|Χ|ΩΡΙΟΠΛ|ΑΖ|ΑΛΛΟΣΟΥΣ|ΑΣΟΥΣ)$/';
 
-            if (preg_match($exept24, $token)) {
+            if (preg_match($exept24, (string) $token)) {
                 $token = $token . "ΟΥΜ";
             }
         }
@@ -734,20 +734,20 @@ class El extends Language
                 . 'ΗΘΗΚΑΤΕ|ΗΘΗΚΑΝ|ΗΘΟΥΝ|ΗΘΩ|ΗΚΑΤΕ|ΗΚΑΝ|ΗΣ|ΗΣΑΝ|ΗΣΑΤΕ|ΗΣΕΙ|ΗΣΕΣ|ΗΣΟΥΝ|ΗΣΩ|Ο|ΟΙ|ΟΜΑΙ|ΟΜΑΣΤΑΝ|ΟΜΟΥΝ|ΟΜΟΥΝΑ|ΟΝΤΑΙ|ΟΝΤΑΝ|ΟΝΤΟΥΣΑΝ|ΟΣ|'
                 . 'ΟΣΑΣΤΑΝ|ΟΣΑΣΤΕ|ΟΣΟΥΝ|ΟΣΟΥΝΑ|ΟΤΑΝ|ΟΥ|ΟΥΜΑΙ|ΟΥΜΑΣΤΕ|ΟΥΝ|ΟΥΝΤΑΙ|ΟΥΝΤΑΝ|ΟΥΣ|ΟΥΣΑΝ|ΟΥΣΑΤΕ|Υ|ΥΣ|Ω|ΩΝ)$/';
 
-        if (preg_match($re, $token, $match)) {
+        if (preg_match($re, (string) $token, $match)) {
             $token = $match[1] . "ΜΑ";
         }
 
-        if (preg_match($re2, $token) && $test1) {
-            preg_match($re2, $token, $match);
+        if (preg_match($re2, (string) $token) && $test1) {
+            preg_match($re2, (string) $token, $match);
             $token = $match[1];
         }
 
         // Step 7 (ΠΑΡΑΘΕΤΙΚΑ)
         $re = '/^(.+?)(ΕΣΤΕΡ|ΕΣΤΑΤ|ΟΤΕΡ|ΟΤΑΤ|ΥΤΕΡ|ΥΤΑΤ|ΩΤΕΡ|ΩΤΑΤ)$/';
 
-        if (preg_match($re, $token)) {
-            preg_match($re, $token, $match);
+        if (preg_match($re, (string) $token)) {
+            preg_match($re, (string) $token, $match);
             $token = $match[1];
         }
 
@@ -768,44 +768,7 @@ class El extends Language
     protected function toUpperCase($token, &$wCase)
     {
         $wCase      = array_fill(0, mb_strlen($token, 'UTF-8'), 0);
-        $caseConvert = array(
-            "α" => 'Α',
-            "β" => 'Β',
-            "γ" => 'Γ',
-            "δ" => 'Δ',
-            "ε" => 'Ε',
-            "ζ" => 'Ζ',
-            "η" => 'Η',
-            "θ" => 'Θ',
-            "ι" => 'Ι',
-            "κ" => 'Κ',
-            "λ" => 'Λ',
-            "μ" => 'Μ',
-            "ν" => 'Ν',
-            "ξ" => 'Ξ',
-            "ο" => 'Ο',
-            "π" => 'Π',
-            "ρ" => 'Ρ',
-            "σ" => 'Σ',
-            "τ" => 'Τ',
-            "υ" => 'Υ',
-            "φ" => 'Φ',
-            "χ" => 'Χ',
-            "ψ" => 'Ψ',
-            "ω" => 'Ω',
-            "ά" => 'Α',
-            "έ" => 'Ε',
-            "ή" => 'Η',
-            "ί" => 'Ι',
-            "ό" => 'Ο',
-            "ύ" => 'Υ',
-            "ώ" => 'Ω',
-            "ς" => 'Σ',
-            "ϊ" => 'Ι',
-            "ϋ" => 'Ι',
-            "ΐ" => 'Ι',
-            "ΰ" => 'Υ',
-        );
+        $caseConvert = ["α" => 'Α', "β" => 'Β', "γ" => 'Γ', "δ" => 'Δ', "ε" => 'Ε', "ζ" => 'Ζ', "η" => 'Η', "θ" => 'Θ', "ι" => 'Ι', "κ" => 'Κ', "λ" => 'Λ', "μ" => 'Μ', "ν" => 'Ν', "ξ" => 'Ξ', "ο" => 'Ο', "π" => 'Π', "ρ" => 'Ρ', "σ" => 'Σ', "τ" => 'Τ', "υ" => 'Υ', "φ" => 'Φ', "χ" => 'Χ', "ψ" => 'Ψ', "ω" => 'Ω', "ά" => 'Α', "έ" => 'Ε', "ή" => 'Η', "ί" => 'Ι', "ό" => 'Ο', "ύ" => 'Υ', "ώ" => 'Ω', "ς" => 'Σ', "ϊ" => 'Ι', "ϋ" => 'Ι', "ΐ" => 'Ι', "ΰ" => 'Υ'];
         $newToken    = '';
 
         for ($i = 0; $i < mb_strlen($token); $i++) {

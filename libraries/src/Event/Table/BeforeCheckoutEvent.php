@@ -31,7 +31,7 @@ class BeforeCheckoutEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('userId', $arguments)) {
             throw new BadMethodCallException("Argument 'userId' is required for event $name");

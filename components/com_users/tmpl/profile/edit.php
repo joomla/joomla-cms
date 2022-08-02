@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -23,7 +24,7 @@ HTMLHelper::_('bootstrap.tooltip', '.hasTooltip');
 $lang = Factory::getLanguage();
 $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
@@ -50,7 +51,7 @@ $wa->useScript('keepalive')
                             <?php echo Text::_($fieldset->label); ?>
                         </legend>
                     <?php endif; ?>
-                    <?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
+                    <?php if (isset($fieldset->description) && trim((string) $fieldset->description)) : ?>
                         <p>
                             <?php echo $this->escape(Text::_($fieldset->description)); ?>
                         </p>
@@ -60,7 +61,7 @@ $wa->useScript('keepalive')
                         <?php echo $field->renderField(); ?>
                     <?php endforeach; ?>
                 </fieldset>
-            <?php endif; ?>
+<?php endif; ?>
         <?php endforeach; ?>
 
         <?php if ($this->mfaConfigurationUI) : ?>

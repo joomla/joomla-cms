@@ -45,7 +45,6 @@ trait ProviderManagerHelperTrait
     /**
      * Return a provider manager.
      *
-     * @return  ProviderManager
      *
      * @since   4.1.0
      */
@@ -66,10 +65,8 @@ trait ProviderManagerHelperTrait
     /**
      * Returns a provider for the given id.
      *
-     * @return  ProviderInterface
      *
      * @throws  \Exception
-     *
      * @since   4.1.0
      */
     public function getProvider(string $id): ProviderInterface
@@ -80,10 +77,8 @@ trait ProviderManagerHelperTrait
     /**
      * Return an adapter for the given name.
      *
-     * @return  AdapterInterface
      *
      * @throws  \Exception
-     *
      * @since   4.1.0
      */
     public function getAdapter(string $name): AdapterInterface
@@ -94,10 +89,8 @@ trait ProviderManagerHelperTrait
     /**
      * Returns an array with the adapter name as key and the path of the file.
      *
-     * @return  array
      *
      * @throws  \InvalidArgumentException
-     *
      * @since   4.1.0
      */
     protected function resolveAdapterAndPath(string $path): array
@@ -129,10 +122,8 @@ trait ProviderManagerHelperTrait
     /**
      * Returns the default adapter name.
      *
-     * @return  string|null
      *
      * @throws  \Exception
-     *
      * @since   4.1.0
      */
     protected function getDefaultAdapterName(): ?string

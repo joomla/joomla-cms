@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Messages\Administrator\Model\MessagesModel;
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_messages
@@ -19,7 +20,7 @@ if (!$app->getIdentity()->authorise('core.login.admin') || !$app->getIdentity()-
 
 // Try to get the items from the messages model
 try {
-    /** @var \Joomla\Component\Messages\Administrator\Model\MessagesModel $messagesModel */
+    /** @var MessagesModel $messagesModel */
     $messagesModel = $app->bootComponent('com_messages')->getMVCFactory()
         ->createModel('Messages', 'Administrator', ['ignore_request' => true]);
     $messagesModel->setState('filter.state', 0);
@@ -31,6 +32,6 @@ try {
     $app->enqueueMessage($e->getMessage(), 'error');
 }
 
-$countUnread = count($messages);
+$countUnread = is_countable($messages) ? count($messages) : 0;
 
 require ModuleHelper::getLayoutPath('mod_messages', $params->get('layout', 'default'));

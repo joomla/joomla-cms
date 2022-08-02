@@ -39,7 +39,7 @@ use Joomla\CMS\Layout\LayoutHelper;
     <?php elseif ($myrtl == 2) : ?>
         <?php $direction = ' redirect-rtl'; ?>
     <?php endif; ?>
-    <?php $images = json_decode($this->item->images); ?>
+    <?php $images = json_decode((string) $this->item->images, null, 512, JSON_THROW_ON_ERROR); ?>
     <div class="com-newsfeeds-newsfeed newsfeed<?php echo $direction; ?>">
         <?php if ($this->params->get('display_num')) : ?>
         <h1 class="<?php echo $direction; ?>">
@@ -51,7 +51,7 @@ use Joomla\CMS\Layout\LayoutHelper;
                 <span class="badge bg-warning text-light"><?php echo Text::_('JUNPUBLISHED'); ?></span>
             <?php endif; ?>
             <a href="<?php echo $this->item->link; ?>" target="_blank" rel="noopener">
-                <?php echo str_replace('&apos;', "'", $this->item->name); ?>
+                <?php echo str_replace('&apos;', "'", (string) $this->item->name); ?>
             </a>
         </h2>
 
@@ -102,7 +102,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 
         <?php if ($this->params->get('show_feed_description')) : ?>
             <div class="com-newsfeeds-newsfeed__description feed-description">
-                <?php echo str_replace('&apos;', "'", $this->rssDoc->description); ?>
+                <?php echo str_replace('&apos;', "'", (string) $this->rssDoc->description); ?>
             </div>
         <?php endif; ?>
 
@@ -126,18 +126,18 @@ use Joomla\CMS\Layout\LayoutHelper;
                     <?php if (empty($this->rssDoc[$i])) : ?>
                         <?php break; ?>
                     <?php endif; ?>
-                    <?php $uri  = $this->rssDoc[$i]->uri || !$this->rssDoc[$i]->isPermaLink ? trim($this->rssDoc[$i]->uri) : trim($this->rssDoc[$i]->guid); ?>
+                    <?php $uri  = $this->rssDoc[$i]->uri || !$this->rssDoc[$i]->isPermaLink ? trim((string) $this->rssDoc[$i]->uri) : trim((string) $this->rssDoc[$i]->guid); ?>
                     <?php $uri  = !$uri || stripos($uri, 'http') !== 0 ? $this->item->link : $uri; ?>
-                    <?php $text = $this->rssDoc[$i]->content !== '' ? trim($this->rssDoc[$i]->content) : ''; ?>
+                    <?php $text = $this->rssDoc[$i]->content !== '' ? trim((string) $this->rssDoc[$i]->content) : ''; ?>
                     <li>
                         <?php if (!empty($uri)) : ?>
                             <h3 class="feed-link">
-                                <a href="<?php echo htmlspecialchars($uri); ?>" target="_blank" rel="noopener">
-                                    <?php echo trim($this->rssDoc[$i]->title); ?>
+                                <a href="<?php echo htmlspecialchars((string) $uri); ?>" target="_blank" rel="noopener">
+                                    <?php echo trim((string) $this->rssDoc[$i]->title); ?>
                                 </a>
                             </h3>
                         <?php else : ?>
-                            <h3 class="feed-link"><?php echo trim($this->rssDoc[$i]->title); ?></h3>
+                            <h3 class="feed-link"><?php echo trim((string) $this->rssDoc[$i]->title); ?></h3>
                         <?php endif; ?>
 
                         <?php if ($this->params->get('show_item_description') && $text !== '') : ?>
@@ -146,7 +146,7 @@ use Joomla\CMS\Layout\LayoutHelper;
                                     <?php $text = OutputFilter::stripImages($text); ?>
                                 <?php endif; ?>
                                 <?php $text = HTMLHelper::_('string.truncate', $text, $this->params->get('feed_character_count')); ?>
-                                <?php echo str_replace('&apos;', "'", $text); ?>
+                                <?php echo str_replace('&apos;', "'", (string) $text); ?>
                             </div>
                         <?php endif; ?>
                     </li>

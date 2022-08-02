@@ -50,7 +50,7 @@ class FieldcontextsField extends ListField
      */
     protected function getOptions()
     {
-        $parts = explode('.', $this->value);
+        $parts = explode('.', (string) $this->value);
 
         $component = Factory::getApplication()->bootComponent($parts[0]);
 

@@ -34,7 +34,6 @@ trait RouterServiceTrait
      * @param   CMSApplicationInterface  $application  The application object
      * @param   AbstractMenu             $menu         The menu object to work with
      *
-     * @return  RouterInterface
      *
      * @since  4.0.0
      */

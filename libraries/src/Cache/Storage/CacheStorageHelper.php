@@ -18,14 +18,6 @@ namespace Joomla\CMS\Cache\Storage;
 class CacheStorageHelper
 {
 	/**
-	 * Cache data group
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $group = '';
-
-	/**
 	 * Cached item size
 	 *
 	 * @var    string
@@ -48,10 +40,9 @@ class CacheStorageHelper
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($group)
-	{
-		$this->group = $group;
-	}
+	public function __construct(public $group)
+ {
+ }
 
 	/**
 	 * Increase cache items count.

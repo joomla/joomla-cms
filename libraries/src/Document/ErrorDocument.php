@@ -50,7 +50,7 @@ class ErrorDocument extends HtmlDocument
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -104,7 +104,7 @@ class ErrorDocument extends HtmlDocument
      *
      * @since   1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         // If no error object is set return null
         if (!isset($this->_error)) {
@@ -153,8 +153,8 @@ class ErrorDocument extends HtmlDocument
         $backtrace = $this->_error->getTrace();
 
         // Add the position of the actual file
-        array_unshift($backtrace, array('file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => ''));
+        array_unshift($backtrace, ['file' => $this->_error->getFile(), 'line' => $this->_error->getLine(), 'function' => '']);
 
-        return LayoutHelper::render('joomla.error.backtrace', array('backtrace' => $backtrace));
+        return LayoutHelper::render('joomla.error.backtrace', ['backtrace' => $backtrace]);
     }
 }

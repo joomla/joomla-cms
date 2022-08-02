@@ -21,24 +21,6 @@ use Joomla\Input\Input;
 class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 {
     /**
-     * The extension namespace
-     *
-     * @var  string
-     *
-     * @since   4.0.0
-     */
-    protected $namespace;
-
-    /**
-     * The MVC factory
-     *
-     * @var  MVCFactoryInterface
-     *
-     * @since   4.0.0
-     */
-    private $mvcFactory;
-
-    /**
      * ComponentDispatcherFactory constructor.
      *
      * @param   string               $namespace   The namespace
@@ -46,10 +28,8 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace, MVCFactoryInterface $mvcFactory)
+    public function __construct(protected string $namespace, private readonly MVCFactoryInterface $mvcFactory)
     {
-        $this->namespace  = $namespace;
-        $this->mvcFactory = $mvcFactory;
     }
 
     /**
@@ -58,7 +38,6 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
      * @param   CMSApplicationInterface  $application  The application
      * @param   Input                    $input        The input object, defaults to the one in the application
      *
-     * @return  DispatcherInterface
      *
      * @since   4.0.0
      */

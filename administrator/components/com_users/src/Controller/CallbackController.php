@@ -50,10 +50,9 @@ class CallbackController extends BaseController
      * @param   array|bool   $urlparams   An array of safe url parameters and their variable types, for valid values see
      *                                    {@link JFilterInput::clean()}.
      *
-     * @return  void
      * @since 4.2.0
      */
-    public function callback($cachable = false, $urlparams = false): void
+    public function callback($cachable = false, array|bool $urlparams = false): void
     {
         $app = $this->app;
 

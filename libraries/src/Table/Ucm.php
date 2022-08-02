@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Table;
 
+use Joomla\Database\DatabaseDriver;
 /**
  * UCM map table
  *
@@ -19,7 +20,7 @@ class Ucm extends Table
     /**
      * Constructor
      *
-     * @param   \Joomla\Database\DatabaseDriver  $db  A database connector object
+     * @param DatabaseDriver $db A database connector object
      *
      * @since   3.1
      */

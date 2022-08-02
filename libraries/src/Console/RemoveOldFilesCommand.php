@@ -97,7 +97,7 @@ class RemoveOldFilesCommand extends AbstractCommand
         $symfonyStyle->success(
             sprintf(
                 $dryRun ? '%s Files checked and %s would be deleted' : '%s Files checked and %s deleted',
-                \count($status['files_checked']),
+                is_countable($status['files_checked']) ? \count($status['files_checked']) : 0,
                 ($dryRun ? \count($status['files_exist']) : \count($status['files_deleted']))
             )
         );
@@ -105,7 +105,7 @@ class RemoveOldFilesCommand extends AbstractCommand
         $symfonyStyle->success(
             sprintf(
                 $dryRun ? '%s Folders checked and %s would be deleted' : '%s Folders checked and %s deleted',
-                \count($status['folders_checked']),
+                is_countable($status['folders_checked']) ? \count($status['folders_checked']) : 0,
                 ($dryRun ? \count($status['folders_exist']) : \count($status['folders_deleted']))
             )
         );
@@ -116,7 +116,6 @@ class RemoveOldFilesCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

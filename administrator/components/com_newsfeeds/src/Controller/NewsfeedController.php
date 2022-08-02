@@ -33,7 +33,7 @@ class NewsfeedController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
         $allow = null;
@@ -61,7 +61,7 @@ class NewsfeedController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
@@ -101,7 +101,7 @@ class NewsfeedController extends FormController
         $this->checkToken();
 
         // Set the model
-        $model = $this->getModel('Newsfeed', '', array());
+        $model = $this->getModel('Newsfeed', '', []);
 
         // Preset the redirect
         $this->setRedirect(Route::_('index.php?option=com_newsfeeds&view=newsfeeds' . $this->getRedirectToListAppend(), false));

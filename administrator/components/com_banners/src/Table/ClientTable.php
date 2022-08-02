@@ -77,14 +77,14 @@ class ClientTable extends Table implements VersionableTableInterface
         }
 
         // Check for valid name
-        if (trim($this->name) === '') {
+        if (trim((string) $this->name) === '') {
             $this->setError(Text::_('COM_BANNERS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
         }
 
         // Check for valid contact
-        if (trim($this->contact) === '') {
+        if (trim((string) $this->contact) === '') {
             $this->setError(Text::_('COM_BANNERS_PROVIDE_VALID_CONTACT'));
 
             return false;

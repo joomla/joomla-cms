@@ -21,7 +21,7 @@ switch ((string) $item->text) {
     // Check for "Start" item
     case Text::_('JLIB_HTML_START'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-right' : 'icon-angle-double-left';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower((string) $item->text));
         break;
 
     // Check for "Prev" item
@@ -34,18 +34,18 @@ switch ((string) $item->text) {
     // Check for "Next" item
     case Text::_('JNEXT'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-left' : 'icon-angle-right';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower((string) $item->text));
         break;
 
     // Check for "End" item
     case Text::_('JLIB_HTML_END'):
         $icon = $app->getLanguage()->isRtl() ? 'icon-angle-double-left' : 'icon-angle-double-right';
-        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+        $aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower((string) $item->text));
         break;
 
     default:
         $icon = null;
-        $aria = Text::sprintf('JLIB_HTML_GOTO_PAGE', strtolower($item->text));
+        $aria = Text::sprintf('JLIB_HTML_GOTO_PAGE', strtolower((string) $item->text));
         break;
 }
 
@@ -79,7 +79,7 @@ if ($displayData['active']) {
         </a>
     </li>
 <?php elseif (isset($item->active) && $item->active) : ?>
-    <?php $aria = Text::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower($item->text)); ?>
+    <?php $aria = Text::sprintf('JLIB_HTML_PAGE_CURRENT', strtolower((string) $item->text)); ?>
     <li class="<?php echo $class; ?> page-item">
         <a aria-current="true" aria-label="<?php echo $aria; ?>" href="#" class="page-link"><?php echo $display; ?></a>
     </li>

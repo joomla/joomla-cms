@@ -32,22 +32,21 @@ class SiteDownCommand extends AbstractCommand
 
     /**
      * SymfonyStyle Object
-     * @var SymfonyStyle
      * @since 4.0.0
      */
-    private $ioStyle;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Return code if site:down failed
      * @since 4.0.0
      */
-    public const SITE_DOWN_FAILED = 1;
+    final public const SITE_DOWN_FAILED = 1;
 
     /**
      * Return code if site:down was successful
      * @since 4.0.0
      */
-    public const SITE_DOWN_SUCCESSFUL = 0;
+    final public const SITE_DOWN_SUCCESSFUL = 0;
 
     /**
      * Configures the IO
@@ -68,7 +67,6 @@ class SiteDownCommand extends AbstractCommand
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

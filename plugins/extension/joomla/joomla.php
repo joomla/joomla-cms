@@ -31,18 +31,14 @@ class PlgExtensionJoomla extends CMSPlugin
     protected $db;
 
     /**
-     * @var    integer
-     *
      * @since  1.6
      */
-    private $eid = 0;
+    private int $eid = 0;
 
     /**
-     * @var    Installer
-     *
      * @since  1.6
      */
-    private $installer = null;
+    private ?Installer $installer = null;
 
     /**
      * Load the language file on instantiation.
@@ -277,10 +273,10 @@ class PlgExtensionJoomla extends CMSPlugin
             $children = [];
         }
 
-        if (count($children)) {
+        if ($children === null ? 0 : count($children)) {
             foreach ($children as $child) {
                 $attrs = $child->attributes();
-                $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim($child), true, $this->installer->extraQuery);
+                $this->addUpdateSite((string) $attrs['name'], (string) $attrs['type'], trim((string) $child), true, $this->installer->extraQuery);
             }
         } else {
             $data = trim((string) $updateservers);

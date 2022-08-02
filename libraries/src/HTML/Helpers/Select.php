@@ -27,21 +27,7 @@ abstract class Select
      * @var     array
      * @since   1.5
      */
-    protected static $optionDefaults = array(
-        'option' => array(
-            'option.attr' => null,
-            'option.disable' => 'disable',
-            'option.id' => null,
-            'option.key' => 'value',
-            'option.key.toHtml' => true,
-            'option.label' => null,
-            'option.label.toHtml' => true,
-            'option.text' => 'text',
-            'option.text.toHtml' => true,
-            'option.class' => 'class',
-            'option.onclick' => 'onclick',
-        ),
-    );
+    protected static $optionDefaults = ['option' => ['option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value', 'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text', 'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick']];
 
     /**
      * Generates a yes/no radio list.
@@ -58,9 +44,9 @@ abstract class Select
      * @since   1.5
      * @see     \Joomla\CMS\Form\Field\RadioField
      */
-    public static function booleanlist($name, $attribs = array(), $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
+    public static function booleanlist($name, $attribs = [], $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
     {
-        $arr = array(HTMLHelper::_('select.option', '0', Text::_($no)), HTMLHelper::_('select.option', '1', Text::_($yes)));
+        $arr = [HTMLHelper::_('select.option', '0', Text::_($no)), HTMLHelper::_('select.option', '1', Text::_($yes))];
 
         return HTMLHelper::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', (int) $selected, $id);
     }
@@ -103,7 +89,7 @@ abstract class Select
         $translate = false
     ) {
         // Set default options
-        $options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'id' => false));
+        $options = array_merge(HTMLHelper::$formatOptions, ['format.depth' => 0, 'id' => false]);
 
         if (is_array($attribs) && func_num_args() === 3) {
             // Assume we have an options array
@@ -133,10 +119,10 @@ abstract class Select
         }
 
         $id = $options['id'] !== false ? $options['id'] : $name;
-        $id = str_replace(array('[', ']', ' '), '', $id);
+        $id = str_replace(['[', ']', ' '], '', (string) $id);
 
         // If the selectbox contains "form-select-color-state" then load the JS file
-        if (strpos($attribs, 'form-select-color-state') !== false) {
+        if (str_contains($attribs, 'form-select-color-state')) {
             Factory::getDocument()->getWebAssetManager()
                 ->registerScript(
                     'webcomponent.select-colour-es5',
@@ -152,7 +138,7 @@ abstract class Select
                 );
         }
 
-        $baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+        $baseIndent = str_repeat((string) $options['format.indent'], $options['format.depth']++);
         $html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
             . static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
 
@@ -190,12 +176,12 @@ abstract class Select
      * @since   1.5
      * @throws  \RuntimeException If a group has contents that cannot be processed.
      */
-    public static function groupedlist($data, $name, $options = array())
+    public static function groupedlist($data, $name, $options = [])
     {
         // Set default options and overwrite with anything passed in
         $options = array_merge(
             HTMLHelper::$formatOptions,
-            array('format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false),
+            ['format.depth' => 0, 'group.items' => 'items', 'group.label' => 'text', 'group.label.toHtml' => true, 'id' => false],
             $options
         );
 
@@ -219,15 +205,15 @@ abstract class Select
         }
 
         $id = $options['id'] !== false ? $options['id'] : $name;
-        $id = str_replace(array('[', ']', ' '), '', $id);
+        $id = str_replace(['[', ']', ' '], '', (string) $id);
 
         // Disable groups in the options.
         $options['groups'] = false;
 
-        $baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+        $baseIndent = str_repeat((string) $options['format.indent'], $options['format.depth']++);
         $html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '')
                 . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol'];
-        $groupIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+        $groupIndent = str_repeat((string) $options['format.indent'], $options['format.depth']++);
 
         foreach ($data as $dataKey => $group) {
             $label = $dataKey;
@@ -271,7 +257,7 @@ abstract class Select
                 $html .= static::options($subList, $options);
             } else {
                 $html .= $groupIndent . '<optgroup' . (empty($id) ? '' : ' id="' . $id . '"') . ' label="'
-                    . ($options['group.label.toHtml'] ? htmlspecialchars($label, ENT_COMPAT, 'UTF-8') : $label) . '">' . $options['format.eol']
+                    . ($options['group.label.toHtml'] ? htmlspecialchars((string) $label, ENT_COMPAT, 'UTF-8') : $label) . '">' . $options['format.eol']
                     . static::options($subList, $options) . $groupIndent . '</optgroup>' . $options['format.eol'];
             }
         }
@@ -301,7 +287,7 @@ abstract class Select
     public static function integerlist($start, $end, $inc, $name, $attribs = null, $selected = null, $format = '')
     {
         // Set default options
-        $options = array_merge(HTMLHelper::$formatOptions, array('format.depth' => 0, 'option.format' => '', 'id' => false));
+        $options = array_merge(HTMLHelper::$formatOptions, ['format.depth' => 0, 'option.format' => '', 'id' => false]);
 
         if (is_array($attribs) && func_num_args() === 5) {
             // Assume we have an options array
@@ -320,7 +306,7 @@ abstract class Select
         $end   = (int) $end;
         $inc   = (int) $inc;
 
-        $data = array();
+        $data = [];
 
         for ($i = $start; $i <= $end; $i += $inc) {
             $data[$i] = $format ? sprintf($format, $i) : $i;
@@ -365,15 +351,7 @@ abstract class Select
      */
     public static function option($value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
     {
-        $options = array(
-            'attr' => null,
-            'disable' => false,
-            'option.attr' => null,
-            'option.disable' => 'disable',
-            'option.key' => 'value',
-            'option.label' => null,
-            'option.text' => 'text',
-        );
+        $options = ['attr' => null, 'disable' => false, 'option.attr' => null, 'option.disable' => 'disable', 'option.key' => 'value', 'option.label' => null, 'option.text' => 'text'];
 
         if (is_array($optKey)) {
             // Merge in caller's options
@@ -463,7 +441,7 @@ abstract class Select
         $options = array_merge(
             HTMLHelper::$formatOptions,
             static::$optionDefaults['option'],
-            array('format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false)
+            ['format.depth' => 0, 'groups' => true, 'list.select' => null, 'list.translate' => false]
         );
 
         if (is_array($optKey)) {
@@ -478,7 +456,7 @@ abstract class Select
         }
 
         $html = '';
-        $baseIndent = str_repeat($options['format.indent'], $options['format.depth']);
+        $baseIndent = str_repeat((string) $options['format.indent'], $options['format.depth']);
 
         foreach ($arr as $elementKey => &$element) {
             $attr = '';
@@ -550,13 +528,13 @@ abstract class Select
 
             if ($key === '<OPTGROUP>' && $options['groups']) {
                 $html .= $baseIndent . '<optgroup label="' . ($options['list.translate'] ? Text::_($text) : $text) . '">' . $options['format.eol'];
-                $baseIndent = str_repeat($options['format.indent'], ++$options['format.depth']);
+                $baseIndent = str_repeat((string) $options['format.indent'], ++$options['format.depth']);
             } elseif ($key === '</OPTGROUP>' && $options['groups']) {
-                $baseIndent = str_repeat($options['format.indent'], --$options['format.depth']);
+                $baseIndent = str_repeat((string) $options['format.indent'], --$options['format.depth']);
                 $html .= $baseIndent . '</optgroup>' . $options['format.eol'];
             } else {
                 // If no string after hyphen - take hyphen out
-                $splitText = explode(' - ', $text, 2);
+                $splitText = explode(' - ', (string) $text, 2);
                 $text = $splitText[0];
 
                 if (isset($splitText[1]) && $splitText[1] !== '' && !preg_match('/^[\s]+$/', $splitText[1])) {
@@ -568,13 +546,13 @@ abstract class Select
                 }
 
                 if ($options['option.label.toHtml']) {
-                    $label = htmlentities($label);
+                    $label = htmlentities((string) $label);
                 }
 
                 if (is_array($attr)) {
                     $attr = ArrayHelper::toString($attr);
                 } else {
-                    $attr = trim($attr);
+                    $attr = trim((string) $attr);
                 }
 
                 $extra = ($id ? ' id="' . $id . '"' : '') . ($label ? ' label="' . $label . '"' : '') . ($attr ? ' ' . $attr : '') . $extra;
@@ -647,7 +625,7 @@ abstract class Select
 
             $k = $obj->$optKey;
             $t = $translate ? Text::_($obj->$optText) : $obj->$optText;
-            $id = (isset($obj->id) ? $obj->id : null);
+            $id = ($obj->id ?? null);
 
             $extra = '';
             $id = $id ? $obj->id : $id_text . $k;

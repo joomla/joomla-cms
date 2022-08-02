@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
+use PHPMailer\PHPMailer\Exception;
 use Joomla\CMS\Mail\Mail;
 use Joomla\Tests\Unit\UnitTestCase;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -34,7 +35,6 @@ class MailTest extends UnitTestCase
     /**
      * This method is called before a test is executed.
      *
-     * @return void
      *
      * @since   4.0.0
      */
@@ -48,7 +48,6 @@ class MailTest extends UnitTestCase
     /**
      * This method is called after a test is executed.
      *
-     * @return void
      *
      * @since   4.0.0
      */
@@ -62,7 +61,6 @@ class MailTest extends UnitTestCase
     /**
      * Provides test data for request format detection.
      *
-     * @return array
      *
      * @since   4.0.0
      */
@@ -108,7 +106,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddRecipient($recipient, $name, $expected)
     {
@@ -130,7 +128,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddCc($recipient, $name, $expected)
     {
@@ -150,7 +148,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      * @dataProvider  seedTestAdd
      */
     public function testAddBcc($recipient, $name, $expected)
@@ -163,7 +161,6 @@ class MailTest extends UnitTestCase
     /**
      * Provides test data for request format detection.
      *
-     * @return array
      *
      * @since   4.0.0
      */
@@ -208,7 +205,7 @@ class MailTest extends UnitTestCase
      *
      * @return void
      * @since         4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddReplyTo($recipient, $name, $expected)
     {
@@ -223,7 +220,7 @@ class MailTest extends UnitTestCase
      * @return void
      *
      * @since   4.0.0
-     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws Exception
      */
     public function testAddAttachment()
     {
@@ -274,7 +271,6 @@ class MailTest extends UnitTestCase
     /**
      * Test data for testUseSMTP method
      *
-     * @return  array
      *
      * @since   3.0.0
      */

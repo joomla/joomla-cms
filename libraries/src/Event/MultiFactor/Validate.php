@@ -53,7 +53,6 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @param   MfaTable  $value  The value to validate
      *
-     * @return  MfaTable
      * @since   4.2.0
      */
     public function setRecord(MfaTable $value): MfaTable
@@ -70,7 +69,6 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @param   User  $value  The value to validate
      *
-     * @return  User
      * @since   4.2.0
      */
     public function setUser(User $value): User
@@ -87,7 +85,6 @@ class Validate extends AbstractImmutableEvent implements ResultAwareInterface
      *
      * @param   string|null  $value  The value to validate
      *
-     * @return  string|null
      * @since   4.2.0
      */
     public function setCode(?string $value): ?string

@@ -153,7 +153,7 @@ class TimeRule extends FormRule
         if (isset($element['step'])) {
             if (
                 strlen($stringValue) !== 8
-                || intval($stringValue[5]) !== ':'
+                || intval($stringValue[5]) !== 0
                 || intval($stringValue[6]) > 5
             ) {
                 Factory::getApplication()->enqueueMessage(

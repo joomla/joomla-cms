@@ -85,12 +85,12 @@ class CacheStorage
 	 *
 	 * @since   1.7.0
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		$app = Factory::getApplication();
 
-		$this->_hash        = md5($app->get('secret'));
-		$this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
+		$this->_hash        = md5((string) $app->get('secret'));
+		$this->_application = $options['application'] ?? md5((string) JPATH_CONFIGURATION);
 		$this->_language    = $options['language'] ?? 'en-GB';
 		$this->_locking     = $options['locking'] ?? true;
 		$this->_lifetime    = ($options['lifetime'] ?? $app->get('cachetime')) * 60;
@@ -121,7 +121,7 @@ class CacheStorage
 	 * @throws  \UnexpectedValueException
 	 * @throws  UnsupportedCacheException
 	 */
-	public static function getInstance($handler = null, $options = array())
+	public static function getInstance($handler = null, $options = [])
 	{
 		static $now = null;
 
@@ -367,13 +367,13 @@ class CacheStorage
 	 *
 	 * @since   1.7.0
 	 */
-	public static function addIncludePath($path = '')
+	public static function addIncludePath(array|string $path = '')
 	{
 		static $paths;
 
 		if (!isset($paths))
 		{
-			$paths = array();
+			$paths = [];
 		}
 
 		if (!empty($path) && !\in_array($path, $paths))

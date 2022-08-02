@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Redirect\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -31,20 +32,10 @@ class LinksModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'state', 'a.state',
-                'old_url', 'a.old_url',
-                'new_url', 'a.new_url',
-                'referer', 'a.referer',
-                'hits', 'a.hits',
-                'created_date', 'a.created_date',
-                'published', 'a.published',
-                'header', 'a.header', 'http_status',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'state', 'a.state', 'old_url', 'a.old_url', 'new_url', 'a.new_url', 'referer', 'a.referer', 'hits', 'a.hits', 'created_date', 'a.created_date', 'published', 'a.published', 'header', 'a.header', 'http_status'];
         }
 
         parent::__construct($config, $factory);
@@ -68,7 +59,7 @@ class LinksModel extends ListModel
 
         try {
             $db->execute();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -123,7 +114,7 @@ class LinksModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -164,12 +155,12 @@ class LinksModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%');
+                $search = '%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%');
                 $query->where(
                     '(' . $db->quoteName('old_url') . ' LIKE :oldurl'
                     . ' OR ' . $db->quoteName('new_url') . ' LIKE :newurl'

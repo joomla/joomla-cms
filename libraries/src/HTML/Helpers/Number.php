@@ -51,11 +51,11 @@ abstract class Number
             $oBytes = $bytes;
         } else {
             preg_match('/(.*?)\s?((?:[KMGTPEZY]i?)?B?)$/i', trim($bytes), $matches);
-            list(, $oBytes, $oUnit) = $matches;
+            [, $oBytes, $oUnit] = $matches;
 
             if ($oUnit && is_numeric($oBytes)) {
-                $oBase  = $iec && strpos($oUnit, 'i') === false ? 1000 : 1024;
-                $factor = pow($oBase, stripos('BKMGTPEZY', $oUnit[0]));
+                $oBase  = $iec && !str_contains((string) $oUnit, 'i') ? 1000 : 1024;
+                $factor = $oBase ** stripos('BKMGTPEZY', (string) $oUnit[0]);
                 $oBytes *= $factor;
             }
         }
@@ -71,8 +71,8 @@ abstract class Number
             return (string) $oBytes;
         }
 
-        $stdSuffixes = array('b', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-        $iecSuffixes = array('b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
+        $stdSuffixes = ['b', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        $iecSuffixes = ['b', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 
         // User supplied method
         if (in_array($unit, $iecSuffixes)) {
@@ -95,7 +95,7 @@ abstract class Number
         }
 
         return number_format(
-            round($oBytes / pow($base, $i), (int) $precision),
+            round($oBytes / $base ** $i, (int) $precision),
             (int) $precision,
             Text::_('DECIMALS_SEPARATOR'),
             Text::_('THOUSANDS_SEPARATOR')

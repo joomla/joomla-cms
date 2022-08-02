@@ -28,28 +28,25 @@ class OpensearchDocument extends Document
      *
      * required
      *
-     * @var    string
      * @since  1.7.0
      */
-    private $_shortName = '';
+    private string $_shortName = '';
 
     /**
      * Images collection
      *
      * optional
      *
-     * @var    object
      * @since  1.7.0
      */
-    private $_images = array();
+    private object $_images = [];
 
     /**
      * The url collection
      *
-     * @var    array
      * @since  1.7.0
      */
-    private $_urls = array();
+    private array $_urls = [];
 
     /**
      * Class constructor
@@ -58,7 +55,7 @@ class OpensearchDocument extends Document
      *
      * @since  1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -78,11 +75,11 @@ class OpensearchDocument extends Document
         // Add the favicon as the default image
         // Try to find a favicon by checking the template and root folder
         $app = Factory::getApplication();
-        $dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
+        $dirs = [JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE];
 
         foreach ($dirs as $dir) {
             if (is_file($dir . '/favicon.ico')) {
-                $path = str_replace(JPATH_BASE, '', $dir);
+                $path = str_replace(JPATH_BASE, '', (string) $dir);
                 $path = str_replace('\\', '/', $path);
                 $favicon = new OpensearchImage();
 
@@ -117,7 +114,7 @@ class OpensearchDocument extends Document
      *
      * @since   1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         $xml = new \DOMDocument('1.0', 'utf-8');
 
@@ -149,7 +146,7 @@ class OpensearchDocument extends Document
             $elImage->setAttribute('type', $image->type);
             $elImage->setAttribute('width', $image->width);
             $elImage->setAttribute('height', $image->height);
-            $elImage->appendChild($xml->createTextNode(htmlspecialchars($image->data)));
+            $elImage->appendChild($xml->createTextNode(htmlspecialchars((string) $image->data)));
             $elOs->appendChild($elImage);
         }
 

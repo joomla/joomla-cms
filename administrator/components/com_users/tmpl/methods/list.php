@@ -34,7 +34,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 ?>
 <div id="com-users-methods-list-container">
     <?php foreach ($this->methods as $methodName => $method) :
-        $methodClass = 'com-users-methods-list-method-name-' . htmlentities($method['name'])
+        $methodClass = 'com-users-methods-list-method-name-' . htmlentities((string) $method['name'])
             . ($this->defaultMethod == $methodName ? ' com-users-methods-list-method-default' : '');
         ?>
         <div class="com-users-methods-list-method <?php echo $methodClass?> mx-1 mt-3 mb-4 card <?php echo count($method['active']) ? 'border-secondary' : '' ?>">
@@ -64,7 +64,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                     <?php echo $method['shortinfo'] ?>
                 </div>
 
-                <?php if (count($method['active'])) : ?>
+                <?php if (is_countable($method['active']) ? count($method['active']) : 0) : ?>
                     <div class="com-users-methods-list-method-records pt-2 my-2">
                         <?php foreach ($method['active'] as $record) : ?>
                             <div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start border-top py-2">
@@ -72,7 +72,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                                     <?php if ($methodName === 'backupcodes') : ?>
                                         <div class="alert alert-info mt-1 w-100">
                                             <?php if ($canAddEdit) : ?>
-                                                <?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
+                                                <?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
                                             <?php endif ?>
                                         </div>
                                     <?php else : ?>
@@ -106,7 +106,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                                 <div class="com-users-methods-list-method-record-actions my-2 d-flex flex-row flex-wrap justify-content-center align-content-center align-items-start">
                                     <?php if ($canAddEdit) : ?>
                                     <a class="com-users-methods-list-method-record-edit btn btn-secondary btn-sm mx-1 hasTooltip"
-                                       href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
+                                       href="<?php echo Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
                                        title="<?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?>">
                                         <span class="icon icon-pencil" aria-hidden="true"></span>
                                         <span class="visually-hidden"><?php echo Text::_('JACTION_EDIT') ?> <?php echo $this->escape($record->title); ?></span>
@@ -115,7 +115,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 
                                     <?php if ($method['canDisable'] && $canDelete) : ?>
                                         <a class="com-users-methods-list-method-record-delete btn btn-danger btn-sm mx-1 hasTooltip"
-                                           href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
+                                           href="<?php echo Route::_('index.php?option=com_users&task=method.delete&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id . '&' . Factory::getApplication()->getFormToken() . '=1')?>"
                                            title="<?php echo Text::_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?>">
                                             <span class="icon icon-trash" aria-hidden="true"></span>
                                             <span class="visually-hidden"><?php echo Text::_('JACTION_DELETE') ?> <?php echo $this->escape($record->title); ?></span>
@@ -130,7 +130,7 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
 
                 <?php if ($canAddEdit && (empty($method['active']) || $method['allowMultiple'])) : ?>
                     <div class="com-users-methods-list-method-addnew-container border-top pt-2">
-                        <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode($method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
+                        <a href="<?php echo Route::_('index.php?option=com_users&task=method.add&method=' . $this->escape(urlencode((string) $method['name'])) . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id)?>"
                            class="com-users-methods-list-method-addnew btn btn-outline-primary btn-sm"
                         >
                             <span class="icon-plus-2" aria-hidden="true"></span>

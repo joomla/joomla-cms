@@ -45,7 +45,7 @@ class CssIdentifierRule extends FormRule
         }
 
         // Make sure we allow multiple classes to be added
-        $cssIdentifiers = explode(' ', $value);
+        $cssIdentifiers = explode(' ', (string) $value);
 
         foreach ($cssIdentifiers as $i => $identifier) {
             /**

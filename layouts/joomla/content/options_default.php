@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -13,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 ?>
@@ -23,7 +24,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
     <?php if (!empty($displayData->description)) : ?>
         <p><?php echo $displayData->description; ?></p>
     <?php endif; ?>
-    <?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
+    <?php $fieldsnames = explode(',', (string) $displayData->fieldsname); ?>
         <div class="form-grid">
         <?php foreach ($fieldsnames as $fieldname) : ?>
             <?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
@@ -31,7 +32,7 @@ $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
                 <?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
                 <?php if ($field->showon) : ?>
                     <?php $wa->useScript('showon'); ?>
-                    <?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
+                    <?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group), JSON_THROW_ON_ERROR) . '\''; ?>
                 <?php endif; ?>
 
                     <?php if (isset($displayData->showlabel)) : ?>

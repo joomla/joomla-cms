@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Helper\HelperFactoryInterface;
 /**
  * @package     Joomla.Site
  * @subpackage  com_ajax
@@ -25,8 +27,7 @@ use Joomla\CMS\Table\Table;
  * Best way for JSON output
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
  */
-
-/** @var \Joomla\CMS\Application\CMSApplication $app */
+/** @var CMSApplication $app */
 $app = Factory::getApplication();
 $app->allowCache(false);
 
@@ -57,15 +58,15 @@ if (!$format) {
      */
     $module   = $input->get('module');
     $table    = Table::getInstance('extension');
-    $moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
+    $moduleId = $table->find(['type' => 'module', 'element' => 'mod_' . $module]);
 
     if ($moduleId && $table->load($moduleId) && $table->enabled) {
         $helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-        if (strpos($module, '_')) {
-            $parts = explode('_', $module);
-        } elseif (strpos($module, '-')) {
-            $parts = explode('-', $module);
+        if (strpos((string) $module, '_')) {
+            $parts = explode('_', (string) $module);
+        } elseif (strpos((string) $module, '-')) {
+            $parts = explode('-', (string) $module);
         }
 
         if ($parts) {
@@ -77,14 +78,14 @@ if (!$format) {
 
             $class .= 'Helper';
         } else {
-            $class = 'Mod' . ucfirst($module) . 'Helper';
+            $class = 'Mod' . ucfirst((string) $module) . 'Helper';
         }
 
         $method = $input->get('method') ?: 'get';
 
         $moduleInstance = $app->bootModule('mod_' . $module, $app->getName());
 
-        if ($moduleInstance instanceof \Joomla\CMS\Helper\HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3))) {
+        if ($moduleInstance instanceof HelperFactoryInterface && $helper = $moduleInstance->getHelper(substr($class, 3))) {
             $results = method_exists($helper, $method . 'Ajax') ? $helper->{$method . 'Ajax'}() : null;
         }
 
@@ -127,7 +128,7 @@ if (!$format) {
      */
     $group      = $input->get('group', 'ajax');
     PluginHelper::importPlugin($group);
-    $plugin     = ucfirst($input->get('plugin'));
+    $plugin     = ucfirst((string) $input->get('plugin'));
 
     try {
         $results = Factory::getApplication()->triggerEvent('onAjax' . $plugin);
@@ -145,16 +146,16 @@ if (!$format) {
      */
     $template   = $input->get('template');
     $table      = Table::getInstance('extension');
-    $templateId = $table->find(array('type' => 'template', 'element' => $template));
+    $templateId = $table->find(['type' => 'template', 'element' => $template]);
 
     if ($templateId && $table->load($templateId) && $table->enabled) {
         $basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
         $helperFile = $basePath . '/templates/' . $template . '/helper.php';
 
-        if (strpos($template, '_')) {
-            $parts = explode('_', $template);
-        } elseif (strpos($template, '-')) {
-            $parts = explode('-', $template);
+        if (strpos((string) $template, '_')) {
+            $parts = explode('_', (string) $template);
+        } elseif (strpos((string) $template, '-')) {
+            $parts = explode('-', (string) $template);
         }
 
         if ($parts) {
@@ -166,7 +167,7 @@ if (!$format) {
 
             $class .= 'Helper';
         } else {
-            $class = 'Tpl' . ucfirst($template) . 'Helper';
+            $class = 'Tpl' . ucfirst((string) $template) . 'Helper';
         }
 
         $method = $input->get('method') ?: 'get';
@@ -218,7 +219,7 @@ switch ($format) {
             $app->setHeader('status', $results->getCode(), true);
 
             // Echo exception type and message
-            $out = get_class($results) . ': ' . $results->getMessage();
+            $out = $results::class . ': ' . $results->getMessage();
         } elseif (is_scalar($results)) {
             // Output string/ null
             $out = (string) $results;

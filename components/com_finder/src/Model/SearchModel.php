@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -47,7 +48,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $excludedTerms = array();
+    protected $excludedTerms = [];
 
     /**
      * An array of all included terms ids.
@@ -55,7 +56,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $includedTerms = array();
+    protected $includedTerms = [];
 
     /**
      * An array of all required terms ids.
@@ -63,7 +64,7 @@ class SearchModel extends ListModel
      * @var    array
      * @since  2.5
      */
-    protected $requiredTerms = array();
+    protected $requiredTerms = [];
 
     /**
      * Method to get the results of the query.
@@ -82,7 +83,7 @@ class SearchModel extends ListModel
             return null;
         }
 
-        $results = array();
+        $results = [];
 
         // Convert the rows to result objects.
         foreach ($items as $rk => $row) {
@@ -119,7 +120,7 @@ class SearchModel extends ListModel
     /**
      * Method to build a database query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery  A database query.
+     * @return DatabaseQuery A database query.
      *
      * @since   2.5
      */
@@ -280,7 +281,7 @@ class SearchModel extends ListModel
          */
         if (count($this->requiredTerms)) {
             foreach ($this->requiredTerms as $terms) {
-                if (count($terms)) {
+                if (is_countable($terms) ? count($terms) : 0) {
                     $query->having('SUM(CASE WHEN m.term_id IN (' . implode(',', $terms) . ') THEN 1 ELSE 0 END) > 0');
                 } else {
                     $query->where('false');
@@ -354,7 +355,7 @@ class SearchModel extends ListModel
         $this->setState('filter.language', Multilanguage::isEnabled());
 
         $request = $input->request;
-        $options = array();
+        $options = [];
 
         // Get the empty query setting.
         $options['empty'] = $params->get('allow_empty_query', 0);
@@ -363,7 +364,7 @@ class SearchModel extends ListModel
         $options['filter'] = $request->getInt('f', $params->get('f', ''));
 
         // Get the dynamic taxonomy filters.
-        $options['filters'] = $request->get('t', $params->get('t', array()), 'array');
+        $options['filters'] = $request->get('t', $params->get('t', []), 'array');
 
         // Get the query string.
         $options['input'] = $request->getString('q', $params->get('q', ''));

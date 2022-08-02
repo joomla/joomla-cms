@@ -22,24 +22,14 @@ use Joomla\DI\ServiceProviderInterface;
 class ComponentDispatcherFactory implements ServiceProviderInterface
 {
     /**
-     * The component namespace
-     *
-     * @var  string
-     *
-     * @since   4.0.0
-     */
-    private $namespace;
-
-    /**
      * ComponentDispatcherFactory constructor.
      *
      * @param   string  $namespace  The namespace
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace)
+    public function __construct(private readonly string $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -55,9 +45,7 @@ class ComponentDispatcherFactory implements ServiceProviderInterface
     {
         $container->set(
             ComponentDispatcherFactoryInterface::class,
-            function (Container $container) {
-                return new \Joomla\CMS\Dispatcher\ComponentDispatcherFactory($this->namespace, $container->get(MVCFactoryInterface::class));
-            }
+            fn(Container $container) => new \Joomla\CMS\Dispatcher\ComponentDispatcherFactory($this->namespace, $container->get(MVCFactoryInterface::class))
         );
     }
 }

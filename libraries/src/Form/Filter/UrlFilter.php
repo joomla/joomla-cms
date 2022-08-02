@@ -46,10 +46,10 @@ class UrlFilter implements FormFilterInterface
 
         // This cleans some of the more dangerous characters but leaves special characters that are valid.
         $value = InputFilter::getInstance()->clean($value, 'html');
-        $value = trim($value);
+        $value = trim((string) $value);
 
         // <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt
-        $value = str_replace(array('<', '>', '"'), '', $value);
+        $value = str_replace(['<', '>', '"'], '', $value);
 
         // Check for a protocol
         $protocol = parse_url($value, PHP_URL_SCHEME);
@@ -63,7 +63,7 @@ class UrlFilter implements FormFilterInterface
             $protocol = 'http';
 
             // If it looks like an internal link, then add the root.
-            if (substr($value, 0, 9) === 'index.php') {
+            if (str_starts_with($value, 'index.php')) {
                 $value = Uri::root() . $value;
             } else {
                 // Otherwise we treat it as an external link.
@@ -77,7 +77,7 @@ class UrlFilter implements FormFilterInterface
             // If it starts with the host string, just prepend the protocol.
             if (substr($value, 0) === $host) {
                 $value = 'http://' . $value;
-            } elseif (substr($value, 0, 1) !== '/') {
+            } elseif (!str_starts_with($value, '/')) {
                 // Otherwise if it doesn't start with "/" prepend the prefix of the current site.
                 $value = Uri::root(true) . '/' . $value;
             }

@@ -93,14 +93,11 @@ class CategoryeditField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'allowAdd':
-                return (bool) $this->$name;
-            case 'customPrefix':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'allowAdd' => (bool) $this->$name,
+            'customPrefix' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -141,8 +138,8 @@ class CategoryeditField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
-        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
+        $options = [];
+        $published = $this->element['published'] ? explode(',', (string) $this->element['published']) : [0, 1];
         $name = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
@@ -193,7 +190,7 @@ class CategoryeditField extends ListField
 
         // Filter language
         if (!empty($this->element['language'])) {
-            if (strpos($this->element['language'], ',') !== false) {
+            if (str_contains($this->element['language'], ',')) {
                 $language = explode(',', $this->element['language']);
             } else {
                 $language = $this->element['language'];
@@ -239,7 +236,7 @@ class CategoryeditField extends ListField
         }
 
         // Pad the option text with spaces using depth level as a multiplier.
-        for ($i = 0, $n = \count($options); $i < $n; $i++) {
+        for ($i = 0, $n = is_countable($options) ? \count($options) : 0; $i < $n; $i++) {
             // Translate ROOT
             if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories') {
                 if ($options[$i]->level == 0) {

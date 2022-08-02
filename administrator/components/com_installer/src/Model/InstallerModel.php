@@ -33,19 +33,10 @@ class InstallerModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'name',
-                'client_id',
-                'client', 'client_translated',
-                'enabled',
-                'type', 'type_translated',
-                'folder', 'folder_translated',
-                'extension_id',
-                'creationDate',
-            );
+            $config['filter_fields'] = ['name', 'client_id', 'client', 'client_translated', 'enabled', 'type', 'type_translated', 'folder', 'folder_translated', 'extension_id', 'creationDate'];
         }
 
         parent::__construct($config, $factory);
@@ -67,11 +58,11 @@ class InstallerModel extends ListModel
 
         // Replace slashes so preg_match will work
         $search = $this->getState('filter.search');
-        $search = str_replace('/', ' ', $search);
+        $search = str_replace('/', ' ', (string) $search);
         $db     = $this->getDatabase();
 
         // Define which fields have to be processed in a custom way because of translation.
-        $customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate');
+        $customOrderFields = ['name', 'client_translated', 'type_translated', 'folder_translated', 'creationDate'];
 
         // Process searching, ordering and pagination for fields that need to be translated.
         if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0)) {
@@ -85,7 +76,7 @@ class InstallerModel extends ListModel
                 $escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
                 // By default search only the extension name field.
-                $searchFields = array('name');
+                $searchFields = ['name'];
 
                 // If in update sites view search also in the update site name field.
                 if ($this instanceof UpdatesitesModel) {
@@ -97,7 +88,7 @@ class InstallerModel extends ListModel
                     $found = 0;
 
                     foreach ($searchFields as $key => $field) {
-                        if (!$found && preg_match('/' . $escapedSearchString . '/i', $item->{$field})) {
+                        if (!$found && preg_match('/' . $escapedSearchString . '/i', (string) $item->{$field})) {
                             $found = 1;
                         }
                     }
@@ -111,7 +102,7 @@ class InstallerModel extends ListModel
 
             // Process ordering.
             // Sort array object by selected ordering and selected direction. Sort is case insensitive and using locale sorting.
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) == 'desc' ? -1 : 1, false, true);
 
             // Process pagination.
             $total = count($result);
@@ -145,7 +136,7 @@ class InstallerModel extends ListModel
         $lang = Factory::getLanguage();
 
         foreach ($items as &$item) {
-            if (strlen($item->manifest_cache) && $data = json_decode($item->manifest_cache)) {
+            if (strlen((string) $item->manifest_cache) && $data = json_decode((string) $item->manifest_cache, null, 512, JSON_THROW_ON_ERROR)) {
                 foreach ($data as $key => $value) {
                     if ($key == 'type') {
                         // Ignore the type field
@@ -159,7 +150,7 @@ class InstallerModel extends ListModel
             $item->author_info       = @$item->authorEmail . '<br>' . @$item->authorUrl;
             $item->client            = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id] ?? 'JSITE');
             $item->client_translated = $item->client;
-            $item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+            $item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $item->type));
             $item->folder_translated = @$item->folder ? $item->folder : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 
             $path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
@@ -175,7 +166,7 @@ class InstallerModel extends ListModel
                         $lang->load("$extension.sys", JPATH_SITE);
                     break;
                 case 'library':
-                    $parts = explode('/', $item->element);
+                    $parts = explode('/', (string) $item->element);
                     $vendor = (isset($parts[1]) ? $parts[0] : null);
                     $extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
 
@@ -211,7 +202,7 @@ class InstallerModel extends ListModel
 
             settype($item->description, 'string');
 
-            if (!in_array($item->type, array('language'))) {
+            if (!in_array($item->type, ['language'])) {
                 $item->description = Text::_($item->description);
             }
         }

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -22,7 +23,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $lang      = Factory::getLanguage();
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('table.columns');
@@ -32,30 +33,19 @@ $wa->useScript('multiselect')
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if ($this->finderPluginId) : ?>
                     <?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal'); ?>
                     <?php echo HTMLHelper::_(
                         'bootstrap.renderModal',
                         'plugin' . $this->finderPluginId . 'Modal',
-                        array(
-                            'url'         => $link,
-                            'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
-                            'height'      => '400px',
-                            'width'       => '800px',
-                            'bodyHeight'  => '70',
-                            'modalWidth'  => '80',
-                            'closeButton' => false,
-                            'backdrop'    => 'static',
-                            'keyboard'    => false,
-                            'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                                . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                                . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                                . Text::_("JSAVE") . '</button>'
-                                . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                                . Text::_("JAPPLY") . '</button>'
-                        )
+                        ['url'         => $link, 'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'), 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => '70', 'modalWidth'  => '80', 'closeButton' => false, 'backdrop'    => 'static', 'keyboard'    => false, 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
+                            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                            . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+                            . Text::_("JSAVE") . '</button>'
+                            . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+                            . Text::_("JAPPLY") . '</button>']
                     ); ?>
                 <?php endif; ?>
                 <?php if (empty($this->items)) : ?>
@@ -145,7 +135,7 @@ $wa->useScript('multiselect')
                                 <?php endif; ?>
                                 </td>
                                 <td class="small break-word d-none d-md-table-cell">
-                                    <?php echo (strlen($item->url) > 80) ? substr($item->url, 0, 70) . '...' : $item->url; ?>
+                                    <?php echo (strlen((string) $item->url) > 80) ? substr((string) $item->url, 0, 70) . '...' : $item->url; ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -154,7 +144,7 @@ $wa->useScript('multiselect')
 
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="task" value="display">
                 <input type="hidden" name="boxchecked" value="0">

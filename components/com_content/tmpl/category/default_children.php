@@ -21,11 +21,11 @@ $user   = Factory::getUser();
 $groups = $user->getAuthorisedViewLevels();
 ?>
 
-<?php if (count($this->children[$this->category->id]) > 0) : ?>
+<?php if ((is_countable($this->children[$this->category->id]) ? count($this->children[$this->category->id]) : 0) > 0) : ?>
     <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
         <?php // Check whether category access level allows access to subcategories. ?>
         <?php if (in_array($child->access, $groups)) : ?>
-            <?php if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) : ?>
+            <?php if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || (is_countable($child->getChildren()) ? count($child->getChildren()) : 0)) : ?>
             <div class="com-content-category__children">
                 <?php if ($lang->isRtl()) : ?>
                 <h3 class="page-header item-title">
@@ -37,7 +37,7 @@ $groups = $user->getAuthorisedViewLevels();
                     <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
                     <?php echo $this->escape($child->title); ?></a>
 
-                    <?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
+                    <?php if ((is_countable($child->getChildren()) ? count($child->getChildren()) : 0) > 0 && $this->maxLevel > 1) : ?>
                         <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
                     <?php endif; ?>
                 </h3>
@@ -50,7 +50,7 @@ $groups = $user->getAuthorisedViewLevels();
                         </span>
                     <?php endif; ?>
 
-                    <?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
+                    <?php if ((is_countable($child->getChildren()) ? count($child->getChildren()) : 0) > 0 && $this->maxLevel > 1) : ?>
                         <a href="#category-<?php echo $child->id; ?>" data-bs-toggle="collapse" class="btn btn-sm float-end" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
                     <?php endif; ?>
                 </h3>
@@ -63,7 +63,7 @@ $groups = $user->getAuthorisedViewLevels();
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php if (count($child->getChildren()) > 0 && $this->maxLevel > 1) : ?>
+                <?php if ((is_countable($child->getChildren()) ? count($child->getChildren()) : 0) > 0 && $this->maxLevel > 1) : ?>
                 <div class="collapse fade" id="category-<?php echo $child->id; ?>">
                     <?php
                     $this->children[$child->id] = $child->getChildren();
@@ -79,5 +79,5 @@ $groups = $user->getAuthorisedViewLevels();
             </div>
             <?php endif; ?>
         <?php endif; ?>
-    <?php endforeach; ?>
+<?php endforeach; ?>
 <?php endif; ?>

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Workflow;
 
+use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
@@ -26,7 +27,6 @@ trait WorkflowServiceTrait
     /**
      * Get a MVC factory
      *
-     * @return  MVCFactoryInterface
      *
      * @since   4.0.0
      */
@@ -46,8 +46,6 @@ trait WorkflowServiceTrait
      *
      * @param   string  $functionality  The functionality
      * @param   string  $context        The context of the functionality
-     *
-     * @return boolean
      */
     public function supportFunctionality($functionality, $context): bool
     {
@@ -68,9 +66,7 @@ trait WorkflowServiceTrait
      * @param   string  $functionality  The functionality
      * @param   string  $extension      The extension
      *
-     * @return boolean
      * @throws \Exception
-     *
      * @since   4.0.0
      */
     public function isFunctionalityUsed($functionality, $extension): bool
@@ -95,7 +91,7 @@ trait WorkflowServiceTrait
             AbstractEvent::create(
                 'onWorkflowFunctionalityUsed',
                 [
-                    'eventClass'    => 'Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent',
+                    'eventClass'    => WorkflowFunctionalityUsedEvent::class,
                     'subject'       => $this,
                     'extension'     => $extension,
                     'functionality' => $functionality
@@ -113,7 +109,6 @@ trait WorkflowServiceTrait
      *
      * @param   string  $context  The context of the workflow
      *
-     * @return boolean
      *
      * @since   4.0.0
      */
@@ -135,7 +130,6 @@ trait WorkflowServiceTrait
      *
      * @param   string  $extension  The component and section separated by ".".
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -148,8 +142,6 @@ trait WorkflowServiceTrait
      * Check if the workflow is active
      *
      * @param   string  $context  The context of the workflow
-     *
-     * @return boolean
      */
     public function isWorkflowActive($context): bool
     {

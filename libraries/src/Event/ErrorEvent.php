@@ -21,7 +21,6 @@ class ErrorEvent extends AbstractEvent
     /**
      * Get the event's application object
      *
-     * @return  AbstractApplication
      *
      * @since   4.0.0
      */
@@ -33,7 +32,6 @@ class ErrorEvent extends AbstractEvent
     /**
      * Get the event's error object
      *
-     * @return  \Throwable
      *
      * @since   4.0.0
      */

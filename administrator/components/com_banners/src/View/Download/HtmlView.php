@@ -36,10 +36,8 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void
      *
      * @since   1.6
-     *
      * @throws  Exception
      */
     public function display($tpl = null): void
@@ -49,7 +47,7 @@ class HtmlView extends BaseHtmlView
         $this->form = $model->getForm();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

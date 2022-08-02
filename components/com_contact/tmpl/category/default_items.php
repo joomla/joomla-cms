@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  com_contact
@@ -19,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_contact.contacts-list')
     ->useScript('core');
@@ -120,14 +121,14 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                     </span>
                                 </div>
                             <?php endif; ?>
-                            <?php if ($item->publish_up && strtotime($item->publish_up) > strtotime(Factory::getDate())) : ?>
+                            <?php if ($item->publish_up && strtotime((string) $item->publish_up) > strtotime(Factory::getDate())) : ?>
                                 <div>
                                     <span class="list-published badge bg-warning text-light">
                                         <?php echo Text::_('JNOTPUBLISHEDYET'); ?>
                                     </span>
                                 </div>
                             <?php endif; ?>
-                            <?php if (!is_null($item->publish_down) && strtotime($item->publish_down) < strtotime(Factory::getDate())) : ?>
+                            <?php if (!is_null($item->publish_down) && strtotime((string) $item->publish_down) < strtotime(Factory::getDate())) : ?>
                                 <div>
                                     <span class="list-published badge bg-warning text-light">
                                         <?php echo Text::_('JEXPIRED'); ?>
@@ -167,7 +168,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                 <?php echo $item->email_to; ?><br>
                             <?php endif; ?>
 
-                            <?php $location = array(); ?>
+                            <?php $location = []; ?>
                             <?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
                                 <?php $location[] = $item->suburb; ?>
                             <?php endif; ?>

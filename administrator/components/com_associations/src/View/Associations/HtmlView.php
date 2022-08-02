@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Associations\Administrator\View\Associations;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -37,7 +39,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.7.0
      */
@@ -55,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Selected item type properties.
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  3.7.0
      */
@@ -72,6 +74,7 @@ class HtmlView extends BaseHtmlView
      */
     public function display($tpl = null)
     {
+        $support = [];
         $this->state         = $this->get('State');
         $this->filterForm    = $this->get('FilterForm');
         $this->activeFilters = $this->get('ActiveFilters');
@@ -82,7 +85,7 @@ class HtmlView extends BaseHtmlView
         } elseif ($this->state->get('itemtype') != '' && $this->state->get('language') != '') {
             $type = null;
 
-            list($extensionName, $typeName) = explode('.', $this->state->get('itemtype'), 2);
+            [$extensionName, $typeName] = explode('.', (string) $this->state->get('itemtype'), 2);
 
             $extension = AssociationsHelper::getSupportedExtension($extensionName);
 
@@ -99,8 +102,8 @@ class HtmlView extends BaseHtmlView
             } else {
                 $this->extensionName = $extensionName;
                 $this->typeName      = $typeName;
-                $this->typeSupports  = array();
-                $this->typeFields    = array();
+                $this->typeSupports  = [];
+                $this->typeFields    = [];
 
                 $details = $type->get('details');
 
@@ -160,18 +163,14 @@ class HtmlView extends BaseHtmlView
                 $this->items      = $this->get('Items');
                 $this->pagination = $this->get('Pagination');
 
-                $linkParameters = array(
-                    'layout'     => 'edit',
-                    'itemtype'   => $extensionName . '.' . $typeName,
-                    'task'       => 'association.edit',
-                );
+                $linkParameters = ['layout'     => 'edit', 'itemtype'   => $extensionName . '.' . $typeName, 'task'       => 'association.edit'];
 
                 $this->editUri = 'index.php?option=com_associations&view=association&' . http_build_query($linkParameters);
             }
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new \Exception(implode("\n", $errors), 500);
         }
 
@@ -198,7 +197,7 @@ class HtmlView extends BaseHtmlView
             $languageKey = strtoupper($this->extensionName . '_' . $title . 'S');
 
             if ($this->typeName === 'category') {
-                $languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
+                $languageKey = strtoupper((string) $this->extensionName) . '_CATEGORIES';
             }
 
             ToolbarHelper::title(

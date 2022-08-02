@@ -46,10 +46,10 @@ trait VersionableModelTrait
             return false;
         }
 
-        $typeAlias = explode('.', $historyTable->item_id);
+        $typeAlias = explode('.', (string) $historyTable->item_id);
         array_pop($typeAlias);
 
-        $rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
+        $rowArray = ArrayHelper::fromObject(json_decode((string) $historyTable->version_data, null, 512, JSON_THROW_ON_ERROR));
 
         $key = $table->getKeyName();
 

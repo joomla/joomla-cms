@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
+use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -46,7 +47,7 @@ class RequestController extends BaseController
             $paths->insert(JPATH_BASE . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
         }
 
-        $model     = new \Joomla\Component\Config\Administrator\Model\ApplicationModel();
+        $model     = new ApplicationModel();
         $component = $model->getState()->get('component.option');
 
         // Access check.
@@ -71,24 +72,10 @@ class RequestController extends BaseController
         $this->userIsSuperAdmin = $user->authorise('core.admin');
 
         // Required data
-        $requiredData = array(
-            'sitename'            => null,
-            'offline'             => null,
-            'access'              => null,
-            'list_limit'          => null,
-            'MetaDesc'            => null,
-            'MetaRights'          => null,
-            'sef'                 => null,
-            'sitename_pagetitles' => null,
-            'debug'               => null,
-            'debug_lang'          => null,
-            'error_reporting'     => null,
-            'mailfrom'            => null,
-            'fromname'            => null
-        );
+        $requiredData = ['sitename'            => null, 'offline'             => null, 'access'              => null, 'list_limit'          => null, 'MetaDesc'            => null, 'MetaRights'          => null, 'sef'                 => null, 'sitename_pagetitles' => null, 'debug'               => null, 'debug_lang'          => null, 'error_reporting'     => null, 'mailfrom'            => null, 'fromname'            => null];
 
         $data = array_intersect_key($data, $requiredData);
 
-        return json_encode($data);
+        return json_encode($data, JSON_THROW_ON_ERROR);
     }
 }

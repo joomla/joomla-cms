@@ -31,7 +31,6 @@ trait UserDeletion
      *
      * @param   Event  $event  The event we are handling
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -63,7 +62,7 @@ trait UserDeletion
 
             try {
                 $db->setQuery($query)->execute();
-            } catch (Exception $e) {
+            } catch (Exception) {
                 // Don't worry if this fails
             }
 

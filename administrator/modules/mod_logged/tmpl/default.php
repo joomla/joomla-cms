@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 ?>
-<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+<table class="table" id="<?php echo str_replace(' ', '', (string) $module->title) . $module->id; ?>">
     <caption class="visually-hidden"><?php echo $module->title; ?></caption>
     <thead>
         <tr>
@@ -33,18 +33,18 @@ use Joomla\CMS\Language\Text;
             <tr>
                 <th scope="row">
                     <?php if (isset($user->editLink)) : ?>
-                        <a href="<?php echo $user->editLink; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>">
-                            <?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
+                        <a href="<?php echo $user->editLink; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars((string) $user->name, ENT_QUOTES, 'UTF-8'); ?>">
+                            <?php echo htmlspecialchars((string) $user->name, ENT_QUOTES, 'UTF-8'); ?>
                         </a>
                     <?php else : ?>
-                        <?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
+                        <?php echo htmlspecialchars((string) $user->name, ENT_QUOTES, 'UTF-8'); ?>
                     <?php endif; ?>
                 </th>
                 <td>
                     <?php if ($user->client_id === null) : ?>
                         <?php // This is a shared session so we do not know the client ?>
                         <?php echo Text::_('JGLOBAL_NONAPPLICABLE'); ?>
-                    <?php elseif ($user->client_id) : ?>
+<?php elseif ($user->client_id) : ?>
                         <?php echo Text::_('JADMINISTRATION'); ?>
                     <?php else : ?>
                         <form action="<?php echo $user->logoutLink; ?>" method="post" name="adminForm">

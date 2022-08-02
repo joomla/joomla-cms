@@ -49,24 +49,13 @@ if (
     <?php echo HTMLHelper::_(
         'bootstrap.renderModal',
         'plugin' . $this->redirectPluginId . 'Modal',
-        array(
-            'url'         => $link,
-            'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
-            'height'      => '400px',
-            'width'       => '800px',
-            'bodyHeight'  => '70',
-            'modalWidth'  => '80',
-            'closeButton' => false,
-            'backdrop'    => 'static',
-            'keyboard'    => false,
-            'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                . Text::_('JSAVE') . '</button>'
-                . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                . Text::_('JAPPLY') . '</button>'
-        )
+        ['url'         => $link, 'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'), 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => '70', 'modalWidth'  => '80', 'closeButton' => false, 'backdrop'    => 'static', 'keyboard'    => false, 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
+            . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+            . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+            . Text::_('JSAVE') . '</button>'
+            . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+            . Text::_('JAPPLY') . '</button>']
     ); ?>
 <?php endif; ?>
 <?php echo LayoutHelper::render('joomla.content.emptystate', $displayData);

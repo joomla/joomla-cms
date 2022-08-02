@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_associations
@@ -16,8 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
 
 /** @var HtmlView $this */
-
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')

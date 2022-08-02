@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
@@ -21,7 +22,7 @@ if (Factory::getApplication()->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_fields.admin-fields-modal');
 
@@ -33,7 +34,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 
     <form action="<?php echo Route::_('index.php?option=com_fields&view=fields&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -73,12 +74,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
                 </thead>
                 <tbody>
                     <?php
-                    $iconStates = array(
-                        -2 => 'icon-trash',
-                        0  => 'icon-times',
-                        1  => 'icon-check',
-                        2  => 'icon-folder',
-                    );
+                    $iconStates = [-2 => 'icon-trash', 0  => 'icon-times', 1  => 'icon-check', 2  => 'icon-folder'];
                     foreach ($this->items as $i => $item) :
                         ?>
                     <tr class="row<?php echo $i % 2; ?>">
@@ -113,7 +109,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">

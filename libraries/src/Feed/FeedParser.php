@@ -33,15 +33,7 @@ abstract class FeedParser
      * @var    array
      * @since  3.1.4
      */
-    protected $namespaces = array();
-
-    /**
-     * The XMLReader stream object for the feed.
-     *
-     * @var    \XMLReader
-     * @since  3.1.4
-     */
-    protected $stream;
+    protected $namespaces = [];
 
     /**
      * The InputFilter
@@ -59,9 +51,8 @@ abstract class FeedParser
      *
      * @since   3.1.4
      */
-    public function __construct(\XMLReader $stream, InputFilter $inputFilter = null)
+    public function __construct(protected \XMLReader $stream, InputFilter $inputFilter = null)
     {
-        $this->stream      = $stream;
         $this->inputFilter = $inputFilter ?: InputFilter::getInstance([], [], 1, 1);
     }
 
@@ -88,7 +79,7 @@ abstract class FeedParser
             $ns = $el->getNamespaces(true);
 
             // Get an array of available namespace objects for the element.
-            $namespaces = array();
+            $namespaces = [];
 
             foreach ($ns as $prefix => $uri) {
                 // Ignore the empty namespace prefix.
@@ -180,7 +171,7 @@ abstract class FeedParser
         // Otherwise we treat it like any other element.
 
         // First call the internal method.
-        if (\is_callable(array($this, $method))) {
+        if (\is_callable([$this, $method])) {
             $this->$method($feed, $el);
         }
 
@@ -206,7 +197,7 @@ abstract class FeedParser
             return $this->namespaces[$prefix];
         }
 
-        $className = \get_class($this) . ucfirst($prefix);
+        $className = $this::class . ucfirst($prefix);
 
         if (class_exists($className)) {
             $this->namespaces[$prefix] = new $className();

@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Contact\Site\View\Featured;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -27,7 +30,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item model state
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      *
      * @since  1.6.0
      */
@@ -36,7 +39,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The item details
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  1.6.0
      */
@@ -45,7 +48,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  1.6.0
      */
@@ -54,7 +57,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -95,13 +98,13 @@ class HtmlView extends BaseHtmlView
         $pagination->hideEmptyLimitstart = true;
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Prepare the data.
         // Compute the contact slug.
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = is_countable($items) ? count($items) : 0; $i < $n; $i++) {
             $item       = &$items[$i];
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
             $temp       = $item->params;
@@ -109,7 +112,7 @@ class HtmlView extends BaseHtmlView
             $item->params->merge($temp);
 
             if ($item->params->get('show_email', 0) == 1) {
-                $item->email_to = trim($item->email_to);
+                $item->email_to = trim((string) $item->email_to);
 
                 if (!empty($item->email_to) && MailHelper::isEmailAddress($item->email_to)) {
                     $item->email_to = HTMLHelper::_('email.cloak', $item->email_to);
@@ -120,7 +123,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''), ENT_COMPAT, 'UTF-8');
 
         $maxLevel         = $params->get('maxLevel', -1);
         $this->maxLevel   = &$maxLevel;

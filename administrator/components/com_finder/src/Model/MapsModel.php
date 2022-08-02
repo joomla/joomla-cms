@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -34,17 +35,10 @@ class MapsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'state', 'a.state',
-                'title', 'a.title',
-                'branch',
-                'branch_title', 'd.branch_title',
-                'level', 'd.level',
-                'language', 'a.language',
-            );
+            $config['filter_fields'] = ['state', 'a.state', 'title', 'a.title', 'branch', 'branch_title', 'd.branch_title', 'level', 'd.level', 'language', 'a.language'];
         }
 
         parent::__construct($config, $factory);
@@ -112,7 +106,7 @@ class MapsModel extends ListModel
                     $context = $this->option . '.' . $this->name;
 
                     // Trigger the onContentBeforeDelete event.
-                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($context, $table));
+                    $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$context, $table]);
 
                     if (in_array(false, $result, true)) {
                         $this->setError($table->getError());
@@ -127,7 +121,7 @@ class MapsModel extends ListModel
                     }
 
                     // Trigger the onContentAfterDelete event.
-                    Factory::getApplication()->triggerEvent('onContentAfterDelete', array($context, $table));
+                    Factory::getApplication()->triggerEvent('onContentAfterDelete', [$context, $table]);
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
@@ -151,7 +145,7 @@ class MapsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   2.5
      */
@@ -205,7 +199,7 @@ class MapsModel extends ListModel
 
         // Filter the maps over the search string if set.
         if ($search = $this->getState('filter.search')) {
-            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%'));
             $query->where('a.title LIKE ' . $search);
         }
 
@@ -263,11 +257,11 @@ class MapsModel extends ListModel
      * @param   string  $prefix  A prefix for the table class name. [optional]
      * @param   array   $config  Configuration array for model. [optional]
      *
-     * @return  \Joomla\CMS\Table\Table  A database object
+     * @return Table A database object
      *
      * @since   2.5
      */
-    public function getTable($type = 'Map', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Map', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -340,7 +334,7 @@ class MapsModel extends ListModel
         $context = $this->option . '.' . $this->name;
 
         // Trigger the onContentChangeState event.
-        $result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+        $result = Factory::getApplication()->triggerEvent('onContentChangeState', [$context, $pks, $value]);
 
         if (in_array(false, $result, true)) {
             $this->setError($table->getError());

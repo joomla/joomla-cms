@@ -24,7 +24,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
     /**
      * Class constructor.
      *
-     * @param   \DebugBar\DebugBar  $debugBar  DebugBar instance
+     * @param DebugBar $debugBar DebugBar instance
      * @param   string              $baseUrl   The base URL from which assets will be served
      * @param   string              $basePath  The path which assets are relative to
      *
@@ -51,7 +51,7 @@ class JavascriptRenderer extends DebugBarJavascriptRenderer
      */
     public function renderHead()
     {
-        list($cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead) = $this->getAssets(null, self::RELATIVE_URL);
+        [$cssFiles, $jsFiles, $inlineCss, $inlineJs, $inlineHead] = $this->getAssets(null, self::RELATIVE_URL);
         $html = '';
         $doc  = Factory::getApplication()->getDocument();
 

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\Component\Users\Site\Model\RemindModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -33,9 +34,9 @@ class RemindController extends BaseController
         // Check the request token.
         $this->checkToken('post');
 
-        /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+        /** @var RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the password reset request.
         $return = $model->processRemindRequest($data);

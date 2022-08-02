@@ -22,14 +22,6 @@ use Joomla\DI\ServiceProviderInterface;
 class CategoryFactory implements ServiceProviderInterface
 {
     /**
-     * The namespace to create the categories from.
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    private $namespace;
-
-    /**
      * The namespace must be like:
      * Joomla\Component\Content
      *
@@ -37,9 +29,8 @@ class CategoryFactory implements ServiceProviderInterface
      *
      * @since   4.0.0
      */
-    public function __construct($namespace)
+    public function __construct(private $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     /**

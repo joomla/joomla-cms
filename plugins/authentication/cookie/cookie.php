@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
@@ -30,7 +32,7 @@ class PlgAuthenticationCookie extends CMSPlugin
     /**
      * Application object
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.2
      */
     protected $app;
@@ -38,7 +40,7 @@ class PlgAuthenticationCookie extends CMSPlugin
     /**
      * Database object
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.2
      */
     protected $db;
@@ -54,11 +56,7 @@ class PlgAuthenticationCookie extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_AUTHENTICATION_COOKIE') => array(
-                Text::_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE'),
-            ),
-        );
+        return [Text::_('PLG_AUTHENTICATION_COOKIE') => [Text::_('PLG_AUTHENTICATION_COOKIE_PRIVACY_CAPABILITY_COOKIE')]];
     }
 
     /**
@@ -93,7 +91,7 @@ class PlgAuthenticationCookie extends CMSPlugin
             return false;
         }
 
-        $cookieArray = explode('.', $cookieValue);
+        $cookieArray = explode('.', (string) $cookieValue);
 
         // Check for valid cookie value
         if (count($cookieArray) !== 2) {
@@ -141,7 +139,7 @@ class PlgAuthenticationCookie extends CMSPlugin
             return false;
         }
 
-        if (count($results) !== 1) {
+        if ((is_countable($results) ? count($results) : 0) !== 1) {
             // Destroy the cookie in the browser.
             $this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
             $response->status = Authentication::STATUS_FAILURE;
@@ -192,7 +190,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 
         try {
             $result = $this->db->setQuery($query)->loadObject();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             $response->status = Authentication::STATUS_FAILURE;
 
             return false;
@@ -252,7 +250,7 @@ class PlgAuthenticationCookie extends CMSPlugin
                 $this->app->input->cookie->set($oldCookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
             }
 
-            $cookieArray = explode('.', $cookieValue);
+            $cookieArray = explode('.', (string) $cookieValue);
 
             // Filter series since we're going to use it in the query
             $filter = new InputFilter();
@@ -279,7 +277,7 @@ class PlgAuthenticationCookie extends CMSPlugin
                     if ($results === null) {
                         $unique = true;
                     }
-                } catch (RuntimeException $e) {
+                } catch (RuntimeException) {
                     $errorCount++;
 
                     // We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
@@ -346,7 +344,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 
         try {
             $this->db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             return false;
         }
 
@@ -377,7 +375,7 @@ class PlgAuthenticationCookie extends CMSPlugin
             return true;
         }
 
-        $cookieArray = explode('.', $cookieValue);
+        $cookieArray = explode('.', (string) $cookieValue);
 
         // Filter series since we're going to use it in the query
         $filter = new InputFilter();
@@ -391,7 +389,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 
         try {
             $this->db->setQuery($query)->execute();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             // We aren't concerned with errors from this query, carry on
         }
 

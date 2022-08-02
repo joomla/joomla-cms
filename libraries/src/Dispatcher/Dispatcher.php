@@ -20,22 +20,6 @@ use Joomla\Input\Input;
 abstract class Dispatcher implements DispatcherInterface
 {
     /**
-     * The application instance
-     *
-     * @var    CMSApplicationInterface
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
-     * The input instance
-     *
-     * @var    Input
-     * @since  4.0.0
-     */
-    protected $input;
-
-    /**
      * Constructor for Dispatcher
      *
      * @param   CMSApplicationInterface  $app    The application instance
@@ -43,10 +27,8 @@ abstract class Dispatcher implements DispatcherInterface
      *
      * @since   4.0.0
      */
-    public function __construct(CMSApplicationInterface $app, Input $input)
+    public function __construct(protected CMSApplicationInterface $app, protected Input $input)
     {
-        $this->app   = $app;
-        $this->input = $input;
     }
 
     /**

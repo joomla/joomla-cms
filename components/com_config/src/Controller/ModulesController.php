@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Config\Site\Controller;
 
+use Joomla\CMS\Input\Input;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Client\ClientHelper;
@@ -35,11 +37,11 @@ class ModulesController extends BaseController
      *                                                  'view_path' (this list is not meant to be comprehensive).
      * @param   MVCFactoryInterface|null      $factory  The factory.
      * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
+     * @param Input|null $input The Input object for the request
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -107,7 +109,7 @@ class ModulesController extends BaseController
         $app->loadDocument($document);
         $app->loadIdentity($user);
 
-        /** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
+        /** @var ComponentDispatcher $dispatcher */
         $dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
 
         /** @var ModuleController $controllerClass */
@@ -126,7 +128,7 @@ class ModulesController extends BaseController
         // Check the return value.
         if ($return === false) {
             // Save the data in the session.
-            $data = $this->input->post->get('jform', array(), 'array');
+            $data = $this->input->post->get('jform', [], 'array');
 
             $this->app->setUserState('com_config.modules.global.data', $data);
 
@@ -147,7 +149,7 @@ class ModulesController extends BaseController
             case 'save':
             default:
                 if (!empty($returnUri)) {
-                    $redirect = base64_decode(urldecode($returnUri));
+                    $redirect = base64_decode(urldecode((string) $returnUri));
 
                     // Don't redirect to an external URL.
                     if (!Uri::isInternal($redirect)) {

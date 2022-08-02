@@ -68,7 +68,7 @@ class ContentComponent extends MVCComponent implements
      *
      * @since   4.0.0
      */
-    public const CONDITION_NAMES = [
+    final public const CONDITION_NAMES = [
         self::CONDITION_PUBLISHED   => 'JPUBLISHED',
         self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
         self::CONDITION_ARCHIVED    => 'JARCHIVED',
@@ -80,28 +80,28 @@ class ContentComponent extends MVCComponent implements
      *
      * @since   4.0.0
      */
-    public const CONDITION_ARCHIVED = 2;
+    final public const CONDITION_ARCHIVED = 2;
 
     /**
      * The published condition
      *
      * @since   4.0.0
      */
-    public const CONDITION_PUBLISHED = 1;
+    final public const CONDITION_PUBLISHED = 1;
 
     /**
      * The unpublished condition
      *
      * @since   4.0.0
      */
-    public const CONDITION_UNPUBLISHED = 0;
+    final public const CONDITION_UNPUBLISHED = 0;
 
     /**
      * The trashed condition
      *
      * @since   4.0.0
      */
-    public const CONDITION_TRASHED = -2;
+    final public const CONDITION_TRASHED = -2;
 
     /**
      * Booting the extension. This is the function to set up the environment of the extension like
@@ -161,7 +161,6 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns valid contexts
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -169,10 +168,7 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
-            'com_content.article'    => Text::_('COM_CONTENT'),
-            'com_content.categories' => Text::_('JCATEGORY')
-        );
+        $contexts = ['com_content.article'    => Text::_('COM_CONTENT'), 'com_content.categories' => Text::_('JCATEGORY')];
 
         return $contexts;
     }
@@ -180,7 +176,6 @@ class ContentComponent extends MVCComponent implements
     /**
      * Returns valid contexts
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -188,9 +183,7 @@ class ContentComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
-            'com_content.article'    => Text::_('COM_CONTENT')
-        );
+        $contexts = ['com_content.article'    => Text::_('COM_CONTENT')];
 
         return $contexts;
     }
@@ -230,7 +223,6 @@ class ContentComponent extends MVCComponent implements
      *
      * @param   string  $section  An optional section to separate different areas in the component
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -243,8 +235,6 @@ class ContentComponent extends MVCComponent implements
      * Returns the model name, based on the context
      *
      * @param   string  $context  The context of the workflow
-     *
-     * @return string
      */
     public function getModelName($context): string
     {
@@ -273,7 +263,6 @@ class ContentComponent extends MVCComponent implements
      * @param   array  $transitions  The Transitions to filter
      * @param   int    $pk           Id of the state
      *
-     * @return  array
      *
      * @since  4.0.0
      */
@@ -294,14 +283,7 @@ class ContentComponent extends MVCComponent implements
      */
     public function countItems(array $items, string $section)
     {
-        $config = (object) array(
-            'related_tbl'    => 'content',
-            'state_col'      => 'state',
-            'group_col'      => 'catid',
-            'relation_type'  => 'category_or_group',
-            'uses_workflows' => true,
-            'workflows_component' => 'com_content'
-        );
+        $config = (object) ['related_tbl'    => 'content', 'state_col'      => 'state', 'group_col'      => 'catid', 'relation_type'  => 'category_or_group', 'uses_workflows' => true, 'workflows_component' => 'com_content'];
 
         LibraryContentHelper::countRelations($items, $config);
     }
@@ -322,13 +304,7 @@ class ContentComponent extends MVCComponent implements
         $parts   = explode('.', $extension);
         $section = count($parts) > 1 ? $parts[1] : null;
 
-        $config = (object) array(
-            'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
-            'state_col'     => ($section === 'category' ? 'published' : 'state'),
-            'group_col'     => 'tag_id',
-            'extension'     => $extension,
-            'relation_type' => 'tag_assigments',
-        );
+        $config = (object) ['related_tbl'   => ($section === 'category' ? 'categories' : 'content'), 'state_col'     => ($section === 'category' ? 'published' : 'state'), 'group_col'     => 'tag_id', 'extension'     => $extension, 'relation_type' => 'tag_assigments'];
 
         LibraryContentHelper::countRelations($items, $config);
     }

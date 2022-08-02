@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Redirect\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\String\StringHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -33,7 +35,7 @@ class LinksController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -70,7 +72,7 @@ class LinksController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);
@@ -102,11 +104,11 @@ class LinksController extends AdminController
      * @param   string  $prefix  The prefix of the model.
      * @param   array   $config  An array of settings.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel The model instance
+     * @return BaseDatabaseModel The model instance
      *
      * @since   1.6
      */
-    public function getModel($name = 'Link', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Link', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -121,10 +123,10 @@ class LinksController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
-        $batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
+        $batch_urls_request = $this->input->post->get('batch_urls', [], 'array');
+        $batch_urls_lines   = array_map('trim', explode("\n", (string) $batch_urls_request[0]));
 
-        $batch_urls = array();
+        $batch_urls = [];
 
         foreach ($batch_urls_lines as $batch_urls_line) {
             if (!empty($batch_urls_line)) {
@@ -132,7 +134,7 @@ class LinksController extends AdminController
                 $separator = $params->get('separator', '|');
 
                 // Basic check to make sure the correct separator is being used
-                if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator)) {
+                if (!StringHelper::strpos($batch_urls_line, $separator)) {
                     $this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
                     $this->setRedirect('index.php?option=com_redirect&view=links');
 

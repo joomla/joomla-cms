@@ -136,10 +136,7 @@ class FileField extends FormField
     {
         $data = parent::getLayoutData();
 
-        $extraData = array(
-            'accept'   => $this->accept,
-            'multiple' => $this->multiple,
-        );
+        $extraData = ['accept'   => $this->accept, 'multiple' => $this->multiple];
 
         return array_merge($data, $extraData);
     }

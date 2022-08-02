@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
@@ -48,7 +49,6 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -70,7 +70,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
      */
     public function handleError(ErrorEvent $event)
     {
-        /** @var \Joomla\CMS\Application\CMSApplication $app */
+        /** @var CMSApplication $app */
         $app = $event->getApplication();
 
         if ($app->isClient('administrator') || ((int) $event->getError()->getCode() !== 404)) {
@@ -80,28 +80,28 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
         $uri = Uri::getInstance();
 
         // These are the original URLs
-        $orgurl                = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
-        $orgurlRel             = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+        $orgurl                = rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'query', 'fragment']));
+        $orgurlRel             = rawurldecode($uri->toString(['path', 'query', 'fragment']));
 
         // The above doesn't work for sub directories, so do this
         $orgurlRootRel         = str_replace(Uri::root(), '', $orgurl);
 
         // For when users have added / to the url
         $orgurlRootRelSlash    = str_replace(Uri::root(), '/', $orgurl);
-        $orgurlWithoutQuery    = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
-        $orgurlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
+        $orgurlWithoutQuery    = rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'fragment']));
+        $orgurlRelWithoutQuery = rawurldecode($uri->toString(['path', 'fragment']));
 
         // These are the URLs we save and use
-        $url                = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'))));
-        $urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'query', 'fragment'))));
+        $url                = StringHelper::strtolower(rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'query', 'fragment'])));
+        $urlRel             = StringHelper::strtolower(rawurldecode($uri->toString(['path', 'query', 'fragment'])));
 
         // The above doesn't work for sub directories, so do this
         $urlRootRel         = str_replace(Uri::root(), '', $url);
 
         // For when users have added / to the url
         $urlRootRelSlash    = str_replace(Uri::root(), '/', $url);
-        $urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment'))));
-        $urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(array('path', 'fragment'))));
+        $urlWithoutQuery    = StringHelper::strtolower(rawurldecode($uri->toString(['scheme', 'host', 'port', 'path', 'fragment'])));
+        $urlRelWithoutQuery = StringHelper::strtolower(rawurldecode($uri->toString(['path', 'fragment'])));
 
         $excludes = (array) $this->params->get('exclude_urls');
 
@@ -130,7 +130,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
          * Why is this (still) here?
          * Because hackers still try urls with mosConfig_* and Url Injection with =http[s]:// and we dont want to log/redirect these requests
          */
-        if ($skipUrl || (strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http') !== false)) {
+        if ($skipUrl || (str_contains($url, 'mosConfig_')) || (str_contains($url, '=http'))) {
             return;
         }
 
@@ -170,20 +170,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
         }
 
         $possibleMatches = array_unique(
-            array(
-                $url,
-                $urlRel,
-                $urlRootRel,
-                $urlRootRelSlash,
-                $urlWithoutQuery,
-                $urlRelWithoutQuery,
-                $orgurl,
-                $orgurlRel,
-                $orgurlRootRel,
-                $orgurlRootRelSlash,
-                $orgurlWithoutQuery,
-                $orgurlRelWithoutQuery,
-            )
+            [$url, $urlRel, $urlRootRel, $urlRootRelSlash, $urlWithoutQuery, $urlRelWithoutQuery, $orgurl, $orgurlRel, $orgurlRootRel, $orgurlRootRelSlash, $orgurlWithoutQuery, $orgurlRelWithoutQuery]
         );
 
         foreach ($possibleMatches as $match) {
@@ -205,7 +192,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
             if ($redirect->header < 400 && $redirect->header >= 300) {
                 $urlQuery = $uri->getQuery();
 
-                $oldUrlParts = parse_url($redirect->old_url);
+                $oldUrlParts = parse_url((string) $redirect->old_url);
 
                 $newUrl = $redirect->new_url;
 
@@ -213,11 +200,11 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
                     $newUrl .= '?' . $urlQuery;
                 }
 
-                $dest = Uri::isInternal($newUrl) || strpos($newUrl, 'http') === false ?
+                $dest = Uri::isInternal($newUrl) || !str_contains((string) $newUrl, 'http') ?
                     Route::_($newUrl) : $newUrl;
 
                 // In case the url contains double // lets remove it
-                $destination = str_replace(Uri::root() . '/', Uri::root(), $dest);
+                $destination = str_replace(Uri::root() . '/', Uri::root(), (string) $dest);
 
                 // Always count redirect hits
                 $redirect->hits++;
@@ -241,15 +228,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
                 $nowDate = Factory::getDate()->toSql();
 
-                $data = (object) array(
-                    'id' => 0,
-                    'old_url' => $url,
-                    'referer' => $app->input->server->getString('HTTP_REFERER', ''),
-                    'hits' => 1,
-                    'published' => 0,
-                    'created_date' => $nowDate,
-                    'modified_date' => $nowDate,
-                );
+                $data = (object) ['id' => 0, 'old_url' => $url, 'referer' => $app->input->server->getString('HTTP_REFERER', ''), 'hits' => 1, 'published' => 0, 'created_date' => $nowDate, 'modified_date' => $nowDate];
 
                 try {
                     $this->db->insertObject('#__redirect_links', $data, 'id');

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$moduleId = str_replace(' ', '', $module->title) . $module->id;
+$moduleId = str_replace(' ', '', (string) $module->title) . $module->id;
 
 ?>
 <table class="table" id="<?php echo $moduleId; ?>">
@@ -29,7 +29,7 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
         </tr>
     </thead>
     <tbody>
-        <?php if (count($list)) : ?>
+        <?php if (is_countable($list) ? count($list) : 0) : ?>
             <?php foreach ($list as $i => $item) : ?>
         <tr>
             <th scope="row">
@@ -37,11 +37,11 @@ $moduleId = str_replace(' ', '', $module->title) . $module->id;
                     <?php echo HTMLHelper::_('jgrid.checkedout', $moduleId . $i, $item->editor, $item->checked_out_time, $module->id); ?>
                 <?php endif; ?>
                 <?php if ($item->link) : ?>
-                    <a href="<?php echo $item->link; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
-                        <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+                    <a href="<?php echo $item->link; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars((string) $item->title, ENT_QUOTES, 'UTF-8'); ?>">
+                        <?php echo htmlspecialchars((string) $item->title, ENT_QUOTES, 'UTF-8'); ?>
                     </a>
                 <?php else : ?>
-                    <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+                    <?php echo htmlspecialchars((string) $item->title, ENT_QUOTES, 'UTF-8'); ?>
                 <?php endif; ?>
             </th>
                 <?php if ($workflow_enabled) : ?>

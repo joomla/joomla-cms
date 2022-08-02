@@ -112,7 +112,7 @@ class OrderingField extends FormField
      */
     protected function getInput()
     {
-        $html = array();
+        $html = [];
         $attr = '';
 
         // Initialize some field attributes.
@@ -148,10 +148,12 @@ class OrderingField extends FormField
      */
     protected function getQuery()
     {
+        $ordering = null;
+        $title = null;
         $categoryId   = (int) $this->form->getValue('catid');
         $ucmType      = new UCMType();
         $ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
-        $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
+        $ucmMapCommon = json_decode((string) $ucmRow->field_mappings, null, 512, JSON_THROW_ON_ERROR)->common;
 
         if (\is_object($ucmMapCommon)) {
             $ordering = $ucmMapCommon->core_ordering;
@@ -164,7 +166,7 @@ class OrderingField extends FormField
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
         $query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
-            ->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
+            ->from($db->quoteName(json_decode((string) $ucmRow->table, null, 512, JSON_THROW_ON_ERROR)->special->dbtable))
             ->where($db->quoteName('catid') . ' = :categoryId')
             ->order($db->quoteName('ordering'))
             ->bind(':categoryId', $categoryId, ParameterType::INTEGER);

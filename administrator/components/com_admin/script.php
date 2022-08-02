@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Table\Asset;
+use Joomla\Component\Cache\Administrator\Model\CacheModel;
+use Joomla\Component\Menus\Administrator\Table\MenuTable;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -51,7 +54,7 @@ class JoomlaInstallerScript
         if ($action === 'update') {
             // Get the version we are updating from
             if (!empty($installer->extension->manifest_cache)) {
-                $manifestValues = json_decode($installer->extension->manifest_cache, true);
+                $manifestValues = json_decode((string) $installer->extension->manifest_cache, true, 512, JSON_THROW_ON_ERROR);
 
                 if (array_key_exists('version', $manifestValues)) {
                     $this->fromVersion = $manifestValues['version'];
@@ -78,14 +81,15 @@ class JoomlaInstallerScript
      */
     public function update($installer)
     {
+        $options = [];
         $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
         $options['text_file'] = 'joomla_update.php';
 
-        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
+        Log::addLogger($options, Log::INFO, ['Update', 'databasequery', 'jerror']);
 
         try {
             Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
-        } catch (RuntimeException $exception) {
+        } catch (RuntimeException) {
             // Informational log only
         }
 
@@ -131,14 +135,14 @@ class JoomlaInstallerScript
             return;
         }
 
-        $params = json_decode($params, true);
+        $params = json_decode((string) $params, true, 512, JSON_THROW_ON_ERROR);
 
         // Reset the last run parameter
         if (isset($params['lastrun'])) {
             $params['lastrun'] = '';
         }
 
-        $params = json_encode($params);
+        $params = json_encode($params, JSON_THROW_ON_ERROR);
 
         $query = $db->getQuery(true)
             ->update($db->quoteName('#__extensions'))
@@ -253,7 +257,7 @@ class JoomlaInstallerScript
             // Execute the query and iterate over the `repeatable` instances
             foreach ($db->loadObjectList() as $row) {
                 // Skip broken rows - just a security measure, should not happen
-                if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams)) {
+                if (!isset($row->fieldparams) || !($oldFieldparams = json_decode((string) $row->fieldparams, null, 512, JSON_THROW_ON_ERROR)) || !is_object($oldFieldparams)) {
                     continue;
                 }
 
@@ -381,7 +385,7 @@ class JoomlaInstallerScript
                     $db->getQuery(true)
                         ->update('#__fields')
                         ->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
-                        ->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
+                        ->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams, JSON_THROW_ON_ERROR)))
                         ->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
                 )->execute();
 
@@ -408,7 +412,7 @@ class JoomlaInstallerScript
                     $newFieldValue = [];
 
                     // Convert to array to change key
-                    $fieldValue = json_decode($rowFieldValue->value, true);
+                    $fieldValue = json_decode((string) $rowFieldValue->value, true, 512, JSON_THROW_ON_ERROR);
 
                     // If data could not be decoded for some reason, ignore
                     if (!$fieldValue) {
@@ -438,7 +442,7 @@ class JoomlaInstallerScript
 
                     $query->clear()
                         ->update($db->quoteName('#__fields_values'))
-                        ->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
+                        ->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue, JSON_THROW_ON_ERROR)))
                         ->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
                         ->where($db->quoteName('item_id') . ' =' . $rowFieldValue->item_id);
                     $db->setQuery($query)
@@ -524,7 +528,7 @@ class JoomlaInstallerScript
 
         // If we have the search package around, it may not have a manifest cache entry after upgrades from 3.x, so add it to the list
         if (File::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_search.xml')) {
-            $extensions[] = array('package', 'pkg_search', '', 0);
+            $extensions[] = ['package', 'pkg_search', '', 0];
         }
 
         // Attempt to refresh manifest caches
@@ -584,7 +588,7 @@ class JoomlaInstallerScript
             'files_checked'   => [],
         ];
 
-        $files = array(
+        $files = [
             // From 3.10 to 4.1
             '/administrator/components/com_actionlogs/actionlogs.php',
             '/administrator/components/com_actionlogs/controller.php',
@@ -6435,9 +6439,9 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/webauthn.php',
             '/plugins/task/checkfiles/checkfiles.php',
             '/plugins/task/demotasks/demotasks.php',
-        );
+        ];
 
-        $folders = array(
+        $folders = [
             // From 3.10 to 4.1
             '/templates/system/images',
             '/templates/system/html',
@@ -7802,7 +7806,7 @@ class JoomlaInstallerScript
             // From 4.2.0-beta2 to 4.2.0-beta3
             '/plugins/system/webauthn/src/Helper',
             '/plugins/system/webauthn/src/Exception',
-        );
+        ];
 
         $status['files_checked'] = $files;
         $status['folders_checked'] = $folders;
@@ -7875,12 +7879,10 @@ class JoomlaInstallerScript
     public function updateAssets($installer)
     {
         // List all components added since 4.0
-        $newComponents = array(
-            // Components to be added here
-        );
+        $newComponents = [];
 
         foreach ($newComponents as $component) {
-            /** @var \Joomla\CMS\Table\Asset $asset */
+            /** @var Asset $asset */
             $asset = Table::getInstance('Asset');
 
             if ($asset->loadByName($component)) {
@@ -8007,8 +8009,8 @@ class JoomlaInstallerScript
                 if (!empty($queries2)) {
                     foreach ($queries2 as $query2) {
                         // Get table name from query
-                        if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1) {
-                            $tableName = str_replace('`', '', $matches[1]);
+                        if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', (string) $query2, $matches) === 1) {
+                            $tableName = str_replace('`', '', (string) $matches[1]);
                             $tableName = str_replace('#__', $db->getPrefix(), $tableName);
 
                             // Check if the table exists and if yes, run the query
@@ -8059,7 +8061,7 @@ class JoomlaInstallerScript
      */
     private function cleanJoomlaCache()
     {
-        /** @var \Joomla\Component\Cache\Administrator\Model\CacheModel $model */
+        /** @var CacheModel $model */
         $model = Factory::getApplication()->bootComponent('com_cache')->getMVCFactory()
             ->createModel('Cache', 'Administrator', ['ignore_request' => true]);
 
@@ -8084,7 +8086,7 @@ class JoomlaInstallerScript
 
         try {
             $db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';')->execute();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
 
@@ -8117,7 +8119,7 @@ class JoomlaInstallerScript
         $db = Factory::getDbo();
         Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
 
-        $tableItem   = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
+        $tableItem   = new MenuTable($db);
 
         $contactItems = $this->contactItems($tableItem);
         $finderItems  = $this->finderItems($tableItem);
@@ -8138,7 +8140,7 @@ class JoomlaInstallerScript
                 continue;
             }
 
-            $newTableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
+            $newTableItem = new MenuTable($db);
 
             // Bind the data.
             if (!$newTableItem->bind($menuItem)) {
@@ -8437,7 +8439,6 @@ class JoomlaInstallerScript
     /**
      * Updates content type table classes.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -8486,7 +8487,7 @@ class JoomlaInstallerScript
         $db->setQuery($query);
 
         foreach ($contentTypes as $contentType) {
-            list($component, $tableType) = explode('.', $contentType->type_alias);
+            [$component, $tableType] = explode('.', (string) $contentType->type_alias);
 
             // Special case for core table classes.
             if ($contentType->type_alias === 'com_users.users' || $tableType === 'category') {
@@ -8500,7 +8501,7 @@ class JoomlaInstallerScript
             // Bind type alias.
             $typeAlias = $contentType->type_alias;
 
-            $table = json_decode($contentType->table);
+            $table = json_decode((string) $contentType->table, null, 512, JSON_THROW_ON_ERROR);
 
             // Update table definitions.
             $table->special->type   = $tableType;
@@ -8511,7 +8512,7 @@ class JoomlaInstallerScript
                 $table->common->prefix  = 'Joomla\\CMS\\Table\\';
             }
 
-            $table = json_encode($table);
+            $table = json_encode($table, JSON_THROW_ON_ERROR);
 
             // Execute the query.
             $db->execute();
@@ -8527,13 +8528,13 @@ class JoomlaInstallerScript
      */
     protected function fixFilenameCasing()
     {
-        $files = array(
+        $files = [
             // 3.10 changes
             '/libraries/src/Filesystem/Support/Stringcontroller.php' => '/libraries/src/Filesystem/Support/StringController.php',
             '/libraries/src/Form/Rule/SubFormRule.php' => '/libraries/src/Form/Rule/SubformRule.php',
             // 4.0.0
             '/media/vendor/skipto/js/skipTo.js' => '/media/vendor/skipto/js/skipto.js',
-        );
+        ];
 
         foreach ($files as $old => $expected) {
             $oldRealpath = realpath(JPATH_ROOT . $old);
@@ -8610,7 +8611,7 @@ class JoomlaInstallerScript
                         continue;
                     }
 
-                    $newFile = $newPath . substr($oldFile, strlen($oldPath));
+                    $newFile = $newPath . substr((string) $oldFile, strlen($oldPath));
 
                     // Create target folder and parent folders if they don't exist yet
                     if (is_dir(dirname($newFile)) || @mkdir(dirname($newFile), 0755, true)) {
@@ -8624,7 +8625,6 @@ class JoomlaInstallerScript
     /**
      * Ensure the core templates are correctly moved to the new mode.
      *
-     * @return  void
      *
      * @since   4.1.0
      */
@@ -8656,7 +8656,6 @@ class JoomlaInstallerScript
     /**
      * Add the user Auth Provider Column as it could be present from 3.10 already
      *
-     * @return  void
      *
      * @since   4.1.1
      */

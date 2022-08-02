@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\Component\Content\Administrator\Model\ArticleModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -26,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleModel
+class FormModel extends ArticleModel
 {
     /**
      * Model typeAlias string. Used for version history.
@@ -65,7 +66,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $this->setState('article.catid', $app->input->getInt('catid', $catId));
 
         $return = $app->input->get('return', '', 'base64');
-        $this->setState('return_page', base64_decode($return));
+        $this->setState('return_page', base64_decode((string) $return));
 
         $this->setState('layout', $app->input->getString('layout'));
     }
@@ -160,7 +161,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      */
     public function getReturnPage()
     {
-        return base64_encode($this->getState('return_page', ''));
+        return base64_encode((string) $this->getState('return_page', ''));
     }
 
     /**
@@ -203,7 +204,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      *
      * @since   1.6
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         $form = parent::getForm($data, $loadData);
 
@@ -299,7 +300,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Article', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Article', $prefix = 'Administrator', $options = [])
     {
         return parent::getTable($name, $prefix, $options);
     }

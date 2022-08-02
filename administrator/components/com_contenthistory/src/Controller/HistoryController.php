@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
@@ -29,11 +30,11 @@ class HistoryController extends AdminController
      * @param   string  $prefix  The prefix for the model
      * @param   array   $config  An additional array of parameters
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model
+     * @return BaseDatabaseModel The model
      *
      * @since   3.2
      */
-    public function getModel($name = 'History', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'History', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -50,7 +51,7 @@ class HistoryController extends AdminController
         $this->checkToken();
 
         // Get items to toggle keep forever from the request.
-        $cid = (array) $this->input->get('cid', array(), 'int');
+        $cid = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);

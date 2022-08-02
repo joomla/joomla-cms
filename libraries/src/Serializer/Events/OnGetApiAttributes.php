@@ -21,10 +21,9 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
     /**
      * The attributes
      *
-     * @var     array
      * @since   4.0.0
      */
-    private $attributes = [];
+    private array $attributes = [];
 
     /**
      * Constructor.
@@ -39,7 +38,7 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
      * @since   4.0.0
      * @throws  \BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (
             !\array_key_exists('attributes', $arguments)
@@ -58,7 +57,6 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
     /**
      * The properties to be rendered.
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -73,7 +71,6 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
      * @param   string  $name   The name of the property to be rendered in the api
      * @param   mixed   $value  The value of the named property to be rendered in the api.
      *
-     * @return  void
      * @since   4.0.0
      */
     public function addAttribute($name, $value): void
@@ -86,7 +83,6 @@ final class OnGetApiAttributes extends AbstractImmutableEvent
      *
      * @param   array  $value  An array of key/value pairs for properties to be added to the api.
      *
-     * @return  void
      * @since   4.0.0
      */
     public function addAttributes(array $value): void

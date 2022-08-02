@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Document\ErrorDocument;
 /**
  * @package Joomla.Installation
  *
@@ -12,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\CMS\Document\ErrorDocument $this */
+/** @var ErrorDocument $this */
 // Add required assets
 $this->getWebAssetManager()
     ->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
@@ -92,9 +93,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
                                         <?php endwhile; ?>
                                         <?php // Reset the main error object to the base error ?>
                                         <?php $this->setError($this->error); ?>
-                                    <?php endif; ?>
+<?php endif; ?>
                                 </div>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                     </div>
                 </div>

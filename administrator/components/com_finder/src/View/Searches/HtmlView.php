@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Searches;
 
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -44,21 +47,21 @@ class HtmlView extends BaseHtmlView
     /**
      * The pagination object
      *
-     * @var  \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
     /**
      * Form object for search filters
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -76,7 +79,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The actions the user is authorised to perform
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  4.0.0
      */
@@ -110,12 +113,12 @@ class HtmlView extends BaseHtmlView
         $link                = 'index.php?option=com_config&view=component&component=com_finder&return=' . base64_encode($uri);
         $output              = HTMLHelper::_('link', Route::_($link), Text::_('JOPTIONS'));
 
-        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if (!(is_countable($this->items) ? \count($this->items) : 0) && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

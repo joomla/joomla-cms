@@ -79,57 +79,29 @@ class PlgContentPagenavigation extends CMSPlugin
                 // Get the order code
                 $orderDate = $params->get('order_date');
 
-                switch ($orderDate) {
-                    // Use created if modified is not set
-                    case 'modified':
-                        $orderby = 'CASE WHEN ' . $db->quoteName('a.modified') . ' IS NULL THEN ' .
-                            $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
-                        break;
-
-                    // Use created if publish_up is not set
-                    case 'published':
-                        $orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
-                            $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
-                        break;
-
-                    // Use created as default
-                    default:
-                        $orderby = $db->quoteName('a.created');
-                        break;
-                }
+                $orderby = match ($orderDate) {
+                    'modified' => 'CASE WHEN ' . $db->quoteName('a.modified') . ' IS NULL THEN ' .
+                        $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END',
+                    'published' => 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
+                        $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END',
+                    default => $db->quoteName('a.created'),
+                };
 
                 if ($order_method === 'rdate') {
                     $orderby .= ' DESC';
                 }
             } else {
-                // Determine sort order.
-                switch ($order_method) {
-                    case 'alpha':
-                        $orderby = $db->quoteName('a.title');
-                        break;
-                    case 'ralpha':
-                        $orderby = $db->quoteName('a.title') . ' DESC';
-                        break;
-                    case 'hits':
-                        $orderby = $db->quoteName('a.hits');
-                        break;
-                    case 'rhits':
-                        $orderby = $db->quoteName('a.hits') . ' DESC';
-                        break;
-                    case 'author':
-                        $orderby = $db->quoteName(['a.created_by_alias', 'u.name']);
-                        break;
-                    case 'rauthor':
-                        $orderby = $db->quoteName('a.created_by_alias') . ' DESC, ' .
-                            $db->quoteName('u.name') . ' DESC';
-                        break;
-                    case 'front':
-                        $orderby = $db->quoteName('f.ordering');
-                        break;
-                    default:
-                        $orderby = $db->quoteName('a.ordering');
-                        break;
-                }
+                $orderby = match ($order_method) {
+                    'alpha' => $db->quoteName('a.title'),
+                    'ralpha' => $db->quoteName('a.title') . ' DESC',
+                    'hits' => $db->quoteName('a.hits'),
+                    'rhits' => $db->quoteName('a.hits') . ' DESC',
+                    'author' => $db->quoteName(['a.created_by_alias', 'u.name']),
+                    'rauthor' => $db->quoteName('a.created_by_alias') . ' DESC, ' .
+                        $db->quoteName('u.name') . ' DESC',
+                    'front' => $db->quoteName('f.ordering'),
+                    default => $db->quoteName('a.ordering'),
+                };
             }
 
             $query->order($orderby);

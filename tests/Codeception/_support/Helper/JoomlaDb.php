@@ -10,6 +10,8 @@
 
 namespace Helper;
 
+use Codeception\Exception\ModuleException;
+use Joomla\Browser\JoomlaBrowser;
 use Codeception\Module\Db;
 
 /**
@@ -39,7 +41,7 @@ class JoomlaDb extends Db
     // phpcs:ignore
     public function _initialize()
     {
-        $this->prefix = (isset($this->config['prefix'])) ? $this->config['prefix'] : '';
+        $this->prefix = $this->config['prefix'] ?? '';
 
         parent::_initialize();
     }
@@ -106,7 +108,7 @@ class JoomlaDb extends Db
      *
      * @since   3.7.3
      */
-    public function grabFromDatabase($table, $column, $criteria = array())
+    public function grabFromDatabase($table, $column, $criteria = [])
     {
         $table = $this->addPrefix($table);
 
@@ -172,7 +174,6 @@ class JoomlaDb extends Db
      * @param   string  $table     Table name
      * @param   array   $criteria  Search criteria [Optional]
      *
-     * @return  void
      *
      * @since   4.1.0
      */
@@ -205,10 +206,10 @@ class JoomlaDb extends Db
      * @return mixed
      *
      * @since version
-     * @throws \Codeception\Exception\ModuleException
+     * @throws ModuleException
      */
     public function getConfig($value)
     {
-        return $this->getModule('Joomla\Browser\JoomlaBrowser')->_getConfig($value);
+        return $this->getModule(JoomlaBrowser::class)->_getConfig($value);
     }
 }

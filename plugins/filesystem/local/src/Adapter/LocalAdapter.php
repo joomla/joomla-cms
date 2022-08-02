@@ -36,20 +36,10 @@ class LocalAdapter implements AdapterInterface
     /**
      * The root path to gather file information from.
      *
-     * @var string
      *
      * @since  4.0.0
      */
-    private $rootPath = null;
-
-    /**
-     * The file_path of media directory related to site
-     *
-     * @var string
-     *
-     * @since  4.0.0
-     */
-    private $filePath = null;
+    private ?string $rootPath = null;
 
     /**
      * The absolute root path in the local file system.
@@ -59,14 +49,13 @@ class LocalAdapter implements AdapterInterface
      *
      * @since   4.0.0
      */
-    public function __construct(string $rootPath, string $filePath)
+    public function __construct(string $rootPath, private readonly string $filePath)
     {
         if (!file_exists($rootPath)) {
             throw new \InvalidArgumentException();
         }
 
         $this->rootPath = Path::clean(realpath($rootPath), '/');
-        $this->filePath = $filePath;
     }
 
     /**
@@ -87,7 +76,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $path  The path to the file or folder
      *
-     * @return  \stdClass
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -184,7 +172,6 @@ class LocalAdapter implements AdapterInterface
      * @param   string  $name  The name
      * @param   string  $path  The folder
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -210,7 +197,6 @@ class LocalAdapter implements AdapterInterface
      * @param   string  $path  The folder
      * @param   string  $data  The data
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -303,7 +289,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $path  The folder
      *
-     * @return  \stdClass
      *
      * @since   4.0.0
      */
@@ -344,7 +329,7 @@ class LocalAdapter implements AdapterInterface
 
                 // @todo : Change this path to an actual thumbnail path
                 $obj->thumb_path = $this->getUrl($obj->path);
-            } catch (UnparsableImageException $e) {
+            } catch (UnparsableImageException) {
                 // Ignore the exception - it's an image that we don't know how to parse right now
             }
         }
@@ -357,7 +342,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $date  The date to create a Date from
      *
-     * @return  Date
      *
      * @since   4.0.0
      */
@@ -393,7 +377,6 @@ class LocalAdapter implements AdapterInterface
      * @param   string  $destinationPath  The destination path
      * @param   bool    $force            Force to overwrite
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -495,7 +478,6 @@ class LocalAdapter implements AdapterInterface
      * @param   string  $destinationPath  The destination path
      * @param   bool    $force            Force to overwrite
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -615,7 +597,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $path  Path of the file relative to adapter
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -627,7 +608,6 @@ class LocalAdapter implements AdapterInterface
     /**
      * Returns the name of this adapter.
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -672,7 +652,6 @@ class LocalAdapter implements AdapterInterface
      * @param   string  $pattern  The pattern for search
      * @param   int     $flags    Flags for search
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -692,7 +671,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $path  The Path to be encoded
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  FileNotFoundException
@@ -707,7 +685,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $name  The filename
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -774,7 +751,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $path  The path
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -797,7 +773,6 @@ class LocalAdapter implements AdapterInterface
      *
      * @param   string  $path  The path
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  InvalidPathException

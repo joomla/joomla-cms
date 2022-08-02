@@ -71,7 +71,7 @@ class ListField extends FormField
     protected function getOptions()
     {
         $fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-        $options   = array();
+        $options   = [];
 
         foreach ($this->element->xpath('option') as $option) {
             // Filter requirements
@@ -115,14 +115,7 @@ class ListField extends FormField
             $selected = (string) $option['selected'];
             $selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
-            $tmp = array(
-                    'value'    => $value,
-                    'text'     => Text::alt($text, $fieldname),
-                    'disable'  => $disabled,
-                    'class'    => (string) $option['class'],
-                    'selected' => ($checked || $selected),
-                    'checked'  => ($checked || $selected),
-            );
+            $tmp = ['value'    => $value, 'text'     => Text::alt($text, $fieldname), 'disable'  => $disabled, 'class'    => (string) $option['class'], 'selected' => ($checked || $selected), 'checked'  => ($checked || $selected)];
 
             // Set some event handler attributes. But really, should be using unobtrusive js.
             $tmp['onclick']  = (string) $option['onclick'];
@@ -130,7 +123,7 @@ class ListField extends FormField
 
             if ((string) $option['showon']) {
                 $encodedConditions = json_encode(
-                    FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+                    FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group), JSON_THROW_ON_ERROR
                 );
 
                 $tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
@@ -198,7 +191,7 @@ class ListField extends FormField
      *
      * @since   3.7.0
      */
-    public function addOption($text, $attributes = array())
+    public function addOption($text, $attributes = [])
     {
         if ($text && $this->element instanceof \SimpleXMLElement) {
             $child = $this->element->addChild('option', $text);

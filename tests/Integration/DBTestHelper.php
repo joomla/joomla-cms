@@ -11,6 +11,7 @@
 namespace Joomla\Tests\Integration;
 
 use Joomla\Database\DatabaseFactory;
+use Joomla\Database\Exception\UnsupportedAdapterException;
 
 /**
  * Integration Tests
@@ -40,7 +41,6 @@ class DBTestHelper
     /**
      * @param   mixed   IntegrationTestCase   $test  Test
      *
-     * @return void
      * @since   4.0.0
      */
     public static function setupTest(IntegrationTestCase $test): void
@@ -62,24 +62,30 @@ class DBTestHelper
         $test->setDBDriver(self::$driver);
         $files = $test->getSchemasToLoad();
 
-        foreach ($files as $file) {
-            if (in_array($file, self::$loadedFiles)) {
-                continue;
+        try {
+            foreach ($files as $file) {
+                if (in_array($file, self::$loadedFiles)) {
+                    continue;
+                }
+
+                $sql     = file_get_contents(
+                    JPATH_ROOT . '/tests/Integration/datasets/' . strtolower((string) JTEST_DB_ENGINE) . '/' . $file
+                );
+                $queries = self::splitQueries($sql);
+
+                if (!count($queries)) {
+                    continue;
+                }
+
+                foreach ($queries as $query) {
+                    self::$driver->setQuery($query);
+                    self::$driver->execute();
+                }
+
+                self::$loadedFiles[] = $file;
             }
-
-            $sql = file_get_contents(JPATH_ROOT . '/tests/Integration/datasets/' . strtolower(JTEST_DB_ENGINE) . '/' . $file);
-            $queries = self::splitQueries($sql);
-
-            if (!count($queries)) {
-                continue;
-            }
-
-            foreach ($queries as $query) {
-                self::$driver->setQuery($query);
-                self::$driver->execute();
-            }
-
-            self::$loadedFiles[] = $file;
+        } catch (UnsupportedAdapterException $exception) {
+            $test->markTestSkipped($exception->getMessage());
         }
     }
 
@@ -92,8 +98,8 @@ class DBTestHelper
      */
     protected static function splitQueries($query)
     {
-        $buffer    = array();
-        $queries   = array();
+        $buffer    = [];
+        $queries   = [];
         $in_string = false;
 
         // Trim any whitespace.

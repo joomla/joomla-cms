@@ -54,7 +54,6 @@ trait DBTestTrait
 
     /**
      *
-     * @return array
      *
      * @since   4.0.0
      */

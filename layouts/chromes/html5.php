@@ -21,13 +21,13 @@ if ((string) $module->content === '') {
     return;
 }
 
-$moduleTag              = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
+$moduleTag              = htmlspecialchars((string) $params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
 $moduleAttribs          = [];
-$moduleAttribs['class'] = 'moduletable ' . htmlspecialchars($params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
+$moduleAttribs['class'] = 'moduletable ' . htmlspecialchars((string) $params->get('moduleclass_sfx', ''), ENT_QUOTES, 'UTF-8');
 $bootstrapSize          = (int) $params->get('bootstrap_size', 0);
 $moduleAttribs['class'] .= $bootstrapSize !== 0 ? ' col-md-' . $bootstrapSize : '';
-$headerTag              = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
-$headerClass            = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
+$headerTag              = htmlspecialchars((string) $params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
+$headerClass            = htmlspecialchars((string) $params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 $headerAttribs          = [];
 
 // Only output a header class if one is set

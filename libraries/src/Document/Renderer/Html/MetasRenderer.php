@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -34,7 +35,7 @@ class MetasRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         // Convert the tagids to titles
         if (isset($this->_doc->_metaTags['name']['tags'])) {
@@ -42,7 +43,7 @@ class MetasRenderer extends DocumentRenderer
             $this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
         }
 
-        /** @var \Joomla\CMS\Application\CMSApplication $app */
+        /** @var CMSApplication $app */
         $app = Factory::getApplication();
         $wa  = $this->_doc->getWebAssetManager();
 
@@ -125,7 +126,7 @@ class MetasRenderer extends DocumentRenderer
                 if (is_file($dir . $icon)) {
                     $urlBase = in_array($base, [0, 2]) ? Uri::base(true) : Uri::root(true);
                     $base    = in_array($base, [0, 2]) ? JPATH_BASE : JPATH_ROOT;
-                    $path    = str_replace($base, '', $dir);
+                    $path    = str_replace($base, '', (string) $dir);
                     $path    = str_replace('\\', '/', $path);
                     $this->_doc->addFavicon($urlBase . $path . $icon);
                     break;
@@ -138,10 +139,10 @@ class MetasRenderer extends DocumentRenderer
             foreach ($tag as $name => $contents) {
                 if ($type === 'http-equiv' && !($this->_doc->isHtml5() && $name === 'content-type')) {
                     $buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
-                        . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+                        . htmlspecialchars((string) $contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
                 } elseif ($type !== 'http-equiv' && !empty($contents)) {
                     $buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
-                        . htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
+                        . htmlspecialchars((string) $contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
                 }
             }
         }

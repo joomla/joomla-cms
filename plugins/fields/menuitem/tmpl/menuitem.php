@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Menuitem
@@ -16,7 +18,7 @@ if ($value == '') {
     return;
 }
 
-$url   = \Joomla\CMS\Router\Route::_("index.php?Itemid={$value}");
-$title = \Joomla\CMS\Factory::getApplication()->getMenu()->getItem($value)->title;
+$url   = Route::_("index.php?Itemid={$value}");
+$title = Factory::getApplication()->getMenu()->getItem($value)->title;
 
 echo "<a href=\"{$url}\">{$title}</a>";

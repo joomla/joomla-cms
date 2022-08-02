@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
+use Joomla\Cms\Table\Table;
+use Joomla\Cms\Table\Nested;
+use Joomla\CMS\Table\Menu;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -87,10 +90,7 @@ class ItemModel extends AdminModel
      *
      * @var   array
      */
-    protected $batch_commands = array(
-        'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
-    );
+    protected $batch_commands = ['assetgroup_id' => 'batchAccess', 'language_id'   => 'batchLanguage'];
 
     /**
      * Method to test whether a record can be deleted.
@@ -154,7 +154,7 @@ class ItemModel extends AdminModel
         $table  = $this->getTable();
         $db     = $this->getDatabase();
         $query  = $db->getQuery(true);
-        $newIds = array();
+        $newIds = [];
 
         // Check that the parent exists
         if ($parentId) {
@@ -193,7 +193,7 @@ class ItemModel extends AdminModel
         }
 
         // We need to log the parent ID
-        $parents = array();
+        $parents = [];
 
         // Calculate the emergency stop count as a precaution against a runaway loop bug
         $query->select('COUNT(' . $db->quoteName('id') . ')')
@@ -260,7 +260,7 @@ class ItemModel extends AdminModel
 
             // If we a copying children, the Old ID will turn up in the parents list
             // otherwise it's a new top level item
-            $table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+            $table->parent_id = $parents[$oldParentId] ?? $parentId;
             $table->menutype = $menuType;
 
             // Set the new location in the tree for the node.
@@ -274,7 +274,7 @@ class ItemModel extends AdminModel
             $table->home  = 0;
 
             // Alter the title & alias
-            list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+            [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
             $table->title = $title;
             $table->alias = $alias;
 
@@ -378,7 +378,7 @@ class ItemModel extends AdminModel
         }
 
         // We are going to store all the children and just moved the menutype
-        $children = array();
+        $children = [];
 
         // Parent exists so let's proceed
         foreach ($pks as $pk) {
@@ -476,7 +476,7 @@ class ItemModel extends AdminModel
      *
      * @since   1.6
      */
-    protected function canSave($data = array(), $key = 'id')
+    protected function canSave($data = [], $key = 'id')
     {
         return Factory::getUser()->authorise('core.edit', $this->option);
     }
@@ -491,7 +491,7 @@ class ItemModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // The folder and element vars are passed when saving the form.
         if (empty($data)) {
@@ -508,9 +508,9 @@ class ItemModel extends AdminModel
 
         // Get the form.
         if ($clientId == 1) {
-            $form = $this->loadForm('com_menus.item.admin', 'itemadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+            $form = $this->loadForm('com_menus.item.admin', 'itemadmin', ['control' => 'jform', 'load_data' => $loadData], true);
         } else {
-            $form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
+            $form = $this->loadForm('com_menus.item', 'item', ['control' => 'jform', 'load_data' => $loadData], true);
         }
 
         if (empty($form)) {
@@ -559,7 +559,7 @@ class ItemModel extends AdminModel
             unset($itemData['access']);
         }
 
-        $sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', array());
+        $sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', []);
 
         // Only merge if there is a session and itemId or itemid is null.
         if (
@@ -575,10 +575,10 @@ class ItemModel extends AdminModel
         if (empty($data['id'])) {
             // Get selected fields
             $filters = Factory::getApplication()->getUserState('com_menus.items.filter');
-            $data['parent_id'] = $data['parent_id'] ?? ($filters['parent_id'] ?? null);
-            $data['published'] = $data['published'] ?? ($filters['published'] ?? null);
-            $data['language']  = $data['language'] ?? ($filters['language'] ?? null);
-            $data['access']    = $data['access'] ?? ($filters['access'] ?? Factory::getApplication()->get('access'));
+            $data['parent_id'] ??= $filters['parent_id'] ?? null;
+            $data['published'] ??= $filters['published'] ?? null;
+            $data['language'] ??= $filters['language'] ?? null;
+            $data['access'] ??= $filters['access'] ?? Factory::getApplication()->get('access');
         }
 
         if (isset($data['menutype']) && !$this->getState('item.menutypeid')) {
@@ -603,7 +603,7 @@ class ItemModel extends AdminModel
      */
     public function getHelp()
     {
-        return (object) array('key' => $this->helpKey, 'url' => $this->helpURL, 'local' => $this->helpLocal);
+        return (object) ['key' => $this->helpKey, 'url' => $this->helpURL, 'local' => $this->helpLocal];
     }
 
     /**
@@ -617,6 +617,7 @@ class ItemModel extends AdminModel
      */
     public function getItem($pk = null)
     {
+        $args = [];
         $pk = (!empty($pk)) ? $pk : (int) $this->getState('item.id');
 
         // Get a level row instance.
@@ -657,10 +658,10 @@ class ItemModel extends AdminModel
             case 'alias':
             case 'url':
                 $table->component_id = 0;
-                $args = array();
+                $args = [];
 
                 if ($table->link) {
-                    $q = parse_url($table->link, PHP_URL_QUERY);
+                    $q = parse_url((string) $table->link, PHP_URL_QUERY);
 
                     if ($q) {
                         parse_str($q, $args);
@@ -685,7 +686,7 @@ class ItemModel extends AdminModel
                 $args = [];
 
                 if ($table->link) {
-                    $q = parse_url($table->link, PHP_URL_QUERY);
+                    $q = parse_url((string) $table->link, PHP_URL_QUERY);
 
                     if ($q) {
                         parse_str($q, $args);
@@ -753,7 +754,7 @@ class ItemModel extends AdminModel
             if ($pk != null) {
                 $result->associations = MenusHelper::getAssociations($pk);
             } else {
-                $result->associations = array();
+                $result->associations = [];
             }
         }
 
@@ -853,7 +854,7 @@ class ItemModel extends AdminModel
      *
      * @since   3.4
      */
-    public function getViewLevels()
+    public function getViewLevels(): array|bool
     {
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
@@ -884,11 +885,11 @@ class ItemModel extends AdminModel
      * @param   string  $prefix  A prefix for the table class name. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\Cms\Table\Table|\Joomla\Cms\Table\Nested  A database object.
+     * @return Table|Nested A database object.
      *
      * @since   1.6
      */
-    public function getTable($type = 'Menu', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Menu', $prefix = 'Administrator', $config = []): Table|Nested
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -897,7 +898,7 @@ class ItemModel extends AdminModel
      * A protected method to get the where clause for the reorder.
      * This ensures that the row will be moved relative to a row with the same menutype.
      *
-     * @param   \Joomla\CMS\Table\Menu  $table
+     * @param Menu $table
      *
      * @return  array  An array of conditions to add to add to ordering queries.
      *
@@ -1019,7 +1020,7 @@ class ItemModel extends AdminModel
     {
         $table = $this->getTable('MenuType');
 
-        $table->load(array('menutype' => $menutype));
+        $table->load(['menutype' => $menutype]);
 
         return (object) $table->getProperties();
     }
@@ -1065,7 +1066,7 @@ class ItemModel extends AdminModel
 
         // Initialise form with component view params if available.
         if ($type == 'component') {
-            $link = $link ? htmlspecialchars_decode($link) : '';
+            $link = $link ? htmlspecialchars_decode((string) $link) : '';
 
             // Parse the link arguments.
             $args = [];
@@ -1095,11 +1096,7 @@ class ItemModel extends AdminModel
                 }
 
                 // Check for the layout XML file. Use standard xml file if it exists.
-                $tplFolders = array(
-                    $base . '/tmpl/' . $view,
-                    $base . '/views/' . $view . '/tmpl',
-                    $base . '/view/' . $view . '/tmpl',
-                );
+                $tplFolders = [$base . '/tmpl/' . $view, $base . '/views/' . $view . '/tmpl', $base . '/view/' . $view . '/tmpl'];
                 $path = Path::find($tplFolders, $layout . '.xml');
 
                 if (is_file($path)) {
@@ -1108,8 +1105,8 @@ class ItemModel extends AdminModel
 
                 // If custom layout, get the xml file from the template folder
                 // template folder is first part of file name -- template:folder
-                if (!$formFile && (strpos($layout, ':') > 0)) {
-                    list($altTmpl, $altLayout) = explode(':', $layout);
+                if (!$formFile && (strpos((string) $layout, ':') > 0)) {
+                    [$altTmpl, $altLayout] = explode(':', (string) $layout);
 
                     $templatePath = Path::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
 
@@ -1122,10 +1119,7 @@ class ItemModel extends AdminModel
             // Now check for a view manifest file
             if (!$formFile) {
                 if (isset($view)) {
-                    $metadataFolders = array(
-                        $base . '/view/' . $view,
-                        $base . '/views/' . $view
-                    );
+                    $metadataFolders = [$base . '/view/' . $view, $base . '/views/' . $view];
                     $metaPath = Path::find($metadataFolders, 'metadata.xml');
 
                     if (is_file($path = Path::clean($metaPath))) {
@@ -1311,7 +1305,7 @@ class ItemModel extends AdminModel
      */
     public function save($data)
     {
-        $pk      = isset($data['id']) ? $data['id'] : (int) $this->getState('item.id');
+        $pk      = $data['id'] ?? (int) $this->getState('item.id');
         $isNew   = true;
         $db      = $this->getDatabase();
         $query   = $db->getQuery(true);
@@ -1380,7 +1374,7 @@ class ItemModel extends AdminModel
             $origTable->load($this->getState('item.id'));
 
             if ($table->title === $origTable->title) {
-                list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+                [$title, $alias] = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
                 $table->title = $title;
                 $table->alias = $alias;
             }
@@ -1401,7 +1395,7 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the before save event.
-        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
+        $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, &$table, $isNew, $data]);
 
         // Store the data.
         if (in_array(false, $result, true) || !$table->store()) {
@@ -1411,7 +1405,7 @@ class ItemModel extends AdminModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+        Factory::getApplication()->triggerEvent($this->event_after_save, [$context, &$table, $isNew]);
 
         // Rebuild the tree path.
         if (!$table->rebuildPath($table->id)) {
@@ -1449,7 +1443,7 @@ class ItemModel extends AdminModel
         // Load associated menu items, for now not supported for admin menu… may be later
         if ($table->get('client_id') == 0 && Associations::isEnabled()) {
             // Adding self to the association
-            $associations = isset($data['associations']) ? $data['associations'] : array();
+            $associations = $data['associations'] ?? [];
 
             // Unset any invalid associations
             $associations = ArrayHelper::toInteger($associations);
@@ -1519,7 +1513,7 @@ class ItemModel extends AdminModel
 
             if (count($associations) > 1) {
                 // Adding new association for these items
-                $key   = md5(json_encode($associations));
+                $key   = md5(json_encode($associations, JSON_THROW_ON_ERROR));
                 $query = $db->getQuery(true)
                     ->insert($db->quoteName('#__associations'))
                     ->columns(
@@ -1616,7 +1610,7 @@ class ItemModel extends AdminModel
         $table = $this->getTable();
         $pks = (array) $pks;
 
-        $languages = array();
+        $languages = [];
         $onehome = false;
 
         // Remember that we can set a home page for different languages,
@@ -1725,7 +1719,7 @@ class ItemModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('alias' => $alias, 'parent_id' => $parentId))) {
+        while ($table->load(['alias' => $alias, 'parent_id' => $parentId])) {
             if ($title == $table->title) {
                 $title = StringHelper::increment($title);
             }
@@ -1733,7 +1727,7 @@ class ItemModel extends AdminModel
             $alias = StringHelper::increment($alias, 'dash');
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**

@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\ArticlesPopular\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -27,7 +28,7 @@ abstract class ArticlesPopularHelper
     /**
      * Get a list of popular articles from the articles model
      *
-     * @param   \Joomla\Registry\Registry  &$params  object holding the models parameters
+     * @param Registry &$params object holding the models parameters
      *
      * @return  mixed
      */

@@ -39,7 +39,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
      * @var    string[]
      * @since  4.0.0
      */
-    private $extraRelations = [];
+    private array $extraRelations = [];
 
     /**
      * List of names of properties that will be rendered as data
@@ -47,7 +47,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
      * @var    string[]
      * @since  4.0.0
      */
-    private $extraAttributes = [];
+    private array $extraAttributes = [];
 
     /**
      * Constructor.
@@ -61,7 +61,7 @@ final class OnGetApiFields extends AbstractImmutableEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('type', $arguments)) {
             throw new BadMethodCallException("Argument 'type' is required for event $name");
@@ -139,8 +139,6 @@ final class OnGetApiFields extends AbstractImmutableEvent
      * however and should not be guaranteed)
      *
      * @param   string[]  $fields  The array of additional fields to add to the data of the attribute
-     *
-     * @return  void
      */
     public function addFields(array $fields): void
     {
@@ -154,8 +152,6 @@ final class OnGetApiFields extends AbstractImmutableEvent
      * however and should not be guaranteed)
      *
      * @param   string[]  $fields  The array of additional fields to add as relations
-     *
-     * @return  void
      */
     public function addRelations(array $fields): void
     {
@@ -164,8 +160,6 @@ final class OnGetApiFields extends AbstractImmutableEvent
 
     /**
      * Get properties to render.
-     *
-     * @return  array
      */
     public function getAllPropertiesToRender(): array
     {
@@ -174,8 +168,6 @@ final class OnGetApiFields extends AbstractImmutableEvent
 
     /**
      * Get properties to render.
-     *
-     * @return  array
      */
     public function getAllRelationsToRender(): array
     {

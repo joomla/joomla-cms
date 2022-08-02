@@ -22,14 +22,6 @@ use Joomla\Database\DatabaseDriver;
 class AdapterInstance extends CMSObject
 {
     /**
-     * Parent
-     *
-     * @var    Adapter
-     * @since  1.6
-     */
-    protected $parent = null;
-
-    /**
      * Database
      *
      * @var    DatabaseDriver
@@ -46,13 +38,10 @@ class AdapterInstance extends CMSObject
      *
      * @since   1.6
      */
-    public function __construct(Adapter $parent, DatabaseDriver $db, array $options = array())
+    public function __construct(protected Adapter $parent, DatabaseDriver $db, array $options = [])
     {
         // Set the properties from the options array that is passed in
         $this->setProperties($options);
-
-        // Set the parent and db in case $options for some reason overrides it.
-        $this->parent = $parent;
 
         // Pull in the global dbo in case something happened to it.
         $this->db = $db ?: Factory::getDbo();

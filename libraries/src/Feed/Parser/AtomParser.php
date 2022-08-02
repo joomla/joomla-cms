@@ -241,7 +241,7 @@ class AtomParser extends FeedParser
      */
     private function bestLinkForUri(array $links)
     {
-        $linkPrefs = array('', 'self', 'alternate');
+        $linkPrefs = ['', 'self', 'alternate'];
 
         foreach ($linkPrefs as $pref) {
             foreach ($links as $link) {

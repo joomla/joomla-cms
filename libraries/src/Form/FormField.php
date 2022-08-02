@@ -391,7 +391,7 @@ abstract class FormField implements DatabaseAwareInterface
      *
      * @since 4.0.0
      */
-    protected $dataAttributes = array();
+    protected $dataAttributes = [];
 
     /**
      * Method to instantiate the form field object.
@@ -410,12 +410,12 @@ abstract class FormField implements DatabaseAwareInterface
 
         // Detect the field type if not set
         if (!isset($this->type)) {
-            $parts = Normalise::fromCamelCase(\get_called_class(), true);
+            $parts = Normalise::fromCamelCase(static::class, true);
 
             if ($parts[0] === 'J') {
-                $this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
+                $this->type = StringHelper::ucfirst($parts[(is_countable($parts) ? \count($parts) : 0) - 1], '_');
             } else {
-                $this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[\count($parts) - 1], '_');
+                $this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[(is_countable($parts) ? \count($parts) : 0) - 1], '_');
             }
         }
     }
@@ -482,7 +482,7 @@ abstract class FormField implements DatabaseAwareInterface
 
             default:
                 // Check for data attribute
-                if (strpos($name, 'data-') === 0 && array_key_exists($name, $this->dataAttributes)) {
+                if (str_starts_with($name, 'data-') && array_key_exists($name, $this->dataAttributes)) {
                     return $this->dataAttributes[$name];
                 }
         }
@@ -578,11 +578,11 @@ abstract class FormField implements DatabaseAwareInterface
 
             default:
                 // Detect data attribute(s)
-                if (strpos($name, 'data-') === 0) {
+                if (str_starts_with($name, 'data-')) {
                     $this->dataAttributes[$name] = $value;
                 } else {
-                    if (property_exists(__CLASS__, $name)) {
-                        Log::add("Cannot access protected / private property $name of " . __CLASS__);
+                    if (property_exists(self::class, $name)) {
+                        Log::add("Cannot access protected / private property $name of " . self::class);
                     } else {
                         $this->$name = $value;
                     }
@@ -637,23 +637,20 @@ abstract class FormField implements DatabaseAwareInterface
         // Set the group of the field.
         $this->group = $group;
 
-        $attributes = array(
-            'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
-            'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+        $attributes = ['multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext', 'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel', 'translate_label', 'translateDescription', 'translate_description', 'size', 'showon'];
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
         // Set the field default value.
-        if ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true))) {
-            $this->value = (array) json_decode($value);
+        if ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true, 512, JSON_THROW_ON_ERROR))) {
+            $this->value = (array) json_decode($value, null, 512, JSON_THROW_ON_ERROR);
         } else {
             $this->value = $value;
         }
 
         // Lets detect miscellaneous data attribute. For eg, data-*
         foreach ($this->element->attributes() as $key => $value) {
-            if (strpos($key, 'data-') === 0) {
+            if (str_starts_with((string) $key, 'data-')) {
                 // Data attribute key value pair
                 $this->dataAttributes[$key] = $value;
             }
@@ -805,12 +802,7 @@ abstract class FormField implements DatabaseAwareInterface
         $position = $this->element['name'] === 'alias' ? ' data-bs-placement="bottom" ' : '';
 
         // Here mainly for B/C with old layouts. This can be done in the layouts directly
-        $extraData = array(
-            'text'        => $data['label'],
-            'for'         => $this->id,
-            'classes'     => explode(' ', $data['labelclass']),
-            'position'    => $position,
-        );
+        $extraData = ['text'        => $data['label'], 'for'         => $this->id, 'classes'     => explode(' ', (string) $data['labelclass']), 'position'    => $position];
 
         return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
     }
@@ -950,7 +942,7 @@ abstract class FormField implements DatabaseAwareInterface
 
         if (!empty($dataAttributes)) {
             foreach ($dataAttributes as $key => $attrValue) {
-                $dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+                $dataAttribute .= ' ' . $key . '="' . htmlspecialchars((string) $attrValue, ENT_COMPAT, 'UTF-8') . '"';
             }
         }
 
@@ -967,7 +959,7 @@ abstract class FormField implements DatabaseAwareInterface
      *
      * @since   3.5
      */
-    public function render($layoutId, $data = array())
+    public function render($layoutId, $data = [])
     {
         $data = array_merge($this->getLayoutData(), $data);
 
@@ -983,7 +975,7 @@ abstract class FormField implements DatabaseAwareInterface
      *
      * @since   3.2
      */
-    public function renderField($options = array())
+    public function renderField($options = [])
     {
         if ($this->hidden) {
             return $this->getInput();
@@ -1017,15 +1009,11 @@ abstract class FormField implements DatabaseAwareInterface
 
         if ($this->showon) {
             $options['rel']           = ' data-showon=\'' .
-                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group), JSON_THROW_ON_ERROR) . '\'';
             $options['showonEnabled'] = true;
         }
 
-        $data = array(
-            'input'   => $this->getInput(),
-            'label'   => $this->getLabel(),
-            'options' => $options,
-        );
+        $data = ['input'   => $this->getInput(), 'label'   => $this->getLabel(), 'options' => $options];
 
         $data = array_merge($this->getLayoutData(), $data);
 
@@ -1049,7 +1037,7 @@ abstract class FormField implements DatabaseAwareInterface
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', $this::class));
         }
 
         // Get the field filter type.
@@ -1063,7 +1051,7 @@ abstract class FormField implements DatabaseAwareInterface
             }
 
             // Check for a callback filter
-            if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter))) {
+            if (str_contains($filter, '::') && \is_callable(explode('::', $filter))) {
                 return \call_user_func(explode('::', $filter), $value);
             }
 
@@ -1084,7 +1072,7 @@ abstract class FormField implements DatabaseAwareInterface
 
                 // Subform field may have a default value, that is a JSON string
                 if ($value && is_string($value)) {
-                    $value = json_decode($value, true);
+                    $value = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
 
                     // The string is invalid json
                     if (!$value) {
@@ -1093,7 +1081,7 @@ abstract class FormField implements DatabaseAwareInterface
                 }
 
                 if ($this->multiple) {
-                    $return = array();
+                    $return = [];
 
                     if ($value) {
                         foreach ($value as $key => $val) {
@@ -1129,7 +1117,7 @@ abstract class FormField implements DatabaseAwareInterface
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', $this::class));
         }
 
         $valid = true;
@@ -1164,7 +1152,7 @@ abstract class FormField implements DatabaseAwareInterface
 
             // If the object could not be loaded return an error message.
             if ($rule === false) {
-                throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', \get_class($this), $type));
+                throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', $this::class, $type));
             }
 
             if ($rule instanceof DatabaseAwareInterface) {

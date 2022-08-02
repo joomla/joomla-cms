@@ -31,7 +31,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    public const STATUS_SUCCESS = 1;
+    final public const STATUS_SUCCESS = 1;
 
     /**
      * Status to indicate cancellation of authentication (unused)
@@ -39,7 +39,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    public const STATUS_CANCEL = 2;
+    final public const STATUS_CANCEL = 2;
 
     /**
      * This is the status code returned when the authentication failed (prevent login if no success)
@@ -47,7 +47,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    public const STATUS_FAILURE = 4;
+    final public const STATUS_FAILURE = 4;
 
     /**
      * This is the status code returned when the account has expired (prevent login)
@@ -55,7 +55,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    public const STATUS_EXPIRED = 8;
+    final public const STATUS_EXPIRED = 8;
 
     /**
      * This is the status code returned when the account has been denied (prevent login)
@@ -63,7 +63,7 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    public const STATUS_DENIED = 16;
+    final public const STATUS_DENIED = 16;
 
     /**
      * This is the status code returned when the account doesn't exist (not an error)
@@ -71,21 +71,13 @@ class Authentication
      * @var    integer
      * @since  1.7.0
      */
-    public const STATUS_UNKNOWN = 32;
+    final public const STATUS_UNKNOWN = 32;
 
     /**
      * @var    Authentication[]  JAuthentication instances container.
      * @since  1.7.3
      */
     protected static $instance = [];
-
-    /**
-     * Plugin Type to run
-     *
-     * @var   string
-     * @since  4.0.0
-     */
-    protected $pluginType;
 
     /**
      * Constructor
@@ -95,7 +87,7 @@ class Authentication
      *
      * @since   1.7.0
      */
-    public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
+    public function __construct(protected string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
     {
         // Set the dispatcher
         if (!\is_object($dispatcher)) {
@@ -103,7 +95,6 @@ class Authentication
         }
 
         $this->setDispatcher($dispatcher);
-        $this->pluginType = $pluginType;
 
         $isLoaded = PluginHelper::importPlugin($this->pluginType);
 
@@ -143,7 +134,7 @@ class Authentication
      * @see     AuthenticationResponse
      * @since   1.7.0
      */
-    public function authenticate($credentials, $options = array())
+    public function authenticate($credentials, $options = [])
     {
         // Get plugins
         $plugins = PluginHelper::getPlugin($this->pluginType);
@@ -206,11 +197,11 @@ class Authentication
      * @since  1.7.0
      * @throws \Exception
      */
-    public function authorise($response, $options = array())
+    public function authorise($response, $options = [])
     {
         // Get plugins in case they haven't been imported already
         PluginHelper::importPlugin('user');
-        $results = Factory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
+        $results = Factory::getApplication()->triggerEvent('onUserAuthorisation', [$response, $options]);
 
         return $results;
     }

@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\WebAsset\WebAssetManager;
 
 ?>
-<nav class="mod-breadcrumbs__wrapper" aria-label="<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>">
+<nav class="mod-breadcrumbs__wrapper" aria-label="<?php echo htmlspecialchars((string) $module->title, ENT_QUOTES, 'UTF-8'); ?>">
     <ol class="mod-breadcrumbs breadcrumb px-3 py-2">
         <?php if ($params->get('showHere', 1)) : ?>
             <li class="mod-breadcrumbs__here float-start">
@@ -36,10 +36,7 @@ use Joomla\CMS\WebAsset\WebAssetManager;
                 unset($list[$i]);
             }
         }
-
-        // Find last and penultimate items in breadcrumbs list
-        end($list);
-        $last_item_key = key($list);
+        $last_item_key = array_key_last($list);
         prev($list);
         $penult_item_key = key($list);
 

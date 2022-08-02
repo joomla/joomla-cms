@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Content\Site\Controller;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -21,7 +23,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  1.5
  */
-class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
+class DisplayController extends BaseController
 {
     /**
      * @param   array                         $config   An optional associative array of configuration settings.
@@ -29,11 +31,11 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *                                                  'view_path' (this list is not meant to be comprehensive).
      * @param   MVCFactoryInterface|null      $factory  The factory.
      * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The Input object for the request
+     * @param Input|null $input The Input object for the request
      *
      * @since   3.0.1
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         $this->input = Factory::getApplication()->input;
 
@@ -81,23 +83,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
             $cachable = false;
         }
 
-        $safeurlparams = array(
-            'catid' => 'INT',
-            'id' => 'INT',
-            'cid' => 'ARRAY',
-            'year' => 'INT',
-            'month' => 'INT',
-            'limit' => 'UINT',
-            'limitstart' => 'UINT',
-            'showall' => 'INT',
-            'return' => 'BASE64',
-            'filter' => 'STRING',
-            'filter_order' => 'CMD',
-            'filter_order_Dir' => 'CMD',
-            'filter-search' => 'STRING',
-            'print' => 'BOOLEAN',
-            'lang' => 'CMD',
-            'Itemid' => 'INT');
+        $safeurlparams = ['catid' => 'INT', 'id' => 'INT', 'cid' => 'ARRAY', 'year' => 'INT', 'month' => 'INT', 'limit' => 'UINT', 'limitstart' => 'UINT', 'showall' => 'INT', 'return' => 'BASE64', 'filter' => 'STRING', 'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN', 'lang' => 'CMD', 'Itemid' => 'INT'];
 
         // Check for edit form.
         if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id)) {

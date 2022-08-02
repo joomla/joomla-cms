@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -89,30 +90,10 @@ class CategoryModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'alias', 'a.alias',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'catid', 'a.catid', 'category_title',
-                'state', 'a.state',
-                'access', 'a.access', 'access_level',
-                'created', 'a.created',
-                'created_by', 'a.created_by',
-                'modified', 'a.modified',
-                'ordering', 'a.ordering',
-                'featured', 'a.featured',
-                'language', 'a.language',
-                'hits', 'a.hits',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'author', 'a.author',
-                'filter_tag'
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'alias', 'a.alias', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'catid', 'a.catid', 'category_title', 'state', 'a.state', 'access', 'a.access', 'access_level', 'created', 'a.created', 'created_by', 'a.created_by', 'modified', 'a.modified', 'ordering', 'a.ordering', 'featured', 'a.featured', 'language', 'a.language', 'hits', 'a.hits', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'author', 'a.author', 'filter_tag'];
         }
 
         parent::__construct($config);
@@ -192,7 +173,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -233,7 +214,7 @@ class CategoryModel extends ListModel
      *
      * @since   1.5
      */
-    public function getItems()
+    public function getItems(): array|bool
     {
         $limit = $this->getState('list.limit');
 
@@ -265,7 +246,7 @@ class CategoryModel extends ListModel
                     $this->setError($model->getError());
                 }
             } else {
-                $this->_articles = array();
+                $this->_articles = [];
             }
 
             $this->_pagination = $model->getPagination();
@@ -295,7 +276,7 @@ class CategoryModel extends ListModel
             $orderCol = null;
         }
 
-        if (!in_array(strtoupper($orderDirn), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper((string) $orderDirn), ['ASC', 'DESC', ''])) {
             $orderDirn = 'ASC';
         }
 
@@ -317,7 +298,7 @@ class CategoryModel extends ListModel
     /**
      * Method to get a JPagination object for the data set.
      *
-     * @return  \Joomla\CMS\Pagination\Pagination  A JPagination object for the data set.
+     * @return Pagination A JPagination object for the data set.
      *
      * @since   3.0.1
      */
@@ -339,10 +320,11 @@ class CategoryModel extends ListModel
      */
     public function getCategory()
     {
+        $options = [];
         if (!is_object($this->_item)) {
             if (isset($this->state->params)) {
                 $params = $this->state->params;
-                $options = array();
+                $options = [];
                 $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
                 $options['access']     = $params->get('check_access_rights', 1);
             } else {

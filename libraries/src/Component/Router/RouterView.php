@@ -33,7 +33,7 @@ abstract class RouterView extends RouterBase
      * @var    RulesInterface[]
      * @since  3.5
      */
-    protected $rules = array();
+    protected $rules = [];
 
     /**
      * Views of the component
@@ -41,7 +41,7 @@ abstract class RouterView extends RouterBase
      * @var    RouterViewConfiguration[]
      * @since  3.5
      */
-    protected $views = array();
+    protected $views = [];
 
     /**
      * Register the views of a component
@@ -82,7 +82,7 @@ abstract class RouterView extends RouterBase
     public function getPath($query)
     {
         $views  = $this->getViews();
-        $result = array();
+        $result = [];
 
         // Get the right view object
         if (isset($query['view']) && isset($views[$query['view']])) {
@@ -107,13 +107,13 @@ abstract class RouterView extends RouterBase
 
                 $childkey = $view->parent_key;
 
-                if (($key || $view->key) && \is_callable(array($this, 'get' . ucfirst($view->name) . 'Segment'))) {
+                if (($key || $view->key) && \is_callable([$this, 'get' . ucfirst($view->name) . 'Segment'])) {
                     if (isset($query[$key])) {
-                        $result[$view->name] = \call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$key], $query));
+                        $result[$view->name] = \call_user_func_array([$this, 'get' . ucfirst($view->name) . 'Segment'], [$query[$key], $query]);
                     } elseif (isset($query[$view->key])) {
-                        $result[$view->name] = \call_user_func_array(array($this, 'get' . ucfirst($view->name) . 'Segment'), array($query[$view->key], $query));
+                        $result[$view->name] = \call_user_func_array([$this, 'get' . ucfirst($view->name) . 'Segment'], [$query[$view->key], $query]);
                     } else {
-                        $result[$view->name] = array();
+                        $result[$view->name] = [];
                     }
                 } else {
                     $result[$view->name] = true;
@@ -218,7 +218,7 @@ abstract class RouterView extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         // Process the parsed variables based on custom defined rules
         foreach ($this->rules as $rule) {
@@ -239,7 +239,7 @@ abstract class RouterView extends RouterBase
      */
     public function parse(&$segments)
     {
-        $vars = array();
+        $vars = [];
 
         // Process the parsed variables based on custom defined rules
         foreach ($this->rules as $rule) {
@@ -261,11 +261,11 @@ abstract class RouterView extends RouterBase
         if (empty($this->name)) {
             $r = null;
 
-            if (!preg_match('/(.*)Router/i', \get_class($this), $r)) {
+            if (!preg_match('/(.*)Router/i', $this::class, $r)) {
                 throw new \Exception('JLIB_APPLICATION_ERROR_ROUTER_GET_NAME', 500);
             }
 
-            $this->name = str_replace('com_', '', ComponentHelper::getComponentName($this, strtolower($r[1])));
+            $this->name = str_replace('com_', '', ComponentHelper::getComponentName($this, strtolower((string) $r[1])));
         }
 
         return $this->name;

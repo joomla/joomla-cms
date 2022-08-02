@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Api\Controller;
 
+use Joomla\Component\Contact\Site\Model\ContactModel;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -58,7 +59,6 @@ class ContactController extends ApiController
      *
      * @param   array  $data  An array of input data.
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -92,7 +92,7 @@ class ContactController extends ApiController
 
         $modelName = Inflector::singularize($this->contentType);
 
-        /** @var  \Joomla\Component\Contact\Site\Model\ContactModel $model */
+        /** @var ContactModel $model */
         $model = $this->getModel($modelName, 'Site');
 
         if (!$model) {
@@ -101,7 +101,7 @@ class ContactController extends ApiController
 
         $model->setState('filter.published', 1);
 
-        $data    = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data    = $this->input->get('data', json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR), 'array');
         $contact = $model->getItem($id);
 
         if ($contact->id === null) {
@@ -130,7 +130,7 @@ class ContactController extends ApiController
             $errors   = $model->getErrors();
             $messages = [];
 
-            for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = is_countable($errors) ? \count($errors) : 0; $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $messages[] = "{$errors[$i]->getMessage()}";
                 } else {
@@ -197,7 +197,7 @@ class ContactController extends ApiController
             'contactname' => $contact->name,
             'email'    => PunycodeHelper::emailToPunycode($data['contact_email']),
             'subject'  => $data['contact_subject'],
-            'body'     => stripslashes($data['contact_message']),
+            'body'     => stripslashes((string) $data['contact_message']),
             'url'      => Uri::base(),
             'customfields' => '',
         ];
@@ -207,11 +207,7 @@ class ContactController extends ApiController
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
-                array(
-                    'context' => 'com_contact.mail',
-                    'item'    => $contact,
-                    'fields'  => $fields,
-                )
+                ['context' => 'com_contact.mail', 'item'    => $contact, 'fields'  => $fields]
             );
 
             if ($output) {

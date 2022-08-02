@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
@@ -48,7 +50,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  3.9.0
      */
     protected $app;
@@ -56,7 +58,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
     /**
      * Database object.
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.9.0
      */
     protected $db;
@@ -135,7 +137,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         $form   = $this->app->input->post->get('jform', [], 'array');
 
         if (
-            $option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
+            $option == 'com_users' && in_array($task, ['registration.register', 'profile.save'])
             && empty($form['privacyconsent']['privacy'])
         ) {
             throw new InvalidArgumentException(Text::_('PLG_SYSTEM_PRIVACYCONSENT_FIELD_ERROR'));
@@ -152,7 +154,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
      * @param   boolean  $result  true if saving the user worked
      * @param   string   $error   error message
      *
-     * @return  void
      *
      * @since   3.9.0
      */
@@ -198,7 +199,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
             try {
                 $this->db->insertObject('#__privacy_consents', $userNote);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 // Do nothing if the save fails
             }
 
@@ -229,7 +230,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
      * @param   boolean  $success  True if user was successfully stored in the database
      * @param   string   $msg      Message
      *
-     * @return  void
      *
      * @since   3.9.0
      */
@@ -297,10 +297,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
                 'method', 'methods', 'captive', 'callback'
             ];
             $isAllowedUserTask = in_array($task, $allowedUserTasks)
-                || substr($task, 0, 8) === 'captive.'
-                || substr($task, 0, 8) === 'methods.'
-                || substr($task, 0, 7) === 'method.'
-                || substr($task, 0, 9) === 'callback.';
+                || str_starts_with((string) $task, 'captive.')
+                || str_starts_with((string) $task, 'methods.')
+                || str_starts_with((string) $task, 'method.')
+                || str_starts_with((string) $task, 'callback.');
 
             if (
                 ($option == 'com_users' && $isAllowedUserTask)
@@ -372,7 +372,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
      */
     private function getRedirectMessage()
     {
-        $messageOnRedirect = trim($this->params->get('messageOnRedirect', ''));
+        $messageOnRedirect = trim((string) $this->params->get('messageOnRedirect', ''));
 
         if (empty($messageOnRedirect)) {
             return Text::_('PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT');
@@ -496,7 +496,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return;
         }
@@ -505,7 +505,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             // Update the plugin parameters
             $result = $db->setQuery($query)->execute();
             $this->clearCacheGroups(['com_plugins'], [0, 1]);
-        } catch (Exception $exc) {
+        } catch (Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -514,7 +514,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -557,7 +557,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
         try {
             $users = $db->setQuery($query)->loadObjectList();
-        } catch (ExecutionFailureException $exception) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -602,10 +602,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
                 try {
                     $db->execute();
-                } catch (RuntimeException $e) {
+                } catch (RuntimeException) {
                     return false;
                 }
-            } catch (MailDisabledException | phpmailerException $exception) {
+            } catch (MailDisabledException | phpmailerException) {
                 return false;
             }
         }
@@ -637,7 +637,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
         try {
             $users = $db->loadObjectList();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             return false;
         }
 
@@ -661,7 +661,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
             try {
                 $db->execute();
-            } catch (RuntimeException $e) {
+            } catch (RuntimeException) {
                 return false;
             }
 
@@ -696,7 +696,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
                     $cache = Cache::getInstance('callback', $options);
                     $cache->clean();
-                } catch (Exception $e) {
+                } catch (Exception) {
                     // Ignore it
                 }
             }

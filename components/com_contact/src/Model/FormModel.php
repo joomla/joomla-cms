@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
+use Joomla\Component\Contact\Administrator\Model\ContactModel;
+use Joomla\CMS\Object\CMSObject;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -25,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  4.0.0
  */
-class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactModel
+class FormModel extends ContactModel
 {
     /**
      * Model typeAlias string. Used for version history.
@@ -55,7 +57,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         $form = parent::getForm($data, $loadData);
 
@@ -103,7 +105,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         }
 
         $properties = $table->getProperties();
-        $value      = ArrayHelper::toObject($properties, \Joomla\CMS\Object\CMSObject::class);
+        $value      = ArrayHelper::toObject($properties, CMSObject::class);
 
         // Convert field to Registry.
         $value->params = new Registry($value->params);
@@ -130,7 +132,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
      */
     public function getReturnPage()
     {
-        return base64_encode($this->getState('return_page', ''));
+        return base64_encode((string) $this->getState('return_page', ''));
     }
 
     /**
@@ -183,7 +185,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         $this->setState('contact.catid', $app->input->getInt('catid'));
 
         $return = $app->input->get('return', '', 'base64');
-        $this->setState('return_page', base64_decode($return));
+        $this->setState('return_page', base64_decode((string) $return));
 
         // Load the parameters.
         $params = $app->getParams();
@@ -226,7 +228,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 
      * @throws  Exception
      */
-    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Contact', $prefix = 'Administrator', $options = []): bool|Table
     {
         return parent::getTable($name, $prefix, $options);
     }

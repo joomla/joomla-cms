@@ -30,7 +30,7 @@ class FileLayout extends BaseLayout
      * @var    array
      * @since  3.5
      */
-    protected static $cache = array();
+    protected static $cache = [];
 
     /**
      * Dot separated path to the layout file, relative to base path
@@ -39,14 +39,6 @@ class FileLayout extends BaseLayout
      * @since  3.0
      */
     protected $layoutId = '';
-
-    /**
-     * Base path to use when loading layout files
-     *
-     * @var    string
-     * @since  3.0
-     */
-    protected $basePath = null;
 
     /**
      * Full path to actual layout files, after possible template override check
@@ -62,7 +54,7 @@ class FileLayout extends BaseLayout
      * @var    array
      * @since  3.2
      */
-    protected $includePaths = array();
+    protected $includePaths = [];
 
     /**
      * Method to instantiate the file-based layout.
@@ -73,14 +65,13 @@ class FileLayout extends BaseLayout
      *
      * @since   3.0
      */
-    public function __construct($layoutId, $basePath = null, $options = null)
+    public function __construct($layoutId, protected $basePath = null, $options = null)
     {
         // Initialise / Load options
         $this->setOptions($options);
 
         // Main properties
         $this->setLayoutId($layoutId);
-        $this->basePath = $basePath;
 
         // Init Environment
         $this->setComponent($this->options->get('component', 'auto'));
@@ -96,7 +87,7 @@ class FileLayout extends BaseLayout
      *
      * @since   3.0
      */
-    public function render($displayData = array())
+    public function render($displayData = [])
     {
         $this->clearDebugMessages();
 
@@ -157,10 +148,7 @@ class FileLayout extends BaseLayout
 
         $hash = md5(
             json_encode(
-                array(
-                    'paths'    => $includePaths,
-                    'suffixes' => $suffixes,
-                )
+                ['paths'    => $includePaths, 'suffixes' => $suffixes], JSON_THROW_ON_ERROR
             )
         );
 
@@ -218,7 +206,7 @@ class FileLayout extends BaseLayout
      *
      * @since   3.2
      */
-    public function addIncludePath($path)
+    public function addIncludePath(string|array $path)
     {
         $this->addIncludePaths($path);
 
@@ -234,7 +222,7 @@ class FileLayout extends BaseLayout
      *
      * @since   3.2
      */
-    public function addIncludePaths($paths)
+    public function addIncludePaths(string|array $paths)
     {
         if (empty($paths)) {
             return $this;
@@ -262,7 +250,7 @@ class FileLayout extends BaseLayout
      */
     public function clearIncludePaths()
     {
-        $this->includePaths = array();
+        $this->includePaths = [];
 
         return $this;
     }
@@ -304,7 +292,7 @@ class FileLayout extends BaseLayout
      */
     public function getSuffixes()
     {
-        return $this->getOptions()->get('suffixes', array());
+        return $this->getOptions()->get('suffixes', []);
     }
 
     /**
@@ -322,7 +310,7 @@ class FileLayout extends BaseLayout
         $langTag = $lang->getTag();
         $langParts = explode('-', $langTag);
 
-        $suffixes = array($langTag, $langParts[0]);
+        $suffixes = [$langTag, $langParts[0]];
         $suffixes[] = $lang->isRtl() ? 'rtl' : 'ltr';
 
         $this->setSuffixes($suffixes);
@@ -346,11 +334,7 @@ class FileLayout extends BaseLayout
         $fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());
 
         // Create suffixes like array('j311', 'j31', 'j3')
-        $suffixes = array(
-            $fullVersion,
-            substr($fullVersion, 0, 3),
-            substr($fullVersion, 0, 2),
-        );
+        $suffixes = [$fullVersion, substr($fullVersion, 0, 3), substr($fullVersion, 0, 2)];
 
         $this->setSuffixes(array_unique($suffixes));
 
@@ -408,7 +392,7 @@ class FileLayout extends BaseLayout
         $component = $option ?? $this->options->get('component', null);
 
         // Valid option format
-        if (!empty($component) && substr_count($component, 'com_')) {
+        if (!empty($component) && substr_count((string) $component, 'com_')) {
             // Latest check: component exists and is enabled
             return ComponentHelper::isEnabled($component);
         }
@@ -427,22 +411,11 @@ class FileLayout extends BaseLayout
      */
     public function setComponent($option)
     {
-        $component = null;
-
-        switch ((string) $option) {
-            case 'none':
-                $component = null;
-                break;
-
-            case 'auto':
-                $component = ApplicationHelper::getComponentName();
-                break;
-
-            default:
-                $component = $option;
-                break;
-        }
-
+        $component = match ((string) $option) {
+            'none' => null,
+            'auto' => ApplicationHelper::getComponentName(),
+            default => $option,
+        };
         // Extra checks
         if (!$this->validComponent($component)) {
             $component = null;
@@ -465,22 +438,11 @@ class FileLayout extends BaseLayout
      */
     public function setClient($client)
     {
-        // Force string conversion to avoid unexpected states
-        switch ((string) $client) {
-            case 'site':
-            case '0':
-                $client = 0;
-                break;
-
-            case 'admin':
-            case '1':
-                $client = 1;
-                break;
-
-            default:
-                $client = (int) Factory::getApplication()->isClient('administrator');
-                break;
-        }
+        $client = match ((string) $client) {
+            'site', '0' => 0,
+            'admin', '1' => 1,
+            default => (int) Factory::getApplication()->isClient('administrator'),
+        };
 
         $this->options->set('client', $client);
 
@@ -518,7 +480,7 @@ class FileLayout extends BaseLayout
         $template = Factory::getApplication()->getTemplate(true);
 
         // Reset includePaths
-        $paths = array();
+        $paths = [];
 
         // (1 - highest priority) Received a custom high priority path
         if ($this->basePath !== null) {

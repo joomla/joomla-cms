@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Api\View\Consents;
 
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
@@ -78,7 +79,7 @@ class JsonapiView extends BaseApiView
             throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ITEMID_MISSING'));
         }
 
-        /** @var \Joomla\CMS\MVC\Model\ListModel $model */
+        /** @var ListModel $model */
         $model       = $this->getModel();
         $displayItem = null;
 
@@ -96,7 +97,7 @@ class JsonapiView extends BaseApiView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

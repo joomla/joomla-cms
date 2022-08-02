@@ -25,18 +25,16 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     /**
      * Collector name.
      *
-     * @var   string
      * @since 4.0.0
      */
-    private $name = 'languageErrors';
+    private string $name = 'languageErrors';
 
     /**
      * The count.
      *
-     * @var   integer
      * @since 4.0.0
      */
-    private $count = 0;
+    private int $count = 0;
 
     /**
      * Called by the DebugBar when data needs to be collected
@@ -61,8 +59,6 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
      * Returns the unique name of the collector
      *
      * @since  4.0.0
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -74,8 +70,6 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
      * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
      *
      * @since  4.0.0
-     *
-     * @return array
      */
     public function getWidgets(): array
     {
@@ -114,7 +108,6 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     /**
      * Collect data.
      *
-     * @return array
      *
      * @since 4.0.0
      */
@@ -138,7 +131,6 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
     /**
      * Get a count value.
      *
-     * @return int
      *
      * @since 4.0.0
      */

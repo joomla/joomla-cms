@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
+use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Mysql\MysqlDriver;
@@ -40,6 +41,7 @@ class Database implements ServiceProviderInterface
             ->share(
                 DatabaseInterface::class,
                 function (Container $container) {
+                    $db = null;
                     $conf = $container->get('config');
 
                     /**
@@ -94,7 +96,7 @@ class Database implements ServiceProviderInterface
                         ];
 
                         foreach (['cipher', 'ca', 'key', 'cert'] as $value) {
-                            $confVal = trim($conf->get('dbssl' . $value, ''));
+                            $confVal = trim((string) $conf->get('dbssl' . $value, ''));
 
                             if ($confVal !== '') {
                                 $options['ssl'][$value] = $confVal;
@@ -112,7 +114,7 @@ class Database implements ServiceProviderInterface
                     }
 
                     if (JDEBUG) {
-                        $options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor();
+                        $options['monitor'] = new DebugMonitor();
                     }
 
                     try {

@@ -32,7 +32,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @var    Categories[]
      * @since  1.6
      */
-    public static $instances = array();
+    public static $instances = [];
 
     /**
      * Array of category nodes
@@ -111,11 +111,11 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $this->_table      = $options['table'];
         $this->_field      = isset($options['field']) && $options['field'] ? $options['field'] : 'catid';
         $this->_key        = isset($options['key']) && $options['key'] ? $options['key'] : 'id';
-        $this->_statefield = isset($options['statefield']) ? $options['statefield'] : 'state';
+        $this->_statefield = $options['statefield'] ?? 'state';
 
-        $options['access']      = isset($options['access']) ? $options['access'] : 'true';
-        $options['published']   = isset($options['published']) ? $options['published'] : 1;
-        $options['countItems']  = isset($options['countItems']) ? $options['countItems'] : 0;
+        $options['access'] ??= 'true';
+        $options['published'] ??= 1;
+        $options['countItems'] ??= 0;
         $options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
         $this->_options = $options;
@@ -132,7 +132,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
      * @since       1.6
      * @deprecated  5.0 Use the ComponentInterface to get the categories
      */
-    public static function getInstance($extension, $options = array())
+    public static function getInstance($extension, $options = []): \Joomla\CMS\Categories\Categories|bool
     {
         $hash = md5(strtolower($extension) . serialize($options));
 
@@ -150,7 +150,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
             if ($component instanceof CategoryServiceInterface) {
                 $categories = $component->getCategory($options, \count($parts) > 1 ? $parts[1] : '');
             }
-        } catch (SectionNotFoundException $e) {
+        } catch (SectionNotFoundException) {
             $categories = null;
         }
 
@@ -217,7 +217,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
     {
         try {
             $db = $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
+        } catch (DatabaseNotFoundException) {
             @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
@@ -274,7 +274,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $case_when .= $query->charLength($db->quoteName('c.alias'), '!=', '0');
         $case_when .= ' THEN ';
         $c_id = $query->castAsChar($db->quoteName('c.id'));
-        $case_when .= $query->concatenate(array($c_id, $db->quoteName('c.alias')), ':');
+        $case_when .= $query->concatenate([$c_id, $db->quoteName('c.alias')], ':');
         $case_when .= ' ELSE ';
         $case_when .= $c_id . ' END as ' . $db->quoteName('slug');
 
@@ -356,7 +356,7 @@ class Categories implements CategoryInterface, DatabaseAwareInterface
         $results = $db->loadObjectList('id');
         $childrenLoaded = false;
 
-        if (\count($results)) {
+        if (is_countable($results) ? \count($results) : 0) {
             // Foreach categories
             foreach ($results as $result) {
                 // Deal with root category

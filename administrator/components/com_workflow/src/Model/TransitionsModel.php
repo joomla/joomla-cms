@@ -11,6 +11,8 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
@@ -30,17 +32,10 @@ class TransitionsModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 't.id',
-                'published', 't.published',
-                'ordering', 't.ordering',
-                'title', 't.title',
-                'from_stage', 't.from_stage_id',
-                'to_stage', 't.to_stage_id'
-            );
+            $config['filter_fields'] = ['id', 't.id', 'published', 't.published', 'ordering', 't.ordering', 'title', 't.title', 'from_stage', 't.from_stage_id', 'to_stage', 't.to_stage_id'];
         }
 
         parent::__construct($config);
@@ -89,11 +84,11 @@ class TransitionsModel extends ListModel
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\Table\Table  A Table object
+     * @return Table A Table object
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Transition', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Transition', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -181,14 +176,14 @@ class TransitionsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->where('(' . $db->quoteName('t.title') . ' LIKE :search1 OR ' . $db->quoteName('t.description') . ' LIKE :search2)')
                 ->bind([':search1', ':search2'], $search);
         }
 
         // Add the list ordering clause.
         $orderCol   = $this->state->get('list.ordering', 't.id');
-        $orderDirn  = strtoupper($this->state->get('list.direction', 'ASC'));
+        $orderDirn  = strtoupper((string) $this->state->get('list.direction', 'ASC'));
 
         $query->order($db->escape($orderCol) . ' ' . ($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
 
@@ -201,11 +196,11 @@ class TransitionsModel extends ListModel
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  \Joomla\CMS\Form\Form|boolean The Form object or false on error
+     * @return Form|boolean The Form object or false on error
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true): Form|bool
     {
         $form = parent::getFilterForm($data, $loadData);
 

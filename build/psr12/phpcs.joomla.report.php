@@ -10,6 +10,7 @@
 
 namespace Joomla\Reports;
 
+use PHP_CodeSniffer\Reports\Report;
 use PHP_CodeSniffer\Config;
 use PHP_CodeSniffer\Files\File;
 
@@ -25,13 +26,13 @@ use function str_replace;
 use const JSON_OBJECT_AS_ARRAY;
 use const JSON_PRETTY_PRINT;
 
-class Joomla implements \PHP_CodeSniffer\Reports\Report
+class Joomla implements Report
 {
-    private $tmpDir = __DIR__ . '/../tmp/psr12';
+    private string $tmpDir = __DIR__ . '/../tmp/psr12';
 
     private $html = '';
 
-    private $preProcessing = [];
+    private array $preProcessing = [];
 
     /**
      * Generate a partial report for a single processed file.
@@ -67,9 +68,9 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
         foreach ($report['messages'] as $line => $lineErrors) {
             foreach ($lineErrors as $column => $colErrors) {
                 foreach ($colErrors as $error) {
-                    $error['type'] = strtolower($error['type']);
+                    $error['type'] = strtolower((string) $error['type']);
                     if ($phpcsFile->config->encoding !== 'utf-8') {
-                        $error['message'] = iconv($phpcsFile->config->encoding, 'utf-8', $error['message']);
+                        $error['message'] = iconv((string) $phpcsFile->config->encoding, 'utf-8', (string) $error['message']);
                     }
 
                     $error['fixable'] = $error['fixable'] === true ? 'Yes' : 'No';
@@ -106,9 +107,9 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                 $fileContent = file_get_contents($file);
 
                 if (
-                    strpos($fileContent, "defined('_JEXEC')") !== false
-                    || strpos($fileContent, "defined('JPATH_PLATFORM')") !== false
-                    || strpos($fileContent, "defined('JPATH_BASE')") !== false
+                    str_contains($fileContent, "defined('_JEXEC')")
+                    || str_contains($fileContent, "defined('JPATH_PLATFORM')")
+                    || str_contains($fileContent, "defined('JPATH_BASE')")
                 ) {
                     $this->preProcessing[] = [
                         'file' => $file,
@@ -128,12 +129,12 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                     if ($replace === null) {
                         $replace = [
                             "\\" => '/',
-                            dirname(dirname(__DIR__)) . '/' => '',
+                            dirname(__DIR__, 2) . '/' => '',
                             '.' => '\.',
                         ];
                     }
 
-                    $fileContent .= "        <exclude-pattern>" . str_replace(array_keys($replace), $replace, $file) . "</exclude-pattern>\n";
+                    $fileContent .= "        <exclude-pattern>" . str_replace(array_keys($replace), $replace, (string) $file) . "</exclude-pattern>\n";
                     file_put_contents($targetFile, $fileContent);
                 }
                 break;
@@ -149,8 +150,8 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
             case 'Squiz.Classes.ValidClassName.NotCamelCaps':
                 if (
-                    strpos($file, 'localise') !== false
-                    || strpos($file, 'recaptcha_invisible') !== false
+                    str_contains((string) $file, 'localise')
+                    || str_contains((string) $file, 'recaptcha_invisible')
                 ) {
                     $this->preProcessing[] = [
                         'file' => $file,
@@ -194,12 +195,12 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
                 if ($replace === null) {
                     $replace = [
                         "\\" => '/',
-                        dirname(dirname(__DIR__)) . '/' => '',
+                        dirname(__DIR__, 2) . '/' => '',
                         '.' => '\.',
                     ];
                 }
 
-                $fileContent .= "        <exclude-pattern>" . str_replace(array_keys($replace), $replace, $file) . "</exclude-pattern>\n";
+                $fileContent .= "        <exclude-pattern>" . str_replace(array_keys($replace), $replace, (string) $file) . "</exclude-pattern>\n";
                 file_put_contents($targetFile, $fileContent);
                 break;
         }
@@ -235,7 +236,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
 
         $preprocessing = [];
         if (file_exists($this->tmpDir . '/cleanup.json')) {
-            $preprocessing = json_decode(file_get_contents($this->tmpDir . '/cleanup.json'), JSON_OBJECT_AS_ARRAY);
+            $preprocessing = json_decode(file_get_contents($this->tmpDir . '/cleanup.json'), JSON_OBJECT_AS_ARRAY, 512, JSON_THROW_ON_ERROR);
         }
 
         $preprocessing = array_merge($this->preProcessing, $preprocessing);
@@ -293,7 +294,7 @@ class Joomla implements \PHP_CodeSniffer\Reports\Report
             '%ERROR%' => $error,
         ];
 
-        $this->html .= str_replace(array_keys($replace), $replace, $line);
+        $this->html .= str_replace(array_keys($replace), $replace, (string) $line);
     }
 
     private function writeFile()

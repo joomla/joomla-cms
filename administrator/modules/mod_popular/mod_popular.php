@@ -34,7 +34,7 @@ if (!ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
 }
 
 // If there are some articles to display.
-if (count($list)) {
+if (is_countable($list) ? count($list) : 0) {
     require ModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));
 
     return;

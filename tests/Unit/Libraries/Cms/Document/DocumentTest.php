@@ -27,7 +27,6 @@ class DocumentTest extends UnitTestCase
     /**
      * Provides constructor data for test methods
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -749,7 +748,6 @@ class DocumentTest extends UnitTestCase
      *
      * @param   array   $options  Options
      *
-     * @return Document
      *
      * @since   4.0.0
      */
@@ -765,7 +763,6 @@ class DocumentTest extends UnitTestCase
     /**
      * Helper function to get mocked constructor dependencies of the document
      *
-     * @return array
      *
      * @since   4.0.0
      */

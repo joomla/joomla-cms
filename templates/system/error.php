@@ -85,9 +85,9 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
                         <?php endwhile; ?>
                         <?php // Reset the main error object to the base error ?>
                         <?php $this->setError($this->error); ?>
-                    <?php endif; ?>
+<?php endif; ?>
                 </div>
-            <?php endif; ?>
+<?php endif; ?>
             </div>
             </div>
         </div>

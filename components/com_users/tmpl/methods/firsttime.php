@@ -36,7 +36,7 @@ $headingLevel = 2;
         </p>
         <a href="<?php echo Route::_(
             'index.php?option=com_users&task=methods.doNotShowThisAgain' .
-                ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') .
+                ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') .
                 '&user_id=' . $this->user->id .
                 '&' . Factory::getApplication()->getFormToken() . '=1'
         )?>"

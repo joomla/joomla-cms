@@ -25,13 +25,13 @@ $labelClass = $field->params->get('label_render_class');
 
 if ($field->context == 'com_contact.mail') {
     // Prepare the value for the contact form mail
-    $value = html_entity_decode($value);
+    $value = html_entity_decode((string) $value);
 
     echo ($showLabel ? $label . ': ' : '') . $value . "\r\n";
     return;
 }
 
-if (!strlen($value)) {
+if (!strlen((string) $value)) {
     return;
 }
 

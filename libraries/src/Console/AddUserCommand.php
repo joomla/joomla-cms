@@ -56,20 +56,18 @@ class AddUserCommand extends AbstractCommand
     /**
      * The username
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $user;
+    private ?string $user = null;
 
     /**
      * The password
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $password;
+    private ?string $password = null;
 
     /**
      *  The name
@@ -83,20 +81,18 @@ class AddUserCommand extends AbstractCommand
     /**
      * The email address
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $email;
+    private ?string $email = null;
 
     /**
      * The usergroups
      *
-     * @var    array
      *
      * @since  4.0.0
      */
-    private $userGroups = [];
+    private array $userGroups = [];
 
     /**
      * Command constructor.
@@ -124,6 +120,7 @@ class AddUserCommand extends AbstractCommand
      */
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
+        $user = [];
         $this->configureIO($input, $output);
         $this->ioStyle->title('Add User');
         $this->user = $this->getStringFromOption('username', 'Please enter a username');
@@ -199,7 +196,6 @@ class AddUserCommand extends AbstractCommand
      * @param   string  $option    set the option name
      * @param   string  $question  set the question if user enters no value to option
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -221,7 +217,6 @@ class AddUserCommand extends AbstractCommand
     /**
      * Method to get a value from option
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -234,7 +229,7 @@ class AddUserCommand extends AbstractCommand
 
         // Group names have been supplied as input arguments
         if (!\is_null($groups) && $groups[0]) {
-            $groups = explode(',', $groups);
+            $groups = explode(',', (string) $groups);
 
             foreach ($groups as $group) {
                 $groupId = $this->getGroupId($group);
@@ -293,7 +288,6 @@ class AddUserCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

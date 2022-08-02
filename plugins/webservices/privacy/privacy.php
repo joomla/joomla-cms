@@ -41,7 +41,7 @@ class PlgWebservicesPrivacy extends CMSPlugin
     public function onBeforeApiRoute(&$router)
     {
         $defaults    = ['component' => 'com_privacy'];
-        $getDefaults = array_merge(['public' => false], $defaults);
+        $getDefaults = [...['public' => false], ...$defaults];
 
         $routes = [
             new Route(['GET'], 'v1/privacy/requests', 'requests.displayList', [], $getDefaults),

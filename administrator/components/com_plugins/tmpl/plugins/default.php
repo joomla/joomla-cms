@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
@@ -17,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -34,7 +35,7 @@ if ($saveOrder) {
 ?>
 <form action="<?php echo Route::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -76,7 +77,7 @@ if ($saveOrder) {
                     </tr>
                 </thead>
                 <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php
+                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="true"<?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $ordering   = ($listOrder == 'ordering');
@@ -143,7 +144,7 @@ if ($saveOrder) {
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">

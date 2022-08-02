@@ -48,7 +48,7 @@ abstract class ListHelper
         }
 
         $imageFiles = new \DirectoryIterator(JPATH_SITE . '/' . $directory);
-        $images = array(HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE')));
+        $images = [HTMLHelper::_('select.option', '', Text::_('JOPTION_SELECT_IMAGE'))];
 
         foreach ($imageFiles as $file) {
             $fileName = $file->getFilename();
@@ -66,10 +66,7 @@ abstract class ListHelper
             'select.genericlist',
             $images,
             $name,
-            array(
-                'list.attr' => 'size="1" ' . $javascript,
-                'list.select' => $active,
-            )
+            ['list.attr' => 'size="1" ' . $javascript, 'list.select' => $active]
         );
 
         return $images;
@@ -85,10 +82,10 @@ abstract class ListHelper
      *
      * @since   1.5
      */
-    public static function genericordering($query, $chop = 30)
+    public static function genericordering(DatabaseQuery|string $query, $chop = 30)
     {
         $db = Factory::getDbo();
-        $options = array();
+        $options = [];
         $db->setQuery($query);
 
         $items = $db->loadObjectList();
@@ -101,7 +98,7 @@ abstract class ListHelper
 
         $options[] = HTMLHelper::_('select.option', 0, ' - ' . Text::_('JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL') . ' - ');
 
-        for ($i = 0, $n = count($items); $i < $n; $i++) {
+        for ($i = 0, $n = is_countable($items) ? count($items) : 0; $i < $n; $i++) {
             $items[$i]->text = Text::_($items[$i]->text);
 
             if (StringHelper::strlen($items[$i]->text) > $chop) {
@@ -134,6 +131,7 @@ abstract class ListHelper
      */
     public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, ?string $id = null)
     {
+        $text = null;
         if (empty($attribs)) {
             $attribs = 'size="1"';
         }
@@ -174,6 +172,7 @@ abstract class ListHelper
      */
     public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
     {
+        $users = [];
         $db = Factory::getDbo();
         $query = $db->getQuery(true)
             ->select(
@@ -200,10 +199,7 @@ abstract class ListHelper
             'select.genericlist',
             $users,
             $name,
-            array(
-                'list.attr' => 'size="1" ' . $javascript,
-                'list.select' => $active,
-            )
+            ['list.attr' => 'size="1" ' . $javascript, 'list.select' => $active]
         );
 
         return $users;
@@ -235,7 +231,7 @@ abstract class ListHelper
         $right = true,
         $id = false
     ) {
-        $pos = array();
+        $pos = [];
 
         if ($none) {
             $pos[''] = Text::_('JNONE');
@@ -257,12 +253,7 @@ abstract class ListHelper
             'select.genericlist',
             $pos,
             $name,
-            array(
-                'id' => $id,
-                'list.attr' => 'size="1"' . $javascript,
-                'list.select' => $active,
-                'option.key' => null,
-            )
+            ['id' => $id, 'list.attr' => 'size="1"' . $javascript, 'list.select' => $active, 'option.key' => null]
         );
 
         return $positions;

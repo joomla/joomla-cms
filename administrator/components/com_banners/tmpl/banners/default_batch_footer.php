@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Banners\Administrator\View\Banners\HtmlView;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -12,8 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
-
+/** @var HtmlView $this */
 ?>
 <button type="button" class="btn btn-secondary" onclick="document.getElementById('batch-category-id').value='';document.getElementById('batch-client-id').value='';document.getElementById('batch-language-id').value=''" data-bs-dismiss="modal">
     <?php echo Text::_('JCANCEL'); ?>

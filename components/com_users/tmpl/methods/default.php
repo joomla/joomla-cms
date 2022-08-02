@@ -31,7 +31,7 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
         </div>
         <?php if ($this->mfaActive) : ?>
             <div>
-                <a href="<?php echo Route::_('index.php?option=com_users&task=methods.disable&' . Factory::getApplication()->getFormToken() . '=1' . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id) ?>"
+                <a href="<?php echo Route::_('index.php?option=com_users&task=methods.disable&' . Factory::getApplication()->getFormToken() . '=1' . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode((string) $this->returnURL)) : '') . '&user_id=' . $this->user->id) ?>"
                    class="btn btn-danger btn-sm">
                     <?php echo Text::_('COM_USERS_MFA_LIST_REMOVEALL'); ?>
                 </a>
@@ -39,7 +39,7 @@ use Joomla\Component\Users\Site\View\Methods\HtmlView;
         <?php endif; ?>
     </div>
 
-    <?php if (!count($this->methods)) : ?>
+    <?php if (!(is_countable($this->methods) ? count($this->methods) : 0)) : ?>
         <div id="com-users-methods-list-instructions" class="alert alert-info mt-2">
             <span class="icon icon-info-circle" aria-hidden="true"></span>
             <?php echo Text::_('COM_USERS_MFA_LIST_INSTRUCTIONS'); ?>

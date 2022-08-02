@@ -77,22 +77,6 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * The old config
-     *
-     * @var    array
-     * @since  4.2.0
-     */
-    private $oldConfig;
-
-    /**
-     * The config file
-     *
-     * @var    string
-     * @since  4.2.0
-     */
-    private $configFile;
-
-    /**
      * Constructor.
      *
      * @param   DispatcherInterface  $dispatcher  The dispatcher
@@ -102,18 +86,14 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, array $oldConfig, string $configFile)
+    public function __construct(DispatcherInterface $dispatcher, array $config, private readonly array $oldConfig, private readonly string $configFile)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->oldConfig  = $oldConfig;
-        $this->configFile = $configFile;
     }
 
     /**
      * @param   ExecuteTaskEvent  $event  The onExecuteTask event
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws Exception
@@ -166,9 +146,9 @@ final class SiteStatus extends CMSPlugin implements SubscriberInterface
 
         try {
             // Attempt to write the configuration file as a PHP class named JConfig.
-            $configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+            $configuration = $config->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
             File::write($file, $configuration);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->logTask($this->getApplication()->getLanguage()->_('PLG_TASK_SITE_STATUS_ERROR_WRITE_FAILED'), 'error');
 
             return Status::KNOCKOUT;

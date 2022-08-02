@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
+use Joomla\Database\DatabaseDriver;
 use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -43,7 +44,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    public const TITLE_CONTEXT = 1;
+    final public const TITLE_CONTEXT = 1;
 
     /**
      * The text context identifier.
@@ -51,7 +52,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    public const TEXT_CONTEXT = 2;
+    final public const TEXT_CONTEXT = 2;
 
     /**
      * The meta context identifier.
@@ -59,7 +60,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    public const META_CONTEXT = 3;
+    final public const META_CONTEXT = 3;
 
     /**
      * The path context identifier.
@@ -67,7 +68,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    public const PATH_CONTEXT = 4;
+    final public const PATH_CONTEXT = 4;
 
     /**
      * The misc context identifier.
@@ -75,7 +76,7 @@ class Indexer
      * @var    integer
      * @since  2.5
      */
-    public const MISC_CONTEXT = 5;
+    final public const MISC_CONTEXT = 5;
 
     /**
      * The indexer state object.
@@ -96,7 +97,7 @@ class Indexer
     /**
      * Database driver cache.
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  3.8.0
      */
     protected $db;
@@ -128,15 +129,7 @@ class Indexer
         // Set up query template for addTokensToDb
         $this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
             ->columns(
-                array(
-                    $db->quoteName('term'),
-                    $db->quoteName('stem'),
-                    $db->quoteName('common'),
-                    $db->quoteName('phrase'),
-                    $db->quoteName('weight'),
-                    $db->quoteName('context'),
-                    $db->quoteName('language')
-                )
+                [$db->quoteName('term'), $db->quoteName('stem'), $db->quoteName('common'), $db->quoteName('phrase'), $db->quoteName('weight'), $db->quoteName('context'), $db->quoteName('language')]
             );
     }
 
@@ -149,6 +142,7 @@ class Indexer
      */
     public static function getState()
     {
+        $session = null;
         // First, try to load from the internal state.
         if ((bool) static::$state) {
             return static::$state;
@@ -183,7 +177,7 @@ class Indexer
                      */
                     $memory_table_limit = (int) ($heapsize->Value / 800);
                     $data->options->set('memory_table_limit', $memory_table_limit);
-                } catch (Exception $e) {
+                } catch (Exception) {
                     // Something failed. We fall back to a reasonable guess.
                     $data->options->set('memory_table_limit', 7500);
                 }
@@ -193,13 +187,7 @@ class Indexer
             }
 
             // Setup the weight lookup information.
-            $data->weights = array(
-                self::TITLE_CONTEXT => round($data->options->get('title_multiplier', 1.7), 2),
-                self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2),
-                self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2),
-                self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2),
-                self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)
-            );
+            $data->weights = [self::TITLE_CONTEXT => round($data->options->get('title_multiplier', 1.7), 2), self::TEXT_CONTEXT  => round($data->options->get('text_multiplier', 0.7), 2), self::META_CONTEXT  => round($data->options->get('meta_multiplier', 1.2), 2), self::PATH_CONTEXT  => round($data->options->get('path_multiplier', 2.0), 2), self::MISC_CONTEXT  => round($data->options->get('misc_multiplier', 0.3), 2)];
 
             // Set the current time as the start time.
             $data->startTime = Factory::getDate()->toSql();
@@ -208,7 +196,7 @@ class Indexer
             $data->batchSize   = (int) $data->options->get('batch_size', 50);
             $data->batchOffset = 0;
             $data->totalItems  = 0;
-            $data->pluginState = array();
+            $data->pluginState = [];
         }
 
         // Setup the profiler if debugging is enabled.
@@ -407,7 +395,7 @@ class Indexer
                          */
                         if ($group === static::PATH_CONTEXT) {
                             $ip = File::stripExt($ip);
-                            $ip = str_replace(array('/', '-'), ' ', $ip);
+                            $ip = str_replace(['/', '-'], ' ', $ip);
                         }
 
                         // Tokenize a string of content and add it to the database.
@@ -625,7 +613,7 @@ class Indexer
 
         // Trigger a plugin event after indexing
         PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item, $linkId));
+        Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', [$item, $linkId]);
 
         return $linkId;
     }
@@ -685,7 +673,7 @@ class Indexer
         }
 
         PluginHelper::importPlugin('finder');
-        Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($linkId));
+        Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$linkId]);
 
         return true;
     }
@@ -784,13 +772,9 @@ class Indexer
         $state = static::getState();
 
         // Get the relevant configuration variables.
-        $config = array(
-            $state->weights,
-            $state->options->get('tuplecount', 1),
-            $state->options->get('language_default', '')
-        );
+        $config = [$state->weights, $state->options->get('tuplecount', 1), $state->options->get('language_default', '')];
 
-        return md5(serialize(array($item, $config)));
+        return md5(serialize([$item, $config]));
     }
 
     /**
@@ -896,7 +880,7 @@ class Indexer
         // Tokenize the input.
         $tokens = Helper::tokenize($input, $lang);
 
-        if (count($tokens) == 0) {
+        if ((is_countable($tokens) ? count($tokens) : 0) == 0) {
             return $count;
         }
 

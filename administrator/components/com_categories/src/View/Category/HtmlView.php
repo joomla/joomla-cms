@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Categories\Administrator\View\Category;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -31,7 +33,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -88,12 +90,12 @@ class HtmlView extends BaseHtmlView
         $this->assoc = $this->get('Assoc');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         // Check if we have a content type for this alias
-        if (!empty(TagsHelper::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true))) {
+        if (!empty(TagsHelper::getTypes('objectList', [$this->state->get('category.extension') . '.category'], true))) {
             $this->checkTags = true;
         }
 
@@ -139,7 +141,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // The extension can be in the form com_foo.section
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
         $component = $parts[0];
         $section = (count($parts) > 1) ? $parts[1] : null;
         $componentParams = ComponentHelper::getParams($component);
@@ -165,7 +167,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Load specific css component
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->document->getWebAssetManager();
         $wa->getRegistry()->addExtensionRegistryFile($component);
 

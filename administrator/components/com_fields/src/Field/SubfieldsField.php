@@ -51,7 +51,7 @@ class SubfieldsField extends ListField
      *
      * @since 4.0.0
      */
-    protected static $customFieldsCache = array();
+    protected static $customFieldsCache = [];
 
     /**
      * Method to get the field options.
@@ -86,9 +86,7 @@ class SubfieldsField extends ListField
         // Sorting the fields based on the text which is displayed
         usort(
             $options,
-            function ($a, $b) {
-                return strcmp($a->text, $b->text);
-            }
+            fn($a, $b) => strcmp((string) $a->text, (string) $b->text)
         );
 
         if (count($options) == 0) {

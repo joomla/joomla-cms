@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Users\Site\View\Login\HtmlView;
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -10,8 +11,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
-
+/** @var HtmlView $this */
 $cookieLogin = $this->user->get('cookieLogin');
 
 if (!empty($cookieLogin) || $this->user->get('guest')) {

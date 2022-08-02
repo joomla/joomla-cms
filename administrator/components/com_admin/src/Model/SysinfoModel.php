@@ -170,7 +170,6 @@ class SysinfoModel extends BaseDatabaseModel
      * @param   array   $dataArray  Array with data that may contain private information
      * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
      *
-     * @return  array
      *
      * @since   3.5
      */
@@ -202,22 +201,21 @@ class SysinfoModel extends BaseDatabaseModel
      *
      * @param   mixed  $sectionValues  Section data
      *
-     * @return  string|array
      *
      * @since   3.5
      */
-    protected function cleanSectionPrivateData($sectionValues)
+    protected function cleanSectionPrivateData($sectionValues): string|array
     {
         if (!\is_array($sectionValues)) {
-            if (strstr($sectionValues, JPATH_ROOT)) {
+            if (strstr((string) $sectionValues, (string) JPATH_ROOT)) {
                 $sectionValues = 'xxxxxx';
             }
 
-            return \strlen($sectionValues) ? 'xxxxxx' : '';
+            return \strlen((string) $sectionValues) ? 'xxxxxx' : '';
         }
 
         foreach ($sectionValues as $setting => $value) {
-            $sectionValues[$setting] = \strlen($value) ? 'xxxxxx' : '';
+            $sectionValues[$setting] = \strlen((string) $value) ? 'xxxxxx' : '';
         }
 
         return $sectionValues;
@@ -341,7 +339,6 @@ class SysinfoModel extends BaseDatabaseModel
      * @param   string  $dataType  Type of data to get safely
      * @param   bool    $public    If true no sensitive information will be removed
      *
-     * @return  array
      *
      * @since   3.5
      */
@@ -373,6 +370,8 @@ class SysinfoModel extends BaseDatabaseModel
      */
     public function &getPHPInfo(): string
     {
+        $phpInfo = null;
+        $output = [];
         if (!$this->phpinfoEnabled()) {
             $this->php_info = Text::_('COM_ADMIN_PHPINFO_DISABLED');
 
@@ -404,7 +403,6 @@ class SysinfoModel extends BaseDatabaseModel
     /**
      * Get phpinfo() output as array
      *
-     * @return  array
      *
      * @since   3.5
      */
@@ -443,7 +441,7 @@ class SysinfoModel extends BaseDatabaseModel
         } catch (\Exception $e) {
             try {
                 Log::add(Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()), Log::WARNING, 'jerror');
-            } catch (\RuntimeException $exception) {
+            } catch (\RuntimeException) {
                 Factory::getApplication()->enqueueMessage(
                     Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()),
                     'warning'
@@ -458,7 +456,7 @@ class SysinfoModel extends BaseDatabaseModel
         }
 
         foreach ($extensions as $extension) {
-            if (\strlen($extension->name) == 0) {
+            if (\strlen((string) $extension->name) == 0) {
                 continue;
             }
 
@@ -594,7 +592,7 @@ class SysinfoModel extends BaseDatabaseModel
         $this->addDirectory('configuration.php', JPATH_CONFIGURATION . '/configuration.php');
 
         // Is there a cache path in configuration.php?
-        if ($cache_path = trim($registry->get('cache_path', ''))) {
+        if ($cache_path = trim((string) $registry->get('cache_path', ''))) {
             // Frontend and backend use same directory for caching.
             $this->addDirectory($cache_path, $cache_path, 'COM_ADMIN_CACHE_DIRECTORY');
         } else {
@@ -637,7 +635,6 @@ class SysinfoModel extends BaseDatabaseModel
      * @param   string  $path     Directory path
      * @param   string  $message  Message
      *
-     * @return  void
      *
      * @since   1.6
      */
@@ -671,7 +668,6 @@ class SysinfoModel extends BaseDatabaseModel
      *
      * @param   string  $html  Output of phpinfo()
      *
-     * @return  array
      *
      * @since   3.5
      */
@@ -682,23 +678,23 @@ class SysinfoModel extends BaseDatabaseModel
         $html = preg_replace('/<td[^>]*>([^<]+)<\/td>/', '<info>\1</info>', $html);
         $t = preg_split('/(<h2[^>]*>[^<]+<\/h2>)/', $html, -1, PREG_SPLIT_DELIM_CAPTURE);
         $r = [];
-        $count = \count($t);
+        $count = is_countable($t) ? \count($t) : 0;
         $p1 = '<info>([^<]+)<\/info>';
         $p2 = '/' . $p1 . '\s*' . $p1 . '\s*' . $p1 . '/';
         $p3 = '/' . $p1 . '\s*' . $p1 . '/';
 
         for ($i = 1; $i < $count; $i++) {
             if (preg_match('/<h2[^>]*>([^<]+)<\/h2>/', $t[$i], $matches)) {
-                $name = trim($matches[1]);
+                $name = trim((string) $matches[1]);
                 $vals = explode("\n", $t[$i + 1]);
 
                 foreach ($vals as $val) {
                     // 3cols
                     if (preg_match($p2, $val, $matches)) {
-                        $r[$name][trim($matches[1])] = [trim($matches[2]), trim($matches[3]),];
+                        $r[$name][trim((string) $matches[1])] = [trim((string) $matches[2]), trim((string) $matches[3]),];
                     } elseif (preg_match($p3, $val, $matches)) {
                         // 2cols
-                        $r[$name][trim($matches[1])] = trim($matches[2]);
+                        $r[$name][trim((string) $matches[1])] = trim((string) $matches[2]);
                     }
                 }
             }

@@ -55,7 +55,7 @@ class PluginAdapter extends InstallerAdapter
     {
         try {
             $this->currentExtensionId = $this->extension->find(
-                array('type' => $this->type, 'element' => $this->element, 'folder' => $this->group)
+                ['type' => $this->type, 'element' => $this->element, 'folder' => $this->group]
             );
         } catch (\RuntimeException $e) {
             // Install failed, roll back changes
@@ -81,6 +81,7 @@ class PluginAdapter extends InstallerAdapter
      */
     protected function copyBaseFiles()
     {
+        $path = [];
         // Copy all necessary files
         if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false) {
             throw new \RuntimeException(
@@ -97,7 +98,7 @@ class PluginAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -153,11 +154,7 @@ class PluginAdapter extends InstallerAdapter
         /** @var Update $update */
         $update = Table::getInstance('update');
         $uid = $update->find(
-            array(
-                'element' => $this->element,
-                'type'    => $this->type,
-                'folder'  => $this->group,
-            )
+            ['element' => $this->element, 'type'    => $this->type, 'folder'  => $this->group]
         );
 
         if ($uid) {
@@ -181,7 +178,6 @@ class PluginAdapter extends InstallerAdapter
     /**
      * Method to finalise the uninstallation processing
      *
-     * @return  boolean
      *
      * @since   4.0.0
      * @throws  \RuntimeException
@@ -252,7 +248,7 @@ class PluginAdapter extends InstallerAdapter
      */
     protected function getScriptClassName()
     {
-        return 'Plg' . str_replace('-', '', $this->group) . $this->element . 'InstallerScript';
+        return 'Plg' . str_replace('-', '', (string) $this->group) . $this->element . 'InstallerScript';
     }
 
     /**
@@ -388,7 +384,7 @@ class PluginAdapter extends InstallerAdapter
     protected function setupUninstall()
     {
         // Get the plugin folder so we can properly build the plugin path
-        if (trim($this->extension->folder) === '') {
+        if (trim((string) $this->extension->folder) === '') {
             throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_FOLDER_FIELD_EMPTY'));
         }
 
@@ -422,7 +418,7 @@ class PluginAdapter extends InstallerAdapter
         if ($this->route === 'discover_install') {
             $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
-            $this->extension->manifest_cache = json_encode($manifest_details);
+            $this->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
             $this->extension->state          = 0;
             $this->extension->name           = $manifest_details['name'];
             $this->extension->enabled        = 'editors' === $this->extension->folder ? 1 : 0;
@@ -501,7 +497,7 @@ class PluginAdapter extends InstallerAdapter
 
             // Since we have created a plugin item, we add it to the installation step stack
             // so that if we have to rollback the changes we can undo it.
-            $this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+            $this->parent->pushStep(['type' => 'extension', 'id' => $this->extension->extension_id]);
         }
     }
 
@@ -514,7 +510,7 @@ class PluginAdapter extends InstallerAdapter
      */
     public function discover()
     {
-        $results = array();
+        $results = [];
         $folder_list = Folder::folders(JPATH_SITE . '/plugins');
 
         foreach ($folder_list as $folder) {
@@ -538,7 +534,7 @@ class PluginAdapter extends InstallerAdapter
                 $extension->set('folder', $folder);
                 $extension->set('name', $manifest_details['name']);
                 $extension->set('state', -1);
-                $extension->set('manifest_cache', json_encode($manifest_details));
+                $extension->set('manifest_cache', json_encode($manifest_details, JSON_THROW_ON_ERROR));
                 $extension->set('params', '{}');
                 $results[] = $extension;
             }
@@ -568,7 +564,7 @@ class PluginAdapter extends InstallerAdapter
                     $extension->set('folder', $folder);
                     $extension->set('name', $manifest_details['name']);
                     $extension->set('state', -1);
-                    $extension->set('manifest_cache', json_encode($manifest_details));
+                    $extension->set('manifest_cache', json_encode($manifest_details, JSON_THROW_ON_ERROR));
                     $extension->set('params', '{}');
                     $results[] = $extension;
                 }
@@ -598,7 +594,7 @@ class PluginAdapter extends InstallerAdapter
         $this->parent->manifest = $this->parent->isManifest($manifestPath);
         $this->parent->setPath('manifest', $manifestPath);
         $manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
-        $this->parent->extension->manifest_cache = json_encode($manifest_details);
+        $this->parent->extension->manifest_cache = json_encode($manifest_details, JSON_THROW_ON_ERROR);
 
         $this->parent->extension->name = $manifest_details['name'];
 

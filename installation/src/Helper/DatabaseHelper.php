@@ -91,7 +91,7 @@ abstract class DatabaseHelper
                 ];
 
                 foreach (['cipher', 'ca', 'key', 'cert'] as $value) {
-                    $confVal = trim($ssl['dbssl' . $value]);
+                    $confVal = trim((string) $ssl['dbssl' . $value]);
 
                     if ($confVal !== '') {
                         $options['ssl'][$value] = $confVal;
@@ -180,7 +180,7 @@ abstract class DatabaseHelper
      *
      * @since   4.0.0
      */
-    public static function validateConnectionParameters($options)
+    public static function validateConnectionParameters($options): string|bool
     {
         // Ensure a database type was selected.
         if (empty($options->db_type)) {
@@ -198,32 +198,32 @@ abstract class DatabaseHelper
         }
 
         // Validate length of database name.
-        if (strlen($options->db_name) > 64) {
+        if (strlen((string) $options->db_name) > 64) {
             return Text::_('INSTL_DATABASE_NAME_TOO_LONG');
         }
 
         // Validate database table prefix.
-        if (empty($options->db_prefix) || !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix)) {
+        if (empty($options->db_prefix) || !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', (string) $options->db_prefix)) {
             return Text::_('INSTL_DATABASE_PREFIX_MSG');
         }
 
         // Validate length of database table prefix.
-        if (strlen($options->db_prefix) > 15) {
+        if (strlen((string) $options->db_prefix) > 15) {
             return Text::_('INSTL_DATABASE_FIX_TOO_LONG');
         }
 
         // Validate database name.
-        if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name)) {
+        if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', (string) $options->db_name)) {
             return Text::_('INSTL_DATABASE_NAME_MSG_POSTGRES');
         }
 
-        if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', $options->db_name)) {
+        if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/]#', (string) $options->db_name)) {
             return Text::_('INSTL_DATABASE_NAME_MSG_MYSQL');
         }
 
         // Workaround for UPPERCASE table prefix for postgresql
         if (in_array($options->db_type, ['pgsql', 'postgresql'])) {
-            if (strtolower($options->db_prefix) != $options->db_prefix) {
+            if (strtolower((string) $options->db_prefix) != $options->db_prefix) {
                 return Text::_('INSTL_DATABASE_FIX_LOWERCASE');
             }
         }
@@ -259,7 +259,7 @@ abstract class DatabaseHelper
             }
         } else {
             // Check localhost
-            if (strtolower($options->db_host) === 'localhost') {
+            if (strtolower((string) $options->db_host) === 'localhost') {
                 return Text::_('INSTL_DATABASE_ENCRYPTION_MSG_LOCALHOST');
             }
 
@@ -338,7 +338,7 @@ abstract class DatabaseHelper
         $localhost = '/^(((localhost|127\.0\.0\.1|\[\:\:1\])(\:[1-9]{1}[0-9]{0,4})?)|(\:\:1))$/';
 
         // Check the security file if the db_host is not localhost / 127.0.0.1 / ::1
-        if ($shouldCheckLocalhost && preg_match($localhost, $options->db_host) !== 1) {
+        if ($shouldCheckLocalhost && preg_match($localhost, (string) $options->db_host) !== 1) {
             $remoteDbFileTestsPassed = Factory::getSession()->get('remoteDbFileTestsPassed', false);
 
             // When all checks have been passed we don't need to do this here again.
@@ -454,7 +454,7 @@ abstract class DatabaseHelper
      *
      * @since   4.0.0
      */
-    public static function checkDbServerParameters($db, $options)
+    public static function checkDbServerParameters($db, $options): string|bool
     {
         $dbVersion = $db->getVersion();
 
@@ -471,7 +471,7 @@ abstract class DatabaseHelper
                 );
             } else {
                 $errorMessage = Text::sprintf(
-                    'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
+                    'INSTL_DATABASE_INVALID_' . strtoupper((string) $options->db_type) . '_VERSION',
                     $minDbVersionRequired,
                     $dbVersion
                 );

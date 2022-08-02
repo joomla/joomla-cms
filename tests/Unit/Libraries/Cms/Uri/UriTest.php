@@ -39,7 +39,6 @@ class UriTest extends UnitTestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      *
-     * @return  void
      *
      * @since   1.7.0
      */
@@ -61,7 +60,6 @@ class UriTest extends UnitTestCase
      * Tears down the fixture, for example, closes a network connection.
      * This method is called after a test is executed.
      *
-     * @return void
      *
      * @see     \PHPUnit\Framework\TestCase::tearDown()
      * @since   3.6
@@ -77,7 +75,6 @@ class UriTest extends UnitTestCase
     /**
      * Test the getInstance method.
      *
-     * @return  void
      *
      * @since   1.7.0
      * @covers  Uri::getInstance
@@ -97,7 +94,6 @@ class UriTest extends UnitTestCase
     /**
      * Test the root method.
      *
-     * @return  void
      *
      * @since   1.7.0
      * @covers  Uri::root
@@ -113,7 +109,6 @@ class UriTest extends UnitTestCase
     /**
      * Test the current method.
      *
-     * @return  void
      *
      * @since   1.7.0
      * @covers  Uri::current
@@ -129,7 +124,6 @@ class UriTest extends UnitTestCase
     /**
      * Test the parse method.
      *
-     * @return  void
      *
      * @since   1.7.0
      * @covers  Uri::parse
@@ -142,22 +136,13 @@ class UriTest extends UnitTestCase
     /**
      * Test the buildQuery method.
      *
-     * @return  void
      *
      * @since   1.7.0
      * @covers  Uri::buildQuery
      */
     public function testBuildQuery(): void
     {
-        $params = array(
-            'field' => array(
-                'price' => array(
-                    'from' => 5,
-                    'to' => 10,
-                ),
-                'name' => 'foo'
-            ),
-            'v' => 45);
+        $params = ['field' => ['price' => ['from' => 5, 'to' => 10], 'name' => 'foo'], 'v' => 45];
 
         $expected = 'field[price][from]=5&field[price][to]=10&field[name]=foo&v=45';
         $this->assertEquals($expected, Uri::buildQuery($params), 'The query string was not built correctly.');
@@ -166,7 +151,6 @@ class UriTest extends UnitTestCase
     /**
      * Test the setPath method.
      *
-     * @return  void
      *
      * @since   1.7.0
      * @covers  Uri::setPath
@@ -185,7 +169,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -198,7 +181,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -211,7 +193,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -226,7 +207,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -241,7 +221,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -256,7 +235,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -271,7 +249,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -286,7 +263,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -310,7 +286,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -325,7 +300,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -340,7 +314,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -355,7 +328,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -370,7 +342,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -385,7 +356,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -400,7 +370,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -415,7 +384,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */
@@ -430,7 +398,6 @@ class UriTest extends UnitTestCase
     /**
      * Test hardening of Uri::isInternal against non internal links
      *
-     * @return void
      *
      * @covers Uri::isInternal
      */

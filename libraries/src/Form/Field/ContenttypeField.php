@@ -76,13 +76,13 @@ class ContenttypeField extends ListField
 
         try {
             $options = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
-            return array();
+        } catch (\RuntimeException) {
+            return [];
         }
 
         foreach ($options as $option) {
             // Make up the string from the component sys.ini file
-            $parts = explode('.', $option->alias);
+            $parts = explode('.', (string) $option->alias);
             $comp = array_shift($parts);
 
             // Make sure the component sys.ini is loaded

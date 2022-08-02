@@ -91,16 +91,10 @@ class PasswordField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'lock':
-            case 'threshold':
-            case 'maxLength':
-            case 'meter':
-            case 'force':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'lock', 'threshold', 'maxLength', 'meter', 'force' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -208,19 +202,7 @@ class PasswordField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
-            'lock'           => $this->lock,
-            'maxLength'      => $this->maxLength,
-            'meter'          => $this->meter,
-            'threshold'      => $this->threshold,
-            'minLength'      => $this->minLength,
-            'minIntegers'    => $this->minIntegers,
-            'minSymbols'     => $this->minSymbols,
-            'minUppercase'   => $this->minUppercase,
-            'minLowercase'   => $this->minLowercase,
-            'forcePassword'  => $this->force,
-            'rules'          => $this->rules,
-        );
+        $extraData = ['lock'           => $this->lock, 'maxLength'      => $this->maxLength, 'meter'          => $this->meter, 'threshold'      => $this->threshold, 'minLength'      => $this->minLength, 'minIntegers'    => $this->minIntegers, 'minSymbols'     => $this->minSymbols, 'minUppercase'   => $this->minUppercase, 'minLowercase'   => $this->minLowercase, 'forcePassword'  => $this->force, 'rules'          => $this->rules];
 
         return array_merge($data, $extraData);
     }

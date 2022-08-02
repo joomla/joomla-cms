@@ -39,6 +39,7 @@ class ExtensionField extends ListField
      */
     public function getOptions()
     {
+        $extensions = [];
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('DISTINCT ' . $db->quoteName('extension'))
@@ -48,9 +49,9 @@ class ExtensionField extends ListField
         $db->setQuery($query);
         $context = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
-        if (\count($context) > 0) {
+        if ((is_countable($context) ? \count($context) : 0) > 0) {
             foreach ($context as $item) {
                 $extensions[] = strtok($item, '.');
             }

@@ -38,11 +38,10 @@ class PlgButtonImage extends CMSPlugin
      * @param   string   $asset   The name of the asset being edited.
      * @param   integer  $author  The id of the author owning the asset being edited.
      *
-     * @return  CMSObject|false
      *
      * @since   1.5
      */
-    public function onDisplay($name, $asset, $author)
+    public function onDisplay($name, $asset, $author): CMSObject|false
     {
         $app       = Factory::getApplication();
         $doc       = $app->getDocument();
@@ -51,7 +50,7 @@ class PlgButtonImage extends CMSPlugin
 
         // For categories we check the extension (ex: component.section)
         if ($extension === 'com_categories') {
-            $parts     = explode('.', $app->input->get('extension', 'com_content'));
+            $parts     = explode('.', (string) $app->input->get('extension', 'com_content'));
             $extension = $parts[0];
         }
 
@@ -74,12 +73,12 @@ class PlgButtonImage extends CMSPlugin
                 $name . '_ImageModal',
             ]);
 
-            if (count($doc->getScriptOptions('media-picker')) === 0) {
+            if ((is_countable($doc->getScriptOptions('media-picker')) ? count($doc->getScriptOptions('media-picker')) : 0) === 0) {
                 $imagesExt = array_map(
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'image_extensions',
                             'bmp,gif,jpg,jpeg,png,webp'
                         )
@@ -89,7 +88,7 @@ class PlgButtonImage extends CMSPlugin
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'audio_extensions',
                             'mp3,m4a,mp4a,ogg'
                         )
@@ -99,7 +98,7 @@ class PlgButtonImage extends CMSPlugin
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'video_extensions',
                             'mp4,mp4v,mpeg,mov,webm'
                         )
@@ -109,7 +108,7 @@ class PlgButtonImage extends CMSPlugin
                     'trim',
                     explode(
                         ',',
-                        ComponentHelper::getParams('com_media')->get(
+                        (string) ComponentHelper::getParams('com_media')->get(
                             'doc_extensions',
                             'doc,odg,odp,ods,odt,pdf,ppt,txt,xcf,xls,csv'
                         )

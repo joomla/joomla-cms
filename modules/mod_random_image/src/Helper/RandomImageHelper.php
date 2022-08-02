@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 
@@ -23,7 +24,7 @@ class RandomImageHelper
     /**
      * Retrieves a random image
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters object
+     * @param Registry &$params module parameters object
      * @param   array                      $images   list of images
      *
      * @return  mixed
@@ -39,7 +40,7 @@ class RandomImageHelper
             return null;
         }
 
-        $random = mt_rand(0, $i - 1);
+        $random = random_int(0, $i - 1);
         $image  = $images[$random];
         $size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
@@ -63,7 +64,7 @@ class RandomImageHelper
 
         $image->width  = $width;
         $image->height = $height;
-        $image->folder = str_replace('\\', '/', $image->folder);
+        $image->folder = str_replace('\\', '/', (string) $image->folder);
 
         return $image;
     }
@@ -71,7 +72,7 @@ class RandomImageHelper
     /**
      * Retrieves images from a specific folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params
+     * @param Registry &$params module params
      * @param   string                     $folder   folder to get the images from
      *
      * @return  array
@@ -115,7 +116,7 @@ class RandomImageHelper
     /**
      * Get sanitized folder
      *
-     * @param   \Joomla\Registry\Registry  &$params  module params objects
+     * @param Registry &$params module params objects
      *
      * @return  mixed
      */
@@ -126,14 +127,14 @@ class RandomImageHelper
 
         // If folder includes livesite info, remove
         if (StringHelper::strpos($folder, $LiveSite) === 0) {
-            $folder = str_replace($LiveSite, '', $folder);
+            $folder = str_replace($LiveSite, '', (string) $folder);
         }
 
         // If folder includes absolute path, remove
         if (StringHelper::strpos($folder, JPATH_SITE) === 0) {
-            $folder = str_replace(JPATH_BASE, '', $folder);
+            $folder = str_replace(JPATH_BASE, '', (string) $folder);
         }
 
-        return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
+        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, (string) $folder);
     }
 }

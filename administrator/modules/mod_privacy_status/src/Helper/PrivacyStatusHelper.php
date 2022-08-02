@@ -59,6 +59,7 @@ class PrivacyStatusHelper
      */
     public static function getRequestFormPublished()
     {
+        $lang = null;
         $status = [
             'exists'    => false,
             'published' => false,

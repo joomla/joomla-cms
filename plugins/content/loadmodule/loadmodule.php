@@ -22,9 +22,9 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 class PlgContentLoadmodule extends CMSPlugin
 {
-    protected static $modules = array();
+    protected static $modules = [];
 
-    protected static $mods = array();
+    protected static $mods = [];
 
     /**
      * Plugin that loads module positions within content
@@ -46,7 +46,7 @@ class PlgContentLoadmodule extends CMSPlugin
         }
 
         // Simple performance check to determine whether bot should process further
-        if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false) {
+        if (!str_contains((string) $article->text, 'loadposition') && !str_contains((string) $article->text, 'loadmodule')) {
             return;
         }
 
@@ -63,26 +63,26 @@ class PlgContentLoadmodule extends CMSPlugin
 
         // Find all instances of plugin and put in $matches for loadposition
         // $matches[0] is full pattern match, $matches[1] is the position
-        preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
+        preg_match_all($regex, (string) $article->text, $matches, PREG_SET_ORDER);
 
         // No matches, skip this
         if ($matches) {
             foreach ($matches as $match) {
-                $matcheslist = explode(',', $match[1]);
+                $matcheslist = explode(',', (string) $match[1]);
 
                 // We may not have a module style so fall back to the plugin default.
                 if (!array_key_exists(1, $matcheslist)) {
                     $matcheslist[1] = $style;
                 }
 
-                $position = trim($matcheslist[0]);
-                $style    = trim($matcheslist[1]);
+                $position = trim((string) $matcheslist[0]);
+                $style    = trim((string) $matcheslist[1]);
 
                 $output = $this->_load($position, $style);
 
                 // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                if (($start = strpos($article->text, $match[0])) !== false) {
-                    $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+                if (($start = strpos((string) $article->text, (string) $match[0])) !== false) {
+                    $article->text = substr_replace($article->text, $output, $start, strlen((string) $match[0]));
                 }
 
                 $style = $this->params->def('style', 'none');
@@ -90,12 +90,12 @@ class PlgContentLoadmodule extends CMSPlugin
         }
 
         // Find all instances of plugin and put in $matchesmod for loadmodule
-        preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
+        preg_match_all($regexmod, (string) $article->text, $matchesmod, PREG_SET_ORDER);
 
         // If no matches, skip this
         if ($matchesmod) {
             foreach ($matchesmod as $matchmod) {
-                $matchesmodlist = explode(',', $matchmod[1]);
+                $matchesmodlist = explode(',', (string) $matchmod[1]);
 
                 // We may not have a specific module so set to null
                 if (!array_key_exists(1, $matchesmodlist)) {
@@ -107,16 +107,16 @@ class PlgContentLoadmodule extends CMSPlugin
                     $matchesmodlist[2] = $stylemod;
                 }
 
-                $module = trim($matchesmodlist[0]);
-                $name   = htmlspecialchars_decode(trim($matchesmodlist[1]));
-                $stylemod  = trim($matchesmodlist[2]);
+                $module = trim((string) $matchesmodlist[0]);
+                $name   = htmlspecialchars_decode(trim((string) $matchesmodlist[1]));
+                $stylemod  = trim((string) $matchesmodlist[2]);
 
                 // $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
                 $output = $this->_loadmod($module, $name, $stylemod);
 
                 // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                if (($start = strpos($article->text, $matchmod[0])) !== false) {
-                    $article->text = substr_replace($article->text, $output, $start, strlen($matchmod[0]));
+                if (($start = strpos((string) $article->text, (string) $matchmod[0])) !== false) {
+                    $article->text = substr_replace($article->text, $output, $start, strlen((string) $matchmod[0]));
                 }
 
                 $stylemod = $this->params->def('style', 'none');
@@ -124,17 +124,17 @@ class PlgContentLoadmodule extends CMSPlugin
         }
 
         // Find all instances of plugin and put in $matchesmodid for loadmoduleid
-        preg_match_all($regexmodid, $article->text, $matchesmodid, PREG_SET_ORDER);
+        preg_match_all($regexmodid, (string) $article->text, $matchesmodid, PREG_SET_ORDER);
 
         // If no matches, skip this
         if ($matchesmodid) {
             foreach ($matchesmodid as $match) {
-                $id     = trim($match[1]);
+                $id     = trim((string) $match[1]);
                 $output = $this->_loadid($id);
 
                 // We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-                if (($start = strpos($article->text, $match[0])) !== false) {
-                    $article->text = substr_replace($article->text, $output, $start, strlen($match[0]));
+                if (($start = strpos((string) $article->text, (string) $match[0])) !== false) {
+                    $article->text = substr_replace($article->text, $output, $start, strlen((string) $match[0]));
                 }
 
                 $style = $this->params->def('style', 'none');
@@ -158,7 +158,7 @@ class PlgContentLoadmodule extends CMSPlugin
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModules($position);
-        $params   = array('style' => $style);
+        $params   = ['style' => $style];
         ob_start();
 
         foreach ($modules as $module) {
@@ -196,7 +196,7 @@ class PlgContentLoadmodule extends CMSPlugin
             $mod  = ModuleHelper::getModule($name, $title);
         }
 
-        $params = array('style' => $style);
+        $params = ['style' => $style];
         ob_start();
 
         if ($mod->id) {
@@ -223,7 +223,7 @@ class PlgContentLoadmodule extends CMSPlugin
         $document = Factory::getDocument();
         $renderer = $document->loadRenderer('module');
         $modules  = ModuleHelper::getModuleById($id);
-        $params   = array('style' => 'none');
+        $params   = ['style' => 'none'];
         ob_start();
 
         if ($modules->id > 0) {

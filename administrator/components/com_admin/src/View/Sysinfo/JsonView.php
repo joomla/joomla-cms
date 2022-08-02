@@ -29,10 +29,8 @@ class JsonView extends AbstractView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void
      *
      * @since   3.5
-     *
      * @throws  Exception
      */
     public function display($tpl = null): void
@@ -56,7 +54,6 @@ class JsonView extends AbstractView
     /**
      * Get the data for the view
      *
-     * @return  array
      *
      * @since   3.5
      */

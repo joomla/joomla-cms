@@ -31,7 +31,7 @@ class AdministratorRouter extends Router
      */
     public function parse(&$uri, $setVars = false)
     {
-        return array();
+        return [];
     }
 
     /**

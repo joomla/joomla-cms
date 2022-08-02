@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Layout\FileLayout;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
@@ -15,8 +17,8 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   \Joomla\CMS\Form\Form          $form  Form with extra options for the set
- * @var   \Joomla\CMS\Layout\FileLayout  $this  Context
+ * @var Form $form Form with extra options for the set
+ * @var FileLayout $this Context
  */
 ?>
 <div class="setoptions-form-wrapper">

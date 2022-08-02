@@ -30,7 +30,6 @@ interface DBTestInterface
 
     /**
      *
-     * @return DatabaseDriver
      *
      * @since   4.0.0
      */
@@ -38,7 +37,6 @@ interface DBTestInterface
 
     /**
      *
-     * @return array
      *
      * @since   4.0.0
      */

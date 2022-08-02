@@ -72,7 +72,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
     /**
      * @inheritDoc
      *
-     * @return array
      *
      * @since 4.1.0
      */
@@ -109,7 +108,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
         try {
             $formFile = Path::check($formFile);
-        } catch (Exception $e) {
+        } catch (Exception) {
             // Log?
             return false;
         }
@@ -126,7 +125,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
      *
      * @param   Event  $event  The onTaskExecuteFailure event.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws Exception
@@ -153,7 +151,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
      *
      * @param   Event  $event  The onTaskRoutineNotFound event.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws Exception
@@ -176,7 +173,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
      *
      * @param   Event  $event  The onTaskExecuteSuccess event.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws Exception
@@ -206,7 +202,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
      *
      * @param   Event  $event  The onTaskRecoverFailure event.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws Exception
@@ -249,7 +244,6 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
      * @param   array   $data        The data to bind to the mail template.
      * @param   string  $attachment  The attachment to send with the mail (@todo multiple)
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws Exception
@@ -274,7 +268,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
         try {
             $users = $db->loadObjectList();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             return;
         }
 
@@ -308,7 +302,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
 
                     $mailer->send();
                     $mailSent = true;
-                } catch (MailerException $exception) {
+                } catch (MailerException) {
                     Log::add(Text::_('PLG_SYSTEM_TASK_NOTIFICATION_NOTIFY_SEND_EMAIL_FAIL'), Log::ERROR);
                 }
             }

@@ -40,8 +40,8 @@ class InlinehelpButton extends BasicButton
     protected function prepareOptions(array &$options)
     {
         $options['text'] = $options['text'] ?: 'JINLINEHELP';
-        $options['icon'] = $options['icon'] ?? 'fa-question-circle';
-        $options['button_class'] = $options['button_class'] ?? 'btn btn-info';
+        $options['icon'] ??= 'fa-question-circle';
+        $options['button_class'] ??= 'btn btn-info';
         $options['attributes'] = array_merge(
             $options['attributes'] ?? [],
             [
@@ -86,7 +86,6 @@ class InlinehelpButton extends BasicButton
     /**
      * Method to configure available option accessors.
      *
-     * @return  array
      *
      * @since   4.1.0
      */

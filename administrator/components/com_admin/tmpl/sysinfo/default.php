@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -13,8 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
-
+/** @var HtmlView $this */
 ?>
 <div class="main-card">
         <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'site', 'recall' => true, 'breakpoint' => 768]); ?>

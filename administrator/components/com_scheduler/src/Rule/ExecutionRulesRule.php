@@ -46,7 +46,6 @@ class ExecutionRulesRule extends FormRule
      *                                       the entire form.
      * @param   ?Form              $form     The form object for which the field is being tested.
      *
-     * @return boolean
      *
      * @since  4.1.0
      */

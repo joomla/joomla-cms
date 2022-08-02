@@ -33,7 +33,7 @@ Factory::getDocument()->getWebAssetManager()
     ->useScript('core')
     ->useScript('webcomponent.toolbar-button');
 
-$tagName = $tagName ?? 'button';
+$tagName ??= 'button';
 
 $modalAttrs['data-bs-toggle'] = 'modal';
 $modalAttrs['data-bs-target'] = '#' . $selector;

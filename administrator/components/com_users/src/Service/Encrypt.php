@@ -23,10 +23,9 @@ class Encrypt
     /**
      * The encryption engine used by this service
      *
-     * @var    Aes
      * @since  4.2.0
      */
-    private $aes;
+    private Aes $aes;
 
     /**
      * EncryptService constructor.
@@ -82,7 +81,7 @@ class Encrypt
         }
 
         $this->aes->setPassword($this->getPassword(), $legacy);
-        $decrypted = $this->aes->decryptString($data, true, $legacy);
+        $decrypted = $this->aes->decryptString($data, true);
 
         // Decrypted data is null byte padded. We have to remove the padding before proceeding.
         return rtrim($decrypted, "\0");
@@ -91,7 +90,6 @@ class Encrypt
     /**
      * Initialize the AES cryptography object
      *
-     * @return  void
      * @since   4.2.0
      */
     private function initialize(): void
@@ -113,7 +111,6 @@ class Encrypt
     /**
      * Returns the password used to encrypt information in the component
      *
-     * @return  string
      *
      * @since   4.2.0
      */
@@ -121,7 +118,7 @@ class Encrypt
     {
         try {
             return Factory::getApplication()->get('secret', '');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return '';
         }
     }

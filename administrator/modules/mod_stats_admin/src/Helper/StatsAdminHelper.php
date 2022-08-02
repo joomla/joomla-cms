@@ -39,7 +39,7 @@ class StatsAdminHelper
     {
         $user = $app->getIdentity();
 
-        $rows  = array();
+        $rows  = [];
         $query = $db->getQuery(true);
 
         $serverinfo = $params->get('serverinfo', 0);
@@ -80,7 +80,7 @@ class StatsAdminHelper
 
             try {
                 $users = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $users = false;
             }
 
@@ -92,7 +92,7 @@ class StatsAdminHelper
 
             try {
                 $items = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $items = false;
             }
 
@@ -122,7 +122,7 @@ class StatsAdminHelper
         // Include additional data defined by published system plugins
         PluginHelper::importPlugin('system');
 
-        $arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
+        $arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats_admin']);
 
         foreach ($arrays as $response) {
             foreach ($response as $row) {
@@ -132,7 +132,7 @@ class StatsAdminHelper
                     $rows[$i]->title = $row['title'];
                     $rows[$i]->icon  = $row['icon'] ?? 'info';
                     $rows[$i]->data  = $row['data'];
-                    $rows[$i]->link  = isset($row['link']) ? $row['link'] : null;
+                    $rows[$i]->link  = $row['link'] ?? null;
                     $i++;
                 }
             }

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Users\Site\View\Profile;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -38,14 +40,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
     /**
      * The page parameters
      *
-     * @var  \Joomla\Registry\Registry|null
+     * @var Registry|null
      */
     protected $params;
 
@@ -105,7 +107,7 @@ class HtmlView extends BaseHtmlView
         $this->db                 = Factory::getDbo();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -129,7 +131,7 @@ class HtmlView extends BaseHtmlView
 
         PluginHelper::importPlugin('content');
         $this->data->text = '';
-        Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
+        Factory::getApplication()->triggerEvent('onContentPrepare', ['com_users.user', &$this->data, &$this->data->params, 0]);
         unset($this->data->text);
 
         // Check for layout from menu item.
@@ -143,7 +145,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $this->params->get('pageclass_sfx', ''));
 
         $this->prepareDocument();
 

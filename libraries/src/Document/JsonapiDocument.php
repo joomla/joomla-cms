@@ -19,7 +19,7 @@ use Tobscure\JsonApi\ElementInterface;
  * @link   http://www.jsonapi.org/
  * @since  4.0.0
  */
-class JsonapiDocument extends JsonDocument implements \JsonSerializable
+class JsonapiDocument extends JsonDocument implements \JsonSerializable, \Stringable
 {
     /**
      * The JsonApi Document object.
@@ -36,7 +36,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @since  4.0.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -118,9 +118,9 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @since  4.0.0
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return json_encode($this->toArray());
+        return (string) json_encode($this->toArray(), JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -133,7 +133,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @since  4.0.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         $app = Factory::getApplication();
 
@@ -144,7 +144,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
         $app->mimeType = $this->_mime;
         $app->charSet  = $this->_charset;
 
-        return json_encode($this->document);
+        return json_encode($this->document, JSON_THROW_ON_ERROR);
     }
 
     /**

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Update;
 
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -35,7 +36,7 @@ class HtmlView extends InstallerViewDefault
     /**
      * List pagination.
      *
-     * @var \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      */
     protected $pagination;
 
@@ -75,7 +76,7 @@ class HtmlView extends InstallerViewDefault
 
         $this->paths = &$paths;
 
-        if (count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+        if ((is_countable($this->items) ? count($this->items) : 0) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         } else {
             Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');

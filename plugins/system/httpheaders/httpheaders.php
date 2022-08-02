@@ -44,18 +44,16 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * The generated csp nonce value
      *
-     * @var    string
      * @since  4.0.0
      */
-    private $cspNonce;
+    private ?string $cspNonce = null;
 
     /**
      * The list of the supported HTTP headers
      *
-     * @var    array
      * @since  4.0.0
      */
-    private $supportedHttpHeaders = [
+    private array $supportedHttpHeaders = [
         'strict-transport-security',
         'content-security-policy',
         'content-security-policy-report-only',
@@ -71,10 +69,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * The list of valid directives based on: https://www.w3.org/TR/CSP3/#csp-directives
      *
-     * @var    array
      * @since  4.0.0
      */
-    private $validDirectives = [
+    private array $validDirectives = [
         'child-src',
         'connect-src',
         'default-src',
@@ -108,10 +105,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * The list of directives without a value
      *
-     * @var    array
      * @since  4.0.0
      */
-    private $noValueDirectives = [
+    private array $noValueDirectives = [
         'block-all-mixed-content',
         'upgrade-insecure-requests',
     ];
@@ -119,10 +115,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * The list of directives supporting nonce
      *
-     * @var    array
      * @since  4.0.0
      */
-    private $nonceDirectives = [
+    private array $nonceDirectives = [
         'script-src',
         'style-src',
     ];
@@ -153,7 +148,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -168,7 +162,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * The `applyHashesToCspRule` method makes sure the csp hashes are added to the csp header when enabled
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -197,7 +190,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
             foreach ($inlineScripts as $type => $scripts) {
                 foreach ($scripts as $hash => $scriptContent) {
-                    $scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+                    $scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', (string) $scriptContent, true)) . "'";
                 }
             }
         }
@@ -208,7 +201,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
             foreach ($inlineStyles as $type => $styles) {
                 foreach ($styles as $hash => $styleContent) {
-                    $styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+                    $styleHashes[] = "'sha256-" . base64_encode(hash('sha256', (string) $styleContent, true)) . "'";
                 }
             }
         }
@@ -218,15 +211,15 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
         foreach ($headers as $id => $headerConfiguration) {
             if (
-                strtolower($headerConfiguration['name']) === 'content-security-policy'
-                || strtolower($headerConfiguration['name']) === 'content-security-policy-report-only'
+                strtolower((string) $headerConfiguration['name']) === 'content-security-policy'
+                || strtolower((string) $headerConfiguration['name']) === 'content-security-policy-report-only'
             ) {
                 $newHeaderValue = $headerConfiguration['value'];
 
                 if (!empty($scriptHashes)) {
-                    $newHeaderValue = str_replace('{script-hashes}', implode(' ', $scriptHashes), $newHeaderValue);
+                    $newHeaderValue = str_replace('{script-hashes}', implode(' ', $scriptHashes), (string) $newHeaderValue);
                 } else {
-                    $newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
+                    $newHeaderValue = str_replace('{script-hashes}', '', (string) $newHeaderValue);
                 }
 
                 if (!empty($styleHashes)) {
@@ -243,7 +236,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * The `setHttpHeaders` method handle the setting of the configured HTTP Headers
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -265,12 +257,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * Set the CSP header when enabled
      *
-     * @return  void
      *
      * @since   4.0.0
      */
     private function setCspHeader(): void
     {
+        $newCspValues = [];
         $cspReadOnly = (int) $this->params->get('contentsecuritypolicy_report_only', 1);
         $cspHeader   = $cspReadOnly === 0 ? 'content-security-policy' : 'content-security-policy-report-only';
 
@@ -291,7 +283,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
             // Handle non value directives
             if (in_array($cspValue->directive, $this->noValueDirectives)) {
-                $newCspValues[] = trim($cspValue->directive);
+                $newCspValues[] = trim((string) $cspValue->directive);
 
                 continue;
             }
@@ -307,19 +299,19 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
                      * but add it once the setting is enabled so this line here is needed
                      * to remove the outdated tag that was required until 4.2.0
                      */
-                    $cspValue->value = str_replace('{nonce}', '', $cspValue->value);
+                    $cspValue->value = str_replace('{nonce}', '', (string) $cspValue->value);
 
                     // Append the nonce when the nonce setting is enabled
                     $cspValue->value = "'nonce-" . $this->cspNonce . "' " . $cspValue->value;
                 }
 
                 // Append the script hashes placeholder
-                if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0) {
+                if ($scriptHashesEnabled && str_starts_with((string) $cspValue->directive, 'script-src')) {
                     $cspValue->value = '{script-hashes} ' . $cspValue->value;
                 }
 
                 // Append the style hashes placeholder
-                if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0) {
+                if ($styleHashesEnabled && str_starts_with((string) $cspValue->directive, 'style-src')) {
                     $cspValue->value = '{style-hashes} ' . $cspValue->value;
                 }
 
@@ -331,12 +323,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
                 if (
                     $strictDynamicEnabled
                     && $cspValue->directive === 'script-src'
-                    && strpos($cspValue->value, 'strict-dynamic') === false
+                    && !str_contains((string) $cspValue->value, 'strict-dynamic')
                 ) {
                     $cspValue->value = "'strict-dynamic' " . $cspValue->value;
                 }
 
-                $newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
+                $newCspValues[] = trim((string) $cspValue->directive) . ' ' . trim((string) $cspValue->value);
             }
         }
 
@@ -384,7 +376,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
         // Generate the strict-transport-security header and make sure the site is SSL
         if ($this->params->get('hsts', 0) === 1 && Uri::getInstance()->isSsl() === true) {
             $hstsOptions   = [];
-            $hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31536000);
+            $hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31_536_000);
 
             if ($this->params->get('hsts_subdomains', 0) === 1) {
                 $hstsOptions[] = 'includeSubDomains';
@@ -407,7 +399,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
             }
 
             // Make sure the header is a valid and supported header
-            if (!in_array(strtolower($additionalHttpHeader->key), $this->supportedHttpHeaders)) {
+            if (!in_array(strtolower((string) $additionalHttpHeader->key), $this->supportedHttpHeaders)) {
                 continue;
             }
 
@@ -420,8 +412,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
             }
 
             // Allow the custom csp headers to use the random $cspNonce in the rules
-            if (in_array(strtolower($additionalHttpHeader->key), ['content-security-policy', 'content-security-policy-report-only'])) {
-                $additionalHttpHeader->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $additionalHttpHeader->value);
+            if (in_array(strtolower((string) $additionalHttpHeader->key), ['content-security-policy', 'content-security-policy-report-only'])) {
+                $additionalHttpHeader->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", (string) $additionalHttpHeader->value);
             }
 
             $staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client] = $additionalHttpHeader->value;
@@ -433,7 +425,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
     /**
      * Set the static headers when enabled
      *
-     * @return  void
      *
      * @since   4.0.0
      */

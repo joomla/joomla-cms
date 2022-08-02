@@ -114,7 +114,7 @@ class StageTable extends Table
             return false;
         }
 
-        if (trim($this->title) === '') {
+        if (trim((string) $this->title) === '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_STATE'));
 
             return false;
@@ -173,7 +173,7 @@ class StageTable extends Table
 
         if ($this->default == '1') {
             // Verify that the default is unique for this workflow
-            if ($table->load(array('default' => '1', 'workflow_id' => (int) $this->workflow_id))) {
+            if ($table->load(['default' => '1', 'workflow_id' => (int) $this->workflow_id])) {
                 $table->default = 0;
                 $table->store();
             }
@@ -195,7 +195,7 @@ class StageTable extends Table
      * @since   4.0.0
      * @throws  \InvalidArgumentException
      */
-    public function bind($src, $ignore = array())
+    public function bind($src, $ignore = [])
     {
         // Bind the rules.
         if (isset($src['rules']) && \is_array($src['rules'])) {
@@ -221,7 +221,7 @@ class StageTable extends Table
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $extension = array_shift($parts);
 
@@ -252,12 +252,12 @@ class StageTable extends Table
      */
     protected function _getAssetParentId(Table $table = null, $id = null)
     {
-        $asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+        $asset = self::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 
         $workflow = new WorkflowTable($this->getDbo());
         $workflow->load($this->workflow_id);
 
-        $parts = explode('.', $workflow->extension);
+        $parts = explode('.', (string) $workflow->extension);
 
         $extension = array_shift($parts);
 

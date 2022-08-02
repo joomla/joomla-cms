@@ -9,6 +9,21 @@
 
 namespace Joomla\CMS;
 
+use Joomla\CMS\Cache\CacheController;
+use Joomla\CMS\Service\Provider\Application;
+use Joomla\CMS\Service\Provider\Authentication;
+use Joomla\CMS\Service\Provider\Config;
+use Joomla\CMS\Service\Provider\Console;
+use Joomla\CMS\Service\Provider\Database;
+use Joomla\CMS\Service\Provider\Dispatcher;
+use Joomla\CMS\Service\Provider\Form;
+use Joomla\CMS\Service\Provider\Logger;
+use Joomla\CMS\Service\Provider\Menu;
+use Joomla\CMS\Service\Provider\Pathway;
+use Joomla\CMS\Service\Provider\HTMLRegistry;
+use Joomla\CMS\Service\Provider\Toolbar;
+use Joomla\CMS\Service\Provider\WebAssetRegistry;
+use Joomla\CMS\Service\Provider\Router;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
@@ -76,7 +91,7 @@ abstract class Factory
      * @var    array
      * @since  1.7.3
      */
-    public static $dates = array();
+    public static $dates = [];
 
     /**
      * Global session object
@@ -205,7 +220,6 @@ abstract class Factory
      * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
      * should be refactored to support dependency injection instead of making this change.
      *
-     * @return  Container
      *
      * @since   4.0.0
      */
@@ -231,13 +245,13 @@ abstract class Factory
      * @since       1.7.0
      * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
      */
-    public static function getSession(array $options = array())
+    public static function getSession(array $options = [])
     {
         @trigger_error(
             sprintf(
                 '%1$s() is deprecated. Load the session from the dependency injection container or via %2$s::getApplication()->getSession().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -262,7 +276,7 @@ abstract class Factory
             sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -291,7 +305,7 @@ abstract class Factory
             sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -322,7 +336,7 @@ abstract class Factory
             sprintf(
                 '%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -350,7 +364,7 @@ abstract class Factory
      * @param   string  $handler  The handler to use
      * @param   string  $storage  The storage method
      *
-     * @return  \Joomla\CMS\Cache\CacheController object
+     * @return CacheController object
      *
      * @see         Cache
      * @since       1.7.0
@@ -374,7 +388,7 @@ abstract class Factory
 
         $handler = ($handler === 'function') ? 'callback' : $handler;
 
-        $options = array('defaultgroup' => $group);
+        $options = ['defaultgroup' => $group];
 
         if (isset($storage)) {
             $options['storage'] = $storage;
@@ -468,11 +482,11 @@ abstract class Factory
 
                 if (!class_exists($classname)) {
                     // The class does not exist, default to Date
-                    $classname = 'Joomla\\CMS\\Date\\Date';
+                    $classname = Date::class;
                 }
             } else {
                 // No tag, so default to Date
-                $classname = 'Joomla\\CMS\\Date\\Date';
+                $classname = Date::class;
             }
         }
 
@@ -538,31 +552,30 @@ abstract class Factory
     /**
      * Create a container object
      *
-     * @return  Container
      *
      * @since   4.0.0
      */
     protected static function createContainer(): Container
     {
         $container = (new Container())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication())
+            ->registerServiceProvider(new Application())
+            ->registerServiceProvider(new Authentication())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Dispatcher())
+            ->registerServiceProvider(new Config())
+            ->registerServiceProvider(new Console())
+            ->registerServiceProvider(new Database())
+            ->registerServiceProvider(new Dispatcher())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger())
+            ->registerServiceProvider(new Form())
+            ->registerServiceProvider(new Logger())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry())
+            ->registerServiceProvider(new Menu())
+            ->registerServiceProvider(new Pathway())
+            ->registerServiceProvider(new HTMLRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry())
-            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Router())
+            ->registerServiceProvider(new Toolbar())
+            ->registerServiceProvider(new WebAssetRegistry())
+            ->registerServiceProvider(new Router())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\User());
 
         return $container;
@@ -579,6 +592,7 @@ abstract class Factory
      */
     protected static function createDbo()
     {
+        $db = null;
         @trigger_error(
             sprintf(
                 '%1$s() is deprecated, register a service provider to create a %2$s instance instead.',
@@ -597,7 +611,7 @@ abstract class Factory
         $prefix = $conf->get('dbprefix');
         $driver = $conf->get('dbtype');
 
-        $options = array('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
+        $options = ['driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix];
 
         if ((int) $conf->get('dbencryption') !== 0) {
             $options['ssl'] = [
@@ -606,7 +620,7 @@ abstract class Factory
             ];
 
             foreach (['cipher', 'ca', 'key', 'cert'] as $value) {
-                $confVal = trim($conf->get('dbssl' . $value, ''));
+                $confVal = trim((string) $conf->get('dbssl' . $value, ''));
 
                 if ($confVal !== '') {
                     $options['ssl'][$value] = $confVal;
@@ -663,7 +677,7 @@ abstract class Factory
                 if ($mail->setFrom($mailfrom, MailHelper::cleanLine($fromname), false) === false) {
                     Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
                 }
-            } catch (phpmailerException $e) {
+            } catch (phpmailerException) {
                 Log::add(__METHOD__ . '() could not set the sender data.', Log::WARNING, 'mail');
             }
         }
@@ -701,7 +715,7 @@ abstract class Factory
             sprintf(
                 '%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -729,7 +743,7 @@ abstract class Factory
             sprintf(
                 '%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
                 __METHOD__,
-                __CLASS__
+                self::class
             ),
             E_USER_DEPRECATED
         );
@@ -741,14 +755,7 @@ abstract class Factory
 
         $version = new Version();
 
-        $attributes = array(
-            'charset'      => 'utf-8',
-            'lineend'      => 'unix',
-            'tab'          => "\t",
-            'language'     => $lang->getTag(),
-            'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
-            'mediaversion' => $version->getMediaVersion(),
-        );
+        $attributes = ['charset'      => 'utf-8', 'lineend'      => 'unix', 'tab'          => "\t", 'language'     => $lang->getTag(), 'direction'    => $lang->isRtl() ? 'rtl' : 'ltr', 'mediaversion' => $version->getMediaVersion()];
 
         return self::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
     }
@@ -769,7 +776,7 @@ abstract class Factory
     public static function getStream($usePrefix = true, $useNetwork = true, $userAgentSuffix = 'Joomla', $maskUserAgent = false)
     {
         // Setup the context; Joomla! UA and overwrite
-        $context = array();
+        $context = [];
         $version = new Version();
 
         // Set the UA for HTTP and overwrite for FTP

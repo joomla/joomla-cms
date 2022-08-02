@@ -37,7 +37,7 @@ class NewsfeedsField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)

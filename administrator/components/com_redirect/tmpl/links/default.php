@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
@@ -17,7 +18,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -28,30 +29,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if ($this->redirectPluginId) : ?>
             <?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->redirectPluginId . '&tmpl=component&layout=modal'); ?>
             <?php echo HTMLHelper::_(
                 'bootstrap.renderModal',
                 'plugin' . $this->redirectPluginId . 'Modal',
-                array(
-                    'url'         => $link,
-                    'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'),
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => '70',
-                    'modalWidth'  => '80',
-                    'closeButton' => false,
-                    'backdrop'    => 'static',
-                    'keyboard'    => false,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
-                        . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
-                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                        . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
-                        . Text::_('JSAVE') . '</button>'
-                        . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
-                        . Text::_('JAPPLY') . '</button>'
-                )
+                ['url'         => $link, 'title'       => Text::_('COM_REDIRECT_EDIT_PLUGIN_SETTINGS'), 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => '70', 'modalWidth'  => '80', 'closeButton' => false, 'backdrop'    => 'static', 'keyboard'    => false, 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"'
+                    . ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                    . '<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+                    . Text::_('JSAVE') . '</button>'
+                    . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->redirectPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+                    . Text::_('JAPPLY') . '</button>']
             ); ?>
         <?php endif; ?>
 
@@ -113,14 +103,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                         <th scope="row" class="break-word">
                             <?php if ($canEdit) : ?>
                                 <a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
-                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
+                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode((string) $item->old_url))); ?>
                                 </a>
                             <?php else : ?>
-                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
+                                    <?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode((string) $item->old_url))); ?>
                             <?php endif; ?>
                         </th>
                         <td class="small break-word">
-                            <?php echo $this->escape(rawurldecode($item->new_url)); ?>
+                            <?php echo $this->escape(rawurldecode((string) $item->new_url)); ?>
                         </td>
                         <td class="small break-word d-none d-md-table-cell">
                             <?php echo $this->escape($item->referer); ?>
@@ -145,7 +135,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <?php if (!empty($this->items)) : ?>
             <?php echo $this->loadTemplate('addform'); ?>
@@ -159,10 +149,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                 <?php echo HTMLHelper::_(
                     'bootstrap.renderModal',
                     'collapseModal',
-                    array(
-                        'title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'),
-                        'footer' => $this->loadTemplate('batch_footer'),
-                    ),
+                    ['title'  => Text::_('COM_REDIRECT_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                     $this->loadTemplate('batch_body')
                 ); ?>
             <?php endif; ?>

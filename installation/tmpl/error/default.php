@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Installation\View\Error\HtmlView;
 /**
  * @package    Joomla.Installation
  *
@@ -9,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\CMS\Installation\View\Error\HtmlView $this */
+/** @var HtmlView $this */
 ?>
 
 <h3>error</h3>

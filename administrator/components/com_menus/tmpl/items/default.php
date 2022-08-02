@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -19,7 +20,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -30,7 +31,7 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) == 'asc');
 $menuType  = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType && !empty($this->items)) {
@@ -47,7 +48,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'menutype']]); ?>
                 <?php if (!empty($this->items)) : ?>
                     <table class="table" id="menuitemList">
                         <caption class="visually-hidden">
@@ -100,7 +101,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                         </tr>
                         </thead>
                         <tbody <?php if ($saveOrder && $menuType) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="false"<?php
                                endif; ?>>
                         <?php
                         foreach ($this->items as $i => $item) :
@@ -121,7 +122,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                         $v = implode('-', $v);
                                         $v = '-' . $v . '-';
 
-                                        if (strpos($v, '-' . $_currentParentId . '-') !== false) {
+                                        if (str_contains($v, '-' . $_currentParentId . '-')) {
                                             $parentsStr .= ' ' . $k;
                                             $_currentParentId = $k;
                                             break;
@@ -162,7 +163,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
                                 </td>
                                 <th scope="row">
-                                    <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                    <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                     <?php echo $prefix; ?>
                                     <?php if ($item->checked_out) : ?>
                                         <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
@@ -192,7 +193,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <div title="<?php echo $this->escape($item->path); ?>">
                                         <?php echo $prefix; ?>
                                         <span class="small"
-                                              title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
+                                              title="<?php echo isset($item->item_type_desc) ? htmlspecialchars((string) $this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
                                             <?php echo $this->escape($item->item_type); ?>
                                         </span>
                                     </div>
@@ -205,7 +206,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                     <?php endif; ?>
                                 </th>
                                 <td class="small d-none d-md-table-cell">
-                                    <?php echo $this->escape($item->menutype_title ?: ucwords($item->menutype)); ?>
+                                    <?php echo $this->escape($item->menutype_title ?: ucwords((string) $item->menutype)); ?>
                                 </td>
                                 <?php if ($this->state->get('filter.client_id') == 0) : ?>
                                     <td class="text-center d-none d-md-table-cell">
@@ -215,7 +216,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                             <?php elseif ($canChange) : ?>
                                                 <a href="<?php echo Route::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . Session::getFormToken() . '=1'); ?>">
                                                     <?php if ($item->language_image) : ?>
-                                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+                                                        <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, ['title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)], true); ?>
                                                     <?php else : ?>
                                                         <span class="badge bg-secondary"
                                                               title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language; ?></span>
@@ -223,7 +224,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                                                 </a>
                                             <?php else : ?>
                                                 <?php if ($item->language_image) : ?>
-                                                    <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+                                                    <?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, ['title' => $item->language_title], true); ?>
                                                 <?php else : ?>
                                                     <span class="badge bg-secondary"
                                                           title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
@@ -265,14 +266,11 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
-                                'title'  => Text::_('COM_MENUS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer')
-                            ),
+                            ['title'  => Text::_('COM_MENUS_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">

@@ -81,7 +81,7 @@ class IntervalField extends NumberField
      */
     public function setup(\SimpleXMLElement $element, $value, $group = null): bool
     {
-        $parentResult = FormField::setup($element, $value, $group);
+        $parentResult = (new FormField())->setup($element, $value, $group);
         $subtype      = ((string) $element['subtype'] ?? '') ?: null;
 
         if (empty($subtype) || !\array_key_exists($subtype, self::SUBTYPES)) {

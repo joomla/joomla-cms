@@ -27,7 +27,7 @@ if (!empty($fieldSets['com_config'])) {
     foreach ($fieldSets as $name => $fieldSet) {
         $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONFIG_' . $name . '_FIELDSET_LABEL';
 
-        if (isset($fieldSet->description) && trim($fieldSet->description)) {
+        if (isset($fieldSet->description) && trim((string) $fieldSet->description)) {
             echo '<p class="tip">' . $this->escape(Text::_($fieldSet->description)) . '</p>';
         }
 

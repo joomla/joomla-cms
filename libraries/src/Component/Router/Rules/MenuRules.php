@@ -21,20 +21,12 @@ use Joomla\CMS\Language\Multilanguage;
 class MenuRules implements RulesInterface
 {
     /**
-     * Router this rule belongs to
-     *
-     * @var   RouterView
-     * @since 3.4
-     */
-    protected $router;
-
-    /**
      * Lookup array of the menu items
      *
      * @var   array
      * @since 3.4
      */
-    protected $lookup = array();
+    protected $lookup = [];
 
     /**
      * Class constructor.
@@ -43,10 +35,8 @@ class MenuRules implements RulesInterface
      *
      * @since   3.4
      */
-    public function __construct(RouterView $router)
+    public function __construct(protected RouterView $router)
     {
-        $this->router = $router;
-
         $this->buildLookup();
     }
 
@@ -72,7 +62,7 @@ class MenuRules implements RulesInterface
         }
 
         // Get query language
-        $language = isset($query['lang']) ? $query['lang'] : '*';
+        $language = $query['lang'] ?? '*';
 
         // Set the language to the current one when multilang is enabled and item is tagged to ALL
         if (Multilanguage::isEnabled() && $language === '*') {
@@ -91,7 +81,7 @@ class MenuRules implements RulesInterface
             foreach ($active->query as $k => $v) {
                 if (isset($query[$k]) && $v !== $query[$k]) {
                     // Compare again without alias
-                    if (\is_string($v) && $v == current(explode(':', $query[$k], 2))) {
+                    if (\is_string($v) && $v == current(explode(':', (string) $query[$k], 2))) {
                         continue;
                     }
 
@@ -151,7 +141,7 @@ class MenuRules implements RulesInterface
         // Check if the active menuitem matches the requested language
         if (
             $active && $active->component === 'com_' . $this->router->getName()
-            && ($language === '*' || \in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled())
+            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled())
         ) {
             $query['Itemid'] = $active->id;
 
@@ -179,16 +169,16 @@ class MenuRules implements RulesInterface
     {
         // Prepare the reverse lookup array.
         if (!isset($this->lookup[$language])) {
-            $this->lookup[$language] = array();
+            $this->lookup[$language] = [];
 
             $component  = ComponentHelper::getComponent('com_' . $this->router->getName());
             $views = $this->router->getViews();
 
-            $attributes = array('component_id');
-            $values     = array((int) $component->id);
+            $attributes = ['component_id'];
+            $values     = [(int) $component->id];
 
             $attributes[] = 'language';
-            $values[]     = array($language, '*');
+            $values[]     = [$language, '*'];
 
             $items = $this->router->menu->getItems($attributes, $values);
 
@@ -204,11 +194,11 @@ class MenuRules implements RulesInterface
 
                     if ($views[$view]->key) {
                         if (!isset($this->lookup[$language][$view . $layout])) {
-                            $this->lookup[$language][$view . $layout] = array();
+                            $this->lookup[$language][$view . $layout] = [];
                         }
 
                         if (!isset($this->lookup[$language][$view])) {
-                            $this->lookup[$language][$view] = array();
+                            $this->lookup[$language][$view] = [];
                         }
 
                         // If menuitem has no key set, we assume 0.

@@ -29,7 +29,7 @@ HTMLHelper::_('behavior.formvalidator');
         <?php // Iterate through the form fieldsets and display each one. ?>
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <?php $fields = $this->form->getFieldset($fieldset->name); ?>
-            <?php if (count($fields)) : ?>
+            <?php if (is_countable($fields) ? count($fields) : 0) : ?>
                 <fieldset>
                     <?php // If the fieldset has a label set, display it as the legend. ?>
                     <?php if (isset($fieldset->label)) : ?>
@@ -37,7 +37,7 @@ HTMLHelper::_('behavior.formvalidator');
                     <?php endif; ?>
                     <?php echo $this->form->renderFieldset($fieldset->name); ?>
                 </fieldset>
-            <?php endif; ?>
+<?php endif; ?>
         <?php endforeach; ?>
         <div class="com-users-registration__submit control-group">
             <div class="controls">

@@ -15,11 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
+if ($this->maxLevelcat != 0 && (is_countable($this->items[$this->parent->id]) ? count($this->items[$this->parent->id]) : 0) > 0) :
     ?>
     <div class="com-content-categories__items">
         <?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
-            <?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
+            <?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || (is_countable($item->getChildren()) ? count($item->getChildren()) : 0)) : ?>
             <div class="com-content-categories__item">
                 <div class="com-content-categories__item-title-wrapper">
                     <div class="com-content-categories__item-title">
@@ -32,7 +32,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                             </span>
                         <?php endif; ?>
                     </div>
-                    <?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
+                    <?php if ((is_countable($item->getChildren()) ? count($item->getChildren()) : 0) > 0 && $this->maxLevelcat > 1) : ?>
                         <button
                             type="button"
                             id="category-btn-<?php echo $item->id; ?>"
@@ -56,7 +56,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
                     <?php endif; ?>
                 <?php endif; ?>
 
-                <?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
+                <?php if ((is_countable($item->getChildren()) ? count($item->getChildren()) : 0) > 0 && $this->maxLevelcat > 1) : ?>
                     <div class="com-content-categories__children" id="category-<?php echo $item->id; ?>" hidden="">
                     <?php
                     $this->items[$item->id] = $item->getChildren();

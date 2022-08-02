@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
@@ -18,7 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -31,7 +32,7 @@ $saveOrder = $listOrder == 'w.ordering';
 $orderingColumn = 'created';
 $saveOrderingUrl = '';
 
-if (strpos($listOrder, 'modified') !== false) {
+if (str_contains((string) $listOrder, 'modified')) {
     $orderingColumn = 'modified';
 }
 
@@ -60,7 +61,7 @@ $userId = $user->id;
             <div id="j-main-container" class="j-main-container">
                 <?php
                     // Search tools bar
-                    echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'extension')));
+                    echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this, 'options' => ['selectorFieldName' => 'extension']]);
                 ?>
                 <?php if (empty($this->workflows)) : ?>
                     <div class="alert alert-info">
@@ -103,7 +104,7 @@ $userId = $user->id;
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="false"<?php
                                endif; ?>>
                         <?php foreach ($this->workflows as $i => $item) :
                             $states = Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . $item->id . '&extension=' . $extension);
@@ -182,7 +183,7 @@ $userId = $user->id;
                     <?php // load the pagination. ?>
                     <?php echo $this->pagination->getListFooter(); ?>
 
-                <?php endif; ?>
+<?php endif; ?>
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>

@@ -26,7 +26,6 @@ trait MVCFactoryServiceTrait
     /**
      * Get the factory.
      *
-     * @return  MVCFactoryInterface
      *
      * @since   4.0.0
      * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
@@ -34,7 +33,7 @@ trait MVCFactoryServiceTrait
     public function getMVCFactory(): MVCFactoryInterface
     {
         if (!$this->mvcFactory) {
-            throw new \UnexpectedValueException('MVC factory not set in ' . __CLASS__);
+            throw new \UnexpectedValueException('MVC factory not set in ' . self::class);
         }
 
         return $this->mvcFactory;

@@ -52,15 +52,13 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
     /**
      * The MFA Method name handled by this plugin
      *
-     * @var   string
      * @since  4.2.0
      */
-    private $mfaMethodName = 'webauthn';
+    private string $mfaMethodName = 'webauthn';
 
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since  4.2.0
      */
@@ -80,7 +78,6 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetMethod  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorGetMethod(GetMethod $event): void
@@ -106,7 +103,6 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @param   GetSetup  $event  The event we are handling
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
@@ -249,7 +245,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $event->addResult(
             [
                 'credentialId' => base64_encode($publicKeyCredentialSource->getAttestedCredentialData()->getCredentialId()),
-                'pubkeysource' => json_encode($publicKeyCredentialSource),
+                'pubkeysource' => json_encode($publicKeyCredentialSource, JSON_THROW_ON_ERROR),
                 'counter'      => 0,
             ]
         );
@@ -261,7 +257,6 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @param   Captive  $event  The event we are handling
      *
-     * @return  void
      * @throws Exception
      * @since   4.2.0
      */
@@ -321,7 +316,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
                 throw new RuntimeException('Expected exception (good): we do not have a pending key request');
             }
 
-            $serializedOptions = base64_decode($pkOptionsEncoded);
+            $serializedOptions = base64_decode((string) $pkOptionsEncoded);
             $pkOptions         = unserialize($serializedOptions);
 
             if (!is_object($pkOptions) || empty($pkOptions) || !($pkOptions instanceof PublicKeyCredentialRequestOptions)) {
@@ -345,7 +340,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
             ob_start();
             include $layoutPath;
             $html = ob_get_clean();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return;
         }
 
@@ -383,7 +378,6 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @param   Validate  $event  The event we are handling
      *
-     * @return  void
      * @since   4.2.0
      */
     public function onUserMultifactorValidate(Validate $event): void
@@ -423,7 +417,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         } catch (Exception $e) {
             try {
                 $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
-            } catch (Exception $e) {
+            } catch (Exception) {
             }
 
             $event->addResult(false);

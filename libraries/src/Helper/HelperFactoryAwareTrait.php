@@ -28,10 +28,8 @@ trait HelperFactoryAwareTrait
     /**
      * Get the HelperFactory.
      *
-     * @return  HelperFactory
      *
      * @since   4.2.0
-     *
      * @throws  \UnexpectedValueException May be thrown if the HelperFactory has not been set.
      */
     public function getHelperFactory(): HelperFactory
@@ -40,7 +38,7 @@ trait HelperFactoryAwareTrait
             return $this->helper;
         }
 
-        throw new \UnexpectedValueException('HelperFactory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('HelperFactory not set in ' . self::class);
     }
 
     /**

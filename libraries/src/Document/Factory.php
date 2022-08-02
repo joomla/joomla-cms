@@ -27,7 +27,6 @@ class Factory implements FactoryInterface
      * @param   string  $type        The document type to instantiate
      * @param   array   $attributes  Array of attributes
      *
-     * @return  Document
      *
      * @since   4.0.0
      */
@@ -74,7 +73,6 @@ class Factory implements FactoryInterface
      * @param   string    $type      The renderer type to instantiate
      * @param   string    $docType   The document type the renderer is part of
      *
-     * @return  RendererInterface
      *
      * @since   4.0.0
      */

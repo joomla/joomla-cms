@@ -16,10 +16,10 @@ use Joomla\Module\Wrapper\Site\Helper\WrapperHelper;
 $params = WrapperHelper::getParams($params);
 
 $load        = $params->get('load');
-$url         = htmlspecialchars($params->get('url', ''), ENT_COMPAT, 'UTF-8');
-$target      = htmlspecialchars($params->get('target', ''), ENT_COMPAT, 'UTF-8');
-$width       = htmlspecialchars($params->get('width', ''), ENT_COMPAT, 'UTF-8');
-$height      = htmlspecialchars($params->get('height', ''), ENT_COMPAT, 'UTF-8');
+$url         = htmlspecialchars((string) $params->get('url', ''), ENT_COMPAT, 'UTF-8');
+$target      = htmlspecialchars((string) $params->get('target', ''), ENT_COMPAT, 'UTF-8');
+$width       = htmlspecialchars((string) $params->get('width', ''), ENT_COMPAT, 'UTF-8');
+$height      = htmlspecialchars((string) $params->get('height', ''), ENT_COMPAT, 'UTF-8');
 $ititle      = $module->title;
 $id          = $module->id;
 $lazyloading = $params->get('lazyloading', 'lazy');

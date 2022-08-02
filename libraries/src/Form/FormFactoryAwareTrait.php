@@ -27,7 +27,6 @@ trait FormFactoryAwareTrait
     /**
      * Get the FormFactoryInterface.
      *
-     * @return  FormFactoryInterface
      *
      * @since   4.0.0
      * @throws  \UnexpectedValueException May be thrown if the FormFactory has not been set.
@@ -38,7 +37,7 @@ trait FormFactoryAwareTrait
             return $this->formFactory;
         }
 
-        throw new \UnexpectedValueException('FormFactory not set in ' . __CLASS__);
+        throw new \UnexpectedValueException('FormFactory not set in ' . self::class);
     }
 
     /**

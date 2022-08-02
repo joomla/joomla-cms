@@ -32,14 +32,11 @@ extract($displayData);
  * @var   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  */
 
-$iframeAttributes = array(
-    'class' => 'iframe',
-    'src'   => $params['url']
-);
+$iframeAttributes = ['class' => 'iframe', 'src'   => $params['url']];
 
 if (isset($params['title'])) {
-    $iframeAttributes['name'] = addslashes($params['title']);
-    $iframeAttributes['title'] = addslashes($params['title']);
+    $iframeAttributes['name'] = addslashes((string) $params['title']);
+    $iframeAttributes['title'] = addslashes((string) $params['title']);
 }
 
 if (isset($params['height'])) {

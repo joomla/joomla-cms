@@ -41,26 +41,16 @@ class FinderIndexCommand extends AbstractCommand
     /**
      * Stores the Input Object
      *
-     * @var    InputInterface
      * @since  4.0.0
      */
-    private $cliInput;
+    private ?InputInterface $cliInput = null;
 
     /**
      * SymfonyStyle Object
      *
-     * @var    SymfonyStyle
      * @since  4.0.0
      */
-    private $ioStyle;
-
-    /**
-     * Database connector
-     *
-     * @var    DatabaseInterface
-     * @since  4.0.0
-     */
-    private $db;
+    private ?SymfonyStyle $ioStyle = null;
 
     /**
      * Start time for the index process
@@ -81,10 +71,9 @@ class FinderIndexCommand extends AbstractCommand
     /**
      * Static filters information.
      *
-     * @var    array
      * @since  3.3
      */
-    private $filters = array();
+    private array $filters = [];
 
     /**
      * Pausing type or defined pause time in seconds.
@@ -124,16 +113,14 @@ class FinderIndexCommand extends AbstractCommand
      *
      * @since   4.0.0
      */
-    public function __construct(DatabaseInterface $db)
+    public function __construct(private readonly DatabaseInterface $db)
     {
-        $this->db = $db;
         parent::__construct();
     }
 
     /**
      * Initialise the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -226,7 +213,6 @@ EOF;
      * @param   InputInterface   $input   Console Input
      * @param   OutputInterface  $output  Console Output
      *
-     * @return void
      *
      * @since 4.0.0
      *
@@ -250,7 +236,6 @@ EOF;
      * The static filter information is saved prior to the purge/index
      * so that it can later be used to update the filters with new ids.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -284,15 +269,11 @@ EOF;
 
             // Construct a temporary data structure to hold the filter information.
             foreach ($taxonomies as $taxonomy) {
-                $this->filters[$filter->filter_id][] = array(
-                    'filter' => $filter->title,
-                    'title'  => $taxonomy->title,
-                    'parent' => $taxonomy->parent,
-                );
+                $this->filters[$filter->filter_id][] = ['filter' => $filter->title, 'title'  => $taxonomy->title, 'parent' => $taxonomy->parent];
             }
         }
 
-        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+        $this->ioStyle->text(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', is_countable($filters) ? count($filters) : 0));
     }
 
     /**
@@ -454,7 +435,7 @@ EOF;
 
         // Use the temporary filter information to update the filter taxonomy ids.
         foreach ($this->filters as $filter_id => $filter) {
-            $tids = array();
+            $tids = [];
 
             foreach ($filter as $element) {
                 // Look for the old taxonomy in the new taxonomy table.

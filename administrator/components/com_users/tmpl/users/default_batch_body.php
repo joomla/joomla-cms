@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -14,20 +15,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 // Create the copy/move options.
-$options = array(
-    HTMLHelper::_('select.option', 'add', Text::_('COM_USERS_BATCH_ADD')),
-    HTMLHelper::_('select.option', 'del', Text::_('COM_USERS_BATCH_DELETE')),
-    HTMLHelper::_('select.option', 'set', Text::_('COM_USERS_BATCH_SET'))
-);
+$options = [HTMLHelper::_('select.option', 'add', Text::_('COM_USERS_BATCH_ADD')), HTMLHelper::_('select.option', 'del', Text::_('COM_USERS_BATCH_DELETE')), HTMLHelper::_('select.option', 'set', Text::_('COM_USERS_BATCH_SET'))];
 
 // Create the reset password options.
-$resetOptions = array(
-    HTMLHelper::_('select.option', '', Text::_('COM_USERS_NO_ACTION')),
-    HTMLHelper::_('select.option', 'yes', Text::_('JYES')),
-    HTMLHelper::_('select.option', 'no', Text::_('JNO'))
-);
+$resetOptions = [HTMLHelper::_('select.option', '', Text::_('COM_USERS_NO_ACTION')), HTMLHelper::_('select.option', 'yes', Text::_('JYES')), HTMLHelper::_('select.option', 'no', Text::_('JNO'))];
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('joomla.batch-copymove');
 

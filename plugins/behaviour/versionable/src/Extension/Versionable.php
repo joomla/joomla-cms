@@ -33,7 +33,6 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.2.0
      */
@@ -46,22 +45,6 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     * The input filter
-     *
-     * @var    InputFilter
-     * @since  4.2.0
-     */
-    private $filter;
-
-    /**
-     * The CMS helper
-     *
-     * @var    CMSHelper
-     * @since  4.2.0
-     */
-    private $helper;
-
-    /**
      * Constructor.
      *
      * @param   DispatcherInterface   $dispatcher   The dispatcher
@@ -71,12 +54,9 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
      *
      * @since   4.0.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, InputFilter $filter, CMSHelper $helper)
+    public function __construct(DispatcherInterface $dispatcher, array $config, private readonly InputFilter $filter, private readonly CMSHelper $helper)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->filter = $filter;
-        $this->helper = $helper;
     }
 
     /**
@@ -114,7 +94,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
         $id     = $table->getId();
         $data   = $this->helper->getDataObject($table);
         $input  = $this->getApplication()->input;
-        $jform  = $input->get('jform', array(), 'array');
+        $jform  = $input->get('jform', [], 'array');
         $versionNote = '';
 
         if (isset($jform['version_note'])) {

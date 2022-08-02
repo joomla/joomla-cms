@@ -24,13 +24,6 @@ use Joomla\CMS\Session\Session;
 final class JoomlaHttpDriver implements HttpDriverInterface
 {
     /**
-     * @var CMSApplicationInterface
-     *
-     * @since   4.1.5
-     */
-    private $app;
-
-    /**
      * @var Session
      *
      * @since   4.1.5
@@ -38,11 +31,9 @@ final class JoomlaHttpDriver implements HttpDriverInterface
     private $session;
 
     /**
-     * @var array
-     *
      * @since   4.1.5
      */
-    private $dummySession = [];
+    private array $dummySession = [];
 
     /**
      * Constructor.
@@ -51,10 +42,8 @@ final class JoomlaHttpDriver implements HttpDriverInterface
      *
      * @since   4.1.5
      */
-    public function __construct(CMSApplicationInterface $app)
+    public function __construct(private readonly CMSApplicationInterface $app)
     {
-        $this->app = $app;
-
         if ($app instanceof SessionAwareWebApplicationInterface) {
             $this->session = $app->getSession();
         }
@@ -63,7 +52,6 @@ final class JoomlaHttpDriver implements HttpDriverInterface
     /**
      * Sets HTTP headers
      *
-     * @param   array  $headers
      *
      * @since   4.1.5
      */

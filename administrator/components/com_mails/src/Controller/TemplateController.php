@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Mails\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -39,7 +40,7 @@ class TemplateController extends FormController
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -84,7 +85,7 @@ class TemplateController extends FormController
         $language = $this->input->getCmd('language');
 
         // Access check.
-        if (!$this->allowEdit(array('template_id' => $template_id, 'language' => $language), $template_id)) {
+        if (!$this->allowEdit(['template_id' => $template_id, 'language' => $language], $template_id)) {
             $this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
 
             $this->setRedirect(
@@ -105,7 +106,7 @@ class TemplateController extends FormController
         $this->setRedirect(
             Route::_(
                 'index.php?option=' . $this->option . '&view=' . $this->view_item
-                . $this->getRedirectToItemAppend(array($template_id, $language), 'template_id'),
+                . $this->getRedirectToItemAppend([$template_id, $language], 'template_id'),
                 false
             )
         );
@@ -148,9 +149,9 @@ class TemplateController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel();
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
         $context = "$this->option.edit.$this->context";
         $task = $this->getTask();
 
@@ -190,7 +191,7 @@ class TemplateController extends FormController
         $objData = (object) $data;
         $this->app->triggerEvent(
             'onContentNormaliseRequestData',
-            array($this->option . '.' . $this->context, $objData, $form)
+            [$this->option . '.' . $this->context, $objData, $form]
         );
         $data = (array) $objData;
 
@@ -218,7 +219,7 @@ class TemplateController extends FormController
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                    . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                     false
                 )
             );
@@ -237,7 +238,7 @@ class TemplateController extends FormController
             $this->setRedirect(
                 Route::_(
                     'index.php?option=' . $this->option . '&view=' . $this->view_item
-                    . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                    . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                     false
                 )
             );
@@ -261,7 +262,7 @@ class TemplateController extends FormController
                 $this->setRedirect(
                     Route::_(
                         'index.php?option=' . $this->option . '&view=' . $this->view_item
-                        . $this->getRedirectToItemAppend(array($recordId, $language), 'template_id'),
+                        . $this->getRedirectToItemAppend([$recordId, $language], 'template_id'),
                         false
                     )
                 );
@@ -278,8 +279,8 @@ class TemplateController extends FormController
                 // Check if there is a return value
                 $return = $this->input->get('return', null, 'base64');
 
-                if (!is_null($return) && Uri::isInternal(base64_decode($return))) {
-                    $url = base64_decode($return);
+                if (!is_null($return) && Uri::isInternal(base64_decode((string) $return))) {
+                    $url = base64_decode((string) $return);
                 }
 
                 // Redirect to the list screen.

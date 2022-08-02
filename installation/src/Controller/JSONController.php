@@ -54,7 +54,7 @@ abstract class JSONController extends BaseController
         }
 
         // Send the JSON response.
-        echo json_encode(new JsonResponse($response));
+        echo json_encode(new JsonResponse($response), JSON_THROW_ON_ERROR);
     }
 
     /**

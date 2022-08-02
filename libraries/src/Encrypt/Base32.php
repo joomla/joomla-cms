@@ -22,7 +22,7 @@ class Base32
      * The character set as defined by RFC3548
      * @link http://www.ietf.org/rfc/rfc3548.txt
      */
-    public const CSRFC3548 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    final public const CSRFC3548 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
     /**
      * str2bin
@@ -37,7 +37,7 @@ class Base32
     {
         $chrs = unpack('C*', $str);
 
-        return vsprintf(str_repeat('%08b', \count($chrs)), $chrs);
+        return vsprintf(str_repeat('%08b', is_countable($chrs) ? \count($chrs) : 0), $chrs);
     }
 
     /**
@@ -106,7 +106,7 @@ class Base32
         }
 
         preg_match_all('/.{8}/', $str, $chrs);
-        $chrs = array_map(array($this, '_mapcharset'), $chrs[0]);
+        $chrs = array_map($this->_mapcharset(...), $chrs[0]);
 
         return implode('', $chrs);
     }
@@ -129,7 +129,7 @@ class Base32
         }
 
         // Convert the base32 string back to a binary string
-        $str = implode('', array_map(array($this, '_mapbin'), str_split($str)));
+        $str = implode('', array_map($this->_mapbin(...), str_split($str)));
 
         // Remove the extra 0's we added
         $str = preg_replace('/000(.{5})/', '$1', $str);

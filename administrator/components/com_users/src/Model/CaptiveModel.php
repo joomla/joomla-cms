@@ -52,9 +52,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @param   CMSApplication|null  $app  The CMS application to manipulate
      *
-     * @return  void
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     public function suppressAllModules(CMSApplication $app = null): void
@@ -63,7 +61,7 @@ class CaptiveModel extends BaseDatabaseModel
             $app = Factory::getApplication();
         }
 
-        $app->registerEvent('onAfterModuleList', [$this, 'onAfterModuleList']);
+        $app->registerEvent('onAfterModuleList', $this->onAfterModuleList(...));
     }
 
     /**
@@ -72,9 +70,7 @@ class CaptiveModel extends BaseDatabaseModel
      * @param   User|null  $user                The user for which to fetch records. Skip to use the current user.
      * @param   bool       $includeBackupCodes  Should I include the backup codes record?
      *
-     * @return  array
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     public function getRecords(User $user = null, bool $includeBackupCodes = false): array
@@ -104,9 +100,7 @@ class CaptiveModel extends BaseDatabaseModel
         if (!$includeBackupCodes) {
             $methodNames = array_filter(
                 $methodNames,
-                function ($method) {
-                    return $method != 'backupcodes';
-                }
+                fn($method) => $method != 'backupcodes'
             );
         }
 
@@ -158,9 +152,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @param   User|null  $user  The user for which to fetch records. Skip to use the current user.
      *
-     * @return  MfaTable|null
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     public function getRecord(?User $user = null): ?MfaTable
@@ -248,7 +240,6 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Returns the title to display in the Captive login page, or an empty string if no title is to be displayed.
      *
-     * @return  string
      * @since 4.2.0
      */
     public function getPageTitle(): string
@@ -269,7 +260,6 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @param   string  $name  The internal MFA Method name
      *
-     * @return  string
      * @since 4.2.0
      */
     public function translateMethodName(string $name): string
@@ -299,7 +289,6 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @param   string  $name  The internal MFA Method name
      *
-     * @return  string
      * @since 4.2.0
      */
     public function getMethodImage(string $name): string
@@ -335,9 +324,7 @@ class CaptiveModel extends BaseDatabaseModel
      *
      * @param   Event  $event  The Joomla! event object
      *
-     * @return  void
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     public function onAfterModuleList(Event $event): void
@@ -387,9 +374,7 @@ class CaptiveModel extends BaseDatabaseModel
     /**
      * Get a list of module positions we are allowed to display
      *
-     * @return  array
      * @throws  Exception
-     *
      * @since 4.2.0
      */
     private function getAllowedModulePositions(): array

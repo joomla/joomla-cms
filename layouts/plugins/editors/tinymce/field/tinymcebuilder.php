@@ -93,10 +93,10 @@ $doc->addScriptOptions(
     <div class="tox tox-tinymce">
         <div class="tox-editor-container">
             <div class="tox-menubar tinymce-builder-menu source" data-group="menu"
-                data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
+                data-value="<?php echo $this->escape(json_encode($menubarSource, JSON_THROW_ON_ERROR)); ?>">
             </div>
             <div class="tox-toolbar tinymce-builder-toolbar source" data-group="toolbar"
-                data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
+                data-value="<?php echo $this->escape(json_encode($buttonsSource, JSON_THROW_ON_ERROR)); ?>">
             </div>
         </div>
     </div>
@@ -118,28 +118,22 @@ $doc->addScriptOptions(
                             && empty($value['toolbars'][$num]['toolbar1'])
                             && empty($value['toolbars'][$num]['toolbar2'])
                         ) {
-                            // Take the preset for default value
-                            switch ($num) {
-                                case 0:
-                                    $preset = $toolbarPreset['advanced'];
-                                    break;
-                                case 1:
-                                    $preset = $toolbarPreset['medium'];
-                                    break;
-                                default:
-                                    $preset = $toolbarPreset['simple'];
-                            }
+                            $preset = match ($num) {
+                                0 => $toolbarPreset['advanced'],
+                                1 => $toolbarPreset['medium'],
+                                default => $toolbarPreset['simple'],
+                            };
 
                             $value['toolbars'][$num] = $preset;
                         }
 
                         // Take existing values
-                        $valMenu = empty($value['toolbars'][$num]['menu'])     ? array() : $value['toolbars'][$num]['menu'];
-                        $valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? array() : $value['toolbars'][$num]['toolbar1'];
-                        $valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? array() : $value['toolbars'][$num]['toolbar2'];
+                        $valMenu = empty($value['toolbars'][$num]['menu'])     ? [] : $value['toolbars'][$num]['menu'];
+                        $valBar1 = empty($value['toolbars'][$num]['toolbar1']) ? [] : $value['toolbars'][$num]['toolbar1'];
+                        $valBar2 = empty($value['toolbars'][$num]['toolbar2']) ? [] : $value['toolbars'][$num]['toolbar2'];
 
                         ?>
-                    <?php echo $this->sublayout('setaccess', array('form' => $setsForms[$num])); ?>
+                    <?php echo $this->sublayout('setaccess', ['form' => $setsForms[$num]]); ?>
                     <div class="btn-toolbar float-end mt-3">
                         <div class="btn-group btn-group-sm">
 
@@ -165,22 +159,22 @@ $doc->addScriptOptions(
                         <div class="tox-editor-container">
                             <div class="tox-menubar tinymce-builder-menu target"
                                 data-group="menu" data-set="<?php echo $num; ?>"
-                                data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
+                                data-value="<?php echo $this->escape(json_encode($valMenu, JSON_THROW_ON_ERROR)); ?>">
                             </div>
                             <div class="tox-toolbar tinymce-builder-toolbar target"
                                 data-group="toolbar1" data-set="<?php echo $num; ?>"
-                                data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
+                                data-value="<?php echo $this->escape(json_encode($valBar1, JSON_THROW_ON_ERROR)); ?>">
                             </div>
                             <div class="tox-toolbar tinymce-builder-toolbar target"
                                 data-group="toolbar2" data-set="<?php echo $num; ?>"
-                                data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
+                                data-value="<?php echo $this->escape(json_encode($valBar2, JSON_THROW_ON_ERROR)); ?>">
                             </div>
                         </div>
                     </div>
 
                     <?php // Render the form for extra options ?>
-                    <?php echo $this->sublayout('setoptions', array('form' => $setsForms[$num])); ?>
+                    <?php echo $this->sublayout('setoptions', ['form' => $setsForms[$num]]); ?>
             </joomla-tab-element>
-        <?php endforeach; ?>
+<?php endforeach; ?>
     </joomla-tab>
 </div>

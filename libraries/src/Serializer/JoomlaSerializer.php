@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Serializer;
 
+use Joomla\CMS\Serializer\Events\OnGetApiAttributes;
+use Joomla\CMS\Serializer\Events\OnGetApiRelation;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Tobscure\JsonApi\AbstractSerializer;
@@ -68,7 +70,7 @@ class JoomlaSerializer extends AbstractSerializer
             $post = $post->getProperties();
         }
 
-        $event = new Events\OnGetApiAttributes('onGetApiAttributes', ['attributes' => $post, 'context' => $this->type]);
+        $event = new OnGetApiAttributes('onGetApiAttributes', ['attributes' => $post, 'context' => $this->type]);
 
         /** @var Events\OnGetApiAttributes $eventResult */
         $eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiAttributes', $event);
@@ -83,7 +85,7 @@ class JoomlaSerializer extends AbstractSerializer
      * @param   mixed   $model  The model of the entity being rendered
      * @param   string  $name   The name of the relationship to return
      *
-     * @return \Tobscure\JsonApi\Relationship|void
+     * @return Relationship|void
      *
      * @since   4.0.0
      */
@@ -97,7 +99,7 @@ class JoomlaSerializer extends AbstractSerializer
         }
 
         $eventData = ['model' => $model, 'field' => $name, 'context' => $this->type];
-        $event     = new Events\OnGetApiRelation('onGetApiRelation', $eventData);
+        $event     = new OnGetApiRelation('onGetApiRelation', $eventData);
 
         /** @var Events\OnGetApiRelation $eventResult */
         $eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiRelation', $event);

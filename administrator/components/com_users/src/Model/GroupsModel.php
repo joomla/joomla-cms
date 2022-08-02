@@ -33,16 +33,10 @@ class GroupsModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'parent_id', 'a.parent_id',
-                'title', 'a.title',
-                'lft', 'a.lft',
-                'rgt', 'a.rgt',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'parent_id', 'a.parent_id', 'title', 'a.title', 'lft', 'a.lft', 'rgt', 'a.rgt'];
         }
 
         parent::__construct($config, $factory);
@@ -151,12 +145,12 @@ class GroupsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
                 $query->where($db->quoteName('a.title') . ' LIKE :title');
                 $query->bind(':title', $search);
             }
@@ -180,7 +174,7 @@ class GroupsModel extends ListModel
     private function populateExtraData(array $items)
     {
         // First pass: get list of the group ids and reset the counts.
-        $groupsByKey = array();
+        $groupsByKey = [];
 
         foreach ($items as $item) {
             $groupsByKey[(int) $item->id] = $item;

@@ -128,21 +128,10 @@ class ColorField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'colors':
-            case 'control':
-            case 'default':
-            case 'display':
-            case 'exclude':
-            case 'format':
-            case 'keywords':
-            case 'preview':
-            case 'saveFormat':
-            case 'split':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'colors', 'control', 'default', 'display', 'exclude', 'format', 'keywords', 'preview', 'saveFormat', 'split' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -244,38 +233,25 @@ class ColorField extends FormField
     {
         $lang  = Factory::getApplication()->getLanguage();
         $data  = parent::getLayoutData();
-        $color = strtolower($this->value);
+        $color = strtolower((string) $this->value);
         $color = !$color && $color !== '0' ? '' : $color;
 
         // Position of the panel can be: right (default), left, top or bottom (default RTL is left)
         $position = ' data-position="' . (($lang->isRtl() && $this->position === 'default') ? 'left' : $this->position) . '"';
 
-        if ($color === '' || \in_array($color, array('none', 'transparent'))) {
+        if ($color === '' || \in_array($color, ['none', 'transparent'])) {
             $color = 'none';
         } elseif ($color[0] !== '#' && $this->format === 'hex') {
             $color = '#' . $color;
         }
 
-        switch ($this->control) {
-            case 'simple':
-                $controlModeData = $this->getSimpleModeLayoutData();
-                break;
-            case 'slider':
-                $controlModeData = $this->getSliderModeLayoutData();
-                break;
-            case 'advanced':
-            default:
-                $controlModeData = $this->getAdvancedModeLayoutData($lang);
-                break;
-        }
+        $controlModeData = match ($this->control) {
+            'simple' => $this->getSimpleModeLayoutData(),
+            'slider' => $this->getSliderModeLayoutData(),
+            default => $this->getAdvancedModeLayoutData($lang),
+        };
 
-        $extraData = array(
-            'color'    => $color,
-            'format'   => $this->format,
-            'keywords' => $this->keywords,
-            'position' => $position,
-            'validate' => $this->validate,
-        );
+        $extraData = ['color'    => $color, 'format'   => $this->format, 'keywords' => $this->keywords, 'position' => $position, 'validate' => $this->validate];
 
         return array_merge($data, $extraData, $controlModeData);
     }
@@ -289,23 +265,10 @@ class ColorField extends FormField
      */
     protected function getSimpleModeLayoutData()
     {
-        $colors = strtolower($this->colors);
+        $colors = strtolower((string) $this->colors);
 
         if (empty($colors)) {
-            $colors = array(
-                'none',
-                '#049cdb',
-                '#46a546',
-                '#9d261d',
-                '#ffc40d',
-                '#f89406',
-                '#c3325f',
-                '#7a43b6',
-                '#ffffff',
-                '#999999',
-                '#555555',
-                '#000000',
-            );
+            $colors = ['none', '#049cdb', '#46a546', '#9d261d', '#ffc40d', '#f89406', '#c3325f', '#7a43b6', '#ffffff', '#999999', '#555555', '#000000'];
         } else {
             $colors = explode(',', $colors);
         }
@@ -324,10 +287,7 @@ class ColorField extends FormField
 
         $split = $this->split ?: 3;
 
-        return array(
-            'colors' => $colors,
-            'split'  => $split,
-        );
+        return ['colors' => $colors, 'split'  => $split];
     }
 
     /**
@@ -341,11 +301,7 @@ class ColorField extends FormField
      */
     protected function getAdvancedModeLayoutData($lang)
     {
-        return array(
-            'colors'  => $this->colors,
-            'control' => $this->control,
-            'lang'    => $lang,
-        );
+        return ['colors'  => $this->colors, 'control' => $this->control, 'lang'    => $lang];
     }
 
     /**
@@ -357,11 +313,6 @@ class ColorField extends FormField
      */
     protected function getSliderModeLayoutData()
     {
-        return array(
-            'default'    => $this->default,
-            'display'    => $this->display,
-            'preview'    => $this->preview,
-            'saveFormat' => $this->saveFormat,
-        );
+        return ['default'    => $this->default, 'display'    => $this->display, 'preview'    => $this->preview, 'saveFormat' => $this->saveFormat];
     }
 }

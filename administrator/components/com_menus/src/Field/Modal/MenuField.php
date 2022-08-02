@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Field\Modal;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -84,16 +85,10 @@ class MenuField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'allowSelect':
-            case 'allowClear':
-            case 'allowNew':
-            case 'allowEdit':
-            case 'allowPropagate':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'allowSelect', 'allowClear', 'allowNew', 'allowEdit', 'allowPropagate' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -164,8 +159,9 @@ class MenuField extends FormField
      */
     protected function getInput()
     {
+        $title_holder = null;
         $clientId    = (int) $this->element['clientid'];
-        $languages   = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages   = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
         Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
@@ -176,7 +172,7 @@ class MenuField extends FormField
         // Create the modal id.
         $modalId = 'Item_' . $this->id;
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
         // Add the modal field script to the document head.
@@ -187,7 +183,7 @@ class MenuField extends FormField
             static $scriptSelect = null;
 
             if (is_null($scriptSelect)) {
-                $scriptSelect = array();
+                $scriptSelect = [];
             }
 
             if (!isset($scriptSelect[$this->id])) {
@@ -248,7 +244,7 @@ class MenuField extends FormField
             }
         }
 
-        $title = empty($title) ? $title_holder : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+        $title = empty($title) ? $title_holder : htmlspecialchars((string) $title, ENT_QUOTES, 'UTF-8');
 
         // The current menu item display field.
         $html  = '';
@@ -331,16 +327,8 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
-                array(
-                    'title'       => $modalTitle,
-                    'url'         => $urlSelect,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-                                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                )
+                ['title'       => $modalTitle, 'url'         => $urlSelect, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+                                    . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>']
             );
         }
 
@@ -349,26 +337,15 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalNew' . $modalId,
-                array(
-                    'title'       => Text::_('COM_MENUS_NEW_MENUITEM'),
-                    'backdrop'    => 'static',
-                    'keyboard'    => false,
-                    'closeButton' => false,
-                    'url'         => $urlNew,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary"'
-                            . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                            . '<button type="button" class="btn btn-primary"'
-                            . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-                            . Text::_('JSAVE') . '</button>'
-                            . '<button type="button" class="btn btn-success"'
-                            . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-                            . Text::_('JAPPLY') . '</button>',
-                )
+                ['title'       => Text::_('COM_MENUS_NEW_MENUITEM'), 'backdrop'    => 'static', 'keyboard'    => false, 'closeButton' => false, 'url'         => $urlNew, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-secondary"'
+                        . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
+                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                        . '<button type="button" class="btn btn-primary"'
+                        . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
+                        . Text::_('JSAVE') . '</button>'
+                        . '<button type="button" class="btn btn-success"'
+                        . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
+                        . Text::_('JAPPLY') . '</button>']
             );
         }
 
@@ -377,26 +354,15 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalEdit' . $modalId,
-                array(
-                    'title'       => Text::_('COM_MENUS_EDIT_MENUITEM'),
-                    'backdrop'    => 'static',
-                    'keyboard'    => false,
-                    'closeButton' => false,
-                    'url'         => $urlEdit,
-                    'height'      => '400px',
-                    'width'       => '800px',
-                    'bodyHeight'  => 70,
-                    'modalWidth'  => 80,
-                    'footer'      => '<button type="button" class="btn btn-secondary"'
-                            . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'cancel\', \'item-form\'); return false;">'
-                            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-                            . '<button type="button" class="btn btn-primary"'
-                            . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'save\', \'item-form\'); return false;">'
-                            . Text::_('JSAVE') . '</button>'
-                            . '<button type="button" class="btn btn-success"'
-                            . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'apply\', \'item-form\'); return false;">'
-                            . Text::_('JAPPLY') . '</button>',
-                )
+                ['title'       => Text::_('COM_MENUS_EDIT_MENUITEM'), 'backdrop'    => 'static', 'keyboard'    => false, 'closeButton' => false, 'url'         => $urlEdit, 'height'      => '400px', 'width'       => '800px', 'bodyHeight'  => 70, 'modalWidth'  => 80, 'footer'      => '<button type="button" class="btn btn-secondary"'
+                        . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'cancel\', \'item-form\'); return false;">'
+                        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+                        . '<button type="button" class="btn btn-primary"'
+                        . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'save\', \'item-form\'); return false;">'
+                        . Text::_('JSAVE') . '</button>'
+                        . '<button type="button" class="btn btn-success"'
+                        . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'apply\', \'item-form\'); return false;">'
+                        . Text::_('JAPPLY') . '</button>']
             );
         }
 

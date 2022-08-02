@@ -32,12 +32,12 @@ $canChange = $user->authorise('core.edit.state', 'com_modules.module.' . $id) &&
 $moduleTag      = $params->get('module_tag', 'div');
 $bootstrapSize  = (int) $params->get('bootstrap_size', 6);
 $moduleClass    = $bootstrapSize ? 'col-md-' . $bootstrapSize : 'col-md-12';
-$headerTag      = htmlspecialchars($params->get('header_tag', 'h2'), ENT_QUOTES, 'UTF-8');
+$headerTag      = htmlspecialchars((string) $params->get('header_tag', 'h2'), ENT_QUOTES, 'UTF-8');
 $moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 // Temporarily store header class in variable
 $headerClass = $params->get('header_class');
-$headerClass = $headerClass ? ' ' . htmlspecialchars($headerClass, ENT_QUOTES, 'UTF-8') : '';
+$headerClass = $headerClass ? ' ' . htmlspecialchars((string) $headerClass, ENT_QUOTES, 'UTF-8') : '';
 
 ?>
 <div class="<?php echo $moduleClass; ?> module-wrapper">

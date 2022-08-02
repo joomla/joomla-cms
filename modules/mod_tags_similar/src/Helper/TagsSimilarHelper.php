@@ -42,7 +42,7 @@ abstract class TagsSimilarHelper
         // For now assume com_tags and com_users do not have tags.
         // This module does not apply to list views in general at this point.
         if ($option === 'com_tags' || $view === 'category' || $option === 'com_users') {
-            return array();
+            return [];
         }
 
         $db         = Factory::getDbo();
@@ -60,7 +60,7 @@ abstract class TagsSimilarHelper
         $tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
         if (!$tagsToMatch) {
-            return array();
+            return [];
         }
 
         $tagsToMatch = explode(',', $tagsToMatch);
@@ -194,7 +194,7 @@ abstract class TagsSimilarHelper
 
         try {
             $results = $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             $results = [];
             $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
         }

@@ -93,7 +93,6 @@ class HtmlView extends BaseHtmlView
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
      *
-     * @return  void
      *
      * @throws  \Exception
      * @see     \JViewLegacy::loadTemplate()
@@ -122,7 +121,7 @@ class HtmlView extends BaseHtmlView
         $activeRecords = 0;
 
         foreach ($this->methods as $methodName => $method) {
-            $methodActiveRecords = count($method['active']);
+            $methodActiveRecords = is_countable($method['active']) ? count($method['active']) : 0;
 
             if (!$methodActiveRecords) {
                 continue;

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 
-$attributes = array();
+$attributes = [];
 
 if ($item->anchor_title) {
     $attributes['title'] = $item->anchor_title;
@@ -69,4 +69,4 @@ if ($item->browserNav == 1) {
     $attributes['onclick'] = "window.open(this.href, 'targetWindow', '" . $options . "'); return false;";
 }
 
-echo HTMLHelper::_('link', OutputFilter::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
+echo HTMLHelper::_('link', OutputFilter::ampReplace(htmlspecialchars((string) $item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);

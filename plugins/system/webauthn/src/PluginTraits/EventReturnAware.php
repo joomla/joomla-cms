@@ -25,7 +25,6 @@ trait EventReturnAware
      * @param   Event   $event  The event we were processing
      * @param   mixed   $value  The value to append to the event's results
      *
-     * @return  void
      * @since   4.2.0
      */
     private function returnFromEvent(Event $event, $value = null): void

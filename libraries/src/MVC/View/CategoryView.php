@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -26,7 +28,7 @@ class CategoryView extends HtmlView
     /**
      * State data
      *
-     * @var    \Joomla\Registry\Registry
+     * @var Registry
      * @since  3.2
      */
     protected $state;
@@ -58,7 +60,7 @@ class CategoryView extends HtmlView
     /**
      * Pagination object
      *
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      * @since  3.2
      */
     protected $pagination;
@@ -156,7 +158,7 @@ class CategoryView extends HtmlView
         $pagination = $this->get('Pagination');
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -165,10 +167,10 @@ class CategoryView extends HtmlView
         $category->params = clone $params;
         $category->params->merge($cparams);
 
-        $children = array($category->id => $children);
+        $children = [$category->id => $children];
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
 
         if ($this->runPlugins) {
             PluginHelper::importPlugin('content');
@@ -301,9 +303,9 @@ class CategoryView extends HtmlView
     {
         if ($this->params->get('show_feed_link', 1) == 1) {
             $link    = '&format=feed&limitstart=';
-            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $attribs = ['type' => 'application/rss+xml', 'title' => 'RSS 2.0'];
             $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $attribs = ['type' => 'application/atom+xml', 'title' => 'Atom 1.0'];
             $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
         }
     }

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Message;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -27,7 +29,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -41,7 +43,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
@@ -61,7 +63,7 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         } elseif ($this->getLayout() !== 'edit' && empty($this->item->message_id)) {
             throw new GenericDataException(Text::_('JERROR_ALERTNOAUTHOR'), 403);

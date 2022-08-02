@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
@@ -17,8 +18,7 @@ use Joomla\CMS\Utility\Utility;
 use Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView;
 
 /** @var HtmlView $this */
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
     ->useScript('com_joomlaupdate.default')
@@ -29,7 +29,7 @@ Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG', true);
 Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
-$currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
+$currentJoomlaVersion = $this->updateInfo['installed'] ?? JVERSION;
 ?>
 
 <div id="joomlaupdate-wrapper" class="main-card mt-3 p-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
@@ -43,7 +43,7 @@ $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInf
     <?php endif; ?>
 </div>
 
-<?php if (count($this->warnings)) : ?>
+<?php if (is_countable($this->warnings) ? count($this->warnings) : 0) : ?>
     <h3><?php echo Text::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?></h3>
     <?php foreach ($this->warnings as $warning) : ?>
         <div class="alert alert-warning">

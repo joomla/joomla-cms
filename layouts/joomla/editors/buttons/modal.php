@@ -20,13 +20,13 @@ if (!$button->get('modal')) {
     return;
 }
 
-$class    = ($button->get('class')) ? $button->get('class') : null;
+$class    = $button->get('class') ?: null;
 $class   .= ($button->get('modal')) ? ' modal-button' : null;
-$href     = '#' . strtolower($button->get('name')) . '_modal';
+$href     = '#' . strtolower((string) $button->get('name')) . '_modal';
 $link     = ($button->get('link')) ? Uri::base() . $button->get('link') : null;
 $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
-$title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
-$options  = is_array($button->get('options')) ? $button->get('options') : array();
+$title    = $button->get('title') ?: $button->get('text');
+$options  = is_array($button->get('options')) ? $button->get('options') : [];
 
 $confirm = '';
 
@@ -36,9 +36,9 @@ if (is_array($button->get('options')) && isset($options['confirmText']) && isset
 }
 
 if (null !== $button->get('id')) {
-    $id = str_replace(' ', '', $button->get('id'));
+    $id = str_replace(' ', '', (string) $button->get('id'));
 } else {
-    $id = strtolower($button->get('name')) . '_modal';
+    $id = strtolower((string) $button->get('name')) . '_modal';
 }
 
 // @todo: J4: Move Make buttons fullscreen on smaller devices per https://github.com/joomla/joomla-cms/pull/23091
@@ -46,14 +46,6 @@ if (null !== $button->get('id')) {
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     $id,
-    array(
-        'url'    => $link,
-        'title'  => $title,
-        'height' => array_key_exists('height', $options) ? $options['height'] : '400px',
-        'width'  => array_key_exists('width', $options) ? $options['width'] : '800px',
-        'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
-        'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
-        'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
-            . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-    )
+    ['url'    => $link, 'title'  => $title, 'height' => array_key_exists('height', $options) ? $options['height'] : '400px', 'width'  => array_key_exists('width', $options) ? $options['width'] : '800px', 'bodyHeight'  => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70', 'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80', 'footer' => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
+        . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>']
 );

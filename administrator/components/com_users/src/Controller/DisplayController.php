@@ -44,18 +44,10 @@ class DisplayController extends BaseController
     {
         $canDo = ContentHelper::getActions('com_users');
 
-        switch ($view) {
-            // Special permissions.
-            case 'groups':
-            case 'group':
-            case 'levels':
-            case 'level':
-                return $canDo->get('core.admin');
-
-            // Default permissions.
-            default:
-                return true;
-        }
+        return match ($view) {
+            'groups', 'group', 'levels', 'level' => $canDo->get('core.admin'),
+            default => true,
+        };
     }
 
     /**
@@ -69,7 +61,7 @@ class DisplayController extends BaseController
      *
      * @since   1.5
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = []): BaseController|bool
     {
         $view   = $this->input->get('view', 'users');
         $layout = $this->input->get('layout', 'default');

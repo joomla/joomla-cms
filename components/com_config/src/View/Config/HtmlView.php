@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Config\Site\View\Config;
 
+use Joomla\CMS\Form\Form;
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
@@ -24,7 +26,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The form object
      *
-     * @var   \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since 3.2
      */
@@ -60,7 +62,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -84,7 +86,7 @@ class HtmlView extends BaseHtmlView
         $requestController = new RequestController();
 
         // Execute backend controller
-        $serviceData = json_decode($requestController->getJson(), true);
+        $serviceData = json_decode((string) $requestController->getJson(), true, 512, JSON_THROW_ON_ERROR);
 
         $form = $this->getForm();
 
@@ -125,7 +127,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
         $this->params        = &$params;
     }
 }

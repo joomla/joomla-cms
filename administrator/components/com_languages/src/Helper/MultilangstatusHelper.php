@@ -305,6 +305,7 @@ abstract class MultilangstatusHelper
      */
     public static function getModule($moduleName, $instanceTitle = null)
     {
+        $modules = null;
         $db = Factory::getDbo();
 
         $query = $db->getQuery(true)

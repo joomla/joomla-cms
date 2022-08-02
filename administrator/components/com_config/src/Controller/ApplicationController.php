@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
+use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -38,7 +39,7 @@ class ApplicationController extends BaseController
      *
      * @since   3.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -79,10 +80,10 @@ class ApplicationController extends BaseController
 
         $this->app->setUserState('com_config.config.global.data', null);
 
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
 
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Complete data array if needed
         $oldData = $model->getData();
@@ -117,7 +118,7 @@ class ApplicationController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = is_countable($errors) ? count($errors) : 0; $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
                 } else {
@@ -212,8 +213,7 @@ class ApplicationController extends BaseController
         }
 
         // Initialise model.
-
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
 
         // Attempt to save the configuration and remove root.
@@ -260,7 +260,7 @@ class ApplicationController extends BaseController
             $this->app->close();
         }
 
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
 
         echo new JsonResponse($model->sendTestMail());
@@ -289,7 +289,7 @@ class ApplicationController extends BaseController
             $this->app->close();
         }
 
-        /** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
+        /** @var ApplicationModel $model */
         $model = $this->getModel('Application', 'Administrator');
         echo new JsonResponse($model->storePermissions());
         $this->app->close();

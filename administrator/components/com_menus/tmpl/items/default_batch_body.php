@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_menus
@@ -25,14 +26,14 @@ $clientId  = (int) $this->state->get('filter.client_id');
 $menuType  = Factory::getApplication()->getUserState('com_menus.items.menutype', '');
 
 if ($clientId == 1) {
-    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+    /** @var WebAssetManager $wa */
     $wa = $this->document->getWebAssetManager();
     $wa->useScript('com_menus.batch-body');
     $wa->useScript('joomla.batch-copymove');
 }
 ?>
 <div class="p-3">
-    <?php if (strlen($menuType) && $menuType != '*') : ?>
+    <?php if (strlen((string) $menuType) && $menuType != '*') : ?>
         <?php if ($clientId != 1) : ?>
     <div class="row">
             <?php if (Multilanguage::isEnabled()) : ?>
@@ -59,11 +60,7 @@ if ($clientId == 1) {
                     <select class="form-select" name="batch[menu_id]" id="batch-menu-id">
                         <option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
                         <?php
-                        $opts = array(
-                            'published' => $this->state->get('filter.published'),
-                            'checkacl'  => (int) $this->state->get('menutypeid'),
-                            'clientid'  => (int) $clientId,
-                        );
+                        $opts = ['published' => $this->state->get('filter.published'), 'checkacl'  => (int) $this->state->get('menutypeid'), 'clientid'  => (int) $clientId];
                         echo HTMLHelper::_('select.options', HTMLHelper::_('menu.menuitems', $opts));
                         ?>
                     </select>

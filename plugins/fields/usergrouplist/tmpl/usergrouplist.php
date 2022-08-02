@@ -19,12 +19,12 @@ if ($value == '') {
 }
 
 $value  = (array) $value;
-$texts  = array();
+$texts  = [];
 $groups = UsersHelper::getGroups();
 
 foreach ($groups as $group) {
     if (in_array($group->value, $value)) {
-        $texts[] = htmlentities(trim($group->text, '- '));
+        $texts[] = htmlentities(trim((string) $group->text, '- '));
     }
 }
 

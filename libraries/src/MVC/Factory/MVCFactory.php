@@ -9,6 +9,9 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+use Joomla\CMS\MVC\Controller\ControllerInterface;
+use Joomla\CMS\MVC\View\ViewInterface;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareInterface;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
@@ -40,14 +43,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
     use CacheControllerFactoryAwareTrait;
 
     /**
-     * The namespace to create the objects from.
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    private $namespace;
-
-    /**
      * The namespace must be like:
      * Joomla\Component\Content
      *
@@ -55,9 +50,8 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      *
      * @since   4.0.0
      */
-    public function __construct($namespace)
+    public function __construct(private $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -69,7 +63,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      * @param   CMSApplicationInterface  $app     The app
      * @param   Input                    $input   The input
      *
-     * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+     * @return ControllerInterface
      *
      * @since   3.10.0
      * @throws  \Exception
@@ -140,7 +134,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         if ($model instanceof DatabaseAwareInterface) {
             try {
                 $model->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
+            } catch (DatabaseNotFoundException) {
                 @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $model->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
@@ -157,7 +151,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      * @param   string  $type    Optional type of view.
      * @param   array   $config  Optional configuration array for the view.
      *
-     * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
+     * @return ViewInterface The view object
      *
      * @since   3.10.0
      * @throws  \Exception
@@ -203,7 +197,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
      * @param   string  $prefix  Optional table prefix.
      * @param   array   $config  Optional configuration array for the table.
      *
-     * @return  \Joomla\CMS\Table\Table  The table object
+     * @return Table The table object
      *
      * @since   3.10.0
      * @throws  \Exception
@@ -235,7 +229,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $db = \array_key_exists('dbo', $config) ? $config['dbo'] : $this->getDatabase();
-        } catch (DatabaseNotFoundException $e) {
+        } catch (DatabaseNotFoundException) {
             @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
             $db = Factory::getContainer()->get(DatabaseInterface::class);
         }
@@ -285,7 +279,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setFormFactory($this->getFormFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -307,7 +301,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setDispatcher($this->getDispatcher());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -329,7 +323,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setSiteRouter($this->getSiteRouter());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }
@@ -351,7 +345,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 
         try {
             $object->setCacheControllerFactory($this->getCacheControllerFactory());
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             // Ignore it
         }
     }

@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Fields\Site\Controller;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
@@ -18,7 +20,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
  *
  * @since  3.7.0
  */
-class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
+class DisplayController extends BaseController
 {
     /**
      * @param   array                         $config   An optional associative array of configuration settings.
@@ -26,11 +28,11 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      *                                                  'view_path' (this list is not meant to be comprehensive).
      * @param   MVCFactoryInterface|null      $factory  The factory.
      * @param   CMSApplication|null           $app      The Application for the dispatcher
-     * @param   \Joomla\CMS\Input\Input|null  $input    The request's input object
+     * @param Input|null $input The request's input object
      *
      * @since   3.7.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Frontpage Editor Fields Button proxying.
         if ($input->get('view') === 'fields' && $input->get('layout') === 'modal') {

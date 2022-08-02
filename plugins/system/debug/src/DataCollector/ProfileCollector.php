@@ -100,7 +100,6 @@ class ProfileCollector extends AbstractDataCollector
      * @param   string  $name  Group name.
      *
      * @since  4.0.0
-     * @return bool
      */
     public function hasStartedMeasure($name): bool
     {
@@ -186,7 +185,6 @@ class ProfileCollector extends AbstractDataCollector
      * Returns an array of all measures
      *
      * @since  4.0.0
-     * @return array
      */
     public function getMeasures(): array
     {
@@ -197,7 +195,6 @@ class ProfileCollector extends AbstractDataCollector
      * Returns the request start time
      *
      * @since  4.0.0
-     * @return float
      */
     public function getRequestStartTime(): float
     {
@@ -208,7 +205,6 @@ class ProfileCollector extends AbstractDataCollector
      * Returns the request end time
      *
      * @since  4.0.0
-     * @return float
      */
     public function getRequestEndTime(): float
     {
@@ -219,7 +215,6 @@ class ProfileCollector extends AbstractDataCollector
      * Returns the duration of a request
      *
      * @since  4.0.0
-     * @return float
      */
     public function getRequestDuration(): float
     {
@@ -245,7 +240,7 @@ class ProfileCollector extends AbstractDataCollector
         $marks = Profiler::getInstance('Application')->getMarks();
 
         foreach ($marks as $mark) {
-            $mem = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1048576);
+            $mem = $this->getDataFormatter()->formatBytes(abs($mark->memory) * 1_048_576);
             $label = $mark->label . " ($mem)";
             $end = $start + $mark->time / 1000;
             $this->addMeasure($label, $start, $end);
@@ -258,13 +253,7 @@ class ProfileCollector extends AbstractDataCollector
 
         usort(
             $this->measures,
-            function ($a, $b) {
-                if ($a['start'] === $b['start']) {
-                    return 0;
-                }
-
-                return $a['start'] < $b['start'] ? -1 : 1;
-            }
+            fn($a, $b) => $a['start'] <=> $b['start']
         );
 
         return [
@@ -281,7 +270,6 @@ class ProfileCollector extends AbstractDataCollector
      * Returns the unique name of the collector
      *
      * @since  4.0.0
-     * @return string
      */
     public function getName(): string
     {
@@ -293,7 +281,6 @@ class ProfileCollector extends AbstractDataCollector
      * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
      *
      * @since  4.0.0
-     * @return array
      */
     public function getWidgets(): array
     {

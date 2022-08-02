@@ -198,7 +198,7 @@ class JsonapiView extends BaseApiView
             $associations = [];
 
             foreach ($item->associations as $language => $association) {
-                $itemId = explode(':', $association)[0];
+                $itemId = explode(':', (string) $association)[0];
 
                 $associations[] = (object) [
                     'id'       => $itemId,
@@ -210,7 +210,7 @@ class JsonapiView extends BaseApiView
         }
 
         if (!empty($item->tags->tags)) {
-            $tagsIds   = explode(',', $item->tags->tags);
+            $tagsIds   = explode(',', (string) $item->tags->tags);
             $tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
             $item->tags = array_combine($tagsIds, $tagsNames);

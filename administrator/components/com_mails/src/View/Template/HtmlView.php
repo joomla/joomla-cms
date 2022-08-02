@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Mails\Administrator\View\Template;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -28,7 +29,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -77,13 +78,13 @@ class HtmlView extends BaseHtmlView
         $this->form = $this->get('Form');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        list($component, $template_id) = explode('.', $this->item->template_id, 2);
-        $fields = array('subject', 'body', 'htmlbody');
-        $this->templateData = array();
+        [$component, $template_id] = explode('.', (string) $this->item->template_id, 2);
+        $fields = ['subject', 'body', 'htmlbody'];
+        $this->templateData = [];
         $language = Factory::getLanguage();
         $language->load($component, JPATH_SITE, $this->item->language, true);
         $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);

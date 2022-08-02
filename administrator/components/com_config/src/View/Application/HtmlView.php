@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Config\Administrator\View\Application;
 
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -27,7 +29,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      * @since  3.2
      */
     public $state;
@@ -35,7 +37,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The form object
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      * @since  3.2
      */
     public $form;

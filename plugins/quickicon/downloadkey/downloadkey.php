@@ -101,7 +101,6 @@ class PlgQuickiconDownloadkey extends CMSPlugin
      *
      * If 'supported' is non-zero and 'missing' is also non-zero you need to enter one or more download keys.
      *
-     * @return  array
      * @since   4.0.0
      */
     public function getMissingDownloadKeyInfo(): array

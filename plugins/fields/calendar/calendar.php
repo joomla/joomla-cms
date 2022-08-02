@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Fields.Calendar
@@ -17,7 +18,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  3.7.0
  */
-class PlgFieldsCalendar extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
+class PlgFieldsCalendar extends FieldsPlugin
 {
     /**
      * Transforms the field into a DOM XML element and appends it as a child on the given parent.

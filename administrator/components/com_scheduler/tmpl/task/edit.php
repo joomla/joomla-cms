@@ -62,7 +62,7 @@ endforeach;
 
     <!-- The main form card -->
     <div class="main-card">
-        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'general')); ?>
+        <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'general']); ?>
 
         <!-- The first (and the main) tab in the form -->
         <?php echo
@@ -91,7 +91,7 @@ endforeach;
                         if (!$long_description) {
                             $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
 
-                            if (strlen($truncated) > 500) {
+                            if (strlen((string) $truncated) > 500) {
                                 $long_description  = $short_description;
                                 $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
 

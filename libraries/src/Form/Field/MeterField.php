@@ -79,15 +79,10 @@ class MeterField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'active':
-            case 'width':
-            case 'animated':
-            case 'color':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'active', 'width', 'animated', 'color' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -180,14 +175,7 @@ class MeterField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
-            'width'    => $this->width,
-            'color'    => $this->color,
-            'animated' => $this->animated,
-            'active'   => $this->active,
-            'max'      => $this->max,
-            'min'      => $this->min,
-        );
+        $extraData = ['width'    => $this->width, 'color'    => $this->color, 'animated' => $this->animated, 'active'   => $this->active, 'max'      => $this->max, 'min'      => $this->min];
 
         return array_merge($data, $extraData);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_categories
@@ -19,7 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\String\Inflector;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -29,8 +30,8 @@ $userId    = $user->get('id');
 $extension = $this->escape($this->state->get('filter.extension'));
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts     = explode('.', $extension, 2);
+$saveOrder = ($listOrder == 'a.lft' && strtolower((string) $listDirn) == 'asc');
+$parts     = explode('.', (string) $extension, 2);
 $component = $parts[0];
 $section   = null;
 
@@ -55,7 +56,7 @@ if ($saveOrder && !empty($this->items)) {
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -126,7 +127,7 @@ if ($saveOrder && !empty($this->items)) {
                             </tr>
                         </thead>
                         <tbody <?php if ($saveOrder) :
-                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                            ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="false"<?php
                                endif; ?>>
                             <?php foreach ($this->items as $i => $item) : ?>
                                 <?php
@@ -144,7 +145,7 @@ if ($saveOrder && !empty($this->items)) {
                                         foreach ($this->ordering as $k => $v) {
                                             $v = implode('-', $v);
                                             $v = '-' . $v . '-';
-                                            if (strpos($v, '-' . $_currentParentId . '-') !== false) {
+                                            if (str_contains($v, '-' . $_currentParentId . '-')) {
                                                 $parentsStr .= ' ' . $k;
                                                 $_currentParentId = $k;
                                                 break;
@@ -181,7 +182,7 @@ if ($saveOrder && !empty($this->items)) {
                                         <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
                                     </td>
                                     <th scope="row">
-                                        <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                                        <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                                         <?php echo $prefix; ?>
                                         <?php if ($item->checked_out) : ?>
                                             <?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
@@ -287,14 +288,11 @@ if ($saveOrder && !empty($this->items)) {
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
-                                'title'  => Text::_('COM_CATEGORIES_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ['title'  => Text::_('COM_CATEGORIES_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="extension" value="<?php echo $extension; ?>">
                 <input type="hidden" name="task" value="">

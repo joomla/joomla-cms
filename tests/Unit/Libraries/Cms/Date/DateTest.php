@@ -26,22 +26,22 @@ class DateTest extends UnitTestCase
         // Test passing timezone as a DateTimeZone instance
         $date = new Date("8th March 1978", new \DateTimeZone('UTC'));
         $this->assertSame('UTC', $date->getTimezone()->getName());
-        $this->assertSame(258163200, $date->getTimestamp());
+        $this->assertSame(258_163_200, $date->getTimestamp());
 
         // Test passing timezone as a string
         $date = new Date("8th March 1978", 'UTC');
         $this->assertSame('UTC', $date->getTimezone()->getName());
-        $this->assertSame(258163200, $date->getTimestamp());
+        $this->assertSame(258_163_200, $date->getTimestamp());
 
         // Test invalid Timezone results in UTC Timezone
         $date = new Date("8th March 1978", 666);
         $this->assertSame('UTC', $date->getTimezone()->getName());
-        $this->assertSame(258163200, $date->getTimestamp());
+        $this->assertSame(258_163_200, $date->getTimestamp());
 
         // Test if the date is numeric, Date assumes a unix timestamp and converts it
-        $date = new Date(258163200, 666);
+        $date = new Date(258_163_200, 666);
         $this->assertSame('+00:00', $date->getTimezone()->getName());
-        $this->assertSame(258163200, $date->getTimestamp());
+        $this->assertSame(258_163_200, $date->getTimestamp());
     }
 
     /**
@@ -93,7 +93,7 @@ class DateTest extends UnitTestCase
     {
         $date = new Date("8th March 1978 6:06pm", new \DateTimeZone('UTC'));
 
-        $this->assertSame(258228360, $date->toUnix());
+        $this->assertSame(258_228_360, $date->toUnix());
     }
 
     /**

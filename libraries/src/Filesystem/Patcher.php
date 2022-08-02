@@ -22,46 +22,46 @@ class Patcher
     /**
      * Regular expression for searching source files
      */
-    public const SRC_FILE = '/^---\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
+    final public const SRC_FILE = '/^---\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
 
     /**
      * Regular expression for searching destination files
      */
-    public const DST_FILE = '/^\\+\\+\\+\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
+    final public const DST_FILE = '/^\\+\\+\\+\\s+(\\S+)\s+\\d{1,4}-\\d{1,2}-\\d{1,2}\\s+\\d{1,2}:\\d{1,2}:\\d{1,2}(\\.\\d+)?\\s+(\+|-)\\d{4}/A';
 
     /**
      * Regular expression for searching hunks of differences
      */
-    public const HUNK = '/@@ -(\\d+)(,(\\d+))?\\s+\\+(\\d+)(,(\\d+))?\\s+@@($)/A';
+    final public const HUNK = '/@@ -(\\d+)(,(\\d+))?\\s+\\+(\\d+)(,(\\d+))?\\s+@@($)/A';
 
     /**
      * Regular expression for splitting lines
      */
-    public const SPLIT = '/(\r\n)|(\r)|(\n)/';
+    final public const SPLIT = '/(\r\n)|(\r)|(\n)/';
 
     /**
      * @var    array  sources files
      * @since  3.0.0
      */
-    protected $sources = array();
+    protected $sources = [];
 
     /**
      * @var    array  destination files
      * @since  3.0.0
      */
-    protected $destinations = array();
+    protected $destinations = [];
 
     /**
      * @var    array  removal files
      * @since  3.0.0
      */
-    protected $removals = array();
+    protected $removals = [];
 
     /**
      * @var    array  patches
      * @since  3.0.0
      */
-    protected $patches = array();
+    protected $patches = [];
 
     /**
      * @var    array  instance of this class
@@ -105,10 +105,10 @@ class Patcher
      */
     public function reset()
     {
-        $this->sources = array();
-        $this->destinations = array();
-        $this->removals = array();
-        $this->patches = array();
+        $this->sources = [];
+        $this->destinations = [];
+        $this->removals = [];
+        $this->patches = [];
 
         return $this;
     }
@@ -183,13 +183,13 @@ class Patcher
         }
 
         // Clear the destinations cache
-        $this->destinations = array();
+        $this->destinations = [];
 
         // Clear the removals
-        $this->removals = array();
+        $this->removals = [];
 
         // Clear the patches
-        $this->patches = array();
+        $this->patches = [];
 
         return $done;
     }
@@ -223,11 +223,7 @@ class Patcher
      */
     public function add($udiff, $root = JPATH_BASE, $strip = 0)
     {
-        $this->patches[] = array(
-            'udiff' => $udiff,
-            'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
-            'strip' => $strip,
-        );
+        $this->patches[] = ['udiff' => $udiff, 'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '', 'strip' => $strip];
 
         return $this;
     }
@@ -262,11 +258,12 @@ class Patcher
      */
     protected static function findHeader(&$lines, &$src, &$dst)
     {
+        $m = [];
         // Get the current line
         $line = current($lines);
 
         // Search for the header
-        while ($line !== false && !preg_match(self::SRC_FILE, $line, $m)) {
+        while ($line !== false && !preg_match(self::SRC_FILE, (string) $line, $m)) {
             $line = next($lines);
         }
 
@@ -286,7 +283,7 @@ class Patcher
         }
 
         // Search the destination file
-        if (!preg_match(self::DST_FILE, $line, $m)) {
+        if (!preg_match(self::DST_FILE, (string) $line, $m)) {
             throw new \RuntimeException('Invalid Diff file');
         }
 
@@ -321,7 +318,7 @@ class Patcher
     {
         $line = current($lines);
 
-        if (preg_match(self::HUNK, $line, $m)) {
+        if (preg_match(self::HUNK, (string) $line, $m)) {
             $srcLine = (int) $m[1];
 
             $srcSize = 1;
@@ -371,10 +368,10 @@ class Patcher
         $line = current($lines);
 
         // Source lines (old file)
-        $source = array();
+        $source = [];
 
         // New lines (new file)
-        $destin = array();
+        $destin = [];
         $src_left = $srcSize;
         $dst_left = $dstSize;
 
@@ -389,17 +386,17 @@ class Patcher
                     throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_REMOVE_LINE', key($lines)));
                 }
 
-                $source[] = substr($line, 1);
+                $source[] = substr((string) $line, 1);
                 $src_left--;
             } elseif ($line[0] == '+') {
                 if ($dst_left == 0) {
                     throw new \RuntimeException(Text::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_ADD_LINE', key($lines)));
                 }
 
-                $destin[] = substr($line, 1);
+                $destin[] = substr((string) $line, 1);
                 $dst_left--;
             } elseif ($line != '\\ No newline at end of file') {
-                $line = substr($line, 1);
+                $line = substr((string) $line, 1);
                 $source[] = $line;
                 $destin[] = $line;
                 $src_left--;

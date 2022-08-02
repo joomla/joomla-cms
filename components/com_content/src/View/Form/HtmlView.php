@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Content\Site\View\Form;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Registry\Registry;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -28,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -49,14 +53,14 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -74,7 +78,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The user object
      *
-     * @var \Joomla\CMS\User\User
+     * @var User
      *
      * @since  4.0.0
      */
@@ -139,8 +143,8 @@ class HtmlView extends BaseHtmlView
         if (!empty($this->item->id)) {
             $this->item->tags->getItemTags('com_content.article', $this->item->id);
 
-            $this->item->images = json_decode($this->item->images);
-            $this->item->urls = json_decode($this->item->urls);
+            $this->item->images = json_decode((string) $this->item->images, null, 512, JSON_THROW_ON_ERROR);
+            $this->item->urls = json_decode((string) $this->item->urls, null, 512, JSON_THROW_ON_ERROR);
 
             $tmp = new \stdClass();
             $tmp->images = $this->item->images;
@@ -149,7 +153,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -157,7 +161,7 @@ class HtmlView extends BaseHtmlView
         $params = &$this->state->params;
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
 
         $this->params = $params;
 

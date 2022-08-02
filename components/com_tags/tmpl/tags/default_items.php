@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  com_tags
@@ -17,7 +18,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_tags.tags-default');
 
@@ -43,7 +44,7 @@ if ($bsspans < 1) {
 }
 
 $bscolumns = min($columns, floor(12 / $bsspans));
-$n         = count($this->items);
+$n         = is_countable($this->items) ? count($this->items) : 0;
 ?>
 
 <div class="com-tags__items">
@@ -101,11 +102,11 @@ $n         = count($this->items);
                 <?php endif; ?>
 
                 <?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-                    <?php $images = json_decode($item->images); ?>
+                    <?php $images = json_decode((string) $item->images, null, 512, JSON_THROW_ON_ERROR); ?>
                     <span class="tag-body">
                         <?php if (!empty($images->image_intro)) : ?>
                             <?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
-                            <div class="float-<?php echo htmlspecialchars($imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
+                            <div class="float-<?php echo htmlspecialchars((string) $imgfloat, ENT_QUOTES, 'UTF-8'); ?> item-image">
                                 <?php $imageOptions = []; ?>
                                 <?php if ($images->image_intro_caption) : ?>
                                         <?php $imageOptions['title'] = $images->image_intro_caption; ?>

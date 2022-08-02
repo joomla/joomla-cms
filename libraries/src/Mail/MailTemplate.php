@@ -29,39 +29,24 @@ class MailTemplate
     /**
      * Mailer object to send the actual mail.
      *
-     * @var    \Joomla\CMS\Mail\Mail
+     * @var Mail
      * @since  4.0.0
      */
     protected $mailer;
 
     /**
-     * Identifier of the mail template.
      *
-     * @var    string
+     * @var    string[]
      * @since  4.0.0
      */
-    protected $template_id;
-
-    /**
-     * Language of the mail template.
-     *
-     * @var    string
-     */
-    protected $language;
+    protected $data = [];
 
     /**
      *
      * @var    string[]
      * @since  4.0.0
      */
-    protected $data = array();
-
-    /**
-     *
-     * @var    string[]
-     * @since  4.0.0
-     */
-    protected $attachments = array();
+    protected $attachments = [];
 
     /**
      * List of recipients of the email
@@ -69,7 +54,7 @@ class MailTemplate
      * @var    \stdClass[]
      * @since  4.0.0
      */
-    protected $recipients = array();
+    protected $recipients = [];
 
     /**
      * Reply To of the email
@@ -82,17 +67,14 @@ class MailTemplate
     /**
      * Constructor for the mail templating class
      *
-     * @param   string  $templateId  Id of the mail template.
+     * @param string $template_id Id of the mail template.
      * @param   string  $language    Language of the template to use.
      * @param   Mail    $mailer      Mail object to send the mail with.
      *
      * @since   4.0.0
      */
-    public function __construct($templateId, $language, Mail $mailer = null)
+    public function __construct(protected $template_id, protected $language, Mail $mailer = null)
     {
-        $this->template_id = $templateId;
-        $this->language = $language;
-
         if ($mailer) {
             $this->mailer = $mailer;
         } else {
@@ -218,7 +200,7 @@ class MailTemplate
             }
         }
 
-        $app->triggerEvent('onMailBeforeRendering', array($this->template_id, &$this));
+        $app->triggerEvent('onMailBeforeRendering', [$this->template_id, &$this]);
 
         $subject = $this->replaceTags(Text::_($mail->subject), $this->data);
         $this->mailer->setSubject($subject);
@@ -276,11 +258,11 @@ class MailTemplate
             $this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
         }
 
-        if (trim($config->get('attachment_folder', ''))) {
+        if (trim((string) $config->get('attachment_folder', ''))) {
             $folderPath = rtrim(Path::check(JPATH_ROOT . '/' . $config->get('attachment_folder')), \DIRECTORY_SEPARATOR);
 
             if ($folderPath && $folderPath !== Path::clean(JPATH_ROOT) && is_dir($folderPath)) {
-                foreach ((array) json_decode($mail->attachments) as $attachment) {
+                foreach ((array) json_decode((string) $mail->attachments, null, 512, JSON_THROW_ON_ERROR) as $attachment) {
                     $filePath = Path::check($folderPath . '/' . $attachment->file);
 
                     if (is_file($filePath)) {
@@ -315,7 +297,7 @@ class MailTemplate
     {
         foreach ($tags as $key => $value) {
             if (is_array($value)) {
-                $matches = array();
+                $matches = [];
 
                 if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches)) {
                     foreach ($matches[0] as $i => $match) {
@@ -393,8 +375,8 @@ class MailTemplate
         $template->htmlbody = $htmlbody;
         $template->attachments = '';
         $params = new \stdClass();
-        $params->tags = array($tags);
-        $template->params = json_encode($params);
+        $params->tags = [$tags];
+        $template->params = json_encode($params, JSON_THROW_ON_ERROR);
 
         return $db->insertObject('#__mail_templates', $template);
     }
@@ -423,8 +405,8 @@ class MailTemplate
         $template->body = $body;
         $template->htmlbody = $htmlbody;
         $params = new \stdClass();
-        $params->tags = array($tags);
-        $template->params = json_encode($params);
+        $params->tags = [$tags];
+        $template->params = json_encode($params, JSON_THROW_ON_ERROR);
 
         return $db->updateObject('#__mail_templates', $template, ['template_id', 'language']);
     }

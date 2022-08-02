@@ -22,11 +22,10 @@ class StylesRenderer extends DocumentRenderer
     /**
      * List of already rendered src
      *
-     * @var array
      *
      * @since   4.0.0
      */
-    private $renderedSrc = [];
+    private array $renderedSrc = [];
 
     /**
      * Renders the document stylesheets and style tags and returns the results as a string
@@ -39,7 +38,7 @@ class StylesRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    public function render($head, $params = array(), $content = null)
+    public function render($head, $params = [], $content = null)
     {
         $tab          = $this->_doc->_getTab();
         $buffer       = '';
@@ -119,7 +118,7 @@ class StylesRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    private function renderElement($item): string
+    private function renderElement(WebAssetItemInterface|array $item): string
     {
         $buffer = '';
         $asset  = $item instanceof WebAssetItemInterface ? $item : null;
@@ -150,7 +149,7 @@ class StylesRenderer extends DocumentRenderer
             }
         } else {
             $attribs     = $item;
-            $version     = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+            $version     = $attribs['options']['version'] ?? '';
             $conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
         }
 
@@ -163,7 +162,7 @@ class StylesRenderer extends DocumentRenderer
         $this->renderedSrc[$src] = true;
 
         // Check if script uses media version.
-        if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto')) {
+        if ($version && !str_contains((string) $src, '?') && ($mediaVersion || $version !== 'auto')) {
             $src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
         }
 
@@ -174,19 +173,19 @@ class StylesRenderer extends DocumentRenderer
             $buffer .= '<!--[if ' . $conditional . ']>';
         }
 
-        $relation = isset($attribs['rel']) ? $attribs['rel'] : 'stylesheet';
+        $relation = $attribs['rel'] ?? 'stylesheet';
 
         if (isset($attribs['rel'])) {
             unset($attribs['rel']);
         }
 
         // Render the element with attributes
-        $buffer .= '<link href="' . htmlspecialchars($src) . '" rel="' . $relation . '"';
+        $buffer .= '<link href="' . htmlspecialchars((string) $src) . '" rel="' . $relation . '"';
         $buffer .= $this->renderAttributes($attribs);
         $buffer .= ' />';
 
         if ($relation === 'lazy-stylesheet') {
-            $buffer .= '<noscript><link href="' . htmlspecialchars($src) . '" rel="stylesheet" /></noscript>';
+            $buffer .= '<noscript><link href="' . htmlspecialchars((string) $src) . '" rel="stylesheet" /></noscript>';
         }
 
         // This is for IE conditional statements support.
@@ -208,7 +207,7 @@ class StylesRenderer extends DocumentRenderer
      *
      * @since   4.0.0
      */
-    private function renderInlineElement($item): string
+    private function renderInlineElement(WebAssetItemInterface|array $item): string
     {
         $buffer = '';
         $lnEnd  = $this->_doc->_getLineEnd();
@@ -268,7 +267,7 @@ class StylesRenderer extends DocumentRenderer
     {
         $buffer = '';
 
-        $defaultCssMimes = array('text/css');
+        $defaultCssMimes = ['text/css'];
 
         foreach ($attributes as $attrib => $value) {
             // Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
@@ -277,7 +276,7 @@ class StylesRenderer extends DocumentRenderer
             }
 
             // Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-            if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes)) {
+            if (\in_array($attrib, ['type', 'mime']) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes)) {
                 continue;
             }
 
@@ -302,7 +301,7 @@ class StylesRenderer extends DocumentRenderer
 
             if (!($this->_doc->isHtml5() && $isNoValueAttrib)) {
                 // Json encode value if it's an array.
-                $value = !is_scalar($value) ? json_encode($value) : $value;
+                $value = !is_scalar($value) ? json_encode($value, JSON_THROW_ON_ERROR) : $value;
 
                 $buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
             }

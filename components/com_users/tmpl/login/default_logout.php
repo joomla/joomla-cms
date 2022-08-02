@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Users\Site\View\Login\HtmlView;
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
@@ -14,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Users\Site\View\Login\HtmlView $this */
+/** @var HtmlView $this */
 ?>
 <div class="com-users-logout logout">
     <?php if ($this->params->get('show_page_heading')) : ?>
@@ -25,7 +26,7 @@ use Joomla\CMS\Router\Route;
     </div>
     <?php endif; ?>
 
-    <?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '') || $this->params->get('logout_image') != '') : ?>
+    <?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', (string) $this->params->get('logout_description')) != '') || $this->params->get('logout_image') != '') : ?>
         <div class="com-users-logout__description logout-description">
     <?php endif; ?>
 
@@ -37,7 +38,7 @@ use Joomla\CMS\Router\Route;
         <?php echo HTMLHelper::_('image', $this->params->get('logout_image'), empty($this->params->get('logout_image_alt')) && empty($this->params->get('logout_image_alt_empty')) ? false : $this->params->get('logout_image_alt'), ['class' => 'com-users-logout__image thumbnail float-end logout-image']); ?>
     <?php endif; ?>
 
-    <?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', $this->params->get('logout_description')) != '') || $this->params->get('logout_image') != '') : ?>
+    <?php if (($this->params->get('logoutdescription_show') == 1 && str_replace(' ', '', (string) $this->params->get('logout_description')) != '') || $this->params->get('logout_image') != '') : ?>
         </div>
     <?php endif; ?>
 
@@ -51,9 +52,9 @@ use Joomla\CMS\Router\Route;
             </div>
         </div>
         <?php if ($this->params->get('logout_redirect_url')) : ?>
-            <input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_url', $this->form->getValue('return', null, ''))); ?>">
+            <input type="hidden" name="return" value="<?php echo base64_encode((string) $this->params->get('logout_redirect_url', $this->form->getValue('return', null, ''))); ?>">
         <?php else : ?>
-            <input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('logout_redirect_menuitem', $this->form->getValue('return', null, ''))); ?>">
+            <input type="hidden" name="return" value="<?php echo base64_encode((string) $this->params->get('logout_redirect_menuitem', $this->form->getValue('return', null, ''))); ?>">
         <?php endif; ?>
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>

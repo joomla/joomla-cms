@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Database\Monitor\DebugMonitor;
+use Joomla\CMS\Log\Logger\InMemoryLogger;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
@@ -60,7 +62,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
      * @var    LogEntry[]
      * @since  3.1
      */
-    private $logEntries = [];
+    private array $logEntries = [];
 
     /**
      * Holds SHOW PROFILES of queries.
@@ -73,18 +75,16 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     /**
      * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1.
      *
-     * @var    array
      * @since  3.1.2
      */
-    private $sqlShowProfileEach = [];
+    private array $sqlShowProfileEach = [];
 
     /**
      * Holds all EXPLAIN EXTENDED for all queries.
      *
-     * @var    array
      * @since  3.1.2
      */
-    private $explains = [];
+    private array $explains = [];
 
     /**
      * Holds total amount of executed queries.
@@ -111,15 +111,14 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     protected $db;
 
     /**
-     * @var DebugBar
      * @since 4.0.0
      */
-    private $debugBar;
+    private readonly DebugBar $debugBar;
 
     /**
      * The query monitor.
      *
-     * @var    \Joomla\Database\Monitor\DebugMonitor
+     * @var DebugMonitor
      * @since  4.0.0
      */
     private $queryMonitor;
@@ -143,7 +142,6 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.1.3
      */
@@ -182,7 +180,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
         ob_start();
         ob_implicit_flush(false);
 
-        /** @var \Joomla\Database\Monitor\DebugMonitor */
+        /** @var DebugMonitor */
         $this->queryMonitor = $this->db->getMonitor();
 
         if (!$this->params->get('queries', 1)) {
@@ -340,8 +338,8 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
         // No debug for Safari and Chrome redirection.
         if (
-            strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
-            && strpos(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit') !== false
+            str_starts_with($contents, '<html><head><meta http-equiv="refresh" content="0;')
+            && str_contains(strtolower($_SERVER['HTTP_USER_AGENT'] ?? ''), 'webkit')
         ) {
             $this->debugBar->stackData();
 
@@ -428,6 +426,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterDisconnect(ConnectionEvent $event)
     {
+        $db = null;
         if (!JDEBUG) {
             return;
         }
@@ -477,7 +476,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
                     $dbVersion56 = false;
                 }
 
-                if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0)))) {
+                if ((stripos((string) $query, 'select') === 0) || ($dbVersion56 && ((stripos((string) $query, 'delete') === 0) || (stripos((string) $query, 'update') === 0)))) {
                     try {
                         $queryInstance = $db->getQuery(true);
                         $queryInstance->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
@@ -528,7 +527,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     private function collectLogs(): self
     {
         $loggerOptions = ['group' => 'default'];
-        $logger        = new Joomla\CMS\Log\Logger\InMemoryLogger($loggerOptions);
+        $logger        = new InMemoryLogger($loggerOptions);
         $logEntries    = $logger->getCollectedEntries();
 
         if (!$this->logEntries && !$logEntries) {
@@ -572,7 +571,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
                     foreach ($entry->callStack as $stackEntry) {
                         if (
                             !empty($stackEntry['class'])
-                            && ($stackEntry['class'] === 'Joomla\CMS\Log\LogEntry' || $stackEntry['class'] === 'Joomla\CMS\Log\Log')
+                            && ($stackEntry['class'] === LogEntry::class || $stackEntry['class'] === Log::class)
                         ) {
                             continue;
                         }
@@ -591,9 +590,9 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
                     }
 
                     $category = $entry->category;
-                    $relative = $file ? str_replace(JPATH_ROOT, '', $file) : '';
+                    $relative = $file ? str_replace(JPATH_ROOT, '', (string) $file) : '';
 
-                    if ($relative && 0 === strpos($relative, '/libraries/src')) {
+                    if ($relative && str_starts_with($relative, '/libraries/src')) {
                         if (!$logDeprecatedCore) {
                             break;
                         }
@@ -616,19 +615,11 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
                     break;
 
                 default:
-                    switch ($entry->priority) {
-                        case Log::EMERGENCY:
-                        case Log::ALERT:
-                        case Log::CRITICAL:
-                        case Log::ERROR:
-                            $level = 'error';
-                            break;
-                        case Log::WARNING:
-                            $level = 'warning';
-                            break;
-                        default:
-                            $level = 'info';
-                    }
+                    $level = match ($entry->priority) {
+                        Log::EMERGENCY, Log::ALERT, Log::CRITICAL, Log::ERROR => 'error',
+                        Log::WARNING => 'warning',
+                        default => 'info',
+                    };
 
                     $this->debugBar['log']->addMessage($entry->category . ' - ' . $entry->message, $level);
                     break;
@@ -641,12 +632,14 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
     /**
      * Add server timing headers when profile is activated.
      *
-     * @return  void
      *
      * @since   4.1.0
      */
     public function onBeforeRespond(): void
     {
+        $metrics = null;
+        $moduleTime = null;
+        $accessTime = null;
         if (!JDEBUG || !$this->params->get('profile', 1)) {
             return;
         }
@@ -657,18 +650,18 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
         foreach (Profiler::getInstance('Application')->getMarks() as $index => $mark) {
             // Ignore the before mark as the after one contains the timing of the action
-            if (stripos($mark->label, 'before') !== false) {
+            if (stripos((string) $mark->label, 'before') !== false) {
                 continue;
             }
 
             // Collect the module render time
-            if (strpos($mark->label, 'mod_') !== false) {
+            if (str_contains((string) $mark->label, 'mod_')) {
                 $moduleTime += $mark->time;
                 continue;
             }
 
             // Collect the access render time
-            if (strpos($mark->label, 'Access:') !== false) {
+            if (str_contains((string) $mark->label, 'Access:')) {
                 $accessTime += $mark->time;
                 continue;
             }

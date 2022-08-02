@@ -62,13 +62,10 @@ class CheckboxesField extends ListField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'forceMultiple':
-            case 'checkedOptions':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'forceMultiple', 'checkedOptions' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -151,11 +148,7 @@ class CheckboxesField extends ListField
         // If a value has been stored, use it. Otherwise, use the defaults.
         $checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
-        $extraData = array(
-            'checkedOptions' => \is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
-            'hasValue'       => $hasValue,
-            'options'        => $this->getOptions(),
-        );
+        $extraData = ['checkedOptions' => \is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions), 'hasValue'       => $hasValue, 'options'        => $this->getOptions()];
 
         return array_merge($data, $extraData);
     }

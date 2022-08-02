@@ -43,7 +43,7 @@ class DisplayController extends BaseController
      *
      * @since   3.7.0
      */
-    public function display($cachable = false, $urlparams = false)
+    public function display($cachable = false, $urlparams = false): BaseController|bool
     {
         // Set the default view name and format from the Request.
         $vName   = $this->input->get('view', 'fields');

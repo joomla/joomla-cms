@@ -91,7 +91,7 @@ class Help
         $lang->setDebug($debug);
 
         // Replace substitution codes in help URL.
-        $search = array(
+        $search = [
             // Application name (eg. 'Administrator')
             '{app}',
             // Component name (eg. 'com_content')
@@ -110,9 +110,9 @@ class Help
             '{minor}',
             // Joomla maintenance version number
             '{maintenance}',
-        );
+        ];
 
-        $replace = array(
+        $replace = [
             // {app}
             $app->getName(),
             // {component}
@@ -131,12 +131,12 @@ class Help
             $jver[1],
             // {maintenance}
             $jver[2],
-        );
+        ];
 
         // If the help file is local then check it exists.
         // If it doesn't then fallback to English.
         if ($local) {
-            $try = str_replace($search, $replace, $url);
+            $try = str_replace($search, $replace, (string) $url);
 
             if (!is_file(JPATH_BASE . '/' . $try)) {
                 $replace[3] = 'en-GB';
@@ -145,7 +145,7 @@ class Help
             }
         }
 
-        $url = str_replace($search, $replace, $url);
+        $url = str_replace($search, $replace, (string) $url);
 
         return $url;
     }
@@ -161,7 +161,8 @@ class Help
      */
     public static function createSiteList($pathToXml)
     {
-        $list = array();
+        $option = [];
+        $list = [];
         $xml  = false;
 
         if (!empty($pathToXml)) {
@@ -174,7 +175,7 @@ class Help
 
             $list[] = (object) $option;
         } else {
-            $option = array();
+            $option = [];
 
             foreach ($xml->sites->site as $site) {
                 $option['text']  = (string) $site;

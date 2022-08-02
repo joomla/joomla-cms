@@ -22,7 +22,6 @@ class LanguageFactory implements LanguageFactoryInterface
      * @param   string   $lang   The language to use
      * @param   boolean  $debug  The debug mode
      *
-     * @return  Language
      *
      * @since   4.0.0
      */

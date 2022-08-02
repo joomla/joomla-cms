@@ -37,12 +37,12 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  1.7.0
  */
-class Date extends \DateTime
+class Date extends \DateTime implements \Stringable
 {
-    public const DAY_ABBR = "\x021\x03";
-    public const DAY_NAME = "\x022\x03";
-    public const MONTH_ABBR = "\x023\x03";
-    public const MONTH_NAME = "\x024\x03";
+    final public const DAY_ABBR = "\x021\x03";
+    final public const DAY_NAME = "\x022\x03";
+    final public const MONTH_ABBR = "\x023\x03";
+    final public const MONTH_NAME = "\x024\x03";
 
     /**
      * The format string to be applied when using the __toString() magic method.
@@ -207,7 +207,7 @@ class Date extends \DateTime
      *
      * @since   1.7.0
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) parent::format(self::$format);
     }
@@ -305,19 +305,19 @@ class Date extends \DateTime
 
         if ($translate) {
             // Manually modify the month and day strings in the formatted time.
-            if (strpos($return, self::DAY_ABBR) !== false) {
+            if (str_contains($return, self::DAY_ABBR)) {
                 $return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
             }
 
-            if (strpos($return, self::DAY_NAME) !== false) {
+            if (str_contains($return, self::DAY_NAME)) {
                 $return = str_replace(self::DAY_NAME, $this->dayToString(parent::format('w')), $return);
             }
 
-            if (strpos($return, self::MONTH_ABBR) !== false) {
+            if (str_contains($return, self::MONTH_ABBR)) {
                 $return = str_replace(self::MONTH_ABBR, $this->monthToString(parent::format('n'), true), $return);
             }
 
-            if (strpos($return, self::MONTH_NAME) !== false) {
+            if (str_contains($return, self::MONTH_NAME)) {
                 $return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
             }
         }

@@ -30,18 +30,9 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
     /**
      * Collector name.
      *
-     * @var   string
      * @since 4.0.0
      */
-    private $name = 'info';
-
-    /**
-     * Request ID.
-     *
-     * @var   string
-     * @since 4.0.0
-     */
-    private $requestId;
+    private string $name = 'info';
 
     /**
      * InfoDataCollector constructor.
@@ -51,10 +42,8 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      *
      * @since  4.0.0
      */
-    public function __construct(Registry $params, $requestId)
+    public function __construct(Registry $params, private $requestId)
     {
-        $this->requestId = $requestId;
-
         parent::__construct($params);
     }
 
@@ -62,7 +51,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      * Returns the unique name of the collector
      *
      * @since  4.0.0
-     * @return string
      */
     public function getName(): string
     {
@@ -74,7 +62,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
      *
      * @since  4.0.0
-     * @return array
      */
     public function getWidgets(): array
     {
@@ -97,7 +84,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      *  - js: an array of filenames
      *
      * @since  4.0.0
-     * @return array
      */
     public function getAssets(): array
     {
@@ -139,8 +125,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      * @param   User  $identity  The identity.
      *
      * @since 4.0.0
-     *
-     * @return array
      */
     private function getIdentityInfo(User $identity): array
     {
@@ -162,8 +146,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      * @param   ResponseInterface  $response  The response.
      *
      * @since 4.0.0
-     *
-     * @return array
      */
     private function getResponseInfo(ResponseInterface $response): array
     {
@@ -178,8 +160,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      * @param   object  $template  The template.
      *
      * @since 4.0.0
-     *
-     * @return array
      */
     private function getTemplateInfo($template): array
     {
@@ -196,8 +176,6 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
      * @param   array  $info  General information.
      *
      * @since 4.0.0
-     *
-     * @return array
      */
     private function getDatabaseInfo(array $info): array
     {

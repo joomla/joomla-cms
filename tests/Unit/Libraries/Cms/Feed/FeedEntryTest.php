@@ -36,7 +36,6 @@ class FeedEntryTest extends UnitTestCase
     /**
      * Setup the tests.
      *
-     * @return  void
      *
      * @see     \PHPUnit\Framework\TestCase::setUp()
      * @since   3.1.4
@@ -51,7 +50,6 @@ class FeedEntryTest extends UnitTestCase
     /**
      * Method to tear down whatever was set up before the test.
      *
-     * @return  void
      *
      * @see     \PHPUnit\Framework\TestCase::tearDown()
      * @since   3.1.4

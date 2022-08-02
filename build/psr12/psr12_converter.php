@@ -9,7 +9,7 @@
  */
 
 // Set defaults
-$root      = dirname(dirname(__DIR__));
+$root      = dirname(__DIR__, 2);
 $php       = 'php';
 $git       = 'git';
 $checkPath = false;
@@ -73,8 +73,8 @@ if (empty($argv)) {
 }
 
 foreach ($argv as $arg) {
-    if (substr($arg, 0, 2) === '--') {
-        $argi = explode('=', $arg, 2);
+    if (str_starts_with((string) $arg, '--')) {
+        $argi = explode('=', (string) $arg, 2);
         switch ($argi[0]) {
             case '--task':
                 foreach ($tasks as $task => $value) {
@@ -114,7 +114,7 @@ if ($tasks['BRANCH']) {
     }
 
     foreach ($output as $k => $line) {
-        if (substr($line, -4) !== '.php') {
+        if (!str_ends_with((string) $line, '.php')) {
             unset($output[$k]);
         }
     }
@@ -127,7 +127,7 @@ if ($tasks['BRANCH']) {
 
 $items = [];
 if ($checkPath) {
-    $items = explode(',', $checkPath);
+    $items = explode(',', (string) $checkPath);
 } else {
     $items[] = 'index.php';
     $items[] = 'administrator/index.php';
@@ -158,7 +158,7 @@ if ($checkPath) {
                 continue;
             }
             if (!is_dir($dir->path . '/' . $entry)) {
-                if (substr($entry, -4) !== '.php') {
+                if (!str_ends_with($entry, '.php')) {
                     continue;
                 }
             }
@@ -180,9 +180,7 @@ if ($checkPath) {
 $executedTasks = implode(
     ',',
     array_keys(
-        array_filter($tasks, function ($task) {
-            return $task;
-        })
+        array_filter($tasks, fn($task) => $task)
     )
 );
 $executedPaths = implode("\n", $items);
@@ -201,7 +199,7 @@ echo <<<TEXT
 // Recreate temp dir
 $cleanItems = glob($tmpDir . '/{,.}*', GLOB_MARK | GLOB_BRACE);
 foreach ($cleanItems as $item) {
-    if (basename($item) == '.' || basename($item) == '..') {
+    if (basename((string) $item) == '.' || basename((string) $item) == '..') {
         continue;
     }
     unlink($item);

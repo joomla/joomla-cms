@@ -23,10 +23,9 @@ class SodiumCipher implements CipherInterface
     /**
      * The message nonce to be used with encryption/decryption
      *
-     * @var    string
      * @since  3.8.0
      */
-    private $nonce;
+    private ?string $nonce = null;
 
     /**
      * Method to decrypt a data string.
@@ -102,7 +101,7 @@ class SodiumCipher implements CipherInterface
      * @since   3.8.0
      * @throws  \RuntimeException
      */
-    public function generateKey(array $options = array())
+    public function generateKey(array $options = [])
     {
         // Generate the encryption key.
         $pair = Compat::crypto_box_keypair();
@@ -113,7 +112,6 @@ class SodiumCipher implements CipherInterface
     /**
      * Check if the cipher is supported in this environment.
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

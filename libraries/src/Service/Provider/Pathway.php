@@ -37,9 +37,7 @@ class Pathway implements ServiceProviderInterface
             ->alias('pathway.site', SitePathway::class)
             ->share(
                 SitePathway::class,
-                function (Container $container) {
-                    return new SitePathway($container->get(SiteApplication::class));
-                },
+                fn(Container $container) => new SitePathway($container->get(SiteApplication::class)),
                 true
             );
 
@@ -48,9 +46,7 @@ class Pathway implements ServiceProviderInterface
             ->alias('pathway', \Joomla\CMS\Pathway\Pathway::class)
             ->share(
                 \Joomla\CMS\Pathway\Pathway::class,
-                function (Container $container) {
-                    return new \Joomla\CMS\Pathway\Pathway();
-                },
+                fn(Container $container) => new \Joomla\CMS\Pathway\Pathway(),
                 true
             );
     }

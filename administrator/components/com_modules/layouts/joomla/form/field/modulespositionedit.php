@@ -50,19 +50,9 @@ extract($displayData);
  * @var   array    $positions       Array of the positions
  */
 
-$attributes = array(
-    'class="' . $class . '"',
-    ' allow-custom',
-    ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ',
-);
+$attributes = ['class="' . $class . '"', ' allow-custom', ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" '];
 
-$selectAttr = array(
-    $disabled ? 'disabled' : '',
-    $readonly ? 'readonly' : '',
-    strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '',
-    $onchange ? ' onchange="' . $onchange . '"' : '',
-    $autofocus ? ' autofocus' : '',
-);
+$selectAttr = [$disabled ? 'disabled' : '', $readonly ? 'readonly' : '', strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '', $onchange ? ' onchange="' . $onchange . '"' : '', $autofocus ? ' autofocus' : ''];
 
 if ($required) {
     $selectAttr[] = ' required class="required"';
@@ -78,10 +68,6 @@ Factory::getDocument()->getWebAssetManager()
 
 ?>
 <joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php
-    echo HTMLHelper::_('select.groupedlist', $positions, $name, array(
-            'id'          => $id,
-            'list.select' => $value,
-            'list.attr'   => implode(' ', $selectAttr),
-        ));
+    echo HTMLHelper::_('select.groupedlist', $positions, $name, ['id'          => $id, 'list.select' => $value, 'list.attr'   => implode(' ', $selectAttr)]);
     ?></joomla-field-fancy-select>
 

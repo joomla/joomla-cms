@@ -32,7 +32,6 @@ class BaseLayoutTest extends UnitTestCase
      * Sets up the test by instantiating BaseLayout
      * This method is called before a test is executed.
      *
-     * @return void
      * @since   4.0.0
      */
     protected function setUp(): void
@@ -45,7 +44,6 @@ class BaseLayoutTest extends UnitTestCase
     /**
      * This method is called after a test is executed.
      *
-     * @return void
      * @since   4.0.0
      */
     protected function tearDown(): void

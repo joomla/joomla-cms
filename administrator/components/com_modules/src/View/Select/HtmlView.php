@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Select;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -27,7 +28,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
@@ -59,7 +60,7 @@ class HtmlView extends BaseHtmlView
         $this->modalLink = '';
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -92,6 +93,6 @@ class HtmlView extends BaseHtmlView
         // Instantiate a new FileLayout instance and render the layout
         $layout = new FileLayout('toolbar.cancelselect');
 
-        $bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
+        $bar->appendButton('Custom', $layout->render(['client_id' => $clientId]), 'new');
     }
 }

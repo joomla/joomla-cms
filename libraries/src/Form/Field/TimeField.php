@@ -128,14 +128,10 @@ class TimeField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'min':
-            case 'max':
-            case 'step':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'min', 'max', 'step' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**

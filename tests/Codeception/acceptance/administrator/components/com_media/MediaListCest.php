@@ -1,4 +1,6 @@
 <?php
+use Facebook\WebDriver\Remote\RemoteWebElement;
+use Facebook\WebDriver\WebDriverKeys;
 /**
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
@@ -27,13 +29,12 @@ use Step\Acceptance\Administrator\Media;
 class MediaListCest
 {
 	/**
-	 * The default contents.
-	 *
-	 * @var array
-	 *
-	 * @since   4.0.0
-	 */
-	private $contents = [
+  * The default contents.
+  *
+  *
+  * @since   4.0.0
+  */
+ private array $contents = [
 		'root'     => [
 			'banners',
 			'headers',
@@ -52,13 +53,12 @@ class MediaListCest
 	];
 
 	/**
-	 * The name of the test directory, which gets deleted after each test.
-	 *
-	 * @var string
-	 *
-	 * @since   4.0.0
-	 */
-	private $testDirectory = 'test-dir';
+  * The name of the test directory, which gets deleted after each test.
+  *
+  *
+  * @since   4.0.0
+  */
+ private string $testDirectory = 'test-dir';
 
 	/**
 	 * Runs before every test.
@@ -113,15 +113,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it shows then joomla default media files and folders.
-	 *
-	 * @param   Media  $I
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws Exception
-	 */
-	public function showsDefaultFilesAndFolders(Media $I)
+  * Test that it shows then joomla default media files and folders.
+  *
+  *
+  * @since   4.0.0
+  * @throws Exception
+  */
+ public function showsDefaultFilesAndFolders(Media $I)
 	{
 		$I->wantToTest('that it shows the joomla default media files and folders.');
 		$I->amOnPage(MediaListPage::$url);
@@ -131,15 +129,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it shows then joomla default media files and folders.
-	 *
-	 * @param   Media  $I
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws Exception
-	 */
-	public function showsFilesAndFoldersOfASubdirectoryWhenOpenedUsingDeepLink(Media $I)
+  * Test that it shows then joomla default media files and folders.
+  *
+  *
+  * @since   4.0.0
+  * @throws Exception
+  */
+ public function showsFilesAndFoldersOfASubdirectoryWhenOpenedUsingDeepLink(Media $I)
 	{
 		$I->wantToTest('that it shows the  media files and folders of a subdirectory when opened using deep link.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
@@ -204,15 +200,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it's possible to navigate to a subfolder using double click.
-	 *
-	 * @param   Media  $I
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws Exception
-	 */
-	public function navigateUsingDoubleClickOnFolder(Media $I)
+  * Test that it's possible to navigate to a subfolder using double click.
+  *
+  *
+  * @since   4.0.0
+  * @throws Exception
+  */
+ public function navigateUsingDoubleClickOnFolder(Media $I)
 	{
 		$I->wantToTest('that it is possible to navigate to a subfolder using double click.');
 		$I->amOnPage(MediaListPage::$url);
@@ -224,15 +218,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it's possible to navigate to a subfolder using tree.
-	 *
-	 * @param   Media  $I
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws Exception
-	 */
-	public function navigateUsingTree(Media $I)
+  * Test that it's possible to navigate to a subfolder using tree.
+  *
+  *
+  * @since   4.0.0
+  * @throws Exception
+  */
+ public function navigateUsingTree(Media $I)
 	{
 		$I->wantToTest('that it is possible to navigate to a subfolder using tree.');
 		$I->amOnPage(MediaListPage::$url);
@@ -244,15 +236,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that it's possible to navigate to a subfolder using breadcrumb.
-	 *
-	 * @param   Media  $I
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws Exception
-	 */
-	public function navigateUsingBreadcrumb(Media $I)
+  * Test that it's possible to navigate to a subfolder using breadcrumb.
+  *
+  *
+  * @since   4.0.0
+  * @throws Exception
+  */
+ public function navigateUsingBreadcrumb(Media $I)
 	{
 		$I->wantToTest('that it is possible to navigate to a subfolder using breadcrumb.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
@@ -264,15 +254,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that search is applied to the current list.
-	 *
-	 * @param   Media  $I
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.6
-	 */
-	public function searchInFilesAndFolders(Media $I)
+  * Test that search is applied to the current list.
+  *
+  *
+  * @throws  Exception
+  * @since   4.0.6
+  */
+ public function searchInFilesAndFolders(Media $I)
 	{
 		$I->wantToTest('that search is applied to the current list.');
 		$I->amOnPage(MediaListPage::$url);
@@ -284,15 +272,13 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that search is cleared when navigating in the tree.
-	 *
-	 * @param   Media  $I
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.6
-	 */
-	public function searchIsClearedOnNavigate(Media $I)
+  * Test that search is cleared when navigating in the tree.
+  *
+  *
+  * @throws  Exception
+  * @since   4.0.6
+  */
+ public function searchIsClearedOnNavigate(Media $I)
 	{
 		$I->wantToTest('that search is cleared when navigating in the tree.');
 		$I->amOnPage(MediaListPage::$url);
@@ -390,9 +376,7 @@ class MediaListCest
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
-		$I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el)  {
-			return $el->isEnabled();
-		});
+		$I->waitForElementChange(MediaListPage::$modalConfirmButton, fn(RemoteWebElement $el) => $el->isEnabled());
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
@@ -419,9 +403,7 @@ class MediaListCest
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $this->testDirectory);
-		$I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el)  {
-			return $el->isEnabled();
-		});
+		$I->waitForElementChange(MediaListPage::$modalConfirmButton, fn(RemoteWebElement $el) => $el->isEnabled());
 		$I->click(MediaListPage::$modalConfirmButton);
 		$I->seeSystemMessage('Error creating folder.');
 	}
@@ -764,7 +746,7 @@ class MediaListCest
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
 		$I->waitForElement(MediaListPage::$previewModal);
 		$I->waitForJsOnPageLoad();
-		$I->pressKey('body', \Facebook\WebDriver\WebDriverKeys::ESCAPE);
+		$I->pressKey('body', WebDriverKeys::ESCAPE);
 		$I->dontSeeElement(MediaListPage::$previewModal);
 	}
 
@@ -918,7 +900,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->click(MediaListPage::$selectAllButton);
-		$I->seeNumberOfElements(MediaListPage::$itemSelected, count($this->contents['root']) + 1);
+		$I->seeNumberOfElements(MediaListPage::$itemSelected, (is_countable($this->contents['root']) ? count($this->contents['root']) : 0) + 1);
 	}
 
 	/**

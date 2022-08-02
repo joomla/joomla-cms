@@ -39,20 +39,10 @@ class ManageModel extends InstallerModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'status',
-                'name',
-                'client_id',
-                'client', 'client_translated',
-                'type', 'type_translated',
-                'folder', 'folder_translated',
-                'package_id',
-                'extension_id',
-                'creationDate',
-            );
+            $config['filter_fields'] = ['status', 'name', 'client_id', 'client', 'client_translated', 'type', 'type_translated', 'folder', 'folder_translated', 'package_id', 'extension_id', 'creationDate'];
         }
 
         parent::__construct($config, $factory);
@@ -105,7 +95,7 @@ class ManageModel extends InstallerModel
      *
      * @since   1.5
      */
-    public function publish(&$eid = array(), $value = 1)
+    public function publish(&$eid = [], $value = 1)
     {
         if (!Factory::getUser()->authorise('core.edit.state', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
@@ -120,7 +110,7 @@ class ManageModel extends InstallerModel
          * @todo: If it isn't an array do we want to set an error and fail?
          */
         if (!is_array($eid)) {
-            $eid = array($eid);
+            $eid = [$eid];
         }
 
         // Get a table object for the extension type
@@ -133,7 +123,7 @@ class ManageModel extends InstallerModel
             if ($table->type == 'template') {
                 $style = new StyleTable($this->getDatabase());
 
-                if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1))) {
+                if ($style->load(['template' => $table->element, 'client_id' => $table->client_id, 'home' => 1])) {
                     Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'), 'notice');
                     unset($eid[$i]);
                     continue;
@@ -157,7 +147,7 @@ class ManageModel extends InstallerModel
             $context = $this->option . '.' . $this->name;
 
             PluginHelper::importPlugin('extension');
-            Factory::getApplication()->triggerEvent('onExtensionChangeState', array($context, $eid, $value));
+            Factory::getApplication()->triggerEvent('onExtensionChangeState', [$context, $eid, $value]);
 
             if (!$table->store()) {
                 $this->setError($table->getError());
@@ -182,10 +172,10 @@ class ManageModel extends InstallerModel
      *
      * @since   1.6
      */
-    public function refresh($eid)
+    public function refresh(int|array $eid)
     {
         if (!is_array($eid)) {
-            $eid = array($eid => 0);
+            $eid = [$eid => 0];
         }
 
         // Get an installer object for the extension type
@@ -211,7 +201,7 @@ class ManageModel extends InstallerModel
      *
      * @since   1.5
      */
-    public function remove($eid = array())
+    public function remove($eid = [])
     {
         if (!Factory::getUser()->authorise('core.delete', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
@@ -224,19 +214,19 @@ class ManageModel extends InstallerModel
          * @todo: If it isn't an array do we want to set an error and fail?
          */
         if (!is_array($eid)) {
-            $eid = array($eid => 0);
+            $eid = [$eid => 0];
         }
 
         // Get an installer object for the extension type
         $installer = Installer::getInstance();
-        $row       = new \Joomla\CMS\Table\Extension($this->getDatabase());
+        $row       = new Extension($this->getDatabase());
 
         // Uninstall the chosen extensions
-        $msgs   = array();
+        $msgs   = [];
         $result = false;
 
         foreach ($eid as $id) {
-            $id = trim($id);
+            $id = trim((string) $id);
             $row->load($id);
             $result = false;
 
@@ -247,10 +237,10 @@ class ManageModel extends InstallerModel
                 continue;
             }
 
-            $langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
+            $langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper((string) $row->type);
             $rowtype    = Text::_($langstring);
 
-            if (strpos($rowtype, $langstring) !== false) {
+            if (str_contains($rowtype, $langstring)) {
                 $rowtype = $row->type;
             }
 
@@ -366,8 +356,8 @@ class ManageModel extends InstallerModel
         // Process search filter (extension id).
         $search = $this->getState('filter.search');
 
-        if (!empty($search) && stripos($search, 'id:') === 0) {
-            $ids = (int) substr($search, 3);
+        if (!empty($search) && stripos((string) $search, 'id:') === 0) {
+            $ids = (int) substr((string) $search, 3);
             $query->where($db->quoteName('extension_id') . ' = :eid')
                 ->bind(':eid', $ids, ParameterType::INTEGER);
         }
@@ -429,15 +419,7 @@ class ManageModel extends InstallerModel
         $changelog->loadFromXml($extension->changelogurl);
 
         // Read all the entries
-        $entries = array(
-            'security' => array(),
-            'fix'      => array(),
-            'addition' => array(),
-            'change'   => array(),
-            'remove'   => array(),
-            'language' => array(),
-            'note'     => array()
-        );
+        $entries = ['security' => [], 'fix'      => [], 'addition' => [], 'change'   => [], 'remove'   => [], 'language' => [], 'note'     => []];
 
         array_walk(
             $entries,

@@ -34,14 +34,14 @@ abstract class AssociationHelper extends CategoryAssociationHelper
     public static function getAssociations($id = 0, $view = null)
     {
         $jinput = Factory::getApplication()->input;
-        $view   = $view ?? $jinput->get('view');
+        $view ??= $jinput->get('view');
         $id     = empty($id) ? $jinput->getInt('id') : $id;
 
         if ($view === 'newsfeed') {
             if ($id) {
                 $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
 
-                $return = array();
+                $return = [];
 
                 foreach ($associations as $tag => $item) {
                     $return[$tag] = RouteHelper::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
@@ -55,6 +55,6 @@ abstract class AssociationHelper extends CategoryAssociationHelper
             return self::getCategoryAssociations($id, 'com_newsfeeds');
         }
 
-        return array();
+        return [];
     }
 }

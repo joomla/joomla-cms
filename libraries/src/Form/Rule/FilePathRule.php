@@ -38,7 +38,7 @@ class FilePathRule extends FormRule
      */
     public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
     {
-        $value = trim($value);
+        $value = trim((string) $value);
 
         // If the field is empty and not required, the field is valid.
         $required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
@@ -66,7 +66,7 @@ class FilePathRule extends FormRule
         // Check if $value is a valid path, which includes not allowing to break out of the current path
         try {
             Path::check($value);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             // When there is an exception in the check path this is not valid
             return false;
         }

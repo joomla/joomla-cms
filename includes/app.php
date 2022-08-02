@@ -1,5 +1,10 @@
 <?php
 
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
+use Joomla\Session\SessionInterface;
+use Joomla\CMS\Application\SiteApplication;
 /**
  * @package    Joomla.Site
  *
@@ -32,10 +37,10 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
 require_once JPATH_BASE . '/includes/framework.php';
 
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
-JDEBUG && \Joomla\CMS\Profiler\Profiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad');
+JDEBUG && Profiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad');
 
 // Boot the DI container
-$container = \Joomla\CMS\Factory::getContainer();
+$container = Factory::getContainer();
 
 /*
  * Alias the session service keys to the web session service as that is the primary session backend for this application
@@ -47,15 +52,15 @@ $container = \Joomla\CMS\Factory::getContainer();
 $container->alias('session.web', 'session.web.site')
     ->alias('session', 'session.web.site')
     ->alias('JSession', 'session.web.site')
-    ->alias(\Joomla\CMS\Session\Session::class, 'session.web.site')
+    ->alias(Session::class, 'session.web.site')
     ->alias(\Joomla\Session\Session::class, 'session.web.site')
-    ->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
+    ->alias(SessionInterface::class, 'session.web.site');
 
 // Instantiate the application.
-$app = $container->get(\Joomla\CMS\Application\SiteApplication::class);
+$app = $container->get(SiteApplication::class);
 
 // Set the application as global app
-\Joomla\CMS\Factory::$application = $app;
+Factory::$application = $app;
 
 // Execute the application.
 $app->execute();

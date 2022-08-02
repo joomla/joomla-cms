@@ -105,10 +105,7 @@ class ConfigurationModel extends BaseInstallationModel
         $query->clear()
             ->insert($db->quoteName('#__schemas'))
             ->columns(
-                array(
-                    $db->quoteName('extension_id'),
-                    $db->quoteName('version_id')
-                )
+                [$db->quoteName('extension_id'), $db->quoteName('version_id')]
             )
             ->values($eid . ', ' . $db->quote($version));
         $db->setQuery($query);
@@ -156,7 +153,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site'])) {
             // Build the language parameters for the language manager.
-            $params = array();
+            $params = [];
 
             // Set default administrator/site language to sample data values.
             $params['administrator'] = 'en-GB';
@@ -170,7 +167,7 @@ class ConfigurationModel extends BaseInstallationModel
                 $params['site'] = $options->language;
             }
 
-            $params = json_encode($params);
+            $params = json_encode($params, JSON_THROW_ON_ERROR);
 
             // Update the language settings in the language manager.
             $query->clear()
@@ -234,7 +231,7 @@ class ConfigurationModel extends BaseInstallationModel
 
         if (empty($randUserId)) {
             // Create the ID for the root user only once and store in session.
-            $randUserId = mt_rand(1, 1000);
+            $randUserId = random_int(1, 1000);
             $session->set('randUserId', $randUserId);
         }
 
@@ -270,11 +267,7 @@ class ConfigurationModel extends BaseInstallationModel
         $userId = self::getUserId();
 
         // Update all core tables created_by fields of the tables with the random user id.
-        $updatesArray = array(
-            '#__categories'      => array('created_user_id', 'modified_user_id'),
-            '#__tags'            => array('created_user_id', 'modified_user_id'),
-            '#__workflows'       => array('created_by', 'modified_by'),
-        );
+        $updatesArray = ['#__categories'      => ['created_user_id', 'modified_user_id'], '#__tags'            => ['created_user_id', 'modified_user_id'], '#__workflows'       => ['created_by', 'modified_by']];
 
         foreach ($updatesArray as $table => $fields) {
             foreach ($fields as $field) {
@@ -438,7 +431,7 @@ class ConfigurationModel extends BaseInstallationModel
         $registry->set('session_metadata', true);
 
         // Generate the configuration class string buffer.
-        $buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+        $buffer = $registry->toString('PHP', ['class' => 'JConfig', 'closingtag' => false]);
 
         // Build the configuration file path.
         $path = JPATH_CONFIGURATION . '/configuration.php';
@@ -511,8 +504,8 @@ class ConfigurationModel extends BaseInstallationModel
         if ($result) {
             $query->clear()
                 ->update($db->quoteName('#__users'))
-                ->set($db->quoteName('name') . ' = ' . $db->quote(trim($options->admin_user)))
-                ->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_username)))
+                ->set($db->quoteName('name') . ' = ' . $db->quote(trim((string) $options->admin_user)))
+                ->set($db->quoteName('username') . ' = ' . $db->quote(trim((string) $options->admin_username)))
                 ->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
                 ->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
                 ->set($db->quoteName('block') . ' = 0')
@@ -523,24 +516,12 @@ class ConfigurationModel extends BaseInstallationModel
                 ->set($db->quoteName('params') . ' = ' . $db->quote(''))
                 ->where($db->quoteName('id') . ' = ' . $db->quote($userId));
         } else {
-            $columns = array(
-                $db->quoteName('id'),
-                $db->quoteName('name'),
-                $db->quoteName('username'),
-                $db->quoteName('email'),
-                $db->quoteName('password'),
-                $db->quoteName('block'),
-                $db->quoteName('sendEmail'),
-                $db->quoteName('registerDate'),
-                $db->quoteName('lastvisitDate'),
-                $db->quoteName('activation'),
-                $db->quoteName('params')
-            );
+            $columns = [$db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'), $db->quoteName('email'), $db->quoteName('password'), $db->quoteName('block'), $db->quoteName('sendEmail'), $db->quoteName('registerDate'), $db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params')];
             $query->clear()
                 ->insert('#__users', true)
                 ->columns($columns)
                 ->values(
-                    $db->quote($userId) . ', ' . $db->quote(trim($options->admin_user)) . ', ' . $db->quote(trim($options->admin_username)) . ', ' .
+                    $db->quote($userId) . ', ' . $db->quote(trim((string) $options->admin_user)) . ', ' . $db->quote(trim((string) $options->admin_username)) . ', ' .
                     $db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
                     $db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', NULL, ' .
                     $db->quote('0') . ', ' . $db->quote('')
@@ -573,7 +554,7 @@ class ConfigurationModel extends BaseInstallationModel
         } else {
             $query->clear()
                 ->insert($db->quoteName('#__user_usergroup_map'), false)
-                ->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
+                ->columns([$db->quoteName('user_id'), $db->quoteName('group_id')])
                 ->values($db->quote($userId) . ', 8');
         }
 

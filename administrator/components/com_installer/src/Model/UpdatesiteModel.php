@@ -44,7 +44,7 @@ class UpdatesiteModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getForm($data = [], $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
         $form = $this->loadForm('com_installer.updatesite', 'updatesite', ['control' => 'jform', 'load_data' => $loadData]);
@@ -79,7 +79,7 @@ class UpdatesiteModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getItem($pk = null)
+    public function getItem($pk = null): CMSObject|bool
     {
         $item = parent::getItem($pk);
 
@@ -158,7 +158,7 @@ class UpdatesiteModel extends AdminModel
 
         try {
             $db->setQuery($query)->execute();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // No problem if this fails for any reason.
         }
 

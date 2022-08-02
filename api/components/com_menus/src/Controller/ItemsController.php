@@ -80,7 +80,7 @@ class ItemsController extends ApiController
      */
     public function add()
     {
-        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data = $this->input->get('data', json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR), 'array');
 
         if (isset($data['menutype'])) {
             $this->input->set('menutype', $data['menutype']);
@@ -105,7 +105,7 @@ class ItemsController extends ApiController
      */
     public function edit()
     {
-        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data = $this->input->get('data', json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR), 'array');
 
         if (isset($data['menutype'])) {
             $this->input->set('menutype', $data['menutype']);

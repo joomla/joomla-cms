@@ -1,5 +1,10 @@
 <?php
 
+use Joomla\Database\DatabaseInterface;
+use Joomla\Component\Templates\Administrator\Model\TemplateModel;
+use Joomla\Component\Templates\Administrator\Extension\TemplatesComponent;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\Exception\ConnectionFailureException;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Installer.override
@@ -42,7 +47,7 @@ class PlgInstallerOverride extends CMSPlugin
     /**
      * Database object
      *
-     * @var    \Joomla\Database\DatabaseInterface
+     * @var DatabaseInterface
      * @since  4.0.0
      */
     protected $db;
@@ -53,7 +58,7 @@ class PlgInstallerOverride extends CMSPlugin
      * @param   string  $name    The model name. Optional
      * @param   string  $prefix  The class prefix. Optional
      *
-     * @return  \Joomla\Component\Templates\Administrator\Model\TemplateModel
+     * @return TemplateModel
      *
      * @since   4.0.0
      *
@@ -61,10 +66,10 @@ class PlgInstallerOverride extends CMSPlugin
      */
     public function getModel($name = 'Template', $prefix = 'Administrator')
     {
-        /** @var \Joomla\Component\Templates\Administrator\Extension\TemplatesComponent $templateProvider */
+        /** @var TemplatesComponent $templateProvider */
         $templateProvider = $this->app->bootComponent('com_templates');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $templateProvider->getMVCFactory()->createModel($name, $prefix);
 
         return $model;
@@ -131,7 +136,7 @@ class PlgInstallerOverride extends CMSPlugin
 
         $after  = $session->get('override.afterEventFiles');
         $before = $session->get('override.beforeEventFiles');
-        $result = array();
+        $result = [];
 
         if (!is_array($after) || !is_array($before)) {
             return $result;
@@ -162,9 +167,9 @@ class PlgInstallerOverride extends CMSPlugin
     public function getOverrideCoreList()
     {
         try {
-            /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $templateModel */
+            /** @var TemplateModel $templateModel */
             $templateModel = $this->getModel();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 
@@ -299,7 +304,7 @@ class PlgInstallerOverride extends CMSPlugin
         $db->setQuery($query);
         $results = $db->loadObjectList();
 
-        if (count($results) === 1) {
+        if ((is_countable($results) ? count($results) : 0) === 1) {
             return true;
         }
 
@@ -314,7 +319,7 @@ class PlgInstallerOverride extends CMSPlugin
      * @return  void
      *
      * @since   4.0.0
-     * @throws   \Joomla\Database\Exception\ExecutionFailureException|\Joomla\Database\Exception\ConnectionFailureException
+     * @throws ExecutionFailureException|ConnectionFailureException
      */
     private function saveOverrides($pks)
     {

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
@@ -21,7 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 class PlgContentVote extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.7.0
      */
@@ -61,7 +62,7 @@ class PlgContentVote extends CMSPlugin
      *
      * @since   1.6
      */
-    public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
+    public function onContentBeforeDisplay($context, &$row, &$params, $page = 0): string|bool
     {
         if ($this->votingPosition !== 'top') {
             return '';
@@ -82,7 +83,7 @@ class PlgContentVote extends CMSPlugin
      *
      * @since   3.7.0
      */
-    public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
+    public function onContentAfterDisplay($context, &$row, &$params, $page = 0): string|bool
     {
         if ($this->votingPosition !== 'bottom') {
             return '';
@@ -103,7 +104,7 @@ class PlgContentVote extends CMSPlugin
      *
      * @since   3.7.0
      */
-    private function displayVotingData($context, &$row, &$params, $page)
+    private function displayVotingData($context, &$row, &$params, $page): string|bool
     {
         $parts = explode('.', $context);
 

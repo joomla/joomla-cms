@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
@@ -86,23 +87,10 @@ class CategoryModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'con_position', 'a.con_position',
-                'suburb', 'a.suburb',
-                'state', 'a.state',
-                'country', 'a.country',
-                'ordering', 'a.ordering',
-                'sortname',
-                'sortname1', 'a.sortname1',
-                'sortname2', 'a.sortname2',
-                'sortname3', 'a.sortname3',
-                'featuredordering', 'a.featured'
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'name', 'a.name', 'con_position', 'a.con_position', 'suburb', 'a.suburb', 'state', 'a.state', 'country', 'a.country', 'ordering', 'a.ordering', 'sortname', 'sortname1', 'a.sortname1', 'sortname2', 'a.sortname2', 'sortname3', 'a.sortname3', 'featuredordering', 'a.featured'];
         }
 
         parent::__construct($config);
@@ -153,7 +141,7 @@ class CategoryModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    An SQL query
+     * @return DatabaseQuery An SQL query
      *
      * @since   1.6
      */
@@ -165,7 +153,7 @@ class CategoryModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
+        /** @var DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         $query->select($this->getState('list.select', 'a.*'))
@@ -219,7 +207,7 @@ class CategoryModel extends ListModel
         $search = $this->getState('list.filter');
 
         if (!empty($search)) {
-            $search = '%' . trim($search) . '%';
+            $search = '%' . trim((string) $search) . '%';
             $query->where($db->quoteName('a.name') . ' LIKE :name ');
             $query->bind(':name', $search);
         }
@@ -305,7 +293,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -350,7 +338,7 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
             $categories = Categories::getInstance('Contact', $options);
             $this->_item = $categories->get($this->getState('category.id', 'root'));
@@ -433,7 +421,7 @@ class CategoryModel extends ListModel
     /**
      * Generate column expression for slug or catslug.
      *
-     * @param   \Joomla\Database\DatabaseQuery  $query  Current query instance.
+     * @param DatabaseQuery $query Current query instance.
      * @param   string                          $id     Column id name.
      * @param   string                          $alias  Column alias name.
      *
@@ -446,7 +434,7 @@ class CategoryModel extends ListModel
         return 'CASE WHEN '
             . $query->charLength($alias, '!=', '0')
             . ' THEN '
-            . $query->concatenate(array($query->castAsChar($id), $alias), ':')
+            . $query->concatenate([$query->castAsChar($id), $alias], ':')
             . ' ELSE '
             . $query->castAsChar($id) . ' END';
     }

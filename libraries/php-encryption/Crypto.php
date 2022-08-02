@@ -100,13 +100,13 @@ class Crypto
     // Ciphertext format: [____HMAC____][____IV____][____CIPHERTEXT____].
 
     /* Do not change these constants! */
-    const CIPHER = MCRYPT_RIJNDAEL_128;
-    const KEY_BYTE_SIZE = 16;
-    const CIPHER_MODE = 'cbc';
-    const HASH_FUNCTION = 'sha256';
-    const MAC_BYTE_SIZE = 32;
-    const ENCRYPTION_INFO = 'DefusePHP|KeyForEncryption';
-    const AUTHENTICATION_INFO = 'DefusePHP|KeyForAuthentication';
+    final const CIPHER = MCRYPT_RIJNDAEL_128;
+    final const KEY_BYTE_SIZE = 16;
+    final const CIPHER_MODE = 'cbc';
+    final const HASH_FUNCTION = 'sha256';
+    final const MAC_BYTE_SIZE = 32;
+    final const ENCRYPTION_INFO = 'DefusePHP|KeyForEncryption';
+    final const AUTHENTICATION_INFO = 'DefusePHP|KeyForAuthentication';
 
     /*
      * Use this to generate a random encryption key.
@@ -148,7 +148,7 @@ class Crypto
 
         // Generate a sub-key for authentication and apply the HMAC.
         $akey = self::HKDF(self::HASH_FUNCTION, $key, self::KEY_BYTE_SIZE, self::AUTHENTICATION_INFO);
-        $auth = hash_hmac(self::HASH_FUNCTION, $ciphertext, $akey, true);
+        $auth = hash_hmac(self::HASH_FUNCTION, $ciphertext, (string) $akey, true);
         $ciphertext = $auth . $ciphertext;
 
         return $ciphertext;
@@ -366,7 +366,7 @@ class Crypto
         // Find the correct digest length as quickly as we can.
         $digest_length = self::MAC_BYTE_SIZE;
         if ($hash != self::HASH_FUNCTION) {
-            $digest_length = self::our_strlen(hash_hmac($hash, '', '', true));
+            $digest_length = self::our_strlen(hash_hmac((string) $hash, '', '', true));
         }
 
         // Sanity-check the desired output length.
@@ -383,7 +383,7 @@ class Crypto
         // HKDF-Extract:
         // PRK = HMAC-Hash(salt, IKM)
         // The salt is the HMAC key.
-        $prk = hash_hmac($hash, $ikm, $salt, true);
+        $prk = hash_hmac((string) $hash, (string) $ikm, (string) $salt, true);
 
         // HKDF-Expand:
 
@@ -398,7 +398,7 @@ class Crypto
         for ($block_index = 1; self::our_strlen($t) < $length; $block_index++) {
             // T(i) = HMAC-Hash(PRK, T(i-1) | info | 0x??)
             $last_block = hash_hmac(
-                $hash,
+                (string) $hash,
                 $last_block . $info . chr($block_index),
                 $prk,
                 true
@@ -417,7 +417,7 @@ class Crypto
 
     private static function VerifyHMAC($correct_hmac, $message, $key)
     {
-        $message_hmac = hash_hmac(self::HASH_FUNCTION, $message, $key, true);
+        $message_hmac = hash_hmac(self::HASH_FUNCTION, (string) $message, (string) $key, true);
 
         // We can't just compare the strings with '==', since it would make
         // timing attacks possible. We could use the XOR-OR constant-time
@@ -432,8 +432,8 @@ class Crypto
         }
 
         $blind = self::CreateNewRandomKey();
-        $message_compare = hash_hmac(self::HASH_FUNCTION, $message_hmac, $blind);
-        $correct_compare = hash_hmac(self::HASH_FUNCTION, $correct_hmac, $blind);
+        $message_compare = hash_hmac(self::HASH_FUNCTION, $message_hmac, (string) $blind);
+        $correct_compare = hash_hmac(self::HASH_FUNCTION, (string) $correct_hmac, (string) $blind);
         return $correct_compare === $message_compare;
     }
 
@@ -446,7 +446,7 @@ class Crypto
         $ciphertext = Crypto::Encrypt($data, $key);
         try {
             $decrypted = Crypto::Decrypt($ciphertext, $key);
-        } catch (InvalidCiphertextException $ex) {
+        } catch (InvalidCiphertextException) {
             // It's important to catch this and change it into a
             // CryptoTestFailedException, otherwise a test failure could trick
             // the user into thinking it's just an invalid ciphertext!
@@ -461,14 +461,14 @@ class Crypto
         try {
             Crypto::Decrypt($ciphertext . "a", $key);
             throw new CryptoTestFailedException();
-        } catch (InvalidCiphertextException $e) { /* expected */ }
+        } catch (InvalidCiphertextException) { /* expected */ }
 
         // Modifying the ciphertext: Changing an IV byte.
         try {
             $ciphertext[0] = chr((ord($ciphertext[0]) + 1) % 256);
             Crypto::Decrypt($ciphertext, $key);
             throw new CryptoTestFailedException();
-        } catch (InvalidCiphertextException $e) { /* expected */ }
+        } catch (InvalidCiphertextException) { /* expected */ }
 
         // Decrypting with the wrong key.
         $key = Crypto::CreateNewRandomKey();
@@ -478,7 +478,7 @@ class Crypto
         try {
             Crypto::Decrypt($ciphertext, $wrong_key);
             throw new CryptoTestFailedException();
-        } catch (InvalidCiphertextException $e) { /* expected */ }
+        } catch (InvalidCiphertextException) { /* expected */ }
 
         // Ciphertext too small (shorter than HMAC).
         $key = Crypto::CreateNewRandomKey();
@@ -486,7 +486,7 @@ class Crypto
         try {
             Crypto::Decrypt($ciphertext, $key);
             throw new CryptoTestFailedException();
-        } catch (InvalidCiphertextException $e) { /* expected */ }
+        } catch (InvalidCiphertextException) { /* expected */ }
     }
 
     private static function HKDFTestVector()
@@ -593,13 +593,13 @@ class Crypto
     private static function our_strlen($str)
     {
         if (function_exists('mb_strlen')) {
-            $length = mb_strlen($str, '8bit');
+            $length = mb_strlen((string) $str, '8bit');
             if ($length === FALSE) {
                 throw new CannotPerformOperationException();
             }
             return $length;
         } else {
-            return strlen($str);
+            return strlen((string) $str);
         }
     }
 
@@ -617,14 +617,14 @@ class Crypto
                 }
             }
 
-            return mb_substr($str, $start, $length, '8bit');
+            return mb_substr((string) $str, $start, $length, '8bit');
         }
 
         // Unlike mb_substr(), substr() doesn't accept NULL for length
         if (isset($length)) {
-            return substr($str, $start, $length);
+            return substr((string) $str, $start, $length);
         } else {
-            return substr($str, $start);
+            return substr((string) $str, $start);
         }
     }
 
@@ -648,7 +648,7 @@ class CryptoExceptionHandler
 
     public function __construct()
     {
-        set_exception_handler(array($this, "handler"));
+        set_exception_handler($this->handler(...));
     }
 
     public function handler($ex)

@@ -20,7 +20,6 @@ class FilterContrastTest extends UnitTestCase
     /**
      * Setup for testing.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -37,7 +36,6 @@ class FilterContrastTest extends UnitTestCase
     /**
      * Overrides the parent tearDown method.
      *
-     * @return  void
      *
      * @see     PHPUnit_Framework_TestCase::tearDown()
      * @since   4.0.0
@@ -70,7 +68,7 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array(IMG_FILTER_CONTRAST => -10));
+        $filter->execute([IMG_FILTER_CONTRAST => -10]);
 
         $this->assertEquals(
             82,
@@ -102,6 +100,6 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
     }
 }

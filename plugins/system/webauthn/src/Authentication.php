@@ -43,66 +43,25 @@ use Webauthn\PublicKeyCredentialUserEntity;
 final class Authentication
 {
     /**
-     * The credentials repository
-     *
-     * @var   CredentialRepository
-     * @since 4.2.0
-     */
-    private $credentialsRepository;
-
-    /**
-     * The application we are running in.
-     *
-     * @var   CMSApplication
-     * @since 4.2.0
-     */
-    private $app;
-
-    /**
-     * The application session
-     *
-     * @var   SessionInterface
-     * @since 4.2.0
-     */
-    private $session;
-
-    /**
-     * A simple metadata statement repository
-     *
-     * @var   MetadataStatementRepository
-     * @since 4.2.0
-     */
-    private $metadataRepository;
-
-    /**
      * Should I permit attestation support if a Metadata Statement Repository object is present and
      * non-empty?
      *
-     * @var   boolean
      * @since 4.2.0
      */
-    private $attestationSupport = true;
+    private bool $attestationSupport = true;
 
     /**
      * Public constructor.
      *
      * @param   ApplicationInterface|null                 $app       The app we are running in
      * @param   SessionInterface|null                     $session   The app session object
-     * @param   PublicKeyCredentialSourceRepository|null  $credRepo  Credentials repo
-     * @param   MetadataStatementRepository|null          $mdsRepo   Authenticator metadata repo
+     * @param PublicKeyCredentialSourceRepository|null $credentialsRepository Credentials repo
+     * @param MetadataStatementRepository|null $metadataRepository Authenticator metadata repo
      *
      * @since   4.2.0
      */
-    public function __construct(
-        ApplicationInterface $app = null,
-        SessionInterface $session = null,
-        PublicKeyCredentialSourceRepository $credRepo = null,
-        ?MetadataStatementRepository $mdsRepo = null
-    ) {
-        $this->app                   = $app;
-        $this->session               = $session;
-        $this->credentialsRepository = $credRepo;
-        $this->metadataRepository    = $mdsRepo;
+    public function __construct(private readonly ApplicationInterface $app = null, private readonly SessionInterface $session = null, private readonly PublicKeyCredentialSourceRepository $credentialsRepository = null, private readonly ?MetadataStatementRepository $metadataRepository = null)
+    {
     }
 
     /**
@@ -119,7 +78,7 @@ final class Authentication
 
         // Add a generic authenticator entry
         $image = HTMLHelper::_('image', 'plg_system_webauthn/fido.png', '', '', true, true);
-        $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : (JPATH_BASE . '/media/plg_system_webauthn/images/fido.png');
+        $image = $image ? JPATH_ROOT . substr((string) $image, \strlen(Uri::root(true))) : (JPATH_BASE . '/media/plg_system_webauthn/images/fido.png');
         $image = file_exists($image) ? file_get_contents($image) : '';
 
         $return[''] = (object) [
@@ -133,7 +92,6 @@ final class Authentication
     /**
      * Returns the Public Key credential source repository object
      *
-     * @return  PublicKeyCredentialSourceRepository|null
      *
      * @since   4.2.0
      */
@@ -145,7 +103,6 @@ final class Authentication
     /**
      * Returns the authenticator metadata repository object
      *
-     * @return  MetadataStatementRepository|null
      *
      * @since   4.2.0
      */
@@ -163,7 +120,6 @@ final class Authentication
      *
      * @param   User  $user  The Joomla user to create the public key for
      *
-     * @return  PublicKeyCredentialCreationOptions
      *
      * @throws  Exception
      * @since   4.2.0
@@ -239,7 +195,6 @@ final class Authentication
      * @param   string  $data  The data
      * @param   User    $user  The user we are trying to log in
      *
-     * @return  PublicKeyCredentialSource
      *
      * @throws Exception
      * @since   4.2.0
@@ -248,7 +203,7 @@ final class Authentication
     {
         // Make sure the public key credential request options in the session are valid
         $encodedPkOptions                  = $this->session->get('plg_system_webauthn.publicKeyCredentialRequestOptions', null);
-        $serializedOptions                 = base64_decode($encodedPkOptions);
+        $serializedOptions                 = base64_decode((string) $encodedPkOptions);
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
@@ -306,8 +261,8 @@ final class Authentication
 
         /** @var PublicKeyCredentialCreationOptions|null $publicKeyCredentialCreationOptions */
         try {
-            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (Exception $e) {
+            $publicKeyCredentialCreationOptions = unserialize(base64_decode((string) $encodedOptions));
+        } catch (Exception) {
             Log::add('The plg_system_webauthn.publicKeyCredentialCreationOptions in the session is invalid', Log::NOTICE, 'webauthn.system');
             $publicKeyCredentialCreationOptions = null;
         }
@@ -339,7 +294,6 @@ final class Authentication
     /**
      * Get the authentiactor attestation support.
      *
-     * @return  boolean
      * @since   4.2.0
      */
     public function hasAttestationSupport(): bool
@@ -354,7 +308,6 @@ final class Authentication
      *
      * @param   bool  $attestationSupport  The desired setting
      *
-     * @return  void
      * @since   4.2.0
      */
     public function setAttestationSupport(bool $attestationSupport): void
@@ -366,7 +319,6 @@ final class Authentication
      * Try to find the site's favicon in the site's root, images, media, templates or current
      * template directory.
      *
-     * @return  string|null
      *
      * @since   4.2.0
      */
@@ -391,7 +343,7 @@ final class Authentication
                 '/templates/',
                 '/templates/' . $this->app->getTemplate(),
             ];
-        } catch (Exception $e) {
+        } catch (Exception) {
             return null;
         }
 
@@ -420,7 +372,6 @@ final class Authentication
      *
      * @param   User  $user  The Joomla user to get the user entity for
      *
-     * @return  PublicKeyCredentialUserEntity
      *
      * @since   4.2.0
      */
@@ -484,7 +435,6 @@ final class Authentication
      * If they do not exist or are corrupt it is a hacking attempt and we politely tell the
      * attacker to go away.
      *
-     * @return  PublicKeyCredentialRequestOptions
      *
      * @throws  Exception
      * @since   4.2.0
@@ -500,8 +450,8 @@ final class Authentication
         }
 
         try {
-            $publicKeyCredentialRequestOptions = unserialize(base64_decode($encodedOptions));
-        } catch (Exception $e) {
+            $publicKeyCredentialRequestOptions = unserialize(base64_decode((string) $encodedOptions));
+        } catch (Exception) {
             Log::add('Invalid plg_system_webauthn.publicKeyCredentialRequestOptions in the session', Log::NOTICE, 'webauthn.system');
 
             throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));

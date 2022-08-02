@@ -22,24 +22,14 @@ class HelperFactory implements HelperFactoryInterface
     use DatabaseAwareTrait;
 
     /**
-     * The extension namespace
-     *
-     * @var  string
-     *
-     * @since   4.0.0
-     */
-    private $namespace;
-
-    /**
      * HelperFactory constructor.
      *
      * @param   string  $namespace  The namespace
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace)
+    public function __construct(private readonly string $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     /**

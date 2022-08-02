@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
+use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
+use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -50,10 +52,10 @@ class DisplayController extends BaseController
             }
 
             // Get the model for the view.
-            /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+            /** @var UpdateModel $model */
             $model = $this->getModel('Update');
 
-            /** @var ?\Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
+            /** @var ?WarningsModel $warningsModel */
             $warningsModel = $this->app->bootComponent('com_installer')
                 ->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
 

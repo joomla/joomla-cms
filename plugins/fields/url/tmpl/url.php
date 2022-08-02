@@ -29,12 +29,12 @@ if (!Uri::isInternal($value)) {
 }
 
 if ($fieldParams->get('show_url', 0)) {
-    $text = htmlspecialchars($value);
+    $text = htmlspecialchars((string) $value);
 }
 
 echo sprintf(
     '<a href="%s"%s>%s</a>',
-    htmlspecialchars($value),
+    htmlspecialchars((string) $value),
     $attributes,
     $text
 );

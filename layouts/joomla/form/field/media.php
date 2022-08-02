@@ -59,20 +59,10 @@ $attr .= $dataAttribute;
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
-switch ($preview) {
-    case 'no': // Deprecated parameter value
-    case 'false':
-    case 'none':
-        $showPreview = false;
-        break;
-    case 'yes': // Deprecated parameter value
-    case 'true':
-    case 'show':
-    case 'tooltip':
-    default:
-        $showPreview = true;
-        break;
-}
+$showPreview = match ($preview) {
+    'no', 'false', 'none' => false,
+    default => true,
+};
 
 // Pre fill the contents of the popover
 if ($showPreview) {
@@ -90,11 +80,7 @@ if ($showPreview) {
     $style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
     $style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
-    $imgattr = array(
-        'id' => $id . '_preview',
-        'class' => 'media-preview',
-        'style' => $style,
-    );
+    $imgattr = ['id' => $id . '_preview', 'class' => 'media-preview', 'style' => $style];
 
     $img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
@@ -183,7 +169,7 @@ if (count($doc->getScriptOptions('media-picker')) === 0) {
     preview-container=".field-media-preview" 
     preview-width="<?php echo $previewWidth; ?>" 
     preview-height="<?php echo $previewHeight; ?>" 
-    supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesAllowedExt, 'audios' => $audiosAllowedExt, 'videos' => $videosAllowedExt, 'documents' => $documentsAllowedExt])); ?>
+    supported-extensions="<?php echo str_replace('"', '&quot;', json_encode(['images' => $imagesAllowedExt, 'audios' => $audiosAllowedExt, 'videos' => $videosAllowedExt, 'documents' => $documentsAllowedExt], JSON_THROW_ON_ERROR)); ?>
 ">
     <?php echo $modalHTML; ?>
     <?php if ($showPreview) : ?>

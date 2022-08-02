@@ -24,18 +24,18 @@ $cols            = $displayData->cols;
 $rows            = $displayData->rows;
 $content         = $displayData->content;
 $extJS           = JDEBUG ? '.js' : '.min.js';
-$modifier        = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
+$modifier        = $params->get('fullScreenMod', []) ? implode(' + ', $params->get('fullScreenMod', [])) . ' + ' : '';
 $basePath        = $displayData->basePath;
 $modePath        = $displayData->modePath;
 $modPath         = 'mod-path="' . Uri::root() . $modePath . $extJS . '"';
-$fskeys          = $params->get('fullScreenMod', array());
+$fskeys          = $params->get('fullScreenMod', []);
 $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
-$fsCombo         = 'fs-combo=' . json_encode($fullScreenCombo);
-$option          = 'options=\'' . json_encode($options) . '\'';
+$fsCombo         = 'fs-combo=' . json_encode($fullScreenCombo, JSON_THROW_ON_ERROR);
+$option          = 'options=\'' . json_encode($options, JSON_THROW_ON_ERROR) . '\'';
 $mediaVersion    = Factory::getDocument()->getMediaVersion();
-$editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
-$addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
+$editor          = 'editor="' . ltrim((string) HTMLHelper::_('script', $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
+$addons          = 'addons="' . ltrim((string) HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 
 Factory::getDocument()->getWebAssetManager()
     ->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')

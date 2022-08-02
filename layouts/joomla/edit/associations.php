@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Document\HtmlDocument;
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -14,10 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $form     = $displayData->getForm();
-$options  = array(
-    'formControl' => $form->getFormControl(),
-    'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
-);
+$options  = ['formControl' => $form->getFormControl(), 'hidden'      => (int) ($form->getValue('language', null, '*') === '*')];
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -27,7 +25,7 @@ Text::script('MESSAGE');
 Text::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
 Text::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
 
-/** @var \Joomla\CMS\Document\HtmlDocument $doc */
+/** @var HtmlDocument $doc */
 $doc = Factory::getApplication()->getDocument();
 $wa  = $doc->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_associations');

@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_mails
@@ -20,7 +21,7 @@ use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
 $app = Factory::getApplication();
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
@@ -29,7 +30,7 @@ $wa->useScript('keepalive')
 $this->useCoreUI = true;
 
 $input = $app->input;
-list($component, $sub_id) = explode('.', $this->master->template_id, 2);
+[$component, $sub_id] = explode('.', (string) $this->master->template_id, 2);
 $sub_id = str_replace('.', '_', $sub_id);
 
 $this->document->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
@@ -106,7 +107,7 @@ $this->document->addScriptOptions('com_mails', ['templateData' => $this->templat
 
         <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-        <?php if (count($this->form->getFieldset('basic'))) : ?>
+        <?php if (is_countable($this->form->getFieldset('basic')) ? count($this->form->getFieldset('basic')) : 0) : ?>
             <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
         <?php endif; ?>
 

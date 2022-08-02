@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Tags\Site\Model;
 
+use Joomla\Component\Tags\Administrator\Table\TagTable;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -51,31 +52,10 @@ class TagModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'core_content_id', 'c.core_content_id',
-                'core_title', 'c.core_title',
-                'core_type_alias', 'c.core_type_alias',
-                'core_checked_out_user_id', 'c.core_checked_out_user_id',
-                'core_checked_out_time', 'c.core_checked_out_time',
-                'core_catid', 'c.core_catid',
-                'core_state', 'c.core_state',
-                'core_access', 'c.core_access',
-                'core_created_user_id', 'c.core_created_user_id',
-                'core_created_time', 'c.core_created_time',
-                'core_modified_time', 'c.core_modified_time',
-                'core_ordering', 'c.core_ordering',
-                'core_featured', 'c.core_featured',
-                'core_language', 'c.core_language',
-                'core_hits', 'c.core_hits',
-                'core_publish_up', 'c.core_publish_up',
-                'core_publish_down', 'c.core_publish_down',
-                'core_images', 'c.core_images',
-                'core_urls', 'c.core_urls',
-                'match_count',
-            );
+            $config['filter_fields'] = ['core_content_id', 'c.core_content_id', 'core_title', 'c.core_title', 'core_type_alias', 'c.core_type_alias', 'core_checked_out_user_id', 'c.core_checked_out_user_id', 'core_checked_out_time', 'c.core_checked_out_time', 'core_catid', 'c.core_catid', 'core_state', 'c.core_state', 'core_access', 'c.core_access', 'core_created_user_id', 'c.core_created_user_id', 'core_created_time', 'c.core_created_time', 'core_modified_time', 'c.core_modified_time', 'core_ordering', 'c.core_ordering', 'core_featured', 'c.core_featured', 'core_language', 'c.core_language', 'core_hits', 'c.core_hits', 'core_publish_up', 'c.core_publish_up', 'core_publish_down', 'c.core_publish_down', 'core_images', 'c.core_images', 'core_urls', 'c.core_urls', 'match_count'];
         }
 
         parent::__construct($config, $factory);
@@ -104,20 +84,11 @@ class TagModel extends ListModel
                     $item->router
                 );
 
-                // Get display date
-                switch ($this->state->params->get('tag_list_show_date')) {
-                    case 'modified':
-                        $item->displayDate = $item->core_modified_time;
-                        break;
-
-                    case 'created':
-                        $item->displayDate = $item->core_created_time;
-                        break;
-
-                    default:
-                        $item->displayDate = ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up;
-                        break;
-                }
+                $item->displayDate = match ($this->state->params->get('tag_list_show_date')) {
+                    'modified' => $item->core_modified_time,
+                    'created' => $item->core_created_time,
+                    default => ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up,
+                };
             }
         }
 
@@ -180,10 +151,10 @@ class TagModel extends ListModel
         $this->setState('params', $params);
 
         // Load state from the request.
-        $ids = (array) $app->input->get('id', array(), 'string');
+        $ids = (array) $app->input->get('id', [], 'string');
 
         if (count($ids) == 1) {
-            $ids = explode(',', $ids[0]);
+            $ids = explode(',', (string) $ids[0]);
         }
 
         $ids = ArrayHelper::toInteger($ids);
@@ -196,7 +167,7 @@ class TagModel extends ListModel
         $this->setState('tag.id', $pkString);
 
         // Get the selected list of types from the request. If none are specified all are used.
-        $typesr = $app->input->get('types', array(), 'array');
+        $typesr = $app->input->get('types', [], 'array');
 
         if ($typesr) {
             // Implode is needed because the array can contain a string with a coma separated list of ids
@@ -240,7 +211,7 @@ class TagModel extends ListModel
         $listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
         $listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -272,10 +243,10 @@ class TagModel extends ListModel
             }
 
             // Get a level row instance.
-            /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
+            /** @var TagTable $table */
             $table = $this->getTable();
 
-            $idsArray = explode(',', $pk);
+            $idsArray = explode(',', (string) $pk);
 
             // Attempt to load the rows into an array.
             foreach ($idsArray as $id) {
@@ -328,7 +299,7 @@ class TagModel extends ListModel
         if ($hitcount) {
             $pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 
-            /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
+            /** @var TagTable $table */
             $table = $this->getTable();
             $table->hit($pk);
 

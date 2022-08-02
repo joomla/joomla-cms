@@ -335,7 +335,7 @@ trait WorkflowBehaviorTrait
 
         $key = $table->getKeyName();
 
-        $id = isset($data->$key) ? $data->$key : $form->getValue($key);
+        $id = $data->$key ?? $form->getValue($key);
 
         if ($id) {
             // Transition field
@@ -364,7 +364,7 @@ trait WorkflowBehaviorTrait
      * @return  boolean|integer  An integer, holding the stage ID or false
      * @since   4.0.0
      */
-    protected function getStageForNewItem(Form $form, $data)
+    protected function getStageForNewItem(Form $form, $data): bool|int
     {
         $table = $this->getTable();
 
@@ -382,7 +382,7 @@ trait WorkflowBehaviorTrait
             return false;
         }
 
-        $catId = isset(((object) $data)->$catKey) ? ((object) $data)->$catKey : $form->getValue($catKey);
+        $catId = ((object) $data)->$catKey ?? $form->getValue($catKey);
 
         // Try to get the category from the html code of the field
         if (empty($catId)) {

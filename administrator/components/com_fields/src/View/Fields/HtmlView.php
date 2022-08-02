@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Fields\Administrator\View\Fields;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
@@ -31,7 +34,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 class HtmlView extends BaseHtmlView
 {
     /**
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  3.7.0
      */
@@ -52,14 +55,14 @@ class HtmlView extends BaseHtmlView
     protected $items;
 
     /**
-     * @var    \Joomla\CMS\Pagination\Pagination
+     * @var Pagination
      *
      * @since  3.7.0
      */
     protected $pagination;
 
     /**
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      *
      * @since  3.7.0
      */
@@ -85,7 +88,7 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $this->get('ActiveFilters');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -136,10 +139,10 @@ class HtmlView extends BaseHtmlView
         $lang->load($component, JPATH_ADMINISTRATOR)
         || $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
-        $title = Text::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', Text::_(strtoupper($component)));
+        $title = Text::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', Text::_(strtoupper((string) $component)));
 
         // Prepare the toolbar.
-        ToolbarHelper::title($title, 'puzzle-piece fields ' . substr($component, 4) . ($section ? "-$section" : '') . '-fields');
+        ToolbarHelper::title($title, 'puzzle-piece fields ' . substr((string) $component, 4) . ($section ? "-$section" : '') . '-fields');
 
         if ($canDo->get('core.create')) {
             $toolbar->addNew('field.add');

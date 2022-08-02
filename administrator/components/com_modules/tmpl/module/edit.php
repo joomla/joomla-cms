@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -37,7 +38,7 @@ Text::script('JTRASHED');
 
 $this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
@@ -88,7 +89,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
                             if (!$long_description) {
                                 $truncated = HTMLHelper::_('string.truncate', $short_description, 550, true, false);
 
-                                if (strlen($truncated) > 500) {
+                                if (strlen((string) $truncated) > 500) {
                                     $long_description  = $short_description;
                                     $short_description = HTMLHelper::_('string.truncate', $truncated, 250);
 
@@ -126,17 +127,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
             <div class="col-lg-3">
                 <?php
                 // Set main fields.
-                $this->fields = array(
-                    'showtitle',
-                    'position',
-                    'published',
-                    'publish_up',
-                    'publish_down',
-                    'access',
-                    'ordering',
-                    'language',
-                    'note'
-                );
+                $this->fields = ['showtitle', 'position', 'published', 'publish_up', 'publish_down', 'access', 'ordering', 'language', 'note'];
 
                 ?>
                 <?php if ($this->item->client_id == 0) : ?>
@@ -170,8 +161,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
         <?php endif; ?>
 
         <?php
-        $this->fieldsets        = array();
-        $this->ignore_fieldsets = array('basic', 'description');
+        $this->fieldsets        = [];
+        $this->ignore_fieldsets = ['basic', 'description'];
         echo LayoutHelper::render('joomla.edit.params', $this);
         ?>
 

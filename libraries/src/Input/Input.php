@@ -32,11 +32,10 @@ class Input extends \Joomla\Input\Input
     /**
      * Container with allowed superglobals
      *
-     * @var    array
      * @since  3.8.9
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
+    private static array $allowedGlobals = ['REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV'];
 
     /**
      * Input objects
@@ -45,7 +44,7 @@ class Input extends \Joomla\Input\Input
      * @since  1.7.0
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    protected $inputs = array();
+    protected $inputs = [];
 
     /**
      * Constructor.
@@ -56,7 +55,7 @@ class Input extends \Joomla\Input\Input
      * @since   1.7.0
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    public function __construct($source = null, array $options = array())
+    public function __construct($source = null, array $options = [])
     {
         if (!isset($options['filter'])) {
             $this->filter = InputFilter::getInstance();
@@ -81,7 +80,7 @@ class Input extends \Joomla\Input\Input
             return $this->inputs[$name];
         }
 
-        $className = '\\Joomla\\CMS\\Input\\' . ucfirst($name);
+        $className = '\\Joomla\\CMS\\Input\\' . ucfirst((string) $name);
 
         if (class_exists($className)) {
             $this->inputs[$name] = new $className(null, $this->options);
@@ -89,9 +88,9 @@ class Input extends \Joomla\Input\Input
             return $this->inputs[$name];
         }
 
-        $superGlobal = '_' . strtoupper($name);
+        $superGlobal = '_' . strtoupper((string) $name);
 
-        if (\in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal])) {
+        if (\in_array(strtoupper((string) $name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal])) {
             $this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
             return $this->inputs[$name];
@@ -118,7 +117,7 @@ class Input extends \Joomla\Input\Input
      * @since   1.7.0
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    public function getArray(array $vars = array(), $datasource = null, $defaultFilter = 'unknown')
+    public function getArray(array $vars = [], $datasource = null, $defaultFilter = 'unknown')
     {
         return $this->getArrayRecursive($vars, $datasource, $defaultFilter, false);
     }
@@ -141,7 +140,7 @@ class Input extends \Joomla\Input\Input
      * @since   3.4.2
      * @deprecated  5.0  Use Joomla\Input\Input instead
      */
-    protected function getArrayRecursive(array $vars = array(), $datasource = null, $defaultFilter = 'unknown', $recursion = false)
+    protected function getArrayRecursive(array $vars = [], $datasource = null, $defaultFilter = 'unknown', $recursion = false)
     {
         if (empty($vars) && \is_null($datasource)) {
             $vars = $this->data;
@@ -151,7 +150,7 @@ class Input extends \Joomla\Input\Input
             }
         }
 
-        $results = array();
+        $results = [];
 
         foreach ($vars as $k => $v) {
             if (\is_array($v)) {
@@ -189,7 +188,7 @@ class Input extends \Joomla\Input\Input
     public function unserialize($input)
     {
         // Unserialize the options, data, and inputs.
-        list($this->options, $this->data, $this->inputs) = unserialize($input);
+        [$this->options, $this->data, $this->inputs] = unserialize($input);
 
         // Load the filter.
         if (isset($this->options['filter'])) {

@@ -184,7 +184,6 @@ abstract class Mfa
      *
      * @param   User|null  $user  The user you want to know if we're allowed to edit
      *
-     * @return  boolean
      * @throws  Exception
      * @since 4.2.0
      */
@@ -223,7 +222,6 @@ abstract class Mfa
      *
      * @param   User|null  $user  The user being queried.
      *
-     * @return  boolean
      * @throws  Exception
      * @since   4.2.0
      */
@@ -268,7 +266,7 @@ abstract class Mfa
 
         try {
             $ids = $db->setQuery($query)->loadColumn() ?: [];
-        } catch (Exception $e) {
+        } catch (Exception) {
             $ids = [];
         }
 
@@ -320,7 +318,6 @@ abstract class Mfa
      *
      * @param   User|null  $user  The user to be configured
      *
-     * @return  boolean
      * @throws  Exception
      * @since 4.2.0
      */
@@ -334,7 +331,7 @@ abstract class Mfa
         // I need at least one MFA method plugin for the setup interface to make any sense.
         $plugins = PluginHelper::getPlugin('multifactorauth');
 
-        if (count($plugins) < 1) {
+        if ((is_countable($plugins) ? count($plugins) : 0) < 1) {
             return false;
         }
 

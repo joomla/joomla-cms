@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Document\HtmlDocument;
 /**
  * @package     Joomla.Administrator
  * @subpackage  Template.system
@@ -10,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\CMS\Document\HtmlDocument $this */
+/** @var HtmlDocument $this */
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

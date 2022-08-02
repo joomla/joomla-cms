@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -102,10 +104,10 @@ class NewsfeedModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -145,7 +147,7 @@ class NewsfeedModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
+        $data = Factory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -187,14 +189,14 @@ class NewsfeedModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with((string) $data['catid'], '#new#') ? substr((string) $data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_newsfeeds',
                 'language'  => $data['language'],
                 'published' => 1,
             ];
 
-            /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = Factory::getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
@@ -215,7 +217,7 @@ class NewsfeedModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name'] = $name;
                 $data['alias'] = $alias;
             } else {
@@ -255,7 +257,7 @@ class NewsfeedModel extends AdminModel
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
@@ -282,7 +284,7 @@ class NewsfeedModel extends AdminModel
     /**
      * Prepare and sanitise the table prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  The table object
+     * @param Table $table The table object
      *
      * @return  void
      */
@@ -291,7 +293,7 @@ class NewsfeedModel extends AdminModel
         $date = Factory::getDate();
         $user = Factory::getUser();
 
-        $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+        $table->name = htmlspecialchars_decode((string) $table->name, ENT_QUOTES);
         $table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
         if (empty($table->alias)) {

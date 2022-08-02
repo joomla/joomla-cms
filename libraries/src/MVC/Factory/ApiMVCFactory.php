@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\CMS\Table\Table;
 /**
  * Factory to create MVC objects based on a namespace. Note that in an API Application model and table objects will be
  * created from their administrator counterparts.
@@ -24,12 +26,12 @@ final class ApiMVCFactory extends MVCFactory
      * @param   string  $prefix  Optional model prefix.
      * @param   array   $config  Optional configuration array for the model.
      *
-     * @return  \Joomla\CMS\MVC\Model\ModelInterface  The model object
+     * @return ModelInterface The model object
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createModel($name, $prefix = '', array $config = array())
+    public function createModel($name, $prefix = '', array $config = [])
     {
         $model = parent::createModel($name, $prefix, $config);
 
@@ -47,12 +49,12 @@ final class ApiMVCFactory extends MVCFactory
      * @param   string  $prefix  Optional table prefix.
      * @param   array   $config  Optional configuration array for the table.
      *
-     * @return  \Joomla\CMS\Table\Table  The table object
+     * @return Table The table object
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function createTable($name, $prefix = '', array $config = array())
+    public function createTable($name, $prefix = '', array $config = [])
     {
         $table = parent::createTable($name, $prefix, $config);
 

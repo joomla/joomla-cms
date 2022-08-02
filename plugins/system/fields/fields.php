@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Fields\Administrator\Model\FieldModel;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Fields
@@ -80,11 +82,10 @@ class PlgSystemFields extends CMSPlugin
      * The save event.
      *
      * @param   string                   $context  The context
-     * @param   \Joomla\CMS\Table\Table  $item     The table
+     * @param Table $item The table
      * @param   boolean                  $isNew    Is new item
      * @param   array                    $data     The validated data
      *
-     * @return  void
      *
      * @since   3.7.0
      */
@@ -121,8 +122,7 @@ class PlgSystemFields extends CMSPlugin
         }
 
         // Loading the model
-
-        /** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+        /** @var FieldModel $model */
         $model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
             ->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
@@ -137,13 +137,13 @@ class PlgSystemFields extends CMSPlugin
             }
 
             // If no value set (empty) remove value from database
-            if (is_array($value) ? !count($value) : !strlen($value)) {
+            if (is_array($value) ? !count($value) : !strlen((string) $value)) {
                 $value = null;
             }
 
             // JSON encode value for complex fields
             if (is_array($value) && (count($value, COUNT_NORMAL) !== count($value, COUNT_RECURSIVE) || !count(array_filter(array_keys($value), 'is_numeric')))) {
-                $value = json_encode($value);
+                $value = json_encode($value, JSON_THROW_ON_ERROR);
             }
 
             // Setting the value for the field and the item
@@ -159,7 +159,6 @@ class PlgSystemFields extends CMSPlugin
      * @param   boolean  $success   Is success
      * @param   string   $msg       The message
      *
-     * @return  void
      *
      * @since   3.7.0
      */
@@ -176,7 +175,7 @@ class PlgSystemFields extends CMSPlugin
         $task = Factory::getApplication()->input->getCmd('task');
 
         // Skip fields save when we activate a user, because we will lose the saved data
-        if (in_array($task, array('activate', 'block', 'unblock'))) {
+        if (in_array($task, ['activate', 'block', 'unblock'])) {
             return;
         }
 
@@ -190,7 +189,6 @@ class PlgSystemFields extends CMSPlugin
      * @param   string    $context  The context
      * @param   stdClass  $item     The item
      *
-     * @return  void
      *
      * @since   3.7.0
      */
@@ -204,7 +202,7 @@ class PlgSystemFields extends CMSPlugin
 
         $context = $parts[0] . '.' . $parts[1];
 
-        /** @var \Joomla\Component\Fields\Administrator\Model\FieldModel $model */
+        /** @var FieldModel $model */
         $model = Factory::getApplication()->bootComponent('com_fields')->getMVCFactory()
             ->createModel('Field', 'Administrator', ['ignore_request' => true]);
         $model->cleanupValues($context, $item->id);
@@ -217,7 +215,6 @@ class PlgSystemFields extends CMSPlugin
      * @param   boolean   $success Is success
      * @param   string    $msg     The message
      *
-     * @return  void
      *
      * @since   3.7.0
      */
@@ -244,7 +241,7 @@ class PlgSystemFields extends CMSPlugin
         $context = $form->getName();
 
         // When a category is edited, the context is com_categories.categorycom_content
-        if (strpos($context, 'com_categories.category') === 0) {
+        if (str_starts_with($context, 'com_categories.category')) {
             $context = str_replace('com_categories.category', '', $context) . '.categories';
             $data    = $data ?: Factory::getApplication()->input->get('jform', [], 'array');
 
@@ -267,7 +264,7 @@ class PlgSystemFields extends CMSPlugin
         $input = Factory::getApplication()->input;
 
         // If we are on the save command we need the actual data
-        $jformData = $input->get('jform', array(), 'array');
+        $jformData = $input->get('jform', [], 'array');
 
         if ($jformData && !$data) {
             $data = $jformData;
@@ -406,11 +403,7 @@ class PlgSystemFields extends CMSPlugin
             return FieldsHelper::render(
                 $context,
                 'fields.render',
-                array(
-                    'item'            => $item,
-                    'context'         => $context,
-                    'fields'          => $fields,
-                )
+                ['item'            => $item, 'context'         => $context, 'fields'          => $fields]
             );
         }
 
@@ -455,7 +448,7 @@ class PlgSystemFields extends CMSPlugin
         $fields = FieldsHelper::getFields($context, $item, true);
 
         // Adding the fields to the object
-        $item->jcfields = array();
+        $item->jcfields = [];
 
         foreach ($fields as $key => $field) {
             $item->jcfields[$field->id] = $field;

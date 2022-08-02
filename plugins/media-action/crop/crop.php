@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Media-Action.crop
@@ -17,7 +18,7 @@ use Joomla\CMS\Factory;
  *
  * @since  4.0.0
  */
-class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
+class PlgMediaActionCrop extends MediaActionPlugin
 {
     /**
      * Load the javascript files of the plugin.

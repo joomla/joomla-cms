@@ -22,10 +22,9 @@ class AbstractImmutableEvent extends AbstractEvent
     /**
      * A flag to see if the constructor has been already called.
      *
-     * @var    boolean
      * @since  4.0.0
      */
-    private $constructed = false;
+    private bool $constructed = false;
 
     /**
      * Constructor.

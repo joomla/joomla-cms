@@ -102,7 +102,7 @@ class ApplicationController extends ApiController
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
-        $data = json_decode($this->input->json->getRaw(), true);
+        $data = json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR);
 
         // Complete data array if needed
         $oldData = $model->getData();

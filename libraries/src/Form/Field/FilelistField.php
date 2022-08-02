@@ -183,7 +183,7 @@ class FilelistField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $path = $this->directory;
 
@@ -210,7 +210,7 @@ class FilelistField extends ListField
             foreach ($files as $file) {
                 // Check to see if the file is in the exclude mask.
                 if ($this->exclude) {
-                    if (preg_match(\chr(1) . $this->exclude . \chr(1), $file)) {
+                    if (preg_match(\chr(1) . $this->exclude . \chr(1), (string) $file)) {
                         continue;
                     }
                 }

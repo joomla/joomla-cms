@@ -67,7 +67,7 @@ class SubformField extends FormField
      * Which buttons to show in multiple mode
      * @var array $buttons
      */
-    protected $buttons = array('add' => true, 'remove' => true, 'move' => true);
+    protected $buttons = ['add' => true, 'remove' => true, 'move' => true];
 
     /**
      * Method to get certain otherwise inaccessible properties from the form field object.
@@ -80,17 +80,10 @@ class SubformField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'formsource':
-            case 'min':
-            case 'max':
-            case 'layout':
-            case 'groupByFieldset':
-            case 'buttons':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -146,7 +139,7 @@ class SubformField extends FormField
 
             case 'buttons':
                 if (!$this->multiple) {
-                    $this->buttons = array();
+                    $this->buttons = [];
                     break;
                 }
 
@@ -156,7 +149,7 @@ class SubformField extends FormField
                 }
 
                 if ($value) {
-                    $value = array_merge(array('add' => false, 'remove' => false, 'move' => false), $value);
+                    $value = array_merge(['add' => false, 'remove' => false, 'move' => false], $value);
                     $this->buttons = $value;
                 }
 
@@ -165,7 +158,7 @@ class SubformField extends FormField
             case 'value':
                 // We allow a json encoded string or an array
                 if (is_string($value)) {
-                    $value = json_decode($value, true);
+                    $value = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
                 }
 
                 $this->value = $value !== null ? (array) $value : null;
@@ -194,7 +187,7 @@ class SubformField extends FormField
             return false;
         }
 
-        foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName) {
+        foreach (['formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons'] as $attributeName) {
             $this->__set($attributeName, $element[$attributeName]);
         }
 
@@ -204,7 +197,7 @@ class SubformField extends FormField
 
         if ($this->value && \is_string($this->value)) {
             // Guess here is the JSON string from 'default' attribute
-            $this->value = json_decode($this->value, true);
+            $this->value = json_decode($this->value, true, 512, JSON_THROW_ON_ERROR);
         }
 
         if (!$this->formsource && $element->form) {
@@ -343,8 +336,8 @@ class SubformField extends FormField
         }
 
         // Prepare the form template
-        $formname = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $this->name);
-        $tmpl     = Form::getInstance($formname, $this->formsource, array('control' => $control));
+        $formname = 'subform.' . str_replace(['jform[', '[', ']'], ['', '.', ''], $this->name);
+        $tmpl     = Form::getInstance($formname, $this->formsource, ['control' => $control]);
 
         return $tmpl;
     }
@@ -360,17 +353,17 @@ class SubformField extends FormField
      */
     protected function loadSubFormData(Form $subForm)
     {
-        $value = $this->value ? (array) $this->value : array();
+        $value = $this->value ? (array) $this->value : [];
 
         // Simple form, just bind the data and return one row.
         if (!$this->multiple) {
             $subForm->bind($value);
 
-            return array($subForm);
+            return [$subForm];
         }
 
         // Multiple rows possible: Construct array and bind values to their respective forms.
-        $forms = array();
+        $forms = [];
         $value = array_values($value);
 
         // Show as many rows as we have values, but at least min and at most max.
@@ -378,7 +371,7 @@ class SubformField extends FormField
 
         for ($i = 0; $i < $c; $i++) {
             $control  = $this->name . '[' . $this->fieldname . $i . ']';
-            $itemForm = Form::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
+            $itemForm = Form::getInstance($subForm->getName() . $i, $this->formsource, ['control' => $control]);
 
             if (!empty($value[$i])) {
                 $itemForm->bind($value[$i]);
@@ -407,7 +400,7 @@ class SubformField extends FormField
     {
         // Make sure there is a valid SimpleXMLElement.
         if (!($this->element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
+            throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', $this::class));
         }
 
         // Get the field filter type.
@@ -422,7 +415,7 @@ class SubformField extends FormField
 
         // Subform field may have a default value, that is a JSON string
         if ($value && is_string($value)) {
-            $value = json_decode($value, true);
+            $value = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
 
             // The string is invalid json
             if (!$value) {

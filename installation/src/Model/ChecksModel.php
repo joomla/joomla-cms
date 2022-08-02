@@ -159,7 +159,7 @@ class ChecksModel extends BaseInstallationModel
      */
     public function getPhpSettings()
     {
-        $settings = array();
+        $settings = [];
 
         // Check for display errors.
         $setting = new \stdClass();
@@ -229,8 +229,8 @@ class ChecksModel extends BaseInstallationModel
      */
     public function getOptions()
     {
-        if (!empty(Factory::getSession()->get('setup.options', array()))) {
-            return Factory::getSession()->get('setup.options', array());
+        if (!empty(Factory::getSession()->get('setup.options', []))) {
+            return Factory::getSession()->get('setup.options', []);
         }
     }
 
@@ -243,7 +243,7 @@ class ChecksModel extends BaseInstallationModel
      *
      * @since   3.1
      */
-    public function getForm($view = null)
+    public function getForm($view = null): Form|bool
     {
         if (!$view) {
             $view = Factory::getApplication()->input->getWord('view', 'setup');
@@ -253,7 +253,7 @@ class ChecksModel extends BaseInstallationModel
         Form::addFormPath(JPATH_COMPONENT . '/forms');
 
         try {
-            $form = Form::getInstance('jform', $view, array('control' => 'jform'));
+            $form = Form::getInstance('jform', $view, ['control' => 'jform']);
         } catch (\Exception $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 

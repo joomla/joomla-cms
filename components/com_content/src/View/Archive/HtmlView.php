@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Content\Site\View\Archive;
 
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Registry\Registry;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -27,7 +31,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var   \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state = null;
 
@@ -36,12 +40,12 @@ class HtmlView extends BaseHtmlView
      *
      * @var   \stdClass[]
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
      * The pagination object
      *
-     * @var   \Joomla\CMS\Pagination\Pagination|null
+     * @var Pagination|null
      */
     protected $pagination = null;
 
@@ -52,7 +56,7 @@ class HtmlView extends BaseHtmlView
      *
      * @since 3.6.0
      */
-    protected $years = array();
+    protected $years = [];
 
     /**
      * Object containing the year, month and limit field to be displayed
@@ -66,7 +70,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      *
      * @since  4.0.0
      */
@@ -85,7 +89,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The user object
      *
-     * @var    \Joomla\CMS\User\User
+     * @var User
      *
      * @since  4.0.0
      */
@@ -143,53 +147,35 @@ class HtmlView extends BaseHtmlView
                 $item->text = $item->introtext;
             }
 
-            Factory::getApplication()->triggerEvent('onContentPrepare', array('com_content.archive', &$item, &$item->params, 0));
+            Factory::getApplication()->triggerEvent('onContentPrepare', ['com_content.archive', &$item, &$item->params, 0]);
 
             // Old plugins: Use processed text as introtext
             $item->introtext = $item->text;
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', array('com_content.archive', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentAfterTitle', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_content.archive', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.archive', &$item, &$item->params, 0));
+            $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_content.archive', &$item, &$item->params, 0]);
             $item->event->afterDisplayContent = trim(implode("\n", $results));
         }
 
         $form = new \stdClass();
 
         // Month Field
-        $months = array(
-            ''   => Text::_('COM_CONTENT_MONTH'),
-            '1'  => Text::_('JANUARY_SHORT'),
-            '2'  => Text::_('FEBRUARY_SHORT'),
-            '3'  => Text::_('MARCH_SHORT'),
-            '4'  => Text::_('APRIL_SHORT'),
-            '5'  => Text::_('MAY_SHORT'),
-            '6'  => Text::_('JUNE_SHORT'),
-            '7'  => Text::_('JULY_SHORT'),
-            '8'  => Text::_('AUGUST_SHORT'),
-            '9'  => Text::_('SEPTEMBER_SHORT'),
-            '10' => Text::_('OCTOBER_SHORT'),
-            '11' => Text::_('NOVEMBER_SHORT'),
-            '12' => Text::_('DECEMBER_SHORT')
-        );
+        $months = [''   => Text::_('COM_CONTENT_MONTH'), '1'  => Text::_('JANUARY_SHORT'), '2'  => Text::_('FEBRUARY_SHORT'), '3'  => Text::_('MARCH_SHORT'), '4'  => Text::_('APRIL_SHORT'), '5'  => Text::_('MAY_SHORT'), '6'  => Text::_('JUNE_SHORT'), '7'  => Text::_('JULY_SHORT'), '8'  => Text::_('AUGUST_SHORT'), '9'  => Text::_('SEPTEMBER_SHORT'), '10' => Text::_('OCTOBER_SHORT'), '11' => Text::_('NOVEMBER_SHORT'), '12' => Text::_('DECEMBER_SHORT')];
         $form->monthField = HTMLHelper::_(
             'select.genericlist',
             $months,
             'month',
-            array(
-                'list.attr' => 'class="form-select"',
-                'list.select' => $state->get('filter.month'),
-                'option.key' => null
-            )
+            ['list.attr' => 'class="form-select"', 'list.select' => $state->get('filter.month'), 'option.key' => null]
         );
 
         // Year Field
         $this->years = $this->getModel()->getYears();
-        $years = array();
+        $years = [];
         $years[] = HTMLHelper::_('select.option', null, Text::_('JYEAR'));
 
         for ($i = 0, $iMax = count($this->years); $i < $iMax; $i++) {
@@ -200,12 +186,12 @@ class HtmlView extends BaseHtmlView
             'select.genericlist',
             $years,
             'year',
-            array('list.attr' => 'class="form-select"', 'list.select' => $state->get('filter.year'))
+            ['list.attr' => 'class="form-select"', 'list.select' => $state->get('filter.year')]
         );
         $form->limitField = $pagination->getLimitBox();
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
 
         $this->filter     = $state->get('list.filter');
         $this->form       = &$form;

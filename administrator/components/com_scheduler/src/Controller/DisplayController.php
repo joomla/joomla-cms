@@ -37,7 +37,7 @@ class DisplayController extends BaseController
      * @since  4.1.0
      * @throws \Exception
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = []): BaseController|bool
     {
         $layout = $this->input->get('layout', 'default');
 

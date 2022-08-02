@@ -215,10 +215,9 @@ class ZIPExtraction
     /**
      * Singleton instance
      *
-     * @var   null|self
      * @since 4.0.4
      */
-    private static $instance = null;
+    private static ?self $instance = null;
 
     /**
      * Debug log file pointer resource
@@ -231,10 +230,9 @@ class ZIPExtraction
     /**
      * Debug log filename
      *
-     * @var   null|string
      * @since 4.0.4
      */
-    private static $logFilePath = null;
+    private static ?string $logFilePath = null;
 
     /**
      * The total size of the ZIP archive
@@ -279,58 +277,51 @@ class ZIPExtraction
     /**
      * Maximum execution time allowance per step
      *
-     * @var   integer
      * @since 4.0.4
      */
-    private $maxExecTime = null;
+    private ?int $maxExecTime = null;
 
     /**
      * Timestamp of execution start
      *
-     * @var   integer
      * @since 4.0.4
      */
-    private $startTime;
+    private int $startTime;
 
     /**
      * The last error message
      *
-     * @var   string|null
      * @since 4.0.4
      */
-    private $lastErrorMessage = null;
+    private ?string $lastErrorMessage = null;
 
     /**
      * Archive filename
      *
-     * @var   string
      * @since 4.0.4
      */
-    private $filename = null;
+    private ?string $filename = null;
 
     /**
      * Current archive part number
      *
-     * @var   boolean
      * @since 4.0.4
      */
-    private $archiveFileIsBeingRead = false;
+    private bool $archiveFileIsBeingRead = false;
 
     /**
      * The offset inside the current part
      *
-     * @var   integer
      * @since 4.0.4
      */
-    private $currentOffset = 0;
+    private int $currentOffset = 0;
 
     /**
      * Absolute path to prepend to extracted files
      *
-     * @var   string
      * @since 4.0.4
      */
-    private $addPath = '';
+    private string $addPath = '';
 
     /**
      * File pointer to the current archive part file
@@ -343,59 +334,52 @@ class ZIPExtraction
     /**
      * Run state when processing the current archive file
      *
-     * @var   integer
      * @since 4.0.4
      */
-    private $runState = self::AK_STATE_INITIALIZE;
+    private int $runState = self::AK_STATE_INITIALIZE;
 
     /**
      * File header data, as read by the readFileHeader() method
      *
-     * @var   stdClass
      * @since 4.0.4
      */
-    private $fileHeader = null;
+    private ?\stdClass $fileHeader = null;
 
     /**
      * How much of the uncompressed data we've read so far
      *
-     * @var   integer
      * @since 4.0.4
      */
-    private $dataReadLength = 0;
+    private int $dataReadLength = 0;
 
     /**
      * Unwritable files in these directories are always ignored and do not cause errors when not
      * extracted.
      *
-     * @var   array
      * @since 4.0.4
      */
-    private $ignoreDirectories = [];
+    private array $ignoreDirectories = [];
 
     /**
      * Internal flag, set when the ZIP file has a data descriptor (which we will be ignoring)
      *
-     * @var   boolean
      * @since 4.0.4
      */
-    private $expectDataDescriptor = false;
+    private bool $expectDataDescriptor = false;
 
     /**
      * The UNIX last modification timestamp of the file last extracted
      *
-     * @var   integer
      * @since 4.0.4
      */
-    private $lastExtractedFileTimestamp = 0;
+    private int $lastExtractedFileTimestamp = 0;
 
     /**
      * The file path of the file last extracted
      *
-     * @var   string
      * @since 4.0.4
      */
-    private $lastExtractedFilename = null;
+    private ?string $lastExtractedFilename = null;
 
     /**
      * Public constructor.
@@ -539,7 +523,7 @@ class ZIPExtraction
             }
 
             if (function_exists('time_nanosleep') && ($sleepMillisec < 1000)) {
-                time_nanosleep(0, 1000000 * $sleepMillisec);
+                time_nanosleep(0, 1_000_000 * $sleepMillisec);
 
                 return;
             }
@@ -567,7 +551,7 @@ class ZIPExtraction
     public function setFilename(string $value)
     {
         // Security check: disallow remote filenames
-        if (!empty($value) && strpos($value, '://') !== false) {
+        if (!empty($value) && str_contains($value, '://')) {
             $this->setError('Invalid archive location');
 
             return;
@@ -582,7 +566,6 @@ class ZIPExtraction
      *
      * @param   string  $addPath  The path where the archive will be extracted.
      *
-     * @return  void
      * @since   4.0.4
      */
     public function setAddPath(string $addPath): void
@@ -601,7 +584,6 @@ class ZIPExtraction
      *
      * @param   array  $skipFiles  A list of files to skip when extracting the ZIP archive
      *
-     * @return  void
      * @since   4.0.4
      */
     public function setSkipFiles(array $skipFiles): void
@@ -614,7 +596,6 @@ class ZIPExtraction
      *
      * @param   array  $ignoreDirectories  The list of directories to ignore.
      *
-     * @return  void
      * @since   4.0.4
      */
     public function setIgnoreDirectories(array $ignoreDirectories): void
@@ -625,7 +606,6 @@ class ZIPExtraction
     /**
      * Prepares for the archive extraction
      *
-     * @return  void
      * @since   4.0.4
      */
     public function initialize(): void
@@ -705,16 +685,14 @@ class ZIPExtraction
                     $this->runState = self::AK_STATE_DONE;
                     break;
 
-                case self::AK_STATE_DONE:
+                case self::AK_STATE_FINISHED:
+                    $this->debugMsg('Current run state: FINISHED', self::LOG_DEBUG);
+                    $status = false;
+                    break;
                 default:
                     $this->debugMsg('Current run state: DONE', self::LOG_DEBUG);
                     $this->runState = self::AK_STATE_NOFILE;
 
-                    break;
-
-                case self::AK_STATE_FINISHED:
-                    $this->debugMsg('Current run state: FINISHED', self::LOG_DEBUG);
-                    $status = false;
                     break;
             }
 
@@ -760,7 +738,6 @@ class ZIPExtraction
     /**
      * Gets the number of seconds left, before we hit the "must break" threshold
      *
-     * @return  float
      * @since   4.0.4
      */
     private function getTimeLeft(): float
@@ -772,7 +749,6 @@ class ZIPExtraction
      * Gets the time elapsed since object creation/unserialization, effectively how
      * long Akeeba Engine has been processing data
      *
-     * @return  float
      * @since   4.0.4
      */
     private function getRunningTime(): float
@@ -785,7 +761,6 @@ class ZIPExtraction
      *
      * This invalidates OPcache for .php files. Also applies the correct permissions and timestamp.
      *
-     * @return  void
      * @since   4.0.4
      */
     private function processLastExtractedFile(): void
@@ -810,7 +785,6 @@ class ZIPExtraction
      *
      * @param   string|null  $lastExtractedFilename  The last extracted filename
      *
-     * @return  void
      * @since   4.0.4
      */
     private function setLastExtractedFilename(?string $lastExtractedFilename): void
@@ -823,7 +797,6 @@ class ZIPExtraction
      *
      * @param   int  $lastExtractedFileTimestamp  The timestamp
      *
-     * @return  void
      * @since   4.0.4
      */
     private function setLastExtractedFileTimestamp(int $lastExtractedFileTimestamp): void
@@ -834,7 +807,6 @@ class ZIPExtraction
     /**
      * Sleep function, called whenever the class is serialized
      *
-     * @return  void
      * @since   4.0.4
      * @internal
      */
@@ -858,7 +830,6 @@ class ZIPExtraction
      *
      * @param   string|null  $string  The binary data to get the length for
      *
-     * @return  integer
      * @since   4.0.4
      */
     private function binStringLength(?string $string): int
@@ -879,7 +850,6 @@ class ZIPExtraction
      *
      * @param   string  $error  Error message
      *
-     * @return  void
      * @since   4.0.4
      */
     private function setError(string $error): void
@@ -913,7 +883,6 @@ class ZIPExtraction
     /**
      * Read the header of the archive, making sure it's a valid ZIP file.
      *
-     * @return  void
      * @since   4.0.4
      */
     private function readArchiveHeader(): void
@@ -1159,7 +1128,6 @@ class ZIPExtraction
     /**
      * Creates the directory this file points to
      *
-     * @return  void
      * @since   4.0.4
      */
     private function createDirectory(): void
@@ -1169,8 +1137,8 @@ class ZIPExtraction
             $this->fileHeader->realFile = $this->fileHeader->file;
         }
 
-        $lastSlash = strrpos($this->fileHeader->realFile, '/');
-        $dirName   = substr($this->fileHeader->realFile, 0, $lastSlash);
+        $lastSlash = strrpos((string) $this->fileHeader->realFile, '/');
+        $dirName   = substr((string) $this->fileHeader->realFile, 0, $lastSlash);
         $perms     = 0755;
         $ignore    = $this->isIgnoredDirectory($dirName);
 
@@ -1237,7 +1205,6 @@ class ZIPExtraction
     /**
      * Opens the next part file for reading
      *
-     * @return  void
      * @since   4.0.4
      */
     private function openArchiveFile(): void
@@ -1288,7 +1255,6 @@ class ZIPExtraction
      *
      * @param   string  $path  A path to a file
      *
-     * @return  void
      * @since   4.0.4
      */
     private function setCorrectPermissions(string $path): void
@@ -1330,7 +1296,6 @@ class ZIPExtraction
     /**
      * Process the file data of a directory entry
      *
-     * @return  boolean
      * @since   4.0.4
      */
     private function processTypeDir(): bool
@@ -1344,7 +1309,6 @@ class ZIPExtraction
     /**
      * Process the file data of a link entry
      *
-     * @return  boolean
      * @since   4.0.4
      */
     private function processTypeLink(): bool
@@ -1381,8 +1345,8 @@ class ZIPExtraction
         }
 
         // Remove any trailing slash
-        if (substr($filename, -1) == '/') {
-            $filename = substr($filename, 0, -1);
+        if (substr((string) $filename, -1) == '/') {
+            $filename = substr((string) $filename, 0, -1);
         }
 
         // Create the symlink
@@ -1397,7 +1361,6 @@ class ZIPExtraction
     /**
      * Processes an uncompressed (stored) file
      *
-     * @return  boolean
      * @since   4.0.4
      */
     private function processTypeFileUncompressed(): bool
@@ -1489,7 +1452,6 @@ class ZIPExtraction
     /**
      * Processes a compressed file
      *
-     * @return  boolean
      * @since   4.0.4
      */
     private function processTypeFileCompressed(): bool
@@ -1573,7 +1535,6 @@ class ZIPExtraction
     /**
      * Set up the maximum execution time
      *
-     * @return  void
      * @since   4.0.4
      */
     private function setupMaxExecTime(): void
@@ -1588,7 +1549,6 @@ class ZIPExtraction
      *
      * If it's not defined or it's zero (infinite) we use a fake value of 10 seconds.
      *
-     * @return  integer
      * @since   4.0.4
      */
     private function getPhpMaxExecTime(): int
@@ -1609,11 +1569,11 @@ class ZIPExtraction
      * @param   string  $message   The message to log
      * @param   int     $priority  The message's log priority
      *
-     * @return  void
      * @since   4.0.4
      */
     private function debugMsg(string $message, int $priority = self::LOG_INFO): void
     {
+        $priorityString = null;
         if (!defined('_JOOMLA_UPDATE_DEBUG')) {
             return;
         }
@@ -1652,7 +1612,6 @@ class ZIPExtraction
      *
      * @param   string  $logPath  The path where the log file will be written to
      *
-     * @return  void
      * @since   4.0.4
      */
     private function initializeLog(string $logPath): void
@@ -1680,7 +1639,6 @@ if (defined('_JOOMLA_UPDATE_TESTING')) {
  *
  * @param   string  $file  The filepath to clear from OPcache
  *
- * @return  boolean
  * @since   4.0.4
  */
 function clearFileInOPCache(string $file): bool
@@ -1748,6 +1706,9 @@ function timingSafeEquals($known, $user)
  */
 function getConfiguration(): ?array
 {
+    $extractionSetup = [];
+    $userPassword = null;
+    $serialized = null;
     // Make sure the locale is correct for basename() to work
     if (function_exists('setlocale')) {
         @setlocale(LC_ALL, 'en_US.UTF8');
@@ -1860,7 +1821,7 @@ function setHugeMemoryLimit()
         return;
     }
 
-    ini_set('memory_limit', 1073741824);
+    ini_set('memory_limit', 1_073_741_824);
 }
 
 if ($enabled) {
@@ -1873,7 +1834,7 @@ if ($enabled) {
     $destDir    = ($configuration['setup.destdir'] ?? null) ?: __DIR__;
     $basePath   = rtrim(str_replace('\\', '/', __DIR__), '/');
     $basePath   = empty($basePath) ? $basePath : ($basePath . '/');
-    $sourceFile = (empty($sourcePath) ? '' : (rtrim($sourcePath, '/\\') . '/')) . $sourceFile;
+    $sourceFile = (empty($sourcePath) ? '' : (rtrim((string) $sourcePath, '/\\') . '/')) . $sourceFile;
     $engine     = ZIPExtraction::getInstance();
 
     $engine->setFilename($sourceFile);
@@ -1935,7 +1896,7 @@ if ($enabled) {
             @unlink($basePath . 'update.php');
 
             // Import a custom finalisation file
-            $filename = dirname(__FILE__) . '/finalisation.php';
+            $filename = __DIR__ . '/finalisation.php';
 
             if (file_exists($filename)) {
                 clearFileInOPCache($filename);
@@ -1967,4 +1928,4 @@ if (!$enabled) {
 }
 
 // JSON encode the message
-echo json_encode($retArray);
+echo json_encode($retArray, JSON_THROW_ON_ERROR);

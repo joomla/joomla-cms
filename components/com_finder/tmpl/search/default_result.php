@@ -68,7 +68,7 @@ if ($this->params->get('show_url', 1)) {
 ?>
 <li class="result__item">
     <?php if ($showImage && isset($this->result->imageUrl)) : ?>
-        <figure class="<?php echo htmlspecialchars($imageClass, ENT_COMPAT, 'UTF-8'); ?> result__image">
+        <figure class="<?php echo htmlspecialchars((string) $imageClass, ENT_COMPAT, 'UTF-8'); ?> result__image">
             <?php if ($this->params->get('link_image') && $this->result->route) : ?>
                 <a href="<?php echo Route::_($this->result->route); ?>">
                     <?php echo HTMLHelper::_('image', $this->result->imageUrl, $this->result->imageAlt, $extraAttr); ?>
@@ -102,7 +102,7 @@ if ($this->params->get('show_url', 1)) {
         </p>
     <?php endif; ?>
     <?php $taxonomies = $this->result->getTaxonomy(); ?>
-    <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
+    <?php if ((is_countable($taxonomies) ? count($taxonomies) : 0) && $this->params->get('show_taxonomy', 1)) : ?>
         <ul class="result__taxonomy">
             <?php foreach ($taxonomies as $type => $taxonomy) : ?>
                 <?php $branch = Taxonomy::getBranch($type); ?>

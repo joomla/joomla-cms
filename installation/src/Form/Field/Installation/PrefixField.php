@@ -49,7 +49,7 @@ class PrefixField extends FormField
         }
 
         // If a prefix is already set, use it instead.
-        $session = Factory::getSession()->get('setup.options', array());
+        $session = Factory::getSession()->get('setup.options', []);
 
         if (empty($session['db_prefix'])) {
             // Create the random prefix.
@@ -79,7 +79,7 @@ class PrefixField extends FormField
         $onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
         return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' .
-                ' value="' . htmlspecialchars($prefix, ENT_COMPAT, 'UTF-8') . '"' .
+                ' value="' . htmlspecialchars((string) $prefix, ENT_COMPAT, 'UTF-8') . '"' .
                 $class . $disabled . $readonly . $onchange . $maxLength . '>';
     }
 }

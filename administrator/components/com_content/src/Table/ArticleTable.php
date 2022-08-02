@@ -10,11 +10,12 @@
 
 namespace Joomla\Component\Content\Administrator\Table;
 
+use Joomla\CMS\Table\Content;
 /**
  * Article table
  *
  * @since  1.5
  */
-class ArticleTable extends \Joomla\CMS\Table\Content
+class ArticleTable extends Content
 {
 }

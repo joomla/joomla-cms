@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\ErrorHandler\ErrorHandler;
 /**
  * @package     Joomla.Installation
  * @subpackage  Application
@@ -30,7 +31,7 @@ require_once JPATH_LIBRARIES . '/bootstrap.php';
 if (JDEBUG) {
     $errorHandler->setExceptionHandler(
         [
-            new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+            new ErrorHandler(null, true),
             'renderException'
         ]
     );

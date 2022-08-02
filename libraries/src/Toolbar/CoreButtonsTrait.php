@@ -33,7 +33,6 @@ trait CoreButtonsTrait
      *
      * @param   string  $text  The text of button.
      *
-     * @return  SeparatorButton
      *
      * @since  4.0.0
      */
@@ -49,11 +48,10 @@ trait CoreButtonsTrait
      * @param   string  $text       The text of button.
      * @param   bool    $newWindow  Whether to open the preview in _blank or just a modal
      *
-     * @return  PopupButton|LinkButton
      *
      * @since   4.0.0
      */
-    public function preview(string $url, string $text = 'JGLOBAL_PREVIEW', $newWindow = false)
+    public function preview(string $url, string $text = 'JGLOBAL_PREVIEW', $newWindow = false): PopupButton|LinkButton
     {
         if ($newWindow === true) {
             $button = $this->linkButton('link', $text)
@@ -78,11 +76,10 @@ trait CoreButtonsTrait
      * @param   string  $text       The text of button.
      * @param   bool    $newWindow  Whether to open the preview in _blank or just a modal
      *
-     * @return  PopupButton|LinkButton
      *
      * @since   4.1.0
      */
-    public function jooa11y(string $url, string $text = 'JGLOBAL_JOOA11Y', $newWindow = false)
+    public function jooa11y(string $url, string $text = 'JGLOBAL_JOOA11Y', $newWindow = false): PopupButton|LinkButton
     {
         if ($newWindow === true) {
             $button = $this->linkButton('jooa11y-link', $text)
@@ -108,7 +105,6 @@ trait CoreButtonsTrait
      * @param   string  $url           Use this URL instead of any other.
      * @param   string  $component     Name of component to get Help (null for current component)
      *
-     * @return  HelpButton
      *
      * @since   4.0.0
      */
@@ -127,7 +123,6 @@ trait CoreButtonsTrait
      *
      * @param   string  $text  The text of button.
      *
-     * @return  LinkButton
      *
      * @since   4.0.0
      */
@@ -143,7 +138,6 @@ trait CoreButtonsTrait
      * @param   string  $text  Button text.
      * @param   string  $url   The link url.
      *
-     * @return  LinkButton
      *
      * @since   4.0.0
      */
@@ -159,7 +153,6 @@ trait CoreButtonsTrait
      * @param   string  $directory  The subdirectory to upload the media to.
      * @param   string  $text       An override for the alt text.
      *
-     * @return  PopupButton
      *
      * @since   4.0.0
      */
@@ -177,7 +170,6 @@ trait CoreButtonsTrait
      * @param   string  $task  An override for the task.
      * @param   string  $text  An override for the alt text.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -193,7 +185,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -209,7 +200,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -225,7 +215,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -241,7 +230,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -257,7 +245,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -273,7 +260,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -289,7 +275,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -305,7 +290,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -321,7 +305,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -337,7 +320,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  ConfirmButton
      *
      * @since   4.0.0
      */
@@ -353,7 +335,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -370,7 +351,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -388,7 +368,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -406,7 +385,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -425,7 +403,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -442,7 +419,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -458,7 +434,6 @@ trait CoreButtonsTrait
      * @param   string  $task  The task name of this button.
      * @param   string  $text  The text of this button.
      *
-     * @return  StandardButton
      *
      * @since   4.0.0
      */
@@ -475,7 +450,6 @@ trait CoreButtonsTrait
      * @param   string  $text       The text of this button.
      * @param   string  $path       An alternative path for the configuration xml relative to JPATH_SITE.
      *
-     * @return  LinkButton
      *
      * @since   4.0.0
      */
@@ -500,7 +474,6 @@ trait CoreButtonsTrait
      * @param   integer  $width      The width of the popup.
      * @param   string   $text       The name of the button.
      *
-     * @return  CustomButton
      *
      * @since   4.0.0
      */
@@ -515,7 +488,7 @@ trait CoreButtonsTrait
         $lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
         // Options array for Layout
-        $options              = array();
+        $options              = [];
         $options['title']     = Text::_($text);
         $options['height']    = $height;
         $options['width']     = $width;
@@ -532,7 +505,6 @@ trait CoreButtonsTrait
      * @param   string  $html  The HTML string to write.
      * @param   string  $name  The button name.
      *
-     * @return  CustomButton
      *
      * @since   4.0.0
      */

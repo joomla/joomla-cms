@@ -34,7 +34,6 @@ trait AjaxHandlerCreate
      *
      * @param   AjaxCreate  $event  The event we are handling
      *
-     * @return  void
      *
      * @throws  Exception
      * @since   4.0.0

@@ -30,7 +30,7 @@ class HttpFactory
      * @since   3.0.0
      * @throws  \RuntimeException
      */
-    public static function getHttp($options = [], $adapters = null)
+    public static function getHttp(array|\ArrayAccess $options = [], array|string $adapters = null)
     {
         if (!\is_array($options) && !($options instanceof \ArrayAccess)) {
             throw new \InvalidArgumentException(
@@ -61,7 +61,7 @@ class HttpFactory
      *
      * @since   3.0.0
      */
-    public static function getAvailableDriver($options = [], $default = null)
+    public static function getAvailableDriver(array|\ArrayAccess $options = [], array|string $default = null): \Joomla\CMS\Http\TransportInterface|bool
     {
         if (\is_null($default)) {
             $availableAdapters = static::getHttpTransports();
@@ -71,16 +71,16 @@ class HttpFactory
         }
 
         // Check if there is at least one available http transport adapter
-        if (!\count($availableAdapters)) {
+        if (!(is_countable($availableAdapters) ? \count($availableAdapters) : 0)) {
             return false;
         }
 
         foreach ($availableAdapters as $adapter) {
             /** @var $class TransportInterface */
-            $class = __NAMESPACE__ . '\\Transport\\' . ucfirst($adapter) . 'Transport';
+            $class = __NAMESPACE__ . '\\Transport\\' . ucfirst((string) $adapter) . 'Transport';
 
             if (!class_exists($class)) {
-                $class = 'JHttpTransport' . ucfirst($adapter);
+                $class = 'JHttpTransport' . ucfirst((string) $adapter);
             }
 
             if (class_exists($class) && $class::isSupported()) {
@@ -100,7 +100,7 @@ class HttpFactory
      */
     public static function getHttpTransports()
     {
-        $names = array();
+        $names = [];
         $iterator = new \DirectoryIterator(__DIR__ . '/Transport');
 
         /** @type  $file  \DirectoryIterator */

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\Component\Users\Site\Model\RemindModel;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -39,9 +40,9 @@ class UserController extends BaseController
         $input = $this->input->getInputForRequestMethod();
 
         // Populate the data array:
-        $data = array();
+        $data = [];
 
-        $data['return']    = base64_decode($input->get('return', '', 'BASE64'));
+        $data['return']    = base64_decode((string) $input->get('return', '', 'BASE64'));
         $data['username']  = $input->get('username', '', 'USERNAME');
         $data['password']  = $input->get('password', '', 'RAW');
         $data['secretkey'] = $input->get('secretkey', '', 'RAW');
@@ -64,12 +65,12 @@ class UserController extends BaseController
         $this->app->setUserState('users.login.form.return', $data['return']);
 
         // Get the log in options.
-        $options = array();
+        $options = [];
         $options['remember'] = $this->input->getBool('remember', false);
         $options['return']   = $data['return'];
 
         // Get the log in credentials.
-        $credentials = array();
+        $credentials = [];
         $credentials['username']  = $data['username'];
         $credentials['password']  = $data['password'];
         $credentials['secretkey'] = $data['secretkey'];
@@ -91,7 +92,7 @@ class UserController extends BaseController
             $this->app->setUserState('rememberLogin', true);
         }
 
-        $this->app->setUserState('users.login.form.data', array());
+        $this->app->setUserState('users.login.form.data', []);
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
     }
 
@@ -109,9 +110,7 @@ class UserController extends BaseController
         $app = $this->app;
 
         // Prepare the logout options.
-        $options = array(
-            'clientid' => $app->get('shared_session', '0') ? null : 0,
-        );
+        $options = ['clientid' => $app->get('shared_session', '0') ? null : 0];
 
         // Perform the log out.
         $error = $app->logout(null, $options);
@@ -124,7 +123,7 @@ class UserController extends BaseController
 
         // Get the return URL from the request and validate that it is internal.
         $return = $input->get('return', '', 'BASE64');
-        $return = base64_decode($return);
+        $return = base64_decode((string) $return);
 
         // Check for a simple menu item id
         if (is_numeric($return)) {
@@ -196,9 +195,9 @@ class UserController extends BaseController
 
         $app   = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\RemindModel $model */
+        /** @var RemindModel $model */
         $model = $this->getModel('Remind', 'Site');
-        $data  = $this->input->post->get('jform', array(), 'array');
+        $data  = $this->input->post->get('jform', [], 'array');
 
         // Submit the username remind request.
         $return = $model->processRemindRequest($data);

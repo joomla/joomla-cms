@@ -29,7 +29,7 @@ trait FormBehaviorTrait
      * @var    Form[]
      * @since  4.0.0
      */
-    protected $_forms = array();
+    protected $_forms = [];
 
     /**
      * Method to get a form object.
@@ -46,7 +46,7 @@ trait FormBehaviorTrait
      * @since   4.0.0
      * @throws  \Exception
      */
-    protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = null)
+    protected function loadForm($name, $source = null, $options = [], $clear = false, $xpath = null)
     {
         // Handle the optional arguments.
         $options['control'] = ArrayHelper::getValue((array) $options, 'control', false);
@@ -74,14 +74,14 @@ trait FormBehaviorTrait
 
         try {
             $formFactory = $this->getFormFactory();
-        } catch (\UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException) {
             $formFactory = Factory::getContainer()->get(FormFactoryInterface::class);
         }
 
         $form = $formFactory->createForm($name, $options);
 
         // Load the data.
-        if (substr($source, 0, 1) === '<') {
+        if (str_starts_with($source, '<')) {
             if ($form->load($source, false, $xpath) == false) {
                 throw new \RuntimeException('Form::loadForm could not load form');
             }
@@ -95,7 +95,7 @@ trait FormBehaviorTrait
             // Get the data for the form.
             $data = $this->loadFormData();
         } else {
-            $data = array();
+            $data = [];
         }
 
         // Allow for additional modification of the form, and events to be triggered.
@@ -140,7 +140,7 @@ trait FormBehaviorTrait
         PluginHelper::importPlugin($group);
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array($context, &$data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', [$context, &$data]);
     }
 
     /**
@@ -162,13 +162,12 @@ trait FormBehaviorTrait
         PluginHelper::importPlugin($group);
 
         // Trigger the form preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
+        Factory::getApplication()->triggerEvent('onContentPrepareForm', [$form, $data]);
     }
 
     /**
      * Get the FormFactoryInterface.
      *
-     * @return  FormFactoryInterface
      *
      * @since   4.0.0
      * @throws  \UnexpectedValueException May be thrown if the FormFactory has not been set.

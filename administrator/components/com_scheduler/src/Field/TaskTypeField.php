@@ -34,7 +34,6 @@ class TaskTypeField extends ListField
     /**
      * Method to get field options
      *
-     * @return array
      *
      * @since  4.1.0
      * @throws \Exception
@@ -54,7 +53,7 @@ class TaskTypeField extends ListField
         $addTypeAsOption = function (TaskOption $type) use (&$options) {
             try {
                 $options[] = HTMLHelper::_('select.option', $type->id, $type->title);
-            } catch (\InvalidArgumentException $e) {
+            } catch (\InvalidArgumentException) {
             }
         };
 

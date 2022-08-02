@@ -49,7 +49,7 @@ class PlgContentFields extends CMSPlugin
         }
 
         // Simple performance check to determine whether bot should process further
-        if (strpos($item->text, 'field') === false) {
+        if (!str_contains((string) $item->text, 'field')) {
             return;
         }
 
@@ -87,14 +87,14 @@ class PlgContentFields extends CMSPlugin
 
         $parts = FieldsHelper::extract($context);
 
-        if (count($parts) < 2) {
+        if (count((array) $parts) < 2) {
             return $string;
         }
 
         $context    = $parts[0] . '.' . $parts[1];
         $fields     = FieldsHelper::getFields($context, $item, true);
-        $fieldsById = array();
-        $groups     = array();
+        $fieldsById = [];
+        $groups     = [];
 
         // Rearranging fields in arrays for easier lookup later.
         foreach ($fields as $field) {
@@ -104,7 +104,7 @@ class PlgContentFields extends CMSPlugin
 
         foreach ($matches as $i => $match) {
             // $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID and optional the layout
-            $explode = explode(',', $match[2]);
+            $explode = explode(',', (string) $match[2]);
             $id      = (int) $explode[0];
             $output  = '';
 
@@ -114,16 +114,12 @@ class PlgContentFields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'field.' . $layout,
-                        array(
-                            'item'    => $item,
-                            'context' => $context,
-                            'field'   => $fieldsById[$id],
-                        )
+                        ['item'    => $item, 'context' => $context, 'field'   => $fieldsById[$id]]
                     );
                 }
             } else {
                 if ($match[2] === '*') {
-                    $match[0]     = str_replace('*', '\*', $match[0]);
+                    $match[0]     = str_replace('*', '\*', (string) $match[0]);
                     $renderFields = $fields;
                 } else {
                     $renderFields = $groups[$id] ?? '';
@@ -134,11 +130,7 @@ class PlgContentFields extends CMSPlugin
                     $output = FieldsHelper::render(
                         $context,
                         'fields.' . $layout,
-                        array(
-                            'item'    => $item,
-                            'context' => $context,
-                            'fields'  => $renderFields,
-                        )
+                        ['item'    => $item, 'context' => $context, 'fields'  => $renderFields]
                     );
                 }
             }

@@ -31,9 +31,9 @@ abstract class MailsHelper
      */
     public static function mailtags($mail, $fieldname)
     {
-        Factory::getApplication()->triggerEvent('onMailBeforeTagsRendering', array($mail->template_id, &$mail));
+        Factory::getApplication()->triggerEvent('onMailBeforeTagsRendering', [$mail->template_id, &$mail]);
 
-        if (!isset($mail->params['tags']) || !count($mail->params['tags'])) {
+        if (!isset($mail->params['tags']) || !(is_countable($mail->params['tags']) ? count($mail->params['tags']) : 0)) {
             return '';
         }
 
@@ -41,7 +41,7 @@ abstract class MailsHelper
 
         foreach ($mail->params['tags'] as $tag) {
             $html .= '<li class="list-group-item">'
-                . '<a href="#" class="edit-action-add-tag" data-tag="{' . strtoupper($tag) . '}" data-target="' . $fieldname . '"'
+                . '<a href="#" class="edit-action-add-tag" data-tag="{' . strtoupper((string) $tag) . '}" data-target="' . $fieldname . '"'
                     . ' title="' . $tag . '">' . $tag . '</a>'
                 . '</li>';
         }
@@ -62,7 +62,7 @@ abstract class MailsHelper
      */
     public static function loadTranslationFiles($extension)
     {
-        static $cache = array();
+        static $cache = [];
 
         $extension = strtolower($extension);
 
@@ -74,11 +74,6 @@ abstract class MailsHelper
         $source = '';
 
         switch (substr($extension, 0, 3)) {
-            case 'com':
-            default:
-                $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-                break;
-
             case 'mod':
                 $source = JPATH_SITE . '/modules/' . $extension;
                 break;
@@ -89,6 +84,9 @@ abstract class MailsHelper
                 if (count($parts) > 2) {
                     $source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
                 }
+                break;
+            default:
+                $source = JPATH_ADMINISTRATOR . '/components/' . $extension;
                 break;
         }
 

@@ -109,12 +109,12 @@ class HtmlView extends BaseHtmlView
         $this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
         $this->sendMailEnabled  = (bool) Factory::getApplication()->get('mailonline', 1);
 
-        if (!count($this->items) && $this->get('IsEmptyState')) {
+        if (!(is_countable($this->items) ? count($this->items) : 0) && $this->get('IsEmptyState')) {
             $this->setLayout('emptystate');
         }
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new Genericdataexception(implode("\n", $errors), 500);
         }
 

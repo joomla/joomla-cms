@@ -281,7 +281,7 @@ abstract class Adapter extends CMSPlugin
             $this->indexer->remove($item);
         }
 
-        return count($items);
+        return is_countable($items) ? count($items) : 0;
     }
 
     /**
@@ -384,7 +384,7 @@ abstract class Adapter extends CMSPlugin
 
         // Check the items.
         if (empty($items)) {
-            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+            Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', [$id]);
 
             return true;
         }
@@ -785,7 +785,7 @@ abstract class Adapter extends CMSPlugin
         }
 
         // Instantiate the params.
-        $params = json_decode($params);
+        $params = json_decode((string) $params, null, 512, JSON_THROW_ON_ERROR);
 
         // Get the page title if it is set.
         if (isset($params->page_title) && $params->page_title) {
@@ -899,16 +899,9 @@ abstract class Adapter extends CMSPlugin
             $item = 0;
         }
 
-        // Translate the state
-        switch ($item) {
-            // Published and archived items only should return a published state
-            case 1:
-            case 2:
-                return 1;
-
-            // All other states should return an unpublished state
-            default:
-                return 0;
-        }
+        return match ($item) {
+            1, 2 => 1,
+            default => 0,
+        };
     }
 }

@@ -39,10 +39,10 @@ array_walk(
             case 'remove':
                 $class = 'bg-secondary';
                 break;
-            default:
             case 'note':
                 $class = 'bg-info';
                 break;
+            default:
         }
 
         ?>

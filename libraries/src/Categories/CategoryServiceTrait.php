@@ -34,7 +34,6 @@ trait CategoryServiceTrait
      * @param   array   $options  The options
      * @param   string  $section  The section
      *
-     * @return  CategoryInterface
      *
      * @since   4.0.0
      * @throws  SectionNotFoundException
@@ -71,12 +70,7 @@ trait CategoryServiceTrait
      */
     public function countItems(array $items, string $section)
     {
-        $config = (object) array(
-            'related_tbl'   => $this->getTableNameForSection($section),
-            'state_col'     => $this->getStateColumnForSection($section),
-            'group_col'     => 'catid',
-            'relation_type' => 'category_or_group',
-        );
+        $config = (object) ['related_tbl'   => $this->getTableNameForSection($section), 'state_col'     => $this->getStateColumnForSection($section), 'group_col'     => 'catid', 'relation_type' => 'category_or_group'];
 
         ContentHelper::countRelations($items, $config);
     }

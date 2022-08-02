@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
@@ -32,7 +33,7 @@ $g                   = hexdec($color[3] . $color[4]);
 $b                   = hexdec($color[5] . $color[6]);
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->registerAndUseStyle('plg_editors_codemirror', 'plg_editors_codemirror/codemirror.css');
 $wa->addInlineStyle(

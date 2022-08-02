@@ -69,152 +69,114 @@ class Console implements ServiceProviderInterface
 
         $container->share(
             SessionMetadataGcCommand::class,
-            function (Container $container) {
-                return new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class));
-            },
+            fn(Container $container) => new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class)),
             true
         );
 
         $container->share(
             ExportCommand::class,
-            function (Container $container) {
-                return new ExportCommand($container->get('db'));
-            },
+            fn(Container $container) => new ExportCommand($container->get('db')),
             true
         );
 
         $container->share(
             ImportCommand::class,
-            function (Container $container) {
-                return new ImportCommand($container->get('db'));
-            },
+            fn(Container $container) => new ImportCommand($container->get('db')),
             true
         );
 
         $container->share(
             SiteDownCommand::class,
-            function (Container $container) {
-                return new SiteDownCommand();
-            },
+            fn(Container $container) => new SiteDownCommand(),
             true
         );
 
         $container->share(
             SiteUpCommand::class,
-            function (Container $container) {
-                return new SiteUpCommand();
-            },
+            fn(Container $container) => new SiteUpCommand(),
             true
         );
 
         $container->share(
             SetConfigurationCommand::class,
-            function (Container $container) {
-                return new SetConfigurationCommand();
-            },
+            fn(Container $container) => new SetConfigurationCommand(),
             true
         );
 
         $container->share(
             GetConfigurationCommand::class,
-            function (Container $container) {
-                return new GetConfigurationCommand();
-            },
+            fn(Container $container) => new GetConfigurationCommand(),
             true
         );
 
         $container->share(
             ExtensionsListCommand::class,
-            function (Container $container) {
-                return new ExtensionsListCommand($container->get('db'));
-            },
+            fn(Container $container) => new ExtensionsListCommand($container->get('db')),
             true
         );
 
         $container->share(
             CheckJoomlaUpdatesCommand::class,
-            function (Container $container) {
-                return new CheckJoomlaUpdatesCommand();
-            },
+            fn(Container $container) => new CheckJoomlaUpdatesCommand(),
             true
         );
 
         $container->share(
             ExtensionRemoveCommand::class,
-            function (Container $container) {
-                return new ExtensionRemoveCommand($container->get(DatabaseInterface::class));
-            },
+            fn(Container $container) => new ExtensionRemoveCommand($container->get(DatabaseInterface::class)),
             true
         );
 
         $container->share(
             ExtensionInstallCommand::class,
-            function (Container $container) {
-                return new ExtensionInstallCommand();
-            },
+            fn(Container $container) => new ExtensionInstallCommand(),
             true
         );
 
         $container->share(
             ExtensionDiscoverCommand::class,
-            function (Container $container) {
-                return new ExtensionDiscoverCommand();
-            },
+            fn(Container $container) => new ExtensionDiscoverCommand(),
             true
         );
 
         $container->share(
             ExtensionDiscoverInstallCommand::class,
-            function (Container $container) {
-                return new ExtensionDiscoverInstallCommand($container->get('db'));
-            },
+            fn(Container $container) => new ExtensionDiscoverInstallCommand($container->get('db')),
             true
         );
 
         $container->share(
             ExtensionDiscoverListCommand::class,
-            function (Container $container) {
-                return new ExtensionDiscoverListCommand($container->get('db'));
-            },
+            fn(Container $container) => new ExtensionDiscoverListCommand($container->get('db')),
             true
         );
 
         $container->share(
             UpdateCoreCommand::class,
-            function (Container $container) {
-                return new UpdateCoreCommand($container->get('db'));
-            },
+            fn(Container $container) => new UpdateCoreCommand($container->get('db')),
             true
         );
 
         $container->share(
             FinderIndexCommand::class,
-            function (Container $container) {
-                return new FinderIndexCommand($container->get('db'));
-            },
+            fn(Container $container) => new FinderIndexCommand($container->get('db')),
             true
         );
 
         $container->share(
             TasksListCommand::class,
-            function (Container $container) {
-                return new TasksListCommand();
-            },
+            fn(Container $container) => new TasksListCommand(),
             true
         );
 
         $container->share(
             TasksRunCommand::class,
-            function (Container $container) {
-                return new TasksRunCommand();
-            }
+            fn(Container $container) => new TasksRunCommand()
         );
 
         $container->share(
             TasksStateCommand::class,
-            function (Container $container) {
-                return new TasksStateCommand();
-            }
+            fn(Container $container) => new TasksStateCommand()
         );
     }
 }

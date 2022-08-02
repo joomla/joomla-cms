@@ -50,11 +50,11 @@ class ContentType extends Table
         }
 
         // Check for valid name.
-        if (trim($this->type_title) === '') {
+        if (trim((string) $this->type_title) === '') {
             throw new \UnexpectedValueException(sprintf('The title is empty'));
         }
 
-        $this->type_title = ucfirst($this->type_title);
+        $this->type_title = ucfirst((string) $this->type_title);
 
         if (empty($this->type_alias)) {
             throw new \UnexpectedValueException(sprintf('The type_alias is empty'));
@@ -75,9 +75,9 @@ class ContentType extends Table
     public function store($updateNulls = false)
     {
         // Verify that the alias is unique
-        $table = Table::getInstance('Contenttype', 'JTable', array('dbo' => $this->getDbo()));
+        $table = Table::getInstance('Contenttype', 'JTable', ['dbo' => $this->getDbo()]);
 
-        if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
+        if ($table->load(['type_alias' => $this->type_alias]) && ($table->type_id != $this->type_id || $this->type_id == 0)) {
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
             return false;
@@ -97,7 +97,7 @@ class ContentType extends Table
      */
     public function fieldmapExpand($assoc = true)
     {
-        return $this->fieldmap = json_decode($this->fieldmappings, $assoc);
+        return $this->fieldmap = json_decode((string) $this->fieldmappings, $assoc, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -134,13 +134,13 @@ class ContentType extends Table
     public function getContentTable()
     {
         $result = false;
-        $tableInfo = json_decode($this->table);
+        $tableInfo = json_decode((string) $this->table, null, 512, JSON_THROW_ON_ERROR);
 
         if (\is_object($tableInfo) && isset($tableInfo->special)) {
             if (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix)) {
-                $class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
+                $class = $tableInfo->special->class ?? Table::class;
 
-                if (!class_implements($class, 'Joomla\\CMS\\Table\\TableInterface')) {
+                if (!class_implements($class, TableInterface::class)) {
                     // This isn't an instance of TableInterface. Abort.
                     throw new \RuntimeException('Class must be an instance of Joomla\\CMS\\Table\\TableInterface');
                 }

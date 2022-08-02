@@ -37,7 +37,7 @@ function usage($command)
  * This is where the magic happens
  */
 
-$options = getopt('', array('from:', 'to::'));
+$options = getopt('', ['from:', 'to::']);
 
 // We need the from reference, otherwise we're doomed to fail
 if (empty($options['from'])) {
@@ -118,11 +118,11 @@ $previousReleaseFolders = [];
 
 foreach ($previousReleaseIterator as $info) {
     if ($info->isDir()) {
-        $previousReleaseFolders[] = "'" . str_replace($options['from'], '', $info->getPathname()) . "',";
+        $previousReleaseFolders[] = "'" . str_replace($options['from'], '', (string) $info->getPathname()) . "',";
         continue;
     }
 
-    $previousReleaseFiles[] = "'" . str_replace($options['from'], '', $info->getPathname()) . "',";
+    $previousReleaseFiles[] = "'" . str_replace($options['from'], '', (string) $info->getPathname()) . "',";
 }
 
 $newReleaseDirIterator = new RecursiveDirectoryIterator($options['to'], RecursiveDirectoryIterator::SKIP_DOTS);
@@ -135,11 +135,11 @@ $newReleaseFolders = [];
 
 foreach ($newReleaseIterator as $info) {
     if ($info->isDir()) {
-        $newReleaseFolders[] = "'" . str_replace($options['to'], '', $info->getPathname()) . "',";
+        $newReleaseFolders[] = "'" . str_replace($options['to'], '', (string) $info->getPathname()) . "',";
         continue;
     }
 
-    $newReleaseFiles[] = "'" . str_replace($options['to'], '', $info->getPathname()) . "',";
+    $newReleaseFiles[] = "'" . str_replace($options['to'], '', (string) $info->getPathname()) . "',";
 }
 
 $filesDifference = array_diff($previousReleaseFiles, $newReleaseFiles);
@@ -205,7 +205,7 @@ foreach ($filesDifference as $file) {
 
     if ($matches !== false) {
         foreach ($matches as $match) {
-            if (dirname($match) === dirname($file) && strtolower(basename($match)) === strtolower(basename($file))) {
+            if (dirname((string) $match) === dirname($file) && strtolower(basename((string) $match)) === strtolower(basename($file))) {
                 // File has been renamed only: Add to renamed files list
                 $renamedFiles[] = substr($file, 0, -1) . ' => ' . $match;
 

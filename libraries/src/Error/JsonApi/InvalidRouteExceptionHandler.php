@@ -41,11 +41,11 @@ class InvalidRouteExceptionHandler implements ExceptionHandlerInterface
      *
      * @param   Exception  $e  The exception being handled
      *
-     * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
+     * @return ResponseBag
      *
      * @since  4.0.0
      */
-    public function handle(Exception $e)
+    public function handle(\Throwable $e)
     {
         $status = 404;
         $error = ['title' => 'Resource not found'];

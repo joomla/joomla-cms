@@ -30,7 +30,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
      *
      * @param   int  $id  Id of state to delete
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -56,7 +55,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
      * @param   int    $pk           Id of state
      * @param   int    $workflowId   Id of the workflow
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -65,9 +63,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
         return array_values(
             array_filter(
                 $transitions,
-                function ($var) use ($pk, $workflowId) {
-                    return in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id'];
-                }
+                fn($var) => in_array($var['from_stage_id'], [-1, $pk]) && $workflowId == $var['workflow_id']
             )
         );
     }

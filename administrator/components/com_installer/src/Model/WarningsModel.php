@@ -56,7 +56,7 @@ class WarningsModel extends ListModel
             $val = (int) $matches[1];
         }
 
-        switch (strtolower($last)) {
+        switch (strtolower((string) $last)) {
             case 'g':
             case 'gb':
                 $val *= (1024 * 1024 * 1024);

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -30,13 +31,10 @@ class SearchesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   4.0.0
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'searchterm', 'a.searchterm',
-                'hits', 'a.hits',
-            );
+            $config['filter_fields'] = ['searchterm', 'a.searchterm', 'hits', 'a.hits'];
         }
 
         parent::__construct($config, $factory);
@@ -92,7 +90,7 @@ class SearchesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   4.0.0
      */
@@ -113,7 +111,7 @@ class SearchesModel extends ListModel
 
         // Filter by search in title
         if ($search = $this->getState('filter.search')) {
-            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%'));
             $query->where($db->quoteName('a.searchterm') . ' LIKE ' . $search);
         }
 

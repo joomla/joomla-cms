@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -23,12 +24,9 @@ extract($displayData);
  */
 
 // Create the copy/move options.
-$options = array(
-    HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
-    HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
-);
+$options = [HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')), HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))];
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('joomla.batch-copymove');
 

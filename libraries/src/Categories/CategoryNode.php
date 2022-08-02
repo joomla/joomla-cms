@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Categories;
 
+use Joomla\CMS\User\User;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Tree\NodeInterface;
@@ -254,7 +255,7 @@ class CategoryNode extends CMSObject implements NodeInterface
      * @var    array
      * @since  1.6
      */
-    protected $_path = array();
+    protected $_path = [];
 
     /**
      * Flag if all children have been loaded
@@ -353,7 +354,7 @@ class CategoryNode extends CMSObject implements NodeInterface
         }
 
         if ($recursive) {
-            $items = array();
+            $items = [];
 
             foreach ($this->_children as $child) {
                 $items[] = $child;
@@ -441,7 +442,7 @@ class CategoryNode extends CMSObject implements NodeInterface
      *
      * @param   boolean  $modifiedUser  Returns the modified_user when set to true
      *
-     * @return  \Joomla\CMS\User\User  A User object containing a userid
+     * @return User A User object containing a userid
      *
      * @since   1.6
      */

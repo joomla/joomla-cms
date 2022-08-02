@@ -25,7 +25,6 @@ class MailHelperTest extends UnitTestCase
     /**
      * Test data for testCleanLine method
      *
-     * @return  array
      *
      * @since   3.0.0
      */
@@ -58,7 +57,6 @@ class MailHelperTest extends UnitTestCase
     /**
      * Test data for testCleanText method
      *
-     * @return  array
      *
      * @since   3.0.0
      */
@@ -120,7 +118,6 @@ class MailHelperTest extends UnitTestCase
     /**
      * Test data for testCleanBody method
      *
-     * @return  array
      *
      * @since   3.0.0
      */
@@ -163,7 +160,6 @@ class MailHelperTest extends UnitTestCase
     /**
      * Test data for testCleanSubject method
      *
-     * @return  array
      *
      * @since   3.0.0
      */
@@ -204,7 +200,6 @@ class MailHelperTest extends UnitTestCase
     /**
      * Test data for testCleanAddress method
      *
-     * @return  array
      *
      * @since   3.0.0
      */
@@ -239,7 +234,6 @@ class MailHelperTest extends UnitTestCase
     /**
      * Test data for testIsEmailAddress method
      *
-     * @return  array
      *
      * @since   3.0.0
      */

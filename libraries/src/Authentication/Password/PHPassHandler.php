@@ -24,7 +24,6 @@ class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInter
      *
      * @param   string  $hash  The password hash to check
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -78,7 +77,6 @@ class PHPassHandler implements HandlerInterface, CheckIfRehashNeededHandlerInter
     /**
      * Get an instance of the PasswordHash class
      *
-     * @return  \PasswordHash
      *
      * @since   4.0.0
      */

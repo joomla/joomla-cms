@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Factory;
@@ -36,29 +38,10 @@ class FieldsModel extends ListModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'type', 'a.type',
-                'name', 'a.name',
-                'state', 'a.state',
-                'access', 'a.access',
-                'access_level',
-                'only_use_in_subform',
-                'language', 'a.language',
-                'ordering', 'a.ordering',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'created_time', 'a.created_time',
-                'created_user_id', 'a.created_user_id',
-                'group_title', 'g.title',
-                'category_id', 'a.category_id',
-                'group_id', 'a.group_id',
-                'assigned_cat_ids'
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'type', 'a.type', 'name', 'a.name', 'state', 'a.state', 'access', 'a.access', 'access_level', 'only_use_in_subform', 'language', 'a.language', 'ordering', 'a.ordering', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'created_time', 'a.created_time', 'created_user_id', 'a.created_user_id', 'group_title', 'g.title', 'category_id', 'a.category_id', 'group_id', 'a.group_id', 'assigned_cat_ids'];
         }
 
         parent::__construct($config, $factory);
@@ -127,7 +110,7 @@ class FieldsModel extends ListModel
     /**
      * Method to get a DatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
+     * @return DatabaseQuery A DatabaseQuery object to retrieve the data set.
      *
      * @since   3.7.0
      */
@@ -208,11 +191,11 @@ class FieldsModel extends ListModel
                         // Try to get the categories for this component and section
                         try {
                             $cat = $componentObject->getCategory([], $parts[1] ?: '');
-                        } catch (SectionNotFoundException $e) {
+                        } catch (SectionNotFoundException) {
                             // Not found for component and section -> Now try once more without the section, so only component
                             try {
                                 $cat = $componentObject->getCategory();
-                            } catch (SectionNotFoundException $e) {
+                            } catch (SectionNotFoundException) {
                                 // If we haven't found it now, return (no categories available for this component)
                                 return null;
                             }
@@ -331,12 +314,12 @@ class FieldsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id')
                     ->bind(':id', $search, ParameterType::INTEGER);
-            } elseif (stripos($search, 'author:') === 0) {
-                $search = '%' . substr($search, 7) . '%';
+            } elseif (stripos((string) $search, 'author:') === 0) {
+                $search = '%' . substr((string) $search, 7) . '%';
                 $query->where(
                     '(' .
                         $db->quoteName('ua.name') . ' LIKE :name OR ' .
@@ -346,7 +329,7 @@ class FieldsModel extends ListModel
                     ->bind(':name', $search)
                     ->bind(':username', $search);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->where(
                     '(' .
                         $db->quoteName('a.title') . ' LIKE :title OR ' .
@@ -408,11 +391,11 @@ class FieldsModel extends ListModel
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  \Joomla\CMS\Form\Form|bool  the Form object or false
+     * @return Form|bool the Form object or false
      *
      * @since   3.7.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true): Form|bool
     {
         $form = parent::getFilterForm($data, $loadData);
 

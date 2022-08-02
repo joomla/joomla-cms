@@ -53,12 +53,12 @@ class PostgresqlChangeItem extends ChangeItem
         $this->updateQuery = rtrim($this->updateQuery, "; \t\n\r\0\x0B");
 
         // Fix up extra spaces around () and in general
-        $find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-        $replace = array('($3)', '$1');
+        $find = ['#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#'];
+        $replace = ['($3)', '$1'];
         $updateQuery = preg_replace($find, $replace, $this->updateQuery);
         $wordArray = preg_split($splitIntoWords, $updateQuery, -1, PREG_SPLIT_NO_EMPTY);
 
-        $totalWords = \count($wordArray);
+        $totalWords = is_countable($wordArray) ? \count($wordArray) : 0;
 
         // First, make sure we have an array of at least 6 elements
         // if not, we can't make a check query for this one
@@ -76,7 +76,7 @@ class PostgresqlChangeItem extends ChangeItem
             $actions = preg_split($splitIntoActions, $actions);
 
             // Get the last action
-            $lastActionArray = preg_split($splitIntoWords, end($actions), -1, PREG_SPLIT_NO_EMPTY);
+            $lastActionArray = preg_split($splitIntoWords, (string) end($actions), -1, PREG_SPLIT_NO_EMPTY);
 
             // Replace all actions by the last one
             array_splice($wordArray, 3, $totalWords, $lastActionArray);
@@ -88,7 +88,7 @@ class PostgresqlChangeItem extends ChangeItem
                 $result = 'SELECT table_name FROM information_schema.tables WHERE table_name=' . $table;
                 $this->queryType = 'RENAME_TABLE';
                 $this->checkQueryExpected = 1;
-                $this->msgElements = array($table);
+                $this->msgElements = [$table];
             } elseif ($alterCommand === 'ADD COLUMN') {
                 $result = 'SELECT column_name'
                     . ' FROM information_schema.columns'
@@ -97,10 +97,7 @@ class PostgresqlChangeItem extends ChangeItem
                     . ' AND column_name=' . $this->fixQuote($wordArray[5]);
 
                 $this->queryType = 'ADD_COLUMN';
-                $this->msgElements = array(
-                    $this->fixQuote($wordArray[2]),
-                    $this->fixQuote($wordArray[5])
-                );
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5])];
             } elseif ($alterCommand === 'DROP COLUMN') {
                 $result = 'SELECT column_name'
                     . ' FROM information_schema.columns'
@@ -110,12 +107,9 @@ class PostgresqlChangeItem extends ChangeItem
 
                 $this->queryType = 'DROP_COLUMN';
                 $this->checkQueryExpected = 0;
-                $this->msgElements = array(
-                    $this->fixQuote($wordArray[2]),
-                    $this->fixQuote($wordArray[5])
-                );
+                $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5])];
             } elseif ($alterCommand === 'ALTER COLUMN') {
-                $alterAction = strtoupper($wordArray[6]);
+                $alterAction = strtoupper((string) $wordArray[6]);
 
                 if ($alterAction === 'TYPE') {
                     $type = implode(' ', \array_slice($wordArray, 7));
@@ -145,15 +139,11 @@ class PostgresqlChangeItem extends ChangeItem
                     }
 
                     $this->queryType = 'CHANGE_COLUMN_TYPE';
-                    $this->msgElements = array(
-                        $this->fixQuote($wordArray[2]),
-                        $this->fixQuote($wordArray[5]),
-                        $type
-                    );
+                    $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type];
                 } elseif ($alterAction === 'SET') {
-                    $alterType = strtoupper($wordArray[7]);
+                    $alterType = strtoupper((string) $wordArray[7]);
 
-                    if ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL') {
+                    if ($alterType === 'NOT' && strtoupper((string) $wordArray[8]) === 'NULL') {
                         $result = 'SELECT column_name, data_type, is_nullable'
                             . ' FROM information_schema.columns'
                             . ' WHERE table_name=' . $this->fixQuote($wordArray[2])
@@ -161,11 +151,7 @@ class PostgresqlChangeItem extends ChangeItem
                             . ' AND is_nullable=' . $this->fixQuote('NO');
 
                         $this->queryType = 'CHANGE_COLUMN_TYPE';
-                        $this->msgElements = array(
-                            $this->fixQuote($wordArray[2]),
-                            $this->fixQuote($wordArray[5]),
-                            'NOT NULL'
-                        );
+                        $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'NOT NULL'];
                     } elseif ($alterType === 'DEFAULT') {
                         $result = 'SELECT column_name, data_type, is_nullable'
                             . ' FROM information_schema.columns'
@@ -180,14 +166,10 @@ class PostgresqlChangeItem extends ChangeItem
                             . ' END)';
 
                         $this->queryType = 'CHANGE_COLUMN_TYPE';
-                        $this->msgElements = array(
-                            $this->fixQuote($wordArray[2]),
-                            $this->fixQuote($wordArray[5]),
-                            'DEFAULT ' . $wordArray[8]
-                        );
+                        $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'DEFAULT ' . $wordArray[8]];
                     }
                 } elseif ($alterAction === 'DROP') {
-                    $alterType = strtoupper($wordArray[7]);
+                    $alterType = strtoupper((string) $wordArray[7]);
 
                     if ($alterType === 'DEFAULT') {
                         $result = 'SELECT column_name, data_type, is_nullable , column_default'
@@ -198,12 +180,8 @@ class PostgresqlChangeItem extends ChangeItem
 
                         $this->queryType = 'CHANGE_COLUMN_TYPE';
                         $this->checkQueryExpected = 0;
-                        $this->msgElements = array(
-                            $this->fixQuote($wordArray[2]),
-                            $this->fixQuote($wordArray[5]),
-                            'NOT DEFAULT'
-                        );
-                    } elseif ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL') {
+                        $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'NOT DEFAULT'];
+                    } elseif ($alterType === 'NOT' && strtoupper((string) $wordArray[8]) === 'NULL') {
                         $result = 'SELECT column_name, data_type, is_nullable , column_default'
                             . ' FROM information_schema.columns'
                             . ' WHERE table_name=' . $this->fixQuote($wordArray[2])
@@ -212,11 +190,7 @@ class PostgresqlChangeItem extends ChangeItem
 
                         $this->queryType = 'CHANGE_COLUMN_TYPE';
                         $this->checkQueryExpected = 0;
-                        $this->msgElements = array(
-                            $this->fixQuote($wordArray[2]),
-                            $this->fixQuote($wordArray[5]),
-                            'NULL'
-                        );
+                        $this->msgElements = [$this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), 'NULL'];
                     }
                 }
             }
@@ -230,7 +204,7 @@ class PostgresqlChangeItem extends ChangeItem
             $result = 'SELECT * FROM pg_indexes WHERE indexname=' . $idx;
             $this->queryType = 'DROP_INDEX';
             $this->checkQueryExpected = 0;
-            $this->msgElements = array($this->fixQuote($idx));
+            $this->msgElements = [$this->fixQuote($idx)];
         } elseif ($command === 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) === 'CREATE UNIQUE INDEX')) {
             if ($wordArray[1] === 'UNIQUE') {
                 $idx = $this->fixQuote($wordArray[3]);
@@ -243,7 +217,7 @@ class PostgresqlChangeItem extends ChangeItem
             $result = 'SELECT * FROM pg_indexes WHERE indexname=' . $idx . ' AND tablename=' . $table;
             $this->queryType = 'ADD_INDEX';
             $this->checkQueryExpected = 1;
-            $this->msgElements = array($table, $idx);
+            $this->msgElements = [$table, $idx];
         }
 
         if ($command === 'CREATE TABLE') {
@@ -256,7 +230,7 @@ class PostgresqlChangeItem extends ChangeItem
             $result = 'SELECT table_name FROM information_schema.tables WHERE table_name=' . $table;
             $this->queryType = 'CREATE_TABLE';
             $this->checkQueryExpected = 1;
-            $this->msgElements = array($table);
+            $this->msgElements = [$table];
         }
 
         // Set fields based on results

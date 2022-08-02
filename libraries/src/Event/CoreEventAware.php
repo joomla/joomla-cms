@@ -126,7 +126,7 @@ trait CoreEventAware
      */
     protected static function getEventClassByEventName(string $eventName): string
     {
-        if (strpos($eventName, 'onWebAssetRegistryChangedAsset') === 0) {
+        if (str_starts_with($eventName, 'onWebAssetRegistryChangedAsset')) {
             return WebAssetRegistryAssetChanged::class;
         }
 

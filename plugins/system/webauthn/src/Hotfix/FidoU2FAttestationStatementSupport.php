@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Webauthn\Hotfix;
 
+use Assert\AssertionFailedException;
 use Assert\Assertion;
 use CBOR\Decoder;
 use CBOR\MapObject;
@@ -48,16 +49,9 @@ use Webauthn\TrustPath\CertificateTrustPath;
 final class FidoU2FAttestationStatementSupport implements AttestationStatementSupport
 {
     /**
-     * @var   Decoder
      * @since 4.2.0
      */
-    private $decoder;
-
-    /**
-     * @var   MetadataStatementRepository|null
-     * @since 4.2.0
-     */
-    private $metadataStatementRepository;
+    private readonly ?MetadataStatementRepository $metadataStatementRepository;
 
     /**
      * @param   Decoder|null                      $decoder                      Obvious
@@ -66,7 +60,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
      * @since   4.2.0
      */
     public function __construct(
-        ?Decoder $decoder = null,
+        private readonly Decoder $decoder = new Decoder(new TagObjectManager(), new OtherObjectManager()),
         ?MetadataStatementRepository $metadataStatementRepository = null
     ) {
         if ($decoder !== null) {
@@ -79,13 +73,10 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
                 E_USER_DEPRECATED
             );
         }
-
-        $this->decoder = $decoder ?? new Decoder(new TagObjectManager(), new OtherObjectManager());
         $this->metadataStatementRepository = $metadataStatementRepository;
     }
 
     /**
-     * @return  string
      * @since   4.2.0
      */
     public function name(): string
@@ -96,9 +87,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
     /**
      * @param   array  $attestation Obvious
      *
-     * @return AttestationStatement
-     * @throws \Assert\AssertionFailedException
-     *
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     public function load(array $attestation): AttestationStatement
@@ -126,8 +115,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
      * @param   AttestationStatement  $attestationStatement  Obvious
      * @param   AuthenticatorData     $authenticatorData     Obvious
      *
-     * @return  boolean
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     public function isValid(
@@ -164,8 +152,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
     /**
      * @param   string|null  $publicKey Obvious
      *
-     * @return  string
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     private function extractPublicKey(?string $publicKey): string
@@ -187,8 +174,7 @@ final class FidoU2FAttestationStatementSupport implements AttestationStatementSu
     /**
      * @param   string  $publicKey Obvious
      *
-     * @return  void
-     * @throws  \Assert\AssertionFailedException
+     * @throws AssertionFailedException
      * @since   4.2.0
      */
     private function checkCertificate(string $publicKey): void

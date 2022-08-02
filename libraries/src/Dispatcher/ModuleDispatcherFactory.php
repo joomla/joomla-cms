@@ -20,24 +20,14 @@ use Joomla\Input\Input;
 class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
 {
     /**
-     * The extension namespace
-     *
-     * @var  string
-     *
-     * @since   4.0.0
-     */
-    private $namespace;
-
-    /**
      * ModuleDispatcherFactory constructor.
      *
      * @param   string  $namespace  The namespace
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace)
+    public function __construct(private readonly string $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -47,7 +37,6 @@ class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
      * @param   CMSApplicationInterface  $application  The application
      * @param   Input                    $input        The input object, defaults to the one in the application
      *
-     * @return  DispatcherInterface
      *
      * @since   4.0.0
      */

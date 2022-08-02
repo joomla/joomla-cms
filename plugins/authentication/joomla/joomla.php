@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
@@ -28,7 +30,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
     /**
      * Application object
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -36,7 +38,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
     /**
      * Database object
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  4.0.0
      */
     protected $db;

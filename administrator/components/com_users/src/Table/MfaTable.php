@@ -45,18 +45,16 @@ class MfaTable extends Table
     /**
      * Delete flags per ID, set up onBeforeDelete and used onAfterDelete
      *
-     * @var   array
      * @since 4.2.0
      */
-    private $deleteFlags = [];
+    private array $deleteFlags = [];
 
     /**
      * Encryption service
      *
-     * @var   Encrypt
      * @since 4.2.0
      */
-    private $encryptService;
+    private readonly Encrypt $encryptService;
 
     /**
      * Indicates that columns fully support the NULL value in the database
@@ -97,7 +95,7 @@ class MfaTable extends Table
     public function store($updateNulls = true)
     {
         // Encrypt the options before saving them
-        $this->options = $this->encryptService->encrypt(json_encode($this->options ?: []));
+        $this->options = $this->encryptService->encrypt(json_encode($this->options ?: [], JSON_THROW_ON_ERROR));
 
         // Set last_used date to null if empty or zero date
         if (!((int) $this->last_used)) {
@@ -110,9 +108,7 @@ class MfaTable extends Table
             // Existing record. Remove it from the list of records.
             $records = array_filter(
                 $records,
-                function ($rec) {
-                    return $rec->id != $this->id;
-                }
+                fn($rec) => $rec->id != $this->id
             );
         }
 
@@ -126,9 +122,7 @@ class MfaTable extends Table
         if ($this->default == 0) {
             $hasDefaultRecord = array_reduce(
                 $records,
-                function ($carry, $record) {
-                    return $carry || ($record->default == 1);
-                },
+                fn($carry, $record) => $carry || ($record->default == 1),
                 false
             );
 
@@ -142,9 +136,7 @@ class MfaTable extends Table
             // Do I have any backup records?
             $hasBackupCodes = array_reduce(
                 $records,
-                function (bool $carry, $record) {
-                    return $carry || $record->method === 'backupcodes';
-                },
+                fn(bool $carry, $record) => $carry || $record->method === 'backupcodes',
                 false
             );
 
@@ -265,24 +257,23 @@ class MfaTable extends Table
     /**
      * Decrypt the possibly encrypted options
      *
-     * @return void
      * @since 4.2.0
      */
     private function decryptOptions(): void
     {
         // Try with modern decryption
-        $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? ''), true);
+        $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? ''), true, 512, JSON_THROW_ON_ERROR);
 
         if (is_string($decrypted)) {
-            $decrypted = @json_decode($decrypted, true);
+            $decrypted = @json_decode($decrypted, true, 512, JSON_THROW_ON_ERROR);
         }
 
         // Fall back to legacy decryption
         if (!is_array($decrypted)) {
-            $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? '', true), true);
+            $decrypted = @json_decode($this->encryptService->decrypt($this->options ?? '', true), true, 512, JSON_THROW_ON_ERROR);
 
             if (is_string($decrypted)) {
-                $decrypted = @json_decode($decrypted, true);
+                $decrypted = @json_decode($decrypted, true, 512, JSON_THROW_ON_ERROR);
             }
         }
 
@@ -292,7 +283,6 @@ class MfaTable extends Table
     /**
      * If this record is set to be the default, unset the default flag from the other records for the same user.
      *
-     * @return void
      * @since 4.2.0
      */
     private function switchDefaultRecord(): void
@@ -319,7 +309,6 @@ class MfaTable extends Table
     /**
      * Regenerate backup code is the flag is set.
      *
-     * @return void
      * @throws Exception
      * @since 4.2.0
      */
@@ -339,10 +328,9 @@ class MfaTable extends Table
      *
      * @param   int|array  $pk  The promary key of the deleted record
      *
-     * @return void
      * @since 4.2.0
      */
-    private function afterDelete($pk): void
+    private function afterDelete(int|array $pk): void
     {
         if (is_array($pk)) {
             $pk = $pk[$this->_tbl_key] ?? array_shift($pk);
@@ -400,7 +388,6 @@ class MfaTable extends Table
      *
      * @param   int  $userId  The user ID to check
      *
-     * @return  integer
      *
      * @since 4.2.0
      */

@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\UsersLatest\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
@@ -23,7 +24,7 @@ class UsersLatestHelper
     /**
      * Get users sorted by activation date
      *
-     * @param   \Joomla\Registry\Registry  $params  module parameters
+     * @param Registry $params module parameters
      *
      * @return  array  The array of users
      *
@@ -42,7 +43,7 @@ class UsersLatestHelper
             $groups = $user->getAuthorisedGroups();
 
             if (empty($groups)) {
-                return array();
+                return [];
             }
 
             $query->leftJoin($db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.id'))
@@ -56,10 +57,10 @@ class UsersLatestHelper
 
         try {
             return (array) $db->loadObjectList();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-            return array();
+            return [];
         }
     }
 }

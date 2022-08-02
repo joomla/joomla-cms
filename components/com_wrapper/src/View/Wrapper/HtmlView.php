@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Wrapper\Site\View\Wrapper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Uri\Uri;
@@ -32,7 +33,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The page parameters
      *
-     * @var    \Joomla\Registry\Registry|null
+     * @var Registry|null
      * @since  4.0.0
      */
     protected $params = null;
@@ -84,15 +85,15 @@ class HtmlView extends BaseHtmlView
 
         if ($params->def('add_scheme', 1)) {
             // Adds 'http://' or 'https://' if none is set
-            if (strpos($url, '//') === 0) {
+            if (str_starts_with((string) $url, '//')) {
                 // URL without scheme in component. Prepend current scheme.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme')) . substr($url, 2);
-            } elseif (strpos($url, '/') === 0) {
+                $wrapper->url = Uri::getInstance()->toString(['scheme']) . substr((string) $url, 2);
+            } elseif (str_starts_with((string) $url, '/')) {
                 // Relative URL in component. Use scheme + host + port.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
-            } elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+                $wrapper->url = Uri::getInstance()->toString(['scheme', 'host', 'port']) . $url;
+            } elseif (!str_starts_with((string) $url, 'http://') && !str_starts_with((string) $url, 'https://')) {
                 // URL doesn't start with either 'http://' or 'https://'. Add current scheme.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme')) . $url;
+                $wrapper->url = Uri::getInstance()->toString(['scheme']) . $url;
             } else {
                 // URL starts with either 'http://' or 'https://'. Do not change it.
                 $wrapper->url = $url;
@@ -102,7 +103,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Escape strings for HTML output
-        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->pageclass_sfx = htmlspecialchars((string) $params->get('pageclass_sfx', ''));
         $this->params        = &$params;
         $this->wrapper       = &$wrapper;
 

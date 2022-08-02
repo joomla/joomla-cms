@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -45,7 +47,7 @@ class UpdatesitesController extends AdminController
      *
      * @since  1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -62,11 +64,11 @@ class UpdatesitesController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  The array of possible config values. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @return BaseDatabaseModel
      *
      * @since   4.0.0
      */
-    public function getModel($name = 'Updatesite', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Updatesite', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -85,8 +87,8 @@ class UpdatesitesController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids    = (array) $this->input->get('cid', array(), 'int');
-        $values = array('publish' => 1, 'unpublish' => 0);
+        $ids    = (array) $this->input->get('cid', [], 'int');
+        $values = ['publish' => 1, 'unpublish' => 0];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -98,7 +100,7 @@ class UpdatesitesController extends AdminController
         }
 
         // Get the model.
-        /** @var \Joomla\Component\Installer\Administrator\Model\UpdatesitesModel $model */
+        /** @var UpdatesitesModel $model */
         $model = $this->getModel('Updatesites');
 
         // Change the state of the records.
@@ -108,7 +110,7 @@ class UpdatesitesController extends AdminController
 
         $ntext = ($value == 0) ? 'COM_INSTALLER_N_UPDATESITES_UNPUBLISHED' : 'COM_INSTALLER_N_UPDATESITES_PUBLISHED';
 
-        $this->setMessage(Text::plural($ntext, count($ids)));
+        $this->setMessage(Text::plural($ntext, is_countable($ids) ? count($ids) : 0));
 
         $this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
     }
@@ -127,7 +129,7 @@ class UpdatesitesController extends AdminController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);

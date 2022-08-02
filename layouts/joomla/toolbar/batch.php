@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.core');
 
-$id    = isset($displayData['id']) ? $displayData['id'] : '';
+$id    = $displayData['id'] ?? '';
 $title = $displayData['title'];
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 Text::script('ERROR');

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Site\Controller;
 
+use Joomla\Component\Users\Site\Model\RegistrationModel;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -49,7 +50,7 @@ class RegistrationController extends BaseController
             throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
         }
 
-        /** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
+        /** @var RegistrationModel $model */
         $model = $this->getModel('Registration', 'Site');
         $token = $input->getAlnum('token');
 
@@ -147,11 +148,11 @@ class RegistrationController extends BaseController
 
         $app   = $this->app;
 
-        /** @var \Joomla\Component\Users\Site\Model\RegistrationModel $model */
+        /** @var RegistrationModel $model */
         $model = $this->getModel('Registration', 'Site');
 
         // Get the user data.
-        $requestData = $this->input->post->get('jform', array(), 'array');
+        $requestData = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();
@@ -168,7 +169,7 @@ class RegistrationController extends BaseController
             $errors = $model->getErrors();
 
             // Push up to three validation messages out to the user.
-            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+            for ($i = 0, $n = is_countable($errors) ? count($errors) : 0; $i < $n && $i < 3; $i++) {
                 if ($errors[$i] instanceof \Exception) {
                     $app->enqueueMessage($errors[$i]->getMessage(), 'error');
                 } else {

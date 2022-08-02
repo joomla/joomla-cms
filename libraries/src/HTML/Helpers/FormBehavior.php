@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -27,7 +28,7 @@ abstract class FormBehavior
      * @var    array  Array containing information for loaded files
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load the Chosen JavaScript framework and supporting CSS into the document head
@@ -42,7 +43,7 @@ abstract class FormBehavior
      *
      * @since   3.0
      */
-    public static function chosen($selector = '.advancedSelect', $debug = null, $options = array())
+    public static function chosen($selector = '.advancedSelect', $debug = null, $options = [])
     {
         if (isset(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -83,8 +84,7 @@ abstract class FormBehavior
         $options_str = \json_encode($options, ($debug && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
         // Add chosen.js assets
-
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
         $wa->usePreset('chosen')
             ->registerAndUseScript('joomla-chosen', 'legacy/joomla-chosen.min.js', [], [], ['chosen'])
@@ -141,17 +141,7 @@ abstract class FormBehavior
 
             Factory::getDocument()->addScriptOptions(
                 'ajax-chosen',
-                array(
-                    'url'            => $url,
-                    'debug'          => $debug,
-                    'options'        => $options,
-                    'selector'       => $selector,
-                    'type'           => $type,
-                    'dataType'       => $dataType,
-                    'jsonTermKey'    => $jsonTermKey,
-                    'afterTypeDelay' => $afterTypeDelay,
-                    'minTermLength'  => $minTermLength,
-                )
+                ['url'            => $url, 'debug'          => $debug, 'options'        => $options, 'selector'       => $selector, 'type'           => $type, 'dataType'       => $dataType, 'jsonTermKey'    => $jsonTermKey, 'afterTypeDelay' => $afterTypeDelay, 'minTermLength'  => $minTermLength]
             );
 
             static::$loaded[__METHOD__][$selector] = true;

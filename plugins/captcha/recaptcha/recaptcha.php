@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Captcha
@@ -36,7 +37,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -52,11 +53,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     {
         $this->loadLanguage();
 
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
-                Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+        return [Text::_('PLG_CAPTCHA_RECAPTCHA') => [Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS')]];
     }
 
     /**

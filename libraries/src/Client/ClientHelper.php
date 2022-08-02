@@ -32,30 +32,17 @@ class ClientHelper
      */
     public static function getCredentials($client, $force = false)
     {
-        static $credentials = array();
+        static $credentials = [];
 
         $client = strtolower($client);
 
         if (!isset($credentials[$client]) || $force) {
             $app = Factory::getApplication();
 
-            // Fetch the client layer configuration options for the specific client
-            switch ($client) {
-                case 'ftp':
-                    $options = array(
-                        'enabled' => $app->get('ftp_enable'),
-                        'host'    => $app->get('ftp_host'),
-                        'port'    => $app->get('ftp_port'),
-                        'user'    => $app->get('ftp_user'),
-                        'pass'    => $app->get('ftp_pass'),
-                        'root'    => $app->get('ftp_root'),
-                    );
-                    break;
-
-                default:
-                    $options = array('enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => '');
-                    break;
-            }
+            $options = match ($client) {
+                'ftp' => ['enabled' => $app->get('ftp_enable'), 'host'    => $app->get('ftp_host'), 'port'    => $app->get('ftp_port'), 'user'    => $app->get('ftp_user'), 'pass'    => $app->get('ftp_pass'), 'root'    => $app->get('ftp_root')],
+                default => ['enabled' => false, 'host' => '', 'port' => '', 'user' => '', 'pass' => '', 'root' => ''],
+            };
 
             // If user and pass are not set in global config lets see if they are in the session
             if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == '')) {
@@ -96,7 +83,7 @@ class ClientHelper
         switch ($client) {
             case 'ftp':
                 $app = Factory::getApplication();
-                $options = array('enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port'));
+                $options = ['enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port')];
 
                 if ($options['enabled']) {
                     $ftp = FtpClient::getInstance($options['host'], $options['port']);
@@ -147,11 +134,11 @@ class ClientHelper
         switch ($client) {
             case 'ftp':
                 $app = Factory::getApplication();
-                $options = array('enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass'));
+                $options = ['enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass')];
                 break;
 
             default:
-                $options = array('enabled' => false, 'user' => '', 'pass' => '');
+                $options = ['enabled' => false, 'user' => '', 'pass' => ''];
                 break;
         }
 

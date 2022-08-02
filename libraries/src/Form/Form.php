@@ -52,14 +52,6 @@ class Form
     protected $errors = [];
 
     /**
-     * The name of the form instance.
-     *
-     * @var    string
-     * @since  1.7.0
-     */
-    protected $name;
-
-    /**
      * The form object options for use in rendering and validation.
      *
      * @var    array
@@ -99,11 +91,8 @@ class Form
      *
      * @since   1.7.0
      */
-    public function __construct($name, array $options = [])
+    public function __construct(protected $name, array $options = [])
     {
-        // Set the name for the form.
-        $this->name = $name;
-
         // Initialise the Registry data.
         $this->data = new Registry();
 
@@ -124,7 +113,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // The data must be an object or array.
@@ -200,11 +189,11 @@ class Form
      *
      * @since   1.7.0
      */
-    public function getField($name, $group = null, $value = null)
+    public function getField($name, $group = null, $value = null): FormField|bool
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Attempt to find the field by name and group.
@@ -236,7 +225,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -310,7 +299,7 @@ class Form
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         if ($group) {
@@ -344,7 +333,7 @@ class Form
                 // Only create it if it doesn't already exist.
                 if (empty($fieldsets[(string) $set['name']])) {
                     // Build the fieldset object.
-                    $fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+                    $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
 
                     foreach ($set->attributes() as $name => $value) {
                         $fieldset->$name = (string) $value;
@@ -362,10 +351,10 @@ class Form
 
                     // If no element was found, build a very simple fieldset object.
                     if (empty($tmp)) {
-                        $fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
+                        $fieldset = (object) ['name' => (string) $set, 'label' => '', 'description' => ''];
                     } else {
                         // Build the fieldset object from the element.
-                        $fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
+                        $fieldset = (object) ['name' => '', 'label' => '', 'description' => ''];
 
                         foreach ($tmp[0]->attributes() as $name => $value) {
                             $fieldset->$name = (string) $value;
@@ -586,7 +575,7 @@ class Form
         if (\is_string($data)) {
             try {
                 $data = new \SimpleXMLElement($data);
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 return false;
             }
         }
@@ -707,7 +696,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -738,7 +727,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Get the fields elements for a given group.
@@ -793,7 +782,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -879,7 +868,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Find the form field element from the definition.
@@ -918,13 +907,13 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Make sure the elements to set are valid.
         foreach ($elements as $element) {
             if (!($element instanceof \SimpleXMLElement)) {
-                throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+                throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
             }
         }
 
@@ -1009,7 +998,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         $input = new Registry($data);
@@ -1066,7 +1055,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         $return = true;
@@ -1151,7 +1140,7 @@ class Form
     {
         // Make sure there is a valid SimpleXMLElement
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         $input = new Registry($data);
@@ -1196,14 +1185,14 @@ class Form
      *
      * @since   1.7.0
      */
-    protected function findField($name, $group = null)
+    protected function findField($name, $group = null): \SimpleXMLElement|bool
     {
         $element = false;
         $fields = [];
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Let's get the appropriate field element based on the method arguments.
@@ -1272,11 +1261,11 @@ class Form
      *
      * @since   1.7.0
      */
-    protected function &findFieldsByFieldset($name)
+    protected function &findFieldsByFieldset($name): array|bool
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         /*
@@ -1302,13 +1291,13 @@ class Form
      *
      * @since   1.7.0
      */
-    protected function &findFieldsByGroup($group = null, $nested = false)
+    protected function &findFieldsByGroup($group = null, $nested = false): array|bool
     {
         $fields = [];
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Get only fields in a specific group?
@@ -1325,7 +1314,7 @@ class Form
                         $fields = array_merge($fields, $tmp);
                     } else {
                         // If we want to exclude nested groups then we need to check each field.
-                        $groupNames = explode('.', $group);
+                        $groupNames = explode('.', (string) $group);
 
                         foreach ($tmp as $field) {
                             // Get the names of the groups that the field is in.
@@ -1334,7 +1323,7 @@ class Form
 
                             // If the field is in the specific group then add it to the return list.
                             if ($names == (array) $groupNames) {
-                                $fields = array_merge($fields, array($field));
+                                $fields = array_merge($fields, [$field]);
                             }
                         }
                     }
@@ -1360,14 +1349,14 @@ class Form
      *
      * @since   1.7.0
      */
-    protected function &findGroup($group)
+    protected function &findGroup($group): array|bool
     {
         $groups = [];
         $tmp = [];
 
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Make sure there is actually a group to find.
@@ -1433,11 +1422,13 @@ class Form
      *
      * @since   1.7.0
      */
-    protected function loadField($element, $group = null, $value = null)
+    protected function loadField($element, $group = null, $value = null): FormField|bool
     {
+        $type = null;
+        $field = null;
         // Make sure there is a valid SimpleXMLElement.
         if (!($element instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Get the field type.
@@ -1449,7 +1440,7 @@ class Form
         if ($field instanceof DatabaseAwareInterface) {
             try {
                 $field->setDatabase($this->getDatabase());
-            } catch (DatabaseNotFoundException $e) {
+            } catch (DatabaseNotFoundException) {
                 @trigger_error(sprintf('Database must be set, this will not be caught anymore in 5.0.'), E_USER_DEPRECATED);
                 $field->setDatabase(Factory::getContainer()->get(DatabaseInterface::class));
             }
@@ -1467,7 +1458,7 @@ class Form
          * else the value of the 'default' attribute for the field.
          */
         if ($value === null) {
-            $default = (string) ($element['default'] ? $element['default'] : $element->default);
+            $default = (string) ($element['default'] ?: $element->default);
 
             if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1')) {
                 $lang = Factory::getLanguage();
@@ -1506,7 +1497,7 @@ class Form
     {
         // Make sure there is a valid Form XML document.
         if (!($this->xml instanceof \SimpleXMLElement)) {
-            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+            throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', $this::class, __METHOD__));
         }
 
         // Get any addfieldpath attributes from the form definition.
@@ -1664,7 +1655,7 @@ class Form
      * @throws  \InvalidArgumentException if no data provided.
      * @throws  \RuntimeException if the form could not be loaded.
      */
-    public static function getInstance($name, $data = null, $options = [], $replace = true, $xpath = false)
+    public static function getInstance($name, $data = null, $options = [], $replace = true, string|bool $xpath = false)
     {
         // Reference to array with form instances
         $forms = &self::$forms;
@@ -1681,7 +1672,7 @@ class Form
             $forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
             // Load the data.
-            if (substr($data, 0, 1) === '<') {
+            if (str_starts_with($data, '<')) {
                 if ($forms[$name]->load($data, $replace, $xpath) == false) {
                     throw new \RuntimeException(sprintf('%s() could not load form', __METHOD__));
                 }
@@ -1849,7 +1840,7 @@ class Form
      *
      * @since   3.7.0
      */
-    public function getFieldXml($name, $group = null)
+    public function getFieldXml($name, $group = null): \SimpleXMLElement|bool
     {
         return $this->findField($name, $group);
     }

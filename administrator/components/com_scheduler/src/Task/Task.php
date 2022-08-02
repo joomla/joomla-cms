@@ -47,28 +47,28 @@ class Task implements LoggerAwareInterface
      *
      * @since 4.1.0
      */
-    public const STATE_ENABLED = 1;
+    final public const STATE_ENABLED = 1;
 
     /**
      * Enumerated state for disabled tasks.
      *
      * @since 4.1.0
      */
-    public const STATE_DISABLED = 0;
+    final public const STATE_DISABLED = 0;
 
     /**
      * Enumerated state for trashed tasks.
      *
      * @since 4.1.0
      */
-    public const STATE_TRASHED = -2;
+    final public const STATE_TRASHED = -2;
 
     /**
      * Map state enumerations to logical language adjectives.
      *
      * @since 4.1.0
      */
-    public const STATE_MAP = [
+    final public const STATE_MAP = [
         self::STATE_TRASHED  => 'trashed',
         self::STATE_DISABLED => 'disabled',
         self::STATE_ENABLED  => 'enabled',
@@ -130,9 +130,10 @@ class Task implements LoggerAwareInterface
      */
     public function __construct(object $record)
     {
+        $options = [];
         // Workaround because Registry dumps private properties otherwise.
         $taskOption     = $record->taskOption;
-        $record->params = json_decode($record->params, true);
+        $record->params = json_decode((string) $record->params, true, 512, JSON_THROW_ON_ERROR);
 
         $this->taskRegistry = new Registry($record);
 
@@ -155,7 +156,6 @@ class Task implements LoggerAwareInterface
      * Get the task as a data object that can be stored back in the database.
      * ! This method should be removed or changed as part of a better API implementation for the driver.
      *
-     * @return object
      *
      * @since 4.1.0
      */
@@ -204,7 +204,7 @@ class Task implements LoggerAwareInterface
         }
 
         $this->snapshot['status']      = Status::RUNNING;
-        $this->snapshot['taskStart']   = $this->snapshot['taskStart'] ?? microtime(true);
+        $this->snapshot['taskStart'] ??= microtime(true);
         $this->snapshot['netDuration'] = 0;
 
         /** @var ExecuteTaskEvent $event */
@@ -279,7 +279,6 @@ class Task implements LoggerAwareInterface
      * Get the task execution snapshot.
      * ! Access locations will need updates once a more robust Snapshot container is implemented.
      *
-     * @return array
      *
      * @since 4.1.0
      */
@@ -294,7 +293,6 @@ class Task implements LoggerAwareInterface
      *   acquired when they're fetched. As such this method is not functional and should
      *   not be reviewed until it is updated.
      *
-     * @return boolean
      *
      * @since 4.1.0
      * @throws \Exception
@@ -330,7 +328,7 @@ class Task implements LoggerAwareInterface
         try {
             $db->lockTable('#__scheduler_tasks');
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         } finally {
             $db->unlockTables();
@@ -350,7 +348,6 @@ class Task implements LoggerAwareInterface
      *
      * @param   bool  $update  If true, the record is updated with the snapshot
      *
-     * @return boolean
      *
      * @since 4.1.0
      * @throws \Exception
@@ -392,7 +389,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
             return false;
         }
 
@@ -409,7 +406,6 @@ class Task implements LoggerAwareInterface
      * @param   string  $message   Log message
      * @param   string  $priority  Log level, defaults to 'info'
      *
-     * @return  void
      *
      * @since 4.1.0
      * @throws InvalidArgumentException
@@ -422,7 +418,6 @@ class Task implements LoggerAwareInterface
     /**
      * Advance the task entry's next calculated execution, effectively skipping the current execution.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws \Exception
@@ -443,7 +438,7 @@ class Task implements LoggerAwareInterface
 
         try {
             $db->setQuery($query)->execute();
-        } catch (\RuntimeException $e) {
+        } catch (\RuntimeException) {
         }
 
         $this->set('next_execution', $nextExec);
@@ -452,10 +447,8 @@ class Task implements LoggerAwareInterface
     /**
      * Handles task exit (dispatch event).
      *
-     * @return void
      *
      * @since 4.1.0
-     *
      * @throws \UnexpectedValueException|\BadMethodCallException
      */
     protected function dispatchExitEvent(): void
@@ -520,7 +513,6 @@ class Task implements LoggerAwareInterface
      *
      * @param   string  $state  The task state (enumerated, as a string).
      *
-     * @return boolean
      *
      * @since 4.1.0
      */
@@ -542,7 +534,6 @@ class Task implements LoggerAwareInterface
      *
      * @param   string  $id  The task id (as a string).
      *
-     * @return boolean
      *
      * @since 4.1.0
      */

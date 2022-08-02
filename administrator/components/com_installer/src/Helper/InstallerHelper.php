@@ -42,10 +42,10 @@ class InstallerHelper
         $db->setQuery($query);
         $types = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         foreach ($types as $type) {
-            $options[] = HTMLHelper::_('select.option', $type, Text::_('COM_INSTALLER_TYPE_' . strtoupper($type)));
+            $options[] = HTMLHelper::_('select.option', $type, Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $type)));
         }
 
         return $options;
@@ -71,7 +71,7 @@ class InstallerHelper
         $db->setQuery($query);
         $folders = $db->loadColumn();
 
-        $options = array();
+        $options = [];
 
         foreach ($folders as $folder) {
             $options[] = HTMLHelper::_('select.option', $folder, $folder);
@@ -90,7 +90,7 @@ class InstallerHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
         $options[] = HTMLHelper::_('select.option', '3', Text::_('JAPI'));
@@ -108,7 +108,7 @@ class InstallerHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JDISABLED'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JENABLED'));
         $options[] = HTMLHelper::_('select.option', '2', Text::_('JPROTECTED'));
@@ -120,7 +120,6 @@ class InstallerHelper
     /**
      * Get a list of filter options for extensions of the "package" type.
      *
-     * @return  array
      * @since   4.2.0
      */
     public static function getPackageOptions(): array
@@ -157,9 +156,7 @@ class InstallerHelper
             $extensions
         );
         $arrayValues = array_map(
-            function (object $entry): int {
-                return $entry->extension_id;
-            },
+            fn(object $entry): int => $entry->extension_id,
             $extensions
         );
 
@@ -262,7 +259,7 @@ class InstallerHelper
 
         $prefix = (string) $installXmlFile->dlid['prefix'];
         $suffix = (string) $installXmlFile->dlid['suffix'];
-        $value  = substr($extension->get('extra_query'), strlen($prefix));
+        $value  = substr((string) $extension->get('extra_query'), strlen($prefix));
 
         if ($suffix) {
             $value = substr($value, 0, -strlen($suffix));
@@ -287,7 +284,6 @@ class InstallerHelper
      * @param   int          $clientId  [optional] Joomla client for the extension, see the #__extensions table
      * @param   string|null  $folder    Extension folder, only applies for 'plugin' type
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -300,7 +296,7 @@ class InstallerHelper
         // Get the database driver. If it fails we cannot report whether the extension supports download keys.
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -322,7 +318,7 @@ class InstallerHelper
 
         try {
             $extension = new CMSObject($db->setQuery($query)->loadAssoc());
-        } catch (Exception $e) {
+        } catch (Exception) {
             return [
                 'supported' => false,
                 'valid'     => false,
@@ -360,9 +356,7 @@ class InstallerHelper
         };
         $extensions = array_filter($extensions, $filterClosure);
 
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
-        };
+        $mapClosure = fn(CMSObject $extension) => $extension->get('update_site_id');
 
         return array_map($mapClosure, $extensions);
     }
@@ -401,9 +395,7 @@ class InstallerHelper
         $extensions = array_filter($extensions, $filterClosure);
 
         // Return only the update site IDs
-        $mapClosure = function (CMSObject $extension) {
-            return $extension->get('update_site_id');
-        };
+        $mapClosure = fn(CMSObject $extension) => $extension->get('update_site_id');
 
         return array_map($mapClosure, $extensions);
     }
@@ -421,7 +413,7 @@ class InstallerHelper
     {
         try {
             $db = Factory::getDbo();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return [];
         }
 
@@ -479,7 +471,7 @@ class InstallerHelper
             }
 
             return $items;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return [];
         }
     }

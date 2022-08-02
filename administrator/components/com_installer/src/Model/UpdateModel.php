@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
+use Joomla\CMS\Table\UpdateSite;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -43,16 +44,10 @@ class UpdateModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\ListModel
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'name', 'u.name',
-                'client_id', 'u.client_id', 'client_translated',
-                'type', 'u.type', 'type_translated',
-                'folder', 'u.folder', 'folder_translated',
-                'extension_id', 'u.extension_id',
-            );
+            $config['filter_fields'] = ['name', 'u.name', 'client_id', 'u.client_id', 'client_translated', 'type', 'u.type', 'type_translated', 'folder', 'u.folder', 'folder_translated', 'extension_id', 'u.extension_id'];
         }
 
         parent::__construct($config, $factory);
@@ -89,7 +84,7 @@ class UpdateModel extends ListModel
     /**
      * Method to get the database query
      *
-     * @return  \Joomla\Database\DatabaseQuery  The database query
+     * @return DatabaseQuery The database query
      *
      * @since   1.6
      */
@@ -126,7 +121,7 @@ class UpdateModel extends ListModel
                 ->bind(':clientid', $clientId, ParameterType::INTEGER);
         }
 
-        if ($folder != '' && in_array($type, array('plugin', 'library', ''))) {
+        if ($folder != '' && in_array($type, ['plugin', 'library', ''])) {
             $folder = $folder === '*' ? '' : $folder;
             $query->where($db->quoteName('u.folder') . ' = :folder')
                 ->bind(':folder', $folder);
@@ -147,21 +142,21 @@ class UpdateModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'eid:') !== false) {
-                $sid = (int) substr($search, 4);
+            if (stripos((string) $search, 'eid:') !== false) {
+                $sid = (int) substr((string) $search, 4);
                 $query->where($db->quoteName('u.extension_id') . ' = :sid')
                     ->bind(':sid', $sid, ParameterType::INTEGER);
             } else {
-                if (stripos($search, 'uid:') !== false) {
-                    $suid = (int) substr($search, 4);
+                if (stripos((string) $search, 'uid:') !== false) {
+                    $suid = (int) substr((string) $search, 4);
                     $query->where($db->quoteName('u.update_site_id') . ' = :suid')
                         ->bind(':suid', $suid, ParameterType::INTEGER);
-                } elseif (stripos($search, 'id:') !== false) {
-                    $uid = (int) substr($search, 3);
+                } elseif (stripos((string) $search, 'id:') !== false) {
+                    $uid = (int) substr((string) $search, 3);
                     $query->where($db->quoteName('u.update_id') . ' = :uid')
                         ->bind(':uid', $uid, ParameterType::INTEGER);
                 } else {
-                    $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                    $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                     $query->where($db->quoteName('u.name') . ' LIKE :search')
                         ->bind(':search', $search);
                 }
@@ -184,10 +179,10 @@ class UpdateModel extends ListModel
     {
         foreach ($items as &$item) {
             $item->client_translated  = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id] ?? 'JSITE');
-            $manifest                 = json_decode($item->manifest_cache);
+            $manifest                 = json_decode((string) $item->manifest_cache, null, 512, JSON_THROW_ON_ERROR);
             $item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
             $item->description        = $item->description !== '' ? $item->description : Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
-            $item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
+            $item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper((string) $item->type));
             $item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
             $item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');
         }
@@ -213,11 +208,11 @@ class UpdateModel extends ListModel
         $listDirn  = $this->getState('list.direction', 'asc');
 
         // Process ordering.
-        if (in_array($listOrder, array('client_translated', 'folder_translated', 'type_translated'))) {
+        if (in_array($listOrder, ['client_translated', 'folder_translated', 'type_translated'])) {
             $db->setQuery($query);
             $result = $db->loadObjectList();
             $this->translate($result);
-            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+            $result = ArrayHelper::sortObjects($result, $listOrder, strtolower((string) $listDirn) === 'desc' ? -1 : 1, true, true);
             $total = count($result);
 
             if ($total < $limitstart) {
@@ -288,7 +283,7 @@ class UpdateModel extends ListModel
 
         try {
             $db->truncateTable('#__updates');
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             $this->_message = Text::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
 
             return false;
@@ -337,7 +332,7 @@ class UpdateModel extends ListModel
             $update->loadFromXml($instance->detailsurl, $minimumStability);
 
             // Find and use extra_query from update_site if available
-            $updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDatabase());
+            $updateSiteInstance = new UpdateSite($this->getDatabase());
             $updateSiteInstance->load($instance->update_site_id);
 
             if ($updateSiteInstance->extra_query) {
@@ -388,11 +383,11 @@ class UpdateModel extends ListModel
             return false;
         }
 
-        $url     = trim($update->downloadurl->_data);
-        $sources = $update->get('downloadSources', array());
+        $url     = trim((string) $update->downloadurl->_data);
+        $sources = $update->get('downloadSources', []);
 
         if ($extra_query = $update->get('extra_query')) {
-            $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+            $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
             $url .= $extra_query;
         }
 
@@ -400,10 +395,10 @@ class UpdateModel extends ListModel
 
         while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror])) {
             $name = $sources[$mirror];
-            $url  = trim($name->url);
+            $url  = trim((string) $name->url);
 
             if ($extra_query) {
-                $url .= (strpos($url, '?') === false) ? '?' : '&amp;';
+                $url .= (!str_contains($url, '?')) ? '?' : '&amp;';
                 $url .= $extra_query;
             }
 
@@ -452,7 +447,7 @@ class UpdateModel extends ListModel
             $app->enqueueMessage(
                 Text::sprintf(
                     'COM_INSTALLER_MSG_UPDATE_ERROR',
-                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper((string) $package['type']))
                 ),
                 'error'
             );
@@ -462,7 +457,7 @@ class UpdateModel extends ListModel
             $app->enqueueMessage(
                 Text::sprintf(
                     'COM_INSTALLER_MSG_UPDATE_SUCCESS',
-                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+                    Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper((string) $package['type']))
                 ),
                 'success'
             );
@@ -498,12 +493,12 @@ class UpdateModel extends ListModel
      *
      * @since   2.5.2
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
         Form::addFormPath(JPATH_COMPONENT . '/models/forms');
         Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
-        $form = Form::getInstance('com_installer.update', 'update', array('load_data' => $loadData));
+        $form = Form::getInstance('com_installer.update', 'update', ['load_data' => $loadData]);
 
         // Check for an error.
         if ($form == false) {
@@ -533,7 +528,7 @@ class UpdateModel extends ListModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState($this->context, array());
+        $data = Factory::getApplication()->getUserState($this->context, []);
 
         return $data;
     }
@@ -553,7 +548,7 @@ class UpdateModel extends ListModel
         switch ($table->type) {
             // Components could have a helper which adds additional data
             case 'component':
-                $ename = str_replace('com_', '', $table->element);
+                $ename = str_replace('com_', '', (string) $table->element);
                 $fname = $ename . '.php';
                 $cname = ucfirst($ename) . 'Helper';
 
@@ -562,8 +557,8 @@ class UpdateModel extends ListModel
                 if (File::exists($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate'))) {
-                        call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
+                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 
@@ -571,14 +566,14 @@ class UpdateModel extends ListModel
 
             // Modules could have a helper which adds additional data
             case 'module':
-                $cname = str_replace('_', '', $table->element) . 'Helper';
+                $cname = str_replace('_', '', (string) $table->element) . 'Helper';
                 $path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
 
                 if (File::exists($path)) {
                     require_once $path;
 
-                    if (class_exists($cname) && is_callable(array($cname, 'prepareUpdate'))) {
-                        call_user_func_array(array($cname, 'prepareUpdate'), array(&$update, &$table));
+                    if (class_exists($cname) && is_callable([$cname, 'prepareUpdate'])) {
+                        call_user_func_array([$cname, 'prepareUpdate'], [&$update, &$table]);
                     }
                 }
 
@@ -587,7 +582,7 @@ class UpdateModel extends ListModel
             // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
             // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
             case 'plugin':
-                $cname = str_replace('plg_', '', $table->element);
+                $cname = str_replace('plg_', '', (string) $table->element);
                 PluginHelper::importPlugin($table->folder, $cname);
                 break;
         }

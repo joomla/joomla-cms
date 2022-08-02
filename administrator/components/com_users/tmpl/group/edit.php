@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -15,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
@@ -31,7 +32,7 @@ $this->useCoreUI = true;
         <?php echo $this->form->renderField('parent_id'); ?>
     </div>
     <?php echo HTMLHelper::_('uitab.endTab'); ?>
-    <?php $this->ignore_fieldsets = array('group_details'); ?>
+    <?php $this->ignore_fieldsets = ['group_details']; ?>
     <?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
     <?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 

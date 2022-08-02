@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageInstaller
@@ -24,7 +25,7 @@ class PlgInstallerPackageInstaller extends CMSPlugin
     /**
      * Application object
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -41,7 +42,7 @@ class PlgInstallerPackageInstaller extends CMSPlugin
         // Load language files
         $this->loadLanguage();
 
-        $tab            = array();
+        $tab            = [];
         $tab['name']    = 'package';
         $tab['label']   = Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE');
 

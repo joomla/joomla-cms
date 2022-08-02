@@ -38,31 +38,12 @@ class Router extends RouterView
     protected $noIDs = false;
 
     /**
-     * The category factory
-     *
-     * @var CategoryFactoryInterface
-     *
-     * @since  4.0.0
-     */
-    private $categoryFactory;
-
-    /**
      * The category cache
      *
-     * @var  array
      *
      * @since  4.0.0
      */
-    private $categoryCache = [];
-
-    /**
-     * The db
-     *
-     * @var DatabaseInterface
-     *
-     * @since  4.0.0
-     */
-    private $db;
+    private array $categoryCache = [];
 
     /**
      * Newsfeeds Component router constructor
@@ -72,11 +53,8 @@ class Router extends RouterView
      * @param   CategoryFactoryInterface  $categoryFactory  The category object
      * @param   DatabaseInterface         $db               The database object
      */
-    public function __construct(SiteApplication $app, AbstractMenu $menu, CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
+    public function __construct(SiteApplication $app, AbstractMenu $menu, private readonly CategoryFactoryInterface $categoryFactory, private readonly DatabaseInterface $db)
     {
-        $this->categoryFactory = $categoryFactory;
-        $this->db              = $db;
-
         $params = ComponentHelper::getParams('com_newsfeeds');
         $this->noIDs = (bool) $params->get('sef_ids');
         $categories = new RouterViewConfiguration('categories');
@@ -104,7 +82,7 @@ class Router extends RouterView
      *
      * @return  array|string  The segments of this item
      */
-    public function getCategorySegment($id, $query)
+    public function getCategorySegment($id, $query): array|string
     {
         $category = $this->getCategories()->get($id);
 
@@ -114,14 +92,14 @@ class Router extends RouterView
 
             if ($this->noIDs) {
                 foreach ($path as &$segment) {
-                    list($id, $segment) = explode(':', $segment, 2);
+                    [$id, $segment] = explode(':', (string) $segment, 2);
                 }
             }
 
             return $path;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -132,7 +110,7 @@ class Router extends RouterView
      *
      * @return  array|string  The segments of this item
      */
-    public function getCategoriesSegment($id, $query)
+    public function getCategoriesSegment($id, $query): array|string
     {
         return $this->getCategorySegment($id, $query);
     }
@@ -145,7 +123,7 @@ class Router extends RouterView
      *
      * @return  array|string  The segments of this item
      */
-    public function getNewsfeedSegment($id, $query)
+    public function getNewsfeedSegment($id, $query): array|string
     {
         if (!strpos($id, ':')) {
             $id      = (int) $id;
@@ -160,12 +138,12 @@ class Router extends RouterView
         }
 
         if ($this->noIDs) {
-            list($void, $segment) = explode(':', $id, 2);
+            [$void, $segment] = explode(':', $id, 2);
 
-            return array($void => $segment);
+            return [$void => $segment];
         }
 
-        return array((int) $id => $id);
+        return [(int) $id => $id];
     }
 
     /**

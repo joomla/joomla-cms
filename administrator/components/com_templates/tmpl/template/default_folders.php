@@ -17,9 +17,9 @@ ksort($this->files, SORT_STRING);
     <?php foreach ($this->files as $key => $value) : ?>
         <?php if (is_array($value)) : ?>
             <li class="folder-select">
-                <a class="folder-url" data-id="<?php echo base64_encode($key); ?>" href="" data-base="template">
+                <a class="folder-url" data-id="<?php echo base64_encode((string) $key); ?>" href="" data-base="template">
                     <span class="icon-folder icon-fw" aria-hidden="true"></span>
-                    <?php $explodeArray = explode('/', rtrim($key, '\\'));
+                    <?php $explodeArray = explode('/', rtrim((string) $key, '\\'));
                     echo $this->escape(end($explodeArray)); ?>
                 </a>
                 <?php echo $this->folderTree($value); ?>

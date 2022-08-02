@@ -50,20 +50,18 @@ class ChangeUserPasswordCommand extends AbstractCommand
     /**
      * The username
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $username;
+    private ?string $username = null;
 
     /**
      * The password
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $password;
+    private ?string $password = null;
 
     /**
      * Internal function to execute the command.
@@ -112,7 +110,6 @@ class ChangeUserPasswordCommand extends AbstractCommand
      *
      * @param   string  $question  set the question if user enters no value to option
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -150,7 +147,6 @@ class ChangeUserPasswordCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

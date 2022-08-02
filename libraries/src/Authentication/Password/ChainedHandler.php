@@ -24,7 +24,7 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
      * @var    HandlerInterface[]
      * @since  4.0.0
      */
-    private $handlers = [];
+    private array $handlers = [];
 
     /**
      * Add a handler to the chain
@@ -45,7 +45,6 @@ class ChainedHandler implements HandlerInterface, CheckIfRehashNeededHandlerInte
      *
      * @param   string  $hash  The password hash to check
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

@@ -47,7 +47,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      */
-    public const HASH_ARGON2I = 'argon2i';
+    final public const HASH_ARGON2I = 'argon2i';
 
     /**
      * B/C constant `PASSWORD_ARGON2I` for PHP < 7.4 (using integer)
@@ -58,7 +58,7 @@ abstract class UserHelper
      * @since  4.0.0
      * @deprecated 4.0.0  Use self::HASH_ARGON2I instead
      */
-    public const HASH_ARGON2I_BC = 2;
+    final public const HASH_ARGON2I_BC = 2;
 
     /**
      * Constant defining the Argon2id password algorithm for use with password hashes
@@ -68,7 +68,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      */
-    public const HASH_ARGON2ID = 'argon2id';
+    final public const HASH_ARGON2ID = 'argon2id';
 
     /**
      * B/C constant `PASSWORD_ARGON2ID` for PHP < 7.4 (using integer)
@@ -79,7 +79,7 @@ abstract class UserHelper
      * @since  4.0.0
      * @deprecated  4.0.0  Use self::HASH_ARGON2ID instead
      */
-    public const HASH_ARGON2ID_BC = 3;
+    final public const HASH_ARGON2ID_BC = 3;
 
     /**
      * Constant defining the BCrypt password algorithm for use with password hashes
@@ -87,7 +87,7 @@ abstract class UserHelper
      * @var    string
      * @since  4.0.0
      */
-    public const HASH_BCRYPT = '2y';
+    final public const HASH_BCRYPT = '2y';
 
     /**
      * B/C constant `PASSWORD_BCRYPT` for PHP < 7.4 (using integer)
@@ -96,7 +96,7 @@ abstract class UserHelper
      * @since  4.0.0
      * @deprecated  4.0.0  Use self::HASH_BCRYPT instead
      */
-    public const HASH_BCRYPT_BC = 1;
+    final public const HASH_BCRYPT_BC = 1;
 
     /**
      * Constant defining the MD5 password algorithm for use with password hashes
@@ -105,7 +105,7 @@ abstract class UserHelper
      * @since  4.0.0
      * @deprecated  5.0  Support for MD5 hashed passwords will be removed
      */
-    public const HASH_MD5 = 'md5';
+    final public const HASH_MD5 = 'md5';
 
     /**
      * Constant defining the PHPass password algorithm for use with password hashes
@@ -114,7 +114,7 @@ abstract class UserHelper
      * @since  4.0.0
      * @deprecated  5.0  Support for PHPass hashed passwords will be removed
      */
-    public const HASH_PHPASS = 'phpass';
+    final public const HASH_PHPASS = 'phpass';
 
     /**
      * Mapping array for the algorithm handler
@@ -122,7 +122,7 @@ abstract class UserHelper
      * @var array
      * @since  4.0.0
      */
-    public const HASH_ALGORITHMS = [
+    final public const HASH_ALGORITHMS = [
         self::HASH_ARGON2I => Argon2iHandler::class,
         self::HASH_ARGON2I_BC => Argon2iHandler::class,
         self::HASH_ARGON2ID => Argon2idHandler::class,
@@ -209,7 +209,7 @@ abstract class UserHelper
         // Get the user object.
         $user = User::getInstance((int) $userId);
 
-        return $user->groups ?? array();
+        return $user->groups ?? [];
     }
 
     /**
@@ -281,7 +281,7 @@ abstract class UserHelper
         $results = $db->loadObjectList();
 
         // Set the titles for the user groups.
-        for ($i = 0, $n = \count($results); $i < $n; $i++) {
+        for ($i = 0, $n = is_countable($results) ? \count($results) : 0; $i < $n; $i++) {
             $user->groups[$results[$i]->id] = $results[$i]->id;
         }
 
@@ -327,7 +327,7 @@ abstract class UserHelper
         $data->id = $userId;
 
         // Trigger the data preparation event.
-        Factory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
+        Factory::getApplication()->triggerEvent('onContentPrepareData', ['com_users.profile', &$data]);
 
         return $data;
     }
@@ -414,7 +414,7 @@ abstract class UserHelper
      * @since   3.2.1
      * @throws  \InvalidArgumentException when the algorithm is not supported
      */
-    public static function hashPassword($password, $algorithm = self::HASH_BCRYPT, array $options = array())
+    public static function hashPassword($password, string|int $algorithm = self::HASH_BCRYPT, array $options = [])
     {
         $container = Factory::getContainer();
 
@@ -451,22 +451,22 @@ abstract class UserHelper
         $container         = Factory::getContainer();
 
         // Cheaply try to determine the algorithm in use otherwise fall back to the chained handler
-        if (strpos($hash, '$P$') === 0) {
+        if (str_starts_with($hash, '$P$')) {
             /** @var PHPassHandler $handler */
             $handler = $container->get(PHPassHandler::class);
-        } elseif (strpos($hash, '$argon2id') === 0) {
+        } elseif (str_starts_with($hash, '$argon2id')) {
             // Check for Argon2id hashes
             /** @var Argon2idHandler $handler */
             $handler = $container->get(Argon2idHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2ID;
-        } elseif (strpos($hash, '$argon2i') === 0) {
+        } elseif (str_starts_with($hash, '$argon2i')) {
             // Check for Argon2i hashes
             /** @var Argon2iHandler $handler */
             $handler = $container->get(Argon2iHandler::class);
 
             $passwordAlgorithm = self::HASH_ARGON2I;
-        } elseif (strpos($hash, '$2') === 0) {
+        } elseif (str_starts_with($hash, '$2')) {
             // Check for bcrypt hashes
             /** @var BCryptHandler $handler */
             $handler = $container->get(BCryptHandler::class);
@@ -536,7 +536,7 @@ abstract class UserHelper
         $browserVersion = $ua->browserVersion;
 
         if ($browserVersion) {
-            $uaShort = str_replace($browserVersion, 'abcd', $uaString);
+            $uaShort = str_replace($browserVersion, 'abcd', (string) $uaString);
         } else {
             $uaShort = $uaString;
         }
@@ -603,7 +603,7 @@ abstract class UserHelper
             }
 
             $sessionIds = $db->setQuery($query)->loadColumn();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return false;
         }
 
@@ -616,7 +616,7 @@ abstract class UserHelper
 
         // If true, removes the current session id from the purge list
         if ($keepCurrent) {
-            $sessionIds = array_diff($sessionIds, array(Factory::getSession()->getId()));
+            $sessionIds = array_diff($sessionIds, [Factory::getSession()->getId()]);
         }
 
         // If there aren't any active sessions then there's nothing to do here
@@ -634,7 +634,7 @@ abstract class UserHelper
                     ->delete($db->quoteName('#__session'))
                     ->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT)
             )->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // No issue, let things go
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
 /**
  * @package     Joomla.Plugin
  * @subpackage  User.terms
@@ -34,14 +36,14 @@ class PlgUserTerms extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.9.0
      */
     protected $app;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  3.9.0
      */
@@ -62,7 +64,7 @@ class PlgUserTerms extends CMSPlugin
         // Check we are manipulating a valid form - we only display this on user registration form.
         $name = $form->getName();
 
-        if (!in_array($name, array('com_users.registration'))) {
+        if (!in_array($name, ['com_users.registration'])) {
             return true;
         }
 
@@ -125,7 +127,6 @@ class PlgUserTerms extends CMSPlugin
      * @param   boolean  $result  true if saving the user worked
      * @param   string   $error   error message
      *
-     * @return  void
      *
      * @since   3.9.0
      */

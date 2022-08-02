@@ -77,7 +77,7 @@ class Extension extends Table
         }
 
         // Check for valid name
-        if (trim($this->name) == '' || trim($this->element) == '') {
+        if (trim((string) $this->name) == '' || trim((string) $this->element) == '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
             return false;
@@ -95,7 +95,7 @@ class Extension extends Table
      *
      * @since   1.7.0
      */
-    public function find($options = array())
+    public function find($options = [])
     {
         // Get the DatabaseQuery object
         $query = $this->_db->getQuery(true);

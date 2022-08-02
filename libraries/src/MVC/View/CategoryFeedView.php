@@ -43,7 +43,7 @@ class CategoryFeedView extends HtmlView
 
         $ucmType = new UCMType();
         $ucmRow = $ucmType->getTypeByAlias($contentType);
-        $ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
+        $ucmMapCommon = json_decode((string) $ucmRow->field_mappings, null, 512, JSON_THROW_ON_ERROR)->common;
         $createdField = null;
         $titleField = null;
 
@@ -82,7 +82,7 @@ class CategoryFeedView extends HtmlView
             // Strip html from feed item title
             if ($titleField) {
                 $title = $this->escape($item->$titleField);
-                $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+                $title = html_entity_decode((string) $title, ENT_COMPAT, 'UTF-8');
             } else {
                 $title = '';
             }
@@ -94,10 +94,10 @@ class CategoryFeedView extends HtmlView
             // Strip HTML from feed item description text.
             $description   = $item->description;
             $author        = $item->created_by_alias ?: $item->author;
-            $categoryTitle = isset($item->category_title) ? $item->category_title : $category->title;
+            $categoryTitle = $item->category_title ?? $category->title;
 
             if ($createdField) {
-                $date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
+                $date = isset($item->$createdField) ? date('r', strtotime((string) $item->$createdField)) : '';
             } else {
                 $date = '';
             }

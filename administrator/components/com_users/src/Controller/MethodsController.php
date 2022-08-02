@@ -60,7 +60,6 @@ class MethodsController extends BaseController
      * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
      *                               {@link JFilterInput::clean()}.
      *
-     * @return  void
      * @since   4.2.0
      */
     public function disable($cachable = false, $urlparams = []): void
@@ -74,7 +73,7 @@ class MethodsController extends BaseController
         $user   = ($userId === null)
             ? $this->app->getIdentity()
             : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        $user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user ??= Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
         if (!MfaHelper::canDeleteMethod($user)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -114,7 +113,6 @@ class MethodsController extends BaseController
      * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
      *                               {@link JFilterInput::clean()}.
      *
-     * @return  void
      * @since   4.2.0
      */
     public function display($cachable = false, $urlparams = []): void
@@ -126,7 +124,7 @@ class MethodsController extends BaseController
         $user   = ($userId === null)
             ? $this->app->getIdentity()
             : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        $user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user ??= Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
         if (!MfaHelper::canShowConfigurationInterface($user)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -156,7 +154,6 @@ class MethodsController extends BaseController
      * @param   array  $urlparams    An array of safe url parameters and their variable types, for valid values see
      *                               {@link JFilterInput::clean()}.
      *
-     * @return  void
      * @since   4.2.0
      */
     public function doNotShowThisAgain($cachable = false, $urlparams = []): void
@@ -170,7 +167,7 @@ class MethodsController extends BaseController
         $user   = ($userId === null)
             ? $this->app->getIdentity()
             : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
-        $user   = $user ?? Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+        $user ??= Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
 
         if (!MfaHelper::canAddEditMethod($user)) {
             throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
@@ -197,7 +194,6 @@ class MethodsController extends BaseController
     /**
      * Assert that there is a user currently logged in
      *
-     * @return  void
      * @since   4.2.0
      */
     private function assertLoggedInUser(): void

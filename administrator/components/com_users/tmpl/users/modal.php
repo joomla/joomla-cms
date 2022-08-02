@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -16,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect');
 
@@ -24,8 +25,8 @@ $input           = Factory::getApplication()->input;
 $field           = $input->getCmd('field');
 $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));
-$enabledStates   = array(0 => 'icon-check', 1 => 'icon-times');
-$activatedStates = array(0 => 'icon-check', 1 => 'icon-times');
+$enabledStates   = [0 => 'icon-check', 1 => 'icon-times'];
+$activatedStates = [0 => 'icon-check', 1 => 'icon-times'];
 $userRequired    = (int) $input->get('required', 0, 'int');
 $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.getCurrent().close()";
 
@@ -38,7 +39,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
                 data-user-field="<?php echo $this->escape($field); ?>"><?php echo Text::_('JOPTION_NO_USER'); ?></button>&nbsp;
         </div>
         <?php endif; ?>
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -97,7 +98,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
                             </span>
                         </td>
                         <td>
-                            <?php echo nl2br($item->group_names, false); ?>
+                            <?php echo nl2br((string) $item->group_names, false); ?>
                         </td>
                         <td>
                             <?php echo (int) $item->id; ?>
@@ -110,7 +111,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
         <input type="hidden" name="task" value="">
         <input type="hidden" name="field" value="<?php echo $this->escape($field); ?>">
         <input type="hidden" name="boxchecked" value="0">

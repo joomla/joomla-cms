@@ -44,7 +44,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
      * @var    array
      * @since  3.3
      */
-    protected $_jsonEncode = array('params', 'metadata', 'images');
+    protected $_jsonEncode = ['params', 'metadata', 'images'];
 
     /**
      * Constructor
@@ -74,7 +74,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Check for valid name.
-        if (trim($this->name) == '') {
+        if (trim((string) $this->name) == '') {
             $this->setError(Text::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 
             return false;
@@ -107,7 +107,7 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         // Clean up description -- eliminate quotes and <> brackets
         if (!empty($this->metadesc)) {
             // Only process if not empty
-            $bad_characters = array("\"", '<', '>');
+            $bad_characters = ["\"", '<', '>'];
             $this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
         }
 
@@ -166,9 +166,9 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
+        $table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', ['dbo' => $this->_db]);
 
-        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 
             return false;

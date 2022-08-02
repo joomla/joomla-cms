@@ -135,16 +135,7 @@ class Users
         return HTMLHelper::_(
             'bootstrap.renderModal',
             'userModal_' . (int) $userId,
-            array(
-                'title'       => $title,
-                'backdrop'    => 'static',
-                'keyboard'    => true,
-                'closeButton' => true,
-                'footer'      => $footer,
-                'url'         => Route::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId),
-                'height'      => '300px',
-                'width'       => '800px',
-            )
+            ['title'       => $title, 'backdrop'    => 'static', 'keyboard'    => true, 'closeButton' => true, 'footer'      => $footer, 'url'         => Route::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&filter[user_id]=' . (int) $userId), 'height'      => '300px', 'width'       => '800px']
         );
     }
 
@@ -162,47 +153,9 @@ class Users
     public function blockStates($self = false)
     {
         if ($self) {
-            $states = array(
-                1 => array(
-                    'task'           => 'unblock',
-                    'text'           => '',
-                    'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
-                    'inactive_title' => '',
-                    'tip'            => true,
-                    'active_class'   => 'unpublish',
-                    'inactive_class' => 'unpublish',
-                ),
-                0 => array(
-                    'task'           => 'block',
-                    'text'           => '',
-                    'active_title'   => '',
-                    'inactive_title' => 'COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF',
-                    'tip'            => true,
-                    'active_class'   => 'publish',
-                    'inactive_class' => 'publish',
-                )
-            );
+            $states = [1 => ['task'           => 'unblock', 'text'           => '', 'active_title'   => 'COM_USERS_TOOLBAR_BLOCK', 'inactive_title' => '', 'tip'            => true, 'active_class'   => 'unpublish', 'inactive_class' => 'unpublish'], 0 => ['task'           => 'block', 'text'           => '', 'active_title'   => '', 'inactive_title' => 'COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF', 'tip'            => true, 'active_class'   => 'publish', 'inactive_class' => 'publish']];
         } else {
-            $states = array(
-                1 => array(
-                    'task'           => 'unblock',
-                    'text'           => '',
-                    'active_title'   => 'COM_USERS_TOOLBAR_UNBLOCK',
-                    'inactive_title' => '',
-                    'tip'            => true,
-                    'active_class'   => 'unpublish',
-                    'inactive_class' => 'unpublish',
-                ),
-                0 => array(
-                    'task'           => 'block',
-                    'text'           => '',
-                    'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
-                    'inactive_title' => '',
-                    'tip'            => true,
-                    'active_class'   => 'publish',
-                    'inactive_class' => 'publish',
-                )
-            );
+            $states = [1 => ['task'           => 'unblock', 'text'           => '', 'active_title'   => 'COM_USERS_TOOLBAR_UNBLOCK', 'inactive_title' => '', 'tip'            => true, 'active_class'   => 'unpublish', 'inactive_class' => 'unpublish'], 0 => ['task'           => 'block', 'text'           => '', 'active_title'   => 'COM_USERS_TOOLBAR_BLOCK', 'inactive_title' => '', 'tip'            => true, 'active_class'   => 'publish', 'inactive_class' => 'publish']];
         }
 
         return $states;
@@ -217,26 +170,7 @@ class Users
      */
     public function activateStates()
     {
-        $states = array(
-            1 => array(
-                'task'           => 'activate',
-                'text'           => '',
-                'active_title'   => 'COM_USERS_TOOLBAR_ACTIVATE',
-                'inactive_title' => '',
-                'tip'            => true,
-                'active_class'   => 'unpublish',
-                'inactive_class' => 'unpublish',
-            ),
-            0 => array(
-                'task'           => '',
-                'text'           => '',
-                'active_title'   => '',
-                'inactive_title' => 'COM_USERS_ACTIVATED',
-                'tip'            => true,
-                'active_class'   => 'publish',
-                'inactive_class' => 'publish',
-            )
-        );
+        $states = [1 => ['task'           => 'activate', 'text'           => '', 'active_title'   => 'COM_USERS_TOOLBAR_ACTIVATE', 'inactive_title' => '', 'tip'            => true, 'active_class'   => 'unpublish', 'inactive_class' => 'unpublish'], 0 => ['task'           => '', 'text'           => '', 'active_title'   => '', 'inactive_title' => 'COM_USERS_ACTIVATED', 'tip'            => true, 'active_class'   => 'publish', 'inactive_class' => 'publish']];
 
         return $states;
     }
@@ -259,7 +193,7 @@ class Users
         if (empty($value)) {
             return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
         } elseif (!is_array($value)) {
-            return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $value, ENT_COMPAT, 'UTF-8');
         }
     }
 
@@ -301,7 +235,7 @@ class Users
             $title = $db->loadResult();
 
             if ($title) {
-                return htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+                return htmlspecialchars((string) $title, ENT_COMPAT, 'UTF-8');
             } else {
                 return static::value('');
             }
@@ -338,7 +272,7 @@ class Users
         $result = LanguageHelper::parseXMLLanguageFile($file);
 
         if ($result) {
-            return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $result['name'], ENT_COMPAT, 'UTF-8');
         }
 
         return static::value($value);
@@ -374,7 +308,7 @@ class Users
         $result = LanguageHelper::parseXMLLanguageFile($file);
 
         if ($result) {
-            return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+            return htmlspecialchars((string) $result['name'], ENT_COMPAT, 'UTF-8');
         }
 
         return static::value($value);

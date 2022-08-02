@@ -10,6 +10,7 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Document\HtmlDocument;
@@ -49,10 +50,8 @@ trait AdditionalLoginButtons
      *
      * @param   Event  $event  The event we are handling
      *
-     * @return  void
      *
      * @see     AuthenticationHelper::getLoginButtons()
-     *
      * @since   4.0.0
      */
     public function onUserLoginButtons(Event $event): void
@@ -76,7 +75,7 @@ trait AdditionalLoginButtons
         $image = HTMLHelper::_('image', 'plg_system_webauthn/webauthn.svg', '', '', true, true);
 
         // If you can't find the image then skip it
-        $image = $image ? JPATH_ROOT . substr($image, \strlen(Uri::root(true))) : '';
+        $image = $image ? JPATH_ROOT . substr((string) $image, \strlen(Uri::root(true))) : '';
 
         // Extract image if it exists
         $image = file_exists($image) ? file_get_contents($image) : '';
@@ -96,7 +95,6 @@ trait AdditionalLoginButtons
     /**
      * Should I allow this plugin to add a WebAuthn login button?
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */
@@ -132,7 +130,7 @@ trait AdditionalLoginButtons
              */
             try {
                 $document = $this->getApplication()->getDocument();
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $document = null;
             }
 
@@ -158,7 +156,6 @@ trait AdditionalLoginButtons
     /**
      * Injects the WebAuthn CSS and Javascript for frontend logins, but only once per page load.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -171,7 +168,7 @@ trait AdditionalLoginButtons
         // Set the "don't load again" flag
         $this->injectedCSSandJS = true;
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $this->getApplication()->getDocument()->getWebAssetManager();
 
         if (!$wa->assetExists('style', 'plg_system_webauthn.button')) {

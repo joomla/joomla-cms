@@ -27,7 +27,7 @@ $this->modalLink = '&tmpl=component&view=select&layout=modal';
 
     <?php try {
         echo $this->loadTemplate();
-    } catch (Exception $e) {
+    } catch (Exception) {
         die('Exception while loading template..');
     }
     ?>

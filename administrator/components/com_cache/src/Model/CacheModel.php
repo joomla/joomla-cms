@@ -32,7 +32,7 @@ class CacheModel extends ListModel
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Group total
@@ -55,15 +55,10 @@ class CacheModel extends ListModel
      *
      * @since   3.5
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'group',
-                'count',
-                'size',
-                'client_id',
-            );
+            $config['filter_fields'] = ['group', 'count', 'size', 'client_id'];
         }
 
         parent::__construct($config);
@@ -122,11 +117,11 @@ class CacheModel extends ListModel
                 $cache = $this->getCache();
                 $data  = $cache->getAll();
 
-                if ($data && \count($data) > 0) {
+                if ($data && (is_countable($data) ? \count($data) : 0) > 0) {
                     // Process filter by search term.
                     if ($search = $this->getState('filter.search')) {
                         foreach ($data as $key => $cacheItem) {
-                            if (stripos($cacheItem->group, $search) === false) {
+                            if (stripos((string) $cacheItem->group, (string) $search) === false) {
                                 unset($data[$key]);
                             }
                         }
@@ -136,7 +131,7 @@ class CacheModel extends ListModel
                     $listOrder = $this->getState('list.ordering', 'group');
                     $listDirn  = $this->getState('list.direction', 'ASC');
 
-                    $this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower($listDirn) === 'desc' ? -1 : 1, true, true);
+                    $this->_data = ArrayHelper::sortObjects($data, $listOrder, strtolower((string) $listDirn) === 'desc' ? -1 : 1, true, true);
 
                     // Process pagination.
                     $limit = (int) $this->getState('list.limit', 25);
@@ -147,14 +142,14 @@ class CacheModel extends ListModel
                         return \array_slice($this->_data, $start, $limit);
                     }
                 } else {
-                    $this->_data = array();
+                    $this->_data = [];
                 }
-            } catch (CacheConnectingException $exception) {
+            } catch (CacheConnectingException) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_CONNECTION_FAILED'));
-                $this->_data = array();
-            } catch (UnsupportedCacheException $exception) {
+                $this->_data = [];
+            } catch (UnsupportedCacheException) {
                 $this->setError(Text::_('COM_CACHE_ERROR_CACHE_DRIVER_UNSUPPORTED'));
-                $this->_data = array();
+                $this->_data = [];
             }
         }
 
@@ -170,12 +165,7 @@ class CacheModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $options = array(
-            'defaultgroup' => '',
-            'storage'      => $app->get('cache_handler', ''),
-            'caching'      => true,
-            'cachebase'    => $app->get('cache_path', JPATH_CACHE)
-        );
+        $options = ['defaultgroup' => '', 'storage'      => $app->get('cache_handler', ''), 'caching'      => true, 'cachebase'    => $app->get('cache_path', JPATH_CACHE)];
 
         return Cache::getInstance('', $options);
     }
@@ -220,13 +210,11 @@ class CacheModel extends ListModel
     {
         try {
             $this->getCache()->clean($group);
-        } catch (CacheConnectingException $exception) {
-            return false;
-        } catch (UnsupportedCacheException $exception) {
+        } catch (CacheConnectingException|UnsupportedCacheException) {
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+        Factory::getApplication()->triggerEvent('onAfterPurge', [$group]);
 
         return true;
     }
@@ -240,7 +228,7 @@ class CacheModel extends ListModel
      */
     public function cleanlist($array)
     {
-        $errors = array();
+        $errors = [];
 
         foreach ($array as $group) {
             if (!$this->clean($group)) {
@@ -260,13 +248,11 @@ class CacheModel extends ListModel
     {
         try {
             Factory::getCache('')->gc();
-        } catch (CacheConnectingException $exception) {
-            return false;
-        } catch (UnsupportedCacheException $exception) {
+        } catch (CacheConnectingException|UnsupportedCacheException) {
             return false;
         }
 
-        Factory::getApplication()->triggerEvent('onAfterPurge', array());
+        Factory::getApplication()->triggerEvent('onAfterPurge', []);
 
         return true;
     }

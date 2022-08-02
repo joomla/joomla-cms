@@ -22,7 +22,6 @@ class BeforeExtensionBootEvent extends AbstractImmutableEvent
      * Get the event's extension type. Can be:
      * - component
      *
-     * @return  string
      *
      * @since  4.0.0
      */
@@ -34,7 +33,6 @@ class BeforeExtensionBootEvent extends AbstractImmutableEvent
     /**
      * Get the event's extension name.
      *
-     * @return  string
      *
      * @since  4.0.0
      */
@@ -46,7 +44,6 @@ class BeforeExtensionBootEvent extends AbstractImmutableEvent
     /**
      * Get the event's container object
      *
-     * @return  Container
      *
      * @since  4.0.0
      */

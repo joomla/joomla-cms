@@ -54,7 +54,6 @@ trait ResultTypeObjectAware
      *
      * @param   mixed  $data  The data to type check
      *
-     * @return  void
      * @throws  InvalidArgumentException
      *
      * @internal
@@ -62,6 +61,8 @@ trait ResultTypeObjectAware
      */
     public function typeCheckResult($data): void
     {
+        $messageTemplate = null;
+        $acceptableTypes = null;
         if ($this->resultIsNullable && $data === null) {
             return;
         }

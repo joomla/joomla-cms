@@ -1,5 +1,8 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.logrotation
@@ -36,14 +39,14 @@ class PlgSystemLogrotation extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.9.0
      */
     protected $app;
 
     /**
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      *
      * @since  3.9.0
      */
@@ -59,8 +62,7 @@ class PlgSystemLogrotation extends CMSPlugin
     public function onAfterRender()
     {
         // Get the timeout as configured in plugin parameters
-
-        /** @var \Joomla\Registry\Registry $params */
+        /** @var Registry $params */
         $cache_timeout = (int) $this->params->get('cachetimeout', 30);
         $cache_timeout = 24 * 3600 * $cache_timeout;
         $logsToKeep    = (int) $this->params->get('logstokeep', 1);
@@ -90,7 +92,7 @@ class PlgSystemLogrotation extends CMSPlugin
         try {
             // Lock the tables to prevent multiple plugin executions causing a race condition
             $db->lockTable('#__extensions');
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables it's too risky to continue execution
             return;
         }
@@ -99,8 +101,8 @@ class PlgSystemLogrotation extends CMSPlugin
             // Update the plugin parameters
             $result = $db->setQuery($query)->execute();
 
-            $this->clearCacheGroups(array('com_plugins'), array(0, 1));
-        } catch (Exception $exc) {
+            $this->clearCacheGroups(['com_plugins'], [0, 1]);
+        } catch (Exception) {
             // If we failed to execute
             $db->unlockTables();
             $result = false;
@@ -109,7 +111,7 @@ class PlgSystemLogrotation extends CMSPlugin
         try {
             // Unlock the tables after writing
             $db->unlockTables();
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If we can't lock the tables assume we have somehow failed
             $result = false;
         }
@@ -158,11 +160,11 @@ class PlgSystemLogrotation extends CMSPlugin
      */
     private function getLogFiles($path)
     {
-        $logFiles = array();
+        $logFiles = [];
         $files    = Folder::files($path, '\.php$');
 
         foreach ($files as $file) {
-            $parts    = explode('.', $file);
+            $parts    = explode('.', (string) $file);
 
             /*
              * Rotated log file has this filename format [VERSION].[FILENAME].php. So if $parts has at least 3 elements
@@ -175,7 +177,7 @@ class PlgSystemLogrotation extends CMSPlugin
             }
 
             if (!isset($logFiles[$version])) {
-                $logFiles[$version] = array();
+                $logFiles[$version] = [];
             }
 
             $logFiles[$version][] = $file;
@@ -224,20 +226,17 @@ class PlgSystemLogrotation extends CMSPlugin
      *
      * @since   3.9.0
      */
-    private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
+    private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
     {
         foreach ($clearGroups as $group) {
             foreach ($cacheClients as $client_id) {
                 try {
-                    $options = array(
-                        'defaultgroup' => $group,
-                        'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-                            Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache'),
-                    );
+                    $options = ['defaultgroup' => $group, 'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
+                        Factory::getApplication()->get('cache_path', JPATH_SITE . '/cache')];
 
                     $cache = Cache::getInstance('callback', $options);
                     $cache->clean();
-                } catch (Exception $e) {
+                } catch (Exception) {
                     // Ignore it
                 }
             }

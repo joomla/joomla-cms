@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
@@ -17,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
@@ -28,7 +29,7 @@ $input = $app->input;
 $assoc = Associations::isEnabled();
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
-$this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associations');
+$this->ignore_fieldsets = ['images', 'jbasic', 'jmetadata', 'item_associations'];
 $this->useCoreUI = true;
 
 // In case of modal

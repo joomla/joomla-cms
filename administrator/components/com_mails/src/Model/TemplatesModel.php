@@ -30,17 +30,10 @@ class TemplatesModel extends ListModel
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'template_id', 'a.template_id',
-                'language', 'a.language',
-                'subject', 'a.subject',
-                'body', 'a.body',
-                'htmlbody', 'a.htmlbody',
-                'extension'
-            );
+            $config['filter_fields'] = ['template_id', 'a.template_id', 'language', 'a.language', 'subject', 'a.subject', 'body', 'a.body', 'htmlbody', 'a.htmlbody', 'extension'];
         }
 
         parent::__construct($config);
@@ -126,7 +119,7 @@ class TemplatesModel extends ListModel
             ->where($db->quoteName('a.language') . ' = ' . $db->quote(''));
 
         // Filter by search in title.
-        if ($search = trim($this->getState('filter.search', ''))) {
+        if ($search = trim((string) $this->getState('filter.search', ''))) {
             if (stripos($search, 'id:') === 0) {
                 $search = substr($search, 3);
                 $query->where($db->quoteName('a.template_id') . ' = :search')
@@ -210,6 +203,6 @@ class TemplatesModel extends ListModel
      */
     public function getLanguages()
     {
-        return LanguageHelper::getContentLanguages(array(0,1));
+        return LanguageHelper::getContentLanguages([0, 1]);
     }
 }

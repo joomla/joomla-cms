@@ -31,12 +31,11 @@ class MediumModel extends BaseModel
 	use ProviderManagerHelperTrait;
 
 	/**
-	 * Instance of com_media's ApiModel
-	 *
-	 * @var ApiModel
-	 * @since  4.1.0
-	 */
-	private $mediaApiModel;
+  * Instance of com_media's ApiModel
+  *
+  * @since  4.1.0
+  */
+ private readonly ApiModel $mediaApiModel;
 
 	public function __construct($config = [])
 	{
@@ -68,7 +67,7 @@ class MediumModel extends BaseModel
 		{
 			return $this->mediaApiModel->getFile($adapterName, $path, $options);
 		}
-		catch (FileNotFoundException $e)
+		catch (FileNotFoundException)
 		{
 			throw new ResourceNotFound(
 				Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),
@@ -98,15 +97,15 @@ class MediumModel extends BaseModel
 		['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($path);
 
 		// Trim adapter information from path
-		if ($pos = strpos($path, ':/'))
+		if ($pos = strpos((string) $path, ':/'))
 		{
-			$path = substr($path, $pos + 1);
+			$path = substr((string) $path, $pos + 1);
 		}
 
 		// Trim adapter information from old path
-		if ($pos = strpos($oldPath, ':/'))
+		if ($pos = strpos((string) $oldPath, ':/'))
 		{
-			$oldPath = substr($oldPath, $pos + 1);
+			$oldPath = substr((string) $oldPath, $pos + 1);
 		}
 
 		$resultPath = '';
@@ -122,11 +121,11 @@ class MediumModel extends BaseModel
 			{
 				// ApiModel::move() (or actually LocalAdapter::move()) returns a path with leading slash.
 				$resultPath = trim(
-					$this->mediaApiModel->move($adapterName, $oldPath, $path, $override),
+					(string) $this->mediaApiModel->move($adapterName, $oldPath, $path, $override),
 					'/'
 				);
 			}
-			catch (FileNotFoundException $e)
+			catch (FileNotFoundException)
 			{
 				throw new Save(
 					Text::sprintf(
@@ -144,8 +143,8 @@ class MediumModel extends BaseModel
 		{
 			// com_media expects separate directory and file name.
 			// If we moved the file before, we must use the new path.
-			$basename = basename($resultPath ?: $path);
-			$dirname  = dirname($resultPath ?: $path);
+			$basename = basename((string) ($resultPath ?: $path));
+			$dirname  = dirname((string) ($resultPath ?: $path));
 
 			try
 			{
@@ -168,7 +167,7 @@ class MediumModel extends BaseModel
 
 				$resultPath = $dirname . '/' . $name;
 			}
-			catch (FileNotFoundException $e)
+			catch (FileNotFoundException)
 			{
 				throw new Save(
 					Text::sprintf(
@@ -178,7 +177,7 @@ class MediumModel extends BaseModel
 					404
 				);
 			}
-			catch (FileExistsException $e)
+			catch (FileExistsException)
 			{
 				throw new Save(
 					Text::sprintf(
@@ -188,7 +187,7 @@ class MediumModel extends BaseModel
 					400
 				);
 			}
-			catch (InvalidPathException $e)
+			catch (InvalidPathException)
 			{
 				throw new Save(
 					Text::sprintf(
@@ -206,8 +205,8 @@ class MediumModel extends BaseModel
 		{
 			// com_media expects separate directory and file name.
 			// If we moved the file before, we must use the new path.
-			$basename = basename($resultPath ?: $oldPath);
-			$dirname  = dirname($resultPath ?: $oldPath);
+			$basename = basename((string) ($resultPath ?: $oldPath));
+			$dirname  = dirname((string) ($resultPath ?: $oldPath));
 
 			try
 			{
@@ -218,7 +217,7 @@ class MediumModel extends BaseModel
 					$content
 				);
 			}
-			catch (FileNotFoundException $e)
+			catch (FileNotFoundException)
 			{
 				throw new Save(
 					Text::sprintf(
@@ -228,7 +227,7 @@ class MediumModel extends BaseModel
 					404
 				);
 			}
-			catch (InvalidPathException $e)
+			catch (InvalidPathException)
 			{
 				throw new Save(
 					Text::sprintf(
@@ -257,14 +256,13 @@ class MediumModel extends BaseModel
 	}
 
 	/**
-	 * Method to delete an existing file or folder.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 * @throws  Save
-	 */
-	public function delete(): void
+  * Method to delete an existing file or folder.
+  *
+  *
+  * @since   4.1.0
+  * @throws  Save
+  */
+ public function delete(): void
 	{
 		['adapter' => $adapterName, 'path' => $path] = $this->resolveAdapterAndPath($this->getState('path', ''));
 
@@ -272,7 +270,7 @@ class MediumModel extends BaseModel
 		{
 			$this->mediaApiModel->delete($adapterName, $path);
 		}
-		catch (FileNotFoundException $e)
+		catch (FileNotFoundException)
 		{
 			throw new Save(
 				Text::sprintf('WEBSERVICE_COM_MEDIA_FILE_NOT_FOUND', $path),

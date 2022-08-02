@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contact\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -31,30 +32,10 @@ class ContactsModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'alias', 'a.alias',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'catid', 'a.catid', 'category_id', 'category_title',
-                'user_id', 'a.user_id',
-                'published', 'a.published',
-                'access', 'a.access', 'access_level',
-                'created', 'a.created',
-                'created_by', 'a.created_by',
-                'ordering', 'a.ordering',
-                'featured', 'a.featured',
-                'language', 'a.language', 'language_title',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'ul.name', 'linked_user',
-                'tag',
-                'level', 'c.level',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'name', 'a.name', 'alias', 'a.alias', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'catid', 'a.catid', 'category_id', 'category_title', 'user_id', 'a.user_id', 'published', 'a.published', 'access', 'a.access', 'access_level', 'created', 'a.created', 'created_by', 'a.created_by', 'ordering', 'a.ordering', 'featured', 'a.featured', 'language', 'a.language', 'language_title', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'ul.name', 'linked_user', 'tag', 'level', 'c.level'];
 
             if (Associations::isEnabled()) {
                 $config['filter_fields'][] = 'association';
@@ -131,7 +112,7 @@ class ContactsModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -147,7 +128,7 @@ class ContactsModel extends ListModel
             $db->quoteName(
                 explode(
                     ', ',
-                    $this->getState(
+                    (string) $this->getState(
                         'list.select',
                         'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid, a.user_id' .
                         ', a.published, a.access, a.created, a.created_by, a.ordering, a.featured, a.language' .
@@ -160,10 +141,7 @@ class ContactsModel extends ListModel
 
         // Join over the users for the linked user.
         $query->select(
-            array(
-                $db->quoteName('ul.name', 'linked_user'),
-                $db->quoteName('ul.email')
-            )
+            [$db->quoteName('ul.name', 'linked_user'), $db->quoteName('ul.email')]
         )
             ->join(
                 'LEFT',
@@ -247,12 +225,12 @@ class ContactsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.name') . ' LIKE :name OR ' . $db->quoteName('a.alias') . ' LIKE :alias)'
                 );
@@ -309,18 +287,18 @@ class ContactsModel extends ListModel
         }
 
         // Filter by categories and by level
-        $categoryId = $this->getState('filter.category_id', array());
+        $categoryId = $this->getState('filter.category_id', []);
         $level = $this->getState('filter.level');
 
         if (!is_array($categoryId)) {
-            $categoryId = $categoryId ? array($categoryId) : array();
+            $categoryId = $categoryId ? [$categoryId] : [];
         }
 
         // Case: Using both categories filter and by level filter
         if (count($categoryId)) {
             $categoryId = ArrayHelper::toInteger($categoryId);
             $categoryTable = Table::getInstance('Category', 'JTable');
-            $subCatItemsWhere = array();
+            $subCatItemsWhere = [];
 
             // @todo: Convert to prepared statement
             foreach ($categoryId as $filter_catid) {

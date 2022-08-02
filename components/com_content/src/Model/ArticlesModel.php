@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -39,30 +40,10 @@ class ArticlesModel extends ListModel
      * @see     \JController
      * @since   1.6
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'alias', 'a.alias',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'catid', 'a.catid', 'category_title',
-                'state', 'a.state',
-                'access', 'a.access', 'access_level',
-                'created', 'a.created',
-                'created_by', 'a.created_by',
-                'ordering', 'a.ordering',
-                'featured', 'a.featured',
-                'language', 'a.language',
-                'hits', 'a.hits',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'images', 'a.images',
-                'urls', 'a.urls',
-                'filter_tag',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'alias', 'a.alias', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'catid', 'a.catid', 'category_title', 'state', 'a.state', 'access', 'a.access', 'access_level', 'created', 'a.created', 'created_by', 'a.created_by', 'ordering', 'a.ordering', 'featured', 'a.featured', 'language', 'a.language', 'hits', 'a.hits', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'images', 'a.images', 'urls', 'a.urls', 'filter_tag'];
         }
 
         parent::__construct($config);
@@ -108,7 +89,7 @@ class ArticlesModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -176,7 +157,7 @@ class ArticlesModel extends ListModel
     /**
      * Get the master query for retrieving a list of articles subject to the model state.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   1.6
      */
@@ -187,7 +168,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
+        /** @var DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         $nowDate = Factory::getDate()->toSql();
@@ -667,7 +648,7 @@ class ArticlesModel extends ListModel
             ) {
                 // Create an array of just the params set to 'use_article'
                 $menuParamsArray = $this->getState('params')->toArray();
-                $articleArray    = array();
+                $articleArray    = [];
 
                 foreach ($menuParamsArray as $key => $value) {
                     if ($value === 'use_article') {
@@ -701,11 +682,10 @@ class ArticlesModel extends ListModel
                 case 'published':
                     $item->displayDate = ($item->publish_up == 0) ? $item->created : $item->publish_up;
                     break;
-
-                default:
                 case 'created':
                     $item->displayDate = $item->created;
                     break;
+                default:
             }
 
             /**
@@ -805,12 +785,7 @@ class ArticlesModel extends ListModel
             ->select(
                 'DATE(' .
                 $query->concatenate(
-                    array(
-                        $query->year($db->quoteName('publish_up')),
-                        $db->quote('-'),
-                        $query->month($db->quoteName('publish_up')),
-                        $db->quote('-01')
-                    )
+                    [$query->year($db->quoteName('publish_up')), $db->quote('-'), $query->month($db->quoteName('publish_up')), $db->quote('-01')]
                 ) . ') AS ' . $db->quoteName('d')
             )
             ->select('COUNT(*) AS ' . $db->quoteName('c'))

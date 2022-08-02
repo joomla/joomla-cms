@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Factory;
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
@@ -10,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-\Joomla\CMS\Factory::getApplication()->getDocument()->addScriptDeclaration('
+Factory::getApplication()->getDocument()->addScriptDeclaration('
 (function() {
 	document.addEventListener(\'DOMContentLoaded\', function() {
 		var elms = document.querySelectorAll("a.js-revert");

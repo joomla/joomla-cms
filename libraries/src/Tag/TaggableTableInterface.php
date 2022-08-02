@@ -45,7 +45,6 @@ interface TaggableTableInterface extends TableInterface
      *
      * @param   TagsHelper  $tagsHelper  The tags helper object
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -54,7 +53,6 @@ interface TaggableTableInterface extends TableInterface
     /**
      * Clears a set tags helper
      *
-     * @return  void
      *
      * @since   4.0.0
      */

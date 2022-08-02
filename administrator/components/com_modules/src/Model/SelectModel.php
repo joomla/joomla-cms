@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Modules\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -79,7 +80,7 @@ class SelectModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      */
     protected function getListQuery()
     {

@@ -10,6 +10,7 @@
 
 namespace Joomla\Tests\Unit\Libraries\Cms\Console;
 
+use PHPUnit\Framework\TestCase;
 use Joomla\CMS\Console\ExtensionDiscoverInstallCommand;
 use Joomla\Database\DatabaseInterface;
 
@@ -18,7 +19,7 @@ use Joomla\Database\DatabaseInterface;
  *
  * @since   4.0.0
  */
-class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
+class ExtensionDiscoverInstallCommandTest extends TestCase
 {
     /**
      * Tests the constructor
@@ -85,7 +86,6 @@ class ExtensionDiscoverInstallCommandTest extends \PHPUnit\Framework\TestCase
     /**
      * Helper function to create a ExtensionDiscoverInstallCommand
      *
-     * @return  ExtensionDiscoverInstallCommand
      *
      * @since   4.0.0
      */

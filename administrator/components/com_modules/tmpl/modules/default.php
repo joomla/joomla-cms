@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -19,7 +20,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -37,7 +38,7 @@ if ($saveOrder && !empty($this->items)) {
 ?>
 <form action="<?php echo Route::_('index.php?option=com_modules&view=modules&client_id=' . $clientId); ?>" method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if ($this->total > 0) : ?>
             <table class="table" id="moduleList">
                 <caption class="visually-hidden">
@@ -88,7 +89,7 @@ if ($saveOrder && !empty($this->items)) {
                     </tr>
                 </thead>
                 <tbody <?php if ($saveOrder) :
-                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="false"<?php
+                    ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower((string) $listDirn); ?>" data-nested="false"<?php
                        endif; ?>>
                 <?php foreach ($this->items as $i => $item) :
                     $ordering   = ($listOrder == 'a.ordering');
@@ -126,7 +127,7 @@ if ($saveOrder && !empty($this->items)) {
                                 <span class="tbody-icon" title="<?php echo Text::sprintf('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED', $this->escape($item->name)); ?>">
                                     <span class="icon-minus-circle" aria-hidden="true"></span>
                                 </span>
-                            <?php endif; ?>
+<?php endif; ?>
                         </td>
                         <th scope="row" class="has-context">
                             <div>
@@ -188,14 +189,14 @@ if ($saveOrder && !empty($this->items)) {
                             <?php echo (int) $item->id; ?>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+<?php endforeach; ?>
                 </tbody>
             </table>
 
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <?php // Load the batch processing form. ?>
         <?php if (
@@ -206,10 +207,7 @@ if ($saveOrder && !empty($this->items)) {
             <?php echo HTMLHelper::_(
                 'bootstrap.renderModal',
                 'collapseModal',
-                array(
-                    'title'  => Text::_('COM_MODULES_BATCH_OPTIONS'),
-                    'footer' => $this->loadTemplate('batch_footer'),
-                ),
+                ['title'  => Text::_('COM_MODULES_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                 $this->loadTemplate('batch_body')
             ); ?>
         <?php endif; ?>

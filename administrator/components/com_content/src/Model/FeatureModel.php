@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
 /**
  * Feature model.
  *
@@ -24,11 +25,11 @@ class FeatureModel extends ArticleModel
      * @param   string  $prefix  A prefix for the table class name. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\Table\Table A database object
+     * @return Table A database object
      *
      * @since   1.6
      */
-    public function getTable($type = 'Featured', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Featured', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }

@@ -1,5 +1,7 @@
 <?php
 
+use Joomla\Component\Content\Administrator\View\Article\HtmlView;
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -7,9 +9,7 @@
  * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/** @var \Joomla\Component\Content\Administrator\View\Article\HtmlView $this */
-
+/** @var HtmlView $this */
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
@@ -20,18 +20,18 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_contenthistory.admin-history-versions');
 
-$this->configFieldsets  = array('editorConfig');
-$this->hiddenFieldsets  = array('basic-limited');
+$this->configFieldsets  = ['editorConfig'];
+$this->hiddenFieldsets  = ['basic-limited'];
 $fieldsetsInImages = ['image-intro', 'image-full'];
 $fieldsetsInLinks = ['linka', 'linkb', 'linkc'];
-$this->ignore_fieldsets = array_merge(array('jmetadata', 'item_associations'), $fieldsetsInImages, $fieldsetsInLinks);
+$this->ignore_fieldsets = array_merge(['jmetadata', 'item_associations'], $fieldsetsInImages, $fieldsetsInLinks);
 $this->useCoreUI = true;
 
 // Create shortcut to parameters.

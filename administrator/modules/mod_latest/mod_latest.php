@@ -27,7 +27,7 @@ if ($params->get('automatic_title', 0)) {
     $module->title = LatestHelper::getTitle($params);
 }
 
-if (count($list)) {
+if (is_countable($list) ? count($list) : 0) {
     require ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
 } else {
     $app->getLanguage()->load('com_content');

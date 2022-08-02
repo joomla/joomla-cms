@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Document\ErrorDocument;
 /**
  * @package     Joomla.Administrator
  * @subpackage  Template.system
@@ -13,8 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\CMS\Document\ErrorDocument $this */
-
+/** @var ErrorDocument $this */
 // Load template CSS file
 $this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'media/system/css/system-admin-error.min.css');
 
@@ -64,9 +64,9 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
                             <?php endwhile; ?>
                             <?php // Reset the main error object to the base error ?>
                             <?php $this->setError($this->error); ?>
-                        <?php endif; ?>
+<?php endif; ?>
                     </div>
-                <?php endif; ?>
+<?php endif; ?>
             </td>
         </tr>
     </table>

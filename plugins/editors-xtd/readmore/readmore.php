@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.readmore
@@ -32,7 +33,7 @@ class PlgButtonReadmore extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -55,9 +56,7 @@ class PlgButtonReadmore extends CMSPlugin
         // Pass some data to javascript
         $doc->addScriptOptions(
             'xtd-readmore',
-            array(
-                'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
-            )
+            ['exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true)]
         );
 
         $button = new CMSObject();

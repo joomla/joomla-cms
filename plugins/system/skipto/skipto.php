@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.skipto
@@ -101,7 +102,7 @@ class PlgSystemSkipto extends CMSPlugin
             ]
         );
 
-        /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $document->getWebAssetManager();
         $wa->useScript('skipto');
     }

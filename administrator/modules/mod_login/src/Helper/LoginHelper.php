@@ -38,9 +38,7 @@ abstract class LoginHelper
 
         usort(
             $languages,
-            function ($a, $b) {
-                return strcmp($a['value'], $b['value']);
-            }
+            fn($a, $b) => strcmp((string) $a['value'], (string) $b['value'])
         );
 
         // Fix wrongly set parentheses in RTL languages
@@ -63,7 +61,7 @@ abstract class LoginHelper
     public static function getReturnUri()
     {
         $uri    = Uri::getInstance();
-        $return = 'index.php' . $uri->toString(array('query'));
+        $return = 'index.php' . $uri->toString(['query']);
 
         if ($return != 'index.php?option=com_login') {
             return base64_encode($return);

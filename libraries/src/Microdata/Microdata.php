@@ -112,7 +112,7 @@ class Microdata
         // Load the JSON
         if (!static::$types) {
             $path = __DIR__ . '/types.json';
-            static::$types = json_decode(file_get_contents($path), true);
+            static::$types = json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
         }
     }
 
@@ -626,7 +626,7 @@ class Microdata
             return static::getExpectedTypes($extendedType, $property);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -651,7 +651,7 @@ class Microdata
         $type = $expectedTypes[0];
 
         // Check if it's a 'meta' display
-        if ($type === 'Date' || $type === 'DateTime' || $property === 'interactionCount') {
+        if ($type === 'Date' || $type === \DateTime::class || $property === 'interactionCount') {
             return 'meta';
         }
 
@@ -789,9 +789,9 @@ class Microdata
 
         // Depending on the case, the $scope must precede the $property, or otherwise
         if ($invert) {
-            $tmp = implode(' ', array($property, $scope));
+            $tmp = implode(' ', [$property, $scope]);
         } else {
-            $tmp = implode(' ', array($scope, $property));
+            $tmp = implode(' ', [$scope, $property]);
         }
 
         $tmp = trim($tmp);

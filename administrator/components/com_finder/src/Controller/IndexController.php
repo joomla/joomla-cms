@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Finder\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Finder\Administrator\Model\IndexModel;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -29,11 +31,11 @@ class IndexController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   2.5
      */
-    public function getModel($name = 'Index', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Index', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -77,7 +79,7 @@ class IndexController extends AdminController
         // Remove the script time limit.
         @set_time_limit(0);
 
-        /** @var \Joomla\Component\Finder\Administrator\Model\IndexModel $model */
+        /** @var IndexModel $model */
         $model = $this->getModel('Index', 'Administrator');
 
         // Attempt to purge the index.

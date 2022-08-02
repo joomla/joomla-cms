@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -21,7 +22,7 @@ if (Factory::getApplication()->isClient('site')) {
     Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 }
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_modules.admin-modules-modal');
 
@@ -38,7 +39,7 @@ if (!empty($editor)) {
 
     <form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 
         <?php if ($this->total > 0) : ?>
         <table class="table" id="moduleList">
@@ -77,12 +78,7 @@ if (!empty($editor)) {
             </thead>
             <tbody>
                 <?php
-                $iconStates = array(
-                    -2 => 'icon-trash',
-                    0  => 'icon-times',
-                    1  => 'icon-check',
-                    2  => 'icon-folder',
-                );
+                $iconStates = [-2 => 'icon-trash', 0  => 'icon-times', 1  => 'icon-check', 2  => 'icon-folder'];
                 foreach ($this->items as $i => $item) :
                     ?>
                 <tr class="row<?php echo $i % 2; ?>">
@@ -126,7 +122,7 @@ if (!empty($editor)) {
             <?php // load the pagination. ?>
             <?php echo $this->pagination->getListFooter(); ?>
 
-        <?php endif; ?>
+<?php endif; ?>
 
         <input type="hidden" name="task" value="">
         <input type="hidden" name="boxchecked" value="0">

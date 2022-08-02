@@ -30,7 +30,7 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
      *
      * @since  4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         parent::__construct($name, $arguments);
 
@@ -71,7 +71,6 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
     /**
      * Return modified asset
      *
-     * @return  WebAssetItemInterface
      *
      * @since  4.0.0
      */
@@ -83,7 +82,6 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
     /**
      * Return a type of modified asset
      *
-     * @return  string
      *
      * @since  4.0.0
      */
@@ -95,7 +93,6 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
     /**
      * Return a type of changes: new, remove, override
      *
-     * @return  string
      *
      * @since  4.0.0
      */

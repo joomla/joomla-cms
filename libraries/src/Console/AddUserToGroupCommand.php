@@ -57,20 +57,18 @@ class AddUserToGroupCommand extends AbstractCommand
     /**
      * The username
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $username;
+    private ?string $username = null;
 
     /**
      * The usergroups
      *
-     * @var    array
      *
      * @since  4.0.0
      */
-    private $userGroups = [];
+    private array $userGroups = [];
 
     /**
      * Command constructor.
@@ -145,7 +143,6 @@ class AddUserToGroupCommand extends AbstractCommand
      *
      * @param   User  $user  a UserInstance
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -159,7 +156,7 @@ class AddUserToGroupCommand extends AbstractCommand
 
         // Group names have been supplied as input arguments
         if ($groups) {
-            $groups = explode(',', $groups);
+            $groups = explode(',', (string) $groups);
 
             foreach ($groups as $group) {
                 $groupId = $this->getGroupId($group);
@@ -253,7 +250,6 @@ class AddUserToGroupCommand extends AbstractCommand
      *
      * @param   string  $question  set the question if user enters no value to option
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -287,7 +283,6 @@ class AddUserToGroupCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

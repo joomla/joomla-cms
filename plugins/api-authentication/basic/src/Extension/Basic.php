@@ -27,14 +27,6 @@ final class Basic extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     * @since  4.2.0
-     */
-    private $userFactory;
-
-    /**
      * Constructor.
      *
      * @param   DispatcherInterface   $dispatcher   The dispatcher
@@ -43,11 +35,9 @@ final class Basic extends CMSPlugin
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory)
+    public function __construct(DispatcherInterface $dispatcher, array $config, private readonly UserFactoryInterface $userFactory)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->userFactory = $userFactory;
     }
 
     /**

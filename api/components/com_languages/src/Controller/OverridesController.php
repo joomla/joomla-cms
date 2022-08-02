@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Languages\Api\Controller;
 
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
@@ -83,7 +85,7 @@ class OverridesController extends ApiController
      */
     protected function save($recordKey = null)
     {
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType));
 
         if (!$model) {
@@ -93,7 +95,7 @@ class OverridesController extends ApiController
         $model->setState('filter.language', $this->input->post->get('lang_code'));
         $model->setState('filter.client', $this->input->post->get('app'));
 
-        $data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data = $this->input->get('data', json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR), 'array');
 
         // @todo: Not the cleanest thing ever but it works...
         Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
@@ -129,7 +131,7 @@ class OverridesController extends ApiController
         }
 
         if (!$model->save($validData)) {
-            throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+            throw new Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
         }
 
         return $validData['key'];

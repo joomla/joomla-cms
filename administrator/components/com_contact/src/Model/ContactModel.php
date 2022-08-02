@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Contact\Administrator\Model;
 
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
@@ -61,12 +63,7 @@ class ContactModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
-        'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage',
-        'tag'           => 'batchTag',
-        'user_id'       => 'batchUser',
-    );
+    protected $batch_commands = ['assetgroup_id' => 'batchAccess', 'language_id'   => 'batchLanguage', 'tag'           => 'batchTag', 'user_id'       => 'batchUser'];
 
     /**
      * Name of the form
@@ -161,12 +158,12 @@ class ContactModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
         // Get the form.
-        $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_contact.' . $this->formName, $this->formName, ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -215,7 +212,7 @@ class ContactModel extends AdminModel
         $assoc = Associations::isEnabled();
 
         if ($assoc) {
-            $item->associations = array();
+            $item->associations = [];
 
             if ($item->id != null) {
                 $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $item->id);
@@ -247,7 +244,7 @@ class ContactModel extends AdminModel
         $app = Factory::getApplication();
 
         // Check the session for previously entered form data.
-        $data = $app->getUserState('com_contact.edit.contact.data', array());
+        $data = $app->getUserState('com_contact.edit.contact.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -288,14 +285,14 @@ class ContactModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with((string) $data['catid'], '#new#') ? substr((string) $data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_contact',
                 'language'  => $data['language'],
                 'published' => 1,
             ];
 
-            /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = Factory::getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
@@ -316,7 +313,7 @@ class ContactModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name'] = $name;
                 $data['alias'] = $alias;
             } else {
@@ -328,7 +325,7 @@ class ContactModel extends AdminModel
             $data['published'] = 0;
         }
 
-        $links = array('linka', 'linkb', 'linkc', 'linkd', 'linke');
+        $links = ['linka', 'linkb', 'linkc', 'linkd', 'linke'];
 
         foreach ($links as $link) {
             if (!empty($data['params'][$link])) {
@@ -342,7 +339,7 @@ class ContactModel extends AdminModel
     /**
      * Prepare and sanitise the table prior to saving.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  The Table object
+     * @param Table $table The Table object
      *
      * @return  void
      *
@@ -352,7 +349,7 @@ class ContactModel extends AdminModel
     {
         $date = Factory::getDate()->toSql();
 
-        $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+        $table->name = htmlspecialchars_decode((string) $table->name, ENT_QUOTES);
 
         $table->generateAlias();
 
@@ -384,7 +381,7 @@ class ContactModel extends AdminModel
     /**
      * A protected method to get a set of ordering conditions.
      *
-     * @param   \Joomla\CMS\Table\Table  $table  A record object.
+     * @param Table $table A record object.
      *
      * @return  array  An array of conditions to add to ordering queries.
      *

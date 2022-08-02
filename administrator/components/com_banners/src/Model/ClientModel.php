@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
@@ -81,14 +82,14 @@ class ClientModel extends AdminModel
      * @param   array    $data      Data for the form.
      * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
      *
-     * @return  \Joomla\CMS\Form\Form|boolean  A Form object on success, false on failure
+     * @return Form|boolean A Form object on success, false on failure
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.client', 'client', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.client', 'client', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -107,7 +108,7 @@ class ClientModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_banners.edit.client.data', array());
+        $data = Factory::getApplication()->getUserState('com_banners.edit.client.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -129,6 +130,6 @@ class ClientModel extends AdminModel
      */
     protected function prepareTable($table)
     {
-        $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
+        $table->name = htmlspecialchars_decode((string) $table->name, ENT_QUOTES);
     }
 }

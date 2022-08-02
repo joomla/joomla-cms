@@ -49,8 +49,7 @@ class Api extends Module
                     'block'        => 0,
                     'registerDate' => '2000-01-01',
                     'params'       => '{}'
-                ],
-                []
+                ]
             );
             $db->haveInDatabase('user_usergroup_map', ['user_id' => $desiredUserId, 'group_id' => 8]);
             $enabledData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.enabled', 'profile_value' => 1];

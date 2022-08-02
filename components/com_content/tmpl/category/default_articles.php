@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -22,12 +23,12 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('com_content.articles-list');
 
 // Create some shortcuts.
-$n          = count($this->items);
+$n          = is_countable($this->items) ? count($this->items) : 0;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $langFilter = false;
@@ -36,18 +37,11 @@ $langFilter = false;
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled())) {
     $tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
-    switch ($tagfilter) {
-        case 'current_language':
-            $langFilter = Factory::getApplication()->getLanguage()->getTag();
-            break;
-
-        case 'all':
-            $langFilter = false;
-            break;
-
-        default:
-            $langFilter = $tagfilter;
-    }
+    $langFilter = match ($tagfilter) {
+        'current_language' => Factory::getApplication()->getLanguage()->getTag(),
+        'all' => false,
+        default => $tagfilter,
+    };
 }
 
 // Check for at least one editable article
@@ -76,7 +70,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                 </span>
                 <select name="filter_tag" id="filter-search" class="form-select" onchange="document.adminForm.submit();" >
                     <option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
-                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
+                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', ['filter.published' => [1], 'filter.language' => $langFilter], true), 'value', 'text', $this->state->get('filter.tag')); ?>
                 </select>
             <?php elseif ($this->params->get('filter_field') === 'month') : ?>
                 <span class="visually-hidden">
@@ -183,10 +177,10 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
                             <?php foreach ($associations as $association) : ?>
                                 <?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
-                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
-                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower((string) $association['language']->lang_code); ?>
                                     <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
                                         <span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
                                     </a>
@@ -199,7 +193,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                         echo $this->escape($article->title) . ' : ';
                         $itemId = Factory::getApplication()->getMenu()->getActive()->id;
                         $link   = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-                        $link->setVar('return', base64_encode(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)));
+                        $link->setVar('return', base64_encode((string) RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)));
                         ?>
                         <a href="<?php echo $link; ?>" class="register">
                             <?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
@@ -209,10 +203,10 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
                             <?php foreach ($associations as $association) : ?>
                                 <?php if ($this->params->get('flags', 1)) : ?>
-                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
-                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
+                                    <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower((string) $association['language']->lang_code); ?>
                                     <a class="<?php echo $class; ?>" title="<?php echo $association['language']->title_native; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo $association['language']->lang_code; ?>
                                         <span class="visually-hidden"><?php echo $association['language']->title_native; ?></span>
                                     </a>

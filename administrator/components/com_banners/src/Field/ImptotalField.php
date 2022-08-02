@@ -45,7 +45,7 @@ class ImptotalField extends FormField
         $value    = empty($this->value) ? '' : $this->value;
         $checked  = empty($this->value) ? ' checked="checked"' : '';
 
-        return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')
+        return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars((string) $value, ENT_COMPAT, 'UTF-8')
             . '" ' . $class . $onchange . '>'
             . '<fieldset class="form-check impunlimited"><input class="form-check-input" id="' . $this->id . '_unlimited" type="checkbox"' . $checked . $onclick . '>'
             . '<label for="' . $this->id . '_unlimited" id="jform-imp" class="form-check-label">' . Text::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';

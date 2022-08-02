@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Media\Administrator\Adapter;
 
+use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 /**
  * Media file adapter interface.
  *
@@ -35,7 +36,6 @@ interface AdapterInterface
      *
      * @param   string  $path  The path to the file or folder
      *
-     * @return  \stdClass
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -88,7 +88,6 @@ interface AdapterInterface
      * @param   string  $name  The name
      * @param   string  $path  The folder
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -105,7 +104,6 @@ interface AdapterInterface
      * @param   string  $path  The folder
      * @param   string  $data  The data
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -148,7 +146,6 @@ interface AdapterInterface
      * @param   string  $destinationPath  The destination path
      * @param   bool    $force            Force to overwrite
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -165,7 +162,6 @@ interface AdapterInterface
      * @param   string  $destinationPath  The destination path
      * @param   bool    $force            Force to overwrite
      *
-     * @return  string
      *
      * @since   4.0.0
      * @throws  \Exception
@@ -179,10 +175,9 @@ interface AdapterInterface
      *
      * @param   string  $path  The path to file
      *
-     * @return  string
      *
      * @since   4.0.0
-     * @throws  \Joomla\Component\Media\Administrator\Exception\FileNotFoundException
+     * @throws FileNotFoundException
      */
     public function getUrl(string $path): string;
 
@@ -190,7 +185,6 @@ interface AdapterInterface
      * Returns the name of the adapter.
      * It will be shown in the Media Manager
      *
-     * @return  string
      *
      * @since   4.0.0
      */

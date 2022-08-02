@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-$cacheid = md5($module->id);
+$cacheid = md5((string) $module->id);
 
 $cacheparams               = new \stdClass();
 $cacheparams->cachemode    = 'id';

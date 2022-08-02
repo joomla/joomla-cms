@@ -135,7 +135,6 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     /**
      * Returns the Authentication helper object
      *
-     * @return Authentication
      *
      * @since  4.2.0
      */
@@ -147,7 +146,6 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     /**
      * Returns an array of events this subscriber will listen to.
      *
-     * @return  array
      *
      * @since   4.2.0
      */
@@ -155,7 +153,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     {
         try {
             $app = Factory::getApplication();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return [];
         }
 

@@ -69,7 +69,7 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
                 <?php // Prepare variables for the link. ?>
                 <?php $link = 'index.php?option=com_scheduler&task=task.add&type=' . $item->id; ?>
                 <?php $name = $this->escape($item->title); ?>
-                <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
+                <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags((string) $item->desc)), 200); ?>
                 <!-- The task card begins -->
                 <a href="<?php echo Route::_($link); ?>" class="new-task mb-3 comSchedulerSelectCard"
                    data-function="' . $this->escape($function) : ''; ?>"
@@ -85,7 +85,7 @@ $wa->useScript('com_scheduler.admin-view-select-task-search');
                     </span>
                 </a>
                 <!-- The task card ends here -->
-            <?php endforeach; ?>
+<?php endforeach; ?>
         </div>
     </div>
 </div>

@@ -179,7 +179,7 @@ class FolderlistField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         $path = $this->directory;
 
@@ -209,7 +209,7 @@ class FolderlistField extends ListField
         if (\is_array($folders)) {
             foreach ($folders as $folder) {
                 // Remove the root part and the leading /
-                $folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
+                $folder = trim(str_replace($path, '', (string) $folder), DIRECTORY_SEPARATOR);
 
                 // Check to see if the file is in the exclude mask.
                 if ($this->exclude) {

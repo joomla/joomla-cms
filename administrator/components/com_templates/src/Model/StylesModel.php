@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -33,16 +34,10 @@ class StylesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'template', 'a.template',
-                'home', 'a.home',
-                'menuitem',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'template', 'a.template', 'home', 'a.home', 'menuitem'];
         }
 
         parent::__construct($config, $factory);
@@ -109,7 +104,7 @@ class StylesModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      */
     protected function getListQuery()
     {
@@ -227,8 +222,8 @@ class StylesModel extends ListModel
 
         // Filter by search in title.
         if ($search = $this->getState('filter.search')) {
-            if (stripos($search, 'id:') === 0) {
-                $ids = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $ids = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $ids, ParameterType::INTEGER);
             } else {

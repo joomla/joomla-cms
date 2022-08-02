@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -10,8 +11,7 @@
 
 defined('_JEXEC') or die;
 
-/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
-
+/** @var HtmlView $this */
 ?>
 <div class="sysinfo">
     <?php echo $this->phpInfo; ?>

@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Templates\Administrator\Controller;
 
+use Joomla\Component\Installer\Administrator\Model\InstallModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Templates\Administrator\Model\TemplateModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
@@ -40,7 +43,7 @@ class TemplateController extends BaseController
      * @since  1.6
      * @see    BaseController
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -87,14 +90,15 @@ class TemplateController extends BaseController
      */
     public function publish()
     {
+        $ntext = null;
         // Check for request forgeries.
         $this->checkToken();
 
         $file = $this->input->get('file');
         $id   = $this->input->get('id');
 
-        $ids    = (array) $this->input->get('cid', array(), 'string');
-        $values = array('publish' => 1, 'unpublish' => 0, 'deleteOverrideHistory' => -3);
+        $ids    = (array) $this->input->get('cid', [], 'string');
+        $values = ['publish' => 1, 'unpublish' => 0, 'deleteOverrideHistory' => -3];
         $task   = $this->getTask();
         $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
@@ -202,7 +206,7 @@ class TemplateController extends BaseController
             // Call installation model
             $this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
-            /** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
+            /** @var InstallModel $installModel */
             $installModel = $this->app->bootComponent('com_installer')
                 ->getMVCFactory()->createModel('Install', 'Administrator');
             $this->app->getLanguage()->load('com_installer');
@@ -231,11 +235,11 @@ class TemplateController extends BaseController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   3.2
      */
-    public function getModel($name = 'Template', $prefix = 'Administrator', $config = array())
+    public function getModel($name = 'Template', $prefix = 'Administrator', $config = [])
     {
         return parent::getModel($name, $prefix, $config);
     }
@@ -264,10 +268,10 @@ class TemplateController extends BaseController
         // Check for request forgeries.
         $this->checkToken();
 
-        $data         = $this->input->post->get('jform', array(), 'array');
+        $data         = $this->input->post->get('jform', [], 'array');
         $task         = $this->getTask();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model        = $this->getModel();
         $fileName     = (string) $this->input->getCmd('file', '');
         $explodeArray = explode(':', str_replace('//', '/', base64_decode($fileName)));
@@ -525,7 +529,7 @@ class TemplateController extends BaseController
 
         if ($return = $model->uploadFile($upload, $location)) {
             $this->setMessage(Text::sprintf('COM_TEMPLATES_FILE_UPLOAD_SUCCESS', $upload['name']));
-            $redirect = base64_encode($return);
+            $redirect = base64_encode((string) $return);
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
         } else {
@@ -547,7 +551,7 @@ class TemplateController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model    = $this->getModel();
         $id       = (int) $this->input->get('id', 0, 'int');
         $file     = (string) $this->input->getCmd('file', '');
@@ -567,7 +571,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9-_.]+$/', $name)) {
+        if (!preg_match('/^[a-zA-Z0-9-_.]+$/', (string) $name)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -594,7 +598,7 @@ class TemplateController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model    = $this->getModel();
         $id       = (int) $this->input->get('id', 0, 'int');
         $isMedia  = (int) $this->input->get('isMedia', 0, 'int');
@@ -646,7 +650,7 @@ class TemplateController extends BaseController
         // Check for request forgeries
         $this->checkToken();
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model   = $this->getModel();
         $id      = (int) $this->input->get('id', 0, 'int');
         $isMedia = (int) $this->input->get('isMedia', 0, 'int');
@@ -668,7 +672,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName)) {
+        } elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', (string) $newName)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
@@ -702,7 +706,7 @@ class TemplateController extends BaseController
         $w     = $this->input->get('w');
         $h     = $this->input->get('h');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $this->getModel();
 
         // Access check.
@@ -744,7 +748,7 @@ class TemplateController extends BaseController
         $width  = $this->input->get('width');
         $height = $this->input->get('height');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model  = $this->getModel();
 
         // Access check.
@@ -788,7 +792,7 @@ class TemplateController extends BaseController
         )
             ->clean(base64_decode($this->input->getBase64('address', '')), 'path');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model    = $this->getModel();
 
         // Access check.
@@ -798,7 +802,7 @@ class TemplateController extends BaseController
             return;
         }
 
-        if (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName)) {
+        if (!preg_match('/^[a-zA-Z0-9-_]+$/', (string) $newName)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file  . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -827,7 +831,7 @@ class TemplateController extends BaseController
         $id    = (int) $this->input->get('id', 0, 'int');
         $file  = (string) $this->input->getCmd('file', '');
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $this->getModel();
 
         // Access check.
@@ -868,19 +872,19 @@ class TemplateController extends BaseController
 
         // Checks status of installer override plugin.
         if (!PluginHelper::isEnabled('installer', 'override')) {
-            $error = array('installerOverride' => 'disabled');
+            $error = ['installerOverride' => 'disabled'];
 
             echo json_encode($error);
 
             $app->close();
         }
 
-        /** @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+        /** @var TemplateModel $model */
         $model = $this->getModel();
 
         $result = $model->getUpdatedList(true, true);
 
-        echo json_encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
 
         $app->close();
     }
@@ -969,7 +973,7 @@ class TemplateController extends BaseController
         // Call installation model
         $this->input->set('install_directory', $this->app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
-        /** @var \Joomla\Component\Installer\Administrator\Model\InstallModel $installModel */
+        /** @var InstallModel $installModel */
         $installModel = $this->app->bootComponent('com_installer')
             ->getMVCFactory()->createModel('Install', 'Administrator');
         $this->app->getLanguage()->load('com_installer');

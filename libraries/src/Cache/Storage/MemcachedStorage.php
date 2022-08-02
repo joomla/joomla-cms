@@ -46,7 +46,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @since   3.0.0
 	 */
-	public function __construct($options = array())
+	public function __construct($options = [])
 	{
 		parent::__construct($options);
 
@@ -88,7 +88,7 @@ class MemcachedStorage extends CacheStorage
 			if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
 			{
 				static::$_db->resetServerList();
-				$servers = array();
+				$servers = [];
 			}
 
 			if (!$servers)
@@ -186,7 +186,7 @@ class MemcachedStorage extends CacheStorage
 		$keys   = static::$_db->get($this->_hash . '-index');
 		$secret = $this->_hash;
 
-		$data = array();
+		$data = [];
 
 		if (\is_array($keys))
 		{
@@ -197,7 +197,7 @@ class MemcachedStorage extends CacheStorage
 					continue;
 				}
 
-				$namearr = explode('-', $key->name);
+				$namearr = explode('-', (string) $key->name);
 
 				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 				{
@@ -246,7 +246,7 @@ class MemcachedStorage extends CacheStorage
 
 		if (!\is_array($index))
 		{
-			$index = array();
+			$index = [];
 		}
 
 		$tmparr       = new \stdClass;
@@ -329,7 +329,7 @@ class MemcachedStorage extends CacheStorage
 
 			foreach ($index as $key => $value)
 			{
-				if (strpos($value->name, $prefix) === 0 xor $mode !== 'group')
+				if (str_starts_with((string) $value->name, $prefix) xor $mode !== 'group')
 				{
 					static::$_db->delete($value->name);
 					unset($index[$key]);

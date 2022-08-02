@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Router\Router;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Cache\CacheControllerFactoryAwareTrait;
 use Joomla\CMS\Cache\Controller\OutputController;
@@ -40,18 +41,16 @@ final class SiteApplication extends CMSApplication
     /**
      * Option to filter by language
      *
-     * @var    boolean
      * @since  4.0.0
      */
-    protected $language_filter = false;
+    protected bool $language_filter = false;
 
     /**
      * Option to detect language by the browser
      *
-     * @var    boolean
      * @since  4.0.0
      */
-    protected $detect_browser = false;
+    protected bool $detect_browser = false;
 
     /**
      * Class constructor.
@@ -100,7 +99,7 @@ final class SiteApplication extends CMSApplication
         if (!$menus->authorise($itemid)) {
             if ($user->get('id') == 0) {
                 // Set the data
-                $this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+                $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
 
                 $url = Route::_('index.php?option=com_users&view=login', false);
 
@@ -275,7 +274,7 @@ final class SiteApplication extends CMSApplication
      */
     public function getParams($option = null)
     {
-        static $params = array();
+        static $params = [];
 
         $hash = '__default';
 
@@ -348,7 +347,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function getPathway($name = 'site', $options = array())
+    public function getPathway($name = 'site', $options = [])
     {
         return parent::getPathway($name, $options);
     }
@@ -359,13 +358,13 @@ final class SiteApplication extends CMSApplication
      * @param   string  $name     The name of the application.
      * @param   array   $options  An optional associative array of configuration settings.
      *
-     * @return  \Joomla\CMS\Router\Router
+     * @return Router
      *
      * @since      3.2
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = 'site', array $options = array())
+    public static function getRouter($name = 'site', array $options = [])
     {
         return parent::getRouter($name, $options);
     }
@@ -382,6 +381,15 @@ final class SiteApplication extends CMSApplication
      */
     public function getTemplate($params = false)
     {
+        $menu = null;
+        $item = null;
+        $tid = null;
+        $tag = null;
+        $cache = null;
+        $cacheId = null;
+        $templates = [];
+        $id = null;
+        $template = null;
         if (\is_object($this->template)) {
             if ($this->template->parent) {
                 if (!is_file(JPATH_THEMES . '/' . $this->template->template . '/index.php')) {
@@ -543,14 +551,14 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    protected function initialiseApp($options = array())
+    protected function initialiseApp($options = [])
     {
         $user = Factory::getUser();
 
         // If the user is a guest we populate it with the guest user group.
         if ($user->guest) {
             $guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-            $user->groups = array($guestUsergroup);
+            $user->groups = [$guestUsergroup];
         }
 
         if ($plugin = PluginHelper::getPlugin('system', 'languagefilter')) {
@@ -648,7 +656,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function login($credentials, $options = array())
+    public function login($credentials, $options = [])
     {
         // Set the application login entry point
         if (!\array_key_exists('entry_url', $options)) {
@@ -687,7 +695,7 @@ final class SiteApplication extends CMSApplication
                 }
 
                 if ($this->get('offline') && !Factory::getUser()->authorise('core.login.offline')) {
-                    $this->setUserState('users.login.form.data', array('return' => Uri::getInstance()->toString()));
+                    $this->setUserState('users.login.form.data', ['return' => Uri::getInstance()->toString()]);
                     $this->set('themeFile', 'offline.php');
                     $this->setHeader('Status', '503 Service Temporarily Unavailable', 'true');
                 }
@@ -752,7 +760,7 @@ final class SiteApplication extends CMSApplication
                 $oldPath = StringHelper::strtolower(substr($oldUri->getPath(), \strlen($base) + 1));
                 $activePathPrefix = StringHelper::strtolower($active->route);
 
-                $position = strpos($oldPath, $activePathPrefix);
+                $position = strpos($oldPath, (string) $activePathPrefix);
 
                 if ($position !== false) {
                     $oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, \strlen($activePathPrefix)));
@@ -823,7 +831,7 @@ final class SiteApplication extends CMSApplication
      *
      * @since   3.2
      */
-    public function setTemplate($template, $styleParams = null)
+    public function setTemplate(\stdClass|string $template, $styleParams = null)
     {
         if (is_object($template)) {
             $templateName        = empty($template->template)

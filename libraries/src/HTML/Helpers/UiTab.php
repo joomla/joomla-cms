@@ -22,7 +22,7 @@ abstract class UiTab
      * @var    array  Array containing information for loaded files
      * @since  4.0.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Creates a core UI tab pane
@@ -34,9 +34,10 @@ abstract class UiTab
      *
      * @since   4.0.0
      */
-    public static function startTabSet($selector = 'myTab', $params = array())
+    public static function startTabSet($selector = 'myTab', $params = [])
     {
-        $sig = md5(serialize(array($selector, $params)));
+        $opt = [];
+        $sig = md5(serialize([$selector, $params]));
 
         if (!isset(static::$loaded[__METHOD__][$sig])) {
             // Include the custom element
@@ -52,7 +53,7 @@ abstract class UiTab
             static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
         }
 
-        $orientation = isset($params['orientation']) ? $params['orientation'] : 'horizontal';
+        $orientation = $params['orientation'] ?? 'horizontal';
         $recall = isset($params['recall']) ? 'recall' : '';
         $breakpoint  = isset($params['breakpoint']) ? 'breakpoint="' . $params['breakpoint'] . '"' : '';
 
@@ -88,7 +89,7 @@ abstract class UiTab
      */
     public static function addTab($selector, $id, $title)
     {
-        $active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+        $active = (static::$loaded[self::class . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return '<joomla-tab-element id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
     }

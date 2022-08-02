@@ -53,7 +53,7 @@ class JsonapiView extends BaseApiView
         $item->id = $item->version_id;
         unset($item->version_id);
 
-        $item->version_data = (array) json_decode($item->version_data, true);
+        $item->version_data = (array) json_decode((string) $item->version_data, true, 512, JSON_THROW_ON_ERROR);
 
         return parent::prepareItem($item);
     }

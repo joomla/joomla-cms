@@ -1,4 +1,5 @@
 <?php
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
@@ -21,7 +22,7 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('table.columns')
@@ -33,7 +34,7 @@ $wa->useScript('keepalive')
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<?php // Search tools bar ?>
-		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
 				<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -116,7 +117,7 @@ $wa->useScript('keepalive')
 			<?php // Load the pagination. ?>
 			<?php echo $this->pagination->getListFooter(); ?>
 
-		<?php endif;?>
+<?php endif;?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo HTMLHelper::_('form.token'); ?>

@@ -29,10 +29,9 @@ class JNamespacePsr4Map
     protected $file = JPATH_CACHE . '/autoload_psr4.php';
 
     /**
-     * @var array|null
      * @since 4.0.0
      */
-    private $cachedMap = null;
+    private ?array $cachedMap = null;
 
     /**
      * Check if the file exists
@@ -118,7 +117,7 @@ class JNamespacePsr4Map
      */
     protected function writeNamespaceFile($elements)
     {
-        $content   = array();
+        $content   = [];
         $content[] = "<?php";
         $content[] = 'defined(\'_JEXEC\') or die;';
         $content[] = 'return [';
@@ -140,8 +139,9 @@ class JNamespacePsr4Map
         $error_reporting = error_reporting(0);
 
         try {
-            File::write($this->file, implode("\n", $content));
-        } catch (Exception $e) {
+            $implode = implode("\n", $content);
+            File::write($this->file, $implode);
+        } catch (Exception) {
             Log::add('Could not save ' . $this->file, Log::WARNING);
 
             $map = [];
@@ -168,7 +168,6 @@ class JNamespacePsr4Map
      *
      * @param   string  $type  The extension type
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -186,7 +185,7 @@ class JNamespacePsr4Map
         } elseif ($type === 'plugin') {
             try {
                 $directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $directories = [];
             }
         } else {
@@ -198,7 +197,7 @@ class JNamespacePsr4Map
         foreach ($directories as $directory) {
             try {
                 $extensionFolders = Folder::folders($directory);
-            } catch (Exception $e) {
+            } catch (Exception) {
                 continue;
             }
 
@@ -207,7 +206,7 @@ class JNamespacePsr4Map
                 $extensionPath = $directory . '/' . $extension . '/';
 
                 // Strip the com_ from the extension name for components
-                $name = str_replace('com_', '', $extension, $count);
+                $name = str_replace('com_', '', (string) $extension, $count);
                 $file = $extensionPath . $name . '.xml';
 
                 // If there is no manifest file, ignore. If it was a component check if the xml was named with the com_ prefix.
@@ -257,7 +256,7 @@ class JNamespacePsr4Map
                 }
 
                 // Check if we need to use administrator path
-                $isAdministrator = strpos($namespacePath, JPATH_ADMINISTRATOR) === 0;
+                $isAdministrator = str_starts_with($namespacePath, (string) JPATH_ADMINISTRATOR);
                 $path            = str_replace($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE, '', $namespacePath);
 
                 // Add the site path when a component

@@ -28,7 +28,7 @@ class Language
      * @var    Language[]
      * @since  4.0.0
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Language locale of the class
@@ -72,7 +72,7 @@ class Language
 
         try {
             $this->stemmer = StemmerFactory::create($this->language);
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException) {
             // We don't have a stemmer for the language
         }
     }

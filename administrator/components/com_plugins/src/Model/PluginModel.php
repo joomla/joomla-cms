@@ -56,16 +56,10 @@ class PluginModel extends AdminModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         $config = array_merge(
-            array(
-                'event_after_save'  => 'onExtensionAfterSave',
-                'event_before_save' => 'onExtensionBeforeSave',
-                'events_map'        => array(
-                    'save' => 'extension'
-                )
-            ),
+            ['event_after_save'  => 'onExtensionAfterSave', 'event_before_save' => 'onExtensionBeforeSave', 'events_map'        => ['save' => 'extension']],
             $config
         );
 
@@ -82,7 +76,7 @@ class PluginModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // The folder and element vars are passed when saving the form.
         if (empty($data)) {
@@ -102,7 +96,7 @@ class PluginModel extends AdminModel
         $this->setState('item.element', $element);
 
         // Get the form.
-        $form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_plugins.plugin', 'plugin', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -133,7 +127,7 @@ class PluginModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
+        $data = Factory::getApplication()->getUserState('com_plugins.edit.plugin.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -203,7 +197,7 @@ class PluginModel extends AdminModel
      *
      * @return  Table   A database object
      */
-    public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
+    public function getTable($type = 'Extension', $prefix = 'JTable', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -351,7 +345,7 @@ class PluginModel extends AdminModel
      */
     public function getHelp()
     {
-        return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+        return (object) ['key' => $this->helpKey, 'url' => $this->helpURL];
     }
 
     /**

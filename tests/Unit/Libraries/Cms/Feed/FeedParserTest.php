@@ -96,9 +96,7 @@ class FeedParserTest extends UnitTestCase
             ->with(
                 $this->isInstanceOf(Feed::class),
                 $this->callback(
-                    function ($value) use ($content) {
-                        return $value instanceof SimpleXMLElement && (string) $value[0] === $content;
-                    }
+                    fn($value) => $value instanceof SimpleXMLElement && (string) $value[0] === $content
                 )
             );
 
@@ -181,9 +179,7 @@ class FeedParserTest extends UnitTestCase
             ->with(
                 $this->isInstanceOf(FeedEntry::class),
                 $this->callback(
-                    function ($value) use ($content) {
-                        return $value instanceof SimpleXMLElement && (string) $value[0] === '';
-                    }
+                    fn($value) => $value instanceof SimpleXMLElement && (string) $value[0] === ''
                 )
             );
 
@@ -381,7 +377,6 @@ class FeedParserTest extends UnitTestCase
      * @param   mixed   $xml     XML
      * @param   mixed   $moveTo  Moveto
      *
-     * @return XMLReader
      *
      * @since 4.0.0
      */
@@ -440,7 +435,6 @@ class FeedParserStub extends FeedParser
     /**
      * Getter for the initialize called counter
      *
-     * @return  integer
      *
      * @since   4.0.0
      */
@@ -452,7 +446,6 @@ class FeedParserStub extends FeedParser
     /**
      * Getter for the handle custom called with flag
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -464,7 +457,6 @@ class FeedParserStub extends FeedParser
     /**
      * Getter for the namespaces
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -476,7 +468,6 @@ class FeedParserStub extends FeedParser
     /**
      * Getter for the handle custom called with flag
      *
-     * @return  array
      *
      * @since   4.0.0
      */

@@ -56,11 +56,10 @@ class DeleteUserCommand extends AbstractCommand
     /**
      * The username
      *
-     * @var    string
      *
      * @since  4.0.0
      */
-    private $username;
+    private ?string $username = null;
 
     /**
      * Command constructor.
@@ -159,7 +158,6 @@ class DeleteUserCommand extends AbstractCommand
      *
      * @param   string  $question  set the question if user enters no value to option
      *
-     * @return  string
      *
      * @since   4.0.0
      */
@@ -193,7 +191,6 @@ class DeleteUserCommand extends AbstractCommand
     /**
      * Configure the command.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

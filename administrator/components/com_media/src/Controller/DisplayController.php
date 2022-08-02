@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Media\Administrator\Controller;
 
+use Joomla\CMS\MVC\View\ViewInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -35,7 +37,7 @@ class DisplayController extends BaseController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for view. Optional.
      *
-     * @return  \Joomla\CMS\MVC\View\ViewInterface  Reference to the view or an error.
+     * @return ViewInterface Reference to the view or an error.
      *
      * @since   3.0
      * @throws  \Exception
@@ -53,11 +55,11 @@ class DisplayController extends BaseController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
+     * @return BaseDatabaseModel|boolean Model object on success; otherwise false on failure.
      *
      * @since   3.0
      */
-    public function getModel($name = '', $prefix = '', $config = [])
+    public function getModel($name = '', $prefix = '', $config = []): BaseDatabaseModel|bool
     {
         // Force to load the admin model
         return parent::getModel($name, 'Administrator', $config);

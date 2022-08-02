@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\TagsPopular\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -25,7 +26,7 @@ abstract class TagsPopularHelper
     /**
      * Get list of popular tags
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
      * @return  mixed
      *
@@ -96,7 +97,7 @@ abstract class TagsPopularHelper
         }
 
         if ($timeframe !== 'alltime') {
-            $query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
+            $query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper((string) $timeframe)));
         }
 
         $query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
@@ -178,7 +179,7 @@ abstract class TagsPopularHelper
         try {
             $results = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            $results = array();
+            $results = [];
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 

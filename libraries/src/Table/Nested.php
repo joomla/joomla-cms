@@ -86,7 +86,7 @@ class Nested extends Table
      * @var    array
      * @since  1.7.0
      */
-    protected $_cache = array();
+    protected $_cache = [];
 
     /**
      * Debug level
@@ -107,10 +107,9 @@ class Nested extends Table
     /**
      * Array declaring the valid location values for moving a node
      *
-     * @var    array
      * @since  3.7.0
      */
-    private $_validLocations = array('before', 'after', 'first-child', 'last-child');
+    private array $_validLocations = ['before', 'after', 'first-child', 'last-child'];
 
     /**
      * Sets the debug level on or off
@@ -330,7 +329,7 @@ class Nested extends Table
         if (\in_array($referenceId, $children)) {
             $this->setError(
                 new \UnexpectedValueException(
-                    sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', \get_class($this), $pk)
+                    sprintf('%1$s::moveByReference() is trying to make record ID %2$d a child of itself.', $this::class, $pk)
                 )
             );
 
@@ -526,7 +525,7 @@ class Nested extends Table
             $name = $this->_getAssetName();
 
             /** @var Asset $asset */
-            $asset = Table::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+            $asset = Table::getInstance('Asset', 'JTable', ['dbo' => $this->getDbo()]);
 
             if ($asset->loadByName($name)) {
                 // Delete the node in assets table.
@@ -661,7 +660,7 @@ class Nested extends Table
         try {
             // Check that the parent_id field is valid.
             if ($this->parent_id == 0) {
-                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, $this::class));
             }
 
             $query = $this->_db->getQuery(true)
@@ -670,7 +669,7 @@ class Nested extends Table
                 ->where($this->_tbl_key . ' = ' . $this->parent_id);
 
             if (!$this->_db->setQuery($query)->loadResult()) {
-                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, \get_class($this)));
+                throw new \UnexpectedValueException(sprintf('Invalid `parent_id` [%1$d] in %2$s::check()', $this->parent_id, $this::class));
             }
         } catch (\UnexpectedValueException $e) {
             // Validation error - record it and return false.
@@ -707,7 +706,7 @@ class Nested extends Table
         $this->getDispatcher()->dispatch('onTableBeforeStore', $event);
 
         if ($this->_debug) {
-            echo "\n" . \get_class($this) . "::store\n";
+            echo "\n" . $this::class . "::store\n";
             $this->_logtable(true, false);
         }
 
@@ -784,7 +783,7 @@ class Nested extends Table
                 $this->rgt = $repositionData->new_rgt;
             } else {
                 // Negative parent ids are invalid
-                $e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', \get_class($this)));
+                $e = new \UnexpectedValueException(sprintf('%s::store() used a negative _location_id', $this::class));
                 $this->setError($e);
 
                 return false;
@@ -887,10 +886,10 @@ class Nested extends Table
         // If there are no primary keys set check to see if the instance key is set.
         if (empty($pks)) {
             if ($this->$k) {
-                $pks = explode(',', $this->$k);
+                $pks = explode(',', (string) $this->$k);
             } else {
                 // Nothing to set publishing state on, return false.
-                $e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', \get_class($this), implode(',', $pks), $state, $userId));
+                $e = new \UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', $this::class, implode(',', $pks), $state, $userId));
                 $this->setError($e);
 
                 return false;
@@ -921,7 +920,7 @@ class Nested extends Table
                 // Check for checked out children.
                 if ($this->_db->loadResult()) {
                     // @todo Convert to a conflict exception when available.
-                    $e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', \get_class($this), $pks[0], $state, $userId));
+                    $e = new \RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', $this::class, $pks[0], $state, $userId));
 
                     $this->setError($e);
 
@@ -946,7 +945,7 @@ class Nested extends Table
 
                 if ($this->_db->loadResult()) {
                     $e = new \UnexpectedValueException(
-                        sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', \get_class($this), $pks[0], $state, $userId)
+                        sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', $this::class, $pks[0], $state, $userId)
                     );
                     $this->setError($e);
 
@@ -1152,7 +1151,7 @@ class Nested extends Table
 
         $result = $this->_db->setQuery($query)->loadColumn();
 
-        if (\count($result) == 1) {
+        if ((is_countable($result) ? \count($result) : 0) == 1) {
             self::$root_id = $result[0];
 
             return self::$root_id;
@@ -1166,7 +1165,7 @@ class Nested extends Table
 
         $result = $this->_db->setQuery($query)->loadColumn();
 
-        if (\count($result) == 1) {
+        if ((is_countable($result) ? \count($result) : 0) == 1) {
             self::$root_id = $result[0];
 
             return self::$root_id;
@@ -1183,14 +1182,14 @@ class Nested extends Table
 
             $result = $this->_db->setQuery($query)->loadColumn();
 
-            if (\count($result) == 1) {
+            if ((is_countable($result) ? \count($result) : 0) == 1) {
                 self::$root_id = $result[0];
 
                 return self::$root_id;
             }
         }
 
-        $e = new \UnexpectedValueException(sprintf('%s::getRootId', \get_class($this)));
+        $e = new \UnexpectedValueException(sprintf('%s::getRootId', $this::class));
         $this->setError($e);
         self::$root_id = false;
 
@@ -1491,24 +1490,12 @@ class Nested extends Table
      */
     protected function _getNode($id, $key = null)
     {
-        // Determine which key to get the node base on.
-        switch ($key) {
-            case 'parent':
-                $k = 'parent_id';
-                break;
-
-            case 'left':
-                $k = 'lft';
-                break;
-
-            case 'right':
-                $k = 'rgt';
-                break;
-
-            default:
-                $k = $this->_tbl_key;
-                break;
-        }
+        $k = match ($key) {
+            'parent' => 'parent_id',
+            'left' => 'lft',
+            'right' => 'rgt',
+            default => $this->_tbl_key,
+        };
 
         // Get the node data.
         $query = $this->_db->getQuery(true)
@@ -1521,7 +1508,7 @@ class Nested extends Table
 
         // Check for no $row returned
         if (empty($row)) {
-            $e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
+            $e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', $this::class, $id, $k));
             $this->setError($e);
 
             return false;
@@ -1596,8 +1583,6 @@ class Nested extends Table
                 $data->new_parent_id = $referenceNode->parent_id;
                 $data->new_level = $referenceNode->level;
                 break;
-
-            default:
             case 'after':
                 $data->left_where = 'lft > ' . $referenceNode->rgt;
                 $data->right_where = 'rgt > ' . $referenceNode->rgt;
@@ -1607,6 +1592,7 @@ class Nested extends Table
                 $data->new_parent_id = $referenceNode->parent_id;
                 $data->new_level = $referenceNode->level;
                 break;
+            default:
         }
 
         if ($this->_debug) {

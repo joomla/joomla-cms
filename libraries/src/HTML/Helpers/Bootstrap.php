@@ -32,10 +32,8 @@ abstract class Bootstrap
      *
      * @param   string  $selector  Common class for the alerts
      *
-     * @return  void
      *
      * @throws \Exception
-     *
      * @since   3.0
      */
     public static function alert($selector = ''): void
@@ -72,10 +70,8 @@ abstract class Bootstrap
      *
      * @param   string  $selector  Common class for the buttons
      *
-     * @return  void
      *
      * @throws \Exception
-     *
      * @since   3.1
      */
     public static function button($selector = ''): void
@@ -113,12 +109,10 @@ abstract class Bootstrap
      * @param   string  $selector  Common class for the carousels.
      * @param   array   $params    An array of options for the carousel.
      *
-     * @return  void
      *
      * @throws \Exception
      *
      * @since   3.0
-     *
      * Options for the carousel can be:
      * - interval  number   5000   The amount of time to delay between automatically cycling an item.
      *                             If false, carousel will not automatically cycle.
@@ -130,6 +124,7 @@ abstract class Bootstrap
      */
     public static function carousel($selector = '', $params = []): void
     {
+        $opt = [];
         // Only load once
         if (!empty(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -139,7 +134,7 @@ abstract class Bootstrap
             // Setup options object
             $opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
             $opt['keyboard'] = isset($params['keyboard']) ? (bool) $params['keyboard'] : true;
-            $opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
+            $opt['pause']    = $params['pause'] ?? 'hover';
             $opt['slide']    = isset($params['slide']) ? (bool) $params['slide'] : false;
             $opt['wrap']     = isset($params['wrap']) ? (bool) $params['wrap'] : true;
             $opt['touch']    = isset($params['touch']) ? (bool) $params['touch'] : true;
@@ -162,12 +157,10 @@ abstract class Bootstrap
      * @param   string    $selector  Common class for the collapse
      * @param   string[]  $params    Additional parameters - see below
      *
-     * @return  void
      *
      * @throws \Exception
      *
      * @since   4.0.0
-     *
      * Options for the collapse can be:
      * - parent    string   false  If parent is provided, then all collapsible elements under the specified parent will
      *                             be closed when this collapsible item is shown.
@@ -183,7 +176,7 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [];
-            $opt['parent'] = isset($params['parent']) ? $params['parent'] : false;
+            $opt['parent'] = $params['parent'] ?? false;
             $opt['toggle'] = isset($params['toggle']) ? (bool) $params['toggle'] : true;
 
             Factory::getDocument()->addScriptOptions('bootstrap.collapse', [$selector => (object) array_filter((array) $opt)]);
@@ -204,10 +197,8 @@ abstract class Bootstrap
      * @param   string  $selector  Common class for the dropdowns
      * @param   array   $params    The options for the dropdowns
      *
-     * @return  void
      *
      * @since   4.0.0
-     *
      * Options for the collapse can be:
      * - flip       boolean  true          Allow Dropdown to flip in case of an overlapping on the reference element
      * - boundary   string   scrollParent  Overflow constraint boundary of the dropdown menu
@@ -224,10 +215,10 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt = [];
-            $opt['flip'] = isset($params['flip']) ? $params['flip'] : true;
-            $opt['boundary'] = isset($params['boundary']) ? $params['boundary'] : 'scrollParent';
-            $opt['reference'] = isset($params['reference']) ? $params['reference'] : 'toggle';
-            $opt['display'] = isset($params['display']) ? $params['display'] : 'dynamic';
+            $opt['flip'] = $params['flip'] ?? true;
+            $opt['boundary'] = $params['boundary'] ?? 'scrollParent';
+            $opt['reference'] = $params['reference'] ?? 'toggle';
+            $opt['display'] = $params['display'] ?? 'dynamic';
             $opt['popperConfig'] = isset($params['popperConfig']) ? (bool) $params['popperConfig'] : true;
 
             Factory::getDocument()->addScriptOptions('bootstrap.dropdown', [$selector => (object) array_filter((array) $opt)]);
@@ -248,10 +239,8 @@ abstract class Bootstrap
      * @param   string  $selector  The ID selector for the modal.
      * @param   array   $options   An array of options for the modal.
      *
-     * @return  void
      *
      * @since   4.0.0
-     *
      * Options for the modal can be:
      * - backdrop     string|  true  Includes a modal-backdrop element. Alternatively, specify static
      *                boolean         for a backdrop which doesn't close the modal on click.
@@ -260,6 +249,7 @@ abstract class Bootstrap
      */
     public static function modal($selector = '', $options = []): void
     {
+        $opt = [];
         // Only load once
         if (!empty(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -267,7 +257,7 @@ abstract class Bootstrap
 
         if ($selector !== '') {
             // Setup options object
-            $opt['backdrop'] = isset($options['backdrop']) ? $options['backdrop'] : false;
+            $opt['backdrop'] = $options['backdrop'] ?? false;
             $opt['keyboard'] = isset($options['keyboard']) ? (bool) $options['keyboard'] : true;
             $opt['focus']    = isset($options['focus']) ? (bool) $options['focus'] : true;
 
@@ -289,10 +279,8 @@ abstract class Bootstrap
      * @param   string  $selector  The ID selector for the offcanvas.
      * @param   array   $options   An array of options for the offcanvas.
      *
-     * @return  void
      *
      * @since   4.0.0
-     *
      * Options for the offcanvas can be:
      * - backdrop     boolean  true   Apply a backdrop on body while offcanvas is open
      * - keyboard     boolean  true   Closes the offcanvas when escape key is pressed
@@ -300,6 +288,7 @@ abstract class Bootstrap
      */
     public static function offcanvas($selector = '', $options = []): void
     {
+        $opt = [];
         // Only load once
         if (!empty(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -331,10 +320,8 @@ abstract class Bootstrap
      * @param   string  $selector  Selector for the popover
      * @param   array   $options   The options for the popover
      *
-     * @return  void
      *
      * @since   3.0
-     *
      * - Options for the popover can be:
      * - animation    boolean  true   Apply a CSS fade transition to the popover
      * - container    string|  false  Appends the popover to a specific element. Eg.: 'body'
@@ -355,6 +342,7 @@ abstract class Bootstrap
      */
     public static function popover($selector = '', $options = []): void
     {
+        $opt = [];
         // Only load once
         if (isset(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -363,21 +351,21 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
-            $opt['container']         = isset($options['container']) ? $options['container'] : 'body';
-            $opt['content']           = isset($options['content']) ? $options['content'] : null;
+            $opt['container']         = $options['container'] ?? 'body';
+            $opt['content']           = $options['content'] ?? null;
             $opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : [ 'show' => 50, 'hide' => 200 ];
             $opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
-            $opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
-            $opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
-            $opt['template']          = isset($options['template']) ? $options['template'] : null;
-            $opt['title']             = isset($options['title']) ? $options['title'] : null;
-            $opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'click';
-            $opt['offset']            = isset($options['offset']) ? $options['offset'] : [0, 10];
-            $opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
-            $opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'scrollParent';
-            $opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
+            $opt['placement']         = $options['placement'] ?? null;
+            $opt['selector']          = $options['selector'] ?? false;
+            $opt['template']          = $options['template'] ?? null;
+            $opt['title']             = $options['title'] ?? null;
+            $opt['trigger']           = $options['trigger'] ?? 'click';
+            $opt['offset']            = $options['offset'] ?? [0, 10];
+            $opt['fallbackPlacement'] = $options['fallbackPlacement'] ?? null;
+            $opt['boundary']          = $options['boundary'] ?? 'scrollParent';
+            $opt['customClass']       = $options['customClass'] ?? null;
             $opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : null;
-            $opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
+            $opt['allowList']         = $options['allowList'] ?? null;
 
             Factory::getDocument()->addScriptOptions('bootstrap.popover', [$selector => (object) array_filter((array) $opt)]);
         }
@@ -397,10 +385,8 @@ abstract class Bootstrap
      * @param   string  $selector  The ID selector for the ScrollSpy element.
      * @param   array   $options   An array of options for the ScrollSpy.
      *
-     * @return  void
      *
      * @since   3.0
-     *
      * Options for the Scrollspy can be:
      * - offset  number  Pixels to offset from top when calculating position of scroll.
      * - method  string  Finds which section the spied element is in.
@@ -408,6 +394,7 @@ abstract class Bootstrap
      */
     public static function scrollspy($selector = '', $options = []): void
     {
+        $opt = [];
         // Only load once
         if (isset(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -416,8 +403,8 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt['offset']         = isset($options['offset']) ? (int) $options['offset'] : 10;
-            $opt['method']         = isset($options['method']) ? $options['method'] : 'auto';
-            $opt['target']           = isset($options['target']) ? $options['target'] : null;
+            $opt['method']         = $options['method'] ?? 'auto';
+            $opt['target']           = $options['target'] ?? null;
 
             Factory::getDocument()->addScriptOptions('bootstrap.scrollspy', [$selector => (object) array_filter((array) $opt)]);
         }
@@ -437,10 +424,8 @@ abstract class Bootstrap
      * @param   string  $selector  Common class for the tabs
      * @param   array   $options   Options for the tabs
      *
-     * @return  void
      *
      * @throws \Exception
-     *
      * @since   4.0.0
      */
     public static function tab($selector = '', $options = []): void
@@ -472,10 +457,8 @@ abstract class Bootstrap
      * @param   string  $selector  The ID selector for the tooltip.
      * @param   array   $options   An array of options for the tooltip.
      *
-     * @return  void
      *
      * @since   3.0
-     *
      *                             Options for the tooltip can be:
      * - animation    boolean          apply a css fade transition to the popover
      * - container    string|boolean   Appends the popover to a specific element: { container: 'body' }
@@ -495,6 +478,7 @@ abstract class Bootstrap
      */
     public static function tooltip($selector = '', $options = []): void
     {
+        $opt = [];
         // Only load once
         if (isset(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -503,19 +487,19 @@ abstract class Bootstrap
         if ($selector !== '') {
             // Setup options object
             $opt['animation']         = isset($options['animation']) ? (bool) $options['animation'] : true;
-            $opt['container']         = isset($options['container']) ? $options['container'] : 'body';
+            $opt['container']         = $options['container'] ?? 'body';
             $opt['delay']             = isset($options['delay']) ? (int) $options['delay'] : 0;
             $opt['html']              = isset($options['html']) ? (bool) $options['html'] : true;
-            $opt['placement']         = isset($options['placement']) ? $options['placement'] : null;
-            $opt['selector']          = isset($options['selector']) ? $options['selector'] : false;
-            $opt['template']          = isset($options['template']) ? $options['template'] : null;
-            $opt['title']             = isset($options['title']) ? $options['title'] : null;
-            $opt['trigger']           = isset($options['trigger']) ? $options['trigger'] : 'hover focus';
-            $opt['fallbackPlacement'] = isset($options['fallbackPlacement']) ? $options['fallbackPlacement'] : null;
-            $opt['boundary']          = isset($options['boundary']) ? $options['boundary'] : 'clippingParents';
-            $opt['customClass']       = isset($options['customClass']) ? $options['customClass'] : null;
+            $opt['placement']         = $options['placement'] ?? null;
+            $opt['selector']          = $options['selector'] ?? false;
+            $opt['template']          = $options['template'] ?? null;
+            $opt['title']             = $options['title'] ?? null;
+            $opt['trigger']           = $options['trigger'] ?? 'hover focus';
+            $opt['fallbackPlacement'] = $options['fallbackPlacement'] ?? null;
+            $opt['boundary']          = $options['boundary'] ?? 'clippingParents';
+            $opt['customClass']       = $options['customClass'] ?? null;
             $opt['sanitize']          = isset($options['sanitize']) ? (bool) $options['sanitize'] : true;
-            $opt['allowList']         = isset($options['allowList']) ? $options['allowList'] : null;
+            $opt['allowList']         = $options['allowList'] ?? null;
 
             Factory::getDocument()->addScriptOptions('bootstrap.tooltip', [$selector => (object) array_filter((array) $opt)]);
         }
@@ -536,14 +520,13 @@ abstract class Bootstrap
      * @param   string  $selector  Common class for the toasts
      * @param   array   $options   Options for the toasts
      *
-     * @return  void
      *
      * @throws \Exception
-     *
      * @since   4.0.0
      */
     public static function toast($selector = '', $options = []): void
     {
+        $opt = [];
         // Only load once
         if (!empty(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -574,7 +557,6 @@ abstract class Bootstrap
      *
      * @param   mixed  $debug  Is debugging mode on? [optional]
      *
-     * @return  void
      *
      * @since   3.0
      * @deprecated 5.0
@@ -600,7 +582,6 @@ abstract class Bootstrap
      * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
      * @param   array    $attribs         Optional array of attributes to be passed to HTMLHelper::_('stylesheet')
      *
-     * @return  void
      *
      * @since   3.0
      */
@@ -630,6 +611,7 @@ abstract class Bootstrap
      */
     public static function startAccordion($selector = 'myAccordian', $options = []): string
     {
+        $opt = [];
         // Only load once
         if (isset(static::$loaded[__METHOD__][$selector])) {
             return '';
@@ -683,10 +665,10 @@ abstract class Bootstrap
      */
     public static function addSlide($selector, $text, $id, $class = ''): string
     {
-        $in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
-        $collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
-        $parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
-            'data-bs-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
+        $in        = static::$loaded[self::class . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
+        $collapsed = static::$loaded[self::class . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
+        $parent    = static::$loaded[self::class . '::startAccordion'][$selector]['parent'] ?
+            'data-bs-parent="' . static::$loaded[self::class . '::startAccordion'][$selector]['parent'] . '"' : '';
         $class     = (!empty($class)) ? ' ' . $class : '';
         $ariaExpanded = $in === 'show' ? true : false;
 
@@ -771,12 +753,12 @@ HTMLSTR;
      * @param   string  $selector  The pane identifier. Expects a valid ID without the #!
      * @param   array   $params    The parameters for the pane
      *
-     * @return  string
      *
      * @since   3.1
      */
     public static function startTabSet($selector = 'myTab', $params = []): string
     {
+        $opt = [];
         $sig = md5(serialize([$selector, $params]));
 
         if (!isset(static::$loaded[__METHOD__][$sig])) {
@@ -824,8 +806,8 @@ HTMLSTR;
     {
         static $tabLayout = null;
 
-        $tabLayout = $tabLayout === null ? new FileLayout('libraries.html.bootstrap.tab.addtab') : $tabLayout;
-        $active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+        $tabLayout ??= new FileLayout('libraries.html.bootstrap.tab.addtab');
+        $active = (static::$loaded[self::class . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
         return $tabLayout->render(['id' => preg_replace('/^[\.#]/', '', $id), 'active' => $active, 'title' => $title]);
     }

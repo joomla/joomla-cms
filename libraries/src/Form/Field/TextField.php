@@ -92,16 +92,10 @@ class TextField extends FormField
      */
     public function __get($name)
     {
-        switch ($name) {
-            case 'maxLength':
-            case 'dirname':
-            case 'addonBefore':
-            case 'addonAfter':
-            case 'inputmode':
-                return $this->$name;
-        }
-
-        return parent::__get($name);
+        return match ($name) {
+            'maxLength', 'dirname', 'addonBefore', 'addonAfter', 'inputmode' => $this->$name,
+            default => parent::__get($name),
+        };
     }
 
     /**
@@ -243,7 +237,7 @@ class TextField extends FormField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->element->children() as $option) {
             // Only add <option /> elements.
@@ -283,15 +277,7 @@ class TextField extends FormField
         // Get the field options for the datalist.
         $options  = (array) $this->getOptions();
 
-        $extraData = array(
-            'maxLength'   => $maxLength,
-            'pattern'     => $this->pattern,
-            'inputmode'   => $inputmode,
-            'dirname'     => $dirname,
-            'addonBefore' => $this->addonBefore,
-            'addonAfter'  => $this->addonAfter,
-            'options'     => $options,
-        );
+        $extraData = ['maxLength'   => $maxLength, 'pattern'     => $this->pattern, 'inputmode'   => $inputmode, 'dirname'     => $dirname, 'addonBefore' => $this->addonBefore, 'addonAfter'  => $this->addonAfter, 'options'     => $options];
 
         return array_merge($data, $extraData);
     }

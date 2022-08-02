@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
+use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -22,7 +23,7 @@ use Joomla\CMS\Uri\Uri;
  * @link   http://www.rssboard.org/rss-specification
  * @since  3.5
  *
- * @property-read  \Joomla\CMS\Document\FeedDocument  $_doc  Reference to the Document object that instantiated the renderer
+ * @property-read FeedDocument $_doc Reference to the Document object that instantiated the renderer
  */
 class RssRenderer extends DocumentRenderer
 {
@@ -60,7 +61,7 @@ class RssRenderer extends DocumentRenderer
             $data->lastBuildDate->setTimezone(new \DateTimeZone($app->get('offset')));
         }
 
-        $url = Uri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+        $url = Uri::getInstance()->toString(['scheme', 'user', 'pass', 'host', 'port']);
         $syndicationURL = Route::_('&format=feed&type=rss');
 
         $title = $data->getTitle();
@@ -169,7 +170,7 @@ class RssRenderer extends DocumentRenderer
                 $itemlink = implode('/', array_map('rawurlencode', explode('/', $itemlink)));
             }
 
-            if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false)) {
+            if ((!str_contains($itemlink, 'http://')) && (!str_contains($itemlink, 'https://'))) {
                 $itemlink = str_replace(' ', '%20', $url . $itemlink);
             }
 
@@ -201,7 +202,7 @@ class RssRenderer extends DocumentRenderer
             if (empty($data->items[$i]->category) === false) {
                 if (\is_array($data->items[$i]->category)) {
                     foreach ($data->items[$i]->category as $cat) {
-                        $feed .= "			<category>" . htmlspecialchars($cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
+                        $feed .= "			<category>" . htmlspecialchars((string) $cat, ENT_COMPAT, 'UTF-8') . "</category>\n";
                     }
                 } else {
                     $feed .= "			<category>" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "</category>\n";

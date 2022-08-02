@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -16,14 +17,14 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_content.form-edit');
 
 $this->tab_name = 'com-content-form';
-$this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+$this->ignore_fieldsets = ['image-intro', 'image-full', 'jmetadata', 'item_associations'];
 $this->useCoreUI = true;
 
 // Create shortcut to parameters.

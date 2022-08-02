@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.logout
@@ -21,7 +22,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemLogout extends CMSPlugin
 {
     /**
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      *
      * @since  3.7.3
      */

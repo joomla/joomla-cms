@@ -760,7 +760,6 @@ class MicrodataTest extends UnitTestCase
     }
 
     /**
-     * @return array
      * @since 4.0.0
      *
      */
@@ -808,7 +807,6 @@ class MicrodataTest extends UnitTestCase
     }
 
     /**
-     * @return array
      * @since 4.0.0
      *
      */

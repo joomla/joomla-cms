@@ -89,6 +89,6 @@ class DisplayController extends BaseController
 
         $model = $this->getModel('Warnings');
 
-        echo new JsonResponse(count($model->getItems()));
+        echo new JsonResponse(is_countable($model->getItems()) ? count($model->getItems()) : 0);
     }
 }

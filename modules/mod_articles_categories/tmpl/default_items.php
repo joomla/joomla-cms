@@ -21,7 +21,7 @@ $view   = $input->getCmd('view');
 $id     = $input->getInt('id');
 
 foreach ($list as $item) : ?>
-    <li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') {
+    <li<?php if ($id == $item->id && in_array($view, ['category', 'categories']) && $option == 'com_content') {
         echo ' class="active"';
        } ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
         <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
@@ -37,7 +37,7 @@ foreach ($list as $item) : ?>
         <?php if (
         $params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0)
             || ($params->get('maxlevel') >= ($item->level - $startLevel)))
-            && count($item->getChildren())
+            && (is_countable($item->getChildren()) ? count($item->getChildren()) : 0)
 ) : ?>
             <?php echo '<ul>'; ?>
             <?php $temp = $list; ?>

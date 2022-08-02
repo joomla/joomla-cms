@@ -63,6 +63,7 @@ trait DisplayTrait
         $author = null,
         $params = []
     ) {
+        $ctemp = [];
         $id              = empty($id) ? $name : $id;
         $user            = $this->app->getIdentity();
         $language        = $this->app->getLanguage();
@@ -156,13 +157,13 @@ trait DisplayTrait
 
         // load external plugins
         if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins) {
-            foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external) {
+            foreach (json_decode(json_encode($extraOptions->external_plugins, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR) as $external) {
                 // get the path for readability
                 $path = $external['path'];
 
                 // if we have a name and path, add it to the list
                 if ($external['name'] != '' && $path != '') {
-                    $externalPlugins[$external['name']] = substr($path, 0, 1) == '/' ? Uri::root() . substr($path, 1) : $path;
+                    $externalPlugins[$external['name']] = substr((string) $path, 0, 1) == '/' ? Uri::root() . substr((string) $path, 1) : $path;
                 }
             }
         }
@@ -201,7 +202,7 @@ trait DisplayTrait
              * If URL, just pass it to $content_css
              * else, assume it is a file name in the current template folder
              */
-            $content_css = strpos($content_css_custom, 'http') !== false
+            $content_css = str_contains((string) $content_css_custom, 'http')
                 ? $content_css_custom
                 : $this->includeRelativeFiles('css', $content_css_custom);
         } else {
@@ -264,23 +265,11 @@ trait DisplayTrait
             // Get from preset
             $presets = static::getToolbarPreset();
 
-            /**
-             * Predefine group as:
-             * Set 0: for Administrator, Editor, Super Users (4,7,8)
-             * Set 1: for Registered, Manager (2,6), all else are public
-             */
-            switch (true) {
-                case isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]):
-                    $preset = $presets['advanced'];
-                    break;
-
-                case isset($ugroups[2]) || isset($ugroups[6]):
-                    $preset = $presets['medium'];
-                    break;
-
-                default:
-                    $preset = $presets['simple'];
-            }
+            $preset = match (true) {
+                isset($ugroups[4]) || isset($ugroups[7]) || isset($ugroups[8]) => $presets['advanced'],
+                isset($ugroups[2]) || isset($ugroups[6]) => $presets['medium'],
+                default => $presets['simple'],
+            };
 
             $levelParams->loadArray($preset);
         }
@@ -313,7 +302,7 @@ trait DisplayTrait
                 : [];
 
             foreach ($filepaths as $filepath) {
-                $fileinfo      = pathinfo($filepath);
+                $fileinfo      = pathinfo((string) $filepath);
                 $filename      = $fileinfo['filename'];
                 $full_filename = $fileinfo['basename'];
 
@@ -380,13 +369,13 @@ trait DisplayTrait
 
         // select the languages for the "language of parts" menu
         if (isset($extraOptions->content_languages) && $extraOptions->content_languages) {
-            foreach (json_decode(json_encode($extraOptions->content_languages), true) as $content_language) {
+            foreach (json_decode(json_encode($extraOptions->content_languages, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR) as $content_language) {
                 // if we have a language name and a language code then add to the menu
                 if ($content_language['content_language_name'] != '' && $content_language['content_language_code'] != '') {
-                    $ctemp[] = array('title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']);
+                    $ctemp[] = ['title' => $content_language['content_language_name'], 'code' => $content_language['content_language_code']];
                 }
             }
-            $scriptOptions['content_langs'] = array_merge($ctemp);
+            $scriptOptions['content_langs'] = [...$ctemp];
         }
 
         // User custom plugins and buttons
@@ -394,11 +383,11 @@ trait DisplayTrait
         $custom_button = trim($levelParams->get('custom_button', ''));
 
         if ($custom_plugin) {
-            $plugins   = array_merge($plugins, explode(strpos($custom_plugin, ',') !== false ? ',' : ' ', $custom_plugin));
+            $plugins   = array_merge($plugins, explode(str_contains($custom_plugin, ',') ? ',' : ' ', $custom_plugin));
         }
 
         if ($custom_button) {
-            $toolbar1  = array_merge($toolbar1, explode(strpos($custom_button, ',') !== false ? ',' : ' ', $custom_button));
+            $toolbar1  = array_merge($toolbar1, explode(str_contains($custom_button, ',') ? ',' : ' ', $custom_button));
         }
 
         // Merge the two toolbars for backwards compatibility

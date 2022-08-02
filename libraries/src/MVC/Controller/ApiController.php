@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+use Joomla\CMS\MVC\Controller\Exception\ResourceNotFound;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Controller\Exception\CheckinCheckout;
+use Joomla\CMS\MVC\Controller\Exception\Save;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -91,7 +95,7 @@ class ApiController extends BaseController
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
     {
         $this->modelState = new CMSObject();
 
@@ -111,11 +115,11 @@ class ApiController extends BaseController
         if (empty($this->context)) {
             $r = null;
 
-            if (!preg_match('/(.*)Controller(.*)/i', \get_class($this), $r)) {
+            if (!preg_match('/(.*)Controller(.*)/i', $this::class, $r)) {
                 throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_GET_NAME', __METHOD__), 500);
             }
 
-            $this->context = str_replace('\\', '', strtolower($r[2]));
+            $this->context = str_replace('\\', '', strtolower((string) $r[2]));
         }
     }
 
@@ -243,7 +247,7 @@ class ApiController extends BaseController
         }
 
         if (!is_null($offset) && $offset > $model->getTotal()) {
-            throw new Exception\ResourceNotFound();
+            throw new ResourceNotFound();
         }
 
         $view->document = $this->app->getDocument();
@@ -274,7 +278,7 @@ class ApiController extends BaseController
 
         $modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel($modelName, '', ['ignore_request' => true]);
 
         if (!$model) {
@@ -323,7 +327,7 @@ class ApiController extends BaseController
      */
     public function edit()
     {
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType));
 
         if (!$model) {
@@ -339,20 +343,20 @@ class ApiController extends BaseController
         $recordId = $this->input->getInt('id');
 
         if (!$recordId) {
-            throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
+            throw new ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
         }
 
         $key = $table->getKeyName();
 
         // Access check.
-        if (!$this->allowEdit(array($key => $recordId), $key)) {
+        if (!$this->allowEdit([$key => $recordId], $key)) {
             throw new NotAllowed('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED', 403);
         }
 
         // Attempt to check-out the new record for editing and redirect.
         if ($table->hasField('checked_out') && !$model->checkout($recordId)) {
             // Check-out failed, display a notice but allow the user to see the record.
-            throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
+            throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
         }
 
         $this->save($recordId);
@@ -372,7 +376,7 @@ class ApiController extends BaseController
      */
     protected function save($recordKey = null)
     {
-        /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        /** @var AdminModel $model */
         $model = $this->getModel(Inflector::singularize($this->contentType));
 
         if (!$model) {
@@ -386,7 +390,7 @@ class ApiController extends BaseController
         }
 
         $key        = $table->getKeyName();
-        $data       = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
+        $data       = $this->input->get('data', json_decode((string) $this->input->json->getRaw(), true, 512, JSON_THROW_ON_ERROR), 'array');
         $checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
         $data[$key] = $recordKey;
 
@@ -440,12 +444,12 @@ class ApiController extends BaseController
         }
 
         if (!isset($validData['tags'])) {
-            $validData['tags'] = array();
+            $validData['tags'] = [];
         }
 
         // Attempt to save the data.
         if (!$model->save($validData)) {
-            throw new Exception\Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+            throw new Save(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
         }
 
         try {
@@ -458,12 +462,12 @@ class ApiController extends BaseController
         $recordId = $model->getState($modelName . '.id');
 
         if ($recordId === null) {
-            throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+            throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
         }
 
         // Save succeeded, so check-in the record.
         if ($checkin && $model->checkin($recordId) === false) {
-            throw new Exception\CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+            throw new CheckinCheckout(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
         }
 
         return $recordId;
@@ -481,7 +485,7 @@ class ApiController extends BaseController
      *
      * @since   4.0.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         return $this->app->getIdentity()->authorise('core.edit', $this->option);
     }
@@ -497,7 +501,7 @@ class ApiController extends BaseController
      *
      * @since   4.0.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
 
@@ -509,7 +513,6 @@ class ApiController extends BaseController
      *
      * @param   array  $data  An array of input data.
      *
-     * @return  array
      *
      * @since   4.0.0
      */

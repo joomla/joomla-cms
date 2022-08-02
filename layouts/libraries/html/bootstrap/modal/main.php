@@ -35,7 +35,7 @@ extract($displayData);
  * @var   string  $body      Markup for the modal body. Appended after the <iframe> if the URL option is set
  */
 
-$modalClasses = array('modal');
+$modalClasses = ['modal'];
 
 if (!isset($params['animation']) || $params['animation']) {
     $modalClasses[] = 'fade';
@@ -48,10 +48,7 @@ if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100) {
     $modalDialogClass = ' jviewport-width' . $modalWidth;
 }
 
-$modalAttributes = array(
-    'tabindex' => '-1',
-    'class'    => 'joomla-modal ' . implode(' ', $modalClasses)
-);
+$modalAttributes = ['tabindex' => '-1', 'class'    => 'joomla-modal ' . implode(' ', $modalClasses)];
 
 if (isset($params['backdrop'])) {
     $modalAttributes['data-bs-backdrop'] = (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
@@ -66,7 +63,7 @@ if (isset($params['url'])) {
     $iframeHtml = htmlspecialchars(LayoutHelper::render('libraries.html.bootstrap.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
-<div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="' . trim($iframeHtml) . '"' : ''; ?>>
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="' . trim((string) $iframeHtml) . '"' : ''; ?>>
     <div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>">
         <div class="modal-content">
             <?php

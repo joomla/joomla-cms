@@ -81,7 +81,7 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function getTable($type = 'MenuType', $prefix = '\JTable', $config = array())
+    public function getTable($type = 'MenuType', $prefix = '\JTable', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -154,10 +154,10 @@ class MenuModel extends FormModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_menus.menu', 'menu', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_menus.menu', 'menu', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -180,7 +180,7 @@ class MenuModel extends FormModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $data = Factory::getApplication()->getUserState('com_menus.edit.menu.data', array());
+        $data = Factory::getApplication()->getUserState('com_menus.edit.menu.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -210,7 +210,7 @@ class MenuModel extends FormModel
      * @see     JFilterInput
      * @since   3.9.23
      */
-    public function validate($form, $data, $group = null)
+    public function validate($form, $data, $group = null): array|bool
     {
         if (!Factory::getUser()->authorise('core.admin', 'com_menus')) {
             if (isset($data['rules'])) {
@@ -262,7 +262,7 @@ class MenuModel extends FormModel
         }
 
         // Trigger the before event.
-        $result = Factory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew, $data));
+        $result = Factory::getApplication()->triggerEvent('onContentBeforeSave', [$this->_context, &$table, $isNew, $data]);
 
         // Store the data.
         if (in_array(false, $result, true) || !$table->store()) {
@@ -272,7 +272,7 @@ class MenuModel extends FormModel
         }
 
         // Trigger the after save event.
-        Factory::getApplication()->triggerEvent('onContentAfterSave', array($this->_context, &$table, $isNew));
+        Factory::getApplication()->triggerEvent('onContentAfterSave', [$this->_context, &$table, $isNew]);
 
         $this->setState('menu.id', $table->id);
 
@@ -306,7 +306,7 @@ class MenuModel extends FormModel
         foreach ($itemIds as $itemId) {
             if ($table->load($itemId)) {
                 // Trigger the before delete event.
-                $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', array($this->_context, $table));
+                $result = Factory::getApplication()->triggerEvent('onContentBeforeDelete', [$this->_context, $table]);
 
                 if (in_array(false, $result, true) || !$table->delete($itemId)) {
                     $this->setError($table->getError());
@@ -315,7 +315,7 @@ class MenuModel extends FormModel
                 }
 
                 // Trigger the after delete event.
-                Factory::getApplication()->triggerEvent('onContentAfterDelete', array($this->_context, $table));
+                Factory::getApplication()->triggerEvent('onContentAfterDelete', [$this->_context, $table]);
 
                 // @todo: Delete the menu associations - Menu items and Modules
             }
@@ -355,7 +355,7 @@ class MenuModel extends FormModel
 
         $modules = $db->loadObjectList();
 
-        $result = array();
+        $result = [];
 
         foreach ($modules as &$module) {
             $params = new Registry($module->params);
@@ -363,7 +363,7 @@ class MenuModel extends FormModel
             $menuType = $params->get('menutype');
 
             if (!isset($result[$menuType])) {
-                $result[$menuType] = array();
+                $result[$menuType] = [];
             }
 
             $result[$menuType][] = & $module;
@@ -377,7 +377,6 @@ class MenuModel extends FormModel
      *
      * @param  array  $itemIds  The item ids
      *
-     * @return array
      *
      * @since  4.2.0
      */

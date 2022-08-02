@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\CMS\Application\Exception\NotAcceptable;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Access\Exception\AuthenticationFailed;
 use Joomla\CMS\Component\ComponentHelper;
@@ -34,10 +35,9 @@ final class ApiApplication extends CMSApplication
     /**
      * Maps extension types to their
      *
-     * @var    array
      * @since  4.0.0
      */
-    protected $formatMapper = array();
+    protected array $formatMapper = [];
 
     /**
      * The authentication plugin type
@@ -155,7 +155,7 @@ final class ApiApplication extends CMSApplication
      *
      * @since   4.0.0
      */
-    protected function respond($options = array())
+    protected function respond($options = [])
     {
         // Set the Joomla! API signature
         $this->setHeader('X-Powered-By', 'JoomlaAPI/1.0', true);
@@ -187,11 +187,10 @@ final class ApiApplication extends CMSApplication
      *
      * @param   boolean  $params  True to return the template parameters
      *
-     * @return  string|\stdClass
      *
      * @since   4.0.0
      */
-    public function getTemplate($params = false)
+    public function getTemplate($params = false): string|\stdClass
     {
         // The API application should not need to use a template
         if ($params) {
@@ -221,11 +220,13 @@ final class ApiApplication extends CMSApplication
      */
     protected function route()
     {
+        $e = null;
+        $route = [];
         $router = $this->getContainer()->get(ApiRouter::class);
 
         // Trigger the onBeforeApiRoute event.
         PluginHelper::importPlugin('webservices');
-        $this->triggerEvent('onBeforeApiRoute', array(&$router, $this));
+        $this->triggerEvent('onBeforeApiRoute', [&$router, $this]);
         $caught404 = false;
         $method    = $this->input->getMethod();
 
@@ -241,7 +242,7 @@ final class ApiApplication extends CMSApplication
          * Now we have an API perform content negotiation to ensure we have a valid header. Assume if the route doesn't
          * tell us otherwise it uses the plain JSON API
          */
-        $priorities = array('application/vnd.api+json');
+        $priorities = ['application/vnd.api+json'];
 
         if (!$caught404 && \array_key_exists('format', $route['vars'])) {
             $priorities = $route['vars']['format'];
@@ -257,7 +258,7 @@ final class ApiApplication extends CMSApplication
 
         // If we can't find a match bail with a 406 - Not Acceptable
         if ($mediaType === null) {
-            throw new Exception\NotAcceptable('Could not match accept header', 406);
+            throw new NotAcceptable('Could not match accept header', 406);
         }
 
         /** @var $mediaType Accept */
@@ -287,10 +288,10 @@ final class ApiApplication extends CMSApplication
             }
         }
 
-        $this->triggerEvent('onAfterApiRoute', array($this));
+        $this->triggerEvent('onAfterApiRoute', [$this]);
 
         if (!isset($route['vars']['public']) || $route['vars']['public'] === false) {
-            if (!$this->login(array('username' => ''), array('silent' => true, 'action' => 'core.login.api'))) {
+            if (!$this->login(['username' => ''], ['silent' => true, 'action' => 'core.login.api'])) {
                 throw new AuthenticationFailed();
             }
         }
@@ -324,9 +325,7 @@ final class ApiApplication extends CMSApplication
         $matchingRoutesMethods = array_unique(
             array_reduce(
                 $matchingRoutes,
-                function ($carry, $route) {
-                    return array_merge($carry, $route->getMethods());
-                },
+                fn($carry, $route) => array_merge($carry, $route->getMethods()),
                 []
             )
         );

@@ -102,24 +102,14 @@ class WorkflowconditionField extends ListField
 
             $selected = ((int) $this->value === $value);
 
-            $tmp = array(
-                'value'    => $value,
-                'text'     => Text::alt($text, $fieldname),
-                'selected' => $selected,
-                'checked'  => $selected,
-            );
+            $tmp = ['value'    => $value, 'text'     => Text::alt($text, $fieldname), 'selected' => $selected, 'checked'  => $selected];
 
             // Add the option object to the result set.
             $options[] = (object) $tmp;
         }
 
         if (!$this->hideAll) {
-            $options[] = (object) array(
-                'value'    => '*',
-                'text'     => Text::_('JALL'),
-                'selected' => $this->value === '*',
-                'checked'  => $this->value === '*',
-            );
+            $options[] = (object) ['value'    => '*', 'text'     => Text::_('JALL'), 'selected' => $this->value === '*', 'checked'  => $this->value === '*'];
         }
 
         // Merge any additional options in the XML definition.

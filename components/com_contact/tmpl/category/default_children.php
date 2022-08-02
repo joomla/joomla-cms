@@ -15,11 +15,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
-if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
+if ($this->maxLevel != 0 && (is_countable($this->children[$this->category->id]) ? count($this->children[$this->category->id]) : 0) > 0) :
     ?>
 <ul class="com-contact-category__children list-striped list-condensed">
     <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
-        <?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
+        <?php if ($this->params->get('show_empty_categories') || $child->numitems || (is_countable($child->getChildren()) ? count($child->getChildren()) : 0)) : ?>
     <li>
         <h4 class="item-title">
             <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($child->id, $child->language)); ?>">
@@ -39,7 +39,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
                 <?php endif; ?>
             <?php endif; ?>
 
-            <?php if (count($child->getChildren()) > 0) :
+            <?php if ((is_countable($child->getChildren()) ? count($child->getChildren()) : 0) > 0) :
                 $this->children[$child->id] = $child->getChildren();
                 $this->category = $child;
                 $this->maxLevel--;

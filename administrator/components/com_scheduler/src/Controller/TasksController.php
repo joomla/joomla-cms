@@ -31,7 +31,6 @@ class TasksController extends AdminController
      * @param   string  $prefix  The prefix for the PHP class name.
      * @param   array   $config  Array of configuration parameters.
      *
-     * @return  BaseDatabaseModel
      *
      * @since   4.1.0
      */
@@ -44,7 +43,6 @@ class TasksController extends AdminController
      * Unlock a locked task, i.e., a task that is presumably still running but might have crashed and got stuck in the
      * "locked" state.
      *
-     * @return  void
      *
      * @since   4.1.0
      */
@@ -61,7 +59,7 @@ class TasksController extends AdminController
 
         if (empty($cid)) {
             $this->app->getLogger()
-                ->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
+                ->warning(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), ['category' => 'jerror']);
         } else {
             /** @var TaskModel $model */
             $model = $this->getModel();
@@ -76,13 +74,13 @@ class TasksController extends AdminController
                 $noticeText = null;
 
                 if ($errors) {
-                    $this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', \count($cid)), 'error');
+                    $this->app->enqueueMessage(Text::plural($this->text_prefix . '_N_ITEMS_FAILED_UNLOCKING', is_countable($cid) ? \count($cid) : 0), 'error');
                 } else {
                     $noticeText = $this->text_prefix . '_N_ITEMS_UNLOCKED';
                 }
 
-                if (\count($cid)) {
-                    $this->setMessage(Text::plural($noticeText, \count($cid)));
+                if (is_countable($cid) ? \count($cid) : 0) {
+                    $this->setMessage(Text::plural($noticeText, is_countable($cid) ? \count($cid) : 0));
                 }
             } catch (\Exception $e) {
                 $this->setMessage($e->getMessage(), 'error');

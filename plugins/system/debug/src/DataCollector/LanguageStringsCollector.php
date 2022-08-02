@@ -26,10 +26,9 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     /**
      * Collector name.
      *
-     * @var   string
      * @since 4.0.0
      */
-    private $name = 'languageStrings';
+    private string $name = 'languageStrings';
 
     /**
      * Called by the DebugBar when data needs to be collected
@@ -50,8 +49,6 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
      * Returns the unique name of the collector
      *
      * @since  4.0.0
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -63,8 +60,6 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
      * an array of options as defined in {@see \DebugBar\JavascriptRenderer::addControl()}
      *
      * @since  4.0.0
-     *
-     * @return array
      */
     public function getWidgets(): array
     {
@@ -90,7 +85,6 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
      *  - js: an array of filenames
      *
      * @since  4.0.0
-     * @return array
      */
     public function getAssets(): array
     {
@@ -103,7 +97,6 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     /**
      * Collect data.
      *
-     * @return array
      *
      * @since 4.0.0
      */
@@ -140,13 +133,13 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 
                         $isCaller = 0;
 
-                        if (!$callerLocation && $class !== Language::class && !strpos($file, 'Text.php')) {
+                        if (!$callerLocation && $class !== Language::class && !strpos((string) $file, 'Text.php')) {
                             $callerLocation = $location;
                             $isCaller       = 1;
                         }
 
                         $trace[] = [
-                            \count($occurrence['trace']) - $cnt,
+                            (is_countable($occurrence['trace']) ? \count($occurrence['trace']) : 0) - $cnt,
                             $isCaller,
                             $caller,
                             $file,
@@ -174,7 +167,6 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
     /**
      * Get a count value.
      *
-     * @return integer
      *
      * @since 4.0.0
      */

@@ -42,7 +42,7 @@ class ExportModel extends BaseDatabaseModel
      *
      * @since   3.9.0
      */
-    public function collectDataForExportRequest($id = null)
+    public function collectDataForExportRequest($id = null): array|bool
     {
         $id = !empty($id) ? $id : (int) $this->getState($this->getName() . '.request_id');
 
@@ -310,7 +310,6 @@ class ExportModel extends BaseDatabaseModel
     /**
      * Method to fetch an instance of the action log model.
      *
-     * @return  ActionlogModel
      *
      * @since   4.0.0
      */

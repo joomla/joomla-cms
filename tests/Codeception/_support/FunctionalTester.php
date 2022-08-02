@@ -1,5 +1,6 @@
 <?php
 
+use _generated\FunctionalTesterActions;
 /**
  * @package     Joomla.Tests
  * @subpackage  FunctionalTester
@@ -34,7 +35,7 @@ use Codeception\Lib\Friend;
  */
 class FunctionalTester extends Actor
 {
-    use _generated\FunctionalTesterActions;
+    use FunctionalTesterActions;
 
     /**
      * Define custom actions here

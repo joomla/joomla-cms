@@ -36,7 +36,6 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -51,7 +50,6 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
     /**
      * Retrieve a list of schemas to load for this testcase
      *
-     * @return array
      *
      * @since   4.0.0
      */

@@ -104,7 +104,6 @@ class ContactComponent extends MVCComponent implements
     /**
      * Returns valid contexts
      *
-     * @return  array
      *
      * @since   4.0.0
      */
@@ -112,11 +111,7 @@ class ContactComponent extends MVCComponent implements
     {
         Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
-        $contexts = array(
-            'com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'),
-            'com_contact.mail'       => Text::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'),
-            'com_contact.categories' => Text::_('JCATEGORY')
-        );
+        $contexts = ['com_contact.contact'    => Text::_('COM_CONTACT_FIELDS_CONTEXT_CONTACT'), 'com_contact.mail'       => Text::_('COM_CONTACT_FIELDS_CONTEXT_MAIL'), 'com_contact.categories' => Text::_('JCATEGORY')];
 
         return $contexts;
     }

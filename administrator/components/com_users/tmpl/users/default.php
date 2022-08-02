@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -20,9 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
 /** @var \Joomla\Component\Users\Administrator\View\Users\HtmlView $this */
-
-
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -39,7 +38,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -170,14 +169,14 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                                 </td>
                                 <?php endif; ?>
                                 <td class="d-none d-md-table-cell">
-                                    <?php if (substr_count($item->group_names, "\n") > 1) : ?>
+                                    <?php if (substr_count((string) $item->group_names, "\n") > 1) : ?>
                                         <span tabindex="0"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
                                         <div role="tooltip" id="tip<?php echo $i; ?>">
                                             <strong><?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?></strong>
-                                            <ul><li><?php echo str_replace("\n", '</li><li>', $item->group_names); ?></li></ul>
+                                            <ul><li><?php echo str_replace("\n", '</li><li>', (string) $item->group_names); ?></li></ul>
                                         </div>
                                     <?php else : ?>
-                                        <?php echo nl2br($item->group_names, false); ?>
+                                        <?php echo nl2br((string) $item->group_names, false); ?>
                                     <?php endif; ?>
                                     <a  class="btn btn-sm btn-secondary"
                                         href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
@@ -217,14 +216,11 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
-                                'title'  => Text::_('COM_USERS_BATCH_OPTIONS'),
-                                'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ['title'  => Text::_('COM_USERS_BATCH_OPTIONS'), 'footer' => $this->loadTemplate('batch_footer')],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>
-                <?php endif; ?>
+<?php endif; ?>
 
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">

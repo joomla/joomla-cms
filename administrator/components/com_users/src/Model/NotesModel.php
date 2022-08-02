@@ -33,23 +33,11 @@ class NotesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         // Set the list ordering fields.
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'user_id', 'a.user_id',
-                'u.name',
-                'subject', 'a.subject',
-                'catid', 'a.catid', 'category_id',
-                'state', 'a.state', 'published',
-                'c.title',
-                'review_time', 'a.review_time',
-                'publish_up', 'a.publish_up',
-                'publish_down', 'a.publish_down',
-                'level', 'c.level',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'user_id', 'a.user_id', 'u.name', 'subject', 'a.subject', 'catid', 'a.catid', 'category_id', 'state', 'a.state', 'published', 'c.title', 'review_time', 'a.review_time', 'publish_up', 'a.publish_up', 'publish_down', 'a.publish_down', 'level', 'c.level'];
         }
 
         parent::__construct($config, $factory);
@@ -94,16 +82,16 @@ class NotesModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search3 = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search3 = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :id');
                 $query->bind(':id', $search3, ParameterType::INTEGER);
-            } elseif (stripos($search, 'uid:') === 0) {
-                $search4 = (int) substr($search, 4);
+            } elseif (stripos((string) $search, 'uid:') === 0) {
+                $search4 = (int) substr((string) $search, 4);
                 $query->where($db->quoteName('a.user_id') . ' = :id');
                 $query->bind(':id', $search4, ParameterType::INTEGER);
             } else {
-                $search = '%' . trim($search) . '%';
+                $search = '%' . trim((string) $search) . '%';
                 $query->where(
                     '(' . $db->quoteName('a.subject') . ' LIKE :subject'
                     . ' OR ' . $db->quoteName('u.name') . ' LIKE :name'

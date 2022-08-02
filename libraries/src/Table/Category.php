@@ -154,7 +154,7 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         }
 
         // Check for a title.
-        if (trim($this->title) == '') {
+        if (trim((string) $this->title) == '') {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 
             return false;
@@ -247,10 +247,10 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
+        $table = Table::getInstance('Category', 'JTable', ['dbo' => $this->getDbo()]);
 
         if (
-            $table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
+            $table->load(['alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension])
             && ($table->id != $this->id || $this->id == 0)
         ) {
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));

@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\MVC\Factory\ApiMVCFactory;
@@ -27,24 +28,14 @@ use Joomla\Event\DispatcherInterface;
 class MVCFactory implements ServiceProviderInterface
 {
     /**
-     * The extension namespace
-     *
-     * @var  string
-     *
-     * @since   4.0.0
-     */
-    private $namespace;
-
-    /**
      * MVCFactory constructor.
      *
      * @param   string  $namespace  The namespace
      *
      * @since   4.0.0
      */
-    public function __construct(string $namespace)
+    public function __construct(private readonly string $namespace)
     {
-        $this->namespace = $namespace;
     }
 
     /**
@@ -61,7 +52,7 @@ class MVCFactory implements ServiceProviderInterface
         $container->set(
             MVCFactoryInterface::class,
             function (Container $container) {
-                if (\Joomla\CMS\Factory::getApplication()->isClient('api')) {
+                if (Factory::getApplication()->isClient('api')) {
                     $factory = new ApiMVCFactory($this->namespace);
                 } else {
                     $factory = new \Joomla\CMS\MVC\Factory\MVCFactory($this->namespace);

@@ -33,14 +33,6 @@ final class MailDisabledException extends \RuntimeException
     public const REASON_MAIL_FUNCTION_NOT_AVAILABLE = 'mail_function_not_available';
 
     /**
-     * Reason mail is disabled.
-     *
-     * @var    string
-     * @since  4.0.0
-     */
-    private $reason;
-
-    /**
      * Constructor.
      *
      * @param   string      $reason    The reason why mail is disabled.
@@ -50,17 +42,14 @@ final class MailDisabledException extends \RuntimeException
      *
      * @since   4.0.0
      */
-    public function __construct(string $reason, string $message = '', int $code = 0, \Throwable $previous = null)
+    public function __construct(private readonly string $reason, string $message = '', int $code = 0, \Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-
-        $this->reason = $reason;
     }
 
     /**
      * Method to return the reason why mail is disabled.
      *
-     * @return  string
      *
      * @since   4.0.0
      */

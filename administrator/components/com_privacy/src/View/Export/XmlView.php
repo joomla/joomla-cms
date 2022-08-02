@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Export;
 
+use Joomla\CMS\Document\XmlDocument;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
@@ -20,7 +21,7 @@ use Joomla\Component\Privacy\Administrator\Model\ExportModel;
  *
  * @since  3.9.0
  *
- * @property-read   \Joomla\CMS\Document\XmlDocument  $document
+ * @property-read XmlDocument $document
  */
 class XmlView extends AbstractView
 {
@@ -42,7 +43,7 @@ class XmlView extends AbstractView
         $exportData = $model->collectDataForExportRequest();
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 

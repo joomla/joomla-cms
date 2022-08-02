@@ -51,12 +51,12 @@ class FeedView extends BaseHtmlView
         foreach ($items as $item) {
             // Strip HTML from feed item title
             $title = $this->escape($item->title);
-            $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+            $title = html_entity_decode((string) $title, ENT_COMPAT, 'UTF-8');
 
             // Strip HTML from feed item description text
             $description = $item->description;
             $author      = $item->created_by_alias ?: $item->created_by_user_name;
-            $date        = $item->created_time ? date('r', strtotime($item->created_time)) : '';
+            $date        = $item->created_time ? date('r', strtotime((string) $item->created_time)) : '';
 
             // Load individual item creator class
             $feeditem = new FeedItem();

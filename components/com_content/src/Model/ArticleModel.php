@@ -78,14 +78,14 @@ class ArticleModel extends ItemModel
      *
      * @return  object|boolean  Menu item data object on success, boolean false
      */
-    public function getItem($pk = null)
+    public function getItem($pk = null): object|bool
     {
         $user = Factory::getUser();
 
         $pk = (int) ($pk ?: $this->getState('article.id'));
 
         if ($this->_item === null) {
-            $this->_item = array();
+            $this->_item = [];
         }
 
         if (!isset($this->_item[$pk])) {

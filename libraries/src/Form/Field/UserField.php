@@ -113,7 +113,7 @@ class UserField extends FormField
 
         if (is_numeric($this->value)) {
             $name = User::getInstance($this->value)->name;
-        } elseif (strtoupper($this->value) === 'CURRENT') {
+        } elseif (strtoupper((string) $this->value) === 'CURRENT') {
             // Handle the special case for "current".
             // 'CURRENT' is not a reasonable value to be placed in the html
             $current = Factory::getUser();
@@ -130,11 +130,7 @@ class UserField extends FormField
             $name = $this->value;
         }
 
-        $extraData = array(
-            'userName'  => $name,
-            'groups'    => $this->getGroups(),
-            'excluded'  => $this->getExcluded(),
-        );
+        $extraData = ['userName'  => $name, 'groups'    => $this->getGroups(), 'excluded'  => $this->getExcluded()];
 
         return array_merge($data, $extraData);
     }

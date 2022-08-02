@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -15,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('table.columns')
     ->useScript('multiselect');
@@ -29,7 +30,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
         <div class="row">
             <div class="col-md-12">
                 <div id="j-main-container" class="j-main-container">
-                    <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                    <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                     <?php if (empty($this->changeSet)) : ?>
                         <div class="alert alert-info">
                             <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -76,7 +77,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                             <tbody>
                                 <?php foreach ($this->changeSet as $i => $item) : ?>
                                     <?php $extension = $item['extension']; ?>
-                                    <?php $manifest = json_decode($extension->manifest_cache); ?>
+                                    <?php $manifest = json_decode((string) $extension->manifest_cache, null, 512, JSON_THROW_ON_ERROR); ?>
 
                                     <tr class="row<?php echo $i % 2; ?>">
                                         <td class="text-center">
@@ -123,7 +124,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                         <?php // load the pagination. ?>
                         <?php echo $this->pagination->getListFooter(); ?>
 
-                    <?php endif; ?>
+<?php endif; ?>
                     <input type="hidden" name="task" value="">
                     <input type="hidden" name="boxchecked" value="0">
                     <?php echo HTMLHelper::_('form.token'); ?>

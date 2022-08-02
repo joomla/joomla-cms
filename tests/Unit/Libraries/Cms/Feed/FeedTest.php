@@ -27,15 +27,13 @@ use Joomla\Tests\Unit\UnitTestCase;
 class FeedTest extends UnitTestCase
 {
     /**
-     * @var    Feed
      * @since  3.1.4
      */
-    private $feed;
+    private Feed $feed;
 
     /**
      * Setup the tests.
      *
-     * @return  void
      *
      * @since   3.1.4
      */
@@ -49,7 +47,6 @@ class FeedTest extends UnitTestCase
     /**
      * Method to tear down whatever was set up before the test.
      *
-     * @return  void
      *
      * @since   3.1.4
      */

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
@@ -32,11 +33,11 @@ class LevelsController extends AdminController
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     * @return BaseDatabaseModel The model.
      *
      * @since   1.6
      */
-    public function getModel($name = 'Level', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Level', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

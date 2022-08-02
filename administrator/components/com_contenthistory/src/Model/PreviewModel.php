@@ -38,7 +38,7 @@ class PreviewModel extends ItemModel
      *
      * @throws  NotAllowed   Thrown if not authorised to edit an item
      */
-    public function getItem($pk = null)
+    public function getItem($pk = null): \stdClass|bool
     {
         /** @var ContentHistory $table */
         $table = $this->getTable('ContentHistory');
@@ -62,15 +62,7 @@ class PreviewModel extends ItemModel
         // Let's use custom calendars when present
         $result->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-        $dateProperties = array (
-            'modified_time',
-            'created_time',
-            'modified',
-            'created',
-            'checked_out_time',
-            'publish_up',
-            'publish_down',
-        );
+        $dateProperties = ['modified_time', 'created_time', 'modified', 'created', 'checked_out_time', 'publish_up', 'publish_down'];
 
         $nullDate = $this->getDatabase()->getNullDate();
 
@@ -102,7 +94,7 @@ class PreviewModel extends ItemModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }
@@ -133,10 +125,10 @@ class PreviewModel extends ItemModel
                 /** @var ContentType $contentTypeTable */
                 $contentTypeTable = $this->getTable('ContentType');
 
-                $typeAlias        = explode('.', $record->item_id);
+                $typeAlias        = explode('.', (string) $record->item_id);
                 $id = array_pop($typeAlias);
                 $typeAlias        = implode('.', $typeAlias);
-                $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+                $typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', (string) $contentTypeTable->type_alias) . '.id');
                 $result = in_array((int) $id, $typeEditables);
             }
         }

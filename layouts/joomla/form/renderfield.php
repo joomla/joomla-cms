@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -27,7 +28,7 @@ extract($displayData);
  */
 
 if (!empty($options['showonEnabled'])) {
-    /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+    /** @var WebAssetManager $wa */
     $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
     $wa->useScript('showon');
 }

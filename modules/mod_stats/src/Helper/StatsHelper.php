@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\Stats\Site\Helper;
 
+use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -26,7 +27,7 @@ class StatsHelper
     /**
      * Get list of stats
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param Registry &$params module parameters
      *
      * @return  array
      */
@@ -34,7 +35,7 @@ class StatsHelper
     {
         $app        = Factory::getApplication();
         $db         = Factory::getDbo();
-        $rows       = array();
+        $rows       = [];
         $query      = $db->getQuery(true);
         $serverinfo = $params->get('serverinfo', 0);
         $siteinfo   = $params->get('siteinfo', 0);
@@ -82,7 +83,7 @@ class StatsHelper
 
             try {
                 $users = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $users = false;
             }
 
@@ -94,7 +95,7 @@ class StatsHelper
 
             try {
                 $items = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $items = false;
             }
 
@@ -122,7 +123,7 @@ class StatsHelper
 
             try {
                 $hits = $db->loadResult();
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 $hits = false;
             }
 
@@ -137,7 +138,7 @@ class StatsHelper
         // Include additional data defined by published system plugins
         PluginHelper::importPlugin('system');
 
-        $arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats'));
+        $arrays = (array) $app->triggerEvent('onGetStats', ['mod_stats']);
 
         foreach ($arrays as $response) {
             foreach ($response as $row) {

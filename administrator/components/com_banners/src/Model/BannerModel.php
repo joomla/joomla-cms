@@ -10,6 +10,8 @@
 
 namespace Joomla\Component\Banners\Administrator\Model;
 
+use Joomla\Component\Banners\Administrator\Table\BannerTable;
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -55,10 +57,7 @@ class BannerModel extends AdminModel
      *
      * @var  array
      */
-    protected $batch_commands = array(
-        'client_id'   => 'batchClient',
-        'language_id' => 'batchLanguage'
-    );
+    protected $batch_commands = ['client_id'   => 'batchClient', 'language_id' => 'batchLanguage'];
 
     /**
      * Batch client changes for a group of banners.
@@ -76,7 +75,7 @@ class BannerModel extends AdminModel
         // Set the variables
         $user = Factory::getUser();
 
-        /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
+        /** @var BannerTable $table */
         $table = $this->getTable();
 
         foreach ($pks as $pk) {
@@ -174,10 +173,10 @@ class BannerModel extends AdminModel
      *
      * @since   1.6
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         // Get the form.
-        $form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
+        $form = $this->loadForm('com_banners.banner', 'banner', ['control' => 'jform', 'load_data' => $loadData]);
 
         if (empty($form)) {
             return false;
@@ -220,7 +219,7 @@ class BannerModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_banners.edit.banner.data', array());
+        $data = $app->getUserState('com_banners.edit.banner.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -251,7 +250,7 @@ class BannerModel extends AdminModel
      */
     public function stick(&$pks, $value = 1)
     {
-        /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
+        /** @var BannerTable $table */
         $table = $this->getTable();
         $pks   = (array) $pks;
 
@@ -384,14 +383,14 @@ class BannerModel extends AdminModel
         if ($createCategory && $this->canCreateCategory()) {
             $category = [
                 // Remove #new# prefix, if exists.
-                'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+                'title'     => str_starts_with((string) $data['catid'], '#new#') ? substr((string) $data['catid'], 5) : $data['catid'],
                 'parent_id' => 1,
                 'extension' => 'com_banners',
                 'language'  => $data['language'],
                 'published' => 1,
             ];
 
-            /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+            /** @var CategoryModel $categoryModel */
             $categoryModel = Factory::getApplication()->bootComponent('com_categories')
                 ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
@@ -408,12 +407,12 @@ class BannerModel extends AdminModel
 
         // Alter the name for save as copy
         if ($input->get('task') == 'save2copy') {
-            /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
+            /** @var BannerTable $origTable */
             $origTable = clone $this->getTable();
             $origTable->load($input->getInt('id'));
 
             if ($data['name'] == $origTable->name) {
-                list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+                [$name, $alias] = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
                 $data['name']       = $name;
                 $data['alias']      = $alias;
             } else {

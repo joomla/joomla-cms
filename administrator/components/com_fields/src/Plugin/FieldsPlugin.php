@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -35,7 +36,7 @@ abstract class FieldsPlugin extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -50,23 +51,23 @@ abstract class FieldsPlugin extends CMSPlugin
     public function onCustomFieldsGetTypes()
     {
         // Cache filesystem access / checks
-        static $types_cache = array();
+        static $types_cache = [];
 
         if (isset($types_cache[$this->_type . $this->_name])) {
             return $types_cache[$this->_type . $this->_name];
         }
 
-        $types = array();
+        $types = [];
 
         // The root of the plugin
         $root = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name;
 
         foreach (Folder::files($root . '/tmpl', '.php') as $layout) {
             // Strip the extension
-            $layout = str_replace('.php', '', $layout);
+            $layout = str_replace('.php', '', (string) $layout);
 
             // The data array
-            $data = array();
+            $data = [];
 
             // The language key
             $key = strtoupper($layout);
@@ -254,7 +255,7 @@ abstract class FieldsPlugin extends CMSPlugin
     protected function getFormPath(Form $form, $data)
     {
         // Check if the field form is calling us
-        if (strpos($form->getName(), 'com_fields.field') !== 0) {
+        if (!str_starts_with($form->getName(), 'com_fields.field')) {
             return null;
         }
 

@@ -269,9 +269,7 @@ class Session implements ServiceProviderInterface
         $container->alias(MetadataManagerListener::class, 'session.event_listener.metadata_manager')
             ->share(
                 'session.event_listener.metadata_manager',
-                function (Container $container) {
-                    return new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config'));
-                },
+                fn(Container $container) => new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config')),
                 true
             );
 
@@ -290,7 +288,6 @@ class Session implements ServiceProviderInterface
      * @param   DispatcherInterface      $dispatcher  The event dispatcher.
      * @param   array                    $options     The configured session options.
      *
-     * @return  SessionInterface
      *
      * @since   4.0.0
      */
@@ -317,7 +314,6 @@ class Session implements ServiceProviderInterface
      * @param   Container                 $container       The container to register the service to.
      * @param   \SessionHandlerInterface  $sessionHandler  The session handler.
      *
-     * @return  void
      *
      * @since   4.0.0
      */

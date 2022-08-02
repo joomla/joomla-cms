@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -42,23 +43,10 @@ class GroupsModel extends ListModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'title', 'a.title',
-                'type', 'a.type',
-                'state', 'a.state',
-                'access', 'a.access',
-                'access_level',
-                'language', 'a.language',
-                'ordering', 'a.ordering',
-                'checked_out', 'a.checked_out',
-                'checked_out_time', 'a.checked_out_time',
-                'created', 'a.created',
-                'created_by', 'a.created_by',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'title', 'a.title', 'type', 'a.type', 'state', 'a.state', 'access', 'a.access', 'access_level', 'language', 'a.language', 'ordering', 'a.ordering', 'checked_out', 'a.checked_out', 'checked_out_time', 'a.checked_out_time', 'created', 'a.created', 'created_by', 'a.created_by'];
         }
 
         parent::__construct($config, $factory);
@@ -116,7 +104,7 @@ class GroupsModel extends ListModel
     /**
      * Method to get a DatabaseQuery object for retrieving the data set from a database.
      *
-     * @return  \Joomla\Database\DatabaseQuery   A DatabaseQuery object to retrieve the data set.
+     * @return DatabaseQuery A DatabaseQuery object to retrieve the data set.
      *
      * @since   3.7.0
      */
@@ -183,12 +171,12 @@ class GroupsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            if (stripos($search, 'id:') === 0) {
-                $search = (int) substr($search, 3);
+            if (stripos((string) $search, 'id:') === 0) {
+                $search = (int) substr((string) $search, 3);
                 $query->where($db->quoteName('a.id') . ' = :search')
                     ->bind(':id', $search, ParameterType::INTEGER);
             } else {
-                $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+                $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
                 $query->where($db->quoteName('a.title') . ' LIKE :search')
                     ->bind(':search', $search);
             }

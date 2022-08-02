@@ -26,7 +26,6 @@ trait SiteTemplateTrait
     /**
      * Set a specific site template style in the frontend application
      *
-     * @return  void
      * @throws  Exception
      * @since   4.2.0
      */
@@ -52,7 +51,7 @@ trait SiteTemplateTrait
             $refTemplate = $refApp->getProperty('template');
             $refTemplate->setAccessible(true);
             $refTemplate->setValue($app, null);
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException) {
             return;
         }
 

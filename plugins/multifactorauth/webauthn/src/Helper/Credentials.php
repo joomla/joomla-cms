@@ -47,7 +47,6 @@ abstract class Credentials
      *
      * @param   User   $user   The Joomla user to create the public key for
      *
-     * @return  string
      * @throws  Exception  On error
      * @since   4.2.0
      */
@@ -104,8 +103,8 @@ abstract class Credentials
         }
 
         try {
-            $publicKeyCredentialCreationOptions = unserialize(base64_decode($encodedOptions));
-        } catch (Exception $e) {
+            $publicKeyCredentialCreationOptions = unserialize(base64_decode((string) $encodedOptions));
+        } catch (Exception) {
             $publicKeyCredentialCreationOptions = null;
         }
 
@@ -135,7 +134,6 @@ abstract class Credentials
      *
      * @param   int  $userId  The user ID to create a WebAuthn PK for
      *
-     * @return  string
      * @throws  Exception  On error
      * @since   4.2.0
      */
@@ -165,7 +163,6 @@ abstract class Credentials
      *
      * @param   string   $response   Base64-encoded response
      *
-     * @return  void
      * @throws  Exception  When something does not check out.
      * @since   4.2.0
      */
@@ -202,7 +199,7 @@ abstract class Credentials
         }
 
         // Make sure the public key credential request options in the session are valid
-        $serializedOptions                 = base64_decode($encodedPkOptions);
+        $serializedOptions                 = base64_decode((string) $encodedPkOptions);
         $publicKeyCredentialRequestOptions = unserialize($serializedOptions);
 
         if (
@@ -247,7 +244,6 @@ abstract class Credentials
      *
      * @param   User   $user  The user to get an entity for
      *
-     * @return  PublicKeyCredentialUserEntity
      * @since   4.2.0
      */
     private static function getUserEntity(User $user): PublicKeyCredentialUserEntity
@@ -265,7 +261,6 @@ abstract class Credentials
      *
      * @param   int|null  $userId  The user ID holding the list of valid authenticators
      *
-     * @return  Server
      * @since   4.2.0
      */
     private static function getWebauthnServer(?int $userId): Server
@@ -274,7 +269,7 @@ abstract class Credentials
         try {
             $app      = Factory::getApplication();
             $siteName = $app->get('sitename');
-        } catch (Exception $e) {
+        } catch (Exception) {
             $siteName = 'Joomla! Site';
         }
 

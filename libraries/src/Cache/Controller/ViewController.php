@@ -42,7 +42,7 @@ class ViewController extends CacheController
 
 		$data = $this->cache->get($id);
 
-		$locktest = (object) array('locked' => null, 'locklooped' => null);
+		$locktest = (object) ['locked' => null, 'locklooped' => null];
 
 		if ($data === false)
 		{
@@ -67,7 +67,7 @@ class ViewController extends CacheController
 				$this->cache->unlock($id);
 			}
 
-			$data = unserialize(trim($data));
+			$data = unserialize(trim((string) $data));
 
 			if ($wrkarounds)
 			{
@@ -168,6 +168,6 @@ class ViewController extends CacheController
 	 */
 	protected function _makeId($view, $method)
 	{
-		return md5(serialize(array(Cache::makeId(), \get_class($view), $method)));
+		return md5(serialize([Cache::makeId(), $view::class, $method]));
 	}
 }

@@ -47,7 +47,6 @@ trait TaskPluginTrait
      *
      * @param   ExecuteTaskEvent  $event  The onExecuteTask event.
      *
-     * @return void
      *
      * @since  4.1.0
      */
@@ -70,7 +69,6 @@ trait TaskPluginTrait
      * @param   ExecuteTaskEvent  $event     The event
      * @param   ?int              $exitCode  The task exit code
      *
-     * @return void
      *
      * @since  4.1.0
      * @throws \Exception
@@ -101,7 +99,7 @@ trait TaskPluginTrait
      * @since  4.1.0
      * @throws \Exception
      */
-    public function enhanceTaskItemForm($context, $data = null): bool
+    public function enhanceTaskItemForm(EventInterface|Form $context, $data = null): bool
     {
         if ($context instanceof EventInterface) {
             /** @var Form $form */
@@ -129,7 +127,7 @@ trait TaskPluginTrait
         $enhancementFormName = self::TASKS_MAP[$routineId]['form'] ?? '';
 
         // Return if routine is not supported by the plugin or the routine does not have a form linked in TASKS_MAP.
-        if (!$isSupported || \strlen($enhancementFormName) === 0) {
+        if (!$isSupported || \strlen((string) $enhancementFormName) === 0) {
             return true;
         }
 
@@ -139,7 +137,7 @@ trait TaskPluginTrait
 
         try {
             $enhancementFormFile = Path::check($enhancementFormFile);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 
@@ -157,7 +155,6 @@ trait TaskPluginTrait
      *
      * @param   EventInterface  $event  onTaskOptionsList Event
      *
-     * @return void
      *
      * @since  4.1.0
      */
@@ -182,7 +179,6 @@ trait TaskPluginTrait
      * @param   Form   $form  The form
      * @param   mixed  $data  The data
      *
-     * @return  string
      *
      * @since  4.1.0
      * @throws  \Exception
@@ -211,7 +207,6 @@ trait TaskPluginTrait
      * @param   string  $message   The log message
      * @param   string  $priority  The log message priority
      *
-     * @return void
      *
      * @since  4.1.0
      * @throws \Exception
@@ -251,7 +246,6 @@ trait TaskPluginTrait
      *
      * @param   ExecuteTaskEvent  $event  The `onExecuteTask` event.
      *
-     * @return void
      *
      * @since 4.1.0
      * @throws \Exception
@@ -316,12 +310,10 @@ trait TaskPluginTrait
          *
          * @since 4.1.0
          */
-        $validateStatus = static function (int $statusCode): bool {
-            return \in_array(
-                $statusCode,
-                (new \ReflectionClass(Status::class))->getConstants()
-            );
-        };
+        $validateStatus = static fn(int $statusCode): bool => \in_array(
+            $statusCode,
+            (new \ReflectionClass(Status::class))->getConstants()
+        );
 
         // Validate the exit code.
         if (!\is_int($exitCode) || !$validateStatus($exitCode)) {

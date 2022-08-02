@@ -29,15 +29,14 @@ class PlgWebservicesMedia extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Registers com_media's API's routes in the application.
-	 *
-	 * @param   ApiRouter  &$router  The API Routing object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 */
-	public function onBeforeApiRoute(&$router): void
+  * Registers com_media's API's routes in the application.
+  *
+  * @param   ApiRouter  &$router  The API Routing object
+  *
+  *
+  * @since   4.1.0
+  */
+ public function onBeforeApiRoute(&$router): void
 	{
 		$this->createAdapterReadRoutes(
 			$router,
@@ -54,19 +53,18 @@ class PlgWebservicesMedia extends CMSPlugin
 	}
 
 	/**
-	 * Creates adapter read routes.
-	 *
-	 * @param   ApiRouter  &$router     The API Routing object
-	 * @param   string     $baseName    The base name of the component.
-	 * @param   string     $controller  The name of the controller that contains CRUD functions.
-	 * @param   array      $defaults    An array of default values that are used when the URL is matched.
-	 * @param   bool       $publicGets  Allow the public to make GET requests.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 */
-	private function createAdapterReadRoutes(&$router, $baseName, $controller, $defaults = [], $publicGets = false): void
+  * Creates adapter read routes.
+  *
+  * @param   ApiRouter  &$router     The API Routing object
+  * @param   string     $baseName    The base name of the component.
+  * @param   string     $controller  The name of the controller that contains CRUD functions.
+  * @param   array      $defaults    An array of default values that are used when the URL is matched.
+  * @param   bool       $publicGets  Allow the public to make GET requests.
+  *
+  *
+  * @since   4.1.0
+  */
+ private function createAdapterReadRoutes(&$router, $baseName, $controller, $defaults = [], $publicGets = false): void
 	{
 		$getDefaults = array_merge(['public' => $publicGets], $defaults);
 
@@ -79,19 +77,18 @@ class PlgWebservicesMedia extends CMSPlugin
 	}
 
 	/**
-	 * Creates media CRUD routes.
-	 *
-	 * @param   ApiRouter  &$router     The API Routing object
-	 * @param   string     $baseName    The base name of the component.
-	 * @param   string     $controller  The name of the controller that contains CRUD functions.
-	 * @param   array      $defaults    An array of default values that are used when the URL is matched.
-	 * @param   bool       $publicGets  Allow the public to make GET requests.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.1.0
-	 */
-	private function createMediaCRUDRoutes(&$router, $baseName, $controller, $defaults = [], $publicGets = false): void
+  * Creates media CRUD routes.
+  *
+  * @param   ApiRouter  &$router     The API Routing object
+  * @param   string     $baseName    The base name of the component.
+  * @param   string     $controller  The name of the controller that contains CRUD functions.
+  * @param   array      $defaults    An array of default values that are used when the URL is matched.
+  * @param   bool       $publicGets  Allow the public to make GET requests.
+  *
+  *
+  * @since   4.1.0
+  */
+ private function createMediaCRUDRoutes(&$router, $baseName, $controller, $defaults = [], $publicGets = false): void
 	{
 		$getDefaults = array_merge(['public' => $publicGets], $defaults);
 

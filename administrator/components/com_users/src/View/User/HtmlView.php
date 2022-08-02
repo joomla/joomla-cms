@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Users\Administrator\View\User;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
@@ -31,7 +32,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The Form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -94,7 +95,7 @@ class HtmlView extends BaseHtmlView
         $this->state = $this->get('State');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -119,7 +120,7 @@ class HtmlView extends BaseHtmlView
                 $this->mfaConfigurationUI = Mfa::canShowConfigurationInterface($userBeingEdited)
                     ? Mfa::getConfigurationInterface($userBeingEdited)
                     : '';
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 // In case something goes really wrong with the plugins; prevents hard breaks.
                 $this->mfaConfigurationUI = null;
             }

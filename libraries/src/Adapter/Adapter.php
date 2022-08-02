@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Adapter;
 
+use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseAwareInterface;
@@ -29,7 +30,7 @@ class Adapter extends CMSObject
      * @var    static[]
      * @since  1.6
      */
-    protected $_adapters = array();
+    protected $_adapters = [];
 
     /**
      * Adapter Folder
@@ -48,17 +49,9 @@ class Adapter extends CMSObject
     protected $_classprefix = 'J';
 
     /**
-     * Base Path for the adapter instance
-     *
-     * @var    string
-     * @since  1.6
-     */
-    protected $_basepath = null;
-
-    /**
      * Database Connector Object
      *
-     * @var    \Joomla\Database\DatabaseDriver
+     * @var DatabaseDriver
      * @since  1.6
      */
     protected $_db;
@@ -66,15 +59,14 @@ class Adapter extends CMSObject
     /**
      * Constructor
      *
-     * @param   string  $basepath       Base Path of the adapters
+     * @param string $_basepath Base Path of the adapters
      * @param   string  $classprefix    Class prefix of adapters
      * @param   string  $adapterfolder  Name of folder to append to base path
      *
      * @since   1.6
      */
-    public function __construct($basepath, $classprefix = null, $adapterfolder = null)
+    public function __construct(protected $_basepath, $classprefix = null, $adapterfolder = null)
     {
-        $this->_basepath = $basepath;
         $this->_classprefix = $classprefix ?: 'J';
         $this->_adapterfolder = $adapterfolder ?: 'adapters';
 
@@ -89,7 +81,7 @@ class Adapter extends CMSObject
     /**
      * Get the database connector object
      *
-     * @return  \Joomla\Database\DatabaseDriver  Database connector object
+     * @return DatabaseDriver Database connector object
      *
      * @since   1.6
      */
@@ -108,7 +100,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function getAdapter($name, $options = array())
+    public function getAdapter($name, $options = []): static|bool
     {
         if (array_key_exists($name, $this->_adapters)) {
             return $this->_adapters[$name];
@@ -132,7 +124,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function setAdapter($name, &$adapter = null, $options = array())
+    public function setAdapter($name, &$adapter = null, $options = [])
     {
         if (is_object($adapter)) {
             $this->_adapters[$name] = &$adapter;
@@ -185,7 +177,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function loadAllAdapters($options = array())
+    public function loadAllAdapters($options = [])
     {
         $files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 

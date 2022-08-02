@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -30,17 +31,10 @@ class FiltersModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.7
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'filter_id', 'a.filter_id',
-                'title', 'a.title',
-                'state', 'a.state',
-                'created_by_alias', 'a.created_by_alias',
-                'created', 'a.created',
-                'map_count', 'a.map_count'
-            );
+            $config['filter_fields'] = ['filter_id', 'a.filter_id', 'title', 'a.title', 'state', 'a.state', 'created_by_alias', 'a.created_by_alias', 'created', 'a.created', 'map_count', 'a.map_count'];
         }
 
         parent::__construct($config, $factory);
@@ -49,7 +43,7 @@ class FiltersModel extends ListModel
     /**
      * Build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      *
      * @since   2.5
      */
@@ -72,7 +66,7 @@ class FiltersModel extends ListModel
 
         // Check for a search filter.
         if ($search = $this->getState('filter.search')) {
-            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+            $search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim((string) $search), true) . '%'));
             $query->where($db->quoteName('a.title') . ' LIKE ' . $search);
         }
 

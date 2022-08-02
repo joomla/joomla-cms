@@ -66,17 +66,12 @@ class FieldModel extends AdminModel
      *
      * @var array
      */
-    protected $batch_commands = array(
-        'assetgroup_id' => 'batchAccess',
-        'language_id'   => 'batchLanguage'
-    );
+    protected $batch_commands = ['assetgroup_id' => 'batchAccess', 'language_id'   => 'batchLanguage'];
 
     /**
-     * @var array
-     *
      * @since   3.7.0
      */
-    private $valueCache = array();
+    private array $valueCache = [];
 
     /**
      * Constructor
@@ -87,7 +82,7 @@ class FieldModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         parent::__construct($config, $factory);
 
@@ -125,7 +120,7 @@ class FieldModel extends AdminModel
             $origTable->load($input->getInt('id'));
 
             if ($data['title'] == $origTable->title) {
-                list($title, $name) = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
+                [$title, $name] = $this->generateNewTitle($data['group_id'], $data['name'], $data['title']);
                 $data['title'] = $title;
                 $data['label'] = $title;
                 $data['name'] = $name;
@@ -164,16 +159,16 @@ class FieldModel extends AdminModel
         if (!empty($data['only_use_in_subform'])) {
             $cats = [-1];
         } else {
-            $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : array();
+            $cats = isset($data['assigned_cat_ids']) ? (array) $data['assigned_cat_ids'] : [];
             $cats = ArrayHelper::toInteger($cats);
         }
 
-        $assignedCatIds = array();
+        $assignedCatIds = [];
 
         foreach ($cats as $cat) {
             // If we have found the 'JNONE' category, remove all other from the result and break.
             if ($cat == '-1') {
-                $assignedCatIds = array('-1');
+                $assignedCatIds = ['-1'];
                 break;
             }
 
@@ -209,7 +204,7 @@ class FieldModel extends AdminModel
          * when the options of a subfields field are getting changed.
          */
         if (
-            $field && in_array($field->type, array('list', 'checkboxes', 'radio'), true)
+            $field && in_array($field->type, ['list', 'checkboxes', 'radio'], true)
             && isset($data['fieldparams']['options']) && isset($field->fieldparams['options'])
         ) {
             $oldParams = $this->getParams($field->fieldparams['options']);
@@ -251,7 +246,7 @@ class FieldModel extends AdminModel
      *
      * @since   3.7.0
      */
-    private function checkDefaultValue($data)
+    private function checkDefaultValue($data): bool|string
     {
         // Empty default values are correct
         if (empty($data['default_value']) && $data['default_value'] !== '0') {
@@ -276,7 +271,7 @@ class FieldModel extends AdminModel
         // Create the fields object
         $obj              = (object) $data;
         $obj->params      = new Registry($obj->params);
-        $obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : array());
+        $obj->fieldparams = new Registry(!empty($obj->fieldparams) ? $obj->fieldparams : []);
 
         // Prepare the dom
         $dom  = new \DOMDocument();
@@ -285,7 +280,7 @@ class FieldModel extends AdminModel
         // Trigger the event to create the field dom node
         $form = new Form($data['context']);
         $form->setDatabase($this->getDatabase());
-        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, $form));
+        Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', [$obj, $node, $form]);
 
         // Check if a node is created
         if (!$node->firstChild) {
@@ -335,7 +330,7 @@ class FieldModel extends AdminModel
     private function getParams($params)
     {
         if (is_string($params)) {
-            $params = json_decode($params);
+            $params = json_decode($params, null, 512, JSON_THROW_ON_ERROR);
         }
 
         if (is_array($params)) {
@@ -383,7 +378,7 @@ class FieldModel extends AdminModel
                 ->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 
             $db->setQuery($query);
-            $result->assigned_cat_ids = $db->loadColumn() ?: array(0);
+            $result->assigned_cat_ids = $db->loadColumn() ?: [0];
         }
 
         return $result;
@@ -401,7 +396,7 @@ class FieldModel extends AdminModel
      * @since   3.7.0
      * @throws  \Exception
      */
-    public function getTable($name = 'Field', $prefix = 'Administrator', $options = array())
+    public function getTable($name = 'Field', $prefix = 'Administrator', $options = [])
     {
         // Default to text type
         $table       = parent::getTable($name, $prefix, $options);
@@ -426,15 +421,12 @@ class FieldModel extends AdminModel
         // Alter the title & name
         $table = $this->getTable();
 
-        while ($table->load(array('name' => $name))) {
+        while ($table->load(['name' => $name])) {
             $title = StringHelper::increment($title);
             $name = StringHelper::increment($name, 'dash');
         }
 
-        return array(
-            $title,
-            $name,
-        );
+        return [$title, $name];
     }
 
     /**
@@ -487,7 +479,7 @@ class FieldModel extends AdminModel
      *
      * @since   3.7.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true): Form|bool
     {
         $context = $this->getState('field.context');
         $jinput  = Factory::getApplication()->input;
@@ -517,10 +509,7 @@ class FieldModel extends AdminModel
         $form = $this->loadForm(
             'com_fields.field.' . $context,
             'field',
-            array(
-                'control'   => 'jform',
-                'load_data' => true,
-            )
+            ['control'   => 'jform', 'load_data' => true]
         );
 
         if (empty($form)) {
@@ -647,10 +636,10 @@ class FieldModel extends AdminModel
             $updateObj->item_id  = $itemId;
             $updateObj->value    = reset($value);
 
-            $this->getDatabase()->updateObject('#__fields_values', $updateObj, array('field_id', 'item_id'));
+            $this->getDatabase()->updateObject('#__fields_values', $updateObj, ['field_id', 'item_id']);
         }
 
-        $this->valueCache = array();
+        $this->valueCache = [];
         FieldsHelper::clearFieldsCache();
 
         return true;
@@ -668,7 +657,7 @@ class FieldModel extends AdminModel
      */
     public function getFieldValue($fieldId, $itemId)
     {
-        $values = $this->getFieldValues(array($fieldId), $itemId);
+        $values = $this->getFieldValues([$fieldId], $itemId);
 
         if (array_key_exists($fieldId, $values)) {
             return $values[$fieldId];
@@ -690,7 +679,7 @@ class FieldModel extends AdminModel
     public function getFieldValues(array $fieldIds, $itemId)
     {
         if (!$fieldIds) {
-            return array();
+            return [];
         }
 
         // Create a unique key for the cache
@@ -710,7 +699,7 @@ class FieldModel extends AdminModel
             // Fetch the row from the database
             $rows = $this->getDatabase()->setQuery($query)->loadObjectList();
 
-            $data = array();
+            $data = [];
 
             // Fill the data container from the database rows
             foreach ($rows as $row) {
@@ -718,7 +707,7 @@ class FieldModel extends AdminModel
                 if (array_key_exists($row->field_id, $data)) {
                     // Transform it to an array
                     if (!is_array($data[$row->field_id])) {
-                        $data[$row->field_id] = array($data[$row->field_id]);
+                        $data[$row->field_id] = [$data[$row->field_id]];
                     }
 
                     // Set the value in the array
@@ -835,7 +824,7 @@ class FieldModel extends AdminModel
         $this->setState('field.component', $parts[0]);
 
         // Extract the optional section name
-        $this->setState('field.section', (count($parts) > 1) ? $parts[1] : null);
+        $this->setState('field.section', (count((array) $parts) > 1) ? $parts[1] : null);
 
         // Load the parameters.
         $params = ComponentHelper::getParams('com_fields');
@@ -871,7 +860,7 @@ class FieldModel extends AdminModel
     {
         // Check the session for previously entered form data.
         $app  = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.field.data', array());
+        $data = $app->getUserState('com_fields.edit.field.data', []);
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -918,7 +907,7 @@ class FieldModel extends AdminModel
      * @see     JFilterInput
      * @since   3.9.23
      */
-    public function validate($form, $data, $group = null)
+    public function validate($form, $data, $group = null): array|bool
     {
         if (!Factory::getUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
@@ -963,13 +952,13 @@ class FieldModel extends AdminModel
             }
 
             // Allow to override the default value label and description through the plugin
-            $key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_LABEL';
+            $key = 'PLG_FIELDS_' . strtoupper((string) $dataObject->type) . '_DEFAULT_VALUE_LABEL';
 
             if (Factory::getLanguage()->hasKey($key)) {
                 $form->setFieldAttribute('default_value', 'label', $key);
             }
 
-            $key = 'PLG_FIELDS_' . strtoupper($dataObject->type) . '_DEFAULT_VALUE_DESC';
+            $key = 'PLG_FIELDS_' . strtoupper((string) $dataObject->type) . '_DEFAULT_VALUE_DESC';
 
             if (Factory::getLanguage()->hasKey($key)) {
                 $form->setFieldAttribute('default_value', 'description', $key);
@@ -997,11 +986,11 @@ class FieldModel extends AdminModel
                 // Try to get the categories for this component and section
                 try {
                     $cat = $componentObject->getCategory([], $section ?: '');
-                } catch (SectionNotFoundException $e) {
+                } catch (SectionNotFoundException) {
                     // Not found for component and section -> Now try once more without the section, so only component
                     try {
                         $cat = $componentObject->getCategory();
-                    } catch (SectionNotFoundException $e) {
+                    } catch (SectionNotFoundException) {
                         // If we haven't found it now, return (no categories available for this component)
                         return null;
                     }
@@ -1087,12 +1076,12 @@ class FieldModel extends AdminModel
      *
      * @since   3.7.0
      */
-    protected function batchCopy($value, $pks, $contexts)
+    protected function batchCopy($value, $pks, $contexts): array|bool
     {
         // Set the variables
         $user      = Factory::getUser();
         $table     = $this->getTable();
-        $newIds    = array();
+        $newIds    = [];
         $component = $this->state->get('filter.component');
         $value     = (int) $value;
 
@@ -1149,7 +1138,7 @@ class FieldModel extends AdminModel
         // Set the variables
         $user      = Factory::getUser();
         $table     = $this->getTable();
-        $context   = explode('.', Factory::getApplication()->getUserState('com_fields.fields.context'));
+        $context   = explode('.', (string) Factory::getApplication()->getUserState('com_fields.fields.context'));
         $value     = (int) $value;
 
         foreach ($pks as $pk) {

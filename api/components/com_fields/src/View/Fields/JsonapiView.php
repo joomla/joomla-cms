@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Fields\Api\View\Fields;
 
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 
@@ -106,7 +107,7 @@ class JsonapiView extends BaseApiView
     public function displayItem($item = null)
     {
         if ($item === null) {
-            /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+            /** @var AdminModel $model */
             $model = $this->getModel();
             $item  = $this->prepareItem($model->getItem());
         }

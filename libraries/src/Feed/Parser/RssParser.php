@@ -226,7 +226,7 @@ class RssParser extends FeedParser
     protected function handleSkipDays(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $days = array();
+        $days = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->day as $day) {
@@ -249,7 +249,7 @@ class RssParser extends FeedParser
     protected function handleSkipHours(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $hours = array();
+        $hours = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->hour as $hour) {
@@ -325,7 +325,7 @@ class RssParser extends FeedParser
 
         if (isset($tmp[1])) {
             $name = trim(
-                $this->inputFilter->clean($tmp[1], 'html'),
+                (string) $this->inputFilter->clean($tmp[1], 'html'),
                 ' ()'
             );
         }
@@ -425,7 +425,7 @@ class RssParser extends FeedParser
 
         if (isset($data[1])) {
             $person->name = trim(
-                $this->inputFilter->clean($data[1], 'html'),
+                (string) $this->inputFilter->clean($data[1], 'html'),
                 ' ()'
             );
         }

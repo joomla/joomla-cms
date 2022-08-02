@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Style;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -31,7 +32,7 @@ class JsonView extends BaseHtmlView
     /**
      * The form object
      *
-     * @var  \Joomla\CMS\Form\Form
+     * @var Form
      */
     protected $form;
 
@@ -66,7 +67,7 @@ class JsonView extends BaseHtmlView
 
         unset($paramsList['xml']);
 
-        $paramsList = json_encode($paramsList);
+        $paramsList = json_encode($paramsList, JSON_THROW_ON_ERROR);
 
         return $paramsList;
     }

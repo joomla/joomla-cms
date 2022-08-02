@@ -124,6 +124,7 @@ class HelpModel extends BaseDatabaseModel
      */
     public function &getToc()
     {
+        $lang_tag = null;
         if (!\is_null($this->toc)) {
             return $this->toc;
         }
@@ -134,7 +135,7 @@ class HelpModel extends BaseDatabaseModel
 
         // New style - Check for a TOC \JSON file
         if (file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json')) {
-            $data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
+            $data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'), null, 512, JSON_THROW_ON_ERROR);
 
             // Loop through the data array
             foreach ($data as $key => $value) {
@@ -149,7 +150,7 @@ class HelpModel extends BaseDatabaseModel
 
         // Get Help files
         $files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-        $this->toc = array();
+        $this->toc = [];
 
         foreach ($files as $file) {
             $buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
@@ -158,7 +159,7 @@ class HelpModel extends BaseDatabaseModel
                 continue;
             }
 
-            $title = trim($m[1]);
+            $title = trim((string) $m[1]);
 
             if (!$title) {
                 continue;

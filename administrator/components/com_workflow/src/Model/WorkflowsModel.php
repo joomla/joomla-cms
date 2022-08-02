@@ -11,6 +11,8 @@
 
 namespace Joomla\Component\Workflow\Administrator\Model;
 
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
@@ -30,19 +32,10 @@ class WorkflowsModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'w.id',
-                'title', 'w.title',
-                'published', 'w.published',
-                'created_by', 'w.created_by',
-                'created', 'w.created',
-                'ordering', 'w.ordering',
-                'modified', 'w.modified',
-                'description', 'w.description'
-            );
+            $config['filter_fields'] = ['id', 'w.id', 'title', 'w.title', 'published', 'w.published', 'created_by', 'w.created_by', 'created', 'w.created', 'ordering', 'w.ordering', 'modified', 'w.modified', 'description', 'w.description'];
         }
 
         parent::__construct($config);
@@ -70,7 +63,7 @@ class WorkflowsModel extends ListModel
         $extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
         $this->setState('filter.extension', $extension);
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         // Extract the component name
         $this->setState('filter.component', $parts[0]);
@@ -88,11 +81,11 @@ class WorkflowsModel extends ListModel
      * @param   string  $prefix  The class prefix. Optional.
      * @param   array   $config  Configuration array for model. Optional.
      *
-     * @return  \Joomla\CMS\Table\Table  A Table object
+     * @return Table A Table object
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -121,11 +114,11 @@ class WorkflowsModel extends ListModel
      * @param   array    $data      data
      * @param   boolean  $loadData  load current data
      *
-     * @return  \Joomla\CMS\Form\Form|bool the Form object or false
+     * @return Form|bool the Form object or false
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true): Form|bool
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -253,14 +246,14 @@ class WorkflowsModel extends ListModel
         $search = $this->getState('filter.search');
 
         if (!empty($search)) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->where('(' . $db->quoteName('w.title') . ' LIKE :search1 OR ' . $db->quoteName('w.description') . ' LIKE :search2)')
                 ->bind([':search1', ':search2'], $search);
         }
 
         // Add the list ordering clause.
         $orderCol  = $this->state->get('list.ordering', 'w.ordering');
-        $orderDirn = strtoupper($this->state->get('list.direction', 'ASC'));
+        $orderDirn = strtoupper((string) $this->state->get('list.direction', 'ASC'));
 
         $query->order($db->escape($orderCol) . ' ' . ($orderDirn === 'DESC' ? 'DESC' : 'ASC'));
 

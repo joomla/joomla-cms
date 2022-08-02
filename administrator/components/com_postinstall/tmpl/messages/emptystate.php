@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-$adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'visually-hidden';
+$adminFormClass = (is_countable($this->extension_options) ? count($this->extension_options) : 0) > 1 ? 'form-inline mb-3' : 'visually-hidden';
 ?>
 
 <form action="index.php" method="post" name="adminForm" class="<?php echo $adminFormClass; ?>" id="adminForm">
@@ -22,7 +22,7 @@ $adminFormClass = count($this->extension_options) > 1 ? 'form-inline mb-3' : 'vi
     <input type="hidden" name="task" value="">
     <?php echo HTMLHelper::_('form.token'); ?>
     <label for="eid" class="me-sm-2"><?php echo Text::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-    <?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-select'), 'value', 'text', $this->eid, 'eid'); ?>
+    <?php echo HTMLHelper::_('select.genericlist', $this->extension_options, 'eid', ['onchange' => 'this.form.submit()', 'class' => 'form-select'], 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
 <?php

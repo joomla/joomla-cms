@@ -20,7 +20,7 @@ $class = $fieldParams->get('image_class');
 
 if ($class) {
     // space before, so if no class sprintf below works
-    $class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
+    $class = ' class="' . htmlentities((string) $class, ENT_COMPAT, 'UTF-8', true) . '"';
 }
 
 $value  = (array) $field->value;
@@ -31,7 +31,7 @@ foreach ($value as $path) {
         continue;
     }
 
-    $imageFilePath = htmlentities($path, ENT_COMPAT, 'UTF-8', true);
+    $imageFilePath = htmlentities((string) $path, ENT_COMPAT, 'UTF-8', true);
 
     if ($fieldParams->get('directory', '/') !== '/') {
         $imageInfo = Image::getImageFileProperties(JPATH_ROOT . '/images/' . $fieldParams->get('directory') . '/' . $imageFilePath);

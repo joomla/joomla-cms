@@ -30,7 +30,6 @@ class MenuFactory implements MenuFactoryInterface
      * @param   string  $client   The name of the client
      * @param   array   $options  An associative array of options
      *
-     * @return  AbstractMenu
      *
      * @since   4.0.0
      * @throws  \InvalidArgumentException

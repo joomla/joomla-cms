@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Config\Administrator\View\Component;
 
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Component\ComponentRecord;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -26,7 +29,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var    \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      * @since  3.2
      */
     public $state;
@@ -34,7 +37,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The form object
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      * @since  3.2
      */
     public $form;
@@ -42,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * An object with the information for the component
      *
-     * @var    \Joomla\CMS\Component\ComponentRecord
+     * @var ComponentRecord
      * @since  3.2
      */
     public $component;
@@ -126,7 +129,7 @@ class HtmlView extends BaseHtmlView
         // Try with legacy language key
         if (!$helpKey) {
             $language    = Factory::getApplication()->getLanguage();
-            $languageKey = 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+            $languageKey = 'JHELP_COMPONENTS_' . strtoupper((string) $this->currentComponent) . '_OPTIONS';
 
             if ($language->hasKey($languageKey)) {
                 $helpKey = $languageKey;

@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
@@ -120,7 +121,7 @@ class FeaturedModel extends ArticlesModel
             return parent::getItems();
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -145,7 +146,7 @@ class FeaturedModel extends ArticlesModel
     /**
      * Get the list of items.
      *
-     * @return  \Joomla\Database\DatabaseQuery
+     * @return DatabaseQuery
      */
     protected function getListQuery()
     {

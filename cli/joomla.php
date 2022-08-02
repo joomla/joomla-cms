@@ -1,5 +1,9 @@
 <?php
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
+use Joomla\Session\SessionInterface;
+use Joomla\Console\Application;
 /**
  * @package    Joomla.Cli
  *
@@ -56,7 +60,7 @@ if (
 require_once JPATH_BASE . '/includes/framework.php';
 
 // Boot the DI container
-$container = \Joomla\CMS\Factory::getContainer();
+$container = Factory::getContainer();
 
 /*
  * Alias the session service keys to the CLI session service as that is the primary session backend for this application
@@ -67,10 +71,10 @@ $container = \Joomla\CMS\Factory::getContainer();
  */
 $container->alias('session', 'session.cli')
     ->alias('JSession', 'session.cli')
-    ->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+    ->alias(Session::class, 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
-    ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+    ->alias(SessionInterface::class, 'session.cli');
 
-$app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
-\Joomla\CMS\Factory::$application = $app;
+$app = Factory::getContainer()->get(Application::class);
+Factory::$application = $app;
 $app->execute();

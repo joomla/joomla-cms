@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -44,7 +45,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The model state
      *
-     * @var  \Joomla\CMS\Object\CMSObject
+     * @var CMSObject
      */
     protected $state;
 
@@ -64,7 +65,7 @@ class HtmlView extends BaseHtmlView
         $this->pagination = $this->get('Pagination');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -76,7 +77,6 @@ class HtmlView extends BaseHtmlView
     /**
      * Add the page toolbar.
      *
-     * @return  Toolbar
      *
      * @since  4.0.0
      */
@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
         $token = Session::getFormToken();
 
         // Clean up input to ensure a clean url.
-        $aliasArray = explode('.', $this->state->item_id);
+        $aliasArray = explode('.', (string) $this->state->item_id);
         $option     = $aliasArray[1] == 'category'
             ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2))
             : $aliasArray[0];

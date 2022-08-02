@@ -51,7 +51,7 @@ if (!empty($feed) && is_string($feed)) {
         // Feed title
         if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
             <h2 class="<?php echo $direction; ?>">
-                <a href="<?php echo str_replace('&', '&amp;', $rssurl); ?>" target="_blank">
+                <a href="<?php echo str_replace('&', '&amp;', (string) $rssurl); ?>" target="_blank">
                 <?php echo $feed->title; ?></a>
             </h2>
         <?php endif;
@@ -80,17 +80,17 @@ if (!empty($feed) && is_string($feed)) {
                 if (!$feed->offsetExists($i)) :
                     break;
                 endif;
-                $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+                $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim((string) $feed[$i]->uri) : trim((string) $feed[$i]->guid);
                 $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
-                $text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+                $text = $feed[$i]->content !== '' ? trim((string) $feed[$i]->content) : '';
                 ?>
                 <li class="list-group-item mb-2">
                     <?php if (!empty($uri)) : ?>
                         <h5 class="feed-link">
                         <a href="<?php echo $uri; ?>" target="_blank">
-                        <?php echo trim($feed[$i]->title); ?></a></h5>
+                        <?php echo trim((string) $feed[$i]->title); ?></a></h5>
                     <?php else : ?>
-                        <h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
+                        <h5 class="feed-link"><?php echo trim((string) $feed[$i]->title); ?></h5>
                     <?php endif; ?>
 
                     <?php if ($params->get('rssitemdate', 0)) : ?>
@@ -105,7 +105,7 @@ if (!empty($feed) && is_string($feed)) {
                             // Strip the images.
                             $text = OutputFilter::stripImages($text);
                             $text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0), true, false);
-                            echo str_replace('&apos;', "'", $text);
+                            echo str_replace('&apos;', "'", (string) $text);
                         ?>
                         </div>
                     <?php endif; ?>
@@ -114,5 +114,5 @@ if (!empty($feed) && is_string($feed)) {
         </ul>
         <?php endif; ?>
     </div>
-    <?php endif;
+<?php endif;
 }

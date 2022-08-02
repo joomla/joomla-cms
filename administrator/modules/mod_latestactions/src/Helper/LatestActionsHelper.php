@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\LatestActions\Administrator\Helper;
 
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -35,7 +36,7 @@ abstract class LatestActionsHelper
      */
     public static function getList(&$params)
     {
-        /** @var \Joomla\Component\Actionlogs\Administrator\Model\ActionlogsModel $model */
+        /** @var ActionlogsModel $model */
         $model = Factory::getApplication()->bootComponent('com_actionlogs')->getMVCFactory()
             ->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 

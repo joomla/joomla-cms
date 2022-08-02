@@ -40,7 +40,7 @@ class SuggestionsController extends BaseController
         // Send the response.
         $app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
         $app->sendHeaders();
-        echo '{ "suggestions": ' . json_encode($suggestions) . ' }';
+        echo '{ "suggestions": ' . json_encode($suggestions, JSON_THROW_ON_ERROR) . ' }';
     }
 
     /**
@@ -54,7 +54,7 @@ class SuggestionsController extends BaseController
     {
         $app = $this->app;
         $app->mimeType = 'application/json';
-        $result = array();
+        $result = [];
         $result[] = $app->input->request->get('q', '', 'string');
 
         $result[] = $this->getSuggestions();
@@ -65,7 +65,7 @@ class SuggestionsController extends BaseController
         // Send the response.
         $app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
         $app->sendHeaders();
-        echo json_encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -77,7 +77,7 @@ class SuggestionsController extends BaseController
      */
     protected function getSuggestions()
     {
-        $return = array();
+        $return = [];
 
         $params = ComponentHelper::getParams('com_finder');
 
@@ -89,7 +89,7 @@ class SuggestionsController extends BaseController
 
         // Check the data.
         if (empty($return)) {
-            $return = array();
+            $return = [];
         }
 
         return $return;

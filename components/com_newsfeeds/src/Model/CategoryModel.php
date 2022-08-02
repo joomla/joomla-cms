@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Newsfeeds\Site\Model;
 
+use Joomla\Database\DatabaseQuery;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Component\ComponentHelper;
@@ -87,16 +88,10 @@ class CategoryModel extends ListModel
      * @see    \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id', 'a.id',
-                'name', 'a.name',
-                'numarticles', 'a.numarticles',
-                'link', 'a.link',
-                'ordering', 'a.ordering',
-            );
+            $config['filter_fields'] = ['id', 'a.id', 'name', 'a.name', 'numarticles', 'a.numarticles', 'link', 'a.link', 'ordering', 'a.ordering'];
         }
 
         parent::__construct($config, $factory);
@@ -143,7 +138,7 @@ class CategoryModel extends ListModel
     /**
      * Method to build an SQL query to load the list data.
      *
-     * @return  \Joomla\Database\DatabaseQuery    An SQL query
+     * @return DatabaseQuery An SQL query
      *
      * @since   1.6
      */
@@ -155,7 +150,7 @@ class CategoryModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
 
-        /** @var \Joomla\Database\DatabaseQuery $query */
+        /** @var DatabaseQuery $query */
         $query = $db->getQuery(true);
 
         // Select required fields from the categories.
@@ -262,7 +257,7 @@ class CategoryModel extends ListModel
 
         $listOrder = $app->input->get('filter_order_Dir', 'ASC');
 
-        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+        if (!in_array(strtoupper((string) $listOrder), ['ASC', 'DESC', ''])) {
             $listOrder = 'ASC';
         }
 
@@ -307,7 +302,7 @@ class CategoryModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options = [];
             $options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
             $categories = Categories::getInstance('Newsfeeds', $options);
             $this->_item = $categories->get($this->getState('category.id', 'root'));

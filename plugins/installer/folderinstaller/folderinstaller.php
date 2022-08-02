@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\Application\CMSApplication;
 /**
  * @package     Joomla.Plugin
  * @subpackage  Installer.folderInstaller
@@ -24,7 +25,7 @@ class PlgInstallerFolderInstaller extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -41,7 +42,7 @@ class PlgInstallerFolderInstaller extends CMSPlugin
         // Load language files
         $this->loadLanguage();
 
-        $tab            = array();
+        $tab            = [];
         $tab['name']    = 'folder';
         $tab['label']   = Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
 

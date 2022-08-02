@@ -1,4 +1,6 @@
 <?php
+use Joomla\Component\Cache\Administrator\View\Cache\HtmlView;
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cache
@@ -14,12 +16,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var \Joomla\Component\Cache\Administrator\View\Cache\HtmlView $this */
-
+/** @var HtmlView $this */
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
 	->useScript('table.columns')
@@ -91,7 +92,7 @@ $wa->useScript('keepalive')
 				<?php // Load the pagination. ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 
-				<?php endif; ?>
+<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo HTMLHelper::_('form.token'); ?>

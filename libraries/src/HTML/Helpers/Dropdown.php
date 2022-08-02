@@ -25,7 +25,7 @@ abstract class Dropdown
      * @var    array  Array containing information for loaded files
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * @var    string  HTML markup for the dropdown list
@@ -112,7 +112,7 @@ abstract class Dropdown
         $dropDownList .= '</ul></div>';
 
         static::$dropDownList = null;
-        static::$loaded[__CLASS__ . '::start'] = false;
+        static::$loaded[self::class . '::start'] = false;
 
         return $dropDownList;
     }

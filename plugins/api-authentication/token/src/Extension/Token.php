@@ -32,10 +32,9 @@ final class Token extends CMSPlugin
     /**
      * The prefix of the user profile keys, without the dot.
      *
-     * @var    string
      * @since  4.0.0
      */
-    private $profileKeyPrefix = 'joomlatoken';
+    private string $profileKeyPrefix = 'joomlatoken';
 
     /**
      * Allowed HMAC algorithms for the token
@@ -43,23 +42,7 @@ final class Token extends CMSPlugin
      * @var    string[]
      * @since  4.0.0
      */
-    private $allowedAlgos = ['sha256', 'sha512'];
-
-    /**
-     * The user factory
-     *
-     * @var    UserFactoryInterface
-     * @since  4.2.0
-     */
-    private $userFactory;
-
-    /**
-     * The input filter
-     *
-     * @var    InputFilter
-     * @since  4.2.0
-     */
-    private $filter;
+    private array $allowedAlgos = ['sha256', 'sha512'];
 
     /**
      * Constructor.
@@ -71,12 +54,9 @@ final class Token extends CMSPlugin
      *
      * @since   4.2.0
      */
-    public function __construct(DispatcherInterface $dispatcher, array $config, UserFactoryInterface $userFactory, InputFilter $filter)
+    public function __construct(DispatcherInterface $dispatcher, array $config, private readonly UserFactoryInterface $userFactory, private readonly InputFilter $filter)
     {
         parent::__construct($dispatcher, $config);
-
-        $this->userFactory = $userFactory;
-        $this->filter      = $filter;
     }
 
     /**
@@ -86,7 +66,6 @@ final class Token extends CMSPlugin
      * @param   array   $options      Array of extra options
      * @param   object  $response     Authentication response object
      *
-     * @return  void
      *
      * @since   4.0.0
      */
@@ -109,17 +88,17 @@ final class Token extends CMSPlugin
         // Apache specific fixes. See https://github.com/symfony/symfony/issues/19693
         if (
             empty($authHeader) && \PHP_SAPI === 'apache2handler'
-            && function_exists('apache_request_headers') && apache_request_headers() !== false
+            && function_exists('apache_request_headers') && getallheaders() !== false
         ) {
-            $apacheHeaders = array_change_key_case(apache_request_headers(), CASE_LOWER);
+            $apacheHeaders = array_change_key_case(getallheaders(), CASE_LOWER);
 
             if (array_key_exists('authorization', $apacheHeaders)) {
                 $authHeader = $this->filter->clean($apacheHeaders['authorization'], 'STRING');
             }
         }
 
-        if (substr($authHeader, 0, 7) == 'Bearer ') {
-            $parts       = explode(' ', $authHeader, 2);
+        if (substr((string) $authHeader, 0, 7) == 'Bearer ') {
+            $parts       = explode(' ', (string) $authHeader, 2);
             $tokenString = trim($parts[1]);
             $tokenString = $this->filter->clean($tokenString, 'BASE64');
         }
@@ -134,9 +113,9 @@ final class Token extends CMSPlugin
         }
 
         // The token is a base64 encoded string. Make sure we can decode it.
-        $authString = @base64_decode($tokenString);
+        $authString = @base64_decode((string) $tokenString);
 
-        if (empty($authString) || (strpos($authString, ':') === false)) {
+        if (empty($authString) || (!str_contains($authString, ':'))) {
             return;
         }
 
@@ -150,7 +129,7 @@ final class Token extends CMSPlugin
             return;
         }
 
-        list($algo, $userId, $tokenHMAC) = $parts;
+        [$algo, $userId, $tokenHMAC] = $parts;
 
         /**
          * Verify the HMAC algorithm requested in the token string is allowed
@@ -167,7 +146,7 @@ final class Token extends CMSPlugin
          */
         try {
             $siteSecret = $this->getApplication()->get('secret');
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return;
         }
 
@@ -179,7 +158,7 @@ final class Token extends CMSPlugin
         $referenceTokenData = $this->getTokenSeedForUser($userId);
         $referenceTokenData = empty($referenceTokenData) ? '' : $referenceTokenData;
         $referenceTokenData = base64_decode($referenceTokenData);
-        $referenceHMAC      = hash_hmac($algo, $referenceTokenData, $siteSecret);
+        $referenceHMAC      = hash_hmac($algo, $referenceTokenData, (string) $siteSecret);
 
         // Is the token enabled?
         $enabled = $this->isTokenEnabledForUser($userId);
@@ -266,7 +245,7 @@ final class Token extends CMSPlugin
             $query->bind(':userId', $userId, ParameterType::INTEGER);
 
             return $db->setQuery($query)->loadResult();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -277,7 +256,6 @@ final class Token extends CMSPlugin
      *
      * @param   int  $userId  The User ID to check whether the token is enabled on their account.
      *
-     * @return  boolean
      * @since   4.0.0
      */
     private function isTokenEnabledForUser(int $userId): bool
@@ -297,7 +275,7 @@ final class Token extends CMSPlugin
             $value = $db->setQuery($query)->loadResult();
 
             return $value == 1;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

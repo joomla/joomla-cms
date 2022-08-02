@@ -10,6 +10,8 @@
 
 namespace Joomla\Module\Feed\Administrator\Helper;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
 
@@ -23,13 +25,13 @@ class FeedHelper
     /**
      * Method to load a feed.
      *
-     * @param   \Joomla\Registry\Registry  $params  The parameters object.
+     * @param Registry $params The parameters object.
      *
-     * @return  \Joomla\CMS\Feed\Feed|string  Return a JFeedReader object or a string message if error.
+     * @return Feed|string Return a JFeedReader object or a string message if error.
      *
      * @since   1.5
      */
-    public static function getFeed($params)
+    public static function getFeed($params): Feed|string
     {
         // Module params
         $rssurl = $params->get('rssurl', '');
@@ -38,7 +40,7 @@ class FeedHelper
         try {
             $feed   = new FeedFactory();
             $rssDoc = $feed->getFeed($rssurl);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
         }
 

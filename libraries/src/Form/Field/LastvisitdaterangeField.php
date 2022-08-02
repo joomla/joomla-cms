@@ -38,15 +38,6 @@ class LastvisitdaterangeField extends PredefinedlistField
         $lang->load('com_users', JPATH_ADMINISTRATOR);
 
         // Set the pre-defined options
-        $this->predefinedOptions = array(
-            'today'       => 'COM_USERS_OPTION_RANGE_TODAY',
-            'past_week'   => 'COM_USERS_OPTION_RANGE_PAST_WEEK',
-            'past_1month' => 'COM_USERS_OPTION_RANGE_PAST_1MONTH',
-            'past_3month' => 'COM_USERS_OPTION_RANGE_PAST_3MONTH',
-            'past_6month' => 'COM_USERS_OPTION_RANGE_PAST_6MONTH',
-            'past_year'   => 'COM_USERS_OPTION_RANGE_PAST_YEAR',
-            'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR',
-            'never'       => 'COM_USERS_OPTION_RANGE_NEVER',
-        );
+        $this->predefinedOptions = ['today'       => 'COM_USERS_OPTION_RANGE_TODAY', 'past_week'   => 'COM_USERS_OPTION_RANGE_PAST_WEEK', 'past_1month' => 'COM_USERS_OPTION_RANGE_PAST_1MONTH', 'past_3month' => 'COM_USERS_OPTION_RANGE_PAST_3MONTH', 'past_6month' => 'COM_USERS_OPTION_RANGE_PAST_6MONTH', 'past_year'   => 'COM_USERS_OPTION_RANGE_PAST_YEAR', 'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR', 'never'       => 'COM_USERS_OPTION_RANGE_NEVER'];
     }
 }

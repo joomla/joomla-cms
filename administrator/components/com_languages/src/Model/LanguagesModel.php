@@ -32,21 +32,10 @@ class LanguagesModel extends ListModel
      * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
      * @since   3.2
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'lang_id', 'a.lang_id',
-                'lang_code', 'a.lang_code',
-                'title', 'a.title',
-                'title_native', 'a.title_native',
-                'sef', 'a.sef',
-                'image', 'a.image',
-                'published', 'a.published',
-                'ordering', 'a.ordering',
-                'access', 'a.access', 'access_level',
-                'home', 'l.home',
-            );
+            $config['filter_fields'] = ['lang_id', 'a.lang_id', 'lang_code', 'a.lang_code', 'title', 'a.title', 'title_native', 'a.title_native', 'sef', 'a.sef', 'image', 'a.image', 'published', 'a.published', 'ordering', 'a.ordering', 'access', 'a.access', 'access_level', 'home', 'l.home'];
         }
 
         parent::__construct($config, $factory);
@@ -147,7 +136,7 @@ class LanguagesModel extends ListModel
 
         // Filter by search in title.
         if ($search = $this->getState('filter.search')) {
-            $search = '%' . str_replace(' ', '%', trim($search)) . '%';
+            $search = '%' . str_replace(' ', '%', trim((string) $search)) . '%';
             $query->where($db->quoteName('a.title') . ' LIKE :search')
                 ->bind(':search', $search);
         }

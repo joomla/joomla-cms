@@ -1,5 +1,6 @@
 <?php
 
+use _generated\AcceptanceTesterActions;
 /**
  * @package     Joomla.Tests
  * @subpackage  AcceptanceTester
@@ -35,7 +36,7 @@ use Codeception\Lib\Friend;
  */
 class AcceptanceTester extends Actor
 {
-    use _generated\AcceptanceTesterActions;
+    use AcceptanceTesterActions;
 
     /**
      * Function to check for PHP Notices or Warnings.
@@ -74,7 +75,7 @@ class AcceptanceTester extends Actor
      *
      * @return  void
      */
-    public function waitForJsOnPageLoad($timeout = 1)
+    public function waitForJsOnPageLoad(int|float $timeout = 1)
     {
         $I = $this;
 

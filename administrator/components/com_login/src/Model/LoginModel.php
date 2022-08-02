@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Login\Administrator\Model;
 
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -37,17 +38,13 @@ class LoginModel extends BaseDatabaseModel
     {
         $input = Factory::getApplication()->input->getInputForRequestMethod();
 
-        $credentials = array(
-            'username'  => $input->get('username', '', 'USERNAME'),
-            'password'  => $input->get('passwd', '', 'RAW'),
-            'secretkey' => $input->get('secretkey', '', 'RAW'),
-        );
+        $credentials = ['username'  => $input->get('username', '', 'USERNAME'), 'password'  => $input->get('passwd', '', 'RAW'), 'secretkey' => $input->get('secretkey', '', 'RAW')];
 
         $this->setState('credentials', $credentials);
 
         // Check for return URL from the request first.
         if ($return = $input->get('return', '', 'BASE64')) {
-            $return = base64_decode($return);
+            $return = base64_decode((string) $return);
 
             if (!Uri::isInternal($return)) {
                 $return = '';
@@ -130,7 +127,7 @@ class LoginModel extends BaseDatabaseModel
         $lang     = Factory::getLanguage()->getTag();
         $clientId = (int) $app->getClientId();
 
-        /** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
+        /** @var CallbackController $cache */
         $cache = Factory::getCache('com_modules', 'callback');
 
         $loader = function () use ($app, $lang, $module) {
@@ -175,8 +172,8 @@ class LoginModel extends BaseDatabaseModel
         };
 
         try {
-            return $clean = $cache->get($loader, array(), md5(serialize(array($clientId, $lang))));
-        } catch (CacheExceptionInterface $cacheException) {
+            return $clean = $cache->get($loader, [], md5(serialize([$clientId, $lang])));
+        } catch (CacheExceptionInterface) {
             try {
                 return $loader();
             } catch (ExecutionFailureException $databaseException) {
@@ -185,12 +182,12 @@ class LoginModel extends BaseDatabaseModel
                     'error'
                 );
 
-                return array();
+                return [];
             }
         } catch (ExecutionFailureException $databaseException) {
             Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
 
-            return array();
+            return [];
         }
     }
 }

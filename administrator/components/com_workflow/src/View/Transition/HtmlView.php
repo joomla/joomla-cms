@@ -10,6 +10,9 @@
 
 namespace Joomla\Component\Workflow\Administrator\View\Transition;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -35,7 +38,7 @@ class HtmlView extends BaseHtmlView
     /**
      * Form object to generate fields
      *
-     * @var    \Joomla\CMS\Form\Form
+     * @var Form
      *
      * @since  4.0.0
      */
@@ -52,7 +55,7 @@ class HtmlView extends BaseHtmlView
     /**
      * That is object of Application
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
+     * @var CMSApplication
      * @since  4.0.0
      */
     protected $app;
@@ -60,7 +63,7 @@ class HtmlView extends BaseHtmlView
     /**
      * The application input object.
      *
-     * @var    \Joomla\CMS\Input\Input
+     * @var Input
      * @since  4.0.0
      */
     protected $input;
@@ -109,13 +112,13 @@ class HtmlView extends BaseHtmlView
         $this->item       = $this->get('Item');
 
         // Check for errors.
-        if (count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
         $extension = $this->state->get('filter.extension');
 
-        $parts = explode('.', $extension);
+        $parts = explode('.', (string) $extension);
 
         $this->extension = array_shift($parts);
 

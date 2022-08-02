@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 $textPrefix = $displayData['textPrefix'] ?? '';
 
 if (!$textPrefix) {
-    $textPrefix = strtoupper(Factory::getApplication()->input->get('option'));
+    $textPrefix = strtoupper((string) Factory::getApplication()->input->get('option'));
 }
 
 $formURL    = $displayData['formURL'] ?? '';

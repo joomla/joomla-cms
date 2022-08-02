@@ -33,7 +33,7 @@ class FeedView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app    = Factory::getApplication();
-        $ids    = (array) $app->input->get('id', array(), 'int');
+        $ids    = (array) $app->input->get('id', [], 'int');
         $i      = 0;
         $tagIds = '';
 
@@ -70,12 +70,12 @@ class FeedView extends BaseHtmlView
             foreach ($items as $item) {
                 // Strip HTML from feed item title
                 $title = $this->escape($item->core_title);
-                $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+                $title = html_entity_decode((string) $title, ENT_COMPAT, 'UTF-8');
 
                 // Strip HTML from feed item description text
                 $description = $item->core_body;
                 $author      = $item->core_created_by_alias ?: $item->author;
-                $date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
+                $date        = ($item->displayDate ? date('r', strtotime((string) $item->displayDate)) : '');
 
                 // Load individual item creator class
                 $feeditem              = new FeedItem();

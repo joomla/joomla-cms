@@ -52,7 +52,7 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
-$class    = ' class="form-select ' . trim($class) . '"';
+$class    = ' class="form-select ' . trim((string) $class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
 

@@ -28,45 +28,26 @@ final class MetadataManager
     /**
      * Internal variable indicating a session record exists.
      *
-     * @var    integer
      * @since  4.0.0
      * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
      */
-    private static $sessionRecordExists = 1;
+    private static int $sessionRecordExists = 1;
 
     /**
      * Internal variable indicating a session record does not exist.
      *
-     * @var    integer
      * @since  4.0.0
      * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
      */
-    private static $sessionRecordDoesNotExist = 0;
+    private static int $sessionRecordDoesNotExist = 0;
 
     /**
      * Internal variable indicating an unknown session record statue.
      *
-     * @var    integer
      * @since  4.0.0
      * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
      */
-    private static $sessionRecordUnknown = -1;
-
-    /**
-     * Application object.
-     *
-     * @var    AbstractApplication
-     * @since  3.8.6
-     */
-    private $app;
-
-    /**
-     * Database driver.
-     *
-     * @var    DatabaseInterface
-     * @since  3.8.6
-     */
-    private $db;
+    private static int $sessionRecordUnknown = -1;
 
     /**
      * MetadataManager constructor.
@@ -76,10 +57,8 @@ final class MetadataManager
      *
      * @since   3.8.6
      */
-    public function __construct(AbstractApplication $app, DatabaseInterface $db)
+    public function __construct(private readonly AbstractApplication $app, private readonly DatabaseInterface $db)
     {
-        $this->app = $app;
-        $this->db  = $db;
     }
 
     /**
@@ -154,7 +133,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $exception) {
+        } catch (ExecutionFailureException) {
             // Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
         }
     }
@@ -181,7 +160,7 @@ final class MetadataManager
 
         try {
             $exists = $this->db->loadResult();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             return self::$sessionRecordUnknown;
         }
 
@@ -229,7 +208,7 @@ final class MetadataManager
         $sessionId   = $session->getId();
         $userIsGuest = $user->guest;
         $userId      = $user->id;
-        $username    = $user->username === null ? '' : $user->username;
+        $username    = $user->username ?? '';
 
         $query->bind(':session_id', $sessionId)
             ->bind(':guest', $userIsGuest, ParameterType::INTEGER)
@@ -254,7 +233,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // This failure isn't critical, we can go on without the metadata
         }
     }
@@ -286,7 +265,7 @@ final class MetadataManager
         $sessionId   = $session->getId();
         $userIsGuest = $user->guest;
         $userId      = $user->id;
-        $username    = $user->username === null ? '' : $user->username;
+        $username    = $user->username ?? '';
 
         $query->bind(':session_id', $sessionId)
             ->bind(':guest', $userIsGuest, ParameterType::INTEGER)
@@ -310,7 +289,7 @@ final class MetadataManager
 
         try {
             $this->db->execute();
-        } catch (ExecutionFailureException $e) {
+        } catch (ExecutionFailureException) {
             // This failure isn't critical, we can go on without the metadata
         }
     }

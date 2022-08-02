@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
+use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -46,7 +47,7 @@ class CategoryController extends FormController
      * @since  1.6
      * @throws \Exception
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, CMSApplication $app = null, Input $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -64,7 +65,7 @@ class CategoryController extends FormController
      *
      * @since   1.6
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         $user = $this->app->getIdentity();
 
@@ -81,7 +82,7 @@ class CategoryController extends FormController
      *
      * @since   1.6
      */
-    protected function allowEdit($data = array(), $key = 'parent_id')
+    protected function allowEdit($data = [], $key = 'parent_id')
     {
         $recordId = (int) isset($data[$key]) ? $data[$key] : 0;
         $user = $this->app->getIdentity();
@@ -164,7 +165,7 @@ class CategoryController extends FormController
     {
         $this->checkToken();
 
-        /** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
+        /** @var CategoryModel $model */
         $model = $this->getModel('Category');
 
         // Preset the redirect
@@ -219,14 +220,14 @@ class CategoryController extends FormController
     /**
      * Function that allows child controller access to model data after the data has been saved.
      *
-     * @param   \Joomla\CMS\MVC\Model\BaseDatabaseModel  $model      The data model object.
+     * @param BaseDatabaseModel $model The data model object.
      * @param   array                                    $validData  The validated data.
      *
      * @return  void
      *
      * @since   3.1
      */
-    protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $item = $model->getItem();
 

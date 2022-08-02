@@ -58,7 +58,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
                 </div>
             <?php endif; ?>
         </div>
-    <?php else : ?>
+<?php else : ?>
         <?php echo $button; ?>
     <?php endif; ?>
 <?php endif; ?>

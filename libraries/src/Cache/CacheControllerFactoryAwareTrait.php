@@ -29,13 +29,12 @@ trait CacheControllerFactoryAwareTrait
 	private $cacheControllerFactory;
 
 	/**
-	 * Get the CacheControllerFactoryInterface.
-	 *
-	 * @return  CacheControllerFactoryInterface
-	 *
-	 * @since   4.2.0
-	 */
-	protected function getCacheControllerFactory(): CacheControllerFactoryInterface
+  * Get the CacheControllerFactoryInterface.
+  *
+  *
+  * @since   4.2.0
+  */
+ protected function getCacheControllerFactory(): CacheControllerFactoryInterface
 	{
 		if ($this->cacheControllerFactory)
 		{
@@ -43,7 +42,7 @@ trait CacheControllerFactoryAwareTrait
 		}
 
 		@trigger_error(
-			sprintf('A cache controller is needed in %s. An UnexpectedValueException will be thrown in 5.0.', __CLASS__),
+			sprintf('A cache controller is needed in %s. An UnexpectedValueException will be thrown in 5.0.', self::class),
 			E_USER_DEPRECATED
 		);
 
@@ -51,15 +50,14 @@ trait CacheControllerFactoryAwareTrait
 	}
 
 	/**
-	 * Set the cache controller factory to use.
-	 *
-	 * @param   CacheControllerFactoryInterface  $cacheControllerFactory  The cache controller factory to use.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function setCacheControllerFactory(CacheControllerFactoryInterface $cacheControllerFactory = null): void
+  * Set the cache controller factory to use.
+  *
+  * @param   CacheControllerFactoryInterface  $cacheControllerFactory  The cache controller factory to use.
+  *
+  *
+  * @since   4.2.0
+  */
+ public function setCacheControllerFactory(CacheControllerFactoryInterface $cacheControllerFactory = null): void
 	{
 		$this->cacheControllerFactory = $cacheControllerFactory;
 	}

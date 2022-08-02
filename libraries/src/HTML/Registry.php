@@ -9,6 +9,39 @@
 
 namespace Joomla\CMS\HTML;
 
+use Joomla\CMS\HTML\Helpers\Access;
+use Joomla\CMS\HTML\Helpers\ActionsDropdown;
+use Joomla\CMS\HTML\Helpers\AdminLanguage;
+use Joomla\CMS\HTML\Helpers\Behavior;
+use Joomla\CMS\HTML\Helpers\Bootstrap;
+use Joomla\CMS\HTML\Helpers\Category;
+use Joomla\CMS\HTML\Helpers\Content;
+use Joomla\CMS\HTML\Helpers\ContentLanguage;
+use Joomla\CMS\HTML\Helpers\Date;
+use Joomla\CMS\HTML\Helpers\Debug;
+use Joomla\CMS\HTML\Helpers\DraggableList;
+use Joomla\CMS\HTML\Helpers\Dropdown;
+use Joomla\CMS\HTML\Helpers\Email;
+use Joomla\CMS\HTML\Helpers\Form;
+use Joomla\CMS\HTML\Helpers\FormBehavior;
+use Joomla\CMS\HTML\Helpers\Grid;
+use Joomla\CMS\HTML\Helpers\Icons;
+use Joomla\CMS\HTML\Helpers\JGrid;
+use Joomla\CMS\HTML\Helpers\Jquery;
+use Joomla\CMS\HTML\Helpers\Links;
+use Joomla\CMS\HTML\Helpers\ListHelper;
+use Joomla\CMS\HTML\Helpers\Menu;
+use Joomla\CMS\HTML\Helpers\Number;
+use Joomla\CMS\HTML\Helpers\SearchTools;
+use Joomla\CMS\HTML\Helpers\Select;
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\HTML\Helpers\SortableList;
+use Joomla\CMS\HTML\Helpers\StringHelper;
+use Joomla\CMS\HTML\Helpers\Tag;
+use Joomla\CMS\HTML\Helpers\Telephone;
+use Joomla\CMS\HTML\Helpers\UiTab;
+use Joomla\CMS\HTML\Helpers\User;
+use Joomla\CMS\HTML\Helpers\WorkflowStage;
 /**
  * Service registry for JHtml services
  *
@@ -19,43 +52,42 @@ final class Registry
     /**
      * Mapping array of the core CMS JHtml helpers
      *
-     * @var    array
      * @since  4.0.0
      */
-    private $serviceMap = [
-        'access'          => Helpers\Access::class,
-        'actionsdropdown' => Helpers\ActionsDropdown::class,
-        'adminlanguage'   => Helpers\AdminLanguage::class,
-        'behavior'        => Helpers\Behavior::class,
-        'bootstrap'       => Helpers\Bootstrap::class,
-        'category'        => Helpers\Category::class,
-        'content'         => Helpers\Content::class,
-        'contentlanguage' => Helpers\ContentLanguage::class,
-        'date'            => Helpers\Date::class,
-        'debug'           => Helpers\Debug::class,
-        'draggablelist'   => Helpers\DraggableList::class,
-        'dropdown'        => Helpers\Dropdown::class,
-        'email'           => Helpers\Email::class,
-        'form'            => Helpers\Form::class,
-        'formbehavior'    => Helpers\FormBehavior::class,
-        'grid'            => Helpers\Grid::class,
-        'icons'           => Helpers\Icons::class,
-        'jgrid'           => Helpers\JGrid::class,
-        'jquery'          => Helpers\Jquery::class,
-        'links'           => Helpers\Links::class,
-        'list'            => Helpers\ListHelper::class,
-        'menu'            => Helpers\Menu::class,
-        'number'          => Helpers\Number::class,
-        'searchtools'     => Helpers\SearchTools::class,
-        'select'          => Helpers\Select::class,
-        'sidebar'         => Helpers\Sidebar::class,
-        'sortablelist'    => Helpers\SortableList::class,
-        'string'          => Helpers\StringHelper::class,
-        'tag'             => Helpers\Tag::class,
-        'tel'             => Helpers\Telephone::class,
-        'uitab'           => Helpers\UiTab::class,
-        'user'            => Helpers\User::class,
-        'workflowstage'   => Helpers\WorkflowStage::class,
+    private array $serviceMap = [
+        'access'          => Access::class,
+        'actionsdropdown' => ActionsDropdown::class,
+        'adminlanguage'   => AdminLanguage::class,
+        'behavior'        => Behavior::class,
+        'bootstrap'       => Bootstrap::class,
+        'category'        => Category::class,
+        'content'         => Content::class,
+        'contentlanguage' => ContentLanguage::class,
+        'date'            => Date::class,
+        'debug'           => Debug::class,
+        'draggablelist'   => DraggableList::class,
+        'dropdown'        => Dropdown::class,
+        'email'           => Email::class,
+        'form'            => Form::class,
+        'formbehavior'    => FormBehavior::class,
+        'grid'            => Grid::class,
+        'icons'           => Icons::class,
+        'jgrid'           => JGrid::class,
+        'jquery'          => Jquery::class,
+        'links'           => Links::class,
+        'list'            => ListHelper::class,
+        'menu'            => Menu::class,
+        'number'          => Number::class,
+        'searchtools'     => SearchTools::class,
+        'select'          => Select::class,
+        'sidebar'         => Sidebar::class,
+        'sortablelist'    => SortableList::class,
+        'string'          => StringHelper::class,
+        'tag'             => Tag::class,
+        'tel'             => Telephone::class,
+        'uitab'           => UiTab::class,
+        'user'            => User::class,
+        'workflowstage'   => WorkflowStage::class,
     ];
 
     /**
@@ -63,11 +95,10 @@ final class Registry
      *
      * @param   string  $key  The service key to look up
      *
-     * @return  string|object
      *
      * @since   4.0.0
      */
-    public function getService(string $key)
+    public function getService(string $key): string|object
     {
         if (!$this->hasService($key)) {
             throw new \InvalidArgumentException("The '$key' service key is not registered.");
@@ -81,7 +112,6 @@ final class Registry
      *
      * @param   string  $key  The service key to look up
      *
-     * @return  boolean
      *
      * @since   4.0.0
      */

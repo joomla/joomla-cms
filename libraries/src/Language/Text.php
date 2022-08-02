@@ -25,7 +25,7 @@ class Text
      * @var    array
      * @since  1.7.0
      */
-    protected static $strings = array();
+    protected static $strings = [];
 
     /**
      * Translates a string into the current language.
@@ -88,7 +88,7 @@ class Text
     private static function passSprintf(&$string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
     {
         // Check if string contains a comma
-        if (empty($string) || strpos($string, ',') === false) {
+        if (empty($string) || !str_contains($string, ',')) {
             return false;
         }
 
@@ -183,6 +183,7 @@ class Text
      */
     public static function plural($string, $n)
     {
+        $key = null;
         $lang = Factory::getLanguage();
         $args = \func_get_args();
         $count = \count($args);
@@ -328,7 +329,7 @@ class Text
                     'As of 3.7.0, passing a null value for the first argument of %1$s() is deprecated and will not be supported in 4.0.'
                     . ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
                     __METHOD__,
-                    __CLASS__
+                    self::class
                 ),
                 E_USER_DEPRECATED
             );

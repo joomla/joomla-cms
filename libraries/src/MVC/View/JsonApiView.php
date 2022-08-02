@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\Event\OnGetApiFields;
@@ -108,7 +110,7 @@ abstract class JsonApiView extends JsonView
      */
     public function displayList(array $items = null)
     {
-        /** @var \Joomla\CMS\MVC\Model\ListModel $model */
+        /** @var ListModel $model */
         $model = $this->getModel();
 
         // Get page query
@@ -127,7 +129,7 @@ abstract class JsonApiView extends JsonView
         $pagination = $model->getPagination();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -206,7 +208,7 @@ abstract class JsonApiView extends JsonView
     public function displayItem($item = null)
     {
         if ($item === null) {
-            /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+            /** @var AdminModel $model */
             $model = $this->getModel();
             $item  = $this->prepareItem($model->getItem());
         }
@@ -216,7 +218,7 @@ abstract class JsonApiView extends JsonView
         }
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors'))) {
+        if (is_countable($errors = $this->get('Errors')) ? \count($errors = $this->get('Errors')) : 0) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
@@ -273,6 +275,6 @@ abstract class JsonApiView extends JsonView
      */
     protected function queryEncode($query)
     {
-        return str_replace(array('[', ']'), array('%5B', '%5D'), $query);
+        return str_replace(['[', ']'], ['%5B', '%5D'], $query);
     }
 }

@@ -32,7 +32,6 @@ class VersionTest extends UnitTestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      *
-     * @return  void
      *
      * @since   3.0
      */
@@ -44,7 +43,6 @@ class VersionTest extends UnitTestCase
     /**
      * Overrides the parent tearDown method.
      *
-     * @return  void
      *
      * @see     \PHPUnit\Framework\TestCase::tearDown()
      * @since   3.6

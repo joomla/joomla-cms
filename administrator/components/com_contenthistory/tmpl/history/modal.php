@@ -1,5 +1,6 @@
 <?php
 
+use Joomla\CMS\WebAsset\WebAssetManager;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
@@ -24,7 +25,7 @@ Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION', true);
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS', true);
 Text::script('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+/** @var WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect')
     ->useScript('com_contenthistory.admin-history-modal');
@@ -77,7 +78,7 @@ $wa->useScript('multiselect')
                         <?php endif; ?>
                     </th>
                     <td class="d-none d-md-table-cell">
-                        <?php echo htmlspecialchars($item->version_note); ?>
+                        <?php echo htmlspecialchars((string) $item->version_note); ?>
                     </td>
                     <td>
                         <?php if ($item->keep_forever) : ?>
@@ -92,7 +93,7 @@ $wa->useScript('multiselect')
                         <?php endif; ?>
                     </td>
                     <td class="d-none d-md-table-cell">
-                        <?php echo htmlspecialchars($item->editor); ?>
+                        <?php echo htmlspecialchars((string) $item->editor); ?>
                     </td>
                     <td class="text-end">
                         <?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>

@@ -22,23 +22,14 @@ use Composer\Autoload\ClassLoader as ComposerClassLoader;
 class ClassLoader
 {
     /**
-     * The Composer class loader
-     *
-     * @var    ComposerClassLoader
-     * @since  3.4
-     */
-    private $loader;
-
-    /**
      * Constructor
      *
      * @param   ComposerClassLoader  $loader  Composer autoloader
      *
      * @since   3.4
      */
-    public function __construct(ComposerClassLoader $loader)
+    public function __construct(private readonly ComposerClassLoader $loader)
     {
-        $this->loader = $loader;
     }
 
     /**
