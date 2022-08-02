@@ -71,7 +71,7 @@ $attributes = [
     $autofocus ? 'autofocus' : '',
     $dataAttribute,
     // Force LTR input value in RTL
-    Factory::getLanguage()->isRtl() ? ' dir="ltr"' : '',
+    Factory::getLanguage()->isRtl() ? 'dir="ltr"' : '',
 ];
 
 echo '<input ' . implode(' ', array_values(array_filter($attributes))) . '>';
