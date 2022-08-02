@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\String\PunycodeHelper;
 
 extract($displayData);
@@ -69,6 +70,8 @@ $attributes = [
     $required ? 'required' : '',
     $autofocus ? 'autofocus' : '',
     $dataAttribute,
+    // Force LTR input value in RTL
+    $dir = Factory::getLanguage()->isRtl() ? ' dir="ltr"' : '',
 ];
 
 echo '<input ' . implode(' ', array_values(array_filter($attributes))) . '>';
