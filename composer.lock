@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e9d786f7742e0c0bb2c61de5cf378dc",
+    "content-hash": "6ed829abd006f176c9f37baddbed5c9e",
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
@@ -2231,23 +2231,23 @@
         },
         {
             "name": "pear/cache_lite",
-            "version": "v1.7.16",
+            "version": "v1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/Cache_Lite.git",
-                "reference": "9fa08bd625f86946d41a6e7ff66f6f4ea5c0f0bb"
+                "reference": "7f233171405f1e5990a31e97b80317de03f814db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/9fa08bd625f86946d41a6e7ff66f6f4ea5c0f0bb",
-                "reference": "9fa08bd625f86946d41a6e7ff66f6f4ea5c0f0bb",
+                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/7f233171405f1e5990a31e97b80317de03f814db",
+                "reference": "7f233171405f1e5990a31e97b80317de03f814db",
                 "shasum": ""
             },
             "require": {
                 "php": ">=4.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "^4"
             },
             "type": "library",
             "autoload": {
@@ -2260,7 +2260,7 @@
                 "./"
             ],
             "license": [
-                "LGPL"
+                "LGPL-2.1-or-later"
             ],
             "authors": [
                 {
@@ -2281,7 +2281,7 @@
                 "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Cache_Lite",
                 "source": "https://github.com/pear/Cache_Lite"
             },
-            "time": "2014-05-11T15:02:19+00:00"
+            "time": "2019-11-19T21:29:11+00:00"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -3848,5 +3848,5 @@
     "platform-overrides": {
         "php": "5.3.10"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
