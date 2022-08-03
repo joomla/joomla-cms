@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../../',
         'aliases' => array(),
-        'reference' => 'a637d32f7c99df4cbb09dbd51f372193226c26dc',
+        'reference' => 'f4a39fcfe82e68162a5b12f3537f8d2c673c93f7',
         'name' => 'joomla/joomla-cms',
         'dev' => false,
     ),
@@ -133,7 +133,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../../',
             'aliases' => array(),
-            'reference' => 'a637d32f7c99df4cbb09dbd51f372193226c26dc',
+            'reference' => 'f4a39fcfe82e68162a5b12f3537f8d2c673c93f7',
             'dev_requirement' => false,
         ),
         'joomla/ldap' => array(
@@ -211,12 +211,12 @@
             'dev_requirement' => false,
         ),
         'paragonie/sodium_compat' => array(
-            'pretty_version' => 'v1.17.0',
-            'version' => '1.17.0.0',
+            'pretty_version' => 'v1.17.1',
+            'version' => '1.17.1.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../paragonie/sodium_compat',
             'aliases' => array(),
-            'reference' => 'c59cac21abbcc0df06a3dd18076450ea4797b321',
+            'reference' => 'ac994053faac18d386328c91c7900f930acadf1e',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
