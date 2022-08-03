@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6eab9834a530f9e20bf969a83e04856d",
+    "content-hash": "adb4f9fb79066f455ba6d483adb51065",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -3652,16 +3652,16 @@
         },
         {
             "name": "symfony/ldap",
-            "version": "v5.4.5",
+            "version": "v5.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ldap.git",
-                "reference": "3e04755f31b9a81554d7721db1805dcf1705ef41"
+                "reference": "b9d1aee1dc20cd229ae5c4e274755b99309e1e81"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ldap/zipball/3e04755f31b9a81554d7721db1805dcf1705ef41",
-                "reference": "3e04755f31b9a81554d7721db1805dcf1705ef41",
+                "url": "https://api.github.com/repos/symfony/ldap/zipball/b9d1aee1dc20cd229ae5c4e274755b99309e1e81",
+                "reference": "b9d1aee1dc20cd229ae5c4e274755b99309e1e81",
                 "shasum": ""
             },
             "require": {
@@ -3707,7 +3707,7 @@
                 "ldap"
             ],
             "support": {
-                "source": "https://github.com/symfony/ldap/tree/v5.4.5"
+                "source": "https://github.com/symfony/ldap/tree/v5.4.11"
             },
             "funding": [
                 {
@@ -3723,7 +3723,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-11T14:36:02+00:00"
+            "time": "2022-06-27T16:58:25+00:00"
         },
         {
             "name": "symfony/options-resolver",
@@ -11241,5 +11241,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.0.0"
 }

@@ -71,6 +71,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                 'version'    => $this->params->get('use_ldapV3', '0') == '1' ? 3 : 2,
                 'referrals'  => (bool) $this->params->get('no_referrals', '0'),
                 'encryption' => $this->params->get('negotiate_tls', '0') == '1' ? 'tls' : 'none',
+                'debug'      => (bool) $this->params->get('ldap_debug', '0'),
             ]
         );
 
