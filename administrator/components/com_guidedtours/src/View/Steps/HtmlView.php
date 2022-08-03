@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
         $toolbar = Toolbar::getInstance('toolbar');
         $tour_id = $this->state->get('tour_id');
         $title = GuidedtoursHelper::getTourTitle($this->state->get('tour_id'))->title;
-        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_STEPS_LIST') . ' ' . $tour_id . ' : ' . $title);
+        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_STEPS_LIST') . ' : ' . $title);
         $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
         ToolbarHelper::link(
