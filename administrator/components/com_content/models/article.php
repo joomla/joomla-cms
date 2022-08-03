@@ -87,7 +87,8 @@ class ContentModelArticle extends JModelAdmin
 				$fieldsData['com_fields'][$field->name] = $field->rawvalue;
 			}
 		}
-
+		
+		JPluginHelper::importPlugin('content');
 		JEventDispatcher::getInstance()->trigger('onContentAfterSave', array('com_content.article', &$this->table, true, $fieldsData));
 	}
 
