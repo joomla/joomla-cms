@@ -163,8 +163,8 @@ class TourModel extends AdminModel
             }
         }
 
-        $form->setFieldAttribute('created', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
-        $form->setFieldAttribute('modified', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
+		$form->setFieldAttribute('created', 'default', Factory::getDate()->toSql());
+		$form->setFieldAttribute('modified', 'default', Factory::getDate()->toSql());
 
         return $form;
     }

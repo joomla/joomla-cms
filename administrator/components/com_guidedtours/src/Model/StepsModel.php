@@ -220,19 +220,4 @@ class StepsModel extends ListModel
 
         return $query;
     }
-
-    /**
-     * Method to get a list of guidedtours.
-     * Overridden to add a check for access levels.
-     *
-     * @return mixed  An array of data items on success, false on failure.
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function getItems()
-    {
-        $items = parent::getItems();
-
-        return $items;
-    }
 }
