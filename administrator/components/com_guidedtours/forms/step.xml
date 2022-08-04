@@ -6,9 +6,9 @@
 		type="text"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
-		/>
+	/>
 		
-		<field
+	<field
 		name="step-no"
 		type="hidden"
 		label="COM_GUIDEDTOURS_STEPID_LABEL"
