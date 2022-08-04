@@ -181,7 +181,7 @@ if ($saveOrder && !empty($this->items)) {
                     $user->authorise('core.create', 'com_banners')
                         && $user->authorise('core.edit', 'com_banners')
                         && $user->authorise('core.edit.state', 'com_banners')
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
