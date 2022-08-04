@@ -16,7 +16,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Methods supporting a list of article records.
+ * Methods supporting a list of steps records.
  *
  * @since __DEPLOY_VERSION__
  */

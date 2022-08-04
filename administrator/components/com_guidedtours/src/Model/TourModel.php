@@ -277,12 +277,12 @@ class TourModel extends AdminModel
     {
         $user = Factory::getUser();
 
-        // Check for existing article.
+        // Check for existing tour.
         if (!empty($record->id)) {
             return $user->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
         }
 
-        // Default to component settings if neither article nor category known.
+        // Default to component settings if neither tour nor category known.
         return parent::canEditState($record);
     }
 

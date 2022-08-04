@@ -103,7 +103,7 @@ class ToursModel extends ListModel
      *
      * @return  \JForm|false  the JForm object or false
      *
-     * @since   4.0.0
+     * @since  __DEPLOY_VERSION__
      */
     public function getFilterForm($data = [], $loadData = true)
     {

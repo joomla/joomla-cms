@@ -19,7 +19,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * View to edit an article.
+ * View to edit an tour.
  *
  * @since __DEPLOY_VERSION__
  */
