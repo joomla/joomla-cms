@@ -38,7 +38,7 @@ class StepsController extends AdminController
      *
      * @since __DEPLOY_VERSION__
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         $view   = $this->input->get('view', $this->defaultView);
         $layout = $this->input->get('layout', 'default');

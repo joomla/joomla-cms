@@ -28,7 +28,7 @@ class ToursModel extends ListModel
      * @see     JController
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
@@ -90,7 +90,7 @@ class ToursModel extends ListModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getTable($type = 'Tour', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Tour', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -104,7 +104,7 @@ class ToursModel extends ListModel
      *
      * @since   4.0.0
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 

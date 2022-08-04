@@ -132,7 +132,7 @@ class TourModel extends AdminModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
@@ -181,7 +181,7 @@ class TourModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_guidedtours.edit.tour.data',
-            array()
+            []
         );
 
         if (empty($data)) {

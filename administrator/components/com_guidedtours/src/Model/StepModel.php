@@ -249,7 +249,7 @@ class StepModel extends AdminModel
      * @since  __DEPLOY_VERSION__
      * @throws \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         $name = 'step';
         $prefix = 'Table';
@@ -322,7 +322,7 @@ class StepModel extends AdminModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
@@ -372,7 +372,7 @@ class StepModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_guidedtours.edit.step.data',
-            array()
+            []
         );
 
         if (empty($data)) {

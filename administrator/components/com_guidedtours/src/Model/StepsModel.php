@@ -29,7 +29,7 @@ class StepsModel extends ListModel
      * @since __DEPLOY_VERSION__
      * @see   \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
@@ -59,7 +59,7 @@ class StepsModel extends ListModel
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getTable($type = 'Step', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Step', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
