@@ -177,8 +177,9 @@ if ($saveOrder && !empty($this->items)) {
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form. ?>
-                    <?php if (
-                    $user->authorise('core.create', 'com_banners')
+                    <?php
+                    if (
+                        $user->authorise('core.create', 'com_banners')
                         && $user->authorise('core.edit', 'com_banners')
                         && $user->authorise('core.edit.state', 'com_banners')
                     ) : ?>
