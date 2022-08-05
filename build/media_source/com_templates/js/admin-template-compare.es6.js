@@ -28,7 +28,9 @@
 
     const compare = (original, changed) => {
       const display = changed.nextElementSibling;
+      let elm = '';
       let color = '';
+      let indicator = '';
       let pre = null;
       const diff = Diff.diffLines(original.innerHTML, changed.innerHTML);
       const fragment = document.createDocumentFragment();
@@ -37,18 +39,27 @@
 
       diff.forEach((part) => {
         if (part.added) {
+          elm = 'ins';
           color = '#a6f3a6';
+          indicator = '+';
         } else if (part.removed) {
+          elm = 'del';
           color = '#f8cbcb';
+          indicator = '-';
         } else {
+          elm = 'span';
           color = '';
+          indicator = '';
         }
-        pre = document.createElement('pre');
+
+        pre = document.createElement(elm);
         pre.style.backgroundColor = color;
         pre.className = 'diffview';
         pre.appendChild(document.createTextNode(decodeHtmlspecialChars(part.value)));
         fragment.appendChild(pre);
+        pre.insertAdjacentHTML('afterbegin', `<span class="indicator">${indicator}</span>`);
       });
+      display.appendChild(fragment);
 
       display.appendChild(fragment);
     };
