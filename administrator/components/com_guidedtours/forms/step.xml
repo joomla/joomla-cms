@@ -54,7 +54,6 @@
 		name="title"
 		type="text"
 		label="Step Title"
-		size="40"
 		required="true"
 	/>
 
@@ -73,7 +72,6 @@
 		label="JSTATUS"
 		default="1"
 		class="form-select-color-state"
-		size="1"
 		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -86,7 +84,6 @@
 		name="url"
 		type="url"
 		label="COM_GUIDEDTOURS_URL_LABEL"
-		size="40"
 		description="COM_GUIDEDTOURS_URL_DESC"
 	/>
 
@@ -115,7 +112,6 @@
 		label="JGLOBAL_CREATED_DATE"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		filter="user_utc"
 	/>
 

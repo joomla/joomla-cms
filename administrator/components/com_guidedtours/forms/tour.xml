@@ -20,7 +20,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		size="40"
 		required="true"
 	/>
 
@@ -39,7 +38,6 @@
 		label="JSTATUS"
 		default="1"
 		class="form-select-color-state"
-		size="1"
 		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -82,7 +80,6 @@
 		label="JGLOBAL_CREATED_DATE"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		filter="user_utc"
 	/>
 
@@ -100,7 +97,6 @@
 		class="readonly"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		filter="user_utc"
 	/>
 
@@ -116,7 +112,6 @@
 		name="url"
 		type="url"
 		label="COM_GUIDEDTOURS_URL_LABEL"
-		size="40"
 		description="COM_GUIDEDTOURS_URL_DESC"
 	/>
 	
@@ -135,9 +130,9 @@
 		name="overlay"
 		type="radio"
 		label="COM_GUIDEDTOURS_OVERLAY_LABEL"
+		description="COM_GUIDEDTOURS_OVERLAY_DESC"
 		layout="joomla.form.field.radio.switcher"
 		default="0"
-		description="COM_GUIDEDTOURS_OVERLAY_DESC"
 		>
 		<option value="0">JNO</option>
 		<option value="1">JYES</option>
