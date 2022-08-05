@@ -37,7 +37,6 @@ HTMLHelper::_('behavior.keepalive');
                 <?php echo $this->form->renderField('description'); ?>
                 <?php echo $this->form->renderField('extensions'); ?>
                 <?php echo $this->form->renderField('url'); ?>
-                <?php echo $this->form->renderField('overlay'); ?>
             </div>
 
             <div class="col-md-3">
