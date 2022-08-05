@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(
-            Text::_('Guided Tours - ' . ($isNew ? 'Add Step' : 'Edit Step'))
+            Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? 'Add Step' : 'Edit Step')
         );
 
         $toolbarButtons = [];
