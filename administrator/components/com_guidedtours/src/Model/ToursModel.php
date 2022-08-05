@@ -3,7 +3,7 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * 
+ *
  * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -185,7 +185,8 @@ class ToursModel extends ListModel
             $extensions = '%' . $extensions . '%';
             $all = '%*%';
             $query->where(
-                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' . $db->quoteName('a.extensions') . ' LIKE :extensions)'
+                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' .
+                $db->quoteName('a.extensions') . ' LIKE :extensions)'
             )
                 ->bind([':all'], $all)
                 ->bind([':extensions'], $extensions);

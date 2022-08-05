@@ -3,7 +3,7 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * 
+ *
  * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -59,7 +59,10 @@ class StepModel extends AdminModel
 
         $component = reset($parts);
 
-        if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default) {
+        if (
+            !Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id)
+            || $record->default
+        ) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -213,7 +216,8 @@ class StepModel extends AdminModel
      *
      * @param   object  $record  A record object.
      *
-     * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+     * @return  boolean  True if allowed to change the state of the record.
+     * Defaults to the permission set in the component.
      *
      * @since   __DEPLOY_VERSION__
      */

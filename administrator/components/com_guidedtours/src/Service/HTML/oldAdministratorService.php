@@ -7,7 +7,7 @@
  * @category  Component
  * @package   Joomla.Administrator
  * @author    Joomla! <admin@joomla.org>
- * 
+ *
  * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license   GNU General Public License version 2 or later; see LICENSE.txt
  * @link      admin@joomla.org
@@ -45,7 +45,14 @@ class AdministratorService
         $html = '';
 
         // Get the associations
-        if ($associations = Associations::getAssociations('com_guidedtours', '#__guidedtours', 'com_guidedtours.item', $articleid)) {
+        if (
+            $associations = Associations::getAssociations(
+                'com_guidedtours',
+                '#__guidedtours',
+                'com_guidedtours.item',
+                $articleid
+            )
+        ) {
             foreach ($associations as $tag => $associated) {
                 $associations[$tag] = (int) $associated->id;
             }
@@ -76,11 +83,14 @@ class AdministratorService
                 foreach ($items as &$item) {
                     $text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
                     $url     = Route::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
-                    $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-                    . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+                    $tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') .
+                    '</strong><br>'
+                    . htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' .
+                    Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
                     $classes = 'badge badge-secondary';
 
-                    $item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+                    $item->link = '<a href="' . $url . '" title="' .
+                    $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
                     . '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
                 }
             }
@@ -111,12 +121,14 @@ class AdministratorService
         $icon  = $state[0];
 
         if ($canChange) {
-            $html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
+            $html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" 
+            class="tbody-icon hasTooltip'
             . ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
             . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
         } else {
             $html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
-            . HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+            . HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true">
+            </span></a>';
         }
 
         return $html;
