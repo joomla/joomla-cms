@@ -128,7 +128,7 @@
 	
 	<field
 		name="extensions"
-		type="Components"
+		type="components"
 		label="COM_GUIDEDTOURS_EXTENSIONS_LABEL"
 		description="COM_GUIDEDTOURS_EXTENSIONS_DESC"
 		multiple="multiple"
