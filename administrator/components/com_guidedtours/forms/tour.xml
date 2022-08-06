@@ -133,8 +133,6 @@
 		description="COM_GUIDEDTOURS_EXTENSIONS_DESC"
 		multiple="multiple"
 		layout="joomla.form.field.list-fancy-select"
-		buttons="true"
-		hide="readmore,pagebreak"
 		default="*"
 		>
 		<option value="*">JALL</option>
