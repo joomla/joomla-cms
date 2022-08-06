@@ -250,11 +250,6 @@ class ChangeSet
         // Get the folder from the database name
         $sqlFolder = $this->db->getServerType();
 
-        // For `mssql` server types, convert the type to `sqlazure`
-        if ($sqlFolder === 'mssql') {
-            $sqlFolder = 'sqlazure';
-        }
-
         // Default folder to core com_admin
         if (!$this->folder) {
             $this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
