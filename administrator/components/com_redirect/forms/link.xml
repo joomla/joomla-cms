@@ -16,6 +16,7 @@
 			label="COM_REDIRECT_FIELD_OLD_URL_LABEL"
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
 			required="true"
+			dir="ltr"
 		/>
 
 		<field
@@ -24,6 +25,7 @@
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
 			required="true"
+			dir="ltr"
 		/>
 
 		<field

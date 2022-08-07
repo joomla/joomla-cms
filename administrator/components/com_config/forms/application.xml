@@ -219,6 +219,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_PREFIX_LABEL"
 			default="jos_"
 			filter="string"
+			dir="ltr"
 		/>
 
 		<field
