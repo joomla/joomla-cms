@@ -11,7 +11,7 @@
     position: sticky;
     top: 0;
   }
-
+/* swkwrws */
   .item {
     position: relative;
     display: flex;
@@ -143,7 +143,7 @@
       width: 2rem;
       font-family: "Font Awesome 5 Free";
       font-weight: 900;
-      content: "\f054"/*rtl:"\f053"*/;
+      content: "\f054" #{"/*!rtl:\"\f053\"*/"};
     }
   }
 
