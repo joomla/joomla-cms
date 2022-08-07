@@ -249,11 +249,6 @@
     z-index: $zindex-mobile-toggle;
     padding: 10px 15px;
 
-    [dir="rtl"] & {
-      right: auto;
-      left: 0;
-    }
-
     &:focus {
       box-shadow: none;
     }
