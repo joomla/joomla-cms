@@ -37,7 +37,7 @@ use Joomla\Uri\UriInterface;
  */
 class RequestsPluginTest extends UnitTestCase
 {
-	private $tmpFolder;
+    private $tmpFolder;
 
     /**
      * Setup
@@ -48,7 +48,7 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-		$this->tmpFolder = JPATH_ROOT . '/tmp';
+        $this->tmpFolder = JPATH_ROOT . '/tmp';
 
         if (is_dir($this->tmpFolder)) {
             Folder::delete($this->tmpFolder);
