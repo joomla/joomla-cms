@@ -99,8 +99,11 @@ class RequestsPluginTest extends UnitTestCase
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
@@ -153,8 +156,11 @@ class RequestsPluginTest extends UnitTestCase
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
@@ -207,8 +213,11 @@ class RequestsPluginTest extends UnitTestCase
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
@@ -309,7 +318,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, '/invalid/folder/dir');
+        $plugin = new Requests(new Dispatcher(), [], $factory, '/invalid\\0');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);

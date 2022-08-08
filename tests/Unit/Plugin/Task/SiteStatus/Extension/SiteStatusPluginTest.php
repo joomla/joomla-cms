@@ -75,8 +75,11 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOnlineWhenOffline()
     {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
@@ -100,8 +103,11 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOnlineWhenOnline()
     {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
@@ -125,8 +131,11 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOfflineWhenOnline()
     {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
@@ -150,8 +159,11 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testSetOfflineWhenOffline()
     {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
@@ -175,8 +187,11 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testToggleOffline()
     {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => false], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
@@ -200,8 +215,11 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function testToggleOnline()
     {
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
+
         $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $app->method('getLanguage')->willReturn($language);
 
         $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], $this->tmpFolder . '/config.php');
         $plugin->setApplication($app);
@@ -231,7 +249,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], '/invalid/folder/dir/config.php');
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], '/invalid\\0/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
