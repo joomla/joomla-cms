@@ -23,9 +23,9 @@ module.exports.handleScssFile = async (file) => {
 
   const plugins = [Autoprefixer];
   if (cssFile.endsWith('-rtl.css')) plugins.push(rtlcss);
-  
+
   // Auto prefixing
-  const cleaner = Postcss([plugins);
+  const cleaner = Postcss(plugins);
   const res = await cleaner.process(compiled.css.toString(), { from: undefined });
 
   // Ensure the folder exists or create it
