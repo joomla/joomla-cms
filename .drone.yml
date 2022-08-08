@@ -185,15 +185,15 @@ steps:
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
 
-  #  - name: phpnext-api-mysql
-  #    depends_on:
-  #      - phpmax-api-mysql
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+#  - name: phpnext-api-mysql
+#    depends_on:
+#      - phpmax-api-mysql
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
 
   - name: phpmin-api-postgres
     depends_on:
@@ -213,15 +213,15 @@ steps:
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
 
-  #  - name: phpnext-api-postgres
-  #    depends_on:
-  #      - phpmin-api-postgres
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+#  - name: phpnext-api-postgres
+#    depends_on:
+#      - phpmin-api-postgres
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
 
   - name: phpmin-system-mysql
     depends_on:
@@ -243,15 +243,15 @@ steps:
     commands:
       - bash tests/cypress/drone-system-run.sh "$(pwd)" mysqlphpmax
 
-  #  - name: phpnext-system-mysql
-  #    depends_on:
-  #      - phpmax-system-mysql
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
+#  - name: phpnext-system-mysql
+#    depends_on:
+#      - phpmax-system-mysql
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
 
   - name: phpmin-system-postgres
     depends_on:
@@ -273,15 +273,15 @@ steps:
     commands:
       - bash tests/cypress/drone-system-run.sh "$(pwd)" postgresphpmax
 
-  #  - name: phpnext-system-postgres
-  #    depends_on:
-  #      - phpmax-system-postgres
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
+#  - name: phpnext-system-postgres
+#    depends_on:
+#      - phpmax-system-postgres
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
 
   - name: phpmin-system-mysql8
     depends_on:
@@ -303,15 +303,15 @@ steps:
     commands:
       - bash tests/cypress/drone-system-run.sh "$(pwd)" mysql8phpmax
 
-  #  - name: phpnext-system-mysql8
-  #    depends_on:
-  #      - phpmax-system-mysql8
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
+#  - name: phpnext-system-mysql8
+#    depends_on:
+#      - phpmax-system-mysql8
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
@@ -475,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: a0f4de409e5bb9f0948d06927ed760376616ec775bd8199170829fec6a6996bc
+hmac: 5e9ddfe3ee23374fc37a29810a692d538ba49dc37d7e9031796d622b56e6dcaf
 
 ...
