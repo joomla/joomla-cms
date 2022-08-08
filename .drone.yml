@@ -114,7 +114,7 @@ steps:
         path: /reference
     when:
       branch:
-        - 4.2-dev
+        - 4.3-dev
 
 ---
 kind: pipeline
@@ -178,6 +178,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 1730ea4b48d7082ecd58f85bd7792fa01bae2a8d80a46967c9eb211cb2c1c17b
+hmac: e1fe0d199dce2362ee1b27adeeafc64fa2a955fcd66db2d90a266612fb96b0c1
 
 ...
