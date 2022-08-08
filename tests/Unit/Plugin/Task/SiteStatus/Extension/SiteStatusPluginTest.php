@@ -256,7 +256,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], '/invalid/config.php');
+        $plugin = new SiteStatus(new Dispatcher(), [], ['offline' => true], '/proc/invalid/config.php');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -266,6 +266,6 @@ class SiteStatusPluginTest extends UnitTestCase
         $plugin->alterSiteStatus($event);
 
         $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
-        $this->assertFileNotExists('/invalid/config.php');
+        $this->assertFileNotExists('/proc/invalid/config.php');
     }
 }
