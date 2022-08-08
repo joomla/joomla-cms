@@ -32,6 +32,13 @@ use Joomla\Tests\Unit\UnitTestCase;
  */
 class SiteStatusPluginTest extends UnitTestCase
 {
+    /**
+     * The temporary folder.
+     *
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
     private $tmpFolder;
 
     /**
@@ -43,7 +50,7 @@ class SiteStatusPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        $this->tmpFolder = JPATH_ROOT . '/tmp';
+        $this->tmpFolder = JPATH_ROOT . '/tmp/test';
 
         if (!is_dir($this->tmpFolder)) {
             mkdir($this->tmpFolder);

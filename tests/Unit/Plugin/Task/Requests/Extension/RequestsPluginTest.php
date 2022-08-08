@@ -37,6 +37,13 @@ use Joomla\Uri\UriInterface;
  */
 class RequestsPluginTest extends UnitTestCase
 {
+    /**
+     * The temporary folder.
+     *
+     * @var string
+     *
+     * @since __DEPLOY_VERSION__
+     */
     private $tmpFolder;
 
     /**
@@ -48,7 +55,7 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        $this->tmpFolder = JPATH_ROOT . '/tmp';
+        $this->tmpFolder = JPATH_ROOT . '/tmp/test';
 
         if (is_dir($this->tmpFolder)) {
             Folder::delete($this->tmpFolder);
