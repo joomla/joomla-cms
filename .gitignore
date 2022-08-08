@@ -105,6 +105,6 @@ RoboFile.ini
 #cypress
 /tests/cypress/screenshots
 !/tests/cypress/screenshots/.gitkeep
-/tests/cypress/videos
+#/tests/cypress/videos
 !/tests/cypress/videos/.gitkeep
 /cypress.env.json
