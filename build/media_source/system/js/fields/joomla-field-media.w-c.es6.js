@@ -101,7 +101,7 @@ class JoomlaFieldMedia extends HTMLElement {
 
   // attributeChangedCallback(attr, oldValue, newValue) {}
 
-  async connectedCallback() {
+  connectedCallback() {
     this.button = this.querySelector(this.buttonSelect);
     this.inputElement = this.querySelector(this.input);
     this.buttonClearEl = this.querySelector(this.buttonClear);
@@ -139,9 +139,10 @@ class JoomlaFieldMedia extends HTMLElement {
 
 
     // Force input revalidation
-    await this.validateValue({ target: this.inputElement })
-
-    this.updatePreview();
+    (async () => {
+      await this.validateValue({ target: this.inputElement });
+      this.updatePreview();
+    })();
   }
 
   disconnectedCallback() {
