@@ -3,11 +3,7 @@
 
 describe('Test com_menu features', () => {
   before(function () {
-<<<<<<< HEAD
     cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
-=======
-    cy.doAdministratorLogin(this.joomlaconfig.username, this.joomlaconfig.password)
->>>>>>> 91839b1858 (Migrating a bunch of acceptance tests to cypress)
   })
 
   it('creates a new menu', function () {
