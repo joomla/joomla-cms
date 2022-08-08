@@ -588,7 +588,7 @@ class RssParserTest extends UnitTestCase
 		<title>Test Channel</title>
 	</channel>
 </rss>';
-        $reader    = \XMLReader::XML($dummyXml);
+        $reader    = (new \XMLReader)->xml($dummyXml);
         $rssParser = new RssParser($reader);
         $rssParser->parse();
 
