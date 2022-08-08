@@ -53,7 +53,7 @@ class SiteStatusPluginTest extends UnitTestCase
         $this->tmpFolder = JPATH_ROOT . '/tmp/test';
 
         if (!is_dir($this->tmpFolder)) {
-            mkdir($this->tmpFolder);
+            mkdir($this->tmpFolder, 0777, true);
         }
 
         touch($this->tmpFolder . '/config.php');
