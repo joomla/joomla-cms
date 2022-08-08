@@ -53,7 +53,7 @@ class CheckfilesPluginTest extends UnitTestCase
         $this->tmpFolder = JPATH_ROOT . '/tmp/test';
 
         if (!is_dir($this->tmpFolder)) {
-            mkdir($this->tmpFolder, 0777, true);
+            mkdir($this->tmpFolder);
         }
 
         $image = imagecreate(200, 200);
