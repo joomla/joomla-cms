@@ -33,7 +33,6 @@ class JoomlaFieldMedia extends HTMLElement {
     this.validateValue = this.validateValue.bind(this);
     this.markValid = this.markValid.bind(this);
     this.markInvalid = this.markInvalid.bind(this);
-
     this.mimeType = '';
   }
 
@@ -136,7 +135,6 @@ class JoomlaFieldMedia extends HTMLElement {
 
     this.inputElement.removeAttribute('readonly');
     this.inputElement.addEventListener('change', this.validateValue);
-
 
     // Force input revalidation
     (async () => {
