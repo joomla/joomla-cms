@@ -227,7 +227,7 @@ steps:
     depends_on:
       - phpmax-api-mysql
       - phpmax-api-postgres
-    image: joomlaprojects/docker-images:systemtests
+    image: joomlaprojects/docker-images:cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -237,7 +237,7 @@ steps:
     depends_on:
       - phpmax-api-mysql
       - phpmax-api-postgres
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -257,7 +257,7 @@ steps:
     depends_on:
       - phpmax-api-mysql
       - phpmax-api-postgres
-    image: joomlaprojects/docker-images:systemtests
+    image: joomlaprojects/docker-images:cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -267,7 +267,7 @@ steps:
     depends_on:
       - phpmax-api-mysql
       - phpmax-api-postgres
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -287,7 +287,7 @@ steps:
     depends_on:
       - phpmax-system-mysql
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:systemtests
+    image: joomlaprojects/docker-images:cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -297,7 +297,7 @@ steps:
     depends_on:
       - phpmax-system-mysql
       - phpmax-system-postgres
-    image: joomlaprojects/docker-images:systemtests8.1
+    image: joomlaprojects/docker-images:cypress8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -475,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 5e9ddfe3ee23374fc37a29810a692d538ba49dc37d7e9031796d622b56e6dcaf
+hmac: 5050c606289b7990ffaf57666729efa23f2778ce60c9fcd37938e14f3178ed84
 
 ...
