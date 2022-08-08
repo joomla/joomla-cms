@@ -240,7 +240,6 @@ class FieldModel extends AdminModel
         return true;
     }
 
-
     /**
      * Checks if the default value is valid for the given data. If a string is returned then
      * it can be assumed that the default value is invalid.
@@ -979,6 +978,9 @@ class FieldModel extends AdminModel
             if ($dataObject->type == 'list') {
                 $form->removeField('hint', 'params');
             }
+
+            PluginHelper::importPlugin('fields', $dataObject->type);
+            Factory::getApplication()->triggerEvent('onCustomFieldsPreprocessForm', [$form]);
         }
 
         // Get the categories for this component (and optionally this section, if available)

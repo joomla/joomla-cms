@@ -10,6 +10,8 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+use Joomla\CMS\Form\Form;
+
 /**
  * Fields Menuitem Plugin
  *
@@ -17,4 +19,18 @@
  */
 class PlgFieldsMenuitem extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
+
+    /**
+     * Prepare the form for display.
+     *
+     * @param   Form  $form The form being prepared for display
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onCustomFieldsPreprocessForm(Form $form): void
+    {
+        $form->removeField('default_value');
+    }
 }
