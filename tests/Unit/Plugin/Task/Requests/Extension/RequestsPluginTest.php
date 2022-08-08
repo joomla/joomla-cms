@@ -305,7 +305,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, '/invalid');
+        $plugin = new Requests(new Dispatcher(), [], $factory, '/invalid/folder/dir');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
