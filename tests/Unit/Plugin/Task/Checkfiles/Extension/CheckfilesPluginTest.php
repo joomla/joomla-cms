@@ -50,7 +50,8 @@ class CheckfilesPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        $this->tmpFolder = JPATH_ROOT . '/tmp/test';
+		// Dir must be random for parallel automated tests
+        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
 
         if (!is_dir($this->tmpFolder)) {
             mkdir($this->tmpFolder);
