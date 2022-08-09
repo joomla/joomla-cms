@@ -48,8 +48,15 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($data['return'])) {
-            $language       = $this->getModel('Login', 'Site')->getMenuLanguage($data['return']);
-            $data['return'] = 'index.php?Itemid=' . $data['return'] . ($language !== '*' ? '&lang=' . $language : '');
+            $data['return'] = 'index.php?Itemid=' . $data['return'];
+
+            if (Multilanguage::isEnabled()) {
+                $language = $this->getModel('Login', 'Site')->getMenuLanguage($data['return']);
+
+                if ($language !== '*') {
+                    $data['return'] .= '&lang=' . $language;
+                }
+            }
         } elseif (!Uri::isInternal($data['return'])) {
             // Don't redirect to an external URL.
             $data['return'] = '';
@@ -128,8 +135,15 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($return)) {
-            $language = $this->getModel('Login', 'Site')->getMenuLanguage($return);
-            $return   = 'index.php?Itemid=' . $return . ($language !== '*' ? '&lang=' . $language : '');
+            $return = 'index.php?Itemid=' . $return;
+
+            if (Multilanguage::isEnabled()) {
+                $language = $this->getModel('Login', 'Site')->getMenuLanguage($return);
+
+                if ($language !== '*') {
+                    $return .= '&lang=' . $language;
+                }
+            }
         } elseif (!Uri::isInternal($return)) {
             $return = '';
         }
