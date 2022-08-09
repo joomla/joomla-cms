@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<!-- Disable default_value, it's not supported by GroupedlistField -->
+		<field type="hidden" name="default_value" readonly="true" filter="unset" />
+	</fieldset>
+</form>
