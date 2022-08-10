@@ -170,7 +170,9 @@ class StepsModel extends ListModel
         /**
          *  Filter Tour ID by levels
          */
-        $tour_id     = $this->getState('filter.tour_id');
+
+        $app = Factory::getApplication();
+        $tour_id = $app->getUserStateFromRequest($this->context . '.filter.tour_id', 'tour_id', 0, 'int');
 
         if (is_numeric($tour_id)) {
             $tour_id = (int) $tour_id;
