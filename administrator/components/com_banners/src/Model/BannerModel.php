@@ -74,7 +74,7 @@ class BannerModel extends AdminModel
     protected function batchClient($value, $pks, $contexts)
     {
         // Set the variables
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         /** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $table */
         $table = $this->getTable();
@@ -119,7 +119,7 @@ class BannerModel extends AdminModel
         }
 
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
         }
 
         return parent::canDelete($record);
@@ -157,7 +157,7 @@ class BannerModel extends AdminModel
     {
         // Check against the category.
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
         }
 
         // Default to component settings if category not known.
@@ -202,7 +202,7 @@ class BannerModel extends AdminModel
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -267,7 +267,7 @@ class BannerModel extends AdminModel
         }
 
         // Attempt to change the state of the records.
-        if (!$table->stick($pks, $value, Factory::getUser()->id)) {
+        if (!$table->stick($pks, $value, $this->getCurrentUser()->id)) {
             $this->setError($table->getError());
 
             return false;
@@ -307,7 +307,7 @@ class BannerModel extends AdminModel
     protected function prepareTable($table)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (empty($table->id)) {
             // Set the values
@@ -437,6 +437,6 @@ class BannerModel extends AdminModel
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_banners');
+        return $this->getCurrentUser()->authorise('core.create', 'com_banners');
     }
 }

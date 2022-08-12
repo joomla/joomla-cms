@@ -304,7 +304,7 @@ class ModulesModel extends ListModel
             ->bind(':eclientid', $clientId, ParameterType::INTEGER);
 
         // Filter by current user access level.
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get the current user for authorisation checks
         if ($user->authorise('core.admin') !== true) {

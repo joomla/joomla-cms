@@ -235,7 +235,7 @@ class ItemsModel extends ListModel
         // Create a new query object.
         $db       = $this->getDatabase();
         $query    = $db->getQuery(true);
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $clientId = (int) $this->getState('filter.client_id');
 
         // Select all fields from the table.
@@ -536,7 +536,7 @@ class ItemsModel extends ListModel
                 Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
                 return false;
-            } elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+            } elseif (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
                 // Check if menu type is valid against ACL.
                 Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 
