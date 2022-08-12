@@ -403,8 +403,8 @@ $doNotPackage = array(
 $doNotPatch = array(
     'administrator/cache',
     'administrator/logs',
-    'installation',
     'images',
+    'installation',
 );
 
 /*
