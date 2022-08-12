@@ -2,20 +2,23 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Captcha
+ * @subpackage  Captcha.recaptcha
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\Captcha\Recaptcha\Extension;
+
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Captcha\CaptchaPluginInterface;
+use Joomla\CMS\Form\Field\CaptchaField;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Utilities\IpHelper;
-use ReCaptcha\ReCaptcha;
+use ReCaptcha\ReCaptcha as ReCaptchaAPI;
+use ReCaptcha\RequestMethod;
+use SimpleXMLElement;
 
 /**
  * Recaptcha Plugin
@@ -23,7 +26,7 @@ use ReCaptcha\ReCaptcha;
  *
  * @since  2.5
  */
-class PlgCaptchaRecaptcha extends CMSPlugin
+final class Recaptcha extends CMSPlugin implements CaptchaPluginInterface
 {
     /**
      * Load the language file on instantiation.
@@ -34,12 +37,29 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Application object.
+     * The requestMethod for the captcha API
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
+     * @var    RequestMethod
+	 *
+     * @since  __DEPLOY_VERSION__
      */
-    protected $app;
+    private $requestMethod;
+
+    /**
+     * Constructor.
+     *
+     * @param   DispatcherInterface  $dispatcher     The dispatcher
+     * @param   array                $config         An optional associative array of configuration settings
+     * @param   RequestMethod        $requestMethod  The requestMethod for the captcha API
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct(DispatcherInterface $dispatcher, array $config, RequestMethod $requestMethod)
+    {
+        parent::__construct($dispatcher, $config);
+
+        $this->requestMethod = $requestMethod;
+    }
 
     /**
      * Reports the privacy related capabilities for this plugin to site administrators.
@@ -50,57 +70,43 @@ class PlgCaptchaRecaptcha extends CMSPlugin
      */
     public function onPrivacyCollectAdminCapabilities()
     {
-        $this->loadLanguage();
-
-        return array(
-            Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
-                Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-            ),
-        );
+        return [
+            $this->getApplication()->getLanguage()->_('PLG_CAPTCHA_RECAPTCHA') => [
+                $this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+            ],
+        ];
     }
 
     /**
-     * Initialise the captcha
+     * Gets the challenge HTML and loads the assets.
      *
-     * @param   string  $id  The id of the field.
+     * @param   string  $id     The id of the field
+     * @param   string  $class  The class of the field
      *
-     * @return  Boolean True on success, false otherwise
+     * @return  string  The HTML to be embedded in the form
      *
-     * @since   2.5
-     * @throws  \RuntimeException
+     * @since   __DEPLOY_VERSION__
      */
-    public function onInit($id = 'dynamic_recaptcha_1')
+    public function display(string $id = 'dynamic_recaptcha_1', string $class = ''): string
     {
+        $app    = $this->getApplication();
         $pubkey = $this->params->get('public_key', '');
 
         if ($pubkey === '') {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
+            throw new \RuntimeException($app->getLanguage()->_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
         }
 
-        $apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptcha2&render=explicit&hl='
-            . Factory::getLanguage()->getTag();
+        if (!$app instanceof CMSApplication) {
+            throw new \RuntimeException('Invalid application for captcha');
+        }
+
+        $apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptcha2&render=explicit&hl=' . $app->getLanguage()->getTag();
 
         // Load assets, the callback should be first
-        $this->app->getDocument()->getWebAssetManager()
+        $app->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_captcha_recaptcha', 'plg_captcha_recaptcha/recaptcha.min.js', [], ['defer' => true])
             ->registerAndUseScript('plg_captcha_recaptcha.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptcha']);
 
-        return true;
-    }
-
-    /**
-     * Gets the challenge HTML
-     *
-     * @param   string  $name   The name of the field. Not Used.
-     * @param   string  $id     The id of the field.
-     * @param   string  $class  The class of the field.
-     *
-     * @return  string  The HTML to be embedded in the form.
-     *
-     * @since  2.5
-     */
-    public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
-    {
         $dom = new \DOMDocument('1.0', 'UTF-8');
         $ele = $dom->createElement('div');
         $ele->setAttribute('id', $id);
@@ -122,17 +128,18 @@ class PlgCaptchaRecaptcha extends CMSPlugin
     /**
      * Calls an HTTP POST function to verify if the user's guess was correct
      *
-     * @param   string  $code  Answer provided by user. Not needed for the Recaptcha implementation
+     * @param   string  $code  Not needed for the Recaptcha implementation
      *
-     * @return  True if the answer is correct, false otherwise
+     * @return  bool    If the answer is correct, false otherwise
      *
-     * @since   2.5
+     * @since   __DEPLOY_VERSION__
+     *
      * @throws  \RuntimeException
      */
-    public function onCheckAnswer($code = null)
+    public function checkAnswer(string $code = null): bool
     {
-        $input      = Factory::getApplication()->input;
-        $privatekey = $this->params->get('private_key');
+        $input      = $this->getApplication()->input;
+        $privatekey = $this->params->get('private_key', '');
         $version    = $this->params->get('version', '2.0');
         $remoteip   = IpHelper::getIp();
         $response   = null;
@@ -145,23 +152,31 @@ class PlgCaptchaRecaptcha extends CMSPlugin
                 break;
         }
 
-        // Check for Private Key
-        if (empty($privatekey)) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
-        }
-
         // Check for IP
         if (empty($remoteip)) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
         }
 
         // Discard spam submissions
         if ($spam) {
-            throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
+            throw new \RuntimeException($this->getApplication()->getLanguage()->_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
         }
 
         return $this->getResponse($privatekey, $remoteip, $response);
     }
+
+    /**
+     * Method to react on the setup of a captcha field. Gives the possibility
+     * to change the field and/or the XML element for the field.
+     *
+     * @param   CaptchaField      $field    Captcha field instance
+     * @param   SimpleXMLElement  $element  XML form definition
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function setupField(CaptchaField $field, SimpleXMLElement $element): void {}
 
     /**
      * Get the reCaptcha response.
@@ -175,13 +190,13 @@ class PlgCaptchaRecaptcha extends CMSPlugin
      * @since   3.4
      * @throws  \RuntimeException
      */
-    private function getResponse(string $privatekey, string $remoteip, string $response)
+    private function getResponse(string $privatekey, string $remoteip, string $response): bool
     {
         $version = $this->params->get('version', '2.0');
 
         switch ($version) {
             case '2.0':
-                $apiResponse = (new ReCaptcha($privatekey, new HttpBridgePostRequestMethod()))->verify($response, $remoteip);
+                $apiResponse = (new ReCaptchaAPI($privatekey, $this->requestMethod))->verify($response, $remoteip);
 
                 if (!$apiResponse->isSuccess()) {
                     foreach ($apiResponse->getErrorCodes() as $error) {

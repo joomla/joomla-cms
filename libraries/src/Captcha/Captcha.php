@@ -9,21 +9,22 @@
 
 namespace Joomla\CMS\Captcha;
 
+use Joomla\CMS\Extension\DummyPlugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Registry\Registry;
 
 /**
  * Joomla! Captcha base object
  *
  * @abstract
  * @since  2.5
+ *
+ * @deprecated 5.0 Boot the respective captcha plugin through the application and use that instance
  */
 class Captcha implements DispatcherAwareInterface
 {
@@ -61,6 +62,8 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated 5.0 Boot the respective captcha plugin through the application and do not use this class anymore
      */
     public function __construct($captcha, $options)
     {
@@ -86,6 +89,8 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated 5.0 Boot the respective captcha plugin through the application this method has no replacement
      */
     public static function getInstance($captcha, array $options = array())
     {
@@ -107,6 +112,8 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated 5.0 Has no replacement as init should be done during display function
      */
     public function initialise($id)
     {
@@ -128,12 +135,18 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated 5.0 Boot the respective captcha plugin through the application and execute the display function directly
      */
     public function display($name, $id, $class = '')
     {
         // Check if captcha is already loaded.
         if ($this->captcha === null) {
             return '';
+        }
+
+        if ($this->captcha instanceof CaptchaPluginInterface) {
+            return $this->captcha->display($id, $class);
         }
 
         // Initialise the Captcha.
@@ -161,12 +174,18 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated 5.0 Boot the respective captcha plugin through the application and execute the checkAnswer function directly
      */
     public function checkAnswer($code)
     {
         // Check if captcha is already loaded
         if ($this->captcha === null) {
             return false;
+        }
+
+        if ($this->captcha instanceof CaptchaPluginInterface) {
+            return $this->captcha->checkAnswer($code);
         }
 
         $arg = ['code'  => $code];
@@ -184,11 +203,17 @@ class Captcha implements DispatcherAwareInterface
      * @param   \SimpleXMLElement                    $element  XML form definition
      *
      * @return void
+     *
+     * @deprecated 5.0 Boot the respective captcha plugin through the application and execute the setupField function directly
      */
     public function setupField(\Joomla\CMS\Form\Field\CaptchaField $field, \SimpleXMLElement $element)
     {
         if ($this->captcha === null) {
             return;
+        }
+
+        if ($this->captcha instanceof CaptchaPluginInterface) {
+            return $this->captcha->setupField($field, $element);
         }
 
         $arg = [
@@ -234,31 +259,12 @@ class Captcha implements DispatcherAwareInterface
     {
         // Build the path to the needed captcha plugin
         $name = InputFilter::getInstance()->clean($this->name, 'cmd');
-        $path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
-        if (!is_file($path)) {
+        $plugin = Factory::getApplication()->bootPlugin($name, 'captcha');
+        if (!$plugin || $plugin instanceof DummyPlugin) {
             throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
         }
 
-        // Require plugin file
-        require_once $path;
-
-        // Get the plugin
-        $plugin = PluginHelper::getPlugin('captcha', $this->name);
-
-        if (!$plugin) {
-            throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
-        }
-
-        // Check for already loaded params
-        if (!($plugin->params instanceof Registry)) {
-            $params = new Registry($plugin->params);
-            $plugin->params = $params;
-        }
-
-        // Build captcha plugin classname
-        $name = 'PlgCaptcha' . $this->name;
-        $dispatcher     = $this->getDispatcher();
-        $this->captcha = new $name($dispatcher, (array) $plugin, $options);
+        $this->captcha = $plugin;
     }
 }

@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Captcha\CaptchaPluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
@@ -32,6 +33,8 @@ class CaptchaField extends FormField
      * The captcha base instance of our type.
      *
      * @var Captcha
+     *
+     * @deprecated 5.0 Will be removed without replacement as we do not need to cache it
      */
     protected $_captcha;
 
@@ -48,7 +51,6 @@ class CaptchaField extends FormField
     {
         switch ($name) {
             case 'plugin':
-            case 'namespace':
                 return $this->$name;
         }
 
@@ -69,7 +71,6 @@ class CaptchaField extends FormField
     {
         switch ($name) {
             case 'plugin':
-            case 'namespace':
                 $this->$name = (string) $value;
                 break;
 
@@ -123,21 +124,31 @@ class CaptchaField extends FormField
             }
         }
 
-        $this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
-
         try {
-            // Get an instance of the captcha class that we are using
+            // Exists for BC
             $this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
+
+            // Get an instance of the captcha class that we are using
+            $captcha = $app->bootPlugin($this->plugin, 'captcha');
 
             /**
              * Give the captcha instance a possibility to react on the setup-process,
              * e.g. by altering the XML structure of the field, for example hiding the label
              * when using invisible captchas.
              */
-            $this->_captcha->setupField($this, $element);
+            if ($captcha instanceof CaptchaPluginInterface) {
+                $captcha->setupField($this, $element);
+
+                return $result;
+            }
+
+            @trigger_error('Implement the CaptchaPluginInterface.', E_USER_DEPRECATED);
+            if ($captcha && method_exists($captcha, 'onSetupField')) {
+                $captcha->onSetupField($this, $element);
+            }
         } catch (\RuntimeException $e) {
             $this->_captcha = null;
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            $app->enqueueMessage($e->getMessage(), 'error');
 
             return false;
         }
@@ -159,7 +170,19 @@ class CaptchaField extends FormField
         }
 
         try {
-            return $this->_captcha->display($this->name, $this->id, $this->class);
+             // Get an instance of the captcha class that we are using
+             $captcha = Factory::getApplication()->bootPlugin($this->plugin, 'captcha');
+
+            if ($captcha instanceof CaptchaPluginInterface) {
+                return $captcha->display($this->id ?: $this->name, $this->class);
+            }
+
+            @trigger_error('Implement the CaptchaPluginInterface.', E_USER_DEPRECATED);
+            if (method_exists($captcha, 'onInit')) {
+                $captcha->onInit($this->id);
+            }
+
+            return $captcha->onDisplay($this->name, $this->id ?: $this->name, $this->class);
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }

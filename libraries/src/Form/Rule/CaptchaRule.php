@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Captcha\CaptchaPluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -46,17 +46,22 @@ class CaptchaRule extends FormRule
             $plugin = $app->getParams()->get('captcha', $plugin);
         }
 
-        $namespace = $element['namespace'] ?: $form->getName();
-
         // Use 0 for none
         if ($plugin === 0 || $plugin === '0') {
             return true;
         }
 
         try {
-            $captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
+            $captcha = $app->bootPlugin((string) $plugin, 'captcha');
 
-            return $captcha->checkAnswer($value);
+            if ($captcha instanceof CaptchaPluginInterface) {
+                return $captcha->checkAnswer($value);
+            }
+
+            @trigger_error('Implement the CaptchaPluginInterface.', E_USER_DEPRECATED);
+            if (method_exists($captcha, 'onCheckAnswer')) {
+                return $captcha->onCheckAnswer($value);
+            }
         } catch (\RuntimeException $e) {
             $app->enqueueMessage($e->getMessage(), 'error');
         }
