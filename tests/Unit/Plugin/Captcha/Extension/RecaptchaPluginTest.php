@@ -22,7 +22,6 @@ use Joomla\Tests\Unit\UnitTestCase;
 use Joomla\Utilities\IpHelper;
 use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
-use ReCaptcha\Response;
 use RuntimeException;
 use SimpleXMLElement;
 
@@ -68,7 +67,7 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can initialize empty public key
+     * @testdox  cannot display when the public key is empty
      *
      * @return  void
      *
@@ -87,7 +86,7 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can initialize empty public key
+     * @testdox  cannot display when the app is not a CMSApplication
      *
      * @return  void
      *
@@ -114,9 +113,8 @@ class RecaptchaPluginTest extends UnitTestCase
      */
     public function testCheckSuccessfulAnswer()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSApplication::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
-        $app->input = new Input();
 
         IpHelper::setIp('test');
 
@@ -136,9 +134,8 @@ class RecaptchaPluginTest extends UnitTestCase
      */
     public function testCheckErrorAnswer()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSApplication::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
-        $app->input = new Input();
 
         IpHelper::setIp('test');
 
@@ -160,9 +157,8 @@ class RecaptchaPluginTest extends UnitTestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSApplication::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
-        $app->input = new Input();
 
         IpHelper::setIp('test');
 
@@ -182,9 +178,8 @@ class RecaptchaPluginTest extends UnitTestCase
     {
         $this->expectException(RuntimeException::class);
 
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSApplication::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
-        $app->input = new Input();
 
         IpHelper::setIp(false);
 
@@ -194,19 +189,19 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can check error answer with no IP available
+     * @testdox  can check error answer with empty response
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testCheckAnswerWithErrorResponse()
+    public function testCheckAnswerWithEmptyResponse()
     {
         $this->expectException(RuntimeException::class);
 
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSApplication::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
-        $app->input = new Input(['g-recaptcha-response' => '']);
+        $app->method('getInput')->willReturn(new Input(['g-recaptcha-response' => '']));
 
         IpHelper::setIp('test');
 
@@ -216,7 +211,7 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can check error answer with no IP available
+     * @testdox  can deliver admin capabilities
      *
      * @return  void
      *
@@ -224,7 +219,7 @@ class RecaptchaPluginTest extends UnitTestCase
      */
     public function testAdminCapabilities()
     {
-        $app = $this->createStub(CMSApplicationInterface::class);
+        $app = $this->createStub(CMSApplication::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
 
         $plugin = new Recaptcha(new Dispatcher(), ['params' => []], $this->getRequestMethod());
@@ -235,7 +230,7 @@ class RecaptchaPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can check error answer with no IP available
+     * @testdox  can setup the field
      *
      * @return  void
      *
@@ -244,13 +239,22 @@ class RecaptchaPluginTest extends UnitTestCase
     public function testSetupField()
     {
         $plugin = new Recaptcha(new Dispatcher(), ['params' => []], $this->getRequestMethod());
-        $plugin->setApplication($this->createStub(CMSApplicationInterface::class));
+        $plugin->setApplication($this->createStub(CMSApplication::class));
         $result = $plugin->setupField(new CaptchaField(), new SimpleXMLElement('<test/>'));
 
         $this->assertEmpty($result);
     }
 
-    private function getRequestMethod($data = ['success' => true]) {
+     /**
+     * Returns a request method for the given data.
+     *
+     * @param   array  $data  The data
+     *
+     * @return  RequestMethod
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getRequestMethod(array $data = ['success' => true]): RequestMethod {
         return new class($data) implements RequestMethod {
 
             private $data = [];

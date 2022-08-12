@@ -138,7 +138,7 @@ final class Recaptcha extends CMSPlugin implements CaptchaPluginInterface
      */
     public function checkAnswer(string $code = null): bool
     {
-        $input      = $this->getApplication()->input;
+        $input      = $this->getApplication()->getInput();
         $privatekey = $this->params->get('private_key', '');
         $version    = $this->params->get('version', '2.0');
         $remoteip   = IpHelper::getIp();
