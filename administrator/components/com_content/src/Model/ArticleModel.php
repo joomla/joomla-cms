@@ -195,7 +195,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         if (empty($this->batchSet)) {
             // Set some needed variables.
-            $this->user = Factory::getUser();
+            $this->user = $this->getCurrentUser();
             $this->table = $this->getTable();
             $this->tableClassName = get_class($this->table);
             $this->contentType = new UCMType();
@@ -291,7 +291,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
     }
 
     /**
@@ -305,7 +305,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check for existing article.
         if (!empty($record->id)) {
@@ -549,7 +549,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -620,7 +620,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_content')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_content')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -1071,7 +1071,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_content');
+        return $this->getCurrentUser()->authorise('core.create', 'com_content');
     }
 
     /**
