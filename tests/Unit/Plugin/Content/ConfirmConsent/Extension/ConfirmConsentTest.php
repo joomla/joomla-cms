@@ -38,7 +38,7 @@ class ConfirmConsentTest extends UnitTestCase
      */
     public function testLoadConsentFieldInForm()
     {
-       $form = new Form('com_contact.contact');
+        $form = new Form('com_contact.contact');
 
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($this->createStub(Language::class));
