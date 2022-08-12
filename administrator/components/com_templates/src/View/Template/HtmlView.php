@@ -302,20 +302,20 @@ class HtmlView extends BaseHtmlView
             ->form('updateForm')
             ->listCheck(true);
 
-        $childBar = $dropdown->getChildToolbar();
+            $childBar = $dropdown->getChildToolbar();
 
-        $childBar->publish('template.publish')
-            ->text('COM_TEMPLATES_BUTTON_CHECK_LIST_ENTRY')
-            ->form('updateForm')
-            ->listCheck(true);
-        $childBar->unpublish('template.unpublish')
-            ->text('COM_TEMPLATES_BUTTON_UNCHECK_LIST_ENTRY')
-            ->form('updateForm')
-            ->listCheck(true);
-        $childBar->unpublish('template.deleteOverrideHistory')
-            ->text('COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY')
-            ->form('updateForm')
-            ->listCheck(true);
+            $childBar->publish('template.publish')
+                ->text('COM_TEMPLATES_BUTTON_CHECK_LIST_ENTRY')
+                ->form('updateForm')
+                ->listCheck(true);
+            $childBar->unpublish('template.unpublish')
+                ->text('COM_TEMPLATES_BUTTON_UNCHECK_LIST_ENTRY')
+                ->form('updateForm')
+                ->listCheck(true);
+            $childBar->unpublish('template.deleteOverrideHistory')
+                ->text('COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY')
+                ->form('updateForm')
+                ->listCheck(true);
         }
 
         if ($this->type === 'home') {
