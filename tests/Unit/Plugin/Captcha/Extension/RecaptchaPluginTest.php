@@ -254,9 +254,10 @@ class RecaptchaPluginTest extends UnitTestCase
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function getRequestMethod(array $data = ['success' => true]): RequestMethod {
-        return new class($data) implements RequestMethod {
-
+    private function getRequestMethod(array $data = ['success' => true]): RequestMethod
+    {
+        return new class ($data) implements RequestMethod
+        {
             private $data = [];
 
             public function __construct(array $data)
@@ -264,7 +265,8 @@ class RecaptchaPluginTest extends UnitTestCase
                 $this->data = $data;
             }
 
-            public function submit(RequestParameters $params) {
+            public function submit(RequestParameters $params)
+            {
                 return json_encode($this->data);
             }
         };

@@ -40,7 +40,7 @@ final class Recaptcha extends CMSPlugin implements CaptchaPluginInterface
      * The requestMethod for the captcha API
      *
      * @var    RequestMethod
-	 *
+     *
      * @since  __DEPLOY_VERSION__
      */
     private $requestMethod;
@@ -176,7 +176,9 @@ final class Recaptcha extends CMSPlugin implements CaptchaPluginInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function setupField(CaptchaField $field, SimpleXMLElement $element): void {}
+    public function setupField(CaptchaField $field, SimpleXMLElement $element): void
+    {
+    }
 
     /**
      * Get the reCaptcha response.
