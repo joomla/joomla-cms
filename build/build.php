@@ -384,6 +384,7 @@ $doNotPackage = array(
     'package.json',
     'phpunit-pgsql.xml.dist',
     'phpunit.xml.dist',
+    'renovate.json',
     'plugins/sampledata/testing/testing.php',
     'plugins/sampledata/testing/testing.xml',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
