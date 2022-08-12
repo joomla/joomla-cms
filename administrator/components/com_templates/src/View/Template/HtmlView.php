@@ -23,8 +23,6 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
-
 /**
  * View to edit a template style.
  *
