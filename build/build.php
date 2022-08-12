@@ -370,13 +370,14 @@ $doNotPackage = array(
     '.github',
     '.gitignore',
     '.php-cs-fixer.dist.php',
-    'CODE_OF_CONDUCT.md',
-    'README.md',
     'acceptance.suite.yml',
+    // Media Manager Node Assets
+    'administrator/components/com_media/resources',
     'appveyor-phpunit.xml',
     'build',
     'build.xml',
     'codeception.yml',
+    'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
     'crowdin.yml',
@@ -384,16 +385,15 @@ $doNotPackage = array(
     'package.json',
     'phpunit-pgsql.xml.dist',
     'phpunit.xml.dist',
-    'renovate.json',
-    'plugins/sampledata/testing/testing.php',
-    'plugins/sampledata/testing/testing.xml',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
+    'plugins/sampledata/testing/testing.php',
+    'plugins/sampledata/testing/testing.xml',
+    'README.md',
+    'renovate.json',
     'ruleset.xml',
     'selenium.log',
     'tests',
-    // Media Manager Node Assets
-    'administrator/components/com_media/resources',
 );
 
 /*
