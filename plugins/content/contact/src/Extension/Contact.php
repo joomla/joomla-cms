@@ -126,7 +126,7 @@ class Contact extends CMSPlugin
         if (Multilanguage::isEnabled() === true) {
             $query->where(
                 '(' . $db->quoteName('contact.language') . ' IN ('
-                . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING))
+                . implode(',', $query->bindArray([$this->getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING))
                 . ') OR ' . $db->quoteName('contact.language') . ' IS NULL)'
             );
         }
