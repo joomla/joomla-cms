@@ -83,14 +83,6 @@ class StepTable extends Table
             $this->modified_by = $this->created_by;
         }
 
-        if ($this->default == '1') {
-            // Verify that the default is unique for this workflow
-            if ($table->load(array('default' => '1'))) {
-                $table->default = 0;
-                $table->store();
-            }
-        }
-
         return parent::store($updateNulls);
     }
 }
