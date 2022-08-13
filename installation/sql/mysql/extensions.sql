@@ -953,7 +953,7 @@ CREATE TABLE IF NOT EXISTS `#__guidedtours` (
 -- Dumping data for table `#__guidedtours`
 --
 
-INSERT INTO `#__guidedtours` (`id`, `asset_id`, `title`,`description`, `ordering`, `extensions`, `url`,`created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`, `published`) VALUES
+INSERT INTO `#__guidedtours` (`id`, `asset_id`, `title`,`description`, `ordering`, `extensions`, `url`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`, `published`) VALUES
 (1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you how you can create a Guided Tour in the Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours&view=tours', '', 0, '', 0, '', 0, 1);
 
 -- --------------------------------------------------------
@@ -963,7 +963,7 @@ INSERT INTO `#__guidedtours` (`id`, `asset_id`, `title`,`description`, `ordering
 --
 
 CREATE TABLE IF NOT EXISTS `#__guidedtour_steps` (
-  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `id` int NOT NULL AUTO_INCREMENT,
   `tour_id` int NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `published` tinyint NOT NULL DEFAULT 0,
@@ -977,6 +977,7 @@ CREATE TABLE IF NOT EXISTS `#__guidedtour_steps` (
   `created_by` int unsigned NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL,
   `modified_by` int unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
   KEY `idx_tour` (`tour_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -984,7 +985,7 @@ CREATE TABLE IF NOT EXISTS `#__guidedtour_steps` (
 -- Dumping data for table `#__guidedtour_steps`
 --
 
-INSERT INTO `#__guidedtour_steps` (`id`, `tour_id`, `title`, `published`, `description`, `ordering`, `step-no`, `position`, `target` ,`url` , `created`, `created_by`, `modified`, `modified_by`) VALUES
+INSERT INTO `#__guidedtour_steps` (`id`, `tour_id`, `title`, `published`, `description`, `ordering`, `step-no`, `position`, `target`, `url`, `created`, `created_by`, `modified`, `modified_by`) VALUES
 (1, 1, 'Click here!', 1, '<p>This Tour will show you how you can create a Guided Tour in the Joomla Backend!</p>', 0, 1, 'bottom', '.button-new','administrator/index.php?option=com_guidedtours&view=tours' ,'', 430, '', 430),
 (2, 1, 'Add title for your Tour', 1, '<p>Here you have to add the title of your Tour Step. </p>', 0, 1, 'bottom', '#jform_title', 'administrator/index.php?option=com_guidedtours&view=tour&layout=edit','', 430, '', 430),
 (3, 1, 'Add Content', 1, '<p>Add the content of your Tour here!</p>', 0, 1, 'bottom', '#details','administrator/index.php?option=com_guidedtours&view=tour&layout=edit' ,'', 430, '', 430),
