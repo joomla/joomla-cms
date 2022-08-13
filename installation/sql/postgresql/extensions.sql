@@ -962,21 +962,20 @@ $$;
 
 CREATE TABLE IF NOT EXISTS "#__guidedtours"
 (
-  "id" int NOT NULL AUTO_INCREMENT,
-  "asset_id" int DEFAULT 0,
+  "id" serial NOT NULL,
+  "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
   "description" text NOT NULL,
-  "ordering" int NOT NULL DEFAULT 0,
+  "ordering" bigint DEFAULT 0 NOT NULL,
   "extensions" text NOT NULL,
   "url" varchar(255) NOT NULL,
-  "created" datetime NOT NULL,
-  "created_by" int NOT NULL DEFAULT 0,
-  "modified" datetime NOT NULL,
-  "modified_by" int NOT NULL DEFAULT 0,
+  "created" timestamp without time zone NOT NULL,
+  "created_by" bigint DEFAULT 0 NOT NULL,
+  "modified" timestamp without time zone NOT NULL,
+  "modified_by" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
-  "checked_out" integer,
-  "published" tinyint NOT NULL DEFAULT 0,
-  "state" tinyint NOT NULL DEFAULT '1',
+  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "published" smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
 
@@ -985,7 +984,7 @@ CREATE TABLE IF NOT EXISTS "#__guidedtours"
 --
 
 INSERT INTO "#__guidedtours" ("id", "asset_id", "title", "description", "ordering", "extensions", "url", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out", "published") VALUES
-(1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you how you can create a Guided Tour in the Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours&view=tours', '', 0, '', 0, '', 0, 1);
+(1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you how you can create a Guided Tour in the Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours&view=tours', '', 0, '', 0, '', 0, 1)
 
 SELECT setval('#__guidedtours_id_seq', 2, false);
 
@@ -997,21 +996,21 @@ SELECT setval('#__guidedtours_id_seq', 2, false);
 
 CREATE TABLE IF NOT EXISTS "#__guidedtour_steps"
 (
-  "id" int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  "tour_id" int NOT NULL DEFAULT 0,
+  "id" serial NOT NULL,
+  "tour_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
   "published" tinyint NOT NULL DEFAULT 0,
   "description" text NOT NULL,
-  "ordering" int NOT NULL DEFAULT 0,
-  "step-no" int NOT NULL DEFAULT 0,
+  "ordering" bigint DEFAULT 0 NOT NULL,
+  "step-no" bigint DEFAULT 0 NOT NULL,
   "position" varchar(255) NOT NULL,
   "target" varchar(255) NOT NULL,
   "url" varchar(255) NOT NULL,
-  "created" datetime NOT NULL,
-  "created_by" int unsigned NOT NULL DEFAULT 0,
-  "modified" datetime NOT NULL,
-  "modified_by" int unsigned NOT NULL DEFAULT 0,
-  "state" tinyint NOT NULL DEFAULT '1'
+  "created" timestamp without time zone NOT NULL,
+  "created_by" bigint DEFAULT 0 NOT NULL,
+  "modified" timestamp without time zone NOT NULL,
+  "modified_by" bigint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
 );
 CREATE INDEX "#__guidedtours_idx_tour_id" ON "#__guidedtour_steps" ("tour_id");
 
