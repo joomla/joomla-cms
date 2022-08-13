@@ -27,6 +27,8 @@ class TourTable extends Table
      * @var    boolean
      * @since  __DEPLOY_VERSION__
      */
+
+    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore 
     protected $_supportNullValue = true;
 
     /**
