@@ -22,6 +22,14 @@ use Joomla\Database\DatabaseDriver;
 class TourTable extends Table
 {
     /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $_supportNullValue = true;
+
+    /**
      * An array of key names to be json encoded in the bind function
      *
      * @var    array
