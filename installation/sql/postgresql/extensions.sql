@@ -973,8 +973,8 @@ CREATE TABLE IF NOT EXISTS "#__guidedtours"
   "created_by" int NOT NULL DEFAULT 0,
   "modified" datetime NOT NULL,
   "modified_by" int NOT NULL DEFAULT 0,
-  "checked_out_time" datetime NOT NULL,
-  "checked_out" int NOT NULL DEFAULT 0,
+  "checked_out_time" timestamp without time zone,
+  "checked_out" integer,
   "published" tinyint NOT NULL DEFAULT 0,
   "state" tinyint NOT NULL DEFAULT '1',
   PRIMARY KEY ("id")
