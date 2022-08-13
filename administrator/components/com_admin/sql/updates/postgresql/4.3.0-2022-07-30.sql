@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS "#__guidedtours"
 --
 
 INSERT INTO "#__guidedtours" ("id", "asset_id", "title", "description", "ordering", "extensions", "url", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out", "published") VALUES
-(1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you how you can create a Guided Tour in the Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours&view=tours', '', 0, '', 0, '', 0, 1);
+(1, 0, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you how you can create a Guided Tour in the Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours&view=tours', '', 0, '', 0, '', 0, 1);
 
 -- --------------------------------------------------------
 
