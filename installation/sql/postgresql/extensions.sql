@@ -987,6 +987,8 @@ CREATE TABLE IF NOT EXISTS "#__guidedtours"
 INSERT INTO "#__guidedtours" ("id", "asset_id", "title", "description", "ordering", "extensions", "url", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out", "published") VALUES
 (1, 91, 'How to create a Guided Tour in Joomla Backend?', '<p>This Tour will show you how you can create a Guided Tour in the Joomla Backend!</p>', 0, '[\"com_guidedtours\"]', 'administrator/index.php?option=com_guidedtours&view=tours', '', 0, '', 0, '', 0, 1);
 
+SELECT setval('#__guidedtours_id_seq', 2, false);
+
 -- --------------------------------------------------------
 
 --
@@ -1033,3 +1035,5 @@ INSERT INTO "#__guidedtour_steps" ("id", "tour_id", "title", "published", "descr
 (13, 1, 'Multi-page URL', 1, '<p>Add Relative URL of the page from where next step starts</p>', 0, 1, 'bottom', '#jform_url','administrator/index.php?option=com_guidedtours&view=step&layout=edit' ,'', 430, '', 430),
 (14, 1, 'Save and Close', 1, '<p>Save and close the step</p>', 0, 1, 'bottom', '#save-group-children-save', 'administrator/index.php?option=com_guidedtours&view=step&layout=edit','', 430, '', 430),
 (15, 1, 'Congratulations!!!', 1, '<p>You successfully created your first Guided Tour!</p>', 0, 1, 'bottom', '', 'administrator/index.php?option=com_guidedtours&view=step&layout=edit','', 430, '', 430);
+
+SELECT setval('#__guidedtour_steps_id_seq', 16, false);
