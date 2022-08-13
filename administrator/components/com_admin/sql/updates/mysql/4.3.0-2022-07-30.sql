@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS `#__guidedtours` (
   `created_by` int NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL,
   `modified_by` int NOT NULL DEFAULT 0,
-  `checked_out_time` datetime NOT NULL,
-  `checked_out` int NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `checked_out` int unsigned,
   `published` tinyint NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
