@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS "#__guidedtour_steps"
   "id" serial NOT NULL,
   "tour_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
-  "published" tinyint NOT NULL DEFAULT 0,
+  "published" smallint DEFAULT 0 NOT NULL,
   "description" text NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "step-no" bigint DEFAULT 0 NOT NULL,
