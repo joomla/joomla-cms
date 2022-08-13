@@ -977,6 +977,8 @@ CREATE TABLE IF NOT EXISTS `#__guidedtour_steps` (
   `created_by` int unsigned NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL,
   `modified_by` int unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `checked_out` int unsigned,
   PRIMARY KEY (`id`),
   KEY `idx_tour` (`tour_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

@@ -53,6 +53,8 @@ CREATE TABLE IF NOT EXISTS "#__guidedtour_steps"
   "created_by" bigint DEFAULT 0 NOT NULL,
   "modified" timestamp without time zone NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone,
+  "checked_out" integer,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__guidedtours_idx_tour_id" ON "#__guidedtour_steps" ("tour_id") /** CAN FAIL **/;
