@@ -854,8 +854,7 @@ CREATE INDEX "#__action_logs_users_idx_notify" ON "#__action_logs_users" ("notif
 -- Table structure for table "#__scheduler_tasks"
 --
 
-CREATE TABLE IF NOT EXISTS "#__scheduler_tasks"
-(
+CREATE TABLE IF NOT EXISTS "#__scheduler_tasks" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
@@ -896,8 +895,7 @@ CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("chec
 -- Table structure for table `#__guidedtours`
 --
 
-CREATE TABLE IF NOT EXISTS "#__guidedtours"
-(
+CREATE TABLE IF NOT EXISTS "#__guidedtours" (
   "id" serial NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
@@ -930,8 +928,7 @@ SELECT setval('#__guidedtours_id_seq', 2, false);
 -- Table structure for table `#__guidedtour_steps`
 --
 
-CREATE TABLE IF NOT EXISTS "#__guidedtour_steps"
-(
+CREATE TABLE IF NOT EXISTS "#__guidedtour_steps" (
   "id" serial NOT NULL,
   "tour_id" bigint DEFAULT 0 NOT NULL,
   "title" varchar(255) NOT NULL,
