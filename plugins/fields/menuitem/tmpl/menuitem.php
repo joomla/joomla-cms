@@ -10,6 +10,7 @@
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
@@ -17,7 +18,7 @@ defined('_JEXEC') or die;
 $value = (int)$field->value;
 $menu  = Factory::getApplication()->getMenu()->getItem($value);
 
-if ($value === 0 || !$menu) {
+if (!$menu instanceof MenuItem) {
     return;
 }
 
