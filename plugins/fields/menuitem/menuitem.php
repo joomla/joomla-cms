@@ -10,11 +10,13 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
+
 /**
  * Fields Menuitem Plugin
  *
  * @since  4.2.0
  */
-class PlgFieldsMenuitem extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
+class PlgFieldsMenuitem extends FieldsPlugin
 {
 }
