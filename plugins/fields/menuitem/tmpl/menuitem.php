@@ -14,13 +14,14 @@ use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
 
-$value = (int) $field->value;
+$value = (int)$field->value;
+$menu  = Factory::getApplication()->getMenu()->getItem($value);
 
-if ($value == '') {
+if ($value === 0 || !$menu) {
     return;
 }
 
 $url   = Route::_('index.php?Itemid=' . $value);
-$title = Factory::getApplication()->getMenu()->getItem($value)->title;
+$title = $menu->title;
 
 echo HTMLHelper::_('link', $url, $title);
