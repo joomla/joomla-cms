@@ -127,7 +127,7 @@ class UserModel extends AdminModel
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // If the user needs to change their password, mark the password fields as required
         if ($user->requireReset) {
@@ -222,7 +222,7 @@ class UserModel extends AdminModel
         $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
         $user = User::getInstance($pk);
 
-        $my = Factory::getUser();
+        $my = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
 
         // User cannot modify own user groups
@@ -299,7 +299,7 @@ class UserModel extends AdminModel
      */
     public function delete(&$pks)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
         $pks   = (array) $pks;
 
@@ -367,7 +367,7 @@ class UserModel extends AdminModel
     public function block(&$pks, $value = 1)
     {
         $app        = Factory::getApplication();
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -470,7 +470,7 @@ class UserModel extends AdminModel
      */
     public function activate(&$pks)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -611,7 +611,7 @@ class UserModel extends AdminModel
         $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
@@ -628,7 +628,7 @@ class UserModel extends AdminModel
         }
 
         // Prune out the current user if they are in the supplied user ID array
-        $userIds = array_diff($userIds, array(Factory::getUser()->id));
+        $userIds = array_diff($userIds, array($this->getCurrentUser()->id));
 
         if (empty($userIds)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
@@ -678,7 +678,7 @@ class UserModel extends AdminModel
         $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
@@ -796,7 +796,7 @@ class UserModel extends AdminModel
      */
     public function getGroups()
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users')) {
             $model = $this->bootComponent('com_users')
