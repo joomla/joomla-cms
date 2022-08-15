@@ -25,6 +25,11 @@ steps:
   - name: npm
     image: node:16-alpine
     depends_on: [ phpcs ]
+    volumes:
+      - name: npm-cache
+        path: /tmp/npm-cache
+    environment:
+      npm_config_cache: /tmp/npm-cache
     commands:
       - npm ci --unsafe-perm
 
@@ -353,6 +358,9 @@ volumes:
   - name: composer-cache
     host:
       path: /tmp/composer-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
 
 services:
   - name: mysql
@@ -475,6 +483,6 @@ trigger:
 
 ---
 kind: signature
-hmac: f6b6ff9152f09747fffbbfc7e5abc122dc8c79e3543cffdefbde4c49985070b8
+hmac: 25c3ea60a786b4532398c4ae682c56590676293bade03b03e697e9d1b8f758ad
 
 ...
