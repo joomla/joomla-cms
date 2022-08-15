@@ -13,8 +13,8 @@ module.exports = defineConfig({
     supportFile: 'tests/cypress/support/index.js',
     scrollBehavior: 'center',
     browser: 'firefox',
-    screenshotOnRunFailure: false,
-    video: false
+    screenshotOnRunFailure: true,
+    video: true
   },
   env: {
     sitename: 'Joomla CMS Test',
