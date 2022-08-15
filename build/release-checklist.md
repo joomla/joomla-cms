@@ -7,6 +7,7 @@ At all stages here it is assumed you have a copy of the joomla-cms repo download
 
 - [ ] Update Composer dependencies to their latest version
 - [ ] Update NPM dependencies to their latest version
+- [ ] If a new major/minor release - update the Wiki PHP configuration file to create alias for the new help screen alias')
 
 ## Checklist (Release Candidate - Preparation)
 

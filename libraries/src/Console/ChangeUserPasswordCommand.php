@@ -78,8 +78,8 @@ class ChangeUserPasswordCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Change Password');
         $this->username = $this->getStringFromOption('username', 'Please enter a username');
-        $this->ioStyle->title('Change password');
 
         $userId = UserHelper::getUserId($this->username);
 
