@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\Content\Contact\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
