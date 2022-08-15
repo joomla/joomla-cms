@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 JOOMLA_BASE=$1
-DB_ENGINE=$2
+TEST_GROUP=$2
+DB_ENGINE=$3
 
 echo "[RUNNER] Prepare test environment"
 
@@ -9,8 +10,8 @@ echo "[RUNNER] Prepare test environment"
 cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
-rsync -a $JOOMLA_BASE/ /tests/www/$DB_ENGINE/
-chown -R www-data /tests/www/$DB_ENGINE/
+rsync -a $JOOMLA_BASE/ /tests/www/$TEST_GROUP/
+chown -R www-data /tests/www/$TEST_GROUP/
 
 echo "[RUNNER] Start Apache"
 apache2ctl -D FOREGROUND &
@@ -25,5 +26,5 @@ export cypress_db_password=joomla_ut
 
 npm run cypress:install
 npx cypress verify
-npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$DB_ENGINE
+npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$TEST_GROUP
 
