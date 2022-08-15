@@ -63,7 +63,7 @@ class TransitionModel extends AdminModel
         $app = Factory::getApplication();
         $extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', null, 'cmd');
 
-        return Factory::getUser()->authorise('core.delete', $extension . '.transition.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $extension . '.transition.' . (int) $record->id);
     }
 
     /**
@@ -77,7 +77,7 @@ class TransitionModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $app = Factory::getApplication();
         $context = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');

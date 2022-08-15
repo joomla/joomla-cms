@@ -121,7 +121,7 @@ class LinkModel extends AdminModel
      */
     public function activate(&$pks, $url, $comment = null)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db = $this->getDatabase();
 
         // Sanitize the ids.
@@ -176,7 +176,7 @@ class LinkModel extends AdminModel
      */
     public function duplicateUrls(&$pks, $url, $comment = null)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db = $this->getDatabase();
 
         // Sanitize the ids.
