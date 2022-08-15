@@ -19,7 +19,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class EmailCloak extends CMSPlugin
+final class EmailCloak extends CMSPlugin
 {
     /**
      * Plugin that cloaks all emails in content from spambots via Javascript.
