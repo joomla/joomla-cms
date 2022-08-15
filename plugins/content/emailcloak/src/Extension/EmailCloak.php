@@ -40,12 +40,12 @@ final class EmailCloak extends CMSPlugin
         }
 
         if (is_object($row)) {
-            $this->_cloak($row->text, $params);
+            $this->cloak($row->text, $params);
 
             return;
         }
 
-        $this->_cloak($row, $params);
+        $this->cloak($row, $params);
     }
 
     /**
@@ -56,7 +56,7 @@ final class EmailCloak extends CMSPlugin
      *
      * @return  string  A regular expression that matches a link containing the parameters.
      */
-    protected function _getPattern($link, $text)
+    private function getPattern($link, $text)
     {
         $pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
 
@@ -72,7 +72,7 @@ final class EmailCloak extends CMSPlugin
      *
      * @return  void
      */
-    protected function _cloak(&$text, &$params)
+    private function cloak(&$text, &$params)
     {
         /*
          * Check for presence of {emailcloak=off} which is explicits disables this
@@ -115,7 +115,7 @@ final class EmailCloak extends CMSPlugin
          * >email@example.org</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
          * the mailto: prefix...
          */
-        $pattern = $this->_getPattern($searchEmail, $searchEmail);
+        $pattern = $this->getPattern($searchEmail, $searchEmail);
         $pattern = str_replace('"mailto:', '"http://mce_host([\x20-\x7f][^<>]+/)', $pattern);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
@@ -134,7 +134,7 @@ final class EmailCloak extends CMSPlugin
          * >anytext</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
          * the mailto: prefix...
          */
-        $pattern = $this->_getPattern($searchEmail, $searchText);
+        $pattern = $this->getPattern($searchEmail, $searchText);
         $pattern = str_replace('"mailto:', '"http://mce_host([\x20-\x7f][^<>]+/)', $pattern);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
@@ -152,7 +152,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@example.org"
          * >email@example.org</a>
          */
-        $pattern = $this->_getPattern($searchEmail, $searchEmail);
+        $pattern = $this->getPattern($searchEmail, $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0];
@@ -169,7 +169,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@amail.com"
          * ><anyspan >email@amail.com</anyspan></a>
          */
-        $pattern = $this->_getPattern($searchEmail, $searchEmailSpan);
+        $pattern = $this->getPattern($searchEmail, $searchEmailSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0];
@@ -186,7 +186,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@amail.com">
          * <anyspan >anytext</anyspan></a>
          */
-        $pattern = $this->_getPattern($searchEmail, $searchTextSpan);
+        $pattern = $this->getPattern($searchEmail, $searchTextSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0];
@@ -202,7 +202,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@example.org">
          * anytext</a>
          */
-        $pattern = $this->_getPattern($searchEmail, $searchText);
+        $pattern = $this->getPattern($searchEmail, $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0];
@@ -218,7 +218,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@example.org">
          * <img anything></a>
          */
-        $pattern = $this->_getPattern($searchEmail, $searchImage);
+        $pattern = $this->getPattern($searchEmail, $searchImage);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0];
@@ -234,7 +234,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@example.org">
          * <img anything>email@example.org</a>
          */
-        $pattern = $this->_getPattern($searchEmail, $searchImage . $searchEmail);
+        $pattern = $this->getPattern($searchEmail, $searchImage . $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0];
@@ -250,7 +250,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@example.org">
          * <img anything>any text</a>
          */
-        $pattern = $this->_getPattern($searchEmail, $searchImage . $searchText);
+        $pattern = $this->getPattern($searchEmail, $searchImage . $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0];
@@ -266,7 +266,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@example.org?
          * subject=Text">email@example.org</a>
          */
-        $pattern = $this->_getPattern($searchEmailLink, $searchEmail);
+        $pattern = $this->getPattern($searchEmailLink, $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0] . $regs[3][0];
@@ -286,7 +286,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@example.org?
          * subject=Text">anytext</a>
          */
-        $pattern = $this->_getPattern($searchEmailLink, $searchText);
+        $pattern = $this->getPattern($searchEmailLink, $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0] . $regs[3][0];
@@ -305,7 +305,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@amail.com?subject= Text"
          * ><anyspan >email@amail.com</anyspan></a>
          */
-        $pattern = $this->_getPattern($searchEmailLink, $searchEmailSpan);
+        $pattern = $this->getPattern($searchEmailLink, $searchEmailSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0] . $regs[3][0];
@@ -322,7 +322,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code <a href="mailto:email@amail.com?subject= Text">
          * <anyspan >anytext</anyspan></a>
          */
-        $pattern = $this->_getPattern($searchEmailLink, $searchTextSpan);
+        $pattern = $this->getPattern($searchEmailLink, $searchTextSpan);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[2][0] . $regs[3][0];
@@ -338,7 +338,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code
          * <a href="mailto:email@amail.com?subject=Text"><img anything></a>
          */
-        $pattern = $this->_getPattern($searchEmailLink, $searchImage);
+        $pattern = $this->getPattern($searchEmailLink, $searchImage);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
@@ -358,7 +358,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code
          * <a href="mailto:email@amail.com?subject=Text"><img anything>email@amail.com</a>
          */
-        $pattern = $this->_getPattern($searchEmailLink, $searchImage . $searchEmail);
+        $pattern = $this->getPattern($searchEmailLink, $searchImage . $searchEmail);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
@@ -378,7 +378,7 @@ final class EmailCloak extends CMSPlugin
          * Search for derivatives of link code
          * <a href="mailto:email@amail.com?subject=Text"><img anything>any text</a>
          */
-        $pattern = $this->_getPattern($searchEmailLink, $searchImage . $searchText);
+        $pattern = $this->getPattern($searchEmailLink, $searchImage . $searchText);
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[1][0] . $regs[2][0] . $regs[3][0];
