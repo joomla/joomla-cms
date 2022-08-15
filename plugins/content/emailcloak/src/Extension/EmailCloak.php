@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Content\EmailCloak\Extension;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -19,15 +19,8 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class PlgContentEmailcloak extends CMSPlugin
+class EmailCloak extends CMSPlugin
 {
-    /**
-     * @var    \Joomla\CMS\Application\SiteApplication
-     *
-     * @since  3.9.0
-     */
-    protected $app;
-
     /**
      * Plugin that cloaks all emails in content from spambots via Javascript.
      *
@@ -42,7 +35,7 @@ class PlgContentEmailcloak extends CMSPlugin
     {
         // Don't run if in the API Application
         // Don't run this plugin when the content is being indexed
-        if ($this->app->isClient('api') || $context === 'com_finder.indexer') {
+        if ($this->getApplication()->isClient('api') || $context === 'com_finder.indexer') {
             return;
         }
 
