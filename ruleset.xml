@@ -21,6 +21,9 @@
 
     <rule ref="PSR12" />
 
+	<rule ref="PHPCompatibilityJoomla"/>
+	<config name="testVersion" value="7.2-"/>
+
     <!-- temporary extend the line length -->
     <rule ref="Generic.Files.LineLength">
         <properties>
