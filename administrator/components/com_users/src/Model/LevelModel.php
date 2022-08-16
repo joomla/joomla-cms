@@ -151,7 +151,7 @@ class LevelModel extends AdminModel
         $result = parent::getItem($pk);
 
         // Convert the params field to an array.
-        if ($pk !== null) {
+        if (property_exists($result, 'rules') && $result->rules !== null) {
             $result->rules = json_decode($result->rules);
         }
 
