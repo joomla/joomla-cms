@@ -15,7 +15,7 @@ steps:
       - composer install --no-progress --no-suggest
 
   - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
+    image: joomlaprojects/docker-images:php8.1
     depends_on: [ composer ]
     commands:
       - echo $(date)
@@ -475,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 783273e5140ae315f2403b13eb12f4773b77995a3d44a38551b55c89b9d40350
+hmac: 4bed523aad55b4226ce3f70ee73ca81ee5b213ee6e3d41535c5df1366baf1162
 
 ...
