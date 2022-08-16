@@ -70,11 +70,11 @@ $canDelete  = MfaHelper::canDeleteMethod($this->user);
                             <div class="com-users-methods-list-method-record d-flex flex-row flex-wrap justify-content-start border-top py-2">
                                 <div class="com-users-methods-list-method-record-info flex-grow-1 d-flex flex-column align-items-start gap-1">
                                     <?php if ($methodName === 'backupcodes') : ?>
-                                        <div class="alert alert-info mt-1 w-100">
-                                            <?php if ($canAddEdit) : ?>
+                                        <?php if ($canAddEdit) : ?>
+                                            <div class="alert alert-info mt-1 w-100">
                                                 <?php echo Text::sprintf('COM_USERS_MFA_BACKUPCODES_PRINT_PROMPT_HEAD', Route::_('index.php?option=com_users&task=method.edit&id=' . (int) $record->id . ($this->returnURL ? '&returnurl=' . $this->escape(urlencode($this->returnURL)) : '') . '&user_id=' . $this->user->id)) ?>
-                                            <?php endif ?>
-                                        </div>
+                                            </div>
+                                        <?php endif ?>
                                     <?php else : ?>
                                         <h3 class="com-users-methods-list-method-record-title-container mb-1 fs-5">
                                             <?php if ($record->default) : ?>
