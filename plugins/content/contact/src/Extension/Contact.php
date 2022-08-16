@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class Contact extends CMSPlugin
+final class Contact extends CMSPlugin
 {
     use DatabaseAwareTrait;
 
@@ -89,7 +89,7 @@ class Contact extends CMSPlugin
      *
      * @return  stdClass|null  Object containing contact details or null if not found
      */
-    protected function getContactData($userId)
+    private function getContactData($userId)
     {
         static $contacts = array();
 
