@@ -61,7 +61,7 @@ class TableColumns {
     $button.setAttribute('aria-expanded', 'false');
 
     const $ul = document.createElement('ul');
-    $ul.setAttribute('class', 'list-unstyled p-2');
+    $ul.setAttribute('class', 'list-unstyled p-2 text-nowrap');
     $ul.setAttribute('id', 'columnList');
 
     // Collect a list of headers for dropdown
