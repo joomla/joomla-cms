@@ -258,8 +258,8 @@ class RedisStorage extends CacheStorage
 		{
 			return false;
 		}
-	
-        static::$_redis->setex($this->_getCacheId($id, $group), $this->_lifetime, $data);        
+
+        static::$_redis->setex($this->_getCacheId($id, $group), $this->_lifetime, $data);
 
 		return true;
 	}
