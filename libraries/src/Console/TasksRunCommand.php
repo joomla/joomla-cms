@@ -64,7 +64,7 @@ class TasksRunCommand extends AbstractCommand
         ];
 
         $this->configureIo($input, $output);
-        $this->ioStyle->title('Run tasks');
+        $this->ioStyle->title('Run Tasks');
 
         $scheduler = new Scheduler();
 
