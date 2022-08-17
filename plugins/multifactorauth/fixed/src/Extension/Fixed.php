@@ -27,7 +27,7 @@ use Joomla\Input\Input;
 use RuntimeException;
 
 /**
- * TJoomla! Multi-factor Authentication using a fixed code.
+ * Joomla! Multi-factor Authentication using a fixed code.
  *
  * Requires a static string (password), different for each user. It effectively works as a second
  * password. The fixed code is stored hashed, like a regular password.
