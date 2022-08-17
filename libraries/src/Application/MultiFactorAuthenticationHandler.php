@@ -293,7 +293,7 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        // Ignore non all HTML Requests
+        // Ignore non HTML Requests
         if ($this->input->getCmd('format', 'html') !== 'html') {
             return false;
         }
