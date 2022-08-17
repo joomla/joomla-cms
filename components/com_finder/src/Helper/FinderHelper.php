@@ -48,7 +48,7 @@ class FinderHelper
 
         // Sanitise the term for the database
         $temp = new \stdClass();
-        $temp->input = trim(strtolower($searchquery->input));
+        $temp->input = trim(strtolower((string) $searchquery->input));
         $entry = new \stdClass();
         $entry->searchterm = $temp->input;
         $entry->query = serialize($temp);
