@@ -191,6 +191,39 @@ abstract class PluginHelper
             // We are allowed to load SOME plugins. Which ones?
             $allowedPlugins = self::ALLOWED_PLUGINS_WHEN_FROZEN[$type];
 
+            /**
+             * Special case: authentication plugins
+             *
+             * If the built-in plg_authentication_joomla plugin is published we keep the hard-coded
+             * list of core plugins as the only allowed authentication plugins. At worst, the user
+             * can authenticate with their Joomla username and password.
+             *
+             * If that plugin is not enabled, the site owner has enabled a custom, third party
+             * authentication plugin. In this case we HOPE AND PRAY that it's compatible with the
+             * new Joomla version. For us to be able to load it, all we can do is empty the
+             * $allowedPlugins array which makes the code below load any plugin in the
+             * authentication group.
+             *
+             * Rule of thumb: always publish the Joomla authentication plugin
+             * (plg_authentication_joomla) before upgrading your site to avoid any nasty bugs in
+             * third party code which lead to broken updates.
+             */
+            if ($type === 'authentication') {
+                $hasJoomlaAuth = array_reduce(
+                    static::load(),
+                    function (bool $carry, $p) use ($type): bool {
+                        return $carry
+                            || (
+                                is_object($p) && (
+                                    ($p->type ?? '') === $type) && (($p->name ?? '') === 'joomla'
+                                )
+                            );
+                    },
+                    false
+                );
+                $allowedPlugins = $hasJoomlaAuth ? $allowedPlugins : [];
+            }
+
             if ($plugin === null) {
                 /**
                  * We are told to load all plugins of a type which has SOME allowed plugins under
