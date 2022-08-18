@@ -293,14 +293,9 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        // Allow the statistics plugin to run
-        if ($isAdmin && $option === 'com_ajax' && $task === '') {
-            $group  = strtolower($this->input->getCmd('group', ''));
-            $plugin = strtolower($this->input->getCmd('plugin', ''));
-
-            if ($group === 'system' && $plugin === 'sendstats') {
-                return false;
-            }
+        // Ignore non HTML Requests
+        if ($this->input->getCmd('format', 'html') !== 'html') {
+            return false;
         }
 
         return true;
