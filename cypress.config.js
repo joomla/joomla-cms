@@ -14,7 +14,7 @@ module.exports = defineConfig({
     scrollBehavior: 'center',
     browser: 'firefox',
     screenshotOnRunFailure: true,
-    video: true
+    video: false
   },
   env: {
     sitename: 'Joomla CMS Test',

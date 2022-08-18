@@ -18,7 +18,7 @@ apache2ctl -D FOREGROUND &
 
 echo "[RUNNER] Run cypress"
 chmod +rwx /root
-cd /tests/www/$TEST_GROUP
+# cd /tests/www/$TEST_GROUP
 
 #export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
 export cypress_db_host=$DB_ENGINE
@@ -26,5 +26,5 @@ export cypress_db_password=joomla_ut
 
 npx cypress install
 npx cypress verify
-npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$TEST_GROUP
+npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$TEST_GROUP --config screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
 
