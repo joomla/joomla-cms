@@ -7802,6 +7802,8 @@ class JoomlaInstallerScript
             // From 4.2.0-beta2 to 4.2.0-beta3
             '/plugins/system/webauthn/src/Helper',
             '/plugins/system/webauthn/src/Exception',
+            // From 4.2.0 to 4.2.1
+            '/libraries/vendor/symfony/string/Resources/bin',
         );
 
         $status['files_checked'] = $files;
