@@ -26,5 +26,5 @@ export cypress_db_password=joomla_ut
 
 npx cypress install
 npx cypress verify
-npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$TEST_GROUP --config screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
+npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
 
