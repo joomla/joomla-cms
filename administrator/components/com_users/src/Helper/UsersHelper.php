@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Users component helper.
