@@ -168,6 +168,7 @@ function clean_checkout(string $dir)
 
     // symfony/*
     system('rm -rf libraries/vendor/symfony/*/Resources/doc');
+    system('rm -rf libraries/vendor/symfony/string/Resources/bin');
     system('rm -rf libraries/vendor/symfony/*/Tests');
     system('rm -rf libraries/vendor/symfony/console/Resources');
 
