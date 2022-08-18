@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
+use Joomla\CMS\Application\PluginFreezingApplicationInterface;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -531,7 +532,11 @@ class UpdateModel extends BaseDatabaseModel
         $app = Factory::getApplication();
 
         // Trigger event before joomla update.
-        $app->triggerEvent('onJoomlaBeforeUpdate');
+        try {
+            $app->triggerEvent('onJoomlaBeforeUpdate');
+        } catch (\Exception $e) {
+            // Swallow any PHP errors
+        }
 
         // Get the absolute path to site's root.
         $siteroot = JPATH_SITE;
@@ -824,13 +829,16 @@ ENDDATA;
      */
     public function cleanUp()
     {
-        // Load overrides plugin.
-        PluginHelper::importPlugin('installer');
-
         $app = Factory::getApplication();
 
-        // Trigger event after joomla update.
-        $app->triggerEvent('onJoomlaAfterUpdate');
+        // Load "installer" group plugins and trigger event after joomla update.
+        try {
+            PluginHelper::importPlugin('installer');
+
+            $app->triggerEvent('onJoomlaAfterUpdate');
+        } catch (\Throwable $e) {
+            // Swallow any PHP errors
+        }
 
         // Remove the update package.
         $tempdir = $app->get('tmp_path');
@@ -864,7 +872,12 @@ ENDDATA;
         $oldVersion = $app->getUserState('com_joomlaupdate.oldversion');
 
         // Trigger event after joomla update.
-        $app->triggerEvent('onJoomlaAfterUpdate', array($oldVersion));
+        try {
+            $app->triggerEvent('onJoomlaAfterUpdate', [$oldVersion]);
+        } catch (\Exception $e) {
+            // Swallow any PHp errors
+        }
+
         $app->setUserState('com_joomlaupdate.oldversion', null);
     }
 

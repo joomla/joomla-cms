@@ -28,7 +28,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class AdministratorApplication extends CMSApplication
+class AdministratorApplication extends CMSApplication implements PluginFreezingApplicationInterface
 {
     use MultiFactorAuthenticationHandler;
 
@@ -47,6 +47,14 @@ class AdministratorApplication extends CMSApplication
         'com_login',
         'com_ajax',
     ];
+
+    /**
+     * Is plugin loading temporarily frozen?
+     *
+     * @var   bool
+     * @since __DEPLOY_VERSION__
+     */
+    private $isPluginLoadingFrozen = false;
 
     /**
      * Class constructor.
@@ -267,6 +275,38 @@ class AdministratorApplication extends CMSApplication
      */
     protected function initialiseApp($options = array())
     {
+        /**
+         * Special case: if we are handling Joomla Update's finalisation code
+         * (option=com_joomlaupdate&task=update.finalise) we want to "pause" plugins from being
+         * loaded. This prevents plugins which do not work correctly under the new version of Joomla
+         * from causing a PHP error which would prevent the update finalisation from running to
+         * completion.
+         *
+         * We need to do the same thing with the finalisation confirmation page
+         * (option=com_joomlaupdate&view=update&layout=finaliseconfirm and
+         * option=com_joomlaupdate&task=update.finaliseconfirm) which are used to confirm the
+         * finalisation if the security token does not match i.e. the session expired while
+         * performing the update.
+         *
+         * Finally, we do the same for the com_joomlaupdate cleanup step
+         * (option=com_joomlaupdate&task=update.cleanup). However, the UpdateModel in Joomla Update
+         * will re-enable plugin loading as we need to run custom third party code at this stage.
+         */
+        $option = strtolower($this->input->getCmd('option', ''));
+        $view   = strtolower($this->input->getCmd('view', ''));
+        $task   = strtolower($this->input->getCmd('task', ''));
+        $layout = strtolower($this->input->getCmd('layout', ''));
+
+        if (
+            $option === 'com_joomlaupdate' && (
+                $task === 'update.finalise'
+                || $task === 'update.finaliseconfirm'
+                || ($view === 'update' && $layout === 'finaliseconfirm')
+            )
+        ) {
+            $this->setPluginLoadingFrozen(true);
+        }
+
         $user = Factory::getUser();
 
         // If the user is a guest we populate it with the guest user group.
@@ -483,5 +523,33 @@ class AdministratorApplication extends CMSApplication
         $app->input->set('option', $option);
 
         return $option;
+    }
+
+    /**
+     * Is loading plugins temporarily frozen?
+     *
+     * @return  bool
+     * @since   __DEPLOY_VERSION__
+     */
+    public function isPluginLoadingFrozen(): bool
+    {
+        return $this->isPluginLoadingFrozen;
+    }
+
+    /**
+     * Set the temporary plugin loading frozen state.
+     *
+     * This method is intentionally protected. We do not want to allow third party extensions to set
+     * the plugin loading frozen state as it has a great potential for abuse and can raise security
+     * concerns.
+     *
+     * @param   bool  $state  The new frozen state, true to freeze, false to unfreeze.
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function setPluginLoadingFrozen(bool $state): void
+    {
+        $this->isPluginLoadingFrozen = $state;
     }
 }
