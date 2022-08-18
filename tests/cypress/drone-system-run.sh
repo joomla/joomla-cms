@@ -17,8 +17,8 @@ echo "[RUNNER] Start Apache"
 apache2ctl -D FOREGROUND &
 
 echo "[RUNNER] Run cypress"
-cd /tests/www/$DB_ENGINE
 chmod +rwx /root
+cd /tests/www/$TEST_GROUP
 
 #export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
 export cypress_db_host=$DB_ENGINE
