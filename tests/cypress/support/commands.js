@@ -3,7 +3,6 @@ Cypress.Commands.add('createContentCategory', (title) => {
   cy.contains('h1', 'Articles: Categories').should('exist')
   cy.clickToolbarButton('New')
   cy.get('#jform_title').should('exist').type(title)
-  cy.get('#toolbar-dropdown-save-group button.dropdown-toggle').click()
   cy.clickToolbarButton('Save & Close')
 
   // TODO Still need to implement this. Quick fix: we need to refactor the test
@@ -38,9 +37,9 @@ Cypress.Commands.add('deleteField', (title, message) => {
   cy.visit('administrator/index.php?option=com_fields&view=fields&context=com_content.article')
   cy.searchForItem()
   cy.get('.js-stools-btn-filter').click()
-  cy.intercept('get', 'administrator/index.php').as('setTrashFilter')
+  cy.intercept('index.php*').as('setTrashed')
   cy.get('#filter_state').select('Trashed')
-  cy.wait('@setTrashFilter')
+  cy.wait('@setTrashed')
   cy.searchForItem(title)
   cy.checkAllResults()
   cy.clickToolbarButton('Empty trash')
