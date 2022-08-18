@@ -33,6 +33,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $section = null;
 $mode = false;
+$tour_id = $this->state->get('tour_id');
 
 if ($saveOrder && !empty($this->items)) {
     $saveOrderingUrl = 'index.php?option=com_guidedtours&step=steps.saveOrderAjax&tmpl=component&' .
@@ -41,7 +42,7 @@ if ($saveOrder && !empty($this->items)) {
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps'); ?>"
+<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=steps&tour_id=' . $tour_id); ?>"
  method="post" name="adminForm" id="adminForm">
     <div id="j-main-container" class="j-main-container">
         <?php
