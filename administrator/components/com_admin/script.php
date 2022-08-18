@@ -6438,6 +6438,7 @@ class JoomlaInstallerScript
             // From 4.2.0 to 4.2.1
             '/media/vendor/hotkeys.js/js/hotkeys.js',
             '/media/vendor/hotkeys.js/js/hotkeys.min.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js.gz'
             '/media/vendor/hotkeys.js/LICENSE',
         );
 
