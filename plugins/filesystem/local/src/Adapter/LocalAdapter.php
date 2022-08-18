@@ -765,7 +765,19 @@ class LocalAdapter implements AdapterInterface
         File::delete($tmpFile);
 
         if (!$can) {
-            throw new \Exception(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 403);
+            
+            $exception = Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT');
+
+        	$messages = Factory::getApplication()->getMessageQueue();
+        	if (\is_array($messages) && \count($messages)) {
+        		foreach ($messages as $message) {
+        			if (isset($message['type']) && isset($message['message'])) {
+        				$exception = $message['message'];
+        			}
+        		}
+        	}
+            
+            throw new \Exception($exception, 403);
         }
     }
 
