@@ -24,6 +24,16 @@
 	<rule ref="PHPCompatibilityJoomla"/>
 	<config name="testVersion" value="7.2-"/>
 
+	<rule ref="PHPCompatibility.Keywords.ForbiddenNamesAsDeclared">
+		<exclude-pattern type="relative">libraries/src/Object/CMSObject\.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/String/PunycodeHelper\.php</exclude-pattern>
+		<exclude-pattern type="relative">tests/Unit/Libraries/Cms/Object/CMSObjectTest\.php</exclude-pattern>
+	</rule>
+
+	<rule ref="PHPCompatibility.Constants.NewConstants.password_argon2idFound">
+		<exclude-pattern type="relative">libraries/src/Authentication/Password/Argon2idHandler\.php</exclude-pattern>
+	</rule>
+
     <!-- temporary extend the line length -->
     <rule ref="Generic.Files.LineLength">
         <properties>
