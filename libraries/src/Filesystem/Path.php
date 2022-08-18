@@ -195,7 +195,7 @@ class Path
             );
         }
 
-        $path = trim($path);
+        $path = $path ? trim($path) : '';
 
         if (empty($path)) {
             $path = JPATH_ROOT;
