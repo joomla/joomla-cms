@@ -63,7 +63,7 @@ class BreadcrumbsHelper
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     public static function getHome(Registry $params, CMSApplication $app)
     {

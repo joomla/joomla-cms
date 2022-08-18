@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 /** @var Joomla\Component\Users\Administrator\View\User\HtmlView $this */
 
