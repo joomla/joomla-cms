@@ -6435,6 +6435,10 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/webauthn.php',
             '/plugins/task/checkfiles/checkfiles.php',
             '/plugins/task/demotasks/demotasks.php',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js/hotkeys.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js',
+            '/media/vendor/hotkeys.js/LICENSE',
         );
 
         $folders = array(
@@ -7804,6 +7808,8 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/src/Exception',
             // From 4.2.0 to 4.2.1
             '/libraries/vendor/symfony/string/Resources/bin',
+            '/media/vendor/hotkeys.js/js',
+            '/media/vendor/hotkeys.js',
         );
 
         $status['files_checked'] = $files;
