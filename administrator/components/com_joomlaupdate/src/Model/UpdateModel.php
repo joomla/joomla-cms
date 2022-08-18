@@ -500,7 +500,10 @@ class UpdateModel extends BaseDatabaseModel
      *
      * @return  boolean
      * @since   2.5.1
-     * @deprecated 5.0
+     * 
+     * @#deprecated  4.3 will be removed in 6.0
+     *               Use "createUpdateFile" instead
+     *                   Example: $updateModel->createUpdateFile($basename);
      */
     public function createRestorationFile($basename = null): bool
     {

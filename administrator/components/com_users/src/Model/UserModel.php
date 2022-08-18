@@ -853,7 +853,9 @@ class UserModel extends AdminModel
      * @return  \stdClass
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @#deprecated   4.2 will be removed in 6.0.
+     *                Will be removed without replacement as not used in core anymore
      */
     public function getOtpConfig($userId = null)
     {
@@ -882,7 +884,9 @@ class UserModel extends AdminModel
      * @return  boolean  True on success
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @#deprecated   4.2 will be removed in 5.0.
+     *                Will be removed without replacement as not used in core anymore
      */
     public function setOtpConfig($userId, $otpConfig)
     {
@@ -903,7 +907,9 @@ class UserModel extends AdminModel
      * @return  string
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @#deprecated   4.2 will be removed in 5.0.
+     *                Will be removed without replacement as not used in core anymore
      */
     public function getOtpConfigEncryptionKey()
     {
@@ -928,7 +934,8 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0.
+     * @#deprecated   4.2 will be removed in 5.0.
+     *                Will be removed without replacement as not used in core anymore
      */
     public function getTwofactorform($userId = null)
     {
@@ -952,7 +959,9 @@ class UserModel extends AdminModel
      * @return  array  Empty array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Wil be removed in 5.0.
+     *
+     * @#deprecated   4.2 will be removed in 5.0
+     *                Will be removed without replacement as not used in core anymore
      */
     public function generateOteps($userId, $count = 10)
     {
@@ -979,7 +988,8 @@ class UserModel extends AdminModel
      * @since   3.2
      * @throws  \Exception
      *
-     * @deprecated 4.2.0 Will be removed in 5.0. MFA validation is done in the captive login.
+     * @#deprecated   4.2 will be removed in 5.0
+     *                Will be removed without replacement as not used in core anymore
      */
     public function isValidSecretKey($userId, $secretKey, $options = array())
     {
@@ -1004,7 +1014,9 @@ class UserModel extends AdminModel
      * @return  boolean  Always true
      *
      * @since   3.2
-     * @deprecated 4.2.0 Will be removed in 5.0
+     *
+     * @#deprecated   4.2 will be removed in 5.0
+     *                Will be removed without replacement as not used in core anymore
      */
     public function isValidOtep($userId, $otep, $otpConfig = null)
     {

@@ -1740,7 +1740,8 @@ class ItemModel extends AdminModel
      * Custom clean the cache
      *
      * @param   string   $group     Cache group name.
-     * @param   integer  $clientId  @deprecated  5.0  No Longer Used.
+     * @param   integer  $clientId  No longer used, will be removed without replacement
+     *                              @#deprecated   4.3 will be removed in 6.0
      *
      * @return  void
      *
