@@ -28,7 +28,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -522,4 +525,49 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $_SERVER['HTTP_HOST']   = $uri->toString(['host', 'port']);
         $_SERVER['REQUEST_URI'] = $uri->getPath();
     }
+
+    /**
+     * Builds the default input definition.
+     *
+     * @return  InputDefinition
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getDefaultInputDefinition(): InputDefinition
+    {
+        return new InputDefinition(
+            [
+                new InputArgument('command', InputArgument::REQUIRED, 'The command to execute'),
+                new InputOption(
+                    '--live-site',
+                    null,
+                    InputOption::VALUE_OPTIONAL,
+                    'The URL to your site, e.g. http://www.example.com'
+                ),
+                new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display the help information'),
+                new InputOption(
+                    '--quiet',
+                    '-q',
+                    InputOption::VALUE_NONE,
+                    'Flag indicating that all output should be silenced'
+                ),
+                new InputOption(
+                    '--verbose',
+                    '-v|vv|vvv',
+                    InputOption::VALUE_NONE,
+                    'Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug'
+                ),
+                new InputOption('--version', '-V', InputOption::VALUE_NONE, 'Displays the application version'),
+                new InputOption('--ansi', '', InputOption::VALUE_NONE, 'Force ANSI output'),
+                new InputOption('--no-ansi', '', InputOption::VALUE_NONE, 'Disable ANSI output'),
+                new InputOption(
+                    '--no-interaction',
+                    '-n',
+                    InputOption::VALUE_NONE,
+                    'Flag to disable interacting with the user'
+                ),
+            ]
+        );
+    }
+
 }
