@@ -306,7 +306,6 @@ final class Version
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
             ->createCacheController('callback', ['defaultgroup' => '_media_version', 'caching' => true]);
 
-        // Media version cache never expire
         $cache->setLifeTime(315576000);
 
         // Disable cache when Debug is enabled
