@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\Database\DatabaseAwareTrait;
@@ -228,6 +229,17 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     {
         // Load extension namespaces
         $this->createExtensionNamespaceMap();
+
+        /**
+         * Address issues with instantiating WebApplication descendants under CLI.
+         *
+         * IMPORTANT! This code must be always be executed **before** the first use of
+         * PluginHelper::importPlugin(). Some plugins will attempt to register an MVCFactory for a
+         * component in their service provider. This will in turn try to get the SiteRouter service
+         * for the component which tries to get an instance of SiteApplication which will fail with
+         * a RuntimeException if the populateHttpHost() method has not already executed.
+         */
+        $this->populateHttpHost();
 
         // Import CMS plugin groups to be able to subscribe to events
         PluginHelper::importPlugin('system');
@@ -462,5 +474,52 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         $options['mode'] = Factory::getApplication()->get('sef');
 
         return Router::getInstance($name, $options);
+    }
+
+    /**
+     * Populates the HTTP_HOST and REQUEST_URI from the URL provided in the --live-site parameter.
+     *
+     * If the URL provided is empty or invalid we will use the URL http://www.example.com just so
+     * that the CLI application doesn't crash when a WebApplication descendant is instantiated in
+     * it.
+     *
+     * This is a practical workaround for using any service depending on a WebApplication
+     * descendant under CLI.
+     *
+     * Practical example: using a component's MVCFactory which instantiates the SiteRouter
+     * service for that component which in turn relies on an instance of SiteApplication.
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     * @see     https://github.com/joomla/joomla-cms/issues/38518
+     */
+    protected function populateHttpHost()
+    {
+        // First check for the --live-site command line option.
+        $input = $this->getConsoleInput();
+
+        if ($input->hasParameterOption(['--live-site', false])) {
+            $liveSite = $input->getParameterOption(['--live-site'], '');
+        } else {
+            $liveSite = '';
+        }
+
+        // Fallback to the $live_site global configuration option in configuration.php
+        $liveSite = $liveSite ?: $this->get('live_site', 'http://www.example.com');
+
+        // Try to use the live site URL we were given. If all else fails, fall back to example.com.
+        try {
+            $uri = Uri::getInstance($liveSite);
+        } catch (\RuntimeException $e) {
+            $uri = Uri::getInstance('http://www.example.com');
+        }
+
+        /**
+         * Yes, this is icky but it is the only way to trick WebApplication into compliance.
+         *
+         * @see \Joomla\Application\AbstractWebApplication::detectRequestUri
+         */
+        $_SERVER['HTTP_HOST']   = $uri->toString(['host', 'port']);
+        $_SERVER['REQUEST_URI'] = $uri->getPath();
     }
 }
