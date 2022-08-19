@@ -499,12 +499,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     protected function populateHttpHost()
     {
         // First check for the --live-site command line option.
-        $input = $this->getConsoleInput();
+        $input    = $this->getConsoleInput();
+        $liveSite = '';
 
         if ($input->hasParameterOption(['--live-site', false])) {
             $liveSite = $input->getParameterOption(['--live-site'], '');
-        } else {
-            $liveSite = '';
         }
 
         // Fallback to the $live_site global configuration option in configuration.php
