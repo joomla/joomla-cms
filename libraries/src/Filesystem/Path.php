@@ -186,7 +186,7 @@ class Path
      */
     public static function clean($path, $ds = DIRECTORY_SEPARATOR)
     {
-        if (!\is_string($path) && !empty($path)) {
+        if ($path === null || (!\is_string($path) && !empty($path))) {
             throw new \UnexpectedValueException(
                 sprintf(
                     '%s() - $path is not a string',
@@ -195,7 +195,7 @@ class Path
             );
         }
 
-        $path = $path ? trim($path) : '';
+        $path = trim($path);
 
         if (empty($path)) {
             $path = JPATH_ROOT;
