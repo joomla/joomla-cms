@@ -45,3 +45,97 @@ Cypress.Commands.add('deleteField', (title, message) => {
   cy.clickToolbarButton('Empty trash')
   cy.get('#system-message-container').contains(message).should('exist')
 })
+
+Cypress.Commands.add('createArticle', (articleDetails) => {
+  cy.visit('administrator/index.php?option=com_content&view=articles')
+  cy.intercept('index.php?option=com_content&view=article*').as('article_edit')
+  cy.clickToolbarButton('New')
+  cy.wait('@article_edit')
+  cy.get('#jform_title').clear().type(articleDetails.title)
+  cy.get('#jform_alias').clear().type(articleDetails.alias)
+  cy.intercept('index.php?option=com_content&view=articles').as('article_list')
+  cy.clickToolbarButton('Save & Close')
+  cy.wait('@article_list')
+  cy.get('#system-message-container').contains('Article saved.').should('exist')
+})
+
+Cypress.Commands.add('featureArticle', (title) => {
+  cy.visit('administrator/index.php?option=com_content&view=articles')
+  cy.searchForItem(title)
+  cy.checkAllResults()
+  cy.clickToolbarButton('Action')
+  cy.intercept('index.php?option=com_content&view=articles').as('article_feature')
+  cy.clickToolbarButton('feature')
+  cy.wait('@article_feature')
+  cy.get('#system-message-container').contains('Article featured.').should('exist')
+})
+
+Cypress.Commands.add('setArticleAccessLevel', (title, accessLevel) => {
+  cy.visit('administrator/index.php?option=com_content&view=articles')
+  cy.searchForItem(title)
+  cy.checkAllResults()
+  /**$I->click($title);
+  $I->waitForElement(['id' => "jform_access"], $I->getConfig('timeout'));
+  $I->selectOption(['id' => "jform_access"], $accessLevel);
+  $I->click(ContentListPage::$dropDownToggle);
+  $I->clickToolbarButton('Save & Close');
+  $I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
+  $I->see($accessLevel, ContentListPage::$seeAccessLevel);**/
+})
+
+Cypress.Commands.add('unPublishArticle', (title) => {
+  cy.visit('administrator/index.php?option=com_content&view=articles')
+  cy.searchForItem(title)
+  cy.checkAllResults()
+  cy.clickToolbarButton('Action')
+  cy.intercept('index.php?option=com_content&view=articles').as('article_unpublish')
+  cy.clickToolbarButton('unpublish')
+  cy.wait('@article_unpublish')
+
+  //$I->filterByCondition($title, "0");
+})
+
+Cypress.Commands.add('publishArticle', (title) => {
+  cy.visit('administrator/index.php?option=com_content&view=articles')
+  cy.searchForItem(title)
+  cy.checkAllResults()
+  cy.clickToolbarButton('Action')
+  cy.intercept('index.php?option=com_content&view=articles').as('article_publish')
+  cy.clickToolbarButton('publish')
+  cy.wait('@article_publish')
+  //$I->filterByCondition($title, "1");
+})
+
+Cypress.Commands.add('trashArticle', (title) => {
+  cy.visit('administrator/index.php?option=com_content&view=articles')
+  cy.searchForItem(title)
+  cy.checkAllResults()
+  cy.clickToolbarButton('Action')
+  cy.clickToolbarButton('trash')
+
+  //$I->filterByCondition($title, "-2");
+})
+
+Cypress.Commands.add('deleteArticle', (title) => {
+  cy.visit('administrator/index.php?option=com_content&view=articles')
+  //$I->filterByCondition($title, "-2");
+  cy.searchForItem(title)
+  cy.checkAllResults()
+  cy.intercept('index.php?option=com_content&view=articles').as('article_delete')
+  cy.clickToolbarButton('empty trash');
+  cy.wait('@article_delete')
+  //$I->acceptPopup();
+})
+
+/**public function filterByCondition($title, $condition)
+{
+  // Make sure that the class js-stools-container-filters is visible.
+  // Filter is a toggle button and I never know what happened before.
+  $I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
+  el.classList.add('js-stools-container-filters-visible');
+});");
+$I->selectOption('//*[@id="filter_published"]', $condition);
+$I->wait(2);
+
+$I->see($title);
+}**/

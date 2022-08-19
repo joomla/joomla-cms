@@ -11,11 +11,6 @@ describe('Test com_content List features', () => {
     cy.checkForPhpNoticesOrWarnings()
   })
 
-  it('loads without PHP notices and warnings', function () {
-    cy.visit('administrator/index.php?option=com_content&view=articles')
-    cy.checkForPhpNoticesOrWarnings()
-  })
-
   it('executes CRUD on articles', function () {
     const testArticle = {
       'title': 'Test Article',
