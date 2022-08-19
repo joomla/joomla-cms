@@ -875,7 +875,7 @@ ENDDATA;
         try {
             $app->triggerEvent('onJoomlaAfterUpdate', [$oldVersion]);
         } catch (\Exception $e) {
-            // Swallow any PHp errors
+            // Swallow any PHP errors
         }
 
         $app->setUserState('com_joomlaupdate.oldversion', null);
