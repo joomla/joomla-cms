@@ -287,8 +287,8 @@ class Api {
             } else {
               notifications.notify(message);
             }
-          })
-        })
+          });
+        });
       }
     } else {
       switch (error.status) {
