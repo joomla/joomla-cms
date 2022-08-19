@@ -482,9 +482,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     /**
      * Populates the HTTP_HOST and REQUEST_URI from the URL provided in the --live-site parameter.
      *
-     * If the URL provided is empty or invalid we will use the URL http://www.example.com just so
-     * that the CLI application doesn't crash when a WebApplication descendant is instantiated in
-     * it.
+     * If the URL provided is empty or invalid we will use the URL
+     * https://joomla.invalid/set/by/console/application just so that the CLI application doesn't
+     * crash when a WebApplication descendant is instantiated in it.
      *
      * This is a practical workaround for using any service depending on a WebApplication
      * descendant under CLI.
@@ -508,13 +508,16 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
         }
 
         // Fallback to the $live_site global configuration option in configuration.php
-        $liveSite = $liveSite ?: $this->get('live_site', 'http://www.example.com');
+        $liveSite = $liveSite ?: $this->get('live_site', 'https://joomla.invalid/set/by/console/application');
 
-        // Try to use the live site URL we were given. If all else fails, fall back to example.com.
+        /**
+         * Try to use the live site URL we were given. If all else fails, fall back to
+         * https://joomla.invalid/set/by/console/application.
+         */
         try {
             $uri = Uri::getInstance($liveSite);
         } catch (\RuntimeException $e) {
-            $uri = Uri::getInstance('http://www.example.com');
+            $uri = Uri::getInstance('https://joomla.invalid/set/by/console/application');
         }
 
         /**
@@ -524,6 +527,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
          */
         $_SERVER['HTTP_HOST']   = $uri->toString(['host', 'port']);
         $_SERVER['REQUEST_URI'] = $uri->getPath();
+        $_SERVER['HTTPS'] = $uri->getScheme() === 'https' ? 'on' : 'off';
     }
 
     /**
