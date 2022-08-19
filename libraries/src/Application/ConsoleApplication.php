@@ -546,7 +546,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
                     '--live-site',
                     null,
                     InputOption::VALUE_OPTIONAL,
-                    'The URL to your site, e.g. http://www.example.com'
+                    'The URL to your site, e.g. https://www.example.com'
                 ),
                 new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display the help information'),
                 new InputOption(
