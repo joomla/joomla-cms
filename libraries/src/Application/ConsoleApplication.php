@@ -527,7 +527,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
          */
         $_SERVER['HTTP_HOST']   = $uri->toString(['host', 'port']);
         $_SERVER['REQUEST_URI'] = $uri->getPath();
-        $_SERVER['HTTPS'] = $uri->getScheme() === 'https' ? 'on' : 'off';
+        $_SERVER['HTTPS']       = $uri->getScheme() === 'https' ? 'on' : 'off';
     }
 
     /**
