@@ -573,5 +573,4 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
             ]
         );
     }
-
 }
