@@ -25,7 +25,7 @@ use Symfony\Component\Ldap\Ldap;
  *
  * @testdox     The Ldap plugin
  *
- * @since       4.2.0
+ * @since       __DEPLOY_VERSION__
  */
 class LdapPluginTest extends UnitTestCase
 {
@@ -88,7 +88,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function setUp(): void
     {
@@ -124,7 +124,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function tearDown(): void
     {
@@ -135,7 +135,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testOnUserAuthenticateAnonymousSearch()
     {
@@ -154,7 +154,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testOnUserAuthenticateDirect()
     {
@@ -172,7 +172,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testInvalidOnUserAuthenticateDirect()
     {
@@ -190,7 +190,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testOnUserAuthenticateAnonymousSearchTLS()
     {
@@ -213,7 +213,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testOnUserAuthenticateAnonymousSearchSSL()
     {
@@ -241,7 +241,7 @@ class LdapPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     /*
     public function testOnUserAuthenticateWithDebug()
