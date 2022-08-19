@@ -500,11 +500,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
     {
         // First check for the --live-site command line option.
         $input    = $this->getConsoleInput();
-        $liveSite = '';
-
-        if ($input->hasParameterOption(['--live-site', false])) {
-            $liveSite = $input->getParameterOption(['--live-site'], '');
-        }
+        $liveSite = $input->hasParameterOption(['--live-site', false])
+            ? $input->getParameterOption(['--live-site'], '')
+            : '';
 
         // Fallback to the $live_site global configuration option in configuration.php
         $liveSite = $liveSite ?: $this->get('live_site', 'https://joomla.invalid/set/by/console/application');
