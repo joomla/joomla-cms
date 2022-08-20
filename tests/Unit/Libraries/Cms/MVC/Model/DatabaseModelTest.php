@@ -321,7 +321,7 @@ class DatabaseModelTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.1
      *
      * @deprecated  5.0 Must be removed when database calls are changed to getDatabase in libraries models
      */
