@@ -327,11 +327,13 @@ class MediaHelper
             * https://github.com/darylldoyle/svg-sanitizer/issues/64
             * https://github.com/darylldoyle/svg-sanitizer/issues/63
             * https://github.com/darylldoyle/svg-sanitizer/pull/65
+            * https://github.com/darylldoyle/svg-sanitizer/issues/82
             */
             foreach ($svgErrors as $i => $error) {
                 if (($error['message'] === 'Suspicious node \'#comment\'')
                     || ($error['message'] === 'Suspicious attribute \'space\'')
-                    || ($error['message'] === 'Suspicious attribute \'enable-background\'') ) {
+                    || ($error['message'] === 'Suspicious attribute \'enable-background\'')
+                    || ($error['message'] === 'Suspicious node \'svg\'')) {
                     unset($svgErrors[$i]);
                 }
             }
