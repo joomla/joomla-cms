@@ -3,6 +3,7 @@ set -e
 JOOMLA_BASE=$1
 TEST_GROUP=$2
 DB_ENGINE=$3
+DB_HOST=$4
 
 echo "[RUNNER] Prepare test environment"
 
@@ -24,5 +25,5 @@ chmod +rwx /root
 
 npx cypress install
 npx cypress verify
-npx cypress run --browser=firefox --e2e --env db_host=$DB_ENGINE,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
+npx cypress run --browser=firefox --e2e --env db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
 

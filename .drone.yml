@@ -236,7 +236,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql mysql
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
 
   - name: phpmax-system-mysql
     depends_on:
@@ -246,7 +246,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlmax mysql
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
 
 #  - name: phpnext-system-mysql
 #    depends_on:
@@ -266,7 +266,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgres postgres
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
 
   - name: phpmax-system-postgres
     depends_on:
@@ -276,7 +276,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresmax postgres
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
 
 #  - name: phpnext-system-postgres
 #    depends_on:
@@ -296,7 +296,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8 mysql8
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
 
   - name: phpmax-system-mysql8
     depends_on:
@@ -306,7 +306,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8max mysql8
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
 
 #  - name: phpnext-system-mysql8
 #    depends_on:
@@ -483,6 +483,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 9a438273b7d47f6df2168a8021cc16a6673f579222ca362547629ba6c3200af5
+hmac: 916fe89f8d920e8471b32aae02bfe192abf24cd035b5f1ea73452662c1c92895
 
 ...
