@@ -335,7 +335,7 @@ class MediaHelper
                     || ($error['message'] === 'Suspicious attribute \'space\'')
                     || ($error['message'] === 'Suspicious attribute \'enable-background\'')
                     || ($error['message'] === 'Suspicious node \'svg\'')
-                    ) {
+                ) {
                     unset($svgErrors[$i]);
                 }
             }
