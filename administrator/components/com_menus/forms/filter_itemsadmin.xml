@@ -58,8 +58,8 @@
 		<field
 			name="parent_id"
 			type="MenuItemByType"
-			client_id="1"
 			label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
+			client_id="1"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MENUS_FILTER_SELECT_PARENT_MENU_ITEM</option>
