@@ -2,6 +2,7 @@
 .github
 build
 dev
+node_modules
 .appveyor.yml
 .drone.yml
 .editorconfig
@@ -11,6 +12,8 @@ build.xml
 composer.json
 composer.lock
 crowdin.yml
+package.json
+package-lock.json
 phpunit.xml.dist
 phpunit-pgsql.xml.dist
 selenium.log

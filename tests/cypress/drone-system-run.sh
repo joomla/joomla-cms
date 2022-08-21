@@ -10,7 +10,7 @@ echo "[RUNNER] Prepare test environment"
 cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
-rsync -a $JOOMLA_BASE/ /tests/www/$TEST_GROUP/
+rsync -a --exclude-from=tests/cypress/exclude.txt $JOOMLA_BASE/ /tests/www/$TEST_GROUP/
 chown -R www-data /tests/www/$TEST_GROUP/
 
 echo "[RUNNER] Start Apache"
