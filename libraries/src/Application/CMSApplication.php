@@ -282,6 +282,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function execute()
     {
         try {
+            $this->configureBaseUrlForApplication();
             $this->sanityCheckSystemVariables();
             $this->setupLogging();
             $this->createExtensionNamespaceMap();
@@ -1283,5 +1284,16 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
     public function setMenuFactory(MenuFactoryInterface $menuFactory): void
     {
         $this->menuFactory = $menuFactory;
+    }
+
+    /**
+     * Hook to allow applications to configure anything inside the static variables of \Joomla\CMS\Uri\Uri.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function configureBaseUrlForApplication(): void
+    {
     }
 }

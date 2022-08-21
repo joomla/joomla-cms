@@ -132,6 +132,10 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
                 ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
         }
 
+        if (!$container->has('application.active')) {
+            $container->alias('application.active', static::class);
+        }
+
         $this->input    = new \Joomla\CMS\Input\Cli();
         $this->language = Factory::getLanguage();
         $this->output   = $output ?: new Stdout();

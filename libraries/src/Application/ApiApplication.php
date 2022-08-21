@@ -76,9 +76,6 @@ final class ApiApplication extends CMSApplication
 
         $this->addFormatMap('application/json', 'json');
         $this->addFormatMap('application/vnd.api+json', 'jsonapi');
-
-        // Set the root in the URI based on the application name
-        Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
     }
 
 
@@ -404,5 +401,18 @@ final class ApiApplication extends CMSApplication
         // Trigger the onAfterDispatch event.
         PluginHelper::importPlugin('system');
         $this->triggerEvent('onAfterDispatch');
+    }
+
+    /**
+     * Hook to allow applications to configure anything inside the static variables of \Joomla\CMS\Uri\Uri.
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected function configureBaseUrlForApplication(): void
+    {
+        // Set the root in the URI based on the application name
+        Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
     }
 }

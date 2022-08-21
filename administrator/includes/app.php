@@ -49,7 +49,8 @@ $container->alias('session.web', 'session.web.administrator')
     ->alias('JSession', 'session.web.administrator')
     ->alias(\Joomla\CMS\Session\Session::class, 'session.web.administrator')
     ->alias(\Joomla\Session\Session::class, 'session.web.administrator')
-    ->alias(\Joomla\Session\SessionInterface::class, 'session.web.administrator');
+    ->alias(\Joomla\Session\SessionInterface::class, 'session.web.administrator')
+    ->alias('application.active', 'JApplicationAdministrator');
 
 // Instantiate the application.
 $app = $container->get(\Joomla\CMS\Application\AdministratorApplication::class);

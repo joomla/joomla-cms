@@ -69,7 +69,8 @@ $container->alias('session', 'session.cli')
     ->alias('JSession', 'session.cli')
     ->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
-    ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+    ->alias(\Joomla\Session\SessionInterface::class, 'session.cli')
+    ->alias(\Joomla\Console\Application::class, 'application.active');
 
 $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;

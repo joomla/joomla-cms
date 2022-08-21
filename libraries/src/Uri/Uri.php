@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Uri;
 
 use Joomla\CMS\Factory;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Uri Class
@@ -60,6 +61,22 @@ class Uri extends \Joomla\Uri\Uri
         if (empty(static::$instances[$uri])) {
             // Are we obtaining the URI from the server?
             if ($uri === 'SERVER') {
+                try {
+                    $applicationUriRequest = Factory::getContainer()->get('application.active')->get('uri.request');
+
+                    if ($applicationUriRequest !== null) {
+                        static::$instances[$uri] = new static($applicationUriRequest);
+
+                        return static::$instances[$uri];
+                    }
+                } catch (NotFoundExceptionInterface $e) {
+                    // Continue - might be a custom application who hasn't set application.active in the container
+                    // (which would be a b/c break to require within J4 - from J5 this will be compulsory with the
+                    // deprecation message below)
+                }
+
+                @trigger_error('The application should provide the request URI from Joomla 5.0.0', E_USER_DEPRECATED);
+
                 // Determine if the request was over SSL (HTTPS).
                 if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) !== 'off')) {
                     $https = 's://';
