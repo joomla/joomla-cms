@@ -2,7 +2,7 @@
 // <reference types="cypress" />
 
 describe('Test com_users features', () => {
-  before(function () {
+  before(() => {
     cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
     cy.user = {
       "username": "testUser",
@@ -23,7 +23,7 @@ describe('Test com_users features', () => {
 
     cy.contains('.page-title', 'Global Configuration').scrollIntoView()
     cy.get("div[role='tablist'] button[aria-controls='page-server']").click()
-    cy.get('#jform_mailonline0').click()
+    cy.get('#jform_mailonline0').scrollIntoView().click()
 
     cy.intercept('index.php?option=com_config*').as('config_save')
     cy.clickToolbarButton('save')

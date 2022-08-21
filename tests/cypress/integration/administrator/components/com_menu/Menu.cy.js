@@ -2,7 +2,7 @@
 // <reference types="cypress" />
 
 describe('Test com_menu features', () => {
-  before(function () {
+  before(() => {
     cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
   })
 
