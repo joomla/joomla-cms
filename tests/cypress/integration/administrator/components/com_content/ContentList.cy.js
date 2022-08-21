@@ -2,7 +2,7 @@
 // <reference types="cypress" />
 
 describe('Test com_content List features', () => {
-  before(() => {
+  beforeEach(() => {
     cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
   })
 
@@ -11,7 +11,7 @@ describe('Test com_content List features', () => {
     cy.checkForPhpNoticesOrWarnings()
   })
 
-  it('executes CRUD on articles', function () {
+  it('executes CRUD on articles', () => {
     const testArticle = {
       'title': 'Test Article',
       'alias': 'test-article',

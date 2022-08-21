@@ -74,13 +74,14 @@ Cypress.Commands.add('setArticleAccessLevel', (title, accessLevel) => {
   cy.visit('administrator/index.php?option=com_content&view=articles')
   cy.searchForItem(title)
   cy.checkAllResults()
-  /**$I->click($title);
-  $I->waitForElement(['id' => "jform_access"], $I->getConfig('timeout'));
-  $I->selectOption(['id' => "jform_access"], $accessLevel);
-  $I->click(ContentListPage::$dropDownToggle);
-  $I->clickToolbarButton('Save & Close');
-  $I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
-  $I->see($accessLevel, ContentListPage::$seeAccessLevel);**/
+  cy.intercept('index.php?option=com_content&view=article*').as('article_access')
+  cy.get('a').contains(title).click()
+  cy.wait('@article_access')
+  cy.get('#jform_access').select(accessLevel)
+  cy.intercept('index.php?option=com_content&view=article*').as('article_list')
+  cy.clickToolbarButton('Save & Close')
+  cy.wait('@article_list')
+  cy.get('td').contains(accessLevel).should('exist')
 })
 
 Cypress.Commands.add('unPublishArticle', (title) => {
@@ -91,8 +92,6 @@ Cypress.Commands.add('unPublishArticle', (title) => {
   cy.intercept('index.php?option=com_content&view=articles').as('article_unpublish')
   cy.clickToolbarButton('unpublish')
   cy.wait('@article_unpublish')
-
-  //$I->filterByCondition($title, "0");
 })
 
 Cypress.Commands.add('publishArticle', (title) => {
@@ -103,7 +102,6 @@ Cypress.Commands.add('publishArticle', (title) => {
   cy.intercept('index.php?option=com_content&view=articles').as('article_publish')
   cy.clickToolbarButton('publish')
   cy.wait('@article_publish')
-  //$I->filterByCondition($title, "1");
 })
 
 Cypress.Commands.add('trashArticle', (title) => {
@@ -111,31 +109,24 @@ Cypress.Commands.add('trashArticle', (title) => {
   cy.searchForItem(title)
   cy.checkAllResults()
   cy.clickToolbarButton('Action')
+  cy.intercept('index.php?option=com_content&view=articles').as('article_trash')
   cy.clickToolbarButton('trash')
-
-  //$I->filterByCondition($title, "-2");
+  cy.wait('@article_trash')
 })
 
 Cypress.Commands.add('deleteArticle', (title) => {
   cy.visit('administrator/index.php?option=com_content&view=articles')
-  //$I->filterByCondition($title, "-2");
+  cy.get('.js-stools-btn-filter').click()
+  cy.intercept('index.php?option=com_content&view=articles*').as('articles_trashed')
+  cy.get('#filter_published').select('Trashed')
+  cy.wait('@articles_trashed')
   cy.searchForItem(title)
   cy.checkAllResults()
+  cy.on("window:confirm", (s) => {
+    return true;
+  });
   cy.intercept('index.php?option=com_content&view=articles').as('article_delete')
   cy.clickToolbarButton('empty trash');
   cy.wait('@article_delete')
-  //$I->acceptPopup();
+  cy.wait('@article_delete')
 })
-
-/**public function filterByCondition($title, $condition)
-{
-  // Make sure that the class js-stools-container-filters is visible.
-  // Filter is a toggle button and I never know what happened before.
-  $I->executeJS("[].forEach.call(document.querySelectorAll('.js-stools-container-filters'), function (el) {
-  el.classList.add('js-stools-container-filters-visible');
-});");
-$I->selectOption('//*[@id="filter_published"]', $condition);
-$I->wait(2);
-
-$I->see($title);
-}**/

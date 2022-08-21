@@ -2,7 +2,7 @@
 // <reference types="cypress" />
 
 describe('Test com_users features', () => {
-  before(() => {
+  beforeEach(() => {
     cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
     cy.user = {
       "username": "testUser",
@@ -55,7 +55,6 @@ describe('Test com_users features', () => {
   })
 
   it('edits a user', function () {
-    cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
     cy.visit('administrator/index.php?option=com_users&view=users')
     cy.get('h1.page-title').should('contain.text', 'Users')
     cy.intercept('index.php?option=com_users&view=user*').as('usereditview')

@@ -2,7 +2,7 @@
 // <reference types="cypress" />
 
 describe('Test com_content Field features', () => {
-  before(() => {
+  beforeEach(() => {
     cy.doAdministratorLogin(Cypress.env('username'), Cypress.env('password'))
   })
 
