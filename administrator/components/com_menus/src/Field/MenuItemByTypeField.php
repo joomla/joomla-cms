@@ -13,6 +13,7 @@ namespace Joomla\Component\Menus\Administrator\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
@@ -216,10 +217,12 @@ class MenuItemByTypeField extends GroupedlistField
                     $lang = '';
                 }
 
+                $text = Text::_($link->text);
+
                 $groups[$menuTitle][] = HTMLHelper::_(
                     'select.option',
                     $link->value,
-                    $levelPrefix . $link->text . $lang,
+                    $levelPrefix . $text . $lang,
                     'value',
                     'text',
                     in_array($link->type, $this->disable)
@@ -243,10 +246,12 @@ class MenuItemByTypeField extends GroupedlistField
                         $lang = '';
                     }
 
+                    $text = Text::_($link->text);
+
                     $groups[$menu->title][] = HTMLHelper::_(
                         'select.option',
                         $link->value,
-                        $levelPrefix . $link->text . $lang,
+                        $levelPrefix . $text . $lang,
                         'value',
                         'text',
                         in_array($link->type, $this->disable)
