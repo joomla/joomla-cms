@@ -620,7 +620,7 @@ class PlgSystemStats extends CMSPlugin
      * Are we in a Multi-factor Authentication page?
      *
      * @return  bool
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.1
      */
     private function isCaptiveMFA(): bool
     {

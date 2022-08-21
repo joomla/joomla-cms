@@ -493,7 +493,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      * service for that component which in turn relies on an instance of SiteApplication.
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.1
      * @see     https://github.com/joomla/joomla-cms/issues/38518
      */
     protected function populateHttpHost()
@@ -534,7 +534,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @return  InputDefinition
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.1
      */
     protected function getDefaultInputDefinition(): InputDefinition
     {
