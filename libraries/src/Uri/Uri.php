@@ -70,9 +70,8 @@ class Uri extends \Joomla\Uri\Uri
                         return static::$instances[$uri];
                     }
                 } catch (NotFoundExceptionInterface $e) {
-                    // Continue - might be a custom application who hasn't set application.active in the container
-                    // (which would be a b/c break to require within J4 - from J5 this will be compulsory with the
-                    // deprecation message below)
+                    @trigger_error('The application should have an alias \'application.active\' for the ' .
+                        'running application from Joomla 5.0.0', E_USER_DEPRECATED);
                 }
 
                 @trigger_error('The application should provide the request URI from Joomla 5.0.0', E_USER_DEPRECATED);
