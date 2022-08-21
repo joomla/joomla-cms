@@ -21,11 +21,8 @@ chmod +rwx /root
 # cd /tests/www/$TEST_GROUP
 
 #export CYPRESS_CACHE_FOLDER=/tests/www/$DB_ENGINE/.cache
-export cypress_db_host=$DB_ENGINE
-export cypress_db_password=joomla_ut
-export cypress_db_prefix=$TEST_GROUP_
 
 npx cypress install
 npx cypress verify
-npx cypress run --browser=firefox --e2e --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
+npx cypress run --browser=firefox --e2e --env db_host=$DB_ENGINE,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
 
