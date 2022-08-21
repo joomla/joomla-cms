@@ -22,9 +22,6 @@ import 'joomla-cypress'
 // require('./commands')
 
 before(function() {
-  cy.fixture('setup').then(function(joomlaconfig) {
-    this.joomlaconfig = joomlaconfig
-  })
   const {registerCommands} = require('../../../node_modules/joomla-cypress/src/index.js')
 
   registerCommands()
