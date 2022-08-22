@@ -186,13 +186,24 @@ class Path
      */
     public static function clean($path, $ds = DIRECTORY_SEPARATOR)
     {
-        if ($path === null || (!\is_string($path) && !empty($path))) {
+        if (!\is_string($path) && !empty($path)) {
             throw new \UnexpectedValueException(
                 sprintf(
                     '%s() - $path is not a string',
                     __METHOD__
                 )
             );
+        }
+
+        if ($path === null) {
+            @trigger_error(
+                sprintf(
+                    'Path can not be null, in 5.0 it will throw an exception',
+                    __METHOD__
+                ),
+                E_USER_DEPRECATED
+            );
+            $path = '';
         }
 
         $path = trim($path);
