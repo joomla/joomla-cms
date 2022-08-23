@@ -80,7 +80,7 @@ class ContentType extends Table
         if (
             $table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id))
             && ($table->id != $this->id || $this->id == 0)
-        ) {
+        ){
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
             return false;
@@ -88,7 +88,6 @@ class ContentType extends Table
 
         return parent::store($updateNulls);
     }
-    $table = new static($this->getDbo());
 
     /**
      * Method to expand the field mapping
