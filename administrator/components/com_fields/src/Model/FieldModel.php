@@ -192,12 +192,12 @@ class FieldModel extends AdminModel
         $db->execute();
 
         // Inset new assigned categories
-        $tupel = new \stdClass();
-        $tupel->field_id = $id;
+        $tuple = new \stdClass();
+        $tuple->field_id = $id;
 
         foreach ($assignedCatIds as $catId) {
-            $tupel->category_id = $catId;
-            $db->insertObject('#__fields_categories', $tupel);
+            $tuple->category_id = $catId;
+            $db->insertObject('#__fields_categories', $tuple);
         }
 
         /**
