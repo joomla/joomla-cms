@@ -387,7 +387,7 @@
         "licenseFilename": "LICENSE.txt"
       },
       "hotkeys-js": {
-        "name": "hotkeysjs",
+        "name": "hotkeys.js",
         "licenseFilename": "LICENSE",
         "js" : {
           "dist/hotkeys.js": "js/hotkeys.js",
@@ -395,7 +395,7 @@
         },
         "provideAssets": [
           {
-            "name": "hotkeysjs",
+            "name": "hotkeys.js",
             "type": "script",
             "uri": "hotkeys.min.js",
             "attributes": {

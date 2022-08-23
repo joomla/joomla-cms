@@ -48,11 +48,10 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($data['return'])) {
-            $itemId = (int) $data['return'];
-            $data['return'] = 'index.php?Itemid=' . $itemId;
+            $data['return'] = 'index.php?Itemid=' . $data['return'];
 
             if (Multilanguage::isEnabled()) {
-                $language = $this->getModel('Login', 'Site')->getMenuLanguage($itemId);
+                $language = $this->getModel('Login', 'Site')->getMenuLanguage($data['return']);
 
                 if ($language !== '*') {
                     $data['return'] .= '&lang=' . $language;

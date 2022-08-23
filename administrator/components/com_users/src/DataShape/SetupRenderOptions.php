@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Administrator\DataShape;
 
 use InvalidArgumentException;
+use Joomla\Database\ParameterType;
 
 /**
  * Data shape for Method Setup Render Options

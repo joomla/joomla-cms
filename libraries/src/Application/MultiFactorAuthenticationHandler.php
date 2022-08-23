@@ -299,12 +299,10 @@ trait MultiFactorAuthenticationHandler
     /**
      * Is this a page concerning the Multi-factor Authentication feature?
      *
-     * @param   bool  $onlyCaptive  Should I only check for the MFA captive page?
-     *
-     * @return  boolean
-     * @since   4.2.0
+     * @return boolean
+     * @since  4.2.0
      */
-    public function isMultiFactorAuthenticationPage(bool $onlyCaptive = false): bool
+    private function isMultiFactorAuthenticationPage(): bool
     {
         $option = $this->input->get('option');
         $task   = $this->input->get('task');
@@ -317,18 +315,9 @@ trait MultiFactorAuthenticationHandler
         $allowedViews = ['captive', 'method', 'methods', 'callback'];
         $allowedTasks = [
             'captive.display', 'captive.captive', 'captive.validate',
-            'methods.display',
+            'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes', 'method.delete', 'method.save',
+            'methods.display', 'methods.disable', 'methods.doNotShowThisAgain',
         ];
-
-        if (!$onlyCaptive) {
-            $allowedTasks = array_merge(
-                $allowedTasks,
-                [
-                    'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes',
-                    'method.delete', 'method.save', 'methods.disable', 'methods.doNotShowThisAgain',
-                ]
-            );
-        }
 
         return in_array($view, $allowedViews) || in_array($task, $allowedTasks);
     }
