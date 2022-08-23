@@ -415,7 +415,7 @@ abstract class AdminModel extends FormModel
         }
 
         $newIds = array();
-        $db     = $this->getDatabase();
+        $db     = $this->getDbo();
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -840,7 +840,7 @@ abstract class AdminModel extends FormModel
 
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
-                        $db = $this->getDatabase();
+                        $db = $this->getDbo();
                         $query = $db->getQuery(true)
                             ->select(
                                 [
@@ -1305,7 +1305,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get associationskey for edited item
-            $db    = $this->getDatabase();
+            $db    = $this->getDbo();
             $id    = (int) $table->$key;
             $query = $db->getQuery(true)
                 ->select($db->quoteName('key'))
