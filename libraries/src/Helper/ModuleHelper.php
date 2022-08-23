@@ -216,7 +216,7 @@ abstract class ModuleHelper
 
         foreach (explode(' ', $attribs['style']) as $style) {
             if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath)) {
-                $module->content = $moduleContent;
+                $module = $moduleContent;
             }
         }
 
@@ -229,7 +229,7 @@ abstract class ModuleHelper
             Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
         }
 
-        return $module->content;
+        return $module;
     }
 
     /**
