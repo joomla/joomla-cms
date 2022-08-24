@@ -518,17 +518,17 @@ class FileLayout extends BaseLayout
         $app          = Factory::getApplication();
         $templateName = $this->options->get('template');
 
-        // Check template name in the options
         if ($templateName) {
+            // Check template name in the options
             $template = (object) [
                 'template' => $templateName,
                 'parent' => '',
             ];
-        } // Try to get a default template
-        elseif ($app->isClient('site') || $app->isClient('administrator')) {
+        } elseif ($app->isClient('site') || $app->isClient('administrator')) {
+            // Try to get a default template
             $template = $app->getTemplate(true);
-        } // Template not found
-        else {
+        } else {
+            // Template not found
             $template = false;
         }
 
