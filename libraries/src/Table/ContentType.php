@@ -69,8 +69,10 @@ class ContentType extends Table
 		// Verify that the alias is unique
 		$table = Table::getInstance('Contenttype', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0))
-		{
+		if (
+		    $table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id))
+		    && ($table->id != $this->id || $this->id == 0)
+		) {
 			$this->setError(\JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
 			return false;
