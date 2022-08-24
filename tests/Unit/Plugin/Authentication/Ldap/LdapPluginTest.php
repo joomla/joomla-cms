@@ -55,8 +55,8 @@ class LdapPluginTest extends UnitTestCase
 
     private function acceptCertificates(): void
     {
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, '/tmp/certs');
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, '/tmp/certs/CA.crt');
+        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, JPATH_ROOT.'/tests/Codeception/_data/certs');
+        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, JPATH_ROOT.'/tests/Codeception/_data/certs/CA.crt');
     }
 
     private function getAdminConnection(string $encryption): Ldap
