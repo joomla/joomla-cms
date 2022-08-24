@@ -31,4 +31,11 @@ $published = $this->state->get('filter.published');
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <div class="controls">
+                <?php echo LayoutHelper::render('joomla.html.batch.tagcopymove', []); ?>
+            </div>
+        </div>
+    </div>
 </div>
