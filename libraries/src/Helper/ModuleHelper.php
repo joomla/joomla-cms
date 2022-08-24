@@ -208,6 +208,9 @@ abstract class ModuleHelper
             return '';
         }
 
+        // Prevent double modification of the module content by chrome style
+        $module = clone $module;
+
         $displayData = array(
             'module'  => $module,
             'params'  => $params,
@@ -215,7 +218,9 @@ abstract class ModuleHelper
         );
 
         foreach (explode(' ', $attribs['style']) as $style) {
-            if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath)) {
+            $moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath);
+
+            if ($moduleContent) {
                 $module->content = $moduleContent;
             }
         }
