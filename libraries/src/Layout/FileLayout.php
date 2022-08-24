@@ -515,7 +515,22 @@ class FileLayout extends BaseLayout
     public function getDefaultIncludePaths()
     {
         // Get the template
-        $template = Factory::getApplication()->getTemplate(true);
+        $app          = Factory::getApplication();
+        $templateName = $this->options->get('template');
+
+        // Check template name in the options
+        if ($templateName) {
+            $template = (object) [
+                'template' => $templateName,
+                'parent' => '',
+            ];
+        }
+        // Try to get a default template
+        elseif ($app->isClient('site') || $app->isClient('administrator')) {
+            $template = $app->getTemplate(true);
+        } else {
+            $template = false;
+        }
 
         // Reset includePaths
         $paths = array();
@@ -529,12 +544,14 @@ class FileLayout extends BaseLayout
         $component = $this->options->get('component', null);
 
         if (!empty($component)) {
-            // (2) Component template overrides path
-            $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts/' . $component;
+            if ($template) {
+                // (2) Component template overrides path
+                $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts/' . $component;
 
-            if (!empty($template->parent)) {
-                // (2.a) Component template overrides path for an inherited template using the parent
-                $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts/' . $component;
+                if (!empty($template->parent)) {
+                    // (2.a) Component template overrides path for an inherited template using the parent
+                    $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts/' . $component;
+                }
             }
 
             // (3) Component path
@@ -545,12 +562,14 @@ class FileLayout extends BaseLayout
             }
         }
 
-        // (4) Standard Joomla! layouts overridden
-        $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts';
+        if ($template) {
+            // (4) Standard Joomla! layouts overridden
+            $paths[] = JPATH_THEMES . '/' . $template->template . '/html/layouts';
 
-        if (!empty($template->parent)) {
-            // (4.a) Component template overrides path for an inherited template using the parent
-            $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts';
+            if (!empty($template->parent)) {
+                // (4.a) Component template overrides path for an inherited template using the parent
+                $paths[] = JPATH_THEMES . '/' . $template->parent . '/html/layouts';
+            }
         }
 
         // (5 - lower priority) Frontend base layouts
