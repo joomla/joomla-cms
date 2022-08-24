@@ -16,7 +16,7 @@
 			</field>
 			<field
 				name="actionlogsExtensions"
-				type="logtype"
+				type="userlogtype"
 				label="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS"
 				multiple="true"
 				validate="options"
