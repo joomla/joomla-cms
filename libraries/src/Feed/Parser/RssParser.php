@@ -347,10 +347,7 @@ class RssParser extends FeedParser
      */
     protected function initialise()
     {
-        // We want to move forward to the first XML Element after the xml doc type declaration
-        $this->moveToNextElement();
-
-        // Read the version attribute.
+        // We are on the first XML Element after the xml doc type declaration
         $this->version = $this->stream->getAttribute('version');
 
         // We want to move forward to the first element after the <channel> element.
