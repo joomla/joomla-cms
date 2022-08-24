@@ -524,14 +524,10 @@ class FileLayout extends BaseLayout
                 'template' => $templateName,
                 'parent' => '',
             ];
-        }
-
-        // Try to get a default template
+        } // Try to get a default template
         elseif ($app->isClient('site') || $app->isClient('administrator')) {
             $template = $app->getTemplate(true);
-        }
-
-        // Template not found
+        } // Template not found
         else {
             $template = false;
         }
