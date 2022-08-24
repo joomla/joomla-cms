@@ -5,6 +5,37 @@ name: default
 clone:
 
 steps:
+  - name: setup
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: certificates
+        path: /certificates
+    commands:
+      - cp -v tests/Codeception/_data/certs/* /certificates/
+
+  - name: openldap
+    image: bitnami/openldap:latest
+    detach: true
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+        LDAP_ADMIN_USERNAME=admin
+        LDAP_ADMIN_PASSWORD=adminpassword
+        LDAP_USERS=customuser
+        LDAP_PASSWORDS=custompassword
+        LDAP_ENABLE_TLS=yes
+        LDAP_TLS_CERT_FILE=/certificates/ldapcert.crt
+        LDAP_TLS_KEY_FILE=/certificates/ldapcert.key
+        LDAP_TLS_CA_FILE=/certificates/CA.crt
+        BITNAMI_DEBUG=true
+        LDAP_CONFIG_ADMIN_ENABLED=yes
+        LDAP_CONFIG_ADMIN_USERNAME=admin
+        LDAP_CONFIG_ADMIN_PASSWORD=configpassword
+
   - name: composer
     image: joomlaprojects/docker-images:php7.4
     volumes:
@@ -361,6 +392,9 @@ volumes:
   - name: npm-cache
     host:
       path: /tmp/npm-cache
+  - name: certificates
+    host:
+      path: /tmp/certificates
 
 services:
   - name: mysql
@@ -388,25 +422,6 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
-
-  - name: openldap
-    image: bitnami/openldap:latest
-    ports:
-      - 1389
-      - 1636
-    environment:
-        LDAP_ADMIN_USERNAME=admin
-        LDAP_ADMIN_PASSWORD=adminpassword
-        LDAP_USERS=customuser
-        LDAP_PASSWORDS=custompassword
-        LDAP_ENABLE_TLS=yes
-        LDAP_TLS_CERT_FILE=/opt/bitnami/certs/ldapcert.crt
-        LDAP_TLS_KEY_FILE=/opt/bitnami/certs/ldapcert.key
-        LDAP_TLS_CA_FILE=/opt/bitnami/certs/CA.crt
-        BITNAMI_DEBUG=true
-        LDAP_CONFIG_ADMIN_ENABLED=yes
-        LDAP_CONFIG_ADMIN_USERNAME=admin
-        LDAP_CONFIG_ADMIN_PASSWORD=configpassword
 
 ---
 kind: pipeline
