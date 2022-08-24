@@ -74,9 +74,9 @@ class DataFormatter extends DebugBarDataFormatter
             if (is_scalar($call['args'][0])) {
                 $string .= $call['args'][0];
             } elseif (\is_object($call['args'][0])) {
-                $string .=  \get_class($call['args'][0]);
+                $string .= \get_class($call['args'][0]);
             } else {
-                $string .=  gettype($call['args'][0]);
+                $string .= gettype($call['args'][0]);
             }
             $string .= ')';
         } else {
