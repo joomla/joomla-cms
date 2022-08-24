@@ -59,15 +59,15 @@ class LdapPluginTest extends UnitTestCase
         ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, JPATH_ROOT.'/tests/Codeception/_data/certs/CA.crt');
     }
 
-    private function getAdminConnection(string $encryption): Ldap
+    private function getAdminConnection(array $options): Ldap
     {
         $admin_options = [
-            'host' => "localhost",
-            'port' => ($encryption == "ssl" ? self::SSLPORT : self::LDAPPORT),
-            'version' => 3,
-            'encryption' => $encryption,
-            'referrals' => false,
-            'debug' => false,
+            'host' => $options['host'],
+            'port' => (int) $options['port'],
+            'version' => $options['use_ldapV3'] == '1' ? 3 : 2,
+            'referrals'  => (bool) $options['no_referrals'],
+            'encryption' => $options['encryption'],
+            'debug' => (bool) $options['ldap_debug'],
         ];
         $ldap = Ldap::create(
             'ext_ldap',
@@ -77,9 +77,9 @@ class LdapPluginTest extends UnitTestCase
         return $ldap;
     }
 
-    private function requireEncryption($encryption): void
+    private function requireEncryption($encryption, $options): void
     {
-        $ldap = $this->getAdminConnection($encryption);
+        $ldap = $this->getAdminConnection($options);
         //TODO configure openldap to require the requested encryption
     }
 
@@ -95,7 +95,7 @@ class LdapPluginTest extends UnitTestCase
         // tests are executed in parallel as root
         // setUp is executed before every test
         $this->default_options = [
-            'host' => "localhost",
+            'host' => "openldap",
             'port' => self::LDAPPORT,
             'use_ldapV3' => 1,
             'encryption' => "none",
@@ -201,7 +201,7 @@ class LdapPluginTest extends UnitTestCase
         $plugin = $this->getPlugin($options);
 
         $this->acceptCertificates();
-        $this->requireEncryption("tls");
+        $this->requireEncryption("tls", $options);
 
         $response = new AuthenticationResponse();
         $plugin->onUserAuthenticate($this->default_credentials, [], $response);
@@ -227,7 +227,7 @@ class LdapPluginTest extends UnitTestCase
         $plugin = $this->getPlugin($options);
 
         $this->acceptCertificates();
-        $this->requireEncryption("ssl");
+        $this->requireEncryption("ssl",$options);
 
         $response = new AuthenticationResponse();
         $plugin->onUserAuthenticate($this->default_credentials, [], $response);
