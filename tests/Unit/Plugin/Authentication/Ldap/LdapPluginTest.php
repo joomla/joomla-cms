@@ -55,8 +55,8 @@ class LdapPluginTest extends UnitTestCase
 
     private function acceptCertificates(): void
     {
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, JPATH_ROOT.'/tests/Codeception/_data/certs');
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, JPATH_ROOT.'/tests/Codeception/_data/certs/CA.crt');
+        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, JPATH_ROOT . '/tests/Codeception/_data/certs');
+        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, JPATH_ROOT . '/tests/Codeception/_data/certs/CA.crt');
     }
 
     private function getAdminConnection(array $options): Ldap
@@ -227,7 +227,7 @@ class LdapPluginTest extends UnitTestCase
         $plugin = $this->getPlugin($options);
 
         $this->acceptCertificates();
-        $this->requireEncryption("ssl",$options);
+        $this->requireEncryption("ssl", $options);
 
         $response = new AuthenticationResponse();
         $plugin->onUserAuthenticate($this->default_credentials, [], $response);
