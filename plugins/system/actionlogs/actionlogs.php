@@ -558,7 +558,7 @@ class PlgSystemActionLogs extends CMSPlugin
      *
      * @return  void
      *
-     * @since   __DEPLOY
+     * @since   __DEPLOY_VERSION__
      */
 	public function onExtensionAfterSave($context, $table, $isNew): void
 	{
