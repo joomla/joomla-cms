@@ -23,18 +23,18 @@ steps:
       - name: certificates
         path: /certificates
     environment:
-      - LDAP_ADMIN_USERNAME=admin
-      - LDAP_ADMIN_PASSWORD=adminpassword
-      - LDAP_USERS=customuser
-      - LDAP_PASSWORDS=custompassword
-      - LDAP_ENABLE_TLS=yes
-      - LDAP_TLS_CERT_FILE=/certificates/ldapcert.crt
-      - LDAP_TLS_KEY_FILE=/certificates/ldapcert.key
-      - LDAP_TLS_CA_FILE=/certificates/CA.crt
-      - BITNAMI_DEBUG=true
-      - LDAP_CONFIG_ADMIN_ENABLED=yes
-      - LDAP_CONFIG_ADMIN_USERNAME=admin
-      - LDAP_CONFIG_ADMIN_PASSWORD=configpassword
+      - LDAP_ADMIN_USERNAME: admin
+      - LDAP_ADMIN_PASSWORD: adminpassword
+      - LDAP_USERS: customuser
+      - LDAP_PASSWORDS: custompassword
+      - LDAP_ENABLE_TLS: yes
+      - LDAP_TLS_CERT_FILE: /certificates/ldapcert.crt
+      - LDAP_TLS_KEY_FILE: /certificates/ldapcert.key
+      - LDAP_TLS_CA_FILE: /certificates/CA.crt
+      - BITNAMI_DEBUG: true
+      - LDAP_CONFIG_ADMIN_ENABLED: yes
+      - LDAP_CONFIG_ADMIN_USERNAME: admin
+      - LDAP_CONFIG_ADMIN_PASSWORD: configpassword
 
   - name: composer
     image: joomlaprojects/docker-images:php7.4
