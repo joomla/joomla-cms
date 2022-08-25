@@ -66,7 +66,7 @@ function addInitialStepToTourButton(tour, obj, tourId) {
         action() {
           return tour.next();
         },
-        text: "Next",
+        text: "Start",
       },
     ],
     id: obj[tourId].id,
