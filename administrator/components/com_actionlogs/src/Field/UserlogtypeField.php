@@ -56,7 +56,8 @@ class UserlogtypeField extends ListField
         $params     = ComponentHelper::getParams('com_actionlogs');
         $globalExt  = $params->get('loggable_extensions', []);
         $userExt    = substr($extensions[0], 2);
-        $userExt    = substr($userExt,0 , -2);
+        $userExt    = substr($userExt, 0, -2);
+
         $userExt    = explode('","', $userExt);
         $common     = array_merge($globalExt, array_intersect($globalExt, $userExt));
 
