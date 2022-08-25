@@ -716,7 +716,6 @@ class UserModel extends AdminModel
 
         // Remove the users from the group if requested.
         if (isset($doDelete)) {
-
             // first we need to check that the user is part of more than one group
             // otherwise we will end up with a user that is not part of any group
             // unless we are moving the user to a new group.
