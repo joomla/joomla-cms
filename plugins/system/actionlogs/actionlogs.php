@@ -588,8 +588,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		foreach ($values as $item)
 		{
 			$userExt = substr($item->extensions, 2);
-			$userExt = substr($userExt,0 , -2);
-			$user =    explode('","', $userExt);
+			$userExt = substr($userExt, 0, -2);
+			$user    = explode('","', $userExt);
 			$common  = array_intersect($globalExt, $user);
 	
 			$extension = '["' . implode('","', $common) . '"]';
