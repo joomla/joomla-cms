@@ -49,8 +49,7 @@ $container->alias('session.web', 'session.web.site')
     ->alias('JSession', 'session.web.site')
     ->alias(\Joomla\CMS\Session\Session::class, 'session.web.site')
     ->alias(\Joomla\Session\Session::class, 'session.web.site')
-    ->alias(\Joomla\Session\SessionInterface::class, 'session.web.site')
-    ->alias('application.active', 'JApplicationSite');
+    ->alias(\Joomla\Session\SessionInterface::class, 'session.web.site');
 
 // Instantiate the application.
 $app = $container->get(\Joomla\CMS\Application\SiteApplication::class);

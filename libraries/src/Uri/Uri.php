@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Uri;
 
 use Joomla\CMS\Factory;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Uri Class
@@ -62,16 +61,15 @@ class Uri extends \Joomla\Uri\Uri
             // Are we obtaining the URI from the server?
             if ($uri === 'SERVER') {
                 try {
-                    $applicationUriRequest = Factory::getContainer()->get('application.active')->get('uri.request');
+                    $applicationUriRequest = Factory::getApplication()->get('uri.request');
 
                     if ($applicationUriRequest !== null) {
                         static::$instances[$uri] = new static($applicationUriRequest);
 
                         return static::$instances[$uri];
                     }
-                } catch (NotFoundExceptionInterface $e) {
-                    @trigger_error('The application should have an alias \'application.active\' for the ' .
-                        'running application from Joomla 5.0.0', E_USER_DEPRECATED);
+                } catch (\Exception $e) {
+                    @trigger_error('The application should be set into Factory', E_USER_DEPRECATED);
                 }
 
                 @trigger_error('The application should provide the request URI from Joomla 5.0.0', E_USER_DEPRECATED);

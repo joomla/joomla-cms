@@ -41,8 +41,7 @@ $container->alias('session', 'session.cli')
     ->alias('JSession', 'session.cli')
     ->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
     ->alias(\Joomla\Session\Session::class, 'session.cli')
-    ->alias(\Joomla\Session\SessionInterface::class, 'session.cli')
-    ->alias('application.active', 'JApplicationApi');
+    ->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
 
 // Instantiate the application.
 $app = $container->get(\Joomla\CMS\Application\ApiApplication::class);

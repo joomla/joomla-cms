@@ -44,8 +44,7 @@ JLoader::registerAlias('JRouterInstallation', \Joomla\CMS\Installation\Router\In
 
 // Get the dependency injection container
 $container = \Joomla\CMS\Factory::getContainer();
-$container->alias('application.active', \Joomla\CMS\Installation\Application\InstallationApplication::class)
-    ->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application());
+$container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application());
 
 /*
  * Alias the session service keys to the web session service as that is the primary session backend for this application
