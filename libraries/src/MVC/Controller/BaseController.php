@@ -1057,4 +1057,36 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         return $this;
     }
+
+    /**
+     * Returns the MVC factory.
+     *
+     * @return  MVCFactoryInterface
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \UnexpectedValueException
+     */
+    protected function getMVCFactory(): MVCFactoryInterface
+    {
+        if ($this->factory) {
+            return $this->factory;
+        }
+
+        throw new \UnexpectedValueException('MVC Factory not set in ' . __CLASS__);
+    }
+
+    /**
+     * Set the MVC factory.
+     *
+     * @param   MVCFactoryInterface  $mvcFactory  The MVC factory
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setMVCFactory(MVCFactoryInterface $mvcFactory)
+    {
+        $this->factory = $mvcFactory;
+    }
+
 }
