@@ -33,7 +33,7 @@ class MVCFactoryWrapper implements MVCFactoryInterface
      *
      * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
      *
-     * @since   1.0.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \Exception
      */
     public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input)
@@ -54,7 +54,7 @@ class MVCFactoryWrapper implements MVCFactoryInterface
      *
      * @return  ModelInterface  The model object
      *
-     * @since   1.0.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \Exception
      */
     public function createModel($name, $prefix = '', array $config = [])
@@ -78,7 +78,7 @@ class MVCFactoryWrapper implements MVCFactoryInterface
      *
      * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
      *
-     * @since   1.0.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \Exception
      */
     public function createView($name, $prefix = '', $type = '', array $config = [])
@@ -95,7 +95,7 @@ class MVCFactoryWrapper implements MVCFactoryInterface
      *
      * @return  \Joomla\CMS\Table\Table  The table object
      *
-     * @since   1.0.0
+     * @since   __DEPLOY_VERSION__
      * @throws  \Exception
      */
     public function createTable($name, $prefix = '', array $config = [])
