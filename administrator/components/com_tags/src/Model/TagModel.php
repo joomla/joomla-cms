@@ -635,7 +635,7 @@ class TagModel extends AdminModel
         }
 
         // Check that user has create and edit permission for menus
-        if (!Factory::getApplication()->getIdentity()->authorise('core.create', 'com_tags')) {
+        if (!$this->getCurrentUser()->authorise('core.create', 'com_tags')) {
             $this->setError(Text::_('COM_TAGS_BATCH_COPY_MOVE_CANNOT_CREATE'));
 
             return false;
