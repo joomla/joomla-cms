@@ -43,8 +43,7 @@ if ($multiple) {
         ->useScript('webcomponent.field-subform');
 }
 
-if ($disabled)
-{
+if ($disabled) {
     // Subform is disabled, hide any buttons
     $buttons = null;
 }
