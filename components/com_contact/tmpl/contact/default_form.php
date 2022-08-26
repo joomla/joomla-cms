@@ -17,13 +17,11 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
-$hasCaptcha = false;
 ?>
 <div class="com-contact__form contact-form">
     <form id="contact-form" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
             <?php if ($fieldset->name === 'captcha' && $this->captchaEnabled) : ?>
-                <?php $hasCaptcha = true; ?>
                 <?php continue; ?>
             <?php endif; ?>
             <?php $fields = $this->form->getFieldset($fieldset->name); ?>
@@ -38,7 +36,7 @@ $hasCaptcha = false;
                 </fieldset>
             <?php endif; ?>
         <?php endforeach; ?>
-        <?php if ($hasCaptcha) : ?>
+        <?php if ($this->captchaEnabled) : ?>
             <?php echo $this->form->renderFieldset('captcha'); ?>
         <?php endif; ?>
         <div class="control-group">
