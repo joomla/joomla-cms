@@ -63,6 +63,11 @@ class InstallCommand extends AbstractCommand
 
         $this->ioStyle->title('Install Joomla');
 
+        if (file_exists(JPATH_ROOT . '/configuration.php')) {
+            $this->ioStyle->error('configuration.php already present! Nothing to install, exiting.');
+            return Command::FAILURE;
+        }
+
         /* @var CliInstallationApplication $app */
         $app = $this->getApplication();
 
