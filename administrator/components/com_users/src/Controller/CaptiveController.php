@@ -12,9 +12,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\Validate;
 use Joomla\CMS\Factory;
@@ -27,7 +25,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\CaptiveModel;
 use Joomla\Input\Input;
-use ReflectionObject;
 use RuntimeException;
 
 /**
@@ -208,8 +205,7 @@ class CaptiveController extends BaseController
         // Update the Last Used, UA and IP columns
         $jNow = Date::getInstance();
 
-		// phpcs:ignore
-		$record->last_used = $jNow->toSql();
+        $record->last_used = $jNow->toSql();
         $record->store();
 
         // Flag the user as fully logged in

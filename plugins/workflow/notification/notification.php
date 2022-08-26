@@ -160,6 +160,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
         // If there are no receivers, stop here
         if (empty($userIds)) {
+            $this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_RECEIVER'), 'error');
+
             return;
         }
 

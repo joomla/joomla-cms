@@ -370,7 +370,7 @@ class ApplicationModel extends FormModel
 
             // Check that we aren't removing our Super User permission
             // Need to get groups from database, since they might have changed
-            $myGroups      = Access::getGroupsByUser(Factory::getUser()->get('id'));
+            $myGroups      = Access::getGroupsByUser($this->getCurrentUser()->get('id'));
             $myRules       = $rules->getData();
             $hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
 
@@ -842,7 +842,7 @@ class ApplicationModel extends FormModel
     public function storePermissions($permission = null)
     {
         $app  = Factory::getApplication();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (is_null($permission)) {
             // Get data from input.
@@ -1169,7 +1169,7 @@ class ApplicationModel extends FormModel
     {
         // Set the new values to test with the current settings
         $app = Factory::getApplication();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $input = $app->input->json;
         $smtppass = $input->get('smtppass', null, 'RAW');
 

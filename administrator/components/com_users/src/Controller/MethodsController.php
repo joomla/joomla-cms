@@ -12,8 +12,6 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -25,7 +23,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
 use Joomla\Input\Input;
-use ReflectionObject;
 use RuntimeException;
 
 /**
@@ -97,8 +94,7 @@ class MethodsController extends BaseController
         }
 
         // Redirect
-		// phpcs:ignore
-		$url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
+        $url       = Route::_('index.php?option=com_users&task=methods.display&user_id=' . $userId, false);
         $returnURL = $this->input->getBase64('returnurl');
 
         if (!empty($returnURL)) {

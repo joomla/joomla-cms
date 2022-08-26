@@ -155,7 +155,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app               = Factory::getApplication();
-        $this->file        = $app->input->get('file');
+        $this->file        = $app->input->get('file', '');
         $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
         $explodeArray      = explode('.', $this->fileName);
         $ext               = end($explodeArray);

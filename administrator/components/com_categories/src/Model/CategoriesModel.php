@@ -159,7 +159,7 @@ class CategoriesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(
@@ -411,9 +411,7 @@ class CategoriesModel extends ListModel
         $hname = $cname . 'HelperAssociation';
         \JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
 
-		/* @codingStandardsIgnoreStart */
-		$this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
-		/* @codingStandardsIgnoreEnd */
+        $this->hasAssociation = class_exists($hname) && !empty($hname::$category_association);
 
         return $this->hasAssociation;
     }

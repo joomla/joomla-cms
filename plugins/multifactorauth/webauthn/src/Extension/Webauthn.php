@@ -330,8 +330,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
 
             $pkRequest = json_encode($pkOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         } catch (Exception $e) {
-			// phpcs:ignore
-			$pkRequest = Credentials::requestAssertion($record->user_id);
+            $pkRequest = Credentials::requestAssertion($record->user_id);
         }
 
         $document = $this->getApplication()->getDocument();
@@ -397,7 +396,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         }
 
         /**
-         * @var   MfaTable $record The MFA Method's record you're validatng against
+         * @var   MfaTable $record The MFA Method's record you're validating against
          * @var   User     $user   The user record
          * @var   string   $code   The submitted code
          */
@@ -413,9 +412,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         }
 
         // Double check the MFA Method is for the correct user
-		// phpcs:ignore
-		if ($user->id != $record->user_id)
-        {
+        if ($user->id != $record->user_id) {
             $event->addResult(false);
 
             return;
