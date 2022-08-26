@@ -1088,5 +1088,4 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
     {
         $this->factory = $mvcFactory;
     }
-
 }
