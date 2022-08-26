@@ -319,7 +319,7 @@ class InstallCommand extends AbstractCommand
         }
 
         // If an option is given via CLI, we validate that value and return it.
-        if ($givenOption || $option == 'db_prefix') {
+        if ($givenOption) {
             $answer = $this->getApplication()->getConsoleInput()->getOption($option);
             $valid  = $field->validate($answer);
 
