@@ -347,6 +347,11 @@ class InstallCommand extends AbstractCommand
                 $this->ioStyle->warning('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
                 $answer = false;
             }
+
+            if ($option == 'db_pass' && $valid && $answer == null)
+            {
+                return '';
+            }
         }
 
         return $answer;
