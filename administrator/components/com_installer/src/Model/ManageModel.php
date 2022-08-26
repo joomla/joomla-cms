@@ -107,7 +107,7 @@ class ManageModel extends InstallerModel
      */
     public function publish(&$eid = array(), $value = 1)
     {
-        if (!Factory::getUser()->authorise('core.edit.state', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 
             return false;
@@ -213,7 +213,7 @@ class ManageModel extends InstallerModel
      */
     public function remove($eid = array())
     {
-        if (!Factory::getUser()->authorise('core.delete', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.delete', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
             return false;
