@@ -1897,7 +1897,7 @@ class TemplateModel extends FormModel
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         unset($xml->languages);
         unset($xml->media);
         unset($xml->files);
