@@ -348,8 +348,7 @@ class InstallCommand extends AbstractCommand
                 $answer = false;
             }
 
-            if ($option == 'db_pass' && $valid && $answer == null)
-            {
+            if ($option == 'db_pass' && $valid && $answer == null) {
                 return '';
             }
         }
