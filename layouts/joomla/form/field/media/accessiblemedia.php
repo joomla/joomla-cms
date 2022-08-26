@@ -14,6 +14,7 @@ extract($displayData);
 $form = $forms[0];
 
 $formfields = $form->getGroup('');
+$field->disabled = $disabled;
 ?>
 
 <div class="subform-wrapper">
