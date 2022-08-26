@@ -143,7 +143,7 @@ class InstallCommand extends AbstractCommand
         $configurationModel->setup($cfg);
         $this->ioStyle->writeln('OK');
 
-        if ((new Version())->isInDevelopmentState()) {
+        if (!(new Version())->isInDevelopmentState()) {
             $this->ioStyle->write('Deleting /installation folder...');
 
             /** @var CleanupModel $cleanupModel */
