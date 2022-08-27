@@ -69,6 +69,7 @@ class TasksStateCommand extends AbstractCommand
         Factory::getApplication()->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
 
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Change Task State');
 
         $id = (string) $input->getOption('id');
         $state = (string) $input->getOption('state');

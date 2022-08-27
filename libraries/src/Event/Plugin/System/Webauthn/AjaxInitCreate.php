@@ -18,7 +18,7 @@ use Webauthn\PublicKeyCredentialCreationOptions;
 /**
  * Concrete event class for the onAjaxWebauthnInitcreate event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class AjaxInitCreate extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -31,7 +31,7 @@ class AjaxInitCreate extends AbstractImmutableEvent implements ResultAwareInterf
      * @param   string  $name       Event name
      * @param   array   $arguments  Event arguments
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     public function __construct(string $name, array $arguments = [])
     {

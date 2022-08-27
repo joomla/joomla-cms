@@ -19,7 +19,7 @@ use Joomla\CMS\User\User;
  *
  * Returns the Public Key Creation Options to start the attestation ceremony on the browser.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 trait AjaxHandlerInitCreate
 {
@@ -30,7 +30,7 @@ trait AjaxHandlerInitCreate
      *
      * @return  void
      * @throws  \Exception
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function onAjaxWebauthnInitcreate(AjaxInitCreate $event): void
     {

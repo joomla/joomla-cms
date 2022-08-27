@@ -318,7 +318,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
     public function onUserMultifactorValidate(Validate $event): void
     {
         /**
-         * @var   MfaTable $record The MFA Method's record you're validatng against
+         * @var   MfaTable $record The MFA Method's record you're validating against
          * @var   User     $user   The user record
          * @var   string   $code   The submitted code
          */

@@ -6428,6 +6428,18 @@ class JoomlaInstallerScript
             '/plugins/task/requests/requests.php',
             '/plugins/task/sitestatus/sitestatus.php',
             '/plugins/user/profile/src/Field/DobField.php',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Exception/AjaxNonCmsAppException.php',
+            '/plugins/system/webauthn/src/Helper/CredentialsCreation.php',
+            '/plugins/system/webauthn/src/Helper/Joomla.php',
+            '/plugins/system/webauthn/webauthn.php',
+            '/plugins/task/checkfiles/checkfiles.php',
+            '/plugins/task/demotasks/demotasks.php',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js/hotkeys.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js.gz',
+            '/media/vendor/hotkeys.js/LICENSE',
         );
 
         $folders = array(
@@ -7792,6 +7804,13 @@ class JoomlaInstallerScript
             // From 4.2.0-beta1 to 4.2.0-beta2
             '/layouts/plugins/user/profile/fields',
             '/layouts/plugins/user/profile',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Helper',
+            '/plugins/system/webauthn/src/Exception',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js',
+            '/media/vendor/hotkeys.js',
+            '/libraries/vendor/symfony/string/Resources/bin',
         );
 
         $status['files_checked'] = $files;
