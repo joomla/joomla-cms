@@ -18,18 +18,9 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $app = Factory::getApplication();
 
-$this->category->text = $this->category->description;
-$app->triggerEvent('onContentPrepare', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
-$this->category->description = $this->category->text;
-
-$results = $app->triggerEvent('onContentAfterTitle', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
-$afterDisplayTitle = trim(implode("\n", $results));
-
-$results = $app->triggerEvent('onContentBeforeDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
-$beforeDisplayContent = trim(implode("\n", $results));
-
-$results = $app->triggerEvent('onContentAfterDisplay', array($this->category->extension . '.categories', &$this->category, &$this->params, 0));
-$afterDisplayContent = trim(implode("\n", $results));
+$afterDisplayTitle		= $this->category->event->afterDisplayTitle;
+$beforeDisplayContent	= $this->category->event->beforeDisplayContent;
+$afterDisplayContent	= $this->category->event->afterDisplayContent;
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
