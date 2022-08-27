@@ -18,9 +18,10 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 $app = Factory::getApplication();
 
-$afterDisplayTitle		= $this->category->event->afterDisplayTitle;
-$beforeDisplayContent	= $this->category->event->beforeDisplayContent;
-$afterDisplayContent	= $this->category->event->afterDisplayContent;
+$afterDisplayTitle = $this->category->event->afterDisplayTitle;
+$beforeDisplayContent = $this->category->event->beforeDisplayContent;
+$afterDisplayContent = $this->category->event->afterDisplayContent;
+$afterDisplayItems = $this->category->event->afterDisplayItems;
 
 $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
 
@@ -109,6 +110,8 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
             <?php echo $this->loadTemplate('links'); ?>
         </div>
     <?php endif; ?>
+
+    <?php echo $afterDisplayItems; ?>
 
     <?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
         <div class="com-content-category-blog__children cat-children">
