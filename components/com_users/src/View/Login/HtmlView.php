@@ -67,8 +67,8 @@ class HtmlView extends BaseHtmlView
      * @var    boolean
      * @since  4.0.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Will be removed without replacement
+     * #deprecated  4.3 will be removed in 6.0
+     *              Will be removed without replacement
      */
     protected $tfa = false;
 

@@ -18,8 +18,8 @@ use Joomla\Registry\Registry;
  *
  * @since       1.5
  *
- * @#deprecated  4.3 will be removed in 6.0
- *               Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
+ * #deprecated  4.3 will be removed in 6.0
+ *              Use the class \Joomla\Component\Content\Administrator\Service\HTML\Icon instead
  */
 abstract class JHtmlIcon
 {
@@ -33,12 +33,12 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the create item link
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::create instead
-     *               Example:
-     *               use Joomla\Component\Content\Administrator\Service\HTML\Icon;
-     *               Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
-     *               echo HTMLHelper::_('icon.create', ...);
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::create instead
+     *              Example:
+     *              use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+     *              Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
+     *              echo HTMLHelper::_('icon.create', ...);
      */
     public static function create($category, $params, $attribs = array(), $legacy = false)
     {
@@ -60,12 +60,12 @@ abstract class JHtmlIcon
      *
      * @since   1.6
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::edit instead
-     *               Example:
-     *               use Joomla\Component\Content\Administrator\Service\HTML\Icon;
-     *               Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
-     *               echo HTMLHelper::_('icon.edit', ...);
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::edit instead
+     *              Example:
+     *              use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+     *              Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
+     *              echo HTMLHelper::_('icon.edit', ...);
      */
     public static function edit($article, $params, $attribs = array(), $legacy = false)
     {
@@ -82,8 +82,8 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the popup link
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               No longer used, will be removed without replacement
+     * #deprecated  4.3 will be removed in 6.0
+     *              No longer used, will be removed without replacement
      */
     public static function print_popup($article, $params, $attribs = array(), $legacy = false)
     {
@@ -100,12 +100,12 @@ abstract class JHtmlIcon
      *
      * @return  string  The HTML markup for the popup link
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::print_screen instead
-     *               Example:
-     *               use Joomla\Component\Content\Administrator\Service\HTML\Icon;
-     *               Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
-     *               echo HTMLHelper::_('icon.print_screen', ...);
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use \Joomla\Component\Content\Administrator\Service\HTML\Icon::print_screen instead
+     *              Example:
+     *              use Joomla\Component\Content\Administrator\Service\HTML\Icon;
+     *              Factory::getContainer()->get(Registry::class)->register('icon', new Icon());
+     *              echo HTMLHelper::_('icon.print_screen', ...);
      */
     public static function print_screen($article, $params, $attribs = array(), $legacy = false)
     {
@@ -117,7 +117,7 @@ abstract class JHtmlIcon
      *
      * @return  \Joomla\Component\Content\Administrator\Service\HTML\Icon
      *
-     * @#deprecated  4.3 will be removed in 6.0
+     * #deprecated  4.3 will be removed in 6.0 without replacement
      */
     private static function getIcon()
     {

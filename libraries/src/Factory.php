@@ -59,10 +59,10 @@ abstract class Factory
      * @var         \JConfig
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the configuration object within the application
-     *               Example:
-     *               $app->getConfig();
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the configuration object within the application
+     *              Example:
+     *              $app->getConfig();
      */
     public static $config = null;
 
@@ -88,12 +88,10 @@ abstract class Factory
      * @var         Session
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the session service in the DI container or get from the application object
-     *               Example:
-     *               $app->getSession();
-     *               or
-     *               Factory::getContainer()->get(SessionInterface::class)
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the session service in the DI container or get from the application object
+     *              Example:
+     *              $app->getSession();
      */
     public static $session = null;
 
@@ -103,10 +101,10 @@ abstract class Factory
      * @var         Language
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the language service in the DI container or get from the application object
-     *               Example:
-     *               $app->getLanguage();
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the language service in the DI container or get from the application object
+     *              Example:
+     *              $app->getLanguage();
      */
     public static $language = null;
 
@@ -116,7 +114,7 @@ abstract class Factory
      * @var         Document
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
+     * #deprecated  4.3 will be removed in 6.0
      *               Use the document service in the DI container or get from the application object
      *               Example:
      *               $app->getDocument();
@@ -129,10 +127,10 @@ abstract class Factory
      * @var         DatabaseDriver
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the database service in the DI container
-     *               Example:
-     *               Factory::getContainer()->get(DatabaseInterface::class);
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the database service in the DI container
+     *              Example:
+     *              Factory::getContainer()->get(DatabaseInterface::class);
      */
     public static $database = null;
 
@@ -175,10 +173,10 @@ abstract class Factory
      * @see         Registry
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the configuration object within the application
-     *               Example:
-     *               $app->getConfig();
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the configuration object within the application
+     *              Example:
+     *              $app->getConfig();
      */
     public static function getConfig($file = null, $type = 'PHP', $namespace = '')
     {
@@ -256,12 +254,10 @@ abstract class Factory
      * @see         Session
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the session service in the DI container or get from the application object
-     *               Example:
-     *               $app->getSession();
-     *               or
-     *               Factory::getContainer()->get(SessionInterface::class)
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the session service in the DI container or get from the application object
+     *              Example:
+     *              $app->getSession();
      */
     public static function getSession(array $options = array())
     {
@@ -287,10 +283,10 @@ abstract class Factory
      * @see         Language
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the language service in the DI container or get from the application object
-     *               Example:
-     *               $app->getLanguage();
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the language service in the DI container or get from the application object
+     *              Example:
+     *              $app->getLanguage();
      */
     public static function getLanguage()
     {
@@ -320,10 +316,10 @@ abstract class Factory
      * @see         Document
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the document service in the DI container or get from the application object
-     *               Example:
-     *               $app->getDocument();
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the document service in the DI container or get from the application object
+     *              Example:
+     *              $app->getDocument();
      */
     public static function getDocument()
     {
@@ -355,10 +351,10 @@ abstract class Factory
      * @see         User
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Load the user service from the dependency injection container or get from the application object
-     *               Example:
-     *               $app->getIdentity();
+     * #deprecated  4.3 will be removed in 6.0
+     *              Load the user service from the dependency injection container or get from the application object
+     *              Example:
+     *              $app->getIdentity();
      */
     public static function getUser($id = null)
     {
@@ -399,10 +395,10 @@ abstract class Factory
      * @see         Cache
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the cache controller factory instead
-     *               Example:
-     *               Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the cache controller factory instead
+     *              Example:
+     *              Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
      */
     public static function getCache($group = '', $handler = 'callback', $storage = null)
     {
@@ -445,10 +441,10 @@ abstract class Factory
      * @see         DatabaseDriver
      * @since       1.7.0
      *
-     * @#deprecated  4.3 will be removed in 6.0
-     *               Use the database service in the DI container
-     *               Example:
-     *               Factory::getContainer()->get(DatabaseInterface::class);
+     * #deprecated  4.3 will be removed in 6.0
+     *              Use the database service in the DI container
+     *              Example:
+     *              Factory::getContainer()->get(DatabaseInterface::class);
      */
     public static function getDbo()
     {

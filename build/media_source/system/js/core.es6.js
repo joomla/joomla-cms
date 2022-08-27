@@ -299,9 +299,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type {{}}
    *
-   * @#deprecated   4.0 will be removed in 6.0
-   *                Example: Joomla.Text._('...');
-   *                         Joomla.Text.load(...);
+   * #deprecated   4.0 will be removed in 6.0
+   *               Example: Joomla.Text._('...');
+   *                        Joomla.Text.load(...);
    */
   Joomla.JText = Joomla.Text;
 
