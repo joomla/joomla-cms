@@ -18,7 +18,7 @@
  * @since       1.6
  *
  * #deprecated  4.3 will be removed in 6.0
- *               se \Joomla\Component\Banners\Administrator\Helper\BannersHelper instead
+ *              Use \Joomla\Component\Banners\Administrator\Helper\BannersHelper instead
  */
 class BannersHelper extends \Joomla\Component\Banners\Administrator\Helper\BannersHelper
 {
