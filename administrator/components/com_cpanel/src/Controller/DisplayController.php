@@ -78,7 +78,7 @@ class DisplayController extends BaseController
         $clientId = (\Joomla\CMS\Application\ApplicationHelper::getClientInfo('administrator', true))->id;
 
         $this->app->setUserState('com_modules.modules.' . $clientId . '.filter.position', $position);
-        $this->app->setUserState('com_modules.modules.client_id', (int) $clientId);
+        $this->app->setUserState('com_modules.modules.client_id', (string) $clientId);
 
         $this->setRedirect(Route::_('index.php?option=com_modules&view=select&tmpl=component&layout=modal' . $appendLink, false));
     }
