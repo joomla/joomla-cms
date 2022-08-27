@@ -75,7 +75,7 @@ class DisplayController extends BaseController
         }
 
         // Administrator
-        $clientId = 1;
+        $clientId = (\Joomla\CMS\Application\ApplicationHelper::getClientInfo('administrator', true))->id;
 
         $this->app->setUserState('com_modules.modules.' . (int) $clientId . '.filter.position', $position);
         $this->app->setUserState('com_modules.modules.client_id', (int) $clientId);
