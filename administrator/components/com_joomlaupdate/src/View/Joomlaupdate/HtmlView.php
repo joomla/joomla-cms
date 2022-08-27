@@ -203,7 +203,7 @@ class HtmlView extends BaseHtmlView
             $language->load('com_installer', JPATH_ADMINISTRATOR, 'en-GB', false, true);
             $language->load('com_installer', JPATH_ADMINISTRATOR, null, true);
 
-            Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
+            Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
         }
 
         $params = ComponentHelper::getParams('com_joomlaupdate');
@@ -275,7 +275,11 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add toolbar buttons.
-        if ($this->getCurrentUser()->authorise('core.admin')) {
+        $currentUser = version_compare(JVERSION, '4.2.0', 'ge')
+            ? $this->getCurrentUser()
+            : Factory::getApplication()->getIdentity();
+
+        if ($currentUser->authorise('core.admin')) {
             ToolbarHelper::preferences('com_joomlaupdate');
         }
 
