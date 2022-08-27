@@ -17,7 +17,7 @@ use Joomla\CMS\Event\Result\ResultAwareInterface;
 /**
  * Concrete event class for the onAjaxWebauthnChallenge event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.2.0
  */
 class AjaxChallenge extends AbstractImmutableEvent implements ResultAwareInterface
 {
@@ -29,7 +29,7 @@ class AjaxChallenge extends AbstractImmutableEvent implements ResultAwareInterfa
      * @param   mixed  $data  The data to check
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function typeCheckResult($data): void
     {

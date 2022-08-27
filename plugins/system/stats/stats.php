@@ -94,6 +94,10 @@ class PlgSystemStats extends CMSPlugin
             return;
         }
 
+        if ($this->isCaptiveMFA()) {
+            return;
+        }
+
         if (!$this->isDebugEnabled() && !$this->isUpdateRequired()) {
             return;
         }
@@ -116,6 +120,10 @@ class PlgSystemStats extends CMSPlugin
     public function onAfterDispatch()
     {
         if (!$this->app->isClient('administrator') || !$this->isAllowedUser()) {
+            return;
+        }
+
+        if ($this->isCaptiveMFA()) {
             return;
         }
 
@@ -606,5 +614,17 @@ class PlgSystemStats extends CMSPlugin
         }
 
         return $result;
+    }
+
+    /**
+     * Are we in a Multi-factor Authentication page?
+     *
+     * @return  bool
+     * @since   4.2.1
+     */
+    private function isCaptiveMFA(): bool
+    {
+        return method_exists($this->app, 'isMultiFactorAuthenticationPage')
+            && $this->app->isMultiFactorAuthenticationPage(true);
     }
 }

@@ -90,7 +90,7 @@ class DeleteUserCommand extends AbstractCommand
     {
         $this->configureIO($input, $output);
 
-        $this->ioStyle->title('Delete users');
+        $this->ioStyle->title('Delete User');
 
         $this->username = $this->getStringFromOption('username', 'Please enter a username');
 

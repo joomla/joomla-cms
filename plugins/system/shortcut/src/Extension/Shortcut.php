@@ -95,7 +95,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         $document = $this->getApplication()->getDocument();
         $wa       = $document->getWebAssetManager();
         $wa->useScript('bootstrap.modal');
-        $wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeys.js']]);
+        $wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeysjs']]);
 
         $timeout = $this->params->get('timeout', 2000);
 
