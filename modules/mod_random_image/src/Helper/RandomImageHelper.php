@@ -13,6 +13,10 @@ namespace Joomla\Module\RandomImage\Site\Helper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_random_image
  *
