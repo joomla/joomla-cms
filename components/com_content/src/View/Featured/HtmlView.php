@@ -134,6 +134,11 @@ class HtmlView extends BaseHtmlView
 
         PluginHelper::importPlugin('content');
 
+        $this->event = new \stdClass();
+
+        $results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.featured', &$this, &$this->params));
+        $this->event->afterDisplayItems = trim(implode("\n", $results));
+
         // Compute the article slugs and prepare introtext (runs content plugins).
         foreach ($items as &$item) {
             $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
@@ -163,9 +168,6 @@ class HtmlView extends BaseHtmlView
 
             $results = Factory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_content.featured', &$item, &$item->params, 0));
             $item->event->afterDisplayContent = trim(implode("\n", $results));
-
-            $results = Factory::getApplication()->triggerEvent('onContentAfterItems', array('com_content.featured', &$this, &$this->params));
-            $item->event->afterDisplayItems = trim(implode("\n", $results));
         }
 
         // Preprocess the breakdown of leading, intro and linked articles.
