@@ -98,17 +98,18 @@ steps:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
 
   - name: phpmax-api-mysql
-    disable: true
     depends_on:
       - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
     commands:
+      - echo "This test is disabled because php max is not stable yet"
+      - exit 1
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
 
   - name: phpnext-api-mysql
-    disable: true
     depends_on:
       - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests8.2
@@ -133,18 +134,21 @@ steps:
     image: joomlaprojects/docker-images:systemtests8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
     commands:
+      - echo "This test is disabled because php max is not stable yet"
+      - exit 1
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
 
-  #  - name: phpnext-api-postgres
-  #    depends_on:
-  #      - phpmin-api-postgres
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+  - name: phpnext-api-postgres
+    depends_on:
+      - phpmin-api-postgres
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
 
   - name: phpmin-system-mysql
     depends_on:
