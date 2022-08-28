@@ -230,7 +230,7 @@ $params = $this->params;
     <?php endforeach; ?>
 </div>
 
-<?php echo $item->event->afterDisplayItems; ?>
+<?php echo $this->event->afterDisplayItems; ?>
 
 <div class="com-content-archive__navigation w-100">
     <?php if ($this->params->def('show_pagination_results', 1)) : ?>
