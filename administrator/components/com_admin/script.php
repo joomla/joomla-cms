@@ -6439,6 +6439,12 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/webauthn.php',
             '/plugins/task/checkfiles/checkfiles.php',
             '/plugins/task/demotasks/demotasks.php',
+            // From 4.2.0-rc1 to 4.2.0
+            '/administrator/language/en-GB/plg_fields_menuitem.ini',
+            '/administrator/language/en-GB/plg_fields_menuitem.sys.ini',
+            '/plugins/fields/menuitem/menuitem.php',
+            '/plugins/fields/menuitem/menuitem.xml',
+            '/plugins/fields/menuitem/tmpl/menuitem.php',
             // From 4.2.0 to 4.2.1
             '/media/vendor/hotkeys.js/js/hotkeys.js',
             '/media/vendor/hotkeys.js/js/hotkeys.min.js',
@@ -7811,6 +7817,9 @@ class JoomlaInstallerScript
             // From 4.2.0-beta2 to 4.2.0-beta3
             '/plugins/system/webauthn/src/Helper',
             '/plugins/system/webauthn/src/Exception',
+            // From 4.2.0-rc1 to 4.2.0
+            '/plugins/fields/menuitem/tmpl',
+            '/plugins/fields/menuitem',
             // From 4.2.0 to 4.2.1
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
