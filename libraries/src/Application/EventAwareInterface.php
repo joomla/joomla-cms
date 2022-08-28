@@ -17,7 +17,9 @@ use Joomla\Event\Event;
  * Interface defining application that can trigger Joomla 3.x style events
  *
  * @since       4.0.0
- * @deprecated  5.0   This interface will be removed as the Joomla 3.x compatibility layer will be removed
+ * #deprecated  4.3 will be removed in 6.0
+ *              This interface will be removed without replacement as the Joomla 3.x compatibility layer will be removed
+ * @todo        Move to combat plugin
  */
 interface EventAwareInterface extends DispatcherAwareInterface
 {
