@@ -12,7 +12,7 @@ steps:
         path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
-      - composer install --no-progress --no-suggest
+      - composer install --no-progress --ignore-platform-reqs
 
   - name: phpcs
     image: joomlaprojects/docker-images:php7.2
