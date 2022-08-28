@@ -20,6 +20,10 @@ use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.
