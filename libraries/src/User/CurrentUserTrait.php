@@ -11,6 +11,10 @@ namespace Joomla\CMS\User;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Trait for classes which require a user to work with.
  *
