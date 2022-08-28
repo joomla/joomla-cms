@@ -14,6 +14,10 @@ use Joomla\CMS\Document\Document;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Router\Router;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface defining a Joomla! CMS Application class for web applications.
  *

@@ -20,6 +20,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom profile plugin.
  *
