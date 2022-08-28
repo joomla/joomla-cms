@@ -142,7 +142,7 @@ steps:
 
   - name: phpnext-api-postgres
     depends_on:
-      - phpmin-api-postgres
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests8.2
     failure: ignore
     environment:
@@ -167,18 +167,22 @@ steps:
     image: joomlaprojects/docker-images:cypress8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
     commands:
+      - echo "This test is disabled because php max is not stable yet"
+      - exit 1
       - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
 
-  #  - name: phpnext-system-mysql
-  #    depends_on:
-  #      - phpmax-system-mysql
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
+  - name: phpnext-system-mysql
+    depends_on:
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:cypress8.2
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlnext mysqli mysql
 
   - name: phpmin-system-postgres
     depends_on:
@@ -197,30 +201,34 @@ steps:
     image: joomlaprojects/docker-images:cypress8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
     commands:
+      - echo "This test is disabled because php max is not stable yet"
+      - exit 1
       - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
 
-  #  - name: phpnext-system-postgres
-  #    depends_on:
-  #      - phpmax-system-postgres
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
+  - name: phpnext-system-postgres
+    depends_on:
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:cypress8.2
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    failure: ignore
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresnext pgsql postgres
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
-      #      - phpnext-system-mysql
-      #      - phpnext-system-postgres
+      - phpnext-system-mysql
+      - phpnext-system-postgres
       - phpmax-system-mysql
       - phpmax-system-postgres
       - phpmin-system-mysql
       - phpmin-system-postgres
       - phpnext-api-mysql
-      #      - phpnext-api-postgres
+      - phpnext-api-postgres
       - phpmax-api-mysql
       - phpmax-api-postgres
       - phpmin-api-mysql
