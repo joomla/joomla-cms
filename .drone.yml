@@ -178,7 +178,7 @@ steps:
     depends_on:
       - phpmax-api-mysql
       - phpmax-api-postgres
-    image: joomlaprojects/docker-images:cypress
+    image: joomlaprojects/docker-images:cypress8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -188,7 +188,7 @@ steps:
     depends_on:
       - phpmax-api-mysql
       - phpmax-api-postgres
-    image: joomlaprojects/docker-images:cypress8.1
+    image: joomlaprojects/docker-images:cypress8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -204,47 +204,14 @@ steps:
   #    commands:
   #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
 
-  - name: phpmin-system-mysql8
-    depends_on:
-      - phpmax-system-mysql
-      - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.1
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
-
-  - name: phpmax-system-mysql8
-    depends_on:
-      - phpmax-system-mysql
-      - phpmax-system-postgres
-    image: joomlaprojects/docker-images:cypress8.2
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
-
-  #  - name: phpnext-system-mysql8
-  #    depends_on:
-  #      - phpmax-system-mysql8
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
-
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
     depends_on:
       #      - phpnext-system-mysql
-      #      - phpnext-system-mysql8
       #      - phpnext-system-postgres
       - phpmax-system-mysql
-      - phpmax-system-mysql8
       - phpmax-system-postgres
       - phpmin-system-mysql
-      - phpmin-system-mysql8
       - phpmin-system-postgres
       #      - phpnext-api-mysql
       #      - phpnext-api-postgres
@@ -279,7 +246,7 @@ volumes:
       path: /tmp/npm-cache
 
 services:
-  - name: mysql8
+  - name: mysql
     image: mysql:8
     command: ["--default-authentication-plugin=mysql_native_password"]
     environment:
