@@ -6,7 +6,7 @@ clone:
 
 steps:
   - name: composer
-    image: joomlaprojects/docker-images:php7.4
+    image: joomlaprojects/docker-images:php8.1
     volumes:
       - name: composer-cache
         path: /tmp/composer-cache
@@ -15,7 +15,7 @@ steps:
       - composer install --no-progress --ignore-platform-reqs
 
   - name: phpcs
-    image: joomlaprojects/docker-images:php7.2
+    image: joomlaprojects/docker-images:php8.1
     depends_on: [ composer ]
     commands:
       - echo $(date)
@@ -33,68 +33,12 @@ steps:
     commands:
       - npm ci --unsafe-perm
 
-  - name: php72-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php73-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php74-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php80-unit
-    depends_on: [ phpcs ]
-    image: joomlaprojects/docker-images:php8.0
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Unit
-
   - name: php81-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php8.1
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
-
-  - name: php72-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php73-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php74-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php80-integration
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration
 
   - name: php81-integration
     depends_on: [ npm ]
@@ -109,34 +53,6 @@ steps:
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
-
-  - name: php72-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.2
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php73-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.3
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php74-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php7.4
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
-
-  - name: php80-integration-pgsql
-    depends_on: [ npm ]
-    image: joomlaprojects/docker-images:php8.0
-    commands:
-      - php -v
-      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: php81-integration-pgsql
     depends_on: [ npm ]
@@ -363,14 +279,6 @@ volumes:
       path: /tmp/npm-cache
 
 services:
-  - name: mysql
-    image: mysql:5.7
-    environment:
-      MYSQL_USER: joomla_ut
-      MYSQL_PASSWORD: joomla_ut
-      MYSQL_ROOT_PASSWORD: joomla_ut
-      MYSQL_DATABASE: test_joomla
-
   - name: mysql8
     image: mysql:8
     command: ["--default-authentication-plugin=mysql_native_password"]
@@ -381,7 +289,7 @@ services:
       MYSQL_DATABASE: test_joomla
 
   - name: postgres
-    image: postgres:11-alpine
+    image: postgres:12-alpine
     ports:
       - 5432
     environment:
