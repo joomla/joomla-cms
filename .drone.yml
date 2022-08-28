@@ -98,6 +98,7 @@ steps:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
 
   - name: phpmax-api-mysql
+    disable: true
     depends_on:
       - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests8.2
@@ -106,15 +107,16 @@ steps:
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
 
-  #  - name: phpnext-api-mysql
-  #    depends_on:
-  #      - phpmax-api-mysql
-  #    image: joomlaprojects/docker-images:systemtests8.2
-  #    failure: ignore
-  #    environment:
-  #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-  #    commands:
-  #      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+  - name: phpnext-api-mysql
+    disable: true
+    depends_on:
+      - prepare_codeception_tests
+    image: joomlaprojects/docker-images:systemtests8.2
+    failure: ignore
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
 
   - name: phpmin-api-postgres
     depends_on:
@@ -213,7 +215,7 @@ steps:
       - phpmax-system-postgres
       - phpmin-system-mysql
       - phpmin-system-postgres
-      #      - phpnext-api-mysql
+      - phpnext-api-mysql
       #      - phpnext-api-postgres
       - phpmax-api-mysql
       - phpmax-api-postgres
