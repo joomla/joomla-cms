@@ -256,7 +256,7 @@ class ExportModel extends BaseDatabaseModel
      */
     public function logExport(RequestTable $request)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'export',
@@ -281,7 +281,7 @@ class ExportModel extends BaseDatabaseModel
      */
     public function logExportEmailed(RequestTable $request)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'export_emailed',
