@@ -25,6 +25,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Implements the code required for integrating with Joomla's Multi-factor Authentication.
  *
@@ -293,26 +297,18 @@ trait MultiFactorAuthenticationHandler
             return false;
         }
 
-        // Allow the statistics plugin to run
-        if ($isAdmin && $option === 'com_ajax' && $task === '') {
-            $group  = strtolower($this->input->getCmd('group', ''));
-            $plugin = strtolower($this->input->getCmd('plugin', ''));
-
-            if ($group === 'system' && $plugin === 'sendstats') {
-                return false;
-            }
-        }
-
         return true;
     }
 
     /**
      * Is this a page concerning the Multi-factor Authentication feature?
      *
-     * @return boolean
-     * @since  4.2.0
+     * @param   bool  $onlyCaptive  Should I only check for the MFA captive page?
+     *
+     * @return  boolean
+     * @since   4.2.0
      */
-    private function isMultiFactorAuthenticationPage(): bool
+    public function isMultiFactorAuthenticationPage(bool $onlyCaptive = false): bool
     {
         $option = $this->input->get('option');
         $task   = $this->input->get('task');
@@ -325,9 +321,18 @@ trait MultiFactorAuthenticationHandler
         $allowedViews = ['captive', 'method', 'methods', 'callback'];
         $allowedTasks = [
             'captive.display', 'captive.captive', 'captive.validate',
-            'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes', 'method.delete', 'method.save',
-            'methods.display', 'methods.disable', 'methods.doNotShowThisAgain',
+            'methods.display',
         ];
+
+        if (!$onlyCaptive) {
+            $allowedTasks = array_merge(
+                $allowedTasks,
+                [
+                    'method.display', 'method.add', 'method.edit', 'method.regenerateBackupCodes',
+                    'method.delete', 'method.save', 'methods.disable', 'methods.doNotShowThisAgain',
+                ]
+            );
+        }
 
         return in_array($view, $allowedViews) || in_array($task, $allowedTasks);
     }

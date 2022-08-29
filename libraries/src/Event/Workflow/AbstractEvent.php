@@ -14,6 +14,10 @@ use Joomla\CMS\Event\AbstractImmutableEvent;
 
 use function explode;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for WebAsset events
  *
