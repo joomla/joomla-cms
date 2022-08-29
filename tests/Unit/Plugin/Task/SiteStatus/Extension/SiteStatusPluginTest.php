@@ -37,7 +37,7 @@ class SiteStatusPluginTest extends UnitTestCase
      *
      * @var string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 5.0.0
      */
     private $tmpFolder;
 

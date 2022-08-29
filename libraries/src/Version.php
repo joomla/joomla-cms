@@ -82,7 +82,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const CODENAME = 'Uaminifu';
+    public const CODENAME = 'Schnitzel';
 
     /**
      * Release date.
@@ -90,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '26-July-2022';
+    public const RELDATE = '29-August-2022';
 
     /**
      * Release time.
@@ -98,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '16:40';
+    public const RELTIME = '12:18';
 
     /**
      * Release timezone.
