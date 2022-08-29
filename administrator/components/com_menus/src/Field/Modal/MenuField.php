@@ -219,7 +219,7 @@ class MenuField extends FormField
         }
 
         $urlSelect = $linkItems . '&amp;function=jSelectMenu_' . $this->id;
-        $urlEdit   = $linkItem . '&amp;task=item.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
+        $urlEdit   = $linkItem . '&amp;task=item.edit&amp;id=+ document.getElementById("' . $this->id . '_id").value +';
         $urlNew    = $linkItem . '&amp;task=item.add';
 
         if ($value) {

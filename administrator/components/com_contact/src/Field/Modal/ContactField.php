@@ -101,7 +101,7 @@ class ContactField extends FormField
         }
 
         $urlSelect = $linkContacts . '&amp;function=jSelectContact_' . $this->id;
-        $urlEdit   = $linkContact . '&amp;task=contact.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
+        $urlEdit   = $linkContact . '&amp;task=contact.edit&amp;id=+ document.getElementById("' . $this->id . '_id").value +';
         $urlNew    = $linkContact . '&amp;task=contact.add';
 
         if ($value) {

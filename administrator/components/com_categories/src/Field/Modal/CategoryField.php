@@ -109,7 +109,7 @@ class CategoryField extends FormField
         }
 
         $urlSelect = $linkCategories . '&amp;function=jSelectCategory_' . $this->id;
-        $urlEdit   = $linkCategory . '&amp;task=category.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
+        $urlEdit   = $linkCategory . '&amp;task=category.edit&amp;id=+ document.getElementById("' . $this->id . '_id").value +';
         $urlNew    = $linkCategory . '&amp;task=category.add';
 
         if ($value) {

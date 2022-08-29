@@ -101,7 +101,7 @@ class NewsfeedField extends FormField
         }
 
         $urlSelect = $linkNewsfeeds . '&amp;function=jSelectNewsfeed_' . $this->id;
-        $urlEdit   = $linkNewsfeed . '&amp;task=newsfeed.edit&amp;id=\' + document.getElementById("' . $this->id . '_id").value + \'';
+        $urlEdit   = $linkNewsfeed . '&amp;task=newsfeed.edit&amp;id=+ document.getElementById("' . $this->id . '_id").value +';
         $urlNew    = $linkNewsfeed . '&amp;task=newsfeed.add';
 
         if ($value) {
