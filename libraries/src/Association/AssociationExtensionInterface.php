@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Association;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Association Extension Interface for the helper classes
  *

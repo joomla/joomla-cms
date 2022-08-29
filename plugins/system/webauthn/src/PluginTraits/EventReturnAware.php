@@ -12,10 +12,14 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 use Joomla\Event\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility trait to facilitate returning data from event handlers.
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 trait EventReturnAware
 {
@@ -26,7 +30,7 @@ trait EventReturnAware
      * @param   mixed   $value  The value to append to the event's results
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function returnFromEvent(Event $event, $value = null): void
     {
