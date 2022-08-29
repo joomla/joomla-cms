@@ -1,5 +1,5 @@
 <?php
- 
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
