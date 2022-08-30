@@ -31,6 +31,7 @@ steps:
     environment:
       npm_config_cache: /tmp/npm-cache
     commands:
+      - apk add git
       - npm ci --unsafe-perm
 
   - name: php72-unit
