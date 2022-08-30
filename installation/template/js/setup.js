@@ -64,22 +64,21 @@ Joomla.checkInputs = function() {
   document.getElementById('installStep2').classList.add('active');
   document.getElementById('installStep3').classList.add('active');
 
-
   if (Joomla.checkFormField(['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
     Joomla.checkDbCredentials();
   }
 };
 
-
 Joomla.checkDbCredentials = function() {
   const progress = document.getElementById('progressbar');
-  document.body.appendChild(document.createElement('joomla-core-loader'));
   var form = document.getElementById('adminForm'),
-    data = Joomla.serialiseForm(form), modalel = document.getElementById('installationProgress');
-  const installationProgress = new bootstrap.Modal(modalel, {'keyboard': false});
-  Joomla.Modal.setCurrent(installationProgress);
-  installationProgress.show();
-  modalel.setAttribute('role', 'region');
+    data = Joomla.serialiseForm(form);
+
+  // Reveal everything
+  document.getElementById('installStep1').classList.remove('active');
+  document.getElementById('installStep2').classList.remove('active');
+  document.getElementById('installStep3').classList.remove('active');
+  document.getElementById('installStep4').classList.add('active');
 
   document.querySelector('#progressdbcheck span').classList.remove('text-white');
 
@@ -90,12 +89,10 @@ Joomla.checkDbCredentials = function() {
     perform: true,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     onSuccess: function(response, xhr){
-      var loaderElement = document.querySelector('joomla-core-loader');
       try {
         response = JSON.parse(response);
       } catch (e) {
         document.querySelector('#progressdbcheck span').classList.value = 'fa fa-times-circle text-error';
-        loaderElement.parentNode.removeChild(loaderElement);
         console.error('Error in DB Check Endpoint');
         console.error(response);
         Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
@@ -108,10 +105,8 @@ Joomla.checkDbCredentials = function() {
       }
 
       Joomla.replaceTokens(response.token);
-      loaderElement.parentNode.removeChild(loaderElement);
 
       if (response.error) {
-        Joomla.Modal.getCurrent().close();
         Joomla.renderMessages({'error': [response.message]});
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
@@ -126,8 +121,6 @@ Joomla.checkDbCredentials = function() {
     onError:   function(xhr){
       Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
       //Install.goToPage('summary');
-      var loaderElement = document.querySelector('joomla-core-loader');
-      loaderElement.parentNode.removeChild(loaderElement);
 
       try {
         var r = JSON.parse(xhr.responseText);

@@ -16,6 +16,18 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('behavior.formvalidator');
 
 /** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
+
+$steps = 6;
+
+if (is_file(JPATH_INSTALLATION . '/sql/mysql/localise.sql'))
+{
+    $steps++;
+}
+
+if (is_file(JPATH_INSTALLATION . '/sql/mysql/custom.sql'))
+{
+    $steps++;
+}
 ?>
 
 <div id="installer-view" data-page-name="setup">
@@ -120,7 +132,54 @@ HTMLHelper::_('behavior.formvalidator');
                 </div>
             </div>
         </fieldset>
-
+        <fieldset id="installStep4" class="j-install-step" >
+            <legend class="j-install-step-header">
+                <span class="icon-cogs" aria-hidden="true"></span> <?php echo Text::_('INSTL_PROGRESS'); ?>
+            </legend>
+            <div class="j-install-step-form">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="<?php echo $steps; ?>"></div>
+                </div>
+                <ul class="list-unstyled">
+                    <li id="progressdbcheck" aria-hidden="true">
+                        <span class="fa fa-spinner fa-spin text-white"></span>
+                        <?php echo Text::_('INSTL_PROGRESS_STEP_DBCHECK'); ?>
+                    </li>
+                    <li id="progresscreate" aria-hidden="true">
+                        <span class="fa fa-spinner fa-spin text-white"></span>
+                        <?php echo Text::_('INSTL_PROGRESS_STEP_CREATE'); ?>
+                    </li>
+                    <li id="progresspopulate1" aria-hidden="true">
+                        <span class="fa fa-spinner fa-spin text-white"></span>
+                        <?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE1'); ?>
+                    </li>
+                    <li id="progresspopulate2" aria-hidden="true">
+                        <span class="fa fa-spinner fa-spin text-white"></span>
+                        <?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE2'); ?>
+                    </li>
+                    <li id="progresspopulate3" aria-hidden="true">
+                        <span class="fa fa-spinner fa-spin text-white"></span>
+                        <?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE3'); ?>
+                    </li>
+                    <?php if (is_file('sql/mysql/localise.sql')) : ?>
+                        <li id="progresscustom1" aria-hidden="true">
+                            <span class="fa fa-spinner fa-spin text-white"></span>
+                            <?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM1'); ?>
+                        </li>
+                    <?php endif; ?>
+                    <?php if (is_file('sql/mysql/custom.sql')) : ?>
+                        <li id="progresscustom2" aria-hidden="true">
+                            <span class="fa fa-spinner fa-spin text-white"></span>
+                            <?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM2'); ?>
+                        </li>
+                    <?php endif; ?>
+                    <li id="progressconfig" aria-hidden="true">
+                        <span class="fa fa-spinner fa-spin text-white"></span>
+                        <?php echo Text::_('INSTL_PROGRESS_STEP_CONFIG'); ?>
+                    </li>
+                </ul>
+            </div>
+        </fieldset>
         <input type="hidden" name="admin_password2" id="jform_admin_password2">
         <?php echo HTMLHelper::_('form.token'); ?>
     </form>
