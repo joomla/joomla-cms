@@ -13,6 +13,10 @@ namespace Joomla\CMS\Installation\Controller;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\View\AbstractView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Display controller class for the Joomla Installer.
  *

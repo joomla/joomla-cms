@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Overrides Model
  *
@@ -189,7 +193,7 @@ class OverridesModel extends ListModel
     public function delete($cids)
     {
         // Check permissions first.
-        if (!Factory::getUser()->authorise('core.delete', 'com_languages')) {
+        if (!$this->getCurrentUser()->authorise('core.delete', 'com_languages')) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
