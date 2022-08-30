@@ -12,6 +12,10 @@ namespace Joomla\CMS\MVC\Model;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Table\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface for a workflow model.
  *
