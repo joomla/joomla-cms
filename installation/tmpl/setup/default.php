@@ -135,7 +135,7 @@ endif
                 <span class="icon-cogs" aria-hidden="true"></span> <?php echo Text::_('INSTL_PROGRESS'); ?>
             </legend>
             <div class="j-install-step-form">
-                <div class="progress">
+                <div class="progress mb-4">
                     <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="<?php echo $steps; ?>"></div>
                 </div>
                 <ul class="list-unstyled">
