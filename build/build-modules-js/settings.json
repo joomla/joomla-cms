@@ -667,7 +667,7 @@
         "name": "accessibility",
         "licenseFilename": "LICENSE",
         "js": {
-          "dist/accessibility.min.js": "js/accessibility.min.js"
+          "dist/main.bundle.js": "js/accessibility.min.js"
         },
         "provideAssets": [
           {
