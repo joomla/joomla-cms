@@ -21,11 +21,11 @@ $steps = 6;
 
 if (is_file(JPATH_INSTALLATION . '/sql/mysql/localise.sql')) :
     $steps++;
-endif
+endif;
 
 if (is_file(JPATH_INSTALLATION . '/sql/mysql/custom.sql')) :
     $steps++;
-endif
+endif;
 ?>
 
 <div id="installer-view" data-page-name="setup">
