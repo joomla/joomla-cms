@@ -2,7 +2,7 @@
 <extension type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_readmore</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2006</creationDate>
+	<creationDate>2006-03</creationDate>
 	<copyright>(C) 2006 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,7 +13,7 @@
 		<filename plugin="readmore">readmore.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_editors-xtd_readmore.ini</language>
-		<language tag="en-GB">en-GB.plg_editors-xtd_readmore.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_readmore.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors-xtd_readmore.sys.ini</language>
 	</languages>
 </extension>

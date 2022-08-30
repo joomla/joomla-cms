@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Toolbar\ToolbarButton;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Renders a button separator
@@ -19,25 +22,25 @@ use Joomla\CMS\Toolbar\ToolbarButton;
  */
 class SeparatorButton extends ToolbarButton
 {
-	/**
-	 * Property layout.
-	 *
-	 * @var  string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $layout = 'joomla.toolbar.separator';
+    /**
+     * Property layout.
+     *
+     * @var  string
+     *
+     * @since  4.0.0
+     */
+    protected $layout = 'joomla.toolbar.separator';
 
-	/**
-	 * Empty implementation (not required for separator)
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 *
-	 * @deprecated  5.0 Use render() instead.
-	 */
-	public function fetchButton()
-	{
-	}
+    /**
+     * Empty implementation (not required for separator)
+     *
+     * @return  void
+     *
+     * @since   3.0
+     *
+     * @deprecated  5.0 Use render() instead.
+     */
+    public function fetchButton()
+    {
+    }
 }

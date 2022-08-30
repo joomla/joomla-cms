@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Event\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event class for JTable's onAfterReorder event
@@ -19,45 +22,43 @@ use BadMethodCallException;
  */
 class AfterReorderEvent extends AbstractEvent
 {
-	/**
-	 * Constructor.
-	 *
-	 * Mandatory arguments:
-	 * subject		JTableInterface	The table we are operating on
-	 * rows			stdClass[]|null	The primary keys and ordering values for the selection.
-	 * where		string			WHERE clause which was used for limiting the selection of rows to compact the ordering values.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  BadMethodCallException
-	 */
-	public function __construct($name, array $arguments = array())
-	{
-		if (!\array_key_exists('where', $arguments))
-		{
-			throw new BadMethodCallException("Argument 'ignore' is required for event $name");
-		}
+    /**
+     * Constructor.
+     *
+     * Mandatory arguments:
+     * subject      JTableInterface The table we are operating on
+     * rows         stdClass[]|null The primary keys and ordering values for the selection.
+     * where        string          WHERE clause which was used for limiting the selection of rows to compact the ordering values.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  BadMethodCallException
+     */
+    public function __construct($name, array $arguments = array())
+    {
+        if (!\array_key_exists('where', $arguments)) {
+            throw new BadMethodCallException("Argument 'ignore' is required for event $name");
+        }
 
-		parent::__construct($name, $arguments);
-	}
+        parent::__construct($name, $arguments);
+    }
 
-	/**
-	 * Setter for the where argument
-	 *
-	 * @param   array|string|null  $value  A string or array of where conditions.
-	 *
-	 * @return  mixed
-	 *
-	 * @throws  BadMethodCallException  if the argument is not of the expected type
-	 */
-	protected function setWhere($value)
-	{
-		if (!empty($value) && !\is_string($value) && !\is_array($value))
-		{
-			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
-		}
+    /**
+     * Setter for the where argument
+     *
+     * @param   array|string|null  $value  A string or array of where conditions.
+     *
+     * @return  mixed
+     *
+     * @throws  BadMethodCallException  if the argument is not of the expected type
+     */
+    protected function setWhere($value)
+    {
+        if (!empty($value) && !\is_string($value) && !\is_array($value)) {
+            throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
@@ -9,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\Service\Provider\HelperFactory;
 use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
 use Joomla\DI\Container;
@@ -21,19 +23,20 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Quickicon'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new ModuleDispatcherFactory('\\Joomla\\Module\\Quickicon'));
+        $container->registerServiceProvider(new HelperFactory('\\Joomla\\Module\\Quickicon\\Administrator\\Helper'));
 
-		$container->registerServiceProvider(new Module);
-	}
+        $container->registerServiceProvider(new Module());
+    }
 };

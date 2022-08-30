@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,40 +9,45 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\FormFactory;
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Service provider for the form dependency
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class Form implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function register(Container $container)
-	{
-		$container->alias('form.factory', FormFactoryInterface::class)
-			->alias(FormFactory::class, FormFactoryInterface::class)
-			->share(
-				FormFactoryInterface::class,
-				function (Container $container)
-				{
-					return new FormFactory;
-				},
-				true
-			);
-	}
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->alias('form.factory', FormFactoryInterface::class)
+            ->alias(FormFactory::class, FormFactoryInterface::class)
+            ->share(
+                FormFactoryInterface::class,
+                function (Container $container) {
+                    $factory = new FormFactory();
+                    $factory->setDatabase($container->get(DatabaseInterface::class));
+
+                    return $factory;
+                },
+                true
+            );
+    }
 }

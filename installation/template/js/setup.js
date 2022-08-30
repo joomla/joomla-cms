@@ -98,7 +98,7 @@ Joomla.checkDbCredentials = function() {
         loaderElement.parentNode.removeChild(loaderElement);
         console.error('Error in DB Check Endpoint');
         console.error(response);
-        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+        Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
 
         return false;
       }
@@ -115,7 +115,7 @@ Joomla.checkDbCredentials = function() {
         Joomla.renderMessages({'error': [response.message]});
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
-        // TODO: Convert to promises
+        // @todo: Convert to promises
         document.getElementById('progressdbcheck').removeAttribute('aria-hidden');
         document.querySelector('#progressdbcheck span').classList.value = 'fa fa-check-circle text-success';
         progress.setAttribute('aria-valuenow', parseInt(progress.getAttribute('aria-valuenow')) + 1);
@@ -124,8 +124,7 @@ Joomla.checkDbCredentials = function() {
       }
     },
     onError:   function(xhr){
-      Joomla.Modal.getCurrent().close();
-      Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+      Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
       //Install.goToPage('summary');
       var loaderElement = document.querySelector('joomla-core-loader');
       loaderElement.parentNode.removeChild(loaderElement);

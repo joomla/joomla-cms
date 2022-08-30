@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -9,13 +10,12 @@
 
 namespace Joomla\Component\Media\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
-use Joomla\Component\Media\Administrator\Provider\ProviderManager;
+use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media View Model
@@ -24,39 +24,32 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManager;
  */
 class MediaModel extends BaseDatabaseModel
 {
-	/**
-	 * Obtain list of supported providers
-	 *
-	 * @return array
-	 *
-	 * @since 4.0.0
-	 */
-	public function getProviders()
-	{
-		// Setup provider manager and event parameters
-		$providerManager = new ProviderManager;
-		$eventParameters = ['context' => 'AdapterManager', 'providerManager' => $providerManager];
-		$event           = new MediaProviderEvent('onSetupProviders', $eventParameters);
-		$results         = [];
+    use ProviderManagerHelperTrait;
 
-		// Import plugin group and fire the event
-		PluginHelper::importPlugin('filesystem');
-		Factory::getApplication()->triggerEvent('onSetupProviders', $event);
+    /**
+     * Obtain list of supported providers
+     *
+     * @return array
+     *
+     * @since 4.0.0
+     */
+    public function getProviders()
+    {
+        $results = [];
 
-		foreach ($providerManager->getProviders() as $provider)
-		{
-			$result = new \stdClass;
-			$result->name = $provider->getID();
-			$result->displayName = $provider->getDisplayName();
+        foreach ($this->getProviderManager()->getProviders() as $provider) {
+            $result               = new \stdClass();
+            $result->name         = $provider->getID();
+            $result->displayName  = $provider->getDisplayName();
+            $result->adapterNames = [];
 
-			foreach ($provider->getAdapters() as $adapter)
-			{
-				$result->adapterNames[] = $adapter->getAdapterName();
-			}
+            foreach ($provider->getAdapters() as $adapter) {
+                $result->adapterNames[] = $adapter->getAdapterName();
+            }
 
-			$results[] = $result;
-		}
+            $results[] = $result;
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 }

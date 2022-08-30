@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Site
  *
@@ -6,24 +7,19 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * NOTE: This file should remain compatible with PHP 5.2 to allow us to run our PHP minimum check and show a friendly error message
- */
+// NOTE: This file should remain compatible with PHP 5.2 to allow us to run our PHP minimum check and show a friendly error message
 
-/**
- * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
- */
+// Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
 define('JOOMLA_MINIMUM_PHP', '7.2.5');
 
-if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
-{
-	die(
-		str_replace(
-			'{{PHP_VERSION}}',
-			JOOMLA_MINIMUM_PHP,
-			file_get_contents(dirname(__FILE__) . '/templates/system/incompatible.html')
-		)
-	);
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
+    die(
+        str_replace(
+            '{{phpversion}}',
+            JOOMLA_MINIMUM_PHP,
+            file_get_contents(dirname(__FILE__) . '/templates/system/incompatible.html')
+        )
+    );
 }
 
 /**

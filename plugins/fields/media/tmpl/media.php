@@ -8,40 +8,22 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
 
-if ($field->value == '')
+if (empty($field->value) || empty($field->value['imagefile']))
 {
 	return;
 }
 
-$class = $fieldParams->get('image_class');
+$class   = $fieldParams->get('image_class');
+$options = [
+	'src' => $field->value['imagefile'],
+	'alt' => empty($field->value['alt_text']) && empty($field->value['alt_empty']) ? false : $field->value['alt_text'],
+];
 
 if ($class)
 {
-	$class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
+	$options['class'] = $class;
 }
 
-$value  = $field->value;
-
-$buffer = '';
-
-if ($value)
-{
-	$img       = HTMLHelper::cleanImageURL($value['imagefile']);
-	$imgUrl    = htmlentities($img->url, ENT_COMPAT, 'UTF-8', true);
-	$alt       = empty($value['alt_text']) && empty($value['alt_empty']) ? '' : ' alt="' . htmlspecialchars($value['alt_text'], ENT_COMPAT, 'UTF-8') . '"';
-
-	if (file_exists($img->url))
-	{
-		$buffer .= sprintf('<img loading="lazy" width="%s" height="%s" src="%s"%s%s>',
-			$img->attributes['width'],
-			$img->attributes['height'],
-			$imgUrl,
-			$class,
-			$alt
-		);
-	}
-}
-
-echo $buffer;
+echo LayoutHelper::render('joomla.html.image', $options);

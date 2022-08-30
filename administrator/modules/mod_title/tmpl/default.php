@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_title
@@ -10,9 +11,9 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($title)) : ?>
-<div class="d-flex align-items-center px-3">
-	<div class="container-title">
-		<?php echo $title; ?>
-	</div>
+<div class="d-flex align-items-center">
+    <div class="container-title">
+        <?php echo $title; ?>
+    </div>
 </div>
 <?php endif; ?>

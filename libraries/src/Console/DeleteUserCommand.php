@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,19 +9,22 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Console command for deleting a user
@@ -29,171 +33,181 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class DeleteUserCommand extends AbstractCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'user:delete';
+    use DatabaseAwareTrait;
 
-	/**
-	 * SymfonyStyle Object
-	 * @var   object
-	 * @since 4.0.0
-	 */
-	private $ioStyle;
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'user:delete';
 
-	/**
-	 * Stores the Input Object
-	 * @var   object
-	 * @since 4.0.0
-	 */
-	private $cliInput;
+    /**
+     * SymfonyStyle Object
+     * @var   object
+     * @since 4.0.0
+     */
+    private $ioStyle;
 
-	/**
-	 * The username
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	private $username;
+    /**
+     * Stores the Input Object
+     * @var   object
+     * @since 4.0.0
+     */
+    private $cliInput;
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$this->configureIO($input, $output);
-		$this->username = $this->getStringFromOption('username', 'Please enter a username');
-		$this->ioStyle->title('Delete users');
+    /**
+     * The username
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    private $username;
 
-		$userId = UserHelper::getUserId($this->username);
-		$db = Factory::getDbo();
+    /**
+     * Command constructor.
+     *
+     * @param   DatabaseInterface  $db  The database
+     *
+     * @since   4.2.0
+     */
+    public function __construct(DatabaseInterface $db)
+    {
+        parent::__construct();
 
-		if (empty($userId))
-		{
-			$this->ioStyle->error($this->username . ' does not exist!');
+        $this->setDatabase($db);
+    }
 
-			return 1;
-		}
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO($input, $output);
 
-		if ($input->isInteractive() && !$this->ioStyle->confirm('Are you sure you want to delete this user?', false))
-		{
-			$this->ioStyle->note('User not deleted');
+        $this->ioStyle->title('Delete User');
 
-			return 0;
-		}
+        $this->username = $this->getStringFromOption('username', 'Please enter a username');
 
-		$groups = UserHelper::getUserGroups($userId);
-		$user = User::getInstance($userId);
+        $userId = UserHelper::getUserId($this->username);
+        $db     = $this->getDatabase();
 
-		if ($user->block == 0)
-		{
-			foreach ($groups as $groupId)
-			{
-				if (Access::checkGroup($groupId, 'core.admin'))
-				{
-					$queryUser = $db->getQuery(true);
-					$queryUser->select('COUNT(*)')
-						->from($db->quoteName('#__users', 'u'))
-						->leftJoin(
-							$db->quoteName('#__user_usergroup_map', 'g'),
-							'(' . $db->quoteName('u.id') . ' = ' . $db->quoteName('g.user_id') . ')'
-						)
-						->where($db->quoteName('g.group_id') . " = :groupId")
-						->where($db->quoteName('u.block') . " = 0")
-						->bind(':groupId', $groupId, ParameterType::INTEGER);
+        if (empty($userId)) {
+            $this->ioStyle->error($this->username . ' does not exist!');
 
-					$db->setQuery($queryUser);
-					$activeSuperUser = $db->loadResult();
+            return Command::FAILURE;
+        }
 
-					if ($activeSuperUser < 2)
-					{
-						$this->ioStyle->error("You can't delete the last active Super User");
+        if ($input->isInteractive() && !$this->ioStyle->confirm('Are you sure you want to delete this user?', false)) {
+            $this->ioStyle->note('User not deleted');
 
-						return 1;
-					}
-				}
-			}
-		}
+            return Command::SUCCESS;
+        }
 
-		// Trigger delete of user
-		$result = $user->delete();
+        $groups = UserHelper::getUserGroups($userId);
+        $user = User::getInstance($userId);
 
-		if (!$result)
-		{
-			$this->ioStyle->error("Can't remove " . $this->username . ' form usertable');
+        if ($user->block == 0) {
+            foreach ($groups as $groupId) {
+                if (Access::checkGroup($groupId, 'core.admin')) {
+                    $queryUser = $db->getQuery(true);
+                    $queryUser->select('COUNT(*)')
+                        ->from($db->quoteName('#__users', 'u'))
+                        ->leftJoin(
+                            $db->quoteName('#__user_usergroup_map', 'g'),
+                            '(' . $db->quoteName('u.id') . ' = ' . $db->quoteName('g.user_id') . ')'
+                        )
+                        ->where($db->quoteName('g.group_id') . " = :groupId")
+                        ->where($db->quoteName('u.block') . " = 0")
+                        ->bind(':groupId', $groupId, ParameterType::INTEGER);
 
-			return 1;
-		}
+                    $db->setQuery($queryUser);
+                    $activeSuperUser = $db->loadResult();
 
-		$this->ioStyle->success('User ' . $this->username . ' deleted!');
+                    if ($activeSuperUser < 2) {
+                        $this->ioStyle->error("You can't delete the last active Super User");
 
-		return 0;
-	}
+                        return Command::FAILURE;
+                    }
+                }
+            }
+        }
 
-	/**
-	 * Method to get a value from option
-	 *
-	 * @param   string  $option    set the option name
-	 *
-	 * @param   string  $question  set the question if user enters no value to option
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getStringFromOption($option, $question): string
-	{
-		$answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
+        // Trigger delete of user
+        $result = $user->delete();
 
-		while (!$answer)
-		{
-			$answer = (string) $this->ioStyle->ask($question);
-		}
+        if (!$result) {
+            $this->ioStyle->error("Can't remove " . $this->username . ' from usertable');
 
-		return $answer;
-	}
+            return Command::FAILURE;
+        }
 
-	/**
-	 * Configure the IO.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function configureIO(InputInterface $input, OutputInterface $output)
-	{
-		$this->cliInput = $input;
-		$this->ioStyle = new SymfonyStyle($input, $output);
-	}
+        $this->ioStyle->success('User ' . $this->username . ' deleted!');
 
-	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> deletes a user
+        return Command::SUCCESS;
+    }
+
+    /**
+     * Method to get a value from option
+     *
+     * @param   string  $option    set the option name
+     *
+     * @param   string  $question  set the question if user enters no value to option
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    protected function getStringFromOption($option, $question): string
+    {
+        $answer = (string) $this->getApplication()->getConsoleInput()->getOption($option);
+
+        while (!$answer) {
+            $answer = (string) $this->ioStyle->ask($question);
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Configure the IO.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    private function configureIO(InputInterface $input, OutputInterface $output)
+    {
+        $this->cliInput = $input;
+        $this->ioStyle = new SymfonyStyle($input, $output);
+    }
+
+    /**
+     * Configure the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> deletes a user
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('Delete a user');
-		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
-		$this->setHelp($help);
-	}
+        $this->setDescription('Delete a user');
+        $this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
+        $this->setHelp($help);
+    }
 }

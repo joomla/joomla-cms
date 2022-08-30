@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Installation
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Installation\Form\Rule;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\FormRule;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Rule class for the prefix DB.
@@ -19,19 +22,19 @@ use Joomla\CMS\Form\FormRule;
  */
 class PrefixRule extends FormRule
 {
-	/**
-	 * The regular expression to use in testing a form field value.
-	 *
-	 * @var    string
-	 * @since  1.7
-	 */
-	protected $regex = '^[a-z][a-z0-9]*_$';
+    /**
+     * The regular expression to use in testing a form field value.
+     *
+     * @var    string
+     * @since  1.7
+     */
+    protected $regex = '^[a-z][a-z0-9]*_$';
 
-	/**
-	 * The regular expression modifiers to use when testing a form field value.
-	 *
-	 * @var    string
-	 * @since  1.7
-	 */
-	protected $modifiers = 'i';
+    /**
+     * The regular expression modifiers to use when testing a form field value.
+     *
+     * @var    string
+     * @since  1.7
+     */
+    protected $modifiers = 'i';
 }

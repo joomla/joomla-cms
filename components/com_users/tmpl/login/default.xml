@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="COM_USERS_LOGIN_VIEW_DEFAULT_TITLE" option="COM_USERS_LOGIN_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_USER_LOGIN"
+			key = "Menu_Item:_Login_Form"
 		/>
 		<message>
 			<![CDATA[COM_USERS_LOGIN_VIEW_DEFAULT_DESC]]>
@@ -42,6 +42,7 @@
 					name="login_redirect_menuitem"
 					type="modal_menu"
 					label="COM_USERS_FIELD_LOGIN_REDIRECTMENU_LABEL"
+					description="COM_USERS_FIELD_LOGIN_REDIRECTMENU_DESC"
 					disable="separator,alias,heading,url"
 					showon="loginredirectchoice:1"
 					select="true"
@@ -49,7 +50,7 @@
 					edit="true"
 					clear="true"
 					>
-					<option value="">JDEFAULT</option>
+					<option value="">JOPTION_SELECT_MENU</option>
 				</field>
 
 				<field
@@ -57,7 +58,7 @@
 					type="list"
 					label="JFIELD_BASIC_LOGIN_DESCRIPTION_SHOW_LABEL"
 					default="1"
-					class="custom-select-color-state"
+					class="form-select-color-state"
 					validate="options"
 					>
 					<option value="0">JHIDE</option>
@@ -84,7 +85,6 @@
 					name="login_image_alt"
 					type="text"
 					label="COM_USERS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field
@@ -122,6 +122,7 @@
 					name="logout_redirect_menuitem"
 					type="modal_menu"
 					label="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_LABEL"
+					description="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_DESC"
 					disable="separator,alias,heading,url"
 					showon="logoutredirectchoice:1"
 					select="true"
@@ -129,7 +130,7 @@
 					edit="true"
 					clear="true"
 					>
-					<option value="">JDEFAULT</option>
+					<option value="">JOPTION_SELECT_MENU</option>
 				</field>
 
 				<field
@@ -137,7 +138,7 @@
 					type="list"
 					label="JFIELD_BASIC_LOGOUT_DESCRIPTION_SHOW_LABEL"
 					default="1"
-					class="custom-select-color-state"
+					class="form-select-color-state"
 					validate="options"
 					>
 					<option value="0">JHIDE</option>
@@ -164,7 +165,6 @@
 					name="logout_image_alt"
 					type="text"
 					label="COM_USERS_FIELD_IMAGE_ALT_LABEL"
-					size="20"
 				/>
 
 				<field

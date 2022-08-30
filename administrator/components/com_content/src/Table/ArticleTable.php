@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
@@ -9,13 +10,15 @@
 
 namespace Joomla\Component\Content\Administrator\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Article table
  *
  * @since  1.5
  */
-class ArticleTable extends \JTableContent
+class ArticleTable extends \Joomla\CMS\Table\Content
 {
 }

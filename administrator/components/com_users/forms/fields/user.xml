@@ -5,7 +5,7 @@
 			<field
 				name="display"
 				type="hidden"
-			    	default="2"
+				default="2"
 			/>
 		</fieldset>
 	</fields>

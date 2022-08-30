@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -56,34 +57,30 @@ $attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';
 $attributes['data-position-element'] = 'data-position-element="' . $element . '"';
 $attributes['data-client-id'] = 'data-client-id="' . $clientId . '"';
 $attributes['data-name'] = 'data-name="' . $name . '"';
+$attributes['data-module-id'] = 'data-module-id="' . $moduleId . '"';
 
-if ($disabled)
-{
-	$attributes['disabled'] =  'disabled';
+if ($disabled) {
+    $attributes['disabled'] =  'disabled';
 }
 
-if ($class)
-{
-	$attributes['class'] = 'class="' . $class . '"';
+if ($class) {
+    $attributes['class'] = 'class="' . $class . '"';
 }
 
-if ($size)
-{
-	$attributes['size'] = 'size="' . $size . '"';
+if ($size) {
+    $attributes['size'] = 'size="' . $size . '"';
 }
 
-if ($onchange)
-{
-	$attributes['onchange'] = 'onchange="' . $onchange . '"';
+if ($onchange) {
+    $attributes['onchange'] = 'onchange="' . $onchange . '"';
 }
 
-if ($dataAttribute)
-{
-	$attributes['dataAttribute'] = $dataAttribute;
+if ($dataAttribute) {
+    $attributes['dataAttribute'] = $dataAttribute;
 }
 
 Factory::getDocument()->getWebAssetManager()
-	->useScript('webcomponent.field-module-order');
+    ->useScript('webcomponent.field-module-order');
 
 ?>
 <joomla-field-module-order <?php echo implode(' ', $attributes); ?>></joomla-field-module-order>

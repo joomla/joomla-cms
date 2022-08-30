@@ -2,7 +2,7 @@
 <extension type="plugin" group="user" method="upgrade">
 	<name>plg_user_contactcreator</name>
 	<author>Joomla! Project</author>
-	<creationDate>August 2009</creationDate>
+	<creationDate>2009-08</creationDate>
 	<copyright>(C) 2009 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,8 +13,8 @@
 		<filename plugin="contactcreator">contactcreator.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_user_contactcreator.ini</language>
-		<language tag="en-GB">en-GB.plg_user_contactcreator.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_contactcreator.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_contactcreator.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -24,7 +24,6 @@
 					type="text"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_LABEL"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_DESC"
-					size="40"
 				/>
 
 				<field

@@ -2,7 +2,7 @@
 <extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_actionlogs</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2018</creationDate>
+	<creationDate>2018-05</creationDate>
 	<copyright>(C) 2018 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -14,8 +14,8 @@
 		<folder>forms</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_actionlogs.ini</language>
-		<language tag="en-GB">en-GB.plg_system_actionlogs.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_actionlogs.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_actionlogs.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

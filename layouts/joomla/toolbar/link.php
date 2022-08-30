@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -23,17 +24,17 @@ extract($displayData, EXTR_OVERWRITE);
  * @var   string  $htmlAttributes
  */
 
-$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ml-auto';
+$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ms-auto';
 $target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
 <joomla-toolbar-button class="<?php echo $margin; ?>">
-	<a
-		id="<?php echo $id; ?>"
-		class="<?php echo $btnClass; ?>"
-		href="<?php echo $url; ?>"
-		<?php echo $target; ?>
-		<?php echo $htmlAttributes; ?>>
-		<span class="<?php echo $class; ?> icon-fw" aria-hidden="true"></span>
-		<?php echo $text ?: ''; ?>
-	</a>
+    <a
+        id="<?php echo $id; ?>"
+        class="<?php echo $btnClass; ?>"
+        href="<?php echo $url; ?>"
+        <?php echo $target; ?>
+        <?php echo $htmlAttributes; ?>>
+        <span class="<?php echo $class; ?> icon-fw" aria-hidden="true"></span>
+        <?php echo $text ?: ''; ?>
+    </a>
 </joomla-toolbar-button>

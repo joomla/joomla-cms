@@ -1,0 +1,50 @@
+// General layout
+.media-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  background-color: #fff;
+  border-radius: $border-radius;
+  box-shadow: $col-box-shadow;
+
+  .contentpane & {
+    margin: 0 -20px;
+    box-shadow: none;
+  }
+}
+
+.media-col-main-panel {
+  flex: 0 0 $col-main-panel-width;
+  max-width: $col-main-panel-width;
+}
+
+.media-col-side-panel {
+  flex: 0 0 $col-side-panel-width;
+  max-width: $col-side-panel-width;
+}
+
+[class^="media-col"], [class*=" media-col"] {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: $col-gutter-width * .5;
+  padding-left: $col-gutter-width * .5;
+}
+
+@media (min-width: var(--breakpoint-md)) {
+  [class^="media-col"], [class*=" media-col"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.media-main {
+  position: relative;
+  flex: 1 1 600px;
+  min-height: 75vh;
+}
+
+.media-sidebar {
+  flex: 0 0 280px;
+  padding: 1rem;
+}

@@ -2,7 +2,7 @@
 <extension type="module" client="administrator" method="upgrade">
 	<name>mod_quickicon</name>
 	<author>Joomla! Project</author>
-	<creationDate>November 2005</creationDate>
+	<creationDate>2005-11</creationDate>
 	<copyright>(C) 2005 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -11,16 +11,15 @@
 	<description>MOD_QUICKICON_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Quickicon</namespace>
 	<files>
-		<filename module="mod_quickicon">mod_quickicon.php</filename>
-		<folder>services</folder>
+		<folder module="mod_quickicon">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_quickicon.ini</language>
-		<language tag="en-GB">en-GB.mod_quickicon.sys.ini</language>
+		<language tag="en-GB">language/en-GB/mod_quickicon.ini</language>
+		<language tag="en-GB">language/en-GB/mod_quickicon.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_QUICKICON" />
+	<help key="Admin_Modules:_Quick_Icons" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -92,6 +91,19 @@
 					<option value="1">JSHOW</option>
 					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
 				</field>
+
+				<field
+					name="show_tags"
+					type="list"
+					label="MOD_QUICKICON_SHOW_TAGS_LABEL"
+					default="0"
+					validate="options"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+					<option value="2">MOD_QUICKICON_WITH_COUNT</option>
+				</field>
+
 				<field
 					name="show_modules"
 					type="list"
@@ -172,7 +184,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					class="form-select"
+					validate="moduleLayout"
 				/>
 
 				<field
@@ -201,6 +214,8 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
 					filter="integer"
+					min="1"
+					validate="number"
 				/>
 			</fieldset>
 		</fields>

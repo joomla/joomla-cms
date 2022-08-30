@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,11 +10,17 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Install;
 
-\defined('_JEXEC') or die;
-
+use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Install View
@@ -22,38 +29,47 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  Template
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function display($tpl = null)
-	{
-		$paths        = new \stdClass;
-		$paths->first = '';
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  Template
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    public function display($tpl = null)
+    {
+        if (!$this->getCurrentUser()->authorise('core.admin')) {
+            throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
+        }
 
-		$this->paths  = &$paths;
+        $paths        = new \stdClass();
+        $paths->first = '';
 
-		PluginHelper::importPlugin('installer');
+        $this->paths  = &$paths;
 
-		parent::display($tpl);
-	}
+        PluginHelper::importPlugin('installer');
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		parent::addToolbar();
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
-	}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        if (ContentHelper::getActions('com_installer')->get('core.manage')) {
+            ToolbarHelper::link('index.php?option=com_installer&view=manage', 'COM_INSTALLER_TOOLBAR_MANAGE', 'list');
+            ToolbarHelper::divider();
+        }
+
+        parent::addToolbar();
+
+        ToolbarHelper::help('Extensions:_Install');
+    }
 }

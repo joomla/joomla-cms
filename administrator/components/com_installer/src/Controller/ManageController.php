@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -8,8 +9,6 @@
  */
 
 namespace Joomla\Component\Installer\Administrator\Controller;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
@@ -21,6 +20,10 @@ use Joomla\Component\Installer\Administrator\Model\ManageModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Manage Controller
  *
@@ -28,144 +31,148 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ManageController extends BaseController
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   Input                $input    Input
-	 *
-	 * @since  1.6
-	 * @see    \JControllerLegacy
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
-	{
-		parent::__construct($config, $factory, $app, $input);
+    /**
+     * Constructor.
+     *
+     * @param   array                $config   An optional associative array of configuration settings.
+     * @param   MVCFactoryInterface  $factory  The factory.
+     * @param   CMSApplication       $app      The Application for the dispatcher
+     * @param   Input                $input    Input
+     *
+     * @since  1.6
+     */
+    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    {
+        parent::__construct($config, $factory, $app, $input);
 
-		$this->registerTask('unpublish', 'publish');
-		$this->registerTask('publish',   'publish');
-	}
+        $this->registerTask('unpublish', 'publish');
+        $this->registerTask('publish', 'publish');
+    }
 
-	/**
-	 * Enable/Disable an extension (if supported).
-	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception
-	 *
-	 * @since   1.6
-	 */
-	public function publish()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+    /**
+     * Enable/Disable an extension (if supported).
+     *
+     * @return  void
+     *
+     * @throws  \Exception
+     *
+     * @since   1.6
+     */
+    public function publish()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
-		$values = array('publish' => 1, 'unpublish' => 0);
-		$task   = $this->getTask();
-		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+        $ids    = (array) $this->input->get('cid', array(), 'int');
+        $values = array('publish' => 1, 'unpublish' => 0);
+        $task   = $this->getTask();
+        $value  = ArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($ids))
-		{
-			$this->setMessage(Text::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'), 'warning');
-		}
-		else
-		{
-			/** @var ManageModel $model */
-			$model = $this->getModel('manage');
+        // Remove zero values resulting from input filter
+        $ids = array_filter($ids);
 
-			// Change the state of the records.
-			if (!$model->publish($ids, $value))
-			{
-				$this->setMessage(implode('<br>', $model->getErrors()), 'warning');
-			}
-			else
-			{
-				if ($value == 1)
-				{
-					$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
-				}
-				else
-				{
-					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
-				}
+        if (empty($ids)) {
+            $this->setMessage(Text::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'), 'warning');
+        } else {
+            /** @var ManageModel $model */
+            $model = $this->getModel('manage');
 
-				$this->setMessage(Text::plural($ntext, count($ids)));
-			}
-		}
+            // Change the state of the records.
+            if (!$model->publish($ids, $value)) {
+                $this->setMessage(implode('<br>', $model->getErrors()), 'warning');
+            } else {
+                if ($value == 1) {
+                    $ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
+                } else {
+                    $ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
+                }
 
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
-	}
+                $this->setMessage(Text::plural($ntext, count($ids)));
+            }
+        }
 
-	/**
-	 * Remove an extension (Uninstall).
-	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception
-	 *
-	 * @since   1.5
-	 */
-	public function remove()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+        $this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+    }
 
-		/** @var ManageModel $model */
-		$model = $this->getModel('manage');
+    /**
+     * Remove an extension (Uninstall).
+     *
+     * @return  void
+     *
+     * @throws  \Exception
+     *
+     * @since   1.5
+     */
+    public function remove()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		$eid = $this->input->get('cid', array(), 'array');
-		$eid = ArrayHelper::toInteger($eid, array());
-		$model->remove($eid);
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
-	}
+        $eid = (array) $this->input->get('cid', array(), 'int');
 
-	/**
-	 * Refreshes the cached metadata about an extension.
-	 *
-	 * Useful for debugging and testing purposes when the XML file might change.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function refresh()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+        // Remove zero values resulting from input filter
+        $eid = array_filter($eid);
 
-		/** @var ManageModel $model */
-		$model = $this->getModel('manage');
+        if (!empty($eid)) {
+            /** @var ManageModel $model */
+            $model = $this->getModel('manage');
 
-		$uid = $this->input->get('cid', array(), 'array');
-		$uid = ArrayHelper::toInteger($uid, array());
-		$model->refresh($uid);
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
-	}
+            $model->remove($eid);
+        }
 
-	/**
-	 * Load the changelog for a given extension.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function loadChangelog()
-	{
-		/** @var ManageModel $model */
-		$model = $this->getModel('manage');
+        $this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+    }
 
-		$eid    = $this->input->get('eid', 0, 'int');
-		$source = $this->input->get('source', 'manage', 'string');
+    /**
+     * Refreshes the cached metadata about an extension.
+     *
+     * Useful for debugging and testing purposes when the XML file might change.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function refresh()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		if (!$eid)
-		{
-			return;
-		}
+        $uid = (array) $this->input->get('cid', array(), 'int');
 
-		$output = $model->loadChangelog($eid, $source);
+        // Remove zero values resulting from input filter
+        $uid = array_filter($uid);
 
-		echo (new JsonResponse($output));
-	}
+        if (!empty($uid)) {
+            /** @var ManageModel $model */
+            $model = $this->getModel('manage');
+
+            $model->refresh($uid);
+        }
+
+        $this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+    }
+
+    /**
+     * Load the changelog for a given extension.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function loadChangelog()
+    {
+        /** @var ManageModel $model */
+        $model = $this->getModel('manage');
+
+        $eid    = $this->input->get('eid', 0, 'int');
+        $source = $this->input->get('source', 'manage', 'string');
+
+        if (!$eid) {
+            return;
+        }
+
+        $output = $model->loadChangelog($eid, $source);
+
+        echo (new JsonResponse($output));
+    }
 }

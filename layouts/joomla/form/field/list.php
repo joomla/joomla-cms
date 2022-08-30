@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -39,10 +40,7 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- * @var   array    $checkedOptions  Options that will be set as checked.
- * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- * @var   array    $inputType       Options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
@@ -51,56 +49,47 @@ $html = array();
 $attr = '';
 
 // Initialize the field attributes.
-$attr .= !empty($class) ? ' class="custom-select ' . $class . '"' : ' class="custom-select"';
+$attr .= !empty($class) ? ' class="form-select ' . $class . '"' : ' class="form-select"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
-$attr .= !empty($description) ? ' aria-describedby="' . $name . '-desc"' : '';
+$attr .= !empty($description) ? ' aria-describedby="' . ($id ?: $name) . '-desc"' : '';
 $attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
-if ($readonly || $disabled)
-{
-	$attr .= ' disabled="disabled"';
+if ($readonly || $disabled) {
+    $attr .= ' disabled="disabled"';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
-if ($readonly)
-{
-	$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
+if ($readonly) {
+    $html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
 
-	// E.g. form field type tag sends $this->value as array
-	if ($multiple && is_array($value))
-	{
-		if (!count($value))
-		{
-			$value[] = '';
-		}
+    // E.g. form field type tag sends $this->value as array
+    if ($multiple && is_array($value)) {
+        if (!count($value)) {
+            $value[] = '';
+        }
 
-		foreach ($value as $val)
-		{
-			$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
-		}
-	}
-	else
-	{
-		$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-	}
-}
-else
-// Create a regular list passing the arguments in an array.
+        foreach ($value as $val) {
+            $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
+        }
+    } else {
+        $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
+    }
+} else // Create a regular list passing the arguments in an array.
 {
-	$listoptions = array();
-	$listoptions['option.key'] = 'value';
-	$listoptions['option.text'] = 'text';
-	$listoptions['list.select'] = $value;
-	$listoptions['id'] = $id;
-	$listoptions['list.translate'] = false;
-	$listoptions['option.attr'] = 'optionattr';
-	$listoptions['list.attr'] = trim($attr);
-	$html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
+    $listoptions = array();
+    $listoptions['option.key'] = 'value';
+    $listoptions['option.text'] = 'text';
+    $listoptions['list.select'] = $value;
+    $listoptions['id'] = $id;
+    $listoptions['list.translate'] = false;
+    $listoptions['option.attr'] = 'optionattr';
+    $listoptions['list.attr'] = trim($attr);
+    $html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
 }
 
 echo implode($html);

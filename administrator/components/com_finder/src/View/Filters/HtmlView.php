@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,14 +10,16 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Filters;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Filters view class for Finder.
@@ -25,140 +28,150 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var  array
-	 *
-	 * @since  3.6.1
-	 */
-	protected $items;
+    /**
+     * An array of items
+     *
+     * @var    array
+     *
+     * @since  3.6.1
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination
-	 *
-	 * @since  3.6.1
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var    \Joomla\CMS\Pagination\Pagination
+     *
+     * @since  3.6.1
+     */
+    protected $pagination;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 *
-	 * @since  3.6.1
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var    \Joomla\CMS\Object\CMSObject
+     *
+     * @since  3.6.1
+     */
+    protected $state;
 
-	/**
-	 * The total number of items
-	 *
-	 * @var  integer
-	 *
-	 * @since  3.6.1
-	 */
-	protected $total;
+    /**
+     * The total number of items
+     *
+     * @var  integer
+     *
+     * @since  3.6.1
+     */
+    protected $total;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \JForm
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var    array
+     *
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  mixed  A string if successful, otherwise an \Exception object.
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		// Load the view data.
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->total         = $this->get('Total');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * @var    boolean
+     *
+     * @since  4.0.0
+     */
+    private $isEmptyState = false;
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function display($tpl = null)
+    {
+        // Load the view data.
+        $this->items         = $this->get('Items');
+        $this->pagination    = $this->get('Pagination');
+        $this->total         = $this->get('Total');
+        $this->state         = $this->get('State');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
 
-		// Configure the toolbar.
-		$this->addToolbar();
+        if (\count($this->items) === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+            $this->setLayout('emptystate');
+        }
 
-		return parent::display($tpl);
-	}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-	/**
-	 * Method to configure the toolbar for this view.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_finder');
+        // Configure the toolbar.
+        $this->addToolbar();
 
-		ToolbarHelper::title(Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'search-plus finder');
-		$toolbar = Toolbar::getInstance('toolbar');
+        parent::display($tpl);
+    }
 
-		if ($canDo->get('core.create'))
-		{
-			ToolbarHelper::addNew('filter.add');
-			ToolbarHelper::divider();
-		}
+    /**
+     * Method to configure the toolbar for this view.
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    protected function addToolbar()
+    {
+        $canDo = ContentHelper::getActions('com_finder');
 
-		if ($canDo->get('core.edit.state'))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('icon-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        ToolbarHelper::title(Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'search-plus finder');
+        $toolbar = Toolbar::getInstance('toolbar');
 
-			$childBar = $dropdown->getChildToolbar();
+        if ($canDo->get('core.create')) {
+            ToolbarHelper::addNew('filter.add');
+            ToolbarHelper::divider();
+        }
 
-			$childBar->publish('filters.publish')->listCheck(true);
-			$childBar->unpublish('filters.unpublish')->listCheck(true);
-			$childBar->checkin('filters.checkin')->listCheck(true);
-		}
+        if ($this->isEmptyState === false) {
+            if ($canDo->get('core.edit.state')) {
+                $dropdown = $toolbar->dropdownButton('status-group')
+                    ->text('JTOOLBAR_CHANGE_STATUS')
+                    ->toggleSplit(false)
+                    ->icon('icon-ellipsis-h')
+                    ->buttonClass('btn btn-action')
+                    ->listCheck(true);
 
-		ToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
-		ToolbarHelper::divider();
+                $childBar = $dropdown->getChildToolbar();
 
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('', 'filters.delete');
-			ToolbarHelper::divider();
-		}
+                $childBar->publish('filters.publish')->listCheck(true);
+                $childBar->unpublish('filters.unpublish')->listCheck(true);
+                $childBar->checkin('filters.checkin')->listCheck(true);
+            }
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_finder');
-		}
+            ToolbarHelper::divider();
+            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+            ToolbarHelper::divider();
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
-	}
+            if ($canDo->get('core.delete')) {
+                ToolbarHelper::deleteList('', 'filters.delete');
+                ToolbarHelper::divider();
+            }
+        }
+
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            ToolbarHelper::preferences('com_finder');
+        }
+
+        ToolbarHelper::help('Smart_Search:_Search_Filters');
+    }
 }

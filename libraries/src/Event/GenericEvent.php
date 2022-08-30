@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,12 +9,14 @@
 
 namespace Joomla\CMS\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This class gives a concrete implementation of the AbstractEvent class.
  *
- * @see    Joomla\CMS\Event\AbstractEvent
+ * @see    \Joomla\CMS\Event\AbstractEvent
  * @since  4.0.0
  */
 class GenericEvent extends AbstractEvent

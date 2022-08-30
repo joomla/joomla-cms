@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,55 +9,53 @@
 
 namespace Joomla\CMS\Event\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
-use JTableInterface;
+use Joomla\CMS\Table\TableInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Event class for JTable's events
+ * Event class for the Table's events
  *
  * @since  4.0.0
  */
 abstract class AbstractEvent extends AbstractImmutableEvent
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  BadMethodCallException
-	 *
-	 * @since   1.0
-	 */
-	public function __construct($name, array $arguments = array())
-	{
-		if (!\array_key_exists('subject', $arguments))
-		{
-			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
-		}
+    /**
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  BadMethodCallException
+     *
+     * @since   1.0
+     */
+    public function __construct($name, array $arguments = [])
+    {
+        if (!\array_key_exists('subject', $arguments)) {
+            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
+        }
 
-		parent::__construct($name, $arguments);
-	}
+        parent::__construct($name, $arguments);
+    }
 
-	/**
-	 * Setter for the subject argument
-	 *
-	 * @param   JTableInterface  $value  The value to set
-	 *
-	 * @return  JTableInterface
-	 *
-	 * @throws  BadMethodCallException  if the argument is not of the expected type
-	 */
-	protected function setSubject($value)
-	{
-		if (!\is_object($value) || !($value instanceof JTableInterface))
-		{
-			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
-		}
+    /**
+     * Setter for the subject argument
+     *
+     * @param   TableInterface  $value  The value to set
+     *
+     * @return  TableInterface
+     *
+     * @throws  BadMethodCallException  If the argument is not of the expected type.
+     */
+    protected function setSubject($value)
+    {
+        if (!\is_object($value) || !($value instanceof TableInterface)) {
+            throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

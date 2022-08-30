@@ -10,7 +10,7 @@
   }
 
   // Handle the autocomplete
-  const onKeyUp = ({ target }) => {
+  const onInputChange = ({ target }) => {
     if (target.value.length > 1) {
       target.awesomplete.list = [];
 
@@ -52,6 +52,14 @@
     }
   };
 
+  // Submits the form programmatically
+  const submitForm = (event) => {
+    const form = event.target.closest('form');
+    if (form) {
+      form.submit();
+    }
+  };
+
   // The boot sequence
   const onBoot = () => {
     const searchWords = [].slice.call(document.querySelectorAll('.js-finder-search-query'));
@@ -62,7 +70,14 @@
         searchword.awesomplete = new Awesomplete(searchword);
 
         // If the current value is empty, set the previous value.
-        searchword.addEventListener('keyup', onKeyUp);
+        searchword.addEventListener('input', onInputChange);
+
+        const advanced = searchword.closest('form').querySelector('.js-finder-advanced');
+
+        // Do not submit the form on suggestion selection, in case of advanced form.
+        if (!advanced) {
+          searchword.addEventListener('awesomplete-selectcomplete', submitForm);
+        }
       }
     });
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_tags
@@ -9,14 +10,16 @@
 
 namespace Joomla\Component\Tags\Site\View\Tags;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Tags component
@@ -25,257 +28,146 @@ use Joomla\Registry\Registry;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The model state
-	 *
-	 * @var    \JObject
-	 * @since  3.1
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var    \Joomla\CMS\Object\CMSObject
+     *
+     * @since  3.1
+     */
+    protected $state;
 
-	/**
-	 * The list of tags
-	 *
-	 * @var    array|false
-	 * @since  3.1
-	 */
-	protected $items;
+    /**
+     * The list of tags
+     *
+     * @var    array|false
+     * @since  3.1
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var    \Joomla\CMS\Pagination\Pagination
-	 * @since  3.1
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var    \Joomla\CMS\Pagination\Pagination
+     * @since  3.1
+     */
+    protected $pagination;
 
-	/**
-	 * The page parameters
-	 *
-	 * @var    \Joomla\Registry\Registry|null
-	 * @since  3.1
-	 */
-	protected $params = null;
+    /**
+     * The page parameters
+     *
+     * @var    \Joomla\Registry\Registry|null
+     * @since  3.1
+     */
+    protected $params = null;
 
-	/**
-	 * The page class suffix
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $pageclass_sfx = '';
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-	/**
-	 * The logged in user
-	 *
-	 * @var    \JUser|null
-	 * @since  4.0.0
-	 */
-	protected $user = null;
+    /**
+     * The logged in user
+     *
+     * @var    \Joomla\CMS\User\User|null
+     * @since  4.0.0
+     */
+    protected $user = null;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed   A string if successful, otherwise an Error object.
-	 */
-	public function display($tpl = null)
-	{
-		// Get some data from the models
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->params     = $this->state->get('params');
-		$this->user       = Factory::getUser();
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  mixed   A string if successful, otherwise an Error object.
+     */
+    public function display($tpl = null)
+    {
+        // Get some data from the models
+        $this->state      = $this->get('State');
+        $this->items      = $this->get('Items');
+        $this->pagination = $this->get('Pagination');
+        $this->params     = $this->state->get('params');
+        $this->user       = $this->getCurrentUser();
 
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		// Flag indicates to not add limitstart=0 to URL
-		$this->pagination->hideEmptyLimitstart = true;
+        // Flag indicates to not add limitstart=0 to URL
+        $this->pagination->hideEmptyLimitstart = true;
 
-		// Check whether access level allows access.
-		// @todo: Should already be computed in $item->params->get('access-view')
-		$groups = $this->user->getAuthorisedViewLevels();
+        if (!empty($this->items)) {
+            foreach ($this->items as $itemElement) {
+                // Prepare the data.
+                $temp = new Registry($itemElement->params);
+                $itemElement->params = clone $this->params;
+                $itemElement->params->merge($temp);
+                $itemElement->params = (array) json_decode($itemElement->params);
+            }
+        }
 
-		if (!empty($this->items))
-		{
-			foreach ($this->items as $itemElement)
-			{
-				if (!in_array($itemElement->access, $groups))
-				{
-					unset($itemElement);
-				}
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx', ''));
 
-				// Prepare the data.
-				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $this->params;
-				$itemElement->params->merge($temp);
-				$itemElement->params = (array) json_decode($itemElement->params);
-			}
-		}
+        $active = Factory::getApplication()->getMenu()->getActive();
 
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+        // Load layout from active query (in case it is an alternative menu item)
+        if ($active && isset($active->query['option']) && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags') {
+            if (isset($active->query['layout'])) {
+                $this->setLayout($active->query['layout']);
+            }
+        } else {
+            // Load default All Tags layout from component
+            if ($layout = $this->params->get('tags_layout')) {
+                $this->setLayout($layout);
+            }
+        }
 
-		$active = Factory::getApplication()->getMenu()->getActive();
+        $this->_prepareDocument();
 
-		// Load layout from active query (in case it is an alternative menu item)
-		if ($active && isset($active->query['option']) && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
-		{
-			if (isset($active->query['layout']))
-			{
-				$this->setLayout($active->query['layout']);
-			}
-		}
-		else
-		{
-			// Load default All Tags layout from component
-			if ($layout = $this->params->get('tags_layout'))
-			{
-				$this->setLayout($layout);
-			}
-		}
+        parent::display($tpl);
+    }
 
-		$this->_prepareDocument();
+    /**
+     * Prepares the document
+     *
+     * @return void
+     */
+    protected function _prepareDocument()
+    {
+        // Because the application sets a default page title,
+        // we need to get it from the menu item itself
+        $menu = Factory::getApplication()->getMenu()->getActive();
 
-		parent::display($tpl);
-	}
+        if ($menu) {
+            $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+        } else {
+            $this->params->def('page_heading', Text::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
+        }
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return void
-	 */
-	protected function _prepareDocument()
-	{
-		$app   = Factory::getApplication();
-		$menus = $app->getMenu();
-		$title = null;
+        // Set metadata for all tags menu item
+        if ($this->params->get('menu-meta_description')) {
+            $this->document->setDescription($this->params->get('menu-meta_description'));
+        }
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+        if ($this->params->get('robots')) {
+            $this->document->setMetaData('robots', $this->params->get('robots'));
+        }
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', Text::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
-		}
+        // Respect configuration Sitename Before/After for TITLE in views All Tags.
+        $this->setDocumentTitle($this->document->getTitle());
 
-		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags'))
-		{
-			$this->params->set('page_subheading', $menu->title);
-		}
-
-		// Set metadata for all tags menu item
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
-
-		// If this is not a single tag menu item, set the page title to the tag titles
-		$title = '';
-
-		if (!empty($this->item))
-		{
-			foreach ($this->item as $i => $itemElement)
-			{
-				if ($itemElement->title)
-				{
-					if ($i != 0)
-					{
-						$title .= ', ';
-					}
-
-					$title .= $itemElement->title;
-				}
-			}
-
-			if (empty($title))
-			{
-				$title = $app->get('sitename');
-			}
-			elseif ($app->get('sitename_pagetitles', 0) == 1)
-			{
-				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-			}
-			elseif ($app->get('sitename_pagetitles', 0) == 2)
-			{
-				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-			}
-
-			$this->document->setTitle($title);
-
-			foreach ($this->item as $itemElement)
-			{
-				if ($itemElement->metadesc)
-				{
-					$this->document->setDescription($this->item->metadesc);
-				}
-				elseif ($this->params->get('menu-meta_description'))
-				{
-					$this->document->setDescription($this->params->get('menu-meta_description'));
-				}
-
-				if ($this->params->get('robots'))
-				{
-					$this->document->setMetaData('robots', $this->params->get('robots'));
-				}
-
-				if ($app->get('MetaAuthor') == '1')
-				{
-					$this->document->setMetaData('author', $itemElement->created_user_id);
-				}
-
-				$mdata = $this->item->metadata->toArray();
-
-				foreach ($mdata as $k => $v)
-				{
-					if ($v)
-					{
-						$this->document->setMetaData($k, $v);
-					}
-				}
-			}
-		}
-
-		// Respect configuration Sitename Before/After for TITLE in views All Tags.
-		if (!$title && ($pos = $app->get('sitename_pagetitles', 0)))
-		{
-			$title = $this->document->getTitle();
-
-			if ($pos == 1)
-			{
-				$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-			}
-			else
-			{
-				$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-			}
-
-			$this->document->setTitle($title);
-		}
-
-		// Add alternative feed link
-		if ($this->params->get('show_feed_link', 1) == 1)
-		{
-			$link    = '&format=feed&limitstart=';
-			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
-		}
-	}
+        // Add alternative feed link
+        if ($this->params->get('show_feed_link', 1) == 1) {
+            $link    = '&format=feed&limitstart=';
+            $attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+            $this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+            $attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+            $this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+        }
+    }
 }

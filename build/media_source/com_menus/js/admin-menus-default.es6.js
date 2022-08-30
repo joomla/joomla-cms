@@ -17,9 +17,10 @@
     });
   }
 
-  // @Todo make vanilla, when modals are custom elements
-  window.jQuery('.modal').on('hidden.bs.modal', () => {
-    setTimeout(() => { window.parent.location.reload(); }, 1000);
+  Array.from(document.querySelectorAll('.modal')).forEach((modalEl) => {
+    modalEl.addEventListener('hidden.bs.modal', () => {
+      setTimeout(() => { window.parent.location.reload(); }, 1000);
+    });
   });
 })(Joomla);
 

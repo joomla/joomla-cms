@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
@@ -9,28 +10,30 @@
 
 namespace Joomla\Component\Newsfeeds\Site\View\Categories;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\CategoriesView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * Content categories view.
+ * Newsfeed categories view.
  *
  * @since  1.5
  */
 class HtmlView extends CategoriesView
 {
-	/**
-	 * Language key for default page heading
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $pageHeading = 'COM_NEWSFEEDS_DEFAULT_PAGE_TITLE';
+    /**
+     * Language key for default page heading
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $pageHeading = 'COM_NEWSFEEDS_DEFAULT_PAGE_TITLE';
 
-	/**
-	 * @var    string  The name of the extension for the category
-	 * @since  3.2
-	 */
-	protected $extension = 'com_newsfeeds';
+    /**
+     * @var    string  The name of the extension for the category
+     * @since  3.2
+     */
+    protected $extension = 'com_newsfeeds';
 }

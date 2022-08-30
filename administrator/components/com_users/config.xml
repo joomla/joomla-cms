@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Users:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
@@ -108,33 +110,18 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
-		<field
-			name="enforce_2fa_options"
-			type="list"
-			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
-			default="0"
-			filter="integer"
-			validate="options"
-			>
-			<option value="0">JNO</option>
-			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>
-			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
-			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
-		</field>
-
 	</fieldset>
 
 	<fieldset
 		name="domain_options"
 		label="COM_USERS_CONFIG_DOMAIN_OPTIONS"
+		description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 		>
 
 		<field
 			name="domains"
 			type="subform"
 			label="COM_USERS_CONFIG_FIELD_DOMAINS_LABEL"
-			description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 			hiddenLabel="true"
 			multiple="true"
 			layout="joomla.form.field.subform.repeatable-table"
@@ -149,6 +136,7 @@
 			name="reset_count"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
+			filter="integer"
 			min="0"
 			max="20"
 			step="1"
@@ -160,6 +148,7 @@
 			name="reset_time"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
+			filter="integer"
 			min="1"
 			max="24"
 			step="1"
@@ -171,6 +160,7 @@
 			name="minimum_length"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
+			filter="integer"
 			min="8"
 			step="1"
 			default="12"
@@ -181,6 +171,7 @@
 			name="minimum_integers"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"
@@ -191,6 +182,7 @@
 			name="minimum_symbols"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"
@@ -201,6 +193,7 @@
 			name="minimum_uppercase"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"
@@ -211,10 +204,130 @@
 			name="minimum_lowercase"
 			type="number"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
+			filter="integer"
 			min="0"
 			step="1"
 			default="0"
 			validate="number"
+		/>
+	</fieldset>
+
+	<fieldset
+		name="multifactorauth"
+		label="COM_USERS_CONFIG_MULTIFACTORAUTH_SETTINGS_LABEL"
+		description="COM_USERS_CONFIG_MULTIFACTORAUTH_SETTINGS_DESC"
+		addfieldprefix="Joomla\Component\Users\Administrator\Field"
+	>
+		<field
+			name="allowed_positions_frontend"
+			type="modulesposition"
+			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_LABEL"
+			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_FRONTEND_DESC"
+			default=""
+			layout="joomla.form.field.list-fancy-select"
+			client="site"
+			multiple="1"
+		/>
+
+		<field
+			name="frontend_show_title"
+			type="radio"
+			label="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_LABEL"
+			description="COM_USERS_CONFIG_FRONTEND_SHOW_TITLE_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="allowed_positions_backend"
+			type="modulesposition"
+			label="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_LABEL"
+			description="COM_USERS_CONFIG_ALLOWED_POSITIONS_BACKEND_DESC"
+			default=""
+			layout="joomla.form.field.list-fancy-select"
+			client="administrator"
+			multiple="1"
+		/>
+
+		<field
+			name="neverMFAUserGroups"
+			type="UserGroupList"
+			label="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_LABEL"
+			description="COM_USERS_CONFIG_NEVERMFAUSERGROUPS_DESC"
+			layout="joomla.form.field.list-fancy-select"
+			checksuperusergroup="1"
+			default=""
+			multiple="1"
+			>
+			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
+		</field>
+
+		<field
+			name="forceMFAUserGroups"
+			type="UserGroupList"
+			label="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_LABEL"
+			description="COM_USERS_CONFIG_FORCEMFAUSERGROUPS_DESC"
+			layout="joomla.form.field.list-fancy-select"
+			checksuperusergroup="1"
+			default=""
+			multiple="1"
+			>
+			<option value="0">COM_USERS_CONFIG_LBL_NOGROUP</option>
+		</field>
+
+		<field
+			name="captive_template"
+			type="templatestyle"
+			label="COM_USERS_CONFIG_FRONTEND_CAPTIVE_TEMPLATE_LABEL"
+			description="COM_USERS_CONFIG_FRONTEND_CAPTIVE_TEMPLATE_DESC"
+			client="site"
+			>
+			<option value="">JOPTION_USE_DEFAULT</option>
+		</field>
+
+		<field
+			name="mfaonsilent"
+			type="radio"
+			label="COM_USERS_CONFIG_MFAONSILENT_LABEL"
+			description="COM_USERS_CONFIG_MFAONSILENT_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="silentresponses"
+			type="text"
+			label="COM_USERS_CONFIG_SILENTRESPONSES_LABEL"
+			description="COM_USERS_CONFIG_SILENTRESPONSES_DESC"
+			default="cookie, passwordless"
+			showon="mfaonsilent:0"
+		/>
+
+		<field
+			name="mfaredirectonlogin"
+			type="radio"
+			label="COM_USERS_CONFIG_REDIRECTONLOGIN_LABEL"
+			description="COM_USERS_CONFIG_REDIRECTONLOGIN_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="mfaredirecturl"
+			type="text"
+			label="COM_USERS_CONFIG_REDIRECTURL_LABEL"
+			description="COM_USERS_CONFIG_REDIRECTURL_DESC"
+			default=""
+			showon="redirectonlogin:1"
 		/>
 	</fieldset>
 
@@ -244,23 +357,23 @@
 
 	</fieldset>
 
- 	<fieldset
+	<fieldset
 		name="massmail"
 		label="COM_USERS_MASS_MAIL"
 		description="COM_USERS_MASS_MAIL_DESC">
 
 		<field
- 			name="mailSubjectPrefix"
- 			type="text"
+			name="mailSubjectPrefix"
+			type="text"
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
 		/>
 
- 		<field
- 			name="mailBodySuffix"
+		<field
+			name="mailBodySuffix"
 			type="textarea"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
- 			rows="5"
- 			cols="30"
+			rows="5"
+			cols="30"
 		/>
 
 	</fieldset>
@@ -288,7 +401,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

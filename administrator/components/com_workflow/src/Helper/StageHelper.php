@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
@@ -9,16 +10,18 @@
 
 namespace Joomla\Component\Workflow\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Helper\ContentHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The first example class, this is in the same
  * package as declared at the start of file but
  * this example has a defined subpackage
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class StageHelper extends ContentHelper
 {

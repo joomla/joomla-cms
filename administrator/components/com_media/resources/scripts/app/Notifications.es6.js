@@ -4,7 +4,7 @@ class Notifications {
   success(message, options) {
     // eslint-disable-next-line no-use-before-define
     notifications.notify(message, {
-      type: 'message',
+      type: 'message', // @todo rename it to success
       dismiss: true,
       ...options,
     });
@@ -15,7 +15,7 @@ class Notifications {
   error(message, options) {
     // eslint-disable-next-line no-use-before-define
     notifications.notify(message, {
-      type: 'error',
+      type: 'error', // @todo rename it to danger
       dismiss: true,
       ...options,
     });
@@ -30,10 +30,17 @@ class Notifications {
   /* Send a notification */
   // eslint-disable-next-line class-methods-use-this
   notify(message, options) {
+    let timer;
+    if (options.type === 'message') {
+      timer = 3000;
+    }
     Joomla.renderMessages(
       {
-        [options.type]: [Joomla.JText._(message)],
+        [options.type]: [Joomla.Text._(message)],
       },
+      undefined,
+      true,
+      timer,
     );
   }
 }

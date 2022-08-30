@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Users\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Users\Administrator\Helper\DebugHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Access Levels field.
@@ -21,24 +24,24 @@ use Joomla\Component\Users\Administrator\Helper\DebugHelper;
  */
 class LevelsField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var     string
-	 * @since   3.6.0
-	 */
-	protected $type = 'Levels';
+    /**
+     * The form field type.
+     *
+     * @var     string
+     * @since   3.6.0
+     */
+    protected $type = 'Levels';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects
-	 *
-	 * @since   3.6.0
-	 */
-	protected function getOptions()
-	{
-		// Merge any additional options in the XML definition.
-		return array_merge(parent::getOptions(), DebugHelper::getLevelsOptions());
-	}
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects
+     *
+     * @since   3.6.0
+     */
+    protected function getOptions()
+    {
+        // Merge any additional options in the XML definition.
+        return array_merge(parent::getOptions(), DebugHelper::getLevelsOptions());
+    }
 }

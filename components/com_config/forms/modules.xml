@@ -50,6 +50,7 @@
 			name="published"
 			type="list"
 			label="JSTATUS"
+			class="form-select-color-state"
 			default="1"
 			size="1"
 			validate="options"

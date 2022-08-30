@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,57 +9,71 @@
 
 namespace Joomla\CMS\Error\Renderer;
 
-\defined('JPATH_PLATFORM') or die;
-
+use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * JSON error page renderer
  *
- * @since  4.0
+ * @since  4.0.0
  */
 class JsonRenderer extends AbstractRenderer
 {
-	/**
-	 * The format (type) of the error page
-	 *
-	 * @var    string
-	 * @since  4.0
-	 */
-	protected $type = 'json';
+    /**
+     * The format (type) of the error page
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected $type = 'json';
 
-	/**
-	 * Render the error page for the given object
-	 *
-	 * @param   \Throwable  $error  The error object to be rendered
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0
-	 */
-	public function render(\Throwable $error): string
-	{
-		// Create our data object to be rendered
-		$data = [
-			'error'   => true,
-			'code'    => $error->getCode(),
-			'message' => $error->getMessage(),
-		];
+    /**
+     * Render the error page for the given object
+     *
+     * @param   \Throwable  $error  The error object to be rendered
+     *
+     * @return  string
+     *
+     * @since   4.0.0
+     */
+    public function render(\Throwable $error): string
+    {
+        // Create our data object to be rendered
+        $data = [
+            'error'   => true,
+            'code'    => $error->getCode(),
+            'message' => $error->getMessage(),
+        ];
 
-		// Include the stack trace if in debug mode
-		if (JDEBUG)
-		{
-			$data['trace'] = $error->getTraceAsString();
-		}
+        // Include the stack trace if in debug mode
+        if (JDEBUG) {
+            $data['trace'] = $error->getTraceAsString();
+        }
 
-		// Push the data object into the document
-		$this->getDocument()->setBuffer(json_encode($data));
+        $app = Factory::getApplication();
 
-		if (ob_get_contents())
-		{
-			ob_end_clean();
-		}
+        if ($app instanceof WebApplicationInterface) {
+            $errorCode = 500;
 
-		return $this->getDocument()->render();
-	}
+            if ($error->getCode() > 0) {
+                $errorCode = $error->getCode();
+            }
+
+            $app->setHeader('status', $errorCode);
+        }
+
+        // Push the data object into the document
+        $this->getDocument()->setBuffer(json_encode($data));
+
+        if (ob_get_contents()) {
+            ob_end_clean();
+        }
+
+        return $this->getDocument()->render();
+    }
 }

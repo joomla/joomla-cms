@@ -2,7 +2,7 @@
 <extension type="plugin" group="fields" method="upgrade">
 	<name>plg_fields_list</name>
 	<author>Joomla! Project</author>
-	<creationDate>March 2016</creationDate>
+	<creationDate>2016-03</creationDate>
 	<copyright>(C) 2016 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -13,8 +13,8 @@
 		<filename plugin="list">list.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_fields_list.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_list.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_list.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_list.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -44,14 +44,12 @@
 							name="name"
 							type="text"
 							label="PLG_FIELDS_LIST_PARAMS_OPTIONS_NAME_LABEL"
-							size="30"
 						/>
 
 						<field
 							name="value"
 							type="text"
 							label="PLG_FIELDS_LIST_PARAMS_OPTIONS_VALUE_LABEL"
-							size="30"
 						/>
 					</form>
 				</field>

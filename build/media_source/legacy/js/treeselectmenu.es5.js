@@ -90,23 +90,23 @@ jQuery(function($)
 	$('#treeExpandAll').click(function()
 	{
 		$('ul.treeselect ul.treeselect-sub').show();
-		$('ul.treeselect i.treeselect-toggle').removeClass('icon-chevron-right').addClass('icon-chevron-down');
+		$('ul.treeselect span.treeselect-toggle').removeClass('icon-chevron-right').addClass('icon-chevron-down');
 	});
 
 	// Unchecks all checkboxes the tree
 	$('#treeCollapseAll').click(function()
 	{
 		$('ul.treeselect ul.treeselect-sub').hide();
-		$('ul.treeselect i.treeselect-toggle').removeClass('icon-chevron-down').addClass('icon-chevron-right');
+		$('ul.treeselect span.treeselect-toggle').removeClass('icon-chevron-down').addClass('icon-chevron-right');
 	});
 	// Take care of children check/uncheck all
 	$('a.checkall').click(function()
 	{
-		$(this).parents().eq(5).find('ul.treeselect-sub input').attr('checked', 'checked');
+		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', 'checked');
 	});
 	$('a.uncheckall').click(function()
 	{
-		$(this).parents().eq(5).find('ul.treeselect-sub input').attr('checked', false);
+		$(this).parents().eq(4).find('ul.treeselect-sub input').attr('checked', false);
 	});
 
 	// Take care of children toggle all

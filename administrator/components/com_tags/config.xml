@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Tags:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="taglist"
 		label="COM_TAGS_CONFIG_TAG_SETTINGS_LABEL"
@@ -9,7 +11,7 @@
 			name="tag_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_tags"
 			view="tag"
@@ -220,7 +222,7 @@
 			name="tags_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_tags"
 			view="tags"
@@ -390,7 +392,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

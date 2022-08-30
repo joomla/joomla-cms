@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
@@ -9,12 +10,15 @@
 
 namespace Joomla\Component\Config\Site\View\Templates;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View to edit a template style.
@@ -23,79 +27,129 @@ use Joomla\Component\Config\Administrator\Controller\RequestController;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The data to be displayed in the form
-	 *
-	 * @var   array
-	 * @since 3.2
-	 */
-	public $item;
+    /**
+     * The data to be displayed in the form
+     *
+     * @var   array
+     *
+     * @since 3.2
+     */
+    public $item;
 
-	/**
-	 * The form object
-	 *
-	 * @var   \JForm
-	 * @since 3.2
-	 */
-	public $form;
+    /**
+     * The form object
+     *
+     * @var   Form
+     *
+     * @since 3.2
+     */
+    public $form;
 
-	/**
-	 * Is the current user a super administrator?
-	 *
-	 * @var   boolean
-	 * @since 3.2
-	 */
-	protected $userIsSuperAdmin;
+    /**
+     * Is the current user a super administrator?
+     *
+     * @var   boolean
+     *
+     * @since 3.2
+     */
+    protected $userIsSuperAdmin;
 
-	/**
-	 * Method to render the view.
-	 *
-	 * @return  string  The rendered view.
-	 *
-	 * @since   3.2
-	 */
-	public function display($tpl = null)
-	{
-		$user = Factory::getUser();
-		$this->userIsSuperAdmin = $user->authorise('core.admin');
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-		$app   = Factory::getApplication();
+    /**
+     * The page parameters
+     *
+     * @var    \Joomla\Registry\Registry|null
+     *
+     * @since  4.0.0
+     */
+    protected $params = null;
 
-		$app->input->set('id', $app->getTemplate(true)->id);
+    /**
+     * Method to render the view.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function display($tpl = null)
+    {
+        $user = $this->getCurrentUser();
+        $this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		/** @var MVCFactory $factory */
-		$factory = $app->bootComponent('com_templates')->getMVCFactory();
+        $app   = Factory::getApplication();
 
-		$view = $factory->createView('Style', 'Administrator', 'Json');
-		$view->setModel($factory->createModel('Style', 'Administrator'), true);
+        $app->input->set('id', $app->getTemplate(true)->id);
 
-		$view->document = $this->document;
+        /** @var MVCFactory $factory */
+        $factory = $app->bootComponent('com_templates')->getMVCFactory();
 
-		$json = $view->display();
+        $view = $factory->createView('Style', 'Administrator', 'Json');
+        $view->setModel($factory->createModel('Style', 'Administrator'), true);
 
-		// Execute backend controller
-		$serviceData = json_decode($json, true);
+        $view->document = $this->document;
 
-		// Access backend com_config
-		$requestController = new RequestController;
+        $json = $view->display();
 
-		// Execute backend controller
-		$configData = json_decode($requestController->getJson(), true);
+        // Execute backend controller
+        $serviceData = json_decode($json, true);
 
-		$data = array_merge($configData, $serviceData);
+        // Access backend com_config
+        $requestController = new RequestController();
 
-		/** @var \JForm $form */
-		$form = $this->getForm();
+        // Execute backend controller
+        $configData = json_decode($requestController->getJson(), true);
 
-		if ($form)
-		{
-			$form->bind($data);
-		}
+        $data = array_merge($configData, $serviceData);
 
-		$this->form = $form;
+        /** @var Form $form */
+        $form = $this->getForm();
 
-		$this->data = $serviceData;
+        if ($form) {
+            $form->bind($data);
+        }
 
-		return parent::display($tpl);
-	}
+        $this->form = $form;
+
+        $this->data = $serviceData;
+
+        $this->_prepareDocument();
+
+        parent::display($tpl);
+    }
+
+    /**
+     * Prepares the document.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function _prepareDocument()
+    {
+        $params = Factory::getApplication()->getParams();
+
+        // Because the application sets a default page title, we need to get it
+        // right from the menu item itself
+        $this->setDocumentTitle($params->get('page_title', ''));
+
+        if ($params->get('menu-meta_description')) {
+            $this->document->setDescription($params->get('menu-meta_description'));
+        }
+
+        if ($params->get('robots')) {
+            $this->document->setMetaData('robots', $params->get('robots'));
+        }
+
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->params        = &$params;
+    }
 }
