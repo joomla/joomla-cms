@@ -4,7 +4,7 @@ const Fs = require('fs').promises;
 const FsExtra = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const Sass = require('sass');
+const Sass = require('sass-embedded');
 
 module.exports.compile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
