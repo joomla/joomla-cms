@@ -23,7 +23,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: bitnami/node:18.8.0-debian-11-r1
+    image: node:18-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -31,7 +31,6 @@ steps:
     environment:
       npm_config_cache: /tmp/npm-cache
     commands:
-      - apt-get install git -y
       - npm ci --unsafe-perm
 
   - name: php72-unit
