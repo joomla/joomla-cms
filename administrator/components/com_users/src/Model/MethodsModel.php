@@ -23,6 +23,10 @@ use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Multi-factor Authentication Methods list page's model
  *
@@ -90,7 +94,7 @@ class MethodsModel extends BaseDatabaseModel
     {
         // Make sure we have a user object
         if (is_null($user)) {
-            $user = Factory::getApplication()->getIdentity() ?: Factory::getUser();
+            $user = Factory::getApplication()->getIdentity() ?: $this->getCurrentUser();
         }
 
         // If the user object is a guest (who can't have MFA) we abort with an error

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Log\Logger;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! W3C Logging class
  *

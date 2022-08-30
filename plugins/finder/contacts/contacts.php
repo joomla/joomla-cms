@@ -21,6 +21,10 @@ use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Finder adapter for Joomla Contacts.
  *
@@ -365,7 +369,6 @@ class PlgFinderContacts extends Adapter
 
         // Get content extras.
         Helper::getContentExtras($item);
-        Helper::addCustomFields($item, 'com_contact.contact');
 
         // Index the item.
         $this->indexer->index($item);

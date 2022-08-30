@@ -12,6 +12,10 @@ namespace Joomla\CMS\Feed;
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 use Joomla\CMS\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Feed Parser class.
  *
