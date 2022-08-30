@@ -23,7 +23,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:16-alpine
+    image: bitnami/node:18.8.0-debian-11-r1
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
