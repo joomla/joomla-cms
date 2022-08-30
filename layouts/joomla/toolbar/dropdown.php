@@ -36,7 +36,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('bootstrap.dropdown', '.dropdown');
+$wa->useScript('bootstrap.dropdown');
 
 ?>
 <?php if ($hasButtons && trim($button) !== '') : ?>
