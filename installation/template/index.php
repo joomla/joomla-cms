@@ -120,7 +120,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
                     </div>
                 </div>
             </div>
-			<jdoc:include type="scripts" />
-		</div>
-	</body>
+            <jdoc:include type="scripts" />
+        </div>
+    </body>
 </html>

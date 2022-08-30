@@ -19,13 +19,11 @@ HTMLHelper::_('behavior.formvalidator');
 
 $steps = 6;
 
-if (is_file(JPATH_INSTALLATION . '/sql/mysql/localise.sql'))
-{
+if (is_file(JPATH_INSTALLATION . '/sql/mysql/localise.sql')) {
     $steps++;
 }
 
-if (is_file(JPATH_INSTALLATION . '/sql/mysql/custom.sql'))
-{
+if (is_file(JPATH_INSTALLATION . '/sql/mysql/custom.sql')) {
     $steps++;
 }
 ?>
