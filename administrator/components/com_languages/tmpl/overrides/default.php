@@ -93,7 +93,12 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
                                     <?php echo $language; ?>
                                 </td>
                                 <td class="d-none d-md-table-cell">
-                                    <?php echo $client; ?><?php if (isset($oppositeStrings[$key]) && ($oppositeStrings[$key] == $text)) {echo '/' . $oppositeClient;}?>
+                                    <?php echo $client; ?>
+                                    <?php
+                                    if (isset($oppositeStrings[$key]) && ($oppositeStrings[$key] == $text)) {
+                                        echo '/' . $oppositeClient;
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                             <?php $i++; ?>
