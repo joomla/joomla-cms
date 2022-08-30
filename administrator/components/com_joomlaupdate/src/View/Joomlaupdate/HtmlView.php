@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Version;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Update's Default View
  *
@@ -275,7 +279,11 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add toolbar buttons.
-        if ($this->getCurrentUser()->authorise('core.admin')) {
+        $currentUser = version_compare(JVERSION, '4.2.0', 'ge')
+            ? $this->getCurrentUser()
+            : Factory::getApplication()->getIdentity();
+
+        if ($currentUser->authorise('core.admin')) {
             ToolbarHelper::preferences('com_joomlaupdate');
         }
 

@@ -11,6 +11,10 @@ namespace Joomla\CMS\Uri;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Uri Class
  *

@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contact HTML helper class.
  *

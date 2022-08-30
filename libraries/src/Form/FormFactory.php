@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form;
 
 use Joomla\Database\DatabaseAwareTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Default factory for creating Form objects
  *
