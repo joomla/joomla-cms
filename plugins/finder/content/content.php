@@ -21,6 +21,10 @@ use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Smart Search adapter for com_content.
  *
@@ -329,7 +333,6 @@ class PlgFinderContent extends Adapter
 
         // Get content extras.
         Helper::getContentExtras($item);
-        Helper::addCustomFields($item, 'com_content.article');
 
         // Index the item.
         $this->indexer->index($item);

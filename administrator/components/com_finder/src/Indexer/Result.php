@@ -13,6 +13,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Tree\ImmutableNodeInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Result class for the Finder indexer package.
  *

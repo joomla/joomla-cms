@@ -13,6 +13,10 @@ namespace Joomla\Plugin\Editors\CodeMirror\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports an HTML select list of fonts
  *

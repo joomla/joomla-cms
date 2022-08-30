@@ -20,6 +20,10 @@ use Webauthn\MetadataService\MetadataStatementRepository;
 
 use function defined;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Authenticator metadata repository.
  *
@@ -27,7 +31,7 @@ use function defined;
  * Alliance in their MDS version 3.0.
  *
  * @see   https://fidoalliance.org/metadata/
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 final class MetadataRepository implements MetadataStatementRepository
 {
@@ -35,7 +39,7 @@ final class MetadataRepository implements MetadataStatementRepository
      * Cache of authenticator metadata statements
      *
      * @var   MetadataStatement[]
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $mdsCache = [];
 
@@ -43,14 +47,14 @@ final class MetadataRepository implements MetadataStatementRepository
      * Map of AAGUID to $mdsCache index
      *
      * @var   array
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     private $mdsMap = [];
 
     /**
      * Public constructor.
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.0
      */
     public function __construct()
     {
@@ -63,7 +67,7 @@ final class MetadataRepository implements MetadataStatementRepository
      * @param   string  $aaguid  The AAGUID to find
      *
      * @return  MetadataStatement|null  The metadata statement; null if the AAGUID is unknown
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function findOneByAAGUID(string $aaguid): ?MetadataStatement
     {
@@ -76,7 +80,7 @@ final class MetadataRepository implements MetadataStatementRepository
      * Get basic information of the known FIDO authenticators by AAGUID
      *
      * @return  object[]
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getKnownAuthenticators(): array
     {
@@ -106,7 +110,7 @@ final class MetadataRepository implements MetadataStatementRepository
      * @param   bool  $force  Force reload from the web service
      *
      * @return  void
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function load(bool $force = false): void
     {
@@ -130,8 +134,12 @@ final class MetadataRepository implements MetadataStatementRepository
             // Only try to download anything if we can actually cache it!
             if ((file_exists($jwtFilename) && is_writable($jwtFilename)) || (!file_exists($jwtFilename) && is_writable(JPATH_CACHE))) {
                 $http     = HttpFactory::getHttp();
-                $response = $http->get('https://mds.fidoalliance.org/', [], 5);
-                $content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
+                try {
+                    $response = $http->get('https://mds.fidoalliance.org/', [], 5);
+                    $content  = ($response->code < 200 || $response->code > 299) ? '' : $response->body;
+                } catch (\Throwable $e) {
+                    $content = '';
+                }
             }
 
             /**
