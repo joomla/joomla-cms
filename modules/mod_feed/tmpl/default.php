@@ -81,6 +81,7 @@ if (!empty($feed) && is_string($feed)) {
         <?php if (!empty($feed)) { ?>
         <ul class="newsfeed">
             <?php for ($i = 0, $max = min(count($feed), $params->get('rssitems', 3)); $i < $max; $i++) { ?>
+                <?php echo "<pre>";print_r($feed); ?>
                 <?php
                 $uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
                 $uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
