@@ -293,12 +293,12 @@ class HtmlView extends BaseHtmlView
 
         if (count($this->updatedList) !== 0 && $this->pluginState) {
             $dropdown = $bar->dropdownButton('override-group')
-            ->text('COM_TEMPLATES_BUTTON_CHECK')
-            ->toggleSplit(false)
-            ->icon('icon-ellipsis-h')
-            ->buttonClass('btn btn-action')
-            ->form('updateForm')
-            ->listCheck(true);
+                ->text('COM_TEMPLATES_BUTTON_CHECK')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->form('updateForm')
+                ->listCheck(true);
 
             $childBar = $dropdown->getChildToolbar();
 
