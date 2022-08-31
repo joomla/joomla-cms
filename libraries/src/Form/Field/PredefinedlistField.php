@@ -11,6 +11,10 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field to load a list of predefined values
  *

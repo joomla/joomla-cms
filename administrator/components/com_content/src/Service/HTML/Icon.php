@@ -21,6 +21,10 @@ use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component HTML Helper
  *
