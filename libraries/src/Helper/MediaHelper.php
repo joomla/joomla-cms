@@ -328,7 +328,7 @@ class MediaHelper
                     unset($svgErrors[$i]);
                 }
             }
-var_dump($isValid);print_r($svgErrors);exit;
+
             if ($isValid === false || count($svgErrors)) {
                 $app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
