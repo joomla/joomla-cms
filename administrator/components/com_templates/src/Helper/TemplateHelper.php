@@ -133,7 +133,7 @@ abstract class TemplateHelper
             }
         }
 
-        // Max upload size set to 2 MB for Template Manager
+        // Max upload size set to 10 MB for Template Manager
         $maxSize = (int) ($params->get('upload_limit') * 1024 * 1024);
 
         if ($maxSize > 0 && (int) $file['size'] > $maxSize) {
