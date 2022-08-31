@@ -748,6 +748,7 @@ class UserModel extends AdminModel
                 // If we have no users to process, throw an error to notify the user
                 if (empty($users)) {
                     $this->setError(Text::_('COM_USERS_ERROR_NOT_IN_GROUP'));
+
                     return false;
                 }
 
