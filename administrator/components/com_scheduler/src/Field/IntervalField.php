@@ -13,6 +13,10 @@ namespace Joomla\Component\Scheduler\Administrator\Field;
 use Joomla\CMS\Form\Field\NumberField;
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Select style field for interval(s) in minutes, hours, days and months.
  *
