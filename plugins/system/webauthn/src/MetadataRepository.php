@@ -20,6 +20,10 @@ use Webauthn\MetadataService\MetadataStatementRepository;
 
 use function defined;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Authenticator metadata repository.
  *

@@ -12,6 +12,10 @@ namespace Joomla\Component\Redirect\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\FormController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Redirect link controller class.
  *
