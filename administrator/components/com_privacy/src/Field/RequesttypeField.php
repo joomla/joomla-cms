@@ -12,6 +12,10 @@ namespace Joomla\Component\Privacy\Administrator\Field;
 
 use Joomla\CMS\Form\Field\PredefinedlistField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field to load a list of request types
  *
