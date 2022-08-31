@@ -21,6 +21,10 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Smart Search adapter for Joomla Newsfeeds.
  *

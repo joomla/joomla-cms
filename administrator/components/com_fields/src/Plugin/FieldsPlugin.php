@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Abstract Fields Plugin
  *
@@ -186,7 +190,7 @@ abstract class FieldsPlugin extends CMSPlugin
             $node->setAttribute('layout', $layout);
         }
 
-        if ($field->default_value !== null && $field->default_value !== '') {
+        if ($field->default_value !== '') {
             $defaultNode = $node->appendChild(new \DOMElement('default'));
             $defaultNode->appendChild(new \DOMCdataSection($field->default_value));
         }

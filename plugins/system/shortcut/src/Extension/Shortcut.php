@@ -18,6 +18,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Shortcut plugin to add accessible keyboard shortcuts to the administrator templates.
  *
@@ -95,7 +99,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         $document = $this->getApplication()->getDocument();
         $wa       = $document->getWebAssetManager();
         $wa->useScript('bootstrap.modal');
-        $wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeys.js']]);
+        $wa->registerAndUseScript('script', 'plg_system_shortcut/shortcut.min.js', ['dependencies' => ['hotkeysjs']]);
 
         $timeout = $this->params->get('timeout', 2000);
 

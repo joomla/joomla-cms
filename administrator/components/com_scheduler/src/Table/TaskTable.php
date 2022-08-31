@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\QueryTypeAlreadyDefinedException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Table class for tasks scheduled through `com_scheduler`.
  * The type alias for Task table entries is `com_scheduler.task`.

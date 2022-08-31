@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Registration controller class for Users.
  *
@@ -48,10 +52,11 @@ class UserController extends BaseController
 
         // Check for a simple menu item id
         if (is_numeric($data['return'])) {
-            $data['return'] = 'index.php?Itemid=' . $data['return'];
+            $itemId = (int) $data['return'];
+            $data['return'] = 'index.php?Itemid=' . $itemId;
 
             if (Multilanguage::isEnabled()) {
-                $language = $this->getModel('Login', 'Site')->getMenuLanguage($data['return']);
+                $language = $this->getModel('Login', 'Site')->getMenuLanguage($itemId);
 
                 if ($language !== '*') {
                     $data['return'] .= '&lang=' . $language;
