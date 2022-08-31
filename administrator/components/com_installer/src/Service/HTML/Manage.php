@@ -12,6 +12,10 @@ namespace Joomla\Component\Installer\Administrator\Service\HTML;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer HTML class.
  *
