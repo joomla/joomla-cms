@@ -398,7 +398,7 @@ class Helper
      */
     public static function addCustomFields(Result $item, $context)
     {
-        $obj = new \stdClass;
+        $obj = new \stdClass();
         $obj->id = $item->id;
 
         $fields = FieldsHelper::getFields($context, $obj, true);
