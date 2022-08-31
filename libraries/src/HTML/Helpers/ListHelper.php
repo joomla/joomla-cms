@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class for creating different select lists
  *
