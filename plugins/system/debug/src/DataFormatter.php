@@ -12,6 +12,10 @@ namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\DataFormatter\DataFormatter as DebugBarDataFormatter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * DataFormatter
  *

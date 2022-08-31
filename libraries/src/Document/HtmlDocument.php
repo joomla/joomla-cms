@@ -23,6 +23,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use UnexpectedValueException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
  *

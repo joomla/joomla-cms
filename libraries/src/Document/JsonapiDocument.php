@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Tobscure\JsonApi\Document;
 use Tobscure\JsonApi\ElementInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JsonapiDocument class, provides an easy interface to parse output in JSON-API format.
  *
