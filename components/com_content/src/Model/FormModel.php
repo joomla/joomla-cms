@@ -21,6 +21,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Article Model
  *
@@ -101,7 +105,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $value->params = new Registry($value->attribs);
 
         // Compute selected asset permissions.
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $userId = $user->get('id');
         $asset  = 'com_content.article.' . $value->id;
 

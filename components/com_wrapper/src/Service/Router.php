@@ -12,6 +12,10 @@ namespace Joomla\Component\Wrapper\Site\Service;
 
 use Joomla\CMS\Component\Router\RouterBase;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Routing class from com_wrapper
  *

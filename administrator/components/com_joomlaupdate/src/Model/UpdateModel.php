@@ -31,6 +31,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! update overview Model
  *
@@ -95,7 +99,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('us') . '.*')
             ->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -173,7 +177,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function getCheckForSelfUpdate()
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
@@ -244,7 +248,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Fetch the update information from the database.
         $id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__updates'))
@@ -300,7 +304,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         // Modify the database record
         $update_site = new \stdClass();
@@ -635,7 +639,8 @@ ENDDATA;
         $installer->setUpgrade(true);
         $installer->setOverwrite(true);
 
-        $installer->extension = new \Joomla\CMS\Table\Extension($this->getDatabase());
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
         $installer->setAdapter($installer->extension->type);
@@ -670,7 +675,7 @@ ENDDATA;
         ob_end_clean();
 
         // Get a database connector object.
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         /*
          * Check to see if a file extension by the same name is already installed.
@@ -697,7 +702,7 @@ ENDDATA;
         }
 
         $id = $db->loadResult();
-        $row = new \Joomla\CMS\Table\Extension($this->getDatabase());
+        $row = new \Joomla\CMS\Table\Extension($db);
 
         if ($id) {
             // Load the entry and update the manifest_cache.
@@ -782,7 +787,7 @@ ENDDATA;
         ob_end_clean();
 
         // Clobber any possible pending updates.
-        $update = new \Joomla\CMS\Table\Update($this->getDatabase());
+        $update = new \Joomla\CMS\Table\Update($db);
         $uid = $update->find(
             array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
         );
@@ -950,7 +955,7 @@ ENDDATA;
     {
         // Make sure the username matches
         $username = $credentials['username'] ?? null;
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
 
         if (strtolower($user->username) != strtolower($username)) {
             return false;
@@ -1328,7 +1333,7 @@ ENDDATA;
      */
     public function getNonCoreExtensions()
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1378,7 +1383,7 @@ ENDDATA;
      */
     public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
     {
-        $db    = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1479,7 +1484,7 @@ ENDDATA;
     private function getUpdateSitesInfo($extensionID)
     {
         $id = (int) $extensionID;
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1662,7 +1667,7 @@ ENDDATA;
      */
     public function isTemplateActive($template)
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
