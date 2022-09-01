@@ -31,7 +31,7 @@ $rawJwt = @file_get_contents('https://mds.fidoalliance.org/', false, $context);
 if ($rawJwt === false) {
     echo "Could not get an updated fido.jwt file.\n";
 
-    exit (1);
+    return;
 }
 
 echo "Saving JWT file in the plugin directory...\n";
