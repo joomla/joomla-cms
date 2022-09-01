@@ -13,6 +13,10 @@ namespace Joomla\Component\Redirect\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A dropdown containing all valid HTTP 1.1 response codes.
  *

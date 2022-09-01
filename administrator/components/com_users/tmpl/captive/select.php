@@ -11,10 +11,10 @@
 // Prevent direct access
 defined('_JEXEC') or die;
 
-use Joomla\Component\Users\Administrator\View\Captive\HtmlView;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Users\Administrator\View\Captive\HtmlView;
 
 /** @var HtmlView $this */
 

@@ -17,6 +17,10 @@ use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
 use Joomla\Utilities\IpHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Formatted Text File Log class
  *

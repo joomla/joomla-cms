@@ -281,7 +281,7 @@ HTMLHelper::_('behavior.formvalidator');
             <?php endif; ?>
                 <div class="form-group d-grid gap-2 mt-4 mb-3">
                     <button id="installLanguagesButton" class="btn btn-primary w-100">
-                        <?php echo Text::_('JNEXT'); ?>
+                        <?php echo Text::_('INSTL_LANGUAGES_SELECTED'); ?>
                     </button>
                     <button id="skipLanguages" class="btn btn-secondary w-100">
                     <?php echo Text::_('JSKIP'); ?>

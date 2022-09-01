@@ -11,6 +11,10 @@ namespace Joomla\CMS\Event\MultiFactor;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Concrete event class for the custom events used to notify the User Action Log plugin about Two
  * Factor Authentication actions.
