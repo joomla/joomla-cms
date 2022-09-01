@@ -305,6 +305,9 @@ clean_composer($fullpath);
 // And cleanup the Node installation
 system('rm -rf node_modules');
 
+// Try to update the fido.jwt file
+require_once __DIR__ . '/update_fido_cache.php';
+
 echo "Workspace built.\n";
 
 // Import the version class to set the version information
