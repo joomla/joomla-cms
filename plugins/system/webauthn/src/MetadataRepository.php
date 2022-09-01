@@ -52,6 +52,14 @@ final class MetadataRepository implements MetadataStatementRepository
     private $mdsMap = [];
 
     /**
+     * Flag if the MSD data is loaded
+     *
+     * @var   bool
+     * @since __DEPLOY_VERSION__
+     */
+    private $msdDataLoaded = false;
+
+    /**
      * Find an authenticator metadata statement given an AAGUID
      *
      * @param   string  $aaguid  The AAGUID to find
@@ -108,13 +116,14 @@ final class MetadataRepository implements MetadataStatementRepository
      */
     private function load(bool $force = false): void
     {
-        if ($this->mdsCache) {
+        if ($this->msdDataLoaded && !$force) {
             return;
         }
 
-        $this->mdsCache = [];
-        $this->mdsMap   = [];
-        $jwtFilename    = JPATH_CACHE . '/fido.jwt';
+        $this->msdDataLoaded = true;
+        $this->mdsCache      = [];
+        $this->mdsMap        = [];
+        $jwtFilename         = JPATH_CACHE . '/fido.jwt';
 
         // If the file exists and it's over one month old do retry loading it.
         if (file_exists($jwtFilename) && filemtime($jwtFilename) < (time() - 2592000)) {
