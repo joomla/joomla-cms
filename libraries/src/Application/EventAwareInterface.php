@@ -13,6 +13,10 @@ use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Interface defining application that can trigger Joomla 3.x style events
  *

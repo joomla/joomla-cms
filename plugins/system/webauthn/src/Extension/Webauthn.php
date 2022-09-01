@@ -34,6 +34,10 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\EventReturnAware;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * WebAuthn Passwordless Login plugin
  *

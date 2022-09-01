@@ -30,6 +30,10 @@ use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform Factory class.
  *

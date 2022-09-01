@@ -12,6 +12,10 @@ namespace Joomla\CMS\Http;
 use Joomla\CMS\Version;
 use Joomla\Http\TransportInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP factory class.
  *

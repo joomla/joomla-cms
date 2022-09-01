@@ -12,7 +12,6 @@ defined('_JEXEC') || die;
 
 use Joomla\Application\ApplicationInterface;
 use Joomla\Application\SessionAwareWebApplicationInterface;
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;

@@ -582,21 +582,36 @@ class RssParserTest extends UnitTestCase
      */
     public function testParseSetsVersion()
     {
-        $dummyXml  = '<?xml version="1.0" encoding="utf-8" ?>
+        $dummyXml  = '<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! Unit Test" -->
 <rss version="2.0">
 	<channel>
 		<title>Test Channel</title>
 	</channel>
 </rss>';
-        $reader    = \XMLReader::XML($dummyXml);
+        $reader = new XMLReader();
+        $reader->xml($dummyXml);
         $rssParser = new RssParser($reader);
+
+        // same logic as FeedFactory.php : skip head record
+        try {
+            // Skip ahead to the root node.
+            while ($reader->read()) {
+                if ($reader->nodeType == \XMLReader::ELEMENT) {
+                    break;
+                }
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
+        }
+
         $rssParser->parse();
 
         // Use reflection to check the value
         $reflectionClass = new ReflectionClass($rssParser);
         $attribute = $reflectionClass->getProperty('version');
-        $attribute->setAccessible(true);
 
+        $attribute->setAccessible(true);
         $this->assertEquals('2.0', $attribute->getValue($rssParser));
     }
 
