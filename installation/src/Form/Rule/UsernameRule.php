@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_BASE') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Rule class for the username.
  *

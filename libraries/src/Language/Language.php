@@ -12,6 +12,10 @@ namespace Joomla\CMS\Language;
 use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages/translation handler class
  *
