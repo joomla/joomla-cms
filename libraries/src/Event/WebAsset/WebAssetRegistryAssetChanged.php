@@ -13,6 +13,10 @@ use BadMethodCallException;
 use Joomla\CMS\WebAsset\WebAssetItemInterface;
 use Joomla\CMS\WebAsset\WebAssetRegistryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for WebAssetRegistry "asset changed" events
  *
