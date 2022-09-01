@@ -44,8 +44,7 @@ module.exports.handleESMToLegacy = async (file) => {
     format: 'iife',
     sourcemap: false,
     file: resolve(`${file.replace(/\.js$/, '')}-es5.js`),
-  })
-  .then(() => {
+  }).then(() => {
     // eslint-disable-next-line no-console
     console.log(`✅ ES5 file: ${basename(file).replace('.js', '-es5.js')}: transpiled`);
 
