@@ -270,6 +270,14 @@ if ($composerReturnCode !== 0) {
     exit(1);
 }
 
+// Try to update the fido.jwt file
+if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
+{
+    echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
+
+    exit (1);
+}
+
 system('npm install --unsafe-perm', $npmReturnCode);
 
 if ($npmReturnCode !== 0) {
@@ -304,16 +312,6 @@ clean_composer($fullpath);
 
 // And cleanup the Node installation
 system('rm -rf node_modules');
-
-// Try to update the fido.jwt file
-require_once __DIR__ . '/update_fido_cache.php';
-
-if (!file_exists(rtrim($fullPath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
-{
-    echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
-
-    exit (1);
-}
 
 echo "Workspace built.\n";
 
