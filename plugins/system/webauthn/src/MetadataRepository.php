@@ -52,16 +52,6 @@ final class MetadataRepository implements MetadataStatementRepository
     private $mdsMap = [];
 
     /**
-     * Public constructor.
-     *
-     * @since 4.2.0
-     */
-    public function __construct()
-    {
-        $this->load();
-    }
-
-    /**
      * Find an authenticator metadata statement given an AAGUID
      *
      * @param   string  $aaguid  The AAGUID to find
@@ -71,6 +61,8 @@ final class MetadataRepository implements MetadataStatementRepository
      */
     public function findOneByAAGUID(string $aaguid): ?MetadataStatement
     {
+        $this->load();
+
         $idx = $this->mdsMap[$aaguid] ?? null;
 
         return $idx ? $this->mdsCache[$idx] : null;
@@ -84,6 +76,8 @@ final class MetadataRepository implements MetadataStatementRepository
      */
     public function getKnownAuthenticators(): array
     {
+        $this->load();
+
         $mapKeys = function (MetadataStatement $meta) {
             return $meta->getAaguid();
         };
@@ -114,6 +108,10 @@ final class MetadataRepository implements MetadataStatementRepository
      */
     private function load(bool $force = false): void
     {
+        if ($this->mdsCache) {
+            return;
+        }
+
         $this->mdsCache = [];
         $this->mdsMap   = [];
         $jwtFilename    = JPATH_CACHE . '/fido.jwt';
