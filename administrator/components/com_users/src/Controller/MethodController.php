@@ -28,6 +28,10 @@ use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Multi-factor Authentication method controller
  *

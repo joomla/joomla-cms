@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event object for fetch media item.
  *

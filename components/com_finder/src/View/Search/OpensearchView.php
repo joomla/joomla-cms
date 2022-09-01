@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * OpenSearch View class for Finder
  *
