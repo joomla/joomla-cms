@@ -26,8 +26,6 @@ const noMinified = [
 const alreadyMinified = [
   'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
   'media/vendor/debugbar/vendor/highlightjs/highlight.pack.js',
-
-
 ];
 
 /**
