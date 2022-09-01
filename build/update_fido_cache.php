@@ -44,29 +44,20 @@ $fullPath = JPATH_BASE;
 
 $possibleFile = end($argv);
 
-if (substr($possibleFile, -4) === '.jwt')
-{
-    echo "Using file $possibleFile as JWT source\n";
+echo "Fetching FIDO metadata statements...\n";
 
-    $rawJwt = file_get_contents($possibleFile);
+$http     = HttpFactory::getHttp();
+
+try
+{
+    $response = $http->get('https://mds.fidoalliance.org/', [], 5);
+    $rawJwt   = ($response->code < 200 || $response->code > 299) ? false : $response->body;
 }
-else
+catch (\Throwable $e)
 {
-    echo "Fetching FIDO metadata statements...\n";
+    echo "Cannot download FIDO metadata statements from https://mds.fidoalliance.org/";
 
-    $http     = HttpFactory::getHttp();
-
-    try
-    {
-        $response = $http->get('https://mds.fidoalliance.org/', [], 5);
-        $rawJwt   = ($response->code < 200 || $response->code > 299) ? false : $response->body;
-    }
-    catch (\Throwable $e)
-    {
-        echo "Cannot download FIDO metadata statements from https://mds.fidoalliance.org/";
-
-        exit(1);
-    }
+    exit(1);
 }
 
 try
