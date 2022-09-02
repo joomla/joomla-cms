@@ -12,6 +12,10 @@ namespace Joomla\CMS\Event\Table;
 use BadMethodCallException;
 use Joomla\Database\DatabaseQuery;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for JTable's onBeforeMove event
  *

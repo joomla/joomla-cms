@@ -14,6 +14,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to create and parse routes
  *

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\HTML\Helpers;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML helper class for rendering telephone numbers.
  *

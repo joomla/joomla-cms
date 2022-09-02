@@ -13,6 +13,10 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Messages Component Message Model
  *

@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template Helper class.
  *
@@ -129,7 +133,7 @@ abstract class TemplateHelper
             }
         }
 
-        // Max upload size set to 2 MB for Template Manager
+        // Max upload size set to 10 MB for Template Manager
         $maxSize = (int) ($params->get('upload_limit') * 1024 * 1024);
 
         if ($maxSize > 0 && (int) $file['size'] > $maxSize) {
