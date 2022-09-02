@@ -12,6 +12,10 @@ namespace Joomla\Component\Plugins\Administrator\Field;
 
 use Joomla\CMS\Form\Field\OrderingField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports an HTML select list of plugins.
  *
