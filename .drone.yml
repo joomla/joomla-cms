@@ -54,7 +54,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:18-bullseye-slim
+    image: node:16-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
