@@ -55,7 +55,7 @@ final class MetadataRepository implements MetadataStatementRepository
      * Have I already tried to load the metadata cache?
      *
      * @var   bool
-     * @since __DEPLOY_VERSION__
+     * @since 4.2.2
      */
     private $loaded = false;
 
