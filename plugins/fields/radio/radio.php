@@ -41,9 +41,21 @@ class PlgFieldsRadio extends \Joomla\Component\Fields\Administrator\Plugin\Field
         if (!$this->isTypeSupported($field->type)) {
             return;
         }
+        
+        $field->apivalue = [];
 
         $options = $this->getOptionsFromField($field);
 
-        $field->apivalue = [$field->value => $options[$field->value]];
+        if (empty($field->value)) {
+            return;
+        }
+
+        if (is_array($field->value)) {
+            foreach ($field->value as $key => $value) {
+                $field->apivalue[$value] = $options[$value];
+            }
+        } else {
+            $field->apivalue[$field->value] = $options[$field->value];
+        }
     }
 }
