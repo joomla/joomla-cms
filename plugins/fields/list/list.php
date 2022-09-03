@@ -44,8 +44,16 @@ class PlgFieldsList extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 
         $options = $this->getOptionsFromField($field);
 
-        foreach ($field->value as $value) {
-            $field->apivalue[] = $options[$value];
+       if (empty($field->value)) {
+            return;
+        }
+
+        if (is_array($field->value)) {
+            foreach ($field->value as $key => $value) {
+                $field->apivalue[$value] = $options[$value];
+            }
+        } else {
+            $field->apivalue[$field->value] = $options[$field->value];
         }
     }
 
