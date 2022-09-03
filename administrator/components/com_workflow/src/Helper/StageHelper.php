@@ -12,6 +12,10 @@ namespace Joomla\Component\Workflow\Administrator\Helper;
 
 use Joomla\CMS\Helper\ContentHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The first example class, this is in the same
  * package as declared at the start of file but

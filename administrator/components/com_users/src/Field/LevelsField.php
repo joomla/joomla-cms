@@ -13,6 +13,10 @@ namespace Joomla\Component\Users\Administrator\Field;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Access Levels field.
  *
