@@ -562,7 +562,7 @@ class PlgSystemActionLogs extends CMSPlugin
      */
 	public function onExtensionAfterSave($context, $table, $isNew): void
 	{
-		if ($table->name !== 'com_actionlogs')
+		if ($context !== 'com_config.component' || $table->name !== 'com_actionlogs')
 		{
 			return;
 		}
