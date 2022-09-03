@@ -133,7 +133,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
             ], $logLevels, ["webauthn.system"]);
 
         $this->authenticationHelper = $authHelper ?? (new Authentication());
-        $this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 1) == 1);
+        $this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 0) == 1);
     }
 
     /**
