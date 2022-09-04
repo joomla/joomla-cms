@@ -198,7 +198,7 @@ class Path
         if ($path === null) {
             @trigger_error(
                 sprintf(
-                    'Path can not be null, in 5.0 it will throw an exception',
+                    'Path can not be null, in 6.0 it will throw an exception',
                     __METHOD__
                 ),
                 E_USER_DEPRECATED
