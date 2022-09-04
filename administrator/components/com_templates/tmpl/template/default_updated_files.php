@@ -15,13 +15,24 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
+
 $input = Factory::getApplication()->input;
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="updateForm" id="updateForm">
-    <div class="row mt-2">
-        <div class="col-md-12">
-            <?php if (count($this->updatedList) !== 0) : ?>
+<?php if (count($this->updatedList) === 0) : ?>
+    <div class="alert alert-success">
+        <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>
+        <?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
+    </div>
+<?php else : ?>
+    <div class="alert alert-info">
+        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+        <?php echo Text::_('COM_TEMPLATES_OVERRIDE_NOT_UPTODATE'); ?>
+    </div>
+    <form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="updateForm" id="updateForm">
+        <div class="row mt-2">
+            <div class="col-md-12">
                 <table class="table">
                     <thead>
                         <tr>
@@ -78,12 +89,7 @@ $input = Factory::getApplication()->input;
                 <input type="hidden" name="task" value="">
                 <input type="hidden" name="boxchecked" value="0">
                 <?php echo HTMLHelper::_('form.token'); ?>
-            <?php else : ?>
-                <div class="alert alert-success">
-                    <span class="icon-check-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('NOTICE'); ?></span>
-                    <?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
-                </div>
-            <?php endif; ?>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+<?php endif; ?>
