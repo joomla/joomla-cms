@@ -34,6 +34,10 @@ extract($displayData, EXTR_OVERWRITE);
 
 $direction = Factory::getLanguage()->isRtl() ? 'dropdown-menu-end' : '';
 
+/**
+ * The dropdown class is also injected on the button from \Joomla\CMS\Toolbar\ToolbarButton::prepareOptions() and therefore we need the dropdown script whether we
+ * are in split toggle mode or not
+ */
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('bootstrap.dropdown');
