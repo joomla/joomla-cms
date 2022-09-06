@@ -235,11 +235,11 @@ meter {
     padding: 0;
     margin: $cassiopeia-grid-gutter 0;
 
-    li.next:only-child {
+    .next:only-child {
       margin-left: auto;
     }
 
-    [dir="rtl"] &>li.next:only-child {
+    [dir="rtl"] &>.next:only-child {
       margin-right: auto;
       margin-left: $cassiopeia-grid-gutter;
     }

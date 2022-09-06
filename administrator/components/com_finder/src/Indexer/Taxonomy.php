@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Component\Finder\Administrator\Table\MapTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Taxonomy base class for the Finder indexer package.
  *
