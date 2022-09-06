@@ -134,11 +134,11 @@ endif;
             <legend class="j-install-step-header">
                 <span class="icon-cogs" aria-hidden="true"></span> <?php echo Text::_('INSTL_PROGRESS'); ?>
             </legend>
-            <div class="j-install-step-form">
+            <div class="j-install-step-form" aria-live="polite" >
                 <div class="progress mb-4">
                     <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="<?php echo $steps; ?>"></div>
                 </div>
-                <ul class="list-unstyled">
+                <ul class="list-unstyled" role="status">
                     <li id="progressdbcheck" aria-hidden="true">
                         <span class="fa fa-spinner fa-spin text-white"></span>
                         <?php echo Text::_('INSTL_PROGRESS_STEP_DBCHECK'); ?>
