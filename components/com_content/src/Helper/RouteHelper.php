@@ -13,6 +13,10 @@ namespace Joomla\Component\Content\Site\Helper;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Language\Multilanguage;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Route Helper.
  *
