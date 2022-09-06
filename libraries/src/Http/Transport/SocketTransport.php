@@ -225,29 +225,13 @@ class SocketTransport extends AbstractTransport implements TransportInterface
             $timeout = ini_get('default_socket_timeout');
         }
 
-        // Capture PHP errors
-        $php_errormsg = '';
-        $track_errors = ini_get('track_errors');
-        ini_set('track_errors', true);
-
         // PHP sends a warning if the uri does not exists; we silence it and throw an exception instead.
         // Attempt to connect to the server
         $connection = @fsockopen($host, $port, $errno, $err, $timeout);
 
         if (!$connection) {
-            if (!$php_errormsg) {
-                // Error but nothing from php? Create our own
-                $php_errormsg = sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno);
-            }
-
-            // Restore error tracking to give control to the exception handler
-            ini_set('track_errors', $track_errors);
-
-            throw new \RuntimeException($php_errormsg);
+            throw new \RuntimeException(sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno););
         }
-
-        // Restore error tracking to what it was before.
-        ini_set('track_errors', $track_errors);
 
         // Since the connection was successful let's store it in case we need to use it later.
         $this->connections[$key] = $connection;
