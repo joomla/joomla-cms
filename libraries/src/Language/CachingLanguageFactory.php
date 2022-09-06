@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Language;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Caching factory for creating language objects. The requested languages are
  * cached in memory.
