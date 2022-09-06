@@ -234,7 +234,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
         $connection = @fsockopen($host, $port, $errno, $err, $timeout);
 
         if (!$connection) {
-            throw new \RuntimeException(sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno););
+            throw new \RuntimeException(sprintf('Could not connect to resource %s: %s (error code %d)', $uri, $err, $errno));
         }
 
         // Since the connection was successful let's store it in case we need to use it later.
