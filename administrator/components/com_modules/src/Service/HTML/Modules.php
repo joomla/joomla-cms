@@ -18,6 +18,10 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTMLHelper module helper class.
  *
