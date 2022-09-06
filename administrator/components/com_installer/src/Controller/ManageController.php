@@ -20,6 +20,10 @@ use Joomla\Component\Installer\Administrator\Model\ManageModel;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Manage Controller
  *
