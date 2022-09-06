@@ -925,6 +925,11 @@ ENDDATA;
             throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
         }
 
+        // Make sure this is not an installation package (failsafe check)
+        if ($this->isFullPackage($userfile['tmp_name'])) {
+            throw new \RuntimeException(Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION'), 500);
+        }
+
         // Build the appropriate paths.
         $tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
         $tmp_src  = $userfile['tmp_name'];
@@ -1709,5 +1714,82 @@ ENDDATA;
         }
 
         return $home || $menu;
+    }
+
+    /**
+     * Is the given file a Joomla full installation ZIP package?
+     *
+     * @param   string  $filePath  The file path to test
+     *
+     * @return  bool
+     * @see     https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
+     * @since   __DEPLOY_VERSION__
+     */
+    private function isFullPackage(string $filePath): bool
+    {
+        // The file must exist and be readable
+        if (!file_exists($filePath) || !is_readable($filePath)) {
+            return false;
+        }
+
+        // The file must be at least 1KiB (anything less is not even a real file!)
+        $filesize = filesize($filePath);
+
+        if ($filesize < 1024) {
+            return false;
+        }
+
+        // Open the file
+        $fp = @fopen($filePath, 'r');
+
+        if ($fp === false) {
+            return false;
+        }
+
+        // Find its last Megabyte
+        if ($filesize > 1048576) {
+            fseek($fp, 0, SEEK_END);
+            fseek($fp, -1048576, SEEK_CUR);
+        }
+
+        // Read the last part of the file (up to 1MiB in size) and close the file
+        $lastMiB = fread($fp, min(1048576, $filesize));
+
+        @fclose($fp);
+
+        // Make sure we actually read something
+        if ($lastMiB === false) {
+            return false;
+        }
+
+        $offset          = 0;
+        $headerSignature = pack('V', 0x02014b50);
+        $sizeSignature   = pack('v', 0x0016);
+
+        // Look for installation/index.php
+        while (true) {
+            // Try to find the literal string (may or may not be in a ZIP central directory header)
+            $pos = strpos($lastMiB, 'installation/index.php', $offset);
+
+            // Nothing found, definitely not an installation ZIP file
+            if ($pos === false) {
+                return false;
+            }
+
+            // Pre-emptively increase the offset in case we have a false positive.
+            $offset = $pos + 22;
+
+            // Make sure this entry was inside a ZIP central directory header
+            if (substr($lastMiB, $pos - 46, 4) !== $headerSignature) {
+                continue;
+            }
+
+            // Make sure that the file name was exactly 22 bytes long
+            if (substr($lastMiB, $pos - 18, 2) !== $sizeSignature) {
+                continue;
+            }
+
+            return true;
+        }
     }
 }
