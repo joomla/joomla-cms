@@ -21,6 +21,10 @@ use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 use LogicException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Task plugin with routines that offer checks on files.
  * At the moment, offers a single routine to check and resize image files in a directory.

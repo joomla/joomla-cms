@@ -12,6 +12,10 @@ namespace Joomla\Module\Wrapper\Site\Helper;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_wrapper
  *
