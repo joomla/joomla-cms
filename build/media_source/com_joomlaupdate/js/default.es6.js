@@ -41,7 +41,7 @@ Joomla = window.Joomla || {};
     }
 
     // Make sure this is an Upgrade Package based on its name
-    if (!form.install_package.value.match(/^Joomla_[\d.]{2,}-(.*)-Upgrade_Package.zip$/i)) {
+    if (!form.install_package.value.match(/^Joomla_-(.*)-Upgrade_Package.zip$/i)) {
       alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE'), true);
 
       return;
