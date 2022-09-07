@@ -19,7 +19,9 @@
     <exclude-pattern type="relative">stubs.php</exclude-pattern>
     <exclude-pattern type="relative">configuration.php</exclude-pattern>
 
-    <rule ref="PSR12" />
+    <rule ref="PSR12">
+	    <exclude name="Generic.Files.LineEndings"/>
+    </rule>
 
 	<rule ref="PHPCompatibilityJoomla"/>
 	<config name="testVersion" value="7.2-"/>

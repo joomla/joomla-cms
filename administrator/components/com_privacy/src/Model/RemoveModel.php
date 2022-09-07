@@ -143,7 +143,7 @@ class RemoveModel extends BaseDatabaseModel
      */
     public function logRemove(RequestTable $request)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'remove',
@@ -169,7 +169,7 @@ class RemoveModel extends BaseDatabaseModel
      */
     public function logRemoveBlocked(RequestTable $request, array $reasons)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $message = [
             'action'      => 'remove-blocked',
