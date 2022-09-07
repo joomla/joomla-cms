@@ -41,7 +41,7 @@ Joomla = window.Joomla || {};
     }
 
     // Make sure this is an Upgrade Package based on its name
-    if (!form.install_package.value.match(/^Joomla_[\d\.]{2,}-(.*)-Upgrade_Package.zip$/i)) {
+    if (!form.install_package.value.match(/^Joomla_[\d.]{2,}-(.*)-Upgrade_Package.zip$/i)) {
       alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE'), true);
 
       return;
@@ -85,7 +85,7 @@ Joomla = window.Joomla || {};
 
     const readSize = Math.min(file.size, 1048576);
     const smallBlob = file.slice(file.size - readSize, file.size, file.type);
-    let lastMiB = await smallBlob.text();
+    const lastMiB = await smallBlob.text();
 
     function hex2a(hex) {
       let str = '';
