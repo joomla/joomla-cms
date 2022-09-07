@@ -1,7 +1,7 @@
 actor: Tester
 paths:
     tests: tests/Codeception
-    log: tests/Codeception/_output
+    log: tests/cypress/output
     data: tests/Codeception/_data
     support: tests/Codeception/_support
     envs: tests/Codeception/_envs

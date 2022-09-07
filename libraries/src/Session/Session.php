@@ -17,6 +17,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
 use Joomla\Session\StorageInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class for managing HTTP sessions
  *

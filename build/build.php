@@ -170,6 +170,7 @@ function clean_checkout(string $dir)
     system('rm -rf libraries/vendor/symfony/*/Resources/doc');
     system('rm -rf libraries/vendor/symfony/*/Tests');
     system('rm -rf libraries/vendor/symfony/console/Resources');
+    system('rm -rf libraries/vendor/symfony/string/Resources/bin');
 
     // tobscure/json-api
     system('rm -rf libraries/vendor/tobscure/json-api/tests');
@@ -259,7 +260,7 @@ mkdir($fullpath);
 echo "Copy the files from the git repository.\n";
 chdir($repo);
 system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
-
+system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
 system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
@@ -267,6 +268,14 @@ system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $comp
 if ($composerReturnCode !== 0) {
     echo "`composer install` did not complete as expected.\n";
     exit(1);
+}
+
+// Try to update the fido.jwt file
+if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
+{
+    echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
+
+    exit (1);
 }
 
 system('npm install --unsafe-perm', $npmReturnCode);
