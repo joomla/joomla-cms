@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
 use ReCaptcha\ReCaptcha;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Recaptcha Plugin
  * Based on the official recaptcha library( https://packagist.org/packages/google/recaptcha )

@@ -19,6 +19,10 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Suggestions model class for the Finder package.
  *
@@ -63,7 +67,7 @@ class SuggestionsModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
         $lang   = Helper::getPrimaryLanguage($this->getState('language'));
 
@@ -150,7 +154,7 @@ class SuggestionsModel extends ListModel
         $app = Factory::getApplication();
         $input = $app->input;
         $params = ComponentHelper::getParams('com_finder');
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get the query input.
         $this->setState('input', $input->request->get('q', '', 'string'));
