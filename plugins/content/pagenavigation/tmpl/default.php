@@ -29,7 +29,7 @@ $lang = Factory::getLanguage(); ?>
     <?php endif; ?>
     <?php if ($row->next) :
         $direction = $lang->isRtl() ? 'left' : 'right'; ?>
-            <a class="btn btn-sm btn-secondary" href="<?php echo Route::_($row->next); ?>" rel="next">
+            <a class="btn btn-sm btn-secondary next" href="<?php echo Route::_($row->next); ?>" rel="next">
             <span class="visually-hidden">
                 <?php echo Text::sprintf('JNEXT_TITLE', htmlspecialchars($rows[$location + 1]->title)); ?>
             </span>
