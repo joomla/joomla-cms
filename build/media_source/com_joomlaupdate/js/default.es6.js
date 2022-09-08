@@ -34,30 +34,32 @@ Joomla = window.Joomla || {};
     }
 
     // Make sure this is absolutely NOT a Full Package based on its contents
-    if (Joomla.isFullPackage(form.install_package.files[0])) {
-      alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION_PREUPLOAD'), true);
+    Joomla.isFullPackage(form.install_package.files[0]).then((isFullPackage) => {
+      if (isFullPackage) {
+        alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION_PREUPLOAD'), true);
 
-      return;
-    }
+        return;
+      }
 
-    // Make sure this is an Upgrade Package based on its name
-    if (!form.install_package.value.match(/^Joomla_-(.*)-(Upgrade|Update|Patch)_Package.zip$/i)) {
-      alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE'), true);
+      // Make sure this is an Upgrade Package based on its name
+      if (!form.install_package.value.match(/^Joomla_-(.*)-(Upgrade|Update|Patch)_Package.zip$/i)) {
+        alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE'), true);
 
-      return;
-    }
+        return;
+      }
 
-    // Make sure it's not too big of a file to upload
-    if (form.install_package.files[0].size > form.max_upload_size.value) {
-      alert(Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+      // Make sure it's not too big of a file to upload
+      if (form.install_package.files[0].size > form.max_upload_size.value) {
+        alert(Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
 
-      return;
-    }
+        return;
+      }
 
-    // Finally, let's make sure that the user has confirmed they are aware of the need for backups.
-    if (confirmBackup && confirmBackup.checked) {
-      form.submit();
-    }
+      // Finally, let's make sure that the user has confirmed they are aware of the need for backups.
+      if (confirmBackup && confirmBackup.checked) {
+        form.submit();
+      }
+    });
   };
 
   /**
@@ -123,7 +125,7 @@ Joomla = window.Joomla || {};
       return true;
     } while (pos > 0);
 
-    return true;
+    return false;
   };
 
   Joomla.installpackageChange = () => {
