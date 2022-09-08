@@ -350,7 +350,7 @@ class LocalAdapter implements AdapterInterface
                 $obj->width  = $props->width;
                 $obj->height = $props->height;
             } catch (UnparsableImageException $e) {
-                // Ignore the exception - it's an image we can't the dimensions for.
+                // Ignore the exception - it's an image we can't get the dimensions for.
             }
         }
 
