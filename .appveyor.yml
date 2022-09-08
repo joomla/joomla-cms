@@ -62,5 +62,5 @@ test_script:
   - libraries/vendor/bin/phpunit --testsuite Unit
   - libraries/vendor/bin/phpunit --testsuite Integration  --configuration tests/phpunit-appveyor.xml.dist
 
-after_test:
+on_finish:
   - ps: docker logs openldap
