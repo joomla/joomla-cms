@@ -318,7 +318,7 @@ class Text
      *
      * @param   string   $string                The Text key.
      * @param   boolean  $jsSafe                Legacy parameter to add slashes to the string.
-     *                                          Keep it "false" because the method encode string as JSON with json_encode().
+     *                                          Set it as "false" because the method encodes the string as JSON with json_encode().
      * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
      *
      * @return  array

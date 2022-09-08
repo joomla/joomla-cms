@@ -300,7 +300,7 @@ class Language
      *
      * @param   string   $string                The string to translate
      * @param   boolean  $jsSafe                Parameter to add slashes to the string that will be rendered as JavaScript.
-     *                                          However, keep it "false" if the string going to be encoded by json_encode().
+     *                                          However, set as "false" if the string is going to be encoded by json_encode().
      * @param   boolean  $interpretBackSlashes  Interpret \t and \n
      *
      * @return  string  The translation of the string
