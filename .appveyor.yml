@@ -56,6 +56,20 @@ before_test:
 #  Database setup for MySQL via PowerShell tools
   - >
     "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql" -u root -p"Password12!" -e "CREATE DATABASE IF NOT EXISTS test_joomla;"
+# Wait till slapd has started
+  - ps: |
+    $counter=0
+    $found=$false
+    While ( ! $found -and $counter -lt 60 ) {
+      $found = ( docker logs openldap | Select-String -quiet "** Starting slapd **" )
+      Start-Sleep -Seconds 1
+      $counter++
+      "$counter Waiting for slapd"
+    }
+    if ( ! $found ) {
+      Write-Error -Message "`nERROR: slapd not started (in time)!" -ErrorAction Stop
+      exit 1
+    }
 
 test_script:
   - cd C:\projects\joomla-cms
