@@ -15,21 +15,21 @@ Joomla = window.Joomla || {};
 
     // Make sure there is a package selected
     if (!file) {
-      Joomla.renderMessages({ error:[Joomla.Text._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE')] });
+      Joomla.renderMessages({ error: [Joomla.Text._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE')] });
 
       return;
     }
 
     // Make sure this is a .zip package based on its file extension and on its content type
     if (!file.name.match(/.zip$/i) || file.type !== 'application/zip') {
-      Joomla.renderMessages({ error:[Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP')] });
+      Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP')] });
 
       return;
     }
 
     // Make sure it's not too big of a file to upload
     if (file.size > form.max_upload_size.value) {
-      Joomla.renderMessages({ error:[Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
+      Joomla.renderMessages({ error: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
 
       return;
     }
