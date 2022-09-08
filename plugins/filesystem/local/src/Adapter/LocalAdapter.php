@@ -340,16 +340,17 @@ class LocalAdapter implements AdapterInterface
         $obj->modified_date_formatted = HTMLHelper::_('date', $modifiedDate, Text::_('DATE_FORMAT_LC5'));
 
         if (MediaHelper::isImage($obj->name)) {
+            // We always add the path as vector files (e.g. SVG) do not have intrinsic dimensions.
+            // @todo : Change this path to an actual thumbnail path
+            $obj->thumb_path = $this->getUrl($obj->path);
+
             // Get the image properties
             try {
                 $props       = Image::getImageFileProperties($path);
                 $obj->width  = $props->width;
                 $obj->height = $props->height;
-
-                // @todo : Change this path to an actual thumbnail path
-                $obj->thumb_path = $this->getUrl($obj->path);
             } catch (UnparsableImageException $e) {
-                // Ignore the exception - it's an image that we don't know how to parse right now
+                // Ignore the exception - it's an image we can't the dimensions for.
             }
         }
 

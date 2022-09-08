@@ -80,6 +80,14 @@
 		/>
 
 		<field
+			name="preview_extensions"
+			type="textarea"
+			label="COM_MEDIA_FIELD_PREVIEW_IMAGE_EXTENSIONS_LABEL"
+			description="COM_MEDIA_FIELD_PREVIEW_IMAGE_EXTENSIONS_DESC"
+			default="bmp,gif,jpg,jpeg,png,webp"
+		/>
+
+		<field
 			name="audio_extensions"
 			type="textarea"
 			label="COM_MEDIA_FIELD_LEGAL_AUDIO_EXTENSIONS_LABEL"

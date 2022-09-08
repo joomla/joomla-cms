@@ -54,7 +54,13 @@ class MediaHelper
      */
     public static function isImage($fileName)
     {
-        static $imageTypes = 'xcf|odg|gif|jpg|jpeg|png|bmp|webp';
+        static $imageTypes = null;
+
+        if ($imageTypes === null) {
+            $extensions = ComponentHelper::getParams('com_media')
+                ->get('preview_extensions', 'bmp,gif,jpg,jpeg,png,webp');
+            $imageTypes = implode('|', explode(',', $extensions));
+        }
 
         return preg_match("/\.(?:$imageTypes)$/i", $fileName);
     }
@@ -89,15 +95,24 @@ class MediaHelper
         $mime = false;
 
         try {
+            // Images: first try with exif_imagetype
             if ($isImage && \function_exists('exif_imagetype')) {
                 $mime = image_type_to_mime_type(exif_imagetype($file));
-            } elseif ($isImage && \function_exists('getimagesize')) {
+                // exif_imagetype will return a generic mime if it's not sure, squash it to false
+                $mime = ($mime === 'application/octet-stream') ? false : $mime;
+            }
+
+            // Images: second try with getimagesize, usually much more accurate
+            if ($isImage && ($mime === false) && \function_exists('getimagesize')) {
                 $imagesize = getimagesize($file);
                 $mime      = $imagesize['mime'] ?? false;
-            } elseif (\function_exists('mime_content_type')) {
+            }
+
+            // Images or generic files: try to get the MIME type
+            if ($mime === false && \function_exists('mime_content_type')) {
                 // We have mime magic.
                 $mime = mime_content_type($file);
-            } elseif (\function_exists('finfo_open')) {
+            } elseif ($mime === false && \function_exists('finfo_open')) {
                 // We have fileinfo
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $mime  = finfo_file($finfo, $file);
@@ -135,7 +150,7 @@ class MediaHelper
             $allowedMime = $params->get(
                 'upload_mime',
                 'image/jpeg,image/gif,image/png,image/bmp,image/webp,application/msword,application/excel,' .
-                    'application/pdf,application/powerpoint,text/plain,application/x-zip'
+                'application/pdf,application/powerpoint,text/plain,application/x-zip'
             );
 
             // Get the mime type configuration
