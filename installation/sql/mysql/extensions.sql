@@ -958,7 +958,7 @@ INSERT INTO `#__guidedtours` (`id`, `asset_id`, `title`,`description`, `ordering
 (2, 92, 'How to create Articles?', '<p>This Tour will show you how you can create Articles in Joomla!</p>>', 0, '[\"*\"]', 'administrator/index.php?option=com_content&view=articles', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
 (3, 93, 'How to create Categories?', '<p>This Tour will show you how you can create Categories in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_categories&view=categories&extension=com_content', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
 (4, 94, 'How to create Menus?', '<p>This Tour will show you how you can create Menus in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_menus&view=menus', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
-(5, 95, 'How to create Tags?', '<p>This Tour will show you how you can create Tags in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_tags&view=tags', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
+(5, 95, 'How to create Tags?', '<p>This Tour will show you how you can create Tags in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_tags&view=tags', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
