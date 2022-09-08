@@ -11,121 +11,33 @@ Joomla = window.Joomla || {};
   Joomla.submitbuttonUpload = () => {
     const form = document.getElementById('uploadForm');
     const confirmBackup = document.getElementById('joomlaupdate-confirm-backup');
+    const file = form.install_package.files[0];
 
     // Make sure there is a package selected
-    if (form.install_package.value === '') {
-      alert(Joomla.Text._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
+    if (!file) {
+      Joomla.renderMessages({error:[Joomla.Text._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE')]});
 
       return;
     }
 
-    // Make sure this is a .zip package based on its file extension
-    if (!form.install_package.value.match(/.zip$/i)) {
-      alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP'), true);
+    // Make sure this is a .zip package based on its file extension and on its content type
+    if (!file.name.match(/.zip$/i) || file.type !== 'application/zip') {
+      Joomla.renderMessages({error:[Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP')]});
 
       return;
     }
 
-    // Make sure this is a .zip package based on its content type
-    if (form.install_package.files[0].type !== 'application/zip') {
-      alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP'), true);
+    // Make sure it's not too big of a file to upload
+    if (file.size > form.max_upload_size.value) {
+      Joomla.renderMessages({error:[Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')]});
 
       return;
     }
 
-    // Make sure this is absolutely NOT a Full Package based on its contents
-    Joomla.isFullPackage(form.install_package.files[0]).then((isFullPackage) => {
-      if (isFullPackage) {
-        alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION_PREUPLOAD'), true);
-
-        return;
-      }
-
-      // Make sure this is an Upgrade Package based on its name
-      if (!form.install_package.value.match(/^Joomla_-(.*)-(Upgrade|Update|Patch)_Package.zip$/i)) {
-        alert(Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE'), true);
-
-        return;
-      }
-
-      // Make sure it's not too big of a file to upload
-      if (form.install_package.files[0].size > form.max_upload_size.value) {
-        alert(Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
-
-        return;
-      }
-
-      // Finally, let's make sure that the user has confirmed they are aware of the need for backups.
-      if (confirmBackup && confirmBackup.checked) {
-        form.submit();
-      }
-    });
-  };
-
-  /**
-   * Is the given file a Joomla full installation ZIP package?
-   *
-   * This is identical to the PHP code in
-   * \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel::isFullPackage. This is on
-   * purpose. We are doing the first check here on client-side, before the file gets the chance to
-   * be uploaded. However, if this code does not run for any reason the user might be able to brick
-   * their site. Therefore, we are going to run the same check on the server-side as a form of
-   * redundant fail-safe. This is okay because this code takes fractions of a millisecond to run as
-   * it's based on computationally dirt cheap string comparisons instead of relying on a heavy
-   * library which parses the entire ZIP archive (including all the bits, bells and whistles we do
-   * not care about).
-   *
-   * @param {File} file The file to be uploaded which we will check
-   * @returns {boolean}
-   * @see https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT
-   * @since   __DEPLOY_VERSION__
-   */
-  Joomla.isFullPackage = async (file) => {
-    if (file.size < 1024) {
-      return false;
+    // Finally, let's make sure that the user has confirmed they are aware of the need for backups.
+    if (confirmBackup && confirmBackup.checked) {
+      form.submit();
     }
-
-    const readSize = Math.min(file.size, 1048576);
-    const smallBlob = file.slice(file.size - readSize, file.size, file.type);
-    const lastMiB = await smallBlob.text();
-
-    function hex2a(hex) {
-      let str = '';
-      for (let i = 0; i < hex.length; i += 2) {
-        const v = parseInt(hex.substr(i, 2), 16);
-        if (v) str += String.fromCharCode(v);
-      }
-      return str;
-    }
-
-    let offset = 0;
-    let pos = null;
-    const headerSignature = hex2a('02014b50');
-    const sizeSignature = hex2a('0016');
-
-    do {
-      pos = lastMiB.indexOf('installation/index.php', offset);
-
-      if (pos === -1) {
-        return false;
-      }
-
-      offset = pos + 22;
-
-      if (lastMiB.substring(pos - 46, 4) !== headerSignature) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      if (lastMiB.substring(pos - 18, 2) !== sizeSignature) {
-        // eslint-disable-next-line no-continue
-        continue;
-      }
-
-      return true;
-    } while (pos > 0);
-
-    return false;
   };
 
   Joomla.installpackageChange = () => {
