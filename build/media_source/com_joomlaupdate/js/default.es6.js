@@ -27,6 +27,20 @@ Joomla = window.Joomla || {};
       return;
     }
 
+    // Make sure this is not a Full Package based on its name
+    if (!form.install_package.value.match(/^Joomla_-(.*)-Full_Package.zip$/i)) {
+      Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION_PREUPLOAD')] });
+
+      return;
+    }
+
+    // Make sure this is an Upgrade Package based on its name
+    if (!form.install_package.value.match(/^Joomla_-(.*)-(Upgrade|Update|Patch)_Package.zip$/i)) {
+      Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE')] });
+
+      return;
+    }
+
     // Make sure it's not too big of a file to upload
     if (file.size > form.max_upload_size.value) {
       Joomla.renderMessages({ error: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
