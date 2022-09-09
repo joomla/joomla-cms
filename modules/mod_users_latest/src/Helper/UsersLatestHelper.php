@@ -13,6 +13,10 @@ namespace Joomla\Module\UsersLatest\Site\Helper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_users_latest
  *

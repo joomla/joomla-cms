@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_breadcrumbs
  *
@@ -63,7 +67,7 @@ class BreadcrumbsHelper
      *
      * @return  object
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     public static function getHome(Registry $params, CMSApplication $app)
     {
