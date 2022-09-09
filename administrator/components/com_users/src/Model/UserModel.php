@@ -720,26 +720,32 @@ class UserModel extends AdminModel
 
         // Remove the users from the group if requested.
         if (isset($doDelete)) {
-            // first we need to check that the user is part of more than one group
-            // otherwise we will end up with a user that is not part of any group
-            // unless we are moving the user to a new group.
+
+            /*
+            * First we need to check that the user is part of more than one group
+            * otherwise we will end up with a user that is not part of any group
+            * unless we are moving the user to a new group.
+            */
             if ($doDelete === 'group') {
                 $query = $db->getQuery(true);
                 $query->select($db->quoteName('user_id'))
                     ->from($db->quoteName('#__user_usergroup_map'))
                     ->whereIn($db->quoteName('user_id'), $userIds);
+
                 // Add the group by clause to remove users who are only in one group
                 $query->group($db->quoteName('user_id'))
                     ->having('COUNT(user_id) > 1');
                 $db->setQuery($query);
                 $users = $db->loadColumn();
+
                 // If we have no users to process, throw an error to notify the user
                 if (empty($users)) {
                     $this->setError(Text::_('COM_USERS_ERROR_ONLY_ONE_GROUP'));
 
                     return false;
                 }
-                // now check to see if the users are in the group to be removed
+
+                // Check to see if the users are in the group to be removed
                 $query->clear()
                     ->select($db->quoteName('user_id'))
                     ->from($db->quoteName('#__user_usergroup_map'))
@@ -756,7 +762,7 @@ class UserModel extends AdminModel
                     return false;
                 }
 
-                // finally remove the users from the group
+                // Finally remove the users from the group
                 $query->clear()
                     ->delete($db->quoteName('#__user_usergroup_map'))
                     ->whereIn($db->quoteName('user_id'), $users)
