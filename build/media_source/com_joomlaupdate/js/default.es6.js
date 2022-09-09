@@ -21,7 +21,7 @@ Joomla = window.Joomla || {};
     }
 
     // Make sure this is a .zip package based on its file extension and on its content type
-    if (!file.name.match(/.zip$/i) || file.type !== 'application/zip') {
+    if (!file.name.match(/.zip$/i) || (file.type !== 'application/zip' && file.type !== 'application/x-zip-compressed')) {
       Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP')] });
 
       return;
