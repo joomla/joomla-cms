@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeeds Component Newsfeed Model
  *

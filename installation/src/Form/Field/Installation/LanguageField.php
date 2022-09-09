@@ -14,6 +14,10 @@ use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\LanguageHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installation Language field.
  *
