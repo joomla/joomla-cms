@@ -212,11 +212,6 @@ meter {
     .next:only-child {
       margin-left: auto;
     }
-
-    [dir="rtl"] &>.next:only-child {
-      margin-right: auto;
-      margin-left: $cassiopeia-grid-gutter;
-    }
   }
 }
 
