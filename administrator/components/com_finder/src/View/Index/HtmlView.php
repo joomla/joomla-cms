@@ -203,8 +203,6 @@ class HtmlView extends BaseHtmlView
                 $childBar->unpublish('index.unpublish')->listCheck(true);
             }
 
-            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
-
             if ($canDo->get('core.delete')) {
                 $toolbar->confirmButton('', 'JTOOLBAR_DELETE', 'index.delete')
                     ->icon('icon-delete')
@@ -227,6 +225,8 @@ class HtmlView extends BaseHtmlView
                     ->icon('icon-trash')
                     ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
             }
+
+            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
         }
 
         if ($canDo->get('core.admin') || $canDo->get('core.options')) {
