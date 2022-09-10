@@ -279,11 +279,12 @@ if ($saveOrder && !empty($this->items)) {
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form. ?>
-                    <?php if (
-                    $user->authorise('core.create', $extension)
+                    <?php
+                    if (
+                        $user->authorise('core.create', $extension)
                         && $user->authorise('core.edit', $extension)
                         && $user->authorise('core.edit.state', $extension)
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
