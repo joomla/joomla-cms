@@ -151,11 +151,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             <?php echo $this->loadTemplate('addform'); ?>
         <?php endif; ?>
         <?php // Load the batch processing form if user is allowed ?>
-            <?php if (
-            $user->authorise('core.create', 'com_redirect')
+            <?php
+            if (
+                $user->authorise('core.create', 'com_redirect')
                 && $user->authorise('core.edit', 'com_redirect')
                 && $user->authorise('core.edit.state', 'com_redirect')
-) : ?>
+            ) : ?>
                 <?php echo HTMLHelper::_(
                     'bootstrap.renderModal',
                     'collapseModal',

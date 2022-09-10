@@ -13,6 +13,10 @@ namespace Joomla\Plugin\System\Stats\Field;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base field for the Stats Plugin.
  *
