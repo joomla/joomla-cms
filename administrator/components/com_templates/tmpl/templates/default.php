@@ -118,7 +118,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
                                 <?php if ($this->pluginState) : ?>
                                     <td class="d-none d-md-table-cell text-center">
                                         <?php if (!empty($item->updated)) : ?>
-                                            <span class="badge bg-warning text-dark"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
+                                            <a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '#files'); ?>">
+                                                <span class="badge bg-warning text-dark"><?php echo Text::plural('COM_TEMPLATES_N_CONFLICT', $item->updated); ?></span>
+                                            </a>
                                         <?php else : ?>
                                             <span class="badge bg-success"><?php echo Text::_('COM_TEMPLATES_UPTODATE'); ?></span>
                                         <?php endif; ?>
