@@ -9,7 +9,11 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {},
     baseUrl: 'http://localhost/',
-    specPattern: 'tests/cypress/integration/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: [
+      'tests/cypress/integration/install/*.cy.{js,jsx,ts,tsx}',
+      'tests/cypress/integration/administrator/**/*.cy.{js,jsx,ts,tsx}',
+      'tests/cypress/integration/site/**/*.cy.{js,jsx,ts,tsx}'
+    ],
     supportFile: 'tests/cypress/support/index.js',
     scrollBehavior: 'center',
     browser: 'firefox',
