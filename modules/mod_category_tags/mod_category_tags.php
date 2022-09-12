@@ -23,12 +23,12 @@ $params['cache'] = 0;
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_display') )
+if (!count($list) && !$params->get('no_results_display')) 
 {
     return;
 }
 
-foreach ($list as &$tag)
+foreach ($list as &$tag) 
 {
     $tag->childs = [];
 }
@@ -50,7 +50,7 @@ if ($params->get('tree_display')) :
             {
                 $cat_id = $tag->cat_id;
             } 
-            else
+            else 
             {
                 $cat_id = reset($c_ids);
             }
