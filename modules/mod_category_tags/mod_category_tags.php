@@ -24,39 +24,39 @@ $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
 if (!count($list) && !$params->get('no_results_display'))
 {
-	return;
+    return;
 }
 
 foreach ($list as &$tag)
 {
-	$tag->childs = [];
+    $tag->childs = [];
 }
 if($params->get('tree_display')):
 
-	$tag_ids = array_column($list, 'tag_id');
-	$cat_ids = array_column($list, 'cat_id');
-	$parents = [];
+    $tag_ids = array_column($list, 'tag_id');
+    $cat_ids = array_column($list, 'cat_id');
+    $parents = [];
 
-	foreach ($list as &$tag)
-	{
-		// Ключи родителей
-		$parent_keys = array_keys($tag_ids, $tag->parent_id);
-		if($parent_keys){
-			// Категории родителей
-			$c_ids = array_intersect_key($cat_ids, array_flip($parent_keys));
-			if(in_array($tag->cat_id, $c_ids)){
-				$cat_id = $tag->cat_id;
-			}else{
-				$cat_id = reset($c_ids);
-			}
-			$cat_key = array_search($cat_id, $c_ids);
-			$tag->parent = &$list[$cat_key];
-			$list[$cat_key]->childs[] = &$tag;
-		}else{
-			$parents[] = $tag;
-		}
-	}
-	$list = $parents;
+    foreach ($list as &$tag)
+    {
+        // Keys parents
+        $parent_keys = array_keys($tag_ids, $tag->parent_id);
+        if($parent_keys){
+            // Categories parents
+            $c_ids = array_intersect_key($cat_ids, array_flip($parent_keys));
+            if(in_array($tag->cat_id, $c_ids)){
+                $cat_id = $tag->cat_id;
+            }else{
+                $cat_id = reset($c_ids);
+            }
+            $cat_key = array_search($cat_id, $c_ids);
+            $tag->parent = &$list[$cat_key];
+            $list[$cat_key]->childs[] = &$tag;
+        }else{
+            $parents[] = $tag;
+        }
+    }
+    $list = $parents;
 endif;
 
 $count_display = $params->get('count_display', 0);
@@ -66,4 +66,3 @@ $image_display = $params->get('image_display', 0);
 $title_display = $params->get('title_display', 1);
 
 require ModuleHelper::getLayoutPath('mod_category_tags', $params->get('layout', 'default'));
-
