@@ -23,12 +23,12 @@ $params['cache'] = 0;
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (empty($list) && !$params->get('no_results_display'))
+if (empty($list) && !$params->get('no_results_display')) 
 {
     return;
 }
 
-foreach ($list as &$tag)
+foreach ($list as &$tag) 
 {
     $tag->childs = [];
 }
@@ -38,29 +38,29 @@ if ($params->get('tree_display')) :
     $cat_ids = array_column($list, 'cat_id');
     $parents = [];
 
-    foreach ($list as &$tag)
+    foreach ($list as &$tag) 
     {
         // Keys parents
         $parent_keys = array_keys($tag_ids, $tag->parent_id);
 
-        if ($parent_keys)
+        if ($parent_keys) 
         {
             // Categories parents
             $c_ids = array_intersect_key($cat_ids, array_flip($parent_keys));
 
-            if (in_array($tag->cat_id, $c_ids))
+            if (in_array($tag->cat_id, $c_ids)) 
             {
                 $cat_id = $tag->cat_id;
-            }
-            else
+            } 
+            else 
             {
                 $cat_id = reset($c_ids);
             }
             $cat_key = array_search($cat_id, $c_ids);
             $tag->parent = &$list[$cat_key];
             $list[$cat_key]->childs[] = &$tag;
-        }
-        else
+        } 
+        else 
         {
             $parents[] = $tag;
         }
