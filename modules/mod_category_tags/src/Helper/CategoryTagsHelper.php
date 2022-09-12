@@ -61,8 +61,7 @@ abstract class CategoryTagsHelper
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->whereIn($db->quoteName('t.access'), $groups);
 
-        if ($image_display)
-        {
+        if ($image_display){
             $query->select('MAX(' . $db->quoteName('t.images') . ') AS ' . $db->quoteName('images'));
         }
 
@@ -72,38 +71,33 @@ abstract class CategoryTagsHelper
         // Filter by Parent Tag
         $parentTags = $params->get('parentTag', []);
 
-        if ($parentTags)
-        {
+        if ($parentTags){
             $query->whereIn($db->quoteName('t.parent_id'), $parentTags);
         }
 
         // Optionally filter on language
         $language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
-        if ($language !== 'all')
-        {
-            if ($language === 'current_language')
-            {
+        if ($language !== 'all'){
+            if ($language === 'current_language'){
                 $language = ContentHelper::getCurrentLanguage();
             }
 
             $query->whereIn($db->quoteName('t.language'), [$language, '*'], ParameterType::STRING);
         }
 
-        if ($timeframe !== 'alltime')
-        {
+        if ($timeframe !== 'alltime'){
             $query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
         }
 
         $query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
             ->join(
-                'INNER', 
-                $db->quoteName('#__ucm_content', 'c'), 
+                'INNER',
+                $db->quoteName('#__ucm_content', 'c'),
                 $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
             );
 
-        if ($catid)
-        {
+        if ($catid){
             $query->join('INNER', $db->quoteName('#__categories', 'cat'), $db->quoteName('c.core_catid') . ' = ' . $db->quoteName('cat.id'));
             $query->whereIn($db->quoteName('cat.id'), (array)$catid);
 
@@ -111,19 +105,17 @@ abstract class CategoryTagsHelper
 
             $query->where($db->quoteName('cat.published') . ' = 1');
             $query->select($db->quoteName('cat.title', 'cat_title'))->select($db->quoteName('cat.id', 'cat_id'));
-        }
-        else
-        {
+        }else{
             $query->select("'' AS `cat_title`")->select('0 AS `cat_id`');
         }
 
         $query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 
-        $groupIn = array_merge([0], $groups,[]);
+        $groupIn = array_merge([0], $groups, []);
 
         // Only return tags connected to published and authorised items
         $query->where($db->quoteName('c.core_state') . ' = 1')
-            ->whereIn($db->quoteName('c.core_access'),$groupIn);
+            ->whereIn($db->quoteName('c.core_access'), $groupIn);
 
             $query->where(
                 '(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
@@ -139,22 +131,17 @@ abstract class CategoryTagsHelper
             ->bind([':nowDate2', ':nowDate3'], $nowDate);
 
         // Set query depending on order_value param
-        if ($order_value === 'rand()')
-        {
+        if ($order_value === 'rand()'){
             $query->order($query->rand());
-        }
-        else
-        {
+        }else{
             $order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 
-            if ($params->get('order_value', 'title') === 'title')
-            {
+            if ($params->get('order_value', 'title') === 'title'){
 
                 // Backup bound parameters array of the original query
                 $bounded = $query->getBounded();
 
-                if ($maximum > 0)
-                {
+                if ($maximum > 0){
                     $query->setLimit($maximum);
                 }
 
@@ -179,38 +166,30 @@ abstract class CategoryTagsHelper
                     ->from('(' . (string) $query . ') AS ' . $db->quoteName('a'))
                     ->order($db->quoteName('a.title') . ' ' . $order_direction);
 
-                if ($image_display)
-                {
+                if ($image_display){
                     $equery->select($db->quoteName('a.images'));
                 }
 
                 $query = $equery;
 
                 // Rebind parameters
-                foreach ($bounded as $key => $obj)
-                {
+                foreach ($bounded as $key => $obj){
                       $query->bind($key, $obj->value, $obj->dataType);
                 }
-            }            
-            else
-            {
+            }else{
                 $query->order($db->quoteName($order_value) . ' ' . $order_direction);
             }
         }
 
-        if ($maximum > 0)
-        {
+        if ($maximum > 0){
              $query->setLimit($maximum);
         }
 
         $db->setQuery($query);
 
-        try
-        {
+        try{
              $results = $db->loadObjectList('');
-        }
-        catch (\RuntimeException $e)
-		{
+        }catch (\RuntimeException $e){
             $results = array();
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
