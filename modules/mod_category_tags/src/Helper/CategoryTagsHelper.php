@@ -18,7 +18,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\Database\ParameterType;
 
 /**
- * Helper for mod_tags_popular
+ * Helper for mod_category_tags
  *
  * @since  3.1
  */
@@ -33,10 +33,10 @@ abstract class CategoryTagsHelper
      *
      * @since   3.1
      */
-    public static function getList(&$params)
+public static function getList(&$params)
     {
-        $db          = Factory::getDbo();
         $user        = Factory::getUser();
+        $db          = Factory::getDbo();
         $groups      = $user->getAuthorisedViewLevels();
         $catid	     = $params->get('catid', []);
         $timeframe   = $params->get('timeframe', 'alltime');
@@ -151,6 +151,7 @@ abstract class CategoryTagsHelper
 
             if ($params->get('order_value', 'title') === 'title')
             {
+
                 // Backup bound parameters array of the original query
                 $bounded = $query->getBounded();
 
@@ -192,7 +193,7 @@ abstract class CategoryTagsHelper
                 {
                       $query->bind($key, $obj->value, $obj->dataType);
                 }
-            {
+            }
             else
             {
                 $query->order($db->quoteName($order_value) . ' ' . $order_direction);
