@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_category_tags
@@ -200,11 +201,11 @@ abstract class CategoryTagsHelper
 
         $db->setQuery($query);
 
-        try
+        try 
         {
              $results = $db->loadObjectList('');
-        }
-        catch (\RuntimeException $e)
+        } 
+        catch (\RuntimeException $e) 
         {
             $results = array();
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
