@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_category_tags
@@ -28,13 +29,13 @@ if (!count($list)) : ?>
     // Find maximum and minimum count
     $mincount = null;
     $maxcount = null;
-    foreach ($list as $item)
+    foreach ($list as $item) 
     {
         if ($mincount === null || $mincount > $item->count)
         {
             $mincount = $item->count;
         }
-        if ($maxcount === null || $maxcount < $item->count)
+        if ($maxcount === null || $maxcount < $item->count) 
         {
             $maxcount = $item->count;
         }
