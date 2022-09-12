@@ -192,8 +192,8 @@ abstract class CategoryTagsHelper
                 {
                       $query->bind($key, $obj->value, $obj->dataType);
                 }
-            } 
-            else 
+            {
+            else
             {
                 $query->order($db->quoteName($order_value) . ' ' . $order_direction);
             }
@@ -210,7 +210,7 @@ abstract class CategoryTagsHelper
         {
              $results = $db->loadObjectList('');
         } 
-        catch (\RuntimeException $e) 
+        catch (\RuntimeException $e)
         {
             $results = array();
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
