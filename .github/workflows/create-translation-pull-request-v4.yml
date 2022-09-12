@@ -60,6 +60,7 @@ jobs:
           npm ci --ignore-scripts && node build/build.js --build-pages
 
       - name: Create commit
+        continue-on-error: true
         run: |
           git config user.name Translation Bot
           git config user.email release+translation-bot@joomla.org
@@ -68,6 +69,7 @@ jobs:
           git push --force
 
       - name: Create pull request
+        if: ${{ success() }}
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
         run: |
