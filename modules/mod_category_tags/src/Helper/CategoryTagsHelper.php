@@ -104,15 +104,15 @@ abstract class CategoryTagsHelper
                 $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
             );
 
-        if ($catid) 
+        if ($catid)
         {
             $query->join('INNER', $db->quoteName('#__categories', 'cat'), $db->quoteName('c.core_catid') . ' = ' . $db->quoteName('cat.id'));
             $query->whereIn($db->quoteName('cat.id'), (array)$catid);
 
             $query->whereIn($db->quoteName('cat.access'), $groups);
 
-            $query->where($db->quoteName('cat.published').' = 1');
-            $query->select($db->quoteName('cat.title','cat_title'))->select($db->quoteName('cat.id','cat_id'));
+            $query->where($db->quoteName('cat.published') . ' = 1');
+            $query->select($db->quoteName('cat.title', 'cat_title'))->select($db->quoteName('cat.id', 'cat_id'));
         }
         else 
         {
@@ -192,8 +192,8 @@ abstract class CategoryTagsHelper
                 {
                       $query->bind($key, $obj->value, $obj->dataType);
                 }
-            }
-            else
+            } 
+            else 
             {
                 $query->order($db->quoteName($order_value) . ' ' . $order_direction);
             }
@@ -206,7 +206,7 @@ abstract class CategoryTagsHelper
 
         $db->setQuery($query);
 
-        try 
+        try
         {
              $results = $db->loadObjectList('');
         } 
