@@ -22,22 +22,22 @@ $params['cache'] = 0;
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_display'))
+if (!count($list) && !$params->get('no_results_display')) 
 {
     return;
 }
 
-foreach ($list as &$tag)
+foreach ($list as &$tag) 
 {
     $tag->childs = [];
 }
-if($params->get('tree_display')):
+if($params->get('tree_display')) :
 
     $tag_ids = array_column($list, 'tag_id');
     $cat_ids = array_column($list, 'cat_id');
     $parents = [];
 
-    foreach ($list as &$tag)
+    foreach ($list as &$tag) 
     {
         // Keys parents
         $parent_keys = array_keys($tag_ids, $tag->parent_id);
