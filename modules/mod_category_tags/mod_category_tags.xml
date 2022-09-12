@@ -61,8 +61,8 @@
 					default="blog"
 					validate="options"
 				>
-					<option value="&layout=blog">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_BLOG</option>
-					<option value="">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_LIST</option>
+					<option value="blog">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_BLOG</option>
+					<option value="default">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_LIST</option>
 				</field>
 
 				<field
