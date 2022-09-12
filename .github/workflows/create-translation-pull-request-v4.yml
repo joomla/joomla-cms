@@ -8,7 +8,7 @@ on:
 
   schedule:
     # Run daily at 7:26
-    - cron:  '26 7 * * *'
+    - cron:  '27 7 * * *'
 
 permissions:
   contents: read
