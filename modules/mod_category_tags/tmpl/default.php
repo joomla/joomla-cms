@@ -20,11 +20,11 @@ $item = (object)['childs' => $list];
 ?>
 <div class="mod-categorytags categorytags mod_<?= $module->id ?>">
 <?php if (!count($list)) : ?>
-	<div class="alert alert-info">
-		<span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-		<?php echo $params->get('no_results_text', Text::_('MOD_CATEGORY_TAGS_NO_ITEMS_FOUND')); ?>
-	</div>
+    <div class="alert alert-info">
+        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
+        <?php echo $params->get('no_results_text', Text::_('MOD_CATEGORY_TAGS_NO_ITEMS_FOUND')); ?>
+    </div>
 <?php else : ?>
-	<?php require ModuleHelper::getLayoutPath('mod_category_tags', '_childs'); ?>
+    <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_childs'); ?>
 <?php endif; ?>
 </div>
