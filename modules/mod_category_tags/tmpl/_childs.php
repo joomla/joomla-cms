@@ -1,4 +1,4 @@
-<?php
+<?php $y = 321;
 $x = 123;
 /**
  * @package     Joomla.Site
