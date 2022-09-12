@@ -16,7 +16,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (empty($item->childs) )
+if (empty($item->childs)) 
 {
     return;
 }
@@ -37,12 +37,12 @@ $childs = $item->childs;
 
             $src = htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
 
-            if($src) 
+            if ($src)
             {
                 $layoutAttr = [
                     'src'   => $src,
                     'class' => 'tag-image ' . (empty($item->images->float_intro) ? $item->params->get('float_intro',false) : $item->images->float_intro),
-                    'alt'   => empty($item->images->image_intro_alt) && empty($item->images->image_intro_alt_empty) ? false : $item->images->image_intro_alt,
+                    'alt'   => empty($item->images->image_intro_alt) && empty($item->images->image_intro_alt_empty) ? false : $item->images->image_intro_alt
                 ];
 
                 echo LayoutHelper::render('joomla.html.image', array_merge($layoutAttr, ['itemprop' => 'thumbnail',]));
