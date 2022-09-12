@@ -1,5 +1,5 @@
-<?php $y = 321;
-$x = 123;
+<?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_category_tags
