@@ -16,7 +16,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (empty($item->childs)) 
+if (empty($item->childs) )
 {
     return;
 }
@@ -27,7 +27,7 @@ $childs = $item->childs;
     <?php foreach ($childs as $item) :
         $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
         $cat_id = $item->cat_id ? "id=$item->cat_id" : '';
-    ?>
+        ?>
     <li>
         <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category&layout=blog&$cat_id&filter_tag=$item->tag_id");?>">
 
@@ -35,16 +35,17 @@ $childs = $item->childs;
             $item->params = new Joomla\Registry\Registry($item->params);
             $item->images = json_decode($item->images, false);
 
-            $src	= htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
-            if($src)
+            $src = htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
+
+            if($src) 
             {
                 $layoutAttr = [
-                    'src'	=> $src,
+                    'src'   => $src,
                     'class' => 'tag-image ' . (empty($item->images->float_intro) ? $item->params->get('float_intro',false) : $item->images->float_intro),
-                    'alt'	=> empty($item->images->image_intro_alt) && empty($item->images->image_intro_alt_empty) ? false : $item->images->image_intro_alt,
+                    'alt'   => empty($item->images->image_intro_alt) && empty($item->images->image_intro_alt_empty) ? false : $item->images->image_intro_alt,
                 ];
 
-                echo LayoutHelper::render('joomla.html.image', array_merge($layoutAttr, ['itemprop' => 'thumbnail',]));				
+                echo LayoutHelper::render('joomla.html.image', array_merge($layoutAttr, ['itemprop' => 'thumbnail',]));
             }
         endif; ?>
 
