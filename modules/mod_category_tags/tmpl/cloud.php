@@ -41,9 +41,7 @@ if (!count($list)) : ?>
         {
             $maxcount = $item->count;
         }
-
     }
-
     $countdiff = $maxcount - $mincount;
 
     foreach ($list as $item) :
