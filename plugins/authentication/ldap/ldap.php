@@ -45,8 +45,8 @@ class PlgAuthenticationLdap extends CMSPlugin
         }
 
         // For JLog
-        $response->type = 'LDAP';
-        $logcategory = "ldapexception";
+        $logcategory = "ldap";
+        $response->type = $logcategory;
 
         // Strip null bytes from the password
         $credentials['password'] = str_replace(chr(0), '', $credentials['password']);
@@ -151,7 +151,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                         );
                     }
 
-                    Log::add(sprintf('Binding to LDAP server with found user dn "%s" and user entered password', $dn), Log::DEBUG, $logcategory);
+                    Log::add(sprintf('Direct binding to LDAP server with entered user dn "%s" and user entered password', $dn), Log::DEBUG, $logcategory);
                     $ldap->bind($dn, $credentials['password']);
                 } catch (ConnectionException | LdapException $exception) {
                     $response->status = Authentication::STATUS_FAILURE;
