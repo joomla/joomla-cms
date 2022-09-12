@@ -47,7 +47,6 @@ $childs = $item->childs;
 
                 echo LayoutHelper::render('joomla.html.image', array_merge($layoutAttr, ['itemprop' => 'thumbnail',]));
             }
-
         endif; ?>
 
         <?php if ($title_display) : ?>
