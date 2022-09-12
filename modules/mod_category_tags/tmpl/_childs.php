@@ -1,5 +1,5 @@
 <?php
-
+$x = 123;
 /**
  * @package     Joomla.Site
  * @subpackage  mod_category_tags
@@ -16,7 +16,8 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (empty($item->childs)){
+if (empty($item->childs))
+{
     return;
 }
 
