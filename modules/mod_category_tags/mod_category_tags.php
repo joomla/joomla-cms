@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-$cacheparams = new \stdClass;
+$cacheparams = new \stdClass();
 $cacheparams->cachemode = 'safeuri';
 $cacheparams->class = 'Joomla\Module\CategoryTags\Site\Helper\CategoryTagsHelper';
 $cacheparams->method = 'getList';
@@ -23,33 +23,33 @@ $params['cache'] = 0;
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_display')) 
+if (!count($list) && !$params->get('no_results_display') )
 {
     return;
 }
 
-foreach ($list as &$tag) 
+foreach ($list as &$tag)
 {
     $tag->childs = [];
 }
-if($params->get('tree_display')) :
 
+if ($params->get('tree_display')) :
     $tag_ids = array_column($list, 'tag_id');
     $cat_ids = array_column($list, 'cat_id');
     $parents = [];
 
-    foreach ($list as &$tag)
+    foreach ($list as &$tag) 
     {
         // Keys parents
         $parent_keys = array_keys($tag_ids, $tag->parent_id);
-        if($parent_keys) 
+        if ($parent_keys) 
         {
             // Categories parents
             $c_ids = array_intersect_key($cat_ids, array_flip($parent_keys));
-            if(in_array($tag->cat_id, $c_ids)) 
+            if (in_array($tag->cat_id, $c_ids)) 
             {
                 $cat_id = $tag->cat_id;
-            }
+            } 
             else
             {
                 $cat_id = reset($c_ids);
@@ -57,8 +57,8 @@ if($params->get('tree_display')) :
             $cat_key = array_search($cat_id, $c_ids);
             $tag->parent = &$list[$cat_key];
             $list[$cat_key]->childs[] = &$tag;
-        }
-        else
+        } 
+        else 
         {
             $parents[] = $tag;
         }
