@@ -46,7 +46,7 @@ if ($params->get('tree_display')) :
 
             if (in_array($tag->cat_id, $c_ids)) {
                 $cat_id = $tag->cat_id;
-			} else {
+            } else {
                 $cat_id = reset($c_ids);
             }
 
