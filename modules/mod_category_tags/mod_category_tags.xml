@@ -17,16 +17,6 @@
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
-	<languages>
-		<!--<language tag="en-GB">language/en-GB/mod_category_tags.ini</language>-->
-		<!--<language tag="en-GB">language/en-GB/mod_category_tags.sys.ini</language>-->
-	</languages>
-	<!--<help key="Site_Modules:_Tags_-_Popular" />-->
-    <updateservers> 
-		<server type="extension" name="mod_category_tags" priority="1">https://korenevskiy.github.io/mod_category_tags/mod_category_tags_update.xml</server>
-        <server type="extension" name="mod_multi" priority="1">https://explorer-office.ru/modules/mod_multi_update.xml</server><!--  -->
-        <!--<server type="extension" name="mod_multi" priority="2">https://raw.githubusercontent.com/korenevskiy/mod_category_tags/master/mod_category_tags_update.xml</server>-->
-    </updateservers>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -43,7 +33,7 @@
 					layout="joomla.form.field.list-fancy-select" 
 					class="multipleCategories" 
 				/>
-				
+
 				<field
 					name="parentTag"
 					type="tag"
