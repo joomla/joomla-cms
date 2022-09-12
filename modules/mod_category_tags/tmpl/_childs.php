@@ -16,7 +16,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (empty($item->childs))
+if (empty($item->childs)) 
 {
     return;
 }
@@ -37,7 +37,7 @@ $childs = $item->childs;
 
             $src = htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
 
-            if ($src)
+            if ($src) 
             {
                 $layoutAttr = [
                     'src'   => $src,
