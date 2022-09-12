@@ -26,7 +26,7 @@ $childs = $item->childs;
     <?php foreach ($childs as $item) :
         $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
         $cat_id = $item->cat_id ? "&id=$item->cat_id" : '';
-		$cat_layout = $params->get('category_layout') == 'default' ? '' : '&layout=' . $params->get('category_layout');
+        $cat_layout = $params->get('category_layout') == 'default' ? '' : '&layout=' . $params->get('category_layout');
         ?>
     <li>
         <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category$cat_layout$cat_id&filter_tag=$item->tag_id");?>">
