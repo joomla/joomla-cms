@@ -25,10 +25,10 @@ $childs = $item->childs;
 <ul>
     <?php foreach ($childs as $item) :
         $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
-        $cat_id = $item->cat_id ? "id=$item->cat_id" : '';
+        $cat_id = $item->cat_id ? "&id=$item->cat_id" : '';
         ?>
     <li>
-        <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category&layout=blog&$cat_id&filter_tag=$item->tag_id");?>">
+        <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category&layout=blog$cat_id&filter_tag=$item->tag_id");?>">
 
         <?php if ($image_display && isset($item->images)) :
             $item->params = new Joomla\Registry\Registry($item->params);
