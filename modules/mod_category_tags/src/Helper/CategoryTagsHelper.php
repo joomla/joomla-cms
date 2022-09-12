@@ -137,7 +137,6 @@ abstract class CategoryTagsHelper
             $order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 
             if ($params->get('order_value', 'title') === 'title') {
-
                 // Backup bound parameters array of the original query
                 $bounded = $query->getBounded();
 
@@ -187,8 +186,7 @@ abstract class CategoryTagsHelper
 
         $db->setQuery($query);
 
-        try
-        {
+        try {
              $results = $db->loadObjectList('');
         } catch (\RuntimeException $e) {
             $results = array();
