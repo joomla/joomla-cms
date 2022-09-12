@@ -1,4 +1,6 @@
-<?php/**
+<?php
+
+/**
  * @package     Joomla.Site
  * @subpackage  mod_category_tags
  *
@@ -34,7 +36,8 @@ $childs = $item->childs;
 
             $src = htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
 
-            if ($src){
+            if ($src)
+            {
                 $layoutAttr = [
                     'src'   => $src,
                     'class' => 'tag-image ' . (empty($item->images->float_intro) ? $item->params->get('float_intro', false) : $item->images->float_intro),
