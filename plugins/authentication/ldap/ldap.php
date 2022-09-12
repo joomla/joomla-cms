@@ -72,6 +72,7 @@ class PlgAuthenticationLdap extends CMSPlugin
                 'referrals'  => (bool) $this->params->get('no_referrals', '0'),
                 'encryption' => $this->params->get('negotiate_tls', '0') == '1' ? 'tls' : 'none',
             ];
+        Log::add(sprintf('Creating LDAP session with options: %s', json_encode($options)), Log::DEBUG, $logcategory);
         $connection_string = sprintf('ldap%s://%s:%s', 'ssl' === $options['encryption'] ? 's' : '', $options['host'], $options['port']);
         Log::add(sprintf('Creating LDAP session to connect to "%s" while binding', $connection_string), Log::DEBUG, $logcategory);
         $ldap = Ldap::create(
