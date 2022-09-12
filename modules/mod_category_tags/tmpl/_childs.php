@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_category_tags
@@ -6,7 +7,7 @@
  * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
- 
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
@@ -40,7 +41,7 @@ $childs = $item->childs;
             {
                 $layoutAttr = [
                     'src'   => $src,
-                    'class' => 'tag-image ' . (empty($item->images->float_intro) ? $item->params->get('float_intro',false) : $item->images->float_intro),
+                    'class' => 'tag-image ' . (empty($item->images->float_intro) ? $item->params->get('float_intro', false) : $item->images->float_intro),
                     'alt'   => empty($item->images->image_intro_alt) && empty($item->images->image_intro_alt_empty) ? false : $item->images->image_intro_alt
                 ];
 
