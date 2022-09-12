@@ -23,7 +23,7 @@ $params['cache'] = 0;
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list) && !$params->get('no_results_display'))
+if (empty($list) && !$params->get('no_results_display'))
 {
     return;
 }
