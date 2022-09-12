@@ -47,9 +47,9 @@ $childs = $item->childs;
                 echo LayoutHelper::render('joomla.html.image', array_merge($layoutAttr, ['itemprop' => 'thumbnail',]));				
             }
         endif; ?>
-	
+
         <?php if ($title_display) : ?>
-            <span class="tag-title"><?= $title; ?></span>			
+            <span class="tag-title"><?= $title; ?></span>
         <?php endif; ?>
 
             <?php if ($count_display) : ?>
@@ -59,7 +59,7 @@ $childs = $item->childs;
             <?php if ($categories_titles) : ?>
                 <span class="tag-category badge bg-info"><?php echo $item->cat_title; ?></span>
             <?php endif; ?>
-        </a>	
+        </a>
 
         <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_childs'); ?>
     </li>
