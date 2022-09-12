@@ -15,7 +15,7 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (empty($item->childs))
+if (empty($item->childs)) 
 {
     return;
 }
@@ -23,16 +23,16 @@ if (empty($item->childs))
 $childs = $item->childs;
 ?>
 <ul>
-    <?php foreach ($childs as $item): 
-        $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); 
+    <?php foreach ($childs as $item) :
+        $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
         $cat_id = $item->cat_id ? "id=$item->cat_id" : '';
     ?>
     <li>
         <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category&layout=blog&$cat_id&filter_tag=$item->tag_id");?>">
-	
+
         <?php if ($image_display && isset($item->images)) :
-            $item->params = new Joomla\Registry\Registry($item->params); 
-            $item->images = json_decode($item->images, false); 
+            $item->params = new Joomla\Registry\Registry($item->params);
+            $item->images = json_decode($item->images, false);
 
             $src	= htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
             if($src)
