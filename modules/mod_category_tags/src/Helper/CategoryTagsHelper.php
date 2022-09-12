@@ -8,9 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Module\CategoryTags\Site\Helper;
-
 \defined('_JEXEC') or die;
+
+namespace Joomla\Module\CategoryTags\Site\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -38,13 +38,13 @@ abstract class CategoryTagsHelper
         $db          = Factory::getDbo();
         $user        = Factory::getUser();
         $groups      = $user->getAuthorisedViewLevels();
-        $catid		 = $params->get('catid', []);
+        $catid	     = $params->get('catid', []);
         $timeframe   = $params->get('timeframe', 'alltime');
         $maximum     = (int) $params->get('maximum', 5);
         $order_value = $params->get('order_value', 'title');
         $nowDate     = Factory::getDate()->toSql();
         $nullDate    = $db->getNullDate();
-        $image_display= $params->get('image_display', false);
+        $image_display = $params->get('image_display', false);
 
         $query = $db->getQuery(true)
             ->select(
@@ -63,7 +63,7 @@ abstract class CategoryTagsHelper
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->whereIn($db->quoteName('t.access'), $groups);
 
-        if ($image_display)
+        if ($image_display) 
         {
             $query->select('MAX(' . $db->quoteName('t.images') . ') AS ' . $db->quoteName('images'));
         }
@@ -74,7 +74,7 @@ abstract class CategoryTagsHelper
         // Filter by Parent Tag
         $parentTags = $params->get('parentTag', []);
 
-        if ($parentTags)
+        if ($parentTags) 
         {
             $query->whereIn($db->quoteName('t.parent_id'), $parentTags);
         }
@@ -84,7 +84,7 @@ abstract class CategoryTagsHelper
 
         if ($language !== 'all')
         {
-            if ($language === 'current_language')
+            if ($language === 'current_language') 
             {
                 $language = ContentHelper::getCurrentLanguage();
             }
@@ -92,17 +92,20 @@ abstract class CategoryTagsHelper
             $query->whereIn($db->quoteName('t.language'), [$language, '*'], ParameterType::STRING);
         }
 
-        if ($timeframe !== 'alltime')
+        if ($timeframe !== 'alltime') 
         {
             $query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
         }
 
         $query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
             ->join(
-                'INNER', $db->quoteName('#__ucm_content', 'c'), $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
+                'INNER', 
+                $db->quoteName('#__ucm_content', 'c'), 
+                $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
             );
 
-        if($catid){
+        if ($catid) 
+        {
             $query->join('INNER', $db->quoteName('#__categories', 'cat'), $db->quoteName('c.core_catid') . ' = ' . $db->quoteName('cat.id'));
             $query->whereIn($db->quoteName('cat.id'), (array)$catid);
 
@@ -110,7 +113,9 @@ abstract class CategoryTagsHelper
 
             $query->where($db->quoteName('cat.published').' = 1');
             $query->select($db->quoteName('cat.title','cat_title'))->select($db->quoteName('cat.id','cat_id'));
-        }else{
+        }
+        else 
+        {
             $query->select("'' AS `cat_title`")->select('0 AS `cat_id`');
         }
 
