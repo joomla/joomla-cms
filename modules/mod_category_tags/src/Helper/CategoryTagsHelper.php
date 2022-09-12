@@ -8,8 +8,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-\defined('_JEXEC') or die;
-
 namespace Joomla\Module\CategoryTags\Site\Helper;
 
 use Joomla\CMS\Component\ComponentHelper;
@@ -33,12 +31,12 @@ abstract class CategoryTagsHelper
      *
      * @since   3.1
      */
-public static function getList(&$params)
+    public static function getList(&$params)
     {
         $user        = Factory::getUser();
         $db          = Factory::getDbo();
         $groups      = $user->getAuthorisedViewLevels();
-        $catid	     = $params->get('catid', []);
+        $catid       = $params->get('catid', []);
         $timeframe   = $params->get('timeframe', 'alltime');
         $maximum     = (int) $params->get('maximum', 5);
         $order_value = $params->get('order_value', 'title');
@@ -63,7 +61,7 @@ public static function getList(&$params)
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->whereIn($db->quoteName('t.access'), $groups);
 
-        if ($image_display) 
+        if ($image_display)
         {
             $query->select('MAX(' . $db->quoteName('t.images') . ') AS ' . $db->quoteName('images'));
         }
@@ -74,7 +72,7 @@ public static function getList(&$params)
         // Filter by Parent Tag
         $parentTags = $params->get('parentTag', []);
 
-        if ($parentTags) 
+        if ($parentTags)
         {
             $query->whereIn($db->quoteName('t.parent_id'), $parentTags);
         }
@@ -84,7 +82,7 @@ public static function getList(&$params)
 
         if ($language !== 'all')
         {
-            if ($language === 'current_language') 
+            if ($language === 'current_language')
             {
                 $language = ContentHelper::getCurrentLanguage();
             }
@@ -92,7 +90,7 @@ public static function getList(&$params)
             $query->whereIn($db->quoteName('t.language'), [$language, '*'], ParameterType::STRING);
         }
 
-        if ($timeframe !== 'alltime') 
+        if ($timeframe !== 'alltime')
         {
             $query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
         }
@@ -114,14 +112,14 @@ public static function getList(&$params)
             $query->where($db->quoteName('cat.published') . ' = 1');
             $query->select($db->quoteName('cat.title', 'cat_title'))->select($db->quoteName('cat.id', 'cat_id'));
         }
-        else 
+        else
         {
             $query->select("'' AS `cat_title`")->select('0 AS `cat_id`');
         }
 
         $query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 
-        $groupIn = array_merge([0],$groups,[]);
+        $groupIn = array_merge([0], $groups,[]);
 
         // Only return tags connected to published and authorised items
         $query->where($db->quoteName('c.core_state') . ' = 1')
@@ -193,7 +191,7 @@ public static function getList(&$params)
                 {
                       $query->bind($key, $obj->value, $obj->dataType);
                 }
-            }
+            }            
             else
             {
                 $query->order($db->quoteName($order_value) . ' ' . $order_direction);
@@ -210,9 +208,9 @@ public static function getList(&$params)
         try
         {
              $results = $db->loadObjectList('');
-        } 
+        }
         catch (\RuntimeException $e)
-        {
+		{
             $results = array();
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
