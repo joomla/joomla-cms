@@ -66,6 +66,7 @@ if ($params->get('tree_display')) :
             $parents[] = $tag;
         }
     }
+
     $list = $parents;
 endif;
 
