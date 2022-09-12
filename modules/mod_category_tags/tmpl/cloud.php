@@ -29,9 +29,9 @@ if (!count($list)) : ?>
     // Find maximum and minimum count
     $mincount = null;
     $maxcount = null;
-    foreach ($list as $item) 
+    foreach ($list as $item)
     {
-        if ($mincount === null || $mincount > $item->count)
+        if ($mincount === null || $mincount > $item->count) 
         {
             $mincount = $item->count;
         }
