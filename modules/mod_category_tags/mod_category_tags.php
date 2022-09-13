@@ -28,7 +28,7 @@ if (empty($list) && !$params->get('no_results_display')) {
 }
 
 foreach ($list as &$tag) {
-    $tag->childs = [];
+    $tag->items = [];
 }
 
 if ($params->get('tree_display')) :
@@ -52,7 +52,7 @@ if ($params->get('tree_display')) :
 
             $cat_key = array_search($cat_id, $c_ids);
             $tag->parent = &$list[$cat_key];
-            $list[$cat_key]->childs[] = &$tag;
+            $list[$cat_key]->items[] = &$tag;
         } else {
             $parents[] = $tag;
         }
