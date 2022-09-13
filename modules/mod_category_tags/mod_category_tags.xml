@@ -2,12 +2,12 @@
 <extension type="module" client="site" method="upgrade">
 	<name>mod_category_tags</name>
 	<author>Joomla! Project</author>
-	<creationDate>2022-05-09</creationDate>
-	<copyright>(C) 2013 Open Source Matters, Inc.</copyright>
+	<creationDate>2022-09-09</creationDate>
+	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>4.0.0</version>
+	<version>__DEPLOY_VERSION__</version>
 	<description>MOD_CATEGORY_TAGS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\CategoryTags</namespace>
 	<files>
@@ -19,18 +19,15 @@
 	</files>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
-				
-				<field
-					type="translate"/>
+			<fieldset name="basic">		
 				<field
 					name="catid"
 					type="category"
-					extension="com_content"
+					layout="joomla.form.field.list-fancy-select" 
 					label="JCATEGORY"
+					extension="com_content"
 					multiple="true"
 					filter="intarray"
-					layout="joomla.form.field.list-fancy-select" 
 					class="multipleCategories" 
 				/>
 
@@ -60,8 +57,8 @@
 					type="number"
 					label="MOD_CATEGORY_TAGS_MAX_LABEL"
 					default="5"
-					filter="integer"
 					min="0"
+					filter="integer"
 					validate="number"
 				/>
 
@@ -104,7 +101,6 @@
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
 				</field>
 
-
 				<field
 					name="tree_display"
 					type="radio"
@@ -128,6 +124,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+
 				<field
 					name="image_display"
 					type="radio"
@@ -139,7 +136,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				
+
 				<field
 					name="count_display"
 					type="radio"
@@ -164,7 +161,7 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				
+
 				<field
 					name="no_results_display"
 					type="radio"
@@ -176,17 +173,17 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-				
-				
+
 				<field
 					name="no_results_text"
 					type="text"
 					label="MOD_CATEGORY_TAGS_FIELD_NO_RESULTS_TEXT"
 					default="MOD_CATEGORY_TAGS_NO_ITEMS_FOUND"
-                    translate_default="true"
+					translate_default="true"
 					showon="no_results_display:1"
 				/>
 			</fieldset>
+
 			<fieldset
 				name="cloud"
 				label="MOD_CATEGORY_TAGS_FIELDSET_CLOUD_LABEL"
@@ -209,6 +206,7 @@
 					filter="float"
 				/>
 			</fieldset>
+
 			<fieldset name="advanced">
 				<field
 					name="layout"
