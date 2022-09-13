@@ -48,9 +48,10 @@ if (!count($list)) : ?>
         else :
             $fontsize = $minsize + (($maxsize - $minsize) / $countdiff) * ($item->count - $mincount);
         endif;
+        $cat_id = $item->cat_id ? "&id=$item->cat_id" : '';
         ?>
         <span class="tag">
-            <a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?= Route::_("index.php?option=com_content&view=category&layout=blog&$cat_id&filter_tag=$item->tag_id"); ?>">
+            <a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?= Route::_("index.php?option=com_content&view=category&layout=blog$cat_id&filter_tag=$item->tag_id"); ?>">
                 <?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?></a>
             <?php if ($count_display) : ?>
                 <span class="tag-count badge bg-info"><?php echo $item->count; ?></span>
