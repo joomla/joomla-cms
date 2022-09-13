@@ -690,7 +690,7 @@ class LdapClient
 	 */
 	public function isConnected()
 	{
-		return $this->resource && \is_resource($this->resource);
+		return \is_resource($this->resource) || ( \is_object($this->resource) && $this->resource instanceof \LDAP\Connection );
 	}
 
 	/**
