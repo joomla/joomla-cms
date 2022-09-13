@@ -61,10 +61,11 @@ if ($params->get('tree_display')) :
     $list = $parents;
 endif;
 
+$tree_display = $params->get('tree_display', 1);
+$title_display = $params->get('title_display', 1);
+$image_display = $params->get('image_display', 0);
 $count_display = $params->get('count_display', 0);
 $categories_titles = $params->get('categories_titles', 0);
 
-$image_display = $params->get('image_display', 0);
-$title_display = $params->get('title_display', 1);
 
 require ModuleHelper::getLayoutPath('mod_category_tags', $params->get('layout', 'default'));
