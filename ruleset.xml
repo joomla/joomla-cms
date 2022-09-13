@@ -23,7 +23,9 @@
 	    <exclude name="Generic.Files.LineEndings"/>
     </rule>
 
-	<rule ref="PHPCompatibilityJoomla"/>
+	<rule ref="PHPCompatibilityJoomla">
+		<exclude-pattern type="relative">libraries/src/Encrypt/AES/Mcrypt.php</exclude-pattern>
+	</rule>
 	<config name="testVersion" value="7.2-"/>
 
 	<rule ref="PHPCompatibility.Keywords.ForbiddenNamesAsDeclared">
