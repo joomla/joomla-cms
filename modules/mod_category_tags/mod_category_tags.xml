@@ -12,8 +12,6 @@
 	<namespace path="src">Joomla\Module\CategoryTags</namespace>
 	<files>
 		<filename module="mod_category_tags">mod_category_tags.php</filename>
-		<folder>field</folder>
-		<folder>language</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
