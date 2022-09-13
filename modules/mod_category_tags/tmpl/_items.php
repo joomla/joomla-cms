@@ -29,6 +29,10 @@ $items = $item->items;
         $cat_layout = $params->get('category_layout') == 'default' ? '' : '&layout=' . $params->get('category_layout');
         ?>
     <li>
+        <?php if ($categories_titles && $tree_display && empty($item->parent)) : ?>
+            <span class="tag-category badge bg-info"><?php echo $item->cat_title; ?></span>
+        <?php endif; ?>
+    
         <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category$cat_layout$cat_id&filter_tag=$item->tag_id");?>">
 
         <?php if ($image_display && isset($item->images)) :
@@ -56,9 +60,9 @@ $items = $item->items;
                 <span class="tag-count badge bg-info"><?php echo $item->count; ?></span>
             <?php endif; ?>
 
-            <?php if ($categories_titles) : ?>
-                <span class="tag-category badge bg-info"><?php echo $item->cat_title; ?></span>
-            <?php endif; ?>
+			<?php if ($categories_titles && empty($tree_display)) : ?>
+				<span class="tag-category badge bg-info"><?php echo $item->cat_title; ?></span>
+			<?php endif; ?>
         </a>
 
         <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_items'); ?>
