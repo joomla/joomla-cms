@@ -16,14 +16,14 @@ use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (empty($item->childs)) {
+if (empty($item->items)) {
     return;
 }
 
-$childs = $item->childs;
+$items = $item->items;
 ?>
 <ul>
-    <?php foreach ($childs as $item) :
+    <?php foreach ($items as $item) :
         $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
         $cat_id = $item->cat_id ? "&id=$item->cat_id" : '';
         $cat_layout = $params->get('category_layout') == 'default' ? '' : '&layout=' . $params->get('category_layout');
@@ -61,7 +61,7 @@ $childs = $item->childs;
             <?php endif; ?>
         </a>
 
-        <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_childs'); ?>
+        <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_items'); ?>
     </li>
     <?php endforeach; ?>
 </ul>
