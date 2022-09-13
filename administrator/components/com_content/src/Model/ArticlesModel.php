@@ -225,7 +225,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
 
@@ -553,7 +553,7 @@ class ArticlesModel extends ListModel
         }
 
         $db   = $this->getDatabase();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $items = $this->getItems();
 
