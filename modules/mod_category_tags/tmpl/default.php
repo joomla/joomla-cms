@@ -15,8 +15,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 
-//$childs = $list;
-$item = (object)['childs' => $list];
+$item = (object)['items' => $list];
 
 ?>
 <div class="mod-categorytags categorytags mod_<?= $module->id ?>">
@@ -26,6 +25,6 @@ $item = (object)['childs' => $list];
         <?php echo $params->get('no_results_text', Text::_('MOD_CATEGORY_TAGS_NO_ITEMS_FOUND')); ?>
     </div>
 <?php else : ?>
-    <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_childs'); ?>
+    <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_items'); ?>
 <?php endif; ?>
 </div>
