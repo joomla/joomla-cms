@@ -24,7 +24,7 @@
     </rule>
 
 	<rule ref="PHPCompatibilityJoomla">
-		<exclude-pattern type="relative">libraries/src/Encrypt/AES/Mcrypt.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Encrypt/AES/Mcrypt\.php</exclude-pattern>
 	</rule>
 	<config name="testVersion" value="7.2-"/>
 
@@ -36,6 +36,14 @@
 
 	<rule ref="PHPCompatibility.Constants.NewConstants.password_argon2idFound">
 		<exclude-pattern type="relative">libraries/src/Authentication/Password/Argon2idHandler\.php</exclude-pattern>
+	</rule>
+
+	<rule ref="PHPCompatibility.FunctionUse.ArgumentFunctionsReportCurrentValue">
+		<exclude-pattern type="relative">administrator/components/com_finder/src/Indexer/Result\.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Date/Date\.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Application/CliApplication\.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Application/ConsoleApplication\.php</exclude-pattern>
+		<exclude-pattern type="relative">libraries/src/Document/HtmlDocument\.php</exclude-pattern>
 	</rule>
 
     <!-- temporary extend the line length -->
