@@ -60,9 +60,9 @@ $items = $item->items;
                 <span class="tag-count badge bg-info"><?php echo $item->count; ?></span>
             <?php endif; ?>
 
-			<?php if ($categories_titles && empty($tree_display)) : ?>
-				<span class="tag-category badge bg-info"><?= htmlspecialchars($item->cat_title, ENT_COMPAT, 'UTF-8') ?></span>
-			<?php endif; ?>
+            <?php if ($categories_titles && empty($tree_display)) : ?>
+                <span class="tag-category badge bg-info"><?= htmlspecialchars($item->cat_title, ENT_COMPAT, 'UTF-8') ?></span>
+            <?php endif; ?>
         </a>
 
         <?php require ModuleHelper::getLayoutPath('mod_category_tags', '_items'); ?>
