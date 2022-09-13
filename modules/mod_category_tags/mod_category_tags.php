@@ -44,12 +44,12 @@ if ($params->get('tree_display')) :
             // Categories parents
             $c_ids = array_intersect_key($cat_ids, array_flip($parent_keys));
 
-			$cat_key = array_search($tag->cat_id, $c_ids);
+            $cat_key = array_search($tag->cat_id, $c_ids);
 
             if ($cat_key !== false) {
-				$cat_id = $tag->cat_id;
-				$tag->parent = &$list[$cat_key];
-				$list[$cat_key]->items[] = &$tag;
+                $cat_id = $tag->cat_id;
+                $tag->parent = &$list[$cat_key];
+                $list[$cat_key]->items[] = &$tag;
             } else {
                 $parents[] = $tag;
             }
