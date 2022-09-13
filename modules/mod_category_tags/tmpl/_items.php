@@ -30,7 +30,7 @@ $items = $item->items;
         ?>
     <li>
         <?php if ($categories_titles && $tree_display && empty($item->parent)) : ?>
-            <span class="tag-category badge bg-info"><?php echo $item->cat_title; ?></span>
+            <span class="tag-category badge bg-info"><?= htmlspecialchars($item->cat_title, ENT_COMPAT, 'UTF-8') ?></span>
         <?php endif; ?>
     
         <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category$cat_layout$cat_id&filter_tag=$item->tag_id");?>">
@@ -61,7 +61,7 @@ $items = $item->items;
             <?php endif; ?>
 
 			<?php if ($categories_titles && empty($tree_display)) : ?>
-				<span class="tag-category badge bg-info"><?php echo $item->cat_title; ?></span>
+				<span class="tag-category badge bg-info"><?= htmlspecialchars($item->cat_title, ENT_COMPAT, 'UTF-8') ?></span>
 			<?php endif; ?>
         </a>
 
