@@ -29,7 +29,7 @@ abstract class CategoryTagsHelper
      *
      * @return  mixed
      *
-     * @since   3.1
+     * @since   __DEPLOY_VERSION__
      */
     public static function getList(&$params)
     {
