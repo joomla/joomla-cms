@@ -28,7 +28,7 @@
 					filter="intarray"
 					class="multipleCategories"
 					>
-				        <option value="0">JDEFAULT</option>
+				        <option value="0">JALL</option>
 				</field>
 
 				<field
