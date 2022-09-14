@@ -346,7 +346,7 @@ class InstallCommand extends AbstractCommand
             $valid = $field->validate($answer);
 
             if ($valid instanceof \Exception) {
-                $this->ioStyle->warning('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
+                $this->ioStyle->warning('Value for ' . $option . ' is incorrect: ' . $valid->getMessage());
                 $answer = false;
             }
 
