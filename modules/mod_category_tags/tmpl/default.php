@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
 $item = (object)['items' => $list];
 
