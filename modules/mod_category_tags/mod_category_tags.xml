@@ -21,8 +21,8 @@
 				<field
 					name="catid"
 					type="category"
-					layout="joomla.form.field.list-fancy-select" 
 					label="JCATEGORY"
+					layout="joomla.form.field.list-fancy-select" 
 					extension="com_content"
 					multiple="false"
 					filter="intarray"
@@ -104,8 +104,8 @@
 				<field
 					name="tree_display"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_TREE_LABEL"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
 				>
@@ -116,8 +116,8 @@
 				<field
 					name="title_display"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_TITLE_LABEL"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="boolean"
 				>
@@ -128,8 +128,8 @@
 				<field
 					name="image_display"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_IMAGE_LABEL"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
 				>
@@ -140,8 +140,8 @@
 				<field
 					name="count_display"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="MOD_CATEGORY_TAGS_FIELD_DISPLAY_COUNT_LABEL"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
 				>
@@ -152,8 +152,8 @@
 				<field
 					name="categories_titles"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="MOD_CATEGORY_TAGS_CATEGORIES_TITLE_LABEL" 
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean" 
 					validate="options"
@@ -165,8 +165,8 @@
 				<field
 					name="no_results_display"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
 					label="MOD_CATEGORY_TAGS_FIELD_NO_RESULTS_LABEL"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
 				>
