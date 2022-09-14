@@ -47,7 +47,7 @@
 					label="MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_LABEL"
 					default="blog"
 					validate="options"
-				>
+					>
 					<option value="blog">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_BLOG</option>
 					<option value="default">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_LIST</option>
 				</field>
@@ -68,7 +68,7 @@
 					label="MOD_CATEGORY_TAGS_FIELD_TIMEFRAME_LABEL"
 					default="alltime"
 					validate="options"
-				>
+					>
 					<option value="alltime">MOD_CATEGORY_TAGS_FIELD_ALL_TIME</option>
 					<option value="hour">MOD_CATEGORY_TAGS_FIELD_LAST_HOUR</option>
 					<option value="day">MOD_CATEGORY_TAGS_FIELD_LAST_DAY</option>
@@ -83,7 +83,7 @@
 					label="MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_LABEL"
 					default="count"
 					validate="options"
-				>
+					>
 					<option value="title">MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_TITLE</option>
 					<option value="count">MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_COUNT</option>
 					<option value="rand()">MOD_CATEGORY_TAGS_FIELD_ORDER_VALUE_RANDOM</option>
@@ -96,7 +96,7 @@
 					default="1"
 					filter="integer"
 					validate="options"
-				>
+					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
 				</field>
@@ -108,7 +108,7 @@
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -120,7 +120,7 @@
 					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="boolean"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -132,7 +132,7 @@
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -144,7 +144,7 @@
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -157,7 +157,7 @@
 					default="0"
 					filter="boolean" 
 					validate="options"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -169,7 +169,7 @@
 					layout="joomla.form.field.radio.switcher"
 					default="0"
 					filter="boolean"
-				>
+					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -187,7 +187,7 @@
 			<fieldset
 				name="cloud"
 				label="MOD_CATEGORY_TAGS_FIELDSET_CLOUD_LABEL"
-			>
+				>
 				<field
 					name="minsize"
 					type="number"
@@ -232,7 +232,7 @@
 					default="1"
 					filter="integer"
 					validate="options"
-				>
+					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
