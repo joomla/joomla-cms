@@ -42,3 +42,14 @@
 .CodeMirror-markergutter-mark:after {
   content: "\25CF";
 }
+
+/* make the tabs a little more visible */
+.cm-tab{
+  font-size: 0;
+}
+
+.cm-tab::before {
+  content: '\21E5  ';
+  font-size: initial;
+  color: #cdcdcd;
+}
