@@ -42,17 +42,6 @@
 				/>
 
 				<field
-					name="category_layout"
-					type="list"
-					label="MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_LABEL"
-					default="blog"
-					validate="options"
-					>
-					<option value="blog">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_BLOG</option>
-					<option value="default">MOD_CATEGORY_TAGS_FIELD_CATEGORY_LAYOUT_VALUE_LIST</option>
-				</field>
-
-				<field
 					name="maximum"
 					type="number"
 					label="MOD_CATEGORY_TAGS_MAX_LABEL"
