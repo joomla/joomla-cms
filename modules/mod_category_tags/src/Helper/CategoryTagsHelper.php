@@ -57,7 +57,7 @@ abstract class CategoryTagsHelper
                     "'' AS " . $db->quoteName('parent'),
                 ]
             )
-            ->group($db->quoteName(['tag_id', 't.title', 't.access', 't.alias', 'cat.id']))
+            ->group($db->quoteName(['tag_id', 't.title', 't.access', 't.alias']))
             ->from($db->quoteName('#__contentitem_tag_map', 'm'))
             ->whereIn($db->quoteName('t.access'), $groups);
 
@@ -97,7 +97,7 @@ abstract class CategoryTagsHelper
                 $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
             );
 
-        if ($catid) {
+        if ($catid && $catid != [0]) {
             $query->join('INNER', $db->quoteName('#__categories', 'cat'), $db->quoteName('c.core_catid') . ' = ' . $db->quoteName('cat.id'));
             $query->whereIn($db->quoteName('cat.id'), (array)$catid);
 
@@ -105,6 +105,7 @@ abstract class CategoryTagsHelper
 
             $query->where($db->quoteName('cat.published') . ' = 1');
             $query->select($db->quoteName('cat.title', 'cat_title'))->select($db->quoteName('cat.id', 'cat_id'));
+            $query->group($db->quoteName(['cat.id']));
         } else {
             $query->select("'' AS `cat_title`")->select('0 AS `cat_id`');
         }
