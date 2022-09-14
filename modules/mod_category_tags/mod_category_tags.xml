@@ -27,7 +27,7 @@
 					multiple="false"
 					filter="intarray"
 					class="multipleCategories"
-				>
+					>
 				        <option value="0">JDEFAULT</option>
 				</field>
 
