@@ -157,7 +157,7 @@ class InstallCommand extends AbstractCommand
             $this->ioStyle->writeln('OK');
         }
 
-        $this->ioStyle->success('Joomla has been successfully installed');
+        $this->ioStyle->success('Joomla has been installed');
 
         return Command::SUCCESS;
     }
