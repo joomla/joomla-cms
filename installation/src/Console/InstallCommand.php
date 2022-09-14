@@ -17,6 +17,7 @@ use Joomla\CMS\Installation\Model\CleanupModel;
 use Joomla\CMS\Installation\Model\DatabaseModel;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
@@ -210,7 +211,7 @@ class InstallCommand extends AbstractCommand
                 if ($show) {
                     $cfg[$field->fieldname] = $this->getStringFromOption(
                         $field->fieldname,
-                        (string)$field->getAttribute('clilabel'),
+                        Text::_((string)$field->getAttribute('label')),
                         $field
                     );
                 } else {
@@ -220,7 +221,7 @@ class InstallCommand extends AbstractCommand
                 $cfg[$field->fieldname] = $field->filter(
                     $this->getStringFromOption(
                         $field->fieldname,
-                        (string)$field->getAttribute('clilabel'),
+                        Text::_((string)$field->getAttribute('label')),
                         $field
                     )
                 );
@@ -239,6 +240,7 @@ class InstallCommand extends AbstractCommand
      */
     protected function configure(): void
     {
+        Factory::getLanguage()->load('joomla.cli');
         $help = "<info>%command.name%</info> will install Joomla
 		\nUsage: <info>php %command.full_name%</info>";
 
@@ -286,7 +288,7 @@ class InstallCommand extends AbstractCommand
                 $field->fieldname,
                 null,
                 $field->required ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
-                (string)$field->getAttribute('clilabel'),
+                Text::_(((string)$field->getAttribute('label')) . '_SHORT'),
                 $default
             );
         }
