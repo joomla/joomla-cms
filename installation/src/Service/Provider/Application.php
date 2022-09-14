@@ -17,6 +17,10 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Application service provider
  *
