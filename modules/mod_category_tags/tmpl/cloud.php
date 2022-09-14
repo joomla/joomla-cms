@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
 $minsize = $params->get('minsize', 1);
 $maxsize = $params->get('maxsize', 2);
