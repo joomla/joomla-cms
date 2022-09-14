@@ -18,7 +18,7 @@ use Joomla\Database\ParameterType;
 /**
  * Helper for mod_category_tags
  *
- * @since  3.1
+ * @since  __DEPLOY_VERSION__
  */
 abstract class CategoryTagsHelper
 {
