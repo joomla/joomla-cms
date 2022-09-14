@@ -112,7 +112,7 @@ class InstallCommand extends AbstractCommand
         $databaseModel = $app->getMVCFactory()->createModel('Database', 'Installation');
 
         // Create and populate database
-        $this->ioStyle->write('Creating and filling database...');
+        $this->ioStyle->write('Creating and populating the database...');
         $databaseModel->createDatabase();
         $db = $databaseModel->initialise();
 
