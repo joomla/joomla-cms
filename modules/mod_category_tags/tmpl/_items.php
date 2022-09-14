@@ -10,11 +10,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\Component\Tags\Site\Helper\RouteHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 if (empty($item->items)) {
     return;
@@ -36,7 +35,7 @@ $items = $item->items;
         <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category$cat_layout$cat_id&filter_tag=$item->tag_id");?>">
 
         <?php if ($image_display && isset($item->images)) :
-            $item->params = new Joomla\Registry\Registry($item->params);
+            $item->params = new Registry($item->params);
             $item->images = json_decode($item->images, false);
 
             $src = htmlspecialchars($item->images->image_intro, ENT_COMPAT, 'UTF-8');
