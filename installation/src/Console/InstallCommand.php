@@ -140,7 +140,7 @@ class InstallCommand extends AbstractCommand
         $configurationModel = $app->getMVCFactory()->createModel('Configuration', 'Installation');
 
         // Attempt to setup the configuration.
-        $this->ioStyle->write('Writing configuration.php and doing additional setup...');
+        $this->ioStyle->write('Writing configuration.php and additional setup …');
         $configurationModel->setup($cfg);
         $this->ioStyle->writeln('OK');
 
