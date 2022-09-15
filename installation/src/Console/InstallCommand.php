@@ -20,6 +20,7 @@ use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,6 +47,12 @@ class InstallCommand extends AbstractCommand
      * @since  __DEPLOY_VERSION__
      */
     protected $ioStyle;
+
+    /**
+     * @var  InputInterface
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $cliInput;
 
     /**
      * Internal function to execute the command.
@@ -115,6 +122,18 @@ class InstallCommand extends AbstractCommand
         $this->ioStyle->write('Creating and populating the database...');
         $databaseModel->createDatabase();
         $db = $databaseModel->initialise();
+
+        // Set the character set to UTF-8 for pre-existing databases.
+        try {
+            $db->alterDbCharacterSet($cfg['db_name']);
+        } catch (\RuntimeException $e) {
+            // Continue Anyhow
+        }
+
+        // Backup any old database.
+        if (!$databaseModel->backupDatabase($db, $cfg['db_prefix'])) {
+            return Command::FAILURE;
+        }
 
         $files = [
             'populate1' => 'base',
@@ -321,7 +340,7 @@ class InstallCommand extends AbstractCommand
         }
 
         // If an option is given via CLI, we validate that value and return it.
-        if ($givenOption) {
+        if ($givenOption || !$this->cliInput->isInteractive()) {
             $answer = $this->getApplication()->getConsoleInput()->getOption($option);
             $valid  = $field->validate($answer);
 
