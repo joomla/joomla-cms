@@ -115,15 +115,14 @@ INSTALLATION
 	where the Joomla! web based installer will guide you through the rest of
 	the installation.
 
-	An alternative is the command line installation. On the command line of your
-	server, you can run
+	An alternative method of installation is from the command line. On the command line of your
+	server, in the root folder of Joomla, you can run the following command
 
-	php installation/joomla.php install
+		php installation/joomla.php install
 
-	in the root folder of Joomla and you will be guided through the rest of the
-	installation. You can get further help by running
+	You will be guided through the rest of the installation and ou can get further help by running
 
-	php installation/joomla.php help install
+		php installation/joomla.php help install
 
 
 4. CONFIGURE Joomla
