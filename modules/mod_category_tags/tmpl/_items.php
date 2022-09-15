@@ -25,7 +25,7 @@ $items = $item->items;
     <?php foreach ($items as $item) :
         $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
         $cat_id = $item->cat_id ? "&id=$item->cat_id" : '';
-		$Itemid = $Itemid ? '&Itemid=' . $Itemid : '' ;
+        $Itemid = $Itemid ? '&Itemid=' . $Itemid : '' ;
         ?>
     <li>
         <?php if ($categories_titles && $tree_display && empty($item->parent)) : ?>
