@@ -1,0 +1,8 @@
+#download-progress div.extprogrow {
+	margin: 0.75em 0;
+	border-bottom: thin solid #c0c0c066;
+}
+
+#download-progress div.extlabel {
+	font-weight: bold;
+}

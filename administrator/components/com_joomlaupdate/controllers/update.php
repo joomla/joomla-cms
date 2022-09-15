@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die;
 
 /**
@@ -41,55 +44,71 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			// Informational log only
 		}
 
+		$this->input->set('layout', 'download');
+		$this->display();
+	}
+
+	public function stepdownload()
+	{
+		// Check the anti-CSRF token
+		if (!$this->checkToken('get', false))
+		{
+			$ret = array(
+				'error' => true,
+				'message' => Text::_('JINVALID_TOKEN_NOTICE'),
+			);
+			@ob_end_clean();
+			echo json_encode($ret);
+
+			Factory::getApplication()->close();
+		}
+
+		// Set up the update log
+		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+
+		// Apply FTP credentials
 		$this->_applyCredentials();
 
+		// Try to download the next chunk
 		/** @var JoomlaupdateModelDefault $model */
-		$model       = $this->getModel('Default');
-		$result      = $model->download();
-		$file        = $result['basename'];
-		$message     = null;
-		$messageType = null;
+		$model   = $this->getModel('Default');
+		$frag    = $this->input->get->getInt('frag', -1);
+		$result  = $model->doDownload($frag);
+		$message = '';
 
-		// The validation was not successful for now just a warning.
-		// TODO: In Joomla 4 this will abort the installation
-		if ($result['check'] === false)
+		// Are we done yet?
+		if (is_object($result) && $result->done)
 		{
-			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
-			$messageType = 'warning';
+			JFactory::getApplication()->setUserState('com_joomlaupdate.file', basename($result->localFile));
 
-			try
+			// If the checksum failed we will return with an error
+			if (!$result->valid)
 			{
-				JLog::add($message, JLog::INFO, 'Update');
-			}
-			catch (RuntimeException $exception)
-			{
-				// Informational log only
+				$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
 			}
 		}
 
-		if ($file)
+		// If the download failed we will return with an error
+		if (empty($result))
 		{
-			JFactory::getApplication()->setUserState('com_joomlaupdate.file', $file);
-			$url = 'index.php?option=com_joomlaupdate&task=update.install&' . JFactory::getSession()->getFormToken() . '=1';
-
-			try
-			{
-				JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), JLog::INFO, 'Update');
-			}
-			catch (RuntimeException $exception)
-			{
-				// Informational log only
-			}
-		}
-		else
-		{
-			JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
-			$url = 'index.php?option=com_joomlaupdate';
-			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
-			$messageType = 'error';
+			$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
 		}
 
-		$this->setRedirect($url, $message, $messageType);
+		if (!is_object($result))
+		{
+			$result = new stdClass;
+		}
+
+		$result->error = !empty($message);
+		$result->message = $message;
+
+		// Return JSON to the browser
+		@ob_end_clean();
+		echo json_encode($result);
+
+		Factory::getApplication()->close();
 	}
 
 	/**

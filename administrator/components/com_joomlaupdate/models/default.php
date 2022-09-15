@@ -374,7 +374,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Single part downloads get a very simple handling.
-		if ($forceSinglePart || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 0) == 0)
+		if ($forceSinglePart || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 1) == 0)
 		{
 			$download                   = $this->downloadPackage($downloadInformation->url, $downloadInformation->localFile);
 			$downloadInformation->done  = $download !== false;
@@ -395,9 +395,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Calculate the download range
-		$from    = $frag * self::CHUNK_LENGTH;
-		$to      = $frag + $from - 1;
-		$headers = array('Range' => sprintf('%u-%u', $from, $to));
+		$from    = max($frag, 0) * self::CHUNK_LENGTH;
+		$to      = $from + self::CHUNK_LENGTH - 1;
+		$headers = array('Range' => sprintf('bytes=%u-%u', $from, $to));
 
 		try
 		{
@@ -410,7 +410,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		$httpOptions = new Registry;
 		$httpOptions->set('follow_location', false);
-		$httpOptions->set('headers', $headers);
 
 		try
 		{
@@ -424,14 +423,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		// Download the package
 		try
 		{
-			$result = $http->get($downloadInformation->url);
+			$result = $http->get($downloadInformation->url, $headers);
 		}
 		catch (RuntimeException $e)
 		{
 			return null;
 		}
 
-		if (!$result || ($result->code != 200 && $result->code != 310))
+		if (!$result || ($result->code < 200 && $result->code > 299))
 		{
 			return null;
 		}
@@ -457,139 +456,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		// Notify the calling code that we're not done just yet
 		return $downloadInformation;
-	}
-
-	/**
-	 * Get the information necessary to download the update file.
-	 *
-	 * @return  object|null  Null on error
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function getDownloadInformation()
-	{
-		// Initialisation
-		$response   = (object) array(
-			'url'        => null,
-			'localFile'  => null,
-			'exists'     => false,
-			'totalSize'  => 0,
-			'downloaded' => 0,
-			'frag'       => 0,
-			'done'       => false,
-			'valid'      => true,
-			'updateInfo' => null,
-		);
-		$packageURL = null;
-
-		// Get the Joomla core update information
-		$updateInfo           = $this->getUpdateInformation();
-		$response->updateInfo = $updateInfo['object'];
-
-		// Get the source URLs (primary URL and all mirrors, if any are set up)
-		$sourceURLs = array_map(
-			function ($name) {
-				return isset($name->url) ? $name->url : null;
-			},
-			$updateInfo['object']->get('downloadSources', array())
-		);
-		array_unshift($sourceURLs, trim($updateInfo['object']->downloadurl->_data));
-		$sourceURLs = array_filter(
-			$sourceURLs,
-			function ($source) {
-				return !empty($source);
-			}
-		);
-		$sourceURLs = array_unique($sourceURLs);
-
-		// We have to manually follow the redirects here, so we set the option to false.
-		$httpOptions = new Registry();
-		$httpOptions->set('follow_location', false);
-
-		// Go through all mirrors to find the first URL which responds successfully
-		foreach ($sourceURLs as $sourceURL)
-		{
-			$packageURL = trim($sourceURL);
-			$redirections = 0;
-
-			// Try to follow redirections and ultimately get the HEAD info for the valid package URL (if any)
-			while (true)
-			{
-				// Do a HEAD request; it must respond within 10 seconds
-				try
-				{
-					$head = HttpFactory::getHttp($httpOptions)->head($packageURL, array(), 10);
-				}
-				catch (RuntimeException $e)
-				{
-					// Probably an invalid URL. Stop following redirections and indicate we need to go to the next mirror.
-					$packageURL = null;
-
-					break;
-				}
-
-				// If no redirection is found set the total size and stop processing
-				if (!isset($head->headers['location']))
-				{
-					$response->totalSize = isset($head->headers['content-length']) ? $head->headers['content-length'] : null;
-
-					break;
-				}
-
-				// A redirection was found. Follow it.
-				$packageURL = $head->headers['location'];
-
-				// Do not follow more than 20 redirections and consider the download mirror broken.
-				if (++$redirections > 20)
-				{
-					$packageURL = null;
-
-					break;
-				}
-			}
-
-			// If we have found a valid package stop going through the mirrors
-			if ($packageURL !== null)
-			{
-				break;
-			}
-		}
-
-		// No valid package found. Return an error.
-		if ($packageURL === null)
-		{
-			return null;
-		}
-
-		// Remove protocol, path and query string from URL
-		$basename = basename($packageURL);
-
-		if (strpos($basename, '?') !== false)
-		{
-			$basename = substr($basename, 0, strpos($basename, '?'));
-		}
-
-		// Find the path to the temp directory and the local package.
-		$config  = JFactory::getConfig();
-		$tempdir = (string) InputFilter::getInstance(array(), array(), 1, 1)->clean($config->get('tmp_path'), 'path');
-		$target  = $tempdir . '/' . $basename;
-
-		$response->url       = $packageURL;
-		$response->localFile = $target;
-
-		// Do we have a cached file?
-		$response->exists = JFile::exists($target);
-
-		if (!$response->exists)
-		{
-			return $response;
-		}
-
-		// Is it a 0-byte file? If so, re-download please.
-		$filesize         = @filesize($target);
-		$response->exists = !empty($filesize);
-
-		return $response;
 	}
 
 	/**
@@ -2083,5 +1949,201 @@ ENDDATA;
 		}
 
 		return $home || $menu;
+	}
+
+	/**
+	 * Get the information necessary to download the update file.
+	 *
+	 * @return  object|null  Null on error
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getDownloadInformation()
+	{
+		// Initialisation
+		$response   = (object) array(
+			'url'        => null,
+			'localFile'  => null,
+			'exists'     => false,
+			'totalSize'  => 0,
+			'downloaded' => 0,
+			'frag'       => 0,
+			'done'       => false,
+			'valid'      => true,
+			'updateInfo' => null,
+		);
+		$packageURL = null;
+		$disposition = null;
+
+		// Get the Joomla core update information
+		$updateInfo           = $this->getUpdateInformation();
+		$temp           = $updateInfo['object']->getProperties();
+		unset($temp['xmlParser']);
+		$response->updateInfo = new \Joomla\CMS\Object\CMSObject($temp);
+
+		// Get the source URLs (primary URL and all mirrors, if any are set up)
+		$sourceURLs = array_map(
+			function ($name) {
+				return isset($name->url) ? $name->url : null;
+			},
+			$updateInfo['object']->get('downloadSources', array())
+		);
+		array_unshift($sourceURLs, trim($updateInfo['object']->downloadurl->_data));
+		$sourceURLs = array_filter(
+			$sourceURLs,
+			function ($source) {
+				return !empty($source);
+			}
+		);
+		$sourceURLs = array_unique($sourceURLs);
+
+		// We have to manually follow the redirects here, so we set the option to false.
+		$httpOptions = new Registry();
+		$httpOptions->set('follow_location', false);
+
+		// Go through all mirrors to find the first URL which responds successfully
+		foreach ($sourceURLs as $sourceURL)
+		{
+			$packageURL = trim($sourceURL);
+			$redirections = 0;
+
+			// Try to follow redirections and ultimately get the HEAD info for the valid package URL (if any)
+			while (true)
+			{
+				// Do a HEAD request; it must respond within 10 seconds
+				try
+				{
+					$head = HttpFactory::getHttp($httpOptions)->head($packageURL, array(), 10);
+				}
+				catch (RuntimeException $e)
+				{
+					// Probably an invalid URL. Stop following redirections and indicate we need to go to the next mirror.
+					$packageURL = null;
+
+					break;
+				}
+
+				// HTTP error. Next mirror.
+				if ($head->code < 200 || $head->code > 399)
+				{
+					$packageURL = null;
+
+					break;
+				}
+
+				// If no redirection is found set the total size and stop processing
+				if (!isset($head->headers['location']))
+				{
+					$disposition = isset($head->headers['content-disposition']) ? $head->headers['content-disposition'] : null;
+					$response->totalSize = isset($head->headers['content-length']) ? $head->headers['content-length'] : null;
+
+					break;
+				}
+
+				// A redirection was found. Follow it.
+				$packageURL = $head->headers['location'];
+
+				// Do not follow more than 20 redirections and consider the download mirror broken.
+				if (++$redirections > 20)
+				{
+					$packageURL = null;
+
+					break;
+				}
+			}
+
+			// If we have found a valid package stop going through the mirrors
+			if ($packageURL !== null)
+			{
+				break;
+			}
+		}
+
+		// No valid package found. Return an error.
+		if ($packageURL === null)
+		{
+			return null;
+		}
+
+		// Remove protocol, path and query string from URL
+		$basename = empty($disposition) ? basename($packageURL) : $this->contentDispositionToFilename($disposition);
+		$basename = $basename ?: basename($packageURL);
+
+		if (strpos($basename, '?') !== false)
+		{
+			$basename = substr($basename, 0, strpos($basename, '?'));
+		}
+
+		// Find the path to the temp directory and the local package.
+		$config  = JFactory::getConfig();
+		$tempdir = (string) InputFilter::getInstance(array(), array(), 1, 1)->clean($config->get('tmp_path'), 'path');
+		$target  = $tempdir . '/' . $basename;
+
+		$response->url       = $packageURL;
+		$response->localFile = $target;
+
+		// Do we have a cached file?
+		$response->exists = JFile::exists($target);
+
+		if (!$response->exists)
+		{
+			return $response;
+		}
+
+		// Is it a 0-byte file? If so, re-download please.
+		$filesize         = @filesize($target);
+		$response->exists = !empty($filesize) && ($filesize == $response->totalSize);
+
+		return $response;
+	}
+
+	/**
+	 * Extracts the filename from a content-disposition HTTP header.
+	 *
+	 * @param   string|null  $disposition  The contents of the content-disposition header.
+	 *
+	 * @return  string|null  The extracted filename. NULL if it fails.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function contentDispositionToFilename($disposition)
+	{
+		if (empty($disposition))
+		{
+			return null;
+		}
+
+		if (strpos($disposition, ';') === false)
+		{
+			return null;
+		}
+
+		list($type, $metadata) = explode(';', $disposition, 2);
+
+		if ($type !== 'attachment')
+		{
+			return null;
+		}
+
+		$metaItems = explode(';', trim($metadata));
+
+		foreach ($metaItems as $line)
+		{
+			if (strpos($line, '=') === false)
+			{
+				continue;
+			}
+
+			list($metaName, $metaValue) = explode('=', $line, 2);
+
+			if (strtolower(trim($metaName)) !== 'filename')
+			{
+				continue;
+			}
+
+			return trim($metaValue);
+		}
+
+		return null;
 	}
 }
