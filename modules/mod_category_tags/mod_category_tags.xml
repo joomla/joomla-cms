@@ -106,8 +106,8 @@
 					default="0"
 					filter="boolean"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JLIST</option>
+					<option value="1">JTREE</option>
 				</field>
 
 				<field
