@@ -118,8 +118,8 @@
 					default="1"
 					filter="boolean"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -130,8 +130,8 @@
 					default="0"
 					filter="boolean"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -142,8 +142,8 @@
 					default="0"
 					filter="boolean"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -155,8 +155,8 @@
 					filter="boolean" 
 					validate="options"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
