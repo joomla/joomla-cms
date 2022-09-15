@@ -125,12 +125,12 @@
     }
   }
   &.active {
-    border-radius: .25rem;
-    background-color: var(--template-bg-dark-3);
-    border: 1px solid hsl(var(--hue), 35%, 95%);
-    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
     top: 0;
     width: 100%;
+    background-color: var(--template-bg-dark-3);
+    border: 1px solid hsl(var(--hue), 35%, 95%);
+    border-radius: .25rem;
+    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
     > button {
       display: none;
     }
@@ -158,13 +158,13 @@
     transition: all 0s ease;
     transition-delay: 0s;
     .media-browser-actions.active & {
-      align-items: center;
-      display: flex;
       top: 0;
+      display: flex;
+      align-items: center;
+      width: 100%;
       visibility: visible;
       opacity: 1;
       transition-duration: .2s;
-      width: 100%;
       &:hover, &:focus {
         background-color: var(--template-bg-dark-10);
       }
