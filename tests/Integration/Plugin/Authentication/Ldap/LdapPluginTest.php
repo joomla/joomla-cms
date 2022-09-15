@@ -29,8 +29,8 @@ use Symfony\Component\Ldap\Ldap;
  */
 class LdapPluginTest extends UnitTestCase
 {
-    public const LDAPPORT = "1389";
-    public const SSLPORT = "1636";
+    public const LDAPPORT = JTEST_LDAP_PORT;
+    public const SSLPORT = JTEST_LDAP_PORT_SSL;
 
     private function getPlugin($options): CMSPlugin
     {
@@ -55,8 +55,10 @@ class LdapPluginTest extends UnitTestCase
 
     private function acceptCertificates(): void
     {
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, JPATH_ROOT . '/tests/Codeception/_data/certs');
-        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, JPATH_ROOT . '/tests/Codeception/_data/certs/CA.crt');
+        //TODO make this (and LDAP_OPT_X_CERTFILE and LDAP_OPT_X_TLS_REQUIRE_CERT) Joomla ldap setting
+        $cert = JPATH_ROOT . '/' . JTEST_LDAP_CACERTFILE;
+        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTDIR, dirname($cert));
+        ldap_set_option(null, LDAP_OPT_X_TLS_CACERTFILE, $cert);
     }
 
     private function getAdminConnection(array $options): Ldap
@@ -79,8 +81,8 @@ class LdapPluginTest extends UnitTestCase
 
     private function requireEncryption($encryption, $options): void
     {
-        $ldap = $this->getAdminConnection($options);
-        //TODO configure openldap to require the requested encryption
+        //$ldap = $this->getAdminConnection($options);
+        //TODO configure openldap (only if given permission in phpunit.xml, so people can use their own ldap server) to require the requested encryption to be sure encryption is used
     }
 
     /**
@@ -95,26 +97,28 @@ class LdapPluginTest extends UnitTestCase
         // tests are executed in parallel as root
         // setUp is executed before every test
         $this->default_options = [
-            'host' => "openldap",
+            /* fixed options for all tests */
+            'host' => JTEST_LDAP_HOST,
+            'use_ldapV3' => JTEST_LDAP_USEV3,
+            'no_referrals' => JTEST_LDAP_NOREFERRALS,
+            'base_dn' => JTEST_LDAP_BASE,
+            'search_string' => JTEST_LDAP_SEARCH,
+            'users_dn' => JTEST_LDAP_DIRECT_USERDN,
+            'username' => JTEST_LDAP_SEARCH_DN,
+            'password' => JTEST_LDAP_SEARCH_PASSWORD,
+            'ldap_fullname' => JTEST_LDAP_FULLNAME,
+            'ldap_email' => JTEST_LDAP_EMAIL,
+            'ldap_uid' => JTEST_LDAP_UID,
+            'ldap_debug' => 0,
+            /* changing options to test all code */
             'port' => self::LDAPPORT,
-            'use_ldapV3' => 1,
             'encryption' => "none",
-            'no_referrals' => 0,
             'auth_method' => "bind",
-            'base_dn' => "dc=example,dc=org",
-            'search_string' => "uid=[search]",
-            'users_dn' => "cn=[username],ou=users,dc=example,dc=org",
-            'username' => "",
-            'password' => "",
-            'ldap_fullname' => "cn",
-            'ldap_email' => "mail",
-            'ldap_uid' => "uid",
-            'ldap_debug' => 0
         ];
 
         $this->default_credentials = [
-            'username' => "customuser",
-            'password' => "custompassword",
+            'username' => JTEST_LDAP_TESTUSER,
+            'password' => JTEST_LDAP_TESTPASSWORD,
             'secretkey' => null
         ];
     }
@@ -131,17 +135,16 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication using bind and search
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testOnUserAuthenticateAnonymousSearch()
+    public function testOnUserAuthenticateBindAndSearch()
     {
         $options = $this->default_options;
         $options["auth_method"] = "search";
-        $options["users_dn"] = "";
         $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
@@ -160,7 +163,9 @@ class LdapPluginTest extends UnitTestCase
     {
         $this->markTestSkipped("Fix provided in PR #37959");
 
-        $plugin = $this->getPlugin($this->default_options);
+        $options = $this->default_options;
+        $options["auth_method"] = "bind";
+        $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
         $plugin->onUserAuthenticate($this->default_credentials, [], $response);
@@ -176,9 +181,12 @@ class LdapPluginTest extends UnitTestCase
      */
     public function testInvalidOnUserAuthenticateDirect()
     {
-        $plugin = $this->getPlugin($this->default_options);
+        $options = $this->default_options;
+        $options["auth_method"] = "bind";
+        $plugin = $this->getPlugin($options);
+
         $credentials = $this->default_credentials;
-        $credentials['password'] = "wrongpassword";
+        $credentials['password'] = "arandomverywrongpassword_à!joqf";
 
         $response = new AuthenticationResponse();
         $plugin->onUserAuthenticate($credentials, [], $response);
@@ -186,17 +194,16 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication on STARTTLS encrypted connection (using bind and search)
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testOnUserAuthenticateAnonymousSearchTLS()
+    public function testOnUserAuthenticateBindAndSearchTLS()
     {
         $options = $this->default_options;
         $options["auth_method"] = "search";
-        $options["users_dn"] = "";
         $options["encryption"] = "tls";
         $plugin = $this->getPlugin($options);
 
@@ -209,19 +216,18 @@ class LdapPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can perform an authentication using anynomous search
+     * @testdox  can perform an authentication on SSL/TLS encrypted connection (using bind and search)
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testOnUserAuthenticateAnonymousSearchSSL()
+    public function testOnUserAuthenticateBindAndSearchSSL()
     {
         $this->markTestSkipped("Fix provided in PR #37962");
 
         $options = $this->default_options;
         $options["auth_method"] = "search";
-        $options["users_dn"] = "";
         $options["encryption"] = "ssl";
         $options["port"] = self::SSLPORT;
         $plugin = $this->getPlugin($options);
