@@ -336,6 +336,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			@set_time_limit(3600);
 		}
 
+		$forceSinglePart = $forceSinglePart || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 0) == 0;
+
 		// Get the application's session
 		$session = Factory::getApplication()->getSession();
 
@@ -343,7 +345,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if ($frag === -1)
 		{
 			// Get the download information
-			$downloadInformation = $this->getDownloadInformation();
+			$downloadInformation = $this->getDownloadInformation($forceSinglePart);
 
 			// Oh, we had a problem. Bail out.
 			if ($downloadInformation === null)
@@ -374,9 +376,19 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Single part downloads get a very simple handling.
-		if ($forceSinglePart || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 0) == 0)
+		if ($forceSinglePart)
 		{
-			$download                   = $this->downloadPackage($downloadInformation->url, $downloadInformation->localFile);
+			// Go through the mirrors until we find one that works or all have failed.
+			foreach ($downloadInformation->mirrors as $url)
+			{
+				$download = $this->downloadPackage($url, $downloadInformation->localFile);
+
+				if ($download !== false)
+				{
+					break;
+				}
+			}
+
 			$downloadInformation->done  = $download !== false;
 			$downloadInformation->valid = $this->isChecksumValid($downloadInformation->localFile, $downloadInformation->updateInfo);
 
@@ -1958,7 +1970,7 @@ ENDDATA;
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getDownloadInformation()
+	private function getDownloadInformation($ignoreTotalSize = false)
 	{
 		// Initialisation
 		$response   = (object) array(
@@ -1971,6 +1983,7 @@ ENDDATA;
 			'done'       => false,
 			'valid'      => true,
 			'updateInfo' => null,
+			'mirrors'    => '',
 		);
 		$packageURL = null;
 		$disposition = null;
@@ -1996,6 +2009,7 @@ ENDDATA;
 			}
 		);
 		$sourceURLs = array_unique($sourceURLs);
+		$response->mirrors = $sourceURLs;
 
 		// We have to manually follow the redirects here, so we set the option to false.
 		$httpOptions = new Registry();
@@ -2007,8 +2021,13 @@ ENDDATA;
 			$packageURL = trim($sourceURL);
 			$redirections = 0;
 
-			// Try to follow redirections and ultimately get the HEAD info for the valid package URL (if any)
-			while (true)
+			/**
+			 * Try to follow redirections and ultimately get the HEAD info for the valid package URL (if any).
+			 *
+			 * This is only applied if I am NOT ignoring the total size of the package. If I don't care about the total
+			 * size I can just assume that the URL works and call it a day. There's fallback code in doDownload().
+			 */
+			while (!$ignoreTotalSize)
 			{
 				// Do a HEAD request; it must respond within 10 seconds
 				try
