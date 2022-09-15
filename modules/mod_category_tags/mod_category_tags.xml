@@ -46,7 +46,7 @@
 					type="menuitem" 
 					label="MOD_CATEGORY_TAGS_ITEMMENUID_LABEL" 
 					>
-					<option	value="">JDEFAULT</option>
+					<option	value="">JCURRENT</option>
 				</field>
 
 				<field
