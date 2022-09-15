@@ -6,6 +6,7 @@
     :title="translate('COM_MEDIA_ACTION_DOWNLOAD')"
     @keyup.enter="download()"
     @keyup.space="download()"
+    @click.stop="download()"
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
@@ -13,8 +14,13 @@
     <span
       class="image-browser-action icon-download"
       aria-hidden="true"
-      @click.stop="download()"
     />
+    <span
+          class="action-text"
+          aria-hidden="true"
+          >
+          {{ translate('COM_MEDIA_ACTION_DOWNLOAD') }}
+        </span>
   </button>
 </template>
 

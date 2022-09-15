@@ -5,6 +5,7 @@
     class="action-rename"
     :aria-label="translate('COM_MEDIA_ACTION_RENAME')"
     :title="translate('COM_MEDIA_ACTION_RENAME')"
+    @click.stop="openRenameModal()"
     @keyup.enter="openRenameModal()"
     @keyup.space="openRenameModal()"
     @focus="focused(true)"
@@ -12,10 +13,15 @@
     @keyup.esc="hideActions()"
   >
     <span
-      class="image-browser-action icon-text-width"
+      class="image-browser-action fa fa-i-cursor"
       aria-hidden="true"
-      @click.stop="openRenameModal()"
     />
+    <span
+      class="action-text"
+      aria-hidden="true"
+      >
+      {{ translate('COM_MEDIA_ACTION_RENAME') }}
+    </span>
   </button>
 </template>
 

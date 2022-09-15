@@ -4,6 +4,7 @@
     class="action-preview"
     :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')"
     :title="translate('COM_MEDIA_ACTION_PREVIEW')"
+    @click.stop="openPreview()"
     @keyup.enter="openPreview()"
     @keyup.space="openPreview()"
     @focus="focused(true)"
@@ -13,8 +14,13 @@
     <span
       class="image-browser-action icon-search-plus"
       aria-hidden="true"
-      @click.stop="openPreview()"
     />
+    <span
+      class="action-text"
+      aria-hidden="true"
+      >
+      {{ translate('COM_MEDIA_ACTION_PREVIEW') }}
+    </span>
   </button>
 </template>
 

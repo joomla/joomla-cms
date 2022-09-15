@@ -6,6 +6,7 @@
     :title="translate('COM_MEDIA_ACTION_EDIT')"
     @keyup.enter="editItem()"
     @keyup.space="editItem()"
+    @click.stop="editItem()"
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
@@ -13,8 +14,13 @@
     <span
       class="image-browser-action icon-pencil-alt"
       aria-hidden="true"
-      @click.stop="editItem()"
     />
+    <span
+          class="action-text"
+          aria-hidden="true"
+          >
+          {{ translate('COM_MEDIA_ACTION_EDIT') }}
+        </span>
   </button>
 </template>
 

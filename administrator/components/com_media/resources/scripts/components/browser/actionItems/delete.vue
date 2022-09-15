@@ -9,12 +9,18 @@
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
+    @click.stop="openConfirmDeleteModal()"
   >
     <span
       class="image-browser-action icon-trash"
       aria-hidden="true"
-      @click.stop="openConfirmDeleteModal()"
     />
+    <span
+      class="action-text"
+      aria-hidden="true"
+      >
+      {{ translate('COM_MEDIA_ACTION_DELETE') }}
+    </span>
   </button>
 </template>
 
