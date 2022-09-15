@@ -41,6 +41,14 @@
 					mode="nested"
 				/>
 
+				<field 
+					name="Itemid" 
+					type="menuitem" 
+					label="MOD_CATEGORY_TAGS_ITEMMENUID_LABEL" 
+					>
+					<option	value="">JDEFAULT</option>
+				</field>
+
 				<field
 					name="maximum"
 					type="number"
