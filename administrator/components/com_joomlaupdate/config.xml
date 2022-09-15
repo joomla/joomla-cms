@@ -48,4 +48,36 @@
 		/>
 
 	</fieldset>
+	<fieldset
+			name="update"
+			label="COM_JOOMLAUPDATE_CONFIG_UPDATE_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_UPDATE_DESC"
+		>
+
+		<field
+			name="chunked_download"
+			type="radio"
+			label="COM_JOOMLAUPDATE_CONFIG_CHUNKED_DOWNLOAD_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_CHUNKED_DOWNLOAD_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="min_chunk_wait"
+			type="integer"
+			label="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_DESC"
+			default="3"
+			first="0"
+			last="10"
+			step="1"
+			filter="integer"
+			showon="chunked_download:1"
+		/>
+	</fieldset>
 </config>

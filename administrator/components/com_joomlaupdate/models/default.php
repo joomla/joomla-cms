@@ -374,7 +374,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Single part downloads get a very simple handling.
-		if ($forceSinglePart || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 1) == 0)
+		if ($forceSinglePart || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 0) == 0)
 		{
 			$download                   = $this->downloadPackage($downloadInformation->url, $downloadInformation->localFile);
 			$downloadInformation->done  = $download !== false;
