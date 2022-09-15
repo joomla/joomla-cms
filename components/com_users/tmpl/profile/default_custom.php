@@ -43,7 +43,7 @@ foreach ($tmp as $customField) {
             <dl class="dl-horizontal">
                 <?php foreach ($fields as $field) : ?>
                     <?php if (!$field->hidden && $field->type !== 'Spacer') :
-                        if($field->type === 'Subform' && substr($field->name, 0, 17) === 'jform[com_fields]') :
+                        if($field->type === 'Subform' && $field->fieldname === 'row') :
                             // Correct the fieldname so that subform custom fields show up.
                             preg_match("/jform\[com_fields]\[(.*)]/",$field->name,$matches);
                             $field->fieldname = $matches[1];
