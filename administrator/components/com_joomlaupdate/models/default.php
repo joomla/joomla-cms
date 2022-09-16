@@ -414,7 +414,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		try
 		{
-			$logFragment = min($frag + 1, 1);
+			$logFragment = max($frag + 1, 1);
 
 			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CHUNK', $logFragment, $from, $to), JLog::INFO, 'Update');
 		}
