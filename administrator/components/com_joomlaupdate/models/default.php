@@ -414,7 +414,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		try
 		{
-			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CHUNK', $frag + 1, $from, $to), JLog::INFO, 'Update');
+			$logFragment = min($frag + 1, 1);
+
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CHUNK', $logFragment, $from, $to), JLog::INFO, 'Update');
 		}
 		catch (Exception $e)
 		{
