@@ -23,7 +23,7 @@ JFactory::getDocument()->addScriptOptions(
 	'com_joomlaupdate',
 	array(
 		'ajaxUrl' => JUri::base() . 'index.php?option=com_joomlaupdate&task=update.stepdownload&' . JFactory::getSession()->getFormToken() . '=1',
-		'returnUrl' => JUri::base() . 'index.php?option=com_joomlaupdate&view=update&' . JFactory::getSession()->getFormToken() . '=1',
+		'returnUrl' => JUri::base() . 'index.php?option=com_joomlaupdate&task=update.install&' . JFactory::getSession()->getFormToken() . '=1',
 		'minTime' => \Joomla\CMS\Component\ComponentHelper::getParams('com_joomlaupdate')
 				->get('min_chunk_wait', 3) * 1000,
 	)
