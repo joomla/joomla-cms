@@ -302,7 +302,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	/**
 	 * Backwards compatibility shim. Not used in Joomla Update anymore.
 	 *
-	 * @return     array  Single key basename is false on failure, base name of the download on success.
+	 * @return  array  Single key basename is false on failure, base name of the download on success.
+	 *
 	 * @since      2.5.4
 	 * @deprecated 6.0
 	 */
@@ -2012,7 +2013,7 @@ ENDDATA;
 		$response->mirrors = $sourceURLs;
 
 		// We have to manually follow the redirects here, so we set the option to false.
-		$httpOptions = new Registry();
+		$httpOptions = new Registry;
 		$httpOptions->set('follow_location', false);
 
 		// Go through all mirrors to find the first URL which responds successfully

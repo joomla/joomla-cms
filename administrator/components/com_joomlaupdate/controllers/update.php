@@ -48,6 +48,12 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$this->display();
 	}
 
+	/**
+	 * Step through the download of the update package
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function stepdownload()
 	{
 		// Check the anti-CSRF token
