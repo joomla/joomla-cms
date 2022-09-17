@@ -10,6 +10,7 @@
 namespace Joomla\CMS\TUF;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\TUF\HttpFileFetcher;
 use Joomla\Database\DatabaseDriver;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
@@ -118,15 +119,36 @@ class TufValidation
             $updater->refresh();
 
             return $storage['targets.json'];
-        } catch (FreezeAttackException | MetadataException | SignatureThresholdException | RollbackAttackException $e) {
-            // When the validation fails, for example when one file is written but the others don't, we roll back everything
-            // and cancel the update
-            $query = $db->getQuery(true)
-                ->delete($db->quoteName('#__tuf_metadata'))
-                ->columns(['snapshot_json', 'targets_json', 'timestamp_json']);
-            $db->setQuery($query);
-
+        } catch (MetadataException $e) {
+            $this->rollBackTufMetadata();
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_INVALID_METADATA'), 'error');
+            return null;
+        } catch (FreezeAttackException $e) {
+            $this->rollBackTufMetadata();
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_FREEZE_ATTACK'), 'error');
+            return null;
+        } catch (RollbackAttackException $e) {
+            $this->rollBackTufMetadata();
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_ROLLBACK_ATTACK'), 'error');
+            return null;
+        } catch (SignatureThresholdException $e) {
+            $this->rollBackTufMetadata();
+            Factory::getApplication()->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_SIGNATURE_THRESHOLD'), 'error');
             return null;
         }
+    }
+
+    /**
+     * When the validation fails, for example when one file is written but the others don't, we roll back everything
+     *
+     * @return void
+     */
+    private function rollBackTufMetadata()
+    {
+        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName('#__tuf_metadata'))
+            ->columns(['snapshot_json', 'targets_json', 'timestamp_json']);
+        $db->setQuery($query);
     }
 }

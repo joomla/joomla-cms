@@ -52,13 +52,15 @@ class TufAdapter extends UpdateAdapter
         $updates = [];
         $targets = $this->getUpdateTargets($options);
 
-        foreach ($targets as $target) {
-            $updateTable = Table::getInstance('update');
-            $updateTable->set('update_site_id', $options['update_site_id']);
+        if ($targets) {
+            foreach ($targets as $target) {
+                $updateTable = Table::getInstance('update');
+                $updateTable->set('update_site_id', $options['update_site_id']);
 
-            $updateTable->bind($target);
+                $updateTable->bind($target);
 
-            $updates[] = $updateTable;
+                $updates[] = $updateTable;
+            }
         }
 
         return array('update_sites' => array(), 'updates' => $updates);
