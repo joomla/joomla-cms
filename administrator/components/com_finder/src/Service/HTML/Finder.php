@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,13 +10,16 @@
 
 namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML behavior class for Finder.
@@ -24,111 +28,104 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Finder
 {
-	/**
-	 * Creates a list of types to filter on.
-	 *
-	 * @return  array  An array containing the types that can be selected.
-	 *
-	 * @since   2.5
-	 */
-	public function typeslist()
-	{
-		// Load the finder types.
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('DISTINCT t.title AS text, t.id AS value')
-			->from($db->quoteName('#__finder_types') . ' AS t')
-			->join('LEFT', $db->quoteName('#__finder_links') . ' AS l ON l.type_id = t.id')
-			->order('t.title ASC');
-		$db->setQuery($query);
+    use DatabaseAwareTrait;
 
-		try
-		{
-			$rows = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			return array();
-		}
+    /**
+     * Creates a list of types to filter on.
+     *
+     * @return  array  An array containing the types that can be selected.
+     *
+     * @since   2.5
+     */
+    public function typeslist()
+    {
+        // Load the finder types.
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select('DISTINCT t.title AS text, t.id AS value')
+            ->from($db->quoteName('#__finder_types') . ' AS t')
+            ->join('LEFT', $db->quoteName('#__finder_links') . ' AS l ON l.type_id = t.id')
+            ->order('t.title ASC');
+        $db->setQuery($query);
 
-		// Compile the options.
-		$options = array();
+        try {
+            $rows = $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            return array();
+        }
 
-		$lang = Factory::getLanguage();
+        // Compile the options.
+        $options = array();
 
-		foreach ($rows as $row)
-		{
-			$key       = $lang->hasKey(LanguageHelper::branchPlural($row->text)) ? LanguageHelper::branchPlural($row->text) : $row->text;
-			$options[] = HTMLHelper::_('select.option', $row->value, Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_($key)));
-		}
+        $lang = Factory::getLanguage();
 
-		return $options;
-	}
+        foreach ($rows as $row) {
+            $key       = $lang->hasKey(LanguageHelper::branchPlural($row->text)) ? LanguageHelper::branchPlural($row->text) : $row->text;
+            $options[] = HTMLHelper::_('select.option', $row->value, Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_($key)));
+        }
 
-	/**
-	 * Creates a list of maps.
-	 *
-	 * @return  array  An array containing the maps that can be selected.
-	 *
-	 * @since   2.5
-	 */
-	public function mapslist()
-	{
-		// Load the finder types.
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('title', 'text'))
-			->select($db->quoteName('id', 'value'))
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = 1');
-		$db->setQuery($query);
+        return $options;
+    }
 
-		try
-		{
-			$branches = $db->loadObjectList();
-		}
-		catch (\RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-		}
+    /**
+     * Creates a list of maps.
+     *
+     * @return  array  An array containing the maps that can be selected.
+     *
+     * @since   2.5
+     */
+    public function mapslist()
+    {
+        // Load the finder types.
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('title', 'text'))
+            ->select($db->quoteName('id', 'value'))
+            ->from($db->quoteName('#__finder_taxonomy'))
+            ->where($db->quoteName('parent_id') . ' = 1');
+        $db->setQuery($query);
 
-		// Translate.
-		$lang = Factory::getLanguage();
+        try {
+            $branches = $db->loadObjectList();
+        } catch (\RuntimeException $e) {
+            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+        }
 
-		foreach ($branches as $branch)
-		{
-			$key = LanguageHelper::branchPlural($branch->text);
-			$branch->translatedText = $lang->hasKey($key) ? Text::_($key) : $branch->text;
-		}
+        // Translate.
+        $lang = Factory::getLanguage();
 
-		// Order by title.
-		$branches = ArrayHelper::sortObjects($branches, 'translatedText', 1, true, true);
+        foreach ($branches as $branch) {
+            $key = LanguageHelper::branchPlural($branch->text);
+            $branch->translatedText = $lang->hasKey($key) ? Text::_($key) : $branch->text;
+        }
 
-		// Compile the options.
-		$options = array();
-		$options[] = HTMLHelper::_('select.option', '', Text::_('COM_FINDER_MAPS_SELECT_BRANCH'));
+        // Order by title.
+        $branches = ArrayHelper::sortObjects($branches, 'translatedText', 1, true, true);
 
-		// Convert the values to options.
-		foreach ($branches as $branch)
-		{
-			$options[] = HTMLHelper::_('select.option', $branch->value, $branch->translatedText);
-		}
+        // Compile the options.
+        $options = array();
+        $options[] = HTMLHelper::_('select.option', '', Text::_('COM_FINDER_MAPS_SELECT_BRANCH'));
 
-		return $options;
-	}
+        // Convert the values to options.
+        foreach ($branches as $branch) {
+            $options[] = HTMLHelper::_('select.option', $branch->value, $branch->translatedText);
+        }
 
-	/**
-	 * Creates a list of published states.
-	 *
-	 * @return  array  An array containing the states that can be selected.
-	 *
-	 * @since   2.5
-	 */
-	public static function statelist()
-	{
-		return array(
-			HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
-			HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
-		);
-	}
+        return $options;
+    }
+
+    /**
+     * Creates a list of published states.
+     *
+     * @return  array  An array containing the states that can be selected.
+     *
+     * @since   2.5
+     */
+    public static function statelist()
+    {
+        return array(
+            HTMLHelper::_('select.option', '1', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JPUBLISHED'))),
+            HTMLHelper::_('select.option', '0', Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_('JUNPUBLISHED')))
+        );
+    }
 }

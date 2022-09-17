@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_banners
@@ -9,7 +10,9 @@
 
 namespace Joomla\Component\Banners\Site\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Banner Helper Class
@@ -18,24 +21,23 @@ namespace Joomla\Component\Banners\Site\Helper;
  */
 abstract class BannerHelper
 {
-	/**
-	 * Checks if a URL is an image
-	 *
-	 * @param   string  $url  The URL path to the potential image
-	 *
-	 * @return  boolean  True if an image of type bmp, gif, jp(e)g, png or webp, false otherwise
-	 *
-	 * @since   1.6
-	 */
-	public static function isImage($url)
-	{
-		$urlCheck = explode('?', $url);
+    /**
+     * Checks if a URL is an image
+     *
+     * @param   string  $url  The URL path to the potential image
+     *
+     * @return  boolean  True if an image of type bmp, gif, jp(e)g, png or webp, false otherwise
+     *
+     * @since   1.6
+     */
+    public static function isImage($url)
+    {
+        $urlCheck = explode('?', $url);
 
-		if (preg_match('#\.(?:bmp|gif|jpe?g|png|webp)$#i', $urlCheck[0]))
-		{
-			return true;
-		}
+        if (preg_match('#\.(?:bmp|gif|jpe?g|png|webp)$#i', $urlCheck[0])) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

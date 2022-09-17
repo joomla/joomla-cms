@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Extension\ExtensionHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper class for Finder.
@@ -20,25 +23,25 @@ use Joomla\CMS\Extension\ExtensionHelper;
  */
 class FinderHelper
 {
-	/**
-	 * The extension name.
-	 *
-	 * @var    string
-	 * @since  2.5
-	 */
-	public static $extension = 'com_finder';
+    /**
+     * The extension name.
+     *
+     * @var    string
+     * @since  2.5
+     */
+    public static $extension = 'com_finder';
 
-	/**
-	 * Gets the finder system plugin extension id.
-	 *
-	 * @return  integer  The finder system plugin extension id.
-	 *
-	 * @since   3.6.0
-	 */
-	public static function getFinderPluginId()
-	{
-		$pluginRecord = ExtensionHelper::getExtensionRecord('finder', 'plugin', null, 'content');
+    /**
+     * Gets the finder system plugin extension id.
+     *
+     * @return  integer  The finder system plugin extension id.
+     *
+     * @since   3.6.0
+     */
+    public static function getFinderPluginId()
+    {
+        $pluginRecord = ExtensionHelper::getExtensionRecord('finder', 'plugin', null, 'content');
 
-		return $pluginRecord !== null ? $pluginRecord->extension_id : 0;
-	}
+        return $pluginRecord !== null ? $pluginRecord->extension_id : 0;
+    }
 }

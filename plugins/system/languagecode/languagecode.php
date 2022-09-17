@@ -1,18 +1,23 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
  * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Language Code plugin class.
@@ -21,124 +26,111 @@ use Joomla\CMS\Plugin\CMSPlugin;
  */
 class PlgSystemLanguagecode extends CMSPlugin
 {
-	/**
-	 * Application object
-	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  4.0.0
-	 */
-	protected $app;
+    /**
+     * Application object
+     *
+     * @var    \Joomla\CMS\Application\CMSApplication
+     * @since  4.0.0
+     */
+    protected $app;
 
-	/**
-	 * Plugin that changes the language code used in the <html /> tag.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	public function onAfterRender()
-	{
-		// Use this plugin only in site application.
-		if ($this->app->isClient('site'))
-		{
-			// Get the response body.
-			$body = $this->app->getBody();
+    /**
+     * Plugin that changes the language code used in the <html /> tag.
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function onAfterRender()
+    {
+        // Use this plugin only in site application.
+        if ($this->app->isClient('site')) {
+            // Get the response body.
+            $body = $this->app->getBody();
 
-			// Get the current language code.
-			$code = $this->app->getDocument()->getLanguage();
+            // Get the current language code.
+            $code = $this->app->getDocument()->getLanguage();
 
-			// Get the new code.
-			$new_code  = $this->params->get($code);
+            // Get the new code.
+            $new_code  = $this->params->get($code);
 
-			// Replace the old code by the new code in the <html /> tag.
-			if ($new_code)
-			{
-				// Replace the new code in the HTML document.
-				$patterns = array(
-					chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
-					chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
-				);
-				$replace = array(
-					'${1}' . strtolower($new_code) . '${3}',
-					'${1}' . strtolower($new_code) . '${3}',
-				);
-			}
-			else
-			{
-				$patterns = array();
-				$replace  = array();
-			}
+            // Replace the old code by the new code in the <html /> tag.
+            if ($new_code) {
+                // Replace the new code in the HTML document.
+                $patterns = array(
+                    chr(1) . '(<html.*\s+xml:lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
+                    chr(1) . '(<html.*\s+lang=")(' . $code . ')(".*>)' . chr(1) . 'i',
+                );
+                $replace = array(
+                    '${1}' . strtolower($new_code) . '${3}',
+                    '${1}' . strtolower($new_code) . '${3}',
+                );
+            } else {
+                $patterns = array();
+                $replace  = array();
+            }
 
-			// Replace codes in <link hreflang="" /> attributes.
-			preg_match_all(chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*>)' . chr(1) . 'i', $body, $matches);
+            // Replace codes in <link hreflang="" /> attributes.
+            preg_match_all(chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*>)' . chr(1) . 'i', $body, $matches);
 
-			foreach ($matches[2] as $match)
-			{
-				$new_code = $this->params->get(strtolower($match));
+            foreach ($matches[2] as $match) {
+                $new_code = $this->params->get(strtolower($match));
 
-				if ($new_code)
-				{
-					$patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . chr(1) . 'i';
-					$replace[] = '${1}' . $new_code . '${3}';
-				}
-			}
+                if ($new_code) {
+                    $patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . chr(1) . 'i';
+                    $replace[] = '${1}' . $new_code . '${3}';
+                }
+            }
 
-			preg_match_all(chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
+            preg_match_all(chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
 
-			foreach ($matches[2] as $match)
-			{
-				$new_code = $this->params->get(strtolower($match));
+            foreach ($matches[2] as $match) {
+                $new_code = $this->params->get(strtolower($match));
 
-				if ($new_code)
-				{
-					$patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . chr(1) . 'i';
-					$replace[] = '${1}' . $new_code . '${3}';
-				}
-			}
+                if ($new_code) {
+                    $patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . chr(1) . 'i';
+                    $replace[] = '${1}' . $new_code . '${3}';
+                }
+            }
 
-			// Replace codes in itemprop content
-			preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
+            // Replace codes in itemprop content
+            preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
 
-			foreach ($matches[2] as $match)
-			{
-				$new_code = $this->params->get(strtolower($match));
+            foreach ($matches[2] as $match) {
+                $new_code = $this->params->get(strtolower($match));
 
-				if ($new_code)
-				{
-					$patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . chr(1) . 'i';
-					$replace[] = '${1}' . $new_code . '${3}';
-				}
-			}
+                if ($new_code) {
+                    $patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . chr(1) . 'i';
+                    $replace[] = '${1}' . $new_code . '${3}';
+                }
+            }
 
-			$this->app->setBody(preg_replace($patterns, $replace, $body));
-		}
-	}
+            $this->app->setBody(preg_replace($patterns, $replace, $body));
+        }
+    }
 
-	/**
-	 * Prepare form.
-	 *
-	 * @param   Form   $form  The form to be altered.
-	 * @param   mixed  $data  The associated data for the form.
-	 *
-	 * @return  boolean
-	 *
-	 * @since	2.5
-	 */
-	public function onContentPrepareForm(Form $form, $data)
-	{
-		// Check we are manipulating the languagecode plugin.
-		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
-		{
-			return true;
-		}
+    /**
+     * Prepare form.
+     *
+     * @param   Form   $form  The form to be altered.
+     * @param   mixed  $data  The associated data for the form.
+     *
+     * @return  boolean
+     *
+     * @since   2.5
+     */
+    public function onContentPrepareForm(Form $form, $data)
+    {
+        // Check we are manipulating the languagecode plugin.
+        if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params')) {
+            return true;
+        }
 
-		// Get site languages.
-		if ($languages = LanguageHelper::getKnownLanguages(JPATH_SITE))
-		{
-			// Inject fields into the form.
-			foreach ($languages as $tag => $language)
-			{
-				$form->load('
+        // Get site languages.
+        if ($languages = LanguageHelper::getKnownLanguages(JPATH_SITE)) {
+            // Inject fields into the form.
+            foreach ($languages as $tag => $language) {
+                $form->load('
 					<form>
 						<fields name="params">
 							<fieldset
@@ -158,11 +150,10 @@ class PlgSystemLanguagecode extends CMSPlugin
 								/>
 							</fieldset>
 						</fields>
-					</form>'
-				);
-			}
-		}
+					</form>');
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_modules
@@ -9,14 +10,16 @@
 
 namespace Joomla\Component\Modules\Administrator\View\Select;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Modules component
@@ -25,76 +28,74 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The model state
-	 *
-	 * @var  \Joomla\CMS\Object\CMSObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\CMS\Object\CMSObject
+     */
+    protected $state;
 
-	/**
-	 * An array of items
-	 *
-	 * @var  array
-	 */
-	protected $items;
+    /**
+     * An array of items
+     *
+     * @var  array
+     */
+    protected $items;
 
-	/**
-	 * A suffix for links for modal use
-	 *
-	 * @var  string
-	 */
-	protected $modalLink;
+    /**
+     * A suffix for links for modal use
+     *
+     * @var  string
+     */
+    protected $modalLink;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->modalLink = '';
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->state = $this->get('State');
+        $this->items = $this->get('Items');
+        $this->modalLink = '';
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$state    = $this->get('State');
-		$clientId = (int) $state->get('client_id', 0);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $state    = $this->get('State');
+        $clientId = (int) $state->get('client_id', 0);
 
-		// Add page title
-		ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+        // Add page title
+        ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
 
-		if ($clientId === 1)
-		{
-			ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
-		}
+        if ($clientId === 1) {
+            ToolbarHelper::title(Text::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+        }
 
-		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+        // Get the toolbar object instance
+        $bar = Toolbar::getInstance('toolbar');
 
-		// Instantiate a new FileLayout instance and render the layout
-		$layout = new FileLayout('toolbar.cancelselect');
+        // Instantiate a new FileLayout instance and render the layout
+        $layout = new FileLayout('toolbar.cancelselect');
 
-		$bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
-	}
+        $bar->appendButton('Custom', $layout->render(array('client_id' => $clientId)), 'new');
+    }
 }

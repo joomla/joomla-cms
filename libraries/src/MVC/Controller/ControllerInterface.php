@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Platform CMS Interface
@@ -17,16 +20,16 @@ namespace Joomla\CMS\MVC\Controller;
  */
 interface ControllerInterface
 {
-	/**
-	 * Execute a controller task.
-	 *
-	 * @param   string  $task  The task to perform.
-	 *
-	 * @return  mixed   The value returned by the called method.
-	 *
-	 * @since   4.0.0
-	 * @throws  \InvalidArgumentException
-	 * @throws  \RuntimeException
-	 */
-	public function execute($task);
+    /**
+     * Execute a controller task.
+     *
+     * @param   string  $task  The task to perform.
+     *
+     * @return  mixed   The value returned by the called method.
+     *
+     * @since   4.0.0
+     * @throws  \InvalidArgumentException
+     * @throws  \RuntimeException
+     */
+    public function execute($task);
 }

@@ -1,8 +1,10 @@
 <template>
   <div
     class="media-browser-image"
+    tabindex="0"
     @dblclick="openPreview()"
     @mouseleave="hideActions()"
+    @keyup.enter="openPreview()"
   >
     <div
       class="media-browser-item-preview"
@@ -14,11 +16,15 @@
           class="image-cropped"
           :src="getURL"
           :alt="altTag"
-          loading="lazy"
+          :loading="loading"
           :width="width"
           :height="height"
         >
-        <span v-if="!getURL" class="icon-eye-slash image-placeholder" aria-hidden="true"></span>
+        <span
+          v-if="!getURL"
+          class="icon-eye-slash image-placeholder"
+          aria-hidden="true"
+        />
       </div>
     </div>
     <div
@@ -34,12 +40,12 @@
     />
     <media-browser-action-items-container
       ref="container"
-      :focused="focused"
       :item="item"
       :edit="editItem"
       :previewable="true"
       :downloadable="true"
       :shareable="true"
+      @toggle-settings="toggleSettings"
     />
   </div>
 </template>
@@ -53,6 +59,7 @@ export default {
     item: { type: Object, required: true },
     focused: { type: Boolean, required: true, default: false },
   },
+  emits: ['toggle-settings'],
   data() {
     return {
       showActions: { type: Boolean, default: false },
@@ -69,10 +76,13 @@ export default {
         : `${this.item.thumb_path}`;
     },
     width() {
-      return this.item.width;
+      return this.item.width > 0 ? this.item.width : null;
     },
     height() {
-      return this.item.height;
+      return this.item.height > 0 ? this.item.height : null;
+    },
+    loading() {
+      return this.item.width > 0 ? 'lazy' : null;
     },
     altTag() {
       return this.item.name;
@@ -97,6 +107,9 @@ export default {
       const fileBaseUrl = `${Joomla.getOptions('com_media').editViewUrl}&path=`;
 
       window.location.href = fileBaseUrl + this.item.path;
+    },
+    toggleSettings(bool) {
+      this.$emit('toggle-settings', bool);
     },
   },
 };

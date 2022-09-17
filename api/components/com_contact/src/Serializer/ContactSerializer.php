@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,8 +9,6 @@
 
 namespace Joomla\Component\Contact\Api\Serializer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Tag\TagApiSerializerTrait;
@@ -18,6 +17,10 @@ use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
 use Tobscure\JsonApi\Resource;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Temporary serializer
  *
@@ -25,108 +28,107 @@ use Tobscure\JsonApi\Resource;
  */
 class ContactSerializer extends JoomlaSerializer
 {
-	use TagApiSerializerTrait;
+    use TagApiSerializerTrait;
 
-	/**
-	 * Build content relationships by associations
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0.0
-	 */
-	public function languageAssociations($model)
-	{
-		$resources = [];
+    /**
+     * Build content relationships by associations
+     *
+     * @param   \stdClass  $model  Item model
+     *
+     * @return  Relationship
+     *
+     * @since 4.0.0
+     */
+    public function languageAssociations($model)
+    {
+        $resources = [];
 
-		// @todo: This can't be hardcoded in the future?
-		$serializer = new JoomlaSerializer($this->type);
+        // @todo: This can't be hardcoded in the future?
+        $serializer = new JoomlaSerializer($this->type);
 
-		foreach ($model->associations as $association)
-		{
-			$resources[] = (new Resource($association, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/contact/' . $association->id));
-		}
+        foreach ($model->associations as $association) {
+            $resources[] = (new Resource($association, $serializer))
+                ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/contact/' . $association->id));
+        }
 
-		$collection = new Collection($resources, $serializer);
+        $collection = new Collection($resources, $serializer);
 
-		return new Relationship($collection);
-	}
+        return new Relationship($collection);
+    }
 
-	/**
-	 * Build category relationship
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0.0
-	 */
-	public function category($model)
-	{
-		$serializer = new JoomlaSerializer('categories');
+    /**
+     * Build category relationship
+     *
+     * @param   \stdClass  $model  Item model
+     *
+     * @return  Relationship
+     *
+     * @since 4.0.0
+     */
+    public function category($model)
+    {
+        $serializer = new JoomlaSerializer('categories');
 
-		$resource = (new Resource($model->catid, $serializer))
-			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/categories/' . $model->catid));
+        $resource = (new Resource($model->catid, $serializer))
+            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/categories/' . $model->catid));
 
-		return new Relationship($resource);
-	}
+        return new Relationship($resource);
+    }
 
-	/**
-	 * Build category relationship
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0.0
-	 */
-	public function createdBy($model)
-	{
-		$serializer = new JoomlaSerializer('users');
+    /**
+     * Build category relationship
+     *
+     * @param   \stdClass  $model  Item model
+     *
+     * @return  Relationship
+     *
+     * @since 4.0.0
+     */
+    public function createdBy($model)
+    {
+        $serializer = new JoomlaSerializer('users');
 
-		$resource = (new Resource($model->created_by, $serializer))
-			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->created_by));
+        $resource = (new Resource($model->created_by, $serializer))
+            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->created_by));
 
-		return new Relationship($resource);
-	}
+        return new Relationship($resource);
+    }
 
-	/**
-	 * Build editor relationship
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0.0
-	 */
-	public function modifiedBy($model)
-	{
-		$serializer = new JoomlaSerializer('users');
+    /**
+     * Build editor relationship
+     *
+     * @param   \stdClass  $model  Item model
+     *
+     * @return  Relationship
+     *
+     * @since 4.0.0
+     */
+    public function modifiedBy($model)
+    {
+        $serializer = new JoomlaSerializer('users');
 
-		$resource = (new Resource($model->modified_by, $serializer))
-			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->modified_by));
+        $resource = (new Resource($model->modified_by, $serializer))
+            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->modified_by));
 
-		return new Relationship($resource);
-	}
+        return new Relationship($resource);
+    }
 
-	/**
-	 * Build contact user relationship
-	 *
-	 * @param   \stdClass  $model  Item model
-	 *
-	 * @return  Relationship
-	 *
-	 * @since 4.0.0
-	 */
-	public function userId($model)
-	{
-		$serializer = new JoomlaSerializer('users');
+    /**
+     * Build contact user relationship
+     *
+     * @param   \stdClass  $model  Item model
+     *
+     * @return  Relationship
+     *
+     * @since 4.0.0
+     */
+    public function userId($model)
+    {
+        $serializer = new JoomlaSerializer('users');
 
-		$resource = (new Resource($model->user_id, $serializer))
-			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->user_id));
+        $resource = (new Resource($model->user_id, $serializer))
+            ->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/users/' . $model->user_id));
 
-		return new Relationship($resource);
-	}
+        return new Relationship($resource);
+    }
 }

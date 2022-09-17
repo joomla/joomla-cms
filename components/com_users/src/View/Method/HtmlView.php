@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,12 +10,15 @@
 
 namespace Joomla\Component\Users\Site\View\Method;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View for Multi-factor Authentication method add/edit page
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class HtmlView extends \Joomla\Component\Users\Administrator\View\Method\HtmlView
 {
-
 }

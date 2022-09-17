@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<help key="Smart_Search:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
@@ -306,14 +307,6 @@
 			<option value="250">J250</option>
 			<option value="300">J300</option>
 		</field>
-
-		<field
-			name="memory_table_limit"
-			type="number"
-			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
-			default="30000"
-			filter="integer"
-		/>
 
 		<field
 			name="title_multiplier"

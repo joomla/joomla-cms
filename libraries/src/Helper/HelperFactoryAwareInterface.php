@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface to be implemented by classes depending on a helper factory.
@@ -17,14 +20,14 @@ namespace Joomla\CMS\Helper;
  */
 interface HelperFactoryAwareInterface
 {
-	/**
-	 * Sets the helper factory to use.
-	 *
-	 * @param   HelperFactory  $helper  The helper factory to use.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.2.0
-	 */
-	public function setHelperFactory(HelperFactory $helper);
+    /**
+     * Sets the helper factory to use.
+     *
+     * @param   HelperFactory  $helper  The helper factory to use.
+     *
+     * @return  void
+     *
+     * @since   4.2.0
+     */
+    public function setHelperFactory(HelperFactory $helper);
 }

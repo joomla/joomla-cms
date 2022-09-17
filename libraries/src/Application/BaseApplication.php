@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,13 +9,15 @@
 
 namespace Joomla\CMS\Application;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Input\Input;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla Platform Base Application Class
@@ -26,25 +29,27 @@ use Joomla\Registry\Registry;
  */
 abstract class BaseApplication extends AbstractApplication implements DispatcherAwareInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware;
+    use DispatcherAwareTrait;
+    use EventAware;
+    use IdentityAware;
 
-	/**
-	 * Class constructor.
-	 *
-	 * @param   Input     $input   An optional argument to provide dependency injection for the application's
-	 *                             input object.  If the argument is a \JInput object that object will become
-	 *                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
-	 *                             config object.  If the argument is a Registry object that object will become
-	 *                             the application's config object, otherwise a default config object is created.
-	 *
-	 * @since   3.0.0
-	 */
-	public function __construct(Input $input = null, Registry $config = null)
-	{
-		$this->input = $input instanceof Input ? $input : new Input;
-		$this->config = $config instanceof Registry ? $config : new Registry;
+    /**
+     * Class constructor.
+     *
+     * @param   Input     $input   An optional argument to provide dependency injection for the application's
+     *                             input object.  If the argument is a \JInput object that object will become
+     *                             the application's input object, otherwise a default input object is created.
+     * @param   Registry  $config  An optional argument to provide dependency injection for the application's
+     *                             config object.  If the argument is a Registry object that object will become
+     *                             the application's config object, otherwise a default config object is created.
+     *
+     * @since   3.0.0
+     */
+    public function __construct(Input $input = null, Registry $config = null)
+    {
+        $this->input = $input instanceof Input ? $input : new Input();
+        $this->config = $config instanceof Registry ? $config : new Registry();
 
-		$this->initialise();
-	}
+        $this->initialise();
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Media\Administrator\Event;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Input\Input;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event object to retrieve OAuthCallbacks.
@@ -21,73 +24,73 @@ use Joomla\Input\Input;
  */
 class OAuthCallbackEvent extends AbstractEvent
 {
-	/**
-	 * The event context.
-	 *
-	 * @var string
-	 *
-	 * @since  4.0.0
-	 */
-	private $context = null;
+    /**
+     * The event context.
+     *
+     * @var string
+     *
+     * @since  4.0.0
+     */
+    private $context = null;
 
-	/**
-	 * The event input.
-	 *
-	 * @var    Input
-	 *
-	 * @since  4.0.0
-	 */
-	private $input = null;
+    /**
+     * The event input.
+     *
+     * @var    Input
+     *
+     * @since  4.0.0
+     */
+    private $input = null;
 
-	/**
-	 * Get the event context.
-	 *
-	 * @return string
-	 *
-	 * @since  4.0.0
-	 */
-	public function getContext()
-	{
-		return $this->context;
-	}
+    /**
+     * Get the event context.
+     *
+     * @return string
+     *
+     * @since  4.0.0
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
 
-	/**
-	 * Set the event context.
-	 *
-	 * @param   string  $context  Event context
-	 *
-	 * @return void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setContext($context)
-	{
-		$this->context = $context;
-	}
+    /**
+     * Set the event context.
+     *
+     * @param   string  $context  Event context
+     *
+     * @return void
+     *
+     * @since  4.0.0
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
+    }
 
-	/**
-	 * Get the event input.
-	 *
-	 * @return  Input
-	 *
-	 * @since  4.0.0
-	 */
-	public function getInput()
-	{
-		return $this->input;
-	}
+    /**
+     * Get the event input.
+     *
+     * @return  Input
+     *
+     * @since  4.0.0
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
 
-	/**
-	 * Set the event input.
-	 *
-	 * @param   Input  $input  Event input
-	 *
-	 * @return void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setInput($input)
-	{
-		$this->input = $input;
-	}
+    /**
+     * Set the event input.
+     *
+     * @param   Input  $input  Event input
+     *
+     * @return void
+     *
+     * @since  4.0.0
+     */
+    public function setInput($input)
+    {
+        $this->input = $input;
+    }
 }

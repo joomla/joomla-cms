@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Languages\Administrator\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Filter\InputFilter;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Languages component helper.
@@ -20,37 +23,37 @@ use Joomla\CMS\Filter\InputFilter;
  */
 class LanguagesHelper
 {
-	/**
-	 * Filter method for language keys.
-	 * This method will be called by \JForm while filtering the form data.
-	 *
-	 * @param   string  $value  The language key to filter.
-	 *
-	 * @return  string	The filtered language key.
-	 *
-	 * @since		2.5
-	 */
-	public static function filterKey($value)
-	{
-		$filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
+    /**
+     * Filter method for language keys.
+     * This method will be called by \JForm while filtering the form data.
+     *
+     * @param   string  $value  The language key to filter.
+     *
+     * @return  string  The filtered language key.
+     *
+     * @since       2.5
+     */
+    public static function filterKey($value)
+    {
+        $filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
-		return strtoupper($filter->clean($value, 'cmd'));
-	}
+        return strtoupper($filter->clean($value, 'cmd'));
+    }
 
-	/**
-	 * Filter method for language strings.
-	 * This method will be called by \JForm while filtering the form data.
-	 *
-	 * @param   string  $value  The language string to filter.
-	 *
-	 * @return  string	The filtered language string.
-	 *
-	 * @since		2.5
-	 */
-	public static function filterText($value)
-	{
-		$filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
+    /**
+     * Filter method for language strings.
+     * This method will be called by \JForm while filtering the form data.
+     *
+     * @param   string  $value  The language string to filter.
+     *
+     * @return  string  The filtered language string.
+     *
+     * @since       2.5
+     */
+    public static function filterText($value)
+    {
+        $filter = InputFilter::getInstance([], [], InputFilter::ONLY_BLOCK_DEFINED_TAGS, InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES);
 
-		return $filter->clean($value);
-	}
+        return $filter->clean($value);
+    }
 }

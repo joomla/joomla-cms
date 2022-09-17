@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
@@ -44,27 +45,27 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
 
 // Template params
 $logoBrandLarge  = $this->params->get('logoBrandLarge')
-	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
-	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
+    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-large.svg';
 $logoBrandSmall = $this->params->get('logoBrandSmall')
-	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
-	: Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
+    ? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+    : Uri::root() . 'media/templates/administrator/atum/images/logos/brand-small.svg';
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
-	? 'alt=""'
-	: 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    ? 'alt=""'
+    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
-	? 'alt=""'
-	: 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    ? 'alt=""'
+    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
 
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-	->useStyle('template.active.language')
-	->useStyle('template.user')
-	->addInlineStyle(':root {
+    ->useStyle('template.active.language')
+    ->useStyle('template.user')
+    ->addInlineStyle(':root {
 		--hue: ' . $matches[1] . ';
 		--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 		--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
@@ -89,99 +90,99 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
 <head>
-	<jdoc:include type="metas" />
-	<jdoc:include type="styles" />
-	<jdoc:include type="scripts" />
+    <jdoc:include type="metas" />
+    <jdoc:include type="styles" />
+    <jdoc:include type="scripts" />
 </head>
 
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
-	<div class="alert alert-danger" role="alert">
-		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-	</div>
+    <div class="alert alert-danger" role="alert">
+        <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+    </div>
 </noscript>
 
 <jdoc:include type="modules" name="customtop" style="none" />
 
 <?php // Header ?>
 <header id="header" class="header">
-	<div class="header-inside">
-		<div class="header-title d-flex">
-			<div class="d-flex align-items-center">
-				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
-				<?php if ($hiddenMenu || $cpanel) : ?>
-					<div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
-					<img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
-					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
-					</div>
-				<?php else : ?>
-					<a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
-						<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-						<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-					</a>
-				<?php endif; ?>
-			</div>
-			<jdoc:include type="modules" name="title" />
-		</div>
-		<?php echo $statusModules; ?>
-	</div>
+    <div class="header-inside">
+        <div class="header-title d-flex">
+            <div class="d-flex align-items-center">
+                <?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+                <?php if ($hiddenMenu || $cpanel) : ?>
+                    <div class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>">
+                    <img src="<?php echo $logoBrandLarge; ?>" <?php echo $logoBrandLargeAlt; ?>>
+                    <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" <?php echo $logoBrandSmallAlt; ?>>
+                    </div>
+                <?php else : ?>
+                    <a class="logo <?php echo $sidebarState === 'closed' ? 'small' : ''; ?>" href="<?php echo Route::_('index.php'); ?>">
+                        <img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+                        <img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
+                    </a>
+                <?php endif; ?>
+            </div>
+            <jdoc:include type="modules" name="title" />
+        </div>
+        <?php echo $statusModules; ?>
+    </div>
 </header>
 
 <?php // Wrapper ?>
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?> <?php echo $sidebarState; ?>">
-	<?php // Sidebar ?>
-	<?php if (!$hiddenMenu) : ?>
-	<?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
-		<button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+    <?php // Sidebar ?>
+    <?php if (!$hiddenMenu) : ?>
+        <?php HTMLHelper::_('bootstrap.collapse', '.toggler-burger'); ?>
+        <button class="navbar-toggler toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-			<div id="sidebarmenu" class="sidebar-sticky">
-				<div class="sidebar-toggle item item-level-1">
-					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw" aria-hidden="true"></span>
-						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
-					</a>
-				</div>
-				<jdoc:include type="modules" name="menu" style="none" />
-			</div>
-		</div>
-	<?php endif; ?>
+        <div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
+            <div id="sidebarmenu" class="sidebar-sticky">
+                <div class="sidebar-toggle item item-level-1">
+                    <a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
+                        <span id="menu-collapse-icon" class="<?php echo $sidebarState === 'closed' ? 'icon-toggle-on' : 'icon-toggle-off'; ?> icon-fw" aria-hidden="true"></span>
+                        <span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
+                    </a>
+                </div>
+                <jdoc:include type="modules" name="menu" style="none" />
+            </div>
+        </div>
+    <?php endif; ?>
 
-	<?php // container-fluid ?>
-	<div class="container-fluid container-main">
-		<?php if (!$cpanel) : ?>
-			<?php // Subheader ?>
-			<?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
-				<span class="toggler-toolbar-icon"></span>
-			</button>
-			<div id="subhead-container" class="subhead mb-3">
-				<div class="row">
-					<div class="col-md-12">
-						<jdoc:include type="modules" name="toolbar" style="none" />
-					</div>
-				</div>
-			</div>
-		<?php endif; ?>
-		<section id="content" class="content">
-			<?php // Begin Content ?>
-			<jdoc:include type="modules" name="top" style="html5" />
-			<div class="row">
-				<div class="col-md-12">
-					<main>
-						<jdoc:include type="message" />
-						<jdoc:include type="component" />
-					</main>
-				</div>
-				<?php if ($this->countModules('bottom')) : ?>
-					<jdoc:include type="modules" name="bottom" style="html5" />
-				<?php endif; ?>
-			</div>
-			<?php // End Content ?>
-		</section>
-	</div>
+    <?php // container-fluid ?>
+    <div class="container-fluid container-main">
+        <?php if (!$cpanel) : ?>
+            <?php // Subheader ?>
+            <?php HTMLHelper::_('bootstrap.collapse', '.toggler-toolbar'); ?>
+            <button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#subhead-container" aria-controls="subhead-container" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+                <span class="toggler-toolbar-icon"></span>
+            </button>
+            <div id="subhead-container" class="subhead mb-3">
+                <div class="row">
+                    <div class="col-md-12">
+                        <jdoc:include type="modules" name="toolbar" style="none" />
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <section id="content" class="content">
+            <?php // Begin Content ?>
+            <jdoc:include type="modules" name="top" style="html5" />
+            <div class="row">
+                <div class="col-md-12">
+                    <main>
+                        <jdoc:include type="message" />
+                        <jdoc:include type="component" />
+                    </main>
+                </div>
+                <?php if ($this->countModules('bottom')) : ?>
+                    <jdoc:include type="modules" name="bottom" style="html5" />
+                <?php endif; ?>
+            </div>
+            <?php // End Content ?>
+        </section>
+    </div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
 </body>

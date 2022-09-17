@@ -399,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `#__mail_templates` (
   `language` char(7) NOT NULL DEFAULT '',
   `subject` VARCHAR(255) NOT NULL DEFAULT '',
   `body` TEXT NOT NULL,
-  `htmlbody` TEXT NOT NULL,
+  `htmlbody` MEDIUMTEXT NOT NULL,
   `attachments` TEXT NOT NULL,
   `params` TEXT NOT NULL,
   PRIMARY KEY (`template_id`, `language`)

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_categories
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -19,6 +18,10 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The categories controller for ajax requests
  *
@@ -26,70 +29,60 @@ use Joomla\CMS\Table\Table;
  */
 class AjaxController extends BaseController
 {
-	/**
-	 * Method to fetch associations of a category
-	 *
-	 * The method assumes that the following http parameters are passed in an Ajax Get request:
-	 * token: the form token
-	 * assocId: the id of the category whose associations are to be returned
-	 * excludeLang: the association for this language is to be excluded
-	 *
-	 * @return  void
-	 *
-	 * @since  3.9.0
-	 */
-	public function fetchAssociations()
-	{
-		if (!Session::checkToken('get'))
-		{
-			echo new JsonResponse(null, Text::_('JINVALID_TOKEN'), true);
-		}
-		else
-		{
-			$extension = $this->input->get('extension');
+    /**
+     * Method to fetch associations of a category
+     *
+     * The method assumes that the following http parameters are passed in an Ajax Get request:
+     * token: the form token
+     * assocId: the id of the category whose associations are to be returned
+     * excludeLang: the association for this language is to be excluded
+     *
+     * @return  void
+     *
+     * @since  3.9.0
+     */
+    public function fetchAssociations()
+    {
+        if (!Session::checkToken('get')) {
+            echo new JsonResponse(null, Text::_('JINVALID_TOKEN'), true);
+        } else {
+            $extension = $this->input->get('extension');
 
-			$assocId   = $this->input->getInt('assocId', 0);
+            $assocId   = $this->input->getInt('assocId', 0);
 
-			if ($assocId == 0)
-			{
-				echo new JsonResponse(null, Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'assocId'), true);
+            if ($assocId == 0) {
+                echo new JsonResponse(null, Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'assocId'), true);
 
-				return;
-			}
+                return;
+            }
 
-			$excludeLang = $this->input->get('excludeLang', '', 'STRING');
+            $excludeLang = $this->input->get('excludeLang', '', 'STRING');
 
-			$associations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', (int) $assocId, 'id', 'alias', '');
+            $associations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', (int) $assocId, 'id', 'alias', '');
 
-			unset($associations[$excludeLang]);
+            unset($associations[$excludeLang]);
 
-			// Add the title to each of the associated records
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
-			$categoryTable = Table::getInstance('Category', 'JTable');
+            // Add the title to each of the associated records
+            Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
+            $categoryTable = Table::getInstance('Category', 'JTable');
 
-			foreach ($associations as $lang => $association)
-			{
-				$categoryTable->load($association->id);
-				$associations[$lang]->title = $categoryTable->title;
-			}
+            foreach ($associations as $lang => $association) {
+                $categoryTable->load($association->id);
+                $associations[$lang]->title = $categoryTable->title;
+            }
 
-			$countContentLanguages = \count(LanguageHelper::getContentLanguages(array(0, 1), false));
+            $countContentLanguages = \count(LanguageHelper::getContentLanguages(array(0, 1), false));
 
-			if (\count($associations) == 0)
-			{
-				$message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');
-			}
-			elseif ($countContentLanguages > \count($associations) + 2)
-			{
-				$tags    = implode(', ', array_keys($associations));
-				$message = Text::sprintf('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_SOME', $tags);
-			}
-			else
-			{
-				$message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_ALL');
-			}
+            if (\count($associations) == 0) {
+                $message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_NONE');
+            } elseif ($countContentLanguages > \count($associations) + 2) {
+                $tags    = implode(', ', array_keys($associations));
+                $message = Text::sprintf('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_SOME', $tags);
+            } else {
+                $message = Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_MESSAGE_ALL');
+            }
 
-			echo new JsonResponse($associations, $message);
-		}
-	}
+            echo new JsonResponse($associations, $message);
+        }
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    Joomla.Administrator
  * @subpackage com_users
@@ -9,12 +10,15 @@
 
 namespace Joomla\Component\Users\Site\Model;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Multi-factor Authentication Methods list page's model
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class MethodsModel extends \Joomla\Component\Users\Administrator\Model\MethodsModel
 {
-
 }

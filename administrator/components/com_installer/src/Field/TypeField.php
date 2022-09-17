@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Installer\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form field for a list of extension types.
@@ -21,25 +24,25 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
  */
 class TypeField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var	   string
-	 * @since  3.5
-	 */
-	protected $type = 'Type';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $type = 'Type';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.5
-	 */
-	public function getOptions()
-	{
-		$options = InstallerHelper::getExtensionTypes();
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   3.5
+     */
+    public function getOptions()
+    {
+        $options = InstallerHelper::getExtensionTypes();
 
-		return array_merge(parent::getOptions(), $options);
-	}
+        return array_merge(parent::getOptions(), $options);
+    }
 }

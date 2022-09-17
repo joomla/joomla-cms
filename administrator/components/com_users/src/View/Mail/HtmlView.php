@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_users
@@ -9,13 +10,15 @@
 
 namespace Joomla\Component\Users\Administrator\View\Mail;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Users mail view.
@@ -24,55 +27,54 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The Form object
-	 *
-	 * @var  \Joomla\CMS\Form\Form
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception
-	 */
-	public function display($tpl = null)
-	{
-		// Redirect to admin index if mass mailer disabled in conf
-		if (Factory::getApplication()->get('massmailoff', 0) == 1)
-		{
-			Factory::getApplication()->redirect(Route::_('index.php', false));
-		}
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @throws  \Exception
+     */
+    public function display($tpl = null)
+    {
+        // Redirect to admin index if mass mailer disabled in conf
+        if (Factory::getApplication()->get('massmailoff', 0) == 1) {
+            Factory::getApplication()->redirect(Route::_('index.php', false));
+        }
 
-		// Get data from the model
-		$this->form = $this->get('Form');
+        // Get data from the model
+        $this->form = $this->get('Form');
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	protected function addToolbar()
-	{
-		Factory::getApplication()->input->set('hidemainmenu', true);
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->input->set('hidemainmenu', true);
 
-		ToolbarHelper::title(Text::_('COM_USERS_MASS_MAIL'), 'users massmail');
-		ToolbarHelper::custom('mail.send', 'envelope', '', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
-		ToolbarHelper::cancel('mail.cancel');
-		ToolbarHelper::divider();
-		ToolbarHelper::preferences('com_users');
-		ToolbarHelper::divider();
-		ToolbarHelper::help('Mass_Mail_Users');
-	}
+        ToolbarHelper::title(Text::_('COM_USERS_MASS_MAIL'), 'users massmail');
+        ToolbarHelper::custom('mail.send', 'envelope', '', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
+        ToolbarHelper::cancel('mail.cancel');
+        ToolbarHelper::divider();
+        ToolbarHelper::preferences('com_users');
+        ToolbarHelper::divider();
+        ToolbarHelper::help('Mass_Mail_Users');
+    }
 }

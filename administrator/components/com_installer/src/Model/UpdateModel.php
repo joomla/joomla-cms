@@ -10,8 +10,6 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -29,6 +27,10 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Installer Update Model
@@ -329,7 +331,7 @@ class UpdateModel extends ListModel
         $result = true;
 
         foreach ($uids as $uid) {
-            $update = new Update;
+            $update = new Update();
             $instance = new \Joomla\CMS\Table\Update($this->getDatabase());
 
             if (!$instance->load($uid)) {
@@ -515,7 +517,7 @@ class UpdateModel extends ListModel
      *
      * @return  Form|bool  A Form object on success, false on failure
      *
-     * @since	2.5.2
+     * @since   2.5.2
      */
     public function getForm($data = array(), $loadData = true)
     {
@@ -547,7 +549,7 @@ class UpdateModel extends ListModel
      *
      * @return  mixed  The data for the form.
      *
-     * @since	2.5.2
+     * @since   2.5.2
      */
     protected function loadFormData()
     {
@@ -570,7 +572,7 @@ class UpdateModel extends ListModel
     protected function preparePreUpdate($update, $table)
     {
         switch ($table->type) {
-                // Components could have a helper which adds additional data
+            // Components could have a helper which adds additional data
             case 'component':
                 $ename = str_replace('com_', '', $table->element);
                 $fname = $ename . '.php';
@@ -588,7 +590,7 @@ class UpdateModel extends ListModel
 
                 break;
 
-                // Modules could have a helper which adds additional data
+            // Modules could have a helper which adds additional data
             case 'module':
                 $cname = str_replace('_', '', $table->element) . 'Helper';
                 $path = ($table->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/' . $table->element . '/helper.php';
@@ -603,8 +605,8 @@ class UpdateModel extends ListModel
 
                 break;
 
-                // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
-                // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
+            // If we have a plugin, we can use the plugin trigger "onInstallerBeforePackageDownload"
+            // But we should make sure, that our plugin is loaded, so we don't need a second "installer" plugin
             case 'plugin':
                 $cname = str_replace('plg_', '', $table->element);
                 PluginHelper::importPlugin($table->folder, $cname);
@@ -623,7 +625,7 @@ class UpdateModel extends ListModel
     {
         $query = parent::getEmptyStateQuery();
 
-        $query->where($this->_db->quoteName('extension_id') . ' != 0');
+        $query->where($this->getDatabase()->quoteName('extension_id') . ' != 0');
 
         return $query;
     }

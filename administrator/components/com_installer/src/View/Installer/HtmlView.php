@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,13 +10,15 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Installer;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Default View
@@ -24,86 +27,84 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The model state
-	 *
-	 * @var    \Joomla\CMS\Object\CMSObject
-	 *
-	 * @since  4.0.0
-	 */
-	public $state;
+    /**
+     * The model state
+     *
+     * @var    \Joomla\CMS\Object\CMSObject
+     *
+     * @since  4.0.0
+     */
+    public $state;
 
-	/**
-	 * True if there are extension messages to be displayed
-	 *
-	 * @var    boolean
-	 *
-	 * @since  4.0.0
-	 */
-	public $showMessage;
+    /**
+     * True if there are extension messages to be displayed
+     *
+     * @var    boolean
+     *
+     * @since  4.0.0
+     */
+    public $showMessage;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  Configuration array
-	 *
-	 * @since   1.5
-	 */
-	public function __construct($config = null)
-	{
-		parent::__construct($config);
+    /**
+     * Constructor.
+     *
+     * @param   array  $config  Configuration array
+     *
+     * @since   1.5
+     */
+    public function __construct($config = null)
+    {
+        parent::__construct($config);
 
-		$this->_addPath('template', $this->_basePath . '/tmpl/installer');
-		$this->_addPath('template', JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/com_installer/installer');
-	}
+        $this->_addPath('template', $this->_basePath . '/tmpl/installer');
+        $this->_addPath('template', JPATH_THEMES . '/' . Factory::getApplication()->getTemplate() . '/html/com_installer/installer');
+    }
 
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  Template
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public function display($tpl = null)
-	{
-		// Get data from the model.
-		$state = $this->get('State');
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  Template
+     *
+     * @return  void
+     *
+     * @since   1.5
+     */
+    public function display($tpl = null)
+    {
+        // Get data from the model.
+        $state = $this->get('State');
 
-		// Are there messages to display?
-		$showMessage = false;
+        // Are there messages to display?
+        $showMessage = false;
 
-		if (is_object($state))
-		{
-			$message1    = $state->get('message');
-			$message2    = $state->get('extension_message');
-			$showMessage = ($message1 || $message2);
-		}
+        if (is_object($state)) {
+            $message1    = $state->get('message');
+            $message2    = $state->get('extension_message');
+            $showMessage = ($message1 || $message2);
+        }
 
-		$this->showMessage = $showMessage;
-		$this->state       = &$state;
+        $this->showMessage = $showMessage;
+        $this->state       = &$state;
 
-		$this->addToolbar();
-		parent::display($tpl);
-	}
+        $this->addToolbar();
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_installer');
-		ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . strtoupper($this->getName())), 'puzzle-piece install');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo = ContentHelper::getActions('com_installer');
+        ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . strtoupper($this->getName())), 'puzzle-piece install');
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_installer');
-			ToolbarHelper::divider();
-		}
-	}
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            ToolbarHelper::preferences('com_installer');
+            ToolbarHelper::divider();
+        }
+    }
 }

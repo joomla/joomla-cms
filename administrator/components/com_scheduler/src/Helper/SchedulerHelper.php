@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_scheduler
@@ -9,14 +10,15 @@
 
 namespace Joomla\Component\Scheduler\Administrator\Helper;
 
-// Restrict direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The SchedulerHelper class.
@@ -26,44 +28,43 @@ use Joomla\Component\Scheduler\Administrator\Task\TaskOptions;
  */
 abstract class SchedulerHelper
 {
-	/**
-	 * Cached TaskOptions object
-	 *
-	 * @var  TaskOptions
-	 * @since  4.1.0
-	 */
-	protected static $taskOptionsCache;
+    /**
+     * Cached TaskOptions object
+     *
+     * @var  TaskOptions
+     * @since  4.1.0
+     */
+    protected static $taskOptionsCache;
 
-	/**
-	 * Returns available task routines as a TaskOptions object.
-	 *
-	 * @return  TaskOptions  A TaskOptions object populated with task routines offered by plugins
-	 *
-	 * @since  4.1.0
-	 * @throws  \Exception
-	 */
-	public static function getTaskOptions(): TaskOptions
-	{
-		if (self::$taskOptionsCache !== null)
-		{
-			return self::$taskOptionsCache;
-		}
+    /**
+     * Returns available task routines as a TaskOptions object.
+     *
+     * @return  TaskOptions  A TaskOptions object populated with task routines offered by plugins
+     *
+     * @since  4.1.0
+     * @throws  \Exception
+     */
+    public static function getTaskOptions(): TaskOptions
+    {
+        if (self::$taskOptionsCache !== null) {
+            return self::$taskOptionsCache;
+        }
 
-		/** @var  AdministratorApplication $app */
-		$app     = Factory::getApplication();
-		$options = new TaskOptions;
-		$event   = AbstractEvent::create(
-			'onTaskOptionsList',
-			[
-				'subject' => $options,
-			]
-		);
+        /** @var  AdministratorApplication $app */
+        $app     = Factory::getApplication();
+        $options = new TaskOptions();
+        $event   = AbstractEvent::create(
+            'onTaskOptionsList',
+            [
+                'subject' => $options,
+            ]
+        );
 
-		PluginHelper::importPlugin('task');
-		$app->getDispatcher()->dispatch('onTaskOptionsList', $event);
+        PluginHelper::importPlugin('task');
+        $app->getDispatcher()->dispatch('onTaskOptionsList', $event);
 
-		self::$taskOptionsCache = $options;
+        self::$taskOptionsCache = $options;
 
-		return $options;
-	}
+        return $options;
+    }
 }

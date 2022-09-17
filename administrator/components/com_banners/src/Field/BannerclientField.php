@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_banners
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Banners\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Bannerclient field.
@@ -21,23 +24,23 @@ use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
  */
 class BannerclientField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $type = 'BannerClient';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    protected $type = 'BannerClient';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   1.6
-	 */
-	public function getOptions()
-	{
-		return array_merge(parent::getOptions(), BannersHelper::getClientOptions());
-	}
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   1.6
+     */
+    public function getOptions()
+    {
+        return array_merge(parent::getOptions(), BannersHelper::getClientOptions());
+    }
 }

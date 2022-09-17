@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_login
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Login\Administrator\View\Login;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Login component
@@ -20,5 +23,4 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
  */
 class HtmlView extends BaseHtmlView
 {
-
 }

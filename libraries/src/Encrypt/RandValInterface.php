@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\Encrypt;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface RandValInterface
@@ -17,12 +20,12 @@ namespace Joomla\CMS\Encrypt;
  */
 interface RandValInterface
 {
-	/**
-	 *
-	 * Returns a cryptographically secure random value.
-	 *
-	 * @return string
-	 *
-	 */
-	public function generate();
+    /**
+     *
+     * Returns a cryptographically secure random value.
+     *
+     * @return string
+     *
+     */
+    public function generate();
 }

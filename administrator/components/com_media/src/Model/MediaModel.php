@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Media\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Media View Model
@@ -21,34 +24,32 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
  */
 class MediaModel extends BaseDatabaseModel
 {
-	use ProviderManagerHelperTrait;
+    use ProviderManagerHelperTrait;
 
-	/**
-	 * Obtain list of supported providers
-	 *
-	 * @return array
-	 *
-	 * @since 4.0.0
-	 */
-	public function getProviders()
-	{
-		$results = [];
+    /**
+     * Obtain list of supported providers
+     *
+     * @return array
+     *
+     * @since 4.0.0
+     */
+    public function getProviders()
+    {
+        $results = [];
 
-		foreach ($this->getProviderManager()->getProviders() as $provider)
-		{
-			$result               = new \stdClass;
-			$result->name         = $provider->getID();
-			$result->displayName  = $provider->getDisplayName();
-			$result->adapterNames = [];
+        foreach ($this->getProviderManager()->getProviders() as $provider) {
+            $result               = new \stdClass();
+            $result->name         = $provider->getID();
+            $result->displayName  = $provider->getDisplayName();
+            $result->adapterNames = [];
 
-			foreach ($provider->getAdapters() as $adapter)
-			{
-				$result->adapterNames[] = $adapter->getAdapterName();
-			}
+            foreach ($provider->getAdapters() as $adapter) {
+                $result->adapterNames[] = $adapter->getAdapterName();
+            }
 
-			$results[] = $result;
-		}
+            $results[] = $result;
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,36 +9,38 @@
 
 namespace Joomla\CMS\Event\MultiFactor;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Joomla\CMS\Event\Result\ResultAware;
 use Joomla\CMS\Event\Result\ResultAwareInterface;
 use Joomla\CMS\Event\Result\ResultTypeObjectAware;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Concrete Event class for the onUserMultifactorGetMethod event
  *
- * @since __DEPLOY_VERSION__
+ * @since 4.2.0
  */
 class GetMethod extends AbstractImmutableEvent implements ResultAwareInterface
 {
-	use ResultAware;
-	use ResultTypeObjectAware;
+    use ResultAware;
+    use ResultTypeObjectAware;
 
-	/**
-	 * Public constructor
-	 *
-	 * @since __DEPLOY_VERSION__
-	 */
-	public function __construct()
-	{
-		parent::__construct('onUserMultifactorGetMethod', []);
+    /**
+     * Public constructor
+     *
+     * @since 4.2.0
+     */
+    public function __construct()
+    {
+        parent::__construct('onUserMultifactorGetMethod', []);
 
-		$this->resultIsNullable        = true;
-		$this->resultAcceptableClasses = [
-			MethodDescriptor::class,
-		];
-	}
+        $this->resultIsNullable        = true;
+        $this->resultAcceptableClasses = [
+            MethodDescriptor::class,
+        ];
+    }
 }

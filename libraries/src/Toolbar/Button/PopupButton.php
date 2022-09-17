@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,12 +9,14 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Uri\Uri;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Renders a modal window button
@@ -44,120 +47,127 @@ use Joomla\CMS\Uri\Uri;
  */
 class PopupButton extends ToolbarButton
 {
-	/**
-	 * Property layout.
-	 *
-	 * @var  string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $layout = 'joomla.toolbar.popup';
+    /**
+     * Property layout.
+     *
+     * @var  string
+     *
+     * @since  4.0.0
+     */
+    protected $layout = 'joomla.toolbar.popup';
 
-	/**
-	 * Prepare options for this button.
-	 *
-	 * @param   array  $options  The options about this button.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function prepareOptions(array &$options)
-	{
-		$options['icon'] = $options['icon'] ?? 'icon-square';
+    /**
+     * Prepare options for this button.
+     *
+     * @param   array  $options  The options about this button.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function prepareOptions(array &$options)
+    {
+        $options['icon'] = $options['icon'] ?? 'icon-square';
 
-		parent::prepareOptions($options);
+        parent::prepareOptions($options);
 
-		$options['doTask'] = $this->_getCommand($this->getUrl());
+        $options['doTask'] = $this->_getCommand($this->getUrl());
 
-		$options['selector'] = $options['selector'] ?? 'modal-' . $this->getName();
-	}
+        $options['selector'] = $options['selector'] ?? 'modal-' . $this->getName();
+    }
 
-	/**
-	 * Fetch the HTML for the button
-	 *
-	 * @param   string   $type          Unused string, formerly button type.
-	 * @param   string   $name          Modal name, used to generate element ID
-	 * @param   string   $text          The link text
-	 * @param   string   $url           URL for popup
-	 * @param   integer  $iframeWidth   Width of popup
-	 * @param   integer  $iframeHeight  Height of popup
-	 * @param   integer  $bodyHeight    Optional height of the modal body in viewport units (vh)
-	 * @param   integer  $modalWidth    Optional width of the modal in viewport units (vh)
-	 * @param   string   $onClose       JavaScript for the onClose event.
-	 * @param   string   $title         The title text
-	 * @param   string   $footer        The footer html
-	 *
-	 * @return  string  HTML string for the button
-	 *
-	 * @since   3.0
-	 */
-	public function fetchButton($type = 'Modal', $name = '', $text = '', $url = '', $iframeWidth = 640,
-		$iframeHeight = 480, $bodyHeight = null, $modalWidth = null, $onClose = '', $title = '', $footer = null
-	)
-	{
-		$this->name($name)
-			->text($text)
-			->task($this->_getCommand($url))
-			->url($url)
-			->icon('icon-' . $name)
-			->iframeWidth($iframeWidth)
-			->iframeHeight($iframeHeight)
-			->bodyHeight($bodyHeight)
-			->modalWidth($modalWidth)
-			->onclose($onClose)
-			->title($title)
-			->footer($footer);
+    /**
+     * Fetch the HTML for the button
+     *
+     * @param   string   $type          Unused string, formerly button type.
+     * @param   string   $name          Modal name, used to generate element ID
+     * @param   string   $text          The link text
+     * @param   string   $url           URL for popup
+     * @param   integer  $iframeWidth   Width of popup
+     * @param   integer  $iframeHeight  Height of popup
+     * @param   integer  $bodyHeight    Optional height of the modal body in viewport units (vh)
+     * @param   integer  $modalWidth    Optional width of the modal in viewport units (vh)
+     * @param   string   $onClose       JavaScript for the onClose event.
+     * @param   string   $title         The title text
+     * @param   string   $footer        The footer html
+     *
+     * @return  string  HTML string for the button
+     *
+     * @since   3.0
+     */
+    public function fetchButton(
+        $type = 'Modal',
+        $name = '',
+        $text = '',
+        $url = '',
+        $iframeWidth = 640,
+        $iframeHeight = 480,
+        $bodyHeight = null,
+        $modalWidth = null,
+        $onClose = '',
+        $title = '',
+        $footer = null
+    ) {
+        $this->name($name)
+            ->text($text)
+            ->task($this->_getCommand($url))
+            ->url($url)
+            ->icon('icon-' . $name)
+            ->iframeWidth($iframeWidth)
+            ->iframeHeight($iframeHeight)
+            ->bodyHeight($bodyHeight)
+            ->modalWidth($modalWidth)
+            ->onclose($onClose)
+            ->title($title)
+            ->footer($footer);
 
-		return $this->renderButton($this->options);
-	}
+        return $this->renderButton($this->options);
+    }
 
-	/**
-	 * Render button HTML.
-	 *
-	 * @param   array  $options  The button options.
-	 *
-	 * @return  string  The button HTML.
-	 *
-	 * @since   4.0.0
-	 */
-	protected function renderButton(array &$options): string
-	{
-		$html = [];
+    /**
+     * Render button HTML.
+     *
+     * @param   array  $options  The button options.
+     *
+     * @return  string  The button HTML.
+     *
+     * @since   4.0.0
+     */
+    protected function renderButton(array &$options): string
+    {
+        $html = [];
 
-		$html[] = parent::renderButton($options);
+        $html[] = parent::renderButton($options);
 
-		if ((string) $this->getUrl() !== '')
-		{
-			// Build the options array for the modal
-			$params = array();
-			$params['title']      = $options['title'] ?? $options['text'];
-			$params['url']        = $this->getUrl();
-			$params['height']     = $options['iframeHeight'] ?? 480;
-			$params['width']      = $options['iframeWidth'] ?? 640;
-			$params['bodyHeight'] = $options['bodyHeight'] ?? null;
-			$params['modalWidth'] = $options['modalWidth'] ?? null;
+        if ((string) $this->getUrl() !== '') {
+            // Build the options array for the modal
+            $params = array();
+            $params['title']      = $options['title'] ?? $options['text'];
+            $params['url']        = $this->getUrl();
+            $params['height']     = $options['iframeHeight'] ?? 480;
+            $params['width']      = $options['iframeWidth'] ?? 640;
+            $params['bodyHeight'] = $options['bodyHeight'] ?? null;
+            $params['modalWidth'] = $options['modalWidth'] ?? null;
 
-			// Place modal div and scripts in a new div
-			$html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
+            // Place modal div and scripts in a new div
+            $html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
 
-			$selector = $options['selector'];
+            $selector = $options['selector'];
 
-			$footer = $this->getFooter();
+            $footer = $this->getFooter();
 
-			if ($footer !== null)
-			{
-				$params['footer'] = $footer;
-			}
+            if ($footer !== null) {
+                $params['footer'] = $footer;
+            }
 
-			$html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
+            $html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
 
-			$html[] = '</div>';
+            $html[] = '</div>';
 
-			// We have to move the modal, otherwise we get problems with the backdrop
-			// @todo: There should be a better workaround than this
-			Factory::getDocument()->addScriptDeclaration(
-				<<<JS
+            // We have to move the modal, otherwise we get problems with the backdrop
+            // @todo: There should be a better workaround than this
+            Factory::getDocument()->addScriptDeclaration(
+                <<<JS
 document.addEventListener('DOMContentLoaded', function() {
   var modal =document.getElementById('{$options['selector']}');
   document.body.appendChild(modal);
@@ -166,70 +176,68 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 JS
-			);
-		}
+            );
+        }
 
-		// If an $onClose event is passed, add it to the modal JS object
-		if ((string) $this->getOnclose() !== '')
-		{
-			Factory::getDocument()->addScriptDeclaration(
-				<<<JS
+        // If an $onClose event is passed, add it to the modal JS object
+        if ((string) $this->getOnclose() !== '') {
+            Factory::getDocument()->addScriptDeclaration(
+                <<<JS
 document.addEventListener('DOMContentLoaded', function() {
 	document.querySelector('#{$options['selector']}').addEventListener('hide.bs.modal', function() {
 	    {$options['onclose']}
 	});
 });
 JS
-			);
-		}
+            );
+        }
 
-		return implode("\n", $html);
-	}
+        return implode("\n", $html);
+    }
 
-	/**
-	 * Get the JavaScript command for the button
-	 *
-	 * @param   string  $url  URL for popup
-	 *
-	 * @return  string  JavaScript command string
-	 *
-	 * @since   3.0
-	 */
-	private function _getCommand($url)
-	{
-		$url = $url ?? '';
+    /**
+     * Get the JavaScript command for the button
+     *
+     * @param   string  $url  URL for popup
+     *
+     * @return  string  JavaScript command string
+     *
+     * @since   3.0
+     */
+    private function _getCommand($url)
+    {
+        $url = $url ?? '';
 
-		if (strpos($url, 'http') !== 0)
-		{
-			$url = Uri::base() . $url;
-		}
+        if (strpos($url, 'http') !== 0) {
+            $url = Uri::base() . $url;
+        }
 
-		return $url;
-	}
+        return $url;
+    }
 
-	/**
-	 * Method to configure available option accessors.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected static function getAccessors(): array
-	{
-		return array_merge(
-			parent::getAccessors(),
-			[
-				'url',
-				'iframeWidth',
-				'iframeHeight',
-				'bodyHeight',
-				'modalWidth',
-				'onclose',
-				'title',
-				'footer',
-				'selector',
-				'listCheck',
-			]
-		);
-	}
+    /**
+     * Method to configure available option accessors.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected static function getAccessors(): array
+    {
+        return array_merge(
+            parent::getAccessors(),
+            [
+                'url',
+                'iframeWidth',
+                'iframeHeight',
+                'bodyHeight',
+                'modalWidth',
+                'onclose',
+                'title',
+                'footer',
+                'selector',
+                'listCheck',
+            ]
+        );
+    }
 }

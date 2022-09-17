@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Webauthn
@@ -9,14 +10,16 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-// Protect from unauthorized access
-\defined('_JEXEC') or die();
-
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Delete all WebAuthn credentials for a particular user
@@ -25,43 +28,50 @@ use Joomla\Utilities\ArrayHelper;
  */
 trait UserDeletion
 {
-	/**
-	 * Remove all passwordless credential information for the given user ID.
-	 *
-	 * This method is called after user data is deleted from the database.
-	 *
-	 * @param   array   $user     Holds the user data
-	 * @param   bool    $success  True if user was successfully stored in the database
-	 * @param   string  $msg      Message
-	 *
-	 * @return  void
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function onUserAfterDelete(array $user, bool $success, ?string $msg): void
-	{
-		if (!$success)
-		{
-			return;
-		}
+    /**
+     * Remove all passwordless credential information for the given user ID.
+     *
+     * This method is called after user data is deleted from the database.
+     *
+     * @param   Event  $event  The event we are handling
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function onUserAfterDelete(Event $event): void
+    {
+        /**
+         * @var   array       $user    Holds the user data
+         * @var   bool        $success True if user was successfully stored in the database
+         * @var   string|null $msg     Message
+         */
+        [$user, $success, $msg] = $event->getArguments();
 
-		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
+        if (!$success) {
+            $this->returnFromEvent($event, true);
+        }
 
-		if ($userId)
-		{
-			Joomla::log('system', "Removing WebAuthn Passwordless Login information for deleted user #{$userId}");
+        $userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
-			/** @var DatabaseDriver $db */
-			$db = Factory::getContainer()->get('DatabaseDriver');
+        if ($userId) {
+            Log::add("Removing WebAuthn Passwordless Login information for deleted user #{$userId}", Log::DEBUG, 'webauthn.system');
 
-			$query = $db->getQuery(true)
-				->delete($db->qn('#__webauthn_credentials'))
-				->where($db->qn('user_id') . ' = :userId')
-				->bind(':userId', $userId);
+            /** @var DatabaseDriver $db */
+            $db = Factory::getContainer()->get('DatabaseDriver');
 
-			$db->setQuery($query)->execute();
-		}
-	}
+            $query = $db->getQuery(true)
+                ->delete($db->qn('#__webauthn_credentials'))
+                ->where($db->qn('user_id') . ' = :userId')
+                ->bind(':userId', $userId);
+
+            try {
+                $db->setQuery($query)->execute();
+            } catch (Exception $e) {
+                // Don't worry if this fails
+            }
+
+            $this->returnFromEvent($event, true);
+        }
+    }
 }

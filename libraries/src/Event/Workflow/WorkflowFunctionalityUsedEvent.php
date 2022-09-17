@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Event\Workflow;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Event class for Workflow Functionality Used events
@@ -19,39 +22,38 @@ use BadMethodCallException;
  */
 class WorkflowFunctionalityUsedEvent extends AbstractEvent
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @throws  BadMethodCallException
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct($name, array $arguments = array())
-	{
-		$arguments['used'] = false;
+    /**
+     * Constructor.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @throws  BadMethodCallException
+     *
+     * @since   4.0.0
+     */
+    public function __construct($name, array $arguments = array())
+    {
+        $arguments['used'] = false;
 
-		parent::__construct($name, $arguments);
-	}
+        parent::__construct($name, $arguments);
+    }
 
-	/**
-	 * Set used parameter to true
-	 *
-	 * @param   bool  $value  The value to set
-	 *
-	 * @return void
-	 *
-	 * @since   4.0.0
-	 */
-	public function setUsed($value = true)
-	{
-		$this->arguments['used'] = $value;
+    /**
+     * Set used parameter to true
+     *
+     * @param   bool  $value  The value to set
+     *
+     * @return void
+     *
+     * @since   4.0.0
+     */
+    public function setUsed($value = true)
+    {
+        $this->arguments['used'] = $value;
 
-		if ($value === true)
-		{
-			$this->stopPropagation();
-		}
-	}
+        if ($value === true) {
+            $this->stopPropagation();
+        }
+    }
 }
