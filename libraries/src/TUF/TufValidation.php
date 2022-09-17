@@ -134,7 +134,7 @@ class TufValidation
 			// When the validation fails, for example when one file is written but the others don't, we roll back everything
 			// and cancel the update
 			$query = $db->getQuery(true)
-				->delete('#__tuf_metadata')
+				->delete($db->quoteName('#__tuf_metadata'))
 				->columns(['snapshot_json', 'targets_json', 'timestamp_json']);
 			$db->setQuery($query);
 
