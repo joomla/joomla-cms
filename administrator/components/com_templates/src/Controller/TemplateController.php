@@ -479,7 +479,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^(?!.*\\..*\\..*)[A-Za-z]([A-Za-z0-9.]*[A-Za-z0-9])?$/', $name) || strpos($name, '..') !== false) {
+        } elseif (!preg_match('/^(?!.*\\..*\\..*)[A-Za-z]([A-Za-z0-9._]*[A-Za-z0-9])?$/', $name) || strpos($name, '..') !== false) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
