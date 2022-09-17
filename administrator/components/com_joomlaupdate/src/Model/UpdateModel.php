@@ -31,6 +31,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! update overview Model
  *
@@ -948,7 +952,7 @@ ENDDATA;
     {
         // Make sure the username matches
         $username = $credentials['username'] ?? null;
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
 
         if (strtolower($user->username) != strtolower($username)) {
             return false;

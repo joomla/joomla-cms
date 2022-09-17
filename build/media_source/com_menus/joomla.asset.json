@@ -57,11 +57,6 @@
       }
     },
     {
-      "name": "com_menus.admin-item-edit-modules",
-      "type": "style",
-      "uri": "com_menus/admin-item-edit_modules.min.css"
-    },
-    {
       "name": "com_menus.admin-item-edit-modules.es5",
       "type": "script",
       "uri": "com_menus/admin-item-edit_modules-es5.min.js",
