@@ -23,6 +23,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users mail model.
  *
@@ -98,7 +102,7 @@ class MailModel extends AdminModel
     {
         $app      = Factory::getApplication();
         $data     = $app->input->post->get('jform', array(), 'array');
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $access   = new Access();
         $db       = $this->getDatabase();
         $language = Factory::getLanguage();
