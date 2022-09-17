@@ -25,7 +25,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @var Table
 	 */
-	protected Table $table;
+	protected $table;
 
 	/**
 	 * Initialize the DatabaseStorage class
@@ -37,7 +37,7 @@ class DatabaseStorage implements \ArrayAccess
 	{
 		$this->table = new Tuf($db);
 
-		$this->table->load($extensionId);
+		$this->table->load(['extension_id' => $extensionId]);
 	}
 
 	/**
@@ -47,11 +47,25 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @return boolean
 	 */
-	public function offsetExists(mixed $offset): bool
+	public function offsetExists($offset): bool
 	{
 		$column = $this->getCleanColumn($offset);
 
-		return substr($offset, -5) === '_json' && $this->table->hasField($column) && strlen($this->table->$column);
+		return substr($column, -5) === '_json' && $this->table->hasField($column) && !is_null($this->table->$column);
+	}
+
+	/**
+	 * Check if an offset/table column exists
+	 *
+	 * @param   mixed  $offset  The offset/database column to check for
+	 *
+	 * @return boolean
+	 */
+	public function tableColumnExists($offset): bool
+	{
+		$column = $this->getCleanColumn($offset);
+
+		return substr($column, -5) === '_json' && $this->table->hasField($column);
 	}
 
 	/**
@@ -61,7 +75,7 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @return  mixed
 	 */
-	public function offsetGet($offset): mixed
+	public function offsetGet($offset)
 	{
 		if (!$this->offsetExists($offset))
 		{
@@ -81,14 +95,16 @@ class DatabaseStorage implements \ArrayAccess
 	 *
 	 * @return void
 	 */
-	public function offsetSet($offset, $value): void
+	public function offsetSet($offset, $value)
 	{
-		if (!$this->offsetExists($offset))
+		if (!$this->tableColumnExists($offset))
 		{
 			throw new RoleNotFoundException;
 		}
 
-		$this->table->$offset = $value;
+		$column = $this->getCleanColumn($offset);
+
+		$this->table->$column = $value;
 
 		$this->table->store();
 	}
@@ -107,9 +123,11 @@ class DatabaseStorage implements \ArrayAccess
 			throw new RoleNotFoundException;
 		}
 
-		$this->table->$offset = '';
+		$column = $this->getCleanColumn($offset);
 
-		$this->table->store();
+		$this->table->$column = null;
+
+		$this->table->store(true);
 	}
 
 	/**

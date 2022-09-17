@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tuf\Client\GuzzleFileFetcher;
+use Joomla\CMS\TUF\HttpFileFetcher;
 use Tuf\Client\Updater;
 use Tuf\Exception\Attack\FreezeAttackException;
 use Tuf\Exception\Attack\RollbackAttackException;
@@ -34,14 +35,14 @@ class TufValidation
 	 *
 	 * @var integer
 	 */
-	private int $extensionId;
+	private $extensionId;
 
 	/**
 	 * The params of the validator
 	 *
 	 * @var mixed
 	 */
-	private mixed $params;
+	private $params;
 
 	/**
 	 * Validating updates with TUF
@@ -49,7 +50,7 @@ class TufValidation
 	 * @param   integer  $extensionId  The ID of the extension to be checked
 	 * @param   mixed    $params       The parameters containing the Base-URI, the Metadata- and Targets-Path and mirrors for the update
 	 */
-	public function __construct(int $extensionId, mixed $params)
+	public function __construct(int $extensionId, $params)
 	{
 		$this->extensionId = $extensionId;
 
@@ -106,17 +107,18 @@ class TufValidation
 	 *
 	 * @return mixed Returns the targets.json if the validation is successful, otherwise null
 	 */
-	public function getValidUpdate(): mixed
+	public function getValidUpdate()
 	{
 		$db = Factory::getContainer()->get(DatabaseDriver::class);
 
-		// $db = Factory::getDbo();
+		$fileFetcher = HttpFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
 
-		$fileFetcher = GuzzleFileFetcher::createFromUri($this->params['url_prefix'], $this->params['metadata_path'], $this->params['targets_path']);
+		$storage = new DatabaseStorage($db, $this->extensionId);
+
 		$updater = new Updater(
 			$fileFetcher,
 			$this->params['mirrors'],
-			new DatabaseStorage($db, $this->extensionId)
+			$storage
 		);
 
 		try
@@ -124,16 +126,8 @@ class TufValidation
 			// Refresh the data if needed, it will be written inside the DB, then we fetch it afterwards and return it to
 			// the caller
 			$updater->refresh();
-			$query = $db->getQuery(true)
-				->select('targets_json')
-				->from($db->quoteName('#__tuf_metadata', 'map'))
-				->where($db->quoteName('map.id') . ' = :id')
-				->bind(':id', $this->extensionId, ParameterType::INTEGER);
-			$db->setQuery($query);
 
-			$resultArray = (array) $db->loadObject();
-
-			return JsonNormalizer::decode($resultArray['targets_json']);
+			return $storage['targets.json'];
 		}
 		catch (FreezeAttackException | MetadataException | SignatureThresholdException | RollbackAttackException $e)
 		{
