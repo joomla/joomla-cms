@@ -23,6 +23,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -361,7 +362,26 @@ class UpdateModel extends ListModel
 				continue;
 			}
 
-			$update->loadFromXml($instance->detailsurl, $minimumStability);
+			$app = Factory::getApplication();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
+			$query = $db->getQuery(true)
+				->select('type')
+				->from('#__update_sites')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $instance->update_site_id, ParameterType::INTEGER);
+			$db->setQuery($query);
+			$updateSiteType = (string) $db->loadObject();
+
+			if ($updateSiteType == 'tuf')
+			{
+				$app->enqueueMessage(Text::_('JLIB_INSTALLER_TUF_NOT_AVAILABLE'), 'error');
+
+				return;
+			}
+			else
+			{
+				$update->loadFromXml($instance->detailsurl, $minimumStability);
+			}
 
 			// Find and use extra_query from update_site if available
 			$updateSiteInstance = new \Joomla\CMS\Table\UpdateSite($this->getDatabase());
