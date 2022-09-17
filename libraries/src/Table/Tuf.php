@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -17,15 +18,15 @@ namespace Joomla\CMS\Table;
  */
 class Tuf extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   \Joomla\Database\DatabaseDriver  $db  A database connector object
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function __construct($db)
-	{
-		parent::__construct('#__tuf_metadata', 'id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   \Joomla\Database\DatabaseDriver  $db  A database connector object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function __construct($db)
+    {
+        parent::__construct('#__tuf_metadata', 'id', $db);
+    }
 }
