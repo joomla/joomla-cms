@@ -227,6 +227,14 @@ class TemplateAdapter extends InstallerAdapter
         $db->setQuery($query);
         $db->execute();
 
+        // Remove any overrides
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName('#__template_overrides'))
+            ->where($db->quoteName('template') . ' = :template')
+            ->bind(':template', $element);
+        $db->setQuery($query);
+        $db->execute();
+
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
         $uid    = $update->find(
