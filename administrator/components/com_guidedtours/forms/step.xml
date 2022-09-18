@@ -81,10 +81,56 @@
 	</field>
 
 	<field
+		name="type"
+		type="list"
+		label="COM_GUIDEDTOURS_TYPE_LABEL"
+		default="nextstep"
+		description="COM_GUIDEDTOURS_TYPE_DESC"		
+		filter="word"
+		validate="options"
+		>
+		<option value="nextstep">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
+		<option value="redirect">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
+		<option value="interactivetour">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_TOUR</option>
+		<option value="interactionwithformfields">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTION_WITH_FORM_FIELDS</option>
+	</field>
+
+	<field
 		name="url"
 		type="url"
-		label="COM_GUIDEDTOURS_URL_LABEL"
-		description="COM_GUIDEDTOURS_URL_DESC"
+		label="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_LABEL"
+		description="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_DESC"
+		showon="type:redirect"
+		filter="string"
+	/>
+
+	<field
+		name="interactionwithformfields"
+		type="list"
+		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_LABEL"
+		showon="type:interactionwithformfields"
+		filter="string"
+		validate="options"
+		>
+		<option value="novalidation">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_NO_VALIDATION_LABEL</option>
+		<option value="validationbyvalue">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_VALUE_LABEL</option>
+	    <option value="validationbyspecificvalue">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_SPECIFIC_VALUE_LABEL</option>
+	</field>
+
+	<field
+		name="validationbyvalue"
+		type="text"
+		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_VALUE_LABEL"
+		showon="type:interactionwithformfields[AND]interactionwithformfields:validationbyvalue"
+		filter="string"
+	/>
+
+	<field
+		name="validationbyspecificvalue"
+		type="text"
+		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_SPECIFIC_VALUE_LABEL"
+		showon="type:interactionwithformfields[AND]interactionwithformfields:validationbyspecificvalue"
+		filter="string"
 	/>
 
 	<field
