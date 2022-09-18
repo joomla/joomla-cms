@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Joomla! Content Management System
  *
@@ -61,10 +60,10 @@ class HttpFileFetcher implements RepoFileFetcherInterface
     /**
      * JHttpFileFetcher constructor.
      *
-     * @param   \Joomla\Http\Http  $client          The HTTP client.
-     * @param   string             $metadataPrefix  The path prefix for metadata.
-     * @param   string             $targetsPrefix   The path prefix for targets.
-     * @param   string             $baseUri         Repo base uri for requests
+     * @param \Joomla\Http\Http $client The HTTP client.
+     * @param string $metadataPrefix The path prefix for metadata.
+     * @param string $targetsPrefix The path prefix for targets.
+     * @param string $baseUri Repo base uri for requests
      *
      * @since  __DEPLOY_VERSION__
      */
@@ -79,9 +78,9 @@ class HttpFileFetcher implements RepoFileFetcherInterface
     /**
      * Creates an instance of this class with a specific base URI.
      *
-     * @param   string  $baseUri         The base URI from which to fetch files.
-     * @param   string  $metadataPrefix  (optional) The path prefix for metadata. Defaults to '/metadata/'.
-     * @param   string  $targetsPrefix   (optional) The path prefix for targets. Defaults to '/targets/'.
+     * @param string $baseUri The base URI from which to fetch files.
+     * @param string $metadataPrefix (optional) The path prefix for metadata. Defaults to '/metadata/'.
+     * @param string $targetsPrefix (optional) The path prefix for targets. Defaults to '/targets/'.
      *
      * @return  static  A new instance of this class.
      *
@@ -91,7 +90,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
         string $baseUri,
         string $metadataPrefix = '/metadata/',
         string $targetsPrefix = '/targets/'
-    ): self {
+    ): self
+    {
         $httpFactory = new HttpFactory();
         $client = $httpFactory->getHttp([], 'curl');
 
@@ -101,8 +101,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
     /**
      * Fetches a metadata file from the remote repo.
      *
-     * @param   string   $fileName  The name of the metadata file to fetch.
-     * @param   integer  $maxBytes  The maximum number of bytes to download.
+     * @param string $fileName The name of the metadata file to fetch.
+     * @param integer $maxBytes The maximum number of bytes to download.
      *
      * @return  \GuzzleHttp\Promise\PromiseInterface  A promise wrapping a StreamInterface instanfe
      */
@@ -114,10 +114,10 @@ class HttpFileFetcher implements RepoFileFetcherInterface
     /**
      * Fetches a target file from the remote repo.
      *
-     * @param   string  $fileName  The name of the target to fetch.
-     * @param   integer $maxBytes  The maximum number of bytes to download.
-     * @param   array   $options   (optional) Additional request options to pass to the http client
-     * @param   string  $url       An arbitrary URL from which the target should be downloaded.
+     * @param string $fileName The name of the target to fetch.
+     * @param integer $maxBytes The maximum number of bytes to download.
+     * @param array $options (optional) Additional request options to pass to the http client
+     * @param string $url An arbitrary URL from which the target should be downloaded.
      *
      * @return  PromiseInterface
      *
@@ -125,10 +125,11 @@ class HttpFileFetcher implements RepoFileFetcherInterface
      */
     public function fetchTarget(
         string $fileName,
-        int $maxBytes,
-        array $options = [],
+        int    $maxBytes,
+        array  $options = [],
         string $url = null
-    ): PromiseInterface {
+    ): PromiseInterface
+    {
         $location = $url ?: $this->baseUri . $this->targetsPrefix . $fileName;
 
         return $this->fetchFile($location, $maxBytes, $options);
@@ -137,9 +138,9 @@ class HttpFileFetcher implements RepoFileFetcherInterface
     /**
      * Fetches a file from a URL.
      *
-     * @param   string   $url       The URL of the file to fetch.
-     * @param   integer  $maxBytes  The maximum number of bytes to download.
-     * @param   array    $options   Additional request options to pass to the http client
+     * @param string $url The URL of the file to fetch.
+     * @param integer $maxBytes The maximum number of bytes to download.
+     * @param array $options Additional request options to pass to the http client
      *
      * @return  PromiseInterface    A promise representing the eventual result of the operation.
      *
@@ -170,8 +171,8 @@ class HttpFileFetcher implements RepoFileFetcherInterface
     /**
      * Gets a file if it exists in the remote repo.
      *
-     * @param   string   $fileName   The file name to fetch.
-     * @param   integer  $maxBytes   The maximum number of bytes to download.
+     * @param string $fileName The file name to fetch.
+     * @param integer $maxBytes The maximum number of bytes to download.
      *
      * @return  string|null  The contents of the file or null if it does not exist.
      */

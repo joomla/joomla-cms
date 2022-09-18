@@ -27,7 +27,7 @@ class ConstraintChecker
     /**
      * Checks whether the passed constraints are matched
      *
-     * @param   array  $constraints  The provided constraints to be checked
+     * @param array $constraints The provided constraints to be checked
      *
      * @return  boolean
      *
@@ -75,7 +75,7 @@ class ConstraintChecker
     /**
      * Check the targetPlatform
      *
-     * @param   object  $targetPlatform
+     * @param object $targetPlatform
      *
      * @return  boolean
      *
@@ -100,7 +100,7 @@ class ConstraintChecker
     /**
      * Check the minimum PHP version
      *
-     * @param   string  $phpMinimum  The minimum php version to check
+     * @param string $phpMinimum The minimum php version to check
      *
      * @return  boolean
      *
@@ -115,7 +115,7 @@ class ConstraintChecker
     /**
      * Check the supported databases and versions
      *
-     * @param   object  $supportedDatabases  stdClass of supported databases and versions
+     * @param object $supportedDatabases stdClass of supported databases and versions
      *
      * @return  boolean
      *
@@ -123,8 +123,8 @@ class ConstraintChecker
      */
     protected function checkSupportedDatabases(\stdClass $supportedDatabases)
     {
-        $db        = Factory::getDbo();
-        $dbType    = strtolower($db->getServerType());
+        $db = Factory::getDbo();
+        $dbType = strtolower($db->getServerType());
         $dbVersion = $db->getVersion();
 
         // MySQL and MariaDB use the same database driver but not the same version numbers
@@ -133,7 +133,7 @@ class ConstraintChecker
             if (stripos($dbVersion, 'mariadb') !== false) {
                 // MariaDB: Strip off any leading '5.5.5-', if present
                 $dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-                $dbType    = 'mariadb';
+                $dbType = 'mariadb';
             }
         }
 
@@ -150,7 +150,7 @@ class ConstraintChecker
     /**
      * Check the stability
      *
-     * @param   string  $stability  Stability to check
+     * @param string $stability Stability to check
      *
      * @return  boolean
      *
@@ -173,7 +173,7 @@ class ConstraintChecker
      * Converts a tag to numeric stability representation. If the tag doesn't represent a known stability level (one of
      * dev, alpha, beta, rc, stable) it is ignored.
      *
-     * @param   string  $tag  The tag string, e.g. dev, alpha, beta, rc, stable
+     * @param string $tag The tag string, e.g. dev, alpha, beta, rc, stable
      *
      * @return  integer
      *

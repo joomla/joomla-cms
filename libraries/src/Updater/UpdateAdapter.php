@@ -124,7 +124,7 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Finds an update
      *
-     * @param   array  $options  Options to use: update_site_id: the unique ID of the update site to look at
+     * @param array $options Options to use: update_site_id: the unique ID of the update site to look at
      *
      * @return  array  Update_sites and updates discovered
      *
@@ -137,15 +137,15 @@ abstract class UpdateAdapter extends AdapterInstance
      * from their URL and enabled afterwards. If the URL fetch fails with a PHP fatal error (e.g. timeout) the faulty
      * update site will remain disabled the next time we attempt to load the update information.
      *
-     * @param   int   $updateSiteId  The numeric ID of the update site to enable/disable
-     * @param   bool  $enabled       Enable the site when true, disable it when false
+     * @param int $updateSiteId The numeric ID of the update site to enable/disable
+     * @param bool $enabled Enable the site when true, disable it when false
      *
      * @return  void
      */
     protected function toggleUpdateSite($updateSiteId, $enabled = true)
     {
-        $updateSiteId = (int) $updateSiteId;
-        $enabled = (bool) $enabled ? 1 : 0;
+        $updateSiteId = (int)$updateSiteId;
+        $enabled = (bool)$enabled ? 1 : 0;
 
         if (empty($updateSiteId)) {
             return;
@@ -170,13 +170,13 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Get the name of an update site. This is used in logging.
      *
-     * @param   int  $updateSiteId  The numeric ID of the update site
+     * @param int $updateSiteId The numeric ID of the update site
      *
      * @return  string  The name of the update site or an empty string if it's not found
      */
     protected function getUpdateSiteName($updateSiteId)
     {
-        $updateSiteId = (int) $updateSiteId;
+        $updateSiteId = (int)$updateSiteId;
 
         if (empty($updateSiteId)) {
             return '';
@@ -204,7 +204,7 @@ abstract class UpdateAdapter extends AdapterInstance
     /**
      * Try to get the raw HTTP response from the update site, hopefully containing the update XML.
      *
-     * @param   array  $options  The update options, see findUpdate() in children classes
+     * @param array $options The update options, see findUpdate() in children classes
      *
      * @return  \Joomla\CMS\Http\Response|bool  False if we can't connect to the site, HTTP Response object otherwise
      *
@@ -220,7 +220,7 @@ abstract class UpdateAdapter extends AdapterInstance
             $options['update_site_name'] = $this->getUpdateSiteName($this->updateSiteId);
         }
 
-        $this->updateSiteName  = $options['update_site_name'];
+        $this->updateSiteName = $options['update_site_name'];
         $this->appendExtension = false;
 
         if (\array_key_exists('append_extension', $options)) {
@@ -241,7 +241,7 @@ abstract class UpdateAdapter extends AdapterInstance
 
         $startTime = microtime(true);
 
-        $version    = new Version();
+        $version = new Version();
         $httpOption = new Registry();
         $httpOption->set('userAgent', $version->getUserAgent('Joomla', true, false));
 
@@ -257,7 +257,7 @@ abstract class UpdateAdapter extends AdapterInstance
         $this->toggleUpdateSite($this->updateSiteId, true);
 
         // Log the time it took to load this update site's information
-        $endTime    = microtime(true);
+        $endTime = microtime(true);
         $timeToLoad = sprintf('%0.2f', $endTime - $startTime);
         Log::add(
             "Loading information from update site #{$this->updateSiteId} with name " .

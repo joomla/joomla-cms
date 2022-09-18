@@ -31,17 +31,17 @@ class TufAdapter extends UpdateAdapter
      * @var  array
      */
     private $clientId = [
-        'site'          => 0,
+        'site' => 0,
         'administrator' => 1,
-        'installation'  => 2,
-        'api'           => 3,
-        'cli'           => 4
+        'installation' => 2,
+        'api' => 3,
+        'cli' => 4
     ];
 
     /**
      * Finds an update.
      *
-     * @param   array  $options  Update options.
+     * @param array $options Update options.
      *
      * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
      *
@@ -69,7 +69,7 @@ class TufAdapter extends UpdateAdapter
     /**
      * Finds targets.
      *
-     * @param   array  $options  Update options.
+     * @param array $options Update options.
      *
      * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
      *
@@ -102,15 +102,42 @@ class TufAdapter extends UpdateAdapter
             // Do nothing
         }
 
-        $params = [
-            'url_prefix'    => 'https://raw.githubusercontent.com',
-            'metadata_path' => '/joomla/updates/test/repository/',
-            'targets_path'  => '/targets/',
-            'mirrors'       => []
-        ];
+        // Get params for TufValidation
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('location'))
+            ->from($db->quoteName('#__update_sites'))
+            ->where($db->quoteName('update_site_id') . ' = :id')
+            ->bind(':id', $options['update_site_id'], ParameterType::INTEGER);
+        $db->setQuery($query);
+
+        try {
+            $params_string = $db->loadResult();
+            $params_mirrors = explode('|', $params_string);
+            $params = [
+                'url_prefix' => '',
+                'metadata_path' => '',
+                'targets_path' => '',
+                'mirrors' => []
+            ];
+            for ($i = 0; $i < count($params_mirrors); $i++) {
+                if ($i == 0) {
+                    $params['url_prefix'] = $params_mirrors[$i];
+                } else {
+                    $mirror = [
+                        'url_prefix' => $params_mirrors[$i],
+                        'metadata_path' => '',
+                        'targets_path' => '',
+                        'confined_target_dirs' => []
+                    ];
+                    array_push($params['mirrors'], $mirror);
+                }
+            }
+        } catch (\RuntimeException $e) {
+            // Do nothing
+        }
 
         $TufValidation = new TufValidation($extension_id, $params);
-        $metaData      = $TufValidation->getValidUpdate();
+        $metaData = $TufValidation->getValidUpdate();
 
         $metaData = json_decode($metaData);
 
@@ -141,6 +168,13 @@ class TufAdapter extends UpdateAdapter
                     continue;
                 }
 
+                $values['data'] = [
+                    'downloads' => $values['downloads'],
+                    'targetplatform' => $values['targetplatform'],
+                    'supported_databases' => $values['supported_databases'],
+                    'hashes' => $target->hashes
+                ];
+
                 $versions[$values['version']] = $values;
             }
 
@@ -151,7 +185,7 @@ class TufAdapter extends UpdateAdapter
             $checker = new ConstraintChecker();
 
             foreach ($versions as $version) {
-                if ($checker->check((array) $version)) {
+                if ($checker->check((array)$version)) {
                     return array($version);
                 }
             }
@@ -163,7 +197,7 @@ class TufAdapter extends UpdateAdapter
     /**
      * Configures default values or pass arguments to params
      *
-     * @param   OptionsResolver  $resolver  The OptionsResolver for the params
+     * @param OptionsResolver $resolver The OptionsResolver for the params
      *
      * @return void
      *
@@ -173,20 +207,20 @@ class TufAdapter extends UpdateAdapter
     {
         $resolver->setDefaults(
             [
-                'name'                => null,
-                'description'         => '',
-                'element'             => '',
-                'type'                => null,
-                'client'              => 1,
-                'version'             => "1",
-                'data'                => '',
-                'detailsurl'          => '',
-                'infourl'             => '',
-                'downloads'           => [],
-                'targetplatform'      => new \StdClass(),
-                'php_minimum'         => null,
+                'name' => null,
+                'description' => '',
+                'element' => '',
+                'type' => null,
+                'client' => 0,
+                'version' => "1",
+                'data' => '',
+                'detailsurl' => '',
+                'infourl' => '',
+                'downloads' => [],
+                'targetplatform' => new \StdClass(),
+                'php_minimum' => null,
                 'supported_databases' => new \StdClass(),
-                'stability'           => ''
+                'stability' => ''
             ]
         )
             ->setAllowedTypes('version', 'string')
