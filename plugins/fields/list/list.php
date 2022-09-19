@@ -44,7 +44,7 @@ class PlgFieldsList extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 
         $options = $this->getOptionsFromField($field);
 
-       if (empty($field->value)) {
+        if (empty($field->value)) {
             return;
         }
 
