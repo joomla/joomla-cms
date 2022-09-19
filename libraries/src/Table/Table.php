@@ -1698,6 +1698,12 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
                 $query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
             }
 
+            // If there is a modified field updated it as well
+            if ($this->hasField('modified')) {
+                $nowDate = $this->_db->quote(Factory::getDate()->toSql());
+                $query->set($this->_db->quoteName($this->getColumnAlias('modified')) . ' = ' . $nowDate);
+            }
+
             // Determine if there is checkin support for the table.
             if ($this->hasField('checked_out') || $this->hasField('checked_out_time')) {
                 $query->where(
