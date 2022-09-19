@@ -46,7 +46,7 @@ class TagModel extends AdminModel
      */
     public $typeAlias = 'com_tags.tag';
 
-     /**
+    /**
      * Batch copy/move command. If set to false,
      * the batch copy/move command is not supported
      *
