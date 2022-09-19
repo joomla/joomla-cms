@@ -41,7 +41,7 @@ class PlgFieldsRadio extends \Joomla\Component\Fields\Administrator\Plugin\Field
         if (!$this->isTypeSupported($field->type)) {
             return;
         }
-        
+
         $field->apivalue = [];
 
         $options = $this->getOptionsFromField($field);
