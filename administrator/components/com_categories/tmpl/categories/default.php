@@ -84,27 +84,27 @@ if ($saveOrder && !empty($this->items)) {
                                     <?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
                                 </th>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-                                    <th scope="col" class="w-3 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-check" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
+                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_HEADING_PUBLISHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-                                    <th scope="col" class="w-3 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-times" aria-hidden="true""></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
+                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_HEADING_UNPUBLISHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-                                    <th scope="col" class="w-3 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-folder icon-fw" aria-hidden="true""></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
+                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_HEADING_ARCHIVED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-                                    <th scope="col" class="w-3 text-center d-none d-md-table-cell">
+                                    <th scope="col" class="w-10 text-center d-none d-md-table-cell">
                                         <span class="icon-trash" aria-hidden="true"></span>
-                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
+                                        <span class="d-none d-md-inline"><?php echo Text::_('COM_CATEGORY_HEADING_TRASHED'); ?></span>
                                     </th>
                                 <?php endif; ?>
                                 <th scope="col" class="w-10 d-none d-md-table-cell">
@@ -211,7 +211,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_published; ?>
                                             </a>
                                             <div role="tooltip" id="tip-publish<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>
+                                                <?php echo Text::_('COM_CATEGORY_PUBLISHED_ARTICLES'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
@@ -223,7 +223,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_unpublished; ?>
                                             </a>
                                             <div role="tooltip" id="tip-unpublish<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>
+                                                <?php echo Text::_('COM_CATEGORY_UNPUBLISHED_ARTICLES'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
@@ -235,7 +235,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_archived; ?>
                                             </a>
                                             <div role="tooltip" id="tip-archive<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>
+                                                <?php echo Text::_('COM_CATEGORY_ARCHIVED_ARTICLES'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
@@ -247,7 +247,7 @@ if ($saveOrder && !empty($this->items)) {
                                                 <?php echo $item->count_trashed; ?>
                                             </a>
                                             <div role="tooltip" id="tip-trash<?php echo $i; ?>">
-                                                <?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>
+                                                <?php echo Text::_('COM_CATEGORY_TRASHED_ARTICLES'); ?>
                                             </div>
                                         </td>
                                     <?php endif; ?>
