@@ -10,5 +10,9 @@
   "lockFileMaintenance": { "enabled": true },
   "composerIgnorePlatformReqs": ["ext-*", "lib-*"],
   "rangeStrategy": "update-lockfile",
-  "baseBranches": ["4.2-dev", "4.3-dev", "5.0-dev"]
+  "baseBranches": ["4.2-dev", "4.3-dev", "5.0-dev"],
+  "constraints": {
+    "composer": "> 2.3",
+    "npm": "> 8.0"
+  }
 }
