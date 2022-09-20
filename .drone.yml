@@ -5,6 +5,37 @@ name: default
 clone:
 
 steps:
+  - name: setup
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: certificates
+        path: /certificates
+    commands:
+      - cp -v tests/Codeception/_data/certs/* /certificates/
+
+  - name: openldap
+    image: bitnami/openldap:latest
+    detach: true
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: customuser
+      LDAP_PASSWORDS: custompassword
+      LDAP_ENABLE_TLS: yes
+      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
+      LDAP_TLS_KEY_FILE: /certificates/openldap.key
+      LDAP_TLS_CA_FILE: /certificates/CA.crt
+      BITNAMI_DEBUG: true
+      LDAP_CONFIG_ADMIN_ENABLED: yes
+      LDAP_CONFIG_ADMIN_USERNAME: admin
+      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
+
   - name: composer
     image: joomlaprojects/docker-images:php7.4
     volumes:
@@ -361,6 +392,9 @@ volumes:
   - name: npm-cache
     host:
       path: /tmp/npm-cache
+  - name: certificates
+    host:
+      path: /tmp/certificates
 
 services:
   - name: mysql
@@ -483,6 +517,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 86d76234154f6b93878f6cd25a909b36cb0512bb3efb662c769c328a5ce9a9ac
+hmac: 5b88ad7da16d2af7daa891a95c056142b6eff641c3f4e584a45c00eeb3cc91c2
 
 ...
