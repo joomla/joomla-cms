@@ -3,8 +3,6 @@
     ref="actionRenameButton"
     type="button"
     class="action-rename"
-    :aria-label="translate('COM_MEDIA_ACTION_RENAME')"
-    :title="translate('COM_MEDIA_ACTION_RENAME')"
     @click.stop="openRenameModal()"
     @keyup.enter="openRenameModal()"
     @keyup.space="openRenameModal()"
@@ -18,7 +16,6 @@
     />
     <span
       class="action-text"
-      aria-hidden="true"
       >
       {{ translate('COM_MEDIA_ACTION_RENAME') }}
     </span>

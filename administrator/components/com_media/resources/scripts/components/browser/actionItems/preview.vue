@@ -2,8 +2,6 @@
   <button
     type="button"
     class="action-preview"
-    :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')"
-    :title="translate('COM_MEDIA_ACTION_PREVIEW')"
     @click.stop="openPreview()"
     @keyup.enter="openPreview()"
     @keyup.space="openPreview()"
@@ -17,7 +15,6 @@
     />
     <span
       class="action-text"
-      aria-hidden="true"
       >
       {{ translate('COM_MEDIA_ACTION_PREVIEW') }}
     </span>

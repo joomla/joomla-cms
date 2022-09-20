@@ -2,8 +2,6 @@
   <button
     type="button"
     class="action-download"
-    :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')"
-    :title="translate('COM_MEDIA_ACTION_DOWNLOAD')"
     @keyup.enter="download()"
     @keyup.space="download()"
     @click.stop="download()"
@@ -17,7 +15,6 @@
     />
     <span
           class="action-text"
-          aria-hidden="true"
           >
           {{ translate('COM_MEDIA_ACTION_DOWNLOAD') }}
         </span>

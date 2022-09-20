@@ -2,8 +2,6 @@
   <button
     type="button"
     class="action-delete"
-    :aria-label="translate('COM_MEDIA_ACTION_DELETE')"
-    :title="translate('COM_MEDIA_ACTION_DELETE')"
     @keyup.enter="openConfirmDeleteModal()"
     @keyup.space="openConfirmDeleteModal()"
     @focus="focused(true)"
@@ -17,7 +15,6 @@
     />
     <span
       class="action-text"
-      aria-hidden="true"
       >
       {{ translate('COM_MEDIA_ACTION_DELETE') }}
     </span>

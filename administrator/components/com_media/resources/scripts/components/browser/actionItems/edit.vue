@@ -2,8 +2,6 @@
   <button
     type="button"
     class="action-edit"
-    :aria-label="translate('COM_MEDIA_ACTION_EDIT')"
-    :title="translate('COM_MEDIA_ACTION_EDIT')"
     @keyup.enter="editItem()"
     @keyup.space="editItem()"
     @click.stop="editItem()"
@@ -17,7 +15,6 @@
     />
     <span
           class="action-text"
-          aria-hidden="true"
           >
           {{ translate('COM_MEDIA_ACTION_EDIT') }}
         </span>
