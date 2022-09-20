@@ -125,8 +125,8 @@
   }
   &.active {
     top: 0;
+    width: max-content;
     min-width: 100%;
-    width:max-content;
     background-color: var(--template-bg-dark-3);
     border: 1px solid hsl(var(--hue), 35%, 95%);
     border-radius: .25rem;
