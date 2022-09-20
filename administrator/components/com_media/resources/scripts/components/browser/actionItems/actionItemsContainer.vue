@@ -23,6 +23,9 @@
       class="media-browser-actions-list"
     >
       <ul>
+        <li aria-hidden="true" class="media-browser-actions-item-name">
+          <strong>{{ this.$parent.$props.item.name }}</strong>
+        </li>
         <li>
           <media-browser-action-item-preview
             v-if="previewable"
@@ -170,6 +173,7 @@ export default {
     /* Hide actions dropdown */
     hideActions() {
       this.showActions = false;
+      this.$parent.$parent.$data.actionsActive = false;
     },
     /* Preview an item */
     openPreview() {
@@ -200,6 +204,7 @@ export default {
     /* Open actions dropdown */
     openActions() {
       this.showActions = true;
+      this.$parent.$parent.$data.actionsActive = true;
       const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
       if (buttons.length) {
         buttons[0].focus();
@@ -208,6 +213,7 @@ export default {
     /* Open actions dropdown and focus on last element */
     openLastActions() {
       this.showActions = true;
+      this.$parent.$parent.$data.actionsActive = true;
       const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
       if (buttons.length) {
         this.$nextTick(() => buttons[buttons.length - 1].focus());
