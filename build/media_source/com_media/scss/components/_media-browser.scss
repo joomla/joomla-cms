@@ -125,6 +125,7 @@
   }
   &.active {
     top: 0;
+    z-index: 1;
     width: max-content;
     min-width: 100%;
     background-color: var(--template-bg-dark-3);
