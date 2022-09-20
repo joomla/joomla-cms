@@ -11,11 +11,17 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 Text::script('COM_MEDIA_ACTION_DELETE', true);
+Text::script('COM_MEDIA_ACTION_DELETE_DESC', true);
 Text::script('COM_MEDIA_ACTION_DOWNLOAD', true);
+Text::script('COM_MEDIA_ACTION_DOWNLOAD_DESC', true);
 Text::script('COM_MEDIA_ACTION_EDIT', true);
+Text::script('COM_MEDIA_ACTION_EDIT_DESC', true);
 Text::script('COM_MEDIA_ACTION_PREVIEW', true);
+Text::script('COM_MEDIA_ACTION_PREVIEW_DESC', true);
 Text::script('COM_MEDIA_ACTION_RENAME', true);
+Text::script('COM_MEDIA_ACTION_RENAME_DESC', true);
 Text::script('COM_MEDIA_ACTION_SHARE', true);
+Text::script('COM_MEDIA_ACTION_SHARE_DESC', true);
 Text::script('COM_MEDIA_BREADCRUMB_LABEL', true);
 Text::script('COM_MEDIA_BROWSER_TABLE_CAPTION', true);
 Text::script('COM_MEDIA_CONFIRM_DELETE_MODAL', true);

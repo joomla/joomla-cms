@@ -2,6 +2,7 @@
   <button
     type="button"
     class="action-download"
+    aria-describedby="download-desc"
     @keyup.enter="download()"
     @keyup.space="download()"
     @click.stop="download()"
@@ -18,6 +19,12 @@
           >
           {{ translate('COM_MEDIA_ACTION_DOWNLOAD') }}
         </span>
+    <span
+      class="sr-only"
+      id="download-desc"
+    >
+      {{ sprintf('COM_MEDIA_ACTION_DOWNLOAD_DESC', (this.$parent.$props.item.name)) }}
+    </span>
   </button>
 </template>
 

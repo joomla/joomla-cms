@@ -2,6 +2,7 @@
   <button
     type="button"
     class="action-delete"
+    aria-describedby="delete-desc"
     @keyup.enter="openConfirmDeleteModal()"
     @keyup.space="openConfirmDeleteModal()"
     @focus="focused(true)"
@@ -17,6 +18,12 @@
       class="action-text"
       >
       {{ translate('COM_MEDIA_ACTION_DELETE') }}
+    </span>
+    <span
+      class="sr-only"
+      id="delete-desc"
+    >
+      {{ sprintf('COM_MEDIA_ACTION_DELETE_DESC', (this.$parent.$props.item.name)) }}
     </span>
   </button>
 </template>

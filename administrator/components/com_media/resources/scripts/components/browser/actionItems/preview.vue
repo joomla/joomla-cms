@@ -2,6 +2,7 @@
   <button
     type="button"
     class="action-preview"
+    aria-describedby="preview-desc"
     @click.stop="openPreview()"
     @keyup.enter="openPreview()"
     @keyup.space="openPreview()"
@@ -17,6 +18,12 @@
       class="action-text"
       >
       {{ translate('COM_MEDIA_ACTION_PREVIEW') }}
+    </span>
+    <span
+      class="sr-only"
+      id="preview-desc"
+    >
+      {{ sprintf('COM_MEDIA_ACTION_PREVIEW_DESC', (this.$parent.$props.item.name)) }}
     </span>
   </button>
 </template>
