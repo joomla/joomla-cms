@@ -58,7 +58,7 @@
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
 			class="form-select"
-			supported="mysql,mysqli,pgsql,postgresql"
+			supported="mysql,mysqli,pgsql"
 			required="true"
 			default="mysqli"
 			filter="string"
