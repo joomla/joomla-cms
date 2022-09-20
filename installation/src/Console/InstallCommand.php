@@ -111,8 +111,15 @@ class InstallCommand extends AbstractCommand
 
         // Validate DB connection
         $this->ioStyle->write('Validating DB connection...');
-        $setupModel->storeOptions($cfg);
-        $setupModel->validateDbConnection();
+
+        try {
+            $setupModel->storeOptions($cfg);
+            $setupModel->validateDbConnection();
+        } catch (\Exception $e) {
+            $this->ioStyle->error($e->getMessage());
+
+            return Command::FAILURE;
+        }
         $this->ioStyle->writeln('OK');
 
         /** @var DatabaseModel $databaseModel */
