@@ -2,7 +2,7 @@
   <button
     type="button"
     class="action-url"
-    aria-describedby="share-desc"
+    aria-details="share-desc"
     @click.stop="openShareUrlModal()"
     @keyup.enter="openShareUrlModal()"
     @keyup.space="openShareUrlModal()"
@@ -19,13 +19,14 @@
           >
           {{ translate('COM_MEDIA_ACTION_SHARE') }}
         </span>
-    <span
-      class="sr-only"
-      id="share-desc"
-    >
+
+  </button>
+  <span
+    class="sr-only"
+    id="share-desc"
+  >
       {{ sprintf('COM_MEDIA_ACTION_SHARE_DESC', (this.$parent.$props.item.name)) }}
     </span>
-  </button>
 </template>
 
 <script>

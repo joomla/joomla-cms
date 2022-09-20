@@ -2,7 +2,7 @@
   <button
     type="button"
     class="action-edit"
-    aria-describedby="edit-desc"
+    aria-details="edit-desc"
     @keyup.enter="editItem()"
     @keyup.space="editItem()"
     @click.stop="editItem()"
@@ -19,13 +19,14 @@
           >
           {{ translate('COM_MEDIA_ACTION_EDIT') }}
         </span>
-    <span
-      class="sr-only"
-      id="edit-desc"
-    >
+
+  </button>
+  <span
+    class="sr-only"
+    id="edit-desc"
+  >
       {{ sprintf('COM_MEDIA_ACTION_EDIT_DESC', (this.$parent.$props.item.name)) }}
     </span>
-  </button>
 </template>
 
 <script>
