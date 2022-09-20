@@ -8,31 +8,30 @@
 
 // Grid View
 .media-browser-grid {
-  padding: $grid-outside-padding 0 $grid-outside-padding $grid-outside-padding;
+  padding: $grid-outside-padding;
 }
 
 .media-browser-items {
   display: flex;
   flex-wrap: wrap;
+  gap: $grid-gutter-width;
 }
 
 .media-browser-item {
   position: relative;
-  margin-right: $grid-gutter-width;
-  margin-bottom: $grid-gutter-width;
   cursor: pointer;
   user-select: none;
   .media-browser-items-sm & {
-    width: calc(#{$grid-item-width-sm} - #{$grid-gutter-width});
+    width: $grid-item-width-sm;
   }
   .media-browser-items-md & {
-    width: calc(#{$grid-item-width-md} - #{$grid-gutter-width});
+    width: $grid-item-width-md;
   }
   .media-browser-items-lg & {
-    width: calc(#{$grid-item-width-lg} - #{$grid-gutter-width});
+    width: $grid-item-width-lg;
   }
   .media-browser-items-xl & {
-    width: calc(#{$grid-item-width-xl} - #{$grid-gutter-width});
+    width: $grid-item-width-xl;
   }
 }
 
@@ -126,7 +125,8 @@
   }
   &.active {
     top: 0;
-    width: 100%;
+    min-width: 100%;
+    width:max-content;
     background-color: var(--template-bg-dark-3);
     border: 1px solid hsl(var(--hue), 35%, 95%);
     border-radius: .25rem;
@@ -150,7 +150,7 @@
     position: relative;
     top: 0;
     padding: 2px;
-    margin-bottom: 3px;
+    margin-block-end: 3px;
     visibility: hidden;
     background-color: transparent;
     border: 0;
@@ -187,13 +187,13 @@
 .image-browser-action {
   width: calc(#{$grid-item-icon-size} * 1.55);
   height: calc(#{$grid-item-icon-size} * 1.55);
-  margin-right: 4px;
-  margin-left: 4px;
+  margin-inline: 4px;
   color: $grid-item-icon-color;
   text-align: center;
   cursor: pointer;
   background-color: $grid-item-icon-bg-color;
   border-radius: $grid-item-border-radius;
+  flex-shrink: 0;
   .action-delete & {
     background-color: $grid-item-icon-warning-icon-bg;
   }
@@ -206,6 +206,11 @@
     background-color: $grid-item-icon-bg-color-hover;
   }
 }
+.action-text {
+  flex-shrink: 0;
+  text-align: start;
+  padding-inline: 5px;
+}
 
 .image-background {
   background-color: #fff;
@@ -216,8 +221,8 @@
 
 .image-cropped {
   aspect-ratio: 1/1;
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   border-radius: $grid-item-border-radius;
 }
