@@ -435,11 +435,14 @@ class PlgUserJoomla extends CMSPlugin
             return;
         }
 
-        $silentResponseTypes = array_map(
-            'trim',
-            explode(',', $userParams->get('silentresponses', '') ?: '')
-        );
-        $silentResponseTypes = $silentResponseTypes && $silentResponseTypes[0] ?: ['cookie', 'passwordless'];
+        // Make an array out of the param
+        $silentResponseTypes = explode(',', $userParams->get('silentresponses', 'cookie, passwordless') ?: '');
+
+        // Remove whitespaces before each element and filter out empty elements
+        $silentResponseTypes = array_filter(array_map('trim', $silentResponseTypes));
+
+        // When nothing is set, default to cookie and passwordless
+        $silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
 
         // Only proceed if this is not a silent login
         if (!in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes)) {
