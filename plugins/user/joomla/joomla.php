@@ -439,7 +439,9 @@ class PlgUserJoomla extends CMSPlugin
         $silentResponseTypes = explode(',', $userParams->get('silentresponses', 'cookie, passwordless') ?: '');
 
         // Remove whitespaces before each element and filter out empty elements
-        $silentResponseTypes = array_filter(array_map('trim', $silentResponseTypes));
+        $silentResponseTypes = array_filter(array_map('trim', $silentResponseTypes), function ($response) {
+            return !empty($response);
+        });
 
         // When nothing is set, default to cookie and passwordless
         $silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
