@@ -177,6 +177,19 @@ class WarningsModel extends ListModel
             ];
         }
 
+        if (Factory::getDbo()->isMinimumVersion() === false) {
+            $db         = Factory::getDbo();
+            $messages[] = [
+                'message'     => Text::_('COM_INSTALLER_MSG_WARNINGS_NOTSUPPORTEDDATABASEVERSION'),
+                'description' => Text::sprintf(
+                    'COM_INSTALLER_MSG_WARNINGS_NOTSUPPORTEDDATABASEVERSIONDESC',
+                    $db->getServerType(),
+                    $db->getVersion(),
+                    $db->getMinimum()
+                ),
+            ];
+        }
+
         return $messages;
     }
 }
