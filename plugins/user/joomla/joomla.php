@@ -439,7 +439,7 @@ class PlgUserJoomla extends CMSPlugin
             'trim',
             explode(',', $userParams->get('silentresponses', '') ?: '')
         );
-        $silentResponseTypes = $silentResponseTypes ?: ['cookie', 'passwordless'];
+        $silentResponseTypes = $silentResponseTypes && $silentResponseTypes[0] ?: ['cookie', 'passwordless'];
 
         // Only proceed if this is not a silent login
         if (!in_array(strtolower($options['responseType'] ?? ''), $silentResponseTypes)) {
