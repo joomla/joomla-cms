@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model for managing backup codes
  *
@@ -122,7 +126,7 @@ class BackupcodesModel extends BaseDatabaseModel
 
             $newData = [
                 'user_id'    => $user->id,
-                'title'      => Text::_('COM_USERS_PROFILE_OTEPS'),
+                'title'      => Text::_('COM_USERS_USER_BACKUPCODES'),
                 'method'     => 'backupcodes',
                 'default'    => 0,
                 'created_on' => $jNow->toSql(),

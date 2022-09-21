@@ -21,6 +21,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Sampledata - Blog Plugin
  *
@@ -1425,7 +1429,7 @@ class PlgSampledataBlog extends CMSPlugin
                 'showtitle' => 0,
                 'params'    => array(
                     'display_text' => 1,
-                    'text'         => 'My Blog',
+                    'text'         => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_NEWSFEEDS_TITLE'),
                     'format'       => 'rss',
                     'layout'       => '_:default',
                     'cache'        => 0,

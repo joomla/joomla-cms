@@ -19,6 +19,10 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Suggestions model class for the Finder package.
  *

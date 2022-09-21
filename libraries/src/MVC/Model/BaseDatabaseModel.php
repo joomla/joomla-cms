@@ -35,6 +35,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a database aware Joomla Model
  *

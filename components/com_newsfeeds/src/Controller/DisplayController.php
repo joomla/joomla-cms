@@ -12,6 +12,10 @@ namespace Joomla\Component\Newsfeeds\Site\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeeds Component Controller
  *
