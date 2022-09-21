@@ -154,7 +154,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 
             // When the user is a guest, don't do a checkout
             if (!$user->id) {
-                return true;
+                return false;
             }
 
             $checkedOutField = $table->getColumnAlias('checked_out');
