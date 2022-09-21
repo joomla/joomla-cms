@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Session\Session;
@@ -20,6 +19,7 @@ $uploadLink = 'index.php?option=com_joomlaupdate&view=upload';
 
 $displayData = [
     'textPrefix' => 'COM_JOOMLAUPDATE' . $this->messagePrefix,
+    'content'    => Text::sprintf('COM_JOOMLAUPDATE_NODOWNLOAD_EMPTYSTATE_CONTENT', $this->updateInfo['latest']),
     'formURL'    => 'index.php?option=com_joomlaupdate&view=joomlaupdate',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/J4.x:We_cant_find_a_download_url',
     'icon'       => 'icon-loop joomlaupdate',
@@ -30,7 +30,4 @@ if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_jooml
     $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_($displayData['textPrefix'] . '_EMPTYSTATE_APPEND') . '</a></div>';
 }
 
-$content = LayoutHelper::render('joomla.content.emptystate', $displayData);
-
-// Inject Joomla! version
-echo str_replace('%1$s', '&#x200E;' . $this->updateInfo['latest'], $content);
+echo LayoutHelper::render('joomla.content.emptystate', $displayData);
