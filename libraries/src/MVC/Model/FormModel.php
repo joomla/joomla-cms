@@ -129,6 +129,13 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
      */
     public function checkout($pk = null)
     {
+        $user = $this->getCurrentUser();
+
+        // When the user is a guest, don't do a checkout
+        if (!$user->id) {
+            return true;
+        }
+
         // Only attempt to check the row in if it exists.
         if ($pk) {
             // Get an instance of the row to checkout.
@@ -150,7 +157,6 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 return true;
             }
 
-            $user            = $this->getCurrentUser();
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.
