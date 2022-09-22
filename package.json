@@ -93,7 +93,7 @@
     "karma-jasmine": "^4.0.1",
     "karma-jasmine-ajax": "^0.1.13",
     "karma-json-fixtures-preprocessor": "0.0.6",
-    "karma-verbose-reporter": "^0.0.6",
+    "karma-verbose-reporter": "^0.0.8",
     "postcss": "^8.4.4",
     "postcss-scss": "^4.0.2",
     "recursive-readdir": "^2.2.2",
