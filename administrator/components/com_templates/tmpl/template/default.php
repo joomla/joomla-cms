@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Jfcherng\Diff\Differ;
+use Jfcherng\Diff\DiffHelper;
+use Jfcherng\Diff\Factory\RendererFactory;
+use Jfcherng\Diff\Renderer\RendererConstant;
 
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 HTMLHelper::_('bootstrap.modal');
@@ -27,9 +31,9 @@ $input = Factory::getApplication()->input;
 // Enable assets
 $wa->useScript('form.validate')
     ->useScript('keepalive')
-    ->useScript('diff')
-    ->useScript('com_templates.admin-template-compare')
-    ->useScript('com_templates.admin-template-toggle-switch');
+    ->useScript('com_templates.admin-template-toggle-switch')
+    ->useScript('com_templates.admin-templates')
+    ->useStyle('com_templates.admin-templates');
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin')) {
@@ -39,9 +43,6 @@ if (!Factory::getUser()->authorise('core.admin')) {
 if ($this->type == 'image') {
     $wa->usePreset('cropperjs');
 }
-
-$wa->useStyle('com_templates.admin-templates')
-    ->useScript('com_templates.admin-templates');
 
 if ($this->type == 'font') {
     $wa->addInlineStyle("
@@ -55,7 +56,6 @@ if ($this->type == 'font') {
 	");
 }
 ?>
-
 <div class="main-card">
     <?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => 'editor', 'recall' => true, 'breakpoint' => 768]); ?>
     <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_TEMPLATES_TAB_EDITOR')); ?>
@@ -141,20 +141,71 @@ if ($this->type == 'font') {
                             </form>
                         </div>
                         <?php if (!empty($this->source->coreFile)) : ?>
-                            <?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
-                            <?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
+                            <?php
+                                $oldFile = $this->source->coreFile;
+                                $newFile = $this->source->filePath;
+// options for Diff class
+$diffOptions = [
+    // show how many neighbor lines
+    // Differ::CONTEXT_ALL can be used to show the whole file
+    'context' => 1,
+    // ignore case difference
+    'ignoreCase' => false,
+    // ignore whitespace difference
+    'ignoreWhitespace' => false,
+];
+// options for renderer class
+$rendererOptions = [
+    // how detailed the rendered HTML is? (none, line, word, char)
+    'detailLevel' => 'line',
+    // renderer language: eng, cht, chs, jpn, ...
+    // or an array which has the same keys with a language file
+    'language' => ['old_version' => Text::_('COM_TEMPLATES_DIFF_CORE'), 'new_version' => Text::_('COM_TEMPLATES_DIFF_OVERRIDE'), 'differences' => Text::_('COM_TEMPLATES_DIFF_DIFFERENCES')],
+    // show line numbers in HTML renderers
+    'lineNumbers' => true,
+    // show a separator between different diff hunks in HTML renderers
+    'separateBlock' => true,
+    // show the (table) header
+    'showHeader' => true,
+    // the frontend HTML could use CSS "white-space: pre;" to visualize consecutive whitespaces
+    // but if you want to visualize them in the backend with "&nbsp;", you can set this to true
+    'spacesToNbsp' => true,
+    // HTML renderer tab width (negative = do not convert into spaces)
+    'tabSize' => 4,
+    'mergeThreshold' => 0.8,
+    // change this value to a string as the returned diff if the two input strings are identical
+    'resultForIdenticals' => "The two files are identical.",
+    // extra HTML classes added to the DOM of the diff container
+    'wrapperClasses' => ['diff-wrapper'],
+];
+
+                                // $sideBySideResult = DiffHelper::calculateFiles(
+                                //     $oldFile,
+                                //     $newFile,
+                                //     'SideBySide',
+                                //     $diffOptions,
+                                //     $rendererOptions,
+                                // );
+                                $sideBySideResult = DiffHelper::calculateFiles(
+                                    $oldFile,
+                                    $newFile,
+                                    'SideBySide',
+                                    $diffOptions,
+                                    ['detailLevel' => 'word'] + $rendererOptions,
+                                );
+                            ?>
+
                             <div class="col-md-12" id="core-pane">
                                 <h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
                                 <div class="editor-border">
                                     <?php echo $this->form->getInput('core'); ?>
                                 </div>
                             </div>
+
                             <div class="col-md-12" id="diff-main">
                                 <h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
                                 <div class="diff-pane">
-                                    <div class="diffview d-none" id="original"><?php echo htmlspecialchars($coreFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
-                                    <div class="diffview d-none" id="changed"><?php echo htmlspecialchars($overrideFileContent, ENT_COMPAT, 'UTF-8'); ?></div>
-                                    <div id="diff"></div>
+                                    <div id="diff"><?php echo $sideBySideResult; ?></div>
                                 </div>
                             </div>
                         <?php endif; ?>
