@@ -313,7 +313,7 @@ class LocalAdapter implements AdapterInterface
 
             // Create the thumbnail
             $this->createThumb($localPath, $thumbPaths['fs']);
-		}
+        }
     }
 
     /**
