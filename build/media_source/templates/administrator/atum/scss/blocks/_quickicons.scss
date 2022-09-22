@@ -80,12 +80,18 @@
         }
       }
 
-      &.warning,
       &.danger {
         --text-color: var(--danger);
         --bg-color: #f4f0f0;
         --icon-color: #ce8484;
         --bg-color-hvr: var(--danger);
+      }
+
+      &.warning{
+        --text-color: var(--warning);
+        --bg-color: #f4f0f0;
+        --icon-color: #ffb520;
+        --bg-color-hvr: var(--warning);
       }
 
       &.success {

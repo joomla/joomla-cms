@@ -50,17 +50,17 @@
               // Scroll to page top
               window.scrollTo(0, 0);
 
-              update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`), '');
+              update('warning', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', `<span class="badge text-dark bg-light">${updateInfoList.length}</span>`), '');
             }
           } else {
             throw new Error('Override check: unexpected value type');
           }
         } else {
-          update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE'), `index.php?option=com_plugins&task=plugin.edit&extension_id=${options.pluginId}`);
+          update('warning', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE'), `index.php?option=com_plugins&task=plugin.edit&extension_id=${options.pluginId}`);
         }
       }).catch(() => {
         // An error occurred
-        update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'), '');
+        update('warning', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'), '');
       });
     }
   };
