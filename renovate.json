@@ -14,5 +14,10 @@
   "constraints": {
     "composer": "> 2.3",
     "npm": "> 8.0"
+  },
+  "postUpgradeTasks": {
+    "commands": ["node build/build.js --copy-assets"],
+    "fileFilters": ["**/*.*"],
+    "executionMode": "branch"
   }
 }
