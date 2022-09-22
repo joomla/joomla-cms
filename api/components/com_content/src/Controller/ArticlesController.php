@@ -73,6 +73,10 @@ class ArticlesController extends ApiController
             $this->modelState->set('filter.featured', $filter->clean($apiFilterInfo['featured'], 'INT'));
         }
 
+        if (\array_key_exists('tag', $apiFilterInfo)) {
+            $this->modelState->set('filter.tag', $filter->clean($apiFilterInfo['tag'], 'INT'));
+        }
+
         if (\array_key_exists('language', $apiFilterInfo)) {
             $this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
         }
