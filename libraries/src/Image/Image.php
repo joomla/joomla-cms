@@ -371,7 +371,7 @@ class Image
 
         return $thumbsCreated;
     }
-    
+
     /**
      * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing or cropping the original image.
      *
