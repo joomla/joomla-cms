@@ -98,7 +98,7 @@ class LocalAdapter implements AdapterInterface
             $dir = JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath;
 
             if (!is_dir($dir)) {
-                mkdir($dir, 0755, true);
+                Folder::create($dir);
             }
         }
     }
@@ -266,7 +266,7 @@ class LocalAdapter implements AdapterInterface
             }
 
             if (!is_dir(dirname($thumbPaths['fs']))) {
-                mkdir(dirname($thumbPaths['fs']), 0755, true);
+                Folder::create(dirname($thumbPaths['fs']));
             }
 
             // Create the thumbnail
@@ -308,7 +308,7 @@ class LocalAdapter implements AdapterInterface
             }
 
             if (!is_dir(dirname($thumbPaths['fs']))) {
-                mkdir(dirname($thumbPaths['fs']), 0755, true);
+                Folder::create(dirname($thumbPaths['fs']));
             }
 
             // Create the thumbnail
@@ -933,7 +933,7 @@ class LocalAdapter implements AdapterInterface
         $dir = dirname($thumbPaths['fs']);
 
         if (!is_dir($dir)) {
-            mkdir($dir, 0755, true);
+            Folder::create($dir);
         }
 
         // Create the thumbnail
