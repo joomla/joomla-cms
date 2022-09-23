@@ -146,7 +146,7 @@ if ($this->type == 'font') {
                                 </div>
                             </div>
                             <?php
-                                $difference = DiffHelper::calculateFiles (
+                                $difference = DiffHelper::calculateFiles(
                                     $this->source->coreFile,
                                     $this->source->filePath,
                                     ComponentHelper::getParams('com_templates')->get('difference', 'SideByside'),
