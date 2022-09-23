@@ -87,9 +87,9 @@
 }
 
 .diff-pane {
-  height: 350px;
+  min-height: 100px;
+  max-height: 350px;
   overflow: auto;
-  border: 1px solid #ddd;
 }
 
 #diff-main.active {
@@ -172,7 +172,7 @@
   border-right: none;
   padding: 1px 0;
   text-align: center;
-  width: 1em;
+  min-width: 1em;
 }
 .diff-wrapper.diff tbody th.sign.del {
   background: #fbe1e1;
