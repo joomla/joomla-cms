@@ -78,11 +78,6 @@
       "attributes": {
         "type": "module"
       }
-    },
-    {
-      "name": "com_templates.admin-templates-diff-table",
-      "type": "style",
-      "uri": "com_templates/admin-templates-diff-table.min.css"
     }
   ]
 }

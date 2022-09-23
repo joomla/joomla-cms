@@ -17,10 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Jfcherng\Diff\Differ;
 use Jfcherng\Diff\DiffHelper;
-use Jfcherng\Diff\Factory\RendererFactory;
-use Jfcherng\Diff\Renderer\RendererConstant;
 
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 HTMLHelper::_('bootstrap.modal');
@@ -153,8 +150,8 @@ if ($this->type == 'font') {
                                     $this->source->coreFile,
                                     $this->source->filePath,
                                     ComponentHelper::getParams('com_templates')->get('difference'),
+                                    ['context' => 1],
                                     [
-                                        'context' => 1,
                                         'language' => [
                                             'old_version' => Text::_('COM_TEMPLATES_DIFF_CORE'),
                                             'new_version' => Text::_('COM_TEMPLATES_DIFF_OVERRIDE'),
@@ -165,7 +162,6 @@ if ($this->type == 'font') {
                                     ],
                                 );
                             ?>
-
                             <div class="col-md-12" id="diff-main">
                                 <h2><?php echo Text::_('COM_TEMPLATES_FILE_COMPARE_PANE'); ?></h2>
                                 <div class="diff-pane">
