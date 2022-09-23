@@ -140,7 +140,7 @@ class FieldsModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $app   = Factory::getApplication();
 
         // Select the required fields from the table.
@@ -438,7 +438,7 @@ class FieldsModel extends ListModel
      */
     public function getGroups()
     {
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
         $context    = $this->state->get('filter.context');
 
