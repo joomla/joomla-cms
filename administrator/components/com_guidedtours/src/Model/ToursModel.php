@@ -134,7 +134,8 @@ class ToursModel extends ListModel
         $query->select(
             $this->getState(
                 'list.select',
-                'a.*, (SELECT count(`description`) from #__guidedtour_steps WHERE tour_id = a.id) AS steps'
+                'a.*, (SELECT COUNT(' . $db->quoteName('description') . ') FROM '
+                . $db->quoteName('#__guidedtour_steps') . ' WHERE ' . $db->quoteName('tour_id') . ' = ' . $db->quoteName('a.id') . ') AS ' . $db->quoteName('steps')
             )
         );
         $query->from('#__guidedtours AS a');

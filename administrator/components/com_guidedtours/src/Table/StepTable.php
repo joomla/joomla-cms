@@ -22,6 +22,16 @@ use Joomla\CMS\Factory;
 class StepTable extends Table
 {
     /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+
+    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore 
+    protected $_supportNullValue = true;
+
+    /**
      * Constructor
      *
      * @param   DatabaseDriver $db Database connector object
@@ -73,14 +83,6 @@ class StepTable extends Table
 
         if (empty($this->modified_by)) {
             $this->modified_by = $this->created_by;
-        }
-
-        if ($this->default == '1') {
-            // Verify that the default is unique for this workflow
-            if ($table->load(array('default' => '1'))) {
-                $table->default = 0;
-                $table->store();
-            }
         }
 
         return parent::store($updateNulls);

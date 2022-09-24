@@ -170,7 +170,6 @@ class StepsModel extends ListModel
         /**
          *  Filter Tour ID by levels
          */
-
         $tour_id     = $this->getState('filter.tour_id');
 
         if (is_numeric($tour_id)) {
