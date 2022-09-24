@@ -22,6 +22,16 @@ use Joomla\Database\DatabaseDriver;
 class TourTable extends Table
 {
     /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+
+    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore 
+    protected $_supportNullValue = true;
+
+    /**
      * An array of key names to be json encoded in the bind function
      *
      * @var    array
@@ -85,20 +95,8 @@ class TourTable extends Table
             $this->modified = $this->created;
         }
 
-        if (!(int) $this->checked_out_time) {
-            $this->checked_out_time = $this->created;
-        }
-
         if (empty($this->modified_by)) {
             $this->modified_by = $this->created_by;
-        }
-
-        if ($this->default == '1') {
-            // Verify that the default is unique for this Tour
-            if ($table->load(array('default' => '1'))) {
-                $table->default = 0;
-                $table->store();
-            }
         }
 
         return parent::store($updateNulls);
