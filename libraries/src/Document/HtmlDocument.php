@@ -778,8 +778,9 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         // 1.5 or core then 1.6
         $lang->load('tpl_' . $template, JPATH_BASE)
-            || ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
-            || $lang->load('tpl_' . $template, $directory . '/' . $template);
+            || ($inherits !== '' && $lang->load('tpl_' . $inherits, JPATH_BASE))
+            || $lang->load('tpl_' . $template, $directory . '/' . $template)
+            || ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits));
 
         // Assign the variables
         $this->baseurl = Uri::base(true);
