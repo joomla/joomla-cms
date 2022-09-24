@@ -117,5 +117,10 @@
     },
     "replace": {
         "paragonie/random_compat": "9.99.99"
+    },
+    "scripts": {
+      "post-install-cmd": [
+        "php build/update_fido_cache.php"
+      ]
     }
 }
