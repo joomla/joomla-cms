@@ -174,11 +174,6 @@
       &.active > button.mm-toggler-link::before {
         right: 0;
         left: .5em;
-
-        [dir="rtl"] & {
-          right: .5em;
-          left: 0;
-        }
       }
     }
 
