@@ -84,15 +84,15 @@
 		name="type"
 		type="list"
 		label="COM_GUIDEDTOURS_TYPE_LABEL"
-		default="nextstep"
+		default="0"
 		description="COM_GUIDEDTOURS_TYPE_DESC"		
 		filter="word"
 		validate="options"
 		>
-		<option value="nextstep">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
-		<option value="redirect">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
-		<option value="interactivetour">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_TOUR</option>
-		<option value="interactionwithformfields">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTION_WITH_FORM_FIELDS</option>
+		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
+		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
+		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_TOUR</option>
+		<option value="3">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTION_WITH_FORM_FIELDS</option>
 	</field>
 
 	<field
@@ -100,7 +100,7 @@
 		type="url"
 		label="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_LABEL"
 		description="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_DESC"
-		showon="type:redirect"
+		showon="type:1"
 		filter="string"
 	/>
 
@@ -108,20 +108,20 @@
 		name="interactionwithformfields"
 		type="list"
 		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_LABEL"
-		showon="type:interactionwithformfields"
+		showon="type:3"
 		filter="string"
 		validate="options"
 		>
-		<option value="novalidation">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_NO_VALIDATION_LABEL</option>
-		<option value="validationbyvalue">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_VALUE_LABEL</option>
-	    <option value="validationbyspecificvalue">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_SPECIFIC_VALUE_LABEL</option>
+		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_NO_VALIDATION_LABEL</option>
+		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_VALUE_LABEL</option>
+	    <option value="3">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_SPECIFIC_VALUE_LABEL</option>
 	</field>
 
 	<field
 		name="validationbyvalue"
 		type="text"
 		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_VALUE_LABEL"
-		showon="type:interactionwithformfields[AND]interactionwithformfields:validationbyvalue"
+		showon="type:3[AND]interactionwithformfields:2"
 		filter="string"
 	/>
 
@@ -129,7 +129,7 @@
 		name="validationbyspecificvalue"
 		type="text"
 		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_SPECIFIC_VALUE_LABEL"
-		showon="type:interactionwithformfields[AND]interactionwithformfields:validationbyspecificvalue"
+		showon="type:3[AND]interactionwithformfields:3"
 		filter="string"
 	/>
 
