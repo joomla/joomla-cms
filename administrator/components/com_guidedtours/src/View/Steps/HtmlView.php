@@ -3,13 +3,12 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Guidedtours\Administrator\View\Steps;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -103,7 +102,7 @@ class HtmlView extends BaseHtmlView
         $toolbar = Toolbar::getInstance('toolbar');
         $tour_id = $this->state->get('tour_id');
         $title = GuidedtoursHelper::getTourTitle($this->state->get('tour_id'))->title;
-        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_STEPS_LIST') . ' ' . $tour_id . ' : ' . $title);
+        ToolbarHelper::title(Text::_('COM_GUIDEDTOURS_STEPS_LIST') . ' : ' . $title);
         $arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
         ToolbarHelper::link(

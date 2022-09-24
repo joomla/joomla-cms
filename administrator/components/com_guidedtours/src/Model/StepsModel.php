@@ -3,13 +3,12 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
-
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -17,7 +16,7 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
- * Methods supporting a list of article records.
+ * Methods supporting a list of steps records.
  *
  * @since __DEPLOY_VERSION__
  */
@@ -31,7 +30,7 @@ class StepsModel extends ListModel
      * @since __DEPLOY_VERSION__
      * @see   \Joomla\CMS\MVC\Controller\BaseController
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
@@ -61,7 +60,7 @@ class StepsModel extends ListModel
      *
      * @since __DEPLOY_VERSION__
      */
-    public function getTable($type = 'Step', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Step', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -221,20 +220,5 @@ class StepsModel extends ListModel
         $query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
         return $query;
-    }
-
-    /**
-     * Method to get a list of guidedtours.
-     * Overridden to add a check for access levels.
-     *
-     * @return mixed  An array of data items on success, false on failure.
-     *
-     * @since __DEPLOY_VERSION__
-     */
-    public function getItems()
-    {
-        $items = parent::getItems();
-
-        return $items;
     }
 }

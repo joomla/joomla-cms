@@ -3,13 +3,12 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Guidedtours\Administrator\View\Step;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -100,7 +99,7 @@ class HtmlView extends BaseHtmlView
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(
-            Text::_('Guided Tours - ' . ($isNew ? 'Add Step' : 'Edit Step'))
+            Text::_('COM_GUIDEDTOURS') . ' - ' . ($isNew ? 'Add Step' : 'Edit Step')
         );
 
         $toolbarButtons = [];
@@ -122,7 +121,8 @@ class HtmlView extends BaseHtmlView
             );
         } else {
             // Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
+            $itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own')
+            && $this->item->created_by == $userId);
 
             if ($itemEditable) {
                 ToolbarHelper::apply('step.apply');

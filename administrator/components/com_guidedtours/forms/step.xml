@@ -6,9 +6,9 @@
 		type="text"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
-		/>
+	/>
 		
-		<field
+	<field
 		name="step-no"
 		type="hidden"
 		label="COM_GUIDEDTOURS_STEPID_LABEL"
@@ -48,14 +48,12 @@
 		name="asset_id"
 		type="hidden"
 		filter="unset"
-		label="JFIELD_ASSET_ID_LABEL"
 	/>
 
 	<field
 		name="title"
 		type="text"
 		label="Step Title"
-		size="40"
 		required="true"
 	/>
 
@@ -74,7 +72,6 @@
 		label="JSTATUS"
 		default="1"
 		class="form-select-color-state"
-		size="1"
 		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -87,7 +84,6 @@
 		name="url"
 		type="url"
 		label="COM_GUIDEDTOURS_URL_LABEL"
-		size="40"
 		description="COM_GUIDEDTOURS_URL_DESC"
 	/>
 
@@ -116,7 +112,6 @@
 		label="JGLOBAL_CREATED_DATE"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		filter="user_utc"
 	/>
 

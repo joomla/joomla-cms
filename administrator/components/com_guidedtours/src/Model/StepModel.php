@@ -3,13 +3,12 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
-
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -60,7 +59,10 @@ class StepModel extends AdminModel
 
         $component = reset($parts);
 
-        if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default) {
+        if (
+            !Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id)
+            || $record->default
+        ) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -214,7 +216,8 @@ class StepModel extends AdminModel
      *
      * @param   object  $record  A record object.
      *
-     * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+     * @return  boolean  True if allowed to change the state of the record.
+     * Defaults to the permission set in the component.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -251,7 +254,7 @@ class StepModel extends AdminModel
      * @since  __DEPLOY_VERSION__
      * @throws \Exception
      */
-    public function getTable($name = '', $prefix = '', $options = array())
+    public function getTable($name = '', $prefix = '', $options = [])
     {
         $name = 'step';
         $prefix = 'Table';
@@ -324,7 +327,7 @@ class StepModel extends AdminModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
@@ -374,7 +377,7 @@ class StepModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_guidedtours.edit.step.data',
-            array()
+            []
         );
 
         if (empty($data)) {

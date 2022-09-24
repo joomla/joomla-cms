@@ -3,13 +3,12 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -30,7 +29,7 @@ class ToursModel extends ListModel
      * @see     JController
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
@@ -92,7 +91,7 @@ class ToursModel extends ListModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getTable($type = 'Tour', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Tour', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }
@@ -104,9 +103,9 @@ class ToursModel extends ListModel
      *
      * @return  \JForm|false  the JForm object or false
      *
-     * @since   4.0.0
+     * @since  __DEPLOY_VERSION__
      */
-    public function getFilterForm($data = array(), $loadData = true)
+    public function getFilterForm($data = [], $loadData = true)
     {
         $form = parent::getFilterForm($data, $loadData);
 
@@ -135,7 +134,8 @@ class ToursModel extends ListModel
         $query->select(
             $this->getState(
                 'list.select',
-                'a.*, (SELECT count(`description`) from #__guidedtour_steps WHERE tour_id = a.id) AS steps'
+                'a.*, (SELECT COUNT(' . $db->quoteName('description') . ') FROM '
+                . $db->quoteName('#__guidedtour_steps') . ' WHERE ' . $db->quoteName('tour_id') . ' = ' . $db->quoteName('a.id') . ') AS ' . $db->quoteName('steps')
             )
         );
         $query->from('#__guidedtours AS a');
@@ -186,7 +186,8 @@ class ToursModel extends ListModel
             $extensions = '%' . $extensions . '%';
             $all = '%*%';
             $query->where(
-                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' . $db->quoteName('a.extensions') . ' LIKE :extensions)'
+                '(' . $db->quoteName('a.extensions') . ' LIKE :all  OR ' .
+                $db->quoteName('a.extensions') . ' LIKE :extensions)'
             )
                 ->bind([':all'], $all)
                 ->bind([':extensions'], $extensions);

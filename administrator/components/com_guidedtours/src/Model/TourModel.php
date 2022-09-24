@@ -3,13 +3,12 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Guidedtours\Administrator\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -134,7 +133,7 @@ class TourModel extends AdminModel
      *
      * @since  __DEPLOY_VERSION__
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
@@ -165,8 +164,8 @@ class TourModel extends AdminModel
             }
         }
 
-        $form->setFieldAttribute('created', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
-        $form->setFieldAttribute('modified', 'default', Factory::getDate()->format('Y-m-d H:i:s'));
+        $form->setFieldAttribute('created', 'default', Factory::getDate()->toSql());
+        $form->setFieldAttribute('modified', 'default', Factory::getDate()->toSql());
 
         return $form;
     }
@@ -183,7 +182,7 @@ class TourModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_guidedtours.edit.tour.data',
-            array()
+            []
         );
 
         if (empty($data)) {
@@ -269,7 +268,8 @@ class TourModel extends AdminModel
      *
      * @param   object  $record  A record object.
      *
-     * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+     * @return  boolean  True if allowed to change the state of the record.
+     * Defaults to the permission set in the component.
      *
      * @since   __DEPLOY_VERSION__
      */
@@ -277,12 +277,12 @@ class TourModel extends AdminModel
     {
         $user = Factory::getUser();
 
-        // Check for existing article.
+        // Check for existing tour.
         if (!empty($record->id)) {
             return $user->authorise('core.edit.state', 'com_guidedtours.tour.' . (int) $record->id);
         }
 
-        // Default to component settings if neither article nor category known.
+        // Default to component settings if neither tour nor category known.
         return parent::canEditState($record);
     }
 

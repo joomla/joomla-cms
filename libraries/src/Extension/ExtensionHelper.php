@@ -64,6 +64,7 @@ class ExtensionHelper
         array('component', 'com_cpanel', '', 1),
         array('component', 'com_fields', '', 1),
         array('component', 'com_finder', '', 1),
+        array('component', 'com_guidedtours', '', 1),
         array('component', 'com_installer', '', 1),
         array('component', 'com_joomlaupdate', '', 1),
         array('component', 'com_languages', '', 1),
@@ -299,6 +300,7 @@ class ExtensionHelper
         array('plugin', 'skipto', 'system', 0),
         array('plugin', 'stats', 'system', 0),
         array('plugin', 'tasknotification', 'system', 0),
+        array('plugin', 'tour', 'system', 0),
         array('plugin', 'updatenotification', 'system', 0),
         array('plugin', 'webauthn', 'system', 0),
 

@@ -14,14 +14,12 @@
 		name="asset_id"
 		type="hidden"
 		filter="unset"
-		label="JFIELD_ASSET_ID_LABEL"
 	/>
 
 	<field
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		size="40"
 		required="true"
 	/>
 
@@ -40,7 +38,6 @@
 		label="JSTATUS"
 		default="1"
 		class="form-select-color-state"
-		size="1"
 		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
@@ -83,7 +80,6 @@
 		label="JGLOBAL_CREATED_DATE"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		filter="user_utc"
 	/>
 
@@ -101,7 +97,6 @@
 		class="readonly"
 		translateformat="true"
 		showtime="true"
-		size="22"
 		filter="user_utc"
 	/>
 
@@ -117,7 +112,6 @@
 		name="url"
 		type="url"
 		label="COM_GUIDEDTOURS_URL_LABEL"
-		size="40"
 		description="COM_GUIDEDTOURS_URL_DESC"
 	/>
 	
@@ -133,26 +127,12 @@
 	/>
 	
 	<field
-		name="overlay"
-		type="radio"
-		label="COM_GUIDEDTOURS_OVERLAY_LABEL"
-		layout="joomla.form.field.radio.switcher"
-		default="0"
-		description="COM_GUIDEDTOURS_OVERLAY_DESC"
-		>
-		<option value="0">JNO</option>
-		<option value="1">JYES</option>
-	</field>
-		
-	<field
 		name="extensions"
-		type="Components"
+		type="components"
 		label="COM_GUIDEDTOURS_EXTENSIONS_LABEL"
 		description="COM_GUIDEDTOURS_EXTENSIONS_DESC"
 		multiple="multiple"
 		layout="joomla.form.field.list-fancy-select"
-		buttons="true"
-		hide="readmore,pagebreak"
 		default="*"
 		>
 		<option value="*">JALL</option>

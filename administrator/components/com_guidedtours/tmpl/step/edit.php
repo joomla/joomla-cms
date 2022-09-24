@@ -3,7 +3,8 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +33,8 @@ $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 $this->useCoreUI = true;
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=step&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtour-dates-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=step&layout=edit&id=' .
+(int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtour-dates-form" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
     <div>

@@ -3,11 +3,10 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -24,7 +23,8 @@ HTMLHelper::_('behavior.keepalive');
 
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="guidedtours-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_guidedtours&view=tour&layout=edit&id=' .
+(int) $this->item->id); ?>"method="post" name="adminForm" id="guidedtours-form" class="form-validate">
 
     <?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -37,7 +37,6 @@ HTMLHelper::_('behavior.keepalive');
                 <?php echo $this->form->renderField('description'); ?>
                 <?php echo $this->form->renderField('extensions'); ?>
                 <?php echo $this->form->renderField('url'); ?>
-                <?php echo $this->form->renderField('overlay'); ?>
             </div>
 
             <div class="col-md-3">

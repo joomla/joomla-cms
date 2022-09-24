@@ -3,13 +3,12 @@
 /**
  * @package       Joomla.Administrator
  * @subpackage    com_guidedtours
- * @copyright (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
+ *
+ * @copyright     (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license       GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Guidedtours\Administrator\Table;
-
-defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
@@ -23,11 +22,23 @@ use Joomla\Database\DatabaseDriver;
 class TourTable extends Table
 {
     /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+
+    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore 
+    protected $_supportNullValue = true;
+
+    /**
      * An array of key names to be json encoded in the bind function
      *
      * @var    array
      * @since  __DEPLOY_VERSION__
      */
+
+    // phpcs:disable PSR2.Classes.PropertyDeclaration.Underscore 
     protected $_jsonEncode = array('extensions');
 
     /**
@@ -84,20 +95,8 @@ class TourTable extends Table
             $this->modified = $this->created;
         }
 
-        if (!(int) $this->checked_out_time) {
-            $this->checked_out_time = $this->created;
-        }
-
         if (empty($this->modified_by)) {
             $this->modified_by = $this->created_by;
-        }
-
-        if ($this->default == '1') {
-            // Verify that the default is unique for this Tour
-            if ($table->load(array('default' => '1'))) {
-                $table->default = 0;
-                $table->store();
-            }
         }
 
         return parent::store($updateNulls);
