@@ -46,6 +46,14 @@ class TextField extends FormField
     protected $maxLength;
 
     /**
+     * Does this field support a character counter?
+     *
+     * @var    boolean
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $charcounter = false;
+
+    /**
      * The mode of input associated with the field.
      *
      * @var    mixed
@@ -102,6 +110,7 @@ class TextField extends FormField
             case 'addonBefore':
             case 'addonAfter':
             case 'inputmode':
+            case 'charcounter':
                 return $this->$name;
         }
 
@@ -140,6 +149,10 @@ class TextField extends FormField
 
             case 'addonAfter':
                 $this->addonAfter = (string) $value;
+                break;
+
+            case 'charcounter':
+                $this->charcounter = strtolower($value) === 'true';
                 break;
 
             default:
@@ -188,6 +201,7 @@ class TextField extends FormField
             $this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
             $this->maxLength = (int) $this->element['maxlength'];
+            $this->charcounter = isset($this->element['charcounter']) ? strtolower($this->element['charcounter']) === 'true' : false;
 
             $this->addonBefore = (string) $this->element['addonBefore'];
             $this->addonAfter  = (string) $this->element['addonAfter'];
@@ -295,6 +309,7 @@ class TextField extends FormField
             'addonBefore' => $this->addonBefore,
             'addonAfter'  => $this->addonAfter,
             'options'     => $options,
+            'charcounter' => $this->charcounter,
         );
 
         return array_merge($data, $extraData);
