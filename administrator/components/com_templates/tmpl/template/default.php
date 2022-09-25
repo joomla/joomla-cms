@@ -159,6 +159,7 @@ if ($this->type == 'font') {
                                         ],
                                         'resultForIdenticals' => Text::_('COM_TEMPLATES_DIFF_IDENTICAL'),
                                         'detailLevel' => 'word',
+                                        'spaceToHtmlTag' => true,
                                     ],
                                 );
                             ?>

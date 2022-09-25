@@ -101,12 +101,11 @@
 }
 
 .diff-wrapper.diff {
-  direction: ltr;
   --tab-size: 4;
   background: repeating-linear-gradient(-45deg, whitesmoke, whitesmoke 0.5em, #e8e8e8 0.5em, #e8e8e8 1em);
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #ddd;
+  border: 1px solid #dfdfdf;
   color: black;
   empty-cells: show;
   font-family: monospace;
@@ -114,13 +113,12 @@
   width: 100%;
   word-break: break-all;
 }
-
 .diff-wrapper.diff th {
+  font-weight: 700;
   cursor: default;
   -webkit-user-select: none;
   user-select: none;
 }
-
 .diff-wrapper.diff td {
   vertical-align: baseline;
 }
@@ -147,9 +145,8 @@
   border-bottom: 1px solid #ddd;
   padding: 4px;
   text-align: left;
-}
-.diff-wrapper.diff.diff-side-by-side thead th {
-  width: 50%;
+  position: sticky;
+  top: 0;
 }
 .diff-wrapper.diff tbody.skipped {
   border-top: 1px solid #ddd;
@@ -164,16 +161,19 @@
   border-right: 1px solid #ddd;
   text-align: right;
   vertical-align: top;
-  width: 6em;
-  padding-inline-end: 1em;
+  width: 4em;
+  padding-right: 2em;
   font-weight: 400;
+}
+.diff-wrapper.diff th.n-new {
+  border-left: 1px solid #ddd;
 }
 .diff-wrapper.diff tbody th.sign {
   background: #fff;
-  border-right: none;
+  border-left: 1px solid #ddd;
   padding: 1px 0;
   text-align: center;
-  min-width: 1em;
+  width: 1em;
 }
 .diff-wrapper.diff tbody th.sign.del {
   background: #fbe1e1;
