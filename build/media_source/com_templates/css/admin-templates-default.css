@@ -102,6 +102,7 @@
 
 .diff-wrapper.diff {
   direction: ltr;
+  --tab-size: 4;
   background: repeating-linear-gradient(-45deg, whitesmoke, whitesmoke 0.5em, #e8e8e8 0.5em, #e8e8e8 1em);
   border-collapse: collapse;
   border-spacing: 0;
@@ -163,7 +164,7 @@
   border-right: 1px solid #ddd;
   text-align: right;
   vertical-align: top;
-  min-width: 4em;
+  width: 6em;
   padding-inline-end: 1em;
   font-weight: 400;
 }
@@ -182,6 +183,22 @@
 }
 .diff-wrapper.diff.diff-html {
   white-space: pre-wrap;
+  tab-size: var(--tab-size);
+}
+.diff-wrapper.diff.diff-html .ch {
+  line-height: 1em;
+  background-clip: border-box;
+  background-repeat: repeat-x;
+  background-position: left center;
+}
+.diff-wrapper.diff.diff-html .ch.sp {
+  background-image: url('data:image/svg+xml,%3Csvg preserveAspectRatio="xMinYMid meet" viewBox="0 0 12 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M4.5 11C4.5 10.1716 5.17157 9.5 6 9.5C6.82843 9.5 7.5 10.1716 7.5 11C7.5 11.8284 6.82843 12.5 6 12.5C5.17157 12.5 4.5 11.8284 4.5 11Z" fill="rgba%2860, 60, 60, 50%25%29"/%3E%3C/svg%3E');
+  background-size: 1ch 1.25em;
+}
+.diff-wrapper.diff.diff-html .ch.tab {
+  background-image: url('data:image/svg+xml,%3Csvg preserveAspectRatio="xMinYMid meet" viewBox="0 0 12 24" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M9.5 10.44L6.62 8.12L7.32 7.26L12.04 11V11.44L7.28 14.9L6.62 13.9L9.48 11.78H0V10.44H9.5Z" fill="rgba%2860, 60, 60, 50%25%29"/%3E%3C/svg%3E');
+  background-size: calc(var(--tab-size) * 1ch) 1.25em;
+  background-position: 2px center;
 }
 .diff-wrapper.diff.diff-html.diff-combined .change.change-rep .rep {
   white-space: normal;
