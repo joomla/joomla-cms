@@ -22,6 +22,7 @@
       v-if="showActions"
       class="media-browser-actions-list"
       role="toolbar"
+      aria-orientation="vertical"
       :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',(this.$parent.$props.item.name))"
     >
       <span aria-hidden="true" class="media-browser-actions-item-name">
@@ -47,7 +48,6 @@
         @keyup.down="$refs.actionPreview.$el.previousElementSibling.focus()"
         @keyup.esc="hideActions"
       />
-
       <media-browser-action-item-rename
         v-if="canEdit"
         ref="actionRename"
