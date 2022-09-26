@@ -14,9 +14,7 @@
       class="image-browser-action fa fa-i-cursor"
       aria-hidden="true"
     />
-    <span
-      class="action-text"
-      >
+    <span class="action-text">
       {{ translate('COM_MEDIA_ACTION_RENAME') }}
     </span>
   </button>

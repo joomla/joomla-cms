@@ -13,12 +13,9 @@
       class="image-browser-action icon-link"
       aria-hidden="true"
     />
-    <span
-          class="action-text"
-          >
-          {{ translate('COM_MEDIA_ACTION_SHARE') }}
-        </span>
-
+    <span class="action-text">
+      {{ translate('COM_MEDIA_ACTION_SHARE') }}
+    </span>
   </button>
 </template>
 

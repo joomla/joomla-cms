@@ -13,9 +13,7 @@
       class="image-browser-action icon-search-plus"
       aria-hidden="true"
     />
-    <span
-      class="action-text"
-      >
+    <span class="action-text">
       {{ translate('COM_MEDIA_ACTION_PREVIEW') }}
     </span>
   </button>

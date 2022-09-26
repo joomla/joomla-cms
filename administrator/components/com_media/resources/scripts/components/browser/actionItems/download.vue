@@ -13,12 +13,9 @@
       class="image-browser-action icon-download"
       aria-hidden="true"
     />
-    <span
-          class="action-text"
-          >
-          {{ translate('COM_MEDIA_ACTION_DOWNLOAD') }}
-        </span>
-
+    <span class="action-text">
+      {{ translate('COM_MEDIA_ACTION_DOWNLOAD') }}
+    </span>
   </button>
 </template>
 
