@@ -3,7 +3,6 @@
     ref="actionRenameButton"
     type="button"
     class="action-rename"
-    aria-details="rename-desc"
     @click.stop="openRenameModal()"
     @keyup.enter="openRenameModal()"
     @keyup.space="openRenameModal()"
@@ -20,14 +19,7 @@
       >
       {{ translate('COM_MEDIA_ACTION_RENAME') }}
     </span>
-
   </button>
-  <span
-    class="sr-only"
-    id="rename-desc"
-  >
-      {{ sprintf('COM_MEDIA_ACTION_RENAME_DESC', (this.$parent.$props.item.name)) }}
-    </span>
 </template>
 
 <script>

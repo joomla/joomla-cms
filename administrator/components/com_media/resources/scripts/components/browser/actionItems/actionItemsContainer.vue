@@ -21,106 +21,95 @@
     <div
       v-if="showActions"
       class="media-browser-actions-list"
+      role="toolbar"
+      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',(this.$parent.$props.item.name))"
     >
-      <ul>
-        <li aria-hidden="true" class="media-browser-actions-item-name">
-          <strong>{{ this.$parent.$props.item.name }}</strong>
-        </li>
-        <li>
-          <media-browser-action-item-preview
-            v-if="previewable"
-            ref="actionPreview"
-            :on-focused="focused"
-            :main-action="openPreview"
-            :closing-action="hideActions"
-            @keyup.up="$refs.actionDelete.$el.focus()"
-            @keyup.down="$refs.actionDelete.$el.previousElementSibling.focus()"
-            @keyup.esc="hideActions"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-download
-            v-if="downloadable"
-            ref="actionDownload"
-            :on-focused="focused"
-            :main-action="download"
-            :closing-action="hideActions"
-            @keyup.up="$refs.actionPreview.$el.focus()"
-            @keyup.down="$refs.actionPreview.$el.previousElementSibling.focus()"
-            @keyup.esc="hideActions"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-rename
-            v-if="canEdit"
-            ref="actionRename"
-            :on-focused="focused"
-            :main-action="openRenameModal"
-            :closing-action="hideActions"
-            @keyup.up="
-              downloadable
-                ? $refs.actionDownload.$el.focus()
-                : $refs.actionDownload.$el.previousElementSibling.focus()
-            "
-            @keyup.down="
-              canEdit
-                ? $refs.actionEdit.$el.focus()
-                : shareable
-                  ? $refs.actionShare.$el.focus()
-                  : $refs.actionShare.$el.previousElementSibling.focus()
-            "
-            @keyup.esc="hideActions"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-edit
-            v-if="canEdit && canOpenEditView"
-            ref="actionEdit"
-            :on-focused="focused"
-            :main-action="editItem"
-            :closing-action="hideActions"
-            @keyup.up="$refs.actionRename.$el.focus()"
-            @keyup.down="$refs.actionRename.$el.previousElementSibling.focus()"
-            @keyup.esc="hideActions"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-share
-            v-if="shareable"
-            ref="actionShare"
-            :on-focused="focused"
-            :main-action="openShareUrlModal"
-            :closing-action="hideActions"
-            @keyup.up="
-              canEdit
-                ? $refs.actionEdit.$el.focus()
-                : $refs.actionEdit.$el.previousElementSibling.focus()
-            "
-            @keyup.down="$refs.actionDelete.$el.focus()"
-            @keyup.esc="hideActions"
-          />
-        </li>
-        <li>
-          <media-browser-action-item-delete
-            v-if="canDelete"
-            ref="actionDelete"
-            :on-focused="focused"
-            :main-action="openConfirmDeleteModal"
-            :hide-actions="hideActions"
-            @keyup.up="
-              shareable
-                ? $refs.actionShare.$el.focus()
-                : $refs.actionShare.$el.previousElementSibling.focus()
-            "
-            @keyup.down="
-              previewable
-                ? $refs.actionPreview.$el.focus()
-                : $refs.actionPreview.$el.previousElementSibling.focus()
-            "
-            @keyup.esc="hideActions"
-          />
-        </li>
-      </ul>
+      <span aria-hidden="true" class="media-browser-actions-item-name">
+        <strong>{{ this.$parent.$props.item.name }}</strong>
+      </span>
+      <media-browser-action-item-preview
+        v-if="previewable"
+        ref="actionPreview"
+        :on-focused="focused"
+        :main-action="openPreview"
+        :closing-action="hideActions"
+        @keyup.up="$refs.actionDelete.$el.focus()"
+        @keyup.down="$refs.actionDelete.$el.previousElementSibling.focus()"
+        @keyup.esc="hideActions"
+      />
+      <media-browser-action-item-download
+        v-if="downloadable"
+        ref="actionDownload"
+        :on-focused="focused"
+        :main-action="download"
+        :closing-action="hideActions"
+        @keyup.up="$refs.actionPreview.$el.focus()"
+        @keyup.down="$refs.actionPreview.$el.previousElementSibling.focus()"
+        @keyup.esc="hideActions"
+      />
+
+      <media-browser-action-item-rename
+        v-if="canEdit"
+        ref="actionRename"
+        :on-focused="focused"
+        :main-action="openRenameModal"
+        :closing-action="hideActions"
+        @keyup.up="
+          downloadable
+            ? $refs.actionDownload.$el.focus()
+            : $refs.actionDownload.$el.previousElementSibling.focus()
+        "
+        @keyup.down="
+          canEdit
+            ? $refs.actionEdit.$el.focus()
+            : shareable
+              ? $refs.actionShare.$el.focus()
+              : $refs.actionShare.$el.previousElementSibling.focus()
+        "
+        @keyup.esc="hideActions"
+      />
+      <media-browser-action-item-edit
+        v-if="canEdit && canOpenEditView"
+        ref="actionEdit"
+        :on-focused="focused"
+        :main-action="editItem"
+        :closing-action="hideActions"
+        @keyup.up="$refs.actionRename.$el.focus()"
+        @keyup.down="$refs.actionRename.$el.previousElementSibling.focus()"
+        @keyup.esc="hideActions"
+      />
+      <media-browser-action-item-share
+        v-if="shareable"
+        ref="actionShare"
+        :on-focused="focused"
+        :main-action="openShareUrlModal"
+        :closing-action="hideActions"
+        @keyup.up="
+          canEdit
+            ? $refs.actionEdit.$el.focus()
+            : $refs.actionEdit.$el.previousElementSibling.focus()
+        "
+        @keyup.down="$refs.actionDelete.$el.focus()"
+        @keyup.esc="hideActions"
+      />
+      <media-browser-action-item-delete
+        v-if="canDelete"
+        ref="actionDelete"
+        :on-focused="focused"
+        :main-action="openConfirmDeleteModal"
+        :hide-actions="hideActions"
+        @keyup.up="
+          shareable
+            ? $refs.actionShare.$el.focus()
+            : $refs.actionShare.$el.previousElementSibling.focus()
+        "
+        @keyup.down="
+          previewable
+            ? $refs.actionPreview.$el.focus()
+            : $refs.actionPreview.$el.previousElementSibling.focus()
+        "
+        @keyup.esc="hideActions"
+      />
     </div>
   </div>
 </template>

@@ -2,7 +2,6 @@
   <button
     type="button"
     class="action-download"
-    aria-details="download-desc"
     @keyup.enter="download()"
     @keyup.space="download()"
     @click.stop="download()"
@@ -21,12 +20,6 @@
         </span>
 
   </button>
-  <span
-    class="sr-only"
-    id="download-desc"
-  >
-      {{ sprintf('COM_MEDIA_ACTION_DOWNLOAD_DESC', (this.$parent.$props.item.name)) }}
-    </span>
 </template>
 
 <script>

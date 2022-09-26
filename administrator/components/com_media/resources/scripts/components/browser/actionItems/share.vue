@@ -2,7 +2,6 @@
   <button
     type="button"
     class="action-url"
-    aria-details="share-desc"
     @click.stop="openShareUrlModal()"
     @keyup.enter="openShareUrlModal()"
     @keyup.space="openShareUrlModal()"
@@ -21,12 +20,6 @@
         </span>
 
   </button>
-  <span
-    class="sr-only"
-    id="share-desc"
-  >
-      {{ sprintf('COM_MEDIA_ACTION_SHARE_DESC', (this.$parent.$props.item.name)) }}
-    </span>
 </template>
 
 <script>
