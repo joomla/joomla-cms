@@ -90,6 +90,7 @@
   min-height: 100px;
   max-height: 350px;
   overflow: auto;
+  border: 1px solid #dfdfdf;
 }
 
 #diff-main.active {
@@ -105,7 +106,6 @@
   background: repeating-linear-gradient(-45deg, whitesmoke, whitesmoke 0.5em, #e8e8e8 0.5em, #e8e8e8 1em);
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #dfdfdf;
   color: black;
   empty-cells: show;
   font-family: monospace;
