@@ -221,7 +221,7 @@
     font-size: $grid-item-icon-size;
     line-height: calc(#{$grid-item-icon-size} * 1.55);
   }
-  &:hover {
+  &:hover, &:focus {
     color: $grid-item-icon-color-hover;
     background-color: $grid-item-icon-bg-color-hover;
   }
