@@ -32,7 +32,10 @@
       aria-orientation="vertical"
       :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',(this.$parent.$props.item.name))"
     >
-      <span aria-hidden="true" class="media-browser-actions-item-name">
+      <span
+        aria-hidden="true"
+        class="media-browser-actions-item-name"
+      >
         <strong>{{ this.$parent.$props.item.name }}</strong>
       </span>
       <media-browser-action-item-preview
@@ -223,8 +226,8 @@ export default {
       this.$parent.$parent.$data.actionsActive = true;
       const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
       if (buttons.length) {
-        buttons.forEach((button,i) => {
-          if(i === (0)) {
+        buttons.forEach((button, i) => {
+          if (i === (0)) {
             button.tabIndex = 0;
           } else {
             button.tabIndex = -1;
@@ -239,8 +242,8 @@ export default {
       this.$parent.$parent.$data.actionsActive = true;
       const buttons = [...this.$el.parentElement.querySelectorAll('.media-browser-actions-list button')];
       if (buttons.length) {
-        buttons.forEach((button,i) => {
-          if(i === (buttons.length)) {
+        buttons.forEach((button, i) => {
+          if (i === (buttons.length)) {
             button.tabIndex = 0;
           } else {
             button.tabIndex = -1;
@@ -253,9 +256,9 @@ export default {
     focusNext(event) {
       const active = event.target;
       const buttons = [...active.parentElement.querySelectorAll('button')];
-      let lastchild = buttons[buttons.length - 1];
+      const lastchild = buttons[buttons.length - 1];
       active.tabIndex = -1;
-      if(active === lastchild) {
+      if (active === lastchild) {
         buttons[0].focus();
         buttons[0].tabIndex = 0;
       } else {
@@ -267,9 +270,9 @@ export default {
     focusPrev(event) {
       const active = event.target;
       const buttons = [...active.parentElement.querySelectorAll('button')];
-      let firstchild = buttons[0];
+      const firstchild = buttons[0];
       active.tabIndex = -1;
-      if(active === firstchild) {
+      if (active === firstchild) {
         buttons[buttons.length - 1].focus();
         buttons[buttons.length - 1].tabIndex = 0;
       } else {
@@ -282,8 +285,8 @@ export default {
       const active = event.target;
       const buttons = [...active.parentElement.querySelectorAll('button')];
       buttons[0].focus();
-      buttons.forEach((button,i) => {
-        if(i === 0) {
+      buttons.forEach((button, i) => {
+        if (i === 0) {
           button.tabIndex = 0;
         } else {
           button.tabIndex = -1;
@@ -295,8 +298,8 @@ export default {
       const active = event.target;
       const buttons = [...active.parentElement.querySelectorAll('button')];
       buttons[buttons.length - 1].focus();
-      buttons.forEach((button,i) => {
-        if(i === (buttons.length)) {
+      buttons.forEach((button, i) => {
+        if (i === (buttons.length)) {
           button.tabIndex = 0;
         } else {
           button.tabIndex = -1;
