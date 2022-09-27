@@ -227,6 +227,14 @@ class TemplateAdapter extends InstallerAdapter
         $db->setQuery($query);
         $db->execute();
 
+        // Remove any overrides
+        $query = $db->getQuery(true)
+            ->delete($db->quoteName('#__template_overrides'))
+            ->where($db->quoteName('template') . ' = :template')
+            ->bind(':template', $element);
+        $db->setQuery($query);
+        $db->execute();
+
         // Clobber any possible pending updates
         $update = Table::getInstance('update');
         $uid    = $update->find(
@@ -536,6 +544,7 @@ class TemplateAdapter extends InstallerAdapter
             $this->extension->name = $manifest_details['name'];
             $this->extension->enabled = 1;
             $this->extension->params = $this->parent->getParams();
+            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
