@@ -188,18 +188,6 @@
       &:hover, &:focus {
         background-color: var(--template-bg-dark-10);
       }
-      &:first-of-type {
-        transition-delay: .1s;
-      }
-      &:nth-of-type(2) {
-        transition-delay: .15s;
-      }
-      &:nth-of-type(3) {
-        transition-delay: .2s;
-      }
-      &:nth-of-type(4) {
-        transition-delay: .25s;
-      }
     }
   }
 }
@@ -214,6 +202,7 @@
   background-color: $grid-item-icon-bg-color;
   border-radius: $grid-item-border-radius;
   flex-shrink: 0;
+  transition-duration: .2s;
   .action-delete & {
     background-color: $grid-item-icon-warning-icon-bg;
   }
