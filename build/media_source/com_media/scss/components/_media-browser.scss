@@ -187,6 +187,10 @@
       transition-duration: .2s;
       &:hover, &:focus {
         background-color: var(--template-bg-dark-10);
+        &.action-delete {
+          background-color: $grid-item-icon-warning-icon-bg;
+          color: $grid-item-icon-color;
+        }
       }
     }
   }
