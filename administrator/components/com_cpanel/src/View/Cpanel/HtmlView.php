@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
         $dashboard = $app->input->getCmd('dashboard', '');
 
-        $position = OutputFilter::stringUrlUnicodeSlug($dashboard);
+        $position = OutputFilter::stringURLSafe($dashboard);
 
         // Generate a title for the view cpanel
         if (!empty($dashboard)) {
