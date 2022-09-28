@@ -10,7 +10,6 @@
 
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
