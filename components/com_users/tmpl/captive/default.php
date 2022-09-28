@@ -87,7 +87,7 @@ if ($this->renderOptions['field_type'] !== 'custom') {
                             'placeholder'  => $this->renderOptions['placeholder'] ?? null,
                             'id'           => 'users-mfa-code',
                             'class'        => 'form-control',
-                            'autocomplete' => (!empty($this->renderOptions['autocomplete'])) ?  $this->renderOptions['autocomplete']: 'one-time-code'
+                            'autocomplete' => (!empty($this->renderOptions['autocomplete'])) ?  $this->renderOptions['autocomplete'] : 'one-time-code'
                         ],
                         $this->renderOptions['input_attributes']
                     );
