@@ -19,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Search model class for the Finder package.
  *
@@ -162,7 +166,7 @@ class SearchModel extends ListModel
 
         $query->from('#__finder_links AS l');
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
         $query->whereIn($db->quoteName('l.access'), $groups)
             ->where('l.state = 1')
@@ -464,7 +468,7 @@ class SearchModel extends ListModel
         $app      = Factory::getApplication();
         $input    = $app->input;
         $params   = $app->getParams();
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $language = Factory::getLanguage();
 
         $this->setState('filter.language', Multilanguage::isEnabled());

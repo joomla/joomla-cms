@@ -19,6 +19,10 @@ use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Modules Component Module Model
  *
@@ -304,7 +308,7 @@ class ModulesModel extends ListModel
             ->bind(':eclientid', $clientId, ParameterType::INTEGER);
 
         // Filter by current user access level.
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get the current user for authorisation checks
         if ($user->authorise('core.admin') !== true) {

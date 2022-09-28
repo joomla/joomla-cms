@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module installer
  *
@@ -540,6 +544,7 @@ class ModuleAdapter extends InstallerAdapter
             $this->extension->name = $manifest_details['name'];
             $this->extension->enabled = 1;
             $this->extension->params = $this->parent->getParams();
+            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes

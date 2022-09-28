@@ -30,6 +30,10 @@ use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handles the storage of WebAuthn credentials in the database
  *
@@ -44,7 +48,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      *
      * @param   DatabaseInterface|null  $db  The database driver object to use for persistence.
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function __construct(DatabaseInterface $db = null)
     {
@@ -217,14 +221,11 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
              * Sanity check. The existing credential source must have the same user handle as the one I am trying to
              * save. Otherwise something fishy is going on.
              */
-			// phpcs:ignore
-			if ($oldRecord->user_id != $publicKeyCredentialSource->getUserHandle())
-            {
+            if ($oldRecord->user_id != $publicKeyCredentialSource->getUserHandle()) {
                 throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
             }
 
-			// phpcs:ignore
-			$o->user_id = $oldRecord->user_id;
+            $o->user_id = $oldRecord->user_id;
             $o->label   = $oldRecord->label;
             $update     = true;
         } catch (Exception $e) {
@@ -287,7 +288,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
          * @param   array  $record  The record to convert
          *
          * @return  array
-         * @since   __DEPLOY_VERSION__
+         * @since   4.2.0
          */
         $recordsMapperClosure = function ($record) {
             try {
@@ -459,7 +460,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      * @param   string|null  $userHandle  The user handle which will be converted to a user ID.
      *
      * @return  integer|null
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public function getUserIdFromHandle(?string $userHandle): ?int
     {
@@ -611,7 +612,7 @@ final class CredentialRepository implements PublicKeyCredentialSourceRepository,
      * @param   bool              $tzAware  Should the format be timezone aware? See notes above.
      *
      * @return  string
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     private function formatDate($date, ?string $format = null, bool $tzAware = true): string
     {
