@@ -42,8 +42,8 @@ class OpensearchView extends AbstractView
         $app = Factory::getApplication();
 
         $params = ComponentHelper::getParams('com_finder');
-        $this->document->setShortName($params->get('opensearch_name', $app->get('sitename')));
-        $this->document->setDescription($params->get('opensearch_description', $app->get('MetaDesc')));
+        $this->document->setShortName($params->get('opensearch_name', $app->get('sitename', '')));
+        $this->document->setDescription($params->get('opensearch_description', $app->get('MetaDesc', '')));
 
         // Prevent any output when OpenSearch Support is disabled
         if (!$params->get('opensearch', 1)) {
