@@ -25,5 +25,5 @@ chmod +rwx /root
 
 npx cypress install
 npx cypress verify
-npx cypress run --browser=firefox --e2e --env db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
+npx cypress run --browser=chrome --e2e --env db_type=$DB_ENGINE,db_host=$DB_HOST,db_password=joomla_ut,db_prefix="${TEST_GROUP}_" --config baseUrl=http://localhost/$TEST_GROUP,screenshotsFolder=$JOOMLA_BASE/tests/cypress/output/screenshots
 
