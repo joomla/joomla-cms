@@ -22,8 +22,7 @@ $this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLev
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
-$wa->useStyle('com_menus.admin-item-edit-modules')
-    ->useScript('com_menus.admin-item-edit-modules');
+$wa->useScript('com_menus.admin-item-edit-modules');
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(
