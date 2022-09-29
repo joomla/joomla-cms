@@ -37,7 +37,7 @@ $mediaVersion    = Factory::getDocument()->getMediaVersion();
 $editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 
-// remove the fullscreen message and option if readonly not null.
+// Remove the fullscreen message and option if readonly not null.
 if ($options->readOnly !== null) {
     $fsCombo = '';
 }
