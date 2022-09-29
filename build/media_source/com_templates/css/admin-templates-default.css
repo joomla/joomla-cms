@@ -111,7 +111,6 @@
   font-family: monospace;
   font-size: 13px;
   width: 100%;
-  word-break: break-all;
 }
 .diff-wrapper.diff th {
   font-weight: 700;
