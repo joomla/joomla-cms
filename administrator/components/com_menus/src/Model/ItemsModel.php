@@ -20,6 +20,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu Item List Model for Menus.
  *
@@ -235,7 +239,7 @@ class ItemsModel extends ListModel
         // Create a new query object.
         $db       = $this->getDatabase();
         $query    = $db->getQuery(true);
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $clientId = (int) $this->getState('filter.client_id');
 
         // Select all fields from the table.
@@ -536,7 +540,7 @@ class ItemsModel extends ListModel
                 Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
                 return false;
-            } elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
+            } elseif (!$this->getCurrentUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id)) {
                 // Check if menu type is valid against ACL.
                 Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 

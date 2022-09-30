@@ -12,7 +12,6 @@ defined('_JEXEC') || die;
 
 use Joomla\Application\ApplicationInterface;
 use Joomla\Application\SessionAwareWebApplicationInterface;
-use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -56,7 +55,7 @@ return new class implements ServiceProviderInterface
                 $metadataRepository = null;
                 $params             = new Joomla\Registry\Registry($config['params'] ?? '{}');
 
-                if ($params->get('attestationSupport', 1) == 1) {
+                if ($params->get('attestationSupport', 0) == 1) {
                     $metadataRepository    = $container->has(MetadataStatementRepository::class)
                         ? $container->get(MetadataStatementRepository::class)
                         : new MetadataRepository();

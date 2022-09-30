@@ -1930,6 +1930,16 @@ if ($enabled) {
         case 'finalizeUpdate':
             $root = $configuration['setup.destdir'] ?? '';
 
+            // Remove the administrator/cache/autoload_psr4.php file
+            $filename = $root . (empty($root) ? '' : '/') . 'administrator/cache/autoload_psr4.php';
+
+            if (file_exists($filename)) {
+                clearFileInOPCache($filename);
+                clearstatcache(true, $filename);
+
+                @unlink($filename);
+            }
+
             // Remove update.php
             clearFileInOPCache($basePath . 'update.php');
             @unlink($basePath . 'update.php');
