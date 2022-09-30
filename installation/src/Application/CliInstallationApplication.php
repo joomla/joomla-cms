@@ -157,46 +157,6 @@ final class CliInstallationApplication extends Application
     }
 
     /**
-     * Dispatch the application.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function dispatch()
-    {
-        // Load the document to the API.
-        $this->loadDocument();
-
-        // Set up the params
-        $document = $this->getDocument();
-
-        // Register the document object with Factory.
-        Factory::$document = $document;
-
-        // Define component path.
-        \define('JPATH_COMPONENT', JPATH_BASE);
-        \define('JPATH_COMPONENT_SITE', JPATH_SITE);
-        \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
-        // Execute the task.
-        ob_start();
-        $this->executeController();
-        $contents = ob_get_clean();
-
-        // If debug language is set, append its output to the contents.
-        if ($this->config->get('debug_lang')) {
-            $contents .= $this->debugLanguage();
-        }
-
-        // Set the content on the document
-        $this->getDocument()->setBuffer($contents, 'component');
-
-        // Set the document title
-        $document->setTitle(Text::_('INSTL_PAGE_TITLE'));
-    }
-
-    /**
      * Enqueue a system message.
      *
      * @param   string  $msg   The message to enqueue.
@@ -209,35 +169,6 @@ final class CliInstallationApplication extends Application
     public function enqueueMessage($msg, $type = 'info')
     {
         throw new \Exception($msg);
-    }
-
-    /**
-     * Executed a controller from the input task.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    private function executeController()
-    {
-        $task = $this->input->getCmd('task', '');
-
-        // The name of the controller
-        $controllerName = 'display';
-
-        // Parse task in format controller.task
-        if ($task !== '') {
-            list($controllerName, $task) = explode('.', $task, 2);
-        }
-
-        // Compile the class name
-        $class = 'Joomla\\CMS\\Installation\\Controller\\' . ucfirst($controllerName) . 'Controller';
-
-        // Create the instance
-        $controller = new $class([], new MVCFactory('Joomla\\CMS', $this), $this, $this->input);
-
-        // Execute the task
-        $controller->execute($task);
     }
 
     /**
@@ -356,20 +287,5 @@ final class CliInstallationApplication extends Application
     public function isClient($identifier)
     {
         return 'cli_installation' === $identifier;
-    }
-
-    /**
-     * Set configuration values.
-     *
-     * @param   array   $vars       Array of configuration values
-     * @param   string  $namespace  The namespace
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function setCfg(array $vars = array(), $namespace = 'config')
-    {
-        $this->config->loadArray($vars, $namespace);
     }
 }
