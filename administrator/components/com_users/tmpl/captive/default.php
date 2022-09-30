@@ -84,7 +84,7 @@ $this->document->getWebAssetManager()
                         'placeholder'  => $this->renderOptions['placeholder'] ?? null,
                         'id'           => 'users-mfa-code',
                         'class'        => 'form-control',
-                        'autocomplete' => !empty($this->renderOptions['autocomplete']) ? $this->renderOptions['autocomplete'] : 'one-time-code'
+                        'autocomplete' => $this->renderOptions['autocomplete'] ?? 'one-time-code'
                     ],
                     $this->renderOptions['input_attributes']
                 );
