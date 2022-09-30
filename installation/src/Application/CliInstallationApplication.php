@@ -39,7 +39,7 @@ final class CliInstallationApplication extends Application
      * @var MVCFactory
      * @since __DEPLOY_VERSION__
      */
-    protected $MVCFactory;
+    protected $mvcFactory;
 
     protected $session;
 
@@ -321,11 +321,11 @@ final class CliInstallationApplication extends Application
      */
     public function getMVCFactory()
     {
-        if (!$this->MVCFactory) {
-            $this->MVCFactory = new MVCFactory('Joomla\\CMS', $this);
+        if (!$this->mvcFactory) {
+            $this->mvcFactory = new MVCFactory('Joomla\\CMS', $this);
         }
 
-        return $this->MVCFactory;
+        return $this->mvcFactory;
     }
 
     /**
