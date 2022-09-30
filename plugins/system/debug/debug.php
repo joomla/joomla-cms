@@ -253,7 +253,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
         // Disable asset media version if needed.
         if (JDEBUG && (int) $this->params->get('refresh_assets', 1) === 0) {
-            $this->app->getDocument()->setMediaVersion(null);
+            $this->app->getDocument()->setMediaVersion('');
         }
     }
 
