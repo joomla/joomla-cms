@@ -38,6 +38,7 @@ function addStepToTourButton(tour, obj, tourId, index, buttons, uri) {
       element: obj[tourId].steps[index].target,
       on: obj[tourId].steps[index].position,
       url: obj[tourId].steps[index].url,
+      type: obj[tourId].steps[index].type,
     },
 
     buttons: buttons,
@@ -48,7 +49,9 @@ function addStepToTourButton(tour, obj, tourId, index, buttons, uri) {
       show() {
         var currentstepIndex = `${tour.currentStep.id}` - "0";
         sessionStorage.setItem("currentStepId", currentstepIndex);
+        if (obj[tourId].steps[index].type == 1) {
         checkAndRedirect(uri + tour.currentStep.options.attachTo.url);
+        }
       },
     },
   });
@@ -99,7 +102,10 @@ function pushBackButton(buttons, tour, prev_step) {
       {
         const paths = Joomla.getOptions('system.paths');
         sessionStorage.setItem("currentStepId", prev_step.id);
+        console.log("HI");
+        if (prev_step.type == 1) {
         checkAndRedirect(paths.rootFull + prev_step.url);
+        }
       }
       return tour.back();
     },
