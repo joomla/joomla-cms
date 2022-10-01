@@ -39,6 +39,10 @@ use Joomla\Plugin\System\Debug\JavascriptRenderer;
 use Joomla\Plugin\System\Debug\JoomlaHttpDriver;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Debug plugin.
  *
@@ -249,7 +253,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
         // Disable asset media version if needed.
         if (JDEBUG && (int) $this->params->get('refresh_assets', 1) === 0) {
-            $this->app->getDocument()->setMediaVersion(null);
+            $this->app->getDocument()->setMediaVersion('');
         }
     }
 
