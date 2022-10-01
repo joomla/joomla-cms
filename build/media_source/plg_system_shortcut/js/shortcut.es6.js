@@ -103,7 +103,7 @@
     let dl = '<dl>';
     dlItems.forEach((titles, shortcut) => {
       dl += '<dt><kbd>J</kbd>';
-      shortcut.split('+').forEach(key => {
+      shortcut.split('+').forEach((key) => {
         dl += ` ${Joomla.Text._('PLG_SYSTEM_SHORTCUT_THEN')} <kbd>${key.trim()}</kbd>`;
       });
       dl += '</dt>';
