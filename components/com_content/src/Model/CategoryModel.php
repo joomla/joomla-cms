@@ -20,6 +20,10 @@ use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.
@@ -150,7 +154,7 @@ class CategoryModel extends ListModel
         $mergedParams->merge($params);
 
         $this->setState('params', $mergedParams);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         $asset = 'com_content';
 
@@ -354,7 +358,7 @@ class CategoryModel extends ListModel
 
             // Compute selected asset permissions.
             if (is_object($this->_item)) {
-                $user  = Factory::getUser();
+                $user  = $this->getCurrentUser();
                 $asset = 'com_content.category.' . $this->_item->id;
 
                 // Check general create permission.

@@ -19,6 +19,10 @@ use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Tag Model
  *
@@ -159,7 +163,7 @@ class TagModel extends AdminModel
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id'))) {
             // Disable fields for display.
