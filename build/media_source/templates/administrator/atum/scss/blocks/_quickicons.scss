@@ -1,5 +1,6 @@
 // Quick Icons
 
+
 .quick-icons {
   background-color: $white;
 
@@ -22,6 +23,7 @@
     --bg-color: hsl(var(--hue), 60%, 97%);
     --icon-color: hsl(var(--hue), 30%, 40%);
     --bg-color-hvr: var(--template-bg-dark);
+    --color-hvr: #F8FAFD;
 
     display: flex;
     flex-grow: 1;
@@ -78,22 +80,58 @@
         .quickicon-amount {
           background: var(--icon-color);
         }
+
+        .quickicon-icon {
+          > * {
+            color: var(--icon-color-hvr);
+          }
+        }
       }
 
-      &.warning,
-      &.danger {
-        --text-color: var(--danger);
-        --bg-color: #f4f0f0;
-        --icon-color: #ce8484;
-        --bg-color-hvr: var(--danger);
-      }
+      // Accessible Alert colors
+
 
       &.success {
-        --text-color: var(--success);
-        --bg-color: #f3f9f3;
-        --icon-color: #55a258;
-        --bg-color-hvr: var(--success);
+        --text-color: #001226;
+        --bg-color: #8BDA94;
+        --text-color: #001226;
+        --icon-color: #001226;
+        --bg-color-hvr: #26762D;
+        --color-hvr: #F8FAFD;
+        --icon-color-hvr: #F8FAFD;
       }
+
+      &.warning {
+        --text-color: #001226;
+        --bg-color: #FBB68F;
+        --text-color: #001226;
+        --icon-color: #001226;
+        --bg-color-hvr: #B74707;
+        --color-hvr: #F8FAFD;
+        --icon-color-hvr: #F8FAFD;
+      }
+
+      &.danger {
+        --text-color: #001226;
+        --bg-color: #F68383;
+        --text-color: #001226;
+        --icon-color: #001226;
+        --bg-color-hvr: #A40C09;
+        --color-hvr: #F8FAFD;
+        --icon-color-hvr: #F8FAFD;
+      }
+
+
+      &.info {
+        --text-color: #001226;
+        --bg-color: #65ACFD;
+        --text-color: #001226;
+        --icon-color: #001226;
+        --bg-color-hvr: #034695;
+        --color-hvr: #F8FAFD;
+        --icon-color-hvr: #F8FAFD;
+      }
+
     }
   }
 
