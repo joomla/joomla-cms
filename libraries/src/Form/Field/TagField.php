@@ -128,9 +128,11 @@ class TagField extends ListField
         $language  = null;
         $options   = [];
 
+        if (!$this->isNested()) {
         // This limit is only used with isRemoteSearch
-        $prefillLimit   = 30;
-        $isRemoteSearch = $this->isRemoteSearch();
+            $prefillLimit   = 30;
+            $isRemoteSearch = $this->isRemoteSearch();
+        }
 
         $db    = $this->getDatabase();
         $query = $db->getQuery(true)
