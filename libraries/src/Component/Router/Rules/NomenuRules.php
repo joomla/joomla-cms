@@ -11,6 +11,10 @@ namespace Joomla\CMS\Component\Router\Rules;
 
 use Joomla\CMS\Component\Router\RouterView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Rule to process URLs without a menu item
  *

@@ -22,6 +22,10 @@ use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Request confirmation model class.
  *
@@ -68,7 +72,7 @@ class ConfirmModel extends AdminModel
         }
 
         // Get the user email address
-        $email = Factory::getUser()->email;
+        $email = $this->getCurrentUser()->email;
 
         // Search for the information request
         /** @var RequestTable $table */

@@ -12,6 +12,10 @@ namespace Joomla\CMS\Language;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Text handling class.
  *
@@ -313,7 +317,8 @@ class Text
      * Translate a string into the current language and stores it in the JavaScript language store.
      *
      * @param   string   $string                The Text key.
-     * @param   boolean  $jsSafe                Ensure the output is JavaScript safe.
+     * @param   boolean  $jsSafe                Legacy parameter to add slashes to the string.
+     *                                          Set it as "false" because the method encodes the string as JSON with json_encode().
      * @param   boolean  $interpretBackSlashes  Interpret \t and \n.
      *
      * @return  array
