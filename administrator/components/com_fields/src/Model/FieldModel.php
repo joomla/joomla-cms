@@ -31,6 +31,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field Model
  *
@@ -192,12 +196,12 @@ class FieldModel extends AdminModel
         $db->execute();
 
         // Inset new assigned categories
-        $tupel = new \stdClass();
-        $tupel->field_id = $id;
+        $tuple = new \stdClass();
+        $tuple->field_id = $id;
 
         foreach ($assignedCatIds as $catId) {
-            $tupel->category_id = $catId;
-            $db->insertObject('#__fields_categories', $tupel);
+            $tuple->category_id = $catId;
+            $db->insertObject('#__fields_categories', $tuple);
         }
 
         /**
@@ -535,7 +539,7 @@ class FieldModel extends AdminModel
         $fieldId  = $jinput->get('id');
         $assetKey = $this->state->get('field.component') . '.field.' . $fieldId;
 
-        if (!Factory::getUser()->authorise('core.edit.state', $assetKey)) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', $assetKey)) {
             // Disable fields for display.
             $form->setFieldAttribute('ordering', 'disabled', 'true');
             $form->setFieldAttribute('state', 'disabled', 'true');
@@ -546,7 +550,7 @@ class FieldModel extends AdminModel
         }
 
         // Don't allow to change the created_user_id user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
@@ -786,7 +790,7 @@ class FieldModel extends AdminModel
 
         $parts = FieldsHelper::extract($record->context);
 
-        return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
     }
 
     /**
@@ -801,7 +805,7 @@ class FieldModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $parts = FieldsHelper::extract($record->context);
 
         // Check for existing field.
@@ -920,7 +924,7 @@ class FieldModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_fields')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -1090,7 +1094,7 @@ class FieldModel extends AdminModel
     protected function batchCopy($value, $pks, $contexts)
     {
         // Set the variables
-        $user      = Factory::getUser();
+        $user      = $this->getCurrentUser();
         $table     = $this->getTable();
         $newIds    = array();
         $component = $this->state->get('filter.component');
@@ -1105,6 +1109,12 @@ class FieldModel extends AdminModel
 
                 // Reset the ID because we are making a copy
                 $table->id = 0;
+
+                // Alter the title if necessary
+                $data           = $this->generateNewTitle(0, $table->name, $table->title);
+                $table->title   = $data['0'];
+                $table->name    = $data['1'];
+                $table->label   = $data['0'];
 
                 // Unpublish the new field
                 $table->state = 0;
@@ -1147,7 +1157,7 @@ class FieldModel extends AdminModel
     protected function batchMove($value, $pks, $contexts)
     {
         // Set the variables
-        $user      = Factory::getUser();
+        $user      = $this->getCurrentUser();
         $table     = $this->getTable();
         $context   = explode('.', Factory::getApplication()->getUserState('com_fields.fields.context'));
         $value     = (int) $value;

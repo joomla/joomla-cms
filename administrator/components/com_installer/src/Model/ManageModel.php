@@ -23,6 +23,10 @@ use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Manage Model
  *
@@ -107,7 +111,7 @@ class ManageModel extends InstallerModel
      */
     public function publish(&$eid = array(), $value = 1)
     {
-        if (!Factory::getUser()->authorise('core.edit.state', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 
             return false;
@@ -213,7 +217,7 @@ class ManageModel extends InstallerModel
      */
     public function remove($eid = array())
     {
-        if (!Factory::getUser()->authorise('core.delete', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.delete', 'com_installer')) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'error');
 
             return false;

@@ -209,11 +209,12 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form if user is allowed ?>
-                    <?php if (
-                    $loggeduser->authorise('core.create', 'com_users')
+                    <?php
+                    if (
+                        $loggeduser->authorise('core.create', 'com_users')
                         && $loggeduser->authorise('core.edit', 'com_users')
                         && $loggeduser->authorise('core.edit.state', 'com_users')
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',

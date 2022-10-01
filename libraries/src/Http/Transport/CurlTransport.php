@@ -19,6 +19,10 @@ use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
 use Laminas\Diactoros\Stream as StreamResponse;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTTP transport class for using cURL.
  *

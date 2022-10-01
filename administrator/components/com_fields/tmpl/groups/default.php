@@ -167,11 +167,12 @@ if (count($this->filterForm->getField('context')->options) > 1) {
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php //Load the batch processing form. ?>
-                    <?php if (
-                    $user->authorise('core.create', $component)
+                    <?php
+                    if (
+                        $user->authorise('core.create', $component)
                         && $user->authorise('core.edit', $component)
                         && $user->authorise('core.edit.state', $component)
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
