@@ -33,12 +33,26 @@ $cyan:                             #107d8e; //used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
+// Accessible Alert colors
+$successBg:                        #8BDA94;
+$successBgHvr:                     #154219;
+$dangerBg:                         #F68383;
+$dangerBgHvr:                      #640806;
+$warningBg:                        #FBB68F;
+$warningBgHvr:                     #762F05;
+$infoBg:                           #65ACFD;
+$infoBgHvr:                        #022752;
+$neutralBg:                        #CCD0D3;
+$neutralBgHvr:                     #334050;
+$alertColor:                       #061932;
+$alertColorHvr:                    #F8FAFD;
+
 // Atum colours defined as scss variables for use in scss functions
 $atum-text-dark:                   $gray-700;
-$success:                          $green;
-$danger:                           $red;
-$info:                             $light-blue;
-$warning:                          $yellow;
+$success:                          $successBgHvr;
+$danger:                           $dangerBgHvr;
+$info:                             $infoBgHvr;
+$warning:                          $warningBgHvr;
 
 $theme-colors: ();
 $theme-colors: map-merge((
