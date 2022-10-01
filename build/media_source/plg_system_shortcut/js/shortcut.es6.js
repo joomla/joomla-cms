@@ -107,7 +107,7 @@
         dl += ` ${Joomla.Text._('PLG_SYSTEM_SHORTCUT_THEN')} <kbd>${key.trim()}</kbd>`;
       });
       dl += '</dt>';
-      titles.forEach(title => {
+      titles.forEach((title) => {
         dl += `<dd>${title}</dd>`;
       });
     });
