@@ -959,8 +959,12 @@ INSERT INTO `#__guidedtours` (`id`, `asset_id`, `title`, `description`, `orderin
 (3, 93, 'How to create Categories?', '<p>This Tour will show you how you can create Categories in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_categories&view=categories&extension=com_content', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
 (4, 94, 'How to create Menus?', '<p>This Tour will show you how you can create Menus in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_menus&view=menus', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
 (5, 95, 'How to create Tags?', '<p>This Tour will show you how you can create Tags in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_tags&view=tags', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
-(6, 96, 'How to create Banners?', '<p>This Tour will show you how you can create Banners in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_banners&view=banners',CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
-(7, 97, 'How to create Contacts?', '<p>This Tour will show you how you can create Contacts in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_contact&view=contacts',  CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1);
+(6, 96, 'How to create Banners?', '<p>This Tour will show you how you can create Banners in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_banners&view=banners', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
+(7, 97, 'How to create Contacts?', '<p>This Tour will show you how you can create Contacts in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_contact&view=contacts', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
+(8, 97, 'How to create News Feeds?', '<p>This Tour will show you how you can create News Feeds in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_newsfeeds&view=newsfeeds', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
+(9, 102, 'How to create Smart Search?', '<p>This Tour will show you how you can create Smart Search in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_finder&view=filters', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1),
+(10, 103, 'How to create Users?', '<p>This will show youhow you can create Users in Joomla!</p>', 0, '[\"*\"]', 'administrator/index.php?option=com_users&view=users', CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0, 1);
+
 -- --------------------------------------------------------
 
 --
