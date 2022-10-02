@@ -359,7 +359,7 @@ class ModuleAdapter extends InstallerAdapter
             $extension = $this->getElement();
 
             if ($extension) {
-				$clientPath = ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE);
+                $clientPath = ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE);
                 $source = $path ?: $clientPath . '/modules/' . $extension;
                 $folder = (string) $this->getManifest()->files->attributes()->folder;
 
@@ -368,14 +368,14 @@ class ModuleAdapter extends InstallerAdapter
                 }
 
                 $client = (string) $this->getManifest()->attributes()->client;
-				if (strlen($client))
-				{
-					$this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
-				}
-				else
-				{
-					$this->doLoadLanguage($extension, $source, $clientPath);
-				}
+                if (strlen($client))
+                {
+                    $this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
+                }
+                else
+                {
+                    $this->doLoadLanguage($extension, $source, $clientPath);
+                }
             }
         }
     }
