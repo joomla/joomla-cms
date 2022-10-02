@@ -102,7 +102,6 @@ function pushBackButton(buttons, tour, prev_step) {
       {
         const paths = Joomla.getOptions('system.paths');
         sessionStorage.setItem("currentStepId", prev_step.id);
-        console.log("HI");
         if (prev_step.type == 1) {
         checkAndRedirect(paths.rootFull + prev_step.url);
         }
