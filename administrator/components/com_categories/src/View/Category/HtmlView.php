@@ -234,10 +234,11 @@ class HtmlView extends BaseHtmlView
                 ToolbarHelper::versions($typeAlias, $this->item->id);
             }
 
-            if (Associations::isEnabled() &&
+            if (
+                Associations::isEnabled() &&
                 ComponentHelper::isEnabled('com_associations') &&
                 AssociationsHelper::hasSupport($component)
-                ) {
+             ) {
                 ToolbarHelper::custom('category.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
             }
         }
