@@ -368,12 +368,10 @@ class ModuleAdapter extends InstallerAdapter
                 }
 
                 $client = (string) $this->getManifest()->attributes()->client;
-                if (strlen($client))
-                {
+                if (strlen($client)) {
                     $this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
                 }
-                else
-                {
+                else {
                     $this->doLoadLanguage($extension, $source, $clientPath);
                 }
             }
