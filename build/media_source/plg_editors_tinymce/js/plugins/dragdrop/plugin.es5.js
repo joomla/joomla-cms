@@ -149,8 +149,8 @@
       if (e.dataTransfer.types[0] !== 'Files') return;
       e.preventDefault();
 
-      // We override only for files
-      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      // Read and upload files
+      if (e.dataTransfer.files.length > 0) {
         var files = [].slice.call(e.dataTransfer.files);
         files.forEach(function (file) {
           // Only images allowed
