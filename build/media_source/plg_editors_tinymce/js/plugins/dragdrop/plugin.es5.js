@@ -3,8 +3,6 @@
 
   /* eslint-disable no-undef */
   tinymce.PluginManager.add('jdragndrop', function (editor) {
-    var responseData;
-
     // Reset the drop area border
     var dragleaveCallback = function (e) {
       if (e.dataTransfer.types[0] !== 'Files') return;
@@ -58,7 +56,7 @@
           }
 
           if (response.data && response.data.path) {
-            responseData = response.data;
+            var responseData = response.data;
             var urlPath; // For local adapters use relative paths
 
             var _Joomla$getOptions = Joomla.getOptions('system.paths'),
