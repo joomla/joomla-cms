@@ -228,7 +228,7 @@ class JNamespacePsr4Map
                 }
 
                 // Load the manifest file
-                $xml = simplexml_load_file($file);
+                $xml = @simplexml_load_file($file);
 
                 // When invalid, ignore
                 if (!$xml) {
