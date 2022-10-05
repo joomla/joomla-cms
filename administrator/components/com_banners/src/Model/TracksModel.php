@@ -20,6 +20,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of tracks.
  *
@@ -182,7 +186,7 @@ class TracksModel extends ListModel
      */
     public function delete()
     {
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
         $categoryId = (int) $this->getState('category_id');
 
         // Access checks.

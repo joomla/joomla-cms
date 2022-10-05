@@ -13,6 +13,10 @@ namespace Joomla\Component\Actionlogs\Administrator\Plugin;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Abstract Action Log Plugin
  *
