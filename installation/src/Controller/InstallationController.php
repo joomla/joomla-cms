@@ -64,17 +64,31 @@ class InstallationController extends JSONController
         $r = new \stdClass();
         $r->view = 'setup';
 
-        // Check the form
         /** @var \Joomla\CMS\Installation\Model\SetupModel $model */
         $model = $this->getModel('Setup');
+        $data  = Factory::getApplication()->input->post->get('jform', array(), 'array');
 
-        if ($model->checkForm('setup') === false) {
+        if ($model->validate($data,'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
             $this->sendJsonResponse($r);
 
             return;
         }
+
+        $form = $model->getForm();
+        $data = $form->filter($data);
+
+        // Check for validation errors.
+        if ($data === false) {
+            $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
+            $r->validated = false;
+            $this->sendJsonResponse($r);
+
+            return;
+        }
+
+        $model->storeOptions($data);
 
         $r->validated = $model->validateDbConnection();
 
@@ -96,10 +110,11 @@ class InstallationController extends JSONController
 
         /** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
         $databaseModel = $this->getModel('Database');
+        $options = $databaseModel->getOptions();
 
         // Create Db
         try {
-            $dbCreated = $databaseModel->createDatabase();
+            $dbCreated = $databaseModel->createDatabase($options);
         } catch (\RuntimeException $e) {
             $this->app->enqueueMessage($e->getMessage(), 'error');
 
@@ -132,7 +147,8 @@ class InstallationController extends JSONController
         $model = $this->getModel('Database');
 
         $r = new \stdClass();
-        $db = $model->initialise();
+        $options = (object) $model->getOptions();
+        $db = $model->initialise($options);
         $files = [
             'populate1' => 'base',
             'populate2' => 'supports',

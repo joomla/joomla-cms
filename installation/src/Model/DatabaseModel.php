@@ -45,19 +45,15 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to initialise the database.
      *
-     * @param   boolean  $select  Select the database when creating the connections.
+     * @param   object   $options  Object with db connection credentials
+     * @param   boolean  $select   Select the database when creating the connections.
      *
      * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
      *
      * @since   3.1
      */
-    public function initialise($select = true)
+    public function initialise($options, $select = true)
     {
-        $options = $this->getOptions();
-
-        // Get the options as an object for easier handling.
-        $options = ArrayHelper::toObject($options);
-
         // Load the backend language files so that the DB error messages work.
         $lang = Factory::getLanguage();
         $currentLang = $lang->getTag();
@@ -107,16 +103,19 @@ class DatabaseModel extends BaseInstallationModel
     /**
      * Method to create a new database.
      *
+     * @param   array  $options  Array of database credentials
+     *
      * @return  boolean
      *
      * @since   3.1
      * @throws  \RuntimeException
      */
-    public function createDatabase()
+    public function createDatabase($options)
     {
-        $options = (object) $this->getOptions();
+        // Get the options as an object for easier handling.
+        $options = ArrayHelper::toObject($options);
 
-        $db = $this->initialise(false);
+        $db = $this->initialise($options,false);
 
         if ($db === false) {
             // Error messages are enqueued by the initialise function, we just need to tell the controller how to redirect
@@ -277,7 +276,7 @@ class DatabaseModel extends BaseInstallationModel
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 
-        if (!$db = $this->initialise()) {
+        if (!$db = $this->initialise($options)) {
             return false;
         }
 
@@ -307,7 +306,9 @@ class DatabaseModel extends BaseInstallationModel
      */
     public function createTables($schema)
     {
-        if (!$db = $this->initialise()) {
+        $options = (object) $this->getOptions();
+
+        if (!$db = $this->initialise($options)) {
             return false;
         }
 

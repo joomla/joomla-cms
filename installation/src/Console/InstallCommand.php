@@ -127,8 +127,8 @@ class InstallCommand extends AbstractCommand
 
         // Create and populate database
         $this->ioStyle->write('Creating and populating the database...');
-        $databaseModel->createDatabase();
-        $db = $databaseModel->initialise();
+        $databaseModel->createDatabase($cfg);
+        $db = $databaseModel->initialise((object) $cfg);
 
         // Set the character set to UTF-8 for pre-existing databases.
         try {
