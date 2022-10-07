@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>English (Canada)</name>
+	<name>Tiếng Việt (Việt Nam)</name>
 	<version>4.2.4</version>
 	<creationDate>2022-09</creationDate>
 	<author>Joomla! Project</author>
@@ -10,9 +10,9 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>English (en-CA)</name>
-		<nativeName>English (Canada)</nativeName>
-		<tag>en-CA</tag>
+		<name>Vietnamese (vi-VN)</name>
+		<nativeName>Tiếng Việt (Việt Nam)</nativeName>
+		<tag>vi-VN</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>
