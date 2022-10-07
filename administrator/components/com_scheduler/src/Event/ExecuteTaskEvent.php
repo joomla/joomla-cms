@@ -13,6 +13,10 @@ namespace Joomla\Component\Scheduler\Administrator\Event;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\Component\Scheduler\Administrator\Task\Task;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for onExecuteTask event.
  *

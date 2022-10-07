@@ -20,6 +20,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for updating Joomla! core
  *
@@ -142,6 +146,7 @@ class UpdateCoreCommand extends AbstractCommand
     public function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Updating Joomla');
 
         $this->progressBar->setMessage("Starting up ...");
         $this->progressBar->start();

@@ -20,6 +20,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Token Authentication plugin
  *
@@ -95,7 +99,7 @@ final class Token extends CMSPlugin
         // Default response is authentication failure.
         $response->type          = 'Token';
         $response->status        = Authentication::STATUS_FAILURE;
-        $response->error_message = $this->translate('JGLOBAL_AUTH_FAIL');
+        $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_FAIL');
 
         /**
          * First look for an HTTP Authorization header with the following format:
