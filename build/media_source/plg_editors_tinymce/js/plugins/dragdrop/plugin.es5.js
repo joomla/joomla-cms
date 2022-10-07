@@ -5,7 +5,7 @@
   tinymce.PluginManager.add('jdragndrop', function (editor) {
     // Reset the drop area border
     var dragleaveCallback = function (e) {
-      if (e.dataTransfer.types[0] !== 'Files') return;
+      if (!e.dataTransfer.types.includes('Files')) return;
       e.stopPropagation();
       e.preventDefault();
       editor.contentAreaContainer.style.borderWidth = '0';
@@ -20,14 +20,14 @@
 
     // Fix for Chrome
     editor.on('dragenter', function (e) {
-      if (e.dataTransfer.types[0] !== 'Files') return;
+      if (!e.dataTransfer.types.includes('Files')) return;
       e.stopPropagation();
       return false;
     });
 
     // Notify user when file is over the drop area
     editor.on('dragover', function (e) {
-      if (e.dataTransfer.types[0] !== 'Files') return;
+      if (!e.dataTransfer.types.includes('Files')) return;
       e.preventDefault();
       editor.contentAreaContainer.style.borderStyle = 'dashed';
       editor.contentAreaContainer.style.borderWidth = '5px';
@@ -146,7 +146,7 @@
 
     // Logic for the dropped file
     editor.on('drop', function (e) {
-      if (e.dataTransfer.types[0] !== 'Files') return;
+      if (!e.dataTransfer.types.includes('Files')) return;
       e.preventDefault();
 
       // Read and upload files
