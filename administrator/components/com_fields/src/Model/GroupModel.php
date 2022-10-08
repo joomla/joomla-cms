@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Group Model
  *
@@ -121,7 +125,7 @@ class GroupModel extends AdminModel
             $data['context'] = $context;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if (!$user->authorise('core.edit.state', $context . '.fieldgroup.' . $jinput->get('id'))) {
             // Disable fields for display.
@@ -156,7 +160,7 @@ class GroupModel extends AdminModel
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $record->context . '.fieldgroup.' . (int) $record->id);
     }
 
     /**
@@ -171,7 +175,7 @@ class GroupModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check for existing fieldgroup.
         if (!empty($record->id)) {
@@ -278,7 +282,7 @@ class GroupModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_fields')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_fields')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
