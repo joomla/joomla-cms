@@ -84,9 +84,9 @@ class CMSDynamicObject implements \JsonSerializable
      * @since       __DEPLOY_VERSION__
      * @deprecated  7.0  Joomla 7.0 and later will always use exceptions
      */
-    // phpcs:disable
+    // phpcs:disable PSR2.Classes.PropertyDeclaration
     protected array $_errors = [];
-    // phpcs:enable
+    // phpcs:enable PSR2.Classes.PropertyDeclaration
 
     /**
      * Should I throw exceptions instead of setting the error messages internally?
