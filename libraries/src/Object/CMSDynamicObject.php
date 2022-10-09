@@ -134,7 +134,7 @@ class CMSDynamicObject implements \JsonSerializable
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct(array|object|null $properties = null, bool $cmsObjectCompatibility = false)
+    public function __construct($properties = null, bool $cmsObjectCompatibility = false)
     {
         $this->setCMSObjectBackwardsCompatibility($cmsObjectCompatibility);
 
@@ -240,7 +240,7 @@ class CMSDynamicObject implements \JsonSerializable
      * @since   __DEPLOY_VERSION__
      * @deprecated  7.0  Use has(), get() and set() instead.
      */
-    public function def(string $property, mixed $default = null): mixed
+    public function def($property, $default = null)
     {
         $previous = $this->get($property, $default);
 
@@ -264,7 +264,7 @@ class CMSDynamicObject implements \JsonSerializable
      *
      * @see     CMSObject::getProperties()
      */
-    public function get(string $property, mixed $default = null): mixed
+    public function get($property, $default = null)
     {
         if (!$this->joomlareserved_access_private && isset($this->{$property}) && !$this->has($property)) {
             throw new \OutOfBoundsException(
@@ -293,7 +293,7 @@ class CMSDynamicObject implements \JsonSerializable
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function set(string $property, mixed $value = null): mixed
+    public function set($property, $value = null)
     {
         if (!$this->joomlareserved_access_private && isset($this->{$property}) && !$this->has($property)) {
             throw new \OutOfBoundsException(
@@ -430,7 +430,7 @@ class CMSDynamicObject implements \JsonSerializable
      *
      * @see     self::set()
      */
-    public function setProperties($properties): bool
+    public function setProperties($properties)
     {
         if (!is_array($properties) && !is_object($properties)) {
             if ($this->joomlareserved_use_exceptions) {
@@ -464,7 +464,7 @@ class CMSDynamicObject implements \JsonSerializable
      *
      * @see     CMSObject::get()
      */
-    public function getProperties(bool $public = true): array
+    public function getProperties($public = true)
     {
         $vars = $public
             ? $this->getConcretePublicProperties()
