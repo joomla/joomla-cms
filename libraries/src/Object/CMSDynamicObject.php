@@ -22,14 +22,32 @@ namespace Joomla\CMS\Object;
  * a few changes:
  * - Conversion to string now returns a JSON-serialised form of the properties (dynamic and
  *   concrete) instead of the class name.
- * - Using the underscore (`_`) prefix for "private" properties is deprecated. Use property
- *   visibility instead.
+ * - Using the underscore (`_`) prefix for "private" properties is not allowed. Use property
+ *   visibility instead. Use joomlareserved_underscore_private to override.
  * - getProperties(true) will return dynamic properties with underscore prefixes as they are no
  *   longer considered "private" (see above).
+ * - You cannot modify concrete non-public properties. Use joomlareserved_access_private to
+ *   override.
  * - Property names MUST NOT have the prefix `joomlareserved_`. This is a reserved prefix for
  *   internal use. This requirement is not enforced but if you use this prefix in your properties
  *   your objects might break in the future.
- * - You can promote setting errors to throw RuntimeException using the `useExceptions` method.
+ * - Using setError throws a RuntimeException. Set joomlareserved_use_exceptions to false to go back
+ *   to the error messages stack behavior of CMSObject.
+ *
+ * All aforementioned flags can be set using $this->setCMSObjectBackwardsCompatibility(true).
+ *
+ * All flags and the error management are deprecated in Joomla 5.0 and will be removed in Joomla
+ * 7.0.
+ *
+ * CAVEATS USING CMSObject B/C MODE:
+ * - You cannot assign to dynamic properties by reference, e.g. `$o->a = &$something` will fail. In
+ *   most cases you do not really need to do that. If you need to do that, use a subclass of
+ *   CMSDynamicObject with concrete properties which will receive the by-reference values.
+ * - If you override any magic method in your subclasses you need to fall back to the default
+ *   implementation of the parent class (CMSDynamicObject) to prevent errors.
+ * - The __get magic method returns **BY REFERENCE**. This is necessary for you to be able to modify
+ *   arrays in dynamic properties e.g. `$o->a[1] = 123`. As a result, if you override the __get
+ *   magic method you must also make it return by reference in your own code.
  *
  * @since       __DEPLOY_VERSION__
  */
@@ -170,9 +188,26 @@ class CMSDynamicObject implements \JsonSerializable
      * @return  mixed
      * @since   __DEPLOY_VERSION__
      */
-    public function __get(string $name)
+    public function &__get(string $name)
     {
-        return $this->get($name);
+        if (!$this->joomlareserved_access_private && isset($this->{$name}) && !$this->has($name)) {
+            throw new \OutOfBoundsException(
+                sprintf(
+                    'Direct access to private and protected properties is not allowed in %s',
+                    get_class($this)
+                )
+            );
+        }
+
+        if ($this->has($name, self::IS_CONCRETE)) {
+            return $this->{$name};
+        }
+
+        if (!$this->has($name, self::IS_DYNAMIC)) {
+            $this->joomlareserved_dynamic_properties[$name] = null;
+        }
+
+        return $this->joomlareserved_dynamic_properties[$name];
     }
 
     /**

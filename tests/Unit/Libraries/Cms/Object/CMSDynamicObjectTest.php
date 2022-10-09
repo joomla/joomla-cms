@@ -122,6 +122,21 @@ class CMSDynamicObjectTest extends UnitTestCase
         $this->assertNull($object->boo);
     }
 
+    public function testOverloadedArrayAccess()
+    {
+        $object = new CMSDynamicObject();
+
+        $object->foo = [];
+
+        $this->assertTrue($object->has('foo', CMSDynamicObject::IS_DYNAMIC));
+        $this->assertIsArray($object->foo);
+
+        $object->foo['bar'] = 'baz';
+
+        $this->assertArrayHasKey('bar', $object->foo);
+        $this->assertEquals('baz', $object->foo['bar']);
+    }
+
     /**
      * Tests getting the properties of the object.
      *
