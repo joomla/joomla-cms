@@ -27,11 +27,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests the object constructor.
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__construct
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::__construct
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testIsConstructable()
     {
@@ -41,28 +41,13 @@ class CMSDynamicObjectTest extends UnitTestCase
     }
 
     /**
-     * Tests the magic __toString method
-     *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__toString
-     * @return void
-     *
-     * @since     __DEPLOY_VERSION__
-     */
-    public function testToString()
-    {
-        $object = new CMSDynamicObject(['foo' => 'bar', 'baz' => 'bat']);
-        $this->assertEquals('{"foo":"bar","baz":"bat"}', (string)$object);
-    }
-
-    /**
      * Tests setting the default for a property of the object.
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::def
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::def
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testDef()
     {
@@ -79,13 +64,13 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests getting a property of the object.
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::get
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::get
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
-    public function testGet()
+    public function testGetViaGet()
     {
         $object = new CMSDynamicObject();
 
@@ -102,13 +87,13 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests getting a property of the object.
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__get
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::set
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
-    public function testGetMagic()
+    public function testGetViaProperty()
     {
         $object = new CMSDynamicObject();
 
@@ -117,18 +102,23 @@ class CMSDynamicObjectTest extends UnitTestCase
 
         $this->assertEquals('car', $object->goo);
         $this->assertEquals('bat', $object->baz);
-        $this->assertEquals(null, $object->foo);
+        $this->assertEquals(null, $object->foo ?? null);
         $this->assertEquals('fudge', $object->foo ?? 'fudge');
-        $this->assertNull($object->boo);
+        $this->assertNull($object->boo ?? null);
     }
 
-    public function testOverloadedArrayAccess()
+    /**
+     * Tests how a dynamically assigned array property behaves
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testArrayAccess()
     {
         $object = new CMSDynamicObject();
 
         $object->foo = [];
 
-        $this->assertTrue($object->has('foo', CMSDynamicObject::IS_DYNAMIC));
         $this->assertIsArray($object->foo);
 
         $object->foo['bar'] = 'baz';
@@ -140,11 +130,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests getting the properties of the object.
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::getProperties
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::getProperties
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetProperties()
     {
@@ -156,18 +146,13 @@ class CMSDynamicObjectTest extends UnitTestCase
 
         $this->assertEquals(
             [
-                '_errors'                           => [],
-                '_privateproperty1'                 => 'valuep1',
-                'property1'                         => 'value1',
-                'property2'                         => 5,
-                'joomlareserved_use_exceptions'     => true,
-                'joomlareserved_underscore_private' => false,
-                'joomlareserved_access_private'     => false,
-                'joomlareserved_dynamic_properties' => [
-                    '_privateproperty1' => 'valuep1',
-                    'property1'         => 'value1',
-                    'property2'         => 5
-                ]
+                '_errors'             => [],
+                '_privateproperty1'   => 'valuep1',
+                'property1'           => 'value1',
+                'property2'           => 5,
+                '_use_exceptions'     => true,
+                '_underscore_private' => false,
+                '_access_private'     => false,
             ],
             $object->getProperties(false),
             'Should get all properties, including private ones'
@@ -185,200 +170,86 @@ class CMSDynamicObjectTest extends UnitTestCase
     }
 
     /**
-     * Tests setting a private property via the magic setter
-     *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__set
-     * @return void
-     *
-     * @since     __DEPLOY_VERSION__
-     */
-    public function testSetPrivatePropertyViaMagic()
-    {
-        $object = new CMSDynamicObject();
-
-        $this->expectException(\OutOfBoundsException::class);
-        $object->joomlareserved_use_exceptions = true;
-    }
-
-    /**
      * Tests setting a private property via the concrete set() method
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::set
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::set
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetPrivatePropertyViaSet()
     {
         $object = new CMSDynamicObject();
 
         $this->expectException(\OutOfBoundsException::class);
-        $object->set('joomlareserved_use_exceptions', true);
+        $object->set('_use_exceptions', true);
     }
 
     /**
      * Tests setting a private property via def()
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::def
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::def
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetPrivatePropertyViaDef()
     {
         $object = new CMSDynamicObject();
 
         $this->expectException(\OutOfBoundsException::class);
-        $object->def('joomlareserved_use_exceptions', true);
-    }
-
-    /**
-     * Tests getting a private property via the magic getter
-     *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__get
-     * @return void
-     *
-     * @since     __DEPLOY_VERSION__
-     */
-    public function testGetPrivatePropertyViaMagic()
-    {
-        $object = new CMSDynamicObject();
-
-        $this->expectException(\OutOfBoundsException::class);
-        $object->get('joomlareserved_use_exceptions', true);
+        $object->def('_use_exceptions', true);
     }
 
     /**
      * Tests getting a private property via the concrete get() method
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__get
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::get
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetPrivatePropertyViaGet()
     {
         $object = new CMSDynamicObject();
 
         $this->expectException(\OutOfBoundsException::class);
-        $x = $object->joomlareserved_use_exceptions;
+        $x = $object->get('_use_exceptions');
     }
 
     /**
-     * Tests unsetting a public property via the magic __unset
+     * Tests how PHP behaves when isset is called against dynamically created properties
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__unset
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::get
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
-     */
-    public function testUnsetViaMagic()
-    {
-        $object = new CMSDynamicObject();
-
-        $object->foo = 'bar';
-
-        $this->assertTrue($object->has('foo', CMSDynamicObject::IS_DYNAMIC));
-        $this->assertFalse($object->has('foo', CMSDynamicObject::IS_CONCRETE));
-        $this->assertEquals('bar', $object->foo);
-
-        unset($object->foo);
-
-        $this->assertFalse($object->has('foo', CMSDynamicObject::IS_DYNAMIC));
-        $this->assertFalse($object->has('foo', CMSDynamicObject::IS_CONCRETE));
-    }
-
-    /**
-     * Tests unsetting a public property via the concrete remove() method
-     *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::remove
-     * @return void
-     *
-     * @since     __DEPLOY_VERSION__
-     */
-    public function testUnsetViaRemove()
-    {
-        $object = new CMSDynamicObject();
-
-        $object->foo = 'bar';
-
-        $this->assertTrue($object->has('foo', CMSDynamicObject::IS_DYNAMIC));
-        $this->assertFalse($object->has('foo', CMSDynamicObject::IS_CONCRETE));
-        $this->assertEquals('bar', $object->foo);
-
-        $object->remove('foo');
-
-        $this->assertFalse($object->has('foo', CMSDynamicObject::IS_DYNAMIC));
-        $this->assertFalse($object->has('foo', CMSDynamicObject::IS_CONCRETE));
-    }
-
-    /**
-     * Tests unsetting a private property via the magic __unset
-     *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__unset
-     * @return void
-     *
-     * @since     __DEPLOY_VERSION__
-     */
-    public function testUnsetPrivateViaMagic()
-    {
-        $object = new CMSDynamicObject();
-
-        $this->expectException(\OutOfBoundsException::class);
-        unset($object->_errors);
-    }
-
-    /**
-     * Tests unsetting a private property via the concrete remove() method
-     *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::remove
-     * @return void
-     *
-     * @since     __DEPLOY_VERSION__
-     */
-    public function testUnsetPrivateViaRemove()
-    {
-        $object = new CMSDynamicObject();
-
-        $this->expectException(\OutOfBoundsException::class);
-        $object->remove('_errors');
-    }
-
-    /**
-     * Tests the magic __isset method through the isset() PHP language construct
-     *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__isset
-     * @return void
-     *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testIsset()
     {
         $object = new CMSDynamicObject(['foo' => 'bar', 'bar' => null]);
 
         $this->assertTrue(isset($object->foo));
-        $this->assertTrue(isset($object->bar));
         $this->assertFalse(isset($object->baz));
+
+        // PHP CAVEAT: a property with a NULL value returns FALSE when checking if it's set
+        $this->assertFalse(isset($object->bar));
+        // However, you can check if it has a NULL value
+        $this->assertEquals(null, $object->bar);
     }
 
     /**
-     * Tests the magic __isset and __get methods through the empty() PHP language construct
+     * Tests how PHP's empty() language construct behaves with dynamic properties
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::__isset
-     * @return    void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::__isset
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testEmpty()
     {
@@ -392,11 +263,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests getting a single error (CMSObject b/c mode).
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::getError
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::getError
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetErrorLegacy()
     {
@@ -439,11 +310,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests getting the array of errors (CMSObject b/c mode).
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::getErrors
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::getErrors
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testGetErrorsLegacy()
     {
@@ -465,11 +336,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests setting a property.
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::set
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::set
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSet()
     {
@@ -483,36 +354,14 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests setting a dynamic property prefixed by an underscore (modern mode).
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::set
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::set
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetUnderscore()
     {
-        // Set magic, get magic
-        $object = new CMSDynamicObject();
-
-        $object->_jsonEncode = ['params'];
-        $this->assertIsArray($object->_jsonEncode);
-        $this->assertEquals(['params'], $object->_jsonEncode);
-
-        // Set with set(), get magic
-        $object = new CMSDynamicObject();
-
-        $object->set('_jsonEncode', ['params']);
-        $this->assertIsArray($object->_jsonEncode);
-        $this->assertEquals(['params'], $object->_jsonEncode);
-
-        // Set with magic, get with get()
-        $object = new CMSDynamicObject();
-
-        $object->_jsonEncode = ['params'];
-        $this->assertIsArray($object->get('_jsonEncode'));
-        $this->assertEquals(['params'], $object->get('_jsonEncode'));
-
-        // Set with set(), get with get()
         $object = new CMSDynamicObject();
 
         $object->set('_jsonEncode', ['params']);
@@ -523,36 +372,14 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests setting a dynamic property prefixed by an underscore (legacy mode).
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::set
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::set
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetUnderscoreLegacy()
     {
-        // Set magic, get magic
-        $object = new CMSDynamicObject(null, true);
-
-        $object->_jsonEncode = ['params'];
-        $this->assertIsArray($object->_jsonEncode);
-        $this->assertEquals(['params'], $object->_jsonEncode);
-
-        // Set with set(), get magic
-        $object = new CMSDynamicObject(null, true);
-
-        $object->set('_jsonEncode', ['params']);
-        $this->assertIsArray($object->_jsonEncode);
-        $this->assertEquals(['params'], $object->_jsonEncode);
-
-        // Set with magic, get with get()
-        $object = new CMSDynamicObject(null, true);
-
-        $object->_jsonEncode = ['params'];
-        $this->assertIsArray($object->get('_jsonEncode'));
-        $this->assertEquals(['params'], $object->get('_jsonEncode'));
-
-        // Set with set(), get with get()
         $object = new CMSDynamicObject(null, true);
 
         $object->set('_jsonEncode', ['params']);
@@ -563,60 +390,20 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests setting a concrete property prefixed by an underscore (legacy mode).
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::set
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::set
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetConcreteUnderscoreLegacy()
     {
-        // Set magic, get magic
         $object = new CMSDynamicObjectStub(null);
 
-        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
-        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
-
-        $object->_jsonEncode = ['params'];
-
-        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
-        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
-        $this->assertIsArray($object->_jsonEncode);
-        $this->assertEquals(['params'], $object->_jsonEncode);
-        $this->assertFalse(empty($object->_jsonEncode));
-        $this->assertFalse($object->isJsonEncodeEmpty());
-
-        // Set with set(), get magic
-        $object = new CMSDynamicObjectStub(null);
+        $this->assertTrue($object->get('_jsonEncode') !== null);
 
         $object->set('_jsonEncode', ['params']);
 
-        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
-        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
-        $this->assertIsArray($object->_jsonEncode);
-        $this->assertEquals(['params'], $object->_jsonEncode);
-        $this->assertFalse(empty($object->_jsonEncode));
-        $this->assertFalse($object->isJsonEncodeEmpty());
-
-        // Set with magic, get with get()
-        $object = new CMSDynamicObjectStub(null);
-
-        $object->_jsonEncode = ['params'];
-
-        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
-        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
-        $this->assertIsArray($object->get('_jsonEncode'));
-        $this->assertEquals(['params'], $object->get('_jsonEncode'));
-        $this->assertFalse(empty($object->get('_jsonEncode')));
-        $this->assertFalse($object->isJsonEncodeEmpty());
-
-        // Set with set(), get with get()
-        $object = new CMSDynamicObjectStub(null);
-
-        $object->set('_jsonEncode', ['params']);
-
-        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
-        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
         $this->assertIsArray($object->get('_jsonEncode'));
         $this->assertEquals(['params'], $object->get('_jsonEncode'));
         $this->assertFalse(empty($object->get('_jsonEncode')));
@@ -626,11 +413,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests setting multiple properties.
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::setProperties
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::setProperties
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetProperties()
     {
@@ -648,11 +435,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests setting an error (CMSObject b/c mode).
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::setError
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::setError
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetErrorLegacy()
     {
@@ -667,11 +454,11 @@ class CMSDynamicObjectTest extends UnitTestCase
     /**
      * Tests setting an error (Exceptions mode).
      *
-     * @group     CMSDynamicObject
-     * @covers    CMSDynamicObject::setError
-     * @return void
+     * @group   CMSDynamicObject
+     * @covers  CMSDynamicObject::setError
+     * @return  void
      *
-     * @since     __DEPLOY_VERSION__
+     * @since   __DEPLOY_VERSION__
      */
     public function testSetError()
     {
