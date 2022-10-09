@@ -98,10 +98,13 @@ class CMSObjectTest extends UnitTestCase
 
         $this->assertEquals(
             [
-                '_errors'           => [],
-                '_privateproperty1' => 'valuep1',
-                'property1'         => 'value1',
-                'property2'         => 5
+                '_errors'             => [],
+                '_privateproperty1'   => 'valuep1',
+                'property1'           => 'value1',
+                'property2'           => 5,
+                '_use_exceptions'     => false,
+                '_underscore_private' => true,
+                '_access_private'     => true,
             ],
             $object->getProperties(false),
             'Should get all properties, including private ones'
