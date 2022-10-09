@@ -21,6 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  * @subpackage  Object
  * @since       __DEPLOY_VERSION__
  */
+// phpcs:disable PSR1.Classes.ClassDeclaration
 class CMSDynamicObjectTest extends UnitTestCase
 {
     /**
@@ -140,11 +141,13 @@ class CMSDynamicObjectTest extends UnitTestCase
 
         $this->assertEquals(
             [
-                'joomlareserved_errors'             => [],
+                '_errors'                           => [],
                 '_privateproperty1'                 => 'valuep1',
                 'property1'                         => 'value1',
                 'property2'                         => 5,
-                'joomlareserved_use_exceptions'     => false,
+                'joomlareserved_use_exceptions'     => true,
+                'joomlareserved_underscore_private' => false,
+                'joomlareserved_access_private'     => false,
                 'joomlareserved_dynamic_properties' => [
                     '_privateproperty1' => 'valuep1',
                     'property1'         => 'value1',
@@ -315,7 +318,7 @@ class CMSDynamicObjectTest extends UnitTestCase
         $object = new CMSDynamicObject();
 
         $this->expectException(\OutOfBoundsException::class);
-        unset($object->joomlareserved_errors);
+        unset($object->_errors);
     }
 
     /**
@@ -332,7 +335,7 @@ class CMSDynamicObjectTest extends UnitTestCase
         $object = new CMSDynamicObject();
 
         $this->expectException(\OutOfBoundsException::class);
-        $object->remove('joomlareserved_errors');
+        $object->remove('_errors');
     }
 
     /**
@@ -372,7 +375,7 @@ class CMSDynamicObjectTest extends UnitTestCase
     }
 
     /**
-     * Tests getting a single error.
+     * Tests getting a single error (CMSObject b/c mode).
      *
      * @group     CMSDynamicObject
      * @covers    CMSDynamicObject::getError
@@ -380,9 +383,9 @@ class CMSDynamicObjectTest extends UnitTestCase
      *
      * @since     __DEPLOY_VERSION__
      */
-    public function testGetError()
+    public function testGetErrorLegacy()
     {
-        $object = new CMSDynamicObject();
+        $object = new CMSDynamicObject(null, true);
 
         $object->setError(1234);
         $object->setError('Second Test Error');
@@ -419,7 +422,7 @@ class CMSDynamicObjectTest extends UnitTestCase
     }
 
     /**
-     * Tests getting the array of errors.
+     * Tests getting the array of errors (CMSObject b/c mode).
      *
      * @group     CMSDynamicObject
      * @covers    CMSDynamicObject::getErrors
@@ -427,9 +430,9 @@ class CMSDynamicObjectTest extends UnitTestCase
      *
      * @since     __DEPLOY_VERSION__
      */
-    public function testGetErrors()
+    public function testGetErrorsLegacy()
     {
-        $object = new CMSDynamicObject();
+        $object = new CMSDynamicObject(null, true);
 
         $errors = [1234, 'Second Test Error', 'Third Test Error'];
 
@@ -463,6 +466,149 @@ class CMSDynamicObjectTest extends UnitTestCase
     }
 
     /**
+     * Tests setting a dynamic property prefixed by an underscore (modern mode).
+     *
+     * @group     CMSDynamicObject
+     * @covers    CMSDynamicObject::set
+     * @return void
+     *
+     * @since     __DEPLOY_VERSION__
+     */
+    public function testSetUnderscore()
+    {
+        // Set magic, get magic
+        $object = new CMSDynamicObject();
+
+        $object->_jsonEncode = ['params'];
+        $this->assertIsArray($object->_jsonEncode);
+        $this->assertEquals(['params'], $object->_jsonEncode);
+
+        // Set with set(), get magic
+        $object = new CMSDynamicObject();
+
+        $object->set('_jsonEncode', ['params']);
+        $this->assertIsArray($object->_jsonEncode);
+        $this->assertEquals(['params'], $object->_jsonEncode);
+
+        // Set with magic, get with get()
+        $object = new CMSDynamicObject();
+
+        $object->_jsonEncode = ['params'];
+        $this->assertIsArray($object->get('_jsonEncode'));
+        $this->assertEquals(['params'], $object->get('_jsonEncode'));
+
+        // Set with set(), get with get()
+        $object = new CMSDynamicObject();
+
+        $object->set('_jsonEncode', ['params']);
+        $this->assertIsArray($object->get('_jsonEncode'));
+        $this->assertEquals(['params'], $object->get('_jsonEncode'));
+    }
+
+    /**
+     * Tests setting a dynamic property prefixed by an underscore (legacy mode).
+     *
+     * @group     CMSDynamicObject
+     * @covers    CMSDynamicObject::set
+     * @return void
+     *
+     * @since     __DEPLOY_VERSION__
+     */
+    public function testSetUnderscoreLegacy()
+    {
+        // Set magic, get magic
+        $object = new CMSDynamicObject(null, true);
+
+        $object->_jsonEncode = ['params'];
+        $this->assertIsArray($object->_jsonEncode);
+        $this->assertEquals(['params'], $object->_jsonEncode);
+
+        // Set with set(), get magic
+        $object = new CMSDynamicObject(null, true);
+
+        $object->set('_jsonEncode', ['params']);
+        $this->assertIsArray($object->_jsonEncode);
+        $this->assertEquals(['params'], $object->_jsonEncode);
+
+        // Set with magic, get with get()
+        $object = new CMSDynamicObject(null, true);
+
+        $object->_jsonEncode = ['params'];
+        $this->assertIsArray($object->get('_jsonEncode'));
+        $this->assertEquals(['params'], $object->get('_jsonEncode'));
+
+        // Set with set(), get with get()
+        $object = new CMSDynamicObject(null, true);
+
+        $object->set('_jsonEncode', ['params']);
+        $this->assertIsArray($object->get('_jsonEncode'));
+        $this->assertEquals(['params'], $object->get('_jsonEncode'));
+    }
+
+    /**
+     * Tests setting a concrete property prefixed by an underscore (legacy mode).
+     *
+     * @group     CMSDynamicObject
+     * @covers    CMSDynamicObject::set
+     * @return void
+     *
+     * @since     __DEPLOY_VERSION__
+     */
+    public function testSetConcreteUnderscoreLegacy()
+    {
+        // Set magic, get magic
+        $object = new CMSDynamicObjectStub(null);
+
+        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
+        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
+
+        $object->_jsonEncode = ['params'];
+
+        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
+        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
+        $this->assertIsArray($object->_jsonEncode);
+        $this->assertEquals(['params'], $object->_jsonEncode);
+        $this->assertFalse(empty($object->_jsonEncode));
+        $this->assertFalse($object->isJsonEncodeEmpty());
+
+        // Set with set(), get magic
+        $object = new CMSDynamicObjectStub(null);
+
+        $object->set('_jsonEncode', ['params']);
+
+        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
+        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
+        $this->assertIsArray($object->_jsonEncode);
+        $this->assertEquals(['params'], $object->_jsonEncode);
+        $this->assertFalse(empty($object->_jsonEncode));
+        $this->assertFalse($object->isJsonEncodeEmpty());
+
+        // Set with magic, get with get()
+        $object = new CMSDynamicObjectStub(null);
+
+        $object->_jsonEncode = ['params'];
+
+        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
+        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
+        $this->assertIsArray($object->get('_jsonEncode'));
+        $this->assertEquals(['params'], $object->get('_jsonEncode'));
+        $this->assertFalse(empty($object->get('_jsonEncode')));
+        $this->assertFalse($object->isJsonEncodeEmpty());
+
+        // Set with set(), get with get()
+        $object = new CMSDynamicObjectStub(null);
+
+        $object->set('_jsonEncode', ['params']);
+
+        $this->assertTrue($object->has('_jsonEncode', CMSDynamicObject::IS_CONCRETE));
+        $this->assertFalse($object->has('_jsonEncode', CMSDynamicObject::IS_DYNAMIC));
+        $this->assertIsArray($object->get('_jsonEncode'));
+        $this->assertEquals(['params'], $object->get('_jsonEncode'));
+        $this->assertFalse(empty($object->get('_jsonEncode')));
+        $this->assertFalse($object->isJsonEncodeEmpty());
+    }
+
+    /**
      * Tests setting multiple properties.
      *
      * @group     CMSDynamicObject
@@ -485,7 +631,26 @@ class CMSDynamicObjectTest extends UnitTestCase
     }
 
     /**
-     * Tests setting an error.
+     * Tests setting an error (CMSObject b/c mode).
+     *
+     * @group     CMSDynamicObject
+     * @covers    CMSDynamicObject::setError
+     * @return void
+     *
+     * @since     __DEPLOY_VERSION__
+     */
+    public function testSetErrorLegacy()
+    {
+        $object = new CMSDynamicObject(null, true);
+        $object->setError('A Test Error');
+        $this->assertEquals(
+            ['A Test Error'],
+            $object->getErrors()
+        );
+    }
+
+    /**
+     * Tests setting an error (Exceptions mode).
      *
      * @group     CMSDynamicObject
      * @covers    CMSDynamicObject::setError
@@ -496,10 +661,23 @@ class CMSDynamicObjectTest extends UnitTestCase
     public function testSetError()
     {
         $object = new CMSDynamicObject();
+        $this->expectException(\RuntimeException::class);
         $object->setError('A Test Error');
-        $this->assertEquals(
-            ['A Test Error'],
-            $object->getErrors()
-        );
+    }
+}
+
+class CMSDynamicObjectStub extends CMSDynamicObject
+{
+    protected $_jsonEncode = [];
+
+    public function __construct(
+        object|array|null $properties = null
+    ) {
+        parent::__construct($properties, true);
+    }
+
+    public function isJsonEncodeEmpty()
+    {
+        return empty($this->_jsonEncode);
     }
 }

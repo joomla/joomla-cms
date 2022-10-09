@@ -66,16 +66,57 @@ class CMSDynamicObject implements \JsonSerializable
      * @since       __DEPLOY_VERSION__
      * @deprecated  7.0  Joomla 7.0 and later will always use exceptions
      */
-    protected array $joomlareserved_errors = [];
+    // phpcs:disable
+    protected array $_errors = [];
+    // phpcs:enable
 
     /**
      * Should I throw exceptions instead of setting the error messages internally?
+     *
+     * When enabled (default) setError will immediately throw a RuntimeException. The getErrors
+     * method always returns an empty array, and the getError method always returns boolean FALSE.
+     *
+     * When disabled, setError pushes the messages into an array. The getErrors method returns the
+     * contents of the errors array, and the getError method return the latest error message, or
+     * boolean FALSE when the errors array is empty. This is how CMSObject used to work.
      *
      * @var   bool
      * @since __DEPLOY_VERSION__
      * @deprecated  7.0  Joomla 7.0 and later will always use exceptions
      */
-    protected bool $joomlareserved_use_exceptions = false;
+    protected bool $joomlareserved_use_exceptions = true;
+
+    /**
+     * Should underscore prefixed properties be considered private?
+     *
+     * When disabled (default) only concrete properties' visibility is taken into account. You can
+     * only modify public concrete properties and all dynamic properties, regardless of their
+     * name.
+     *
+     * When enabled, only properties whose name is prefixed with an underscore or `joomlareserved_`
+     * are considered private. Everything else is considered public and becomes user-accessible,
+     * regardless of the visibility of a concrete property by that name. This is how CMSObject used
+     * to work.
+     *
+     * @var   bool
+     * @since __DEPLOY_VERSION__
+     * @deprecated  7.0  Joomla 7.0 and later will only consider member visibility
+     */
+    protected bool $joomlareserved_underscore_private = false;
+
+    /**
+     * Should I allow getting and setting private properties?
+     *
+     * When disabled (default) you cannot get or set private properties.
+     *
+     * When enabled, you can get and set private properties, even if they are concrete properties
+     * with a protected or private visibility.
+     *
+     * @var bool
+     * @since __DEPLOY_VERSION__
+     * @deprecated  7.0  Joomla 7.0 and later will disallow direct access to non-public properties
+     */
+    protected bool $joomlareserved_access_private = false;
 
     /**
      * Dynamically declared properties and their values
@@ -93,8 +134,10 @@ class CMSDynamicObject implements \JsonSerializable
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function __construct(array|object|null $properties = null)
+    public function __construct(array|object|null $properties = null, bool $cmsObjectCompatibility = false)
     {
+        $this->setCMSObjectBackwardsCompatibility($cmsObjectCompatibility);
+
         if ($properties !== null) {
             $this->setProperties($properties);
         }
@@ -223,7 +266,7 @@ class CMSDynamicObject implements \JsonSerializable
      */
     public function get(string $property, mixed $default = null): mixed
     {
-        if (isset($this->{$property}) && !$this->has($property)) {
+        if (!$this->joomlareserved_access_private && isset($this->{$property}) && !$this->has($property)) {
             throw new \OutOfBoundsException(
                 sprintf(
                     'Direct access to private and protected properties is not allowed in %s',
@@ -252,7 +295,7 @@ class CMSDynamicObject implements \JsonSerializable
      */
     public function set(string $property, mixed $value = null): mixed
     {
-        if (isset($this->{$property}) && !$this->has($property)) {
+        if (!$this->joomlareserved_access_private && isset($this->{$property}) && !$this->has($property)) {
             throw new \OutOfBoundsException(
                 sprintf(
                     'Direct access to private and protected properties is not allowed in %s',
@@ -285,7 +328,7 @@ class CMSDynamicObject implements \JsonSerializable
      */
     public function remove(string $property)
     {
-        if (isset($this->{$property}) && !$this->has($property)) {
+        if (!$this->joomlareserved_access_private && isset($this->{$property}) && !$this->has($property)) {
             throw new \OutOfBoundsException(
                 sprintf(
                     'Direct access to private and protected properties is not allowed in %s',
@@ -308,6 +351,33 @@ class CMSDynamicObject implements \JsonSerializable
     }
 
     /**
+     * Get the concrete properties which are considered "public" (user-accessible).
+     *
+     * The behavior of this method depends on the $this->joomlareserved_underscore_private flag.
+     *
+     * @return  array
+     *
+     * @since   __DEPLOY_VERSION__
+     * @deprecated 7.0
+     */
+    private function getConcretePublicProperties(): array
+    {
+        if ($this->joomlareserved_underscore_private) {
+            return array_filter(
+                get_object_vars($this),
+                fn($key) => !str_starts_with($key, '_') && !str_starts_with($key, 'joomlareserved_'),
+                ARRAY_FILTER_USE_KEY
+            );
+        }
+
+        return array_filter(
+            get_mangled_object_vars($this),
+            fn($key) => !str_starts_with($key, "\0"),
+            ARRAY_FILTER_USE_KEY
+        );
+    }
+
+    /**
      * Does the object have a specific public (concrete or dynamically defined) property?
      *
      * @param   string  $property  The name of the property
@@ -321,10 +391,10 @@ class CMSDynamicObject implements \JsonSerializable
     {
         $publicProperties = $mode === self::IS_DYNAMIC
             ? []
-            : array_filter(
-                get_mangled_object_vars($this),
-                fn($key) => !str_starts_with($key, "\0"),
-                ARRAY_FILTER_USE_KEY
+            : (
+                $this->joomlareserved_access_private
+                    ? get_object_vars($this)
+                    : $this->getConcretePublicProperties()
             );
 
         switch ($mode) {
@@ -344,16 +414,38 @@ class CMSDynamicObject implements \JsonSerializable
     /**
      * Set the object properties based on a named array/hash.
      *
+     * When $this->joomlareserved_use_exceptions is false (default) the return value is always true.
+     * If you pass a parameter which is neither an array nor an object you will get a TypeError
+     * exception.
+     *
+     * When $this->joomlareserved_use_exceptions is true (CMSObject b/c mode) the return value is
+     * true, unless you pass a parameter which is neither an array nor an object in which case you
+     * get false.
+     *
      * @param   array|object  $properties  Either an associative array or another object.
      *
-     * @return  boolean  Always true, for b/c with CMSObject
+     * @return  boolean  True on success, false when $properties is neither an array nor an object.
      *
      * @since   __DEPLOY_VERSION__
      *
      * @see     self::set()
      */
-    public function setProperties(array|object $properties): bool
+    public function setProperties($properties): bool
     {
+        if (!is_array($properties) && !is_object($properties)) {
+            if ($this->joomlareserved_use_exceptions) {
+                throw new \TypeError(
+                    sprintf(
+                        'The parameter to %s must be an array or an object, %s given',
+                        __METHOD__,
+                        get_debug_type($properties)
+                    )
+                );
+            }
+
+            return false;
+        }
+
         foreach ((array)$properties as $k => $v) {
             $this->set($k, $v);
         }
@@ -375,15 +467,20 @@ class CMSDynamicObject implements \JsonSerializable
     public function getProperties(bool $public = true): array
     {
         $vars = $public
-            ? array_filter(
-                get_mangled_object_vars($this),
-                fn($key) => !str_starts_with($key, "\0"),
-                ARRAY_FILTER_USE_KEY
-            )
+            ? $this->getConcretePublicProperties()
             : get_object_vars($this);
 
+        $vars = array_merge($vars, $this->joomlareserved_dynamic_properties);
 
-        return array_merge($vars, $this->joomlareserved_dynamic_properties);
+        if ($this->joomlareserved_underscore_private && $public) {
+            $vars = array_filter(
+                $vars,
+                fn($key) => !str_starts_with($key, '_') && !str_starts_with($key, 'joomlareserved_'),
+                ARRAY_FILTER_USE_KEY
+            );
+        }
+
+        return $vars;
     }
 
     /**
@@ -400,15 +497,19 @@ class CMSDynamicObject implements \JsonSerializable
      */
     public function getError($i = null, $toString = true)
     {
+        if ($this->joomlareserved_use_exceptions) {
+            return false;
+        }
+
         // Find the error
         if ($i === null) {
             // Default, return the last message
-            $error = end($this->joomlareserved_errors);
-        } elseif (!\array_key_exists($i, $this->joomlareserved_errors)) {
+            $error = end($this->_errors);
+        } elseif (!\array_key_exists($i, $this->_errors)) {
             // If $i has been specified but does not exist, return false
             return false;
         } else {
-            $error = $this->joomlareserved_errors[$i];
+            $error = $this->_errors[$i];
         }
 
         // Check if only the string is requested
@@ -429,7 +530,11 @@ class CMSDynamicObject implements \JsonSerializable
      */
     public function getErrors()
     {
-        return $this->joomlareserved_errors;
+        if ($this->joomlareserved_use_exceptions) {
+            return [];
+        }
+
+        return $this->_errors;
     }
 
     /**
@@ -448,19 +553,29 @@ class CMSDynamicObject implements \JsonSerializable
             throw new \RuntimeException($error);
         }
 
-        $this->joomlareserved_errors[] = $error;
+        $this->_errors[] = $error;
     }
 
     /**
-     * Set the Use Exceptions flag.
+     * Should I enable the backwards compatibility with CMSObject?
      *
-     * @param   bool  $useExceptions  Should I use exceptions when setting error messages?
+     * When this is enabled properties with an underscore prefix are considered 'private'. Moreover,
+     * get() and set() allow you to access the values of these pseudo-'private' properties, be they
+     * concrete or dynamic.
+     *
+     * Furthermore, the legacy error handling is used instead of exceptions.
+     *
+     * @param   bool  $enableCompatibilty  Enable backwards compatibility with CMSObject?
+     *
+     * @return  void
      *
      * @since   __DEPLOY_VERSION__
-     * @deprecated  7.0  Joomla 7.0 and later will always use exceptions
+     * @deprecated  7.0
      */
-    public function useExceptions(bool $useExceptions): void
+    protected function setCMSObjectBackwardsCompatibility(bool $enableCompatibilty): void
     {
-        $this->joomlareserved_use_exceptions = $useExceptions;
+        $this->joomlareserved_underscore_private = $enableCompatibilty;
+        $this->joomlareserved_access_private     = $enableCompatibilty;
+        $this->joomlareserved_use_exceptions     = !$enableCompatibilty;
     }
 }
