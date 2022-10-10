@@ -56,7 +56,7 @@ endforeach;
                     $text   = '';
                 endif;
                 ?>
-            <div class=" d-inline p-2">
+            <div class="d-inline p-2">
                 <?php echo Text::_($action[1]); ?>
                 <span class="<?php echo $class; ?>" aria-hidden="true"></span>
                 <span class="visually-hidden"><?php echo Text::_($text); ?></span>
