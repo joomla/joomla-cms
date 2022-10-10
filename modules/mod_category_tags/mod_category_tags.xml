@@ -17,7 +17,23 @@
 	</files>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">		
+			<fieldset name="basic">
+				<field
+					name="Itemid" 
+					type="sql" 
+    					label="MOD_CATEGORY_TAGS_ITEMMENUID_LABEL" 
+					sql_select="m.id, CONCAT( REPEAT('- ', m.level-1), m.title) as title" 
+					sql_from="#__menu AS m"  
+					sql_where="component_id = 19 AND m.link LIKE '%%&amp;layout=blog&amp;%%'" 
+					sql_order="m.title ASC" 
+					key_field="id"
+					value_field="title"
+					required="true" 
+					default=""
+					>
+					<option	value="">JOPTION_DO_NOT_USE</option>
+				</field>
+
 				<field
 					name="catid"
 					type="category"
@@ -40,14 +56,6 @@
 					filter="intarray"
 					mode="nested"
 				/>
-
-				<field 
-					name="Itemid" 
-					type="menuitem" 
-					label="MOD_CATEGORY_TAGS_ITEMMENUID_LABEL" 
-					>
-					<option	value="">JCURRENT</option>
-				</field>
 
 				<field
 					name="maximum"
