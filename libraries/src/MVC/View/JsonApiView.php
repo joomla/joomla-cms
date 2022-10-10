@@ -83,22 +83,17 @@ abstract class JsonApiView extends JsonView
     /**
      * Constructor.
      *
-     * @param   array  $config  A named configuration array for object construction.
-     *                          contentType: the name (optional) of the content type to use for the serialization
+     * @param   JsonapiDocument  $document  The active document object
      *
      * @since   4.0.0
      */
-    public function __construct($config = [])
+    public function __construct(JsonapiDocument $document)
     {
-        if (\array_key_exists('contentType', $config)) {
-            $this->type = $config['contentType'];
-        }
-
         if ($this->serializer === null) {
             $this->serializer = new JoomlaSerializer($this->type);
         }
 
-        parent::__construct($config);
+        parent::__construct($document);
     }
 
     /**

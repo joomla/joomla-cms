@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\RouteHelper;
@@ -27,7 +28,16 @@ use Joomla\CMS\UCM\UCMType;
  */
 class CategoryFeedView extends HtmlView
 {
-    /**
+	/**
+	 * The active document object. Redeclared for type hinting
+	 *
+	 * @var    FeedDocument
+	 * @since  3.0
+	 * @note   In Version 5.0 this will change to being a protected property
+	 */
+	public $document;
+
+	/**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -40,7 +50,6 @@ class CategoryFeedView extends HtmlView
     public function display($tpl = null)
     {
         $app      = Factory::getApplication();
-        $document = Factory::getDocument();
 
         $extension      = $app->input->getString('option');
         $contentType = $extension . '.' . $this->viewName;
@@ -59,16 +68,16 @@ class CategoryFeedView extends HtmlView
             $titleField = $ucmMapCommon[0]->core_title;
         }
 
-        $document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+	    $this->document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
         $app->input->set('limit', $app->get('feed_limit'));
         $siteEmail        = $app->get('mailfrom');
         $fromName         = $app->get('fromname');
         $feedEmail        = $app->get('feed_email', 'none');
-        $document->editor = $fromName;
+	    $this->document->editor = $fromName;
 
         if ($feedEmail !== 'none') {
-            $document->editorEmail = $siteEmail;
+	        $this->document->editorEmail = $siteEmail;
         }
 
         // Get some data from the model
@@ -123,7 +132,7 @@ class CategoryFeedView extends HtmlView
             }
 
             // Loads item information into RSS array
-            $document->addItem($feeditem);
+            $this->document->addItem($feeditem);
         }
     }
 

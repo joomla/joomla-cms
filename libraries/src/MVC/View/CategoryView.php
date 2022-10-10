@@ -15,6 +15,8 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -116,7 +118,39 @@ class CategoryView extends HtmlView
      */
     protected $menuItemMatchCategory = false;
 
-    /**
+	/**
+	 * The max level  of nesting to display sub-categories
+	 *
+	 * @var   integer
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $maxLevel;
+
+	/**
+	 * The category parameters
+	 *
+	 * @var   Registry
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $params;
+
+	/**
+	 * The active user
+	 *
+	 * @var   User
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $user;
+
+	/**
+	 * The parent category
+	 *
+	 * @var   CategoryNode
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $parent;
+
+	/**
      * Method with common display elements used in category list displays
      *
      * @return  void

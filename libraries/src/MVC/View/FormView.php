@@ -10,6 +10,7 @@
 namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
@@ -68,7 +69,7 @@ class FormView extends HtmlView
      *
      * @var string
      */
-    protected $toolbarIcon;
+    protected $toolbarIcon = '';
 
     /**
      * The preview link
@@ -86,20 +87,12 @@ class FormView extends HtmlView
 
     /**
      * Constructor
-     *
-     * @param   array  $config  An optional associative array of configuration settings.
      */
-    public function __construct(array $config)
+    public function __construct(HtmlDocument $document)
     {
-        parent::__construct($config);
+        parent::__construct($document);
 
-        if (isset($config['help_link'])) {
-            $this->helpLink = $config['help_link'];
-        }
-
-        if (isset($config['toolbar_icon'])) {
-            $this->toolbarIcon = $config['toolbar_icon'];
-        } else {
+        if ($this->toolbarIcon === '') {
             $this->toolbarIcon = 'pencil-2 ' . $this->getName() . '-add';
         }
 

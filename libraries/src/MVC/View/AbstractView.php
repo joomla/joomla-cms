@@ -9,11 +9,11 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
@@ -30,7 +30,7 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject implements ViewInterface, DispatcherAwareInterface
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
 
@@ -39,6 +39,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
      *
      * @var    Document
      * @since  3.0
+     * @note   In Version 5.0 this will change to being a protected property
      */
     public $document;
 
@@ -77,32 +78,13 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
     /**
      * Constructor
      *
-     * @param   array  $config  A named configuration array for object construction.
-     *                          name: the name (optional) of the view (defaults to the view class name suffix).
-     *                          charset: the character set to use for display
-     *                          escape: the name (optional) of the function to use for escaping strings
-     *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
-     *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
-     *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
-     *                          layout: the layout (optional) to use to display the view
+     * @param   Document  $document  The document object to inject into the
      *
      * @since   3.0
      */
-    public function __construct($config = array())
+    public function __construct(Document $document)
     {
-        // Set the view name
-        if (empty($this->_name)) {
-            if (\array_key_exists('name', $config)) {
-                $this->_name = $config['name'];
-            } else {
-                $this->_name = $this->getName();
-            }
-        }
-
-        // Set the component name if passed
-        if (!empty($config['option'])) {
-            $this->option = $config['option'];
-        }
+        $this->document = $document;
     }
 
     /**
@@ -147,8 +129,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
             }
         }
 
-        // Degrade to CMSObject::get
-        return parent::get($property, $default);
+	    return $default;
     }
 
     /**
@@ -234,21 +215,40 @@ abstract class AbstractView extends CMSObject implements ViewInterface, Dispatch
         return $this->_name;
     }
 
-    /**
+	/**
+	 * Method to get the component name
+	 *
+	 * @return  string  The name of the component
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function getComponentName()
+	{
+		if (empty($this->option)) {
+			$this->option = ApplicationHelper::getComponentName();
+		}
+
+		return $this->option;
+	}
+
+	/**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
      *
-     * @return  void
+     * @return  EventInterface  The event returned from the dispatch call
      *
      * @since   4.1.0
      */
     protected function dispatchEvent(EventInterface $event)
     {
         try {
-            $this->getDispatcher()->dispatch($event->getName(), $event);
+            $result = $this->getDispatcher()->dispatch($event->getName(), $event);
         } catch (\UnexpectedValueException $e) {
-            Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
+            $result = Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
         }
+
+		return $result;
     }
 }
