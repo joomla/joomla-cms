@@ -2,7 +2,7 @@
   <button
     type="button"
     class="action-toggle"
-    :aria-label="sprintf('COM_MEDIA_OPEN_ITEM_ACTIONS',(this.$parent.$props.item.name))"
+    :aria-label="sprintf('COM_MEDIA_OPEN_ITEM_ACTIONS', (this.$parent.$props.item.name))"
     :title="sprintf('COM_MEDIA_OPEN_ITEM_ACTIONS', (this.$parent.$props.item.name))"
     @keyup.enter="openActions()"
     @focus="focused(true)"
