@@ -124,7 +124,7 @@ class CategoryView extends HtmlView
 	 * @var   integer
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $maxLevel;
+	public $maxLevel;
 
 	/**
 	 * The category parameters
@@ -132,7 +132,7 @@ class CategoryView extends HtmlView
 	 * @var   Registry
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $params;
+	public $params;
 
 	/**
 	 * The active user

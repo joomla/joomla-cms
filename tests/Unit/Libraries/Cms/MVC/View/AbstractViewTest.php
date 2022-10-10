@@ -251,7 +251,7 @@ class AbstractViewTest extends UnitTestCase
         {
             public function dispatchEvent(EventInterface $event)
             {
-                parent::dispatchEvent($event);
+                return parent::dispatchEvent($event);
             }
 
             public function display($tpl = null)

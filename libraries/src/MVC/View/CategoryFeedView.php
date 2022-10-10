@@ -26,7 +26,7 @@ use Joomla\CMS\UCM\UCMType;
  *
  * @since  3.2
  */
-class CategoryFeedView extends HtmlView
+class CategoryFeedView extends AbstractView
 {
 	/**
 	 * The active document object. Redeclared for type hinting
@@ -94,8 +94,8 @@ class CategoryFeedView extends HtmlView
 
             // Strip html from feed item title
             if ($titleField) {
-                $title = $this->escape($item->$titleField);
-                $title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+	            $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
+                $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';
             }
