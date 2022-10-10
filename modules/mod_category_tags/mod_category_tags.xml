@@ -19,16 +19,16 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="Itemid" 
-					type="sql" 
-    					label="MOD_CATEGORY_TAGS_ITEMMENUID_LABEL" 
-					sql_select="id, CONCAT(REPEAT('- ', level - 1), title) AS title" 
-					sql_from="#__menu"  
-					sql_where="link LIKE '%%option=com_content&amp;%%' AND link LIKE '%%&amp;view=category&amp;%%' AND link LIKE '%%&amp;layout=blog&amp;%%'" 
-					sql_order="lft" 
+					name="Itemid"
+					type="sql"
+    					label="MOD_CATEGORY_TAGS_ITEMMENUID_LABEL"
+					sql_select="id, CONCAT(REPEAT('- ', level - 1), title) AS title"
+					sql_from="#__menu"
+					sql_where="link LIKE '%%option=com_content&amp;%%' AND link LIKE '%%&amp;view=category&amp;%%' AND link LIKE '%%&amp;layout=blog&amp;%%'"
+					sql_order="lft"
 					key_field="id"
 					value_field="title"
-					required="true" 
+					required="true"
 					default=""
 					>
 					<option	value="">JOPTION_DO_NOT_USE</option>
