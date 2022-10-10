@@ -13,7 +13,6 @@
 
 .media-browser-items {
   display: grid;
-
   gap: $grid-gutter-width;
   &.media-browser-items-sm {
     grid-template-columns: repeat(auto-fill, minmax($grid-item-width-sm, 1fr));
