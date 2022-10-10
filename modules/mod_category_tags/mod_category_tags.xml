@@ -25,7 +25,7 @@
 					sql_select="m.id, CONCAT( REPEAT('- ', m.level-1), m.title) as title" 
 					sql_from="#__menu AS m"  
 					sql_where="component_id = 19 AND m.link LIKE '%%&amp;layout=blog&amp;%%'" 
-					sql_order="m.title ASC" 
+					sql_order="m.lft ASC" 
 					key_field="id"
 					value_field="title"
 					required="true" 
