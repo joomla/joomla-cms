@@ -146,8 +146,7 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      */
     public function setDocument(Document $document)
     {
-        if (!$document instanceof HtmlDocument)
-        {
+        if (!$document instanceof HtmlDocument) {
             throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, HtmlDocument::class));
         }
 

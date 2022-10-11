@@ -39,8 +39,7 @@ class CategoryFeedView extends AbstractView
      */
     public function setDocument(Document $document)
     {
-        if (!$document instanceof FeedDocument)
-        {
+        if (!$document instanceof FeedDocument) {
             throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, FeedDocument::class));
         }
 

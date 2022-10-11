@@ -601,11 +601,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
         $view = $this->getView($viewName, $viewType, '', []);
 
-		if ($view instanceof HtmlView) {
-			$viewLayout = $this->input->get('layout', 'default', 'string');
+        if ($view instanceof HtmlView) {
+            $viewLayout = $this->input->get('layout', 'default', 'string');
 
-			$view->setLayout($viewLayout);
-		}
+            $view->setLayout($viewLayout);
+        }
 
         // Get/Create the model
         if ($model = $this->getModel($viewName, '', array('base_path' => $this->basePath))) {

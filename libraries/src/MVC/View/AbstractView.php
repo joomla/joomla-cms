@@ -127,8 +127,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
             }
         }
 
-        if (isset($this->{$property}))
-        {
+        if (isset($this->{$property})) {
             @trigger_error("Class properties should be retrieved directly through \$this->$property in version 6.0", E_USER_DEPRECATED);
             return $this->{$property};
         }
@@ -316,7 +315,7 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
                 );
 
                 $this->setDocument($value);
-            break;
+                break;
 
             default:
                 $trace = debug_backtrace();

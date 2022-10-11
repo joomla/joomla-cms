@@ -99,8 +99,7 @@ abstract class JsonApiView extends JsonView
      */
     public function setDocument(Document $document)
     {
-        if (!$document instanceof JsonapiDocument)
-        {
+        if (!$document instanceof JsonapiDocument) {
             throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, JsonapiDocument::class));
         }
 

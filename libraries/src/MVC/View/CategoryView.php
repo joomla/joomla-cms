@@ -118,39 +118,39 @@ class CategoryView extends HtmlView
      */
     protected $menuItemMatchCategory = false;
 
-	/**
-	 * The max level  of nesting to display sub-categories
-	 *
-	 * @var   integer
-	 * @since __DEPLOY_VERSION__
-	 */
-	public $maxLevel;
+    /**
+     * The max level  of nesting to display sub-categories
+     *
+     * @var   integer
+     * @since __DEPLOY_VERSION__
+     */
+    public $maxLevel;
 
-	/**
-	 * The category parameters
-	 *
-	 * @var   Registry
-	 * @since __DEPLOY_VERSION__
-	 */
-	public $params;
+    /**
+     * The category parameters
+     *
+     * @var   Registry
+     * @since __DEPLOY_VERSION__
+     */
+    public $params;
 
-	/**
-	 * The active user
-	 *
-	 * @var   User
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $user;
+    /**
+     * The active user
+     *
+     * @var   User
+     * @since __DEPLOY_VERSION__
+     */
+    protected $user;
 
-	/**
-	 * The parent category
-	 *
-	 * @var   CategoryNode
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $parent;
+    /**
+     * The parent category
+     *
+     * @var   CategoryNode
+     * @since __DEPLOY_VERSION__
+     */
+    protected $parent;
 
-	/**
+    /**
      * Method with common display elements used in category list displays
      *
      * @return  void
