@@ -15,13 +15,13 @@ use Joomla\CMS\Helper\ModuleHelper;
 
 $Itemid = $params->get('Itemid');
 
-if($Itemid) {
-	$itemMenu = Factory::getApplication()->getMenu()->getItem($Itemid);
-	$params->set('catid', $itemMenu->query['id'] ?? []);
+if ($Itemid) {
+    $itemMenu = Factory::getApplication()->getMenu()->getItem($Itemid);
+    $params->set('catid', $itemMenu->query['id'] ?? []);
 }
 
-if(empty($params->get('catid')) && empty($params->get('no_results_display'))) {
-	return;
+if (empty($params->get('catid')) && empty($params->get('no_results_display'))) {
+    return;
 }
 
 $cacheparams = new \stdClass();
