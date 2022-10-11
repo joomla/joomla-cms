@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FeedDocument;
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
@@ -28,16 +29,25 @@ use Joomla\CMS\UCM\UCMType;
  */
 class CategoryFeedView extends AbstractView
 {
-	/**
-	 * The active document object. Redeclared for type hinting
-	 *
-	 * @var    FeedDocument
-	 * @since  3.0
-	 * @note   In Version 5.0 this will change to being a protected property
-	 */
-	public $document;
+    /**
+     * Method to set the document object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \InvalidArgumentException
+     */
+    public function setDocument(Document $document)
+    {
+        if (!$document instanceof FeedDocument)
+        {
+            throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, FeedDocument::class));
+        }
 
-	/**
+        parent::setDocument($document);
+    }
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -68,16 +78,16 @@ class CategoryFeedView extends AbstractView
             $titleField = $ucmMapCommon[0]->core_title;
         }
 
-	    $this->document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+        $this->getDocument()->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
         $app->input->set('limit', $app->get('feed_limit'));
         $siteEmail        = $app->get('mailfrom');
         $fromName         = $app->get('fromname');
         $feedEmail        = $app->get('feed_email', 'none');
-	    $this->document->editor = $fromName;
+        $this->getDocument()->editor = $fromName;
 
         if ($feedEmail !== 'none') {
-	        $this->document->editorEmail = $siteEmail;
+            $this->getDocument()->editorEmail = $siteEmail;
         }
 
         // Get some data from the model
@@ -94,7 +104,7 @@ class CategoryFeedView extends AbstractView
 
             // Strip html from feed item title
             if ($titleField) {
-	            $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
+                $title = htmlspecialchars($item->$titleField, ENT_QUOTES, 'UTF-8');
                 $title = html_entity_decode($title, ENT_QUOTES, 'UTF-8');
             } else {
                 $title = '';
@@ -132,7 +142,7 @@ class CategoryFeedView extends AbstractView
             }
 
             // Loads item information into RSS array
-            $this->document->addItem($feeditem);
+            $this->getDocument()->addItem($feeditem);
         }
     }
 

@@ -88,9 +88,9 @@ class FormView extends HtmlView
     /**
      * Constructor
      */
-    public function __construct(HtmlDocument $document)
+    public function __construct($config = array())
     {
-        parent::__construct($document);
+        parent::__construct($config);
 
         if ($this->toolbarIcon === '') {
             $this->toolbarIcon = 'pencil-2 ' . $this->getName() . '-add';

@@ -39,9 +39,8 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
      *
      * @var    Document
      * @since  3.0
-     * @note   In Version 5.0 this will change to being a protected property
      */
-    public $document;
+    private $document;
 
     /**
      * The URL option for the component. It is usually passed by controller while it creates the view
@@ -78,13 +77,12 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
     /**
      * Constructor
      *
-     * @param   Document  $document  The document object to inject into the
+     * @param   array  $cfg  The document object to inject into the
      *
      * @since   3.0
      */
-    public function __construct(Document $document)
+    public function __construct($config = array())
     {
-        $this->document = $document;
     }
 
     /**
@@ -129,7 +127,13 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
             }
         }
 
-	    return $default;
+        if (isset($this->{$property}))
+        {
+            @trigger_error("Class properties should be retrieved directly through \$this->$property in version 6.0", E_USER_DEPRECATED);
+            return $this->{$property};
+        }
+
+        return $default;
     }
 
     /**
@@ -215,24 +219,120 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
         return $this->_name;
     }
 
-	/**
-	 * Method to get the component name
-	 *
-	 * @return  string  The name of the component
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 * @throws  \Exception
-	 */
-	public function getComponentName()
-	{
-		if (empty($this->option)) {
-			$this->option = ApplicationHelper::getComponentName();
-		}
+    /**
+     * Method to get the component name
+     *
+     * @return  string  The name of the component
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \Exception
+     */
+    public function getComponentName()
+    {
+        if (empty($this->option)) {
+            $this->option = ApplicationHelper::getComponentName();
+        }
 
-		return $this->option;
-	}
+        return $this->option;
+    }
 
-	/**
+    /**
+     * Method to get the document object
+     *
+     * @return  Document  The name of the component
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * Method to set the document object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \InvalidArgumentException
+     */
+    public function setDocument(Document $document)
+    {
+        $this->document = $document;
+    }
+
+    /**
+     * Magic method to access properties of the application.
+     *
+     * @param   string  $name  The name of the property.
+     *
+     * @return  mixed   A value if the property name is valid, null otherwise.
+     *
+     * @since       4.0.0
+     * @deprecated  6.0  This is a B/C proxy for deprecated read accesses
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'document':
+                @trigger_error(
+                    'Accessing the document property of the view is deprecated, use the getDocument() method instead.',
+                    E_USER_DEPRECATED
+                );
+
+                return $this->getDocument();
+
+            default:
+                $trace = debug_backtrace();
+                trigger_error(
+                    sprintf(
+                        'Undefined property via __get(): %1$s in %2$s on line %3$s',
+                        $name,
+                        $trace[0]['file'],
+                        $trace[0]['line']
+                    ),
+                    E_USER_NOTICE
+                );
+        }
+    }
+
+    /**
+     * Magic method to access properties of the application.
+     *
+     * @param   string  $name  The name of the property.
+     *
+     * @return  void
+     *
+     * @since       4.0.0
+     * @deprecated  5.0  This is a B/C proxy for deprecated read accesses
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'document':
+                @trigger_error(
+                    'Setting the document property of the view is deprecated, use the setDocument() method instead.',
+                    E_USER_DEPRECATED
+                );
+
+                $this->setDocument($value);
+            break;
+
+            default:
+                $trace = debug_backtrace();
+                trigger_error(
+                    sprintf(
+                        'Undefined property via __set(): %1$s in %2$s on line %3$s',
+                        $name,
+                        $trace[0]['file'],
+                        $trace[0]['line']
+                    ),
+                    E_USER_NOTICE
+                );
+        }
+    }
+
+    /**
      * Dispatches the given event on the internal dispatcher, does a fallback to the global one.
      *
      * @param   EventInterface  $event  The event
@@ -249,6 +349,6 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
             $result = Factory::getContainer()->get(DispatcherInterface::class)->dispatch($event->getName(), $event);
         }
 
-		return $result;
+        return $result;
     }
 }

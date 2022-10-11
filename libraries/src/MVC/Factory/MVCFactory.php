@@ -191,11 +191,12 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
             return null;
         }
 
-        $view = new $className(Factory::getApplication()->getDocument());
+        $view = new $className($config);
         $this->setFormFactoryOnObject($view);
         $this->setDispatcherOnObject($view);
         $this->setRouterOnObject($view);
         $this->setCacheControllerOnObject($view);
+	    $view->setDocument(Factory::getApplication()->getDocument());
 
         return $view;
     }

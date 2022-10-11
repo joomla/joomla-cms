@@ -49,23 +49,23 @@ class CategoriesView extends HtmlView
      */
     protected $pageHeading;
 
-	/**
-	 * The category parameters
-	 *
-	 * @var   Registry
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $params;
+    /**
+     * The category parameters
+     *
+     * @var   Registry
+     * @since __DEPLOY_VERSION__
+     */
+    protected $params;
 
-	/**
-	 * The parent category
-	 *
-	 * @var   CategoryNode
-	 * @since __DEPLOY_VERSION__
-	 */
-	protected $parent;
+    /**
+     * The parent category
+     *
+     * @var   CategoryNode
+     * @since __DEPLOY_VERSION__
+     */
+    protected $parent;
 
-	/**
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

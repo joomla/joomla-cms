@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
@@ -97,31 +98,22 @@ class HtmlView extends AbstractView implements CurrentUserInterface
      */
     protected $_charset = 'UTF-8';
 
-	/**
-	 * The base URL of the site for building links
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $baseurl = '';
+    /**
+     * The base URL of the site for building links
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $baseurl = '';
 
-	/**
-	 * The active document object. Redeclared for type hinting
-	 *
-	 * @var    HtmlDocument
-	 * @since  3.0
-	 * @note   In Version 5.0 this will change to being a protected property
-	 */
-	public $document;
-
-	/**
+    /**
      * Constructor
      *
      * @since   3.0
      */
-    public function __construct(HtmlDocument $document)
+    public function __construct($config = array())
     {
-		parent::__construct($document);
+        parent::__construct($config);
 
         // Set a default base path for use by the view
         if ($this->_basePath === null) {
@@ -145,6 +137,24 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     }
 
     /**
+     * Method to set the document object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \InvalidArgumentException
+     */
+    public function setDocument(Document $document)
+    {
+        if (!$document instanceof HtmlDocument)
+        {
+            throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, HtmlDocument::class));
+        }
+
+        parent::setDocument($document);
+    }
+
+    /**
      * Execute and display a template script.
      *
      * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -158,31 +168,31 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     public function display($tpl = null)
     {
         $context            = $this->getComponentName() . '.' . $this->getName();
-		$beforeDisplayEvent = AbstractEvent::create(
-			'onBeforeDisplay',
-			[
-				'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
-				'subject'    => $this,
-				'extension'  => $context
-			]
-		);
-		$this->dispatchEvent($beforeDisplayEvent);
+        $beforeDisplayEvent = AbstractEvent::create(
+            'onBeforeDisplay',
+            [
+                'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                'subject'    => $this,
+                'extension'  => $context
+            ]
+        );
+        $this->dispatchEvent($beforeDisplayEvent);
 
         $result = $this->loadTemplate($tpl);
 
-	    $afterDisplayEvent = AbstractEvent::create(
-		    'onAfterDisplay',
-		    [
-			    'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
-			    'subject'    => $this,
-			    'extension'  => $context,
-			    'source'     => $result
-		    ]
-	    );
+        $afterDisplayEvent = AbstractEvent::create(
+            'onAfterDisplay',
+            [
+                'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+                'subject'    => $this,
+                'extension'  => $context,
+                'source'     => $result
+            ]
+        );
 
-	    $eventResult = $this->dispatchEvent($afterDisplayEvent);
+        $eventResult = $this->dispatchEvent($afterDisplayEvent);
 
-	    $eventResult->getArgument('used', false);
+        $eventResult->getArgument('used', false);
 
         echo $result;
     }
@@ -480,14 +490,14 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     /**
      * Returns the form object
      *
-     * @return  mixed  A \JForm object on success, false on failure
+     * @return  \Joomla\CMS\Form\Form|boolean
      *
      * @since   3.2
      */
     public function getForm()
     {
         if (!\is_object($this->form)) {
-            $this->form = $this->get('Form');
+            $this->form = $this->get('Form', false);
         }
 
         return $this->form;

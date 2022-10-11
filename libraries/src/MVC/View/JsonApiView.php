@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\Event\OnGetApiFields;
@@ -32,14 +33,6 @@ use Tobscure\JsonApi\Resource;
  */
 abstract class JsonApiView extends JsonView
 {
-    /**
-     * The active document object (Redeclared for typehinting)
-     *
-     * @var    JsonapiDocument
-     * @since  3.0
-     */
-    public $document;
-
     /**
      * The content type
      *
@@ -87,13 +80,31 @@ abstract class JsonApiView extends JsonView
      *
      * @since   4.0.0
      */
-    public function __construct(JsonapiDocument $document)
+    public function __construct($config = array())
     {
         if ($this->serializer === null) {
             $this->serializer = new JoomlaSerializer($this->type);
         }
 
-        parent::__construct($document);
+        parent::__construct($config);
+    }
+
+    /**
+     * Method to set the document object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \InvalidArgumentException
+     */
+    public function setDocument(Document $document)
+    {
+        if (!$document instanceof JsonapiDocument)
+        {
+            throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, JsonapiDocument::class));
+        }
+
+        parent::setDocument($document);
     }
 
     /**

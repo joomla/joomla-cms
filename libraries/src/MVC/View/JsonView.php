@@ -10,6 +10,7 @@
 namespace Joomla\CMS\MVC\View;
 
 // phpcs:disable PSR1.Files.SideEffects
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\JsonDocument;
 
 \defined('JPATH_PLATFORM') or die;
@@ -45,14 +46,32 @@ class JsonView extends AbstractView
      *
      * @since   4.0.0
      */
-    public function __construct(JsonDocument $document)
+    public function __construct($config = array())
     {
-		parent::__construct($document);
+        parent::__construct($config);
 
         // Set a base path for use by the view
         if ($this->_basePath === null) {
             $this->_basePath = JPATH_COMPONENT;
         }
+    }
+
+    /**
+     * Method to set the document object
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     * @throws  \InvalidArgumentException
+     */
+    public function setDocument(Document $document)
+    {
+        if (!$document instanceof JsonDocument)
+        {
+            throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, JsonDocument::class));
+        }
+
+        parent::setDocument($document);
     }
 
     /**

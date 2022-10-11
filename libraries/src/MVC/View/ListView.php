@@ -9,7 +9,6 @@
 
 namespace Joomla\CMS\MVC\View;
 
-use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -110,9 +109,9 @@ class ListView extends HtmlView
     /**
      * Constructor
      */
-    public function __construct(HtmlDocument $document)
+    public function __construct($config = array())
     {
-        parent::__construct($document);
+        parent::__construct($config);
 
         // Set class properties from config data passed in constructor
         if ($this->toolbarTitle === '') {

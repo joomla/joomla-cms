@@ -613,7 +613,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $view->setModel($model, true);
         }
 
-        $view->document = $document;
+        $view->setDocument($document);
 
         // Display the view
         if ($cachable && $viewType !== 'feed' && $this->app->get('caching') >= 1) {
