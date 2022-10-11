@@ -27,7 +27,7 @@ $items = $item->items;
         $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
         $cat_id = $item->cat_id ? "&id=$item->cat_id" : '';
         $menuid = $Itemid ? '&Itemid=' . $Itemid : '' ;
-        $link = "index.php?option=com_content&view=category$cat_layout$cat_id$menuid&filter_tag=$item->tag_id";
+        $link = "index.php?option=com_content&view=category$cat_id$menuid&filter_tag=$item->tag_id";
         ?>
     <li>
         <?php if ($categories_titles && $tree_display && empty($item->parent)) : ?>
