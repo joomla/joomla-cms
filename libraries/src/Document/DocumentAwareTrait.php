@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -34,7 +35,7 @@ trait DocumentAwareTrait
      *
      * @since   __DEPLOY_VERSION__
      */
-	public function getDocument(): Document
+    public function getDocument(): Document
     {
         return $this->document;
     }

@@ -40,12 +40,12 @@ class AbstractViewTest extends UnitTestCase
     {
         $view = new class () extends AbstractView
         {
-			public function __construct($config = array())
-			{
-				$this->_name = 'unit test';
+            public function __construct($config = array())
+            {
+                $this->_name = 'unit test';
 
-				parent::__construct($config);
-			}
+                parent::__construct($config);
+            }
 
             public function display($tpl = null)
             {
@@ -85,14 +85,14 @@ class AbstractViewTest extends UnitTestCase
     {
         $view = new class () extends AbstractView
         {
-	        public function __construct($config = array())
-	        {
-		        $this->option = 'unit test';
+            public function __construct($config = array())
+            {
+                $this->option = 'unit test';
 
-		        parent::__construct($config);
-	        }
+                parent::__construct($config);
+            }
 
-	        public function getOption()
+            public function getOption()
             {
                 return $this->option;
             }
@@ -164,7 +164,7 @@ class AbstractViewTest extends UnitTestCase
     {
         $view = new class extends AbstractView
         {
-			protected $unit = 'test';
+            protected $unit = 'test';
 
             public function display($tpl = null)
             {

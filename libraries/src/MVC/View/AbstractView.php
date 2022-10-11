@@ -34,7 +34,8 @@ use Joomla\Event\EventInterface;
  */
 abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface
 {
-    use DispatcherAwareTrait, DocumentAwareTrait;
+    use DispatcherAwareTrait;
+    use DocumentAwareTrait;
 
     /**
      * The URL option for the component. It is usually passed by controller while it creates the view
@@ -287,14 +288,14 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
                 break;
 
             default:
-	            $this->$name = $value;
+                $this->$name = $value;
                 trigger_error(
                     sprintf(
                         'Setting an undefined class property via __set() is deprecated. ' .
                         'Ensure that : %1$s is defined in the class from 6.0',
                         $name,
                     ),
-	                E_USER_DEPRECATED
+                    E_USER_DEPRECATED
                 );
         }
     }
