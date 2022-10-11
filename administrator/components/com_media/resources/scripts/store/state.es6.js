@@ -28,7 +28,7 @@ const loadedDisks = options.providers.map((disk) => {
   return {
     displayName: disk.displayName,
     drives: getDrives(disk.adapterNames, disk.name),
-  }
+  };
 });
 
 const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0
