@@ -76,7 +76,7 @@ abstract class JsonApiView extends JsonView
     /**
      * Constructor.
      *
-     * @param   JsonapiDocument  $document  The active document object
+     * @param   array  $config  The active document object
      *
      * @since   4.0.0
      */

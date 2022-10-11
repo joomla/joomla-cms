@@ -109,6 +109,8 @@ class HtmlView extends AbstractView implements CurrentUserInterface
     /**
      * Constructor
      *
+     * @param   array  $config  The active document object
+     *
      * @since   3.0
      */
     public function __construct($config = array())

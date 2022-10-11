@@ -44,6 +44,8 @@ class JsonView extends AbstractView
     /**
      * Constructor
      *
+     * @param   array  $config  The active document object
+     *
      * @since   4.0.0
      */
     public function __construct($config = array())
