@@ -47,8 +47,7 @@ if (options.currentPath) {
     storedState.selectedDirectory = options.currentPath;
     persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
   } else {
-    storedState.selectedDirectory = `${loadedDisksDrives[0]}:/`;
-    persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
+    persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify({ selectedDirectory: `${loadedDisksDrives[0]}:/`}));
   }
 }
 
