@@ -11,7 +11,6 @@
 	<field
 		name="step-no"
 		type="hidden"
-		label="COM_GUIDEDTOURS_STEPID_LABEL"
 		default="1"
 	/>
 
@@ -39,7 +38,6 @@
 	<field
 		name="tour_id"
 		type="hidden"
-		label="COM_GUIDEDTOURS_TOURID_LABEL"
 		class="readonly"
 		readonly="true"
 	/>
@@ -53,7 +51,7 @@
 	<field
 		name="title"
 		type="text"
-		label="Step Title"
+		label="COM_GUIDEDTOURS_STEP_TITLE"
 		required="true"
 	/>
 
