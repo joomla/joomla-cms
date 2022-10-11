@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Controller;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Document\DocumentAwareInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
@@ -613,7 +614,9 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
             $view->setModel($model, true);
         }
 
-        $view->setDocument($document);
+        if ($view instanceof DocumentAwareInterface) {
+            $view->setDocument($document);
+        }
 
         // Display the view
         if ($cachable && $viewType !== 'feed' && $this->app->get('caching') >= 1) {

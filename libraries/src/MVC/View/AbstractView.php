@@ -11,6 +11,8 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\DocumentAwareInterface;
+use Joomla\CMS\Document\DocumentAwareTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -30,17 +32,9 @@ use Joomla\Event\EventInterface;
  *
  * @since  2.5.5
  */
-abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
+abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, DocumentAwareInterface
 {
-    use DispatcherAwareTrait;
-
-    /**
-     * The active document object
-     *
-     * @var    Document
-     * @since  3.0
-     */
-    private $document;
+    use DispatcherAwareTrait, DocumentAwareTrait;
 
     /**
      * The URL option for the component. It is usually passed by controller while it creates the view
@@ -233,31 +227,6 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface
         }
 
         return $this->option;
-    }
-
-    /**
-     * Method to get the document object
-     *
-     * @return  Document  The name of the component
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    public function getDocument()
-    {
-        return $this->document;
-    }
-
-    /**
-     * Method to set the document object
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY_VERSION__
-     * @throws  \InvalidArgumentException
-     */
-    public function setDocument(Document $document)
-    {
-        $this->document = $document;
     }
 
     /**
