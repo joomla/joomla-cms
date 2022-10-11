@@ -10,7 +10,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
+
+$Itemid = $params->get('Itemid');
+
+if($Itemid) {
+	$itemMenu = Factory::getApplication()->getMenu()->getItem($Itemid);
+	$params->set('catid', $itemMenu->query['id'] ?? []);
+    
+	if (!$params->get('no_results_display')) {
+		return;
+	}
+}
 
 $cacheparams = new \stdClass();
 $cacheparams->cachemode = 'safeuri';
@@ -66,7 +78,6 @@ $title_display = $params->get('title_display', 1);
 $image_display = $params->get('image_display', 0);
 $count_display = $params->get('count_display', 0);
 $categories_titles = $params->get('categories_titles', 0);
-$Itemid = $params->get('Itemid');
 
 
 require ModuleHelper::getLayoutPath('mod_category_tags', $params->get('layout', 'default'));
