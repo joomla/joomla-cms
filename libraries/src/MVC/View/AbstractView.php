@@ -287,15 +287,14 @@ abstract class AbstractView implements ViewInterface, DispatcherAwareInterface, 
                 break;
 
             default:
-                $trace = debug_backtrace();
+	            $this->$name = $value;
                 trigger_error(
                     sprintf(
-                        'Undefined property via __set(): %1$s in %2$s on line %3$s',
+                        'Setting an undefined class property via __set() is deprecated. ' .
+                        'Ensure that : %1$s is defined in the class from 6.0',
                         $name,
-                        $trace[0]['file'],
-                        $trace[0]['line']
                     ),
-                    E_USER_NOTICE
+	                E_USER_DEPRECATED
                 );
         }
     }

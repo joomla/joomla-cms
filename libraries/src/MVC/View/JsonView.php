@@ -66,7 +66,7 @@ class JsonView extends AbstractView
      * @since   __DEPLOY_VERSION__
      * @throws  \InvalidArgumentException
      */
-    public function setDocument(Document $document)
+    public function setDocument(Document $document): void
     {
         if (!$document instanceof JsonDocument) {
             throw new \InvalidArgumentException(sprintf('%s requires an instance of %s', static::class, JsonDocument::class));
