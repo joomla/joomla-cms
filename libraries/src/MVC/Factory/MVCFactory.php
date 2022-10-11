@@ -196,7 +196,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
         $this->setDispatcherOnObject($view);
         $this->setRouterOnObject($view);
         $this->setCacheControllerOnObject($view);
-	    $view->setDocument(Factory::getApplication()->getDocument());
 
         return $view;
     }
