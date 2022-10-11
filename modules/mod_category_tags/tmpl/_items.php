@@ -26,13 +26,14 @@ $items = $item->items;
         $title = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8');
         $cat_id = $item->cat_id ? "&id=$item->cat_id" : '';
         $menuid = $Itemid ? '&Itemid=' . $Itemid : '' ;
+        $link = "index.php?option=com_content&view=category$cat_layout$cat_id$menuid&filter_tag=$item->tag_id";
         ?>
     <li>
         <?php if ($categories_titles && $tree_display && empty($item->parent)) : ?>
             <span class="tag-category badge bg-info"><?= htmlspecialchars($item->cat_title, ENT_COMPAT, 'UTF-8') ?></span>
         <?php endif; ?>
     
-        <a title="<?= $title?>" href="<?= Route::_("index.php?option=com_content&view=category&layout=blog$cat_id$menuid&filter_tag=$item->tag_id");?>">
+        <a title="<?= $title?>" href="<?= $Itemid ? Route::_($link) : Uri::base() . $link ?>">
 
         <?php if ($image_display && isset($item->images)) :
             $item->params = new Registry($item->params);
