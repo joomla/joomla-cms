@@ -22,9 +22,9 @@ const getDrives = (adapterNames, provider) => {
 };
 
 // Load disks from options
-const loadedDisksDrives = [];
+const loadedDiskDrives = [];
 const loadedDisks = options.providers.map((disk) => {
-  loadedDisksDrives.push(...disk.adapterNames.map((name) => `${disk.name}-${name}`));
+  loadedDiskDrives.push(...disk.adapterNames.map((name) => `${disk.name}-${name}`));
   return {
     displayName: disk.displayName,
     drives: getDrives(disk.adapterNames, disk.name),
@@ -42,7 +42,7 @@ if (options.currentPath) {
   const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
   if (storedState && storedState.selectedDirectory
     && (storedState.selectedDirectory !== options.currentPath)
-    && (storedState.selectedDirectory.includes(':/') && loadedDisksDrives.includes(storedState.selectedDirectory.split(':/')[0]))
+    && (storedState.selectedDirectory.includes(':/') && loadedDiskDrives.includes(storedState.selectedDirectory.split(':/')[0]))
   ) {
     storedState.selectedDirectory = options.currentPath;
     persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
