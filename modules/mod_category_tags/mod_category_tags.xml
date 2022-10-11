@@ -28,7 +28,7 @@
 					sql_order="lft"
 					key_field="id"
 					value_field="title"
-					required="true"
+					required="false"
 					default=""
 					>
 					<option	value="">JOPTION_DO_NOT_USE</option>
@@ -43,6 +43,7 @@
 					multiple="true"
 					filter="intarray"
 					class="multipleCategories"
+					showon="Itemid:"
 					>
 				        <option value="">JALL</option>
 				</field>
