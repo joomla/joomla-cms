@@ -11,6 +11,10 @@ namespace Joomla\CMS\Feed;
 
 use Joomla\CMS\Date\Date;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to encapsulate a feed entry for the Joomla Platform.
  *

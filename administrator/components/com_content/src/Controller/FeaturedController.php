@@ -12,6 +12,10 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Featured content controller class.
  *
