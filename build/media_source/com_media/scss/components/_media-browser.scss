@@ -32,11 +32,6 @@
   position: relative;
   cursor: pointer;
   user-select: none;
-  @media (max-width: 576px) {
-    &.actions {
-      //position: unset;
-    }
-  }
 }
 
 .media-browser-item-preview {
