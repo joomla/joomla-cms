@@ -542,7 +542,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                     ]
                 )
             );
-            $cbuffer = $cache->get('cbuffer_' . $type);
+            $cbuffer = $cache->get('cbuffer_' . $type) ?: [];
 
             if (isset($cbuffer[$hash])) {
                 return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
