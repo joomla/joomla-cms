@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\Exception\ModelExceptionInterface;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
@@ -140,10 +141,14 @@ class AdminController extends BaseController
             $model = $this->getModel();
 
             // Remove the items.
-            if ($model->delete($cid)) {
-                $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
-            } else {
-                $this->setMessage($model->getError(), 'error');
+            try {
+                if ($model->delete($cid)) {
+                    $this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', \count($cid)));
+                } else {
+                    $this->setMessage($model->getError(), 'error');
+                }
+            } catch (ModelExceptionInterface $e) {
+                $this->setMessage($e->getMessage());
             }
 
             // Invoke the postDelete method to allow for the child class to access the model.

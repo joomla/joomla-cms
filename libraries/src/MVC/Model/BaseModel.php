@@ -11,7 +11,7 @@ namespace Joomla\CMS\MVC\Model;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Object\LegacyErrorHandlingTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -22,10 +22,11 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  4.0.0
  */
-abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
+abstract class BaseModel implements ModelInterface, StatefulModelInterface
 {
     use StateBehaviorTrait;
     use LegacyModelLoaderTrait;
+    use LegacyErrorHandlingTrait;
 
     /**
      * The model (base) name
