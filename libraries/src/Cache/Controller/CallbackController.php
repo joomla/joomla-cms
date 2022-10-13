@@ -153,7 +153,7 @@ class CallbackController extends CacheController
 		}
 
 		// Store the cache data
-		$this->cache->store(serialize($data), $id);
+		$this->cache->store(serialize($data['output']), $id);
 
 		if ($locktest->locked === true)
 		{
