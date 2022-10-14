@@ -64,7 +64,7 @@ endif;
                     <?php $name = $this->escape($item->name); ?>
                     <?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
                 <a href="<?php echo Route::_($link); ?>" class="new-module mb-3 comModulesSelectCard"
-                    <?php echo !empty($function) ? 'data-function="' . $this->escape($function)  . '"': '' ;?>
+                    <?php echo !empty($function) ? 'data-function="' . $this->escape($function) . '"': ''; ?>
                     aria-label="<?php echo Text::sprintf('COM_MODULES_SELECT_MODULE', $name); ?>">
                     <div class="new-module-details">
                         <h3 class="new-module-title"><?php echo $name; ?></h3>
