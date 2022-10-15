@@ -19,9 +19,9 @@
   }
 
   .quickicon {
-    --text-color: #001226;
+    --text-color: hsl(var(--hue), 30%, 40%);
     --bg-color: hsl(var(--hue), 60%, 97%);
-    --icon-color: #001226;
+    --icon-color: hsl(var(--hue), 30%, 40%);
     --bg-color-hvr: var(--template-bg-dark);
     --color-hvr: #F8FAFD;
 
@@ -90,44 +90,39 @@
 
       // Accessible Alert colors
 
-
       &.success {
-        --text-color: #001226;
-        --bg-color: #8bda94;
-        --text-color: #001226;
-        --icon-color: #001226;
-        --bg-color-hvr: #144119;
+        --bg-color: #E8F7E8;
+        --text-color: #27762C;
+        --icon-color: #27762C;
+        --bg-color-hvr: #36A940;
         --color-hvr: #f8fafd;
         --icon-color-hvr: #f8fafd;
       }
 
       &.warning {
-        --text-color: #001226;
-        --bg-color: #fbb68f;
-        --text-color: #001226;
-        --icon-color: #001226;
-        --bg-color-hvr: #762f05;
+        --bg-color: #FDEAE1;
+        --text-color: #B9490B;
+        --icon-color: #B9490B;
+        --bg-color-hvr: #F7610D;
         --color-hvr: #f8fafd;
         --icon-color-hvr: #f8fafd;
       }
 
       &.danger {
-        --text-color: #001226;
-        --bg-color: #f68383;
-        --text-color: #001226;
-        --icon-color: #001226;
-        --bg-color-hvr: #640606;
+        --bg-color: #FDE3E3;
+        --text-color: #A40C0B;
+        --icon-color: #A40C0B;
+        --bg-color-hvr: #E4100E;
         --color-hvr: #f8fafd;
         --icon-color-hvr: #f8fafd;
       }
 
 
       &.info {
-        --text-color: #001226;
-        --bg-color: #65acfd;
-        --text-color: #001226;
-        --icon-color: #001226;
-        --bg-color-hvr: #022752;
+        --bg-color: #ECF5FF;
+        --text-color: #2766D8;
+        --icon-color: #2766D8;
+        --bg-color-hvr: #2766D8;
         --color-hvr: #f8fafd;
         --icon-color-hvr: #f8fafd;
       }
