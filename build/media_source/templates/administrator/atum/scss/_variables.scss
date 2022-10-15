@@ -51,10 +51,10 @@ $neutral-bg-hvr:                    #334050;
 
 // Atum colours defined as scss variables for use in scss functions
 $atum-text-dark:                   $gray-700;
-$success:                          $success-bg-hvr;
-$danger:                           $danger-bg-hvr;
-$info:                             $info-bg-hvr;
-$warning:                          $warning-bg-hvr;
+$success:                          $success-color;
+$danger:                           $danger-color;
+$info:                             $info-color;
+$warning:                          $warning-color;
 
 $theme-colors: ();
 $theme-colors: map-merge((
