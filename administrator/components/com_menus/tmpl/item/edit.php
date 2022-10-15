@@ -114,29 +114,6 @@ if ($clientId === 1) {
                         'parent_id',
                         'menuordering',
                         'published',
-                        'publish_up',
-                        'publish_down',
-                        'home',
-                        'access',
-                        'language',
-                        'note',
-                    );
-
-                    if ($this->item->type != 'component') {
-                        $this->fields = array_diff($this->fields, array('home'));
-                        $this->form->setFieldAttribute('publish_up', 'showon', '');
-                        $this->form->setFieldAttribute('publish_down', 'showon', '');
-                    }
-                    ?>
-                <?php
-                    // Set main fields.
-                    $this->fields = array(
-                        'id',
-                        'client_id',
-                        'menutype',
-                        'parent_id',
-                        'menuordering',
-                        'published',
                         'home',
                         'publish_up',
                         'publish_down',

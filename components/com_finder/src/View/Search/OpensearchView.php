@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * OpenSearch View class for Finder
  *
@@ -38,8 +42,8 @@ class OpensearchView extends AbstractView
         $app = Factory::getApplication();
 
         $params = ComponentHelper::getParams('com_finder');
-        $this->document->setShortName($params->get('opensearch_name', $app->get('sitename')));
-        $this->document->setDescription($params->get('opensearch_description', $app->get('MetaDesc')));
+        $this->document->setShortName($params->get('opensearch_name', $app->get('sitename', '')));
+        $this->document->setDescription($params->get('opensearch_description', $app->get('MetaDesc', '')));
 
         // Prevent any output when OpenSearch Support is disabled
         if (!$params->get('opensearch', 1)) {
