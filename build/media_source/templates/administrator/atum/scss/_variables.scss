@@ -34,22 +34,20 @@ $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
 // Accessible Alert colors
-$successBg:                        #E8F7E8;
-$successBgHvr:                     #36A940;
-$successColor:                     #27762C;
-$dangerBg:                         #FDE3E3;
-$dangerBgHvr:                      #E4100E;
-$dangerColor:                      #A40C0B;
-$warningBg:                        #FDEAE1;
-$warningBgHvr:                     #F7610D;
-$warningColor:                     #B9490B;
-$infoBg:                           #ECF5FF;
-$infoBgHvr:                        #2766D8;
-$infoColor:                        #2766D8;
-$neutralBg:                        #ccd0d3;
-$neutralBgHvr:                     #334050;
-$alertColor:                       #061932;
-$alertColorHvr:                    #f8fafd;
+$success-bg:                        #E8F7E8;
+$success-bg-hvr:                    #36A940;
+$success-color:                     #27762C;
+$danger-bg:                         #FDE3E3;
+$danger-bg-hvr:                     #E4100E;
+$danger-color:                      #A40C0B;
+$warning-bg:                        #FDEAE1;
+$warning-bg-hvr:                    #F7610D;
+$warning-color:                     #B9490B;
+$info-bg:                           #ECF5FF;
+$info-bg-hvr:                       #2766D8;
+$info-color:                        #2766D8;
+$neutral-bg:                        #ccd0d3;
+$neutral-bg-hvr:                    #334050;
 
 // Atum colours defined as scss variables for use in scss functions
 $atum-text-dark:                   $gray-700;
