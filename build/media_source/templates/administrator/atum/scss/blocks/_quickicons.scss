@@ -86,43 +86,31 @@
         }
       }
 
-      // Accessible Alert colors
-
       &.success {
-        --bg-color: #208755;
-        --text-color: #fff;
-        --icon-color: #fff;
-        --bg-color-hvr: #208755;
+        --bg-color: #f3f9f3;
+        --text-color: #457d54;
+        --icon-color: #55a258;
+        --bg-color-hvr: #457d54;
         --color-hvr: #f8fafd;
-        --icon-color-hvr: #f8fafd;
+        --icon-color-hvr: #55a258;
       }
 
       &.warning {
-        --bg-color: #fac107;
-        --text-color: #000;
-        --icon-color: #000;
-        --bg-color-hvr: #fac107;
-        --color-hvr: #000;
-        --icon-color-hvr: #f8fafd;
+        --bg-color: #fbf7ef;
+        --text-color: #a4740b;
+        --icon-color: #fdc855;
+        --bg-color-hvr: #cc8c04;
+        --color-hvr: #fff;
+        --icon-color-hvr: #fdc855;
       }
 
       &.danger {
-        --bg-color: #dd3645;
-        --text-color: #fff;
-        --icon-color: #fff;
+        --bg-color: #f4f0f0;
+        --text-color: #c52827;
+        --icon-color: #ce8484;
         --bg-color-hvr: #dd3645;
         --color-hvr: #fff;
-        --icon-color-hvr: #fff;
-      }
-
-
-      &.info {
-        --bg-color: #ecf5ff;
-        --text-color: #2766d8;
-        --icon-color: #2766d8;
-        --bg-color-hvr: #2766d8;
-        --color-hvr: #f8fafd;
-        --icon-color-hvr: #f8fafd;
+        --icon-color-hvr: #ce8484;
       }
 
     }

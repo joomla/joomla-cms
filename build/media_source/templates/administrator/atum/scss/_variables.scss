@@ -34,23 +34,25 @@ $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
 // Accessible Alert colors
-$success-bg:                        #208754;
-$success-color:                     #fff;
-$danger-bg:                         #dd3645;
-$danger-color:                      #fff;
-$warning-bg:                        #fac107;
-$warning-color:                     #000;
-$info-bg:                           #3ec9f1;
-$info-color:                        #000;
+$success-bg:                        #f3f9f3;
+$success-icon-color:                #55a258;
+$success-color:                     #457d54;
+$danger-bg:                         #f4f0f0;
+$danger-icon-color:                 #ce8484;
+$danger-color:                      #c52827;
+$warning-bg:                        #fbf7ef;
+$warning-icon-color:                #fdc855;
+$warning-color:                     #a4740b;
 $neutral-bg:                        #ccd0d3;
 $neutral-bg-hvr:                    #334050;
 
+
 // Atum colours defined as scss variables for use in scss functions
 $atum-text-dark:                   $gray-700;
-$success:                          $success-bg;
-$danger:                           $danger-bg;
-$info:                             $info-bg;
-$warning:                          $warning-bg;
+$success:                          $success-color;
+$danger:                           $danger-color;
+$info:                             $base-color;
+$warning:                          $warning-color;
 
 $theme-colors: ();
 $theme-colors: map-merge((
