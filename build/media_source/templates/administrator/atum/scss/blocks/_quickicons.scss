@@ -91,35 +91,35 @@
       // Accessible Alert colors
 
       &.success {
-        --bg-color: #E8F7E8;
-        --text-color: #27762C;
-        --icon-color: #27762C;
-        --bg-color-hvr: #36A940;
+        --bg-color: #208755;
+        --text-color: #ffffff;
+        --icon-color: #ffffff;
+        --bg-color-hvr: #208755;
         --color-hvr: #f8fafd;
         --icon-color-hvr: #f8fafd;
       }
 
       &.warning {
-        --bg-color: #FDEAE1;
-        --text-color: #B9490B;
-        --icon-color: #B9490B;
-        --bg-color-hvr: #F7610D;
-        --color-hvr: #f8fafd;
+        --bg-color: #fac107;
+        --text-color: #000000;
+        --icon-color: #000000;
+        --bg-color-hvr: #fac107;
+        --color-hvr: #000000;
         --icon-color-hvr: #f8fafd;
       }
 
       &.danger {
-        --bg-color: #FDE3E3;
-        --text-color: #A40C0B;
-        --icon-color: #A40C0B;
-        --bg-color-hvr: #E4100E;
-        --color-hvr: #f8fafd;
-        --icon-color-hvr: #f8fafd;
+        --bg-color: #DD3645;
+        --text-color: #ffffff;
+        --icon-color: #ffffff;
+        --bg-color-hvr: #DD3645;
+        --color-hvr: #ffffff;
+        --icon-color-hvr: #ffffff;
       }
 
 
       &.info {
-        --bg-color: #ECF5FF;
+        --bg-color: #ecf5ff;
         --text-color: #2766D8;
         --icon-color: #2766D8;
         --bg-color-hvr: #2766D8;
