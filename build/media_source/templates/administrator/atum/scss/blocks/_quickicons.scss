@@ -23,7 +23,7 @@
     --bg-color: hsl(var(--hue), 60%, 97%);
     --icon-color: hsl(var(--hue), 30%, 40%);
     --bg-color-hvr: var(--template-bg-dark);
-    --color-hvr: #F8FAFD;
+    --color-hvr: #fff;
 
     display: flex;
     flex-grow: 1;
@@ -58,7 +58,7 @@
         padding: .25rem .5rem;
         font-weight: $bold-weight;
         line-height: 1rem;
-        background: hsl(var(--hue),50%,93%);
+        background: hsl(var(--hue), 50%, 93%);
         border-radius: $border-radius;
         transition: all .25s ease;
         margin-inline-start: .5rem;
@@ -81,10 +81,8 @@
           background: var(--icon-color);
         }
 
-        .quickicon-icon {
-          > * {
-            color: var(--icon-color-hvr);
-          }
+        .quickicon-icon > * {
+          color: var(--icon-color-hvr);
         }
       }
 
@@ -92,8 +90,8 @@
 
       &.success {
         --bg-color: #208755;
-        --text-color: #ffffff;
-        --icon-color: #ffffff;
+        --text-color: #fff;
+        --icon-color: #fff;
         --bg-color-hvr: #208755;
         --color-hvr: #f8fafd;
         --icon-color-hvr: #f8fafd;
@@ -101,28 +99,28 @@
 
       &.warning {
         --bg-color: #fac107;
-        --text-color: #000000;
-        --icon-color: #000000;
+        --text-color: #000;
+        --icon-color: #000;
         --bg-color-hvr: #fac107;
-        --color-hvr: #000000;
+        --color-hvr: #000;
         --icon-color-hvr: #f8fafd;
       }
 
       &.danger {
         --bg-color: #dd3645;
-        --text-color: #ffffff;
-        --icon-color: #ffffff;
+        --text-color: #fff;
+        --icon-color: #fff;
         --bg-color-hvr: #dd3645;
-        --color-hvr: #ffffff;
-        --icon-color-hvr: #ffffff;
+        --color-hvr: #fff;
+        --icon-color-hvr: #fff;
       }
 
 
       &.info {
         --bg-color: #ecf5ff;
-        --text-color: #2766D8;
-        --icon-color: #2766D8;
-        --bg-color-hvr: #2766D8;
+        --text-color: #2766d8;
+        --icon-color: #2766d8;
+        --bg-color-hvr: #2766d8;
         --color-hvr: #f8fafd;
         --icon-color-hvr: #f8fafd;
       }
@@ -138,7 +136,7 @@
   .quickicon-linkadd {
     width: 2.5rem;
     font-size: 1.2rem;
-    background: hsl(var(--hue),50%,93%);
+    background: hsl(var(--hue), 50%, 93%);
     transition: all .25s ease;
 
     a {
@@ -168,7 +166,7 @@
     display: flex;
     min-height: 6rem;
     overflow: hidden;
-    border: 1px solid hsl(var(--hue),50%,93%);
+    border: 1px solid hsl(var(--hue), 50%, 93%);
     border-radius: 4px;
   }
 }
