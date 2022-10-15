@@ -62,6 +62,7 @@ $attributes = array(
     $onchange ? 'onchange="' . $onchange . '"' : '',
     !empty($maxLength) ? $maxLength : '',
     $required ? 'required' : '',
+    !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
     $dataAttribute,
     // Force LTR input value in RTL
     Factory::getLanguage()->isRtl() ? 'dir="ltr"' : '',

@@ -183,7 +183,7 @@ class HtmlView extends BaseHtmlView
                 if ($state->get('filter.state') != 2) {
                     $childBar->archive('links.archive')->listCheck(true);
                 } elseif ($state->get('filter.state') == 2) {
-                    $childBar->unarchive('links.unarchive')->listCheck(true);
+                    $childBar->unarchive('links.unpublish')->listCheck(true);
                 }
             }
 
