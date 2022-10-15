@@ -16,7 +16,7 @@
           class="image-cropped"
           :src="getURL"
           :alt="altTag"
-          loading="lazy"
+          :loading="loading"
           :width="width"
           :height="height"
         >
@@ -76,10 +76,13 @@ export default {
         : `${this.item.thumb_path}`;
     },
     width() {
-      return this.item.width;
+      return this.item.width > 0 ? this.item.width : null;
     },
     height() {
-      return this.item.height;
+      return this.item.height > 0 ? this.item.height : null;
+    },
+    loading() {
+      return this.item.width > 0 ? 'lazy' : null;
     },
     altTag() {
       return this.item.name;
