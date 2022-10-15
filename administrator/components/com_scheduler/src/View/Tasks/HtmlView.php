@@ -109,11 +109,6 @@ class HtmlView extends BaseHtmlView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        // We don't need toolbar in the modal window.
-        if ($this->getLayout() !== 'modal') {
-            $this->addToolbar();
-        }
-
         parent::display($tpl);
     }
 
