@@ -26,6 +26,10 @@ use Joomla\Event\DispatcherInterface;
 use RuntimeException;
 use Throwable;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Table for the Multi-Factor Authentication records
  *
@@ -64,8 +68,8 @@ class MfaTable extends Table
      * @var   boolean
      * @since 4.2.0
      */
-	// phpcs:ignore
-	protected $_supportNullValue = true;
+    // phpcs:ignore
+    protected $_supportNullValue = true;
 
     /**
      * Table constructor
@@ -100,15 +104,11 @@ class MfaTable extends Table
         $this->options = $this->encryptService->encrypt(json_encode($this->options ?: []));
 
         // Set last_used date to null if empty or zero date
-		// phpcs:ignore
-		if (!((int) $this->last_used))
-        {
-			// phpcs:ignore
-			$this->last_used = null;
+        if (!((int) $this->last_used)) {
+            $this->last_used = null;
         }
 
-		// phpcs:ignore
-		$records = MfaHelper::getUserMfaRecords($this->user_id);
+        $records = MfaHelper::getUserMfaRecords($this->user_id);
 
         if ($this->id) {
             // Existing record. Remove it from the list of records.
@@ -122,10 +122,8 @@ class MfaTable extends Table
 
         // Update the dates on a new record
         if (empty($this->id)) {
-			// phpcs:ignore
-			$this->created_on = Date::getInstance()->toSql();
-			// phpcs:ignore
-			$this->last_used  = null;
+            $this->created_on = Date::getInstance()->toSql();
+            $this->last_used  = null;
         }
 
         // Do I need to mark this record as the default?
@@ -248,19 +246,15 @@ class MfaTable extends Table
         // Save flags used onAfterDelete
         $this->deleteFlags[$record->id] = [
             'default'    => $record->default,
-			// phpcs:ignore
-			'numRecords' => $this->getNumRecords($record->user_id),
-			// phpcs:ignore
-			'user_id'    => $record->user_id,
+            'numRecords' => $this->getNumRecords($record->user_id),
+            'user_id'    => $record->user_id,
             'method'     => $record->method,
         ];
 
         if (\is_null($pk)) {
-			// phpcs:ignore
-			$pk = [$this->_tbl_key => $this->id];
+            $pk = [$this->_tbl_key => $this->id];
         } elseif (!\is_array($pk)) {
-			// phpcs:ignore
-			$pk = [$this->_tbl_key => $pk];
+            $pk = [$this->_tbl_key => $pk];
         }
 
         $isDeleted = parent::delete($pk);
@@ -321,8 +315,7 @@ class MfaTable extends Table
             ->set($db->quoteName('default') . ' = 0')
             ->where($db->quoteName('user_id') . ' = :user_id')
             ->where($db->quoteName('id') . ' != :id')
-			// phpcs:ignore
-			->bind(':user_id', $this->user_id, ParameterType::INTEGER)
+            ->bind(':user_id', $this->user_id, ParameterType::INTEGER)
             ->bind(':id', $this->id, ParameterType::INTEGER);
         $db->setQuery($query)->execute();
     }
@@ -341,8 +334,7 @@ class MfaTable extends Table
 
         /** @var BackupcodesModel $backupCodes */
         $backupCodes = $factory->createModel('Backupcodes', 'Administrator');
-		// phpcs:ignore
-		$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($this->user_id);
+        $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($this->user_id);
         $backupCodes->regenerateBackupCodes($user);
     }
 
@@ -357,8 +349,7 @@ class MfaTable extends Table
     private function afterDelete($pk): void
     {
         if (is_array($pk)) {
-			// phpcs:ignore
-			$pk = $pk[$this->_tbl_key] ?? array_shift($pk);
+            $pk = $pk[$this->_tbl_key] ?? array_shift($pk);
         }
 
         if (!isset($this->deleteFlags[$pk])) {
