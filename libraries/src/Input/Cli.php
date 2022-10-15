@@ -11,6 +11,10 @@ namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Input CLI Class
  *

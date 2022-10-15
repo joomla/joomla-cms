@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\String\Inflector;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Workflow base controller package.
  *

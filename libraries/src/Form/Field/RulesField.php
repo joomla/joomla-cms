@@ -14,6 +14,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Field for assigning permissions to groups for a given asset

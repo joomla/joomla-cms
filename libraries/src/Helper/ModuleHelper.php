@@ -23,6 +23,10 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module helper class
  *
@@ -208,6 +212,9 @@ abstract class ModuleHelper
             return '';
         }
 
+        // Prevent double modification of the module content by chrome style
+        $module = clone $module;
+
         $displayData = array(
             'module'  => $module,
             'params'  => $params,
@@ -215,7 +222,9 @@ abstract class ModuleHelper
         );
 
         foreach (explode(' ', $attribs['style']) as $style) {
-            if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath)) {
+            $moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath);
+
+            if ($moduleContent) {
                 $module->content = $moduleContent;
             }
         }
