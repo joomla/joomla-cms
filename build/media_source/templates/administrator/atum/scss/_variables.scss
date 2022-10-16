@@ -33,26 +33,23 @@ $cyan:                             #107d8e; //used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
-// Accessible Alert colors
-$success-bg:                        #f3f9f3;
-$success-icon-color:                #55a258;
-$success-color:                     #457d54;
-$danger-bg:                         #f4f0f0;
-$danger-icon-color:                 #ce8484;
-$danger-color:                      #c52827;
-$warning-bg:                        #fbf7ef;
-$warning-icon-color:                #fdc855;
-$warning-color:                     #a4740b;
-$neutral-bg:                        #ccd0d3;
-$neutral-bg-hvr:                    #334050;
-
+// Accessible alert colors
+$success-bg:                       #f3f9f3;
+$success-icon-color:               #55a258;
+$success-color:                    #457d54;
+$danger-bg:                        #f4f0f0;
+$danger-icon-color:                #ce8484;
+$danger-color:                     #c52827;
+$warning-bg:                       #fbf7ef;
+$warning-icon-color:               #fdc855;
+$warning-color:                    #a4740b;
 
 // Atum colours defined as scss variables for use in scss functions
 $atum-text-dark:                   $gray-700;
-$success:                          $success-color;
-$danger:                           $danger-color;
-$info:                             $base-color;
-$warning:                          $warning-color;
+$success:                          $green;
+$danger:                           $red;
+$info:                             $light-blue;
+$warning:                          $yellow;
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -60,7 +57,7 @@ $theme-colors: map-merge((
   secondary:                       $gray-700, //used for btn-secondary
   success:                         $success,
   info:                            $light-blue,
-  warning:                         $warning-bg,
+  warning:                         $yellow,
   danger:                          $danger,
   light:                           $gray-100, //used in bootstrap
   dark:                            $gray-900,  //used in bootstrap and for table-border
