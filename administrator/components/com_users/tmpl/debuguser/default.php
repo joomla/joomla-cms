@@ -21,6 +21,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $loginActions = [];
 $actions = [];
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('table.columns');
+
 // Split the actions table
 foreach ($this->actions as $action) :
     $name = $action[0];
