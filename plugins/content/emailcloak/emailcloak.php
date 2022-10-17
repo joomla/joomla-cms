@@ -50,7 +50,7 @@ class PlgContentEmailcloak extends CMSPlugin
             return;
         }
 
-        if (is_object($row)) {
+        if (is_object($row) && property_exists($row, 'text')) {
             $this->_cloak($row->text, $params);
 
             return;
