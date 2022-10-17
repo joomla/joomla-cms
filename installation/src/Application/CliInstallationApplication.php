@@ -12,6 +12,7 @@ namespace Joomla\CMS\Installation\Application;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Installation\Console\InstallCommand;
 use Joomla\CMS\Language\Language;
@@ -41,6 +42,12 @@ final class CliInstallationApplication extends Application
      */
     protected $mvcFactory;
 
+    /**
+     * Object to imitate the session object
+     *
+     * @var Registry
+     * @since __DEPLOY_VERSION__
+     */
     protected $session;
 
     /**
