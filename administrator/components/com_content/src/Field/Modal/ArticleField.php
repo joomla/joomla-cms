@@ -124,10 +124,6 @@ class ArticleField extends FormField
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
             }
             if (empty($title)) {
-                $allowClear = true;
-                $allowEdit = true;
-                $allowSelect = true;
-                $allowNew = true;
                 $value = '';
             }
         }
