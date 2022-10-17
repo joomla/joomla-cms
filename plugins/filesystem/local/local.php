@@ -84,7 +84,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
     public function getAdapters()
     {
         $adapters = [];
-        $directories = $this->params->get('directories', '[{"directory": "images", "thumbs": 1}]');
+        $directories = $this->params->get('directories', '[{"directory": "images", "thumbs": 0}]');
 
         // Do a check if default settings are not saved by user
         // If not initialize them manually
@@ -98,7 +98,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
                 $directoryPath = rtrim($directoryPath) . '/';
 
                 if (!isset($directoryEntity->thumbs)) {
-                    $directoryEntity->thumbs = 1;
+                    $directoryEntity->thumbs = 0;
                 }
 
                 $adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
