@@ -18,6 +18,6 @@ namespace Joomla\CMS\MVC\Model\Exception;
  *
  * @since  __DEPLOY_VERSION__
  */
-interface ModelExceptionInterface
+interface ModelExceptionInterface extends \Throwable
 {
 }
