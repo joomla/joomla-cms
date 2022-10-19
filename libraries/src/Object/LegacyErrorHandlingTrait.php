@@ -15,7 +15,7 @@ namespace Joomla\CMS\Object;
 
 /**
  * Trait which contains the legacy methods that formerly were inherited from \Joomla\CMS\Object\CMSObject to set and
- * get errors from the model. Strategically deprecated in favour of exceptions which implement the interface
+ * get errors in a class. Strategically deprecated in favour of exceptions which implement the interface
  * \Joomla\CMS\MVC\Model\Exception\ModelExceptionInterface
  *
  * @since       __DEPLOY_VERSION__
