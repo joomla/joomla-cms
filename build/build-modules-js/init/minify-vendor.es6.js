@@ -25,6 +25,9 @@ const noMinified = [
 
 const alreadyMinified = [
   'media/vendor/webcomponentsjs/js/webcomponents-bundle.js',
+  'media/vendor/debugbar/vendor/highlightjs/highlight.pack.js',
+
+
 ];
 
 /**
@@ -86,7 +89,6 @@ const minifyJS = async (file) => {
  * @returns {Promise}
  */
 module.exports.minifyVendor = async () => {
-  // return;
   const folderPromises = [];
   const filesPromises = [];
 
