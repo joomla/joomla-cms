@@ -178,7 +178,7 @@ class WarningsModel extends ListModel
         }
 
         if ($this->getDatabase()->isMinimumVersion() === false) {
-            $db         = Factory::getDbo();
+            $db         = $this->getDatabase();
             $messages[] = [
                 'message'     => Text::_('COM_INSTALLER_MSG_WARNINGS_NOTSUPPORTEDDATABASEVERSION'),
                 'description' => Text::sprintf(
