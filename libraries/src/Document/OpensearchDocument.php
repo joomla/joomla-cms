@@ -42,10 +42,10 @@ class OpensearchDocument extends Document
      *
      * optional
      *
-     * @var    object
+     * @var    object[]
      * @since  1.7.0
      */
-    private $_images = array();
+    private $_images = [];
 
     /**
      * The url collection
