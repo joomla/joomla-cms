@@ -444,6 +444,11 @@ class PlgSystemFields extends CMSPlugin
             return;
         }
 
+        // If we have a category, set the catid field to fetch only the fields which belong to it
+        if ($parts[1] === 'categories' && !isset($item->catid)) {
+            $item->catid = $item->id;
+        }
+
         $context = $parts[0] . '.' . $parts[1];
 
         // Convert tags
