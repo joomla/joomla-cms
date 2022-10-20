@@ -116,10 +116,7 @@ Cypress.Commands.add('trashArticle', (title) => {
 
 Cypress.Commands.add('deleteArticle', (title) => {
   cy.visit('administrator/index.php?option=com_content&view=articles')
-  cy.get('.js-stools-btn-filter').click()
-  cy.intercept('index.php?option=com_content&view=articles*').as('articles_trashed')
-  cy.get('#filter_published').select('Trashed')
-  cy.wait('@articles_trashed')
+  cy.setFilter('published', 'Trashed')
   cy.searchForItem(title)
   cy.checkAllResults()
   cy.on("window:confirm", (s) => {
