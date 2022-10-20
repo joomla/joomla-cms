@@ -44,11 +44,6 @@ class PlgContentLoadmodule extends CMSPlugin
      */
     public function onContentPrepare($context, &$article, &$params, $page = 0)
     {
-        // Don't run this plugin when the content is being indexed
-        if ($context === 'com_finder.indexer') {
-            return;
-        }
-
         // Simple performance check to determine whether bot should process further
         if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false) {
             return;
@@ -65,6 +60,23 @@ class PlgContentLoadmodule extends CMSPlugin
         // Expression to search for(id)
         $regexmodid = '/{loadmoduleid\s([1-9][0-9]*)}/i';
 
+        // Don't run this plugin when the content is being indexed
+        if ($context === 'com_finder.indexer') {
+            //Remove macros if any
+            if (strpos($article->text, 'loadposition')) {
+                $article->text = preg_replace($regex, '', $article->text);
+            }
+
+            if (strpos($article->text, 'loadmoduleid')) {
+                $article->text = preg_replace($regexmodid, '', $article->text);
+            }
+
+            if (strpos($article->text, 'loadmodule')) {
+                $article->text = preg_replace($regexmod, '', $article->text);
+            }
+
+            return;
+        }
         // Find all instances of plugin and put in $matches for loadposition
         // $matches[0] is full pattern match, $matches[1] is the position
         preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
