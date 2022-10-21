@@ -12,6 +12,10 @@ namespace Joomla\Component\Media\Administrator\Event;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event object to set an url.
  *

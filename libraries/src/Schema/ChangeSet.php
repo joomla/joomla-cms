@@ -12,6 +12,10 @@ namespace Joomla\CMS\Schema;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
  * Each of these objects contains a DDL query that should have been run against

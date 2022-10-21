@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Messages Component Messages Model
  *
@@ -104,7 +108,7 @@ class MessagesModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $id   = (int) $user->get('id');
 
         // Select the required fields from the table.

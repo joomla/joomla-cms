@@ -13,6 +13,10 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * SessionDataCollector
  *

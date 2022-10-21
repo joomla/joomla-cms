@@ -12,6 +12,10 @@ namespace Joomla\CMS\Serializer\Events;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Tobscure\JsonApi\Relationship;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event for getting information on an API Relationship
  *
