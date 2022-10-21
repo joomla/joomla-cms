@@ -61,6 +61,7 @@ function clean_checkout(string $dir)
     system('find . -name .github | xargs rm -rf -');
     system('find . -name .gitignore | xargs rm -rf -');
     system('find . -name .gitmodules | xargs rm -rf -');
+    system('find . -name .phan | xargs rm -rf -');
     system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
     system('find . -name .scrutinizer.yml | xargs rm -rf -');
     system('find . -name .travis.yml | xargs rm -rf -');
@@ -170,6 +171,7 @@ function clean_checkout(string $dir)
     system('rm -rf libraries/vendor/symfony/*/Resources/doc');
     system('rm -rf libraries/vendor/symfony/*/Tests');
     system('rm -rf libraries/vendor/symfony/console/Resources');
+    system('rm -rf libraries/vendor/symfony/string/Resources/bin');
 
     // tobscure/json-api
     system('rm -rf libraries/vendor/tobscure/json-api/tests');
@@ -179,6 +181,14 @@ function clean_checkout(string $dir)
 
     // willdurand/negotiation
     system('rm -rf libraries/vendor/willdurand/negotiation/tests');
+
+    // jfcherng
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/demo.php');
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/UPGRADING_v2.md');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/CHANGELOG');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/example');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/UPGRADING');
+    system('rm -rf libraries/vendor/jfcherng/php-mb-string/CHANGELOG');
 
     echo "Cleanup complete.\n";
 
@@ -259,7 +269,7 @@ mkdir($fullpath);
 echo "Copy the files from the git repository.\n";
 chdir($repo);
 system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
-
+system('cp build/fido.jwt ' . $fullpath . '/plugins/system/webauthn/fido.jwt');
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
 system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
@@ -267,6 +277,14 @@ system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $comp
 if ($composerReturnCode !== 0) {
     echo "`composer install` did not complete as expected.\n";
     exit(1);
+}
+
+// Try to update the fido.jwt file
+if (!file_exists(rtrim($fullpath, '\\/') . '/plugins/system/webauthn/fido.jwt'))
+{
+    echo "The file plugins/system/webauthn/fido.jwt was not created. Build failed.\n";
+
+    exit (1);
 }
 
 system('npm install --unsafe-perm', $npmReturnCode);
@@ -369,14 +387,16 @@ $doNotPackage = array(
     '.editorconfig',
     '.github',
     '.gitignore',
+    '.phan',
     '.php-cs-fixer.dist.php',
-    'CODE_OF_CONDUCT.md',
-    'README.md',
     'acceptance.suite.yml',
+    // Media Manager Node Assets
+    'administrator/components/com_media/resources',
     'appveyor-phpunit.xml',
     'build',
     'build.xml',
     'codeception.yml',
+    'CODE_OF_CONDUCT.md',
     'composer.json',
     'composer.lock',
     'crowdin.yml',
@@ -384,15 +404,15 @@ $doNotPackage = array(
     'package.json',
     'phpunit-pgsql.xml.dist',
     'phpunit.xml.dist',
-    'plugins/sampledata/testing/testing.php',
-    'plugins/sampledata/testing/testing.xml',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini',
     'plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini',
+    'plugins/sampledata/testing/testing.php',
+    'plugins/sampledata/testing/testing.xml',
+    'README.md',
+    'renovate.json',
     'ruleset.xml',
     'selenium.log',
     'tests',
-    // Media Manager Node Assets
-    'administrator/components/com_media/resources',
 );
 
 /*
@@ -402,8 +422,8 @@ $doNotPackage = array(
 $doNotPatch = array(
     'administrator/cache',
     'administrator/logs',
-    'installation',
     'images',
+    'installation',
 );
 
 /*

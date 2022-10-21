@@ -20,6 +20,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Category table
  *
@@ -253,7 +257,12 @@ class Category extends Nested implements VersionableTableInterface, TaggableTabl
             $table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
             && ($table->id != $this->id || $this->id == 0)
         ) {
+            // Is the existing category trashed?
             $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+
+            if ($table->published === -2) {
+                $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }

@@ -21,6 +21,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Script file of Joomla CMS
  *
@@ -99,7 +103,6 @@ class JoomlaInstallerScript
         $this->updateDatabase();
         $this->updateAssets($installer);
         $this->clearStatsCache();
-        $this->convertTablesToUtf8mb4(true);
         $this->addUserAuthProviderColumn();
         $this->cleanJoomlaCache();
     }
@@ -6435,6 +6438,20 @@ class JoomlaInstallerScript
             '/plugins/system/webauthn/webauthn.php',
             '/plugins/task/checkfiles/checkfiles.php',
             '/plugins/task/demotasks/demotasks.php',
+            // From 4.2.0-rc1 to 4.2.0
+            '/build/media_source/com_menus/css/admin-item-edit_modules.css',
+            '/administrator/language/en-GB/plg_fields_menuitem.ini',
+            '/administrator/language/en-GB/plg_fields_menuitem.sys.ini',
+            '/plugins/fields/menuitem/menuitem.php',
+            '/plugins/fields/menuitem/menuitem.xml',
+            '/plugins/fields/menuitem/tmpl/menuitem.php',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js/hotkeys.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js.gz',
+            '/media/vendor/hotkeys.js/LICENSE',
+            // From 4.2.1 to 4.2.2
+            '/administrator/cache/fido.jwt',
         );
 
         $folders = array(
@@ -7802,6 +7819,13 @@ class JoomlaInstallerScript
             // From 4.2.0-beta2 to 4.2.0-beta3
             '/plugins/system/webauthn/src/Helper',
             '/plugins/system/webauthn/src/Exception',
+            // From 4.2.0-rc1 to 4.2.0
+            '/plugins/fields/menuitem/tmpl',
+            '/plugins/fields/menuitem',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js',
+            '/media/vendor/hotkeys.js',
+            '/libraries/vendor/symfony/string/Resources/bin',
         );
 
         $status['files_checked'] = $files;
@@ -7902,152 +7926,6 @@ class JoomlaInstallerScript
         }
 
         return true;
-    }
-
-    /**
-     * Converts the site's database tables to support UTF-8 Multibyte.
-     *
-     * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
-     *
-     * @return  void
-     *
-     * @since   3.5
-     */
-    public function convertTablesToUtf8mb4($doDbFixMsg = false)
-    {
-        $db = Factory::getDbo();
-
-        if ($db->getServerType() !== 'mysql') {
-            return;
-        }
-
-        // Check if the #__utf8_conversion table exists
-        $db->setQuery('SHOW TABLES LIKE ' . $db->quote($db->getPrefix() . 'utf8_conversion'));
-
-        try {
-            $rows = $db->loadRowList(0);
-        } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-            if ($doDbFixMsg) {
-                // Show an error message telling to check database problems
-                Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
-            }
-
-            return;
-        }
-
-        // Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
-        if (count($rows) === 0) {
-            return;
-        }
-
-        // Set required conversion status
-        $converted = 5;
-
-        // Check conversion status in database
-        $db->setQuery(
-            'SELECT ' . $db->quoteName('converted')
-            . ' FROM ' . $db->quoteName('#__utf8_conversion')
-        );
-
-        try {
-            $convertedDB = $db->loadResult();
-        } catch (Exception $e) {
-            // Render the error message from the Exception object
-            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-            if ($doDbFixMsg) {
-                // Show an error message telling to check database problems
-                Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
-            }
-
-            return;
-        }
-
-        // If conversion status from DB is equal to required final status, try to drop the #__utf8_conversion table
-        if ($convertedDB === $converted) {
-            $this->dropUtf8ConversionTable();
-
-            return;
-        }
-
-        // Perform the required conversions of core tables if not done already in a previous step
-        if ($convertedDB !== 99) {
-            $fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
-
-            if (is_file($fileName1)) {
-                $fileContents1 = @file_get_contents($fileName1);
-                $queries1      = $db->splitSql($fileContents1);
-
-                if (!empty($queries1)) {
-                    foreach ($queries1 as $query1) {
-                        try {
-                            $db->setQuery($query1)->execute();
-                        } catch (Exception $e) {
-                            $converted = $convertedDB;
-
-                            // Still render the error message from the Exception object
-                            Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-                        }
-                    }
-                }
-            }
-        }
-
-        // If no error before, perform the optional conversions of tables which might or might not exist
-        if ($converted === 5) {
-            $fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
-
-            if (is_file($fileName2)) {
-                $fileContents2 = @file_get_contents($fileName2);
-                $queries2      = $db->splitSql($fileContents2);
-
-                if (!empty($queries2)) {
-                    foreach ($queries2 as $query2) {
-                        // Get table name from query
-                        if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1) {
-                            $tableName = str_replace('`', '', $matches[1]);
-                            $tableName = str_replace('#__', $db->getPrefix(), $tableName);
-
-                            // Check if the table exists and if yes, run the query
-                            try {
-                                $db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
-
-                                $rows = $db->loadRowList(0);
-
-                                if (count($rows) > 0) {
-                                    $db->setQuery($query2)->execute();
-                                }
-                            } catch (Exception $e) {
-                                $converted = 99;
-
-                                // Still render the error message from the Exception object
-                                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($doDbFixMsg && $converted !== 5) {
-            // Show an error message telling to check database problems
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
-        }
-
-        // If the conversion was successful try to drop the #__utf8_conversion table
-        if ($converted === 5 && $this->dropUtf8ConversionTable()) {
-            // Table successfully dropped
-            return;
-        }
-
-        // Set flag in database if the conversion status has changed.
-        if ($converted !== $convertedDB) {
-            $db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-                . ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
-        }
     }
 
     /**

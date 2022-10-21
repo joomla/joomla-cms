@@ -17,6 +17,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Filter table class for the Finder package.
  *
@@ -153,7 +157,7 @@ class FilterTable extends Table
         $table = new static($this->getDbo());
 
         if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0)) {
-            $this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+            $this->setError(Text::_('COM_FINDER_FILTER_ERROR_UNIQUE_ALIAS'));
 
             return false;
         }
