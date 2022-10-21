@@ -54,7 +54,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:16-alpine
+    image: node:16-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -517,6 +517,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 5b88ad7da16d2af7daa891a95c056142b6eff641c3f4e584a45c00eeb3cc91c2
+hmac: 7c04aa3c25ac608e34c2bc25a4ce892b56e46ad8c6515f69eede16082b95e729
 
 ...
