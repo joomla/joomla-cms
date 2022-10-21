@@ -36,7 +36,7 @@ return new class implements ServiceProviderInterface
                 $dispatcher = $container->get(DispatcherInterface::class);
                 $plugin     = new NamespaceMap(
                     $dispatcher,
-					new JNamespacePsr4Map(),
+                    new JNamespacePsr4Map(),
                     (array) PluginHelper::getPlugin('extension', 'namespacemap')
                 );
 
