@@ -14,6 +14,10 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Transition table
  *
