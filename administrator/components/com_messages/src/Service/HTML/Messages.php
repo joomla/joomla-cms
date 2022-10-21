@@ -13,6 +13,10 @@ namespace Joomla\Component\Messages\Administrator\Service\HTML;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JHtml administrator messages class.
  *

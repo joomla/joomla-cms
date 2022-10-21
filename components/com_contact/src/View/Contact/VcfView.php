@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\GenericDataException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to create a VCF for a contact item
  *
