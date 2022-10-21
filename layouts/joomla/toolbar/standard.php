@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,8 +32,8 @@ extract($displayData, EXTR_OVERWRITE);
  */
 
 Factory::getDocument()->getWebAssetManager()
-	->useScript('core')
-	->useScript('webcomponent.toolbar-button');
+    ->useScript('core')
+    ->useScript('webcomponent.toolbar-button');
 
 $tagName  = $tagName ?? 'button';
 
@@ -43,30 +44,27 @@ $formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '
 $validate = !empty($formValidation) ? ' form-validation' : '';
 $msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
 
-if (!empty($task))
-{
-	$taskAttr = ' task="' . $task . '"';
-}
-elseif (!empty($onclick))
-{
-	$htmlAttributes .= ' onclick="' . $onclick . '"';
+if (!empty($task)) {
+    $taskAttr = ' task="' . $task . '"';
+} elseif (!empty($onclick)) {
+    $htmlAttributes .= ' onclick="' . $onclick . '"';
 }
 
 ?>
 
-<joomla-toolbar-button <?php echo $idAttr.$taskAttr.$listAttr.$formAttr.$validate.$msgAttr; ?>>
+<joomla-toolbar-button <?php echo $idAttr . $taskAttr . $listAttr . $formAttr . $validate . $msgAttr; ?>>
 <?php if (!empty($group)) : ?>
 <a href="#" class="dropdown-item">
-	<span class="<?php echo trim($class ?? ''); ?>"></span>
-	<?php echo $text ?? ''; ?>
+    <span class="<?php echo trim($class ?? ''); ?>"></span>
+    <?php echo $text ?? ''; ?>
 </a>
 <?php else : ?>
 <<?php echo $tagName; ?>
-	class="<?php echo $btnClass ?? ''; ?>"
-	<?php echo $htmlAttributes ?? ''; ?>
-	>
-	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
-	<?php echo $text ?? ''; ?>
+    class="<?php echo $btnClass ?? ''; ?>"
+    <?php echo $htmlAttributes ?? ''; ?>
+    >
+    <span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
+    <?php echo $text ?? ''; ?>
 </<?php echo $tagName; ?>>
 <?php endif; ?>
 </joomla-toolbar-button>

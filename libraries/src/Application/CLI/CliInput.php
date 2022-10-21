@@ -1,14 +1,17 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Application\CLI;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Class CliInput
@@ -18,16 +21,16 @@ namespace Joomla\CMS\Application\CLI;
  */
 class CliInput
 {
-	/**
-	 * Get a value from standard input.
-	 *
-	 * @return  string  The input string from standard input.
-	 *
-	 * @codeCoverageIgnore
-	 * @since   4.0.0
-	 */
-	public function in()
-	{
-		return rtrim(fread(STDIN, 8192), "\n\r");
-	}
+    /**
+     * Get a value from standard input.
+     *
+     * @return  string  The input string from standard input.
+     *
+     * @codeCoverageIgnore
+     * @since   4.0.0
+     */
+    public function in()
+    {
+        return rtrim(fread(STDIN, 8192), "\n\r");
+    }
 }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,18 +49,15 @@ extract($displayData);
  * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
-if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
-{
-	$alpha = ($format === 'rgba');
-	$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
-}
-else
-{
-	$placeholder = '#rrggbb';
+if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true)) {
+    $alpha = ($format === 'rgba');
+    $placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+} else {
+    $placeholder = '#rrggbb';
 }
 
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'), true)) ? ' keywords' : ' ' . $format;
-$class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate === 'color' ? 'form-control ' : $inputclass) . '"';
+$class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate === 'color' ? '' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
@@ -68,7 +66,8 @@ $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
-$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
+$required     = $required ? ' required' : '';
+$autocomplete = !empty($autocomplete) ? ' autocomplete="' . $autocomplete . '"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
@@ -76,22 +75,22 @@ $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->usePreset('minicolors')
-	->useScript('field.color-adv');
+    ->useScript('field.color-adv');
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"<?php
-	echo $hint,
-		$class,
-		$position,
-		$control,
-		$readonly,
-		$disabled,
-		$required,
-		$onchange,
-		$autocomplete,
-		$autofocus,
-		$format,
-		$keywords,
-		$direction,
-		$validate,
-		$dataAttribute;
+    echo $hint,
+        $class,
+        $position,
+        $control,
+        $readonly,
+        $disabled,
+        $required,
+        $onchange,
+        $autocomplete,
+        $autofocus,
+        $format,
+        $keywords,
+        $direction,
+        $validate,
+        $dataAttribute;
 ?>/>

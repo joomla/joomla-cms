@@ -1,146 +1,165 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\ArticlesLatest\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper for mod_articles_latest
  *
  * @since  1.6
  */
-abstract class ArticlesLatestHelper
+class ArticlesLatestHelper implements DatabaseAwareInterface
 {
-	/**
-	 * Retrieve a list of article
-	 *
-	 * @param   Registry       $params  The module parameters.
-	 * @param   ArticlesModel  $model   The model.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   1.6
-	 */
-	public static function getList(Registry $params, ArticlesModel $model)
-	{
-		// Get the Dbo and User object
-		$db   = Factory::getDbo();
-		$user = Factory::getUser();
+    use DatabaseAwareTrait;
 
-		// Set application parameters in model
-		$app       = Factory::getApplication();
-		$appParams = $app->getParams();
-		$model->setState('params', $appParams);
+    /**
+     * Retrieve a list of article
+     *
+     * @param   Registry       $params  The module parameters.
+     * @param   ArticlesModel  $model   The model.
+     *
+     * @return  mixed
+     *
+     * @since   4.2.0
+     */
+    public function getArticles(Registry $params, SiteApplication $app)
+    {
+        // Get the Dbo and User object
+        $db   = $this->getDatabase();
+        $user = $app->getIdentity();
 
-		$model->setState('list.start', 0);
-		$model->setState('filter.published', 1);
+        /** @var ArticlesModel $model */
+        $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
-		// Set the filters based on the module params
-		$model->setState('list.limit', (int) $params->get('count', 5));
+        // Set application parameters in model
+        $model->setState('params', $app->getParams());
 
-		// This module does not use tags data
-		$model->setState('load_tags', false);
+        $model->setState('list.start', 0);
+        $model->setState('filter.published', 1);
 
-		// Access filter
-		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-		$authorised = Access::getAuthorisedViewLevels($user->get('id'));
-		$model->setState('filter.access', $access);
+        // Set the filters based on the module params
+        $model->setState('list.limit', (int) $params->get('count', 5));
 
-		// Category filter
-		$model->setState('filter.category_id', $params->get('catid', array()));
+        // This module does not use tags data
+        $model->setState('load_tags', false);
 
-		// User filter
-		$userId = $user->get('id');
+        // Access filter
+        $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
+        $authorised = Access::getAuthorisedViewLevels($user->get('id'));
+        $model->setState('filter.access', $access);
 
-		switch ($params->get('user_id'))
-		{
-			case 'by_me' :
-				$model->setState('filter.author_id', (int) $userId);
-				break;
-			case 'not_me' :
-				$model->setState('filter.author_id', $userId);
-				$model->setState('filter.author_id.include', false);
-				break;
+        // Category filter
+        $model->setState('filter.category_id', $params->get('catid', array()));
 
-			case 'created_by' :
-				$model->setState('filter.author_id', $params->get('author', array()));
-				break;
+        // State filter
+        $model->setState('filter.condition', 1);
 
-			case '0' :
-				break;
+        // User filter
+        $userId = $user->get('id');
 
-			default:
-				$model->setState('filter.author_id', (int) $params->get('user_id'));
-				break;
-		}
+        switch ($params->get('user_id')) {
+            case 'by_me':
+                $model->setState('filter.author_id', (int) $userId);
+                break;
+            case 'not_me':
+                $model->setState('filter.author_id', $userId);
+                $model->setState('filter.author_id.include', false);
+                break;
 
-		// Filter by language
-		$model->setState('filter.language', $app->getLanguageFilter());
+            case 'created_by':
+                $model->setState('filter.author_id', $params->get('author', array()));
+                break;
 
-		// Featured switch
-		$featured = $params->get('show_featured', '');
+            case '0':
+                break;
 
-		if ($featured === '')
-		{
-			$model->setState('filter.featured', 'show');
-		}
-		elseif ($featured)
-		{
-			$model->setState('filter.featured', 'only');
-		}
-		else
-		{
-			$model->setState('filter.featured', 'hide');
-		}
+            default:
+                $model->setState('filter.author_id', (int) $params->get('user_id'));
+                break;
+        }
 
-		// Set ordering
-		$order_map = array(
-			'm_dsc'  => 'a.modified DESC, a.created',
-			'mc_dsc' => 'a.modified',
-			'c_dsc'  => 'a.created',
-			'p_dsc'  => 'a.publish_up',
-			'random' => $db->getQuery(true)->rand(),
-		);
+        // Filter by language
+        $model->setState('filter.language', $app->getLanguageFilter());
 
-		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
-		$dir      = 'DESC';
+        // Featured switch
+        $featured = $params->get('show_featured', '');
 
-		$model->setState('list.ordering', $ordering);
-		$model->setState('list.direction', $dir);
+        if ($featured === '') {
+            $model->setState('filter.featured', 'show');
+        } elseif ($featured) {
+            $model->setState('filter.featured', 'only');
+        } else {
+            $model->setState('filter.featured', 'hide');
+        }
 
-		$items = $model->getItems();
+        // Set ordering
+        $order_map = array(
+            'm_dsc'  => 'a.modified DESC, a.created',
+            'mc_dsc' => 'a.modified',
+            'c_dsc'  => 'a.created',
+            'p_dsc'  => 'a.publish_up',
+            'random' => $db->getQuery(true)->rand(),
+        );
 
-		foreach ($items as &$item)
-		{
-			$item->slug    = $item->id . ':' . $item->alias;
+        $ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
+        $dir      = 'DESC';
 
-			if ($access || \in_array($item->access, $authorised))
-			{
-				// We know that user has the privilege to view the article
-				$item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
-			}
-			else
-			{
-				$item->link = Route::_('index.php?option=com_users&view=login');
-			}
-		}
+        $model->setState('list.ordering', $ordering);
+        $model->setState('list.direction', $dir);
 
-		return $items;
-	}
+        $items = $model->getItems();
+
+        foreach ($items as &$item) {
+            $item->slug    = $item->id . ':' . $item->alias;
+
+            if ($access || \in_array($item->access, $authorised)) {
+                // We know that user has the privilege to view the article
+                $item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
+            } else {
+                $item->link = Route::_('index.php?option=com_users&view=login');
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * Retrieve a list of articles
+     *
+     * @param   Registry       $params  The module parameters.
+     * @param   ArticlesModel  $model   The model.
+     *
+     * @return  mixed
+     *
+     * @since   1.6
+     *
+     * @deprecated 5.0 Use the none static function getArticles
+     */
+    public static function getList(Registry $params, ArticlesModel $model)
+    {
+        return (new self())->getArticles($params, Factory::getApplication());
+    }
 }

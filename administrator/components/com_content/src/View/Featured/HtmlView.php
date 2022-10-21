@@ -1,15 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\View\Featured;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -23,6 +22,10 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View class for a list of featured articles.
  *
@@ -30,177 +33,182 @@ use Joomla\Component\Content\Administrator\Helper\ContentHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var  array
-	 */
-	protected $items;
+    /**
+     * An array of items
+     *
+     * @var  array
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var  \JPagination
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var  \Joomla\CMS\Pagination\Pagination
+     */
+    protected $pagination;
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\CMS\Object\CMSObject
+     */
+    protected $state;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var  \JForm
-	 */
-	public $filterForm;
+    /**
+     * Form object for search filters
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    public $filterForm;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var  array
-	 */
-	public $activeFilters;
+    /**
+     * The active search filters
+     *
+     * @var  array
+     */
+    public $activeFilters;
 
-	/**
-	 * All transition, which can be executed of one if the items
-	 *
-	 * @var  array
-	 */
-	protected $transitions = [];
+    /**
+     * All transition, which can be executed of one if the items
+     *
+     * @var  array
+     */
+    protected $transitions = [];
 
-	/**
-	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 */
-	public function display($tpl = null)
-	{
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
-		$this->vote          = PluginHelper::isEnabled('content', 'vote');
+    /**
+     * Is this view an Empty State
+     *
+     * @var  boolean
+     * @since 4.0.0
+     */
+    private $isEmptyState = false;
 
-		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))
-		{
-			PluginHelper::importPlugin('workflow');
+    /**
+     * Display the view
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->items         = $this->get('Items');
+        $this->pagination    = $this->get('Pagination');
+        $this->state         = $this->get('State');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
+        $this->vote          = PluginHelper::isEnabled('content', 'vote');
+        $this->hits          = ComponentHelper::getParams('com_content')->get('record_hits', 1);
 
-			$this->transitions = $this->get('Transitions');
-		}
+        if (!\count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+            $this->setLayout('emptystate');
+        }
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        if (ComponentHelper::getParams('com_content')->get('workflow_enabled')) {
+            PluginHelper::importPlugin('workflow');
 
-		$this->addToolbar();
+            $this->transitions = $this->get('Transitions');
+        }
 
-		// We do not need to filter by language when multilingual is disabled
-		if (!Multilanguage::isEnabled())
-		{
-			unset($this->activeFilters['language']);
-			$this->filterForm->removeField('language', 'filter');
-		}
+        // Check for errors.
+        if (\count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		return parent::display($tpl);
-	}
+        $this->addToolbar();
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
-		$user  = Factory::getUser();
+        // We do not need to filter by language when multilingual is disabled
+        if (!Multilanguage::isEnabled()) {
+            unset($this->activeFilters['language']);
+            $this->filterForm->removeField('language', 'filter');
+        }
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function addToolbar()
+    {
+        $canDo = ContentHelper::getActions('com_content', 'category', $this->state->get('filter.category_id'));
+        $user  = Factory::getApplication()->getIdentity();
 
-		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)
-		{
-			$toolbar->addNew('article.add');
-		}
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
 
-		if ($canDo->get('core.edit.state') || count($this->transitions))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        ToolbarHelper::title(Text::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 
-			$childBar = $dropdown->getChildToolbar();
+        if ($canDo->get('core.create') || \count($user->getAuthorisedCategories('com_content', 'core.create')) > 0) {
+            $toolbar->addNew('article.add');
+        }
 
-			if (count($this->transitions))
-			{
-				$childBar->separatorButton('transition-headline')
-					->text('COM_CONTENT_RUN_TRANSITIONS')
-					->buttonClass('text-center py-2 h3');
+        if (!$this->isEmptyState && ($canDo->get('core.edit.state') || \count($this->transitions))) {
+            $dropdown = $toolbar->dropdownButton('status-group')
+                ->text('JTOOLBAR_CHANGE_STATUS')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->listCheck(true);
 
-				$cmd = "Joomla.submitbutton('articles.runTransition');";
-				$messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
-				$alert = 'Joomla.renderMessages(' . $messages . ')';
-				$cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
+            $childBar = $dropdown->getChildToolbar();
 
-				foreach ($this->transitions as $transition)
-				{
-					$childBar->standardButton('transition')
-						->text($transition['text'])
-						->buttonClass('transition-' . (int) $transition['value'])
-						->icon('fas fa-project-diagram')
-						->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
-				}
+            if (\count($this->transitions)) {
+                $childBar->separatorButton('transition-headline')
+                    ->text('COM_CONTENT_RUN_TRANSITIONS')
+                    ->buttonClass('text-center py-2 h3');
 
-				$childBar->separatorButton('transition-separator');
-			}
+                $cmd = "Joomla.submitbutton('articles.runTransition');";
+                $messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
+                $alert = 'Joomla.renderMessages(' . $messages . ')';
+                $cmd   = 'if (document.adminForm.boxchecked.value == 0) { ' . $alert . ' } else { ' . $cmd . ' }';
 
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->publish('articles.publish')->listCheck(true);
+                foreach ($this->transitions as $transition) {
+                    $childBar->standardButton('transition')
+                        ->text($transition['text'])
+                        ->buttonClass('transition-' . (int) $transition['value'])
+                        ->icon('icon-project-diagram')
+                        ->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
+                }
 
-				$childBar->unpublish('articles.unpublish')->listCheck(true);
+                $childBar->separatorButton('transition-separator');
+            }
 
-				$childBar->standardButton('unfeatured')
-					->text('JUNFEATURE')
-					->task('articles.unfeatured')
-					->listCheck(true);
+            if ($canDo->get('core.edit.state')) {
+                $childBar->publish('articles.publish')->listCheck(true);
 
-				$childBar->archive('articles.archive')->listCheck(true);
+                $childBar->unpublish('articles.unpublish')->listCheck(true);
 
-				$childBar->checkin('articles.checkin')->listCheck(true);
+                $childBar->standardButton('unfeatured')
+                    ->text('JUNFEATURE')
+                    ->task('articles.unfeatured')
+                    ->listCheck(true);
 
-				$childBar->trash('articles.trash')->listCheck(true);
-			}
-		}
+                $childBar->archive('articles.archive')->listCheck(true);
 
-		if ($this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('articles.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
-		}
+                $childBar->checkin('articles.checkin')->listCheck(true);
 
-		if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content'))
-		{
-			$toolbar->preferences('com_content');
-		}
+                if (!$this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED) {
+                    $childBar->trash('articles.trash')->listCheck(true);
+                }
+            }
+        }
 
-		ToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
-	}
+        if (!$this->isEmptyState && $this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete')) {
+            $toolbar->delete('articles.delete')
+                ->text('JTOOLBAR_EMPTY_TRASH')
+                ->message('JGLOBAL_CONFIRM_DELETE')
+                ->listCheck(true);
+        }
+
+        if ($user->authorise('core.admin', 'com_content') || $user->authorise('core.options', 'com_content')) {
+            $toolbar->preferences('com_content');
+        }
+
+        ToolbarHelper::help('Articles:_Featured');
+    }
 }

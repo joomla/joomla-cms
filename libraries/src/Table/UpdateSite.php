@@ -1,17 +1,20 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Update site table
@@ -21,47 +24,43 @@ use Joomla\Database\DatabaseDriver;
  */
 class UpdateSite extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
-	 *
-	 * @since   3.4
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__update_sites', 'update_site_id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database driver object.
+     *
+     * @since   3.4
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__update_sites', 'update_site_id', $db);
+    }
 
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True if the object is ok
-	 *
-	 * @see     Table::check()
-	 * @since   3.4
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True if the object is ok
+     *
+     * @see     Table::check()
+     * @since   3.4
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		// Check for valid name
-		if (trim($this->name) == '' || trim($this->location) == '')
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+        // Check for valid name
+        if (trim($this->name) == '' || trim($this->location) == '') {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
 
-			return false;
-		}
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,21 +30,19 @@ Text::script('PLG_USER_TOKEN_COPY_SUCCESS');
 Text::script('PLG_USER_TOKEN_COPY_FAIL');
 
 Factory::getApplication()->getDocument()->getWebAssetManager()
-	->registerAndUseScript('plg_user_token.token', 'plg_user_token/token.js', [], ['defer' => true], ['core']);
+    ->registerAndUseScript('plg_user_token.token', 'plg_user_token/token.js', [], ['defer' => true], ['core']);
 ?>
 <div class="input-group">
-	<input
-		type="text"
-		class="form-control"
-		name="<?php echo $name; ?>"
-		id="<?php echo $id; ?>"
-		readonly
-		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
-	<div class="input-group-append">
-		<button
-			class="btn btn-primary"
-			type="button"
-			id="token-copy"
-			title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
-	</div>
+    <input
+        type="text"
+        class="form-control"
+        name="<?php echo $name; ?>"
+        id="<?php echo $id; ?>"
+        readonly
+        value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
+    <button
+        class="btn btn-primary"
+        type="button"
+        id="token-copy"
+        title="<?php echo Text::_('PLG_USER_TOKEN_COPY_DESC'); ?>"><?php echo Text::_('PLG_USER_TOKEN_COPY'); ?></button>
 </div>

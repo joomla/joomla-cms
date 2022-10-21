@@ -1,28 +1,30 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Privacy\Site\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\Exception\ExecutionFailureException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Request confirmation model class.
@@ -31,214 +33,202 @@ use Joomla\Database\Exception\ExecutionFailureException;
  */
 class ConfirmModel extends AdminModel
 {
-	/**
-	 * Confirms the information request.
-	 *
-	 * @param   array  $data  The data expected for the form.
-	 *
-	 * @return  mixed  Exception | boolean
-	 *
-	 * @since   3.9.0
-	 */
-	public function confirmRequest($data)
-	{
-		// Get the form.
-		$form = $this->getForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
+    /**
+     * Confirms the information request.
+     *
+     * @param   array  $data  The data expected for the form.
+     *
+     * @return  mixed  Exception | boolean
+     *
+     * @since   3.9.0
+     */
+    public function confirmRequest($data)
+    {
+        // Get the form.
+        $form = $this->getForm();
 
-		// Check for an error.
-		if ($form instanceof \Exception)
-		{
-			return $form;
-		}
+        // Check for an error.
+        if ($form instanceof \Exception) {
+            return $form;
+        }
 
-		// Filter and validate the form data.
-		$data = $form->filter($data);
-		$return = $form->validate($data);
+        // Filter and validate the form data.
+        $data = $form->filter($data);
+        $return = $form->validate($data);
 
-		// Check for an error.
-		if ($return instanceof \Exception)
-		{
-			return $return;
-		}
+        // Check for an error.
+        if ($return instanceof \Exception) {
+            return $return;
+        }
 
-		// Check the validation results.
-		if ($return === false)
-		{
-			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $formError)
-			{
-				$this->setError($formError->getMessage());
-			}
+        // Check the validation results.
+        if ($return === false) {
+            // Get the validation messages from the form.
+            foreach ($form->getErrors() as $formError) {
+                $this->setError($formError->getMessage());
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		// Search for the information request
-		/** @var RequestTable $table */
-		$table = $this->getTable();
+        // Get the user email address
+        $email = $this->getCurrentUser()->email;
 
-		if (!$table->load(['email' => $data['email'], 'status' => 0]))
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+        // Search for the information request
+        /** @var RequestTable $table */
+        $table = $this->getTable();
 
-			return false;
-		}
+        if (!$table->load(['email' => $email, 'status' => 0])) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
-		// A request can only be confirmed if it is in a pending status and has a confirmation token
-		if ($table->status != '0' || !$table->confirm_token || $table->confirm_token_created_at === null)
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+            return false;
+        }
 
-			return false;
-		}
+        // A request can only be confirmed if it is in a pending status and has a confirmation token
+        if ($table->status != '0' || !$table->confirm_token || $table->confirm_token_created_at === null) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
-		// A request can only be confirmed if the token is less than 24 hours old
-		$confirmTokenCreatedAt = new Date($table->confirm_token_created_at);
-		$confirmTokenCreatedAt->add(new \DateInterval('P1D'));
+            return false;
+        }
 
-		$now = new Date('now');
+        // A request can only be confirmed if the token is less than 24 hours old
+        $confirmTokenCreatedAt = new Date($table->confirm_token_created_at);
+        $confirmTokenCreatedAt->add(new \DateInterval('P1D'));
 
-		if ($now > $confirmTokenCreatedAt)
-		{
-			// Invalidate the request
-			$table->status = -1;
-			$table->confirm_token = '';
-			$table->confirm_token_created_at = null;
+        $now = new Date('now');
 
-			try
-			{
-				$table->store();
-			}
-			catch (ExecutionFailureException $exception)
-			{
-				// The error will be logged in the database API, we just need to catch it here to not let things fatal out
-			}
+        if ($now > $confirmTokenCreatedAt) {
+            // Invalidate the request
+            $table->status = -1;
+            $table->confirm_token = '';
+            $table->confirm_token_created_at = null;
 
-			$this->setError(Text::_('COM_PRIVACY_ERROR_CONFIRM_TOKEN_EXPIRED'));
+            try {
+                $table->store();
+            } catch (ExecutionFailureException $exception) {
+                // The error will be logged in the database API, we just need to catch it here to not let things fatal out
+            }
 
-			return false;
-		}
+            $this->setError(Text::_('COM_PRIVACY_ERROR_CONFIRM_TOKEN_EXPIRED'));
 
-		// Verify the token
-		if (!UserHelper::verifyPassword($data['confirm_token'], $table->confirm_token))
-		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+            return false;
+        }
 
-			return false;
-		}
+        // Verify the token
+        if (!UserHelper::verifyPassword($data['confirm_token'], $table->confirm_token)) {
+            $this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
-		// Everything is good to go, transition the request to confirmed
-		$saved = $this->save(
-			[
-				'id'            => $table->id,
-				'status'        => 1,
-				'confirm_token' => '',
-			]
-		);
+            return false;
+        }
 
-		if (!$saved)
-		{
-			// Error was set by the save method
-			return false;
-		}
+        // Everything is good to go, transition the request to confirmed
+        $saved = $this->save(
+            [
+                'id'            => $table->id,
+                'status'        => 1,
+                'confirm_token' => '',
+            ]
+        );
 
-		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
-		/** @var MessageModel $messageModel */
-		$messageModel = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
+        if (!$saved) {
+            // Error was set by the save method
+            return false;
+        }
 
-		$messageModel->notifySuperUsers(
-			Text::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_SUBJECT'),
-			Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_MESSAGE', $table->email)
-		);
+        // Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
+        /** @var MessageModel $messageModel */
+        $messageModel = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
 
-		$message = [
-			'action'       => 'request-confirmed',
-			'subjectemail' => $table->email,
-			'id'           => $table->id,
-			'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
-		];
+        $messageModel->notifySuperUsers(
+            Text::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_SUBJECT'),
+            Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_MESSAGE', $table->email)
+        );
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_CONFIRMED_REQUEST', 'com_privacy.request');
+        $message = [
+            'action'       => 'request-confirmed',
+            'subjectemail' => $table->email,
+            'id'           => $table->id,
+            'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
+        ];
 
-		return true;
-	}
+        $this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_CONFIRMED_REQUEST', 'com_privacy.request');
 
-	/**
-	 * Method for getting the form from the model.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  Form|boolean  A Form object on success, false on failure
-	 *
-	 * @since   3.9.0
-	 */
-	public function getForm($data = [], $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_privacy.confirm', 'confirm', ['control' => 'jform']);
+        return true;
+    }
 
-		if (empty($form))
-		{
-			return false;
-		}
+    /**
+     * Method for getting the form from the model.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  Form|boolean  A Form object on success, false on failure
+     *
+     * @since   3.9.0
+     */
+    public function getForm($data = [], $loadData = true)
+    {
+        // Get the form.
+        $form = $this->loadForm('com_privacy.confirm', 'confirm', ['control' => 'jform']);
 
-		$input = Factory::getApplication()->input;
+        if (empty($form)) {
+            return false;
+        }
 
-		if ($input->getMethod() === 'GET')
-		{
-			$form->setValue('confirm_token', '', $input->get->getAlnum('confirm_token'));
-		}
+        $input = Factory::getApplication()->input;
 
-		return $form;
-	}
+        if ($input->getMethod() === 'GET') {
+            $form->setValue('confirm_token', '', $input->get->getAlnum('confirm_token'));
+        }
 
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  Table  A Table object
-	 *
-	 * @since   3.9.0
-	 * @throws  \Exception
-	 */
-	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
-	{
-		return parent::getTable($name, $prefix, $options);
-	}
+        return $form;
+    }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	protected function populateState()
-	{
-		// Get the application object.
-		$params = Factory::getApplication()->getParams('com_privacy');
+    /**
+     * Method to get a table object, load it if necessary.
+     *
+     * @param   string  $name     The table name. Optional.
+     * @param   string  $prefix   The class prefix. Optional.
+     * @param   array   $options  Configuration array for model. Optional.
+     *
+     * @return  Table  A Table object
+     *
+     * @since   3.9.0
+     * @throws  \Exception
+     */
+    public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
+    {
+        return parent::getTable($name, $prefix, $options);
+    }
 
-		// Load the parameters.
-		$this->setState('params', $params);
-	}
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @return  void
+     *
+     * @since   3.9.0
+     */
+    protected function populateState()
+    {
+        // Get the application object.
+        $params = Factory::getApplication()->getParams('com_privacy');
 
-	/**
-	 * Method to fetch an instance of the action log model.
-	 *
-	 * @return  ActionlogModel
-	 *
-	 * @since   4.0.0
-	 */
-	private function getActionlogModel(): ActionlogModel
-	{
-		return Factory::getApplication()->bootComponent('com_actionlogs')
-			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
-	}
+        // Load the parameters.
+        $this->setState('params', $params);
+    }
+
+    /**
+     * Method to fetch an instance of the action log model.
+     *
+     * @return  ActionlogModel
+     *
+     * @since   4.0.0
+     */
+    private function getActionlogModel(): ActionlogModel
+    {
+        return Factory::getApplication()->bootComponent('com_actionlogs')
+            ->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
+    }
 }

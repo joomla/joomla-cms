@@ -1,14 +1,17 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document\Feed;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Data object representing a feed enclosure
@@ -17,33 +20,33 @@ namespace Joomla\CMS\Document\Feed;
  */
 class FeedEnclosure
 {
-	/**
-	 * URL enclosure element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $url = '';
+    /**
+     * URL enclosure element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $url = '';
 
-	/**
-	 * Length enclosure element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $length = '';
+    /**
+     * Length enclosure element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $length = '';
 
-	/**
-	 * Type enclosure element
-	 *
-	 * required
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $type = '';
+    /**
+     * Type enclosure element
+     *
+     * required
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $type = '';
 }

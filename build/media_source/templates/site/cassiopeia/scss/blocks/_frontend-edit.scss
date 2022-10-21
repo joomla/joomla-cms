@@ -1,0 +1,14 @@
+// Frontend Editing
+
+.btn.jmodedit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: auto;
+  z-index: 900;
+  color: var(--cassiopeia-color-link);
+  background-color: rgba(255,255,255,.5);
+  border: 1px solid #58595a;
+  border-radius: .25rem;
+}
+

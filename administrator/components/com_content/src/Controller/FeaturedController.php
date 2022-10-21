@@ -1,17 +1,21 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Response\JsonResponse;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Featured content controller class.
@@ -20,78 +24,104 @@ use Joomla\CMS\Language\Text;
  */
 class FeaturedController extends ArticlesController
 {
-	/**
-	 * Removes an item.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function delete()
-	{
-		// Check for request forgeries
-		$this->checkToken();
+    /**
+     * Removes an item.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function delete()
+    {
+        // Check for request forgeries
+        $this->checkToken();
 
-		$user = $this->app->getIdentity();
-		$ids  = $this->input->get('cid', array(), 'array');
+        $user = $this->app->getIdentity();
+        $ids  = (array) $this->input->get('cid', array(), 'int');
 
-		// Access checks.
-		foreach ($ids as $i => $id)
-		{
-			if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id))
-			{
-				// Prune items that you can't delete.
-				unset($ids[$i]);
-				$this->app->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
-			}
-		}
+        // Access checks.
+        foreach ($ids as $i => $id) {
+            // Remove zero value resulting from input filter
+            if ($id === 0) {
+                unset($ids[$i]);
 
-		if (empty($ids))
-		{
-			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
-		}
-		else
-		{
-			/** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
-			$model = $this->getModel();
+                continue;
+            }
 
-			// Remove the items.
-			if (!$model->featured($ids, 0))
-			{
-				$this->app->enqueueMessage($model->getError(), 'error');
-			}
-		}
+            if (!$user->authorise('core.delete', 'com_content.article.' . (int) $id)) {
+                // Prune items that you can't delete.
+                unset($ids[$i]);
+                $this->app->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
+            }
+        }
 
-		$this->setRedirect('index.php?option=com_content&view=featured');
-	}
+        if (empty($ids)) {
+            $this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+        } else {
+            /** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
+            $model = $this->getModel();
 
-	/**
-	 * Method to publish a list of articles.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.0
-	 */
-	public function publish()
-	{
-		parent::publish();
+            // Remove the items.
+            if (!$model->featured($ids, 0)) {
+                $this->app->enqueueMessage($model->getError(), 'error');
+            }
+        }
 
-		$this->setRedirect('index.php?option=com_content&view=featured');
-	}
+        $this->setRedirect('index.php?option=com_content&view=featured');
+    }
 
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
-	 *
-	 * @since   1.6
-	 */
-	public function getModel($name = 'Feature', $prefix = 'Administrator', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, $config);
-	}
+    /**
+     * Method to publish a list of articles.
+     *
+     * @return  void
+     *
+     * @since   1.0
+     */
+    public function publish()
+    {
+        parent::publish();
+
+        $this->setRedirect('index.php?option=com_content&view=featured');
+    }
+
+    /**
+     * Method to get a model object, loading it if required.
+     *
+     * @param   string  $name    The model name. Optional.
+     * @param   string  $prefix  The class prefix. Optional.
+     * @param   array   $config  Configuration array for model. Optional.
+     *
+     * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
+     *
+     * @since   1.6
+     */
+    public function getModel($name = 'Feature', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    {
+        return parent::getModel($name, $prefix, $config);
+    }
+
+    /**
+     * Method to get the number of published featured articles for quickicons
+     *
+     * @return  string  The JSON-encoded amount of published featured articles
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getQuickiconContent()
+    {
+        $model = $this->getModel('articles');
+
+        $model->setState('filter.published', 1);
+        $model->setState('filter.featured', 1);
+
+        $amount = (int) $model->getTotal();
+
+        $result = [];
+
+        $result['amount'] = $amount;
+        $result['sronly'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON_SRONLY', $amount);
+        $result['name'] = Text::plural('COM_CONTENT_FEATURED_N_QUICKICON', $amount);
+
+        echo new JsonResponse($result);
+    }
 }

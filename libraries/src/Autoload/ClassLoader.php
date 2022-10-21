@@ -1,16 +1,19 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Autoload;
 
-\defined('_JEXEC') or die;
-
 use Composer\Autoload\ClassLoader as ComposerClassLoader;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Decorate Composer ClassLoader for Joomla!
@@ -22,42 +25,41 @@ use Composer\Autoload\ClassLoader as ComposerClassLoader;
  */
 class ClassLoader
 {
-	/**
-	 * The Composer class loader
-	 *
-	 * @var    ComposerClassLoader
-	 * @since  3.4
-	 */
-	private $loader;
+    /**
+     * The Composer class loader
+     *
+     * @var    ComposerClassLoader
+     * @since  3.4
+     */
+    private $loader;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   ComposerClassLoader  $loader  Composer autoloader
-	 *
-	 * @since   3.4
-	 */
-	public function __construct(ComposerClassLoader $loader)
-	{
-		$this->loader = $loader;
-	}
+    /**
+     * Constructor
+     *
+     * @param   ComposerClassLoader  $loader  Composer autoloader
+     *
+     * @since   3.4
+     */
+    public function __construct(ComposerClassLoader $loader)
+    {
+        $this->loader = $loader;
+    }
 
-	/**
-	 * Loads the given class or interface.
-	 *
-	 * @param   string  $class  The name of the class
-	 *
-	 * @return  boolean|null  True if loaded, null otherwise
-	 *
-	 * @since   3.4
-	 */
-	public function loadClass($class)
-	{
-		if ($result = $this->loader->loadClass($class))
-		{
-			\JLoader::applyAliasFor($class);
-		}
+    /**
+     * Loads the given class or interface.
+     *
+     * @param   string  $class  The name of the class
+     *
+     * @return  boolean|null  True if loaded, null otherwise
+     *
+     * @since   3.4
+     */
+    public function loadClass($class)
+    {
+        if ($result = $this->loader->loadClass($class)) {
+            \JLoader::applyAliasFor($class);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }

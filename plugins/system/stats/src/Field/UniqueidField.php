@@ -1,15 +1,18 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Stats\Field;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Unique ID Field class for the Stats Plugin.
@@ -18,19 +21,19 @@ namespace Joomla\Plugin\System\Stats\Field;
  */
 class UniqueidField extends AbstractStatsField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $type = 'Uniqueid';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $type = 'Uniqueid';
 
-	/**
-	 * Name of the layout being used to render the field
-	 *
-	 * @var    string
-	 * @since  3.5
-	 */
-	protected $layout = 'field.uniqueid';
+    /**
+     * Name of the layout being used to render the field
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $layout = 'field.uniqueid';
 }

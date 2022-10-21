@@ -1,78 +1,101 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Form Field class for the Joomla Platform.
  * Supports a one line text field.
  *
- * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
+ * @link   https://html.spec.whatwg.org/multipage/input.html#text-(type=text)-state-and-search-state-(type=search)
  * @since  1.7.0
  */
 class NoteField extends FormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $type = 'Note';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    protected $type = 'Note';
 
-	/**
-	 * Method to get the field label markup.
-	 *
-	 * @return  string  The field label markup.
-	 *
-	 * @since   1.7.0
-	 */
-	protected function getLabel()
-	{
-		if (empty($this->element['label']) && empty($this->element['description']))
-		{
-			return '';
-		}
+    /**
+     * Hide the label when rendering the form field.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $hiddenLabel = true;
 
-		$title = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
-		$heading = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
-		$description = (string) $this->element['description'];
-		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$close = (string) $this->element['close'];
+    /**
+     * Hide the description when rendering the form field.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $hiddenDescription = true;
 
-		$html = array();
+    /**
+     * Method to get the field label markup.
+     *
+     * @return  string  The field label markup.
+     *
+     * @since   1.7.0
+     */
+    protected function getLabel()
+    {
+        if (empty($this->element['label']) && empty($this->element['description'])) {
+            return '';
+        }
 
-		if ($close)
-		{
-			$close = $close === 'true' ? 'alert' : $close;
-			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
-		}
+        $html  = [];
+        $class = [];
 
-		$html[] = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
-		$html[] = !empty($description) ? Text::_($description) : '';
+        if (!empty($this->class)) {
+            $class[] = $this->class;
+        }
 
-		return '</div><div ' . $class . '>' . implode('', $html);
-	}
+        if ($close = (string) $this->element['close']) {
+            HTMLHelper::_('bootstrap.alert');
+            $close   = $close === 'true' ? 'alert' : $close;
+            $html[]  = '<button type="button" class="btn-close" data-bs-dismiss="' . $close . '"></button>';
+            $class[] = 'alert-dismissible show';
+        }
 
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   1.7.0
-	 */
-	protected function getInput()
-	{
-		return '';
-	}
+        $class       = $class ? ' class="' . implode(' ', $class) . '"' : '';
+        $title       = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
+        $heading     = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
+        $description = (string) $this->element['description'];
+        $html[]      = !empty($title) ? '<' . $heading . '>' . Text::_($title) . '</' . $heading . '>' : '';
+        $html[]      = !empty($description) ? Text::_($description) : '';
+
+        return '</div><div ' . $class . '>' . implode('', $html);
+    }
+
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   1.7.0
+     */
+    protected function getInput()
+    {
+        return '';
+    }
 }

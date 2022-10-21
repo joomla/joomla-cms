@@ -1,21 +1,23 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Controller;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Profile controller class for Users.
@@ -24,240 +26,201 @@ use Joomla\CMS\Uri\Uri;
  */
 class ProfileController extends BaseController
 {
-	/**
-	 * Method to check out a user for editing and redirect to the edit form.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	public function edit()
-	{
-		$app         = $this->app;
-		$user        = Factory::getUser();
-		$loginUserId = (int) $user->get('id');
+    /**
+     * Method to check out a user for editing and redirect to the edit form.
+     *
+     * @return  boolean
+     *
+     * @since   1.6
+     */
+    public function edit()
+    {
+        $app         = $this->app;
+        $user        = $this->app->getIdentity();
+        $loginUserId = (int) $user->get('id');
 
-		// Get the previous user id (if any) and the current user id.
-		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId     = $this->input->getInt('user_id');
+        // Get the current user id.
+        $userId     = $this->input->getInt('user_id');
 
-		// Check if the user is trying to edit another users profile.
-		if ($userId != $loginUserId)
-		{
-			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-			$app->setHeader('status', 403, true);
+        // Check if the user is trying to edit another users profile.
+        if ($userId != $loginUserId) {
+            $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $app->setHeader('status', 403, true);
 
-			return false;
-		}
+            return false;
+        }
 
-		$cookieLogin = $user->get('cookieLogin');
+        $cookieLogin = $user->get('cookieLogin');
 
-		// Check if the user logged in with a cookie
-		if (!empty($cookieLogin))
-		{
-			// If so, the user must login to edit the password and other data.
-			$app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
-			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
+        // Check if the user logged in with a cookie
+        if (!empty($cookieLogin)) {
+            // If so, the user must login to edit the password and other data.
+            $app->enqueueMessage(Text::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+            $this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
-			return false;
-		}
+            return false;
+        }
 
-		// Set the user id for the user to edit in the session.
-		$app->setUserState('com_users.edit.profile.id', $userId);
+        // Set the user id for the user to edit in the session.
+        $app->setUserState('com_users.edit.profile.id', $userId);
 
-		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
-		$model = $this->getModel('Profile', 'Site');
+        // Redirect to the edit screen.
+        $this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit', false));
 
-		// Check out the user.
-		if ($userId)
-		{
-			$model->checkout($userId);
-		}
+        return true;
+    }
 
-		// Check in the previous user.
-		if ($previousId)
-		{
-			$model->checkin($previousId);
-		}
+    /**
+     * Method to save a user's profile data.
+     *
+     * @return  void|boolean
+     *
+     * @since   1.6
+     * @throws  \Exception
+     */
+    public function save()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-		// Redirect to the edit screen.
-		$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit', false));
+        $app    = $this->app;
 
-		return true;
-	}
+        /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
+        $model  = $this->getModel('Profile', 'Site');
+        $user   = $this->app->getIdentity();
+        $userId = (int) $user->get('id');
 
-	/**
-	 * Method to save a user's profile data.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 * @throws  \Exception
-	 */
-	public function save()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
+        // Get the user data.
+        $requestData = $app->input->post->get('jform', array(), 'array');
 
-		$app    = $this->app;
+        // Force the ID to this user.
+        $requestData['id'] = $userId;
 
-		/** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
-		$model  = $this->getModel('Profile', 'Site');
-		$user   = Factory::getUser();
-		$userId = (int) $user->get('id');
+        // Validate the posted data.
+        $form = $model->getForm();
 
-		// Get the user data.
-		$requestData = $app->input->post->get('jform', array(), 'array');
+        if (!$form) {
+            throw new \Exception($model->getError(), 500);
+        }
 
-		// Force the ID to this user.
-		$requestData['id'] = $userId;
+        // Send an object which can be modified through the plugin event
+        $objData = (object) $requestData;
+        $app->triggerEvent(
+            'onContentNormaliseRequestData',
+            array('com_users.user', $objData, $form)
+        );
+        $requestData = (array) $objData;
 
-		// Validate the posted data.
-		$form = $model->getForm();
+        // Validate the posted data.
+        $data = $model->validate($form, $requestData);
 
-		if (!$form)
-		{
-			throw new \Exception($model->getError(), 500);
-		}
+        // Check for errors.
+        if ($data === false) {
+            // Get the validation messages.
+            $errors = $model->getErrors();
 
-		// Send an object which can be modified through the plugin event
-		$objData = (object) $requestData;
-		$app->triggerEvent(
-			'onContentNormaliseRequestData',
-			array('com_users.user', $objData, $form)
-		);
-		$requestData = (array) $objData;
+            // Push up to three validation messages out to the user.
+            for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+                if ($errors[$i] instanceof \Exception) {
+                    $app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+                } else {
+                    $app->enqueueMessage($errors[$i], 'warning');
+                }
+            }
 
-		// Validate the posted data.
-		$data = $model->validate($form, $requestData);
+            // Unset the passwords.
+            unset($requestData['password1'], $requestData['password2']);
 
-		// Check for errors.
-		if ($data === false)
-		{
-			// Get the validation messages.
-			$errors = $model->getErrors();
+            // Save the data in the session.
+            $app->setUserState('com_users.edit.profile.data', $requestData);
 
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if ($errors[$i] instanceof \Exception)
-				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
-				{
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
+            // Redirect back to the edit screen.
+            $userId = (int) $app->getUserState('com_users.edit.profile.id');
+            $this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
-			// Unset the passwords.
-			unset($requestData['password1'], $requestData['password2']);
+            return false;
+        }
 
-			// Save the data in the session.
-			$app->setUserState('com_users.edit.profile.data', $requestData);
+        // Attempt to save the data.
+        $return = $model->save($data);
 
-			// Redirect back to the edit screen.
-			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+        // Check for errors.
+        if ($return === false) {
+            // Save the data in the session.
+            $app->setUserState('com_users.edit.profile.data', $data);
 
-			return false;
-		}
+            // Redirect back to the edit screen.
+            $userId = (int) $app->getUserState('com_users.edit.profile.id');
+            $this->setMessage(Text::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
+            $this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
 
-		// Attempt to save the data.
-		$return = $model->save($data);
+            return false;
+        }
 
-		// Check for errors.
-		if ($return === false)
-		{
-			// Save the data in the session.
-			$app->setUserState('com_users.edit.profile.data', $data);
+        // Redirect the user and adjust session state based on the chosen task.
+        switch ($this->getTask()) {
+            case 'apply':
+                // Check out the profile.
+                $app->setUserState('com_users.edit.profile.id', $return);
 
-			// Redirect back to the edit screen.
-			$userId = (int) $app->getUserState('com_users.edit.profile.id');
-			$this->setMessage(Text::sprintf('COM_USERS_PROFILE_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(Route::_('index.php?option=com_users&view=profile&layout=edit&user_id=' . $userId, false));
+                // Redirect back to the edit screen.
+                $this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
 
-			return false;
-		}
+                $redirect = $app->getUserState('com_users.edit.profile.redirect');
 
-		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->getTask())
-		{
-			case 'apply':
-				// Check out the profile.
-				$app->setUserState('com_users.edit.profile.id', $return);
-				$model->checkout($return);
+                // Don't redirect to an external URL.
+                if (!Uri::isInternal($redirect)) {
+                    $redirect = null;
+                }
 
-				// Redirect back to the edit screen.
-				$this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
+                if (!$redirect) {
+                    $redirect = 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1';
+                }
 
-				$redirect = $app->getUserState('com_users.edit.profile.redirect');
+                $this->setRedirect(Route::_($redirect, false));
+                break;
 
-				// Don't redirect to an external URL.
-				if (!Uri::isInternal($redirect))
-				{
-					$redirect = null;
-				}
+            default:
+                // Clear the profile id from the session.
+                $app->setUserState('com_users.edit.profile.id', null);
 
-				if (!$redirect)
-				{
-					$redirect = 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1';
-				}
+                $redirect = $app->getUserState('com_users.edit.profile.redirect');
 
-				$this->setRedirect(Route::_($redirect, false));
-				break;
+                // Don't redirect to an external URL.
+                if (!Uri::isInternal($redirect)) {
+                    $redirect = null;
+                }
 
-			default:
-				// Check in the profile.
-				$userId = (int) $app->getUserState('com_users.edit.profile.id');
+                if (!$redirect) {
+                    $redirect = 'index.php?option=com_users&view=profile&user_id=' . $return;
+                }
 
-				if ($userId)
-				{
-					$model->checkin($userId);
-				}
+                // Redirect to the list screen.
+                $this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
+                $this->setRedirect(Route::_($redirect, false));
+                break;
+        }
 
-				// Clear the profile id from the session.
-				$app->setUserState('com_users.edit.profile.id', null);
+        // Flush the data from the session.
+        $app->setUserState('com_users.edit.profile.data', null);
+    }
 
-				$redirect = $app->getUserState('com_users.edit.profile.redirect');
+    /**
+     * Method to cancel an edit.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function cancel()
+    {
+        // Check for request forgeries.
+        $this->checkToken();
 
-				// Don't redirect to an external URL.
-				if (!Uri::isInternal($redirect))
-				{
-					$redirect = null;
-				}
+        // Flush the data from the session.
+        $this->app->setUserState('com_users.edit.profile', null);
 
-				if (!$redirect)
-				{
-					$redirect = 'index.php?option=com_users&view=profile&user_id=' . $return;
-				}
-
-				// Redirect to the list screen.
-				$this->setMessage(Text::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(Route::_($redirect, false));
-				break;
-		}
-
-		// Flush the data from the session.
-		$app->setUserState('com_users.edit.profile.data', null);
-	}
-
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function cancel()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
-
-		// Flush the data from the session.
-		$this->app->setUserState('com_users.edit.profile', null);
-
-		// Redirect to user profile.
-		$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
-	}
+        // Redirect to user profile.
+        $this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
+    }
 }

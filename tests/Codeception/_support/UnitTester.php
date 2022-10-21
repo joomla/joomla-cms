@@ -1,12 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  UnitTester
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// phpcs:ignoreFile
 use Codeception\Actor;
 use Codeception\Lib\Friend;
 
@@ -32,9 +34,9 @@ use Codeception\Lib\Friend;
  */
 class UnitTester extends Actor
 {
-	use _generated\UnitTesterActions;
+    use _generated\UnitTesterActions;
 
-	/**
-	 * Define custom actions here
-	 */
+    /**
+     * Define custom actions here
+     */
 }

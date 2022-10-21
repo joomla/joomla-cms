@@ -1,19 +1,22 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Fields\Administrator\Dispatcher;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * ComponentDispatcher class for com_fields
@@ -22,27 +25,26 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  */
 class Dispatcher extends ComponentDispatcher
 {
-	/**
-	 * Method to check component access permission
-	 *
-	 * @since   4.0.0
-	 *
-	 * @return  void
-	 */
-	protected function checkAccess()
-	{
-		$context   = $this->app->getUserStateFromRequest(
-			'com_fields.groups.context',
-			'context',
-			$this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD'),
-			'CMD'
-		);
+    /**
+     * Method to check component access permission
+     *
+     * @since   4.0.0
+     *
+     * @return  void
+     */
+    protected function checkAccess()
+    {
+        $context   = $this->app->getUserStateFromRequest(
+            'com_fields.groups.context',
+            'context',
+            $this->app->getUserStateFromRequest('com_fields.fields.context', 'context', 'com_content.article', 'CMD'),
+            'CMD'
+        );
 
-		$parts = FieldsHelper::extract($context);
+        $parts = FieldsHelper::extract($context);
 
-		if (!$parts || !$this->app->getIdentity()->authorise('core.manage', $parts[0]))
-		{
-			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-	}
+        if (!$parts || !$this->app->getIdentity()->authorise('core.manage', $parts[0])) {
+            throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
+        }
+    }
 }

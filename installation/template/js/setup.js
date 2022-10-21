@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ Joomla.checkDbCredentials = function() {
         loaderElement.parentNode.removeChild(loaderElement);
         console.error('Error in DB Check Endpoint');
         console.error(response);
-        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+        Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
 
         return false;
       }
@@ -106,12 +106,12 @@ Joomla.checkDbCredentials = function() {
         Joomla.renderMessages({'error': [response.message]});
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
-        // TODO: Convert to promises
+        // @todo: Convert to promises
         Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },
     onError:   function(xhr){
-      Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+      Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
       //Install.goToPage('summary');
       var loaderElement = document.querySelector('joomla-core-loader');
       loaderElement.parentNode.removeChild(loaderElement);

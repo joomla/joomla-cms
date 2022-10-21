@@ -1,20 +1,22 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Extension Manager Discover View
@@ -23,78 +25,69 @@ use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as Installe
  */
 class HtmlView extends InstallerViewDefault
 {
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  Template
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function display($tpl = null)
-	{
-		// Run discover from the model.
-		if (!$this->checkExtensions())
-		{
-			$this->getModel('discover')->discover();
-		}
+    /**
+     * Is this view an Empty State
+     *
+     * @var  boolean
+     * @since 4.0.0
+     */
+    private $isEmptyState = false;
 
-		// Get data from the model.
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  Template
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function display($tpl = null)
+    {
+        // Run discover from the model.
+        if (!$this->getModel()->checkExtensions()) {
+            $this->getModel()->discover();
+        }
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Get data from the model.
+        $this->items         = $this->get('Items');
+        $this->pagination    = $this->get('Pagination');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
 
-		parent::display($tpl);
-	}
+        if (!count($this->items) && $this->isEmptyState = $this->get('IsEmptyState')) {
+            $this->setLayout('emptystate');
+        }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function addToolbar()
-	{
-		/*
-		 * Set toolbar items for the page.
-		 */
-		ToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true);
-		ToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
-		ToolbarHelper::divider();
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		parent::addToolbar();
+        parent::display($tpl);
+    }
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
-	}
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return  void
+     *
+     * @since   3.1
+     */
+    protected function addToolbar()
+    {
+        /*
+         * Set toolbar items for the page.
+         */
+        if (!$this->isEmptyState) {
+            ToolbarHelper::custom('discover.install', 'upload', '', 'JTOOLBAR_INSTALL', true);
+        }
 
-	/**
-	 * Check extensions.
-	 *
-	 * Checks uninstalled extensions in extensions table.
-	 *
-	 * @return  boolean  True if there are discovered extensions on the database.
-	 *
-	 * @since   3.5
-	 */
-	public function checkExtensions()
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('state') . ' = -1');
-		$db->setQuery($query);
-		$discoveredExtensions = $db->loadObjectList();
+        ToolbarHelper::custom('discover.refresh', 'refresh', '', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
+        ToolbarHelper::divider();
 
-		return (count($discoveredExtensions) === 0) ? false : true;
-	}
+        parent::addToolbar();
+
+        ToolbarHelper::help('Extensions:_Discover');
+    }
 }

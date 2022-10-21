@@ -1,8 +1,9 @@
 <?php
+
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,15 +16,14 @@
  */
 define('JOOMLA_MINIMUM_PHP', '7.2.5');
 
-if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
-{
-	die(
-		str_replace(
-			array('{{PHP_VERSION}}', '{{BASEPATH}}'),
-			array(JOOMLA_MINIMUM_PHP, 'http://' . $_SERVER['SERVER_NAME'] . '/'),
-			file_get_contents(dirname(__FILE__) . '/../templates/system/incompatible.html')
-		)
-	);
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
+    die(
+        str_replace(
+            '{{phpversion}}',
+            JOOMLA_MINIMUM_PHP,
+            file_get_contents(dirname(__FILE__) . '/../templates/system/incompatible.html')
+        )
+    );
 }
 
 /**

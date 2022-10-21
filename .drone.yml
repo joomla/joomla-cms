@@ -5,20 +5,42 @@ name: default
 clone:
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    settings:
-      restore: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+  - name: setup
+    image: joomlaprojects/docker-images:php7.4
     volumes:
-      - name: cache
-        path: /cache
+      - name: certificates
+        path: /certificates
+    commands:
+      - cp -v tests/Codeception/_data/certs/* /certificates/
+
+  - name: openldap
+    image: bitnami/openldap:latest
+    detach: true
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: customuser
+      LDAP_PASSWORDS: custompassword
+      LDAP_ENABLE_TLS: yes
+      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
+      LDAP_TLS_KEY_FILE: /certificates/openldap.key
+      LDAP_TLS_CA_FILE: /certificates/CA.crt
+      BITNAMI_DEBUG: true
+      LDAP_CONFIG_ADMIN_ENABLED: yes
+      LDAP_CONFIG_ADMIN_USERNAME: admin
+      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
 
   - name: composer
-    image: joomlaprojects/docker-images:php7.3-composer
-    depends_on: [ restore-cache ]
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: composer-cache
+        path: /tmp/composer-cache
     commands:
       - composer validate --no-check-all --strict
       - composer install --no-progress --no-suggest
@@ -28,26 +50,26 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
-  - name: npm
-    image: node:current-alpine
+  - name: phan
+    image: joomlaprojects/docker-images:php7.4-ast
     depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/phan
+
+  - name: npm
+    image: node:16-bullseye-slim
+    depends_on: [ phpcs ]
+    volumes:
+      - name: npm-cache
+        path: /tmp/npm-cache
+    environment:
+      npm_config_cache: /tmp/npm-cache
     commands:
       - npm ci --unsafe-perm
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    depends_on: [ npm ]
-    settings:
-      rebuild: true
-      mount:
-        - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
-    volumes:
-      - name: cache
-        path: /cache
 
   - name: php72-unit
     depends_on: [ phpcs ]
@@ -73,7 +95,13 @@ steps:
   - name: php80-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php8.0
-    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Unit
+
+  - name: php81-unit
+    depends_on: [ phpcs ]
+    image: joomlaprojects/docker-images:php8.1
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
@@ -102,7 +130,20 @@ steps:
   - name: php80-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.0
-    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php81-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration
+
+  - name: php82-integration
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -131,77 +172,215 @@ steps:
   - name: php80-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php8.0
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
+  - name: php81-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.1
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: php82-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.2
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+
+  - name: scss-cs
+    depends_on: [ npm ]
+    image: node:current-alpine
+    commands:
+      - npm run lint:css
+
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    image: node:current-alpine
     commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
       - npm run lint:js
 
-  - name: javascript-tests
-    depends_on: [ npm ]
+  - name: prepare_codeception_tests
+    depends_on:
+      - npm
     image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - export DISPLAY=:0
-      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
-      - sleep 3
-      - fluxbox  > /dev/null 2>&1 &
-      - npm run test
+      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
+      - php libraries/vendor/bin/codecept build
 
-  - name: system-tests-mysql
-    depends_on: [ javascript-tests ]
+  - name: phpmin-api-mysql
+    depends_on:
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
 
-  - name: system-tests-mysql8
-    depends_on: [ system-tests-mysql ]
-    image: joomlaprojects/docker-images:systemtests
+  - name: phpmax-api-mysql
+    depends_on:
+      - prepare_codeception_tests
+    image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
 
-  - name: system-tests-postgres
-    depends_on: [ system-tests-mysql8 ]
-    image: joomlaprojects/docker-images:systemtests
-    environment:
-      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
-    commands:
-      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
+#  - name: phpnext-api-mysql
+#    depends_on:
+#      - phpmax-api-mysql
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
 
-  - name: api-tests
-    depends_on: [ system-tests-postgres ]
+  - name: phpmin-api-postgres
+    depends_on:
+      - prepare_codeception_tests
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+
+  - name: phpmax-api-postgres
+    depends_on:
+      - prepare_codeception_tests
+    image: joomlaprojects/docker-images:systemtests8.1
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
+
+#  - name: phpnext-api-postgres
+#    depends_on:
+#      - phpmin-api-postgres
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+
+  - name: phpmin-system-mysql
+    depends_on:
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql mysqli mysql
+
+  - name: phpmax-system-mysql
+    depends_on:
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:cypress8.1
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysqlmax mysqli mysql
+
+#  - name: phpnext-system-mysql
+#    depends_on:
+#      - phpmax-system-mysql
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysqlphpnext
+
+  - name: phpmin-system-postgres
+    depends_on:
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgres pgsql postgres
+
+  - name: phpmax-system-postgres
+    depends_on:
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+    image: joomlaprojects/docker-images:cypress8.1
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cpostgresmax pgsql postgres
+
+#  - name: phpnext-system-postgres
+#    depends_on:
+#      - phpmax-system-postgres
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgresphpnext
+
+  - name: phpmin-system-mysql8
+    depends_on:
+      - phpmax-system-mysql
+      - phpmax-system-postgres
+    image: joomlaprojects/docker-images:cypress
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8 mysqli mysql8
+
+  - name: phpmax-system-mysql8
+    depends_on:
+      - phpmax-system-mysql
+      - phpmax-system-postgres
+    image: joomlaprojects/docker-images:cypress8.1
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+    commands:
+      - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
+
+#  - name: phpnext-system-mysql8
+#    depends_on:
+#      - phpmax-system-mysql8
+#    image: joomlaprojects/docker-images:systemtests8.2
+#    failure: ignore
+#    environment:
+#      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
+#    commands:
+#      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8phpnext
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
-    depends_on: [ api-tests ]
+    depends_on:
+      #      - phpnext-system-mysql
+      #      - phpnext-system-mysql8
+      #      - phpnext-system-postgres
+      - phpmax-system-mysql
+      - phpmax-system-mysql8
+      - phpmax-system-postgres
+      - phpmin-system-mysql
+      - phpmin-system-mysql8
+      - phpmin-system-postgres
+      #      - phpnext-api-mysql
+      #      - phpnext-api-postgres
+      - phpmax-api-mysql
+      - phpmax-api-postgres
+      - phpmin-api-mysql
+      - phpmin-api-postgres
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
       FTP_PASSWORD:
         from_secret: ftppassword
       PLUGIN_HOSTNAME: ci.joomla.org:21
-      PLUGIN_SRC_DIR: /tests/Codeception/_output/
+      PLUGIN_SRC_DIR: /tests/cypress/output/
       PLUGIN_DEST_DIR: /artifacts
       PLUGIN_SECURE: false
       PLUGIN_EXCLUDE: ^\.git/$
@@ -213,34 +392,16 @@ steps:
       status:
         - failure
 
-  - name: analysis4x
-    image: rips/rips-cli:3.2.2
-    depends_on: [ api-tests ]
-    when:
-      repo:
-        - joomla/joomla-cms
-      branch:
-        - 4.0-dev
-    commands:
-      - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:list --table=scans --parameter filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start --progress --application=2 --threshold=0 --path=$(pwd) --remove-code --remove-upload --tag=$DRONE_REPO_NAMESPACE-$DRONE_BRANCH || { echo "Please contact the security team at security@joomla.org"; exit 1; }
-    environment:
-      RIPS_EMAIL:
-        from_secret: RIPS_EMAIL
-      RIPS_PASSWORD:
-        from_secret: RIPS_PASSWORD
-
-branches:
-  exclude: [ l10n_* ]
-
 volumes:
-- name: cache
-  host:
-    path: /tmp/cache
-- name: reference
-  host:
-    path: /tmp/reference
+  - name: composer-cache
+    host:
+      path: /tmp/composer-cache
+  - name: npm-cache
+    host:
+      path: /tmp/npm-cache
+  - name: certificates
+    host:
+      path: /tmp/certificates
 
 services:
   - name: mysql
@@ -259,12 +420,6 @@ services:
       MYSQL_PASSWORD: joomla_ut
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
-
-  - name: memcached
-    image: memcached:alpine
-
-  - name: redis
-    image: redis:alpine
 
   - name: postgres
     image: postgres:11-alpine
@@ -305,11 +460,70 @@ steps:
         path: /reference
     when:
       branch:
-        - 4.0-dev
+        - 4.3-dev
 
+---
+kind: pipeline
+name: nightly_build
+
+steps:
+  - name: prepare
+    image: joomlaprojects/docker-images:packager
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - composer --version
+      - mkdir -p transfer
+      - date +%s > transfer/$MINORVERSION-time.txt
+      - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+      - mv build/tmp/packages/* transfer/
+
+  - name: upload
+    image: joomlaprojects/docker-images:packager
+    environment:
+      nightly_key:
+        from_secret: nightly_key
+      nightly_user:
+        from_secret: nightly_user
+      nightly_host:
+        from_secret: nightly_host
+      RINGCENTRAL_WEBHOOK:
+        from_secret: notification_url
+    commands:
+      - export MINORVERSION=${DRONE_BRANCH%-*}
+      - mkdir -p ~/.ssh
+      - eval $(ssh-agent -s)
+      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - echo "$nightly_key" > ~/.ssh/id_rsa
+      - chmod 600 ~/.ssh/id_rsa
+      - ssh-add
+      - rclone config create nightly sftp host $nightly_host user $nightly_user port 22
+      - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
+      - rclone delete nightly:/home/devj/public_html/cache/com_content/
+      - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
+      - /bin/notify
+
+  - name: buildfailure
+    image: joomlaprojects/docker-images:packager
+    environment:
+      RINGCENTRAL_WEBHOOK:
+        from_secret: notification_url
+    commands:
+      - /bin/notify
+    when:
+      status:
+        - failure
+
+
+trigger:
+  event:
+    - cron
+    - custom
+  repo:
+    - joomla/joomla-cms
 
 ---
 kind: signature
-hmac: 8bdac051bafa54cc057ad9ef3a1901a1d25a23e5c496ea812862fd2a3cd4dfdf
+hmac: f496f213481b3afcec73da651fc838af21f76950954daac599e665ceb382cc2d
 
 ...

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,14 +18,13 @@ $wa->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.j
 
 ?>
 <iframe <?php echo $load; ?>
-	id="blockrandom-<?php echo $id; ?>"
-	name="<?php echo $target; ?>"
-	src="<?php echo $url; ?>"
-	width="<?php echo $width; ?>"
-	height="<?php echo $height; ?>"
-	scrolling="<?php echo $scroll; ?>"
-	frameborder="<?php echo $frameborder; ?>"
-	title="<?php echo $ititle; ?>"
-	class="mod-wrapper wrapper">
-	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
+    id="blockrandom-<?php echo $id; ?>"
+    name="<?php echo $target; ?>"
+    src="<?php echo $url; ?>"
+    width="<?php echo $width; ?>"
+    height="<?php echo $height; ?>"
+    loading="<?php echo $lazyloading; ?>"
+    title="<?php echo $ititle; ?>"
+    class="mod-wrapper wrapper">
+    <?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

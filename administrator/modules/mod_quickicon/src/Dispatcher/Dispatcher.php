@@ -1,18 +1,20 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Quickicon\Administrator\Dispatcher;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
-use Joomla\Module\Quickicon\Administrator\Helper\QuickIconHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Dispatcher class for mod_quickicon
@@ -21,19 +23,20 @@ use Joomla\Module\Quickicon\Administrator\Helper\QuickIconHelper;
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
-	/**
-	 * Returns the layout data.
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
+    /**
+     * Returns the layout data.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    protected function getLayoutData()
+    {
+        $data = parent::getLayoutData();
 
-		$data['buttons'] = QuickIconHelper::getButtons($data['params'], $this->getApplication());
+        $helper          = $this->app->bootModule('mod_quickicon', 'administrator')->getHelper('QuickIconHelper');
+        $data['buttons'] = $helper->getButtons($data['params'], $this->getApplication());
 
-		return $data;
-	}
+        return $data;
+    }
 }

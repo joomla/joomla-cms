@@ -1,0 +1,84 @@
+// Table
+
+.table {
+  thead {
+
+    th {
+      font-size: $label-font-size;
+    }
+
+    th,
+    td {
+      white-space: nowrap;
+
+      .sysinfo & {
+        white-space: normal;
+      }
+    }
+
+    a {
+      color: var(--template-link-color);
+
+      &#sorted {
+        font-weight: $medium-weight;
+        color: $gray-800;
+      }
+    }
+
+    .actions,
+    .actions-th1 {
+      @include media-breakpoint-down(md) {
+        width: 28%;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: $table-hover-bg;
+      }
+
+      &:last-of-type {
+        th,
+        td {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .itemnumber a.btn,
+    .itemnumber span.btn {
+      padding: .1rem .5rem;
+      text-decoration: none;
+    }
+
+    th {
+      font-weight: $medium-weight;
+    }
+
+    a:not(.badge):not(.btn):not(.dropdown-item) {
+      text-decoration: underline;
+    }
+  }
+
+  th,
+  td {
+    label {
+      margin-bottom: 0;
+    }
+
+    .inactive [class^="#{$jicon-css-prefix}-"],
+    .inactive [class*=" #{$jicon-css-prefix}-"],
+    .inactive [class^="#{$fa-css-prefix}-"],
+    .inactive [class*=" #{$fa-css-prefix}-"] {
+      color: $gray-400;
+    }
+  }
+
+  .j-main-container > & {
+    box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
+  }
+}

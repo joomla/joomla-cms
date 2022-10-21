@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,8 +15,8 @@ use Joomla\CMS\Language\Text;
 
 $form     = $displayData->getForm();
 $options  = array(
-	'formControl' => $form->getFormControl(),
-	'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
+    'formControl' => $form->getFormControl(),
+    'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
 );
 
 // Load JavaScript message titles

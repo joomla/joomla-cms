@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,12 +60,12 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
 ?>
 <div class="form-check form-check-inline">
-	<input
-		type="checkbox"
-		name="<?php echo $name; ?>"
-		id="<?php echo $id; ?>"
-		class="form-check-input<?php echo $class; ?>"
-		value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>"
-		<?php echo $checked . $disabled . $onclick . $onchange . $required . $autofocus . $dataAttribute; ?>
-	>
+    <input
+        type="checkbox"
+        name="<?php echo $name; ?>"
+        id="<?php echo $id; ?>"
+        class="form-check-input<?php echo $class; ?>"
+        value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>"
+        <?php echo $checked . $disabled . $onclick . $onchange . $required . $autofocus . $dataAttribute; ?>
+    >
 </div>

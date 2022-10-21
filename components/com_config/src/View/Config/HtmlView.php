@@ -1,19 +1,22 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Site\View\Config;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * View for the global configuration
@@ -22,60 +25,111 @@ use Joomla\Component\Config\Administrator\Controller\RequestController;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The form object
-	 *
-	 * @var   \JForm
-	 * @since 3.2
-	 */
-	public $form;
+    /**
+     * The form object
+     *
+     * @var   \Joomla\CMS\Form\Form
+     *
+     * @since 3.2
+     */
+    public $form;
 
-	/**
-	 * The data to be displayed in the form
-	 *
-	 * @var   array
-	 * @since 3.2
-	 */
-	public $data;
+    /**
+     * The data to be displayed in the form
+     *
+     * @var   array
+     *
+     * @since 3.2
+     */
+    public $data;
 
-	/**
-	 * Is the current user a super administrator?
-	 *
-	 * @var   boolean
-	 * @since 3.2
-	 */
-	protected $userIsSuperAdmin;
+    /**
+     * Is the current user a super administrator?
+     *
+     * @var   boolean
+     *
+     * @since 3.2
+     */
+    protected $userIsSuperAdmin;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @since   3.2
-	 */
-	public function display($tpl = null)
-	{
-		$user = Factory::getUser();
-		$this->userIsSuperAdmin = $user->authorise('core.admin');
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-		// Access backend com_config
-		$requestController = new RequestController;
+    /**
+     * The page parameters
+     *
+     * @var    \Joomla\Registry\Registry|null
+     *
+     * @since  4.0.0
+     */
+    protected $params = null;
 
-		// Execute backend controller
-		$serviceData = json_decode($requestController->getJson(), true);
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function display($tpl = null)
+    {
+        $user = $this->getCurrentUser();
+        $this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		$form = $this->getForm();
+        // Access backend com_config
+        $requestController = new RequestController();
 
-		if ($form)
-		{
-			$form->bind($serviceData);
-		}
+        // Execute backend controller
+        $serviceData = json_decode($requestController->getJson(), true);
 
-		$this->form = $form;
-		$this->data = $serviceData;
+        $form = $this->getForm();
 
-		return parent::display($tpl);
-	}
+        if ($form) {
+            $form->bind($serviceData);
+        }
+
+        $this->form = $form;
+        $this->data = $serviceData;
+
+        $this->_prepareDocument();
+
+        parent::display($tpl);
+    }
+
+    /**
+     * Prepares the document.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function _prepareDocument()
+    {
+        $params = Factory::getApplication()->getParams();
+
+        // Because the application sets a default page title, we need to get it
+        // right from the menu item itself
+
+        $this->setDocumentTitle($params->get('page_title', ''));
+
+        if ($params->get('menu-meta_description')) {
+            $this->document->setDescription($params->get('menu-meta_description'));
+        }
+
+        if ($params->get('robots')) {
+            $this->document->setMetaData('robots', $params->get('robots'));
+        }
+
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
+        $this->params        = &$params;
+    }
 }

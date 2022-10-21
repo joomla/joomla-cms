@@ -1,15 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
@@ -20,6 +19,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Newsfeeds component
  *
@@ -27,333 +30,276 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The model state
-	 *
-	 * @var     object
-	 * @since   1.6
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var     object
+     *
+     * @since   1.6
+     */
+    protected $state;
 
-	/**
-	 * The newsfeed item
-	 *
-	 * @var     object
-	 * @since   1.6
-	 */
-	protected $item;
+    /**
+     * The newsfeed item
+     *
+     * @var     object
+     *
+     * @since   1.6
+     */
+    protected $item;
 
-	/**
-	 * UNUSED?
-	 *
-	 * @var     boolean
-	 * @since   1.6
-	 */
-	protected $print;
+    /**
+     * UNUSED?
+     *
+     * @var     boolean
+     *
+     * @since   1.6
+     */
+    protected $print;
 
-	/**
-	 * The current user instance
-	 *
-	 * @var    \JUser|null
-	 * @since  4.0.0
-	 */
-	protected $user = null;
+    /**
+     * The current user instance
+     *
+     * @var    \Joomla\CMS\User\User|null
+     *
+     * @since  4.0.0
+     */
+    protected $user = null;
 
-	/**
-	 * The page class suffix
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $pageclass_sfx = '';
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-	/**
-	 * The page parameters
-	 *
-	 * @var    \Joomla\Registry\Registry|null
-	 * @since  4.0.0
-	 */
-	protected $params;
+    /**
+     * The page parameters
+     *
+     * @var    \Joomla\Registry\Registry|null
+     *
+     * @since  4.0.0
+     */
+    protected $params;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @since   1.6
-	 */
-	public function display($tpl = null)
-	{
-		$app  = Factory::getApplication();
-		$user = Factory::getUser();
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    public function display($tpl = null)
+    {
+        $app  = Factory::getApplication();
+        $user = $this->getCurrentUser();
 
-		// Get view related request variables.
-		$print = $app->input->getBool('print');
+        // Get view related request variables.
+        $print = $app->input->getBool('print');
 
-		// Get model data.
-		$state = $this->get('State');
-		$item  = $this->get('Item');
+        // Get model data.
+        $state = $this->get('State');
+        $item  = $this->get('Item');
 
-		if ($item)
-		{
-			// Get Category Model data
-			$categoryModel = $app->bootComponent('com_newsfeeds')
-				->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => true]);
-			$categoryModel->setState('category.id', $item->catid);
-			$categoryModel->setState('list.ordering', 'a.name');
-			$categoryModel->setState('list.direction', 'asc');
+        // Check for errors.
+        // @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-			// @TODO: $items is not used. Remove this line?
-			$items = $categoryModel->getItems();
-		}
+        // Add router helpers.
+        $item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+        $item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
+        $item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
-		// Check for errors.
-		// @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        // Merge newsfeed params. If this is single-newsfeed view, menu params override newsfeed params
+        // Otherwise, newsfeed params override menu item params
+        $params = $state->get('params');
+        $newsfeed_params = clone $item->params;
+        $active = $app->getMenu()->getActive();
+        $temp = clone $params;
 
-		// Add router helpers.
-		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-		$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+        // Check to see which parameters should take priority
+        if ($active) {
+            $currentLink = $active->link;
 
-		// Merge newsfeed params. If this is single-newsfeed view, menu params override newsfeed params
-		// Otherwise, newsfeed params override menu item params
-		$params = $state->get('params');
-		$newsfeed_params = clone $item->params;
-		$active = $app->getMenu()->getActive();
-		$temp = clone $params;
+            // If the current view is the active item and a newsfeed view for this feed, then the menu item params take priority
+            if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . (string) $item->id)) {
+                // $item->params are the newsfeed params, $temp are the menu item params
+                // Merge so that the menu item params take priority
+                $newsfeed_params->merge($temp);
+                $item->params = $newsfeed_params;
 
-		// Check to see which parameters should take priority
-		if ($active)
-		{
-			$currentLink = $active->link;
+                // Load layout from active query (in case it is an alternative menu item)
+                if (isset($active->query['layout'])) {
+                    $this->setLayout($active->query['layout']);
+                }
+            } else {
+                // Current view is not a single newsfeed, so the newsfeed params take priority here
+                // Merge the menu item params with the newsfeed params so that the newsfeed params take priority
+                $temp->merge($newsfeed_params);
+                $item->params = $temp;
 
-			// If the current view is the active item and a newsfeed view for this feed, then the menu item params take priority
-			if (strpos($currentLink, 'view=newsfeed') && strpos($currentLink, '&id=' . (string) $item->id))
-			{
-				// $item->params are the newsfeed params, $temp are the menu item params
-				// Merge so that the menu item params take priority
-				$newsfeed_params->merge($temp);
-				$item->params = $newsfeed_params;
+                // Check for alternative layouts (since we are not in a single-newsfeed menu item)
+                if ($layout = $item->params->get('newsfeed_layout')) {
+                    $this->setLayout($layout);
+                }
+            }
+        } else {
+            // Merge so that newsfeed params take priority
+            $temp->merge($newsfeed_params);
+            $item->params = $temp;
 
-				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout']))
-				{
-					$this->setLayout($active->query['layout']);
-				}
-			}
-			else
-			{
-				// Current view is not a single newsfeed, so the newsfeed params take priority here
-				// Merge the menu item params with the newsfeed params so that the newsfeed params take priority
-				$temp->merge($newsfeed_params);
-				$item->params = $temp;
+            // Check for alternative layouts (since we are not in a single-newsfeed menu item)
+            if ($layout = $item->params->get('newsfeed_layout')) {
+                $this->setLayout($layout);
+            }
+        }
 
-				// Check for alternative layouts (since we are not in a single-newsfeed menu item)
-				if ($layout = $item->params->get('newsfeed_layout'))
-				{
-					$this->setLayout($layout);
-				}
-			}
-		}
-		else
-		{
-			// Merge so that newsfeed params take priority
-			$temp->merge($newsfeed_params);
-			$item->params = $temp;
+        // Check the access to the newsfeed
+        $levels = $user->getAuthorisedViewLevels();
 
-			// Check for alternative layouts (since we are not in a single-newsfeed menu item)
-			if ($layout = $item->params->get('newsfeed_layout'))
-			{
-				$this->setLayout($layout);
-			}
-		}
+        if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels)))) {
+            $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $app->setHeader('status', 403, true);
 
-		// Check the access to the newsfeed
-		$levels = $user->getAuthorisedViewLevels();
+            return;
+        }
 
-		if (!in_array($item->access, $levels) || (in_array($item->access, $levels) && (!in_array($item->category_access, $levels))))
-		{
-			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-			$app->setHeader('status', 403, true);
+        // Get the current menu item
+        $params = $app->getParams();
 
-			return;
-		}
+        $params->merge($item->params);
 
-		// Get the current menu item
-		$params = $app->getParams();
+        try {
+            $feed = new FeedFactory();
+            $this->rssDoc = $feed->getFeed($item->link);
+        } catch (\InvalidArgumentException $e) {
+            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+        } catch (\RuntimeException $e) {
+            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+        }
 
-		$params->merge($item->params);
+        if (empty($this->rssDoc)) {
+            $msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+        }
 
-		try
-		{
-			$feed = new FeedFactory;
-			$this->rssDoc = $feed->getFeed($item->link);
-		}
-		catch (\InvalidArgumentException $e)
-		{
-			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
-		}
-		catch (\RuntimeException $e)
-		{
-			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
-		}
+        $feed_display_order = $params->get('feed_display_order', 'des');
 
-		if (empty($this->rssDoc))
-		{
-			$msg = Text::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
-		}
+        if ($feed_display_order === 'asc') {
+            $this->rssDoc->reverseItems();
+        }
 
-		$feed_display_order = $params->get('feed_display_order', 'des');
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
-		if ($feed_display_order === 'asc')
-		{
-			$this->rssDoc->reverseItems();
-		}
+        $this->params = $params;
+        $this->state  = $state;
+        $this->item   = $item;
+        $this->user   = $user;
 
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+        if (!empty($msg)) {
+            $this->msg = $msg;
+        }
 
-		$this->params = $params;
-		$this->state  = $state;
-		$this->item   = $item;
-		$this->user   = $user;
+        $this->print = $print;
 
-		if (!empty($msg))
-		{
-			$this->msg = $msg;
-		}
+        $item->tags = new TagsHelper();
+        $item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
-		$this->print = $print;
+        // Increment the hit counter of the newsfeed.
+        $model = $this->getModel();
+        $model->hit();
 
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+        $this->_prepareDocument();
 
-		// Increment the hit counter of the newsfeed.
-		$model = $this->getModel();
-		$model->hit();
+        parent::display($tpl);
+    }
 
-		$this->_prepareDocument();
+    /**
+     * Prepares the document
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function _prepareDocument()
+    {
+        $app     = Factory::getApplication();
+        $pathway = $app->getPathway();
 
-		return parent::display($tpl);
-	}
+        // Because the application sets a default page title,
+        // we need to get it from the menu item itself
+        $menu = $app->getMenu()->getActive();
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function _prepareDocument()
-	{
-		$app     = Factory::getApplication();
-		$menus   = $app->getMenu();
-		$pathway = $app->getPathway();
-		$title   = null;
+        if ($menu) {
+            $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+        } else {
+            $this->params->def('page_heading', Text::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
+        }
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+        $title = $this->params->get('page_title', '');
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', Text::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
-		}
+        $id = (int) @$menu->query['id'];
 
-		$title = $this->params->get('page_title', '');
+        // If the menu item does not concern this newsfeed
+        if (
+            $menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] !== 'newsfeed'
+            || $id != $this->item->id)
+        ) {
+            // If this is not a single newsfeed menu item, set the page title to the newsfeed title
+            if ($this->item->name) {
+                $title = $this->item->name;
+            }
 
-		$id = (int) @$menu->query['id'];
+            $path = array(array('title' => $this->item->name, 'link' => ''));
+            $category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
 
-		// If the menu item does not concern this newsfeed
-		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] !== 'newsfeed'
-			|| $id != $this->item->id))
-		{
-			// If this is not a single newsfeed menu item, set the page title to the newsfeed title
-			if ($this->item->name)
-			{
-				$title = $this->item->name;
-			}
+            while (
+                (!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
+                || $id != $category->id) && $category->id > 1
+            ) {
+                $path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id));
+                $category = $category->getParent();
+            }
 
-			$path = array(array('title' => $this->item->name, 'link' => ''));
-			$category = Categories::getInstance('Newsfeeds')->get($this->item->catid);
+            $path = array_reverse($path);
 
-			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
-				|| $id != $category->id) && $category->id > 1)
-			{
-				$path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id));
-				$category = $category->getParent();
-			}
+            foreach ($path as $item) {
+                $pathway->addItem($item['title'], $item['link']);
+            }
+        }
 
-			$path = array_reverse($path);
+        if (empty($title)) {
+            $title = $this->item->name;
+        }
 
-			foreach ($path as $item)
-			{
-				$pathway->addItem($item['title'], $item['link']);
-			}
-		}
+        $this->setDocumentTitle($title);
 
-		if (empty($title))
-		{
-			$title = $app->get('sitename');
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
-		{
-			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
-		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
-		{
-			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
-		}
+        if ($this->item->metadesc) {
+            $this->document->setDescription($this->item->metadesc);
+        } elseif ($this->params->get('menu-meta_description')) {
+            $this->document->setDescription($this->params->get('menu-meta_description'));
+        }
 
-		if (empty($title))
-		{
-			$title = $this->item->name;
-		}
+        if ($this->params->get('robots')) {
+            $this->document->setMetaData('robots', $this->params->get('robots'));
+        }
 
-		$this->document->setTitle($title);
+        if ($app->get('MetaAuthor') == '1') {
+            $this->document->setMetaData('author', $this->item->author);
+        }
 
-		if ($this->item->metadesc)
-		{
-			$this->document->setDescription($this->item->metadesc);
-		}
-		elseif ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
+        $mdata = $this->item->metadata->toArray();
 
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
-
-		if ($app->get('MetaTitle') == '1')
-		{
-			$this->document->setMetaData('title', $this->item->name);
-		}
-
-		if ($app->get('MetaAuthor') == '1')
-		{
-			$this->document->setMetaData('author', $this->item->author);
-		}
-
-		$mdata = $this->item->metadata->toArray();
-
-		foreach ($mdata as $k => $v)
-		{
-			if ($v)
-			{
-				$this->document->setMetaData($k, $v);
-			}
-		}
-	}
+        foreach ($mdata as $k => $v) {
+            if ($v) {
+                $this->document->setMetaData($k, $v);
+            }
+        }
+    }
 }

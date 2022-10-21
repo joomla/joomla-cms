@@ -1,57 +1,46 @@
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
-const Fs = require('fs');
+const Fs = require('fs').promises;
 const FsExtra = require('fs-extra');
-const Path = require('path');
+const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const Sass = require('node-sass');
+const Sass = require('sass-embedded');
 
-module.exports.compile = (file) => {
-  const cssFile = file.replace('/scss/', '/css/').replace('\\scss\\', '\\css\\')
-    .replace('.scss', '.css').replace('/build/media_source/', '/media/')
-    .replace('\\build\\media_source\\', '\\media\\');
+module.exports.compile = async (file) => {
+  const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
+    .replace('.scss', '.css').replace(`${sep}build${sep}media_source${sep}`, `${sep}media${sep}`);
 
-  Sass.render({
-    file,
-  },
-  (error, result) => {
-    if (error) {
-      // eslint-disable-next-line no-console
-      console.error(error.formatted);
-      process.exit(1);
-    } else {
-      // Auto prefixing
-      // eslint-disable-next-line no-console
-      const cleaner = Postcss(
-        [
-          Autoprefixer(),
-        ],
-      );
+  let compiled;
+  try {
+    compiled = Sass.renderSync({ file });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error.formatted);
+    process.exit(1);
+  }
 
-      cleaner.process(result.css.toString(), { from: undefined })
-        .then((res) => {
-          // Ensure the folder exists or create it
-          FsExtra.mkdirsSync(Path.dirname(cssFile), {});
+  // Auto prefixing
+  const cleaner = Postcss([Autoprefixer()]);
+  const res = await cleaner.process(compiled.css.toString(), { from: undefined });
 
-          Fs.writeFileSync(
-            cssFile,
-            res.css.toString(),
-            { encoding: 'utf8', mode: 0o2644 },
-          );
+  // Ensure the folder exists or create it
+  await FsExtra.mkdirs(dirname(cssFile), {});
+  await Fs.writeFile(
+    cssFile,
+    res.css.toString(),
+    { encoding: 'utf8', mode: 0o644 },
+  );
 
-          Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
-            // Ensure the folder exists or create it
-            FsExtra.mkdirsSync(Path.dirname(cssFile.replace('.css', '.min.css')), {});
-            Fs.writeFileSync(
-              cssFile.replace('.css', '.min.css'),
-              cssMin.css.toString(),
-              { encoding: 'utf8', mode: 0o2644 },
-            );
+  const cssMin = await Postcss([CssNano]).process(res.css.toString(), { from: undefined });
 
-            // eslint-disable-next-line no-console
-            console.log(`SCSS File compiled: ${cssFile}`);
-          });
-        });
-    }
-  });
+  // Ensure the folder exists or create it
+  FsExtra.mkdirs(dirname(cssFile.replace('.css', '.min.css')), {});
+  await Fs.writeFile(
+    cssFile.replace('.css', '.min.css'),
+    cssMin.css.toString(),
+    { encoding: 'utf8', mode: 0o644 },
+  );
+
+  // eslint-disable-next-line no-console
+  console.log(`✅ SCSS File compiled: ${cssFile}`);
 };

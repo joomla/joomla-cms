@@ -1,23 +1,27 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Submenu\Administrator\Menu;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Helper class to handle permissions in mod_submenu
@@ -26,187 +30,194 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class Menu
 {
-	/**
-	 * Filter and perform other preparatory tasks for loaded menu items based on access rights and module configurations for display
-	 *
-	 * @param   MenuItem  $parent  A menu item to process
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public static function preprocess($parent)
-	{
-		$app      = Factory::getApplication();
-		$user     = $app->getIdentity();
-		$children = $parent->getChildren();
-		$language = Factory::getLanguage();
+    /**
+     * Filter and perform other preparatory tasks for loaded menu items based on access rights and module configurations for display
+     *
+     * @param   MenuItem  $parent  A menu item to process
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public static function preprocess($parent)
+    {
+        $app      = Factory::getApplication();
+        $user     = $app->getIdentity();
+        $children = $parent->getChildren();
+        $language = Factory::getLanguage();
 
-		/**
-		 * Trigger onPreprocessMenuItems for the current level of backend menu items.
-		 * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
-		 * but new nodes will only be run through this method if their parents have not been processed yet.
-		 */
-		$app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
+        /**
+         * Trigger onPreprocessMenuItems for the current level of backend menu items.
+         * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
+         * but new nodes will only be run through this method if their parents have not been processed yet.
+         */
+        $app->triggerEvent('onPreprocessMenuItems', array('administrator.module.mod_submenu', $children));
 
-		foreach ($children as $item)
-		{
-			$itemParams = $item->getParams();
+        foreach ($children as $item) {
+            if (substr($item->link, 0, 8) === 'special:') {
+                $special = substr($item->link, 8);
 
-			// Exclude item with menu item option set to exclude from menu modules
-			if ($itemParams->get('menu-permission'))
-			{
-				@list($action, $asset) = explode(';', $itemParams->get('menu-permission'));
+                if ($special === 'language-forum') {
+                    $item->link = 'index.php?option=com_admin&amp;view=help&amp;layout=langforum';
+                }
+            }
 
-				if (!$user->authorise($action, $asset))
-				{
-					$parent->removeChild($item);
-					continue;
-				}
-			}
+            $uri   = new Uri($item->link);
+            $query = $uri->getQuery(true);
 
-			// Populate automatic children for container items
-			if ($item->type === 'container')
-			{
-				$exclude    = (array) $itemParams->get('hideitems') ?: array();
-				$components = MenusHelper::getMenuItems('main', false, $exclude);
+            /**
+             * This is needed to populate the element property when the component is no longer
+             * installed but its core menu items are left behind.
+             */
+            if ($option = $uri->getVar('option')) {
+                $item->element = $option;
+            }
 
-				// We are adding the nodes first to preprocess them, then sort them and add them again.
-				foreach ($components->getChildren() as $c)
-				{
-					if (!$c->hasChildren())
-					{
-						$temp = clone $c;
-						$c->addChild($temp);
-					}
+            // Exclude item if is not enabled
+            if ($item->element && !ComponentHelper::isEnabled($item->element)) {
+                $parent->removeChild($item);
+                continue;
+            }
 
-					$item->addChild($c);
-				}
+            /*
+             * Multilingual Associations if the site is not set as multilingual and/or Associations is not enabled in
+             * the Language Filter plugin
+             */
 
-				self::preprocess($item);
-				$children = ArrayHelper::sortObjects($item->getChildren(), 'text', 1, false, true);
+            if ($item->element === 'com_associations' && !Associations::isEnabled()) {
+                $parent->removeChild($item);
+                continue;
+            }
 
-				foreach ($children as $c)
-				{
-					$parent->addChild($c);
-				}
+            $itemParams = $item->getParams();
 
-				$parent->removeChild($item);
-				continue;
-			}
+            // Exclude item with menu item option set to exclude from menu modules
+            if ($itemParams->get('menu-permission')) {
+                @list($action, $asset) = explode(';', $itemParams->get('menu-permission'));
 
-			// Exclude Mass Mail if disabled in global configuration
-			if ($item->scope === 'massmail' && ($app->get('massmailoff', 0) == 1))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
+                if (!$user->authorise($action, $asset)) {
+                    $parent->removeChild($item);
+                    continue;
+                }
+            }
 
-			if ($item->element === 'com_fields')
-			{
-				parse_str($item->link, $query);
+            // Populate automatic children for container items
+            if ($item->type === 'container') {
+                $exclude    = (array) $itemParams->get('hideitems') ?: array();
+                $components = MenusHelper::getMenuItems('main', false, $exclude);
 
-				// Only display Fields menus when enabled in the component
-				$createFields = null;
+                // We are adding the nodes first to preprocess them, then sort them and add them again.
+                foreach ($components->getChildren() as $c) {
+                    if (!$c->hasChildren()) {
+                        $temp = clone $c;
+                        $c->addChild($temp);
+                    }
 
-				if (isset($query['context']))
-				{
-					$createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
-				}
+                    $item->addChild($c);
+                }
 
-				if (!$createFields)
-				{
-					$parent->removeChild($item);
-					continue;
-				}
-			}
-			elseif ($item->element === 'com_workflow')
-			{
-				parse_str($item->link, $query);
+                self::preprocess($item);
+                $children = ArrayHelper::sortObjects($item->getChildren(), 'text', 1, false, true);
 
-				// Only display Workflow menus when enabled in the component
-				$workflow = null;
+                foreach ($children as $c) {
+                    $parent->addChild($c);
+                }
 
-				if (isset($query['extension']))
-				{
-					$parts = explode('.', $query['extension']);
+                $parent->removeChild($item);
+                continue;
+            }
 
-					$workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
-				}
+            // Exclude Mass Mail if disabled in global configuration
+            if ($item->scope === 'massmail' && ($app->get('massmailoff', 0) == 1)) {
+                $parent->removeChild($item);
+                continue;
+            }
 
-				if (!$workflow)
-				{
-					$parent->removeChild($item);
-					continue;
-				}
+            if ($item->element === 'com_fields') {
+                parse_str($item->link, $query);
 
-				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
-			}
-			// Special case for components which only allow super user access
-			elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-			elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin'))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-			elseif ($item->element === 'com_admin')
-			{
-				parse_str($item->link, $query);
+                // Only display Fields menus when enabled in the component
+                $createFields = null;
 
-				if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin'))
-				{
-					$parent->removeChild($item);
-					continue;
-				}
-			}
-			elseif ($item->element && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $item->element))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
-			elseif ($item->element === 'com_menus')
-			{
-				// Get badges for Menus containing a Home page.
-				$iconImage = $item->icon;
+                if (isset($query['context'])) {
+                    $createFields = ComponentHelper::getParams(strstr($query['context'], '.', true))->get('custom_fields_enable', 1);
+                }
 
-				if ($iconImage)
-				{
-					if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home')
-					{
-						$iconImage = '<span class="home-image fas fa-home" aria-hidden="true"></span>';
-						$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
-					}
-					elseif (substr($iconImage, 0, 6) === 'image:')
-					{
-						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
-					}
+                if (!$createFields || !$user->authorise('core.manage', 'com_users')) {
+                    $parent->removeChild($item);
+                    continue;
+                }
+            } elseif ($item->element === 'com_workflow') {
+                parse_str($item->link, $query);
 
-					$item->iconImage = $iconImage;
-				}
-			}
+                // Only display Workflow menus when enabled in the component
+                $workflow = null;
 
-			if ($item->hasChildren())
-			{
-				self::preprocess($item);
-			}
+                if (isset($query['extension'])) {
+                    $parts = explode('.', $query['extension']);
 
-			// Ok we passed everything, load language at last only
-			if ($item->element)
-			{
-				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
-				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
-			}
+                    $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
+                }
 
-			if ($item->type === 'separator' && $item->getParams()->get('text_separator') == 0)
-			{
-				$item->title = '';
-			}
+                if (!$workflow) {
+                    $parent->removeChild($item);
+                    continue;
+                }
 
-			$item->text = Text::_($item->title);
-		}
-	}
+                [$assetName] = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
+            } elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin')) {
+                // Special case for components which only allow super user access
+                $parent->removeChild($item);
+                continue;
+            } elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin')) {
+                $parent->removeChild($item);
+                continue;
+            } elseif (
+                ($item->link === 'index.php?option=com_installer&view=install' || $item->link === 'index.php?option=com_installer&view=languages')
+                && !$user->authorise('core.admin')
+            ) {
+                continue;
+            } elseif ($item->element === 'com_admin') {
+                parse_str($item->link, $query);
+
+                if (isset($query['view']) && $query['view'] === 'sysinfo' && !$user->authorise('core.admin')) {
+                    $parent->removeChild($item);
+                    continue;
+                }
+            } elseif ($item->element && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $item->element)) {
+                $parent->removeChild($item);
+                continue;
+            } elseif ($item->element === 'com_menus') {
+                // Get badges for Menus containing a Home page.
+                $iconImage = $item->icon;
+
+                if ($iconImage) {
+                    if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home') {
+                        $iconImage = '<span class="home-image icon-home" aria-hidden="true"></span>';
+                        $iconImage .= '<span class="visually-hidden">' . Text::_('JDEFAULT') . '</span>';
+                    } elseif (substr($iconImage, 0, 6) === 'image:') {
+                        $iconImage = '&nbsp;<span class="badge bg-secondary">' . substr($iconImage, 6) . '</span>';
+                    }
+
+                    $item->iconImage = $iconImage;
+                }
+            }
+
+            if ($item->hasChildren()) {
+                self::preprocess($item);
+            }
+
+            // Ok we passed everything, load language at last only
+            if ($item->element) {
+                $language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
+                $language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
+            }
+
+            if ($item->type === 'separator' && $item->getParams()->get('text_separator') == 0) {
+                $item->title = '';
+            }
+
+            $item->text = Text::_($item->title);
+        }
+    }
 }

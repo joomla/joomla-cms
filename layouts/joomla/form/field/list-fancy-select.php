@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,10 +42,7 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- * @var   array    $checkedOptions  Options that will be set as checked.
- * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- * @var   array    $inputType       Options available for this field.
  * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
@@ -60,57 +58,47 @@ $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 $attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
-if ($readonly || $disabled)
-{
-	$attr .= ' disabled="disabled"';
+if ($readonly || $disabled) {
+    $attr .= ' disabled="disabled"';
 }
 
 $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
 
-if ($required)
-{
-	$attr  .= ' required class="required"';
-	$attr2 .= ' required';
+if ($required) {
+    $attr  .= ' required class="required"';
+    $attr2 .= ' required';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
-if ($readonly)
-{
-	$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
+if ($readonly) {
+    $html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $value, $id);
 
-	// E.g. form field type tag sends $this->value as array
-	if ($multiple && is_array($value))
-	{
-		if (!count($value))
-		{
-			$value[] = '';
-		}
+    // E.g. form field type tag sends $this->value as array
+    if ($multiple && is_array($value)) {
+        if (!count($value)) {
+            $value[] = '';
+        }
 
-		foreach ($value as $val)
-		{
-			$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
-		}
-	}
-	else
-	{
-		$html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-	}
-}
-else
-// Create a regular list.
+        foreach ($value as $val) {
+            $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($val, ENT_COMPAT, 'UTF-8') . '">';
+        }
+    } else {
+        $html[] = '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
+    }
+} else // Create a regular list.
 {
-	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
+    $html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-Factory::getDocument()->getWebAssetManager()
-	->usePreset('choicesjs')
-	->useScript('webcomponent.field-fancy-select');
+Factory::getApplication()->getDocument()->getWebAssetManager()
+    ->usePreset('choicesjs')
+    ->useScript('webcomponent.field-fancy-select');
 
 ?>
 
-<joomla-field-fancy-select <?php echo $attr2; ?>><?php	echo implode($html); ?></joomla-field-fancy-select>
+<joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>

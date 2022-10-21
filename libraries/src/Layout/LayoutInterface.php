@@ -1,14 +1,17 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Layout;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface to handle display layout
@@ -18,25 +21,25 @@ namespace Joomla\CMS\Layout;
  */
 interface LayoutInterface
 {
-	/**
-	 * Method to escape output.
-	 *
-	 * @param   string  $output  The output to escape.
-	 *
-	 * @return  string  The escaped output.
-	 *
-	 * @since   3.0
-	 */
-	public function escape($output);
+    /**
+     * Method to escape output.
+     *
+     * @param   string  $output  The output to escape.
+     *
+     * @return  string  The escaped output.
+     *
+     * @since   3.0
+     */
+    public function escape($output);
 
-	/**
-	 * Method to render the layout.
-	 *
-	 * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
-	 *
-	 * @return  string  The rendered layout.
-	 *
-	 * @since   3.0
-	 */
-	public function render($displayData);
+    /**
+     * Method to render the layout.
+     *
+     * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
+     *
+     * @return  string  The rendered layout.
+     *
+     * @since   3.0
+     */
+    public function render($displayData);
 }

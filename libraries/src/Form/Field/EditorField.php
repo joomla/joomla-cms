@@ -1,17 +1,20 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * A textarea field for content creation
@@ -21,312 +24,302 @@ use Joomla\CMS\Factory;
  */
 class EditorField extends TextareaField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	public $type = 'Editor';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  1.6
+     */
+    public $type = 'Editor';
 
-	/**
-	 * The Editor object.
-	 *
-	 * @var    Editor
-	 * @since  1.6
-	 */
-	protected $editor;
+    /**
+     * The Editor object.
+     *
+     * @var    Editor
+     * @since  1.6
+     */
+    protected $editor;
 
-	/**
-	 * The height of the editor.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $height;
+    /**
+     * The height of the editor.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $height;
 
-	/**
-	 * The width of the editor.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $width;
+    /**
+     * The width of the editor.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $width;
 
-	/**
-	 * The assetField of the editor.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $assetField;
+    /**
+     * The assetField of the editor.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $assetField;
 
-	/**
-	 * The authorField of the editor.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $authorField;
+    /**
+     * The authorField of the editor.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $authorField;
 
-	/**
-	 * The asset of the editor.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $asset;
+    /**
+     * The asset of the editor.
+     *
+     * @var    string
+     * @since  3.2
+     */
+    protected $asset;
 
-	/**
-	 * The buttons of the editor.
-	 *
-	 * @var    mixed
-	 * @since  3.2
-	 */
-	protected $buttons;
+    /**
+     * The buttons of the editor.
+     *
+     * @var    mixed
+     * @since  3.2
+     */
+    protected $buttons;
 
-	/**
-	 * The hide of the editor.
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	protected $hide;
+    /**
+     * The hide of the editor.
+     *
+     * @var    array
+     * @since  3.2
+     */
+    protected $hide;
 
-	/**
-	 * The editorType of the editor.
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	protected $editorType;
+    /**
+     * The editorType of the editor.
+     *
+     * @var    array
+     * @since  3.2
+     */
+    protected $editorType;
 
-	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
-	 *
-	 * @param   string  $name  The property name for which to get the value.
-	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.2
-	 */
-	public function __get($name)
-	{
-		switch ($name)
-		{
-			case 'height':
-			case 'width':
-			case 'assetField':
-			case 'authorField':
-			case 'asset':
-			case 'buttons':
-			case 'hide':
-			case 'editorType':
-				return $this->$name;
-		}
+    /**
+     * The parent class of the field
+     *
+     * @var  string
+     * @since 4.0.0
+     */
+    protected $parentclass;
 
-		return parent::__get($name);
-	}
+    /**
+     * Method to get certain otherwise inaccessible properties from the form field object.
+     *
+     * @param   string  $name  The property name for which to get the value.
+     *
+     * @return  mixed  The property value or null.
+     *
+     * @since   3.2
+     */
+    public function __get($name)
+    {
+        switch ($name) {
+            case 'height':
+            case 'width':
+            case 'assetField':
+            case 'authorField':
+            case 'asset':
+            case 'buttons':
+            case 'hide':
+            case 'editorType':
+                return $this->$name;
+        }
 
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function __set($name, $value)
-	{
-		switch ($name)
-		{
-			case 'height':
-			case 'width':
-			case 'assetField':
-			case 'authorField':
-			case 'asset':
-				$this->$name = (string) $value;
-				break;
+        return parent::__get($name);
+    }
 
-			case 'buttons':
-				$value = (string) $value;
+    /**
+     * Method to set certain otherwise inaccessible properties of the form field object.
+     *
+     * @param   string  $name   The property name for which to set the value.
+     * @param   mixed   $value  The value of the property.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function __set($name, $value)
+    {
+        switch ($name) {
+            case 'height':
+            case 'width':
+            case 'assetField':
+            case 'authorField':
+            case 'asset':
+                $this->$name = (string) $value;
+                break;
 
-				if ($value === 'true' || $value === 'yes' || $value === '1')
-				{
-					$this->buttons = true;
-				}
-				elseif ($value === 'false' || $value === 'no' || $value === '0')
-				{
-					$this->buttons = false;
-				}
-				else
-				{
-					$this->buttons = explode(',', $value);
-				}
-				break;
+            case 'buttons':
+                $value = (string) $value;
 
-			case 'hide':
-				$value = (string) $value;
-				$this->hide = $value ? explode(',', $value) : array();
-				break;
+                if ($value === 'true' || $value === 'yes' || $value === '1') {
+                    $this->buttons = true;
+                } elseif ($value === 'false' || $value === 'no' || $value === '0') {
+                    $this->buttons = false;
+                } else {
+                    $this->buttons = explode(',', $value);
+                }
+                break;
 
-			case 'editorType':
-				// Can be in the form of: editor="desired|alternative".
-				$this->editorType  = explode('|', trim((string) $value));
-				break;
+            case 'hide':
+                $value = (string) $value;
+                $this->hide = $value ? explode(',', $value) : array();
+                break;
 
-			default:
-				parent::__set($name, $value);
-		}
-	}
+            case 'editorType':
+                // Can be in the form of: editor="desired|alternative".
+                $this->editorType  = explode('|', trim((string) $value));
+                break;
 
-	/**
-	 * Method to attach a Form object to the field.
-	 *
-	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed              $value    The form field value to validate.
-	 * @param   string             $group    The field name group control value. This acts as an array container for the field.
-	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                                       full field name would end up being "bar[foo]".
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see     FormField::setup()
-	 * @since   3.2
-	 */
-	public function setup(\SimpleXMLElement $element, $value, $group = null)
-	{
-		$result = parent::setup($element, $value, $group);
+            default:
+                parent::__set($name, $value);
+        }
+    }
 
-		if ($result === true)
-		{
-			$this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
-			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
-			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
-			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-			$this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
+    /**
+     * Method to attach a Form object to the field.
+     *
+     * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+     * @param   mixed              $value    The form field value to validate.
+     * @param   string             $group    The field name group control value. This acts as an array container for the field.
+     *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+     *                                       full field name would end up being "bar[foo]".
+     *
+     * @return  boolean  True on success.
+     *
+     * @see     FormField::setup()
+     * @since   3.2
+     */
+    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    {
+        $result = parent::setup($element, $value, $group);
 
-			$buttons    = (string) $this->element['buttons'];
-			$hide       = (string) $this->element['hide'];
-			$editorType = (string) $this->element['editor'];
+        if ($result === true) {
+            $this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
+            $this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
+            $this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+            $this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+            $this->asset       = $this->form->getValue($this->assetField) ?: (string) $this->element['asset_id'];
 
-			if ($buttons === 'true' || $buttons === 'yes' || $buttons === '1')
-			{
-				$this->buttons = true;
-			}
-			elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0')
-			{
-				$this->buttons = false;
-			}
-			else
-			{
-				$this->buttons = !empty($hide) ? explode(',', $buttons) : array();
-			}
+            $buttons    = (string) $this->element['buttons'];
+            $hide       = (string) $this->element['hide'];
+            $editorType = (string) $this->element['editor'];
 
-			$this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
-			$this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
-		}
+            if ($buttons === 'true' || $buttons === 'yes' || $buttons === '1') {
+                $this->buttons = true;
+            } elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0') {
+                $this->buttons = false;
+            } else {
+                $this->buttons = !empty($hide) ? explode(',', $buttons) : array();
+            }
 
-		return $result;
-	}
+            $this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
+            $this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
+        }
 
-	/**
-	 * Method to get the field input markup for the editor area
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   1.6
-	 */
-	protected function getInput()
-	{
-		// Get an editor object.
-		$editor = $this->getEditor();
-		$params = array(
-			'autofocus' => $this->autofocus,
-			'readonly'  => $this->readonly || $this->disabled,
-			'syntax'    => (string) $this->element['syntax'],
-		);
+        return $result;
+    }
 
-		return $editor->display(
-			$this->name,
-			htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'),
-			$this->width,
-			$this->height,
-			$this->columns,
-			$this->rows,
-			$this->buttons ? (\is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
-			$this->id,
-			$this->asset,
-			$this->form->getValue($this->authorField),
-			$params
-		);
-	}
+    /**
+     * Method to get the field input markup for the editor area
+     *
+     * @return  string  The field input markup.
+     *
+     * @since   1.6
+     */
+    protected function getInput()
+    {
+        // Get an editor object.
+        $editor = $this->getEditor();
+        $params = array(
+            'autofocus' => $this->autofocus,
+            'readonly'  => $this->readonly || $this->disabled,
+            'syntax'    => (string) $this->element['syntax'],
+        );
 
-	/**
-	 * Method to get an Editor object based on the form field.
-	 *
-	 * @return  Editor  The Editor object.
-	 *
-	 * @since   1.6
-	 */
-	protected function getEditor()
-	{
-		// Only create the editor if it is not already created.
-		if (empty($this->editor))
-		{
-			$editor = null;
+        return $editor->display(
+            $this->name,
+            htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'),
+            $this->width,
+            $this->height,
+            $this->columns,
+            $this->rows,
+            $this->buttons ? (\is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
+            $this->id,
+            $this->asset,
+            $this->form->getValue($this->authorField),
+            $params
+        );
+    }
 
-			if ($this->editorType)
-			{
-				// Get the list of editor types.
-				$types = $this->editorType;
+    /**
+     * Method to get an Editor object based on the form field.
+     *
+     * @return  Editor  The Editor object.
+     *
+     * @since   1.6
+     */
+    protected function getEditor()
+    {
+        // Only create the editor if it is not already created.
+        if (empty($this->editor)) {
+            $editor = null;
 
-				// Get the database object.
-				$db = Factory::getDbo();
+            if ($this->editorType) {
+                // Get the list of editor types.
+                $types = $this->editorType;
 
-				// Build the query.
-				$query = $db->getQuery(true)
-					->select($db->quoteName('element'))
-					->from($db->quoteName('#__extensions'))
-					->where(
-						[
-							$db->quoteName('element') . ' = :editor',
-							$db->quoteName('folder') . ' = ' . $db->quote('editors'),
-							$db->quoteName('enabled') . ' = 1',
-						]
-					);
+                // Get the database object.
+                $db = $this->getDatabase();
 
-				// Declare variable before binding.
-				$element = '';
-				$query->bind(':editor', $element);
-				$query->setLimit(1);
+                // Build the query.
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName('element'))
+                    ->from($db->quoteName('#__extensions'))
+                    ->where(
+                        [
+                            $db->quoteName('element') . ' = :editor',
+                            $db->quoteName('folder') . ' = ' . $db->quote('editors'),
+                            $db->quoteName('enabled') . ' = 1',
+                        ]
+                    );
 
-				// Iterate over the types looking for an existing editor.
-				foreach ($types as $element)
-				{
-					// Check if the editor exists.
-					$db->setQuery($query);
-					$editor = $db->loadResult();
+                // Declare variable before binding.
+                $element = '';
+                $query->bind(':editor', $element);
+                $query->setLimit(1);
 
-					// If an editor was found stop looking.
-					if ($editor)
-					{
-						break;
-					}
-				}
-			}
+                // Iterate over the types looking for an existing editor.
+                foreach ($types as $element) {
+                    // Check if the editor exists.
+                    $db->setQuery($query);
+                    $editor = $db->loadResult();
 
-			// Create the JEditor instance based on the given editor.
-			if ($editor === null)
-			{
-				$editor = Factory::getApplication()->get('editor');
-			}
+                    // If an editor was found stop looking.
+                    if ($editor) {
+                        break;
+                    }
+                }
+            }
 
-			$this->editor = Editor::getInstance($editor);
-		}
+            // Create the JEditor instance based on the given editor.
+            if ($editor === null) {
+                $editor = Factory::getApplication()->get('editor');
+            }
 
-		return $this->editor;
-	}
+            $this->editor = Editor::getInstance($editor);
+        }
+
+        return $this->editor;
+    }
 }

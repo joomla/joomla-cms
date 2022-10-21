@@ -1,402 +1,373 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2005 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Tag\TaggableTableInterface;
+use Joomla\CMS\Tag\TaggableTableTrait;
 use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content table
  *
  * @since  1.5
  */
-class Content extends Table implements VersionableTableInterface
+class Content extends Table implements VersionableTableInterface, TaggableTableInterface
 {
-	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $_supportNullValue = true;
+    use TaggableTableTrait;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  A database connector object
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		$this->typeAlias = 'com_content.article';
-		parent::__construct('#__content', 'id', $db);
+    /**
+     * Indicates that columns fully support the NULL value in the database
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $_supportNullValue = true;
 
-		// Set the alias since the column is called state
-		$this->setColumnAlias('published', 'state');
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  A database connector object
+     *
+     * @since   1.5
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        $this->typeAlias = 'com_content.article';
 
-	/**
-	 * Method to compute the default name of the asset.
-	 * The default name is in the form table_name.id
-	 * where id is the value of the primary key of the table.
-	 *
-	 * @return  string
-	 *
-	 * @since   1.6
-	 */
-	protected function _getAssetName()
-	{
-		$k = $this->_tbl_key;
+        parent::__construct('#__content', 'id', $db);
 
-		return 'com_content.article.' . (int) $this->$k;
-	}
+        // Set the alias since the column is called state
+        $this->setColumnAlias('published', 'state');
+    }
 
-	/**
-	 * Method to return the title to use for the asset table.
-	 *
-	 * @return  string
-	 *
-	 * @since   1.6
-	 */
-	protected function _getAssetTitle()
-	{
-		return $this->title;
-	}
+    /**
+     * Method to compute the default name of the asset.
+     * The default name is in the form table_name.id
+     * where id is the value of the primary key of the table.
+     *
+     * @return  string
+     *
+     * @since   1.6
+     */
+    protected function _getAssetName()
+    {
+        $k = $this->_tbl_key;
 
-	/**
-	 * Method to get the parent asset id for the record
-	 *
-	 * @param   Table    $table  A Table object (optional) for the asset parent
-	 * @param   integer  $id     The id (optional) of the content.
-	 *
-	 * @return  integer
-	 *
-	 * @since   1.6
-	 */
-	protected function _getAssetParentId(Table $table = null, $id = null)
-	{
-		$assetId = null;
+        return 'com_content.article.' . (int) $this->$k;
+    }
 
-		// This is an article under a category.
-		if ($this->catid)
-		{
-			$catId = (int) $this->catid;
+    /**
+     * Method to return the title to use for the asset table.
+     *
+     * @return  string
+     *
+     * @since   1.6
+     */
+    protected function _getAssetTitle()
+    {
+        return $this->title;
+    }
 
-			// Build the query to get the asset id for the parent category.
-			$query = $this->_db->getQuery(true)
-				->select($this->_db->quoteName('asset_id'))
-				->from($this->_db->quoteName('#__categories'))
-				->where($this->_db->quoteName('id') . ' = :catid')
-				->bind(':catid', $catId, ParameterType::INTEGER);
+    /**
+     * Method to get the parent asset id for the record
+     *
+     * @param   Table    $table  A Table object (optional) for the asset parent
+     * @param   integer  $id     The id (optional) of the content.
+     *
+     * @return  integer
+     *
+     * @since   1.6
+     */
+    protected function _getAssetParentId(Table $table = null, $id = null)
+    {
+        $assetId = null;
 
-			// Get the asset id from the database.
-			$this->_db->setQuery($query);
+        // This is an article under a category.
+        if ($this->catid) {
+            $catId = (int) $this->catid;
 
-			if ($result = $this->_db->loadResult())
-			{
-				$assetId = (int) $result;
-			}
-		}
+            // Build the query to get the asset id for the parent category.
+            $query = $this->_db->getQuery(true)
+                ->select($this->_db->quoteName('asset_id'))
+                ->from($this->_db->quoteName('#__categories'))
+                ->where($this->_db->quoteName('id') . ' = :catid')
+                ->bind(':catid', $catId, ParameterType::INTEGER);
 
-		// Return the asset id.
-		if ($assetId)
-		{
-			return $assetId;
-		}
-		else
-		{
-			return parent::_getAssetParentId($table, $id);
-		}
-	}
+            // Get the asset id from the database.
+            $this->_db->setQuery($query);
 
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 *                          to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
-	 *
-	 * @see     Table::bind()
-	 * @since   1.6
-	 */
-	public function bind($array, $ignore = '')
-	{
-		// Search for the {readmore} tag and split the text up accordingly.
-		if (isset($array['articletext']))
-		{
-			$pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
-			$tagPos = preg_match($pattern, $array['articletext']);
+            if ($result = $this->_db->loadResult()) {
+                $assetId = (int) $result;
+            }
+        }
 
-			if ($tagPos == 0)
-			{
-				$this->introtext = $array['articletext'];
-				$this->fulltext = '';
-			}
-			else
-			{
-				list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
-			}
-		}
+        // Return the asset id.
+        if ($assetId) {
+            return $assetId;
+        } else {
+            return parent::_getAssetParentId($table, $id);
+        }
+    }
 
-		if (isset($array['attribs']) && \is_array($array['attribs']))
-		{
-			$registry = new Registry($array['attribs']);
-			$array['attribs'] = (string) $registry;
-		}
+    /**
+     * Overloaded bind function
+     *
+     * @param   array  $array   Named array
+     * @param   mixed  $ignore  An optional array or space separated list of properties
+     *                          to ignore while binding.
+     *
+     * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
+     *
+     * @see     Table::bind()
+     * @since   1.6
+     */
+    public function bind($array, $ignore = '')
+    {
+        // Search for the {readmore} tag and split the text up accordingly.
+        if (isset($array['articletext'])) {
+            $pattern = '#<hr\s+id=("|\')system-readmore("|\')\s*\/*>#i';
+            $tagPos = preg_match($pattern, $array['articletext']);
 
-		if (isset($array['metadata']) && \is_array($array['metadata']))
-		{
-			$registry = new Registry($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
+            if ($tagPos == 0) {
+                $this->introtext = $array['articletext'];
+                $this->fulltext = '';
+            } else {
+                list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+            }
+        }
 
-		// Bind the rules.
-		if (isset($array['rules']) && \is_array($array['rules']))
-		{
-			$rules = new Rules($array['rules']);
-			$this->setRules($rules);
-		}
+        if (isset($array['attribs']) && \is_array($array['attribs'])) {
+            $registry = new Registry($array['attribs']);
+            $array['attribs'] = (string) $registry;
+        }
 
-		return parent::bind($array, $ignore);
-	}
+        if (isset($array['metadata']) && \is_array($array['metadata'])) {
+            $registry = new Registry($array['metadata']);
+            $array['metadata'] = (string) $registry;
+        }
 
-	/**
-	 * Overloaded check function
-	 *
-	 * @return  boolean  True on success, false on failure
-	 *
-	 * @see     Table::check()
-	 * @since   1.5
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
+        // Bind the rules.
+        if (isset($array['rules']) && \is_array($array['rules'])) {
+            $rules = new Rules($array['rules']);
+            $this->setRules($rules);
+        }
 
-			return false;
-		}
+        return parent::bind($array, $ignore);
+    }
 
-		if (trim($this->title) == '')
-		{
-			$this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+    /**
+     * Overloaded check function
+     *
+     * @return  boolean  True on success, false on failure
+     *
+     * @see     Table::check()
+     * @since   1.5
+     */
+    public function check()
+    {
+        try {
+            parent::check();
+        } catch (\Exception $e) {
+            $this->setError($e->getMessage());
 
-			return false;
-		}
+            return false;
+        }
 
-		if (trim($this->alias) == '')
-		{
-			$this->alias = $this->title;
-		}
+        if (trim($this->title) == '') {
+            $this->setError(Text::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 
-		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
+            return false;
+        }
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
-		}
+        if (trim($this->alias) == '') {
+            $this->alias = $this->title;
+        }
 
-		// Check for a valid category.
-		if (!$this->catid = (int) $this->catid)
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+        $this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
 
-			return false;
-		}
+        if (trim(str_replace('-', '', $this->alias)) == '') {
+            $this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+        }
 
-		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
-		{
-			$this->fulltext = '';
-		}
+        // Check for a valid category.
+        if (!$this->catid = (int) $this->catid) {
+            $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
-		/**
-		 * Ensure any new items have compulsory fields set. This is needed for things like
-		 * frontend editing where we don't show all the fields or using some kind of API
-		 */
-		if (!$this->id)
-		{
-			// Images can be an empty json string
-			if (!isset($this->images))
-			{
-				$this->images = '{}';
-			}
+            return false;
+        }
 
-			// URLs can be an empty json string
-			if (!isset($this->urls))
-			{
-				$this->urls = '{}';
-			}
+        if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '') {
+            $this->fulltext = '';
+        }
 
-			// Attributes (article params) can be an empty json string
-			if (!isset($this->attribs))
-			{
-				$this->attribs = '{}';
-			}
+        /**
+         * Ensure any new items have compulsory fields set. This is needed for things like
+         * frontend editing where we don't show all the fields or using some kind of API
+         */
+        if (!$this->id) {
+            // Images can be an empty json string
+            if (!isset($this->images)) {
+                $this->images = '{}';
+            }
 
-			// Metadata can be an empty json string
-			if (!isset($this->metadata))
-			{
-				$this->metadata = '{}';
-			}
+            // URLs can be an empty json string
+            if (!isset($this->urls)) {
+                $this->urls = '{}';
+            }
 
-			// Hits must be zero on a new item
-			$this->hits = 0;
-		}
+            // Attributes (article params) can be an empty json string
+            if (!isset($this->attribs)) {
+                $this->attribs = '{}';
+            }
 
-		// Set publish_up to null if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = null;
-		}
+            // Metadata can be an empty json string
+            if (!isset($this->metadata)) {
+                $this->metadata = '{}';
+            }
 
-		// Set publish_down to null if not set
-		if (!$this->publish_down)
-		{
-			$this->publish_down = null;
-		}
+            // Hits must be zero on a new item
+            $this->hits = 0;
+        }
 
-		// Check the publish down date is not earlier than publish up.
-		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
-		{
-			// Swap the dates.
-			$temp = $this->publish_up;
-			$this->publish_up = $this->publish_down;
-			$this->publish_down = $temp;
-		}
+        // Set publish_up to null if not set
+        if (!$this->publish_up) {
+            $this->publish_up = null;
+        }
 
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->metakey))
-		{
-			// Only process if not empty
+        // Set publish_down to null if not set
+        if (!$this->publish_down) {
+            $this->publish_down = null;
+        }
 
-			// Array of characters to remove
-			$badCharacters = ["\n", "\r", "\"", '<', '>'];
+        // Check the publish down date is not earlier than publish up.
+        if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up) {
+            // Swap the dates.
+            $temp = $this->publish_up;
+            $this->publish_up = $this->publish_down;
+            $this->publish_down = $temp;
+        }
 
-			// Remove bad characters
-			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
+        // Clean up keywords -- eliminate extra spaces between phrases
+        // and cr (\r) and lf (\n) characters from string
+        if (!empty($this->metakey)) {
+            // Only process if not empty
 
-			// Create array using commas as delimiter
-			$keys = explode(',', $afterClean);
+            // Array of characters to remove
+            $badCharacters = ["\n", "\r", "\"", '<', '>'];
 
-			$cleanKeys = [];
+            // Remove bad characters
+            $afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
 
-			foreach ($keys as $key)
-			{
-				if (trim($key))
-				{
-					// Ignore blank keywords
-					$cleanKeys[] = trim($key);
-				}
-			}
+            // Create array using commas as delimiter
+            $keys = explode(',', $afterClean);
 
-			// Put array back together delimited by ", "
-			$this->metakey = implode(', ', $cleanKeys);
-		}
-		else
-		{
-			$this->metakey = '';
-		}
+            $cleanKeys = [];
 
-		if ($this->metadesc === null)
-		{
-			$this->metadesc = '';
-		}
+            foreach ($keys as $key) {
+                if (trim($key)) {
+                    // Ignore blank keywords
+                    $cleanKeys[] = trim($key);
+                }
+            }
 
-		return true;
-	}
+            // Put array back together delimited by ", "
+            $this->metakey = implode(', ', $cleanKeys);
+        } else {
+            $this->metakey = '';
+        }
 
-	/**
-	 * Overrides Table::store to set modified data and user id.
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   1.6
-	 */
-	public function store($updateNulls = true)
-	{
-		$date = Factory::getDate();
-		$user = Factory::getUser();
+        if ($this->metadesc === null) {
+            $this->metadesc = '';
+        }
 
-		if ($this->id)
-		{
-			// Existing item
-			$this->modified_by = $user->get('id');
-			$this->modified    = $date->toSql();
-		}
-		else
-		{
-			// New article. An article created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
-			{
-				$this->created = $date->toSql();
-			}
+        return true;
+    }
 
-			if (empty($this->created_by))
-			{
-				$this->created_by = $user->get('id');
-			}
+    /**
+     * Overrides Table::store to set modified data and user id.
+     *
+     * @param   boolean  $updateNulls  True to update fields even if they are null.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   1.6
+     */
+    public function store($updateNulls = true)
+    {
+        $date = Factory::getDate()->toSql();
+        $user = Factory::getUser();
 
-			// Set modified to created date if not set
-			if (!(int) $this->modified)
-			{
-				$this->modified = $this->created;
-			}
+        // Set created date if not set.
+        if (!(int) $this->created) {
+            $this->created = $date;
+        }
 
-			// Set modified_by to created_by user if not set
-			if (empty($this->modified_by))
-			{
-				$this->modified_by = $this->created_by;
-			}
-		}
+        if ($this->id) {
+            // Existing item
+            $this->modified_by = $user->get('id');
+            $this->modified    = $date;
+        } else {
+            // Field created_by can be set by the user, so we don't touch it if it's set.
+            if (empty($this->created_by)) {
+                $this->created_by = $user->get('id');
+            }
 
-		// Verify that the alias is unique
-		$table = Table::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
+            // Set modified to created date if not set
+            if (!(int) $this->modified) {
+                $this->modified = $this->created;
+            }
 
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+            // Set modified_by to created_by user if not set
+            if (empty($this->modified_by)) {
+                $this->modified_by = $this->created_by;
+            }
+        }
 
-			return false;
-		}
+        // Verify that the alias is unique
+        $table = Table::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
 
-		return parent::store($updateNulls);
-	}
+        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+            // Is the existing article trashed?
+            $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS'));
 
-	/**
-	 * Get the type alias for the history table
-	 *
-	 * @return  string  The alias as described above
-	 *
-	 * @since   4.0.0
-	 */
-	public function getTypeAlias()
-	{
-		return 'com_content.article';
-	}
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
+
+            return false;
+        }
+
+        return parent::store($updateNulls);
+    }
+
+    /**
+     * Get the type alias for UCM features
+     *
+     * @return  string  The alias as described above
+     *
+     * @since   4.0.0
+     */
+    public function getTypeAlias()
+    {
+        return $this->typeAlias;
+    }
 }

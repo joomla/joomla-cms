@@ -1,17 +1,20 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Contact\Site\Service;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Contact Component Category Tree
@@ -20,19 +23,19 @@ use Joomla\CMS\Categories\Categories;
  */
 class Category extends Categories
 {
-	/**
-	 * Class constructor
-	 *
-	 * @param   array  $options  Array of options
-	 *
-	 * @since   1.6
-	 */
-	public function __construct($options = array())
-	{
-		$options['table']      = '#__contact_details';
-		$options['extension']  = 'com_contact';
-		$options['statefield'] = 'published';
+    /**
+     * Class constructor
+     *
+     * @param   array  $options  Array of options
+     *
+     * @since   1.6
+     */
+    public function __construct($options = array())
+    {
+        $options['table']      = '#__contact_details';
+        $options['extension']  = 'com_contact';
+        $options['statefield'] = 'published';
 
-		parent::__construct($options);
-	}
+        parent::__construct($options);
+    }
 }

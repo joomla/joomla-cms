@@ -1,15 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2013 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Config\Administrator\Model;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
@@ -22,6 +21,10 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model for component configuration
  *
@@ -29,198 +32,208 @@ use Joomla\CMS\Table\Table;
  */
 class ComponentModel extends FormModel
 {
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return	void
-	 *
-	 * @since	3.2
-	 */
-	protected function populateState()
-	{
-		$input = Factory::getApplication()->input;
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    protected function populateState()
+    {
+        $input = Factory::getApplication()->input;
 
-		// Set the component (option) we are dealing with.
-		$component = $input->get('component');
+        // Set the component (option) we are dealing with.
+        $component = $input->get('component');
 
-		$this->state->set('component.option', $component);
+        $this->state->set('component.option', $component);
 
-		// Set an alternative path for the configuration file.
-		if ($path = $input->getString('path'))
-		{
-			$path = Path::clean(JPATH_SITE . '/' . $path);
-			Path::check($path);
-			$this->state->set('component.path', $path);
-		}
-	}
+        // Set an alternative path for the configuration file.
+        if ($path = $input->getString('path')) {
+            $path = Path::clean(JPATH_SITE . '/' . $path);
+            Path::check($path);
+            $this->state->set('component.path', $path);
+        }
+    }
 
-	/**
-	 * Method to get a form object.
-	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 *
-	 * @return  mixed  A JForm object on success, false on failure
-	 *
-	 * @since	3.2
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		$state = $this->getState();
-		$option = $state->get('component.option');
+    /**
+     * Method to get a form object.
+     *
+     * @param   array    $data      Data for the form.
+     * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+     *
+     * @return  mixed  A JForm object on success, false on failure
+     *
+     * @since   3.2
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $state = $this->getState();
+        $option = $state->get('component.option');
 
-		if ($path = $state->get('component.path'))
-		{
-			// Add the search path for the admin component config.xml file.
-			Form::addFormPath($path);
-		}
-		else
-		{
-			// Add the search path for the admin component config.xml file.
-			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
-		}
+        if ($path = $state->get('component.path')) {
+            // Add the search path for the admin component config.xml file.
+            Form::addFormPath($path);
+        } else {
+            // Add the search path for the admin component config.xml file.
+            Form::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $option);
+        }
 
-		// Get the form.
-		$form = $this->loadForm(
-			'com_config.component',
-			'config',
-			array('control' => 'jform', 'load_data' => $loadData),
-			false,
-			'/config'
-		);
+        // Get the form.
+        $form = $this->loadForm(
+            'com_config.component',
+            'config',
+            array('control' => 'jform', 'load_data' => $loadData),
+            false,
+            '/config'
+        );
 
-		if (empty($form))
-		{
-			return false;
-		}
+        if (empty($form)) {
+            return false;
+        }
 
-		$lang = Factory::getLanguage();
-		$lang->load($option, JPATH_BASE)
-		|| $lang->load($option, JPATH_BASE . "/components/$option");
+        $lang = Factory::getLanguage();
+        $lang->load($option, JPATH_BASE)
+        || $lang->load($option, JPATH_BASE . "/components/$option");
 
-		return $form;
-	}
+        return $form;
+    }
 
-	/**
-	 * Get the component information.
-	 *
-	 * @return	object
-	 *
-	 * @since	3.2
-	 */
-	public function getComponent()
-	{
-		$state = $this->getState();
-		$option = $state->get('component.option');
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  array  The default data is an empty array.
+     *
+     * @since   4.0.0
+     */
+    protected function loadFormData()
+    {
+        $option = $this->getState()->get('component.option');
 
-		// Load common and local language files.
-		$lang = Factory::getLanguage();
-		$lang->load($option, JPATH_BASE)
-		|| $lang->load($option, JPATH_BASE . "/components/$option");
+        // Check the session for previously entered form data.
+        $data = Factory::getApplication()->getUserState('com_config.edit.component.' . $option . '.data', []);
 
-		$result = ComponentHelper::getComponent($option);
+        if (empty($data)) {
+            return $this->getComponent()->getParams()->toArray();
+        }
 
-		return $result;
-	}
+        return $data;
+    }
 
-	/**
-	 * Method to save the configuration data.
-	 *
-	 * @param   array  $data  An array containing all global config data.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since	3.2
-	 * @throws  \RuntimeException
-	 */
-	public function save($data)
-	{
-		$table      = Table::getInstance('extension');
-		$context    = $this->option . '.' . $this->name;
-		PluginHelper::importPlugin('extension');
+    /**
+     * Get the component information.
+     *
+     * @return  object
+     *
+     * @since   3.2
+     */
+    public function getComponent()
+    {
+        $state = $this->getState();
+        $option = $state->get('component.option');
 
-		// Check super user group.
-		if (isset($data['params']) && !Factory::getUser()->authorise('core.admin'))
-		{
-			$form = $this->getForm(array(), false);
+        // Load common and local language files.
+        $lang = Factory::getLanguage();
+        $lang->load($option, JPATH_BASE)
+        || $lang->load($option, JPATH_BASE . "/components/$option");
 
-			foreach ($form->getFieldsets() as $fieldset)
-			{
-				foreach ($form->getFieldset($fieldset->name) as $field)
-				{
-					if ($field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
-						&& (int) $field->getAttribute('checksuperusergroup', 0) === 1
-						&& Access::checkGroup($data['params'][$field->fieldname], 'core.admin'))
-					{
-						throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-					}
-				}
-			}
-		}
+        $result = ComponentHelper::getComponent($option);
 
-		// Save the rules.
-		if (isset($data['params']) && isset($data['params']['rules']))
-		{
-			$rules = new Rules($data['params']['rules']);
-			$asset = Table::getInstance('asset');
+        return $result;
+    }
 
-			if (!$asset->loadByName($data['option']))
-			{
-				$root = Table::getInstance('asset');
-				$root->loadByName('root.1');
-				$asset->name = $data['option'];
-				$asset->title = $data['option'];
-				$asset->setLocation($root->id, 'last-child');
-			}
+    /**
+     * Method to save the configuration data.
+     *
+     * @param   array  $data  An array containing all global config data.
+     *
+     * @return  boolean  True on success, false on failure.
+     *
+     * @since   3.2
+     * @throws  \RuntimeException
+     */
+    public function save($data)
+    {
+        $table      = Table::getInstance('extension');
+        $context    = $this->option . '.' . $this->name;
+        PluginHelper::importPlugin('extension');
 
-			$asset->rules = (string) $rules;
+        // Check super user group.
+        if (isset($data['params']) && !$this->getCurrentUser()->authorise('core.admin')) {
+            $form = $this->getForm(array(), false);
 
-			if (!$asset->check() || !$asset->store())
-			{
-				throw new \RuntimeException($asset->getError());
-			}
+            foreach ($form->getFieldsets() as $fieldset) {
+                foreach ($form->getFieldset($fieldset->name) as $field) {
+                    if (
+                        $field->type === 'UserGroupList' && isset($data['params'][$field->fieldname])
+                        && (int) $field->getAttribute('checksuperusergroup', 0) === 1
+                        && Access::checkGroup($data['params'][$field->fieldname], 'core.admin')
+                    ) {
+                        throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+                    }
+                }
+            }
+        }
 
-			// We don't need this anymore
-			unset($data['option']);
-			unset($data['params']['rules']);
-		}
+        // Save the rules.
+        if (isset($data['params']) && isset($data['params']['rules'])) {
+            if (!$this->getCurrentUser()->authorise('core.admin', $data['option'])) {
+                throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+            }
 
-		// Load the previous Data
-		if (!$table->load($data['id']))
-		{
-			throw new \RuntimeException($table->getError());
-		}
+            $rules = new Rules($data['params']['rules']);
+            $asset = Table::getInstance('asset');
 
-		unset($data['id']);
+            if (!$asset->loadByName($data['option'])) {
+                $root = Table::getInstance('asset');
+                $root->loadByName('root.1');
+                $asset->name = $data['option'];
+                $asset->title = $data['option'];
+                $asset->setLocation($root->id, 'last-child');
+            }
 
-		// Bind the data.
-		if (!$table->bind($data))
-		{
-			throw new \RuntimeException($table->getError());
-		}
+            $asset->rules = (string) $rules;
 
-		// Check the data.
-		if (!$table->check())
-		{
-			throw new \RuntimeException($table->getError());
-		}
+            if (!$asset->check() || !$asset->store()) {
+                throw new \RuntimeException($asset->getError());
+            }
 
-		$result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
+            // We don't need this anymore
+            unset($data['option']);
+            unset($data['params']['rules']);
+        }
 
-		// Store the data.
-		if (in_array(false, $result, true) || !$table->store())
-		{
-			throw new \RuntimeException($table->getError());
-		}
+        // Load the previous Data
+        if (!$table->load($data['id'])) {
+            throw new \RuntimeException($table->getError());
+        }
 
-		Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
+        unset($data['id']);
 
-		// Clean the component cache.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+        // Bind the data.
+        if (!$table->bind($data)) {
+            throw new \RuntimeException($table->getError());
+        }
 
-		return true;
-	}
+        // Check the data.
+        if (!$table->check()) {
+            throw new \RuntimeException($table->getError());
+        }
+
+        $result = Factory::getApplication()->triggerEvent('onExtensionBeforeSave', array($context, $table, false));
+
+        // Store the data.
+        if (in_array(false, $result, true) || !$table->store()) {
+            throw new \RuntimeException($table->getError());
+        }
+
+        Factory::getApplication()->triggerEvent('onExtensionAfterSave', array($context, $table, false));
+
+        // Clean the component cache.
+        $this->cleanCache('_system');
+
+        return true;
+    }
 }

@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2008 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,9 +27,10 @@ echo ModuleHelper::renderModule($loginmodule, array('id' => 'section-box'));
  */
 $modules = ModuleHelper::getModules('login');
 
-foreach ($modules as $module)
+foreach ($modules as $module) {
 // Render the login modules
 
-if ($module->module != 'mod_login'){
-	echo ModuleHelper::renderModule($module, array('id' => 'section-box'));
+    if ($module->module != 'mod_login') {
+        echo ModuleHelper::renderModule($module, array('id' => 'section-box'));
+    }
 }

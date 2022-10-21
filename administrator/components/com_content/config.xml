@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Articles:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="articles"
 		label="JGLOBAL_ARTICLES"
@@ -9,7 +11,7 @@
 			name="article_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_content"
 			view="article"
@@ -222,7 +224,7 @@
 
 		<field
 			name="show_vote"
-			type="radio"
+			type="voteradio"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
@@ -258,6 +260,7 @@
 			name="readmore_limit"
 			type="number"
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
+			filter="integer"
 			default="100"
 			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
@@ -266,7 +269,6 @@
 			name="show_tags"
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-			id="show_tags"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -281,17 +283,6 @@
 		/>
 
 		<field
-			name="show_hits"
-			type="radio"
-			label="JGLOBAL_SHOW_HITS_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="record_hits"
 			type="radio"
 			label="JGLOBAL_RECORD_HITS_LABEL"
@@ -300,6 +291,17 @@
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="show_hits"
+			type="radio"
+			label="JGLOBAL_SHOW_HITS_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -316,13 +318,15 @@
 
 		<field
 			name="urls_position"
-			type="radio"
+			type="list"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-			layout="joomla.form.field.radio.switcher"
 			default="0"
+			filter="integer"
+			validate="options"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+			<option value="-1">JHIDE</option>
 		</field>
 	</fieldset>
 	<fieldset
@@ -499,27 +503,17 @@
 
 		<field
 			name="float_intro"
-			type="list"
-			label="COM_CONTENT_FLOAT_INTRO_LABEL"
+			type="text"
+			label="COM_CONTENT_IMAGE_INTRO_CLASS_LABEL"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
-			validate="options"
-			>
-			<option value="right">COM_CONTENT_RIGHT</option>
-			<option value="left">COM_CONTENT_LEFT</option>
-			<option value="none">COM_CONTENT_NONE</option>
-		</field>
+		/>
 
 		<field
 			name="float_fulltext"
-			type="list"
-			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
+			type="text"
+			label="COM_CONTENT_IMAGE_FULLTEXT_CLASS_LABEL"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
-			validate="options"
-			>
-			<option value="right">COM_CONTENT_RIGHT</option>
-			<option value="left">COM_CONTENT_LEFT</option>
-			<option value="none">COM_CONTENT_NONE</option>
-		</field>
+		/>
 	</fieldset>
 	<fieldset
 		name="category"
@@ -530,22 +524,11 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
-			class="custom-select"
+			class="form-select"
 			menuitems="true"
 			extension="com_content"
 			view="category"
 		/>
-
-		<field
-			name="show_category_heading_title_text"
-			type="radio"
-			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			layout="joomla.form.field.radio.switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
 
 		<field
 			name="show_category_title"
@@ -611,6 +594,17 @@
 			name="show_no_articles"
 			type="radio"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_category_heading_title_text"
+			type="radio"
+			label="JGLOBAL_SHOW_SUBCATEGORY_HEADING"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -723,31 +717,63 @@
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
+
 		<field
 			name="num_leading_articles"
 			type="number"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+			filter="integer"
 			default="1"
+		/>
+
+		<field
+			name="blog_class_leading"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS_LEADING"
+			validate="CssIdentifier"
 		/>
 
 		<field
 			name="num_intro_articles"
 			type="number"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
+			filter="integer"
 			default="4"
 		/>
+
+		<field
+			name="blog_class"
+			type="text"
+			label="JGLOBAL_BLOG_CLASS"
+			description="JGLOBAL_BLOG_CLASS_NOTE_DESC"
+			validate="CssIdentifier"
+		/>
+
+		<field
+			name="num_columns"
+			type="number"
+			label="JGLOBAL_NUM_COLUMNS_LABEL"
+			filter="integer"
+			default="1"
+		/>
+
+		<field
+			name="multi_column_order"
+			type="list"
+			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
+			default="0"
+			validate="options"
+			>
+			<option value="0">JGLOBAL_BLOG_DOWN_OPTION</option>
+			<option value="1">JGLOBAL_BLOG_ACROSS_OPTION</option>
+		</field>
 
 		<field
 			name="num_links"
 			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
+			filter="integer"
 			default="4"
-		/>
-
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
 		/>
 
 		<field
@@ -764,6 +790,17 @@
 			<option value="3">J3</option>
 			<option value="4">J4</option>
 			<option value="5">J5</option>
+		</field>
+
+		<field
+			name="link_intro_image"
+			type="radio"
+			label="JGLOBAL_LINKED_INTRO_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 	<fieldset
@@ -793,7 +830,7 @@
 			<option value="hide">JHIDE</option>
 			<option value="title">JGLOBAL_TITLE</option>
 			<option value="author">JAUTHOR</option>
-			<option value="hits">JGLOBAL_HITS</option>
+			<option value="hits" requires="hits">JGLOBAL_HITS</option>
 			<option value="tag">JTAG</option>
 			<option value="month">JMONTH_PUBLISHED</option>
 		</field>
@@ -826,7 +863,6 @@
 			name="date_format"
 			type="text"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			size="15"
 			showon="list_show_date:created,modified,published"
 		/>
 
@@ -850,6 +886,24 @@
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="display_num"
+			type="list"
+			label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+			default="10"
+			validate="options"
+			>
+			<option value="5">J5</option>
+			<option value="10">J10</option>
+			<option value="15">J15</option>
+			<option value="20">J20</option>
+			<option value="25">J25</option>
+			<option value="30">J30</option>
+			<option value="50">J50</option>
+			<option value="100">J100</option>
+			<option value="0">JALL</option>
 		</field>
 
 		<field
@@ -905,8 +959,8 @@
 			<option value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 			<option value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 			<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-			<option value="hits">JGLOBAL_MOST_HITS</option>
-			<option value="rhits">JGLOBAL_LEAST_HITS</option>
+			<option value="hits" requires="hits">JGLOBAL_MOST_HITS</option>
+			<option value="rhits" requires="hits">JGLOBAL_LEAST_HITS</option>
 			<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 			<option value="rorder">JGLOBAL_ARTICLE_MANAGER_REVERSE_ORDER</option>
 			<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
@@ -919,7 +973,6 @@
 			name="order_date"
 			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
-			showon="orderby_sec:rdate,date"
 			default="published"
 			validate="options"
 			>

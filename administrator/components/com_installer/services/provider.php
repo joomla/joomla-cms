@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,30 +27,29 @@ use Joomla\DI\ServiceProviderInterface;
  */
 return new class implements ServiceProviderInterface
 {
-	/**
-	 * Registers the service provider with a DI container.
-	 *
-	 * @param   Container  $container  The DI container.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function register(Container $container)
-	{
-		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Installer'));
-		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Installer'));
+    /**
+     * Registers the service provider with a DI container.
+     *
+     * @param   Container  $container  The DI container.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function register(Container $container)
+    {
+        $container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Installer'));
+        $container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Installer'));
 
-		$container->set(
-			ComponentInterface::class,
-			function (Container $container)
-			{
-				$component = new InstallerComponent($container->get(ComponentDispatcherFactoryInterface::class));
-				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
-				$component->setRegistry($container->get(Registry::class));
+        $container->set(
+            ComponentInterface::class,
+            function (Container $container) {
+                $component = new InstallerComponent($container->get(ComponentDispatcherFactoryInterface::class));
+                $component->setMVCFactory($container->get(MVCFactoryInterface::class));
+                $component->setRegistry($container->get(Registry::class));
 
-				return $component;
-			}
-		);
-	}
+                return $component;
+            }
+        );
+    }
 };

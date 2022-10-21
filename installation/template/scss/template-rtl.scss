@@ -70,11 +70,13 @@ textarea.noResize {
   text-align: left;
 }
 
-.fa-chevron-right::before {
+.#{$jicon-css-prefix}-chevron-right::before,
+.#{$fa-css-prefix}-chevron-right::before {
   content: "";
 }
 
-.j-install-last-step .fas {
+.j-install-last-step [class^="icon-"],
+.j-install-last-step [class*=" icon-"] {
   display: inline;
 }
 

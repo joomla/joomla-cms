@@ -1,14 +1,17 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Authentication\Password;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface for a password handler which supports checking if the password requires rehashing
@@ -17,14 +20,14 @@ namespace Joomla\CMS\Authentication\Password;
  */
 interface CheckIfRehashNeededHandlerInterface
 {
-	/**
-	 * Check if the password requires rehashing
-	 *
-	 * @param   string  $hash  The password hash to check
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function checkIfRehashNeeded(string $hash): bool;
+    /**
+     * Check if the password requires rehashing
+     *
+     * @param   string  $hash  The password hash to check
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    public function checkIfRehashNeeded(string $hash): bool;
 }

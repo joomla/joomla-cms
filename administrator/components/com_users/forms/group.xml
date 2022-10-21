@@ -14,14 +14,16 @@
 			type="text"
 			label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
 			required="true"
-			size="40"
 		/>
 
 		<field
 			name="parent_id"
 			type="groupparent"
 			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
-		/>
+			validate="options"
+			>
+			<option value="0" disabled="disabled">COM_USERS_GROUP_FIELD_PARENT_SELECT</option>
+		</field>
 
 		<field
 			name="actions"

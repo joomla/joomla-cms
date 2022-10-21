@@ -5,8 +5,8 @@
 			name="search"
 			type="text"
 			inputmode="search"
-			label="COM_ACTIONLOGS_FILTER_SEARCH_DESC"
-			description="COM_ACTIONLOGS_SEARCH_IN_NAME"
+			label="COM_ACTIONLOGS_FILTER_SEARCH_LABEL"
+			description="COM_ACTIONLOGS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field

@@ -1,14 +1,13 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
-
-\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -17,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
  *
@@ -24,395 +27,371 @@ use Joomla\Database\ParameterType;
  */
 class InstallerScript
 {
-	/**
-	 * The version number of the extension.
-	 *
-	 * @var    string
-	 * @since  3.6
-	 */
-	protected $release;
+    /**
+     * The version number of the extension.
+     *
+     * @var    string
+     * @since  3.6
+     */
+    protected $release;
 
-	/**
-	 * The table the parameters are stored in.
-	 *
-	 * @var    string
-	 * @since  3.6
-	 */
-	protected $paramTable;
+    /**
+     * The table the parameters are stored in.
+     *
+     * @var    string
+     * @since  3.6
+     */
+    protected $paramTable;
 
-	/**
-	 * The extension name. This should be set in the installer script.
-	 *
-	 * @var    string
-	 * @since  3.6
-	 */
-	protected $extension;
+    /**
+     * The extension name. This should be set in the installer script.
+     *
+     * @var    string
+     * @since  3.6
+     */
+    protected $extension;
 
-	/**
-	 * A list of files to be deleted
-	 *
-	 * @var    array
-	 * @since  3.6
-	 */
-	protected $deleteFiles = array();
+    /**
+     * A list of files to be deleted
+     *
+     * @var    array
+     * @since  3.6
+     */
+    protected $deleteFiles = array();
 
-	/**
-	 * A list of folders to be deleted
-	 *
-	 * @var    array
-	 * @since  3.6
-	 */
-	protected $deleteFolders = array();
+    /**
+     * A list of folders to be deleted
+     *
+     * @var    array
+     * @since  3.6
+     */
+    protected $deleteFolders = array();
 
-	/**
-	 * A list of CLI script files to be copied to the cli directory
-	 *
-	 * @var    array
-	 * @since  3.6
-	 */
-	protected $cliScriptFiles = array();
+    /**
+     * A list of CLI script files to be copied to the cli directory
+     *
+     * @var    array
+     * @since  3.6
+     */
+    protected $cliScriptFiles = array();
 
-	/**
-	 * Minimum PHP version required to install the extension
-	 *
-	 * @var    string
-	 * @since  3.6
-	 */
-	protected $minimumPhp;
+    /**
+     * Minimum PHP version required to install the extension
+     *
+     * @var    string
+     * @since  3.6
+     */
+    protected $minimumPhp;
 
-	/**
-	 * Minimum Joomla! version required to install the extension
-	 *
-	 * @var    string
-	 * @since  3.6
-	 */
-	protected $minimumJoomla;
+    /**
+     * Minimum Joomla! version required to install the extension
+     *
+     * @var    string
+     * @since  3.6
+     */
+    protected $minimumJoomla;
 
-	/**
-	 * Allow downgrades of your extension
-	 *
-	 * Use at your own risk as if there is a change in functionality people may wish to downgrade.
-	 *
-	 * @var    boolean
-	 * @since  3.6
-	 */
-	protected $allowDowngrades = false;
+    /**
+     * Allow downgrades of your extension
+     *
+     * Use at your own risk as if there is a change in functionality people may wish to downgrade.
+     *
+     * @var    boolean
+     * @since  3.6
+     */
+    protected $allowDowngrades = false;
 
-	/**
-	 * Function called before extension installation/update/removal procedure commences
-	 *
-	 * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
-	 * @param   InstallerAdapter  $parent  The class calling this method
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.6
-	 */
-	public function preflight($type, $parent)
-	{
-		// Check for the minimum PHP version before continuing
-		if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<'))
-		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), Log::WARNING, 'jerror');
+    /**
+     * Function called before extension installation/update/removal procedure commences
+     *
+     * @param   string            $type    The type of change (install, update or discover_install, not uninstall)
+     * @param   InstallerAdapter  $parent  The class calling this method
+     *
+     * @return  boolean  True on success
+     *
+     * @since   3.6
+     */
+    public function preflight($type, $parent)
+    {
+        // Check for the minimum PHP version before continuing
+        if (!empty($this->minimumPhp) && version_compare(PHP_VERSION, $this->minimumPhp, '<')) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_PHP', $this->minimumPhp), Log::WARNING, 'jerror');
 
-			return false;
-		}
+            return false;
+        }
 
-		// Check for the minimum Joomla version before continuing
-		if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<'))
-		{
-			Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), Log::WARNING, 'jerror');
+        // Check for the minimum Joomla version before continuing
+        if (!empty($this->minimumJoomla) && version_compare(JVERSION, $this->minimumJoomla, '<')) {
+            Log::add(Text::sprintf('JLIB_INSTALLER_MINIMUM_JOOMLA', $this->minimumJoomla), Log::WARNING, 'jerror');
 
-			return false;
-		}
+            return false;
+        }
 
-		// Extension manifest file version
-		$this->extension = $parent->getName();
-		$this->release   = $parent->getManifest()->version;
-		$extensionType   = substr($this->extension, 0, 3);
+        // Extension manifest file version
+        $this->extension = $parent->getName();
+        $this->release   = $parent->getManifest()->version;
+        $extensionType   = substr($this->extension, 0, 3);
 
-		// Modules parameters are located in the module table - else in the extension table
-		if ($extensionType === 'mod')
-		{
-			$this->paramTable = '#__modules';
-		}
-		else
-		{
-			$this->paramTable = '#__extensions';
-		}
+        // Modules parameters are located in the module table - else in the extension table
+        if ($extensionType === 'mod') {
+            $this->paramTable = '#__modules';
+        } else {
+            $this->paramTable = '#__extensions';
+        }
 
-		// Abort if the extension being installed is not newer than the currently installed version
-		if (!$this->allowDowngrades && strtolower($type) === 'update')
-		{
-			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
-			$oldRelease = $manifest['version'];
+        // Abort if the extension being installed is not newer than the currently installed version
+        if (!$this->allowDowngrades && strtolower($type) === 'update') {
+            $manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', $this->extension);
 
-			if (version_compare($this->release, $oldRelease, '<'))
-			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
+            // Check whether we have an old release installed and skip this check when this here is the initial install.
+            if (!isset($manifest['version'])) {
+                return true;
+            }
 
-				return false;
-			}
-		}
+            $oldRelease = $manifest['version'];
 
-		return true;
-	}
+            if (version_compare($this->release, $oldRelease, '<')) {
+                Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
-	/**
-	 * Gets each instance of a module in the #__modules table
-	 *
-	 * @param   boolean  $isModule  True if the extension is a module as this can have multiple instances
-	 *
-	 * @return  array  An array of ID's of the extension
-	 *
-	 * @since   3.6
-	 */
-	public function getInstances($isModule)
-	{
-		$extension = $this->extension;
+                return false;
+            }
+        }
 
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
+        return true;
+    }
 
-		// Select the item(s) and retrieve the id
-		$query->select($db->quoteName('id'));
+    /**
+     * Gets each instance of a module in the #__modules table
+     *
+     * @param   boolean  $isModule  True if the extension is a module as this can have multiple instances
+     *
+     * @return  array  An array of ID's of the extension
+     *
+     * @since   3.6
+     */
+    public function getInstances($isModule)
+    {
+        $extension = $this->extension;
 
-		if ($isModule)
-		{
-			$query->from($db->quoteName('#__modules'))
-				->where($db->quoteName('module') . ' = :extension');
-		}
-		else
-		{
-			$query->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('element') . ' = :extension');
-		}
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true);
 
-		$query->bind(':extension', $extension);
+        // Select the item(s) and retrieve the id
+        $query->select($db->quoteName('id'));
 
-		// Set the query and obtain an array of id's
-		return $db->setQuery($query)->loadColumn();
-	}
+        if ($isModule) {
+            $query->from($db->quoteName('#__modules'))
+                ->where($db->quoteName('module') . ' = :extension');
+        } else {
+            $query->from($db->quoteName('#__extensions'))
+                ->where($db->quoteName('element') . ' = :extension');
+        }
 
-	/**
-	 * Gets parameter value in the extensions row of the extension table
-	 *
-	 * @param   string   $name  The name of the parameter to be retrieved
-	 * @param   integer  $id    The id of the item in the Param Table
-	 *
-	 * @return  string  The parameter desired
-	 *
-	 * @since   3.6
-	 */
-	public function getParam($name, $id = 0)
-	{
-		if (!\is_int($id) || $id == 0)
-		{
-			// Return false if there is no item given
-			return false;
-		}
+        $query->bind(':extension', $extension);
 
-		$params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        // Set the query and obtain an array of id's
+        return $db->setQuery($query)->loadColumn();
+    }
 
-		return $params[$name];
-	}
+    /**
+     * Gets parameter value in the extensions row of the extension table
+     *
+     * @param   string   $name  The name of the parameter to be retrieved
+     * @param   integer  $id    The id of the item in the Param Table
+     *
+     * @return  string  The parameter desired
+     *
+     * @since   3.6
+     */
+    public function getParam($name, $id = 0)
+    {
+        if (!\is_int($id) || $id == 0) {
+            // Return false if there is no item given
+            return false;
+        }
 
-	/**
-	 * Sets parameter values in the extensions row of the extension table. Note that the
-	 * this must be called separately for deleting and editing. Note if edit is called as a
-	 * type then if the param doesn't exist it will be created
-	 *
-	 * @param   array    $param_array  The array of parameters to be added/edited/removed
-	 * @param   string   $type         The type of change to be made to the param (edit/remove)
-	 * @param   integer  $id           The id of the item in the relevant table
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.6
-	 */
-	public function setParams($param_array = null, $type = 'edit', $id = 0)
-	{
-		if (!\is_int($id) || $id == 0)
-		{
-			// Return false if there is no valid item given
-			return false;
-		}
+        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
 
-		$params = $this->getItemArray('params', $this->paramTable, 'id', $id);
+        return $params[$name];
+    }
 
-		if ($param_array)
-		{
-			foreach ($param_array as $name => $value)
-			{
-				if ($type === 'edit')
-				{
-					// Add or edit the new variable(s) to the existing params
-					if (\is_array($value))
-					{
-						// Convert an array into a json encoded string
-						$params[(string) $name] = array_values($value);
-					}
-					else
-					{
-						$params[(string) $name] = (string) $value;
-					}
-				}
-				elseif ($type === 'remove')
-				{
-					// Unset the parameter from the array
-					unset($params[(string) $name]);
-				}
-			}
-		}
+    /**
+     * Sets parameter values in the extensions row of the extension table. Note that the
+     * this must be called separately for deleting and editing. Note if edit is called as a
+     * type then if the param doesn't exist it will be created
+     *
+     * @param   array    $paramArray  The array of parameters to be added/edited/removed
+     * @param   string   $type        The type of change to be made to the param (edit/remove)
+     * @param   integer  $id          The id of the item in the relevant table
+     *
+     * @return  boolean  True on success
+     *
+     * @since   3.6
+     */
+    public function setParams($paramArray = null, $type = 'edit', $id = 0)
+    {
+        if (!\is_int($id) || $id == 0) {
+            // Return false if there is no valid item given
+            return false;
+        }
 
-		// Store the combined new and existing values back as a JSON string
-		$paramsString = json_encode($params);
+        $params = $this->getItemArray('params', $this->paramTable, 'id', $id);
 
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName($this->paramTable))
-			->set('params = :params')
-			->where('id = :id')
-			->bind(':params', $paramsString)
-			->bind(':id', $id, ParameterType::INTEGER);
+        if ($paramArray) {
+            foreach ($paramArray as $name => $value) {
+                if ($type === 'edit') {
+                    // Add or edit the new variable(s) to the existing params
+                    if (\is_array($value)) {
+                        // Convert an array into a json encoded string
+                        $params[(string) $name] = array_values($value);
+                    } else {
+                        $params[(string) $name] = (string) $value;
+                    }
+                } elseif ($type === 'remove') {
+                    // Unset the parameter from the array
+                    unset($params[(string) $name]);
+                }
+            }
+        }
 
-		// Update table
-		$db->setQuery($query)->execute();
+        // Store the combined new and existing values back as a JSON string
+        $paramsString = json_encode($params);
 
-		return true;
-	}
+        $db = Factory::getDbo();
+        $query = $db->getQuery(true)
+            ->update($db->quoteName($this->paramTable))
+            ->set('params = :params')
+            ->where('id = :id')
+            ->bind(':params', $paramsString)
+            ->bind(':id', $id, ParameterType::INTEGER);
 
-	/**
-	 * Builds a standard select query to produce better DRY code in this script.
-	 * This should produce a single unique cell which is json encoded - it will then
-	 * return an associated array with this data in.
-	 *
-	 * @param   string  $element     The element to get from the query
-	 * @param   string  $table       The table to search for the data in
-	 * @param   string  $column      The column of the database to search from
-	 * @param   mixed   $identifier  The integer id or the string
-	 *
-	 * @return  array  Associated array containing data from the cell
-	 *
-	 * @since   3.6
-	 */
-	public function getItemArray($element, $table, $column, $identifier)
-	{
-		// Get the DB and query objects
-		$db = Factory::getDbo();
+        // Update table
+        $db->setQuery($query)->execute();
 
-		$paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
+        return true;
+    }
 
-		// Build the query
-		$query = $db->getQuery(true)
-			->select($db->quoteName($element))
-			->from($db->quoteName($table))
-			->where($db->quoteName($column) . ' = :id')
-			->bind(':id', $identifier, $paramType);
-		$db->setQuery($query);
+    /**
+     * Builds a standard select query to produce better DRY code in this script.
+     * This should produce a single unique cell which is json encoded - it will then
+     * return an associated array with this data in.
+     *
+     * @param   string  $element     The element to get from the query
+     * @param   string  $table       The table to search for the data in
+     * @param   string  $column      The column of the database to search from
+     * @param   mixed   $identifier  The integer id or the string
+     *
+     * @return  array  Associated array containing data from the cell
+     *
+     * @since   3.6
+     */
+    public function getItemArray($element, $table, $column, $identifier)
+    {
+        // Get the DB and query objects
+        $db = Factory::getDbo();
 
-		// Load the single cell and json_decode data
-		return json_decode($db->loadResult(), true);
-	}
+        $paramType = is_numeric($identifier) ? ParameterType::INTEGER : ParameterType::STRING;
 
-	/**
-	 * Remove the files and folders in the given array from
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6
-	 */
-	public function removeFiles()
-	{
-		if (!empty($this->deleteFiles))
-		{
-			foreach ($this->deleteFiles as $file)
-			{
-				if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
-				{
-					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
-				}
-			}
-		}
+        // Build the query
+        $query = $db->getQuery(true)
+            ->select($db->quoteName($element))
+            ->from($db->quoteName($table))
+            ->where($db->quoteName($column) . ' = :id')
+            ->bind(':id', $identifier, $paramType);
+        $db->setQuery($query);
 
-		if (!empty($this->deleteFolders))
-		{
-			foreach ($this->deleteFolders as $folder)
-			{
-				if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
-				{
-					echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
-				}
-			}
-		}
-	}
+        // Load the single cell and json_decode data
+        return json_decode($db->loadResult(), true);
+    }
 
-	/**
-	 * Moves the CLI scripts into the CLI folder in the CMS
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6
-	 */
-	public function moveCliFiles()
-	{
-		if (!empty($this->cliScriptFiles))
-		{
-			foreach ($this->cliScriptFiles as $file)
-			{
-				$name = basename($file);
+    /**
+     * Remove the files and folders in the given array from
+     *
+     * @return  void
+     *
+     * @since   3.6
+     */
+    public function removeFiles()
+    {
+        if (!empty($this->deleteFiles)) {
+            foreach ($this->deleteFiles as $file) {
+                if (file_exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file)) {
+                    echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $file) . '<br>';
+                }
+            }
+        }
 
-				if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name))
-				{
-					echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
-				}
-			}
-		}
-	}
+        if (!empty($this->deleteFolders)) {
+            foreach ($this->deleteFolders as $folder) {
+                if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder)) {
+                    echo Text::sprintf('JLIB_INSTALLER_ERROR_FILE_FOLDER', $folder) . '<br>';
+                }
+            }
+        }
+    }
 
-	/**
-	 * Creates the dashboard menu module
-	 *
-	 * @param string $dashboard The name of the dashboard
-	 * @param string $preset    The name of the menu preset
-	 *
-	 * @return  void
-	 *
-	 * @throws \Exception
-	 * @since   4.0
-	 */
-	public function addDashboardMenu(string $dashboard, string $preset)
-	{
-		$model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
-		$module = array(
-			'id'         => 0,
-			'asset_id'   => 0,
-			'language'   => '*',
-			'note'       => '',
-			'published'  => 1,
-			'assignment' => 0,
-			'client_id'  => 1,
-			'showtitle'  => 0,
-			'content'    => '',
-			'module'     => 'mod_submenu',
-			'position'   => 'cpanel-' . $dashboard,
-		);
+    /**
+     * Moves the CLI scripts into the CLI folder in the CMS
+     *
+     * @return  void
+     *
+     * @since   3.6
+     */
+    public function moveCliFiles()
+    {
+        if (!empty($this->cliScriptFiles)) {
+            foreach ($this->cliScriptFiles as $file) {
+                $name = basename($file);
 
-		// Try to get a translated module title, otherwise fall back to a fixed string.
-		$titleKey         = strtoupper('COM_' . $this->extension . '_DASHBOARD_' . $dashboard . '_TITLE');
-		$title            = Text::_($titleKey);
-		$module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
+                if (file_exists(JPATH_ROOT . $file) && !File::move(JPATH_ROOT . $file, JPATH_ROOT . '/cli/' . $name)) {
+                    echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
+                }
+            }
+        }
+    }
 
-		$module['access'] = (int) Factory::getApplication()->get('access', 1);
-		$module['params'] = array(
-			'menutype' => '*',
-			'preset'   => $preset,
-			'style'    => 'System-none',
-		);
+    /**
+     * Creates the dashboard menu module
+     *
+     * @param string $dashboard The name of the dashboard
+     * @param string $preset    The name of the menu preset
+     *
+     * @return  void
+     *
+     * @throws \Exception
+     * @since   4.0.0
+     */
+    public function addDashboardMenu(string $dashboard, string $preset)
+    {
+        $model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+        $module = array(
+            'id'         => 0,
+            'asset_id'   => 0,
+            'language'   => '*',
+            'note'       => '',
+            'published'  => 1,
+            'assignment' => 0,
+            'client_id'  => 1,
+            'showtitle'  => 0,
+            'content'    => '',
+            'module'     => 'mod_submenu',
+            'position'   => 'cpanel-' . $dashboard,
+        );
 
-		if (!$model->save($module))
-		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
-		}
-	}
+        // Try to get a translated module title, otherwise fall back to a fixed string.
+        $titleKey         = strtoupper('COM_' . $this->extension . '_DASHBOARD_' . $dashboard . '_TITLE');
+        $title            = Text::_($titleKey);
+        $module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
+
+        $module['access'] = (int) Factory::getApplication()->get('access', 1);
+        $module['params'] = array(
+            'menutype' => '*',
+            'preset'   => $preset,
+            'style'    => 'System-none',
+        );
+
+        if (!$model->save($module)) {
+            Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
+        }
+    }
 }

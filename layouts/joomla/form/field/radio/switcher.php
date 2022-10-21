@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,9 +46,8 @@ extract($displayData);
  */
 
 // If there are no options don't render anything
-if (empty($options))
-{
-	return '';
+if (empty($options)) {
+    return '';
 }
 
 // Load the css files
@@ -68,27 +68,26 @@ $attr .= $dataAttribute;
 
 ?>
 <fieldset <?php echo $attr; ?>>
-	<legend class="switcher__legend sr-only">
-		<?php echo $label; ?>
-	</legend>
-	<div class="switcher<?php echo ($readonly || $disabled ? ' disabled' : ''); ?>">
-	<?php foreach ($options as $i => $option) : ?>
-		<?php
-		// False value casting as string returns an empty string so assign it 0
-		if (empty($value) && $option->value == '0')
-		{
-			$value = '0';
-		}
+    <legend class="visually-hidden">
+        <?php echo $label; ?>
+    </legend>
+    <div class="switcher<?php echo ($readonly || $disabled ? ' disabled' : ''); ?>">
+    <?php foreach ($options as $i => $option) : ?>
+        <?php
+        // False value casting as string returns an empty string so assign it 0
+        if (empty($value) && $option->value == '0') {
+            $value = '0';
+        }
 
-		// Initialize some option attributes.
-		$optionValue = (string) $option->value;
-		$optionId    = $id . $i;
-		$attributes  = $optionValue == $value ? 'checked class="active"' : '';
-		$attributes  .= $optionValue != $value && $readonly || $disabled ? ' disabled' : '';
-		?>
-		<?php echo sprintf($input, $optionId, $name, $this->escape($optionValue), $attributes); ?>
-		<?php echo '<label for="' . $optionId . '">' . $option->text . '</label>'; ?>
-	<?php endforeach; ?>
-	<span class="toggle-outside"><span class="toggle-inside"></span></span>
-	</div>
+        // Initialize some option attributes.
+        $optionValue = (string) $option->value;
+        $optionId    = $id . $i;
+        $attributes  = $optionValue == $value ? 'checked class="active ' . $class . '"' : ($class ? 'class="' . $class . '"' : '');
+        $attributes  .= $optionValue != $value && $readonly || $disabled ? ' disabled' : '';
+        ?>
+        <?php echo sprintf($input, $optionId, $name, $this->escape($optionValue), $attributes); ?>
+        <?php echo '<label for="' . $optionId . '">' . $option->text . '</label>'; ?>
+    <?php endforeach; ?>
+    <span class="toggle-outside"><span class="toggle-inside"></span></span>
+    </div>
 </fieldset>

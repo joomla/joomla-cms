@@ -1,19 +1,22 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Checkin\Administrator\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Checkin Model
@@ -22,246 +25,211 @@ use Joomla\CMS\MVC\Model\ListModel;
  */
 class CheckinModel extends ListModel
 {
-	/**
-	 * Count of the total items checked out
-	 *
-	 * @var  integer
-	 */
-	protected $total;
+    /**
+     * Count of the total items checked out
+     *
+     * @var  integer
+     */
+    protected $total;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 *
-	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 * @since   3.2
-	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-				'table',
-				'count',
-			);
-		}
+    /**
+     * Constructor.
+     *
+     * @param   array                $config   An optional associative array of configuration settings.
+     * @param   MVCFactoryInterface  $factory  The factory.
+     *
+     * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
+     * @since   3.2
+     */
+    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    {
+        if (empty($config['filter_fields'])) {
+            $config['filter_fields'] = array(
+                'table',
+                'count',
+            );
+        }
 
-		parent::__construct($config, $factory);
-	}
+        parent::__construct($config, $factory);
+    }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note: Calling getState in this method will result in recursion.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function populateState($ordering = 'table', $direction = 'asc')
-	{
-		// List state information.
-		parent::populateState($ordering, $direction);
-	}
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note: Calling getState in this method will result in recursion.
+     *
+     * @param   string  $ordering   An optional ordering field.
+     * @param   string  $direction  An optional direction (asc|desc).
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function populateState($ordering = 'table', $direction = 'asc')
+    {
+        // List state information.
+        parent::populateState($ordering, $direction);
+    }
 
-	/**
-	 * Checks in requested tables
-	 *
-	 * @param   array  $ids  An array of table names. Optional.
-	 *
-	 * @return  mixed  The database results or 0
-	 *
-	 * @since   1.6
-	 */
-	public function checkin($ids = array())
-	{
-		$db = $this->getDbo();
+    /**
+     * Checks in requested tables
+     *
+     * @param   array  $ids  An array of table names. Optional.
+     *
+     * @return  mixed  The database results or 0
+     *
+     * @since   1.6
+     */
+    public function checkin($ids = array())
+    {
+        $db = $this->getDatabase();
 
-		if (!is_array($ids))
-		{
-			return 0;
-		}
+        if (!is_array($ids)) {
+            return 0;
+        }
 
-		// This int will hold the checked item count.
-		$results = 0;
+        // This int will hold the checked item count.
+        $results = 0;
 
-		$app = Factory::getApplication();
+        $app = Factory::getApplication();
 
-		foreach ($ids as $tn)
-		{
-			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, $app->get('dbprefix')) !== 0)
-			{
-				continue;
-			}
+        foreach ($ids as $tn) {
+            // Make sure we get the right tables based on prefix.
+            if (stripos($tn, $app->get('dbprefix')) !== 0) {
+                continue;
+            }
 
-			$fields = $db->getTableColumns($tn, false);
+            $fields = $db->getTableColumns($tn, false);
 
-			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
-			{
-				continue;
-			}
+            if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+                continue;
+            }
 
-			if ($fields['checked_out_time']->Null === 'YES')
-			{
-				$query = $db->getQuery(true)
-					->update($db->quoteName($tn))
-					->set($db->quoteName('checked_out') . ' = DEFAULT')
-					->set($db->quoteName('checked_out_time') . ' = NULL')
-					->where($db->quoteName('checked_out') . ' > 0');
-			}
-			else
-			{
-				$nullDate = $db->getNullDate();
+            $query = $db->getQuery(true)
+                ->update($db->quoteName($tn))
+                ->set($db->quoteName('checked_out') . ' = DEFAULT');
 
-				$query = $db->getQuery(true)
-					->update($db->quoteName($tn))
-					->set($db->quoteName('checked_out') . ' = DEFAULT')
-					->set($db->quoteName('checked_out_time') . ' = :checkouttime')
-					->where($db->quoteName('checked_out') . ' > 0')
-					->bind(':checkouttime', $nullDate);
-			}
+            if ($fields['checked_out_time']->Null === 'YES') {
+                $query->set($db->quoteName('checked_out_time') . ' = NULL');
+            } else {
+                $nullDate = $db->getNullDate();
 
-			$db->setQuery($query);
+                $query->set($db->quoteName('checked_out_time') . ' = :checkouttime')
+                    ->bind(':checkouttime', $nullDate);
+            }
 
-			if ($db->execute())
-			{
-				$results = $results + $db->getAffectedRows();
-				$app->triggerEvent('onAfterCheckin', array($tn));
-			}
-		}
+            if ($fields['checked_out']->Null === 'YES') {
+                $query->where($db->quoteName('checked_out') . ' IS NOT NULL');
+            } else {
+                $query->where($db->quoteName('checked_out') . ' > 0');
+            }
 
-		return $results;
-	}
+            $db->setQuery($query);
 
-	/**
-	 * Get total of tables
-	 *
-	 * @return  integer  Total to check-in tables
-	 *
-	 * @since   1.6
-	 */
-	public function getTotal()
-	{
-		if (!isset($this->total))
-		{
-			$this->getItems();
-		}
+            if ($db->execute()) {
+                $results = $results + $db->getAffectedRows();
+                $app->triggerEvent('onAfterCheckin', array($tn));
+            }
+        }
 
-		return $this->total;
-	}
+        return $results;
+    }
 
-	/**
-	 * Get tables
-	 *
-	 * @return  array  Checked in table names as keys and checked in item count as values.
-	 *
-	 * @since   1.6
-	 */
-	public function getItems()
-	{
-		if (!isset($this->items))
-		{
-			$db     = $this->getDbo();
-			$tables = $db->getTableList();
+    /**
+     * Get total of tables
+     *
+     * @return  integer  Total to check-in tables
+     *
+     * @since   1.6
+     */
+    public function getTotal()
+    {
+        if (!isset($this->total)) {
+            $this->getItems();
+        }
 
-			// This array will hold table name as key and checked in item count as value.
-			$results = array();
+        return $this->total;
+    }
 
-			foreach ($tables as $i => $tn)
-			{
-				// Make sure we get the right tables based on prefix.
-				if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
-				{
-					unset($tables[$i]);
-					continue;
-				}
+    /**
+     * Get tables
+     *
+     * @return  array  Checked in table names as keys and checked in item count as values.
+     *
+     * @since   1.6
+     */
+    public function getItems()
+    {
+        if (!isset($this->items)) {
+            $db     = $this->getDatabase();
+            $tables = $db->getTableList();
+            $prefix = Factory::getApplication()->get('dbprefix');
 
-				if ($this->getState('filter.search') && stripos($tn, $this->getState('filter.search')) === false)
-				{
-					unset($tables[$i]);
-					continue;
-				}
+            // This array will hold table name as key and checked in item count as value.
+            $results = array();
 
-				$fields = $db->getTableColumns($tn);
+            foreach ($tables as $tn) {
+                // Make sure we get the right tables based on prefix.
+                if (stripos($tn, $prefix) !== 0) {
+                    continue;
+                }
 
-				if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
-				{
-					unset($tables[$i]);
-					continue;
-				}
-			}
+                if ($this->getState('filter.search') && stripos($tn, $this->getState('filter.search')) === false) {
+                    continue;
+                }
 
-			foreach ($tables as $tn)
-			{
-				$query = $db->getQuery(true)
-					->select('COUNT(*)')
-					->from($db->quoteName($tn))
-					->where('checked_out > 0');
+                $fields = $db->getTableColumns($tn, false);
 
-				$db->setQuery($query);
+                if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+                    continue;
+                }
 
-				if ($db->execute())
-				{
-					$results[$tn] = $db->loadResult();
+                $query = $db->getQuery(true)
+                    ->select('COUNT(*)')
+                    ->from($db->quoteName($tn));
 
-					// Show only tables with items to checkin.
-					if ((int) $results[$tn] === 0)
-					{
-						unset($results[$tn]);
-					}
-				}
-				else
-				{
-					continue;
-				}
-			}
+                if ($fields['checked_out']->Null === 'YES') {
+                    $query->where($db->quoteName('checked_out') . ' IS NOT NULL');
+                } else {
+                    $query->where($db->quoteName('checked_out') . ' > 0');
+                }
 
-			$this->total = count($results);
+                $db->setQuery($query);
+                $count = $db->loadResult();
 
-			// Order items by table
-			if ($this->getState('list.ordering') == 'table')
-			{
-				if (strtolower($this->getState('list.direction')) == 'asc')
-				{
-					ksort($results);
-				}
-				else
-				{
-					krsort($results);
-				}
-			}
-			// Order items by number of items
-			else
-			{
-				if (strtolower($this->getState('list.direction')) == 'asc')
-				{
-					asort($results);
-				}
-				else
-				{
-					arsort($results);
-				}
-			}
+                if ($count) {
+                    $results[$tn] = $count;
+                }
+            }
 
-			// Pagination
-			$limit = (int) $this->getState('list.limit');
+            $this->total = count($results);
 
-			if ($limit !== 0)
-			{
-				$this->items = array_slice($results, $this->getState('list.start'), $limit);
-			}
-			else
-			{
-				$this->items = $results;
-			}
-		}
+            // Order items by table
+            if ($this->getState('list.ordering') == 'table') {
+                if (strtolower($this->getState('list.direction')) == 'asc') {
+                    ksort($results);
+                } else {
+                    krsort($results);
+                }
+            } else {
+                // Order items by number of items
+                if (strtolower($this->getState('list.direction')) == 'asc') {
+                    asort($results);
+                } else {
+                    arsort($results);
+                }
+            }
 
-		return $this->items;
-	}
+            // Pagination
+            $limit = (int) $this->getState('list.limit');
+
+            if ($limit !== 0) {
+                $this->items = array_slice($results, $this->getState('list.start'), $limit);
+            } else {
+                $this->items = $results;
+            }
+        }
+
+        return $this->items;
+    }
 }

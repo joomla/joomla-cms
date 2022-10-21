@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<help key="Scheduled_Tasks:_Options"/>
+	<inlinehelp button="show"/>
+	<fieldset
+		name="task_config"
+		label="COM_SCHEDULER_CONFIG_TASKS_FIELDSET_LABEL"
+		>
+		<field
+			name="timeout"
+			type="number"
+			label="COM_SCHEDULER_CONFIG_TASK_TIMEOUT_LABEL"
+			default="300"
+			required="true"
+			min="10"
+			step="1"
+			validate="number"
+			filter="int"
+		/>
+	</fieldset>
+	<fieldset
+		name="lazy_scheduler_config"
+		label="COM_SCHEDULER_CONFIG_FIELDSET_LAZY_SCHEDULER_LABEL"
+		description="COM_SCHEDULER_CONFIG_FIELDSET_LAZY_SCHEDULER_DESC"
+		>
+		<fields name="lazy_scheduler">
+			<field
+				name="enabled"
+				type="radio"
+				label="COM_SCHEDULER_CONFIG_LAZY_SCHEDULER_ENABLED_LABEL"
+				description="COM_SCHEDULER_CONFIG_LAZY_SCHEDULER_ENABLED_DESC"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				required="true"
+				filter="integer"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+			<field
+				name="interval"
+				type="NumberField"
+				label="COM_SCHEDULER_CONFIG_LAZY_SCHEDULER_INTERVAL_LABEL"
+				description="COM_SCHEDULER_CONFIG_LAZY_SCHEDULER_INTERVAL_DESC"
+				showon="enabled:1"
+				min="60"
+				max="16383"
+				step="1"
+				default="300"
+			/>
+		</fields>
+	</fieldset>
+	<fieldset
+		name="webcron_config"
+		label="COM_SCHEDULER_CONFIG_WEBCRON_LABEL"
+		description="COM_SCHEDULER_CONFIG_WEBCRON_DESC"
+		>
+		<fields name="webcron" addfieldprefix="Joomla\Component\Scheduler\Administrator\Field">
+			<field
+				name="enabled"
+				type="radio"
+				label="COM_SCHEDULER_CONFIG_WEBCRON_LABEL"
+				description="COM_SCHEDULER_CONFIG_HASH_PROTECTION_DESC"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				required="true"
+				filter="integer"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+			<field
+				name="generate_key_on_save"
+				type="note"
+				description="COM_SCHEDULER_CONFIG_GENERATE_WEBCRON_KEY_DESC"
+				class="alert alert-warning"
+				showon="enabled:1"
+			/>
+			<field
+				name="key"
+				type="hidden"
+				label="COM_SCHEDULER_CONFIG_GLOBAL_WEBCRON_KEY_LABEL"
+				readonly="true"
+				hidden="true"
+			/>
+			<field
+				name="base_link"
+				type="WebcronLink"
+				label="COM_SCHEDULER_CONFIG_GLOBAL_WEBCRON_LINK_LABEL"
+				description="COM_SCHEDULER_CONFIG_GLOBAL_WEBCRON_LINK_DESC"
+				showon="enabled:1"
+				readonly="true"
+				filter="unset"
+			/>
+			<field
+				name="reset_key"
+				type="radio"
+				label="COM_SCHEDULER_CONFIG_RESET_WEBCRON_KEY_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				showon="enabled:1"
+				required="true"
+				filter="integer"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fields>
+	</fieldset>
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			validate="rules"
+			filter="rules"
+			section="component"
+			component="com_scheduler"
+		/>
+	</fieldset>
+</config>

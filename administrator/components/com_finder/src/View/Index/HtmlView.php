@@ -1,27 +1,29 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   (C) 2011 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Finder\Administrator\View\Index;
 
-\defined('_JEXEC') or die;
-
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Index view class for Finder.
@@ -30,179 +32,207 @@ use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * An array of items
-	 *
-	 * @var  array
-	 *
-	 * @since  3.6.1
-	 */
-	protected $items;
+    /**
+     * An array of items
+     *
+     * @var  array
+     *
+     * @since  3.6.1
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var  \Joomla\CMS\Pagination\Pagination
-	 *
-	 * @since  3.6.1
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var    \Joomla\CMS\Pagination\Pagination
+     *
+     * @since  3.6.1
+     */
+    protected $pagination;
 
-	/**
-	 * The state of core Smart Search plugins
-	 *
-	 * @var  array
-	 *
-	 * @since  3.6.1
-	 */
-	protected $pluginState;
+    /**
+     * The state of core Smart Search plugins
+     *
+     * @var  array
+     *
+     * @since  3.6.1
+     */
+    protected $pluginState;
 
-	/**
-	 * The model state
-	 *
-	 * @var  mixed
-	 *
-	 * @since  3.6.1
-	 */
-	protected $state;
+    /**
+     * The id of the content - finder plugin in mysql
+     *
+     * @var    integer
+     *
+     * @since  4.0.0
+     */
+    protected $finderPluginId = 0;
 
-	/**
-	 * The total number of items
-	 *
-	 * @var  integer
-	 *
-	 * @since  3.6.1
-	 */
-	protected $total;
+    /**
+     * The model state
+     *
+     * @var    mixed
+     *
+     * @since  3.6.1
+     */
+    protected $state;
 
-	/**
-	 * Form object for search filters
-	 *
-	 * @var    \JForm
-	 * @since  4.0.0
-	 */
-	public $filterForm;
+    /**
+     * The total number of items
+     *
+     * @var    integer
+     *
+     * @since  3.6.1
+     */
+    protected $total;
 
-	/**
-	 * The active search filters
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $activeFilters;
+    /**
+     * Form object for search filters
+     *
+     * @var    \Joomla\CMS\Form\Form
+     *
+     * @since  4.0.0
+     */
+    public $filterForm;
 
-	/**
-	 * Method to display the view.
-	 *
-	 * @param   string  $tpl  A template file to load. [optional]
-	 *
-	 * @return  mixed  A string if successful, otherwise an \Exception object.
-	 *
-	 * @since   2.5
-	 */
-	public function display($tpl = null)
-	{
-		// Load plugin language files.
-		LanguageHelper::loadPluginLanguage();
+    /**
+     * The active search filters
+     *
+     * @var    array
+     *
+     * @since  4.0.0
+     */
+    public $activeFilters;
 
-		$this->items         = $this->get('Items');
-		$this->total         = $this->get('Total');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->pluginState   = $this->get('pluginState');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+    /**
+     * @var mixed
+     *
+     * @since  4.0.0
+     */
+    private $isEmptyState = false;
 
-		// We do not need to filter by language when multilingual is disabled
-		if (!Multilanguage::isEnabled())
-		{
-			unset($this->activeFilters['language']);
-			$this->filterForm->removeField('language', 'filter');
-		}
+    /**
+     * Method to display the view.
+     *
+     * @param   string  $tpl  A template file to load. [optional]
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    public function display($tpl = null)
+    {
+        // Load plugin language files.
+        LanguageHelper::loadPluginLanguage();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+        $this->items         = $this->get('Items');
+        $this->total         = $this->get('Total');
+        $this->pagination    = $this->get('Pagination');
+        $this->state         = $this->get('State');
+        $this->pluginState   = $this->get('pluginState');
+        $this->filterForm    = $this->get('FilterForm');
+        $this->activeFilters = $this->get('ActiveFilters');
 
-		if (!$this->pluginState['plg_content_finder']->enabled)
-		{
-			if (Factory::getUser()->authorise('core.manage', 'com_plugin'))
-			{
-				$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-				Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
-			}
-			else
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
-			}
-		}
-		elseif ($this->get('TotalIndexed') === 0)
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
-		}
+        if ($this->get('TotalIndexed') === 0 && $this->isEmptyState = $this->get('IsEmptyState')) {
+            $this->setLayout('emptystate');
+        }
 
-		// Configure the toolbar.
-		$this->addToolbar();
+        // We do not need to filter by language when multilingual is disabled
+        if (!Multilanguage::isEnabled()) {
+            unset($this->activeFilters['language']);
+            $this->filterForm->removeField('language', 'filter');
+        }
 
-		return parent::display($tpl);
-	}
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-	/**
-	 * Method to configure the toolbar for this view.
-	 *
-	 * @return  void
-	 *
-	 * @since   2.5
-	 */
-	protected function addToolbar()
-	{
-		$canDo = ContentHelper::getActions('com_finder');
+        // Check that the content - finder plugin is enabled
+        if (!PluginHelper::isEnabled('content', 'finder')) {
+            $this->finderPluginId = FinderHelper::getFinderPluginId();
+        }
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+        // Configure the toolbar.
+        $this->addToolbar();
 
-		ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
+        parent::display($tpl);
+    }
 
-		$toolbar->appendButton(
-			'Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0,
-			'window.parent.location.reload()', Text::_('COM_FINDER_HEADING_INDEXER')
-		);
+    /**
+     * Method to configure the toolbar for this view.
+     *
+     * @return  void
+     *
+     * @since   2.5
+     */
+    protected function addToolbar()
+    {
+        $canDo = ContentHelper::getActions('com_finder');
 
-		if ($canDo->get('core.edit.state'))
-		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fas fa-ellipsis-h')
-				->buttonClass('btn btn-action')
-				->listCheck(true);
+        // Get the toolbar object instance
+        $toolbar = Toolbar::getInstance('toolbar');
 
-			$childBar = $dropdown->getChildToolbar();
+        ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'search-plus finder');
 
-			$childBar->publish('index.publish')->listCheck(true);
-			$childBar->unpublish('index.unpublish')->listCheck(true);
-		}
+        $toolbar->appendButton(
+            'Popup',
+            'archive',
+            'COM_FINDER_INDEX',
+            'index.php?option=com_finder&view=indexer&tmpl=component',
+            500,
+            210,
+            0,
+            0,
+            'window.parent.location.reload()',
+            Text::_('COM_FINDER_HEADING_INDEXER')
+        );
 
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+        if (!$this->isEmptyState) {
+            if ($canDo->get('core.edit.state')) {
+                $dropdown = $toolbar->dropdownButton('status-group')
+                    ->text('JTOOLBAR_CHANGE_STATUS')
+                    ->toggleSplit(false)
+                    ->icon('icon-ellipsis-h')
+                    ->buttonClass('btn btn-action')
+                    ->listCheck(true);
 
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('', 'index.delete');
-			ToolbarHelper::divider();
-		}
+                $childBar = $dropdown->getChildToolbar();
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', false);
-		}
+                $childBar->publish('index.publish')->listCheck(true);
+                $childBar->unpublish('index.unpublish')->listCheck(true);
+            }
 
-		if ($canDo->get('core.admin') || $canDo->get('core.options'))
-		{
-			ToolbarHelper::preferences('com_finder');
-		}
+            if ($canDo->get('core.delete')) {
+                $toolbar->confirmButton('', 'JTOOLBAR_DELETE', 'index.delete')
+                    ->icon('icon-delete')
+                    ->message('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')
+                    ->listCheck(true);
+                $toolbar->divider();
+            }
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
-	}
+            if ($canDo->get('core.edit.state')) {
+                $dropdown = $toolbar->dropdownButton('maintenance-group');
+                $dropdown->text('COM_FINDER_INDEX_TOOLBAR_MAINTENANCE')
+                    ->toggleSplit(false)
+                    ->icon('icon-wrench')
+                    ->buttonClass('btn btn-action');
+
+                $childBar = $dropdown->getChildToolbar();
+
+                $childBar->standardButton('cog', 'COM_FINDER_INDEX_TOOLBAR_OPTIMISE', 'index.optimise', false);
+                $childBar->confirmButton('index.purge', 'COM_FINDER_INDEX_TOOLBAR_PURGE', 'index.purge')
+                    ->icon('icon-trash')
+                    ->message('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
+            }
+
+            $toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+        }
+
+        if ($canDo->get('core.admin') || $canDo->get('core.options')) {
+            ToolbarHelper::preferences('com_finder');
+        }
+
+        ToolbarHelper::help('Smart_Search:_Indexed_Content');
+    }
 }
