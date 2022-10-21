@@ -29,6 +29,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\Event;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Allows the plugin to handle AJAX requests in the backend of the site, where com_ajax is not
  * available when we are not logged in.
