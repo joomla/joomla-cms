@@ -138,6 +138,105 @@ class CategoryModel extends ListModel
     }
 
     /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @param   string  $ordering   The field to order on.
+     * @param   string  $direction  The direction to order on.
+     *
+     * @return  void
+     *
+     * @since   1.6
+     */
+    protected function populateState($ordering = null, $direction = null)
+    {
+        $app = Factory::getApplication();
+
+        $pk  = $app->input->getInt('id');
+        $this->setState('category.id', $pk);
+
+        // Load the parameters. Merge Global and Menu Item params into new object
+        $params = $app->getParams();
+        $this->setState('params', $params);
+
+        $user  = Factory::getUser();
+
+        $asset = 'com_content';
+
+        if ($pk) {
+            $asset .= '.category.' . $pk;
+        }
+
+        if ((!$user->authorise('core.edit.state', $asset)) &&  (!$user->authorise('core.edit', $asset))) {
+            // Limit to published for people who can't edit or edit.state.
+            $this->setState('filter.published', 1);
+        } else {
+            $this->setState('filter.published', [0, 1]);
+        }
+
+        // Process show_noauth parameter
+        if (!$params->get('show_noauth')) {
+            $this->setState('filter.access', true);
+        } else {
+            $this->setState('filter.access', false);
+        }
+
+        $itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+
+        $value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
+        $this->setState('filter.tag', $value);
+
+        // Optional filter text
+        $search = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
+        $this->setState('list.filter', $search);
+
+        // Filter.order
+        $orderCol = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
+
+        if (!in_array($orderCol, $this->filter_fields)) {
+            $orderCol = 'a.ordering';
+        }
+
+        $this->setState('list.ordering', $orderCol);
+
+        $listOrder = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
+
+        if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+            $listOrder = 'ASC';
+        }
+
+        $this->setState('list.direction', $listOrder);
+
+        $this->setState('list.start', $app->input->get('limitstart', 0, 'uint'));
+
+        // Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
+        if (($app->input->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
+            $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
+            $this->setState('list.links', $params->get('num_links'));
+        } else {
+            $limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
+        }
+
+        $this->setState('list.limit', $limit);
+
+        // Set the depth of the category query based on parameter
+        $showSubcategories = $params->get('show_subcategory_content', '0');
+
+        if ($showSubcategories) {
+            $this->setState('filter.max_category_levels', $params->get('show_subcategory_content', '1'));
+            $this->setState('filter.subcategories', true);
+        }
+
+        $this->setState('filter.language', Multilanguage::isEnabled());
+
+        $this->setState('layout', $app->input->getString('layout'));
+
+        // Set the featured articles state
+        $this->setState('filter.featured', $params->get('show_featured'));
+    }
+
+    /**
      * Get the articles in the category
      *
      * @return  mixed  An array of articles or false if an error occurs.
