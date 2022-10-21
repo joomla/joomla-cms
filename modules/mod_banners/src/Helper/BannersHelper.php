@@ -10,12 +10,12 @@
 
 namespace Joomla\Module\Banners\Site\Helper;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Environment\Browser;
 use Joomla\Component\Banners\Site\Model\BannersModel;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Factory;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -41,10 +41,11 @@ class BannersHelper
     {
         $keywords = [];
         // Get all the ids from UserState
-        $ids = json_decode($app->getUserState('article.ids', null));
+        $ids = $app->getUserState('article.ids', null);
 
         if ($ids) {
-            $ids = implode(',', $ids);
+
+            $ids = implode(',', json_decode($ids));
 
             $db = Factory::getContainer()->get('DatabaseDriver');
             // Select the meta keywords from the all articles
