@@ -22,6 +22,10 @@ use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Configuration setup model for the Joomla Core Installer.
  *
@@ -271,17 +275,8 @@ class ConfigurationModel extends BaseInstallationModel
 
         // Update all core tables created_by fields of the tables with the random user id.
         $updatesArray = array(
-            '#__banners'         => array('created_by', 'modified_by'),
             '#__categories'      => array('created_user_id', 'modified_user_id'),
-            '#__contact_details' => array('created_by', 'modified_by'),
-            '#__content'         => array('created_by', 'modified_by'),
-            '#__fields'          => array('created_user_id', 'modified_by'),
-            '#__finder_filters'  => array('created_by', 'modified_by'),
-            '#__newsfeeds'       => array('created_by', 'modified_by'),
             '#__tags'            => array('created_user_id', 'modified_user_id'),
-            '#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
-            '#__history'         => array('editor_user_id'),
-            '#__user_notes'      => array('created_user_id', 'modified_user_id'),
             '#__workflows'       => array('created_by', 'modified_by'),
         );
 

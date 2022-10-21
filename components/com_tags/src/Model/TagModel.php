@@ -20,6 +20,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Tag Model
  *
@@ -289,7 +293,7 @@ class TagModel extends ListModel
                         }
                     }
 
-                    if (!in_array($table->access, Factory::getUser()->getAuthorisedViewLevels())) {
+                    if (!in_array($table->access, $this->getCurrentUser()->getAuthorisedViewLevels())) {
                         continue;
                     }
 

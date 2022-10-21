@@ -15,6 +15,10 @@ use Joomla\CMS\Helper\HelperFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Service provider for the service based modules.
  *

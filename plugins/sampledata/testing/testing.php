@@ -19,6 +19,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Sampledata - Testing Plugin
  *
