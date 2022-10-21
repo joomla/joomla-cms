@@ -11,6 +11,10 @@ namespace Joomla\CMS\Event;
 
 use BadMethodCallException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This class implements the immutable base Event object used system-wide to offer orthogonality.
  *

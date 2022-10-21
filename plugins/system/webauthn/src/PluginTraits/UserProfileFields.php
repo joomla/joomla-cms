@@ -23,6 +23,10 @@ use Joomla\Event\Event;
 use Joomla\Plugin\System\Webauthn\Extension\Webauthn;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Add extra fields in the User Profile page.
  *
@@ -98,11 +102,6 @@ trait UserProfileFields
          */
         [$form, $data] = $event->getArguments();
 
-        // This feature only applies to HTTPS sites.
-        if (!Uri::getInstance()->isSsl()) {
-            return;
-        }
-
         $name = $form->getName();
 
         $allowedForms = [
@@ -110,6 +109,19 @@ trait UserProfileFields
         ];
 
         if (!\in_array($name, $allowedForms)) {
+            return;
+        }
+
+        // This feature only applies in the site and administrator applications
+        if (
+            !$this->getApplication()->isClient('site')
+            && !$this->getApplication()->isClient('administrator')
+        ) {
+            return;
+        }
+
+        // This feature only applies to HTTPS sites.
+        if (!Uri::getInstance()->isSsl()) {
             return;
         }
 

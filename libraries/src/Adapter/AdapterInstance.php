@@ -13,6 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Adapter Instance Class
  *
