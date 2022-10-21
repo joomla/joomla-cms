@@ -87,7 +87,6 @@ if (!empty($editor)) {
                 </thead>
                 <tbody>
                 <?php foreach ($this->items as $i => $item) : ?>
-                    <?php $uselessMenuItem = in_array($item->type, array('separator', 'heading', 'alias', 'url', 'container')); ?>
                     <?php if ($item->language && $multilang) {
                         if ($item->language !== '*') {
                             $language = $item->language;
@@ -105,12 +104,8 @@ if (!empty($editor)) {
                         <th scope="row">
                             <?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
                             <?php echo $prefix; ?>
-                            <?php if (!$uselessMenuItem) : ?>
-                                <a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
-                                    <?php echo $this->escape($item->title); ?></a>
-                            <?php else : ?>
-                                <?php echo $this->escape($item->title); ?>
-                            <?php endif; ?>
+                            <a class="select-link" href="javascript:void(0)" data-function="<?php echo $this->escape($function); ?>" data-id="<?php echo $item->id; ?>" data-title="<?php echo $this->escape($item->title); ?>" data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>" data-language="<?php echo $this->escape($language); ?>">
+                            <?php echo $this->escape($item->title); ?></a>
                             <?php echo HTMLHelper::_('menus.visibility', $item->params); ?>
                             <div>
                                 <?php echo $prefix; ?>
@@ -158,7 +153,7 @@ if (!empty($editor)) {
                         <?php if ($multilang) : ?>
                             <td class="small d-none d-md-table-cell">
                                 <?php if ($item->language == '') : ?>
-                                    <?php echo Text::_('JDEFAULT'); ?>
+                                    <?php echo Text::_('COM_MENUS_HOME'); ?>
                                 <?php elseif ($item->language == '*') : ?>
                                     <?php echo Text::alt('JALL', 'language'); ?>
                                 <?php else : ?>

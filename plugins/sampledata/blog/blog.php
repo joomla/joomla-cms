@@ -1429,7 +1429,7 @@ class PlgSampledataBlog extends CMSPlugin
                 'showtitle' => 0,
                 'params'    => array(
                     'display_text' => 1,
-                    'text'         => 'My Blog',
+                    'text'         => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_NEWSFEEDS_TITLE'),
                     'format'       => 'rss',
                     'layout'       => '_:default',
                     'cache'        => 0,
