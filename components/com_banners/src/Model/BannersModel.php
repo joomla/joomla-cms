@@ -215,8 +215,11 @@ class BannersModel extends ListModel
                         . ' AND ' . $db->quoteName('cl.metakey_prefix')
                         . ' = SUBSTRING(' . $bounded[1] . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
                         . ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
-                        . ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
-                        . ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
+                        . ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0';
+
+                    if (!empty($prefix)) {
+                        $condition1 .= ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
+                    }
 
                     $condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp($bounded[2]);
 

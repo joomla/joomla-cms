@@ -766,6 +766,10 @@ class ArticlesModel extends ListModel
             }
         }
 
+        // Save all the article id's in UserState for later use
+        $articleids = array_column($items,'id');
+        Factory::getApplication()->setUserState('article.ids',json_encode($articleids));
+
         return $items;
     }
 
