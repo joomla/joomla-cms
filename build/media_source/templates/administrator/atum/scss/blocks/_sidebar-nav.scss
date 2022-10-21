@@ -1,0 +1,37 @@
+// Sidebar
+
+.sidebar-nav {
+  padding: 1rem 2rem;
+
+  li {
+    font-size: .9rem;
+    font-weight: $font-weight-bold;
+
+    &.divider {
+      margin: .3rem 0;
+    }
+
+    a {
+      display: block;
+      padding: .25rem;
+      font-weight: $font-weight-normal;
+      color: var(--template-text-dark);
+      text-decoration: none;
+
+      &::before {
+        margin-inline-end: .5rem;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f054" #{"/*!rtl:\"\f053\"*/"};
+      }
+    }
+
+    &.item:hover, &.active {
+      background-color: var(--template-bg-dark-60);
+
+      a {
+        color: var(--template-text-light);
+      }
+    }
+  }
+}

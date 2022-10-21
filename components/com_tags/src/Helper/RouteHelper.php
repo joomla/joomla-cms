@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_tags
@@ -9,11 +10,14 @@
 
 namespace Joomla\Component\Tags\Site\Helper;
 
-\defined('_JEXEC') or die;
-
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 use Joomla\CMS\Menu\AbstractMenu;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Tags Component Route Helper.
@@ -22,214 +26,225 @@ use Joomla\CMS\Menu\AbstractMenu;
  */
 class RouteHelper extends CMSRouteHelper
 {
-	/**
-	 * Lookup-table for menu items
-	 *
-	 * @var    array
-	 */
-	protected static $lookup;
+    /**
+     * Lookup-table for menu items
+     *
+     * @var    array
+     */
+    protected static $lookup;
 
-	/**
-	 * Tries to load the router for the component and calls it. Otherwise uses getTagRoute.
-	 *
-	 * @param   integer  $contentItemId     Component item id
-	 * @param   string   $contentItemAlias  Component item alias
-	 * @param   integer  $contentCatId      Component item category id
-	 * @param   string   $language          Component item language
-	 * @param   string   $typeAlias         Component type alias
-	 * @param   string   $routerName        Component router
-	 *
-	 * @return  string  URL link to pass to the router
-	 *
-	 * @since   3.1
-	 */
-	public static function getItemRoute($contentItemId, $contentItemAlias, $contentCatId, $language, $typeAlias, $routerName)
-	{
-		$link = '';
-		$explodedAlias = explode('.', $typeAlias);
-		$explodedRouter = explode('::', $routerName);
+    /**
+     * Tries to load the router for the component and calls it. Otherwise uses getTagRoute.
+     *
+     * @param   integer  $contentItemId     Component item id
+     * @param   string   $contentItemAlias  Component item alias
+     * @param   integer  $contentCatId      Component item category id
+     * @param   string   $language          Component item language
+     * @param   string   $typeAlias         Component type alias
+     * @param   string   $routerName        Component router
+     *
+     * @return  string  URL link to pass to the router
+     *
+     * @since   3.1
+     */
+    public static function getItemRoute($contentItemId, $contentItemAlias, $contentCatId, $language, $typeAlias, $routerName)
+    {
+        $link = '';
+        $explodedAlias = explode('.', $typeAlias);
+        $explodedRouter = explode('::', $routerName);
 
-		if (file_exists($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php'))
-		{
-			\JLoader::register($explodedRouter[0], $routerFile);
-			$routerClass = $explodedRouter[0];
-			$routerMethod = $explodedRouter[1];
+        if (file_exists($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php')) {
+            \JLoader::register($explodedRouter[0], $routerFile);
+            $routerClass = $explodedRouter[0];
+            $routerMethod = $explodedRouter[1];
 
-			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
-			{
-				if ($routerMethod === 'getCategoryRoute')
-				{
-					$link = $routerClass::$routerMethod($contentItemId, $language);
-				}
-				else
-				{
-					$link = $routerClass::$routerMethod($contentItemId . ':' . $contentItemAlias, $contentCatId, $language);
-				}
-			}
-		}
+            if (class_exists($routerClass) && method_exists($routerClass, $routerMethod)) {
+                if ($routerMethod === 'getCategoryRoute') {
+                    $link = $routerClass::$routerMethod($contentItemId, $language);
+                } else {
+                    $link = $routerClass::$routerMethod($contentItemId . ':' . $contentItemAlias, $contentCatId, $language);
+                }
+            }
+        }
 
-		if ($link === '')
-		{
-			// Create a fallback link in case we can't find the component router
-			$router = new CMSRouteHelper;
-			$link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
-		}
+        if ($link === '') {
+            // Create a fallback link in case we can't find the component router
+            $router = new CMSRouteHelper();
+            $link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
+        }
 
-		return $link;
-	}
+        return $link;
+    }
 
-	/**
-	 * Tries to load the router for the component and calls it. Otherwise calls getRoute.
-	 *
-	 * @param   integer  $id  The ID of the tag
-	 *
-	 * @return  string  URL link to pass to the router
-	 *
-	 * @since   3.1
-	 */
-	public static function getTagRoute($id)
-	{
-		$needles = array(
-			'tag'  => array((int) $id)
-		);
+    /**
+     * Tries to load the router for the component and calls it. Otherwise calls getRoute.
+     *
+     * @param   integer  $id        The ID of the tag
+     *
+     * @return  string  URL link to pass to the router
+     *
+     * @since      3.1
+     * @throws     Exception
+     * @deprecated 5.0.0 Use getComponentTagRoute() instead
+     */
+    public static function getTagRoute($id)
+    {
+        @trigger_error('This function is replaced by the getComponentTagRoute()', E_USER_DEPRECATED);
 
-		if ($id < 1)
-		{
-			$link = '';
-		}
-		else
-		{
-			$link = 'index.php?option=com_tags&view=tag&id=' . $id;
+        return self::getComponentTagRoute($id);
+    }
 
-			if ($item = self::_findItem($needles))
-			{
-				$link .= '&Itemid=' . $item;
-			}
-			else
-			{
-				$needles = array('tags' => array(1, 0));
+    /**
+     * Tries to load the router for the component and calls it. Otherwise calls getRoute.
+     *
+     * @param   string   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
+     * @param   string   $language  The language of the tag
+     *
+     * @return  string  URL link to pass to the router
+     *
+     * @since   4.2.0
+     * @throws  Exception
+     */
+    public static function getComponentTagRoute(string $id, string $language = '*'): string
+    {
+        $needles = [
+            'tag'      => [(int) $id],
+            'language' => $language,
+        ];
 
-				if ($item = self::_findItem($needles))
-				{
-					$link .= '&Itemid=' . $item;
-				}
-			}
-		}
+        if ($id < 1) {
+            $link = '';
+        } else {
+            $link = 'index.php?option=com_tags&view=tag&id=' . $id;
 
-		return $link;
-	}
+            if ($item = self::_findItem($needles)) {
+                $link .= '&Itemid=' . $item;
+            } else {
+                $needles = [
+                    'tags'     => [1, 0],
+                    'language' => $language,
+                ];
 
-	/**
-	 * Tries to load the router for the tags view.
-	 *
-	 * @return  string  URL link to pass to the router
-	 *
-	 * @since   3.7
-	 */
-	public static function getTagsRoute()
-	{
-		$needles = array(
-			'tags'  => array(0)
-		);
+                if ($item = self::_findItem($needles)) {
+                    $link .= '&Itemid=' . $item;
+                }
+            }
+        }
 
-		$link = 'index.php?option=com_tags&view=tags';
+        return $link;
+    }
 
-		if ($item = self::_findItem($needles))
-		{
-			$link .= '&Itemid=' . $item;
-		}
+    /**
+     * Tries to load the router for the tags view.
+     *
+     * @return  string  URL link to pass to the router
+     *
+     * @since      3.7
+     * @throws     Exception
+     * @deprecated 5.0.0
+     */
+    public static function getTagsRoute()
+    {
+        @trigger_error('This function is replaced by the getComponentTagsRoute()', E_USER_DEPRECATED);
 
-		return $link;
-	}
+        return self::getComponentTagsRoute();
+    }
 
-	/**
-	 * Find Item static function
-	 *
-	 * @param   array  $needles  Array used to get the language value
-	 *
-	 * @return null
-	 *
-	 * @throws \Exception
-	 */
-	protected static function _findItem($needles = null)
-	{
-		$menus    = AbstractMenu::getInstance('site');
-		$language = $needles['language'] ?? '*';
+    /**
+     * Tries to load the router for the tags view.
+     *
+     * @param   string  $language  The language of the tag
+     *
+     * @return  string  URL link to pass to the router
+     *
+     * @since   4.2.0
+     * @throws  Exception
+     */
+    public static function getComponentTagsRoute(string $language = '*'): string
+    {
+        $needles = [
+            'tags'     => [0],
+            'language' => $language,
+        ];
 
-		// Prepare the reverse lookup array.
-		if (self::$lookup === null)
-		{
-			self::$lookup = array();
+        $link = 'index.php?option=com_tags&view=tags';
 
-			$component = ComponentHelper::getComponent('com_tags');
-			$items     = $menus->getItems('component_id', $component->id);
+        if ($item = self::_findItem($needles)) {
+            $link .= '&Itemid=' . $item;
+        }
 
-			if ($items)
-			{
-				foreach ($items as $item)
-				{
-					if (isset($item->query, $item->query['view']))
-					{
-						$lang = ($item->language != '' ? $item->language : '*');
+        return $link;
+    }
 
-						if (!isset(self::$lookup[$lang]))
-						{
-							self::$lookup[$lang] = array();
-						}
+    /**
+     * Find Item static function
+     *
+     * @param   array  $needles  Array used to get the language value
+     *
+     * @return null
+     *
+     * @throws Exception
+     */
+    protected static function _findItem($needles = null)
+    {
+        $menus    = AbstractMenu::getInstance('site');
+        $language = $needles['language'] ?? '*';
 
-						$view = $item->query['view'];
+        // Prepare the reverse lookup array.
+        if (self::$lookup === null) {
+            self::$lookup = array();
 
-						if (!isset(self::$lookup[$lang][$view]))
-						{
-							self::$lookup[$lang][$view] = array();
-						}
+            $component = ComponentHelper::getComponent('com_tags');
+            $items     = $menus->getItems('component_id', $component->id);
 
-						// Only match menu items that list one tag
-						if (isset($item->query['id']) && is_array($item->query['id']))
-						{
-							foreach ($item->query['id'] as $position => $tagId)
-							{
-								if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1)
-								{
-									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
-								}
-							}
-						}
-						elseif ($view == 'tags')
-						{
-							self::$lookup[$lang]['tags'][] = $item->id;
-						}
-					}
-				}
-			}
-		}
+            if ($items) {
+                foreach ($items as $item) {
+                    if (isset($item->query, $item->query['view'])) {
+                        $lang = ($item->language != '' ? $item->language : '*');
 
-		if ($needles)
-		{
-			foreach ($needles as $view => $ids)
-			{
-				if (isset(self::$lookup[$language][$view]))
-				{
-					foreach ($ids as $id)
-					{
-						if (isset(self::$lookup[$language][$view][(int) $id]))
-						{
-							return self::$lookup[$language][$view][(int) $id];
-						}
-					}
-				}
-			}
-		}
-		else
-		{
-			$active = $menus->getActive();
+                        if (!isset(self::$lookup[$lang])) {
+                            self::$lookup[$lang] = array();
+                        }
 
-			if ($active)
-			{
-				return $active->id;
-			}
-		}
+                        $view = $item->query['view'];
 
-		return null;
-	}
+                        if (!isset(self::$lookup[$lang][$view])) {
+                            self::$lookup[$lang][$view] = array();
+                        }
+
+                        // Only match menu items that list one tag
+                        if (isset($item->query['id']) && is_array($item->query['id'])) {
+                            foreach ($item->query['id'] as $position => $tagId) {
+                                if (!isset(self::$lookup[$lang][$view][$item->query['id'][$position]]) || count($item->query['id']) == 1) {
+                                    self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
+                                }
+                            }
+                        } elseif ($view == 'tags') {
+                            self::$lookup[$lang]['tags'][] = $item->id;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($needles) {
+            foreach ($needles as $view => $ids) {
+                if (isset(self::$lookup[$language][$view])) {
+                    foreach ($ids as $id) {
+                        if (isset(self::$lookup[$language][$view][(int) $id])) {
+                            return self::$lookup[$language][$view][(int) $id];
+                        }
+                    }
+                }
+            }
+        } else {
+            $active = $menus->getActive();
+
+            if ($active) {
+                return $active->id;
+            }
+        }
+
+        return null;
+    }
 }

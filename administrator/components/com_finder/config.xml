@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+	<help key="Smart_Search:_Options"/>
+	<inlinehelp button="show"/>
 	<fieldset
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
-		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION"
 		>
+		<field
+			name="word_match"
+			type="list"
+			label="COM_FINDER_CONFIG_WORD_MATCH_LABEL"
+			description="COM_FINDER_CONFIG_WORD_MATCH_DESC"
+			default="exact"
+			>
+			<option value="exact">COM_FINDER_CONFIG_WORD_MATCH_OPTION_EXACT</option>
+			<option value="begin">COM_FINDER_CONFIG_WORD_MATCH_OPTION_BEGIN</option>
+			<option value="fuzzy">COM_FINDER_CONFIG_WORD_MATCH_OPTION_FUZZY</option>
+		</field>
 
 		<field
 			name="show_taxonomy"
@@ -36,6 +48,37 @@
 			filter="integer"
 			showon="show_description:1"
 		/>
+
+		<field
+			name="show_image"
+			type="radio"
+			label="COM_FINDER_CONFIG_SHOW_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="image_class"
+			type="text"
+			label="COM_FINDER_CONFIG_IMAGE_CLASS_LABEL"
+			validate="CssIdentifier"
+			showon="show_image:1"
+		/>
+
+		<field
+			name="link_image"
+			type="radio"
+			label="COM_FINDER_CONFIG_LINKED_IMAGE_LABEL"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			showon="show_image:1"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 
 		<field
 			name="show_date"
@@ -266,18 +309,11 @@
 		</field>
 
 		<field
-			name="memory_table_limit"
-			type="number"
-			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
-			default="30000"
-			filter="integer"
-		/>
-
-		<field
 			name="title_multiplier"
 			type="number"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
 			default="1.7"
+			min="0"
 		/>
 
 		<field
@@ -285,6 +321,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			default="0.7"
+			min="0"
 		/>
 
 		<field
@@ -292,6 +329,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
 			default="1.2"
+			min="0"
 		/>
 
 		<field
@@ -299,6 +337,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
 			default="2.0"
+			min="0"
 		/>
 
 		<field
@@ -306,6 +345,7 @@
 			type="number"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			default="0.3"
+			min="0"
 		/>
 
 		<field
@@ -356,7 +396,6 @@
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\View\Form;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -19,6 +18,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML Article View class for the Content component
  *
@@ -26,201 +29,205 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * The JForm object
-	 *
-	 * @var  \JForm
-	 */
-	protected $form;
+    /**
+     * The Form object
+     *
+     * @var  \Joomla\CMS\Form\Form
+     */
+    protected $form;
 
-	/**
-	 * The item being created
-	 *
-	 * @var  \stdClass
-	 */
-	protected $item;
+    /**
+     * The item being created
+     *
+     * @var  \stdClass
+     */
+    protected $item;
 
-	/**
-	 * The page to return to after the article is submitted
-	 *
-	 * @var  string
-	 */
-	protected $return_page = '';
+    /**
+     * The page to return to after the article is submitted
+     *
+     * @var  string
+     */
+    protected $return_page = '';
 
-	/**
-	 * The model state
-	 *
-	 * @var  \JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var  \Joomla\CMS\Object\CMSObject
+     */
+    protected $state;
 
-	/**
-	 * The page parameters
-	 *
-	 * @var    \Joomla\Registry\Registry|null
-	 * @since  4.0.0
-	 */
-	protected $params = null;
+    /**
+     * The page parameters
+     *
+     * @var    \Joomla\Registry\Registry|null
+     *
+     * @since  4.0.0
+     */
+    protected $params = null;
 
-	/**
-	 * The page class suffix
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $pageclass_sfx = '';
+    /**
+     * The page class suffix
+     *
+     * @var    string
+     *
+     * @since  4.0.0
+     */
+    protected $pageclass_sfx = '';
 
-	/**
-	 * The user object
-	 *
-	 * @var    \JUser
-	 * @since  4.0.0
-	 */
-	protected $user = null;
+    /**
+     * The user object
+     *
+     * @var \Joomla\CMS\User\User
+     *
+     * @since  4.0.0
+     */
+    protected $user = null;
 
-	/**
-	 * Should we show a captcha form for the submission of the article?
-	 *
-	 * @var    boolean
-	 * @since  3.7.0
-	 */
-	protected $captchaEnabled = false;
+    /**
+     * Should we show a captcha form for the submission of the article?
+     *
+     * @var    boolean
+     *
+     * @since  3.7.0
+     */
+    protected $captchaEnabled = false;
 
-	/**
-	 * Execute and display a template script.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void|boolean
-	 */
-	public function display($tpl = null)
-	{
-		$user = Factory::getUser();
-		$app  = Factory::getApplication();
+    /**
+     * Should we show Save As Copy button?
+     *
+     * @var    boolean
+     * @since  4.1.0
+     */
+    protected $showSaveAsCopy = false;
 
-		// Get model data.
-		$this->state       = $this->get('State');
-		$this->item        = $this->get('Item');
-		$this->form        = $this->get('Form');
-		$this->return_page = $this->get('ReturnPage');
+    /**
+     * Execute and display a template script.
+     *
+     * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+     *
+     * @return  void|boolean
+     */
+    public function display($tpl = null)
+    {
+        $app  = Factory::getApplication();
+        $user = $app->getIdentity();
 
-		if (empty($this->item->id))
-		{
-			$catid = $this->state->params->get('catid');
+        // Get model data.
+        $this->state       = $this->get('State');
+        $this->item        = $this->get('Item');
+        $this->form        = $this->get('Form');
+        $this->return_page = $this->get('ReturnPage');
 
-			if ($this->state->params->get('enable_category') == 1 && $catid)
-			{
-				$authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
-			}
-			else
-			{
-				$authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
-			}
-		}
-		else
-		{
-			$authorised = $this->item->params->get('access-edit');
-		}
+        if (empty($this->item->id)) {
+            $catid = $this->state->params->get('catid');
 
-		if ($authorised !== true)
-		{
-			$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-			$app->setHeader('status', 403, true);
+            if ($this->state->params->get('enable_category') == 1 && $catid) {
+                $authorised = $user->authorise('core.create', 'com_content.category.' . $catid);
+            } else {
+                $authorised = $user->authorise('core.create', 'com_content') || count($user->getAuthorisedCategories('com_content', 'core.create'));
+            }
+        } else {
+            $authorised = $this->item->params->get('access-edit');
+        }
 
-			return false;
-		}
+        if ($authorised !== true) {
+            $app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+            $app->setHeader('status', 403, true);
 
-		$this->item->tags = new TagsHelper;
+            return false;
+        }
 
-		if (!empty($this->item->id))
-		{
-			$this->item->tags->getItemTags('com_content.article', $this->item->id);
+        $this->item->tags = new TagsHelper();
 
-			$this->item->images = json_decode($this->item->images);
-			$this->item->urls = json_decode($this->item->urls);
+        if (!empty($this->item->id)) {
+            $this->item->tags->getItemTags('com_content.article', $this->item->id);
 
-			$tmp = new \stdClass;
-			$tmp->images = $this->item->images;
-			$tmp->urls = $this->item->urls;
-			$this->form->bind($tmp);
-		}
+            $this->item->images = json_decode($this->item->images);
+            $this->item->urls = json_decode($this->item->urls);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			throw new GenericDataException(implode("\n", $errors), 500);
-		}
+            $tmp = new \stdClass();
+            $tmp->images = $this->item->images;
+            $tmp->urls = $this->item->urls;
+            $this->form->bind($tmp);
+        }
 
-		// Create a shortcut to the parameters.
-		$params = &$this->state->params;
+        // Check for errors.
+        if (count($errors = $this->get('Errors'))) {
+            throw new GenericDataException(implode("\n", $errors), 500);
+        }
 
-		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+        // Create a shortcut to the parameters.
+        $params = &$this->state->params;
 
-		$this->params = $params;
+        // Escape strings for HTML output
+        $this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx', ''));
 
-		// Override global params with article specific params
-		$this->params->merge($this->item->params);
-		$this->user   = $user;
+        $this->params = $params;
 
-		// Propose current language as default when creating new article
-		if (empty($this->item->id) && Multilanguage::isEnabled() && $params->get('enable_category') != 1)
-		{
-			$lang = Factory::getLanguage()->getTag();
-			$this->form->setFieldAttribute('language', 'default', $lang);
-		}
+        // Override global params with article specific params
+        $this->params->merge($this->item->params);
+        $this->user   = $user;
 
-		$captchaSet = $params->get('captcha', Factory::getApplication()->get('captcha', '0'));
+        // Propose current language as default when creating new article
+        if (empty($this->item->id) && Multilanguage::isEnabled() && $params->get('enable_category') != 1) {
+            $lang = Factory::getLanguage()->getTag();
+            $this->form->setFieldAttribute('language', 'default', $lang);
+        }
 
-		foreach (PluginHelper::getPlugin('captcha') as $plugin)
-		{
-			if ($captchaSet === $plugin->name)
-			{
-				$this->captchaEnabled = true;
-				break;
-			}
-		}
+        $captchaSet = $params->get('captcha', Factory::getApplication()->get('captcha', '0'));
 
-		$this->_prepareDocument();
-		parent::display($tpl);
-	}
+        foreach (PluginHelper::getPlugin('captcha') as $plugin) {
+            if ($captchaSet === $plugin->name) {
+                $this->captchaEnabled = true;
+                break;
+            }
+        }
 
-	/**
-	 * Prepares the document
-	 *
-	 * @return  void
-	 */
-	protected function _prepareDocument()
-	{
-		$app   = Factory::getApplication();
+        // If the article is being edited and the current user has permission to create article
+        if (
+            $this->item->id
+            && ($user->authorise('core.create', 'com_content') || \count($user->getAuthorisedCategories('com_content', 'core.create')))
+        ) {
+            $this->showSaveAsCopy = true;
+        }
 
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $app->getMenu()->getActive();
+        $this->_prepareDocument();
 
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
-		}
+        parent::display($tpl);
+    }
 
-		$title = $this->params->def('page_title', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+    /**
+     * Prepares the document
+     *
+     * @return  void
+     */
+    protected function _prepareDocument()
+    {
+        $app   = Factory::getApplication();
 
-		$this->setDocumentTitle($title);
+        // Because the application sets a default page title,
+        // we need to get it from the menu item itself
+        $menu = $app->getMenu()->getActive();
 
-		$app->getPathway()->addItem($title);
+        if ($menu) {
+            $this->params->def('page_heading', $this->params->get('page_title', $menu->title));
+        } else {
+            $this->params->def('page_heading', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
+        }
 
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
+        $title = $this->params->def('page_title', Text::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetaData('robots', $this->params->get('robots'));
-		}
-	}
+        $this->setDocumentTitle($title);
+
+        $app->getPathway()->addItem($title);
+
+        if ($this->params->get('menu-meta_description')) {
+            $this->document->setDescription($this->params->get('menu-meta_description'));
+        }
+
+        if ($this->params->get('robots')) {
+            $this->document->setMetaData('robots', $this->params->get('robots'));
+        }
+    }
 }

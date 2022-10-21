@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\MVC\Controller\FormController;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Controller for a single update site

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,12 @@
 
 namespace Joomla\CMS\Helper;
 
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Namespace based implementation of the HelperFactoryInterface
@@ -17,46 +23,53 @@ namespace Joomla\CMS\Helper;
  */
 class HelperFactory implements HelperFactoryInterface
 {
-	/**
-	 * The extension namespace
-	 *
-	 * @var  string
-	 *
-	 * @since   4.0.0
-	 */
-	private $namespace;
+    use DatabaseAwareTrait;
 
-	/**
-	 * HelperFactory constructor.
-	 *
-	 * @param   string  $namespace  The namespace
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(string $namespace)
-	{
-		$this->namespace = $namespace;
-	}
+    /**
+     * The extension namespace
+     *
+     * @var  string
+     *
+     * @since   4.0.0
+     */
+    private $namespace;
 
-	/**
-	 * Returns a helper instance for the given name.
-	 *
-	 * @param   string  $name    The name
-	 * @param   array   $config  The config
-	 *
-	 * @return  \stdClass
-	 *
-	 * @since   4.0.0
-	 */
-	public function getHelper(string $name, array $config = [])
-	{
-		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name;
+    /**
+     * HelperFactory constructor.
+     *
+     * @param   string  $namespace  The namespace
+     *
+     * @since   4.0.0
+     */
+    public function __construct(string $namespace)
+    {
+        $this->namespace = $namespace;
+    }
 
-		if (!class_exists($className))
-		{
-			return null;
-		}
+    /**
+     * Returns a helper instance for the given name.
+     *
+     * @param   string  $name    The name
+     * @param   array   $config  The config
+     *
+     * @return  \stdClass
+     *
+     * @since   4.0.0
+     */
+    public function getHelper(string $name, array $config = [])
+    {
+        $className = '\\' . trim($this->namespace, '\\') . '\\' . $name;
 
-		return new $className($config);
-	}
+        if (!class_exists($className)) {
+            return null;
+        }
+
+        $helper = new $className($config);
+
+        if ($helper instanceof DatabaseAwareInterface) {
+            $helper->setDatabase($this->getDatabase());
+        }
+
+        return $helper;
+    }
 }

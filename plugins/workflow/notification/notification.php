@@ -1,13 +1,14 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Workflow.Notification
  *
  * @copyright   (C) 2020 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 
-defined('_JEXEC') or die;
+ * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
@@ -24,6 +25,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Workflow Notification Plugin
  *
@@ -31,313 +36,309 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 {
-	use WorkflowPluginTrait;
+    use WorkflowPluginTrait;
 
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var    boolean
+     * @since  4.0.0
+     */
+    protected $autoloadLanguage = true;
 
-	/**
-	 * Loads the CMS Application for direct access
-	 *
-	 * @var   CMSApplicationInterface
-	 * @since 4.0.0
-	 */
-	protected $app;
+    /**
+     * Loads the CMS Application for direct access
+     *
+     * @var   CMSApplicationInterface
+     * @since 4.0.0
+     */
+    protected $app;
 
-	/**
-	 * Database object.
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
+    /**
+     * @var    \Joomla\Database\DatabaseDriver
+     *
+     * @since  3.9.0
+     */
+    protected $db;
 
-	/**
-	 * Returns an array of events this subscriber will listen to.
-	 *
-	 * @return   array
-	 *
-	 * @since   4.0.0
-	 */
-	public static function getSubscribedEvents(): array
-	{
-		return [
-			'onContentPrepareForm'        => 'onContentPrepareForm',
-			'onWorkflowAfterTransition'   => 'onWorkflowAfterTransition',
-		];
-	}
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return   array
+     *
+     * @since   4.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onContentPrepareForm'        => 'onContentPrepareForm',
+            'onWorkflowAfterTransition'   => 'onWorkflowAfterTransition',
+        ];
+    }
 
-	/**
-	 * The form event.
-	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
-	 *
-	 * @return   boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function onContentPrepareForm(EventInterface $event)
-	{
-		$form = $event->getArgument('0');
-		$data = $event->getArgument('1');
+    /**
+     * The form event.
+     *
+     * @param   Form      $form  The form
+     * @param   stdClass  $data  The data
+     *
+     * @return   boolean
+     *
+     * @since   4.0.0
+     */
+    public function onContentPrepareForm(EventInterface $event)
+    {
+        $form = $event->getArgument('0');
+        $data = $event->getArgument('1');
 
-		$context = $form->getName();
+        $context = $form->getName();
 
-		// Extend the transition form
-		if ($context === 'com_workflow.transition')
-		{
-			$this->enhanceWorkflowTransitionForm($form, $data);
-		}
+        // Extend the transition form
+        if ($context === 'com_workflow.transition') {
+            $this->enhanceWorkflowTransitionForm($form, $data);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Send a Notification to defined users a transition is performed
-	 *
-	 * @param   string  $context  The context for the content passed to the plugin.
-	 * @param   array   $pks      A list of primary key ids of the content that has changed stage.
-	 * @param   object  $data     Object containing data about the transition
-	 *
-	 * @return   boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
-	{
-		$context       = $event->getArgument('extension');
-		$extensionName = $event->getArgument('extensionName');
-		$transition    = $event->getArgument('transition');
-		$pks           = $event->getArgument('pks');
+    /**
+     * Send a Notification to defined users a transition is performed
+     *
+     * @param   string  $context  The context for the content passed to the plugin.
+     * @param   array   $pks      A list of primary key ids of the content that has changed stage.
+     * @param   object  $data     Object containing data about the transition
+     *
+     * @return   boolean
+     *
+     * @since   4.0.0
+     */
+    public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
+    {
+        $context       = $event->getArgument('extension');
+        $extensionName = $event->getArgument('extensionName');
+        $transition    = $event->getArgument('transition');
+        $pks           = $event->getArgument('pks');
 
-		if (!$this->isSupported($context))
-		{
-			return;
-		}
+        if (!$this->isSupported($context)) {
+            return;
+        }
 
-		$component = $this->app->bootComponent($extensionName);
+        $component = $this->app->bootComponent($extensionName);
 
-		// Check if send-mail is active
-		if (empty($transition->options['notification_send_mail']))
-		{
-			return;
-		}
+        // Check if send-mail is active
+        if (empty($transition->options['notification_send_mail'])) {
+            return;
+        }
 
-		// ID of the items whose state has changed.
-		$pks = ArrayHelper::toInteger($pks);
+        // ID of the items whose state has changed.
+        $pks = ArrayHelper::toInteger($pks);
 
-		if (empty($pks))
-		{
-			return;
-		}
+        if (empty($pks)) {
+            return;
+        }
 
-		// Get UserIds of Receivers
-		$userIds = $this->getUsersFromGroup($transition);
+        // Get UserIds of Receivers
+        $userIds = $this->getUsersFromGroup($transition);
 
-		// The active user
-		$user = $this->app->getIdentity();
+        // The active user
+        $user = $this->app->getIdentity();
 
-		// Prepare Language for messages
-		$defaultLanguage = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = $this->app->get('debug_lang');
+        // Prepare Language for messages
+        $defaultLanguage = ComponentHelper::getParams('com_languages')->get('administrator');
+        $debug = $this->app->get('debug_lang');
 
-		$modelName = $component->getModelName($context);
-		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
+        $modelName = $component->getModelName($context);
+        $model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true]);
 
-		// Don't send the notification to the active user
-		$key = array_search($user->id, $userIds);
+        // Don't send the notification to the active user
+        $key = array_search($user->id, $userIds);
 
-		if (is_int($key))
-		{
-			unset($userIds[$key]);
-		}
+        if (is_int($key)) {
+            unset($userIds[$key]);
+        }
 
-		// Remove users with locked input box from the list of receivers
-		if (!empty($userIds))
-		{
-			$userIds = $this->removeLocked($userIds);
-		}
+        // Remove users with locked input box from the list of receivers
+        if (!empty($userIds)) {
+            $userIds = $this->removeLocked($userIds);
+        }
 
-		// If there are no receivers, stop here
-		if (empty($userIds))
-		{
-			return;
-		}
+        // If there are no receivers, stop here
+        if (empty($userIds)) {
+            $this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_RECEIVER'), 'error');
 
-		// Get the model for private messages
-		$model_message = $this->app->bootComponent('com_messages')
-			->getMVCFactory()->createModel('Message', 'Administrator');
+            return;
+        }
 
-		// Get the title of the stage
-		$model_stage = $this->app->bootComponent('com_workflow')
-			->getMVCFactory()->createModel('Stage', 'Administrator');
+        // Get the model for private messages
+        $model_message = $this->app->bootComponent('com_messages')
+            ->getMVCFactory()->createModel('Message', 'Administrator');
 
-		$toStage = $model_stage->getItem($transition->to_stage_id)->title;
+        // Get the title of the stage
+        $model_stage = $this->app->bootComponent('com_workflow')
+            ->getMVCFactory()->createModel('Stage', 'Administrator');
 
-		$hasGetItem = method_exists($model, 'getItem');
-		$container = Factory::getContainer();
+        $toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
-		foreach ($pks as $pk)
-		{
-			// Get the title of the item which has changed
-			$title = '';
+        // Get the name of the transition
+        $model_transition = $this->app->bootComponent('com_workflow')
+            ->getMVCFactory()->createModel('Transition', 'Administrator');
 
-			if ($hasGetItem)
-			{
-				$title = $model->getItem($pk)->title;
-			}
+        $transitionName = $model_transition->getItem($transition->id)->title;
 
-			// Send Email to receivers
-			foreach ($userIds as $user_id)
-			{
-				$receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
+        $hasGetItem = method_exists($model, 'getItem');
+        $container = Factory::getContainer();
 
-				if ($receiver->authorise('core.manage', 'com_message'))
-				{
-					// Load language for messaging
-					$lang = $container->get(LanguageFactoryInterface::class)
-						->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
-					$lang->load('plg_workflow_notification');
-					$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
+        foreach ($pks as $pk) {
+            // Get the title of the item which has changed, unknown as fallback
+            $title = Text::_('PLG_WORKFLOW_NOTIFICATION_NO_TITLE');
 
-					if (!empty($transition->options['notification_text']))
-					{
-						$messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
-					}
+            if ($hasGetItem) {
+                $item = $model->getItem($pk);
+                $title = !empty($item->title) ? $item->title : $title;
+            }
 
-					$message = [
-						'id' => 0,
-						'user_id_to' => $receiver->id,
-						'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $modelName),
-						'message' => $messageText,
-					];
+            // Send Email to receivers
+            foreach ($userIds as $user_id) {
+                $receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
 
-					$model_message->save($message);
-				}
-			}
-		}
+                if ($receiver->authorise('core.manage', 'com_message')) {
+                    // Load language for messaging
+                    $lang = $container->get(LanguageFactoryInterface::class)
+                        ->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
+                    $lang->load('plg_workflow_notification');
+                    $messageText = sprintf(
+                        $lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'),
+                        $title,
+                        $lang->_($transitionName),
+                        $user->name,
+                        $lang->_($toStage)
+                    );
 
-		$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
+                    if (!empty($transition->options['notification_text'])) {
+                        $messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
+                    }
 
-	}
+                    $message = [
+                        'id' => 0,
+                        'user_id_to' => $receiver->id,
+                        'subject' => sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_SUBJECT'), $title),
+                        'message' => $messageText,
+                    ];
 
-	/**
-	 * Get user_ids of receivers
-	 *
-	 * @param   object  $data  Object containing data about the transition
-	 *
-	 * @return   array  $userIds  The receivers
-	 *
-	 * @since   4.0.0
-	 */
-	private function getUsersFromGroup($data): array
-	{
-		$users = [];
+                    $model_message->save($message);
+                }
+            }
+        }
 
-		// Single userIds
-		if (!empty($data->options['notification_receivers']))
-		{
-			$users = ArrayHelper::toInteger($data->options['notification_receivers']);
-		}
+        $this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
+    }
 
-		// Usergroups
-		$groups = [];
+    /**
+     * Get user_ids of receivers
+     *
+     * @param   object  $data  Object containing data about the transition
+     *
+     * @return   array  $userIds  The receivers
+     *
+     * @since   4.0.0
+     */
+    private function getUsersFromGroup($data): array
+    {
+        $users = [];
 
-		if (!empty($data->options['notification_groups']))
-		{
-			$groups = ArrayHelper::toInteger($data->options['notification_groups']);
-		}
+        // Single userIds
+        if (!empty($data->options['notification_receivers'])) {
+            $users = ArrayHelper::toInteger($data->options['notification_receivers']);
+        }
 
-		$users2 = [];
+        // Usergroups
+        $groups = [];
 
-		if (!empty($groups))
-		{
-			// UserIds from usergroups
-			$model = Factory::getApplication()->bootComponent('com_users')
-				->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
+        if (!empty($data->options['notification_groups'])) {
+            $groups = ArrayHelper::toInteger($data->options['notification_groups']);
+        }
 
-			$model->setState('list.select', 'id');
-			$model->setState('filter.groups', $groups);
-			$model->setState('filter.state', 0);
+        $users2 = [];
 
-			// Ids from usergroups
-			$groupUsers = $model->getItems();
+        if (!empty($groups)) {
+            // UserIds from usergroups
+            $model = Factory::getApplication()->bootComponent('com_users')
+                ->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
 
-			$users2 = ArrayHelper::getColumn($groupUsers, 'id');
-		}
+            $model->setState('list.select', 'id');
+            $model->setState('filter.groups', $groups);
+            $model->setState('filter.state', 0);
 
-		// Merge userIds from individual entries and userIDs from groups
-		return array_unique(array_merge($users, $users2));
-	}
+            // Ids from usergroups
+            $groupUsers = $model->getItems();
 
-	/**
-	 * Check if the current plugin should execute workflow related activities
-	 *
-	 * @param   string  $context
-	 *
-	 * @return   boolean
-	 *
-	 * @since   4.0.0
-	 */
-	protected function isSupported($context)
-	{
-		if (!$this->checkAllowedAndForbiddenlist($context))
-		{
-			return false;
-		}
+            $users2 = ArrayHelper::getColumn($groupUsers, 'id');
+        }
 
-		$parts = explode('.', $context);
+        // Merge userIds from individual entries and userIDs from groups
+        return array_unique(array_merge($users, $users2));
+    }
 
-		// We need at least the extension + view for loading the table fields
-		if (count($parts) < 2)
-		{
-			return false;
-		}
+    /**
+     * Check if the current plugin should execute workflow related activities
+     *
+     * @param   string  $context
+     *
+     * @return   boolean
+     *
+     * @since   4.0.0
+     */
+    protected function isSupported($context)
+    {
+        if (!$this->checkAllowedAndForbiddenlist($context)) {
+            return false;
+        }
 
-		$component = $this->app->bootComponent($parts[0]);
+        $parts = explode('.', $context);
 
-		if (!$component instanceof WorkflowServiceInterface
-			|| !$component->isWorkflowActive($context))
-		{
-			return false;
-		}
+        // We need at least the extension + view for loading the table fields
+        if (count($parts) < 2) {
+            return false;
+        }
 
-		return true;
-	}
+        $component = $this->app->bootComponent($parts[0]);
 
-	/**
-	 * Remove receivers who have locked their message inputbox
-	 *
-	 * @param   array  $userIds  The userIds which must be checked
-	 *
-	 * @return   array  users with active message input box
-	 *
-	 * @since   4.0.0
-	 */
-	private function removeLocked(array $userIds): array
-	{
-		if (empty($userIds))
-		{
-			return [];
-		}
+        if (
+            !$component instanceof WorkflowServiceInterface
+            || !$component->isWorkflowActive($context)
+        ) {
+            return false;
+        }
 
-		// Check for locked inboxes would be better to have _cdf settings in the user_object or a filter in users model
-		$query = $this->db->getQuery(true);
+        return true;
+    }
 
-		$query->select($this->db->quoteName('user_id'))
-			->from($this->db->quoteName('#__messages_cfg'))
-			->whereIn($this->db->quoteName('user_id'), $userIds)
-			->where($this->db->quoteName('cfg_name') . ' = ' . $this->db->quote('locked'))
-			->where($this->db->quoteName('cfg_value') . ' = 1');
+    /**
+     * Remove receivers who have locked their message inputbox
+     *
+     * @param   array  $userIds  The userIds which must be checked
+     *
+     * @return   array  users with active message input box
+     *
+     * @since   4.0.0
+     */
+    private function removeLocked(array $userIds): array
+    {
+        if (empty($userIds)) {
+            return [];
+        }
 
-		$locked = $this->db->setQuery($query)->loadColumn();
+        // Check for locked inboxes would be better to have _cdf settings in the user_object or a filter in users model
+        $query = $this->db->getQuery(true);
 
-		return array_diff($userIds, $locked);
-	}
+        $query->select($this->db->quoteName('user_id'))
+            ->from($this->db->quoteName('#__messages_cfg'))
+            ->whereIn($this->db->quoteName('user_id'), $userIds)
+            ->where($this->db->quoteName('cfg_name') . ' = ' . $this->db->quote('locked'))
+            ->where($this->db->quoteName('cfg_value') . ' = 1');
+
+        $locked = $this->db->setQuery($query)->loadColumn();
+
+        return array_diff($userIds, $locked);
+    }
 }

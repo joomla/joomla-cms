@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
 
 		// Get the toolbar object instance
 		$bar  = Toolbar::getInstance('toolbar');
-		$user = Factory::getUser();
+		$user = $this->getCurrentUser();
 
 		// Set the title
 		ToolbarHelper::title(Text::_('COM_MEDIA'), 'images mediamanager');
@@ -128,7 +128,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($tmpl !== 'component')
 		{
-			ToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
+			ToolbarHelper::help('Media');
 		}
 	}
 }

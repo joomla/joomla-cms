@@ -4,7 +4,7 @@ const Fs = require('fs').promises;
 const FsExtra = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const Sass = require('sass');
+const Sass = require('sass-embedded');
 
 module.exports.compile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
@@ -19,9 +19,6 @@ module.exports.compile = async (file) => {
     process.exit(1);
   }
 
-  // forked.on('message', async (msg) => {
-  // console.log('Message from child', msg);
-
   // Auto prefixing
   const cleaner = Postcss([Autoprefixer()]);
   const res = await cleaner.process(compiled.css.toString(), { from: undefined });
@@ -31,7 +28,7 @@ module.exports.compile = async (file) => {
   await Fs.writeFile(
     cssFile,
     res.css.toString(),
-    { encoding: 'utf8', mode: 0o2644 },
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   const cssMin = await Postcss([CssNano]).process(res.css.toString(), { from: undefined });
@@ -41,12 +38,9 @@ module.exports.compile = async (file) => {
   await Fs.writeFile(
     cssFile.replace('.css', '.min.css'),
     cssMin.css.toString(),
-    { encoding: 'utf8', mode: 0o2644 },
+    { encoding: 'utf8', mode: 0o644 },
   );
 
   // eslint-disable-next-line no-console
   console.log(`✅ SCSS File compiled: ${cssFile}`);
-  // });
-
-  // forked.send({ file });
 };

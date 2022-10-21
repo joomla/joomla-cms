@@ -121,14 +121,16 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
               orders[i] = response.data[i].split(',');
             }
 
-            that.writeDynaList({
-              name,
-              id,
-              itemClass: attr,
-            },
-            orders,
-            that.originalPosition,
-            originalOrder);
+            that.writeDynaList(
+              {
+                name,
+                id,
+                itemClass: attr,
+              },
+              orders,
+              that.originalPosition,
+              originalOrder,
+            );
           }
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_languages
@@ -9,13 +10,15 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Multilangstatus;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Languages\Administrator\Helper\MultilangstatusHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Displays the multilang status.
@@ -24,26 +27,26 @@ use Joomla\Component\Languages\Administrator\Helper\MultilangstatusHelper;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * Display the view.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  void
-	 */
-	public function display($tpl = null)
-	{
-		$this->homes           = MultilangstatusHelper::getHomes();
-		$this->language_filter = Multilanguage::isEnabled();
-		$this->switchers       = MultilangstatusHelper::getLangswitchers();
-		$this->listUsersError  = MultilangstatusHelper::getContacts();
-		$this->contentlangs    = MultilangstatusHelper::getContentlangs();
-		$this->site_langs      = LanguageHelper::getInstalledLanguages(0);
-		$this->statuses        = MultilangstatusHelper::getStatus();
-		$this->homepages       = Multilanguage::getSiteHomePages();
-		$this->defaultHome     = MultilangstatusHelper::getDefaultHomeModule();
-		$this->default_lang    = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+    /**
+     * Display the view.
+     *
+     * @param   string  $tpl  The name of the template file to parse.
+     *
+     * @return  void
+     */
+    public function display($tpl = null)
+    {
+        $this->homes           = MultilangstatusHelper::getHomes();
+        $this->language_filter = Multilanguage::isEnabled();
+        $this->switchers       = MultilangstatusHelper::getLangswitchers();
+        $this->listUsersError  = MultilangstatusHelper::getContacts();
+        $this->contentlangs    = MultilangstatusHelper::getContentlangs();
+        $this->site_langs      = LanguageHelper::getInstalledLanguages(0);
+        $this->statuses        = MultilangstatusHelper::getStatus();
+        $this->homepages       = Multilanguage::getSiteHomePages();
+        $this->defaultHome     = MultilangstatusHelper::getDefaultHomeModule();
+        $this->default_lang    = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

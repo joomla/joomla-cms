@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_content
@@ -9,8 +10,6 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Factory;
@@ -20,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This models supports retrieving a category, the articles associated with the category,

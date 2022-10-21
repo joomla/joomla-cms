@@ -5,7 +5,6 @@
     // Vue
     "plugin:vue/vue3-recommended"
   ],
-  "parser": "vue-eslint-parser",
   "parserOptions": {
     "sourceType": "module"
   },

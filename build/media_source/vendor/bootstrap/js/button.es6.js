@@ -1,4 +1,4 @@
-import Button from '../../../../../node_modules/bootstrap/js/src/button';
+import Button from 'bootstrap/js/src/button';
 
 window.bootstrap = window.bootstrap || {};
 window.bootstrap.Button = Button;

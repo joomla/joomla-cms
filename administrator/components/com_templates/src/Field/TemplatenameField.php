@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -9,11 +10,13 @@
 
 namespace Joomla\Component\Templates\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Template Name field.
@@ -22,30 +25,30 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
  */
 class TemplatenameField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var	   string
-	 * @since  3.5
-	 */
-	protected $type = 'TemplateName';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $type = 'TemplateName';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   1.6
-	 */
-	public function getOptions()
-	{
-		// Get the client_id filter from the user state.
-		$clientId = Factory::getApplication()->getUserStateFromRequest('com_templates.styles.client_id', 'client_id', '0', 'string');
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   1.6
+     */
+    public function getOptions()
+    {
+        // Get the client_id filter from the user state.
+        $clientId = Factory::getApplication()->getUserStateFromRequest('com_templates.styles.client_id', 'client_id', '0', 'string');
 
-		// Get the templates for the selected client_id.
-		$options = TemplatesHelper::getTemplateOptions($clientId);
+        // Get the templates for the selected client_id.
+        $options = TemplatesHelper::getTemplateOptions($clientId);
 
-		// Merge into the parent options.
-		return array_merge(parent::getOptions(), $options);
-	}
+        // Merge into the parent options.
+        return array_merge(parent::getOptions(), $options);
+    }
 }
