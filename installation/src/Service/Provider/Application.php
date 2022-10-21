@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\SessionInterface;
@@ -64,7 +65,9 @@ class Application implements ServiceProviderInterface
         $container->share(
             CliInstallationApplication::class,
             function (Container $container) {
-                $app = new CliInstallationApplication(null, null, $container->get('config'), Language::getInstance('en-GB'));
+                $lang = $container->get(LanguageFactoryInterface::class)->createLanguage('en-GB', false);
+
+                $app = new CliInstallationApplication(null, null, $container->get('config'), $lang);
 
                 // The session service provider needs Factory::$application, set it if still null
                 if (Factory::$application === null) {
