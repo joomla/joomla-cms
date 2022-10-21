@@ -346,7 +346,12 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         $table = Table::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
 
         if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
-            $this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+            // Is the existing article trashed?
+            $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS'));
+
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }
