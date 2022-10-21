@@ -20,6 +20,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use stdClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handles the onDisplay event for the TinyMCE editor.
  *

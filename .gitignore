@@ -101,3 +101,6 @@ RoboFile.ini
 # Media Manager
 /media/com_media/js/mediamanager.min.js.map
 /media/com_media/css/mediamanager.min.css.map
+
+# WebAuthn FIDO metadata cache
+/plugins/system/webauthn/fido.jwt
