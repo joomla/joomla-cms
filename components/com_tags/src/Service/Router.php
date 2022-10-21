@@ -33,7 +33,7 @@ class Router extends RouterBase
 	 * Lookup array of the menu items
 	 *
 	 * @var   array
-	 * @since 4.1
+	 * @since __DEPLOY_VERSION__
 	 */
 	protected $lookup = array();
 
