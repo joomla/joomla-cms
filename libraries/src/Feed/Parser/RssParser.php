@@ -15,6 +15,10 @@ use Joomla\CMS\Feed\FeedLink;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\FeedPerson;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * RSS Feed Parser class.
  *
@@ -347,10 +351,7 @@ class RssParser extends FeedParser
      */
     protected function initialise()
     {
-        // We want to move forward to the first XML Element after the xml doc type declaration
-        $this->moveToNextElement();
-
-        // Read the version attribute.
+        // We are on the first XML Element after the xml doc type declaration
         $this->version = $this->stream->getAttribute('version');
 
         // We want to move forward to the first element after the <channel> element.

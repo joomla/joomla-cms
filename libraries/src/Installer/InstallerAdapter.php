@@ -27,6 +27,10 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Abstract adapter for the installer.
  *
@@ -944,8 +948,6 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
         // The real location of the file
         $manifestScriptFile = $this->parent->getPath('source') . '/' . $manifestScript;
 
-        $installer = null;
-
         // Load the installer from the file
         if (!file_exists($manifestScriptFile)) {
             @trigger_error(
@@ -956,7 +958,7 @@ abstract class InstallerAdapter implements ContainerAwareInterface, DatabaseAwar
             return;
         }
 
-        require_once $manifestScriptFile;
+        $installer = require_once $manifestScriptFile;
 
         // When the instance is a service provider, then register the container with it
         if ($installer instanceof ServiceProviderInterface) {

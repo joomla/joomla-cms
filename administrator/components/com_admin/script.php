@@ -21,6 +21,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Script file of Joomla CMS
  *
@@ -6428,6 +6432,27 @@ class JoomlaInstallerScript
             '/plugins/task/requests/requests.php',
             '/plugins/task/sitestatus/sitestatus.php',
             '/plugins/user/profile/src/Field/DobField.php',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Exception/AjaxNonCmsAppException.php',
+            '/plugins/system/webauthn/src/Helper/CredentialsCreation.php',
+            '/plugins/system/webauthn/src/Helper/Joomla.php',
+            '/plugins/system/webauthn/webauthn.php',
+            '/plugins/task/checkfiles/checkfiles.php',
+            '/plugins/task/demotasks/demotasks.php',
+            // From 4.2.0-rc1 to 4.2.0
+            '/build/media_source/com_menus/css/admin-item-edit_modules.css',
+            '/administrator/language/en-GB/plg_fields_menuitem.ini',
+            '/administrator/language/en-GB/plg_fields_menuitem.sys.ini',
+            '/plugins/fields/menuitem/menuitem.php',
+            '/plugins/fields/menuitem/menuitem.xml',
+            '/plugins/fields/menuitem/tmpl/menuitem.php',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js/hotkeys.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js.gz',
+            '/media/vendor/hotkeys.js/LICENSE',
+            // From 4.2.1 to 4.2.2
+            '/administrator/cache/fido.jwt',
         );
 
         $folders = array(
@@ -7792,6 +7817,16 @@ class JoomlaInstallerScript
             // From 4.2.0-beta1 to 4.2.0-beta2
             '/layouts/plugins/user/profile/fields',
             '/layouts/plugins/user/profile',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Helper',
+            '/plugins/system/webauthn/src/Exception',
+            // From 4.2.0-rc1 to 4.2.0
+            '/plugins/fields/menuitem/tmpl',
+            '/plugins/fields/menuitem',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js',
+            '/media/vendor/hotkeys.js',
+            '/libraries/vendor/symfony/string/Resources/bin',
         );
 
         $status['files_checked'] = $files;
