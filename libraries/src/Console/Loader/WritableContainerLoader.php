@@ -13,6 +13,10 @@ use Joomla\Console\Command\AbstractCommand;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * PSR-11 compatible writable command loader.
  *

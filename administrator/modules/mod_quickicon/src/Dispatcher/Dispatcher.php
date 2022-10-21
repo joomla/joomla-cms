@@ -13,6 +13,10 @@ namespace Joomla\Module\Quickicon\Administrator\Dispatcher;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Dispatcher class for mod_quickicon
  *
