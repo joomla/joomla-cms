@@ -53,8 +53,15 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
+  - name: phan
+    image: joomlaprojects/docker-images:php7.4-ast
+    depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/phan
+
   - name: npm
-    image: node:16-alpine
+    image: node:16-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
