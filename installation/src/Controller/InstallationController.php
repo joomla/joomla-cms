@@ -68,7 +68,7 @@ class InstallationController extends JSONController
         $model = $this->getModel('Setup');
         $data  = Factory::getApplication()->input->post->get('jform', array(), 'array');
 
-        if ($model->validate($data,'setup') === false) {
+        if ($model->validate($data, 'setup') === false) {
             $this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
             $r->validated = false;
             $this->sendJsonResponse($r);

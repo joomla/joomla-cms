@@ -115,7 +115,7 @@ class DatabaseModel extends BaseInstallationModel
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 
-        $db = $this->initialise($options,false);
+        $db = $this->initialise($options, false);
 
         if ($db === false) {
             // Error messages are enqueued by the initialise function, we just need to tell the controller how to redirect
