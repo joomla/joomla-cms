@@ -53,6 +53,13 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
+  - name: phan
+    image: joomlaprojects/docker-images:php7.4-ast
+    depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/phan
+
   - name: npm
     image: node:16-bullseye-slim
     depends_on: [ phpcs ]
@@ -517,6 +524,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 05c1f15cfad7564a9479535f7b0727b63056f9b38f66453cbefab877d7db52b9
+hmac: f496f213481b3afcec73da651fc838af21f76950954daac599e665ceb382cc2d
 
 ...
