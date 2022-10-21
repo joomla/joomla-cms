@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Login model class for Users.
  *

@@ -22,6 +22,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for adding a user
  *
@@ -125,7 +129,7 @@ class AddUserCommand extends AbstractCommand
     protected function doExecute(InputInterface $input, OutputInterface $output): int
     {
         $this->configureIO($input, $output);
-        $this->ioStyle->title('Add user');
+        $this->ioStyle->title('Add User');
         $this->user = $this->getStringFromOption('username', 'Please enter a username');
         $this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
         $this->email = $this->getStringFromOption('email', 'Please enter an email address');
@@ -215,7 +219,7 @@ class AddUserCommand extends AbstractCommand
             }
         }
 
-            return $answer;
+        return $answer;
     }
 
     /**

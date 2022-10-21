@@ -23,6 +23,10 @@ use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of contenthistory records.
  *
@@ -76,7 +80,7 @@ class HistoryModel extends ListModel
          * Make sure user has edit privileges for this content item. Note that we use edit permissions
          * for the content item, not delete permissions for the content history row.
          */
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
 
         if ($user->authorise('core.edit', $record->item_id)) {
             return true;
@@ -187,7 +191,7 @@ class HistoryModel extends ListModel
     public function getItems()
     {
         $items = parent::getItems();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($items === false) {
             return false;
