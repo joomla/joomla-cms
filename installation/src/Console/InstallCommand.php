@@ -235,7 +235,7 @@ class InstallCommand extends AbstractCommand
 
                 if ($show) {
                     $cfg[$field->fieldname] = $this->getStringFromOption(
-                        $field->fieldname,
+                        str_replace('_', '-', $field->fieldname),
                         Text::_((string)$field->getAttribute('label')),
                         $field
                     );
@@ -245,7 +245,7 @@ class InstallCommand extends AbstractCommand
             } else {
                 $cfg[$field->fieldname] = $field->filter(
                     $this->getStringFromOption(
-                        $field->fieldname,
+                        str_replace('_', '-', $field->fieldname),
                         Text::_((string)$field->getAttribute('label')),
                         $field
                     )
@@ -310,7 +310,7 @@ class InstallCommand extends AbstractCommand
             }
 
             $this->addOption(
-                $field->fieldname,
+                str_replace('_', '-', $field->fieldname),
                 null,
                 $field->required ? InputOption::VALUE_REQUIRED : InputOption::VALUE_OPTIONAL,
                 Text::_(((string)$field->getAttribute('label')) . '_SHORT'),
@@ -348,18 +348,23 @@ class InstallCommand extends AbstractCommand
         // If an option is given via CLI, we validate that value and return it.
         if ($givenOption || !$this->cliInput->isInteractive()) {
             $answer = $this->getApplication()->getConsoleInput()->getOption($option);
+
+            if (!is_string($answer)) {
+                throw new \Exception($option . ' has been declared, but has not been given!');
+            }
+
             $valid  = $field->validate($answer);
 
             if ($valid instanceof \Exception) {
                 throw new \Exception('Value for ' . $option . ' is wrong: ' . $valid->getMessage());
             }
 
-            return $answer;
+            return (string) $answer;
         }
 
         // We don't have a CLI option and now interactively get that from the user.
         while (\is_null($answer) || $answer === false) {
-            if (in_array($option, ['admin_password', 'db_pass'])) {
+            if (in_array($option, ['admin-password', 'db-pass'])) {
                 $answer = $this->ioStyle->askHidden($question);
             } else {
                 $answer = $this->ioStyle->ask(
@@ -375,7 +380,7 @@ class InstallCommand extends AbstractCommand
                 $answer = false;
             }
 
-            if ($option == 'db_pass' && $valid && $answer == null) {
+            if ($option == 'db-pass' && $valid && $answer == null) {
                 return '';
             }
         }
