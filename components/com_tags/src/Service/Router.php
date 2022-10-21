@@ -42,7 +42,7 @@ class Router extends RouterBase
 	 *
 	 * @var DatabaseInterface
 	 *
-	 * @since  4.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $db;
 
