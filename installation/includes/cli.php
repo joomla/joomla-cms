@@ -47,7 +47,7 @@ $container = \Joomla\CMS\Factory::getContainer();
 $container->registerServiceProvider(new \Joomla\CMS\Installation\Service\Provider\Application());
 
 /*
- * Alias the session service keys to the web session service as that is the primary session backend for this application
+ * Alias the session service keys to the CLI session service as that is the primary session backend for this application
  *
  * In addition to aliasing "common" service keys, we also create aliases for the PHP classes to ensure autowiring objects
  * is supported.  This includes aliases for aliased class names, and the keys for aliased class names should be considered
