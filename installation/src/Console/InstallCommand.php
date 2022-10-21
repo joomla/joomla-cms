@@ -20,7 +20,6 @@ use Joomla\CMS\Installation\Application\CliInstallationApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Version;
 use Joomla\Console\Command\AbstractCommand;
-use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
