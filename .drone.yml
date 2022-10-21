@@ -5,6 +5,37 @@ name: default
 clone:
 
 steps:
+  - name: setup
+    image: joomlaprojects/docker-images:php7.4
+    volumes:
+      - name: certificates
+        path: /certificates
+    commands:
+      - cp -v tests/Codeception/_data/certs/* /certificates/
+
+  - name: openldap
+    image: bitnami/openldap:latest
+    detach: true
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: customuser
+      LDAP_PASSWORDS: custompassword
+      LDAP_ENABLE_TLS: yes
+      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
+      LDAP_TLS_KEY_FILE: /certificates/openldap.key
+      LDAP_TLS_CA_FILE: /certificates/CA.crt
+      BITNAMI_DEBUG: true
+      LDAP_CONFIG_ADMIN_ENABLED: yes
+      LDAP_CONFIG_ADMIN_USERNAME: admin
+      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
+
   - name: composer
     image: joomlaprojects/docker-images:php7.4
     volumes:
@@ -22,8 +53,15 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
+  - name: phan
+    image: joomlaprojects/docker-images:php7.4-ast
+    depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/phan
+
   - name: npm
-    image: node:16-alpine
+    image: node:16-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -179,7 +217,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql jos_
 
   - name: phpmax-api-mysql
     depends_on:
@@ -188,7 +226,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql phpmax_
 
 #  - name: phpnext-api-mysql
 #    depends_on:
@@ -198,7 +236,7 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql8 phpmax_
 
   - name: phpmin-api-postgres
     depends_on:
@@ -207,7 +245,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres jos_
 
   - name: phpmax-api-postgres
     depends_on:
@@ -216,7 +254,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres phpmax_
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -226,7 +264,7 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres
 
   - name: phpmin-system-mysql
     depends_on:
@@ -361,6 +399,9 @@ volumes:
   - name: npm-cache
     host:
       path: /tmp/npm-cache
+  - name: certificates
+    host:
+      path: /tmp/certificates
 
 services:
   - name: mysql
@@ -483,6 +524,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 916fe89f8d920e8471b32aae02bfe192abf24cd035b5f1ea73452662c1c92895
+hmac: 35f71c2c3f977f0da835b27f18cea8f07419c3dd14aae4bc8da11fdb624983c5
 
 ...
