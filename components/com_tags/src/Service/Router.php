@@ -367,7 +367,7 @@ class Router extends RouterBase
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function buildLookup($language = '*')
 	{
