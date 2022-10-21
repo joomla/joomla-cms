@@ -217,7 +217,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql jos_
 
   - name: phpmax-api-mysql
     depends_on:
@@ -226,7 +226,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql phpmax_
 
 #  - name: phpnext-api-mysql
 #    depends_on:
@@ -236,7 +236,7 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql8 phpmax_
 
   - name: phpmin-api-postgres
     depends_on:
@@ -245,7 +245,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres jos_
 
   - name: phpmax-api-postgres
     depends_on:
@@ -254,7 +254,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres phpmax_
 
 #  - name: phpnext-api-postgres
 #    depends_on:
@@ -264,7 +264,7 @@ steps:
 #    environment:
 #      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
 #    commands:
-#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+#      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres
 
   - name: phpmin-system-mysql
     depends_on:
@@ -524,6 +524,6 @@ trigger:
 
 ---
 kind: signature
-hmac: f496f213481b3afcec73da651fc838af21f76950954daac599e665ceb382cc2d
+hmac: 35f71c2c3f977f0da835b27f18cea8f07419c3dd14aae4bc8da11fdb624983c5
 
 ...
