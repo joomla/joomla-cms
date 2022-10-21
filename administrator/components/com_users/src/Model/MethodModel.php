@@ -11,16 +11,19 @@
 namespace Joomla\Component\Users\Administrator\Model;
 
 use Exception;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\MultiFactor\GetSetup;
-use Joomla\CMS\Language\Text;
-use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
-use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
-use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Component\Users\Administrator\DataShape\SetupRenderOptions;
+use Joomla\Component\Users\Administrator\Helper\Mfa as MfaHelper;
+use Joomla\Component\Users\Administrator\Table\MfaTable;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Multi-factor Authentication management model
