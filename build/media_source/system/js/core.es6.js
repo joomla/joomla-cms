@@ -566,27 +566,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
-   * Joomla Request queue.
-   *
-   * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
-   * multiple requests against the server which could trigger its Denial of Service protection.
-   *
-   * @type  {Array}
-   *
-   * @since 4.2.0
-   */
-  const requestQueue = [];
-
-  /**
-   * Flag to indicate whether Joomla is performing a queued Request.
-   *
-   * @type  {boolean}
-   *
-   * @since 4.2.0
-   */
-  let performingQueuedRequest = false;
-
-  /**
    * Method to perform AJAX request
    *
    * @param {Object} options   Request options:
@@ -597,9 +576,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *                https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
    *    perform: true,        Perform the request immediately
    *              or return XMLHttpRequest instance and perform it later
-   *    queued: false,        Put the request in a FIFO queue; prevents simultaneous execution of
-   *              multiple requests to avoid triggering the server's Denial of Service protection.
    *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+   *    promise: false        Whether return a Promise instance.
+   *              When true then next options is ignored: perform, onSuccess, onError, onComplete
    *
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
@@ -621,37 +600,18 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
    */
   Joomla.request = (options) => {
-    /**
-     * Processes queued Request objects.
-     *
-     * @since 4.2.0
-     */
-    const processQueuedRequests = () => {
-      if (performingQueuedRequest || requestQueue.length === 0) {
-        return;
-      }
-
-      performingQueuedRequest = true;
-
-      const nextRequest = requestQueue.shift();
-
-      nextRequest.xhr.send(nextRequest.data);
-    };
-
-    let xhr;
-
     // Prepare the options
     const newOptions = Joomla.extend({
       url: '',
       method: 'GET',
       data: null,
       perform: true,
-      queued: false,
+      promise: false,
     }, options);
 
-    // Set up XMLHttpRequest instance
-    try {
-      xhr = new XMLHttpRequest();
+    // Setup XMLHttpRequest instance
+    const createRequest = (onSuccess, onError) => {
+      const xhr = new XMLHttpRequest();
 
       xhr.open(newOptions.method, newOptions.url, true);
 
@@ -690,51 +650,78 @@ window.Joomla.Modal = window.Joomla.Modal || {
           return;
         }
 
-        // The request is finished; step through any more queued requests
-        if (newOptions.queued) {
-          performingQueuedRequest = false;
-          processQueuedRequests();
-        }
-
         // Request finished and response is ready
         if (xhr.status === 200) {
-          if (newOptions.onSuccess) {
-            newOptions.onSuccess.call(window, xhr.responseText, xhr);
+          if (newOptions.promise) {
+            // A Promise accepts only one argument
+            onSuccess.call(window, xhr);
+          } else {
+            onSuccess.call(window, xhr.responseText, xhr);
           }
-        } else if (newOptions.onError) {
-          newOptions.onError.call(window, xhr);
+        } else {
+          onError.call(window, xhr);
         }
 
-        if (newOptions.onComplete) {
+        if (newOptions.onComplete && !newOptions.promise) {
           newOptions.onComplete.call(window, xhr);
         }
       };
 
       // Do request
-      if (newOptions.perform && !newOptions.queued) {
+      if (newOptions.perform) {
         if (newOptions.onBefore && newOptions.onBefore.call(window, xhr) === false) {
           // Request interrupted
+          if (newOptions.promise) {
+            onSuccess.call(window, xhr);
+          }
           return xhr;
         }
 
         xhr.send(newOptions.data);
       }
 
-      // Enqueue request and try to process the queue
-      if (newOptions.queued) {
-        requestQueue.push({
-          xhr,
-          data: newOptions.data,
-        });
-        processQueuedRequests();
-      }
-    } catch (error) {
-      // eslint-disable-next-line no-unused-expressions,no-console
-      window.console ? console.log(error) : null;
-      return false;
+      return xhr;
+    };
+
+    // Return a Promise
+    if (newOptions.promise) {
+      return new Promise((resolve, reject) => {
+        newOptions.perform = true;
+        createRequest(resolve, reject);
+      });
     }
 
-    return xhr;
+    // Return a Request
+    try {
+      return createRequest(newOptions.onSuccess || (() => {}), newOptions.onError || (() => {}));
+    } catch (error) {
+      // eslint-disable-next-line no-unused-expressions,no-console
+      console.error(error);
+      return false;
+    }
+  };
+
+  let lastRequestPromise;
+
+  /**
+   * Joomla Request queue.
+   *
+   * A FIFO queue of requests to execute serially. Used to prevent simultaneous execution of
+   * multiple requests against the server which could trigger its Denial of Service protection.
+   *
+   * @param {object} options Options for Joomla.request()
+   * @returns {Promise}
+   */
+  Joomla.enqueueRequest = (options) => {
+    if (!options.promise) {
+      throw new Error('Joomla.enqueueRequest supports only Joomla.request as Promise');
+    }
+    if (!lastRequestPromise) {
+      lastRequestPromise = Joomla.request(options);
+    } else {
+      lastRequestPromise = lastRequestPromise.then(() => Joomla.request(options));
+    }
+    return lastRequestPromise;
   };
 
   /**

@@ -12,6 +12,10 @@ namespace Joomla\Component\Banners\Api\Controller;
 
 use Joomla\CMS\MVC\Controller\ApiController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The clients controller
  *
