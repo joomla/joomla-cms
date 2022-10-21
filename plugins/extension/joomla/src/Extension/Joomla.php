@@ -27,7 +27,7 @@ use Joomla\Database\ParameterType;
  */
 final class Joomla extends CMSPlugin
 {
-	use DatabaseAwareTrait;
+    use DatabaseAwareTrait;
 
     /**
      * @var    integer

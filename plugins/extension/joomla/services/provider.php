@@ -39,7 +39,7 @@ return new class implements ServiceProviderInterface
                     $dispatcher,
                     (array) PluginHelper::getPlugin('extension', 'joomla')
                 );
-				$plugin->setDatabase($container->get(DatabaseInterface::class));
+                $plugin->setDatabase($container->get(DatabaseInterface::class));
 
                 return $plugin;
             }
