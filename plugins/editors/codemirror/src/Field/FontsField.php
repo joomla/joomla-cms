@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
@@ -9,11 +10,12 @@
 
 namespace Joomla\Plugin\Editors\CodeMirror\Field;
 
-// No direct access
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Supports an HTML select list of fonts
@@ -24,32 +26,31 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 class FontsField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $type = 'Fonts';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.4
+     */
+    protected $type = 'Fonts';
 
-	/**
-	 * Method to get the list of fonts field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.4
-	 */
-	protected function getOptions()
-	{
-		$fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'));
-		$options = array();
+    /**
+     * Method to get the list of fonts field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   3.4
+     */
+    protected function getOptions()
+    {
+        $fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'));
+        $options = array();
 
-		foreach ($fonts as $key => $info)
-		{
-			$options[] = HTMLHelper::_('select.option', $key, $info->name);
-		}
+        foreach ($fonts as $key => $info) {
+            $options[] = HTMLHelper::_('select.option', $key, $info->name);
+        }
 
-		// Merge any additional options in the XML definition.
-		return array_merge(parent::getOptions(), $options);
-	}
+        // Merge any additional options in the XML definition.
+        return array_merge(parent::getOptions(), $options);
+    }
 }

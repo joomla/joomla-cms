@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  com_tags
@@ -9,9 +10,11 @@
 
 namespace Joomla\Component\Tags\Site\Helper;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Tags Component Route Helper.

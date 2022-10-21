@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       hoverActive: false,
+      actionsActive: false,
     };
   },
   methods: {
@@ -24,23 +25,34 @@ export default {
       if (this.item.type === 'dir') return Directory;
 
       // Render image items
-      if (this.item.extension && api.imagesExtensions.includes(this.item.extension.toLowerCase())) {
+      if (
+        this.item.extension
+        && api.imagesExtensions.includes(this.item.extension.toLowerCase())
+      ) {
         return Image;
       }
 
       // Render video items
-      if (this.item.extension && api.videoExtensions.includes(this.item.extension.toLowerCase())) {
+      if (
+        this.item.extension
+        && api.videoExtensions.includes(this.item.extension.toLowerCase())
+      ) {
         return Video;
       }
 
       // Render audio items
-      if (this.item.extension && api.audioExtensions.includes(this.item.extension.toLowerCase())) {
+      if (
+        this.item.extension
+        && api.audioExtensions.includes(this.item.extension.toLowerCase())
+      ) {
         return Audio;
       }
 
       // Render document items
-      if (this.item.extension
-        && api.documentExtensions.includes(this.item.extension.toLowerCase())) {
+      if (
+        this.item.extension
+        && api.documentExtensions.includes(this.item.extension.toLowerCase())
+      ) {
         return Doc;
       }
 
@@ -63,7 +75,9 @@ export default {
      * @returns {boolean}
      */
     isSelected() {
-      return this.$store.state.selectedItems.some((selected) => selected.path === this.item.path);
+      return this.$store.state.selectedItems.some(
+        (selected) => selected.path === this.item.path,
+      );
     },
 
     /**
@@ -72,6 +86,14 @@ export default {
      */
     isHoverActive() {
       return this.hoverActive;
+    },
+
+    /**
+     * Whether or not the item is currently active (on hover or via tab)
+     * @returns {boolean}
+     */
+    hasActions() {
+      return this.actionsActive;
     },
 
     /**
@@ -95,34 +117,28 @@ export default {
     handleClick(event) {
       if (this.item.path && this.item.type === 'file') {
         window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: {
-                path: this.item.path,
-                thumb: this.item.thumb,
-                fileType: this.item.mime_type ? this.item.mime_type : false,
-                extension: this.item.extension ? this.item.extension : false,
-                width: this.item.width ? this.item.width : 0,
-                height: this.item.height ? this.item.height : 0,
-              },
+          new CustomEvent('onMediaFileSelected', {
+            bubbles: true,
+            cancelable: false,
+            detail: {
+              path: this.item.path,
+              thumb: this.item.thumb,
+              fileType: this.item.mime_type ? this.item.mime_type : false,
+              extension: this.item.extension ? this.item.extension : false,
+              width: this.item.width ? this.item.width : 0,
+              height: this.item.height ? this.item.height : 0,
             },
-          ),
+          }),
         );
       }
 
       if (this.item.type === 'dir') {
         window.parent.document.dispatchEvent(
-          new CustomEvent(
-            'onMediaFileSelected',
-            {
-              bubbles: true,
-              cancelable: false,
-              detail: {},
-            },
-          ),
+          new CustomEvent('onMediaFileSelected', {
+            bubbles: true,
+            cancelable: false,
+            detail: {},
+          }),
         );
       }
 
@@ -138,14 +154,11 @@ export default {
       }
       this.$store.dispatch('toggleBrowserItemSelect', this.item);
       window.parent.document.dispatchEvent(
-        new CustomEvent(
-          'onMediaFileSelected',
-          {
-            bubbles: true,
-            cancelable: false,
-            detail: {},
-          },
-        ),
+        new CustomEvent('onMediaFileSelected', {
+          bubbles: true,
+          cancelable: false,
+          detail: {},
+        }),
       );
 
       // If more than one item was selected and the user clicks again on the selected item,
@@ -158,11 +171,11 @@ export default {
 
     /**
      * Handle the when an element is focused in the child to display the layover for a11y
-     * @param value
+     * @param active
      */
-    focused(value) {
+    toggleSettings(active) {
       // eslint-disable-next-line no-unused-expressions
-      value ? this.mouseover() : this.mouseleave();
+      active ? this.mouseover() : this.mouseleave();
     },
   },
   render() {
@@ -173,20 +186,17 @@ export default {
           'media-browser-item': true,
           selected: this.isSelected(),
           active: this.isHoverActive(),
+          actions: this.hasActions(),
         },
         onClick: this.handleClick,
         onMouseover: this.mouseover,
         onMouseleave: this.mouseleave,
-        onFocused: this.focused,
       },
       [
-        h(
-          this.itemType(),
-          {
-            item: this.item,
-            focused: this.focused,
-          },
-        ),
+        h(this.itemType(), {
+          item: this.item,
+          onToggleSettings: this.toggleSettings,
+        }),
       ],
     );
   },

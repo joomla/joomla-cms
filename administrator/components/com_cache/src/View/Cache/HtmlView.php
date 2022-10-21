@@ -137,12 +137,12 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		if (Factory::getUser()->authorise('core.admin', 'com_cache'))
+		if ($this->getCurrentUser()->authorise('core.admin', 'com_cache'))
 		{
 			ToolbarHelper::preferences('com_cache');
 			ToolbarHelper::divider();
 		}
 
-		ToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
+		ToolbarHelper::help('Maintenance:_Clear_Cache');
 	}
 }

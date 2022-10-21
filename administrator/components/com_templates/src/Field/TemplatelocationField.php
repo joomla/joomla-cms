@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_templates
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Templates\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Template Location field.
@@ -21,25 +24,25 @@ use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
  */
 class TemplatelocationField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var	   string
-	 * @since  3.5
-	 */
-	protected $type = 'TemplateLocation';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.5
+     */
+    protected $type = 'TemplateLocation';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.5
-	 */
-	public function getOptions()
-	{
-		$options = TemplatesHelper::getClientOptions();
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   3.5
+     */
+    public function getOptions()
+    {
+        $options = TemplatesHelper::getClientOptions();
 
-		return array_merge(parent::getOptions(), $options);
-	}
+        return array_merge(parent::getOptions(), $options);
+    }
 }

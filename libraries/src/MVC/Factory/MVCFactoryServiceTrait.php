@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Defines the trait for a MVC factory service class.
@@ -17,42 +20,41 @@ namespace Joomla\CMS\MVC\Factory;
  */
 trait MVCFactoryServiceTrait
 {
-	/**
-	 * The MVC Factory.
-	 *
-	 * @var MVCFactoryInterface
-	 */
-	private $mvcFactory;
+    /**
+     * The MVC Factory.
+     *
+     * @var MVCFactoryInterface
+     */
+    private $mvcFactory;
 
-	/**
-	 * Get the factory.
-	 *
-	 * @return  MVCFactoryInterface
-	 *
-	 * @since   4.0.0
-	 * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
-	 */
-	public function getMVCFactory(): MVCFactoryInterface
-	{
-		if (!$this->mvcFactory)
-		{
-			throw new \UnexpectedValueException('MVC factory not set in ' . __CLASS__);
-		}
+    /**
+     * Get the factory.
+     *
+     * @return  MVCFactoryInterface
+     *
+     * @since   4.0.0
+     * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
+     */
+    public function getMVCFactory(): MVCFactoryInterface
+    {
+        if (!$this->mvcFactory) {
+            throw new \UnexpectedValueException('MVC factory not set in ' . __CLASS__);
+        }
 
-		return $this->mvcFactory;
-	}
+        return $this->mvcFactory;
+    }
 
-	/**
-	 * The MVC Factory.
-	 *
-	 * @param   MVCFactoryInterface  $mvcFactory  The factory
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function setMVCFactory(MVCFactoryInterface $mvcFactory)
-	{
-		$this->mvcFactory = $mvcFactory;
-	}
+    /**
+     * The MVC Factory.
+     *
+     * @param   MVCFactoryInterface  $mvcFactory  The factory
+     *
+     * @return  void
+     *
+     * @since  4.0.0
+     */
+    public function setMVCFactory(MVCFactoryInterface $mvcFactory)
+    {
+        $this->mvcFactory = $mvcFactory;
+    }
 }

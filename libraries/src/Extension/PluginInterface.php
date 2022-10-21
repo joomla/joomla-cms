@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Extension;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\Event\DispatcherAwareInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Access to plugin specific services.
@@ -19,12 +22,12 @@ use Joomla\Event\DispatcherAwareInterface;
  */
 interface PluginInterface extends DispatcherAwareInterface
 {
-	/**
-	 * Registers its listeners.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function registerListeners();
+    /**
+     * Registers its listeners.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function registerListeners();
 }

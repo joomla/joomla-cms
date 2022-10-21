@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_mails
@@ -9,10 +10,12 @@
 
 namespace Joomla\Component\Mails\Administrator\Table;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Mail Table class.
@@ -21,23 +24,23 @@ use Joomla\Database\DatabaseDriver;
  */
 class TemplateTable extends Table
 {
-	/**
-	 * An array of key names to be json encoded in the bind function
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $_jsonEncode = ['attachments', 'params'];
+    /**
+     * An array of key names to be json encoded in the bind function
+     *
+     * @var    array
+     * @since  4.0.0
+     */
+    protected $_jsonEncode = ['attachments', 'params'];
 
-	/**
-	 * Constructor
-	 *
-	 * @param   DatabaseDriver  $db  Database connector object
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(DatabaseDriver $db)
-	{
-		parent::__construct('#__mail_templates', array('template_id', 'language'), $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param   DatabaseDriver  $db  Database connector object
+     *
+     * @since   4.0.0
+     */
+    public function __construct(DatabaseDriver $db)
+    {
+        parent::__construct('#__mail_templates', array('template_id', 'language'), $db);
+    }
 }

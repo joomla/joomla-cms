@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Tag;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Helper\ContentHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for component tags service.
@@ -19,57 +22,57 @@ use Joomla\CMS\Helper\ContentHelper;
  */
 trait TagServiceTrait
 {
-	/**
-	 * Adds Count Items for Tag Manager.
-	 *
-	 * @param   \stdClass[]  $items      The content objects
-	 * @param   string       $extension  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function countTagItems(array $items, string $extension)
-	{
-		$parts   = explode('.', $extension);
-		$section = \count($parts) > 1 ? $parts[1] : null;
+    /**
+     * Adds Count Items for Tag Manager.
+     *
+     * @param   \stdClass[]  $items      The content objects
+     * @param   string       $extension  The name of the active view.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    public function countTagItems(array $items, string $extension)
+    {
+        $parts   = explode('.', $extension);
+        $section = \count($parts) > 1 ? $parts[1] : null;
 
-		$config = (object) array(
-			'related_tbl'   => $this->getTableNameForSection($section),
-			'state_col'     => $this->getStateColumnForSection($section),
-			'group_col'     => 'tag_id',
-			'extension'     => $extension,
-			'relation_type' => 'tag_assigments',
-		);
+        $config = (object) array(
+            'related_tbl'   => $this->getTableNameForSection($section),
+            'state_col'     => $this->getStateColumnForSection($section),
+            'group_col'     => 'tag_id',
+            'extension'     => $extension,
+            'relation_type' => 'tag_assigments',
+        );
 
-		ContentHelper::countRelations($items, $config);
-	}
+        ContentHelper::countRelations($items, $config);
+    }
 
-	/**
-	 * Returns the table for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getTableNameForSection(string $section = null)
-	{
-		return null;
-	}
+    /**
+     * Returns the table for the count items functions for the given section.
+     *
+     * @param   string  $section  The section
+     *
+     * @return  string|null
+     *
+     * @since   4.0.0
+     */
+    protected function getTableNameForSection(string $section = null)
+    {
+        return null;
+    }
 
-	/**
-	 * Returns the state column for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getStateColumnForSection(string $section = null)
-	{
-		return 'state';
-	}
+    /**
+     * Returns the state column for the count items functions for the given section.
+     *
+     * @param   string  $section  The section
+     *
+     * @return  string|null
+     *
+     * @since   4.0.0
+     */
+    protected function getStateColumnForSection(string $section = null)
+    {
+        return 'state';
+    }
 }

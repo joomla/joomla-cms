@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" group="task" method="upgrade">
+	<name>plg_task_demo_tasks</name>
+	<author>Joomla! Project</author>
+	<creationDate>2021-07</creationDate>
+	<copyright>(C) 2021 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.1</version>
+	<description>PLG_TASK_DEMO_TASKS_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Task\DemoTasks</namespace>
+	<files>
+		<folder plugin="demotasks">services</folder>
+		<folder>src</folder>
+		<folder>forms</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_task_demotasks.ini</language>
+		<language tag="en-GB">language/en-GB/plg_task_demotasks.sys.ini</language>
+	</languages>
+</extension>

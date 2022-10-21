@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
@@ -9,58 +10,57 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Field;
 
-\defined('_JEXEC') or die;
-
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\CheckboxesField;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Field to load a list of all users that have logged actions
  *
  * @since  3.9.0
  */
-class LogtypeField extends CheckboxesField
+class LogtypeField extends ListField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	protected $type = 'LogType';
+    /**
+     * The form field type.
+     *
+     * @var    string
+     * @since  3.9.0
+     */
+    protected $type = 'LogType';
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   3.9.0
-	 */
-	public function getOptions()
-	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('extension'))
-			->from($db->quoteName('#__action_logs_extensions'));
+    /**
+     * Method to get the field options.
+     *
+     * @return  array  The field option objects.
+     *
+     * @since   3.9.0
+     */
+    public function getOptions()
+    {
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('extension'))
+            ->from($db->quoteName('#__action_logs_extensions'));
 
-		$extensions = $db->setQuery($query)->loadColumn();
+        $extensions = $db->setQuery($query)->loadColumn();
 
-		$options = array();
-		$tmp     = array('checked' => true);
+        $options = [];
 
-		foreach ($extensions as $extension)
-		{
-			ActionlogsHelper::loadTranslationFiles($extension);
-			$option                                                                            = HTMLHelper::_('select.option', $extension, Text::_($extension));
-			$options[ApplicationHelper::stringURLSafe(Text::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
-		}
+        foreach ($extensions as $extension) {
+            ActionlogsHelper::loadTranslationFiles($extension);
+            $extensionName = Text::_($extension);
+            $options[ApplicationHelper::stringURLSafe($extensionName) . '_' . $extension] = HTMLHelper::_('select.option', $extension, $extensionName);
+        }
 
-		ksort($options);
+        ksort($options);
 
-		return array_merge(parent::getOptions(), array_values($options));
-	}
+        return array_merge(parent::getOptions(), array_values($options));
+    }
 }

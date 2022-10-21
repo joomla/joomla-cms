@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,14 +9,18 @@
 
 namespace Joomla\CMS\Console;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Factory;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Console command to list existing users
@@ -24,100 +29,115 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ListUserCommand extends AbstractCommand
 {
-	/**
-	 * The default command name
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected static $defaultName = 'user:list';
+    use DatabaseAwareTrait;
 
-	/**
-	 * SymfonyStyle Object
-	 * @var object
-	 * @since 4.0.0
-	 */
-	private $ioStyle;
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  4.0.0
+     */
+    protected static $defaultName = 'user:list';
 
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
-	 *
-	 * @since   4.0.0
-	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
-	{
-		$db = Factory::getDbo();
+    /**
+     * SymfonyStyle Object
+     * @var object
+     * @since 4.0.0
+     */
+    private $ioStyle;
 
-		$this->configureIO($input, $output);
-		$this->ioStyle->title('List users');
+    /**
+     * Command constructor.
+     *
+     * @param   DatabaseInterface  $db  The database
+     *
+     * @since   4.2.0
+     */
+    public function __construct(DatabaseInterface $db)
+    {
+        parent::__construct();
 
-		$groupsQuery = $db->getQuery(true)
-			->select($db->quoteName(['title', 'id']))
-			->from($db->quoteName('#__usergroups'));
+        $this->setDatabase($db);
+    }
 
-		$groups = $db->setQuery($groupsQuery)->loadAssocList('id', 'title');
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   4.0.0
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $db = $this->getDatabase();
 
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName(['u.id', 'u.username', 'u.name', 'u.email', 'u.block']))
-			->select($query->groupConcat($query->castAs('CHAR', $db->quoteName('g.group_id'))) . ' AS ' . $db->quoteName('groups'))
-			->innerJoin($db->quoteName('#__user_usergroup_map', 'g'), $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))
-			->from($db->quoteName('#__users', 'u'))
-			->group($db->quoteName('u.id'));
-		$db->setQuery($query);
+        $this->configureIO($input, $output);
+        $this->ioStyle->title('List Users');
 
-		$users = [];
+        $groupsQuery = $db->getQuery(true)
+            ->select($db->quoteName(['title', 'id']))
+            ->from($db->quoteName('#__usergroups'));
 
-		foreach ($db->loadAssocList() as $user)
-		{
-			$user["groups"] = array_map(
-				function ($groupId) use ($groups) {
-					return $groups[$groupId];
-				},
-				explode(",", $user["groups"])
-			);
+        $groups = $db->setQuery($groupsQuery)->loadAssocList('id', 'title');
 
-			$user["groups"] = implode(", ", $user["groups"]);
-			$users[] = $user;
-		}
+        $query = $db->getQuery(true);
+        $query->select($db->quoteName(['u.id', 'u.username', 'u.name', 'u.email', 'u.block']))
+            ->select($query->groupConcat($query->castAs('CHAR', $db->quoteName('g.group_id'))) . ' AS ' . $db->quoteName('groups'))
+            ->innerJoin($db->quoteName('#__user_usergroup_map', 'g'), $db->quoteName('g.user_id') . ' = ' . $db->quoteName('u.id'))
+            ->from($db->quoteName('#__users', 'u'))
+            ->group($db->quoteName('u.id'));
+        $db->setQuery($query);
 
-		$this->ioStyle->table(['id', 'username', 'name', 'email', 'blocked', 'groups'], $users);
+        $users = [];
 
-		return Command::SUCCESS;
-	}
+        foreach ($db->loadAssocList() as $user) {
+            $user["groups"] = array_map(
+                function ($groupId) use ($groups) {
+                    return $groups[$groupId];
+                },
+                explode(",", $user["groups"])
+            );
 
-	/**
-	 * Configure the IO.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function configureIO(InputInterface $input, OutputInterface $output)
-	{
-		$this->ioStyle = new SymfonyStyle($input, $output);
-	}
+            $user["groups"] = implode(", ", $user["groups"]);
+            $users[] = $user;
+        }
 
-	/**
-	 * Configure the command.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	protected function configure(): void
-	{
-		$help = "<info>%command.name%</info> will list all users
+        $this->ioStyle->table(['ID', 'Username', 'Name', 'Email', 'Blocked', 'Groups'], $users);
+
+        return Command::SUCCESS;
+    }
+
+    /**
+     * Configure the IO.
+     *
+     * @param   InputInterface   $input   The input to inject into the command.
+     * @param   OutputInterface  $output  The output to inject into the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    private function configureIO(InputInterface $input, OutputInterface $output)
+    {
+        $this->ioStyle = new SymfonyStyle($input, $output);
+    }
+
+    /**
+     * Configure the command.
+     *
+     * @return  void
+     *
+     * @since   4.0.0
+     */
+    protected function configure(): void
+    {
+        $help = "<info>%command.name%</info> will list all users
 		\nUsage: <info>php %command.full_name%</info>";
 
-		$this->setDescription('List all users');
-		$this->setHelp($help);
-	}
+        $this->setDescription('List all users');
+        $this->setHelp($help);
+    }
 }

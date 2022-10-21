@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,14 @@
 
 namespace Joomla\CMS\Event;
 
-\defined('JPATH_PLATFORM') or die;
-
 use BadMethodCallException;
+use Joomla\Event\Event;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,
@@ -36,137 +40,143 @@ use Joomla\String\Normalise;
  */
 abstract class AbstractEvent extends BaseEvent
 {
-	/**
-	 * Creates a new CMS event object for a given event name and subject. The following arguments must be given:
-	 * subject		object	The subject of the event. This is the core object you are going to manipulate.
-	 * eventClass	string	The Event class name. If you do not provide it Joomla\CMS\Events\<eventNameWithoutOnPrefix>
-	 *                      will be used.
-	 *
-	 * @param   string  $eventName  The name of the event, e.g. onTableBeforeLoad
-	 * @param   array   $arguments  Additional arguments to pass to the event
-	 *
-	 * @return  static
-	 *
-	 * @since   4.0.0
-	 * @throws  BadMethodCallException  If you do not provide a subject argument
-	 */
-	public static function create(string $eventName, array $arguments = [])
-	{
-		// Get the class name from the arguments, if specified
-		$eventClassName = '';
+    use CoreEventAware;
 
-		if (isset($arguments['eventClass']))
-		{
-			$eventClassName = $arguments['eventClass'];
+    /**
+     * Creates a new CMS event object for a given event name and subject. The following arguments must be given:
+     * subject      object  The subject of the event. This is the core object you are going to manipulate.
+     * eventClass   string  The Event class name. If you do not provide it Joomla\CMS\Events\<eventNameWithoutOnPrefix>
+     *                      will be used.
+     *
+     * @param   string  $eventName  The name of the event, e.g. onTableBeforeLoad
+     * @param   array   $arguments  Additional arguments to pass to the event
+     *
+     * @return  static
+     *
+     * @since   4.0.0
+     * @throws  BadMethodCallException  If you do not provide a subject argument
+     */
+    public static function create(string $eventName, array $arguments = [])
+    {
+        // Get the class name from the arguments, if specified
+        $eventClassName = '';
 
-			unset($arguments['eventClass']);
-		}
+        if (isset($arguments['eventClass'])) {
+            $eventClassName = $arguments['eventClass'];
 
-		/**
-		 * If the class name isn't set/found determine it from the event name, e.g. TableBeforeLoadEvent from
-		 * the onTableBeforeLoad event name.
-		 */
-		if (empty($eventClassName) || !class_exists($eventClassName, true))
-		{
-			$bareName = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
-			$parts = Normalise::fromCamelCase($bareName, true);
-			$eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
-			$eventClassName .= implode('', $parts);
-			$eventClassName .= 'Event';
-		}
+            unset($arguments['eventClass']);
+        }
 
-		// Make sure a non-empty subject argument exists and that it is an object
-		if (!isset($arguments['subject']) || empty($arguments['subject']) || !\is_object($arguments['subject']))
-		{
-			throw new BadMethodCallException("No subject given for the $eventName event");
-		}
+        /**
+         * If the class name isn't set/found determine it from the event name, e.g. TableBeforeLoadEvent from
+         * the onTableBeforeLoad event name.
+         */
+        if (empty($eventClassName) || !class_exists($eventClassName, true)) {
+            $bareName = strpos($eventName, 'on') === 0 ? substr($eventName, 2) : $eventName;
+            $parts = Normalise::fromCamelCase($bareName, true);
+            $eventClassName = __NAMESPACE__ . '\\' . ucfirst(array_shift($parts)) . '\\';
+            $eventClassName .= implode('', $parts);
+            $eventClassName .= 'Event';
+        }
 
-		// Create and return the event object
-		if (class_exists($eventClassName, true))
-		{
-			return new $eventClassName($eventName, $arguments);
-		}
+        // Make sure a non-empty subject argument exists and that it is an object
+        if (!isset($arguments['subject']) || empty($arguments['subject']) || !\is_object($arguments['subject'])) {
+            throw new BadMethodCallException("No subject given for the $eventName event");
+        }
 
-		return new GenericEvent($eventName, $arguments);
-	}
+        // Create and return the event object
+        if (class_exists($eventClassName, true)) {
+            return new $eventClassName($eventName, $arguments);
+        }
 
-	/**
-	 * Constructor. Overridden to go through the argument setters.
-	 *
-	 * @param   string  $name       The event name.
-	 * @param   array   $arguments  The event arguments.
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(string $name, array $arguments = [])
-	{
-		parent::__construct($name, $arguments);
+        /**
+         * The detection code above failed. This is to be expected, it was written back when we only
+         * had the Table events. It does not address most other core events. So, let's use our
+         * fancier detection instead.
+         */
+        $eventClassName = self::getEventClassByEventName($eventName);
 
-		$this->arguments = [];
+        if (!empty($eventClassName) && ($eventClassName !== Event::class)) {
+            return new $eventClassName($eventName, $arguments);
+        }
 
-		foreach ($arguments as $argumentName => $value)
-		{
-			$this->setArgument($argumentName, $value);
-		}
-	}
+        return new GenericEvent($eventName, $arguments);
+    }
 
-	/**
-	 * Get an event argument value. It will use a getter method if one exists. The getters have the signature:
-	 *
-	 * get<ArgumentName>($value): mixed
-	 *
-	 * where:
-	 *
-	 * $value  is the value currently stored in the $arguments array of the event
-	 * It returns the value to return to the caller.
-	 *
-	 * @param   string  $name     The argument name.
-	 * @param   mixed   $default  The default value if not found.
-	 *
-	 * @return  mixed  The argument value or the default value.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getArgument($name, $default = null)
-	{
-		$methodName = 'get' . ucfirst($name);
+    /**
+     * Constructor. Overridden to go through the argument setters.
+     *
+     * @param   string  $name       The event name.
+     * @param   array   $arguments  The event arguments.
+     *
+     * @since   4.0.0
+     */
+    public function __construct(string $name, array $arguments = [])
+    {
+        parent::__construct($name, $arguments);
 
-		$value = parent::getArgument($name, $default);
+        $this->arguments = [];
 
-		if (method_exists($this, $methodName))
-		{
-			return $this->{$methodName}($value);
-		}
+        foreach ($arguments as $argumentName => $value) {
+            $this->setArgument($argumentName, $value);
+        }
+    }
 
-		return $value;
-	}
+    /**
+     * Get an event argument value. It will use a getter method if one exists. The getters have the signature:
+     *
+     * get<ArgumentName>($value): mixed
+     *
+     * where:
+     *
+     * $value  is the value currently stored in the $arguments array of the event
+     * It returns the value to return to the caller.
+     *
+     * @param   string  $name     The argument name.
+     * @param   mixed   $default  The default value if not found.
+     *
+     * @return  mixed  The argument value or the default value.
+     *
+     * @since   4.0.0
+     */
+    public function getArgument($name, $default = null)
+    {
+        $methodName = 'get' . ucfirst($name);
 
-	/**
-	 * Add argument to event. It will use a setter method if one exists. The setters have the signature:
-	 *
-	 * set<ArgumentName>($value): mixed
-	 *
-	 * where:
-	 *
-	 * $value  is the value being set by the user
-	 * It returns the value to return to set in the $arguments array of the event.
-	 *
-	 * @param   string  $name   Argument name.
-	 * @param   mixed   $value  Value.
-	 *
-	 * @return  $this
-	 *
-	 * @since   4.0.0
-	 */
-	public function setArgument($name, $value)
-	{
-		$methodName = 'set' . ucfirst($name);
+        $value = parent::getArgument($name, $default);
 
-		if (method_exists($this, $methodName))
-		{
-			$value = $this->{$methodName}($value);
-		}
+        if (method_exists($this, $methodName)) {
+            return $this->{$methodName}($value);
+        }
 
-		return parent::setArgument($name, $value);
-	}
+        return $value;
+    }
+
+    /**
+     * Add argument to event. It will use a setter method if one exists. The setters have the signature:
+     *
+     * set<ArgumentName>($value): mixed
+     *
+     * where:
+     *
+     * $value  is the value being set by the user
+     * It returns the value to return to set in the $arguments array of the event.
+     *
+     * @param   string  $name   Argument name.
+     * @param   mixed   $value  Value.
+     *
+     * @return  $this
+     *
+     * @since   4.0.0
+     */
+    public function setArgument($name, $value)
+    {
+        $methodName = 'set' . ucfirst($name);
+
+        if (method_exists($this, $methodName)) {
+            $value = $this->{$methodName}($value);
+        }
+
+        return parent::setArgument($name, $value);
+    }
 }

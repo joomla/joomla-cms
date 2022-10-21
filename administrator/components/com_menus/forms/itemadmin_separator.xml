@@ -28,5 +28,5 @@
 		</fields>
 	</fieldset>
 
-	<help key="JHELP_MENUS_MENU_ITEM_TEXT_SEPARATOR" />
+	<help key="Menu_Item:_Separator" />
 </form>

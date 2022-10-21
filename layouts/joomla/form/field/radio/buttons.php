@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Layout
@@ -51,83 +52,72 @@ $blockStart  = $isBtnGroup ? '' : '<div class="form-check">';
 $blockEnd    = $isBtnGroup ? '' : '</div>';
 
 // Add the attributes of the fieldset in an array
-$attribs = ['class="' . trim(
-		$class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : '')
-	) . '"',];
+$containerClass = trim($class . ' radio' . ($readonly || $disabled ? ' disabled' : '') . ($readonly ? ' readonly' : ''));
 
-if (!empty($disabled))
-{
-	$attribs[] = 'disabled';
+$attribs = ['id="' . $id . '"'];
+
+if (!empty($disabled)) {
+    $attribs[] = 'disabled';
 }
 
-if (!empty($required))
-{
-	$attribs[] = 'required';
+if (!empty($autofocus)) {
+    $attribs[] = 'autofocus';
 }
 
-if (!empty($autofocus))
-{
-	$attribs[] = 'autofocus';
+if ($readonly || $disabled) {
+    $attribs[] = 'style="pointer-events: none"';
 }
 
-if ($readonly || $disabled)
-{
-	$attribs[] = 'style="pointer-events: none"';
-}
-
-if ($dataAttribute)
-{
-	$attribs[] = $dataAttribute;
+if ($dataAttribute) {
+    $attribs[] = $dataAttribute;
 }
 ?>
-<fieldset id="<?php echo $id; ?>" >
-	<legend class="visually-hidden">
-		<?php echo $label; ?>
-	</legend>
-	<div <?php echo implode(' ', $attribs); ?>>
-		<?php foreach ($options as $i => $option) : ?>
-			<?php echo $blockStart; ?>
-				<?php
-				$disabled = !empty($option->disable) ? 'disabled' : '';
-				$style    = $disabled ? 'style="pointer-events: none"' : '';
+<fieldset <?php echo implode(' ', $attribs); ?>>
+    <legend class="visually-hidden">
+        <?php echo $label; ?>
+    </legend>
+    <div class="<?php echo $containerClass; ?>">
+        <?php foreach ($options as $i => $option) : ?>
+            <?php echo $blockStart; ?>
+                <?php
+                $disabled = !empty($option->disable) ? 'disabled' : '';
+                $style    = $disabled ? ' style="pointer-events: none"' : '';
 
-				// Initialize some option attributes.
-				if ($isBtnYesNo)
-				{
-					// Set the button classes for the yes/no group
-					switch ($option->value)
-					{
-						case '0':
-							$btnClass = 'btn btn-outline-danger';
-							break;
-						case '1':
-							$btnClass = 'btn btn-outline-success';
-							break;
-						default:
-							$btnClass = 'btn btn-outline-secondary';
-							break;
-					}
-				}
+                // Initialize some option attributes.
+                if ($isBtnYesNo) {
+                    // Set the button classes for the yes/no group
+                    switch ($option->value) {
+                        case '0':
+                            $btnClass = 'btn btn-outline-danger';
+                            break;
+                        case '1':
+                            $btnClass = 'btn btn-outline-success';
+                            break;
+                        default:
+                            $btnClass = 'btn btn-outline-secondary';
+                            break;
+                    }
+                }
 
-				$optionClass = !empty($option->class) ? $option->class : $btnClass;
-				$optionClass = trim($optionClass . ' ' . $disabled);
-				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
+                $optionClass = !empty($option->class) ? $option->class : $btnClass;
+                $optionClass = trim($optionClass . ' ' . $disabled);
+                $checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
 
-				// Initialize some JavaScript option attributes.
-				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-				$oid        = $id . $i;
-				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $disabled, $style, $onchange, $onclick));
-				?>
-				<?php if ($required) : ?>
-					<?php $attributes[] = 'required'; ?>
-				<?php endif; ?>
-				<input class="<?php echo $classToggle; ?>" type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
-				<label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass . ' ' . $style); ?>"> 
-					<?php echo $option->text; ?>
-				</label>
-			<?php echo $blockEnd; ?>
-		<?php endforeach; ?>
-	</div>
+                // Initialize some JavaScript option attributes.
+                $onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+                $onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+                $oid        = $id . $i;
+                $ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+                $attributes = array_filter(array($checked, $disabled, ltrim($style), $onchange, $onclick));
+                ?>
+                <?php if ($required) : ?>
+                    <?php $attributes[] = 'required'; ?>
+                <?php endif; ?>
+                <input class="<?php echo $classToggle; ?>" type="radio" id="<?php echo $oid; ?>" name="<?php echo $name; ?>" value="<?php echo $ovalue; ?>" <?php echo implode(' ', $attributes); ?>>
+                <label for="<?php echo $oid; ?>" class="<?php echo trim($optionClass); ?>"<?php echo $style; ?>>
+                    <?php echo $option->text; ?>
+                </label>
+            <?php echo $blockEnd; ?>
+        <?php endforeach; ?>
+    </div>
 </fieldset>

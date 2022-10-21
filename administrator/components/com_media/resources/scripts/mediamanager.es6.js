@@ -4,7 +4,6 @@ import App from './components/app.vue';
 import Disk from './components/tree/disk.vue';
 import Drive from './components/tree/drive.vue';
 import Tree from './components/tree/tree.vue';
-import TreeItem from './components/tree/item.vue';
 import Toolbar from './components/toolbar/toolbar.vue';
 import Breadcrumb from './components/breadcrumb/breadcrumb.vue';
 import Browser from './components/browser/browser.vue';
@@ -20,6 +19,9 @@ import Infobar from './components/infobar/infobar.vue';
 import Upload from './components/upload/upload.vue';
 import translate from './plugins/translate.es6';
 import store from './store/store.es6';
+import {
+  Rename, Toggle, Preview, Download, Share, Delete, Edit, Container,
+} from './components/browser/actionItems/export.es6';
 
 // Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};
@@ -35,7 +37,6 @@ app.use(translate);
 app.component('MediaDrive', Drive);
 app.component('MediaDisk', Disk);
 app.component('MediaTree', Tree);
-app.component('MediaTreeItem', TreeItem);
 app.component('MediaToolbar', Toolbar);
 app.component('MediaBreadcrumb', Breadcrumb);
 app.component('MediaBrowser', Browser);
@@ -49,5 +50,13 @@ app.component('MediaShareModal', ShareModal);
 app.component('MediaConfirmDeleteModal', ConfirmDeleteModal);
 app.component('MediaInfobar', Infobar);
 app.component('MediaUpload', Upload);
+app.component('MediaBrowserActionItemToggle', Toggle);
+app.component('MediaBrowserActionItemPreview', Preview);
+app.component('MediaBrowserActionItemDownload', Download);
+app.component('MediaBrowserActionItemRename', Rename);
+app.component('MediaBrowserActionItemShare', Share);
+app.component('MediaBrowserActionItemDelete', Delete);
+app.component('MediaBrowserActionItemEdit', Edit);
+app.component('MediaBrowserActionItemsContainer', Container);
 
 app.mount('#com-media');

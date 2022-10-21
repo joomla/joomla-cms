@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -10,7 +11,9 @@
  * in the default textfilter settings
  */
 
-defined('_JEXEC') or die;
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Notifies users the changes from the default textfilter.
@@ -23,5 +26,5 @@ defined('_JEXEC') or die;
  */
 function admin_postinstall_textfilter3919_condition()
 {
-	return true;
+    return true;
 }

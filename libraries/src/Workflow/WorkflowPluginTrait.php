@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,11 +9,13 @@
 
 namespace Joomla\CMS\Workflow;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Object\CMSObject;
 use ReflectionClass;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Trait for component workflow plugins.
@@ -21,134 +24,126 @@ use ReflectionClass;
  */
 trait WorkflowPluginTrait
 {
-	/**
-	 * Add different parameter options to the transition view, we need when executing the transition
-	 *
-	 * @param   Form      $form The form
-	 * @param   \stdClass $data The data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	protected function enhanceWorkflowTransitionForm(Form $form, $data)
-	{
-		$workflow_id = (int) ($data->workflow_id ?? $form->getValue('workflow_id'));
+    /**
+     * Add different parameter options to the transition view, we need when executing the transition
+     *
+     * @param   Form      $form The form
+     * @param   \stdClass $data The data
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    protected function enhanceWorkflowTransitionForm(Form $form, $data)
+    {
+        $workflow_id = (int) ($data->workflow_id ?? $form->getValue('workflow_id'));
 
-		$workflow = $this->getWorkflow($workflow_id);
+        $workflow = $this->getWorkflow($workflow_id);
 
-		if (empty($workflow->id) || !$this->isSupported($workflow->extension))
-		{
-			return false;
-		}
+        if (empty($workflow->id) || !$this->isSupported($workflow->extension)) {
+            return false;
+        }
 
-		// Load XML file from "parent" plugin
-		$path = dirname((new ReflectionClass(static::class))->getFileName());
+        // Load XML file from "parent" plugin
+        $path = dirname((new ReflectionClass(static::class))->getFileName());
 
-		if (is_file($path . '/forms/action.xml'))
-		{
-			$form->loadFile($path . '/forms/action.xml');
-		}
+        if (is_file($path . '/forms/action.xml')) {
+            $form->loadFile($path . '/forms/action.xml');
+        }
 
-		return $workflow;
-	}
+        return $workflow;
+    }
 
-	/**
-	 * Get the workflow for a given ID
-	 *
-	 * @param   int|null $workflowId ID of the workflow
-	 *
-	 * @return  CMSObject|boolean  Object on success, false on failure.
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getWorkflow(int $workflowId = null)
-	{
-		$workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
+    /**
+     * Get the workflow for a given ID
+     *
+     * @param   int|null $workflowId ID of the workflow
+     *
+     * @return  CMSObject|boolean  Object on success, false on failure.
+     *
+     * @since   4.0.0
+     */
+    protected function getWorkflow(int $workflowId = null)
+    {
+        $workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
 
-		if (is_array($workflowId))
-		{
-			return false;
-		}
+        if (is_array($workflowId)) {
+            return false;
+        }
 
-		return $this->app->bootComponent('com_workflow')
-			->getMVCFactory()
-			->createModel('Workflow', 'Administrator', ['ignore_request' => true])
-			->getItem($workflowId);
-	}
+        return $this->app->bootComponent('com_workflow')
+            ->getMVCFactory()
+            ->createModel('Workflow', 'Administrator', ['ignore_request' => true])
+            ->getItem($workflowId);
+    }
 
-	/**
-	 * Check if the current plugin should execute workflow related activities
-	 *
-	 * @param   string $context Context to check
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	protected function isSupported($context)
-	{
-		return false;
-	}
+    /**
+     * Check if the current plugin should execute workflow related activities
+     *
+     * @param   string $context Context to check
+     *
+     * @return  boolean
+     *
+     * @since   4.0.0
+     */
+    protected function isSupported($context)
+    {
+        return false;
+    }
 
-	/**
-	 * Check if the context is listed in the allowed of forbidden lists and return the result.
-	 *
-	 * @param   string $context Context to check
-	 *
-	 * @return  boolean
-	 */
-	protected function checkAllowedAndForbiddenlist($context)
-	{
-		$allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
-		$forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
+    /**
+     * Check if the context is listed in the allowed of forbidden lists and return the result.
+     *
+     * @param   string $context Context to check
+     *
+     * @return  boolean
+     */
+    protected function checkAllowedAndForbiddenlist($context)
+    {
+        $allowedlist = \array_filter((array) $this->params->get('allowedlist', []));
+        $forbiddenlist = \array_filter((array) $this->params->get('forbiddenlist', []));
 
-		if (!empty($allowedlist))
-		{
-			foreach ($allowedlist as $allowed)
-			{
-				if ($context === $allowed)
-				{
-					return true;
-				}
-			}
+        if (!empty($allowedlist)) {
+            foreach ($allowedlist as $allowed) {
+                if ($context === $allowed) {
+                    return true;
+                }
+            }
 
-			return false;
-		}
+            return false;
+        }
 
-		foreach ($forbiddenlist as $forbidden)
-		{
-			if ($context === $forbidden)
-			{
-				return false;
-			}
-		}
+        foreach ($forbiddenlist as $forbidden) {
+            if ($context === $forbidden) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * Check if the context supports a specific functionality.
-	 *
-	 * @param   string  $context       Context to check
-	 * @param   string  $functionality The functionality
-	 *
-	 * @return  boolean
-	 */
-	protected function checkExtensionSupport($context, $functionality)
-	{
-		$parts = explode('.', $context);
+    /**
+     * Check if the context supports a specific functionality.
+     *
+     * @param   string  $context       Context to check
+     * @param   string  $functionality The functionality
+     *
+     * @return  boolean
+     */
+    protected function checkExtensionSupport($context, $functionality)
+    {
+        $parts = explode('.', $context);
 
-		$component = $this->app->bootComponent($parts[0]);
+        $component = $this->app->bootComponent($parts[0]);
 
-		if (!$component instanceof WorkflowServiceInterface
-			|| !$component->isWorkflowActive($context)
-			|| !$component->supportFunctionality($functionality, $context))
-		{
-			return false;
-		}
+        if (
+            !$component instanceof WorkflowServiceInterface
+            || !$component->isWorkflowActive($context)
+            || !$component->supportFunctionality($functionality, $context)
+        ) {
+            return false;
+        }
 
-		return true;
-	}
-
+        return true;
+    }
 }

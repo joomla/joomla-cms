@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Site
  * @subpackage  Template.system
@@ -12,16 +13,16 @@ defined('_JEXEC') or die;
 /** @var Joomla\CMS\Document\HtmlDocument $this */
 
 // Styles
-$this->getWebAssetManager()->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
+$this->getWebAssetManager()->registerAndUseStyle('template.system.general', 'media/system/css/system-site-general.css');
 
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="head" />
+    <jdoc:include type="head" />
 </head>
 <body class="contentpane">
-	<jdoc:include type="message" />
-	<jdoc:include type="component" />
+    <jdoc:include type="message" />
+    <jdoc:include type="component" />
 </body>
 </html>

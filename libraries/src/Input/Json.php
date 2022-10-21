@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,9 +9,11 @@
 
 namespace Joomla\CMS\Input;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Filter\InputFilter;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Input JSON Class
@@ -23,61 +26,54 @@ use Joomla\CMS\Filter\InputFilter;
  */
 class Json extends Input
 {
-	/**
-	 * @var    string  The raw JSON string from the request.
-	 * @since  3.0.1
-	 * @deprecated  5.0  Use Joomla\Input\Json instead
-	 */
-	private $_raw;
+    /**
+     * @var    string  The raw JSON string from the request.
+     * @since  3.0.1
+     * @deprecated  5.0  Use Joomla\Input\Json instead
+     */
+    private $_raw;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $source   Source data (Optional, default is the raw HTTP input decoded from JSON)
-	 * @param   array  $options  Array of configuration parameters (Optional)
-	 *
-	 * @since   3.0.1
-	 * @deprecated  5.0  Use Joomla\Input\Json instead
-	 */
-	public function __construct(array $source = null, array $options = array())
-	{
-		if (isset($options['filter']))
-		{
-			$this->filter = $options['filter'];
-		}
-		else
-		{
-			$this->filter = InputFilter::getInstance();
-		}
+    /**
+     * Constructor.
+     *
+     * @param   array  $source   Source data (Optional, default is the raw HTTP input decoded from JSON)
+     * @param   array  $options  Array of configuration parameters (Optional)
+     *
+     * @since   3.0.1
+     * @deprecated  5.0  Use Joomla\Input\Json instead
+     */
+    public function __construct(array $source = null, array $options = array())
+    {
+        if (isset($options['filter'])) {
+            $this->filter = $options['filter'];
+        } else {
+            $this->filter = InputFilter::getInstance();
+        }
 
-		if (\is_null($source))
-		{
-			$this->_raw = file_get_contents('php://input');
-			$this->data = json_decode($this->_raw, true);
+        if (\is_null($source)) {
+            $this->_raw = file_get_contents('php://input');
+            $this->data = json_decode($this->_raw, true);
 
-			if (!is_array($this->data))
-			{
-				$this->data = array();
-			}
-		}
-		else
-		{
-			$this->data = &$source;
-		}
+            if (!is_array($this->data)) {
+                $this->data = array();
+            }
+        } else {
+            $this->data = &$source;
+        }
 
-		$this->options = $options;
-	}
+        $this->options = $options;
+    }
 
-	/**
-	 * Gets the raw JSON string from the request.
-	 *
-	 * @return  string  The raw JSON string from the request.
-	 *
-	 * @since   3.0.1
-	 * @deprecated  5.0  Use Joomla\Input\Json instead
-	 */
-	public function getRaw()
-	{
-		return $this->_raw;
-	}
+    /**
+     * Gets the raw JSON string from the request.
+     *
+     * @return  string  The raw JSON string from the request.
+     *
+     * @since   3.0.1
+     * @deprecated  5.0  Use Joomla\Input\Json instead
+     */
+    public function getRaw()
+    {
+        return $this->_raw;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -8,7 +9,9 @@
 
 namespace Joomla\CMS\User;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining a factory which can create User objects
@@ -17,25 +20,25 @@ namespace Joomla\CMS\User;
  */
 interface UserFactoryInterface
 {
-	/**
-	 * Method to get an instance of a user for the given id.
-	 *
-	 * @param   int  $id  The id
-	 *
-	 * @return  User
-	 *
-	 * @since   4.0.0
-	 */
-	public function loadUserById(int $id): User;
+    /**
+     * Method to get an instance of a user for the given id.
+     *
+     * @param   int  $id  The id
+     *
+     * @return  User
+     *
+     * @since   4.0.0
+     */
+    public function loadUserById(int $id): User;
 
-	/**
-	 * Method to get an instance of a user for the given username.
-	 *
-	 * @param   string  $username  The username
-	 *
-	 * @return  User
-	 *
-	 * @since   4.0.0
-	 */
-	public function loadUserByUsername(string $username): User;
+    /**
+     * Method to get an instance of a user for the given username.
+     *
+     * @param   string  $username  The username
+     *
+     * @return  User
+     *
+     * @since   4.0.0
+     */
+    public function loadUserByUsername(string $username): User;
 }
