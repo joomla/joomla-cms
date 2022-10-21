@@ -11,8 +11,7 @@
 	<description>MOD_QUICKICON_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Module\Quickicon</namespace>
 	<files>
-		<filename module="mod_quickicon">mod_quickicon.php</filename>
-		<folder>services</folder>
+		<folder module="mod_quickicon">services</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
