@@ -23,6 +23,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Abstract Form Field class for the Joomla Platform.
  *

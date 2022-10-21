@@ -12,8 +12,6 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Crypt\Crypt;
-use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
@@ -26,6 +24,10 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * User model.
@@ -127,7 +129,7 @@ class UserModel extends AdminModel
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // If the user needs to change their password, mark the password fields as required
         if ($user->requireReset) {
@@ -222,7 +224,7 @@ class UserModel extends AdminModel
         $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
         $user = User::getInstance($pk);
 
-        $my = Factory::getUser();
+        $my = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
 
         // User cannot modify own user groups
@@ -299,7 +301,7 @@ class UserModel extends AdminModel
      */
     public function delete(&$pks)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
         $pks   = (array) $pks;
 
@@ -367,7 +369,7 @@ class UserModel extends AdminModel
     public function block(&$pks, $value = 1)
     {
         $app        = Factory::getApplication();
-        $user       = Factory::getUser();
+        $user       = $this->getCurrentUser();
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -470,7 +472,7 @@ class UserModel extends AdminModel
      */
     public function activate(&$pks)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -611,7 +613,7 @@ class UserModel extends AdminModel
         $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
@@ -628,7 +630,7 @@ class UserModel extends AdminModel
         }
 
         // Prune out the current user if they are in the supplied user ID array
-        $userIds = array_diff($userIds, array(Factory::getUser()->id));
+        $userIds = array_diff($userIds, array($this->getCurrentUser()->id));
 
         if (empty($userIds)) {
             $this->setError(Text::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
@@ -678,7 +680,7 @@ class UserModel extends AdminModel
         $userIds = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non-super super user cannot work with super-admin user.
         if (!$iAmSuperAdmin && UserHelper::checkSuperUserInUsers($userIds)) {
@@ -718,18 +720,59 @@ class UserModel extends AdminModel
 
         // Remove the users from the group if requested.
         if (isset($doDelete)) {
-            $query = $db->getQuery(true);
+            /*
+            * First we need to check that the user is part of more than one group
+            * otherwise we will end up with a user that is not part of any group
+            * unless we are moving the user to a new group.
+            */
+            if ($doDelete === 'group') {
+                $query = $db->getQuery(true);
+                $query->select($db->quoteName('user_id'))
+                    ->from($db->quoteName('#__user_usergroup_map'))
+                    ->whereIn($db->quoteName('user_id'), $userIds);
 
-            // Remove users from the group
-            $query->delete($db->quoteName('#__user_usergroup_map'))
-                ->whereIn($db->quoteName('user_id'), $userIds);
+                // Add the group by clause to remove users who are only in one group
+                $query->group($db->quoteName('user_id'))
+                    ->having('COUNT(user_id) > 1');
+                $db->setQuery($query);
+                $users = $db->loadColumn();
 
-            // Only remove users from selected group
-            if ($doDelete == 'group') {
-                $query->where($db->quoteName('group_id') . ' = :group_id')
+                // If we have no users to process, throw an error to notify the user
+                if (empty($users)) {
+                    $this->setError(Text::_('COM_USERS_ERROR_ONLY_ONE_GROUP'));
+
+                    return false;
+                }
+
+                // Check to see if the users are in the group to be removed
+                $query->clear()
+                    ->select($db->quoteName('user_id'))
+                    ->from($db->quoteName('#__user_usergroup_map'))
+                    ->whereIn($db->quoteName('user_id'), $users)
+                    ->where($db->quoteName('group_id') . ' = :group_id')
                     ->bind(':group_id', $groupId, ParameterType::INTEGER);
-            }
+                $db->setQuery($query);
+                $users = $db->loadColumn();
 
+                // If we have no users to process, throw an error to notify the user
+                if (empty($users)) {
+                    $this->setError(Text::_('COM_USERS_ERROR_NOT_IN_GROUP'));
+
+                    return false;
+                }
+
+                // Finally remove the users from the group
+                $query->clear()
+                    ->delete($db->quoteName('#__user_usergroup_map'))
+                    ->whereIn($db->quoteName('user_id'), $users)
+                    ->where($db->quoteName('group_id') . '= :group_id')
+                    ->bind(':group_id', $groupId, ParameterType::INTEGER);
+                $db->setQuery($query);
+            } elseif ($doDelete === 'all') {
+                $query = $db->getQuery(true);
+                $query->delete($db->quoteName('#__user_usergroup_map'))
+                    ->whereIn($db->quoteName('user_id'), $users);
+            }
             $db->setQuery($query);
 
             try {
@@ -796,7 +839,7 @@ class UserModel extends AdminModel
      */
     public function getGroups()
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users')) {
             $model = $this->bootComponent('com_users')
@@ -952,7 +995,7 @@ class UserModel extends AdminModel
      * @return  array  Empty array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Wil be removed in 5.0.
+     * @deprecated 4.2.0 Will be removed in 5.0.
      */
     public function generateOteps($userId, $count = 10)
     {
