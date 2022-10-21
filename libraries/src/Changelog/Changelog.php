@@ -17,6 +17,10 @@ use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Changelog class.
  *

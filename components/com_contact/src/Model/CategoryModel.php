@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Site\Model;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -20,6 +19,10 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Single item model for a contact
@@ -159,7 +162,7 @@ class CategoryModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = $user->getAuthorisedViewLevels();
 
         // Create a new query object.
@@ -259,17 +262,9 @@ class CategoryModel extends ListModel
     protected function populateState($ordering = null, $direction = null)
     {
         $app = Factory::getApplication();
-        $params = ComponentHelper::getParams('com_contact');
 
-        // Get list ordering default from the parameters
-        if ($menu = $app->getMenu()->getActive()) {
-            $menuParams = $menu->getParams();
-        } else {
-            $menuParams = new Registry();
-        }
-
-        $mergedParams = clone $params;
-        $mergedParams->merge($menuParams);
+        $params = $app->getParams();
+        $this->setState('params', $params);
 
         // List state information
         $format = $app->input->getWord('format');
@@ -280,7 +275,7 @@ class CategoryModel extends ListModel
             $limit = $app->getUserStateFromRequest(
                 'com_contact.category.list.limit',
                 'limit',
-                $mergedParams->get('contacts_display_num', $app->get('list_limit')),
+                $params->get('contacts_display_num', $app->get('list_limit')),
                 'uint'
             );
         }
@@ -295,7 +290,7 @@ class CategoryModel extends ListModel
         $search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
         $this->setState('list.filter', $search);
 
-        $orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+        $orderCol = $app->input->get('filter_order', $params->get('initial_sort', 'ordering'));
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
@@ -314,7 +309,7 @@ class CategoryModel extends ListModel
         $id = $app->input->get('id', 0, 'int');
         $this->setState('category.id', $id);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact'))) {
             // Limit to published for people who can't edit or edit.state.
@@ -325,9 +320,6 @@ class CategoryModel extends ListModel
         }
 
         $this->setState('filter.language', Multilanguage::isEnabled());
-
-        // Load the parameters.
-        $this->setState('params', $params);
     }
 
     /**

@@ -19,6 +19,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Database configuration model for the Joomla Core Installer.
  *
@@ -310,7 +314,7 @@ class DatabaseModel extends BaseInstallationModel
         $serverType = $db->getServerType();
 
         // Set the appropriate schema script based on UTF-8 support.
-        $schemaFile = 'sql/' . $serverType . '/' . $schema . '.sql';
+        $schemaFile = JPATH_INSTALLATION . '/sql/' . $serverType . '/' . $schema . '.sql';
 
         // Check if the schema is a valid file
         if (!is_file($schemaFile)) {

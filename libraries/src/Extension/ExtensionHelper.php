@@ -12,6 +12,10 @@ namespace Joomla\CMS\Extension;
 use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extension Helper class.
  *
@@ -216,7 +220,6 @@ class ExtensionHelper
         array('plugin', 'integer', 'fields', 0),
         array('plugin', 'list', 'fields', 0),
         array('plugin', 'media', 'fields', 0),
-        array('plugin', 'menuitem', 'fields', 0),
         array('plugin', 'radio', 'fields', 0),
         array('plugin', 'sql', 'fields', 0),
         array('plugin', 'subform', 'fields', 0),

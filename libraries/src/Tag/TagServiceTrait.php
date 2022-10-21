@@ -11,6 +11,10 @@ namespace Joomla\CMS\Tag;
 
 use Joomla\CMS\Helper\ContentHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Trait for component tags service.
  *

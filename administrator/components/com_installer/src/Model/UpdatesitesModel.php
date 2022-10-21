@@ -24,6 +24,10 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Update Sites Model
  *
@@ -77,7 +81,7 @@ class UpdatesitesModel extends InstallerModel
      */
     public function publish(&$eid = [], $value = 1)
     {
-        if (!Factory::getUser()->authorise('core.edit.state', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', 'com_installer')) {
             throw new Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
         }
 
@@ -118,7 +122,7 @@ class UpdatesitesModel extends InstallerModel
      */
     public function delete($ids = [])
     {
-        if (!Factory::getUser()->authorise('core.delete', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.delete', 'com_installer')) {
             throw new Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
         }
 
@@ -244,7 +248,7 @@ class UpdatesitesModel extends InstallerModel
      */
     public function rebuild(): void
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_installer')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_installer')) {
             throw new Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
         }
 
