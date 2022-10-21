@@ -11,6 +11,10 @@ namespace Joomla\CMS\Installer;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Package Manifest File
  *

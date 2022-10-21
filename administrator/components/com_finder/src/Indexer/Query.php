@@ -24,6 +24,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Query class for the Finder indexer package.
  *
@@ -1241,8 +1245,8 @@ class Query
 
             $searchTerm = $token->term;
             $searchStem = $token->stem;
-            $term = $query->quoteName('t.term');
-            $stem = $query->quoteName('t.stem');
+            $term = $db->quoteName('t.term');
+            $stem = $db->quoteName('t.stem');
 
             if ($this->wordmode === 'begin') {
                 $searchTerm .= '%';

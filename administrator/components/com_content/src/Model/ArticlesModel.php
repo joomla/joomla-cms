@@ -22,6 +22,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of article records.
  *
@@ -221,7 +225,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
 
@@ -549,7 +553,7 @@ class ArticlesModel extends ListModel
         }
 
         $db   = $this->getDatabase();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $items = $this->getItems();
 

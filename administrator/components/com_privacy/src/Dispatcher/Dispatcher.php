@@ -13,6 +13,10 @@ namespace Joomla\Component\Privacy\Administrator\Dispatcher;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component dispatcher class for com_privacy
  *

@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Index model class for Finder.
  *
@@ -86,7 +90,7 @@ class IndexModel extends ListModel
      */
     protected function canDelete($record)
     {
-        return Factory::getUser()->authorise('core.delete', $this->option);
+        return $this->getCurrentUser()->authorise('core.delete', $this->option);
     }
 
     /**
@@ -100,7 +104,7 @@ class IndexModel extends ListModel
      */
     protected function canEditState($record)
     {
-        return Factory::getUser()->authorise('core.edit.state', $this->option);
+        return $this->getCurrentUser()->authorise('core.edit.state', $this->option);
     }
 
     /**
@@ -416,7 +420,7 @@ class IndexModel extends ListModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $table = $this->getTable();
         $pks = (array) $pks;
 

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\HTML;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Service registry for JHtml services
  *

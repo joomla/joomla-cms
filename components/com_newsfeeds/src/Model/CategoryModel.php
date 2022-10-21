@@ -21,6 +21,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Newsfeeds Component Category Model
  *
@@ -148,7 +152,7 @@ class CategoryModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = $user->getAuthorisedViewLevels();
 
         // Create a new query object.
@@ -272,7 +276,7 @@ class CategoryModel extends ListModel
         $id = $app->input->get('id', 0, 'int');
         $this->setState('category.id', $id);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds'))) {
             // Limit to published for people who can't edit or edit.state.

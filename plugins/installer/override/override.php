@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Override Plugin
  *
@@ -182,10 +186,11 @@ class PlgInstallerOverride extends CMSPlugin
      */
     public function finalize($result)
     {
-        $num = count($result);
+        $num  = count($result);
+        $link = 'index.php?option=com_templates&view=templates';
 
         if ($num != 0) {
-            $this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num), 'notice');
+            $this->app->enqueueMessage(Text::plural('PLG_INSTALLER_OVERRIDE_N_FILE_UPDATED', $num, $link), 'notice');
             $this->saveOverrides($result);
         }
 
