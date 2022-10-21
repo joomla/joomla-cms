@@ -218,7 +218,7 @@ class JNamespacePsr4Map
 
                 // Template manifestfiles have a fix filename
                 if ($type === 'template') {
-                   $name = 'templateDetails';
+                    $name = 'templateDetails';
                 }
 
                 $file = $extensionPath . $name . '.xml';
