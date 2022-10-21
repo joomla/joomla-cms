@@ -25,6 +25,10 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Profile model class for Users.
  *
@@ -148,7 +152,7 @@ class ProfileModel extends FormModel
         }
 
         // If the user needs to change their password, mark the password fields as required
-        if (Factory::getUser()->requireReset) {
+        if ($this->getCurrentUser()->requireReset) {
             $form->setFieldAttribute('password1', 'required', 'true');
             $form->setFieldAttribute('password2', 'required', 'true');
         }
@@ -190,7 +194,7 @@ class ProfileModel extends FormModel
         if (ComponentHelper::getParams('com_users')->get('frontend_userparams')) {
             $form->loadFile('frontend', false);
 
-            if (Factory::getUser()->authorise('core.login.admin')) {
+            if ($this->getCurrentUser()->authorise('core.login.admin')) {
                 $form->loadFile('frontend_admin', false);
             }
         }
@@ -215,7 +219,7 @@ class ProfileModel extends FormModel
 
         // Get the user id.
         $userId = Factory::getApplication()->getUserState('com_users.edit.profile.id');
-        $userId = !empty($userId) ? $userId : (int) Factory::getUser()->get('id');
+        $userId = !empty($userId) ? $userId : (int) $this->getCurrentUser()->get('id');
 
         // Set the user id.
         $this->setState('user.id', $userId);

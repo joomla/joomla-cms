@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of user access level records.
  *
@@ -147,7 +151,7 @@ class LevelsModel extends ListModel
     {
         // Sanitize the id and adjustment.
         $pk = (!empty($pk)) ? $pk : (int) $this->getState('level.id');
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get an instance of the record's table.
         $table = Table::getInstance('ViewLevel', 'Joomla\\CMS\Table\\');
@@ -188,7 +192,7 @@ class LevelsModel extends ListModel
     public function saveorder($pks, $order)
     {
         $table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $conditions = array();
 
         if (empty($pks)) {

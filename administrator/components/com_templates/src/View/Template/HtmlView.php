@@ -22,6 +22,10 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a template style.
  *
@@ -155,7 +159,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app               = Factory::getApplication();
-        $this->file        = $app->input->get('file');
+        $this->file        = $app->input->get('file', '');
         $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
         $explodeArray      = explode('.', $this->fileName);
         $ext               = end($explodeArray);

@@ -25,6 +25,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Workflow Notification Plugin
  *
@@ -160,6 +164,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
         // If there are no receivers, stop here
         if (empty($userIds)) {
+            $this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_NO_RECEIVER'), 'error');
+
             return;
         }
 

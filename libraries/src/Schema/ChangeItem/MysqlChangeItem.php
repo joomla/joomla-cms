@@ -11,6 +11,10 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 use Joomla\CMS\Schema\ChangeItem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
  *
@@ -291,21 +295,15 @@ class MysqlChangeItem extends ChangeItem
                 break;
 
             case 'MEDIUMTEXT':
-                $typeCheck = $this->db->hasUTF8mb4Support()
-                    ? 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')'
-                    : 'UPPER(type) = ' . $this->db->quote('MEDIUMTEXT');
+                $typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
                 break;
 
             case 'TEXT':
-                $typeCheck = $this->db->hasUTF8mb4Support()
-                    ? 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')'
-                    : 'UPPER(type) = ' . $this->db->quote('TEXT');
+                $typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
                 break;
 
             case 'TINYTEXT':
-                $typeCheck = $this->db->hasUTF8mb4Support()
-                    ? 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')'
-                    : 'UPPER(type) = ' . $this->db->quote('TINYTEXT');
+                $typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
                 break;
 
             default:

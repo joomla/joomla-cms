@@ -40,6 +40,10 @@ use RuntimeException;
 
 use function count;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Multi-factor Authentication using a Validation Code sent by Email.
  *
@@ -157,8 +161,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         $key     = $options['key'] ?? '';
 
         // Send an email message with a new code and ask the user to enter it.
-		// phpcs:ignore
-		$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
+        $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
 
         try {
             $this->sendCode($key, $user);
@@ -235,11 +238,9 @@ class Email extends CMSPlugin implements SubscriberInterface
             $key = $totp->generateSecret();
 
             $session->set('plg_multifactorauth_email.emailcode.key', $key);
-			// phpcs:ignore
-			$session->set('plg_multifactorauth_email.emailcode.user_id', $record->user_id);
+            $session->set('plg_multifactorauth_email.emailcode.user_id', $record->user_id);
 
-			// phpcs:ignore
-			$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
+            $user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($record->user_id);
 
             $this->sendCode($key, $user);
 
@@ -372,9 +373,7 @@ class Email extends CMSPlugin implements SubscriberInterface
         }
 
         // Double check the MFA Method is for the correct user
-		// phpcs:ignore
-		if ($user->id != $record->user_id)
-        {
+        if ($user->id != $record->user_id) {
             $event->addResult(false);
 
             return;

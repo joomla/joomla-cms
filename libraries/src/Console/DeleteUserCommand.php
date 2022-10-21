@@ -22,6 +22,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command for deleting a user
  *
@@ -90,7 +94,7 @@ class DeleteUserCommand extends AbstractCommand
     {
         $this->configureIO($input, $output);
 
-        $this->ioStyle->title('Delete users');
+        $this->ioStyle->title('Delete User');
 
         $this->username = $this->getStringFromOption('username', 'Please enter a username');
 
