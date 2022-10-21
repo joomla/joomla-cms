@@ -276,6 +276,9 @@ class ArticleModel extends ItemModel
             }
         }
 
+        $articleids = array($pk);
+        Factory::getApplication()->setUserState('article.ids',json_encode($articleids));
+
         return $this->_item[$pk];
     }
 
