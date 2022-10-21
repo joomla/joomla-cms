@@ -11,9 +11,14 @@
 namespace Joomla\CMS\Installation\Application;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\EventAware;
+use Joomla\CMS\Application\ExtensionNamespaceMapper;
+use Joomla\CMS\Application\IdentityAware;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Input\Input;
+use Joomla\Input\Input;
 use Joomla\CMS\Installation\Console\InstallCommand;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
@@ -23,7 +28,9 @@ use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,9 +39,29 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-final class CliInstallationApplication extends Application
+final class CliInstallationApplication extends Application implements CMSApplicationInterface
 {
-    use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+    use ExtensionNamespaceMapper;
+    use IdentityAware;
+    use ContainerAwareTrait;
+    use EventAware;
+    use ExtensionManagerTrait;
+
+    /**
+     * The application input object.
+     *
+     * @var    Input
+     * @since  __DEPLOY_VERSION__
+     */
+    public $input;
+
+    /**
+     * The application language object.
+     *
+     * @var    Language
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $language;
 
     /**
      * @var MVCFactory
@@ -69,7 +96,8 @@ final class CliInstallationApplication extends Application
     public function __construct(
         ?InputInterface $input = null,
         ?OutputInterface $output = null,
-        ?Registry $config = null
+        ?Registry $config = null,
+        ?Language $language = null
     ) {
         // Register the application name.
         $this->setName('Joomla CLI installation');
@@ -78,6 +106,7 @@ final class CliInstallationApplication extends Application
 
         // Register the client ID.
         $this->clientId = 2;
+        $this->language = $language;
 
         // Run the parent constructor.
         parent::__construct($input, $output, $config);
@@ -91,7 +120,7 @@ final class CliInstallationApplication extends Application
 
         // Register the config to Factory.
         Factory::$config   = $this->config;
-        Factory::$language = Language::getInstance('en-GB');
+        Factory::$language = $language;
     }
 
     /**
@@ -208,6 +237,30 @@ final class CliInstallationApplication extends Application
     }
 
     /**
+     * Method to get the application input object.
+     *
+     * @return  \Joomla\Input\Input
+     *
+     * @since   4.0.0
+     */
+    public function getInput(): Input
+    {
+        return new Input();
+    }
+
+    /**
+     * Method to get the application language object.
+     *
+     * @return  Language  The language object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
      * This is a dummy method, forcing to en-GB on CLI installation
      *
      * @return  boolean  False on failure, array on success.
@@ -251,6 +304,19 @@ final class CliInstallationApplication extends Application
     }
 
     /**
+     * Get the system message queue. This is a mock
+     * to fullfill the interface requirements and is not functional.
+     *
+     * @return  array  The system message queue.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getMessageQueue()
+    {
+        return [];
+    }
+
+    /**
      * Get the MVC factory for the installation application
      *
      * @return  MVCFactory  MVC Factory of the installation application
@@ -269,17 +335,29 @@ final class CliInstallationApplication extends Application
     /**
      * We need to imitate the session object
      *
-     * @return  Registry  Object imitating the session object
+     * @return  SessionInterface  Object imitating the session object
      *
      * @since  __DEPLOY_VERSION__
      */
     public function getSession()
     {
-        if (!$this->session) {
-            $this->session = new Registry();
-        }
-
         return $this->session;
+    }
+
+    /**
+     * Sets the session for the application to use, if required.
+     *
+     * @param   SessionInterface  $session  A session object.
+     *
+     * @return  $this
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setSession(SessionInterface $session): self
+    {
+        $this->session = $session;
+
+        return $this;
     }
 
     /**
@@ -294,5 +372,20 @@ final class CliInstallationApplication extends Application
     public function isClient($identifier)
     {
         return 'cli_installation' === $identifier;
+    }
+
+    /**
+     * Flag if the application instance is a CLI or web based application.
+     *
+     * Helper function, you should use the native PHP functions to detect if it is a CLI application.
+     *
+     * @return  boolean
+     *
+     * @since       __DEPLOY_VERSION__
+     * @deprecated  5.0  Will be removed without replacements
+     */
+    public function isCli()
+    {
+        return $this->isClient('cli_installation');
     }
 }
