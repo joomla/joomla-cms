@@ -101,13 +101,13 @@ class PlgContentLoadmodule extends CMSPlugin
             foreach ($matchesmod as $matchmod) {
                 $matchesmodlist = explode(',', $matchmod[1]);
 
-                //first parameter is the module, will be prefixed with mod_ later
+                // First parameter is the module, will be prefixed with mod_ later
                 $module = trim($matchesmodlist[0]);
                 // Second parameter is the title
                 if (array_key_exists(1, $matchesmodlist)) {
-                    $title   = htmlspecialchars_decode(trim($matchesmodlist[1]));
+                    $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
                 } else {
-                    $title   = '';
+                    $title = '';
                 }
                 // Third paramater is the module style, (fallback is the plugin default set earlier).
                 if (array_key_exists(2, $matchesmodlist)) {
