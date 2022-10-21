@@ -286,7 +286,13 @@ class JNamespacePsr4Map
 
                 // Add the application specific segment when a component or module
                 $baseDir    = $isAdministrator ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
+                $realPath   = ($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE) . $path;
                 $namespace .= $isAdministrator ? 'Administrator\\\\' : 'Site\\\\';
+
+                // Validate if the directory exists
+                if (!is_dir($realPath)) {
+                    continue;
+                }
 
                 // Set the namespace
                 $extensions[$namespace] = $baseDir . $path . '\'';
