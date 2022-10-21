@@ -200,9 +200,9 @@ class CategoryModel extends ListModel
                 $params                = $this->state->params;
                 $options               = array();
                 $options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get(
-                        'show_empty_categories_cat',
-                        0
-                    );
+                    'show_empty_categories_cat',
+                    0
+                );
                 $options['access']     = $params->get('check_access_rights', 1);
             } else {
                 $options['countItems'] = 0;
@@ -431,7 +431,7 @@ class CategoryModel extends ListModel
         if ($menu = $app->getMenu()->getActive()) {
             $menuParams = $menu->getParams();
         } else {
-            $menuParams = new Registry;
+            $menuParams = new Registry();
         }
 
         $mergedParams = clone $menuParams;
@@ -512,8 +512,8 @@ class CategoryModel extends ListModel
         // Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
         if (($app->input->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
             $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get(
-                    'num_links'
-                );
+                'num_links'
+            );
             $this->setState('list.links', $params->get('num_links'));
         } else {
             $limit = $app->getUserStateFromRequest(
