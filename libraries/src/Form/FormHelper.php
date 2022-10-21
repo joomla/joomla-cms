@@ -13,6 +13,10 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form's helper class.
  * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.

@@ -12,6 +12,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Token class for the Finder indexer package.
  *

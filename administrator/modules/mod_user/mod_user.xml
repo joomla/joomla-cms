@@ -10,7 +10,7 @@
 	<version>4.0.0</version>
 	<description>MOD_USER_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_status">mod_user.php</filename>
+		<filename module="mod_user">mod_user.php</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
