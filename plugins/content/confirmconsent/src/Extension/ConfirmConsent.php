@@ -13,6 +13,10 @@ namespace Joomla\Plugin\Content\ConfirmConsent\Extension;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The Joomla Core confirm consent plugin
  *

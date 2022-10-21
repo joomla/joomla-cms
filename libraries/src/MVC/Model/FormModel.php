@@ -20,6 +20,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Prototype form model.
  *
@@ -146,7 +150,13 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 return true;
             }
 
-            $user            = $this->getCurrentUser();
+            $user = $this->getCurrentUser();
+
+            // When the user is a guest, don't do a checkout
+            if (!$user->id) {
+                return false;
+            }
+
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.

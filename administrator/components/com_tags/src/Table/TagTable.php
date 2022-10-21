@@ -19,6 +19,10 @@ use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags table
  *
@@ -187,8 +191,16 @@ class TagTable extends Nested implements VersionableTableInterface
         // Verify that the alias is unique
         $table = new static($this->getDbo());
 
-        if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0)) {
+        if (
+            $table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id))
+            && ($table->id != $this->id || $this->id == 0)
+        ) {
+            // Is the existing tag trashed?
             $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_TAGS_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }

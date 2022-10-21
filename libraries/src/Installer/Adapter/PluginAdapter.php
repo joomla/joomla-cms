@@ -20,6 +20,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin installer
  *
@@ -427,6 +431,7 @@ class PluginAdapter extends InstallerAdapter
             $this->extension->name           = $manifest_details['name'];
             $this->extension->enabled        = 'editors' === $this->extension->folder ? 1 : 0;
             $this->extension->params         = $this->parent->getParams();
+            $this->extension->changelogurl   = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
