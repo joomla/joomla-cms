@@ -58,7 +58,6 @@ steps:
     depends_on: [ phpcs ]
     failure: ignore
     commands:
-      - docker-php-ext-install ast
       - ./libraries/vendor/bin/phan
 
   - name: npm
@@ -525,6 +524,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 46263cc0126ab1a76c7099b4d3bc1f46a98d299f889bd8c9146214ec01f6c663
+hmac: f496f213481b3afcec73da651fc838af21f76950954daac599e665ceb382cc2d
 
 ...
