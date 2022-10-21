@@ -173,7 +173,12 @@ class NewsfeedTable extends Table implements VersionableTableInterface, Taggable
         $table = Table::getInstance('NewsfeedTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
 
         if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+            // Is the existing newsfeed trashed?
             $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+
+            if ($table->published === -2) {
+                $this->setError(Text::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS_TRASHED'));
+            }
 
             return false;
         }

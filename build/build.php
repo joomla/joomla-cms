@@ -181,6 +181,14 @@ function clean_checkout(string $dir)
     // willdurand/negotiation
     system('rm -rf libraries/vendor/willdurand/negotiation/tests');
 
+    // jfcherng
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/demo.php');
+    system('rm -rf libraries/vendor/jfcherng/php-color-output/UPGRADING_v2.md');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/CHANGELOG');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/example');
+    system('rm -rf libraries/vendor/jfcherng/php-diff/UPGRADING');
+    system('rm -rf libraries/vendor/jfcherng/php-mb-string/CHANGELOG');
+
     echo "Cleanup complete.\n";
 
     chdir($cwd);
