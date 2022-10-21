@@ -22,6 +22,10 @@ use Joomla\Input\Input;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for a Joomla API Controller
  *

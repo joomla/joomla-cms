@@ -28,6 +28,10 @@ use Joomla\Input\Input;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Factory to create MVC objects based on a namespace.
  *

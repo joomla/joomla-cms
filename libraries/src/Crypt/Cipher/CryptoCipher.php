@@ -12,6 +12,10 @@ namespace Joomla\CMS\Crypt\Cipher;
 use Joomla\Crypt\CipherInterface;
 use Joomla\Crypt\Key;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Crypt cipher for encryption, decryption and key generation via the php-encryption library.
  *
