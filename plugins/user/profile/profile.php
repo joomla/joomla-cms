@@ -20,6 +20,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom profile plugin.
  *
@@ -328,11 +332,10 @@ class PlgUserProfile extends CMSPlugin
         // Check that the tos is checked if required ie only in registration from frontend.
         $task       = $this->app->input->getCmd('task');
         $option     = $this->app->input->getCmd('option');
-        $tosArticle = $this->params->get('register_tos_article');
         $tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
         // Check that the tos is checked.
-        if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos']) {
+        if ($task === 'register' && $tosEnabled && $option === 'com_users' && !$data['profile']['tos']) {
             throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
         }
 

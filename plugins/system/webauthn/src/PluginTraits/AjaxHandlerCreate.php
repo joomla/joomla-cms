@@ -20,6 +20,10 @@ use Joomla\Event\Event;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Ajax handler for akaction=create
  *

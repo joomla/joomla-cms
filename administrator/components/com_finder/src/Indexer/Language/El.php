@@ -16,6 +16,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
 use Joomla\Component\Finder\Administrator\Indexer\Language;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Greek language support class for the Finder indexer package.
  *
