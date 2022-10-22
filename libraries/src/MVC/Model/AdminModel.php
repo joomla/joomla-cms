@@ -296,6 +296,7 @@ abstract class AdminModel extends FormModel
         }
 
         $done = false;
+        PluginHelper::importPlugin($this->events_map['batch']);
 
         // Initialize re-usable member properties
         $this->initBatch();
@@ -360,8 +361,6 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
-        PluginHelper::importPlugin($this->events_map['batch']);
-
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
@@ -423,7 +422,6 @@ abstract class AdminModel extends FormModel
 
         $newIds = array();
         $db     = $this->getDbo();
-        PluginHelper::importPlugin($this->events_map['batch']);
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -567,8 +565,6 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
 
-        PluginHelper::importPlugin($this->events_map['batch']);
-
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
                 $this->table->reset();
@@ -627,8 +623,6 @@ abstract class AdminModel extends FormModel
         if (!$this->checkCategoryId($categoryId)) {
             return false;
         }
-
-        PluginHelper::importPlugin($this->events_map['batch']);
 
         // Parent exists so we proceed
         foreach ($pks as $pk) {
@@ -698,7 +692,6 @@ abstract class AdminModel extends FormModel
         // Initialize re-usable member properties, and re-usable local variables
         $this->initBatch();
         $tags = array($value);
-        PluginHelper::importPlugin($this->events_map['batch']);
 
         foreach ($pks as $pk) {
             if ($this->user->authorise('core.edit', $contexts[$pk])) {
