@@ -15,9 +15,6 @@ init:
   - SET PATH=C:\Tools\php;%PATH%
   - SET COMPOSER_NO_INTERACTION=1
   - SET ANSICON=121x90 (121x90)
-services:
-  - mysql
-  - iis
 
 ## Install PHP and composer, and run the appropriate composer command
 install:
@@ -44,7 +41,8 @@ install:
     - choco install composer
     - cd C:\projects\joomla-cms
     - refreshenv
-    - composer install --no-progress --profile --ignore-platform-req=ext-sodium
+    - echo "TODO Ignore platform reqs till all composer dependencies are compatible with php 8.1"
+    - composer install --no-progress --profile --ignore-platform-req=ext-sodium --ignore-platform-reqs
 
 hosts:
   openldap: 127.0.0.1

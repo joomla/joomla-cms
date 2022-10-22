@@ -8,7 +8,7 @@ steps:
   - name: setup
     image: joomlaprojects/docker-images:php8.1
     volumes:
-      - name: certificatesthe tests has been finished succuessful so you don't need to wait till drone is finished
+      - name: certificates
         path: /certificates
     commands:
       - cp -v tests/Codeception/_data/certs/* /certificates/
@@ -155,7 +155,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql phpnext_
 
   - name: phpmin-api-postgres
     depends_on:
@@ -186,7 +186,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres phpnext_
 
   - name: phpmin-system-mysql
     depends_on:
