@@ -64,7 +64,7 @@
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.6",
     "tinymce": "^5.10.2",
-    "vue": "3.2.26",
+    "vue": "3.2.41",
     "vuex": "^4.0.2",
     "vuex-persistedstate": "^4.1.0"
   },
