@@ -19,6 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
+use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -38,7 +39,7 @@ class FieldsHelper
     private static $fieldsCache = null;
 
     /**
-     * @var    FieldsModel
+     * @var    FieldModel
      */
     private static $fieldCache = null;
 

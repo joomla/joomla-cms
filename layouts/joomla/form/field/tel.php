@@ -60,6 +60,7 @@ $attributes = array(
     $onchange ? 'onchange="' . $onchange . '"' : '',
     !empty($maxLength) ? $maxLength : '',
     $required ? 'required' : '',
+    !empty($pattern) ? 'pattern="' . $pattern . '"' : '',
     $dataAttribute,
 );
 ?>
