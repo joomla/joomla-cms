@@ -210,14 +210,14 @@ steps:
       - name: cypress-cache
         path: /root/.cache/Cypress
     commands:
-      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
+      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/cypress\\/output/' codeception.yml
       - php libraries/vendor/bin/codecept build
       - npx cypress install
       - npx cypress verify
 
   - name: phpmin-api-mysql
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -226,7 +226,7 @@ steps:
 
   - name: phpmin-api-postgres
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -497,6 +497,6 @@ trigger:
 
 ---
 kind: signature
-hmac: f70632551c1752064550c7ec856fa24cacd3e8f223b028b6b4314885a143c557
+hmac: a7eafe0d90f40df73bfee7243ef5e4d2e0953bee739864b7d16d0dc19e06dd2d
 
 ...
