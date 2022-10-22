@@ -556,7 +556,7 @@ class PlgContentJoomla extends CMSPlugin
 
         if ($context === 'com_workflow.stage' && $value < 1) {
             foreach ($pks as $pk) {
-                if (!$this->_canDeleteStage($pk)) {
+                if (!$this->_stageNotUsed($pk)) {
                     return false;
                 }
             }
