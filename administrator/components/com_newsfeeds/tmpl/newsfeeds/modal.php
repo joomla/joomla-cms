@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $app->getDocument()->getWebAssetManager();
+$wa = $this->document->getWebAssetManager();
 $wa->useScript('core');
 
 $app = Factory::getApplication();
