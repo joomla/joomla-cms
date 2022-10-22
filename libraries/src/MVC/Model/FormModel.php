@@ -150,7 +150,13 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
                 return true;
             }
 
-            $user            = $this->getCurrentUser();
+            $user = $this->getCurrentUser();
+
+            // When the user is a guest, don't do a checkout
+            if (!$user->id) {
+                return false;
+            }
+
             $checkedOutField = $table->getColumnAlias('checked_out');
 
             // Check if this is the user having previously checked out the row.

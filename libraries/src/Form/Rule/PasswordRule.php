@@ -58,7 +58,10 @@ class PasswordRule extends FormRule
 
         // In the installer we don't have any access to the
         // database yet so use the hard coded default settings
-        if (!Factory::getApplication()->isClient('installation')) {
+        if (
+            !Factory::getApplication()->isClient('installation')
+            && !Factory::getApplication()->isClient('cli_installation')
+        ) {
             // If we have parameters from com_users, use those instead.
             // Some of these may be empty for legacy reasons.
             $params = ComponentHelper::getParams('com_users');

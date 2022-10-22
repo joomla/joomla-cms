@@ -1245,8 +1245,8 @@ class Query
 
             $searchTerm = $token->term;
             $searchStem = $token->stem;
-            $term = $query->quoteName('t.term');
-            $stem = $query->quoteName('t.stem');
+            $term = $db->quoteName('t.term');
+            $stem = $db->quoteName('t.stem');
 
             if ($this->wordmode === 'begin') {
                 $searchTerm .= '%';

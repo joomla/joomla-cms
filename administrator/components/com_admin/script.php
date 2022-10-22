@@ -6439,6 +6439,7 @@ class JoomlaInstallerScript
             '/plugins/task/checkfiles/checkfiles.php',
             '/plugins/task/demotasks/demotasks.php',
             // From 4.2.0-rc1 to 4.2.0
+            '/build/media_source/com_menus/css/admin-item-edit_modules.css',
             '/administrator/language/en-GB/plg_fields_menuitem.ini',
             '/administrator/language/en-GB/plg_fields_menuitem.sys.ini',
             '/plugins/fields/menuitem/menuitem.php',
@@ -6449,6 +6450,8 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js/hotkeys.min.js',
             '/media/vendor/hotkeys.js/js/hotkeys.min.js.gz',
             '/media/vendor/hotkeys.js/LICENSE',
+            // From 4.2.1 to 4.2.2
+            '/administrator/cache/fido.jwt',
         );
 
         $folders = array(

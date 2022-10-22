@@ -5,6 +5,37 @@ name: default
 clone:
 
 steps:
+  - name: setup
+    image: joomlaprojects/docker-images:php8.1
+    volumes:
+      - name: certificatesthe tests has been finished succuessful so you don't need to wait till drone is finished
+        path: /certificates
+    commands:
+      - cp -v tests/Codeception/_data/certs/* /certificates/
+
+  - name: openldap
+    image: bitnami/openldap:latest
+    detach: true
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: customuser
+      LDAP_PASSWORDS: custompassword
+      LDAP_ENABLE_TLS: yes
+      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
+      LDAP_TLS_KEY_FILE: /certificates/openldap.key
+      LDAP_TLS_CA_FILE: /certificates/CA.crt
+      BITNAMI_DEBUG: true
+      LDAP_CONFIG_ADMIN_ENABLED: yes
+      LDAP_CONFIG_ADMIN_USERNAME: admin
+      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
+
   - name: composer
     image: joomlaprojects/docker-images:php8.1
     volumes:
@@ -22,8 +53,15 @@ steps:
       - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=ruleset.xml .
       - echo $(date)
 
+  - name: phan
+    image: joomlaprojects/docker-images:php7.4-ast
+    depends_on: [ phpcs ]
+    failure: ignore
+    commands:
+      - ./libraries/vendor/bin/phan
+
   - name: npm
-    image: node:16-alpine
+    image: node:16-bullseye-slim
     depends_on: [ phpcs ]
     volumes:
       - name: npm-cache
@@ -95,7 +133,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysql mysqli mysql jos_
 
   - name: phpmax-api-mysql
     depends_on:
@@ -107,7 +145,7 @@ steps:
     commands:
       - echo "This test is disabled because php max is not stable yet"
       - exit 1
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpmax mysqli mysql phpmax_
 
   - name: phpnext-api-mysql
     depends_on:
@@ -126,7 +164,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgres pgsql postgres jos_
 
   - name: phpmax-api-postgres
     depends_on:
@@ -138,7 +176,7 @@ steps:
     commands:
       - echo "This test is disabled because php max is not stable yet"
       - exit 1
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpmax pgsql postgres phpmax_
 
   - name: phpnext-api-postgres
     depends_on:
@@ -252,6 +290,9 @@ volumes:
   - name: npm-cache
     host:
       path: /tmp/npm-cache
+  - name: certificates
+    host:
+      path: /tmp/certificates
 
 services:
   - name: mysql
@@ -366,6 +407,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 02f68b866ca7e4977360570233c9e9d069f21a34240f20675fe4c0f83b7961c5
+hmac: 4057ed174dee79f1d2a0479e64e302c4830771a786b74d2a5c8694068f76c69d
 
 ...
