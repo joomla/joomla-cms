@@ -301,8 +301,9 @@ class GroupModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.group.data', array());
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+        $data  = $app->getUserState('com_fields.edit.group.data', array());
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -315,15 +316,15 @@ class GroupModel extends AdminModel
 
                 $data->set(
                     'state',
-                    $app->getInput()->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
+                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
                 );
                 $data->set(
                     'language',
-                    $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
+                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
                 );
                 $data->set(
                     'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }

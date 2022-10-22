@@ -846,16 +846,17 @@ class ApplicationModel extends FormModel
     public function storePermissions($permission = null)
     {
         $app  = Factory::getApplication();
+        $input = $app->getInput();
         $user = $this->getCurrentUser();
 
         if (is_null($permission)) {
             // Get data from input.
             $permission = array(
-                'component' => $app->getInput()->Json->get('comp'),
-                'action'    => $app->getInput()->Json->get('action'),
-                'rule'      => $app->getInput()->Json->get('rule'),
-                'value'     => $app->getInput()->Json->get('value'),
-                'title'     => $app->getInput()->Json->get('title', '', 'RAW')
+                'component' => $input->Json->get('comp'),
+                'action'    => $input->Json->get('action'),
+                'rule'      => $input->Json->get('rule'),
+                'value'     => $input->Json->get('value'),
+                'title'     => $input->Json->get('title', '', 'RAW')
             );
         }
 

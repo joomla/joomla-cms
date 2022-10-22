@@ -50,7 +50,8 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      */
     protected function populateState()
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Load the parameters.
         $params = $app->getParams();
@@ -63,15 +64,15 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         // Load state from the request.
-        $pk = $app->getInput()->getInt('a_id');
+        $pk = $input->getInt('a_id');
         $this->setState('article.id', $pk);
 
-        $this->setState('article.catid', $app->getInput()->getInt('catid', $catId));
+        $this->setState('article.catid', $input->getInt('catid', $catId));
 
-        $return = $app->getInput()->get('return', '', 'base64');
+        $return = $input->get('return', '', 'base64');
         $this->setState('return_page', base64_decode($return));
 
-        $this->setState('layout', $app->getInput()->getString('layout'));
+        $this->setState('layout', $input->getString('layout'));
     }
 
     /**

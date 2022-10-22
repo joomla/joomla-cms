@@ -49,7 +49,8 @@ class ArchiveModel extends ArticlesModel
     {
         parent::populateState();
 
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Add archive properties
         $params = $this->state->get('params');
@@ -58,14 +59,14 @@ class ArchiveModel extends ArticlesModel
         $this->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
         // Filter on month, year
-        $this->setState('filter.month', $app->getInput()->getInt('month'));
-        $this->setState('filter.year', $app->getInput()->getInt('year'));
+        $this->setState('filter.month', $input->getInt('month'));
+        $this->setState('filter.year', $input->getInt('year'));
 
         // Optional filter text
-        $this->setState('list.filter', $app->getInput()->getString('filter-search'));
+        $this->setState('list.filter', $input->getString('filter-search'));
 
         // Get list limit
-        $itemid = $app->getInput()->get('Itemid', 0, 'int');
+        $itemid = $input->get('Itemid', 0, 'int');
         $limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
         $this->setState('list.limit', $limit);
 

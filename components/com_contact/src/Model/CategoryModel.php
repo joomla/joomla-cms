@@ -261,13 +261,14 @@ class CategoryModel extends ListModel
      */
     protected function populateState($ordering = null, $direction = null)
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         $params = $app->getParams();
         $this->setState('params', $params);
 
         // List state information
-        $format = $app->getInput()->getWord('format');
+        $format = $input->getWord('format');
 
         if ($format === 'feed') {
             $limit = $app->get('feed_limit');
@@ -282,15 +283,15 @@ class CategoryModel extends ListModel
 
         $this->setState('list.limit', $limit);
 
-        $limitstart = $app->getInput()->get('limitstart', 0, 'uint');
+        $limitstart = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $limitstart);
 
         // Optional filter text
-        $itemid = $app->getInput()->get('Itemid', 0, 'int');
+        $itemid = $input->get('Itemid', 0, 'int');
         $search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
         $this->setState('list.filter', $search);
 
-        $orderCol = $app->getInput()->get('filter_order', $params->get('initial_sort', 'ordering'));
+        $orderCol = $input->get('filter_order', $params->get('initial_sort', 'ordering'));
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
@@ -298,7 +299,7 @@ class CategoryModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->getInput()->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
         if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
             $listOrder = 'ASC';
@@ -306,7 +307,7 @@ class CategoryModel extends ListModel
 
         $this->setState('list.direction', $listOrder);
 
-        $id = $app->getInput()->get('id', 0, 'int');
+        $id = $input->get('id', 0, 'int');
         $this->setState('category.id', $id);
 
         $user = $this->getCurrentUser();

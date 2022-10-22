@@ -134,9 +134,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         }
 
         // Check that the privacy is checked if required ie only in registration from frontend.
-        $option = $this->app->getInput()->get('option');
-        $task   = $this->app->getInput()->post->get('task');
-        $form   = $this->app->getInput()->post->get('jform', [], 'array');
+        $input  = $this->app->getInput();
+        $option = $input->get('option');
+        $task   = $input->post->get('task');
+        $form   = $input->post->get('jform', [], 'array');
 
         if (
             $option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
@@ -175,9 +176,11 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             return;
         }
 
-        $option = $this->app->getInput()->get('option');
-        $task   = $this->app->getInput()->post->get('task');
-        $form   = $this->app->getInput()->post->get('jform', [], 'array');
+        $input = $this->app->getInput();
+
+        $option = $input->get('option');
+        $task   = $input->post->get('task');
+        $form   = $input->post->get('jform', [], 'array');
 
         if (
             $option == 'com_users'
@@ -187,10 +190,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
             // Get the user's IP address
-            $ip = $this->app->getInput()->server->get('REMOTE_ADDR', '', 'string');
+            $ip = $input->server->get('REMOTE_ADDR', '', 'string');
 
             // Get the user agent string
-            $userAgent = $this->app->getInput()->server->get('HTTP_USER_AGENT', '', 'string');
+            $userAgent = $input->server->get('HTTP_USER_AGENT', '', 'string');
 
             // Create the user note
             $userNote = (object) [
@@ -284,11 +287,12 @@ class PlgSystemPrivacyconsent extends CMSPlugin
                 return;
             }
 
-            $option = $this->app->getInput()->getCmd('option');
-            $task   = $this->app->getInput()->get('task');
-            $view   = $this->app->getInput()->getString('view', '');
-            $layout = $this->app->getInput()->getString('layout', '');
-            $id     = $this->app->getInput()->getInt('id');
+            $input  = $this->app->getInput();
+            $option = $input->getCmd('option');
+            $task   = $input->get('task');
+            $view   = $input->getString('view', '');
+            $layout = $input->getString('layout', '');
+            $id     = $input->getInt('id');
 
             $privacyArticleId = $this->getPrivacyArticleId();
 

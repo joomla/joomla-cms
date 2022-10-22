@@ -90,19 +90,20 @@ class ArticlesModel extends ListModel
      */
     protected function populateState($ordering = 'ordering', $direction = 'ASC')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // List state information
-        $value = $app->getInput()->get('limit', $app->get('list_limit', 0), 'uint');
+        $value = $input->get('limit', $app->get('list_limit', 0), 'uint');
         $this->setState('list.limit', $value);
 
-        $value = $app->getInput()->get('limitstart', 0, 'uint');
+        $value = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $value);
 
-        $value = $app->getInput()->get('filter_tag', 0, 'uint');
+        $value = $input->get('filter_tag', 0, 'uint');
         $this->setState('filter.tag', $value);
 
-        $orderCol = $app->getInput()->get('filter_order', 'a.ordering');
+        $orderCol = $input->get('filter_order', 'a.ordering');
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'a.ordering';
@@ -110,7 +111,7 @@ class ArticlesModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->getInput()->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
         if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
             $listOrder = 'ASC';
@@ -137,7 +138,7 @@ class ArticlesModel extends ListModel
             $this->setState('filter.access', false);
         }
 
-        $this->setState('layout', $app->getInput()->getString('layout'));
+        $this->setState('layout', $input->getString('layout'));
     }
 
     /**

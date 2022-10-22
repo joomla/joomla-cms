@@ -17,15 +17,16 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var Joomla\CMS\Document\ErrorDocument $this */
 
-$app = Factory::getApplication();
-$wa  = $this->getWebAssetManager();
+$app   = Factory::getApplication();
+$input = $app->getInput();
+$wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option   = $app->getInput()->getCmd('option', '');
-$view     = $app->getInput()->getCmd('view', '');
-$layout   = $app->getInput()->getCmd('layout', '');
-$task     = $app->getInput()->getCmd('task', '');
-$itemid   = $app->getInput()->getCmd('Itemid', '');
+$option   = $input->getCmd('option', '');
+$view     = $input->getCmd('view', '');
+$layout   = $input->getCmd('layout', '');
+$task     = $input->getCmd('task', '');
+$itemid   = $input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';

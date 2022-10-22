@@ -879,8 +879,9 @@ class FieldModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app  = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.field.data', array());
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+        $data  = $app->getUserState('com_fields.edit.field.data', array());
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -892,16 +893,16 @@ class FieldModel extends AdminModel
                 // get selected fields
                 $filters = (array) $app->getUserState('com_fields.fields.filter');
 
-                $data->set('state', $app->getInput()->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('group_id', $app->getInput()->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
+                $data->set('state', $input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
+                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                $data->set('group_id', $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
                 $data->set(
                     'access',
-                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
 
                 // Set the type if available from the request
-                $data->set('type', $app->getInput()->getWord('type', $this->state->get('field.type', $data->get('type'))));
+                $data->set('type', $input->getWord('type', $this->state->get('field.type', $data->get('type'))));
             }
 
             if ($data->label && !isset($data->params['label'])) {
