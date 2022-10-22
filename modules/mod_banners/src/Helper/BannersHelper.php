@@ -44,7 +44,6 @@ class BannersHelper
         $ids = $app->getUserState('article.ids', null);
 
         if ($ids) {
-
             $ids = implode(',', json_decode($ids));
 
             $db = Factory::getContainer()->get('DatabaseDriver');
@@ -52,7 +51,7 @@ class BannersHelper
             $query    = $db->getQuery(true);
             $query->select($db->quoteName('metakey'))
                 ->from($db->quoteName('#__content'))
-                ->where($db->quoteName('id'). ' in ('.$ids.')');
+                ->where($db->quoteName('id') . ' in (' . $ids . ')');
 
             $db->setQuery($query);
             try {
