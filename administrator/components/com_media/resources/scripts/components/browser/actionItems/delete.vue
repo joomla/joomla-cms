@@ -2,19 +2,20 @@
   <button
     type="button"
     class="action-delete"
-    :aria-label="translate('COM_MEDIA_ACTION_DELETE')"
-    :title="translate('COM_MEDIA_ACTION_DELETE')"
     @keyup.enter="openConfirmDeleteModal()"
     @keyup.space="openConfirmDeleteModal()"
     @focus="focused(true)"
     @blur="focused(false)"
     @keyup.esc="hideActions()"
+    @click.stop="openConfirmDeleteModal()"
   >
     <span
       class="image-browser-action icon-trash"
       aria-hidden="true"
-      @click.stop="openConfirmDeleteModal()"
     />
+    <span class="action-text">
+      {{ translate('COM_MEDIA_ACTION_DELETE') }}
+    </span>
   </button>
 </template>
 
