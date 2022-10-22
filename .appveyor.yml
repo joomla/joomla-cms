@@ -41,7 +41,8 @@ install:
     - choco install composer
     - cd C:\projects\joomla-cms
     - refreshenv
-    - composer install --no-progress --profile --ignore-platform-req=ext-sodium
+    - echo "TODO Ignore platform reqs till all composer dependencies are compatible with php 8.1"
+    - composer install --no-progress --profile --ignore-platform-req=ext-sodium --ignore-platform-reqs
 
 hosts:
   openldap: 127.0.0.1
