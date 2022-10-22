@@ -58,14 +58,14 @@ class ArchiveModel extends ArticlesModel
         $this->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
         // Filter on month, year
-        $this->setState('filter.month', $app->input->getInt('month'));
-        $this->setState('filter.year', $app->input->getInt('year'));
+        $this->setState('filter.month', $app->getInput()->getInt('month'));
+        $this->setState('filter.year', $app->getInput()->getInt('year'));
 
         // Optional filter text
-        $this->setState('list.filter', $app->input->getString('filter-search'));
+        $this->setState('list.filter', $app->getInput()->getString('filter-search'));
 
         // Get list limit
-        $itemid = $app->input->get('Itemid', 0, 'int');
+        $itemid = $app->getInput()->get('Itemid', 0, 'int');
         $limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
         $this->setState('list.limit', $limit);
 
@@ -91,7 +91,7 @@ class ArchiveModel extends ArticlesModel
     {
         $params           = $this->state->params;
         $app              = Factory::getApplication();
-        $catids           = $app->input->get('catid', array(), 'array');
+        $catids           = $app->getInput()->get('catid', array(), 'array');
         $catids           = array_values(array_diff($catids, array('')));
 
         $articleOrderDate = $params->get('order_date');
@@ -145,8 +145,8 @@ class ArchiveModel extends ArticlesModel
             $params = $app->getParams();
 
             // Get the pagination request variables
-            $limit      = $app->input->get('limit', $params->get('display_num', 20), 'uint');
-            $limitstart = $app->input->get('limitstart', 0, 'uint');
+            $limit      = $app->getInput()->get('limit', $params->get('display_num', 20), 'uint');
+            $limitstart = $app->getInput()->get('limitstart', 0, 'uint');
 
             $query = $this->_buildQuery();
 

@@ -181,19 +181,19 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
         $app = Factory::getApplication();
 
         // Load state from the request.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState('contact.id', $pk);
 
-        $this->setState('contact.catid', $app->input->getInt('catid'));
+        $this->setState('contact.catid', $app->getInput()->getInt('catid'));
 
-        $return = $app->input->get('return', '', 'base64');
+        $return = $app->getInput()->get('return', '', 'base64');
         $this->setState('return_page', base64_decode($return));
 
         // Load the parameters.
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $app->getInput()->getString('layout'));
     }
 
     /**

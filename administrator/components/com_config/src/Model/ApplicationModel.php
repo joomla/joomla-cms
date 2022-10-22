@@ -851,11 +851,11 @@ class ApplicationModel extends FormModel
         if (is_null($permission)) {
             // Get data from input.
             $permission = array(
-                'component' => $app->input->Json->get('comp'),
-                'action'    => $app->input->Json->get('action'),
-                'rule'      => $app->input->Json->get('rule'),
-                'value'     => $app->input->Json->get('value'),
-                'title'     => $app->input->Json->get('title', '', 'RAW')
+                'component' => $app->getInput()->Json->get('comp'),
+                'action'    => $app->getInput()->Json->get('action'),
+                'rule'      => $app->getInput()->Json->get('rule'),
+                'value'     => $app->getInput()->Json->get('value'),
+                'title'     => $app->getInput()->Json->get('title', '', 'RAW')
             );
         }
 
@@ -1174,7 +1174,7 @@ class ApplicationModel extends FormModel
         // Set the new values to test with the current settings
         $app = Factory::getApplication();
         $user = $this->getCurrentUser();
-        $input = $app->input->json;
+        $input = $app->getInput()->json;
         $smtppass = $input->get('smtppass', null, 'RAW');
 
         $app->set('smtpauth', $input->get('smtpauth'));

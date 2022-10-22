@@ -167,13 +167,13 @@ class FeaturedModel extends ListModel
         $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
         $this->setState('list.limit', $limit);
 
-        $limitstart = $app->input->get('limitstart', 0, 'uint');
+        $limitstart = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.start', $limitstart);
 
         // Optional filter text
-        $this->setState('list.filter', $app->input->getString('filter-search'));
+        $this->setState('list.filter', $app->getInput()->getString('filter-search'));
 
-        $orderCol = $app->input->get('filter_order', 'ordering');
+        $orderCol = $app->getInput()->get('filter_order', 'ordering');
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'ordering';
@@ -181,7 +181,7 @@ class FeaturedModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
+        $listOrder = $app->getInput()->get('filter_order_Dir', 'ASC');
 
         if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
             $listOrder = 'ASC';

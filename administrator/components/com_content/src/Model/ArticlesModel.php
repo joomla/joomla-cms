@@ -127,10 +127,10 @@ class ArticlesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -154,7 +154,7 @@ class ArticlesModel extends ListModel
         $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->setState('filter.language', $language);
 
-        $formSubmitted = $app->input->post->get('form_submitted');
+        $formSubmitted = $app->getInput()->post->get('form_submitted');
 
         // Gets the value of a user state variable and sets it in the session
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -163,16 +163,16 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
         if ($formSubmitted) {
-            $access = $app->input->post->get('access');
+            $access = $app->getInput()->post->get('access');
             $this->setState('filter.access', $access);
 
-            $authorId = $app->input->post->get('author_id');
+            $authorId = $app->getInput()->post->get('author_id');
             $this->setState('filter.author_id', $authorId);
 
-            $categoryId = $app->input->post->get('category_id');
+            $categoryId = $app->getInput()->post->get('category_id');
             $this->setState('filter.category_id', $categoryId);
 
-            $tag = $app->input->post->get('tag');
+            $tag = $app->getInput()->post->get('tag');
             $this->setState('filter.tag', $tag);
         }
 

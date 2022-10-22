@@ -63,9 +63,9 @@ class StringsController extends ApiController
         }
 
         $app = Factory::getApplication();
-        $app->input->set('searchstring', $data['searchstring']);
-        $app->input->set('searchtype', $data['searchtype']);
-        $app->input->set('more', 0);
+        $app->getInput()->set('searchstring', $data['searchstring']);
+        $app->getInput()->set('searchtype', $data['searchtype']);
+        $app->getInput()->set('more', 0);
 
         $viewType   = $this->app->getDocument()->getType();
         $viewName   = $this->input->get('view', $this->default_view);

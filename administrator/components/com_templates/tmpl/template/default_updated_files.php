@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('bootstrap.dropdown', '.dropdown-toggle');
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 ?>
 
 <?php if (count($this->updatedList) === 0) : ?>

@@ -63,15 +63,15 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         // Load state from the request.
-        $pk = $app->input->getInt('a_id');
+        $pk = $app->getInput()->getInt('a_id');
         $this->setState('article.id', $pk);
 
-        $this->setState('article.catid', $app->input->getInt('catid', $catId));
+        $this->setState('article.catid', $app->getInput()->getInt('catid', $catId));
 
-        $return = $app->input->get('return', '', 'base64');
+        $return = $app->getInput()->get('return', '', 'base64');
         $this->setState('return_page', base64_decode($return));
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $app->getInput()->getString('layout'));
     }
 
     /**
@@ -219,7 +219,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $user = $app->getIdentity();
 
         // On edit article, we get ID of article from article.id state, but on save, we use data from input
-        $id = (int) $this->getState('article.id', $app->input->getInt('a_id'));
+        $id = (int) $this->getState('article.id', $app->getInput()->getInt('a_id'));
 
         // Existing record. We can't edit the category in frontend if not edit.state.
         if ($id > 0 && !$user->authorise('core.edit.state', 'com_content.article.' . $id)) {

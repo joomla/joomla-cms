@@ -110,9 +110,9 @@ class PlgUserTerms extends CMSPlugin
         }
 
         // Check that the terms is checked if required ie only in registration from frontend.
-        $option = $this->app->input->get('option');
-        $task   = $this->app->input->post->get('task');
-        $form   = $this->app->input->post->get('jform', [], 'array');
+        $option = $this->app->getInput()->get('option');
+        $task   = $this->app->getInput()->post->get('task');
+        $form   = $this->app->getInput()->post->get('jform', [], 'array');
 
         if ($option == 'com_users' && in_array($task, ['registration.register']) && empty($form['terms']['terms'])) {
             throw new InvalidArgumentException(Text::_('PLG_USER_TERMS_FIELD_ERROR'));

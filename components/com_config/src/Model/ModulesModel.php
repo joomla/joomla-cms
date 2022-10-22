@@ -41,7 +41,7 @@ class ModulesModel extends FormModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
 
         $this->setState('module.id', $pk);
     }

@@ -92,11 +92,11 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
         // Filter by id in case it should be excluded
         if (
             $params->get('exclude_current', true)
-            && $app->input->get('option') === 'com_content'
-            && $app->input->get('view') === 'article'
+            && $app->getInput()->get('option') === 'com_content'
+            && $app->getInput()->get('view') === 'article'
         ) {
             // Exclude the current article from displaying in this module
-            $model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
+            $model->setState('filter.article_id', $app->getInput()->get('id', 0, 'UINT'));
             $model->setState('filter.article_id.include', false);
         }
 
