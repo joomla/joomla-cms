@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper as CMSLanguageHelper;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Finder language helper class.
  *
