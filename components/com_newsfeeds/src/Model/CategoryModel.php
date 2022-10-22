@@ -12,7 +12,6 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -153,7 +152,7 @@ class CategoryModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = $user->getAuthorisedViewLevels();
 
         // Create a new query object.
@@ -244,7 +243,9 @@ class CategoryModel extends ListModel
     protected function populateState($ordering = null, $direction = null)
     {
         $app = Factory::getApplication();
-        $params = ComponentHelper::getParams('com_newsfeeds');
+
+        $params = $app->getParams();
+        $this->setState('params', $params);
 
         // List state information
         $limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
@@ -275,7 +276,7 @@ class CategoryModel extends ListModel
         $id = $app->input->get('id', 0, 'int');
         $this->setState('category.id', $id);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) && (!$user->authorise('core.edit', 'com_newsfeeds'))) {
             // Limit to published for people who can't edit or edit.state.
@@ -286,9 +287,6 @@ class CategoryModel extends ListModel
         }
 
         $this->setState('filter.language', Multilanguage::isEnabled());
-
-        // Load the parameters.
-        $this->setState('params', $params);
     }
 
     /**
