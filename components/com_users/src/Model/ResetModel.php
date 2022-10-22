@@ -323,28 +323,12 @@ class ResetModel extends FormModel
         }
 
         // Check if the token is expired or not
-        $currDate = strtotime(Factory::getDate());
-        $lastResetDate = strtotime($user->lastResetTime);
+        $now       = Factory::getDate();
+        $lastReset = Factory::getDate($user->lastResetTime);
+        
+        $now->modify('-3 days');
 
-        // Formulate the Difference between two dates
-        $diff = abs($currDate - $lastResetDate);
-        $years = floor($diff / (365 * 60 * 60 * 24));
-
-        /**
-         * To get the month, subtract it with years and
-         * divide the resultant date into
-         * total seconds in a month (30 * 60 * 60 * 24)
-         */
-        $months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-
-        /**
-         * To get the day, subtract it with years and
-         * months and divide the resultant date into
-         * total seconds in a days (60 * 60 * 24)
-         */
-        $days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
-
-        if ($days > 3) {
+        if ($now < $lastReset) {
             $this->setError(Text::_('COM_USERS_RESET_TOKEN_EXPIRED'));
 
             return false;
