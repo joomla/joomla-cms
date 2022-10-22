@@ -80,8 +80,6 @@ Joomla.checkDbCredentials = function() {
   document.getElementById('installStep3').classList.remove('active');
   document.getElementById('installStep4').classList.add('active');
 
-  document.querySelector('#progressdbcheck span').classList.remove('text-white');
-
   Joomla.request({
     method: "POST",
     url : Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json',
@@ -111,8 +109,6 @@ Joomla.checkDbCredentials = function() {
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // @todo: Convert to promises
-        document.getElementById('progressdbcheck').removeAttribute('aria-hidden');
-        document.querySelector('#progressdbcheck span').classList.value = 'fa fa-check-circle text-success';
         progress.setAttribute('aria-valuenow', parseInt(progress.getAttribute('aria-valuenow')) + 1);
         progress.style.width = (100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')) + '%';
         Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);

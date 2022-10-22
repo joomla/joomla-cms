@@ -138,44 +138,6 @@ endif;
                 <div class="progress mb-4">
                     <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="<?php echo $steps; ?>"></div>
                 </div>
-                <ul class="list-unstyled" role="status">
-                    <li id="progressdbcheck" aria-hidden="true">
-                        <span class="fa fa-spinner fa-spin text-white"></span>
-                        <?php echo Text::_('INSTL_PROGRESS_STEP_DBCHECK'); ?>
-                    </li>
-                    <li id="progresscreate" aria-hidden="true">
-                        <span class="fa fa-spinner fa-spin text-white"></span>
-                        <?php echo Text::_('INSTL_PROGRESS_STEP_CREATE'); ?>
-                    </li>
-                    <li id="progresspopulate1" aria-hidden="true">
-                        <span class="fa fa-spinner fa-spin text-white"></span>
-                        <?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE1'); ?>
-                    </li>
-                    <li id="progresspopulate2" aria-hidden="true">
-                        <span class="fa fa-spinner fa-spin text-white"></span>
-                        <?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE2'); ?>
-                    </li>
-                    <li id="progresspopulate3" aria-hidden="true">
-                        <span class="fa fa-spinner fa-spin text-white"></span>
-                        <?php echo Text::_('INSTL_PROGRESS_STEP_POPULATE3'); ?>
-                    </li>
-                    <?php if (is_file('sql/mysql/localise.sql')) : ?>
-                        <li id="progresscustom1" aria-hidden="true">
-                            <span class="fa fa-spinner fa-spin text-white"></span>
-                            <?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM1'); ?>
-                        </li>
-                    <?php endif; ?>
-                    <?php if (is_file('sql/mysql/custom.sql')) : ?>
-                        <li id="progresscustom2" aria-hidden="true">
-                            <span class="fa fa-spinner fa-spin text-white"></span>
-                            <?php echo Text::_('INSTL_PROGRESS_STEP_CUSTOM2'); ?>
-                        </li>
-                    <?php endif; ?>
-                    <li id="progressconfig" aria-hidden="true">
-                        <span class="fa fa-spinner fa-spin text-white"></span>
-                        <?php echo Text::_('INSTL_PROGRESS_STEP_CONFIG'); ?>
-                    </li>
-                </ul>
             </div>
         </fieldset>
         <input type="hidden" name="admin_password2" id="jform_admin_password2">

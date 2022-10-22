@@ -165,10 +165,6 @@
 
     var task = tasks.shift();
     var data = Joomla.serialiseForm(form);
-    if (document.querySelector('#progress' + task + ' span')) {
-      document.getElementById('progress' + task).removeAttribute('aria-hidden');
-      document.querySelector('#progress' + task + ' span').classList.remove('text-white');
-    }
 
     Joomla.request({
       method: "POST",
