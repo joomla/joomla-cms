@@ -8,7 +8,7 @@ steps:
   - name: setup
     image: joomlaprojects/docker-images:php8.1
     volumes:
-      - name: certificatesthe tests has been finished succuessful so you don't need to wait till drone is finished
+      - name: certificates
         path: /certificates
     commands:
       - cp -v tests/Codeception/_data/certs/* /certificates/
@@ -118,17 +118,22 @@ steps:
     commands:
       - npm run lint:js
 
-  - name: prepare_codeception_tests
+  - name: prepare_system_tests
     depends_on:
       - npm
     image: joomlaprojects/docker-images:systemtests8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     commands:
-      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
+      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/cypress\\/output/' codeception.yml
       - php libraries/vendor/bin/codecept build
+      - npx cypress install
+      - npx cypress verify
 
   - name: phpmin-api-mysql
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests8.1
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -137,7 +142,7 @@ steps:
 
   - name: phpmax-api-mysql
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -149,13 +154,13 @@ steps:
 
   - name: phpnext-api-mysql
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests8.2
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql phpnext_
 
   - name: phpmin-api-postgres
     depends_on:
@@ -186,7 +191,7 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres phpnext_
 
   - name: phpmin-system-mysql
     depends_on:
@@ -287,6 +292,9 @@ volumes:
   - name: composer-cache
     host:
       path: /tmp/composer-cache
+  - name: cypress-cache
+    host:
+      path: /tmp/cypress-cache
   - name: npm-cache
     host:
       path: /tmp/npm-cache
@@ -407,6 +415,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 4057ed174dee79f1d2a0479e64e302c4830771a786b74d2a5c8694068f76c69d
+hmac: 22556ba5f0908e5356a6126339ec6758f6e409022a4a81c9f72f9d925f40543a
 
 ...
