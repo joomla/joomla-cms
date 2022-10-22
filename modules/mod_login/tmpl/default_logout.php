@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = $this->document->getWebAssetManager();
+$wa = \Joomla\CMS\Factory\Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('keepalive');
 
 ?>
