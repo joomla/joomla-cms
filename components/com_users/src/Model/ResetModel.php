@@ -328,7 +328,7 @@ class ResetModel extends FormModel
         
         $now->modify('-3 days');
 
-        if ($now < $lastReset) {
+        if ($now > $lastReset) {
             $this->setError(Text::_('COM_USERS_RESET_TOKEN_EXPIRED'));
 
             return false;
