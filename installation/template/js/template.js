@@ -195,8 +195,6 @@
           return false;
         }
 
-        if (document.querySelector('#progress' + task + ' span'))
-          document.querySelector('#progress' + task + ' span').classList.value = 'fa fa-check-circle text-success';
         progress.setAttribute('aria-valuenow', parseInt(progress.getAttribute('aria-valuenow')) + 1);
         progress.style.width = (100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')) + '%';
         Joomla.install(tasks, form);
