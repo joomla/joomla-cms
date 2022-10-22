@@ -452,6 +452,8 @@ class FieldModel extends AdminModel
      */
     public function delete(&$pks)
     {
+        $db = $this->getDatabase();
+
         $success = parent::delete($pks);
 
         if ($success) {
@@ -461,20 +463,20 @@ class FieldModel extends AdminModel
 
             if (!empty($pks)) {
                 // Delete Values
-                $query = $this->getDatabase()->getQuery(true);
+                $query = $db->getQuery(true);
 
-                $query->delete($query->quoteName('#__fields_values'))
-                    ->whereIn($query->quoteName('field_id'), $pks);
+                $query->delete($db->quoteName('#__fields_values'))
+                    ->whereIn($db->quoteName('field_id'), $pks);
 
-                $this->getDatabase()->setQuery($query)->execute();
+                $db->setQuery($query)->execute();
 
                 // Delete Assigned Categories
-                $query = $this->getDatabase()->getQuery(true);
+                $query = $db->getQuery(true);
 
-                $query->delete($query->quoteName('#__fields_categories'))
-                    ->whereIn($query->quoteName('field_id'), $pks);
+                $query->delete($db->quoteName('#__fields_categories'))
+                    ->whereIn($db->quoteName('field_id'), $pks);
 
-                $this->getDatabase()->setQuery($query)->execute();
+                $db->setQuery($query)->execute();
             }
         }
 
@@ -620,15 +622,16 @@ class FieldModel extends AdminModel
             $fieldId = (int) $fieldId;
 
             // Deleting the existing record as it is a reset
-            $query = $this->getDatabase()->getQuery(true);
+            $db = $this->getDatabase();
+            $query = $db->getQuery(true);
 
-            $query->delete($query->quoteName('#__fields_values'))
-                ->where($query->quoteName('field_id') . ' = :fieldid')
-                ->where($query->quoteName('item_id') . ' = :itemid')
+            $query->delete($db->quoteName('#__fields_values'))
+                ->where($db->quoteName('field_id') . ' = :fieldid')
+                ->where($db->quoteName('item_id') . ' = :itemid')
                 ->bind(':fieldid', $fieldId, ParameterType::INTEGER)
                 ->bind(':itemid', $itemId);
 
-            $this->getDatabase()->setQuery($query)->execute();
+            $db->setQuery($query)->execute();
         }
 
         if ($needsInsert) {
@@ -703,16 +706,17 @@ class FieldModel extends AdminModel
         // Fill the cache when it doesn't exist
         if (!array_key_exists($key, $this->valueCache)) {
             // Create the query
-            $query = $this->getDatabase()->getQuery(true);
+            $db = $this->getDatabase();
+            $query = $db->getQuery(true);
 
-            $query->select($query->quoteName(['field_id', 'value']))
-                ->from($query->quoteName('#__fields_values'))
-                ->whereIn($query->quoteName('field_id'), ArrayHelper::toInteger($fieldIds))
-                ->where($query->quoteName('item_id') . ' = :itemid')
+            $query->select($db->quoteName(['field_id', 'value']))
+                ->from($db->quoteName('#__fields_values'))
+                ->whereIn($db->quoteName('field_id'), ArrayHelper::toInteger($fieldIds))
+                ->where($db->quoteName('item_id') . ' = :itemid')
                 ->bind(':itemid', $itemId);
 
             // Fetch the row from the database
-            $rows = $this->getDatabase()->setQuery($query)->loadObjectList();
+            $rows = $db->setQuery($query)->loadObjectList();
 
             $data = array();
 
@@ -757,20 +761,21 @@ class FieldModel extends AdminModel
     public function cleanupValues($context, $itemId)
     {
         // Delete with inner join is not possible so we need to do a subquery
-        $fieldsQuery = $this->getDatabase()->getQuery(true);
-        $fieldsQuery->select($fieldsQuery->quoteName('id'))
-            ->from($fieldsQuery->quoteName('#__fields'))
-            ->where($fieldsQuery->quoteName('context') . ' = :context');
+        $db = $this->getDatabase();
+        $fieldsQuery = $db->getQuery(true);
+        $fieldsQuery->select($db->quoteName('id'))
+            ->from($db->quoteName('#__fields'))
+            ->where($db->quoteName('context') . ' = :context');
 
-        $query = $this->getDatabase()->getQuery(true);
+        $query = $db->getQuery(true);
 
-        $query->delete($query->quoteName('#__fields_values'))
-            ->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
-            ->where($query->quoteName('item_id') . ' = :itemid')
+        $query->delete($db->quoteName('#__fields_values'))
+            ->where($db->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
+            ->where($db->quoteName('item_id') . ' = :itemid')
             ->bind(':itemid', $itemId)
             ->bind(':context', $context);
 
-        $this->getDatabase()->setQuery($query)->execute();
+        $db->setQuery($query)->execute();
     }
 
     /**
