@@ -210,7 +210,7 @@ steps:
       - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
       - php libraries/vendor/bin/codecept build
       - npx cypress install
-      - npx cypress run
+      - npx cypress verify
 
   - name: phpmin-api-mysql
     depends_on:
@@ -549,6 +549,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 0f2aeb7acd475e71470c01405d27bc8d7685c33ca9aa4761eb46e49e5cf98f1b
+hmac: 1396d2ad0e2fb83e25e15a928e274e8de9e6a91e7df247d7f84cb78364a027b7
 
 ...
