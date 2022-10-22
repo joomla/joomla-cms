@@ -81,7 +81,6 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
         <?php endif; ?>
     <?php endif; ?>
 
-    <?php $leadingcount = 0; ?>
     <?php if (!empty($this->lead_items)) : ?>
         <div class="com-content-category-blog__items blog-items items-leading <?php echo $this->params->get('blog_class_leading'); ?>">
             <?php foreach ($this->lead_items as &$item) : ?>
@@ -91,15 +90,9 @@ $htag    = $this->params->get('show_page_heading') ? 'h2' : 'h1';
                     echo $this->loadTemplate('item');
                     ?>
                 </div>
-                <?php $leadingcount++; ?>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
-
-    <?php
-    $introcount = count($this->intro_items);
-    $counter = 0;
-    ?>
 
     <?php if (!empty($this->intro_items)) : ?>
         <?php $blogClass = $this->params->get('blog_class', ''); ?>
