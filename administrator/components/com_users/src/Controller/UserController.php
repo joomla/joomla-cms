@@ -118,8 +118,7 @@ class UserController extends FormController
         }
 
         // If a user has to renew a password but has no permission for users
-        if (!$this->app->getIdentity()->authorise('core.admin', 'com_users'))
-        {
+        if (!$this->app->getIdentity()->authorise('core.admin', 'com_users')) {
             $this->setRedirect('index.php');
         }
 
