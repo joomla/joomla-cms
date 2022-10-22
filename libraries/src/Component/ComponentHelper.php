@@ -319,9 +319,9 @@ class ComponentHelper
              *
              * @var    string
              * @since  1.5
-	         *
-	         * #deprecated  4.3 will be removed in 6.0
-	         *              Will be removed without replacement
+             *
+             * #deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
         }
@@ -333,8 +333,8 @@ class ComponentHelper
              * @var    string
              * @since  1.5
              *
-	         * #deprecated  4.3 will be removed in 6.0
-	         *              Will be removed without replacement
+             * #deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
         }
@@ -346,8 +346,8 @@ class ComponentHelper
              * @var    string
              * @since  1.5
              *
-	         * #deprecated  4.3 will be removed in 6.0
-	         *              Will be removed without replacement
+             * #deprecated  4.3 will be removed in 6.0
+             *              Will be removed without replacement
              */
             \define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
         }

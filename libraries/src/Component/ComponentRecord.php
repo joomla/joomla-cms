@@ -85,9 +85,9 @@ class ComponentRecord
      * @return  mixed  The property value or null.
      *
      * @since   3.7.0
-	 *
-	 * #deprecated  4.3 will be removed in 6.0
-	 *              Access the item parameters through the `getParams()` method
+     *
+     * #deprecated  4.3 will be removed in 6.0
+     *              Access the item parameters through the `getParams()` method
      *              Example:
      *              $componentRecord->getParams();
      */
@@ -109,9 +109,9 @@ class ComponentRecord
      * @return  void
      *
      * @since   3.7.0
-	 *
-	 * #deprecated  4.3 will be removed in 6.0
-	 *              Set the item parameters through the `setParams()` method
+     *
+     * #deprecated  4.3 will be removed in 6.0
+     *              Set the item parameters through the `setParams()` method
      *              Example:
      *              $componentRecord->setParams($value);
      */
