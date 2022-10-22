@@ -206,6 +206,9 @@ steps:
     depends_on:
       - npm
     image: joomlaprojects/docker-images:systemtests
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     commands:
       - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
       - php libraries/vendor/bin/codecept build
@@ -549,6 +552,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 1396d2ad0e2fb83e25e15a928e274e8de9e6a91e7df247d7f84cb78364a027b7
+hmac: ed30d13a60c774aee932ea8323ddbf1f571dcfe5a89c883e5fb00ea4bfe30609
 
 ...
