@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom terms and conditions plugin.
  *
