@@ -109,20 +109,31 @@ INSTALLATION
 
 	and then enter 'exit' or 'quit' to exit MySQL.
 
-3. WEB INSTALLER
+3. INSTALLATION
+	The main method of installation is via the web browser. You can start that
+	installation by simply pointing your web browser to http://www.example.org
+	where the Joomla! web based installer will guide you through the rest of
+	the installation.
 
-Finally point your web browser to http://www.example.org where the Joomla! web
-based installer will guide you through the rest of the installation.
+	An alternative method of installation is from the command line. On the command line of your
+	server, in the root folder of Joomla, you can run the following command
+
+		php installation/joomla.php install
+
+	You will be guided through the rest of the installation and ou can get further help by running
+
+		php installation/joomla.php help install
+
 
 4. CONFIGURE Joomla
 
-You can now launch your browser and point it to your Joomla! site eg
+	You can now launch your browser and point it to your Joomla! site eg
 
-	http://www.example.org -> Main Site
-	http://www.example.org/administrator -> Admin
+		http://www.example.org -> Main Site
+		http://www.example.org/administrator -> Admin
 
-You can log into Admin using the username and password that you chose
-during the web based install.
+	You can log into Admin using the username and password that you chose
+	during the install.
 
 
 Joomla! ADMINISTRATION

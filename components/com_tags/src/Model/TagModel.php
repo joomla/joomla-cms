@@ -184,7 +184,7 @@ class TagModel extends ListModel
         $this->setState('params', $params);
 
         // Load state from the request.
-        $ids = (array) $app->input->get('id', array(), 'string');
+        $ids = (array) $app->getInput()->get('id', array(), 'string');
 
         if (count($ids) == 1) {
             $ids = explode(',', $ids[0]);
@@ -200,7 +200,7 @@ class TagModel extends ListModel
         $this->setState('tag.id', $pkString);
 
         // Get the selected list of types from the request. If none are specified all are used.
-        $typesr = $app->input->get('types', array(), 'array');
+        $typesr = $app->getInput()->get('types', array(), 'array');
 
         if ($typesr) {
             // Implode is needed because the array can contain a string with a coma separated list of ids
@@ -213,11 +213,11 @@ class TagModel extends ListModel
             $this->setState('tag.typesr', $typesr);
         }
 
-        $language = $app->input->getString('tag_list_language_filter');
+        $language = $app->getInput()->getString('tag_list_language_filter');
         $this->setState('tag.language', $language);
 
         // List state information
-        $format = $app->input->getWord('format');
+        $format = $app->getInput()->getWord('format');
 
         if ($format === 'feed') {
             $limit = $app->get('feed_limit');
@@ -228,10 +228,10 @@ class TagModel extends ListModel
 
         $this->setState('list.limit', $limit);
 
-        $offset = $app->input->get('limitstart', 0, 'uint');
+        $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.start', $offset);
 
-        $itemid = $pkString . ':' . $app->input->get('Itemid', 0, 'int');
+        $itemid = $pkString . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
         $orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
 
@@ -293,7 +293,7 @@ class TagModel extends ListModel
                         }
                     }
 
-                    if (!in_array($table->access, Factory::getUser()->getAuthorisedViewLevels())) {
+                    if (!in_array($table->access, $this->getCurrentUser()->getAuthorisedViewLevels())) {
                         continue;
                     }
 
@@ -326,7 +326,7 @@ class TagModel extends ListModel
      */
     public function hit($pk = 0)
     {
-        $input    = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

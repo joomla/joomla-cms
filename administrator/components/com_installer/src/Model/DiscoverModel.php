@@ -212,7 +212,7 @@ class DiscoverModel extends InstallerModel
     public function discover_install()
     {
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $eid   = $input->get('cid', 0, 'array');
 
         if (is_array($eid) || $eid) {

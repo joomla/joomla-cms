@@ -6440,6 +6440,7 @@ class JoomlaInstallerScript
             '/plugins/task/checkfiles/checkfiles.php',
             '/plugins/task/demotasks/demotasks.php',
             // From 4.2.0-rc1 to 4.2.0
+            '/build/media_source/com_menus/css/admin-item-edit_modules.css',
             '/administrator/language/en-GB/plg_fields_menuitem.ini',
             '/administrator/language/en-GB/plg_fields_menuitem.sys.ini',
             '/plugins/fields/menuitem/menuitem.php',

@@ -226,12 +226,12 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
         }
 
         // Only on full page requests
-        if ($this->app->input->getCmd('tmpl', 'index') === 'component') {
+        if ($this->app->getInput()->getCmd('tmpl', 'index') === 'component') {
             return false;
         }
 
         // Only to com_cpanel
-        if ($this->app->input->get('option') !== 'com_cpanel') {
+        if ($this->app->getInput()->get('option') !== 'com_cpanel') {
             return false;
         }
 

@@ -66,7 +66,7 @@ class CategoriesModel extends ListModel
         $this->setState('filter.extension', $this->_extension);
 
         // Get the parent id if defined.
-        $parentId = $app->input->getInt('id');
+        $parentId = $app->getInput()->getInt('id');
         $this->setState('filter.parentId', $parentId);
 
         $params = $app->getParams();
