@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model for the display of system information.
  *
@@ -432,8 +436,8 @@ class SysinfoModel extends BaseDatabaseModel
     public function getExtensions(): array
     {
         $installed = [];
-        $db = Factory::getContainer()->get('DatabaseDriver');
-        $query = $db->getQuery(true)
+        $db        = $this->getDatabase();
+        $query     = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__extensions'));
         $db->setQuery($query);

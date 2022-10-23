@@ -15,6 +15,10 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Provides a modal media selector including upload mechanism
  *
@@ -255,7 +259,7 @@ class MediaField extends FormField
         $asset = $this->asset;
 
         if ($asset === '') {
-            $asset = Factory::getApplication()->input->get('option');
+            $asset = Factory::getApplication()->getInput()->get('option');
         }
 
         // Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180

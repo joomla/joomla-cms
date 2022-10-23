@@ -16,6 +16,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Association Helper
  *
@@ -36,7 +40,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
      */
     public static function getAssociations($id = 0, $view = null, $layout = null)
     {
-        $jinput    = Factory::getApplication()->input;
+        $jinput    = Factory::getApplication()->getInput();
         $view      = $view ?? $jinput->get('view');
         $component = $jinput->getCmd('option');
         $id        = empty($id) ? $jinput->getInt('id') : $id;

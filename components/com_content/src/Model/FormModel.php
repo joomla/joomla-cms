@@ -21,6 +21,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Article Model
  *
@@ -46,7 +50,8 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
      */
     protected function populateState()
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Load the parameters.
         $params = $app->getParams();
@@ -59,15 +64,15 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         }
 
         // Load state from the request.
-        $pk = $app->input->getInt('a_id');
+        $pk = $input->getInt('a_id');
         $this->setState('article.id', $pk);
 
-        $this->setState('article.catid', $app->input->getInt('catid', $catId));
+        $this->setState('article.catid', $input->getInt('catid', $catId));
 
-        $return = $app->input->get('return', '', 'base64');
+        $return = $input->get('return', '', 'base64');
         $this->setState('return_page', base64_decode($return));
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $input->getString('layout'));
     }
 
     /**
@@ -101,7 +106,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $value->params = new Registry($value->attribs);
 
         // Compute selected asset permissions.
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $userId = $user->get('id');
         $asset  = 'com_content.article.' . $value->id;
 
@@ -215,7 +220,7 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $user = $app->getIdentity();
 
         // On edit article, we get ID of article from article.id state, but on save, we use data from input
-        $id = (int) $this->getState('article.id', $app->input->getInt('a_id'));
+        $id = (int) $this->getState('article.id', $app->getInput()->getInt('a_id'));
 
         // Existing record. We can't edit the category in frontend if not edit.state.
         if ($id > 0 && !$user->authorise('core.edit.state', 'com_content.article.' . $id)) {

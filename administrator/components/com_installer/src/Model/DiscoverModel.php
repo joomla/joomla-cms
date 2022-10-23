@@ -19,6 +19,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Installer Discover Model
  *
@@ -208,7 +212,7 @@ class DiscoverModel extends InstallerModel
     public function discover_install()
     {
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $eid   = $input->get('cid', 0, 'array');
 
         if (is_array($eid) || $eid) {

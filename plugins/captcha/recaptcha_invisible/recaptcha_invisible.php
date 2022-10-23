@@ -18,6 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Invisible reCAPTCHA Plugin.
  *
@@ -130,7 +134,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
      */
     public function onCheckAnswer($code = null)
     {
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $privatekey = $this->params->get('private_key');
         $remoteip   = IpHelper::getIp();
 

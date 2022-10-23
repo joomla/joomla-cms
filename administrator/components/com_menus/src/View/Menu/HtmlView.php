@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Menus Menu Item View.
  *
@@ -88,7 +92,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $input->set('hidemainmenu', true);
 
         $isNew = ($this->item->id == 0);

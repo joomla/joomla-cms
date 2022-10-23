@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML View class for the Messages component
  *
@@ -83,7 +87,7 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
 
         if ($this->getLayout() == 'edit') {
-            $app->input->set('hidemainmenu', true);
+            $app->getInput()->set('hidemainmenu', true);
             ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-open-text new-privatemessage');
             ToolbarHelper::custom('message.save', 'envelope', '', 'COM_MESSAGES_TOOLBAR_SEND', false);
             ToolbarHelper::cancel('message.cancel');

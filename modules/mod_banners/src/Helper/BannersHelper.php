@@ -16,6 +16,10 @@ use Joomla\CMS\Environment\Browser;
 use Joomla\Component\Banners\Site\Model\BannersModel;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_banners
  *

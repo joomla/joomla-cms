@@ -18,6 +18,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for stage
  *
@@ -83,7 +87,7 @@ class StageModel extends AdminModel
         $context    = $this->option . '.' . $this->name;
         $app        = Factory::getApplication();
         $user       = $app->getIdentity();
-        $input      = $app->input;
+        $input      = $app->getInput();
         $workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
         if (empty($data['workflow_id'])) {
@@ -154,7 +158,7 @@ class StageModel extends AdminModel
 
         $component = reset($parts);
 
-        if (!Factory::getUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default) {
+        if (!$this->getCurrentUser()->authorise('core.delete', $component . '.state.' . (int) $record->id) || $record->default) {
             $this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
 
             return false;
@@ -174,7 +178,7 @@ class StageModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $app = Factory::getApplication();
         $context = $this->option . '.' . $this->name;
         $extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
@@ -355,7 +359,7 @@ class StageModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         $parts = explode('.', $extension);
 

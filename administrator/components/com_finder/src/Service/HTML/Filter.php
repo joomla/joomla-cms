@@ -20,6 +20,10 @@ use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Filter HTML Behaviors for Finder.
  *
@@ -359,7 +363,7 @@ class Filter
             // Check if the branch is in the filter.
             if (array_key_exists($bv->title, $idxQuery->filters)) {
                 // Get the request filters.
-                $temp   = Factory::getApplication()->input->request->get('t', array(), 'array');
+                $temp   = Factory::getApplication()->getInput()->request->get('t', array(), 'array');
 
                 // Search for active nodes in the branch and get the active node.
                 $active = array_intersect($temp, $idxQuery->filters[$bv->title]);

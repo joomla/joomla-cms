@@ -13,6 +13,10 @@
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin class for logout redirect handling.
  *
@@ -53,9 +57,9 @@ class PlgSystemLogout extends CMSPlugin
 
         $hash  = ApplicationHelper::getHash('PlgSystemLogout');
 
-        if ($this->app->input->cookie->getString($hash)) {
+        if ($this->app->getInput()->cookie->getString($hash)) {
             // Destroy the cookie.
-            $this->app->input->cookie->set(
+            $this->app->getInput()->cookie->set(
                 $hash,
                 '',
                 1,
@@ -79,7 +83,7 @@ class PlgSystemLogout extends CMSPlugin
     {
         if ($this->app->isClient('site')) {
             // Create the cookie.
-            $this->app->input->cookie->set(
+            $this->app->getInput()->cookie->set(
                 ApplicationHelper::getHash('PlgSystemLogout'),
                 true,
                 time() + 86400,

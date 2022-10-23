@@ -19,6 +19,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom terms and conditions plugin.
  *
@@ -160,7 +164,7 @@ class PlgUserToken extends CMSPlugin
          * generic and we run the risk of creating naming clashes. Instead, we manipulate the data
          * directly.
          */
-        if (($context === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit')) {
+        if (($context === 'com_users.profile') && ($this->app->getInput()->get('layout') !== 'edit')) {
             $pluginData = $data->{$this->profileKeyPrefix} ?? [];
             $enabled    = $pluginData['enabled'] ?? false;
             $token      = $pluginData['token'] ?? '';
@@ -204,7 +208,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         // If we are on the save command, no data is passed to $data variable, we need to get it directly from request
-        $jformData = $this->app->input->get('jform', [], 'array');
+        $jformData = $this->app->getInput()->get('jform', [], 'array');
 
         if ($jformData && !$data) {
             $data = $jformData;
@@ -251,7 +255,7 @@ class PlgUserToken extends CMSPlugin
         }
 
         // Remove the Reset field when displaying the user profile form
-        if (($form->getName() === 'com_users.profile') && ($this->app->input->get('layout') !== 'edit')) {
+        if (($form->getName() === 'com_users.profile') && ($this->app->getInput()->get('layout') !== 'edit')) {
             $form->removeField('reset', 'joomlatoken');
         }
 

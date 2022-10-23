@@ -19,6 +19,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_languages
  *
@@ -62,7 +66,7 @@ abstract class LanguagesHelper
                 $associations = MenusHelper::getAssociations($active->id);
             }
 
-            $option = $app->input->get('option');
+            $option = $app->getInput()->get('option');
             $component = $app->bootComponent($option);
 
             if ($component instanceof AssociationServiceInterface) {

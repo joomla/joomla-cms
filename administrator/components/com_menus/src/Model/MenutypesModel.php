@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Menu Item Types Model for Menus.
  *
@@ -47,7 +51,7 @@ class MenutypesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $clientId = Factory::getApplication()->input->get('client_id', 0);
+        $clientId = Factory::getApplication()->getInput()->get('client_id', 0);
 
         $this->state->set('client_id', $clientId);
     }
