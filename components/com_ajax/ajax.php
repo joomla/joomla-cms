@@ -34,7 +34,7 @@ $app->allowCache(false);
 $app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
-$input = $app->input;
+$input = $app->getInput();
 
 // Requested format passed via URL
 $format = strtolower($input->getWord('format', ''));

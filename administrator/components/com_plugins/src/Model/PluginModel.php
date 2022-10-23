@@ -229,7 +229,7 @@ class PluginModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('extension_id');
+        $pk = $app->getInput()->getInt('extension_id');
         $this->setState('plugin.id', $pk);
     }
 

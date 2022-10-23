@@ -874,7 +874,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
     {
         // Initialise variables.
         $app   = $this->app;
-        $input = $app->input;
+        $input = $app->getInput();
         $model = $this->getModel();
 
         $data = $input->get('jform', array(), 'array');

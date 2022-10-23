@@ -465,7 +465,7 @@ class AdministratorApplication extends CMSApplication
     {
         /** @var self $app */
         $app    = Factory::getApplication();
-        $option = strtolower($app->input->get('option', ''));
+        $option = strtolower($app->getInput()->get('option', ''));
         $user   = $app->getIdentity();
 
         /**
@@ -492,7 +492,7 @@ class AdministratorApplication extends CMSApplication
          * Force the option to the input object. This is necessary because we might have force-changed the component in
          * the two if-blocks above.
          */
-        $app->input->set('option', $option);
+        $app->getInput()->set('option', $option);
 
         return $option;
     }
