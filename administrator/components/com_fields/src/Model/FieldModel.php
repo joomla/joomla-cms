@@ -31,6 +31,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field Model
  *
@@ -192,12 +196,12 @@ class FieldModel extends AdminModel
         $db->execute();
 
         // Inset new assigned categories
-        $tupel = new \stdClass();
-        $tupel->field_id = $id;
+        $tuple = new \stdClass();
+        $tuple->field_id = $id;
 
         foreach ($assignedCatIds as $catId) {
-            $tupel->category_id = $catId;
-            $db->insertObject('#__fields_categories', $tupel);
+            $tuple->category_id = $catId;
+            $db->insertObject('#__fields_categories', $tuple);
         }
 
         /**
@@ -1105,6 +1109,12 @@ class FieldModel extends AdminModel
 
                 // Reset the ID because we are making a copy
                 $table->id = 0;
+
+                // Alter the title if necessary
+                $data           = $this->generateNewTitle(0, $table->name, $table->title);
+                $table->title   = $data['0'];
+                $table->name    = $data['1'];
+                $table->label   = $data['0'];
 
                 // Unpublish the new field
                 $table->state = 0;

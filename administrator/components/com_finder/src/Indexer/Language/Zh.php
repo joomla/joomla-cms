@@ -13,6 +13,10 @@ namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 use Joomla\Component\Finder\Administrator\Indexer\Language;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Chinese (simplified) language support class for the Finder indexer package.
  *

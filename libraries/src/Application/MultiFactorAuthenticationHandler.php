@@ -25,6 +25,10 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Implements the code required for integrating with Joomla's Multi-factor Authentication.
  *
