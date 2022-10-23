@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
@@ -70,7 +71,7 @@ class PlgContentJoomla extends CMSPlugin
         }
 
         // Check we are handling the frontend edit form.
-        if (!$table->hasField('published') || !in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew) {
+        if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
             return true;
         }
 
