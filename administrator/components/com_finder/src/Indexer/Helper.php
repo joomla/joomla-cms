@@ -398,6 +398,10 @@ class Helper
      */
     public static function addCustomFields(Result $item, $context)
     {
+        if (!ComponentHelper::getParams(strstr($context, '.', true))->get('custom_fields_enable', 1)) {
+            return;
+        }
+
         $obj = new \stdClass();
         $obj->id = $item->id;
 
