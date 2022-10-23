@@ -534,13 +534,15 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'ordering':
+
                                 if (!\in_array($value, $this->filter_fields)) {
                                     $value = $ordering;
                                 }
                                 break;
 
                             case 'direction':
-                                if (!\in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
+
+                                if ($value && (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))) {
                                     $value = $direction;
                                 }
                                 break;
