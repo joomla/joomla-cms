@@ -330,10 +330,13 @@ steps:
       PLUGIN_DEST_DIR: /artifacts
       PLUGIN_SECURE: false
       PLUGIN_EXCLUDE: ^\.git/$
+      GITHUB_TOKEN:
+        from_secret: github_token
     commands:
       - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
       - /bin/upload.sh
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -495,6 +498,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 1b3a2997333d2b7e192c012312e241a7d241a1c484dbc29d30cbfa1b2082007a
+hmac: 815e9bc793f593498490dfbc30cdb8311c9af9100e4129c5ca70d52c4f2ab80a
 
 ...
