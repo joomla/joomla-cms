@@ -325,7 +325,7 @@ class ResetModel extends FormModel
         // Check if the token is expired or not
         $now       = Factory::getDate();
         $lastReset = Factory::getDate($user->lastResetTime);
-        
+
         $now->modify('-3 days');
 
         if ($now > $lastReset) {
