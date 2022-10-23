@@ -312,7 +312,7 @@ class Query
         }
 
         // Get the filters in the request.
-        $t = Factory::getApplication()->input->request->get('t', array(), 'array');
+        $t = Factory::getApplication()->getInput()->request->get('t', array(), 'array');
 
         // Add the dynamic taxonomy filters if present.
         if ((bool) $this->filters) {

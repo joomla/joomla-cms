@@ -62,7 +62,7 @@ class MessageModel extends AdminModel
     {
         parent::populateState();
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         $user  = $this->getCurrentUser();
         $this->setState('user.id', $user->get('id'));
