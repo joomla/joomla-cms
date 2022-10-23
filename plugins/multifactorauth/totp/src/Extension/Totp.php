@@ -30,6 +30,10 @@ use Joomla\Event\SubscriberInterface;
 use Joomla\Input\Input;
 use RuntimeException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Multi-factor Authentication using Google Authenticator TOTP Plugin
  *
@@ -318,7 +322,7 @@ class Totp extends CMSPlugin implements SubscriberInterface
     public function onUserMultifactorValidate(Validate $event): void
     {
         /**
-         * @var   MfaTable $record The MFA Method's record you're validatng against
+         * @var   MfaTable $record The MFA Method's record you're validating against
          * @var   User     $user   The user record
          * @var   string   $code   The submitted code
          */
