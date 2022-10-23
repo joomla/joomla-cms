@@ -852,11 +852,11 @@ class ApplicationModel extends FormModel
         if (is_null($permission)) {
             // Get data from input.
             $permission = array(
-                'component' => $input->Json->get('comp'),
-                'action'    => $input->Json->get('action'),
-                'rule'      => $input->Json->get('rule'),
-                'value'     => $input->Json->get('value'),
-                'title'     => $input->Json->get('title', '', 'RAW')
+                'component' => $input->json->get('comp'),
+                'action'    => $input->json->get('action'),
+                'rule'      => $input->json->get('rule'),
+                'value'     => $input->json->get('value'),
+                'title'     => $input->json->get('title', '', 'RAW')
             );
         }
 
