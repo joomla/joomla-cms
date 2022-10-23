@@ -30,6 +30,7 @@
               required
               autocomplete="off"
               @input="folder = $event.target.value"
+              ref="input"
             >
           </div>
         </form>
@@ -64,6 +65,15 @@ export default {
     return {
       folder: '',
     };
+  },
+  watch: {
+    "$store.state.showCreateFolderModal"(show) {
+      this.$nextTick(() => {
+        if (show && this.$refs.input) {
+          this.$refs.input.focus();
+        }
+      });
+    },
   },
   methods: {
     /* Check if the the form is valid */
