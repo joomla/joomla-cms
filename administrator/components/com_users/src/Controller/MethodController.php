@@ -309,7 +309,7 @@ class MethodController extends BaseControllerAlias
 
         // Ask the plugin to validate the input by calling onUserMultifactorSaveSetup
         $result = [];
-        $input  = $this->app->input;
+        $input  = $this->app->getInput();
 
         $event = new NotifyActionLog('onComUsersControllerMethodBeforeSave', [$id, $user]);
         $this->app->getDispatcher()->dispatch($event->getName(), $event);

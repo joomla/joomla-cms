@@ -200,8 +200,8 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
         $this->debugBar->setStorage(new FileStorage($storagePath));
         $this->debugBar->setHttpDriver(new JoomlaHttpDriver($this->app));
 
-        $this->isAjax = $this->app->input->get('option') === 'com_ajax'
-            && $this->app->input->get('plugin') === 'debug' && $this->app->input->get('group') === 'system';
+        $this->isAjax = $this->app->getInput()->get('option') === 'com_ajax'
+            && $this->app->getInput()->get('plugin') === 'debug' && $this->app->getInput()->get('group') === 'system';
 
         $this->showLogs = (bool) $this->params->get('logs', true);
 
@@ -378,12 +378,12 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        switch ($this->app->input->get('action')) {
+        switch ($this->app->getInput()->get('action')) {
             case 'openhandler':
                 $result  = $event['result'] ?: [];
                 $handler = new OpenHandler($this->debugBar);
 
-                $result[] = $handler->handle($this->app->input->request->getArray(), false, false);
+                $result[] = $handler->handle($this->app->getInput()->request->getArray(), false, false);
                 $event['result'] = $result;
         }
     }
