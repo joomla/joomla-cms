@@ -31,6 +31,11 @@ use Joomla\String\StringHelper;
  */
 class Helper
 {
+    public const CUSTOMFIELDS_DONT_INDEX = 0;
+    public const CUSTOMFIELDS_ADD_TO_INDEX = 1;
+    public const CUSTOMFIELDS_ADD_TO_TAXONOMY = 2;
+    public const CUSTOMFIELDS_ADD_TO_BOTH = 3;
+
     /**
      * Method to parse input into plain text.
      *
@@ -411,14 +416,17 @@ class Helper
             $searchindex = $field->params->get('searchindex', 0);
 
             // We want to add this field to the search index
-            if ($searchindex == 1 || $searchindex == 3) {
+            if ($searchindex == self::CUSTOMFIELDS_ADD_TO_INDEX || $searchindex == self::CUSTOMFIELDS_ADD_TO_BOTH) {
                 $name = 'jsfield_' . $field->name;
                 $item->$name = $field->value;
                 $item->addInstruction(Indexer::META_CONTEXT, $name);
             }
 
             // We want to add this field as a taxonomy
-            if (($searchindex == 1 || $searchindex == 3) && $field->value) {
+            if (
+                ($searchindex == self::CUSTOMFIELDS_ADD_TO_TAXONOMY || $searchindex == self::CUSTOMFIELDS_ADD_TO_BOTH)
+                && $field->value
+            ) {
                 $item->addTaxonomy($field->title, $field->value, $field->state, $field->access, $field->language);
             }
         }
