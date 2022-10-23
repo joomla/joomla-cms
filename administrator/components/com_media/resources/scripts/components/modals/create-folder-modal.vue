@@ -24,13 +24,13 @@
             <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
             <input
               id="folder"
+              ref="input"
               v-model.trim="folder"
               class="form-control"
               type="text"
               required
               autocomplete="off"
               @input="folder = $event.target.value"
-              ref="input"
             >
           </div>
         </form>
@@ -67,6 +67,7 @@ export default {
     };
   },
   watch: {
+    // eslint-disable-next-line
     "$store.state.showCreateFolderModal"(show) {
       this.$nextTick(() => {
         if (show && this.$refs.input) {
