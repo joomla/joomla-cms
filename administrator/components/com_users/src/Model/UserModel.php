@@ -995,7 +995,7 @@ class UserModel extends AdminModel
      * @return  array  Empty array
      *
      * @since   3.2
-     * @deprecated 4.2.0 Wil be removed in 5.0.
+     * @deprecated 4.2.0 Will be removed in 5.0.
      */
     public function generateOteps($userId, $count = 10)
     {
