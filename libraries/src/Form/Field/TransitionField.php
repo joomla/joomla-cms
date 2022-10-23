@@ -66,7 +66,7 @@ class TransitionField extends ListField
         $result = parent::setup($element, $value, $group);
 
         if ($result) {
-            $input = Factory::getApplication()->input;
+            $input = Factory::getApplication()->getInput();
 
             if (\strlen($element['extension'])) {
                 $this->extension = (string) $element['extension'];
@@ -94,7 +94,7 @@ class TransitionField extends ListField
     protected function getOptions()
     {
         // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // Initialise variable.
         $db = $this->getDatabase();

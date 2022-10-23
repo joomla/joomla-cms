@@ -394,6 +394,11 @@ class Result implements \Serializable
      */
     public function addTaxonomy($branch, $title, $state = 1, $access = 1, $language = '')
     {
+        // We can't add taxonomies with empty titles
+        if (!trim($title)) {
+            return;
+        }
+
         // Filter the input.
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
@@ -424,6 +429,11 @@ class Result implements \Serializable
      */
     public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '')
     {
+        // We can't add taxonomies with empty titles
+        if (!trim($contentNode->title)) {
+            return;
+        }
+
         // Filter the input.
         $branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 

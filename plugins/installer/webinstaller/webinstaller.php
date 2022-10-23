@@ -153,7 +153,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
     private function getInstallFrom()
     {
         if ($this->installfrom === null) {
-            $installfrom = base64_decode($this->app->input->getBase64('installfrom', ''));
+            $installfrom = base64_decode($this->app->getInput()->getBase64('installfrom', ''));
 
             $field = new SimpleXMLElement('<field></field>');
 

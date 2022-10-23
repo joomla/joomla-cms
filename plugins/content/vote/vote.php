@@ -130,7 +130,7 @@ class PlgContentVote extends CMSPlugin
         include $path;
         $html = ob_get_clean();
 
-        if ($this->app->input->getString('view', '') === 'article' && $row->state == 1) {
+        if ($this->app->getInput()->getString('view', '') === 'article' && $row->state == 1) {
             // Get the path for the voting form layout file
             $path = PluginHelper::getLayoutPath('content', 'vote', 'vote');
 
