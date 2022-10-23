@@ -13,29 +13,6 @@ steps:
     commands:
       - cp -v tests/Codeception/_data/certs/* /certificates/
 
-  - name: openldap
-    image: bitnami/openldap:latest
-    detach: true
-    ports:
-      - 1389
-      - 1636
-    volumes:
-      - name: certificates
-        path: /certificates
-    environment:
-      LDAP_ADMIN_USERNAME: admin
-      LDAP_ADMIN_PASSWORD: adminpassword
-      LDAP_USERS: customuser
-      LDAP_PASSWORDS: custompassword
-      LDAP_ENABLE_TLS: yes
-      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
-      LDAP_TLS_KEY_FILE: /certificates/openldap.key
-      LDAP_TLS_CA_FILE: /certificates/CA.crt
-      BITNAMI_DEBUG: true
-      LDAP_CONFIG_ADMIN_ENABLED: yes
-      LDAP_CONFIG_ADMIN_USERNAME: admin
-      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
-
   - name: composer
     image: joomlaprojects/docker-images:php8.1
     volumes:
@@ -461,6 +438,6 @@ trigger:
 
 ---
 kind: signature
-hmac: cd808a836d5fdb7e697464bd0fb02b3f9d53151d1cc1b2533b03f1708fcd890b
+hmac: 2a769723f33fd72957407a2a37a28ec3d535be34ce6260765341ec4aed2ac8cf
 
 ...
