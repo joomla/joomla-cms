@@ -11,6 +11,10 @@ namespace Joomla\CMS\Filesystem;
 
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A Unified Diff Format Patcher class
  *
