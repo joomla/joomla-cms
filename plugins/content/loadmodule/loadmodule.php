@@ -110,6 +110,7 @@ class PlgContentLoadmodule extends CMSPlugin
                     $title = '';
                 }
                 // Third paramater is the module style, (fallback is the plugin default set earlier).
+                $stylemod = '';
                 if (array_key_exists(2, $matchesmodlist)) {
                     $stylemod = trim($matchesmodlist[2]);
                 }
