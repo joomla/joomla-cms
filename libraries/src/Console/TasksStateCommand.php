@@ -22,6 +22,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Console command to change the state of tasks.
  *
@@ -69,6 +73,7 @@ class TasksStateCommand extends AbstractCommand
         Factory::getApplication()->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
 
         $this->configureIO($input, $output);
+        $this->ioStyle->title('Change Task State');
 
         $id = (string) $input->getOption('id');
         $state = (string) $input->getOption('state');
