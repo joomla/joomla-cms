@@ -12,6 +12,10 @@ namespace Joomla\CMS\Table;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Update table
  * Stores updates temporarily

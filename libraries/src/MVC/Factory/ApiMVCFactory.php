@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Factory to create MVC objects based on a namespace. Note that in an API Application model and table objects will be
  * created from their administrator counterparts.

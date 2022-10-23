@@ -23,6 +23,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use UnexpectedValueException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
  *
@@ -538,7 +542,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
                     ]
                 )
             );
-            $cbuffer = $cache->get('cbuffer_' . $type);
+            $cbuffer = $cache->get('cbuffer_' . $type) ?: [];
 
             if (isset($cbuffer[$hash])) {
                 return Cache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
@@ -774,8 +778,9 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
 
         // 1.5 or core then 1.6
         $lang->load('tpl_' . $template, JPATH_BASE)
-            || ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits))
-            || $lang->load('tpl_' . $template, $directory . '/' . $template);
+            || ($inherits !== '' && $lang->load('tpl_' . $inherits, JPATH_BASE))
+            || $lang->load('tpl_' . $template, $directory . '/' . $template)
+            || ($inherits !== '' && $lang->load('tpl_' . $inherits, $directory . '/' . $inherits));
 
         // Assign the variables
         $this->baseurl = Uri::base(true);
