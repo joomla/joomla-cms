@@ -258,7 +258,7 @@ class ContactModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('contact.id') == 0) {
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
+                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
             }
         }
 
@@ -278,7 +278,7 @@ class ContactModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;

@@ -301,10 +301,13 @@ steps:
       PLUGIN_DEST_DIR: /artifacts
       PLUGIN_SECURE: false
       PLUGIN_EXCLUDE: ^\.git/$
+      GITHUB_TOKEN:
+        from_secret: github_token
     commands:
       - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
       - /bin/upload.sh
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -342,6 +345,28 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
+  - name: openldap
+    image: bitnami/openldap:latest
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: customuser
+      LDAP_PASSWORDS: custompassword
+      LDAP_ENABLE_TLS: yes
+      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
+      LDAP_TLS_KEY_FILE: /certificates/openldap.key
+      LDAP_TLS_CA_FILE: /certificates/CA.crt
+      BITNAMI_DEBUG: true
+      LDAP_CONFIG_ADMIN_ENABLED: yes
+      LDAP_CONFIG_ADMIN_USERNAME: admin
+      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
+
 ---
 kind: pipeline
 name: package
@@ -372,7 +397,7 @@ steps:
         path: /reference
     when:
       branch:
-        - 5.0-dev
+        - 4.3-dev
 
 ---
 kind: pipeline
@@ -436,6 +461,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 6361e1c8cce6fae43ce731a822cb22b400fb8c852a4e1a2f56004c4b28d64434
+hmac: cd808a836d5fdb7e697464bd0fb02b3f9d53151d1cc1b2533b03f1708fcd890b
 
 ...
