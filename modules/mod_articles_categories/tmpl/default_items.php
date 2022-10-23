@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-$input  = $app->input;
+$input  = $app->getInput();
 $option = $input->getCmd('option');
 $view   = $input->getCmd('view');
 $id     = $input->getInt('id');
@@ -34,11 +34,12 @@ foreach ($list as $item) : ?>
         <?php if ($params->get('show_description', 0)) : ?>
             <?php echo HTMLHelper::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>
         <?php endif; ?>
-        <?php if (
-        $params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0)
+        <?php
+        if (
+            $params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0)
             || ($params->get('maxlevel') >= ($item->level - $startLevel)))
             && count($item->getChildren())
-) : ?>
+        ) : ?>
             <?php echo '<ul>'; ?>
             <?php $temp = $list; ?>
             <?php $list = $item->getChildren(); ?>

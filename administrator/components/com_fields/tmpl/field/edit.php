@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 
 $this->useCoreUI = true;
 

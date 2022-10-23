@@ -234,7 +234,7 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        $extension = $this->app->input->getString('extension');
+        $extension = $this->app->getInput()->getString('extension');
 
         // Default to true if not a core extension
         $result = true;
