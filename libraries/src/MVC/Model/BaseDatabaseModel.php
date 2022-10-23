@@ -303,7 +303,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $app = Factory::getApplication();
 
         $options = [
-            'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+            'defaultgroup' => $group ?: ($this->option ?? $app->getInput()->get('option')),
             'cachebase'    => $app->get('cache_path', JPATH_CACHE),
             'result'       => true,
         ];
