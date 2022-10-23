@@ -300,7 +300,7 @@ class HistoryModel extends ListModel
      */
     protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $itemId = $input->get('item_id', '', 'string');
 
         $this->setState('item_id', $itemId);
@@ -375,7 +375,7 @@ class HistoryModel extends ListModel
     protected function getSha1Hash()
     {
         $result    = false;
-        $item_id   = Factory::getApplication()->input->getCmd('item_id', '');
+        $item_id   = Factory::getApplication()->getInput()->getCmd('item_id', '');
         $typeAlias = explode('.', $item_id);
         Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
         $typeTable = $this->getTable('ContentType');

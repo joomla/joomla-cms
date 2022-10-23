@@ -175,7 +175,7 @@ class ConfirmModel extends AdminModel
             return false;
         }
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->getMethod() === 'GET') {
             $form->setValue('confirm_token', '', $input->get->getAlnum('confirm_token'));

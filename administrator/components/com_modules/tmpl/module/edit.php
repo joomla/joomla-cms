@@ -43,7 +43,7 @@ $wa->useScript('keepalive')
     ->useScript('form.validate')
     ->useScript('com_modules.admin-module-edit');
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // In case of modal
 $isModal = $input->get('layout') === 'modal';

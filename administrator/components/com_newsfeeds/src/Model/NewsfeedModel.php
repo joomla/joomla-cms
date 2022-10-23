@@ -157,7 +157,7 @@ class NewsfeedModel extends AdminModel
             // Prime some default values.
             if ($this->getState('newsfeed.id') == 0) {
                 $app = Factory::getApplication();
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
+                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
             }
         }
 
@@ -177,7 +177,7 @@ class NewsfeedModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;

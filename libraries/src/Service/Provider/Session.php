@@ -87,7 +87,7 @@ class Session implements ServiceProviderInterface
                 }
 
                 return $this->buildSession(
-                    new JoomlaStorage($app->input, $handler, $options),
+                    new JoomlaStorage($app->getInput(), $handler, $options),
                     $app,
                     $container->get(DispatcherInterface::class),
                     $options
@@ -132,7 +132,7 @@ class Session implements ServiceProviderInterface
                 }
 
                 return $this->buildSession(
-                    new JoomlaStorage($app->input, $handler),
+                    new JoomlaStorage($app->getInput(), $handler),
                     $app,
                     $container->get(DispatcherInterface::class),
                     $options
@@ -171,7 +171,7 @@ class Session implements ServiceProviderInterface
                 }
 
                 return $this->buildSession(
-                    new JoomlaStorage($app->input, $handler, $options),
+                    new JoomlaStorage($app->getInput(), $handler, $options),
                     $app,
                     $container->get(DispatcherInterface::class),
                     $options
@@ -304,7 +304,7 @@ class Session implements ServiceProviderInterface
         DispatcherInterface $dispatcher,
         array $options
     ): SessionInterface {
-        $input = $app->input;
+        $input = $app->getInput();
 
         if (method_exists($app, 'afterSessionStart')) {
             $dispatcher->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
