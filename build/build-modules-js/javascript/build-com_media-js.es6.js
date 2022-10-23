@@ -1,11 +1,12 @@
 const { resolve } = require('path');
+const { writeFile } = require('fs').promises;
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const VuePlugin = require('rollup-plugin-vue');
 const commonjs = require('@rollup/plugin-commonjs');
-const { minifyJs } = require('./minify.es6.js');
+const { minifyJsCode } = require('./minify.es6.js');
 
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 
@@ -48,15 +49,20 @@ const buildLegacy = async (file) => {
     sourcemap: false,
     name: 'JoomlaMediaManager',
     file: 'media/com_media/js/media-manager-es5.js',
-  });
+  })
+    .then((value) => minifyJsCode(value.output[0].code))
+    .then((content) => {
+      // eslint-disable-next-line no-console
+      console.log('✅ Legacy Media Manager ready');
+      return writeFile(resolve('media/com_media/js/media-manager-es5.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
 
   // closes the bundle
   await bundle.close();
-
-  // eslint-disable-next-line no-console
-  console.log('Legacy Media Manager ready ✅');
-
-  minifyJs('media/com_media/js/media-manager-es5.js');
 };
 
 module.exports.mediaManager = async () => {
@@ -104,19 +110,26 @@ module.exports.mediaManager = async () => {
     ],
   });
 
-  await bundle.write({
+  bundle.write({
     format: 'es',
     sourcemap: false,
     file: 'media/com_media/js/media-manager.js',
-  });
+  })
+    .then((value) => minifyJsCode(value.output[0].code))
+    .then((content) => {
+      // eslint-disable-next-line no-console
+      console.log('✅ ES2017 Media Manager ready');
+
+      return writeFile(resolve('media/com_media/js/media-manager.min.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+    })
+    .then(() => buildLegacy(resolve('media/com_media/js/media-manager.js')))
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    });
 
   // closes the bundle
   await bundle.close();
-
-  // eslint-disable-next-line no-console
-  console.log('✅ ES2017 Media Manager ready');
-  minifyJs('media/com_media/js/media-manager.js');
-  return buildLegacy(resolve('media/com_media/js/media-manager.js'));
 };
 
 module.exports.watchMediaManager = async () => {
@@ -181,8 +194,8 @@ module.exports.watchMediaManager = async () => {
   watcher.on('event', (event) => {
     if (event.code === 'BUNDLE_END') {
       // eslint-disable-next-line no-console
-      console.log(`File ${event.output[0]} updated ✅
-File ${event.output[1]} updated ✅
+      console.log(`✅ File ${event.output[0]} updated
+✅ File ${event.output[1]} updated
 =========`);
     }
   });
