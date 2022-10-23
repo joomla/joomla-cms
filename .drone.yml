@@ -13,29 +13,6 @@ steps:
     commands:
       - cp -v tests/Codeception/_data/certs/* /certificates/
 
-  - name: openldap
-    image: bitnami/openldap:latest
-    detach: true
-    ports:
-      - 1389
-      - 1636
-    volumes:
-      - name: certificates
-        path: /certificates
-    environment:
-      LDAP_ADMIN_USERNAME: admin
-      LDAP_ADMIN_PASSWORD: adminpassword
-      LDAP_USERS: customuser
-      LDAP_PASSWORDS: custompassword
-      LDAP_ENABLE_TLS: yes
-      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
-      LDAP_TLS_KEY_FILE: /certificates/openldap.key
-      LDAP_TLS_CA_FILE: /certificates/CA.crt
-      BITNAMI_DEBUG: true
-      LDAP_CONFIG_ADMIN_ENABLED: yes
-      LDAP_CONFIG_ADMIN_USERNAME: admin
-      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
-
   - name: composer
     image: joomlaprojects/docker-images:php7.4
     volumes:
@@ -402,6 +379,28 @@ services:
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
 
+  - name: openldap
+    image: bitnami/openldap:latest
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: customuser
+      LDAP_PASSWORDS: custompassword
+      LDAP_ENABLE_TLS: yes
+      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
+      LDAP_TLS_KEY_FILE: /certificates/openldap.key
+      LDAP_TLS_CA_FILE: /certificates/CA.crt
+      BITNAMI_DEBUG: true
+      LDAP_CONFIG_ADMIN_ENABLED: yes
+      LDAP_CONFIG_ADMIN_USERNAME: admin
+      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
+
 ---
 kind: pipeline
 name: package
@@ -496,6 +495,6 @@ trigger:
 
 ---
 kind: signature
-hmac: b2fa236b4aa755698a44302f0e436a4da9025d9a40365c27b6f888487aa93af6
+hmac: 1b3a2997333d2b7e192c012312e241a7d241a1c484dbc29d30cbfa1b2082007a
 
 ...
