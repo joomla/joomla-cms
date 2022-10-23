@@ -131,7 +131,7 @@ class UserController extends BaseController
 
         // Perform the log out.
         $error = $app->logout(null, $options);
-        $input = $app->input->getInputForRequestMethod();
+        $input = $app->getInput()->getInputForRequestMethod();
 
         // Check if the log out succeeded.
         if ($error instanceof \Exception) {
@@ -194,7 +194,7 @@ class UserController extends BaseController
                 $url = 'index.php?Itemid=' . $itemid . ($language !== '*' ? '&lang=' . $language : '');
             } else {
                 // Logout is set to default. Get the home page ItemID
-                $lang_code = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+                $lang_code = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
                 $item      = $app->getMenu()->getDefault($lang_code);
                 $itemid    = $item->id;
 

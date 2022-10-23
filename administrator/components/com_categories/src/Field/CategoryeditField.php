@@ -150,7 +150,7 @@ class CategoryeditField extends ListField
         $name = (string) $this->element['name'];
 
         // Let's get the id for the current item, either category or content item.
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // Load the category options for a given extension.
 
