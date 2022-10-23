@@ -135,6 +135,9 @@ steps:
     depends_on:
       - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -197,6 +200,9 @@ steps:
     depends_on:
       - phpnext-api-mysql
     image: joomlaprojects/docker-images:cypress8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -206,6 +212,9 @@ steps:
     depends_on:
       - phpmin-system-mysql
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -218,6 +227,9 @@ steps:
     depends_on:
       - phpmax-system-mysql
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -228,6 +240,9 @@ steps:
     depends_on:
       - phpnext-api-postgres
     image: joomlaprojects/docker-images:cypress8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -237,6 +252,9 @@ steps:
     depends_on:
       - phpmin-system-postgres
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -249,6 +267,9 @@ steps:
     depends_on:
       - phpmax-system-postgres
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -415,6 +436,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 22556ba5f0908e5356a6126339ec6758f6e409022a4a81c9f72f9d925f40543a
+hmac: 6361e1c8cce6fae43ce731a822cb22b400fb8c852a4e1a2f56004c4b28d64434
 
 ...
