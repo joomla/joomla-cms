@@ -104,6 +104,10 @@ class UserController extends BaseController
         }
 
         $this->app->setUserState('users.login.form.data', array());
+
+        // Show a message when a user is logged in.
+        $this->app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGIN_SUCCESS'), 'message');
+
         $this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
     }
 
@@ -156,6 +160,11 @@ class UserController extends BaseController
         // In case redirect url is not set, redirect user to homepage
         if (empty($return)) {
             $return = Uri::root();
+        }
+
+        // Show a message when a user is logged out.
+        if ($app->getIdentity()->guest) {
+            $app->enqueueMessage(Text::_('COM_USERS_FRONTEND_LOGOUT_SUCCESS'), 'message');
         }
 
         // Redirect the user.
