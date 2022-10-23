@@ -198,11 +198,12 @@ if ($saveOrder && !empty($this->items)) {
         <?php endif; ?>
 
         <?php // Load the batch processing form. ?>
-        <?php if (
-        $user->authorise('core.create', 'com_modules')
+        <?php
+        if (
+            $user->authorise('core.create', 'com_modules')
             && $user->authorise('core.edit', 'com_modules')
             && $user->authorise('core.edit.state', 'com_modules')
-) : ?>
+        ) : ?>
             <?php echo HTMLHelper::_(
                 'bootstrap.renderModal',
                 'collapseModal',
