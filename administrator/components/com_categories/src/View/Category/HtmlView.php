@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -233,7 +234,11 @@ class HtmlView extends BaseHtmlView
                 ToolbarHelper::versions($typeAlias, $this->item->id);
             }
 
-            if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations')) {
+            if (
+                Associations::isEnabled() &&
+                ComponentHelper::isEnabled('com_associations') &&
+                AssociationsHelper::hasSupport($component)
+            ) {
                 ToolbarHelper::custom('category.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
             }
         }
