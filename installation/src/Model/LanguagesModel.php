@@ -25,6 +25,10 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Language Installer model for the Joomla Core Installer.
  *
@@ -510,7 +514,7 @@ class LanguagesModel extends BaseInstallationModel implements DatabaseAwareInter
     public function getForm($view = null)
     {
         if (!$view) {
-            $view = Factory::getApplication()->input->getWord('view', 'defaultlanguage');
+            $view = Factory::getApplication()->getInput()->getWord('view', 'defaultlanguage');
         }
 
         // Get the form.

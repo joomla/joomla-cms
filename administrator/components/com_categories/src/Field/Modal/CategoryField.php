@@ -18,6 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a modal category picker.
  *
@@ -45,7 +49,7 @@ class CategoryField extends FormField
         if ($this->element['extension']) {
             $extension = (string) $this->element['extension'];
         } else {
-            $extension = (string) Factory::getApplication()->input->get('extension', 'com_content');
+            $extension = (string) Factory::getApplication()->getInput()->get('extension', 'com_content');
         }
 
         $allowNew       = ((string) $this->element['new'] == 'true');

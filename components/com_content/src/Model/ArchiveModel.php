@@ -15,6 +15,10 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Archive Model
  *
@@ -45,7 +49,8 @@ class ArchiveModel extends ArticlesModel
     {
         parent::populateState();
 
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Add archive properties
         $params = $this->state->get('params');
@@ -54,14 +59,14 @@ class ArchiveModel extends ArticlesModel
         $this->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
 
         // Filter on month, year
-        $this->setState('filter.month', $app->input->getInt('month'));
-        $this->setState('filter.year', $app->input->getInt('year'));
+        $this->setState('filter.month', $input->getInt('month'));
+        $this->setState('filter.year', $input->getInt('year'));
 
         // Optional filter text
-        $this->setState('list.filter', $app->input->getString('filter-search'));
+        $this->setState('list.filter', $input->getString('filter-search'));
 
         // Get list limit
-        $itemid = $app->input->get('Itemid', 0, 'int');
+        $itemid = $input->get('Itemid', 0, 'int');
         $limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num', 20), 'uint');
         $this->setState('list.limit', $limit);
 
@@ -87,7 +92,7 @@ class ArchiveModel extends ArticlesModel
     {
         $params           = $this->state->params;
         $app              = Factory::getApplication();
-        $catids           = $app->input->get('catid', array(), 'array');
+        $catids           = $app->getInput()->get('catid', array(), 'array');
         $catids           = array_values(array_diff($catids, array('')));
 
         $articleOrderDate = $params->get('order_date');
@@ -141,8 +146,8 @@ class ArchiveModel extends ArticlesModel
             $params = $app->getParams();
 
             // Get the pagination request variables
-            $limit      = $app->input->get('limit', $params->get('display_num', 20), 'uint');
-            $limitstart = $app->input->get('limitstart', 0, 'uint');
+            $limit      = $app->getInput()->get('limit', $params->get('display_num', 20), 'uint');
+            $limitstart = $app->getInput()->get('limitstart', 0, 'uint');
 
             $query = $this->_buildQuery();
 

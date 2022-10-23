@@ -31,7 +31,7 @@ $wa->useScript('keepalive')
     ->useScript('com_menus.admin-item-edit');
 
 $assoc = Associations::isEnabled();
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';
@@ -105,29 +105,6 @@ if ($clientId === 1) {
                 ?>
             </div>
             <div class="col-lg-3">
-                <?php
-                    // Set main fields.
-                    $this->fields = array(
-                        'id',
-                        'client_id',
-                        'menutype',
-                        'parent_id',
-                        'menuordering',
-                        'published',
-                        'publish_up',
-                        'publish_down',
-                        'home',
-                        'access',
-                        'language',
-                        'note',
-                    );
-
-                    if ($this->item->type != 'component') {
-                        $this->fields = array_diff($this->fields, array('home'));
-                        $this->form->setFieldAttribute('publish_up', 'showon', '');
-                        $this->form->setFieldAttribute('publish_down', 'showon', '');
-                    }
-                    ?>
                 <?php
                     // Set main fields.
                     $this->fields = array(

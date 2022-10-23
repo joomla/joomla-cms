@@ -15,6 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Query HTML behavior class for Finder.
  *
@@ -73,7 +77,7 @@ class Query
         // Process the taxonomy filters.
         if (!empty($query->filters)) {
             // Get the filters in the request.
-            $t = Factory::getApplication()->input->request->get('t', array(), 'array');
+            $t = Factory::getApplication()->getInput()->request->get('t', array(), 'array');
 
             // Process the taxonomy branches.
             foreach ($query->filters as $branch => $nodes) {

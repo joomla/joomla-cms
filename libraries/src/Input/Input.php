@@ -11,6 +11,10 @@ namespace Joomla\CMS\Input;
 
 use Joomla\CMS\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Input Base Class
  *
@@ -26,6 +30,7 @@ use Joomla\CMS\Filter\InputFilter;
  * @property-read   Input   $env
  * @property-read   Files   $files
  * @property-read   Cookie  $cookie
+ * @property-read   Json    $json
  */
 class Input extends \Joomla\Input\Input
 {

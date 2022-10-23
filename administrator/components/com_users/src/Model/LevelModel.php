@@ -20,6 +20,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User view level model.
  *
@@ -50,7 +54,7 @@ class LevelModel extends AdminModel
             throw new \RuntimeException('Invalid rules schema');
         }
 
-        $isAdmin = Factory::getUser()->authorise('core.admin');
+        $isAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Check permissions
         foreach ($groups as $group) {
@@ -253,7 +257,7 @@ class LevelModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        $isSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $isSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         // Non Super user should not be able to change the access levels of super user groups
         if (!$isSuperAdmin) {

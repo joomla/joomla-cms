@@ -22,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Input\Input;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Controller tailored to suit most form-based admin operations.
  *
@@ -870,7 +874,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
     {
         // Initialise variables.
         $app   = $this->app;
-        $input = $app->input;
+        $input = $app->getInput();
         $model = $this->getModel();
 
         $data = $input->get('jform', array(), 'array');

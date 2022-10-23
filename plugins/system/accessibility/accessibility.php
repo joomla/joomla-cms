@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * System plugin to add additional accessibility features to the administrator interface.
  *
@@ -51,7 +55,7 @@ class PlgSystemAccessibility extends CMSPlugin
         }
 
         // Are we in a modal?
-        if ($this->app->input->get('tmpl', '', 'cmd') === 'component') {
+        if ($this->app->getInput()->get('tmpl', '', 'cmd') === 'component') {
             return;
         }
 

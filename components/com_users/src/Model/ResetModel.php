@@ -22,6 +22,10 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Reset model class for Users.
  *
@@ -95,7 +99,7 @@ class ResetModel extends FormModel
         if (empty($form)) {
             return false;
         } else {
-            $form->setValue('token', '', Factory::getApplication()->input->get('token'));
+            $form->setValue('token', '', Factory::getApplication()->getInput()->get('token'));
         }
 
         return $form;

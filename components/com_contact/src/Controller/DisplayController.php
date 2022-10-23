@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Contact Component Controller
  *
@@ -35,7 +39,7 @@ class DisplayController extends BaseController
     public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         // Contact frontpage Editor contacts proxying.
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal') {
             $config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;

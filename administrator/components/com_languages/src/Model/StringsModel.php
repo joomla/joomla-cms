@@ -18,6 +18,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Strings Model
  *
@@ -127,7 +131,7 @@ class StringsModel extends BaseDatabaseModel
     public function search()
     {
         $results = array();
-        $input   = Factory::getApplication()->input;
+        $input   = Factory::getApplication()->getInput();
         $filter  = InputFilter::getInstance();
         $db      = $this->getDatabase();
         $searchTerm = $input->getString('searchstring');

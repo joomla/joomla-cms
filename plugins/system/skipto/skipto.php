@@ -14,6 +14,10 @@ use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Skipto plugin to add accessible keyboard navigation to the site and administrator templates.
  *
@@ -52,7 +56,7 @@ class PlgSystemSkipto extends CMSPlugin
         }
 
         // Are we in a modal?
-        if ($this->app->input->get('tmpl', '', 'cmd') === 'component') {
+        if ($this->app->getInput()->get('tmpl', '', 'cmd') === 'component') {
             return;
         }
 

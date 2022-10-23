@@ -18,6 +18,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Pagenavigation plugin class.
  *
@@ -40,8 +44,8 @@ class PlgContentPagenavigation extends CMSPlugin
     public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
     {
         $app   = Factory::getApplication();
-        $view  = $app->input->get('view');
-        $print = $app->input->getBool('print');
+        $view  = $app->getInput()->get('view');
+        $print = $app->getInput()->getBool('print');
 
         if ($print) {
             return false;

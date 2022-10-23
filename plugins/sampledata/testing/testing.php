@@ -19,6 +19,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseDriver;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Sampledata - Testing Plugin
  *
@@ -99,7 +103,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep1()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -196,7 +200,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep2()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -360,7 +364,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep3()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -579,7 +583,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep4()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -988,7 +992,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep5()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1315,7 +1319,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep6()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1433,7 +1437,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep7()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -3118,7 +3122,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep8()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 

@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Updater;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Data object representing a download source given as part of an update's `<downloads>` element
  *

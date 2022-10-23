@@ -14,6 +14,10 @@ use Exception;
 use Joomla\CMS\Event\Plugin\System\Webauthn\AjaxSaveLabel;
 use Joomla\CMS\User\User;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Ajax handler for akaction=savelabel
  *
@@ -35,7 +39,7 @@ trait AjaxHandlerSaveLabel
     public function onAjaxWebauthnSavelabel(AjaxSaveLabel $event): void
     {
         // Initialize objects
-        $input      = $this->getApplication()->input;
+        $input      = $this->getApplication()->getInput();
         $repository = $this->authenticationHelper->getCredentialsRepository();
 
         // Retrieve data from the request

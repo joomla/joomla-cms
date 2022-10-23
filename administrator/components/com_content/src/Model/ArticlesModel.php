@@ -22,6 +22,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of article records.
  *
@@ -121,12 +125,13 @@ class ArticlesModel extends ListModel
      */
     protected function populateState($ordering = 'a.id', $direction = 'desc')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $input->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $input->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -150,7 +155,7 @@ class ArticlesModel extends ListModel
         $language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
         $this->setState('filter.language', $language);
 
-        $formSubmitted = $app->input->post->get('form_submitted');
+        $formSubmitted = $input->post->get('form_submitted');
 
         // Gets the value of a user state variable and sets it in the session
         $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
@@ -159,16 +164,16 @@ class ArticlesModel extends ListModel
         $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
         if ($formSubmitted) {
-            $access = $app->input->post->get('access');
+            $access = $input->post->get('access');
             $this->setState('filter.access', $access);
 
-            $authorId = $app->input->post->get('author_id');
+            $authorId = $input->post->get('author_id');
             $this->setState('filter.author_id', $authorId);
 
-            $categoryId = $app->input->post->get('category_id');
+            $categoryId = $input->post->get('category_id');
             $this->setState('filter.category_id', $categoryId);
 
-            $tag = $app->input->post->get('tag');
+            $tag = $input->post->get('tag');
             $this->setState('filter.tag', $tag);
         }
 
@@ -221,7 +226,7 @@ class ArticlesModel extends ListModel
         // Create a new query object.
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         $params = ComponentHelper::getParams('com_content');
 
@@ -549,7 +554,7 @@ class ArticlesModel extends ListModel
         }
 
         $db   = $this->getDatabase();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $items = $this->getItems();
 

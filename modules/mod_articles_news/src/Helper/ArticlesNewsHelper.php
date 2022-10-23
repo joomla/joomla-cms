@@ -23,6 +23,10 @@ use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_articles_news
  *
@@ -85,14 +89,16 @@ class ArticlesNewsHelper implements DatabaseAwareInterface
             $model->setState('filter.featured', 'hide');
         }
 
+        $input = $app->getInput();
+
         // Filter by id in case it should be excluded
         if (
             $params->get('exclude_current', true)
-            && $app->input->get('option') === 'com_content'
-            && $app->input->get('view') === 'article'
+            && $input->get('option') === 'com_content'
+            && $input->get('view') === 'article'
         ) {
             // Exclude the current article from displaying in this module
-            $model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
+            $model->setState('filter.article_id', $input->get('id', 0, 'UINT'));
             $model->setState('filter.article_id.include', false);
         }
 

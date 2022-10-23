@@ -30,6 +30,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Prototype admin model.
  *
@@ -415,7 +419,7 @@ abstract class AdminModel extends FormModel
         }
 
         $newIds = array();
-        $db     = $this->getDatabase();
+        $db     = $this->getDbo();
 
         // Parent exists so let's proceed
         while (!empty($pks)) {
@@ -840,7 +844,7 @@ abstract class AdminModel extends FormModel
 
                     // Multilanguage: if associated, delete the item in the _associations table
                     if ($this->associationsContext && Associations::isEnabled()) {
-                        $db = $this->getDatabase();
+                        $db = $this->getDbo();
                         $query = $db->getQuery(true)
                             ->select(
                                 [
@@ -1021,7 +1025,7 @@ abstract class AdminModel extends FormModel
         $key = $table->getKeyName();
 
         // Get the pk of the record from the request.
-        $pk = Factory::getApplication()->input->getInt($key);
+        $pk = Factory::getApplication()->getInput()->getInt($key);
         $this->setState($this->getName() . '.id', $pk);
 
         // Load the parameters.
@@ -1305,7 +1309,7 @@ abstract class AdminModel extends FormModel
             }
 
             // Get associationskey for edited item
-            $db    = $this->getDatabase();
+            $db    = $this->getDbo();
             $id    = (int) $table->$key;
             $query = $db->getQuery(true)
                 ->select($db->quoteName('key'))
@@ -1375,7 +1379,7 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        if ($app->input->get('task') == 'editAssociations') {
+        if ($app->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 
@@ -1496,7 +1500,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Check that the user has create permission for the component
-        $extension = Factory::getApplication()->input->get('option', '');
+        $extension = Factory::getApplication()->getInput()->get('option', '');
         $user = Factory::getUser();
 
         if (!$user->authorise('core.create', $extension . '.category.' . $categoryId)) {
@@ -1592,7 +1596,7 @@ abstract class AdminModel extends FormModel
 
         // Deal with categories associations
         if ($this->text_prefix === 'COM_CATEGORIES') {
-            $extension       = $app->input->get('extension', 'com_content');
+            $extension       = $app->getInput()->get('extension', 'com_content');
             $this->typeAlias = $extension . '.category';
             $component       = strtolower($this->text_prefix);
             $view            = 'category';

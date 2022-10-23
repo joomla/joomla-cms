@@ -17,6 +17,10 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Setup model for the Joomla Core Installer.
  *
@@ -91,7 +95,7 @@ class SetupModel extends BaseInstallationModel
     public function getForm($view = null)
     {
         if (!$view) {
-            $view = Factory::getApplication()->input->getWord('view', 'setup');
+            $view = Factory::getApplication()->getInput()->getWord('view', 'setup');
         }
 
         // Get the form.
@@ -128,7 +132,7 @@ class SetupModel extends BaseInstallationModel
     public function checkForm($page = 'setup')
     {
         // Get the posted values from the request and validate them.
-        $data   = Factory::getApplication()->input->post->get('jform', array(), 'array');
+        $data   = Factory::getApplication()->getInput()->post->get('jform', array(), 'array');
         $return = $this->validate($data, $page);
 
         // Attempt to save the data before validation.

@@ -22,6 +22,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User group model.
  *
@@ -177,7 +181,7 @@ class GroupModel extends AdminModel
         }
 
         // Check for non-super admin trying to save with super admin group
-        $iAmSuperAdmin = Factory::getUser()->authorise('core.admin');
+        $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
 
         if (!$iAmSuperAdmin && $groupSuperAdmin) {
             $this->setError(Text::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
@@ -191,7 +195,7 @@ class GroupModel extends AdminModel
          */
         if ($iAmSuperAdmin) {
             // Next, are we a member of the current group?
-            $myGroups = Access::getGroupsByUser(Factory::getUser()->get('id'), false);
+            $myGroups = Access::getGroupsByUser($this->getCurrentUser()->get('id'), false);
 
             if (in_array($data['id'], $myGroups)) {
                 // Now, would we have super admin permissions without the current group?
@@ -214,7 +218,7 @@ class GroupModel extends AdminModel
             }
         }
 
-        if (Factory::getApplication()->input->get('task') == 'save2copy') {
+        if (Factory::getApplication()->getInput()->get('task') == 'save2copy') {
             $data['title'] = $this->generateGroupTitle($data['parent_id'], $data['title']);
         }
 
@@ -236,7 +240,7 @@ class GroupModel extends AdminModel
     {
         // Typecast variable.
         $pks    = (array) $pks;
-        $user   = Factory::getUser();
+        $user   = $this->getCurrentUser();
         $groups = Access::getGroupsByUser($user->get('id'));
 
         // Get a row instance.

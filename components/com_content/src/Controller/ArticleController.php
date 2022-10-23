@@ -19,6 +19,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content article class.
  *
@@ -343,7 +347,7 @@ class ArticleController extends FormController
         }
 
         $app       = $this->app;
-        $articleId = $app->input->getInt('a_id');
+        $articleId = $app->getInput()->getInt('a_id');
 
         // Load the parameters.
         $params   = $app->getParams();

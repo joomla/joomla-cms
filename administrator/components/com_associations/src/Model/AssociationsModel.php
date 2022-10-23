@@ -19,6 +19,10 @@ use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of article records.
  *
@@ -75,11 +79,11 @@ class AssociationsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
-        $forcedItemType = $app->input->get('forcedItemType', '', 'string');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
+        $forcedItemType = $app->getInput()->get('forcedItemType', '', 'string');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -170,7 +174,7 @@ class AssociationsModel extends ListModel
         }
 
         // Create a new query object.
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $db       = $this->getDatabase();
         $query    = $db->getQuery(true);
 

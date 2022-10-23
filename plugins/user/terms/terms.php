@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom terms and conditions plugin.
  *
@@ -106,9 +110,10 @@ class PlgUserTerms extends CMSPlugin
         }
 
         // Check that the terms is checked if required ie only in registration from frontend.
-        $option = $this->app->input->get('option');
-        $task   = $this->app->input->post->get('task');
-        $form   = $this->app->input->post->get('jform', [], 'array');
+        $input  = $this->app->getInput();
+        $option = $input->get('option');
+        $task   = $input->post->get('task');
+        $form   = $input->post->get('jform', [], 'array');
 
         if ($option == 'com_users' && in_array($task, ['registration.register']) && empty($form['terms']['terms'])) {
             throw new InvalidArgumentException(Text::_('PLG_USER_TERMS_FIELD_ERROR'));
