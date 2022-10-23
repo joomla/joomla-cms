@@ -34,6 +34,10 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\EventReturnAware;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * WebAuthn Passwordless Login plugin
  *
@@ -45,33 +49,8 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  */
 final class Webauthn extends CMSPlugin implements SubscriberInterface
 {
-    use CoreEventAware;
-
-    /**
-     * Autoload the language files
-     *
-     * @var    boolean
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $autoloadLanguage = true;
-
-    /**
-     * Should I try to detect and register legacy event listeners?
-     *
-     * @var    boolean
-     * @since  __DEPLOY_VERSION__
-     *
-     * @deprecated
-     */
-    protected $allowLegacyListeners = false;
-
-    /**
-     * The WebAuthn authentication helper object
-     *
-     * @var   Authentication
-     * @since __DEPLOY_VERSION__
-     */
-    protected $authenticationHelper;
+    // Add WebAuthn buttons
+    use AdditionalLoginButtons;
 
     // AJAX request handlers
     use AjaxHandler;
@@ -82,17 +61,41 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
     use AjaxHandlerChallenge;
     use AjaxHandlerLogin;
 
+    // Utility methods for setting the events' return values
+    use EventReturnAware;
+    use CoreEventAware;
+
     // Custom user profile fields
     use UserProfileFields;
 
     // Handle user profile deletion
     use UserDeletion;
 
-    // Add WebAuthn buttons
-    use AdditionalLoginButtons;
+    /**
+     * Autoload the language files
+     *
+     * @var    boolean
+     * @since  4.2.0
+     */
+    protected $autoloadLanguage = true;
 
-    // Utility methods for setting the events' return values
-    use EventReturnAware;
+    /**
+     * Should I try to detect and register legacy event listeners?
+     *
+     * @var    boolean
+     * @since  4.2.0
+     *
+     * @deprecated
+     */
+    protected $allowLegacyListeners = false;
+
+    /**
+     * The WebAuthn authentication helper object
+     *
+     * @var   Authentication
+     * @since 4.2.0
+     */
+    protected $authenticationHelper;
 
     /**
      * Constructor. Loads the language files as well.
@@ -130,7 +133,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
             ], $logLevels, ["webauthn.system"]);
 
         $this->authenticationHelper = $authHelper ?? (new Authentication());
-        $this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 1) == 1);
+        $this->authenticationHelper->setAttestationSupport($this->params->get('attestationSupport', 0) == 1);
     }
 
     /**
@@ -138,7 +141,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @return Authentication
      *
-     * @since  __DEPLOY_VERSION__
+     * @since  4.2.0
      */
     public function getAuthenticationHelper(): Authentication
     {
@@ -150,7 +153,7 @@ final class Webauthn extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.0
      */
     public static function getSubscribedEvents(): array
     {
