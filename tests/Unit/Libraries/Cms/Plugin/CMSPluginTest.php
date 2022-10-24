@@ -245,62 +245,6 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can translate a string without arguments
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     */
-    public function testTranslateWithoutArguments()
-    {
-        $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
-        $language->method('_')->willReturn('test');
-
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($language);
-
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
-            public function test(): string
-            {
-                return parent::translate('unit');
-            }
-        };
-        $plugin->setApplication($app);
-
-        $this->assertEquals('test', $plugin->test());
-    }
-
-    /**
-     * @testdox  can translate a string with arguments
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     */
-    public function testTranslateWithArguments()
-    {
-        $dispatcher = new Dispatcher();
-        $language = $this->createMock(Language::class);
-        $language->method('_')->willReturn('test %s in %s');
-
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($language);
-
-        $plugin = new class ($dispatcher, []) extends CMSPlugin
-        {
-            public function test(): string
-            {
-                return parent::translate('unit', 1, 'two');
-            }
-        };
-        $plugin->setApplication($app);
-
-        $this->assertEquals('test 1 in two', $plugin->test());
-    }
-
-    /**
      * @testdox  can register the listeners when is SubscriberInterface
      *
      * @return  void
