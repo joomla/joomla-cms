@@ -95,7 +95,7 @@ class SetupModel extends BaseInstallationModel
     public function getForm($view = null)
     {
         if (!$view) {
-            $view = Factory::getApplication()->input->getWord('view', 'setup');
+            $view = Factory::getApplication()->getInput()->getWord('view', 'setup');
         }
 
         // Get the form.

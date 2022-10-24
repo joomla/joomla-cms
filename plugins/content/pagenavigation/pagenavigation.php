@@ -44,8 +44,8 @@ class PlgContentPagenavigation extends CMSPlugin
     public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
     {
         $app   = Factory::getApplication();
-        $view  = $app->input->get('view');
-        $print = $app->input->getBool('print');
+        $view  = $app->getInput()->get('view');
+        $print = $app->getInput()->getBool('print');
 
         if ($print) {
             return false;
