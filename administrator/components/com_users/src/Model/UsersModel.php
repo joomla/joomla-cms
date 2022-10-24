@@ -89,14 +89,15 @@ class UsersModel extends ListModel
      */
     protected function populateState($ordering = 'a.name', $direction = 'asc')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout', 'default', 'cmd')) {
+        if ($layout = $input->get('layout', 'default', 'cmd')) {
             $this->context .= '.' . $layout;
         }
 
-        $groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
+        $groups = json_decode(base64_decode($input->get('groups', '', 'BASE64')));
 
         if (isset($groups)) {
             $groups = ArrayHelper::toInteger($groups);
@@ -104,7 +105,7 @@ class UsersModel extends ListModel
 
         $this->setState('filter.groups', $groups);
 
-        $excluded = json_decode(base64_decode($app->input->get('excluded', '', 'BASE64')));
+        $excluded = json_decode(base64_decode($input->get('excluded', '', 'BASE64')));
 
         if (isset($excluded)) {
             $excluded = ArrayHelper::toInteger($excluded);

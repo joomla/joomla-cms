@@ -48,7 +48,7 @@ class MessagesModel extends BaseDatabaseModel
     {
         parent::populateState();
 
-        $eid = (int) Factory::getApplication()->input->getInt('eid');
+        $eid = (int) Factory::getApplication()->getInput()->getInt('eid');
 
         if ($eid) {
             $this->setState('eid', $eid);

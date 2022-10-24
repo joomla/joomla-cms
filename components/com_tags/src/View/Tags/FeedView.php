@@ -38,7 +38,7 @@ class FeedView extends BaseHtmlView
         $app                  = Factory::getApplication();
         $this->document->link = Route::_('index.php?option=com_tags&view=tags');
 
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail = $app->get('mailfrom');
         $fromName  = $app->get('fromname');
         $feedEmail = $app->get('feed_email', 'none');

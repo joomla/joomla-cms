@@ -54,7 +54,7 @@ class PlgSystemHighlight extends CMSPlugin
         }
 
         // Set the variables.
-        $input     = $this->app->input;
+        $input     = $this->app->getInput();
         $extension = $input->get('option', '', 'cmd');
 
         // Check if the highlighter is enabled.
