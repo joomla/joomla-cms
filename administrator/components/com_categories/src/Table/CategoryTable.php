@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Categories\Administrator\Table;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Category table
  *

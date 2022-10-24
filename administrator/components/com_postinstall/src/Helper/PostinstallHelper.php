@@ -10,6 +10,10 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Helper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class for postinstall messages
  *
