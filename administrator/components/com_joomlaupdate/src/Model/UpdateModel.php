@@ -883,7 +883,7 @@ ENDDATA;
     public function upload()
     {
         // Get the uploaded file information.
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
         $userfile = $input->files->get('install_package', null, 'raw');

@@ -24,7 +24,7 @@ HTMLHelper::_('bootstrap.modal');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa    = $this->document->getWebAssetManager();
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // Enable assets
 $wa->useScript('form.validate')
