@@ -137,7 +137,7 @@ class CheckboxField extends FormField
     protected function getLayoutData()
     {
         $data            = parent::getLayoutData();
-        $data['value']   = $this->default || $this->default === '0' ? $this->default : '1';
+        $data['value']   = strlen($this->default) ? $this->default : '1';
         $data['checked'] = $this->checked || $this->value;
 
         return $data;
