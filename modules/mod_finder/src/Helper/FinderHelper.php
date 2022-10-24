@@ -65,7 +65,7 @@ class FinderHelper
      */
     public static function getQuery($params)
     {
-        $request = Factory::getApplication()->input->request;
+        $request = Factory::getApplication()->getInput()->request;
         $filter  = InputFilter::getInstance();
 
         // Get the static taxonomy filters.

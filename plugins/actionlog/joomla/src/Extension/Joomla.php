@@ -163,7 +163,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onContentAfterDelete($context, $article): void
     {
-        $option = $this->getApplication()->input->get('option');
+        $option = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -210,7 +210,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onContentChangeState($context, $pks, $value)
     {
-        $option = $this->getApplication()->input->getCmd('option');
+        $option = $this->getApplication()->getInput()->getCmd('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -300,7 +300,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onApplicationAfterSave($config): void
     {
-        $option = $this->getApplication()->input->getCmd('option');
+        $option = $this->getApplication()->getInput()->getCmd('option');
 
         if (!$this->checkLoggable($option)) {
             return;
@@ -333,7 +333,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterInstall($installer, $eid)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -380,7 +380,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterUninstall($installer, $eid, $result)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -431,7 +431,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterUpdate($installer, $eid)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -477,7 +477,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterSave($context, $table, $isNew): void
     {
-        $option = $this->getApplication()->input->getCmd('option');
+        $option = $this->getApplication()->getInput()->getCmd('option');
 
         if ($table->get('module') != null) {
             $option = 'com_modules';
@@ -534,7 +534,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onExtensionAfterDelete($context, $table): void
     {
-        if (!$this->checkLoggable($this->getApplication()->input->get('option'))) {
+        if (!$this->checkLoggable($this->getApplication()->getInput()->get('option'))) {
             return;
         }
 
@@ -573,8 +573,8 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterSave($user, $isnew, $success, $msg): void
     {
-        $context = $this->getApplication()->input->get('option');
-        $task    = $this->getApplication()->input->post->get('task');
+        $context = $this->getApplication()->getInput()->get('option');
+        $task    = $this->getApplication()->getInput()->post->get('task');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -643,7 +643,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterDelete($user, $success, $msg): void
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -677,7 +677,7 @@ final class Joomla extends ActionLogPlugin
     public function onUserAfterSaveGroup($context, $table, $isNew): void
     {
         // Override context (com_users.group) with the component context (com_users) to pass the checkLoggable
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -717,7 +717,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterDeleteGroup($group, $success, $msg): void
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -886,7 +886,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onUserAfterRemind($user)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -954,7 +954,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onAfterLogPurge($group = '')
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
         $message = array(
             'action'      => 'actionlogs',
@@ -982,7 +982,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onAfterLogExport($group = '')
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
         $message = array(
             'action'      => 'actionlogs',
@@ -1010,7 +1010,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onAfterPurge($group = 'all')
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
 
         if (!$this->checkLoggable($context)) {
@@ -1050,13 +1050,13 @@ final class Joomla extends ActionLogPlugin
             return;
         }
 
-        $verb = $this->getApplication()->input->getMethod();
+        $verb = $this->getApplication()->getInput()->getMethod();
 
         if (!in_array($verb, $this->loggableVerbs)) {
             return;
         }
 
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
 
         if (!$this->checkLoggable($context)) {
             return;
@@ -1086,7 +1086,7 @@ final class Joomla extends ActionLogPlugin
      */
     public function onJoomlaAfterUpdate($oldVersion = null)
     {
-        $context = $this->getApplication()->input->get('option');
+        $context = $this->getApplication()->getInput()->get('option');
         $user    = Factory::getUser();
 
         if (empty($oldVersion)) {
