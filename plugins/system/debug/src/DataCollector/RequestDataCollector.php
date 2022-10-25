@@ -41,7 +41,7 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 
                 $data = $GLOBALS[$var];
 
-                array_walk_recursive($data, static function(&$value, $key) {
+                array_walk_recursive($data, static function (&$value, $key) {
                     if (!preg_match(self::PROTECTED_KEYS, $key)) {
                         return;
                     }
