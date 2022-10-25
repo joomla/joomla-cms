@@ -225,7 +225,7 @@ class JsonapiView extends BaseApiView
             $tagsIds = $tags->getTagIds($item->id, 'com_content.article');
 
             if (!empty($tagsIds)) {
-               $tagsIds    = explode(',',$tagsIds);
+               $tagsIds    = explode(',', $tagsIds);
                $tagsNames  = $tags->getTagNames($tagsIds);
                $item->tags = array_combine($tagsIds, $tagsNames);
             }
