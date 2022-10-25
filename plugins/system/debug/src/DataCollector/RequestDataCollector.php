@@ -21,7 +21,7 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
  */
 class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 {
-    const PROTECTED_KEYS = "/password|passwd|pwd|secret|token/i";
+    private const PROTECTED_KEYS = "/password|passwd|pwd|secret|token/i";
 
     /**
      * Called by the DebugBar when data needs to be collected
