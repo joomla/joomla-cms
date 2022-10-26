@@ -15,6 +15,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
@@ -477,7 +481,6 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Reset Process Information
-        $this->safeMode = !!@ ini_get('safe_mode');
         $this->processId = 0;
         $this->running = false;
 

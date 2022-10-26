@@ -18,6 +18,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Component Controller
  *
@@ -82,7 +86,7 @@ class TemplatesController extends BaseController
 
         // Access backend com_templates
         $controllerClass = $app->bootComponent('com_templates')
-            ->getMVCFactory()->createController('Style', 'Administrator', [], $app, $app->input);
+            ->getMVCFactory()->createController('Style', 'Administrator', [], $app, $app->getInput());
 
         // Get a document object
         $document = $app->getDocument();

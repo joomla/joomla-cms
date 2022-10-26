@@ -17,6 +17,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Menus Menu Item Types View.
  *
@@ -53,7 +57,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app            = Factory::getApplication();
-        $this->recordId = $app->input->getInt('recordId');
+        $this->recordId = $app->getInput()->getInt('recordId');
 
         $types = $this->get('TypeOptions');
 

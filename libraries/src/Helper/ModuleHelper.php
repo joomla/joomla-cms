@@ -23,6 +23,10 @@ use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module helper class
  *
@@ -80,7 +84,7 @@ abstract class ModuleHelper
     {
         $position = strtolower($position);
         $result   = array();
-        $input    = Factory::getApplication()->input;
+        $input    = Factory::getApplication()->getInput();
         $modules  = &static::load();
         $total    = \count($modules);
 
@@ -195,7 +199,7 @@ abstract class ModuleHelper
         }
 
         // Dynamically add outline style
-        if ($app->input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) {
+        if ($app->getInput()->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display')) {
             $attribs['style'] .= ' outline';
         }
 
@@ -208,6 +212,9 @@ abstract class ModuleHelper
             return '';
         }
 
+        // Prevent double modification of the module content by chrome style
+        $module = clone $module;
+
         $displayData = array(
             'module'  => $module,
             'params'  => $params,
@@ -215,7 +222,9 @@ abstract class ModuleHelper
         );
 
         foreach (explode(' ', $attribs['style']) as $style) {
-            if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath)) {
+            $moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath);
+
+            if ($moduleContent) {
                 $module->content = $moduleContent;
             }
         }
@@ -381,7 +390,7 @@ abstract class ModuleHelper
     public static function getModuleList()
     {
         $app      = Factory::getApplication();
-        $itemId   = $app->input->getInt('Itemid', 0);
+        $itemId   = $app->getInput()->getInt('Itemid', 0);
         $groups   = $app->getIdentity()->getAuthorisedViewLevels();
         $clientId = (int) $app->getClientId();
 
@@ -483,7 +492,7 @@ abstract class ModuleHelper
     public static function cleanModuleList($modules)
     {
         // Apply negative selections and eliminate duplicates
-        $Itemid = Factory::getApplication()->input->getInt('Itemid');
+        $Itemid = Factory::getApplication()->getInput()->getInt('Itemid');
         $negId = $Itemid ? -(int) $Itemid : false;
         $clean = array();
         $dupes = array();
@@ -593,7 +602,7 @@ abstract class ModuleHelper
                 $secureid = null;
 
                 if (\is_array($cacheparams->modeparams)) {
-                    $input   = $app->input;
+                    $input   = $app->getInput();
                     $uri     = $input->getArray();
                     $safeuri = new \stdClass();
                     $noHtmlFilter = InputFilter::getInstance();
@@ -631,7 +640,7 @@ abstract class ModuleHelper
                 $ret = $cache->get(
                     array($cacheparams->class, $cacheparams->method),
                     $cacheparams->methodparams,
-                    $module->id . $view_levels . $app->input->getInt('Itemid', null) . $cacheparams->cachesuffix,
+                    $module->id . $view_levels . $app->getInput()->getInt('Itemid', null) . $cacheparams->cachesuffix,
                     $wrkarounds,
                     $wrkaroundoptions
                 );

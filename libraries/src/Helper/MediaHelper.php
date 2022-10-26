@@ -18,6 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Media helper class
  *
@@ -322,9 +326,20 @@ class MediaHelper
 
             $svgErrors = $sanitizer->getXmlIssues();
 
-            // We allow comments
+            /*
+            * We allow comments and temp fix for bugs in svg-santitizer
+            * https://github.com/darylldoyle/svg-sanitizer/issues/64
+            * https://github.com/darylldoyle/svg-sanitizer/issues/63
+            * https://github.com/darylldoyle/svg-sanitizer/pull/65
+            * https://github.com/darylldoyle/svg-sanitizer/issues/82
+            */
             foreach ($svgErrors as $i => $error) {
-                if ($error['message'] === 'Suspicious node \'#comment\'') {
+                if (
+                    ($error['message'] === 'Suspicious node \'#comment\'')
+                    || ($error['message'] === 'Suspicious attribute \'space\'')
+                    || ($error['message'] === 'Suspicious attribute \'enable-background\'')
+                    || ($error['message'] === 'Suspicious node \'svg\'')
+                ) {
                     unset($svgErrors[$i]);
                 }
             }

@@ -25,6 +25,10 @@ use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Event\Event;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML Article View class for the Content component
  *
@@ -104,7 +108,7 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
 
         $this->item  = $this->get('Item');
-        $this->print = $app->input->getBool('print', false);
+        $this->print = $app->getInput()->getBool('print', false);
         $this->state = $this->get('State');
         $this->user  = $user;
 

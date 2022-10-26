@@ -22,6 +22,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Item Model for a Mail template.
  *
@@ -394,10 +398,10 @@ class TemplateModel extends AdminModel
     {
         parent::populateState();
 
-        $template_id = Factory::getApplication()->input->getCmd('template_id');
+        $template_id = Factory::getApplication()->getInput()->getCmd('template_id');
         $this->setState($this->getName() . '.template_id', $template_id);
 
-        $language = Factory::getApplication()->input->getCmd('language');
+        $language = Factory::getApplication()->getInput()->getCmd('language');
         $this->setState($this->getName() . '.language', $language);
     }
 }

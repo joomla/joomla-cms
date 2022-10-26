@@ -31,6 +31,10 @@ use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Language Filter Plugin.
  *
@@ -369,10 +373,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
         // We are called via POST or the nolangfilter url parameter was set. We don't care about the language
         // and simply set the default language as our current language.
         if (
-            $this->app->input->getMethod() === 'POST'
-            || $this->app->input->get('nolangfilter', 0) == 1
-            || count($this->app->input->post) > 0
-            || count($this->app->input->files) > 0
+            $this->app->getInput()->getMethod() === 'POST'
+            || $this->app->getInput()->get('nolangfilter', 0) == 1
+            || count($this->app->getInput()->post) > 0
+            || count($this->app->getInput()->files) > 0
         ) {
             $found = true;
 
@@ -452,7 +456,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
         $this->current_lang = $lang_code;
 
         // Set the request var.
-        $this->app->input->set('language', $lang_code);
+        $this->app->getInput()->set('language', $lang_code);
         $this->app->set('language', $lang_code);
         $language = $this->app->getLanguage();
 
@@ -710,7 +714,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
             }
 
             // Load component associations.
-            $option = $this->app->input->get('option');
+            $option = $this->app->getInput()->get('option');
 
             $component = $this->app->bootComponent($option);
 
@@ -802,7 +806,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
         // If is set to use language cookie for a year in plugin params, save the user language in a new cookie.
         if ((int) $this->params->get('lang_cookie', 0) === 1) {
             // Create a cookie with one year lifetime.
-            $this->app->input->cookie->set(
+            $this->app->getInput()->cookie->set(
                 ApplicationHelper::getHash('language'),
                 $languageCode,
                 time() + 365 * 86400,
@@ -828,7 +832,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     {
         // Is is set to use a year language cookie in plugin params, get the user language from the cookie.
         if ((int) $this->params->get('lang_cookie', 0) === 1) {
-            $languageCode = $this->app->input->cookie->get(ApplicationHelper::getHash('language'));
+            $languageCode = $this->app->getInput()->cookie->get(ApplicationHelper::getHash('language'));
         } else {
             // Else get the user language from the session.
             $languageCode = $this->app->getSession()->get('plg_system_languagefilter.language');

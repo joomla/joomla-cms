@@ -12,7 +12,6 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Event\MultiFactor\NotifyActionLog;
 use Joomla\CMS\Event\MultiFactor\SaveSetup;
 use Joomla\CMS\Factory;
@@ -28,6 +27,10 @@ use Joomla\Component\Users\Administrator\Model\MethodModel;
 use Joomla\Component\Users\Administrator\Table\MfaTable;
 use Joomla\Input\Input;
 use RuntimeException;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Multi-factor Authentication method controller
@@ -306,7 +309,7 @@ class MethodController extends BaseControllerAlias
 
         // Ask the plugin to validate the input by calling onUserMultifactorSaveSetup
         $result = [];
-        $input  = $this->app->input;
+        $input  = $this->app->getInput();
 
         $event = new NotifyActionLog('onComUsersControllerMethodBeforeSave', [$id, $user]);
         $this->app->getDispatcher()->dispatch($event->getName(), $event);

@@ -15,6 +15,10 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User note model.
  *
@@ -101,10 +105,10 @@ class NoteModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('note.id') == 0) {
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
+                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_users.notes.filter.category_id'), 'int'));
             }
 
-            $userId = $app->input->get('u_id', 0, 'int');
+            $userId = $app->getInput()->get('u_id', 0, 'int');
 
             if ($userId != 0) {
                 $data->user_id = $userId;
@@ -130,7 +134,7 @@ class NoteModel extends AdminModel
     {
         parent::populateState();
 
-        $userId = Factory::getApplication()->input->get('u_id', 0, 'int');
+        $userId = Factory::getApplication()->getInput()->get('u_id', 0, 'int');
         $this->setState('note.user_id', $userId);
     }
 }

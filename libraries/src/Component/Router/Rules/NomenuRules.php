@@ -11,6 +11,10 @@ namespace Joomla\CMS\Component\Router\Rules;
 
 use Joomla\CMS\Component\Router\RouterView;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Rule to process URLs without a menu item
  *
@@ -75,9 +79,10 @@ class NomenuRules implements RulesInterface
 
                 if (isset($view->key) && isset($segments[0])) {
                     if (\is_callable(array($this->router, 'get' . ucfirst($view->name) . 'Id'))) {
-                        if ($view->parent_key && $this->router->app->input->get($view->parent_key)) {
-                            $vars[$view->parent->key] = $this->router->app->input->get($view->parent_key);
-                            $vars[$view->parent_key] = $this->router->app->input->get($view->parent_key);
+                        $input = $this->app->getInput();
+                        if ($view->parent_key && $input->get($view->parent_key)) {
+                            $vars[$view->parent->key] = $input->get($view->parent_key);
+                            $vars[$view->parent_key] = $input->get($view->parent_key);
                         }
 
                         if ($view->nestable) {

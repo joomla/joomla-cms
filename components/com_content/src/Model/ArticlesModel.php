@@ -24,6 +24,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This models supports retrieving lists of articles.
  *
@@ -86,19 +90,20 @@ class ArticlesModel extends ListModel
      */
     protected function populateState($ordering = 'ordering', $direction = 'ASC')
     {
-        $app = Factory::getApplication();
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
 
         // List state information
-        $value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
+        $value = $input->get('limit', $app->get('list_limit', 0), 'uint');
         $this->setState('list.limit', $value);
 
-        $value = $app->input->get('limitstart', 0, 'uint');
+        $value = $input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $value);
 
-        $value = $app->input->get('filter_tag', 0, 'uint');
+        $value = $input->get('filter_tag', 0, 'uint');
         $this->setState('filter.tag', $value);
 
-        $orderCol = $app->input->get('filter_order', 'a.ordering');
+        $orderCol = $input->get('filter_order', 'a.ordering');
 
         if (!in_array($orderCol, $this->filter_fields)) {
             $orderCol = 'a.ordering';
@@ -106,7 +111,7 @@ class ArticlesModel extends ListModel
 
         $this->setState('list.ordering', $orderCol);
 
-        $listOrder = $app->input->get('filter_order_Dir', 'ASC');
+        $listOrder = $input->get('filter_order_Dir', 'ASC');
 
         if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
             $listOrder = 'ASC';
@@ -117,7 +122,7 @@ class ArticlesModel extends ListModel
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
             // Filter on published for those who do not have edit or edit.state rights.
@@ -133,7 +138,7 @@ class ArticlesModel extends ListModel
             $this->setState('filter.access', false);
         }
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $input->getString('layout'));
     }
 
     /**
@@ -182,7 +187,7 @@ class ArticlesModel extends ListModel
      */
     protected function getListQuery()
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Create a new query object.
         $db = $this->getDatabase();
@@ -635,11 +640,11 @@ class ArticlesModel extends ListModel
     {
         $items  = parent::getItems();
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $userId = $user->get('id');
         $guest = $user->get('guest');
         $groups = $user->getAuthorisedViewLevels();
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Get the global params
         $globalParams = ComponentHelper::getParams('com_content', true);

@@ -12,6 +12,10 @@ namespace Joomla\CMS\HTML\Helpers;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\FileLayout;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Utility class to render a list view sidebar
  *
@@ -59,7 +63,7 @@ abstract class Sidebar
         $data->action         = static::getAction();
         $data->displayMenu    = count($data->list);
         $data->displayFilters = count($data->filters);
-        $data->hide           = Factory::getApplication()->input->getBool('hidemainmenu');
+        $data->hide           = Factory::getApplication()->getInput()->getBool('hidemainmenu');
 
         // Create a layout object and ask it to render the sidebar
         $layout      = new FileLayout('joomla.sidebars.submenu');

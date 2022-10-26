@@ -18,6 +18,10 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_related_items
  *
@@ -36,7 +40,7 @@ abstract class RelatedItemsHelper
     {
         $db        = Factory::getDbo();
         $app       = Factory::getApplication();
-        $input     = $app->input;
+        $input     = $app->getInput();
         $groups    = Factory::getUser()->getAuthorisedViewLevels();
         $maximum   = (int) $params->get('maximum', 5);
         $factory   = $app->bootComponent('com_content')->getMVCFactory();

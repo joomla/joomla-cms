@@ -16,6 +16,10 @@ use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Rule class for the Joomla Platform.
  *
@@ -54,7 +58,10 @@ class PasswordRule extends FormRule
 
         // In the installer we don't have any access to the
         // database yet so use the hard coded default settings
-        if (!Factory::getApplication()->isClient('installation')) {
+        if (
+            !Factory::getApplication()->isClient('installation')
+            && !Factory::getApplication()->isClient('cli_installation')
+        ) {
             // If we have parameters from com_users, use those instead.
             // Some of these may be empty for legacy reasons.
             $params = ComponentHelper::getParams('com_users');

@@ -17,6 +17,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Session\Session as BaseSession;
 use Joomla\Session\StorageInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class for managing HTTP sessions
  *
@@ -63,12 +67,12 @@ class Session extends BaseSession
         $token = static::getFormToken();
 
         // Check from header first
-        if ($token === $app->input->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
+        if ($token === $app->getInput()->server->get('HTTP_X_CSRF_TOKEN', '', 'alnum')) {
             return true;
         }
 
         // Then fallback to HTTP query
-        if (!$app->input->$method->get($token, '', 'alnum')) {
+        if (!$app->getInput()->$method->get($token, '', 'alnum')) {
             if ($app->getSession()->isNew()) {
                 // Redirect to login screen.
                 $app->enqueueMessage(Text::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');

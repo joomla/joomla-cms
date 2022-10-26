@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 /** @var Joomla\Component\Users\Administrator\View\User\HtmlView $this */
 
@@ -24,7 +23,7 @@ $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate');
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();

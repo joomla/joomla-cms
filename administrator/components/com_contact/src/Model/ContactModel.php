@@ -24,6 +24,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Item Model for a Contact.
  *
@@ -128,7 +132,7 @@ class ContactModel extends AdminModel
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
+        return $this->getCurrentUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
     }
 
     /**
@@ -144,7 +148,7 @@ class ContactModel extends AdminModel
     {
         // Check against the category.
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
         }
 
         // Default to component settings if category not known.
@@ -187,7 +191,7 @@ class ContactModel extends AdminModel
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -254,7 +258,7 @@ class ContactModel extends AdminModel
 
             // Prime some default values.
             if ($this->getState('contact.id') == 0) {
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
+                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
             }
         }
 
@@ -274,7 +278,7 @@ class ContactModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;
@@ -374,7 +378,7 @@ class ContactModel extends AdminModel
         } else {
             // Set the values
             $table->modified = $date;
-            $table->modified_by = Factory::getUser()->id;
+            $table->modified_by = $this->getCurrentUser()->id;
         }
 
         // Increment the content version number.
@@ -507,6 +511,6 @@ class ContactModel extends AdminModel
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_contact');
+        return $this->getCurrentUser()->authorise('core.create', 'com_contact');
     }
 }

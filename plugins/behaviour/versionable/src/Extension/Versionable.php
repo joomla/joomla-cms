@@ -21,6 +21,10 @@ use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Filter\InputFilter;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Implements the Versionable behaviour which allows extensions to automatically support content history for their content items.
  *
@@ -113,7 +117,7 @@ final class Versionable extends CMSPlugin implements SubscriberInterface
 
         $id     = $table->getId();
         $data   = $this->helper->getDataObject($table);
-        $input  = $this->getApplication()->input;
+        $input  = $this->getApplication()->getInput();
         $jform  = $input->get('jform', array(), 'array');
         $versionNote = '';
 

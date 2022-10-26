@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
@@ -23,6 +24,10 @@ use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Example Content Plugin
@@ -66,7 +71,7 @@ class PlgContentJoomla extends CMSPlugin
         }
 
         // Check we are handling the frontend edit form.
-        if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew) {
+        if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew || !$table->hasField('published')) {
             return true;
         }
 
@@ -74,13 +79,15 @@ class PlgContentJoomla extends CMSPlugin
 
         $item->load($table->id);
 
-        if ($item->published != -2 && $data['published'] == -2) {
+        $publishedField = $item->getColumnAlias('published');
+
+        if ($item->$publishedField > 0 && isset($data[$publishedField]) && $data[$publishedField] < 1) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    return $this->_canDeleteWorkflow($item->id);
+                    return $this->_workflowNotUsed($item->id);
 
                 case 'com_workflow.stage':
-                    return $this->_canDeleteStage($item->id);
+                    return $this->_stageNotUsed($item->id);
             }
         }
 
@@ -177,10 +184,10 @@ class PlgContentJoomla extends CMSPlugin
                 return $this->_canDeleteCategories($data);
 
             case 'com_workflow.workflow':
-                return $this->_canDeleteWorkflow($data->id);
+                return $this->_workflowNotUsed($data->id);
 
             case 'com_workflow.stage':
-                return $this->_canDeleteStage($data->id);
+                return $this->_stageNotUsed($data->id);
         }
     }
 
@@ -197,7 +204,7 @@ class PlgContentJoomla extends CMSPlugin
      */
     public function onContentBeforeChangeState($context, $pks, $value)
     {
-        if ($value != -2 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
+        if ($value > 0 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage'])) {
             return true;
         }
 
@@ -206,14 +213,16 @@ class PlgContentJoomla extends CMSPlugin
         foreach ($pks as $id) {
             switch ($context) {
                 case 'com_workflow.workflow':
-                    return $result && $this->_canDeleteWorkflow($id);
+                    $result = $result && $this->_workflowNotUsed($id);
+                    break;
 
                 case 'com_workflow.stage':
-                    $result = $result && $this->_canDeleteStage($id);
+                    $result = $result && $this->_stageNotUsed($id);
+                    break;
             }
         }
 
-        return true;
+        return $result;
     }
 
     /**
@@ -230,7 +239,7 @@ class PlgContentJoomla extends CMSPlugin
             return true;
         }
 
-        $extension = $this->app->input->getString('extension');
+        $extension = $this->app->getInput()->getString('extension');
 
         // Default to true if not a core extension
         $result = true;
@@ -292,7 +301,7 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since  4.0.0
      */
-    private function _canDeleteWorkflow($pk)
+    private function _workflowNotUsed($pk)
     {
         // Check if this workflow is the default stage
         $table = new WorkflowTable($this->db);
@@ -352,7 +361,7 @@ class PlgContentJoomla extends CMSPlugin
      *
      * @since  4.0.0
      */
-    private function _canDeleteStage($pk)
+    private function _stageNotUsed($pk)
     {
         $table = new StageTable($this->db);
 
@@ -546,9 +555,9 @@ class PlgContentJoomla extends CMSPlugin
     {
         $pks = ArrayHelper::toInteger($pks);
 
-        if ($context === 'com_workflow.stage' && $value == -2) {
+        if ($context === 'com_workflow.stage' && $value < 1) {
             foreach ($pks as $pk) {
-                if (!$this->_canDeleteStage($pk)) {
+                if (!$this->_stageNotUsed($pk)) {
                     return false;
                 }
             }

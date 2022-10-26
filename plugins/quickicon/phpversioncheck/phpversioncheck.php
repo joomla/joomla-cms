@@ -14,6 +14,10 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin to check the PHP version and display a warning about its support status
  *
@@ -222,12 +226,12 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
         }
 
         // Only on full page requests
-        if ($this->app->input->getCmd('tmpl', 'index') === 'component') {
+        if ($this->app->getInput()->getCmd('tmpl', 'index') === 'component') {
             return false;
         }
 
         // Only to com_cpanel
-        if ($this->app->input->get('option') !== 'com_cpanel') {
+        if ($this->app->getInput()->get('option') !== 'com_cpanel') {
             return false;
         }
 

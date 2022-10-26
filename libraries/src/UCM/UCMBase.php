@@ -14,6 +14,10 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base class for implementing UCM
  *
@@ -48,7 +52,7 @@ class UCMBase implements UCM
     public function __construct($alias = null, UCMType $type = null)
     {
         // Setup dependencies.
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $this->alias = $alias ?: $input->get('option') . '.' . $input->get('view');
 
         $this->type = $type ?: $this->getType();
