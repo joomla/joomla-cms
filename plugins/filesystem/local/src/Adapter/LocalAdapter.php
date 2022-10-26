@@ -265,10 +265,6 @@ class LocalAdapter implements AdapterInterface
                 return $name;
             }
 
-            if (!is_dir(dirname($thumbPaths['fs']))) {
-                Folder::create(dirname($thumbPaths['fs']));
-            }
-
             // Create the thumbnail
             $this->createThumb($localPath, $thumbPaths['fs']);
         }
@@ -305,10 +301,6 @@ class LocalAdapter implements AdapterInterface
 
             if (empty($thumbPaths['fs'])) {
                 return;
-            }
-
-            if (!is_dir(dirname($thumbPaths['fs']))) {
-                Folder::create(dirname($thumbPaths['fs']));
             }
 
             // Create the thumbnail
