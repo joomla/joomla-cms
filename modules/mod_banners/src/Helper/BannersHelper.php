@@ -51,7 +51,7 @@ class BannersHelper
             $query    = $db->getQuery(true);
             $query->select($db->quoteName('metakey'))
                 ->from($db->quoteName('#__content'))
-                ->where($db->quoteName('id') . ' in (' . $ids . ')');
+                ->where($db->quoteName('id') . ' IN (' . $ids . ')');
 
             $db->setQuery($query);
             try {
@@ -59,7 +59,7 @@ class BannersHelper
             } catch (\RuntimeException $e) {
                 $app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-                return array();
+                return [];
             }
 
             if ($metakeys) {
