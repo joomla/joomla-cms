@@ -20,7 +20,7 @@ use Joomla\CMS\Router\Route;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('multiselect');
 
-$input           = Factory::getApplication()->input;
+$input           = Factory::getApplication()->getInput();
 $field           = $input->getCmd('field');
 $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));

@@ -259,7 +259,7 @@ class MediaField extends FormField
         $asset = $this->asset;
 
         if ($asset === '') {
-            $asset = Factory::getApplication()->input->get('option');
+            $asset = Factory::getApplication()->getInput()->get('option');
         }
 
         // Value in new format such as images/headers/blue-flower.jpg#joomlaImage://local-images/headers/blue-flower.jpg?width=700&height=180
