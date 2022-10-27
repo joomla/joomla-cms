@@ -70,21 +70,9 @@ class State
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Returns an associative array of object properties.
-     *
-     * @return  array  The data array
-     *
-     * @since   __DEPLOY_VERSION__
-     */
     public function getProperties()
     {
-        return $this->getData();
+        return $this->data;
     }
 
     /**
