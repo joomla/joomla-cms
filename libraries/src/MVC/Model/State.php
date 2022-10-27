@@ -76,6 +76,18 @@ class State
     }
 
     /**
+     * Returns an associative array of object properties.
+     *
+     * @return  array  The data array
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getProperties()
+    {
+        return $this->getData();
+    }
+
+    /**
      * Proxy for internal data access for the given key.
      *
      * @param   string  $name  The name of the element
