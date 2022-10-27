@@ -13,6 +13,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -228,7 +229,19 @@ abstract class PluginHelper
             return;
         }
 
-        $plugin->registerListeners();
+        // Register the plugin's event handlers (preferred method)
+        if ($plugin instanceof SubscriberInterface) {
+            $dispatcher->addSubscriber($plugin);
+        }
+
+        /**
+         * Register legacy listeners and event handlers by name.
+         *
+         * @deprecated 5.0 Use SubscriberInterface in plugin objects instead
+         */
+        if (method_exists($plugin, 'registerListeners')) {
+            $plugin->registerListeners();
+        }
     }
 
     /**
