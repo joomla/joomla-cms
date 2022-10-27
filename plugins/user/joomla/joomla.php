@@ -139,7 +139,7 @@ class PlgUserJoomla extends CMSPlugin
 
         // Delete Multi-factor Authentication records
         $query = $this->db->getQuery(true)
-            ->delete($this->db->qn('#__user_mfa'))
+            ->delete($this->db->quoteName('#__user_mfa'))
             ->where($this->db->quoteName('user_id') . ' = :userId')
             ->bind(':userId', $userId, ParameterType::INTEGER);
 
