@@ -21,8 +21,6 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
  */
 class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 {
-    const PROTECTED_KEYS = "/password|passwd|pwd|secret|token/i";
-
     /**
      * Called by the DebugBar when data needs to be collected
      *
@@ -41,8 +39,8 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 
                 $data = $GLOBALS[$var];
 
-                array_walk_recursive($data, static function(&$value, $key) {
-                    if (!preg_match(self::PROTECTED_KEYS, $key)) {
+                array_walk_recursive($data, static function (&$value, $key) {
+                    if (!preg_match(\PlgSystemDebug::PROTECTED_COLLECTOR_KEYS, $key)) {
                         return;
                     }
 
