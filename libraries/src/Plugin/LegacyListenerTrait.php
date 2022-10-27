@@ -34,6 +34,17 @@ trait LegacyListenerTrait
     protected $allowLegacyListeners = true;
 
     /**
+     * A list of legacy listeners and event handlers discovered by registerListeners.
+     *
+     * This is used to implement "magic" late initialisation of the plugin.
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     * @deprecated 5.0 Use the SubscriberInterface instead
+     */
+    private $legacyListenersDiscovered = [];
+
+    /**
      * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
      *
      * By default, this method will look for all public methods whose name starts with "on". It will register
@@ -64,6 +75,8 @@ trait LegacyListenerTrait
             if (substr($method->name, 0, 2) !== 'on') {
                 continue;
             }
+
+            $this->legacyListenersDiscovered[] = $method->name;
 
             // Save time if I'm not to detect legacy listeners
             if (!$this->allowLegacyListeners) {
