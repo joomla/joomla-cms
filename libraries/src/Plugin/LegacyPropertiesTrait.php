@@ -42,7 +42,7 @@ trait LegacyPropertiesTrait
 
             if ($appProperty->isPrivate() === false && \is_null($this->app)) {
                 $this->app = ($this instanceof ApplicationAwareInterface)
-                    ? $this->getApplication()
+                    ? $this->getApplication() ?? Factory::getApplication()
                     : Factory::getApplication();
             }
         }
@@ -57,7 +57,7 @@ trait LegacyPropertiesTrait
 
             if ($dbProperty->isPrivate() === false && \is_null($this->db)) {
                 $this->db = ($this instanceof DatabaseAwareInterface)
-                    ? $this->getDatabase()
+                    ? $this->getDatabase() ?? Factory::getContainer()->get('DatabaseDriver')
                     : Factory::getContainer()->get('DatabaseDriver');
             }
         }
