@@ -172,7 +172,7 @@ abstract class CMSPlugin implements ApplicationAwareInterface, DispatcherAwareIn
      * This method is "magically" called exactly once, right before the very first time an event
      * handler in your plugin is called. This makes sure that all lengthy initialisation code in
      * your plugin will only be executed if your plugin is used in a page load, drastically
-     * improving the site's performance on page's where your plugin is loaded but its event handlers
+     * improving the site's performance on pages where your plugin is loaded but its event handlers
      * are not used.
      *
      * @return  void
