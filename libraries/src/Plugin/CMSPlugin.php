@@ -9,6 +9,7 @@
 
 namespace Joomla\CMS\Plugin;
 
+use Joomla\CMS\Application\ApplicationAwareTrait;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
@@ -32,6 +33,7 @@ use Joomla\Registry\Registry;
 abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 {
     use DispatcherAwareTrait;
+    use ApplicationAwareTrait;
 
     /**
      * A Registry object holding the parameters for the plugin
@@ -64,29 +66,6 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
      * @since  3.1
      */
     protected $autoloadLanguage = false;
-
-    /**
-     * Should I try to detect and register legacy event listeners, i.e. methods which accept unwrapped arguments? While
-     * this maintains a great degree of backwards compatibility to Joomla! 3.x-style plugins it is much slower. You are
-     * advised to implement your plugins using proper Listeners, methods accepting an AbstractEvent as their sole
-     * parameter, for best performance. Also bear in mind that Joomla! 5.x onwards will only allow proper listeners,
-     * removing support for legacy Listeners.
-     *
-     * @var    boolean
-     * @since  4.0.0
-     *
-     * @deprecated
-     */
-    protected $allowLegacyListeners = true;
-
-    /**
-     * The application object
-     *
-     * @var    CMSApplicationInterface
-     *
-     * @since  4.2.0
-     */
-    private $application;
 
     /**
      * Constructor
@@ -345,31 +324,5 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
         }
 
         return false;
-    }
-
-    /**
-     * Returns the internal application or null when not set.
-     *
-     * @return  CMSApplicationInterface|null
-     *
-     * @since   4.2.0
-     */
-    protected function getApplication(): ?CMSApplicationInterface
-    {
-        return $this->application;
-    }
-
-    /**
-     * Sets the application to use.
-     *
-     * @param   CMSApplicationInterface  $application  The application
-     *
-     * @return  void
-     *
-     * @since   4.2.0
-     */
-    public function setApplication(CMSApplicationInterface $application): void
-    {
-        $this->application = $application;
     }
 }
