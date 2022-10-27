@@ -1027,7 +1027,7 @@ abstract class AdminModel extends FormModel
         $key = $table->getKeyName();
 
         // Get the pk of the record from the request.
-        $pk = Factory::getApplication()->input->getInt($key);
+        $pk = Factory::getApplication()->getInput()->getInt($key);
         $this->setState($this->getName() . '.id', $pk);
 
         // Load the parameters.
@@ -1381,7 +1381,7 @@ abstract class AdminModel extends FormModel
             }
         }
 
-        if ($app->input->get('task') == 'editAssociations') {
+        if ($app->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 
@@ -1502,7 +1502,7 @@ abstract class AdminModel extends FormModel
         }
 
         // Check that the user has create permission for the component
-        $extension = Factory::getApplication()->input->get('option', '');
+        $extension = Factory::getApplication()->getInput()->get('option', '');
         $user = Factory::getUser();
 
         if (!$user->authorise('core.create', $extension . '.category.' . $categoryId)) {
@@ -1598,7 +1598,7 @@ abstract class AdminModel extends FormModel
 
         // Deal with categories associations
         if ($this->text_prefix === 'COM_CATEGORIES') {
-            $extension       = $app->input->get('extension', 'com_content');
+            $extension       = $app->getInput()->get('extension', 'com_content');
             $this->typeAlias = $extension . '.category';
             $component       = strtolower($this->text_prefix);
             $view            = 'category';

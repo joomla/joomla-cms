@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         ToolbarHelper::title(Text::_('COM_USERS_MASS_MAIL'), 'users massmail');
         ToolbarHelper::custom('mail.send', 'envelope', '', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);

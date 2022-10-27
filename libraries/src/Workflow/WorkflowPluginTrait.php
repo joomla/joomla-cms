@@ -30,7 +30,7 @@ trait WorkflowPluginTrait
      * @param   Form      $form The form
      * @param   \stdClass $data The data
      *
-     * @return  boolean
+     * @return  boolean|\stdClass
      *
      * @since   4.0.0
      */
@@ -65,7 +65,7 @@ trait WorkflowPluginTrait
      */
     protected function getWorkflow(int $workflowId = null)
     {
-        $workflowId = !empty($workflowId) ? $workflowId : $this->app->input->getInt('workflow_id');
+        $workflowId = !empty($workflowId) ? $workflowId : $this->app->getInput()->getInt('workflow_id');
 
         if (is_array($workflowId)) {
             return false;
