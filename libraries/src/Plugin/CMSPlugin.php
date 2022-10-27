@@ -93,8 +93,8 @@ abstract class CMSPlugin implements ApplicationAwareInterface, DispatcherAwareIn
     /**
      * Constructor.
      *
-     * Do not put any slow initialisation code in it, e.g. code which accesses the database,
-     * performs lengthy calculations, or calls external services over HTTP. Put this code into the
+     * Do not put any slow initialisation code in the constructor, e.g. code which accesses the database,
+     * performs lengthy calculations, or calls external services over HTTP. Put that code into the
      * doInitialise() method which is called ONCE, before the first event handler in your plugin is
      * executed.
      *
