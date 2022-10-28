@@ -30,6 +30,7 @@ use Joomla\CMS\Filter\InputFilter;
  * @property-read   Input   $env
  * @property-read   Files   $files
  * @property-read   Cookie  $cookie
+ * @property-read   Json    $json
  */
 class Input extends \Joomla\Input\Input
 {

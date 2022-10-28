@@ -159,7 +159,7 @@ class NumberField extends FormField
     protected function getInput()
     {
         if ($this->element['useglobal']) {
-            $component = Factory::getApplication()->input->getCmd('option');
+            $component = Factory::getApplication()->getInput()->getCmd('option');
 
             // Get correct component for menu items
             if ($component === 'com_menus') {
@@ -177,7 +177,7 @@ class NumberField extends FormField
             }
 
             // Try with menu configuration
-            if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus') {
+            if (\is_null($value) && Factory::getApplication()->getInput()->getCmd('option') === 'com_menus') {
                 $value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
             }
 
