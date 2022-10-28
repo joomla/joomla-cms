@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Extension;
 
 use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\Event;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -28,6 +29,17 @@ interface PluginInterface extends DispatcherAwareInterface
      * @return  void
      *
      * @since   4.0.0
+     * @deprecated 5.0 Use SubscriberInterface. This method will be removed in 6.0.
      */
     public function registerListeners();
+
+    /**
+     * Initialises the plugin before each event is handled.
+     *
+     * Override the doInitialise() method in your class with your initialisation code.
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    public function initialisePlugin(Event $e): void;
 }
