@@ -99,14 +99,19 @@ trait LegacyListenerTrait
             $param = array_shift($parameters);
             $paramName = $param->getName();
 
-            // No type hint / type hint class not an event or parameter name is not "event"? It's a legacy listener.
+            /**
+             * We are treating the method as a legacy listener when _any_ of the following conditions are met:
+             * - The parameter name is not `$event`.
+             * - There is no type hint for the parameter.
+             * - There is a type hint for the parameter, but it's the Joomla Event interface.
+             */
             if ($paramName !== 'event' || !$this->parameterImplementsEventInterface($param)) {
                 $this->registerLegacyListener($method->name);
 
                 continue;
             }
 
-            // Everything checks out, this is a proper listener.
+            // This is not a legacy listener, therefore it is an event handler
             $this->registerListener($method->name);
         }
     }
