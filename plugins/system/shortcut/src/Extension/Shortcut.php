@@ -75,7 +75,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $context = $this->getApplication()->input->get('option') . '.' . $this->getApplication()->input->get('view');
+        $context = $this->getApplication()->getInput()->get('option') . '.' . $this->getApplication()->getInput()->get('view');
 
         $shortcuts = [];
 
@@ -94,6 +94,7 @@ final class Shortcut extends CMSPlugin implements SubscriberInterface
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_HINT');
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_TITLE');
         Text::script('PLG_SYSTEM_SHORTCUT_OVERVIEW_DESC');
+        Text::script('PLG_SYSTEM_SHORTCUT_THEN');
         Text::script('JCLOSE');
 
         $document = $this->getApplication()->getDocument();

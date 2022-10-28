@@ -38,7 +38,7 @@ $editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/c
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 
 // Remove the fullscreen message and option if readonly not null.
-if ($options->readOnly !== null) {
+if (isset($options->readOnly)) {
     $fsCombo = '';
 }
 
