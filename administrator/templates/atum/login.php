@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
@@ -102,9 +102,6 @@ HTMLHelper::_('bootstrap.dropdown');
             <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
         </div>
     </noscript>
-    <div class="ie11 alert alert-warning" role="alert">
-        <?php echo Text::_('JGLOBAL_WARNIE'); ?>
-    </div>
 
     <header id="header" class="header d-flex">
         <div class="header-title d-flex">

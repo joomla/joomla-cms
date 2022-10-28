@@ -8,33 +8,10 @@ steps:
   - name: setup
     image: joomlaprojects/docker-images:php8.1
     volumes:
-      - name: certificatesthe tests has been finished succuessful so you don't need to wait till drone is finished
+      - name: certificates
         path: /certificates
     commands:
       - cp -v tests/Codeception/_data/certs/* /certificates/
-
-  - name: openldap
-    image: bitnami/openldap:latest
-    detach: true
-    ports:
-      - 1389
-      - 1636
-    volumes:
-      - name: certificates
-        path: /certificates
-    environment:
-      LDAP_ADMIN_USERNAME: admin
-      LDAP_ADMIN_PASSWORD: adminpassword
-      LDAP_USERS: customuser
-      LDAP_PASSWORDS: custompassword
-      LDAP_ENABLE_TLS: yes
-      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
-      LDAP_TLS_KEY_FILE: /certificates/openldap.key
-      LDAP_TLS_CA_FILE: /certificates/CA.crt
-      BITNAMI_DEBUG: true
-      LDAP_CONFIG_ADMIN_ENABLED: yes
-      LDAP_CONFIG_ADMIN_USERNAME: admin
-      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
 
   - name: composer
     image: joomlaprojects/docker-images:php8.1
@@ -118,18 +95,26 @@ steps:
     commands:
       - npm run lint:js
 
-  - name: prepare_codeception_tests
+  - name: prepare_system_tests
     depends_on:
       - npm
     image: joomlaprojects/docker-images:systemtests8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     commands:
-      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/Codeception\\/_output/' codeception.yml
+      - sed -i 's/tests\\/Codeception\\/_output/\\/drone\\/src\\/tests\\/cypress\\/output/' codeception.yml
       - php libraries/vendor/bin/codecept build
+      - npx cypress install
+      - npx cypress verify
 
   - name: phpmin-api-mysql
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -137,7 +122,7 @@ steps:
 
   - name: phpmax-api-mysql
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests8.2
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
@@ -149,13 +134,13 @@ steps:
 
   - name: phpnext-api-mysql
     depends_on:
-      - prepare_codeception_tests
+      - prepare_system_tests
     image: joomlaprojects/docker-images:systemtests8.2
     failure: ignore
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" mysqlphpnext mysqli mysql phpnext_
 
   - name: phpmin-api-postgres
     depends_on:
@@ -186,12 +171,15 @@ steps:
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)" postgresphpnext pgsql postgres phpnext_
 
   - name: phpmin-system-mysql
     depends_on:
       - phpnext-api-mysql
     image: joomlaprojects/docker-images:cypress8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -201,6 +189,9 @@ steps:
     depends_on:
       - phpmin-system-mysql
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -213,6 +204,9 @@ steps:
     depends_on:
       - phpmax-system-mysql
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -223,6 +217,9 @@ steps:
     depends_on:
       - phpnext-api-postgres
     image: joomlaprojects/docker-images:cypress8.1
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
@@ -232,6 +229,9 @@ steps:
     depends_on:
       - phpmin-system-postgres
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -244,6 +244,9 @@ steps:
     depends_on:
       - phpmax-system-postgres
     image: joomlaprojects/docker-images:cypress8.2
+    volumes:
+      - name: cypress-cache
+        path: /root/.cache/Cypress
     environment:
       JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     failure: ignore
@@ -275,10 +278,13 @@ steps:
       PLUGIN_DEST_DIR: /artifacts
       PLUGIN_SECURE: false
       PLUGIN_EXCLUDE: ^\.git/$
+      GITHUB_TOKEN:
+        from_secret: github_token
     commands:
       - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
       - /bin/upload.sh
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -287,6 +293,9 @@ volumes:
   - name: composer-cache
     host:
       path: /tmp/composer-cache
+  - name: cypress-cache
+    host:
+      path: /tmp/cypress-cache
   - name: npm-cache
     host:
       path: /tmp/npm-cache
@@ -312,6 +321,28 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: joomla_ut
       POSTGRES_DB: test_joomla
+
+  - name: openldap
+    image: bitnami/openldap:latest
+    ports:
+      - 1389
+      - 1636
+    volumes:
+      - name: certificates
+        path: /certificates
+    environment:
+      LDAP_ADMIN_USERNAME: admin
+      LDAP_ADMIN_PASSWORD: adminpassword
+      LDAP_USERS: customuser
+      LDAP_PASSWORDS: custompassword
+      LDAP_ENABLE_TLS: yes
+      LDAP_TLS_CERT_FILE: /certificates/openldap.crt
+      LDAP_TLS_KEY_FILE: /certificates/openldap.key
+      LDAP_TLS_CA_FILE: /certificates/CA.crt
+      BITNAMI_DEBUG: true
+      LDAP_CONFIG_ADMIN_ENABLED: yes
+      LDAP_CONFIG_ADMIN_USERNAME: admin
+      LDAP_CONFIG_ADMIN_PASSWORD: configpassword
 
 ---
 kind: pipeline
@@ -343,7 +374,7 @@ steps:
         path: /reference
     when:
       branch:
-        - 5.0-dev
+        - 4.3-dev
 
 ---
 kind: pipeline
@@ -407,6 +438,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 4057ed174dee79f1d2a0479e64e302c4830771a786b74d2a5c8694068f76c69d
+hmac: 2a769723f33fd72957407a2a37a28ec3d535be34ce6260765341ec4aed2ac8cf
 
 ...

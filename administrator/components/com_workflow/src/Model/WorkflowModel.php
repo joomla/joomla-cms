@@ -86,7 +86,7 @@ class WorkflowModel extends AdminModel
         $table             = $this->getTable();
         $app               = Factory::getApplication();
         $user              = $app->getIdentity();
-        $input             = $app->input;
+        $input             = $app->getInput();
         $context           = $this->option . '.' . $this->name;
         $extension         = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
         $data['extension'] = !empty($data['extension']) ? $data['extension'] : $extension;
@@ -226,7 +226,7 @@ class WorkflowModel extends AdminModel
      */
     protected function preprocessForm(Form $form, $data, $group = 'content')
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         $parts = explode('.', $extension);
 
