@@ -41,7 +41,8 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 
 		$fieldNode->setAttribute('type', 'accessiblemedia');
 
-		if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_media'))
+		if (Factory::getApplication()->getIdentity()->authorise('core.create', 'com_media')
+            && !$fieldNode->getAttribute('disabled')) // if the field is already set to disabled, respect it
 		{
 			$fieldNode->setAttribute('disabled', 'false');
 		}
