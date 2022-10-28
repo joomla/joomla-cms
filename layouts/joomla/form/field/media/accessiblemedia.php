@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 extract($displayData);
 
+
 $form = $forms[0];
 
 $formfields = $form->getGroup('');
@@ -18,7 +19,9 @@ $field->disabled = $disabled;
 ?>
 
 <div class="subform-wrapper">
-<?php foreach ($formfields as $field) : ?>
+<?php foreach ($formfields as $field) :
+    $field->disabled = $disabled;
+    ?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>
