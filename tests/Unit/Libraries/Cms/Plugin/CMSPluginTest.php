@@ -283,13 +283,13 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can register the early initialisation listener when is SubscriberInterface
+     * @testdox  can register the late initialisation listener when is SubscriberInterface
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testRegisterEarlyInitialisationListenerAsSubscriber()
+    public function testRegisterLateInitialisationListenerAsSubscriber()
     {
         $dispatcher = new Dispatcher();
 
@@ -320,13 +320,13 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can register the early initialisation listener when is legacy
+     * @testdox  can register the late initialisation listener when is legacy
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testRegisterEarlyInitialisationListenerAsLegacy()
+    public function testRegisterLateInitialisationListenerAsLegacy()
     {
         $dispatcher = new Dispatcher();
 
@@ -347,13 +347,13 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can execute the early initialisation listener when is legacy
+     * @testdox  can execute the late initialisation listener when is legacy
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testExecuteEarlyInitialisationAsLegacy()
+    public function testExecuteLateInitialisationAsLegacy()
     {
         $dispatcher = new Dispatcher();
 
@@ -383,13 +383,13 @@ class CMSPluginTest extends UnitTestCase
     }
 
     /**
-     * @testdox  can execute the early initialisation listener when is SubscriberInterface
+     * @testdox  can execute the late initialisation listener when is SubscriberInterface
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function testExecuteEarlyInitialisationAsSubscriberInterface()
+    public function testExecuteLateInitialisationAsSubscriberInterface()
     {
         $dispatcher = new Dispatcher();
 
