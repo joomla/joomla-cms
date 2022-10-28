@@ -173,7 +173,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		{
 			// Create a document instance and load it into the application.
 			$document = $this->documentFactory
-				->createDocument($this->getApplication()->input->get('format', 'html'));
+				->createDocument($this->getApplication()->getInput()->get('format', 'html'));
 			$this->getApplication()->loadDocument($document);
 
 			if ($this->profiler)
@@ -215,7 +215,7 @@ final class Cache extends CMSPlugin implements SubscriberInterface
 		if ($isSite === null)
 		{
 			$isSite = $this->getApplication()->isClient('site');
-			$isGET  = $this->getApplication()->input->getMethod() === 'GET';
+			$isGET  = $this->getApplication()->getInput()->getMethod() === 'GET';
 		}
 
 		// Boolean short–circuit evaluation means this returns fast false when $isSite is false.

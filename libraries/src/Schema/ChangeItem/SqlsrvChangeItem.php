@@ -11,10 +11,15 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 use Joomla\CMS\Schema\ChangeItem;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Checks the database schema against one SQL Server DDL query to see if it has been run.
  *
  * @since  2.5
+ * @deprecated  5.0   Will be removed without replacement
  */
 class SqlsrvChangeItem extends ChangeItem
 {

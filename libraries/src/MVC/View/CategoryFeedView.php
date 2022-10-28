@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\UCM\UCMType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base feed View class for a category
  *
@@ -38,7 +42,7 @@ class CategoryFeedView extends HtmlView
         $app      = Factory::getApplication();
         $document = Factory::getDocument();
 
-        $extension      = $app->input->getString('option');
+        $extension      = $app->getInput()->getString('option');
         $contentType = $extension . '.' . $this->viewName;
 
         $ucmType = new UCMType();
@@ -55,9 +59,9 @@ class CategoryFeedView extends HtmlView
             $titleField = $ucmMapCommon[0]->core_title;
         }
 
-        $document->link = Route::_(RouteHelper::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+        $document->link = Route::_(RouteHelper::getCategoryRoute($app->getInput()->getInt('id'), $language = 0, $extension));
 
-        $app->input->set('limit', $app->get('feed_limit'));
+        $app->getInput()->set('limit', $app->get('feed_limit'));
         $siteEmail        = $app->get('mailfrom');
         $fromName         = $app->get('fromname');
         $feedEmail        = $app->get('feed_email', 'none');

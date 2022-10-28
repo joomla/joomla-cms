@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View to edit a newsfeed.
  *
@@ -74,7 +78,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -99,7 +103,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = $this->getCurrentUser();
         $isNew      = ($this->item->id == 0);

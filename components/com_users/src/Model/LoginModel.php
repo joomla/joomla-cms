@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Login model class for Users.
  *
@@ -63,7 +67,7 @@ class LoginModel extends FormModel
         $app  = Factory::getApplication();
         $data = $app->getUserState('users.login.form.data', array());
 
-        $input = $app->input->getInputForRequestMethod();
+        $input = $app->getInput()->getInputForRequestMethod();
 
         // Check for return URL from the request first
         if ($return = $input->get('return', '', 'BASE64')) {

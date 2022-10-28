@@ -17,6 +17,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of contact records.
  *
@@ -80,10 +84,10 @@ class ContactsModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
+        $forcedLanguage = $app->getInput()->get('forcedLanguage', '', 'cmd');
 
         // Adjust the context to support modal layouts.
-        if ($layout = $app->input->get('layout')) {
+        if ($layout = $app->getInput()->get('layout')) {
             $this->context .= '.' . $layout;
         }
 
@@ -140,7 +144,7 @@ class ContactsModel extends ListModel
         // Create a new query object.
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Select the required fields from the table.
         $query->select(

@@ -24,6 +24,10 @@ use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Api Model
  *
@@ -447,7 +451,7 @@ class ApiModel extends BaseDatabaseModel
         // Initialize the allowed extensions
         if ($this->allowedExtensions === null) {
             // Get options from the input or fallback to images only
-            $mediaTypes = explode(',', Factory::getApplication()->input->getString('mediatypes', '0'));
+            $mediaTypes = explode(',', Factory::getApplication()->getInput()->getString('mediatypes', '0'));
             $types      = [];
             $extensions = [];
 

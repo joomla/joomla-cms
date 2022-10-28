@@ -10,12 +10,16 @@
 
 namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Cpanel component
@@ -55,9 +59,9 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app = Factory::getApplication();
-        $dashboard = $app->input->getCmd('dashboard', '');
+        $dashboard = $app->getInput()->getCmd('dashboard', '');
 
-        $position = ApplicationHelper::stringURLSafe($dashboard);
+        $position = OutputFilter::stringURLSafe($dashboard);
 
         // Generate a title for the view cpanel
         if (!empty($dashboard)) {

@@ -18,6 +18,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a modal article picker.
  *
@@ -118,6 +122,9 @@ class ArticleField extends FormField
                 $title = $db->loadResult();
             } catch (\RuntimeException $e) {
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+            }
+            if (empty($title)) {
+                $value = '';
             }
         }
 

@@ -20,6 +20,11 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * HTML View class for the Categories component
@@ -97,10 +102,10 @@ class HtmlView extends BaseHtmlView
             $this->checkTags = true;
         }
 
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         // If we are forcing a language in modal (used for associations).
-        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'cmd')) {
+        if ($this->getLayout() === 'modal' && $forcedLanguage = Factory::getApplication()->getInput()->get('forcedLanguage', '', 'cmd')) {
             // Set the language field to the forcedLanguage and disable changing it.
             $this->form->setValue('language', null, $forcedLanguage);
             $this->form->setFieldAttribute('language', 'readonly', 'true');
@@ -126,7 +131,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
         $user = $this->getCurrentUser();
         $userId = $user->id;
 
@@ -229,7 +234,11 @@ class HtmlView extends BaseHtmlView
                 ToolbarHelper::versions($typeAlias, $this->item->id);
             }
 
-            if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations')) {
+            if (
+                Associations::isEnabled() &&
+                ComponentHelper::isEnabled('com_associations') &&
+                AssociationsHelper::hasSupport($component)
+            ) {
                 ToolbarHelper::custom('category.editAssociations', 'contract', '', 'JTOOLBAR_ASSOCIATIONS', false, false);
             }
         }

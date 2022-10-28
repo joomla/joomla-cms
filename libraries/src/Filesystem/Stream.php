@@ -12,6 +12,10 @@ namespace Joomla\CMS\Filesystem;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! Stream Interface
  *

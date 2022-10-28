@@ -20,6 +20,10 @@ use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Methods supporting a list of contenthistory records.
  *
@@ -38,7 +42,7 @@ class CompareModel extends ListModel
      */
     public function getItems()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         /** @var ContentHistory $table1 */
         $table1 = $this->getTable('ContentHistory');
@@ -78,7 +82,7 @@ class CompareModel extends ListModel
             return false;
         }
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Access check
         if (!$user->authorise('core.edit', $table1->item_id) && !$this->canEdit($table1)) {
@@ -159,7 +163,7 @@ class CompareModel extends ListModel
              * Make sure user has edit privileges for this content item. Note that we use edit permissions
              * for the content item, not delete permissions for the content history row.
              */
-            $user   = Factory::getUser();
+            $user   = $this->getCurrentUser();
             $result = $user->authorise('core.edit', $record->item_id);
 
             // Finally try session (this catches edit.own case too)

@@ -20,6 +20,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
@@ -144,7 +148,7 @@ class ListField extends FormField
             $tmp        = new \stdClass();
             $tmp->value = '';
             $tmp->text  = Text::_('JGLOBAL_USE_GLOBAL');
-            $component  = Factory::getApplication()->input->getCmd('option');
+            $component  = Factory::getApplication()->getInput()->getCmd('option');
 
             // Get correct component for menu items
             if ($component === 'com_menus') {
@@ -162,7 +166,7 @@ class ListField extends FormField
             }
 
             // Try with menu configuration
-            if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus') {
+            if (\is_null($value) && Factory::getApplication()->getInput()->getCmd('option') === 'com_menus') {
                 $value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
             }
 

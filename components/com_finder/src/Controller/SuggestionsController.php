@@ -13,6 +13,10 @@ namespace Joomla\Component\Finder\Site\Controller;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Suggestions \JSON controller for Finder.
  *
@@ -55,7 +59,7 @@ class SuggestionsController extends BaseController
         $app = $this->app;
         $app->mimeType = 'application/json';
         $result = array();
-        $result[] = $app->input->request->get('q', '', 'string');
+        $result[] = $app->getInput()->request->get('q', '', 'string');
 
         $result[] = $this->getSuggestions();
 

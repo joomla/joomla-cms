@@ -18,6 +18,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Base Helper class.
  *
@@ -45,7 +49,7 @@ class CMSHelper
             $pluginParams = new Registry($plugin->params);
 
             if ((int) $pluginParams->get('lang_cookie', 1) === 1) {
-                $langCode = $app->input->cookie->getString(ApplicationHelper::getHash('language'));
+                $langCode = $app->getInput()->cookie->getString(ApplicationHelper::getHash('language'));
             } else {
                 $langCode = $app->getSession()->get('plg_system_languagefilter.language');
             }

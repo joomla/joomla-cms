@@ -31,6 +31,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! update overview Model
  *
@@ -95,7 +99,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName('us') . '.*')
             ->from($db->quoteName('#__update_sites_extensions', 'map'))
@@ -173,7 +177,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function getCheckForSelfUpdate()
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         $query = $db->getQuery(true)
             ->select($db->quoteName('extension_id'))
@@ -244,7 +248,7 @@ class UpdateModel extends BaseDatabaseModel
 
         // Fetch the update information from the database.
         $id = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true)
             ->select('*')
             ->from($db->quoteName('#__updates'))
@@ -300,7 +304,7 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function purge()
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         // Modify the database record
         $update_site = new \stdClass();
@@ -632,7 +636,8 @@ ENDDATA;
         $installer->setUpgrade(true);
         $installer->setOverwrite(true);
 
-        $installer->extension = new \Joomla\CMS\Table\Extension($this->getDatabase());
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
+        $installer->extension = new \Joomla\CMS\Table\Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
         $installer->setAdapter($installer->extension->type);
@@ -667,7 +672,7 @@ ENDDATA;
         ob_end_clean();
 
         // Get a database connector object.
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
 
         /*
          * Check to see if a file extension by the same name is already installed.
@@ -694,7 +699,7 @@ ENDDATA;
         }
 
         $id = $db->loadResult();
-        $row = new \Joomla\CMS\Table\Extension($this->getDatabase());
+        $row = new \Joomla\CMS\Table\Extension($db);
 
         if ($id) {
             // Load the entry and update the manifest_cache.
@@ -779,7 +784,7 @@ ENDDATA;
         ob_end_clean();
 
         // Clobber any possible pending updates.
-        $update = new \Joomla\CMS\Table\Update($this->getDatabase());
+        $update = new \Joomla\CMS\Table\Update($db);
         $uid = $update->find(
             array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
         );
@@ -878,7 +883,7 @@ ENDDATA;
     public function upload()
     {
         // Get the uploaded file information.
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
         $userfile = $input->files->get('install_package', null, 'raw');
@@ -947,7 +952,7 @@ ENDDATA;
     {
         // Make sure the username matches
         $username = $credentials['username'] ?? null;
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
 
         if (strtolower($user->username) != strtolower($username)) {
             return false;
@@ -1325,7 +1330,7 @@ ENDDATA;
      */
     public function getNonCoreExtensions()
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
@@ -1375,24 +1380,24 @@ ENDDATA;
      */
     public function getNonCorePlugins($folderFilter = ['system','user','authentication','actionlog','multifactorauth'])
     {
-        $db    = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn('ex.name') . ', ' .
-            $db->qn('ex.extension_id') . ', ' .
-            $db->qn('ex.manifest_cache') . ', ' .
-            $db->qn('ex.type') . ', ' .
-            $db->qn('ex.folder') . ', ' .
-            $db->qn('ex.element') . ', ' .
-            $db->qn('ex.client_id') . ', ' .
-            $db->qn('ex.package_id')
+            $db->quoteName('ex.name') . ', ' .
+            $db->quoteName('ex.extension_id') . ', ' .
+            $db->quoteName('ex.manifest_cache') . ', ' .
+            $db->quoteName('ex.type') . ', ' .
+            $db->quoteName('ex.folder') . ', ' .
+            $db->quoteName('ex.element') . ', ' .
+            $db->quoteName('ex.client_id') . ', ' .
+            $db->quoteName('ex.package_id')
         )->from(
-            $db->qn('#__extensions', 'ex')
+            $db->quoteName('#__extensions', 'ex')
         )->where(
-            $db->qn('ex.type') . ' = ' . $db->quote('plugin')
+            $db->quoteName('ex.type') . ' = ' . $db->quote('plugin')
         )->where(
-            $db->qn('ex.enabled') . ' = 1'
+            $db->quoteName('ex.enabled') . ' = 1'
         )->whereNotIn(
             $db->quoteName('ex.extension_id'),
             ExtensionHelper::getCoreExtensionIds()
@@ -1401,7 +1406,7 @@ ENDDATA;
         if (count($folderFilter) > 0) {
             $folderFilter = array_map(array($db, 'quote'), $folderFilter);
 
-            $query->where($db->qn('folder') . ' IN (' . implode(',', $folderFilter) . ')');
+            $query->where($db->quoteName('folder') . ' IN (' . implode(',', $folderFilter) . ')');
         }
 
         $db->setQuery($query);
@@ -1476,15 +1481,17 @@ ENDDATA;
     private function getUpdateSitesInfo($extensionID)
     {
         $id = (int) $extensionID;
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn('us.type') . ', ' .
-            $db->qn('us.location') . ', ' .
-            $db->qn('e.element') . ' AS ' . $db->qn('ext_element') . ', ' .
-            $db->qn('e.type') . ' AS ' . $db->qn('ext_type') . ', ' .
-            $db->qn('e.folder') . ' AS ' . $db->qn('ext_folder')
+            [
+                $db->quoteName('us.type'),
+                $db->quoteName('us.location'),
+                $db->quoteName('e.element', 'ext_element'),
+                $db->quoteName('e.type', 'ext_type'),
+                $db->quoteName('e.folder', 'ext_folder')
+            ]
         )
             ->from($db->quoteName('#__update_sites', 'us'))
             ->join(
@@ -1659,20 +1666,20 @@ ENDDATA;
      */
     public function isTemplateActive($template)
     {
-        $db = $this->getDatabase();
+        $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select(
-            $db->qn(
+            $db->quoteName(
                 array(
                     'id',
                     'home'
                 )
             )
         )->from(
-            $db->qn('#__template_styles')
+            $db->quoteName('#__template_styles')
         )->where(
-            $db->qn('template') . ' = :template'
+            $db->quoteName('template') . ' = :template'
         )->bind(':template', $template, ParameterType::STRING);
 
         $templates = $db->setQuery($query)->loadObjectList();
@@ -1694,9 +1701,9 @@ ENDDATA;
             $query->select(
                 'COUNT(*)'
             )->from(
-                $db->qn('#__menu')
+                $db->quoteName('#__menu')
             )->whereIn(
-                $db->qn('template_style_id'),
+                $db->quoteName('template_style_id'),
                 $ids
             );
 

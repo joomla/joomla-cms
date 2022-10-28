@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * HTML utility class for building a dropdown menu
  *
@@ -133,7 +137,7 @@ abstract class Dropdown
         static::start();
 
         if (!$customLink) {
-            $option = Factory::getApplication()->input->getCmd('option');
+            $option = Factory::getApplication()->getInput()->getCmd('option');
             $link = 'index.php?option=' . $option;
         } else {
             $link = $customLink;

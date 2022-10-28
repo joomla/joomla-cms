@@ -13,6 +13,10 @@ use Joomla\CMS\Log\Log;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Class JNamespacePsr4Map
  *
@@ -224,7 +228,7 @@ class JNamespacePsr4Map
                 }
 
                 // Load the manifest file
-                $xml = simplexml_load_file($file);
+                $xml = simplexml_load_file($file, 'SimpleXMLElement', LIBXML_NOERROR);
 
                 // When invalid, ignore
                 if (!$xml) {

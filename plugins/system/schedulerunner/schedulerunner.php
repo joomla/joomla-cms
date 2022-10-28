@@ -28,6 +28,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This plugin implements listeners to support a visitor-triggered lazy-scheduling pattern.
  * If `com_scheduler` is installed/enabled and its configuration allows unprotected lazy scheduling, this plugin
@@ -210,11 +214,11 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
             throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        if (!strlen($hash) || $hash !== $this->app->input->get('hash')) {
+        if (!strlen($hash) || $hash !== $this->app->getInput()->get('hash')) {
             throw new Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
         }
 
-        $id = (int) $this->app->input->getInt('id', 0);
+        $id = (int) $this->app->getInput()->getInt('id', 0);
 
         $task = $this->runScheduler($id);
 
@@ -242,8 +246,8 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $id = (int) $this->app->input->getInt('id');
-        $allowConcurrent = $this->app->input->getBool('allowConcurrent', false);
+        $id = (int) $this->app->getInput()->getInt('id');
+        $allowConcurrent = $this->app->getInput()->getBool('allowConcurrent', false);
 
         $user = Factory::getApplication()->getIdentity();
 
@@ -317,7 +321,7 @@ class PlgSystemSchedulerunner extends CMSPlugin implements SubscriberInterface
 
         if (
             $form->getName() !== 'com_config.component'
-            || $this->app->input->get('component') !== 'com_scheduler'
+            || $this->app->getInput()->get('component') !== 'com_scheduler'
         ) {
             return;
         }
