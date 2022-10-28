@@ -436,6 +436,8 @@ class CMSPluginTest extends UnitTestCase
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin
         {
+            protected $allowLateInitialisation = false;
+
             public function onTest()
             {
             }
@@ -458,6 +460,8 @@ class CMSPluginTest extends UnitTestCase
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin
         {
+            protected $allowLateInitialisation = false;
+
             public function onTest(EventInterface $event)
             {
             }
@@ -481,6 +485,7 @@ class CMSPluginTest extends UnitTestCase
         $plugin = new class ($dispatcher, []) extends CMSPlugin
         {
             protected $allowLegacyListeners = false;
+            protected $allowLateInitialisation = false;
 
             public function onTest(EventInterface $event)
             {
@@ -504,6 +509,8 @@ class CMSPluginTest extends UnitTestCase
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin
         {
+            protected $allowLateInitialisation = false;
+
             public function onTest(string $context)
             {
             }
@@ -526,6 +533,8 @@ class CMSPluginTest extends UnitTestCase
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin
         {
+            protected $allowLateInitialisation = false;
+
             public function onTest($event)
             {
             }
@@ -548,6 +557,8 @@ class CMSPluginTest extends UnitTestCase
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin
         {
+            protected $allowLateInitialisation = false;
+
             public function onTest(stdClass $event = null)
             {
             }

@@ -66,7 +66,9 @@ trait LegacyListenerTrait
                 continue;
             }
 
-            $this->getDispatcher()->addListener($method->name, [$this, 'initialisePlugin'], Priority::ABOVE_NORMAL);
+            if ($this->allowLateInitialisation) {
+                $this->getDispatcher()->addListener($method->name, [$this, 'initialisePlugin'], Priority::ABOVE_NORMAL);
+            }
 
             // Save time if I'm not to detect legacy listeners
             if (!$this->allowLegacyListeners) {
