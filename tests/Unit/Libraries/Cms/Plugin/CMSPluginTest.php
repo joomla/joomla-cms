@@ -11,11 +11,13 @@
 namespace Joomla\Tests\Unit\Libraries\Cms\Plugin;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\GenericEvent;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
@@ -342,6 +344,83 @@ class CMSPluginTest extends UnitTestCase
         $this->assertIsArray($listeners);
         $this->assertCount(2, $listeners);
         $this->assertEquals([$plugin, 'initialisePlugin'], $listeners[0]);
+    }
+
+    /**
+     * @testdox  can execute the early initialisation listener when is legacy
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testExecuteEarlyInitialisationAsLegacy()
+    {
+        $dispatcher = new Dispatcher();
+
+        $plugin = new class ($dispatcher, []) extends CMSPlugin
+        {
+            private $test = false;
+
+            public function doInitialise()
+            {
+                $this->test = true;
+            }
+
+            public function onTest(Event $event)
+            {
+                $event->setArgument('result', [$this->test]);
+            }
+        };
+
+        $plugin->registerListeners();
+
+        $event = new GenericEvent('onTest');
+        $result = $dispatcher->dispatch('onTest', $event)->getArgument('result');
+
+        $this->assertIsArray($result);
+        $this->assertCount(1, $result);
+        $this->assertEquals(true, $result[0]);
+    }
+
+    /**
+     * @testdox  can execute the early initialisation listener when is SubscriberInterface
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testExecuteEarlyInitialisationAsSubscriberInterface()
+    {
+        $dispatcher = new Dispatcher();
+
+        $plugin = new class ($dispatcher, []) extends CMSPlugin implements SubscriberInterface
+        {
+            private $test = false;
+
+            public function doInitialise()
+            {
+                $this->test = true;
+            }
+
+            public function test(Event $event)
+            {
+                $event->setArgument('result', [$this->test]);
+            }
+
+            public static function getSubscribedEvents(): array
+            {
+                return ['onTest' => ['test', PHP_INT_MAX]];
+            }
+        };
+
+        $dispatcher->addSubscriber($plugin);
+
+        $event = new GenericEvent('onTest');
+        $result = $dispatcher->dispatch('onTest', $event)->getArgument('result');
+
+        $this->assertIsArray($result);
+        $this->assertCount(1, $result);
+        $this->assertEquals(true, $result[0]);
     }
 
     /**
