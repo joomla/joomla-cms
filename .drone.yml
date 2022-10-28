@@ -472,15 +472,30 @@ steps:
       - rclone delete nightly:/home/devj/public_html/nightlies/ --include "Joomla_$MINORVERSION.*"
       - rclone delete nightly:/home/devj/public_html/cache/com_content/
       - rclone copy ./transfer/ nightly:/home/devj/public_html/nightlies/
-      - /bin/notify
+
+  - name: notification
+    image: dabankio/drone-plugin-mattermost
+    environment:
+      token:
+        from_secret: mattermost_token
+      host:
+        from_secret: mattermost_host
+      channel:
+        from_secret: mattermost_channel
+    settings:
+      maxRetry: 3
 
   - name: buildfailure
-    image: joomlaprojects/docker-images:packager
+    image: dabankio/drone-plugin-mattermost
     environment:
-      RINGCENTRAL_WEBHOOK:
-        from_secret: notification_url
-    commands:
-      - /bin/notify
+      token:
+        from_secret: mattermost_token
+      host:
+        from_secret: mattermost_host
+      channel:
+        from_secret: mattermost_channel
+    settings:
+      maxRetry: 3
     when:
       status:
         - failure
@@ -495,6 +510,6 @@ trigger:
 
 ---
 kind: signature
-hmac: ad1c54a8358c65f87cc6b550310613697f87b567066db3390c62fc5cd9da578b
+hmac: 72cae9c85ec0722031ab051ef58d89fa1d3626cf5d7634e2c2fadf4502856d31
 
 ...
