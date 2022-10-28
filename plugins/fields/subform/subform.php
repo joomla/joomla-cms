@@ -300,7 +300,7 @@ class PlgFieldsSubform extends FieldsPlugin
         }
 
         // If the edit layout is set we override any automation
-        $editLayout = $field_params->get('edit_layout');
+        $editLayout = $field_params->get('form_layout');
         if ($editLayout) {
             $parent_field->setAttribute('layout', $editLayout);
         }
