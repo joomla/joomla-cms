@@ -205,14 +205,6 @@ abstract class CMSPlugin implements ApplicationAwareInterface, DispatcherAwareIn
             }
         }
 
-        // Collect events and their priorities plus one for plugins using LegacyListenerTrait
-        if (property_exists($this, 'legacyListenersDiscovered') && is_array($this->legacyListenersDiscovered)) {
-            foreach ($this->legacyListenersDiscovered as $eventName) {
-                $prioritisedEvents[$eventName] =
-                    max($prioritisedEvents[$eventName] ?? Priority::NORMAL, Priority::ABOVE_NORMAL);
-            }
-        }
-
         // Early return if the plugin does not listen to any events.
         if (empty($prioritisedEvents)) {
             return;

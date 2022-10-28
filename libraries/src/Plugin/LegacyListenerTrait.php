@@ -11,6 +11,7 @@ namespace Joomla\CMS\Plugin;
 
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\EventInterface;
+use Joomla\Event\Priority;
 use Joomla\Event\SubscriberInterface;
 
 /**
@@ -32,17 +33,6 @@ trait LegacyListenerTrait
      * @deprecated  5.0 Use the SubscriberInterface instead
      */
     protected $allowLegacyListeners = true;
-
-    /**
-     * A list of legacy listeners and event handlers discovered by registerListeners.
-     *
-     * This is used to implement "magic" late initialisation of the plugin.
-     *
-     * @var    array
-     * @since  __DEPLOY_VERSION__
-     * @deprecated 5.0 Use the SubscriberInterface instead
-     */
-    private $legacyListenersDiscovered = [];
 
     /**
      * Registers legacy Listeners to the Dispatcher, emulating how plugins worked under Joomla! 3.x and below.
@@ -76,7 +66,7 @@ trait LegacyListenerTrait
                 continue;
             }
 
-            $this->legacyListenersDiscovered[] = $method->name;
+            $this->getDispatcher()->addListener($method->name, [$this, 'initialisePlugin'], Priority::ABOVE_NORMAL);
 
             // Save time if I'm not to detect legacy listeners
             if (!$this->allowLegacyListeners) {

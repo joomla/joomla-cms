@@ -249,7 +249,7 @@ class CMSPluginTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   4.2.0
+     * @since   __DEPLOY_VERSION__
      */
     public function testRegisterListenersAsSubscriber()
     {
@@ -257,6 +257,8 @@ class CMSPluginTest extends UnitTestCase
 
         $plugin = new class ($dispatcher, []) extends CMSPlugin implements SubscriberInterface
         {
+            protected $allowLateInitialisation = false;
+
             public static function getSubscribedEvents(): array
             {
                 return ['test' => 'unit'];
@@ -266,9 +268,80 @@ class CMSPluginTest extends UnitTestCase
             {
             }
         };
+
+        // Since __DEPLOY_VERSION__ the PluginHelper runs this code instead of registerListeners().
+        $dispatcher->addSubscriber($plugin);
+
+        $this->assertEquals(
+            [
+                [$plugin, 'unit'],
+            ],
+            $dispatcher->getListeners('test')
+        );
+    }
+
+    /**
+     * @testdox  can register the early initialisation listener when is SubscriberInterface
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testRegisterEarlyInitialisationListenerAsSubscriber()
+    {
+        $dispatcher = new Dispatcher();
+
+        $plugin = new class ($dispatcher, []) extends CMSPlugin implements SubscriberInterface
+        {
+            protected $allowLateInitialisation = true;
+
+            public static function getSubscribedEvents(): array
+            {
+                return ['test' => 'unit'];
+            }
+
+            public function unit()
+            {
+            }
+        };
+
+        // Since __DEPLOY_VERSION__ the PluginHelper runs this code instead of registerListeners().
+        $dispatcher->addSubscriber($plugin);
+
+        $this->assertEquals(
+            [
+                [$plugin, 'initialisePlugin'],
+                [$plugin, 'unit'],
+            ],
+            $dispatcher->getListeners('test')
+        );
+    }
+
+    /**
+     * @testdox  can register the early initialisation listener when is legacy
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function testRegisterEarlyInitialisationListenerAsLegacy()
+    {
+        $dispatcher = new Dispatcher();
+
+        $plugin = new class ($dispatcher, []) extends CMSPlugin
+        {
+            public function onTest(Event $e)
+            {
+            }
+        };
+
         $plugin->registerListeners();
 
-        $this->assertEquals([[$plugin, 'unit']], $dispatcher->getListeners('test'));
+        $listeners = $dispatcher->getListeners('onTest');
+
+        $this->assertIsArray($listeners);
+        $this->assertCount(2, $listeners);
+        $this->assertEquals([$plugin, 'initialisePlugin'], $listeners[0]);
     }
 
     /**
