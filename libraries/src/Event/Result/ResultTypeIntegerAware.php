@@ -11,6 +11,10 @@ namespace Joomla\CMS\Event\Result;
 
 use InvalidArgumentException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This Trait partially implements the ResultAwareInterface for type checking.
  *

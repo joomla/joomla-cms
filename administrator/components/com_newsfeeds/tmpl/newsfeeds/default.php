@@ -176,11 +176,12 @@ if ($saveOrder && !empty($this->items)) {
                     <?php echo $this->pagination->getListFooter(); ?>
 
                     <?php // Load the batch processing form if user is allowed ?>
-                    <?php if (
-                    $user->authorise('core.create', 'com_newsfeeds')
+                    <?php
+                    if (
+                        $user->authorise('core.create', 'com_newsfeeds')
                         && $user->authorise('core.edit', 'com_newsfeeds')
                         && $user->authorise('core.edit.state', 'com_newsfeeds')
-) : ?>
+                    ) : ?>
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
