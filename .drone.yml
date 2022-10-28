@@ -328,10 +328,11 @@ steps:
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - rclone config create artifacts ftp host ci.joomla.org user $ftpusernam port 21 pass $ftppassword
-      - rclone copy /tests/cypress/output/ artifacts:$PLUGIN_DEST_DIR
+      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
+      - rclone mkdir artifacts:$PLUGIN_DEST_DIR
+      - rclone copy tests/cypress/output/ artifacts:$PLUGIN_DEST_DIR
       - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
@@ -494,6 +495,6 @@ trigger:
 
 ---
 kind: signature
-hmac: b8ac972015e982f7444c5988d25c91df58de28d7c45ee52b789eb23243837085
+hmac: ad1c54a8358c65f87cc6b550310613697f87b567066db3390c62fc5cd9da578b
 
 ...
