@@ -3,6 +3,17 @@ The following document is intended to be a checklist for each release for use by
 
 At all stages here it is assumed you have a copy of the joomla-cms repo downloaded. Your release branch is clean and in the code snippets below that you have two remotes - an `upstream` remote that points to this repo and a `security` remote which points to the security private repository. You should also ensure all your commits and tags are signed by a GPG key that GitHub recognises.
 
+## Access
+To be able to create a release the following access must be available:
+- https://aws.amazon.com/
+- https://developer.joomla.org
+- https://downloads.joomla.org
+- https://github.com/joomla/update.joomla.org
+- https://github.com/joomla/statistics-server
+- https://ci.joomla.org
+- SSH access to downloads.joomla.org
+- SSH access to update.joomla.org
+
 ## Checklist (Beta 1 - Preparation)
 
 - [ ] Update Composer dependencies to their latest version
@@ -56,7 +67,7 @@ git push upstream --tags
 - [ ] Merge the [joomla/update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 - [ ] Wait for `.org Build Notifications` to report back
 - [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintainers` Glip channels about the RC
-- [ ] Inform Translation Teams via eMail and Forum Thread (via co-ordinator)
+- [ ] Inform Translation Teams via email and Forum Thread (via coordinator)
 
 ### Extra Steps when there are security issues
 
@@ -84,7 +95,7 @@ cat build/tmp/checksums.txt
 If any extra code changes have been applied since the Release Candidate consider tagging a building a fresh Release Candidate alongside the final packages to help as many people test as possible.
 
 - [ ] Create Stable PR for joomla/update.joomla.org:
-- [ ] Create Stable PR for joomla/statistics-server:
+- [ ] Create Stable PR for joomla/statistics-server. Use the SHA hashes from the `build/tmp/checksums.txt` file and use filename `Joomla_X-Stable-Update_Package.zip` 
 - [ ] Inform `CMS Release Team` and `CMS Maintenance Team` Glip channels the release process has started
 - [ ] Ensure the deleted file list in script.php is up to date (check `deleted_files.txt`, `deleted_folders.txt` and `renamed_files.txt` when generated are in `administrator/components/com_admin/script.php`)
 ```
@@ -117,6 +128,14 @@ php cli/ars-create-cms-release.php --releaseVersion=3.10.X --releaseUrl=https://
 ```
 - [ ] Update hashes in the [update.joomla.org PR](https://github.com/joomla/update.joomla.org/pulls)
 
+### AWS upload
+- Login to https://console.aws.amazon.com/console/home?nc2=h_ct&src=header-signin
+- Account ID: `joomla`
+- IAM user name: `your.username`
+- Password
+- Login
+- Go to your bucket. The URL for Joomla 4 is `https://s3.console.aws.amazon.com/s3/buckets/joomla-official-downloads?region=us-east-2&prefix=joomladownloads%2Fjoomla4%2F`
+
 ### If new packages are required
 If any updates to packages are required at this point due to critical issues uncovered:
 
@@ -132,8 +151,8 @@ php cli/ars-get-hashes.php --release=<ars_release_id>
 
 ## Checklist (Stable - Release)
 - [ ] Inform `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process has started
-- [ ] Create release folder on the update server
-- [ ] Upload packages to the update server
+- [ ] Create release folder on the update server `mkdir <webroot>/releases/4.2.4`
+- [ ] Upload packages to the update server using `scp -r build/tmp/packages/*.* update.joomla.org:<web root>/releases/4.2.4`
 - [ ] `git push upstream --tags`
 - [ ] Create the Stable release on [GitHub](https://github.com/joomla/joomla-cms/releases)
 - [ ] Upload the packages to the GitHub release
@@ -148,19 +167,13 @@ php cli/ars-get-hashes.php --release=<ars_release_id>
 - [ ] Publish article on [joomla.org](https://joomla.org/administrator/index.php?option=com_content&view=articles)
 - [ ] `clear cache` on joomla.org
 - [ ] `git push upstream 3.10-dev`
-- [ ] Trigger new nightly build: [https://build.joomla.org](https://build.joomla.org:8443/job/cms_packaging/)
-- [ ] Trigger new api docs build: [https://build.joomla.org](https://build.joomla.org:8443/job/api.joomla.org/)
+- [ ] Trigger new nightly build: [https://ci.joomla.org](https://ci.joomla.org/joomla/joomla-cms)
 - [ ] Wait for `.org build notifications` to report back
 - [ ] Inform `Contact the Social Media Team`, `CMS Release Team` and `CMS Maintenance Team` (and `JSST - Joomla! Security Strike Team` if a security release) Glip channels the release process is complete
 - [ ] Check next release date with other release leads, Create Google Calendar + meet invites
 - [ ] Inform `CMS Release Team` Glip Channel of the next expected release candidate and stable release date
 - [ ] Update the Joomla Roadmap on [developer.joomla.org](https://developer.joomla.org/administrator/index.php?option=com_content&view=articles)
 ```
-Joomla 3.x / Development Status: "Current Release"
-Joomla 3.x / Development Status: "Upcoming Release"
-Joomla 3.10 / Schedule: Remove old stable release
-Joomla 3.10 / Schedule: Set new stable with announcement URL
-Joomla 3.10 / Schedule: Add next stable release date
 Joomla 4.x / Development Status: "Current Release"
 Joomla 4.x / Development Status: "Upcoming Release"
 Joomla 4.0 / Schedule: Remove old stable release
