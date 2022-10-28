@@ -18,6 +18,10 @@ use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The plugins controller
  *
