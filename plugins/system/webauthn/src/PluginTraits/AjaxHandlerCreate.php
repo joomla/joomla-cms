@@ -75,7 +75,7 @@ trait AjaxHandlerCreate
 
         // Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
         try {
-            $input = $this->getApplication()->input;
+            $input = $this->getApplication()->getInput();
 
             // Retrieve the data sent by the device
             $data = $input->get('data', '', 'raw');

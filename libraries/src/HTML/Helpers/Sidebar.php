@@ -63,7 +63,7 @@ abstract class Sidebar
         $data->action         = static::getAction();
         $data->displayMenu    = count($data->list);
         $data->displayFilters = count($data->filters);
-        $data->hide           = Factory::getApplication()->input->getBool('hidemainmenu');
+        $data->hide           = Factory::getApplication()->getInput()->getBool('hidemainmenu');
 
         // Create a layout object and ask it to render the sidebar
         $layout      = new FileLayout('joomla.sidebars.submenu');
