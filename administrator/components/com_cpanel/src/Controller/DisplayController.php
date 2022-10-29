@@ -78,8 +78,11 @@ class DisplayController extends BaseController
             $position = 'cpanel';
         }
 
-        $this->app->setUserState('com_modules.modules.filter.position', $position);
-        $this->app->setUserState('com_modules.modules.client_id', '1');
+        // Administrator
+        $clientId = (\Joomla\CMS\Application\ApplicationHelper::getClientInfo('administrator', true))->id;
+
+        $this->app->setUserState('com_modules.modules.' . $clientId . '.filter.position', $position);
+        $this->app->setUserState('com_modules.modules.client_id', (string) $clientId);
 
         $this->setRedirect(Route::_('index.php?option=com_modules&view=select&tmpl=component&layout=modal' . $appendLink, false));
     }
