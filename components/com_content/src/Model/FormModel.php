@@ -162,8 +162,14 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
         $db->setQuery($query);
 
         $result = $db->loadObject();
-        $value->featured_up   = $result->featured_up;
-        $value->featured_down = $result->featured_down;
+
+        if (\is_null($result)) {
+            $value->featured_up = null;
+            $value->featured_down = null;
+        } else {
+            $value->featured_up   = $result->featured_up;
+            $value->featured_down = $result->featured_down;
+        }
 
         return $value;
     }
