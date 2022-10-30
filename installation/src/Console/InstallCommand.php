@@ -112,8 +112,7 @@ class InstallCommand extends AbstractCommand
         $this->ioStyle->write('Validating DB connection...');
 
         try {
-            $setupModel->storeOptions($cfg);
-            $setupModel->validateDbConnection();
+            $setupModel->validateDbConnection($cfg);
         } catch (\Exception $e) {
             $this->ioStyle->error($e->getMessage());
 
@@ -127,7 +126,7 @@ class InstallCommand extends AbstractCommand
         // Create and populate database
         $this->ioStyle->write('Creating and populating the database...');
         $databaseModel->createDatabase($cfg);
-        $db = $databaseModel->initialise((object) $cfg);
+        $db = $databaseModel->initialise($cfg);
 
         // Set the character set to UTF-8 for pre-existing databases.
         try {
@@ -156,7 +155,7 @@ class InstallCommand extends AbstractCommand
                 continue;
             }
 
-            $databaseModel->createTables($schema);
+            $databaseModel->createTables($schema, $cfg);
         }
 
         $this->ioStyle->writeln('OK');

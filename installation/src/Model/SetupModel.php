@@ -206,15 +206,15 @@ class SetupModel extends BaseInstallationModel
     /**
      * Method to validate the db connection properties.
      *
+     * @param   array  $options  Array with database credentials
+     *
      * @return  boolean
      *
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function validateDbConnection()
+    public function validateDbConnection($options)
     {
-        $options = $this->getOptions();
-
         // Get the options as an object for easier handling.
         $options = ArrayHelper::toObject($options);
 

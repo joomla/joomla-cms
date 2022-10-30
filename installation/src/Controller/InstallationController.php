@@ -88,9 +88,9 @@ class InstallationController extends JSONController
             return;
         }
 
-        $model->storeOptions($data);
+        $data = $model->storeOptions($data);
 
-        $r->validated = $model->validateDbConnection();
+        $r->validated = $model->validateDbConnection($data);
 
         $this->sendJsonResponse($r);
     }
@@ -124,7 +124,7 @@ class InstallationController extends JSONController
         if (!$dbCreated) {
             $r->view = 'setup';
         } else {
-            if (!$databaseModel->handleOldDatabase()) {
+            if (!$databaseModel->handleOldDatabase($options)) {
                 $r->view = 'setup';
             }
         }
@@ -147,7 +147,7 @@ class InstallationController extends JSONController
         $model = $this->getModel('Database');
 
         $r = new \stdClass();
-        $options = (object) $model->getOptions();
+        $options = $model->getOptions();
         $db = $model->initialise($options);
         $files = [
             'populate1' => 'base',
@@ -173,7 +173,7 @@ class InstallationController extends JSONController
         }
 
         // Attempt to populate the database with the given file.
-        if (!$model->createTables($schema)) {
+        if (!$model->createTables($schema, $options)) {
             $r->view = 'setup';
         }
 
