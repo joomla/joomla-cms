@@ -246,12 +246,11 @@ class ModuleAdapter extends InstallerAdapter
         if (\count($modules)) {
             // Ensure the list is sane
             $modules = ArrayHelper::toInteger($modules);
-            $modID = implode(',', $modules);
 
             // Wipe out any items assigned to menus
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__modules_menu'))
-                ->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
+                ->whereIn($db->quoteName('moduleid'), $modules);
             $db->setQuery($query);
 
             try {
