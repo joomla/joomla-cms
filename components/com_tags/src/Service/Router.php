@@ -243,6 +243,7 @@ class Router extends RouterBase
         if (count($ids)) {
             $vars['id']   = $ids;
             $vars['view'] = 'tag';
+            $vars['view'] = 'tag';
         }
 
         return $vars;
