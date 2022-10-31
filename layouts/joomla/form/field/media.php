@@ -87,14 +87,9 @@ if ($showPreview) {
 
     $width = $previewWidth;
     $height = $previewHeight;
-    $style = '';
-    //$style .= ($width > 0) ? 'max-width:' . $width . 'px;' : '';
-    //$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
-
     $imgattr = array(
         'id' => $id . '_preview',
         'class' => 'media-preview',
-        'style' => $style,
         'width' => $width,
         'height' => $height,
     );
