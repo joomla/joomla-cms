@@ -23,6 +23,13 @@ $path       = $base->tree;
 $showAll    = $params->get('showAllChildren', 1);
 $class_sfx  = htmlspecialchars($params->get('class_sfx', ''), ENT_COMPAT, 'UTF-8');
 
+// Fixing PHP 8 error out if $list is not an array or countable
+// When the minimum supported version of Joomla is PHP 8 it will
+// be better to do the following instead:
+// if(is_countable($list) && count($list)) { ...
+
+$list = is_array($list) ? $list : [];
+
 if (count($list)) {
     require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
 }
