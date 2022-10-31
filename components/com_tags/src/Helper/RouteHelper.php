@@ -97,8 +97,8 @@ class RouteHelper extends CMSRouteHelper
     /**
      * Tries to load the router for the component and calls it. Otherwise calls getRoute.
      *
-     * @param   string   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
-     * @param   string   $language  The language of the tag
+     * @param   string|string[]   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
+     * @param   string            $language  The language of the tag
      *
      * @return  string  URL link to pass to the router
      *
@@ -107,28 +107,24 @@ class RouteHelper extends CMSRouteHelper
      */
     public static function getComponentTagRoute(string $id, string $language = '*'): string
     {
-        $needles = [
-            'tag'      => [(int) $id],
-            'language' => $language,
-        ];
-
-        if ($id < 1) {
-            $link = '';
-        } else {
-            $link = 'index.php?option=com_tags&view=tag&id=' . $id;
-
-            if ($item = self::_findItem($needles)) {
-                $link .= '&Itemid=' . $item;
-            } else {
-                $needles = [
-                    'tags'     => [1, 0],
-                    'language' => $language,
-                ];
-
-                if ($item = self::_findItem($needles)) {
-                    $link .= '&Itemid=' . $item;
-                }
+        if (!is_array($id)) {
+            if ($id < 1) {
+                return '';
             }
+
+            $id = [$id];
+        }
+
+        $id = array_values(array_filter($id));
+
+        if (!count($id)) {
+            return '';
+        }
+
+        $link = 'index.php?option=com_tags&view=tag';
+
+        foreach ($id as $i => $value) {
+            $link .= '&id[' . $i . ']=' . $value;
         }
 
         return $link;
@@ -162,16 +158,7 @@ class RouteHelper extends CMSRouteHelper
      */
     public static function getComponentTagsRoute(string $language = '*'): string
     {
-        $needles = [
-            'tags'     => [0],
-            'language' => $language,
-        ];
-
         $link = 'index.php?option=com_tags&view=tags';
-
-        if ($item = self::_findItem($needles)) {
-            $link .= '&Itemid=' . $item;
-        }
 
         return $link;
     }
