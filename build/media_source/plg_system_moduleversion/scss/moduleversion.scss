@@ -1,0 +1,75 @@
+/**
+ * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.waitingspinner-container {
+  position: fixed;
+  z-index: 10000;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,.8) url("../../system/images/ajax-loader.gif") center center no-repeat;
+}
+
+#toolbar-help {
+  order: 1;
+}
+
+#toolbar-inlinehelp {
+  order: 20;
+}
+
+.modal-module-versions {
+
+  .mod-date-info {
+    min-width: 180px;
+  }
+
+  .mod-date-info {
+    font-weight: bold;
+    color: var(--template-link-color);
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      color: var(--template-link-hover-color);
+    }
+  }
+
+  .mod-title-info {
+
+    &:hover, &:focus {
+      color: var(--template-link-hover-color);
+      cursor: pointer;
+    }
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: max-content auto;
+    padding: .5rem;
+    margin: .5rem;
+    overflow-x: auto;
+
+    dl {
+      border: 1px solid var(--template-bg-dark-20);
+    }
+  }
+
+  dt {
+    grid-column-start: 1;
+    padding-right: .5rem;
+    margin-bottom: .5rem;
+
+    span {
+      max-width: 10rem;
+      word-wrap: break-word;
+    }
+  }
+
+  dd {
+    grid-column-start: 2;
+    margin-bottom: .5rem;
+  }
+}

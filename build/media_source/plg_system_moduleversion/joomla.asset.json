@@ -1,0 +1,14 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "plg_system_moduleversion",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "plg_system_moduleversion.moduleversion",
+      "type": "style",
+      "uri": "plg_system_moduleversion/moduleversion.min.css"
+    }
+  ]
+}
