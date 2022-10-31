@@ -193,6 +193,8 @@ class Router extends RouterBase
             }
         }
 
+        unset($query['layout']);
+
         foreach ($segments as &$segment) {
             if (strpos($segment, ':')) {
                 [$void, $segment] = explode(':', $segment, 2);
