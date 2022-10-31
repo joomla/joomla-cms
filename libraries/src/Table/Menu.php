@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -241,7 +242,14 @@ class Menu extends Nested
             if ($error) {
                 $menuTypeTable = Table::getInstance('MenuType', 'JTable', array('dbo' => $db));
                 $menuTypeTable->load(array('menutype' => $table->menutype));
-                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title));
+                $url = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $table->id);
+
+                // Is the existing menu item trashed?
+                $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $this->alias, $table->title, $menuTypeTable->title, $url));
+
+                if ($table->published === -2) {
+                    $this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_TRASHED', $this->alias, $table->title, $menuTypeTable->title, $url));
+                }
 
                 return false;
             }
