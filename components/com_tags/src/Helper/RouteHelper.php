@@ -30,6 +30,7 @@ class RouteHelper extends CMSRouteHelper
      * Lookup-table for menu items
      *
      * @var    array
+     * @since  __DEPLOY_VERSION__
      */
     protected static $lookup;
 
