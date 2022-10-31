@@ -99,8 +99,12 @@ class Router extends RouterBase
         if (isset($query['view']) && $query['view'] == 'tags') {
             if (isset($query['parent_id']) && isset($this->lookup[$language]['tags'][$query['parent_id']])) {
                 $query['Itemid'] = $this->lookup[$language]['tags'][$query['parent_id']];
+
+                return $query;
             } elseif (isset($this->lookup[$language]['tags'][0])) {
                 $query['Itemid'] = $this->lookup[$language]['tags'][0];
+
+                return $query;
             }
         } elseif (isset($query['view']) && $query['view'] == 'tag') {
             if (isset($query['id'])) {
@@ -113,18 +117,14 @@ class Router extends RouterBase
 
                 if (isset($this->lookup[$language]['tag'][implode(',', $id)])) {
                     $query['Itemid'] = $this->lookup[$language]['tag'][implode(',', $id)];
+
+                    return $query;
                 } elseif (isset($this->lookup[$language]['tags'][0])) {
                     $query['Itemid'] = $this->lookup[$language]['tags'][0];
+
+                    return $query;
                 }
             }
-        }
-
-        // Check if the active menuitem matches the requested language
-        if (
-            !isset($query['Itemid']) && ($active && $active->component === 'com_tags'
-            && ($language === '*' || \in_array($active->language, ['*', $language]) || !Multilanguage::isEnabled()))
-        ) {
-            $query['Itemid'] = $active->id;
         }
 
         // If not found, return language specific home link
@@ -150,7 +150,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = [];
+        $segments = array();
 
         $menuItem = $this->menu->getItem($query['Itemid']);
 
@@ -192,8 +192,6 @@ class Router extends RouterBase
                 unset($query['id']);
             }
         }
-
-        unset($query['layout']);
 
         foreach ($segments as &$segment) {
             if (strpos($segment, ':')) {
