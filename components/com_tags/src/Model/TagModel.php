@@ -303,7 +303,7 @@ class TagModel extends ListModel
                 }
             }
 
-            if (!count($this->item)) {
+            if (count($this->item) != count($idsArray)) {
                 throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
             }
         }
