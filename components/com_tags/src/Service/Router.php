@@ -243,6 +243,7 @@ class Router extends RouterBase
 
         if (count($ids)) {
             $vars['id'] = $ids;
+            $vars['view'] = 'tag';
         }
 
         return $vars;
@@ -303,7 +304,7 @@ class Router extends RouterBase
         $id = $this->db->setQuery($query)->loadResult();
 
         if ($id) {
-            $segment = "$id:$alias";
+            $segment = $id . ':' . $alias;
         }
 
         return $segment;
