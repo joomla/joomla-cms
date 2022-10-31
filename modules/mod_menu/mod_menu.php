@@ -23,7 +23,7 @@ $path       = $base->tree;
 $showAll    = $params->get('showAllChildren', 1);
 $class_sfx  = htmlspecialchars($params->get('class_sfx', ''), ENT_COMPAT, 'UTF-8');
 
-if(!$list) {
+if (!$list) {
     return;
 }
 
