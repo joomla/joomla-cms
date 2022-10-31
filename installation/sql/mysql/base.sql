@@ -351,6 +351,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 22, 0),
 (0, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, 1, '', '', '', 23, 0),
 (0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', '', 23, 0),
+(0, 'plg_system_moduleversion', 'plugin', 'moduleversion', 'system', 0, 1, 1, 0, 1, '', '', '', 24, 0),
 (0, 'plg_task_checkfiles', 'plugin', 'checkfiles', 'task', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
 (0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
@@ -628,6 +629,35 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (106, 83, 'Help Dashboard', '', '', 1, 'cpanel-help', NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"help","layout":"_:default","moduleclass_sfx":"","style":"System-none","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (107, 84, 'Privacy Requests', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*'),
 (108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__modules_versions`
+--
+
+CREATE TABLE IF NOT EXISTS `#__modules_versions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `current` boolean NOT NULL DEFAULT 0,
+  `mod_id` bigint(11) UNSIGNED NOT NULL,
+  `title` varchar(100) NOT NULL DEFAULT '',
+  `note` varchar(255) NOT NULL DEFAULT '',
+  `content` text,
+  `ordering` int NOT NULL DEFAULT 0,
+  `position` varchar(50) NOT NULL DEFAULT '',
+  `checked_out` int unsigned,
+  `checked_out_time` datetime,
+  `publish_up` datetime,
+  `publish_down` datetime,
+  `published` tinyint NOT NULL DEFAULT 0,
+  `module` varchar(50) DEFAULT NULL,
+  `access` int unsigned NOT NULL DEFAULT 0,
+  `showtitle` tinyint unsigned NOT NULL DEFAULT 1,
+  `params` text NOT NULL,
+  `client_id` tinyint NOT NULL DEFAULT 0,
+  `language` char(7) NOT NULL,
+  `changedate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=87;
 
 -- --------------------------------------------------------
 

@@ -357,6 +357,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_tasknotification', 'plugin', 'tasknotification', 'system', 0, 1, 1, 0, 1, '', '', '', 22, 0),
 (0, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, 1, '', '', '', 23, 0),
 (0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', '', 23, 0),
+(0, 'plg_system_moduleversion', 'plugin', 'moduleversion', 'system', 0, 1, 1, 0, 1, '', '', '', 24, 0),
 (0, 'plg_task_checkfiles', 'plugin', 'checkfiles', 'task', 0, 1, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_task_demotasks', 'plugin', 'demotasks', 'task', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
 (0, 'plg_task_requests', 'plugin', 'requests', 'task', 0, 1, 1, 0, 1, '', '{}', '', 3, 0),
@@ -654,6 +655,34 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h2","header_class":""}', 1, '*');
 
 SELECT setval('#__modules_id_seq', 109, false);
+
+--
+-- Table structure for table `#__modules_versions`
+--
+
+CREATE TABLE IF NOT EXISTS `#__modules_versions` (
+  "id" serial NOT NULL,
+  "current" boolean DEFAULT 0 NOT NULL,
+  "mod_id" bigint DEFAULT 0 NOT NULL,
+  "title" varchar(100) NOT NULL DEFAULT '',
+  "note" varchar(255) NOT NULL DEFAULT '',
+  "content" text,
+  "ordering" bigint DEFAULT 0 NOT NULL,
+  "position" varchar(50) DEFAULT '' NOT NULL,
+  "checked_out" integer,
+  "checked_out_time" timestamp without time zone,
+  "publish_up" timestamp without time zone,
+  "publish_down" timestamp without time zone,
+  "published" smallint DEFAULT 0 NOT NULL,
+  "module" varchar(50) DEFAULT NULL,
+  "access" bigint DEFAULT 0 NOT NULL,
+  "showtitle" smallint DEFAULT 1 NOT NULL,
+  "params" text NOT NULL,
+  "client_id" smallint DEFAULT 0 NOT NULL,
+  "language" varchar(7) NOT NULL,
+  `changedate` timestamp without time zone,
+  PRIMARY KEY (`id`)
+);
 
 --
 -- Table structure for table `#__modules_menu`
