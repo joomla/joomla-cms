@@ -141,7 +141,7 @@ class HtmlView extends BaseHtmlView
         $this->children   = $this->get('Children');
         $this->parent     = $this->get('Parent');
         $this->pagination = $this->get('Pagination');
-        $this->user   = $this->getCurrentUser();
+        $this->user       = $this->getCurrentUser();
 
         // Flag indicates to not add limitstart=0 to URL
         $this->pagination->hideEmptyLimitstart = true;
