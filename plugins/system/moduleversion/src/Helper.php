@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Helper for plugin moduleversion.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 abstract class Helper
 {
