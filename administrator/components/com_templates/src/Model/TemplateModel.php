@@ -1935,7 +1935,7 @@ class TemplateModel extends FormModel
 
         $files = $xml->addChild('files');
         $files->addChild('filename', 'templateDetails.xml');
-        $files->addChild('folder','html');
+        $files->addChild('folder', 'html');
 
         // Media folder
         $media = $xml->addChild('media');
