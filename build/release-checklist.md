@@ -94,8 +94,8 @@ cat build/tmp/checksums.txt
 ## Checklist (Stable - Preparation)
 If any extra code changes have been applied since the Release Candidate consider tagging a building a fresh Release Candidate alongside the final packages to help as many people test as possible.
 
-- [ ] Create Stable PR for joomla/update.joomla.org:
-- [ ] Create Stable PR for joomla/statistics-server. Use the SHA hashes from the `build/tmp/checksums.txt` file and use filename `Joomla_X-Stable-Update_Package.zip` 
+- [ ] Create Stable PR for joomla/update.joomla.org. Use the SHA hashes from the `build/tmp/checksums.txt` file and use filename `Joomla_X-Stable-Update_Package.zip`
+- [ ] Create Stable PR for joomla/statistics-server. 
 - [ ] Inform `CMS Release Team` and `CMS Maintenance Team` Glip channels the release process has started
 - [ ] Ensure the deleted file list in script.php is up to date (check `deleted_files.txt`, `deleted_folders.txt` and `renamed_files.txt` when generated are in `administrator/components/com_admin/script.php`)
 ```
