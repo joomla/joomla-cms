@@ -201,7 +201,7 @@ class PlgSystemModuleversion extends CMSPlugin
             </label>
             </div>
             <div class="button-wrapper w-100">
-            <button	class="accordion-button collapsed collapsed d-flex align-items-center w-100$titlePadding"
+            <button class="accordion-button collapsed collapsed d-flex align-items-center w-100$titlePadding"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapse$index"
