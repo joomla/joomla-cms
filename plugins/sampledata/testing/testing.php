@@ -103,7 +103,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep1()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -200,7 +200,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep2()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -364,7 +364,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep3()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -583,7 +583,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep4()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -992,7 +992,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep5()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1319,7 +1319,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep6()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -1437,7 +1437,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep7()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 
@@ -3122,7 +3122,7 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep8()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 

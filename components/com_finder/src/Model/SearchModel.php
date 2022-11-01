@@ -350,7 +350,7 @@ class SearchModel extends ListModel
     {
         // Get the configuration options.
         $app      = Factory::getApplication();
-        $input    = $app->input;
+        $input    = $app->getInput();
         $params   = $app->getParams();
         $user     = $this->getCurrentUser();
         $language = Factory::getLanguage();

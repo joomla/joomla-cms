@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app               = Factory::getApplication();
-        $this->file        = $app->input->get('file', '');
+        $this->file        = $app->getInput()->get('file', '');
         $this->fileName    = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
         $explodeArray      = explode('.', $this->fileName);
         $ext               = end($explodeArray);
@@ -233,7 +233,7 @@ class HtmlView extends BaseHtmlView
     {
         $app   = Factory::getApplication();
         $user  = $this->getCurrentUser();
-        $app->input->set('hidemainmenu', true);
+        $app->getInput()->set('hidemainmenu', true);
 
         // User is global SuperUser
         $isSuperUser = $user->authorise('core.admin');
