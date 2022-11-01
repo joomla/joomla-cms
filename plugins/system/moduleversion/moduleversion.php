@@ -185,7 +185,7 @@ class PlgSystemModuleversion extends CMSPlugin
             $moduleTitle = $result->title;
 
             if ($result->current === 1) {
-                $moduleTitle .= '<span class="ms-1 icon-star" aria-hidden="true"></span>';
+                $moduleTitle .= '<span class="ms-1 icon-star" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('JCURRENT'); ?></span>';
             }
 
             $titlePadding = $result->note ? ' py-2' : ' py-2 p-lg-3';
