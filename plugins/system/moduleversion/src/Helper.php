@@ -220,7 +220,7 @@ abstract class Helper
     }
 
     /**
-     * Datbase helper to delete verions of trashed modules.
+     * Datbase helper to delete versions of trashed modules.
      *
      * @param   int   $item Current module item
      * @return  void
