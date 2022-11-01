@@ -248,7 +248,7 @@ abstract class Helper
     }
 
     /**
-     * Datbase helper to delete verions of trashed modules.
+     * Datbase helper to delete versions of uninstalled modules.
      *
      * @param   string   $eid Current extension ID
      * @return  void
