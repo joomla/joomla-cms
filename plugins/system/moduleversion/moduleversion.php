@@ -24,7 +24,7 @@ use Joomla\Plugin\System\Moduleversion\Helper;
  *  Class for module version
  *
  * @package     Joomla.Plugin
- * @since  4.3
+ * @since     __DEPLOY_VERSION__
  */
 class PlgSystemModuleversion extends CMSPlugin
 {
