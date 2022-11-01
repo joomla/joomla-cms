@@ -67,16 +67,14 @@ class PlgsystemModuleversion extends CMSPlugin
     public function onBeforeRender(): void
     {
         // Check if client is administrator or view is module.
-        if (!$this->app->isClient('administrator') || $this->app->input->get->getString('view') !== 'module')
-        {
+        if (!$this->app->isClient('administrator') || $this->app->input->get->getString('view') !== 'module') {
             return;
         }
 
         self::loadVersionsResults();
 
         // Return if we have no entries.
-        if (self::$numberOfVersions === 0)
-        {
+        if (self::$numberOfVersions === 0) {
             return;
         }
 
@@ -85,8 +83,7 @@ class PlgsystemModuleversion extends CMSPlugin
         (bool) $restoredMessage = $input->get('modver', '', 'bool');
 
         // Output message if version is loaded.
-        if ($restoredMessage)
-        {
+        if ($restoredMessage) {
             $this->app->enqueueMessage(Text::_('PLG_SYSTEM_MODULEVERSION_MODULE_RESTORED'), 'success');
         }
 
@@ -112,8 +109,7 @@ class PlgsystemModuleversion extends CMSPlugin
     public function onAfterRender(): void
     {
         // Check if client is administrator or we have results.
-        if (!$this->app->isClient('administrator') || !self::$results)
-        {
+        if (!$this->app->isClient('administrator') || !self::$results) {
             return;
         }
 
@@ -148,8 +144,7 @@ class PlgsystemModuleversion extends CMSPlugin
         <div class="accordion" id="accordionModInfo">
         HTML;
 
-        foreach (self::$results as $index => $result)
-        {
+        foreach (self::$results as $index => $result) {
             $modulePosition = $result->position ? $result->position : Text::_('JNONE');
             $modulePublished = $result->published ? Text::_('JPUBLISHED') : Text::_('JUNPUBLISHED');
             $moduleShowtitle = $result->showtitle ? Text::_('JSHOW') : Text::_('JHIDE');
@@ -174,8 +169,7 @@ class PlgsystemModuleversion extends CMSPlugin
             $modContent = '';
             $showParams = (bool) $this->params->get('showparams', 1);
 
-            if (!empty($result->content))
-            {
+            if (!empty($result->content)) {
                 $result->content = str_replace('src="images', 'src="' . URI::root(true) . '/images', $result->content);
                 $modContent = '<fieldset class="options-form p-3"><legend class="mb-0">' . Text::_('PLG_SYSTEM_MODULEVERSION_CONTENT_TITLE') . '</legend>';
                 $modContent .= '<div class="overflow-hidden ps-3">' . $result->content . '</div></fieldset>';
@@ -183,16 +177,14 @@ class PlgsystemModuleversion extends CMSPlugin
 
             $modParams = '';
 
-            if (!empty($result->params) && $showParams)
-            {
+            if (!empty($result->params) && $showParams) {
                 $modParams = '<fieldset class="options-form p-3"><legend class="mb-0">' . Text::_('PLG_SYSTEM_MODULEVERSION_PARAMS_TITLE') . '</legend>';
                 $modParams .= '<div class="overflow-hidden">' . Helper::formatOutput(json_decode($result->params, true)) . '</div></fieldset>';
             }
 
             $moduleTitle = $result->title;
 
-            if ($result->current === 1)
-            {
+            if ($result->current === 1) {
                 $moduleTitle .= '<span class="ms-1 icon-star" aria-hidden="true"></span>';
             }
 
@@ -258,8 +250,7 @@ class PlgsystemModuleversion extends CMSPlugin
         $currentUri->toString();
 
         // Load the module version.
-        if (($index = $this->app->input->post->getInt('index', -1)) >= 0)
-        {
+        if (($index = $this->app->input->post->getInt('index', -1)) >= 0) {
             // Get the index of the list.
             $item = self::$results[$index];
 
@@ -294,8 +285,7 @@ class PlgsystemModuleversion extends CMSPlugin
     public function onBeforeCompileHead(): void
     {
         // Check if client is administrator and view is module.
-        if (!$this->app->isClient('administrator') && $this->app->input->get->getString('view') !== 'module')
-        {
+        if (!$this->app->isClient('administrator') && $this->app->input->get->getString('view') !== 'module') {
             return;
         }
 
@@ -312,8 +302,8 @@ class PlgsystemModuleversion extends CMSPlugin
      * Method is called when an extension is saved.
      *
      * @param   object  $context  The context which is active.
-     * @param   object  $item	  An optional associative array of module settings.
-     * @param   bool  	$isNew	  Check if module is new.
+     * @param   object  $item     An optional associative array of module settings.
+     * @param   bool    $isNew    Check if module is new.
      *
      * @since   1.0
      * @return  void
@@ -321,16 +311,14 @@ class PlgsystemModuleversion extends CMSPlugin
     public function onExtensionAfterSave($context, $item, $isNew)
     {
         // Check if client is Administrator or context is module
-        if (!$this->app->isClient('administrator') || $context !== 'com_modules.module')
-        {
+        if (!$this->app->isClient('administrator') || $context !== 'com_modules.module') {
             return;
         }
 
         self::loadVersionsResults();
 
         // Store module version when isNew.
-        if ($isNew === true || self::$numberOfVersions === 0)
-        {
+        if ($isNew === true || self::$numberOfVersions === 0) {
             // Reset the current check mark.
             Helper::resetCurrent($item->id); // phpcs:ignore
 
@@ -343,8 +331,7 @@ class PlgsystemModuleversion extends CMSPlugin
         $moduleHasChanged = Helper::compareVersion($item, self::$results[0]);
 
         // If noting has changed return
-        if (!$moduleHasChanged)
-        {
+        if (!$moduleHasChanged) {
             return;
         }
 
@@ -358,20 +345,16 @@ class PlgsystemModuleversion extends CMSPlugin
         $versionsToKeep = (int) $this->params->get('versionstokeep', 10);
 
         // Error trap if 0 or negative number is set in the plugin.
-        if ($versionsToKeep < 1)
-        {
+        if ($versionsToKeep < 1) {
             $versionsToKeep = 1;
         }
 
         // Update the number of versions to store
-        if (self::$numberOfVersions >= $versionsToKeep)
-        {
+        if (self::$numberOfVersions >= $versionsToKeep) {
             $toMuchVersions = self::$numberOfVersions - $versionsToKeep;
 
-            if ($toMuchVersions >= 0)
-            {
-                for ($i = 0; $i <= $toMuchVersions; $i++)
-                {
+            if ($toMuchVersions >= 0) {
+                for ($i = 0; $i <= $toMuchVersions; $i++) {
                     Helper::removeObsolete($item->id);
                 }
             }
@@ -382,7 +365,7 @@ class PlgsystemModuleversion extends CMSPlugin
      * Method is called when an Extension is being deleted.
      *
      * @param   string  $context  The module.
-     * @param   Table   $table	  DataBase Table object.
+     * @param   Table   $table    DataBase Table object.
      *
      * @return  void
      *
@@ -391,8 +374,7 @@ class PlgsystemModuleversion extends CMSPlugin
     public function onExtensionAfterDelete($context, $table): void
     {
         // Check if client is administrator or view is module.
-        if (!$this->app->isClient('administrator') || $context !== 'com_modules.module')
-        {
+        if (!$this->app->isClient('administrator') || $context !== 'com_modules.module') {
             return;
         }
 
@@ -412,8 +394,7 @@ class PlgsystemModuleversion extends CMSPlugin
     public function onExtensionBeforeUninstall($eid)
     {
         // Check if client is administrator or view is module.
-        if (!$this->app->isClient('administrator'))
-        {
+        if (!$this->app->isClient('administrator')) {
             return;
         }
 
@@ -428,8 +409,7 @@ class PlgsystemModuleversion extends CMSPlugin
      */
     protected function loadVersionsResults(): void
     {
-        if (self::$results !== null)
-        {
+        if (self::$results !== null) {
             return;
         }
 

@@ -204,7 +204,8 @@ abstract class Helper
             function (string $key, $value) use ($db) {
                 return $db->quoteName($key) . ' = ' . $db->quote($value);
             },
-            array_keys($temp = self::filterContent((array) $item, ['mod_id'])), array_values($temp)
+            array_keys($temp = self::filterContent((array) $item, ['mod_id'])),
+            array_values($temp)
         );
 
         $conditions = array(
@@ -342,28 +343,23 @@ abstract class Helper
 
     /**
      * Create the html params table from the object
-     * @param   object   $values	Object with module parameters
+     * @param   object   $values    Object with module parameters
      * @return string
      */
     public static function formatOutput($values): string
     {
-        if (is_object($values))
-        {
+        if (is_object($values)) {
             $values = get_object_vars($values);
         }
 
         $output = '<dl class="dl-horizontal">';
 
-        foreach ($values as $key => $val)
-        {
-            if (is_object($val) || is_array($val))
-            {
+        foreach ($values as $key => $val) {
+            if (is_object($val) || is_array($val)) {
                 $val = is_object($val) ? get_object_vars($val) : $val;
 
                 $output .= '<dt>' . $key . '</dt><dd>' . self::formatOutput($val) . '</dd>';
-            }
-            else
-            {
+            } else {
                 $val = empty($val) ? '' : $val;
 
                 $val = str_replace('src="images', 'src="' . URI::root(true) . '/images', $val);
