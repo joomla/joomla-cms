@@ -160,7 +160,7 @@ class FormView extends HtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
 
         $user       = Factory::getUser();
         $userId     = $user->id;

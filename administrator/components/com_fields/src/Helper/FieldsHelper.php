@@ -454,11 +454,11 @@ class FieldsHelper
             ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
         if (
-            (!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
+            (!isset($data->id) || !$data->id) && Factory::getApplication()->getInput()->getCmd('controller') == 'modules'
             && Factory::getApplication()->isClient('site')
         ) {
             // Modules on front end editing don't have data and an id set
-            $data->id = Factory::getApplication()->input->getInt('id');
+            $data->id = Factory::getApplication()->getInput()->getInt('id');
         }
 
         // Looping through the fields again to set the value
