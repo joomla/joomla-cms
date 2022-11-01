@@ -393,7 +393,7 @@ class PlgSystemModuleversion extends CMSPlugin
      */
     public function onExtensionBeforeUninstall($eid)
     {
-        // Check if client is administrator or view is module.
+        // Check if client is administrator.
         if (!$this->app->isClient('administrator')) {
             return;
         }
