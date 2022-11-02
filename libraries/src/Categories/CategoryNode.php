@@ -15,6 +15,10 @@ use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper class to load Categorytree
  *

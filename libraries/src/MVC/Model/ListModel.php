@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for handling lists of items.
  *
@@ -276,7 +280,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     protected function getListQuery()
     {
-        return $this->getDatabase()->getQuery(true);
+        return $this->getDbo()->getQuery(true);
     }
 
     /**
@@ -536,7 +540,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'direction':
-                                if (!\in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
+                                if ($value && (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))) {
                                     $value = $direction;
                                 }
                                 break;

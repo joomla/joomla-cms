@@ -6,6 +6,10 @@
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   (C) 2014-2019 Spomky-Labs
+ * @license     This software may be modified and distributed under the terms
+ *              of the MIT license.
+ *              See libraries/vendor/web-auth/webauthn-lib/LICENSE
  */
 
 namespace Joomla\Plugin\Multifactorauth\Webauthn\Hotfix;
@@ -23,6 +27,10 @@ use Webauthn\CertificateToolbox;
 use Webauthn\MetadataService\MetadataStatementRepository;
 use Webauthn\StringStream;
 use Webauthn\TrustPath\CertificateTrustPath;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * We had to fork the key attestation support object from the WebAuthn server package to address an

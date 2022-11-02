@@ -9,6 +9,10 @@
 
 namespace Joomla\CMS\Microdata;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Platform class for interacting with Microdata semantics.
  *

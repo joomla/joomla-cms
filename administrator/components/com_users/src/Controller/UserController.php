@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * User controller class.
  *
@@ -111,6 +115,11 @@ class UserController extends FormController
             }
 
             $this->setRedirect($return);
+        }
+
+        // If a user has to renew a password but has no permission for users
+        if (!$this->app->getIdentity()->authorise('core.admin', 'com_users')) {
+            $this->setRedirect('index.php');
         }
 
         return $result;
