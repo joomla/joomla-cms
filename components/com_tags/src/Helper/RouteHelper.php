@@ -106,7 +106,7 @@ class RouteHelper extends CMSRouteHelper
      * @since   4.2.0
      * @throws  Exception
      */
-    public static function getComponentTagRoute(string $id, string $language = '*'): string
+    public static function getComponentTagRoute($id, string $language = '*'): string
     {
         if (!is_array($id)) {
             if ($id < 1) {
