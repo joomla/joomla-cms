@@ -13,6 +13,7 @@ namespace Joomla\Component\Tags\Site\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
@@ -211,8 +212,9 @@ class TagModel extends ListModel
             $this->setState('tag.typesr', $typesr);
         }
 
-        $language = $app->getInput()->getString('tag_list_language_filter');
-        $this->setState('tag.language', $language);
+        if (Multilanguage::isEnabled()) {
+            $this->setState('tag.language', Factory::getApplication()->getLanguage()->getTag());
+        }
 
         // List state information
         $format = $app->getInput()->getWord('format');

@@ -13,6 +13,9 @@ namespace Joomla\Component\Tags\Administrator\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Versioning\VersionableModelTrait;
@@ -43,6 +46,14 @@ class TagModel extends AdminModel
      * @since  3.2
      */
     public $typeAlias = 'com_tags.tag';
+
+    /**
+     * The context used for the associations table
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $associationsContext = 'com_tags.tag';
 
     /**
      * Allowed batch commands
@@ -139,6 +150,22 @@ class TagModel extends AdminModel
             }
         }
 
+
+        // Load associated content items
+        $assoc = Associations::isEnabled();
+
+        if ($assoc) {
+            $result->associations = array();
+
+            if ($result->id != null) {
+                $associations = Associations::getAssociations('com_tags', '#__tags', 'com_tags.tag', $result->id, 'id', 'alias', null);
+
+                foreach ($associations as $tag => $association) {
+                    $result->associations[$tag] = $association->id;
+                }
+            }
+        }
+
         return $result;
     }
 
@@ -201,6 +228,51 @@ class TagModel extends AdminModel
     }
 
     /**
+     * Allows preprocessing of the Form object.
+     *
+     * @param   Form    $form   The form object
+     * @param   array   $data   The data to be merged into the form object
+     * @param   string  $group  The plugin group to be executed
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function preprocessForm(Form $form, $data, $group = 'content')
+    {
+        // Association content items
+        if (Associations::isEnabled()) {
+            $languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
+
+            if (count($languages) > 1) {
+                $addform = new \SimpleXMLElement('<form />');
+                $fields = $addform->addChild('fields');
+                $fields->addAttribute('name', 'associations');
+                $fieldset = $fields->addChild('fieldset');
+                $fieldset->addAttribute('name', 'item_associations');
+
+                foreach ($languages as $language) {
+                    $field = $fieldset->addChild('field');
+                    $field->addAttribute('name', $language->lang_code);
+                    $field->addAttribute('type', 'tag');
+                    $field->addAttribute('language', $language->lang_code);
+                    $field->addAttribute('label', $language->title);
+                    $field->addAttribute('translate_label', 'false');
+                    $field->addAttribute('select', 'true');
+                    $field->addAttribute('new', 'true');
+                    $field->addAttribute('edit', 'true');
+                    $field->addAttribute('clear', 'true');
+                    $field->addAttribute('propagate', 'true');
+                }
+
+                $form->load($addform, false);
+            }
+        }
+
+        parent::preprocessForm($form, $data, $group);
+    }
+
+    /**
      * Method to save the form data.
      *
      * @param   array  $data  The form data.
@@ -211,106 +283,28 @@ class TagModel extends AdminModel
      */
     public function save($data)
     {
-        /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
-        $table      = $this->getTable();
-        $input      = Factory::getApplication()->getInput();
-        $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
-        $isNew      = true;
-        $context    = $this->option . '.' . $this->name;
+        $return = parent::save($data);
 
-        // Include the plugins for the save events.
-        PluginHelper::importPlugin($this->events_map['save']);
-
-        try {
-            // Load the row if saving an existing tag.
-            if ($pk > 0) {
-                $table->load($pk);
-                $isNew = false;
-            }
-
-            // Set the new parent id if parent id not matched OR while New/Save as Copy .
-            if ($table->parent_id != $data['parent_id'] || $data['id'] == 0) {
-                $table->setLocation($data['parent_id'], 'last-child');
-            }
-
-            // Alter the title for save as copy
-            if ($input->get('task') == 'save2copy') {
-                $origTable = $this->getTable();
-                $origTable->load($input->getInt('id'));
-
-                if ($data['title'] == $origTable->title) {
-                    list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-                    $data['title']       = $title;
-                    $data['alias']       = $alias;
-                } elseif ($data['alias'] == $origTable->alias) {
-                    $data['alias'] = '';
-                }
-
-                $data['published'] = 0;
-            }
-
-            // Bind the data.
-            if (!$table->bind($data)) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
-            // Prepare the row for saving
-            $this->prepareTable($table);
-
-            // Check the data.
-            if (!$table->check()) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
-            // Trigger the before save event.
-            $result = Factory::getApplication()->triggerEvent($this->event_before_save, [$context, $table, $isNew, $data]);
-
-            if (in_array(false, $result, true)) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
-            // Store the data.
-            if (!$table->store()) {
-                $this->setError($table->getError());
-
-                return false;
-            }
-
-            // Trigger the after save event.
-            Factory::getApplication()->triggerEvent($this->event_after_save, [$context, $table, $isNew]);
+        if ($return) {
+            /** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
+            $table = $this->getTable();
 
             // Rebuild the path for the tag:
-            if (!$table->rebuildPath($table->id)) {
+            if (!$table->rebuildPath($this->getState($this->getName() . '.id'))) {
                 $this->setError($table->getError());
 
                 return false;
             }
 
             // Rebuild the paths of the tag's children:
-            if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
+            if (!$table->rebuild($this->getState($this->getName() . '.id'))) {
                 $this->setError($table->getError());
 
                 return false;
             }
-        } catch (\Exception $e) {
-            $this->setError($e->getMessage());
-
-            return false;
         }
 
-        $this->setState($this->getName() . '.id', $table->id);
-        $this->setState($this->getName() . '.new', $isNew);
-
-        // Clear the cache
-        $this->cleanCache();
-
-        return true;
+        return $return;
     }
 
     /**

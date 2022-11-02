@@ -151,13 +151,9 @@ class TagField extends ListField
             if (ComponentHelper::getParams('com_tags')->get('tag_list_language_filter') === 'current_language') {
                 $language = [$app->getLanguage()->getTag(), '*'];
             }
-        } elseif (!empty($this->element['language'])) {
+        } elseif (isset($this->element['language'])) {
             // Filter language
-            if (strpos($this->element['language'], ',') !== false) {
-                $language = explode(',', $this->element['language']);
-            } else {
-                $language = [$this->element['language']];
-            }
+            $language = explode(',', $this->element['language']);
         }
 
         if ($language) {
