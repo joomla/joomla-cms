@@ -54,6 +54,7 @@ use Webauthn\TokenBinding\TokenBindingHandler;
  * WebAuthn server abstraction Class.
  *
  * @since  __DEPLOY_VERSION__
+ * @internal
  */
 final class Server
 {
