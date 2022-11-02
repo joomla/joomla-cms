@@ -639,7 +639,7 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 CREATE TABLE IF NOT EXISTS `#__modules_versions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `current` boolean NOT NULL DEFAULT 0,
-  `mod_id` bigint(11) UNSIGNED NOT NULL,
+  `mod_id` bigint UNSIGNED NOT NULL,
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `content` text,
