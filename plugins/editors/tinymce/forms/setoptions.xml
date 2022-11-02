@@ -110,13 +110,14 @@
 			stripext="1"
 			directory="media/vendor/tinymce/langs/"
 			hide_none="1"
-			default="en"
 			hide_default="1"
 			fileFilter="\.js$"
 			exclude="\.min\.js$"
 			showon="lang_mode:0"
 			validate="options"
-		/>
+		>
+			<option value="">en</option>
+		</field>
 
 		<field
 			name="text_direction"
