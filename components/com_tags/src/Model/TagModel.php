@@ -146,11 +146,6 @@ class TagModel extends ListModel
         $language        = $this->getState('tag.language');
         $stateFilter     = $this->getState('tag.state');
 
-        // Optionally filter on language
-        if (empty($language)) {
-            $language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-        }
-
         $query = (new TagsHelper())->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
 
         if ($this->state->get('list.filter')) {

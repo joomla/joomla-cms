@@ -57,9 +57,6 @@ class TagsModel extends ListModel
         $pid = $app->getInput()->getInt('parent_id');
         $this->setState('tag.parent_id', $pid);
 
-        $language = $app->getInput()->getString('tag_list_language_filter');
-        $this->setState('tag.language', $language);
-
         $offset = $app->getInput()->get('limitstart', 0, 'uint');
         $this->setState('list.offset', $offset);
         $app = Factory::getApplication();

@@ -148,9 +148,7 @@ class TagField extends ListField
 
         // Limit Options in multilanguage
         if ($app->isClient('site') && Multilanguage::isEnabled()) {
-            if (ComponentHelper::getParams('com_tags')->get('tag_list_language_filter') === 'current_language') {
-                $language = [$app->getLanguage()->getTag(), '*'];
-            }
+            $language = [$app->getLanguage()->getTag(), '*'];
         } elseif (isset($this->element['language'])) {
             // Filter language
             $language = explode(',', $this->element['language']);
