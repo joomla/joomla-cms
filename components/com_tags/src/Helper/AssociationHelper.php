@@ -2,9 +2,9 @@
 
 /**
  * @package     Joomla.Site
- * @subpackage  com_content
+ * @subpackage  com_tags
  *
- * @copyright   (C) 2012 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Tags\Site\Helper;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 

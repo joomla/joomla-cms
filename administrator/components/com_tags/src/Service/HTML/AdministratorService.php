@@ -2,9 +2,9 @@
 
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * @subpackage  com_tags
  *
- * @copyright   (C) 2009 Open Source Matters, Inc. <https://www.joomla.org>
+ * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,9 +24,9 @@ use Joomla\Utilities\ArrayHelper;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Contact HTML helper class.
+ * Tags HTML helper class.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class AdministratorService
 {
@@ -36,6 +36,7 @@ class AdministratorService
      * @param   integer  $tagid  The item id to search associations
      *
      * @return  string  The language HTML
+     * @since   __DEPLOY_VERSION__
      *
      * @throws  \Exception
      */
@@ -99,43 +100,6 @@ class AdministratorService
 
             $html = LayoutHelper::render('joomla.content.associations', $items);
         }
-
-        return $html;
-    }
-
-    /**
-     * Show the featured/not-featured icon.
-     *
-     * @param   integer  $value      The featured value.
-     * @param   integer  $i          Id of the item.
-     * @param   boolean  $canChange  Whether the value can be changed or not.
-     *
-     * @return  string  The anchor tag to toggle featured/unfeatured contacts.
-     *
-     * @since   1.6
-     */
-    public function featured($value, $i, $canChange = true)
-    {
-        // Array of image, task, title, action
-        $states = array(
-            0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_ITEM_FEATURE'),
-            1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_ITEM_UNFEATURE'),
-        );
-        $state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-        $icon = $state[0] === 'featured' ? 'star featured' : 'circle';
-        $onclick = 'onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')"';
-        $tooltipText = Text::_($state[3]);
-
-        if (!$canChange) {
-            $onclick     = 'disabled';
-            $tooltipText = Text::_($state[2]);
-        }
-
-        $html = '<button type="submit" class="tbody-icon' . ($value == 1 ? ' active' : '') . '"'
-            . ' aria-labelledby="cb' . $i . '-desc" ' . $onclick . '>'
-            . '<span class="icon-' . $icon . '" aria-hidden="true"></span>'
-            . '</button>'
-            . '<div role="tooltip" id="cb' . $i . '-desc">' . $tooltipText . '</div>';
 
         return $html;
     }
