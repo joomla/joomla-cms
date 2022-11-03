@@ -12,7 +12,6 @@
 
 use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
-use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\Application\ApplicationEvents;
@@ -34,10 +33,16 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageFilesCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
+use Joomla\Plugin\System\Debug\DataCollector\RequestDataCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
+use Joomla\Plugin\System\Debug\DataCollector\UserCollector;
 use Joomla\Plugin\System\Debug\JavascriptRenderer;
 use Joomla\Plugin\System\Debug\JoomlaHttpDriver;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla! Debug plugin.
@@ -46,6 +51,13 @@ use Joomla\Plugin\System\Debug\Storage\FileStorage;
  */
 class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 {
+    /**
+     * List of protected keys that will be redacted in multiple data collected
+     *
+     * @since  4.2.4
+     */
+    public const PROTECTED_COLLECTOR_KEYS = "/password|passwd|pwd|secret|token|server_auth|_pass|smtppass|otpKey|otep/i";
+
     /**
      * True if debug lang is on.
      *
@@ -190,10 +202,14 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
             $this->db->setMonitor(null);
         }
 
-        $storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
-
         $this->debugBar = new DebugBar();
-        $this->debugBar->setStorage(new FileStorage($storagePath));
+
+        // Check whether we want to track the request history for future use.
+        if ($this->params->get('track_request_history', false)) {
+            $storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getName();
+            $this->debugBar->setStorage(new FileStorage($storagePath));
+        }
+
         $this->debugBar->setHttpDriver(new JoomlaHttpDriver($this->app));
 
         $this->isAjax = $this->app->input->get('option') === 'com_ajax'
@@ -249,7 +265,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
 
         // Disable asset media version if needed.
         if (JDEBUG && (int) $this->params->get('refresh_assets', 1) === 0) {
-            $this->app->getDocument()->setMediaVersion(null);
+            $this->app->getDocument()->setMediaVersion('');
         }
     }
 
@@ -276,6 +292,7 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
         $this->loadLanguage();
 
         $this->debugBar->addCollector(new InfoCollector($this->params, $this->debugBar->getCurrentRequestId()));
+        $this->debugBar->addCollector(new UserCollector());
 
         if (JDEBUG) {
             if ($this->params->get('memory', 1)) {

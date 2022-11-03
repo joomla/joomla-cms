@@ -17,6 +17,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_quickicon
  *
@@ -134,7 +138,7 @@ class QuickIconHelper
                     'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
                     'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
                     'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
-                    'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+                    'access'  => array('core.manage', 'com_content', 'core.create', 'com_content'),
                     'group'   => 'MOD_QUICKICON_SITE',
                 ];
 
