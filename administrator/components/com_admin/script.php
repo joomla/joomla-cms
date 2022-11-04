@@ -6452,6 +6452,18 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/LICENSE',
             // From 4.2.1 to 4.2.2
             '/administrator/cache/fido.jwt',
+            // From 4.2 to 4.3
+            '/media/com_menus/css/admin-item-edit_modules.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css.gz',
+            '/media/com_templates/js/admin-template-compare-es5.js',
+            '/media/com_templates/js/admin-template-compare-es5.min.js',
+            '/media/com_templates/js/admin-template-compare-es5.min.js.gz',
+            '/media/com_templates/js/admin-template-compare.js',
+            '/media/com_templates/js/admin-template-compare.min.js',
+            '/media/com_templates/js/admin-template-compare.min.js.gz',
+            '/media/templates/administrator/atum/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/media/templates/site/cassiopeia/scss/vendor/bootstrap/_bootstrap-rtl.scss',
         );
 
         $folders = array(
