@@ -694,6 +694,15 @@ class Language
             // Try first without a language-prefixed filename.
             $filenames[] = "$path/$extension.ini";
             $filenames[] = "$path/$lang.$extension.ini";
+
+            // Get fallback Tag from language metadata
+            $fallbackLang = $this->getFallbackTag();
+
+            if (!empty($fallbackLang)) {
+                $path = LanguageHelper::getLanguagePath($basePath, $fallbackLang);
+                $filenames[] = "$path/$extension.ini";
+                $filenames[] = "$path/$fallbackLang.$extension.ini";
+            }
         }
 
         foreach ($filenames as $filename) {
@@ -1158,5 +1167,14 @@ class Language
     public function getWeekEnd()
     {
         return $this->metadata['weekEnd'] ?? '0,6';
+    }
+
+    public function getFallbackTag()
+    {
+        if (\array_key_exists('fallbackTag', $this->metadata)) {
+            return $this->metadata['fallbackTag'];
+        } else {
+            return '';
+        }
     }
 }
