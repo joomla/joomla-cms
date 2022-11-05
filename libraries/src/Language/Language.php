@@ -1173,8 +1173,8 @@ class Language
     {
         if (\array_key_exists('fallbackTag', $this->metadata)) {
             return $this->metadata['fallbackTag'];
-        } else {
-            return '';
         }
+
+        return '';
     }
 }
