@@ -174,6 +174,12 @@ class HtmlView extends BaseHtmlView
             }
         }
 
+        if ($this->getCurrentUser()->authorise('core.admin')) {
+            $toolbar->standardButton('refresh')
+                ->text('JTOOLBAR_REBUILD')
+                ->task('tags.rebuild');
+        }
+
         if (!$this->isEmptyState && $this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
             $toolbar->delete('tags.delete', 'JTOOLBAR_EMPTY_TRASH')
                 ->message('JGLOBAL_CONFIRM_DELETE')
