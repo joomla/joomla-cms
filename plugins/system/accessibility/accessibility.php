@@ -108,8 +108,10 @@ class PlgSystemAccessibility extends CMSPlugin
                     'enabled' => true,
                     'helpTitles' => true,
                 ],
-                'textToSpeechLang' => [$lang],
-                'speechToTextLang' => [$lang],
+                'language' => [
+                    'textToSpeechLang' => $lang,
+                    'speechToTextLang' => $lang
+                ]
             ]
         );
 
