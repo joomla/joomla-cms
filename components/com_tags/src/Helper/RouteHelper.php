@@ -98,16 +98,17 @@ class RouteHelper extends CMSRouteHelper
     /**
      * Tries to load the router for the component and calls it. Otherwise calls getRoute.
      *
-     * @param   string|string[]   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
-     * @param   string            $language  The language of the tag
+     * @param   string   $id        The ID of the tag in the format TAG_ID:TAG_ALIAS
+     * @param   string   $language  The language of the tag
      *
      * @return  string  URL link to pass to the router
      *
      * @since   4.2.0
      * @throws  Exception
      */
-    public static function getComponentTagRoute($id, string $language = '*'): string
+    public static function getComponentTagRoute(string $id, string $language = '*'): string
     {
+        // We actually would want to allow arrays of tags here, but can't due to B/C
         if (!is_array($id)) {
             if ($id < 1) {
                 return '';
