@@ -1163,12 +1163,12 @@ class CategoryModel extends AdminModel
 
                     return false;
                 }
-     
+
                 // Verify that the alias is unique before move
                 $conditions = [
-                    'alias'     => $this->table->alias, 
-                    'parent_id' => $parentId, 
-                    'extension' => $extension
+                    'alias'     => $this->table->alias,
+                    'parent_id' => $parentId,
+                    'extension' => $extension,
                 ];
 
                 if ($this->table->load($conditions)) {
