@@ -90,6 +90,10 @@ class PlgSystemAccessibility extends CMSPlugin
                     'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
                     'resetTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_RESET'),
                     'closeTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
+                    'disableAnimations'   => Text::_('PLG_SYSTEM_ACCESSIBILITY_DISABLE_ANIMATIONS'),
+                    'increaseLineHeight'  => Text::_ ('PLG_SYSTEM_ACCESSIBILITY_INCREASE_LINE_HEIGHT'),
+                    'decreaseLineHeight'  => Text::_ ('PLG_SYSTEM_ACCESSIBILITY_DECREASE_LINE_HEIGHT'),
+                    'screenReader'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_SCREEN_READER')
                 ],
                 'icon' => [
                     'position' => [

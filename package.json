@@ -40,7 +40,7 @@
     "@joomla/joomla-a11y-checker": "^1.0.0",
     "@popperjs/core": "^2.11.0",
     "@webcomponents/webcomponentsjs": "^2.6.0",
-    "accessibility": "^3.0.14",
+    "accessibility": "^4.5.0",
     "awesomplete": "^1.1.5",
     "bootstrap": "~5.1.3",
     "choices.js": "^9.0.1",
