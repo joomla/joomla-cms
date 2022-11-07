@@ -71,16 +71,6 @@ class PlgSystemAccessibility extends CMSPlugin
         //detect the position
         $position = $this->params->get('position');
 
-        if ($direction == 'right') {
-            if ($position == 'top_right' || $position == 'bottom_right') {
-                $position = preg_replace('/_.*/', '', $position);
-                $position = $position . '_left';
-            } else {
-                $position = preg_replace('/_.*/', '', $position);
-                $position = $position . '_right';
-            }
-        }
-
         /**
         * Add strings for translations in Javascript.
         * Reference  https://ranbuch.github.io/accessibility/
