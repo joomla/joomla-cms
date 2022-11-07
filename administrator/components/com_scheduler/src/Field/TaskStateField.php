@@ -12,6 +12,10 @@ namespace Joomla\Component\Scheduler\Administrator\Field;
 
 use Joomla\CMS\Form\Field\PredefinedlistField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * A predefined list field with all possible states for a com_scheduler entry.
  *

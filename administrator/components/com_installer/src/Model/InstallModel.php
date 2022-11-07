@@ -22,6 +22,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Extension Manager Install Model
  *
