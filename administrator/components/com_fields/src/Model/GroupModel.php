@@ -59,7 +59,7 @@ class GroupModel extends AdminModel
     public function save($data)
     {
         // Alter the title for save as copy
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Save new group as unpublished
         if ($input->get('task') == 'save2copy') {
@@ -99,7 +99,7 @@ class GroupModel extends AdminModel
     public function getForm($data = array(), $loadData = true)
     {
         $context = $this->getState('filter.context');
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         if (empty($context) && isset($data['context'])) {
             $context = $data['context'];
@@ -301,8 +301,9 @@ class GroupModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.group.data', array());
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+        $data  = $app->getUserState('com_fields.edit.group.data', array());
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -315,15 +316,15 @@ class GroupModel extends AdminModel
 
                 $data->set(
                     'state',
-                    $app->input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
+                    $input->getInt('state', (!empty($filters['state']) ? $filters['state'] : null))
                 );
                 $data->set(
                     'language',
-                    $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
+                    $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null))
                 );
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }
@@ -370,7 +371,7 @@ class GroupModel extends AdminModel
      */
     protected function cleanCache($group = null, $clientId = 0)
     {
-        $context = Factory::getApplication()->input->get('context');
+        $context = Factory::getApplication()->getInput()->get('context');
 
         parent::cleanCache($context);
     }

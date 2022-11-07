@@ -48,7 +48,7 @@ trait AjaxHandlerChallenge
     {
         // Initialize objects
         $session    = $this->getApplication()->getSession();
-        $input      = $this->getApplication()->input;
+        $input      = $this->getApplication()->getInput();
 
         // Retrieve data from the request
         $username  = $input->getUsername('username', '');
