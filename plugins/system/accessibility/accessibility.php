@@ -69,7 +69,7 @@ class PlgSystemAccessibility extends CMSPlugin
         $lang = Factory::getLanguage()->getTag();
 
         //detect the position
-        $position = $this->params->get('position','bottom_left');
+        $position = $this->params->get('position', 'bottom_left');
 
         /**
         * Add strings for translations in Javascript.
