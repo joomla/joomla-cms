@@ -68,6 +68,19 @@ class PlgSystemAccessibility extends CMSPlugin
         // Detect the current active language
         $lang = Factory::getLanguage()->getTag();
 
+        //detect the position
+        $position = $this->params->get('position');
+
+        if($direction == 'right') {
+            if($position == 'top_right' || $position == 'bottom_right') {
+                $position = preg_replace('/_.*/', '', $position);
+                $position = $position . '_left';
+            } else {
+                $position = preg_replace('/_.*/', '', $position);
+                $position = $position . '_right';
+            }
+        }
+
         /**
         * Add strings for translations in Javascript.
         * Reference  https://ranbuch.github.io/accessibility/
@@ -92,12 +105,15 @@ class PlgSystemAccessibility extends CMSPlugin
                     'closeTitle'          => Text::_('PLG_SYSTEM_ACCESSIBILITY_CLOSE'),
                     'disableAnimations'   => Text::_('PLG_SYSTEM_ACCESSIBILITY_DISABLE_ANIMATIONS'),
                     'increaseLineHeight'  => Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_LINE_HEIGHT'),
-                    'decreaseLineHeight'  => Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_LINE_HEIGHT'),
-                    'screenReader'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_SCREEN_READER')
+                    'decreaseLineHeight'  => Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_LINE_HEIGHT')
                 ],
                 'icon' => [
                     'position' => [
-                        $direction => [
+                        (($position == 'top_right') || ($position == 'top_left')) ? 'top' : 'bottom' => [
+                            'size' => '50',
+                            'units' => 'px',
+                        ],
+                        (($position == 'top_right') || ($position == 'bottom_right')) ? 'right' : 'left' => [
                             'size' => '0',
                             'units' => 'px',
                         ],

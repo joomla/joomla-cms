@@ -40,6 +40,18 @@
 					<option value="true">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_TRUE</option>
 					<option value="false">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_FALSE</option>
 				</field>
+				<field
+					name="position"
+					type="list"
+					label="PLG_SYSTEM_ACCESSIBILITY_POSITION"
+					default="bottom_left"
+					validate="options"
+					>
+					<option value="bottom_left">PLG_SYSTEM_ACCESSIBILITY_POSITION_BOTTOM_LEFT</option>
+					<option value="bottom_right">PLG_SYSTEM_ACCESSIBILITY_POSITION_BOTTOM_RIGHT</option>
+					<option value="top_left">PLG_SYSTEM_ACCESSIBILITY_POSITION_TOP_LEFT</option>
+					<option value="top_right">PLG_SYSTEM_ACCESSIBILITY_POSITION_TOP_RIGHT</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
