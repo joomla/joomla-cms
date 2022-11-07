@@ -39,7 +39,6 @@ return new class implements ServiceProviderInterface
                     $dispatcher,
                     (array) PluginHelper::getPlugin('content', 'fields')
                 );
-                $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
             }
