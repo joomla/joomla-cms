@@ -1170,7 +1170,7 @@ class Language
     }
 
     /**
-     * Get the language fallback tag this language
+     * Get the language fallback tag for this language
      * to be used for extensions which do not have a language file for this language
      *
      * @return  string  The language fallback tag for the language
@@ -1186,4 +1186,4 @@ class Language
         return '';
     }
 }
-0
+
