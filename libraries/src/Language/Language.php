@@ -1169,6 +1169,14 @@ class Language
         return $this->metadata['weekEnd'] ?? '0,6';
     }
 
+    /**
+     * Get the language fallback tag this language
+     * to be used for extensions which do not have a language file for this language
+     *
+     * @return  string  The language fallback tag for the language
+     *
+     * @since   4.3
+     */
     public function getFallbackTag()
     {
         if (\array_key_exists('fallbackTag', $this->metadata)) {
@@ -1178,3 +1186,4 @@ class Language
         return '';
     }
 }
+0
