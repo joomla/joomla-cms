@@ -71,8 +71,8 @@ class PlgSystemAccessibility extends CMSPlugin
         //detect the position
         $position = $this->params->get('position');
 
-        if($direction == 'right') {
-            if($position == 'top_right' || $position == 'bottom_right') {
+        if ($direction == 'right') {
+            if ($position == 'top_right' || $position == 'bottom_right') {
                 $position = preg_replace('/_.*/', '', $position);
                 $position = $position . '_left';
             } else {
