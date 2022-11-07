@@ -308,7 +308,7 @@ steps:
       - bash tests/cypress/drone-system-run.sh "$(pwd)" cmysql8max mysqli mysql8
 
   - name: artifacts-system-tests
-    image: cschlosser/drone-ftps
+    image: joomlaprojects/docker-images:packager
     depends_on:
       - phpmax-system-mysql
       - phpmax-system-mysql8
@@ -325,15 +325,15 @@ steps:
         from_secret: ftpusername
       FTP_PASSWORD:
         from_secret: ftppassword
-      PLUGIN_HOSTNAME: ci.joomla.org:21
-      PLUGIN_SRC_DIR: /tests/cypress/output/
-      PLUGIN_DEST_DIR: /artifacts
-      PLUGIN_SECURE: false
-      PLUGIN_EXCLUDE: ^\.git/$
+      GITHUB_TOKEN:
+        from_secret: github_token
     commands:
-      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - export PLUGIN_DEST_DIR=/artifacts/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
       - echo https://ci.joomla.org$PLUGIN_DEST_DIR
-      - /bin/upload.sh
+      - rclone config create artifacts ftp host ci.joomla.org user $FTP_USERNAME port 21 pass $FTP_PASSWORD
+      - rclone mkdir artifacts:$PLUGIN_DEST_DIR
+      - rclone copy tests/cypress/output/ artifacts:$PLUGIN_DEST_DIR
+      - 'curl -X POST "https://api.github.com/repos/$DRONE_REPO/statuses/$DRONE_COMMIT" -H "Content-Type: application/json" -H "Authorization: token $GITHUB_TOKEN" -d "{\"state\":\"failure\", \"context\": \"Artifacts from Failure\", \"description\": \"You can find artifacts from the failure of the build here:\", \"target_url\": \"https://ci.joomla.org$PLUGIN_DEST_DIR\"}" > /dev/null'
     when:
       status:
         - failure
@@ -495,6 +495,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 1b3a2997333d2b7e192c012312e241a7d241a1c484dbc29d30cbfa1b2082007a
+hmac: ad1c54a8358c65f87cc6b550310613697f87b567066db3390c62fc5cd9da578b
 
 ...
