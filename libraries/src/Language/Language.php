@@ -1175,7 +1175,7 @@ class Language
      *
      * @return  string  The language fallback tag for the language
      *
-     * @since   4.3
+     * @since   __DEPLOY_VERSION__
      */
     public function getFallbackTag()
     {
