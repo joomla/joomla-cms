@@ -1186,4 +1186,3 @@ class Language
         return '';
     }
 }
-
