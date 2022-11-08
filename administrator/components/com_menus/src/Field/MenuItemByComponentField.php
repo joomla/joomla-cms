@@ -69,7 +69,7 @@ class MenuItemByComponentField extends ListField
 
         foreach ($components as $component) {
             // Load component language files
-            $lang = Factory::getLanguage();
+            $lang = $app->getLanguage();
             $lang->load($component, JPATH_BASE)
             || $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
