@@ -57,7 +57,7 @@ class MenuItemByComponentField extends ListField
             ->where($db->quoteName('extensions.extension_id') . ' IS NOT NULL');
 
         $app             = Factory::getApplication();
-        $currentMenuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', ''));
+        $currentMenuType = $app->getInput()->getString('menutype', $app->getUserState($this->context . '.menutype', ''));
 
         if ($currentMenuType) {
             $query->where($db->quoteName('menu.menutype') . ' = :currentMenuType')
