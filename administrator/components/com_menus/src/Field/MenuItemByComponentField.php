@@ -41,7 +41,7 @@ class MenuItemByComponentField extends ListField
     protected function getOptions()
     {
         // Initialise variable.
-        $db      = Factory::getDbo();
+        $db      = $this->getDatabase();
         $options = [];
 
         $query = $db->getQuery(true);
