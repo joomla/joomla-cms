@@ -104,11 +104,9 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
     /**
      * Send a Notification to defined users a transition is performed
      *
-     * @param   string  $context  The context for the content passed to the plugin.
-     * @param   array   $pks      A list of primary key ids of the content that has changed stage.
-     * @param   object  $data     Object containing data about the transition
+     * @param   WorkflowTransitionEvent  $event  The workflow event being processed.
      *
-     * @return   boolean
+     * @return   void
      *
      * @since   4.0.0
      */
