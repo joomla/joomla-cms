@@ -53,7 +53,7 @@ class PlgButtonFields extends CMSPlugin
         }
 
         // Guess the field context based on view.
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
         $context = $jinput->get('option') . '.' . $jinput->get('view');
 
         // Special context for com_categories

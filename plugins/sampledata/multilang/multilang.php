@@ -105,7 +105,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep1()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -148,7 +148,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep2()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -189,7 +189,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep3()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -225,7 +225,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep4()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -283,7 +283,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep5()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -323,7 +323,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep6()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -403,7 +403,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep7()
     {
-        if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name) {
+        if (!Session::checkToken('get') || $this->app->getInput()->get('type') != $this->_name) {
             return;
         }
 
@@ -439,7 +439,7 @@ class PlgSampledataMultilang extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep8()
     {
-        if ($this->app->input->get('type') !== $this->_name) {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
             return;
         }
 

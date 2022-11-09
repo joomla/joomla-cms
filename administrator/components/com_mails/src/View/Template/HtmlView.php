@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function addToolbar()
     {
-        Factory::getApplication()->input->set('hidemainmenu', true);
+        Factory::getApplication()->getInput()->set('hidemainmenu', true);
         $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(
