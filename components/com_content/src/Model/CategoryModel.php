@@ -145,8 +145,7 @@ class CategoryModel extends ListModel
         $params = $app->getParams();
         $this->setState('params', $params);
 
-        $user  = Factory::getUser();
-
+        $user  = $this->getCurrentUser();
         $asset = 'com_content';
 
         if ($pk) {
