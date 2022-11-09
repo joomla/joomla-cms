@@ -51,7 +51,7 @@ class FeaturedModel extends ArticlesModel
         parent::populateState($ordering, $direction);
 
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
         $user  = $app->getIdentity();
 
         // List state information
