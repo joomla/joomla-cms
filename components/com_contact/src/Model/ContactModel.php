@@ -76,9 +76,9 @@ class ContactModel extends FormModel
         if (Factory::getApplication()->isClient('api')) {
             // @todo: remove this
             $app->loadLanguage();
-            $this->setState('contact.id', Factory::getApplication()->input->post->getInt('id'));
+            $this->setState('contact.id', Factory::getApplication()->getInput()->post->getInt('id'));
         } else {
-            $this->setState('contact.id', $app->input->getInt('id'));
+            $this->setState('contact.id', $app->getInput()->getInt('id'));
         }
 
         $this->setState('params', $app->getParams());
@@ -423,7 +423,7 @@ class ContactModel extends FormModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

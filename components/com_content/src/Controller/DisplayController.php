@@ -39,7 +39,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
      */
     public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
-        $this->input = Factory::getApplication()->input;
+        $this->input = Factory::getApplication()->getInput();
 
         // Article frontpage Editor pagebreak proxying:
         if ($this->input->get('view') === 'article' && $this->input->get('layout') === 'pagebreak') {
