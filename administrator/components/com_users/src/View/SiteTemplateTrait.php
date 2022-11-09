@@ -43,13 +43,13 @@ trait SiteTemplateTrait
             return;
         }
 
-        $itemId = $app->input->get('Itemid');
+        $itemId = $app->getInput()->get('Itemid');
 
         if (!empty($itemId)) {
             return;
         }
 
-        $app->input->set('templateStyle', $templateStyle);
+        $app->getInput()->set('templateStyle', $templateStyle);
 
         try {
             $refApp      = new ReflectionObject($app);
