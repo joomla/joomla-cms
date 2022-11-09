@@ -58,6 +58,10 @@ Joomla.checkInputs = function() {
   inputs.forEach(function(item) {
     if (!item.valid) state = false;
   });
+  document.getElementById('progress-text').classList.remove('error');
+  document.getElementById('progress-text').setAttribute('role', 'status');
+  document.getElementById('progress-text').innerText = Joomla.Text._('INSTL_IN_PROGRESS');
+  document.getElementById('progressbar').setAttribute('value', 0);
 
   // Reveal everything
   document.getElementById('installStep1').classList.add('active');
@@ -71,6 +75,7 @@ Joomla.checkInputs = function() {
 
 Joomla.checkDbCredentials = function() {
   const progress = document.getElementById('progressbar');
+  const progress_text = document.getElementById('progress-text');
   var form = document.getElementById('adminForm'),
     data = Joomla.serialiseForm(form);
 
@@ -90,7 +95,9 @@ Joomla.checkDbCredentials = function() {
       try {
         response = JSON.parse(response);
       } catch (e) {
-        document.querySelector('#progressdbcheck span').classList.value = 'fa fa-times-circle text-error';
+        progress_text.setAttribute('role', 'alert');
+        progress_text.classList.add('error');
+        progress_text.innerText = response;
         console.error('Error in DB Check Endpoint');
         console.error(response);
         Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
@@ -105,17 +112,22 @@ Joomla.checkDbCredentials = function() {
       Joomla.replaceTokens(response.token);
 
       if (response.error) {
+        progress_text.setAttribute('role', 'alert');
+        progress_text.classList.add('error');
+        progress_text.innerText = response.message;
         Joomla.renderMessages({'error': [response.message]});
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // @todo: Convert to promises
-        progress.setAttribute('aria-valuenow', parseInt(progress.getAttribute('aria-valuenow')) + 1);
-        progress.style.width = (100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')) + '%';
+        progress.setAttribute('value', parseInt(document.getElementById('progressbar').getAttribute('value')) + 1);
         Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },
     onError:   function(xhr){
       Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
+      progress_text.setAttribute('role', 'alert');
+      progress_text.classList.add('error');
+      progress_text.innerText = response.message;
       //Install.goToPage('summary');
 
       try {

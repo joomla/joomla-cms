@@ -155,10 +155,12 @@
    */
   Joomla.install = function(tasks, form) {
     const progress = document.getElementById('progressbar');
+    const progress_text = document.getElementById('progress-text');
     if (!form) {
       throw new Error('No form provided')
     }
     if (!tasks.length) {
+      progress_text.innerText = Joomla.Text._('INSTL_FINISHED');
       Joomla.goToPage('remove');
       return;
     }
@@ -175,6 +177,9 @@
         try {
           response = JSON.parse(response);
         } catch (e) {
+          progress_text.setAttribute('role', 'alert');
+          progress_text.classList.add('error');
+          progress_text.innerText = response;
           console.error('Error in ' + task + ' Endpoint');
           console.error(response);
           Joomla.renderMessages({'error': [Joomla.Text._('INSTL_DATABASE_RESPONSE_ERROR')]});
@@ -186,6 +191,9 @@
 
         if (response.error === true)
         {
+          progress_text.setAttribute('role', 'alert');
+          progress_text.classList.add('error');
+          progress_text.innerText = response.message;
           Joomla.renderMessages({"error": [response.message]});
           return false;
         }
@@ -195,11 +203,13 @@
           return false;
         }
 
-        progress.setAttribute('aria-valuenow', parseInt(progress.getAttribute('aria-valuenow')) + 1);
-        progress.style.width = (100 / progress.getAttribute('aria-valuemax') * progress.getAttribute('aria-valuenow')) + '%';
+        progress.setAttribute('value', parseInt(document.getElementById('progressbar').getAttribute('value')) + 1);
         Joomla.install(tasks, form);
       },
       onError: function(xhr){
+        progress_text.setAttribute('role', 'alert');
+        progress_text.classList.add('error');
+        progress_text.innerText = xhr.responseText;
         Joomla.renderMessages([['', Joomla.Text._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
         Joomla.goToPage('remove');
 

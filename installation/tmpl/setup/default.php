@@ -16,16 +16,6 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('behavior.formvalidator');
 
 /** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
-
-$steps = 6;
-
-if (is_file(JPATH_INSTALLATION . '/sql/mysql/localise.sql') || is_file(JPATH_INSTALLATION . '/sql/postgresql/localise.sql')) :
-    $steps++;
-endif;
-
-if (is_file(JPATH_INSTALLATION . '/sql/mysql/custom.sql') || is_file(JPATH_INSTALLATION . '/sql/postgresql/custom.sql')) :
-    $steps++;
-endif;
 ?>
 
 <div id="installer-view" data-page-name="setup">
@@ -135,9 +125,10 @@ endif;
                 <span class="icon-cogs" aria-hidden="true"></span> <?php echo Text::_('INSTL_PROGRESS'); ?>
             </legend>
             <div class="j-install-step-form" aria-live="polite" >
-                <div class="progress mb-4">
-                    <div class="progress-bar" role="progressbar" id="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="<?php echo $steps; ?>"></div>
-                </div>
+                <label class="progresslabel text-center">
+                    <progress class="progressbar" id="progressbar" value="0" max="8"></progress>
+                    <span id="progress-text" role="status"><?php echo Text::_('INSTL_IN_PROGRESS'); ?></span>
+                </label>
             </div>
         </fieldset>
         <input type="hidden" name="admin_password2" id="jform_admin_password2">

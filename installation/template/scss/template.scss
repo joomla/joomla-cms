@@ -254,3 +254,38 @@ caption {
 .table > :not(:last-child) > :last-child > * {
   border-bottom-color: $table-border-color;
 }
+
+// Installation progress
+.progresslabel {width:100%;}
+
+progress {
+  display: block;
+  height: 25px;
+  width: 100%;
+  margin: 1rem auto;
+  border: 0 none;
+  background: linear-gradient(#ccc 0%, #eee 50%, #eee 50%, #ccc 100%);
+  border-radius: 4px;
+}
+
+progress::-webkit-progress-bar {
+  background: linear-gradient(#ccc 0%, #eee 50%, #eee 50%, #ccc 100%);
+  border-radius: 4px;
+}
+
+progress::-webkit-progress-value {
+  background-image:
+    -webkit-linear-gradient(45deg, transparent 40%, rgba(0, 0, 0, .1) 40%, rgba(0, 0, 0, .1) 70%, transparent 70%),
+    -webkit-linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)),
+    -webkit-linear-gradient(left, #2a69b8, #173a65);
+  border-radius: 4px;
+}
+
+/* MOZILLA FIREFOX */
+progress::-moz-progress-bar {
+  background-image:
+    -moz-linear-gradient(45deg, transparent 33%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.1) 70%, transparent 70%),
+    -moz-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)),
+    -moz-linear-gradient(left, #2a69b8, #173a65);
+  border-radius: 4px;
+}
