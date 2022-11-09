@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
         $user = $this->getCurrentUser();
 
         $this->item  = $this->get('Item');
-        $this->print = $app->input->getBool('print', false);
+        $this->print = $app->getInput()->getBool('print', false);
         $this->state = $this->get('State');
         $this->user  = $user;
 

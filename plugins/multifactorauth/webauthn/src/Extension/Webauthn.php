@@ -314,7 +314,7 @@ class Webauthn extends CMSPlugin implements SubscriberInterface
         $session          = $this->getApplication()->getSession();
         $pkOptionsEncoded = $session->get('plg_multifactorauth_webauthn.publicKeyCredentialRequestOptions', null);
 
-        $force = $this->getApplication()->input->getInt('force', 0);
+        $force = $this->getApplication()->getInput()->getInt('force', 0);
 
         try {
             if ($force) {
