@@ -82,7 +82,7 @@ class ModulesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $layout = $app->input->get('layout', '', 'cmd');
+        $layout = $app->getInput()->get('layout', '', 'cmd');
 
         // Adjust the context to support modal layouts.
         if ($layout) {
@@ -90,7 +90,7 @@ class ModulesModel extends ListModel
         }
 
         // Make context client aware
-        $this->context .= '.' . $app->input->get->getInt('client_id', 0);
+        $this->context .= '.' . $app->getInput()->get->getInt('client_id', 0);
 
         // Load the filter state.
         $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
