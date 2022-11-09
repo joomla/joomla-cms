@@ -104,7 +104,7 @@ class MenuModel extends FormModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $id = $app->input->getInt('id');
+        $id = $app->getInput()->getInt('id');
         $this->setState('menu.id', $id);
 
         // Load the parameters.

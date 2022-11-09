@@ -123,6 +123,9 @@ class ArticleField extends FormField
             } catch (\RuntimeException $e) {
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
             }
+            if (empty($title)) {
+                $value = '';
+            }
         }
 
         $title = empty($title) ? Text::_('COM_CONTENT_SELECT_AN_ARTICLE') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');

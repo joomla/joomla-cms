@@ -10,6 +10,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -19,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
-$input = $app->input;
+$input = $app->getInput();
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
@@ -46,13 +47,13 @@ $logoBrandSmall = $this->params->get('logoBrandSmall')
 
 $logoBrandLargeAlt = empty($this->params->get('logoBrandLargeAlt')) && empty($this->params->get('emptyLogoBrandLargeAlt'))
     ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    : 'alt="' . htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
 $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($this->params->get('emptyLogoBrandSmallAlt'))
     ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
 $loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params->get('emptyLoginLogoAlt'))
     ? 'alt=""'
-    : 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt'), ENT_COMPAT, 'UTF-8') . '"';
+    : 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
 
 // Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
@@ -102,9 +103,11 @@ HTMLHelper::_('bootstrap.dropdown');
             <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
         </div>
     </noscript>
-    <div class="ie11 alert alert-warning" role="alert">
-        <?php echo Text::_('JGLOBAL_WARNIE'); ?>
-    </div>
+    <?php if (Browser::getInstance()->getBrowser() === 'msie') : ?>
+        <div class="ie11 alert alert-warning" role="alert">
+            <?php echo Text::_('JGLOBAL_WARNIE'); ?>
+        </div>
+    <?php endif; ?>
 
     <header id="header" class="header d-flex">
         <div class="header-title d-flex">
