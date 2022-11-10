@@ -353,17 +353,17 @@ class LocalAdapter implements AdapterInterface
     /**
      * Returns the folder or file information for the given path. The returned object
      * has the following properties:
-     * - type:              The type can be file or dir
-     * - name:              The name of the file
-     * - path:              The relative path to the root
-     * - extension:         The file extension
-     * - size:              The size of the file
-     * - create_date:       The date created
-     * - modified_date:     The date modified
-     * - mime_type:         The mime type
-     * - width:             The width, when available
-     * - height:            The height, when available
-     * - thumbnail_path     The thumbnail path of file, when available
+     * - type:          The type can be file or dir
+     * - name:          The name of the file
+     * - path:          The relative path to the root
+     * - extension:     The file extension
+     * - size:          The size of the file
+     * - create_date:   The date created
+     * - modified_date: The date modified
+     * - mime_type:     The mime type
+     * - width:         The width, when available
+     * - height:        The height, when available
+     * - thumb_path:    The thumbnail path of file, when available
      *
      * @param   string  $path  The folder
      *
@@ -406,7 +406,7 @@ class LocalAdapter implements AdapterInterface
                 $obj->width  = $props->width;
                 $obj->height = $props->height;
 
-                $obj->thumbnail_path = $this->thumbnails ? $this->getThumbnail($path) : $this->getUrl($obj->path);
+                $obj->thumb_path = $this->thumbnails ? $this->getThumbnail($path) : $this->getUrl($obj->path);
             } catch (UnparsableImageException $e) {
                 // Ignore the exception - it's an image that we don't know how to parse right now
             }
