@@ -62,7 +62,7 @@ class LocalAdapter implements AdapterInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    private $thumbs = false;
+    private $thumbnails = false;
 
     /**
      * Thumbnail dimensions in pixels, [0] = width, [1] = height
@@ -71,19 +71,19 @@ class LocalAdapter implements AdapterInterface
      *
      * @since  __DEPLOY_VERSION__
      */
-    private $thumbSize = [200, 200];
+    private $thumbnailSize = [200, 200];
 
     /**
      * The absolute root path in the local file system.
      *
      * @param   string    $rootPath    The root path
      * @param   string    $filePath    The file path of media folder
-     * @param   boolean   $thumbs      The thumbs option
-     * @param   array     $thumbSize   The thumbnail dimensions in pixels
+     * @param   boolean   $thumbnails      The thumbnails option
+     * @param   array     $thumbnailSize   The thumbnail dimensions in pixels
      *
      * @since   4.0.0
      */
-    public function __construct(string $rootPath, string $filePath, bool $thumbs = false, array $thumbSize = [200, 200])
+    public function __construct(string $rootPath, string $filePath, bool $thumbnails = false, array $thumbnailSize = [200, 200])
     {
         if (!file_exists($rootPath)) {
             throw new \InvalidArgumentException(Text::_('COM_MEDIA_ERROR_MISSING_DIR'));
@@ -91,10 +91,10 @@ class LocalAdapter implements AdapterInterface
 
         $this->rootPath  = Path::clean(realpath($rootPath), '/');
         $this->filePath  = $filePath;
-        $this->thumbs    = $thumbs;
-        $this->thumbSize = $thumbSize;
+        $this->thumbnails    = $thumbnails;
+        $this->thumbnailSize = $thumbnailSize;
 
-        if ($this->thumbs) {
+        if ($this->thumbnails) {
             $dir = JPATH_ROOT . '/media/cache/com_media/thumbs/' . $this->filePath;
 
             if (!is_dir($dir)) {
@@ -258,15 +258,15 @@ class LocalAdapter implements AdapterInterface
 
         File::write($localPath, $data);
 
-        if ($this->thumbs && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
-            $thumbPaths = $this->getLocalThumbPaths($localPath);
+        if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
+            $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
-            if (empty($thumbPaths)) {
+            if (empty($thumbnailPaths)) {
                 return $name;
             }
 
             // Create the thumbnail
-            $this->createThumb($localPath, $thumbPaths['fs']);
+            $this->createThumbnail($localPath, $thumbnailPaths['fs']);
         }
 
         return $name;
@@ -296,15 +296,15 @@ class LocalAdapter implements AdapterInterface
 
         File::write($localPath, $data);
 
-        if ($this->thumbs && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
-            $thumbPaths = $this->getLocalThumbPaths($localPath);
+        if ($this->thumbnails && MediaHelper::isImage(pathinfo($localPath)['basename'])) {
+            $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
-            if (empty($thumbPaths['fs'])) {
+            if (empty($thumbnailPaths['fs'])) {
                 return;
             }
 
             // Create the thumbnail
-            $this->createThumb($localPath, $thumbPaths['fs']);
+            $this->createThumbnail($localPath, $thumbnailPaths['fs']);
         }
     }
 
@@ -321,15 +321,15 @@ class LocalAdapter implements AdapterInterface
     public function delete(string $path)
     {
         $localPath =  $this->getLocalPath($path);
-        $thumbPaths = $this->getLocalThumbPaths($localPath);
+        $thumbnailPaths = $this->getLocalThumbnailPaths($localPath);
 
         if (is_file($localPath)) {
             if (!File::exists($localPath)) {
                 throw new FileNotFoundException();
             }
 
-            if ($this->thumbs && !empty($thumbPaths['fs']) && is_file($thumbPaths['fs'])) {
-                File::delete($thumbPaths['fs']);
+            if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_file($thumbnailPaths['fs'])) {
+                File::delete($thumbnailPaths['fs']);
             }
 
             $success = File::delete($localPath);
@@ -340,8 +340,8 @@ class LocalAdapter implements AdapterInterface
 
             $success = Folder::delete($localPath);
 
-            if ($this->thumbs && !empty($thumbPaths['fs']) && is_dir($thumbPaths['fs'])) {
-                Folder::delete($thumbPaths['fs']);
+            if ($this->thumbnails && !empty($thumbnailPaths['fs']) && is_dir($thumbnailPaths['fs'])) {
+                Folder::delete($thumbnailPaths['fs']);
             }
         }
 
@@ -353,17 +353,17 @@ class LocalAdapter implements AdapterInterface
     /**
      * Returns the folder or file information for the given path. The returned object
      * has the following properties:
-     * - type:          The type can be file or dir
-     * - name:          The name of the file
-     * - path:          The relative path to the root
-     * - extension:     The file extension
-     * - size:          The size of the file
-     * - create_date:   The date created
-     * - modified_date: The date modified
-     * - mime_type:     The mime type
-     * - width:         The width, when available
-     * - height:        The height, when available
-     * - thumb_path     The thumbnail path of file, when available
+     * - type:              The type can be file or dir
+     * - name:              The name of the file
+     * - path:              The relative path to the root
+     * - extension:         The file extension
+     * - size:              The size of the file
+     * - create_date:       The date created
+     * - modified_date:     The date modified
+     * - mime_type:         The mime type
+     * - width:             The width, when available
+     * - height:            The height, when available
+     * - thumbnail_path     The thumbnail path of file, when available
      *
      * @param   string  $path  The folder
      *
@@ -406,7 +406,7 @@ class LocalAdapter implements AdapterInterface
                 $obj->width  = $props->width;
                 $obj->height = $props->height;
 
-                $obj->thumb_path = $this->thumbs ? $this->getThumb($path) : $this->getUrl($obj->path);
+                $obj->thumbnail_path = $this->thumbnails ? $this->getThumbnail($path) : $this->getUrl($obj->path);
             } catch (UnparsableImageException $e) {
                 // Ignore the exception - it's an image that we don't know how to parse right now
             }
@@ -886,7 +886,7 @@ class LocalAdapter implements AdapterInterface
      * @since   __DEPLOY_VERSION__
      * @throws  InvalidPathException
      */
-    private function getLocalThumbPaths(string $path): array
+    private function getLocalThumbnailPaths(string $path): array
     {
         $rootPath = str_replace(['\\', '/'], '/', $this->rootPath);
         $path     = str_replace(['\\', '/'], '/', $path);
@@ -914,44 +914,44 @@ class LocalAdapter implements AdapterInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function getThumb(string $path): string
+    private function getThumbnail(string $path): string
     {
-        $thumbPaths = $this->getLocalThumbPaths($path);
+        $thumbnailPaths = $this->getLocalThumbnailPaths($path);
 
-        if (empty($thumbPaths['fs'])) {
+        if (empty($thumbnailPaths['fs'])) {
             return $this->getUrl($path);
         }
 
-        $dir = dirname($thumbPaths['fs']);
+        $dir = dirname($thumbnailPaths['fs']);
 
         if (!is_dir($dir)) {
             Folder::create($dir);
         }
 
         // Create the thumbnail
-        if (!is_file($thumbPaths['fs']) && !$this->createThumb($path, $thumbPaths['fs'])) {
+        if (!is_file($thumbnailPaths['fs']) && !$this->createThumbnail($path, $thumbnailPaths['fs'])) {
             return $this->getUrl($path);
         }
 
-        return Uri::root() . $this->getEncodedPath($thumbPaths['url']);
+        return Uri::root() . $this->getEncodedPath($thumbnailPaths['url']);
     }
 
     /**
      * Create a thumbnail of the given image.
      *
      * @param   string  $path       The path of the image
-     * @param   string  $thumbPath  The path of the thumbnail
+     * @param   string  $thumbnailPath  The path of the thumbnail
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
      */
-    private function createThumb(string $path, string $thumbPath): bool
+    private function createThumbnail(string $path, string $thumbnailPath): bool
     {
         $image = new Image($path);
 
         try {
-            $image->createThumbnails([$this->thumbSize[0] . 'x' . $this->thumbSize[1]], $image::SCALE_INSIDE, dirname($thumbPath), true);
+            $image->createThumbnails([$this->thumbnailSize[0] . 'x' . $this->thumbnailSize[1]], $image::SCALE_INSIDE, dirname($thumbnailPath), true);
         } catch (\Exception $e) {
             return false;
         }
