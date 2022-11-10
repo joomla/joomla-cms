@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile client="installation">
-	<name>English (Australia)</name>
+	<name>Macedonian (Macedonia)</name>
 	<version>4.2.5</version>
 	<creationDate>2022-10</creationDate>
 	<author>Joomla! Project</author>
@@ -10,9 +10,9 @@
 		<filename>joomla.ini</filename>
 	</files>
 	<metadata>
-		<name>English (en-AU)</name>
-		<nativeName>English (Australia)</nativeName>
-		<tag>en-AU</tag>
+		<name>Macedonian (mk-MK)</name>
+		<nativeName>Македонски (Macedonia)</nativeName>
+		<tag>mk-MK</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params/>
