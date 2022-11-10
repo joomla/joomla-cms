@@ -17,54 +17,54 @@ namespace Joomla\CMS\Cache\Storage;
  */
 class CacheStorageHelper
 {
-	/**
-	 * Cache data group
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $group = '';
+    /**
+     * Cache data group
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $group = '';
 
-	/**
-	 * Cached item size
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	public $size = 0;
+    /**
+     * Cached item size
+     *
+     * @var    string
+     * @since  1.7.0
+     */
+    public $size = 0;
 
-	/**
-	 * Counter
-	 *
-	 * @var    integer
-	 * @since  1.7.0
-	 */
-	public $count = 0;
+    /**
+     * Counter
+     *
+     * @var    integer
+     * @since  1.7.0
+     */
+    public $count = 0;
 
-	/**
-	 * Constructor
-	 *
-	 * @param   string  $group  The cache data group
-	 *
-	 * @since   1.7.0
-	 */
-	public function __construct($group)
-	{
-		$this->group = $group;
-	}
+    /**
+     * Constructor
+     *
+     * @param   string  $group  The cache data group
+     *
+     * @since   1.7.0
+     */
+    public function __construct($group)
+    {
+        $this->group = $group;
+    }
 
-	/**
-	 * Increase cache items count.
-	 *
-	 * @param   string  $size  Cached item size
-	 *
-	 * @return  void
-	 *
-	 * @since   1.7.0
-	 */
-	public function updateSize($size)
-	{
-		$this->size += $size;
-		$this->count++;
-	}
+    /**
+     * Increase cache items count.
+     *
+     * @param   string  $size  Cached item size
+     *
+     * @return  void
+     *
+     * @since   1.7.0
+     */
+    public function updateSize($size)
+    {
+        $this->size += $size;
+        $this->count++;
+    }
 }
