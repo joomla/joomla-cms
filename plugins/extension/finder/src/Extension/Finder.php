@@ -159,8 +159,6 @@ final class Finder extends CMSPlugin
         $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
-        require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
-
         $lang = Helper::getPrimaryLanguage($extension->element);
 
         $query->insert($db->quoteName('#__finder_terms_common'))
@@ -191,10 +189,7 @@ final class Finder extends CMSPlugin
      */
     protected function removeCommonWords($extension)
     {
-        $db = $this->getDatabase();
-
-        require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
-
+        $db   = $this->getDatabase();
         $lang = Helper::getPrimaryLanguage($extension->element);
 
         $query = $db->getQuery(true);
