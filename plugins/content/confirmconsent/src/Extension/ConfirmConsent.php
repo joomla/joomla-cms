@@ -6,12 +6,11 @@
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Content\ConfirmConsent\Extension;
+
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -23,15 +22,8 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  3.9.0
  */
-class PlgContentConfirmConsent extends CMSPlugin
+final class ConfirmConsent extends CMSPlugin
 {
-    /**
-     * @var    \Joomla\CMS\Application\SiteApplication
-     *
-     * @since  3.9.0
-     */
-    protected $app;
-
     /**
      * Load the language file on instantiation.
      *
@@ -65,12 +57,15 @@ class PlgContentConfirmConsent extends CMSPlugin
      */
     public function onContentPrepareForm(Form $form, $data)
     {
-        if ($this->app->isClient('administrator') || !in_array($form->getName(), $this->supportedContext)) {
+        if ($this->getApplication()->isClient('administrator') || !in_array($form->getName(), $this->supportedContext)) {
             return true;
         }
 
         // Get the consent box Text & the selected privacyarticle
-        $consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
+        $consentboxText  = (string) $this->params->get(
+            'consentbox_text',
+            $this->getApplication()->getLanguage()->_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT')
+        );
         $privacyArticle  = $this->params->get('privacy_article', false);
         $privacyType     = $this->params->get('privacy_type', 'article');
         $privacyMenuItem = $this->params->get('privacy_menu_item', false);
