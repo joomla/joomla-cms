@@ -137,9 +137,9 @@ class PlgExtensionFinder extends CMSPlugin
     protected function addCommonWords($extension)
     {
         if ($extension->client_id == 0) {
-            $path = JPATH_SITE . '/language/' . $extension->element . '/' . $extension->element . '.com_finder.commonwords.txt';
+            $path = JPATH_SITE . '/language/' . $extension->element . '/com_finder.commonwords.txt';
         } else {
-            $path = JPATH_ADMINISTRATOR . '/language/' . $extension->element . '/' . $extension->element . '.com_finder.commonwords.txt';
+            $path = JPATH_ADMINISTRATOR . '/language/' . $extension->element . '/com_finder.commonwords.txt';
         }
 
         if (!file_exists($path)) {
