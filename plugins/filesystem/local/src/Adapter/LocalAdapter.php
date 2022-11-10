@@ -318,7 +318,7 @@ class LocalAdapter implements AdapterInterface
      * @since   4.0.0
      * @throws  \Exception
      */
-    public function delete(string $path): void
+    public function delete(string $path)
     {
         $localPath =  $this->getLocalPath($path);
         $thumbPaths = $this->getLocalThumbPaths($localPath);
