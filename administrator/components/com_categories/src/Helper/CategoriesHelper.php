@@ -29,39 +29,43 @@ class CategoriesHelper
     /**
      * Gets a list of associations for a given item.
      *
-     * @param   integer  $pk         Content item key.
-     * @param   string   $extension  Optional extension name.
+     * @param   int|int[]  $pk         Category ID or array of IDs
+     * @param   string     $extension  Optional extension name.
      *
-     * @return  array of associations.
+     * @return  array of associations, optionally grouped by ID
      */
     public static function getAssociations($pk, $extension = 'com_content')
     {
-        $langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
-        $associations     = array();
-        $user             = Factory::getUser();
-        $groups           = $user->getAuthorisedViewLevels();
+        // To avoid doing duplicate database queries.
+        static $multilanguageAssociations = array();
 
-        foreach ($langAssociations as $langAssociation) {
-            // Include only published categories with user access
-            $arrId   = explode(':', $langAssociation->id);
-            $assocId = (int) $arrId[0];
-            $db      = Factory::getDbo();
+        // Multilanguage association array key. If the key is already in the array we don't need to run the query again, just return it.
+        $queryKey = md5(serialize(array_merge(array($extension, print_r($pk, true)))));
 
-            $query = $db->getQuery(true)
-                ->select($db->quoteName('published'))
-                ->from($db->quoteName('#__categories'))
-                ->whereIn($db->quoteName('access'), $groups)
-                ->where($db->quoteName('id') . ' = :associd')
-                ->bind(':associd', $assocId, ParameterType::INTEGER);
+        if (!isset($multilanguageAssociations[$queryKey])) {
+            $multilanguageAssociations[$queryKey] = array();
 
-            $result = (int) $db->setQuery($query)->loadResult();
+            $user = Factory::getUser();
+            $groups = implode(',', $user->getAuthorisedViewLevels());
 
-            if ($result === 1) {
-                $associations[$langAssociation->language] = $langAssociation->id;
+            $advClause = [];
+
+            // Filter by user groups
+            $advClause[] = 'c2.access IN (' . $groups . ')';
+
+            // Filter by published categories
+            $advClause[] = 'c2.published = 1';
+
+            $associations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', (array) $pk, 'id', 'alias', '', $advClause);
+
+            foreach ($associations as $itemId => $langAssociations) {
+                foreach ($langAssociations as $langAssociation) {
+                    $multilanguageAssociations[$queryKey][$itemId][$langAssociation->language] = $langAssociation->id;
+                }
             }
         }
 
-        return $associations;
+        return is_array($pk) ? $multilanguageAssociations[$queryKey] : ($multilanguageAssociations[$queryKey][$pk] ?? []);
     }
 
     /**
