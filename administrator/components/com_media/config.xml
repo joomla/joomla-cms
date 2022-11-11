@@ -120,14 +120,6 @@
 			showon="restrict_uploads:1"
 		/>
 
-		<field
-			name="upload_mime_illegal"
-			type="text"
-			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
-			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC"
-			default="text/html"
-			showon="restrict_uploads:1"
-		/>
 	</fieldset>
 
 	<fieldset
