@@ -85,6 +85,13 @@ class LdapPluginTest extends UnitTestCase
         //TODO configure openldap (only if given permission in phpunit.xml, so people can use their own ldap server) to require the requested encryption to be sure encryption is used
     }
 
+    private function skipIfAskedFor($options): void
+    {
+        if (empty($options["host"])) {
+            $this->markTestSkipped("No LDAP host provided, skipping test against LDAP server.");
+        }
+    }
+
     /**
      * Setup
      *
@@ -145,6 +152,7 @@ class LdapPluginTest extends UnitTestCase
     {
         $options = $this->default_options;
         $options["auth_method"] = "search";
+        $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
@@ -165,6 +173,7 @@ class LdapPluginTest extends UnitTestCase
 
         $options = $this->default_options;
         $options["auth_method"] = "bind";
+        $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 
         $response = new AuthenticationResponse();
@@ -183,6 +192,7 @@ class LdapPluginTest extends UnitTestCase
     {
         $options = $this->default_options;
         $options["auth_method"] = "bind";
+        // this one should have the same result with or without LDAP server running
         $plugin = $this->getPlugin($options);
 
         $credentials = $this->default_credentials;
@@ -205,6 +215,7 @@ class LdapPluginTest extends UnitTestCase
         $options = $this->default_options;
         $options["auth_method"] = "search";
         $options["encryption"] = "tls";
+        $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 
         $this->acceptCertificates();
@@ -230,6 +241,7 @@ class LdapPluginTest extends UnitTestCase
         $options["auth_method"] = "search";
         $options["encryption"] = "ssl";
         $options["port"] = self::SSLPORT;
+        $this->skipIfAskedFor($options);
         $plugin = $this->getPlugin($options);
 
         $this->acceptCertificates();

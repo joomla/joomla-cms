@@ -16,7 +16,7 @@
 		<const name="JTEST_DB_PASSWORD" value="joomla_ut" />
 
 		<!--ldap settings are preconfigured to work with bitnami/openldap docker image-->
-		<const name="JTEST_LDAP_HOST" value="openldap" />
+		<const name="JTEST_LDAP_HOST" value="openldap" /> <!-- to disable ldap tests: set to an empty value -->
 		<const name="JTEST_LDAP_PORT" value="1389" />
 		<const name="JTEST_LDAP_PORT_SSL" value="1636" />
 		<!--CACERTFILE path is relative to JPATH_ROOT-->
