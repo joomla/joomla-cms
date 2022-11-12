@@ -269,7 +269,7 @@ class PlgSystemTasknotification extends CMSPlugin implements SubscriberInterface
         // Get all users who are not blocked and have opted in for system mails.
         $query = $db->getQuery(true);
 
-        $query->select($db->qn(['name', 'email', 'sendEmail', 'id']))
+        $query->select($db->quoteName(['name', 'email', 'sendEmail', 'id']))
             ->from($db->quoteName('#__users'))
             ->where($db->quoteName('sendEmail') . ' = 1')
             ->where($db->quoteName('block') . ' = 0');
