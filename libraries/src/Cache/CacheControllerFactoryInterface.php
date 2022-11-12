@@ -9,7 +9,9 @@
 
 namespace Joomla\CMS\Cache;
 
+// phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Interface defining a factory which can create CacheController objects

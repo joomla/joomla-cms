@@ -9,12 +9,14 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-\defined('JPATH_PLATFORM') or die;
-
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Factory;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Memcached cache storage handler
