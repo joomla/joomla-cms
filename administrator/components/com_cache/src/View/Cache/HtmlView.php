@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_cache
@@ -100,13 +101,11 @@ class HtmlView extends BaseHtmlView
         $this->activeFilters = $model->getActiveFilters();
 
         // Check for errors.
-        if (\count($errors = $this->get('Errors')))
-        {
+        if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if (!\count($this->data))
-        {
+        if (!\count($this->data)) {
             $this->setLayout('emptystate');
         }
 
@@ -129,16 +128,14 @@ class HtmlView extends BaseHtmlView
         // Get the toolbar object instance
         $toolbar = Toolbar::getInstance('toolbar');
 
-        if (\count($this->data))
-        {
+        if (\count($this->data)) {
             ToolbarHelper::custom('delete', 'delete', '', 'JTOOLBAR_DELETE', true);
             ToolbarHelper::custom('deleteAll', 'remove', '', 'JTOOLBAR_DELETE_ALL', false);
             $toolbar->appendButton('Confirm', 'COM_CACHE_RESOURCE_INTENSIVE_WARNING', 'delete', 'COM_CACHE_PURGE_EXPIRED', 'purge', false);
             ToolbarHelper::divider();
         }
 
-        if ($this->getCurrentUser()->authorise('core.admin', 'com_cache'))
-        {
+        if ($this->getCurrentUser()->authorise('core.admin', 'com_cache')) {
             ToolbarHelper::preferences('com_cache');
             ToolbarHelper::divider();
         }

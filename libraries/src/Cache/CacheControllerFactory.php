@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -30,8 +31,7 @@ class CacheControllerFactory implements CacheControllerFactoryInterface
      */
     public function createCacheController($type = 'output', $options = array()): CacheController
     {
-        if (!$type)
-        {
+        if (!$type) {
             $type = 'output';
         }
 
@@ -40,8 +40,7 @@ class CacheControllerFactory implements CacheControllerFactoryInterface
         $class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
 
         // The class should now be loaded
-        if (!class_exists($class))
-        {
+        if (!class_exists($class)) {
             throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.cache
@@ -34,8 +35,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container)
-            {
+            function (Container $container) {
                 $plugin                 = PluginHelper::getPlugin('system', 'cache');
                 $dispatcher             = $container->get(DispatcherInterface::class);
                 $documentFactory        = $container->get('document.factory');

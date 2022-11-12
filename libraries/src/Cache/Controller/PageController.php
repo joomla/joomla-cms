@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -58,22 +59,18 @@ class PageController extends CacheController
     public function get($id = false, $group = 'page')
     {
         // If an id is not given, generate it from the request
-        if (!$id)
-        {
+        if (!$id) {
             $id = $this->_makeId();
         }
 
         // If the etag matches the page id ... set a no change header and exit : utilize browser cache
-        if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH']))
-        {
+        if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])) {
             $etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 
-            if ($etag == $id)
-            {
+            if ($etag == $id) {
                 $browserCache = $this->options['browsercache'] ?? false;
 
-                if ($browserCache)
-                {
+                if ($browserCache) {
                     $this->_noChange();
                 }
             }
@@ -84,21 +81,17 @@ class PageController extends CacheController
 
         $this->_locktest = (object) array('locked' => null, 'locklooped' => null);
 
-        if ($data === false)
-        {
+        if ($data === false) {
             $this->_locktest = $this->cache->lock($id, $group);
 
             // If locklooped is true try to get the cached data again; it could exist now.
-            if ($this->_locktest->locked === true && $this->_locktest->locklooped === true)
-            {
+            if ($this->_locktest->locked === true && $this->_locktest->locklooped === true) {
                 $data = $this->cache->get($id, $group);
             }
         }
 
-        if ($data !== false)
-        {
-            if ($this->_locktest->locked === true)
-            {
+        if ($data !== false) {
+            if ($this->_locktest->locked === true) {
                 $this->cache->unlock($id, $group);
             }
 
@@ -131,37 +124,31 @@ class PageController extends CacheController
      */
     public function store($data, $id, $group = null, $wrkarounds = true)
     {
-        if ($this->_locktest->locked === false && $this->_locktest->locklooped === true)
-        {
+        if ($this->_locktest->locked === false && $this->_locktest->locklooped === true) {
             // We can not store data because another process is in the middle of saving
             return false;
         }
 
         // Get page data from the application object
-        if (!$data)
-        {
+        if (!$data) {
             $data = Factory::getApplication()->getBody();
 
             // Only attempt to store if page data exists.
-            if (!$data)
-            {
+            if (!$data) {
                 return false;
             }
         }
 
         // Get id and group and reset the placeholders
-        if (!$id)
-        {
+        if (!$id) {
             $id = $this->_id;
         }
 
-        if (!$group)
-        {
+        if (!$group) {
             $group = $this->_group;
         }
 
-        if ($wrkarounds)
-        {
+        if ($wrkarounds) {
             $data = Cache::setWorkarounds(
                 $data,
                 array(
@@ -175,8 +162,7 @@ class PageController extends CacheController
 
         $result = $this->cache->store(serialize($data), $id, $group);
 
-        if ($this->_locktest->locked === true)
-        {
+        if ($this->_locktest->locked === true) {
             $this->cache->unlock($id, $group);
         }
 

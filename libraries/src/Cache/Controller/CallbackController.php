@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -37,23 +38,18 @@ class CallbackController extends CacheController
      */
     public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
     {
-        if (!\is_array($args))
-        {
+        if (!\is_array($args)) {
             $referenceArgs = !empty($args) ? array(&$args) : array();
-        }
-        else
-        {
+        } else {
             $referenceArgs = &$args;
         }
 
         // Just execute the callback if caching is disabled.
-        if (empty($this->options['caching']))
-        {
+        if (empty($this->options['caching'])) {
             return \call_user_func_array($callback, $referenceArgs);
         }
 
-        if (!$id)
-        {
+        if (!$id) {
             // Generate an ID
             $id = $this->_makeId($callback, $args);
         }
@@ -62,56 +58,46 @@ class CallbackController extends CacheController
 
         $locktest = (object) array('locked' => null, 'locklooped' => null);
 
-        if ($data === false)
-        {
+        if ($data === false) {
             $locktest = $this->cache->lock($id);
 
             // If locklooped is true try to get the cached data again; it could exist now.
-            if ($locktest->locked === true && $locktest->locklooped === true)
-            {
+            if ($locktest->locked === true && $locktest->locklooped === true) {
                 $data = $this->cache->get($id);
             }
         }
 
-        if ($data !== false)
-        {
-            if ($locktest->locked === true)
-            {
+        if ($data !== false) {
+            if ($locktest->locked === true) {
                 $this->cache->unlock($id);
             }
 
             $data = unserialize(trim($data));
 
-            if ($wrkarounds)
-            {
+            if ($wrkarounds) {
                 echo Cache::getWorkarounds(
                     $data['output'],
                     array('mergehead' => $woptions['mergehead'] ?? 0)
                 );
-            }
-            else
-            {
+            } else {
                 echo $data['output'];
             }
 
             return $data['result'];
         }
 
-        if ($locktest->locked === false && $locktest->locklooped === true)
-        {
+        if ($locktest->locked === false && $locktest->locklooped === true) {
             // We can not store data because another process is in the middle of saving
             return \call_user_func_array($callback, $referenceArgs);
         }
 
         $coptions = array('modulemode' => 0);
 
-        if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
-        {
+        if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1) {
             /** @var HtmlDocument $document */
             $document = Factory::getDocument();
 
-            if (method_exists($document, 'getHeadData'))
-            {
+            if (method_exists($document, 'getHeadData')) {
                 $coptions['headerbefore'] = $document->getHeadData();
 
                 // Reset document head before rendering module. Module will cache only assets added by itself.
@@ -134,18 +120,14 @@ class CallbackController extends CacheController
 
         $data = array('result' => $result);
 
-        if ($wrkarounds)
-        {
+        if ($wrkarounds) {
             $data['output'] = Cache::setWorkarounds($output, $coptions);
-        }
-        else
-        {
+        } else {
             $data['output'] = $output;
         }
 
         // Restore document head data and merge module head data.
-        if ($coptions['modulemode'] == 1)
-        {
+        if ($coptions['modulemode'] == 1) {
             $moduleHeadData = $document->getHeadData();
             $document->resetHeadData();
             $document->mergeHeadData($coptions['headerbefore']);
@@ -155,8 +137,7 @@ class CallbackController extends CacheController
         // Store the cache data
         $this->cache->store(serialize($data), $id);
 
-        if ($locktest->locked === true)
-        {
+        if ($locktest->locked === true) {
             $this->cache->unlock($id);
         }
 
@@ -181,16 +162,14 @@ class CallbackController extends CacheController
     {
         $locktest = $this->cache->lock($id, $group);
 
-        if ($locktest->locked === false && $locktest->locklooped === true)
-        {
+        if ($locktest->locked === false && $locktest->locklooped === true) {
             // We can not store data because another process is in the middle of saving
             return false;
         }
 
         $result = $this->cache->store(serialize($data), $id, $group);
 
-        if ($locktest->locked === true)
-        {
+        if ($locktest->locked === true) {
             $this->cache->unlock($id, $group);
         }
 
@@ -209,16 +188,14 @@ class CallbackController extends CacheController
      */
     protected function _makeId($callback, $args)
     {
-        if (\is_array($callback) && \is_object($callback[0]))
-        {
+        if (\is_array($callback) && \is_object($callback[0])) {
             $vars        = get_object_vars($callback[0]);
             $vars[]      = strtolower(\get_class($callback[0]));
             $callback[0] = $vars;
         }
 
         // A Closure can't be serialized, so to generate the ID we'll need to get its hash
-        if ($callback instanceof \closure)
-        {
+        if ($callback instanceof \closure) {
             $hash = spl_object_hash($callback);
 
             return md5($hash . serialize(array($args)));

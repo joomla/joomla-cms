@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -6,6 +7,7 @@
  * @copyright   (C) 2007 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
@@ -31,8 +33,7 @@ $this->loadTemplate('texts');
 $tmpl = $input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
-if ($tmpl === 'component')
-{
+if ($tmpl === 'component') {
     echo '<div class="subhead noshadow">';
     echo Toolbar::getInstance('toolbar')->render();
     echo '</div>';

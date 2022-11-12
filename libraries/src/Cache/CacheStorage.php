@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -98,13 +99,10 @@ class CacheStorage
 
         // Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
         // _threshold is now available ONLY as a legacy (it's deprecated).  It's no longer used in the core.
-        if (empty($this->_lifetime))
-        {
+        if (empty($this->_lifetime)) {
             $this->_threshold = $this->_now - 60;
             $this->_lifetime = 60;
-        }
-        else
-        {
+        } else {
             $this->_threshold = $this->_now - $this->_lifetime;
         }
     }
@@ -125,18 +123,15 @@ class CacheStorage
     {
         static $now = null;
 
-        if (!isset($handler))
-        {
+        if (!isset($handler)) {
             $handler = Factory::getApplication()->get('cache_handler');
 
-            if (empty($handler))
-            {
+            if (empty($handler)) {
                 throw new \UnexpectedValueException('Cache Storage Handler not set.');
             }
         }
 
-        if (\is_null($now))
-        {
+        if (\is_null($now)) {
             $now = time();
         }
 
@@ -148,33 +143,28 @@ class CacheStorage
         /** @var CacheStorage $class */
         $class = __NAMESPACE__ . '\\Storage\\' . ucfirst($handler) . 'Storage';
 
-        if (!class_exists($class))
-        {
+        if (!class_exists($class)) {
             $class = 'JCacheStorage' . ucfirst($handler);
         }
 
-        if (!class_exists($class))
-        {
+        if (!class_exists($class)) {
             // Search for the class file in the JCacheStorage include paths.
             $path = Path::find(self::addIncludePath(), strtolower($handler) . '.php');
 
-            if ($path === false)
-            {
+            if ($path === false) {
                 throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
             }
 
             \JLoader::register($class, $path);
 
             // The class should now be loaded
-            if (!class_exists($class))
-            {
+            if (!class_exists($class)) {
                 throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
             }
         }
 
         // Validate the cache storage is supported on this platform
-        if (!$class::isSupported())
-        {
+        if (!$class::isSupported()) {
             throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
         }
 
@@ -371,13 +361,11 @@ class CacheStorage
     {
         static $paths;
 
-        if (!isset($paths))
-        {
+        if (!isset($paths)) {
             $paths = array();
         }
 
-        if (!empty($path) && !\in_array($path, $paths))
-        {
+        if (!empty($path) && !\in_array($path, $paths)) {
             array_unshift($paths, Path::clean($path));
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -149,17 +150,14 @@ class RouterViewConfiguration
      */
     public function setParent(RouterViewConfiguration $parent, $parentKey = null)
     {
-        if ($this->parent)
-        {
+        if ($this->parent) {
             $key = array_search($this, $this->parent->children);
 
-            if ($key !== false)
-            {
+            if ($key !== false) {
                 unset($this->parent->children[$key]);
             }
 
-            if ($this->parent_key)
-            {
+            if ($this->parent_key) {
                 $child_key = array_search($this->parent_key, $this->parent->child_keys);
                 unset($this->parent->child_keys[$child_key]);
             }
@@ -173,8 +171,7 @@ class RouterViewConfiguration
 
         $this->parent_key = $parentKey ?? false;
 
-        if ($parentKey)
-        {
+        if ($parentKey) {
             $parent->child_keys[] = $parentKey;
         }
 
@@ -227,8 +224,7 @@ class RouterViewConfiguration
     {
         $key = array_search($layout, $this->layouts);
 
-        if ($key !== false)
-        {
+        if ($key !== false) {
             unset($this->layouts[$key]);
         }
 

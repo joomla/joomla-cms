@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  Acceptance.tests
@@ -13,7 +14,7 @@ use Page\Acceptance\Administrator\MediaFilePage;
 use Page\Acceptance\Administrator\MediaListPage;
 use Step\Acceptance\Administrator\Media;
 
-/*
+/**
  * TODO test d&d upload of files
  * TODO test download of files
  * TODO enable skipped tests
@@ -390,7 +391,7 @@ class MediaListCest
         $I->seeElement(MediaListPage::$newFolderInputField);
         $I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
         $I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
-        $I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el)  {
+        $I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el) {
             return $el->isEnabled();
         });
         $I->click(MediaListPage::$modalConfirmButton);
@@ -419,7 +420,7 @@ class MediaListCest
         $I->seeElement(MediaListPage::$newFolderInputField);
         $I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
         $I->fillField(MediaListPage::$newFolderInputField, $this->testDirectory);
-        $I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el)  {
+        $I->waitForElementChange(MediaListPage::$modalConfirmButton, function (Facebook\WebDriver\Remote\RemoteWebElement $el) {
             return $el->isEnabled();
         });
         $I->click(MediaListPage::$modalConfirmButton);

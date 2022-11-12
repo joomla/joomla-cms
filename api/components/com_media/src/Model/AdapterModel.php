@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -34,8 +35,7 @@ class AdapterModel extends BaseModel
     {
         list($provider, $account) = array_pad(explode('-', $this->getState('id'), 2), 2, null);
 
-        if ($account === null)
-        {
+        if ($account === null) {
             throw new \Exception('Account was not set');
         }
 

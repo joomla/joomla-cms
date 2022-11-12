@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
@@ -64,8 +65,7 @@ class HtmlView extends BaseHtmlView
         $this->providers = $this->get('Providers');
 
         // Check that there are providers
-        if (!count($this->providers))
-        {
+        if (!count($this->providers)) {
             $link = Route::_('index.php?option=com_plugins&view=plugins&filter[folder]=filesystem');
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
         }
@@ -94,8 +94,7 @@ class HtmlView extends BaseHtmlView
         ToolbarHelper::title(Text::_('COM_MEDIA'), 'images mediamanager');
 
         // Add the upload and create folder buttons
-        if ($user->authorise('core.create', 'com_media'))
-        {
+        if ($user->authorise('core.create', 'com_media')) {
             // Add the upload button
             $layout = new FileLayout('toolbar.upload', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
@@ -110,8 +109,7 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add a delete button
-        if ($user->authorise('core.delete', 'com_media'))
-        {
+        if ($user->authorise('core.delete', 'com_media')) {
             // Instantiate a new FileLayout instance and render the layout
             $layout = new FileLayout('toolbar.delete', JPATH_COMPONENT_ADMINISTRATOR . '/layouts');
 
@@ -120,14 +118,12 @@ class HtmlView extends BaseHtmlView
         }
 
         // Add the preferences button
-        if (($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media')) && $tmpl !== 'component')
-        {
+        if (($user->authorise('core.admin', 'com_media') || $user->authorise('core.options', 'com_media')) && $tmpl !== 'component') {
             ToolbarHelper::preferences('com_media');
             ToolbarHelper::divider();
         }
 
-        if ($tmpl !== 'component')
-        {
+        if ($tmpl !== 'component') {
             ToolbarHelper::help('Media');
         }
     }

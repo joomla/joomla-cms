@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Tests
  * @subpackage  Api.tests
@@ -41,8 +42,7 @@ class MediaCest
      */
     public function _before(ApiTester $I)
     {
-        if (file_exists($this->getImagesDirectory($I)))
-        {
+        if (file_exists($this->getImagesDirectory($I))) {
             FileSystem::deleteDir($this->getImagesDirectory($I));
         }
 
@@ -50,8 +50,7 @@ class MediaCest
         $oldUmask     = @umask(0);
         @mkdir($this->getImagesDirectory($I), 0755, true);
 
-        if (!empty($user = $I->getConfig('localUser')))
-        {
+        if (!empty($user = $I->getConfig('localUser'))) {
             @chown($this->getImagesDirectory($I), $user);
         }
 

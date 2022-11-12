@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Joomla! Content Management System
  *
@@ -37,8 +38,7 @@ trait CacheControllerFactoryAwareTrait
      */
     protected function getCacheControllerFactory(): CacheControllerFactoryInterface
     {
-        if ($this->cacheControllerFactory)
-        {
+        if ($this->cacheControllerFactory) {
             return $this->cacheControllerFactory;
         }
 

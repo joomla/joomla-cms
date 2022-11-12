@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -29,13 +30,11 @@ class Configuration
      */
     public function value($value): string
     {
-        if (\is_bool($value))
-        {
+        if (\is_bool($value)) {
             return $value ? 'true' : 'false';
         }
 
-        if (\is_array($value))
-        {
+        if (\is_array($value)) {
             $value = implode(', ', $value);
         }
 

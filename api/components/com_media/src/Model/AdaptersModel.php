@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.API
  * @subpackage  com_media
@@ -44,10 +45,8 @@ class AdaptersModel extends BaseModel implements ListModelInterface
     public function getItems(): array
     {
         $adapters = [];
-        foreach ($this->getProviderManager()->getProviders() as $provider)
-        {
-            foreach ($provider->getAdapters() as $adapter)
-            {
+        foreach ($this->getProviderManager()->getProviders() as $provider) {
+            foreach ($provider->getAdapters() as $adapter) {
                 $obj              = new \stdClass();
                 $obj->id          = $provider->getID() . '-' . $adapter->getAdapterName();
                 $obj->provider_id = $provider->getID();
