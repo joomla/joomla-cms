@@ -6464,6 +6464,16 @@ class JoomlaInstallerScript
             '/media/com_templates/js/admin-template-compare.min.js.gz',
             '/media/templates/administrator/atum/scss/vendor/bootstrap/_bootstrap-rtl.scss',
             '/media/templates/site/cassiopeia/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/plugins/content/confirmconsent/confirmconsent.php',
+            '/plugins/content/contact/contact.php',
+            '/plugins/extension/finder/finder.php',
+            '/plugins/extension/joomla/joomla.php',
+            '/plugins/extension/namespacemap/namespacemap.php',
+            '/plugins/quickicon/downloadkey/downloadkey.php',
+            '/plugins/quickicon/extensionupdate/extensionupdate.php',
+            '/plugins/quickicon/overridecheck/overridecheck.php',
+            '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
+            '/plugins/quickicon/privacycheck/privacycheck.php',
         );
 
         $folders = array(
