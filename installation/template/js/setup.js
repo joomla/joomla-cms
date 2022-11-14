@@ -84,6 +84,7 @@ Joomla.checkDbCredentials = function() {
   document.getElementById('installStep2').classList.remove('active');
   document.getElementById('installStep3').classList.remove('active');
   document.getElementById('installStep4').classList.add('active');
+  progress_text.innerText = Joomla.Text._('INSTL_IN_PROGRESS');
 
   Joomla.request({
     method: "POST",
@@ -120,6 +121,7 @@ Joomla.checkDbCredentials = function() {
         // Run the installer - we let this handle the redirect for now
         // @todo: Convert to promises
         progress.setAttribute('value', parseInt(document.getElementById('progressbar').getAttribute('value')) + 1);
+        progress_text.innerText = Joomla.Text._('INSTL_IN_PROGRESS');
         Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },

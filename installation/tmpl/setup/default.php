@@ -127,7 +127,7 @@ HTMLHelper::_('behavior.formvalidator');
             <div class="j-install-step-form" aria-live="polite" >
                 <label class="progresslabel text-center">
                     <progress class="progressbar" id="progressbar" value="0" max="8"></progress>
-                    <span id="progress-text" role="status"><?php echo Text::_('INSTL_IN_PROGRESS'); ?></span>
+                    <span id="progress-text" role="status"><?php echo Text::_('INSTL'); ?></span>
                 </label>
             </div>
         </fieldset>

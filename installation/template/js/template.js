@@ -161,7 +161,7 @@
     }
     if (!tasks.length) {
       progress_text.innerText = Joomla.Text._('INSTL_FINISHED');
-      Joomla.goToPage('remove');
+      setTimeout(Joomla.goToPage, 2000, 'remove');
       return;
     }
 
@@ -204,6 +204,7 @@
         }
 
         progress.setAttribute('value', parseInt(document.getElementById('progressbar').getAttribute('value')) + 1);
+        progress_text.innerText = Joomla.Text._('INSTL_IN_PROGRESS');
         Joomla.install(tasks, form);
       },
       onError: function(xhr){

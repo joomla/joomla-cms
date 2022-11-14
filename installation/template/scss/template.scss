@@ -267,23 +267,3 @@ progress {
   border: 0 none;
   border-radius: 4px;
 }
-
-progress::-webkit-progress-bar {
-  background: linear-gradient(#ccc 0%, #eee 50%, #eee 50%, #ccc 100%);
-  border-radius: 4px;
-}
-
-progress::-webkit-progress-value {
-  background-image: linear-gradient(45deg, transparent 40%, rgba(0, 0, 0, .1) 40%, rgba(0, 0, 0, .1) 70%, transparent 70%),
-    linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)),
-    linear-gradient(left, #2a69b8, #173a65);
-  border-radius: 4px;
-}
-
-/* MOZILLA FIREFOX */
-progress::-moz-progress-bar {
-  background-image: linear-gradient(45deg, transparent 33%, rgba(0, 0, 0, .1) 40%, rgba(0, 0, 0, .1) 70%, transparent 70%),
-    linear-gradient(top, rgba(255, 255, 255, .25), rgba(0, 0, 0, .25)),
-    linear-gradient(left, #2a69b8, #173a65);
-  border-radius: 4px;
-}
