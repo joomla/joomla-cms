@@ -50,7 +50,6 @@ final class Finder extends CMSPlugin
         $extension = $this->getLanguage($eid);
 
         if ($extension) {
-            $this->removeCommonWords($extension);
             $this->addCommonWords($extension);
         }
     }
@@ -140,6 +139,8 @@ final class Finder extends CMSPlugin
         if (!file_exists($path)) {
             return;
         }
+
+        $this->removeCommonWords($extension);
 
         $file_content = file_get_contents($path);
         $words = explode("\n", $file_content);
