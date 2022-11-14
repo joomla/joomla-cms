@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\Database\DatabaseDriver;
 
@@ -4415,6 +4416,14 @@ class PlgSampledataTesting extends CMSPlugin
      */
     public function onAjaxSampledataApplyStep9()
     {
+        if ($this->app->getInput()->get('type') !== $this->_name) {
+            return;
+        }
+
+        $table = Table::getInstance('Extension');
+        $table->load(['element' => $this->_name, 'type' => 'plugin', 'folder' => 'sampledata']);
+        $table->publish(null, 0);
+
         $response['success'] = true;
         $response['message'] = Text::_('PLG_SAMPLEDATA_TESTING_STEP9_SUCCESS');
 
