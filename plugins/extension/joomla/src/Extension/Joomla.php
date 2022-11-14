@@ -2,18 +2,18 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Extension.Joomla
+ * @subpackage  Extension.joomla
  *
  * @copyright   (C) 2010 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Extension\Joomla\Extension;
 
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -25,14 +25,9 @@ use Joomla\Database\ParameterType;
  *
  * @since  1.6
  */
-class PlgExtensionJoomla extends CMSPlugin
+final class Joomla extends CMSPlugin
 {
-    /**
-     * @var    DatabaseDriver
-     *
-     * @since  4.0.0
-     */
-    protected $db;
+    use DatabaseAwareTrait;
 
     /**
      * @var    integer
@@ -73,7 +68,7 @@ class PlgExtensionJoomla extends CMSPlugin
     private function addUpdateSite($name, $type, $location, $enabled, $extraQuery = '')
     {
         // Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
-        $db    = $this->db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
 
         $query->select($db->quoteName('update_site_id'))
@@ -177,7 +172,7 @@ class PlgExtensionJoomla extends CMSPlugin
         // If we have a valid extension ID and the extension was successfully uninstalled wipe out any
         // update sites for it
         if ($eid && $removed) {
-            $db    = $this->db;
+            $db    = $this->getDatabase();
             $query = $db->getQuery(true);
             $eid   = (int) $eid;
 
