@@ -19,6 +19,7 @@ use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
+
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
 // phpcs:enable PSR1.Files.SideEffects
@@ -52,49 +53,70 @@ class UpdateController extends BaseController
             // Informational log only
         }
 
-        /** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-        $model  = $this->getModel('Update');
-        $result = $model->download();
-        $file   = $result['basename'];
+        $this->input->set('layout', 'download');
+        $this->display();
+    }
 
-        $message = null;
-        $messageType = null;
+    /**
+     * Step through the download of the update package
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function stepdownload()
+    {
+        // Check the anti-CSRF token
+        if (!$this->checkToken('get', false)) {
+            $ret = array(
+                'error' => true,
+                'message' => Text::_('JINVALID_TOKEN_NOTICE'),
+            );
+            @ob_end_clean();
+            echo json_encode($ret);
 
-        // The validation was not successful so abort.
-        if ($result['check'] === false) {
-            $message     = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
-            $messageType = 'error';
-            $url         = 'index.php?option=com_joomlaupdate';
-
-            $this->app->setUserState('com_joomlaupdate.file', null);
-            $this->setRedirect($url, $message, $messageType);
-
-            try {
-                Log::add($message, Log::ERROR, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
-            }
-
-            return;
+            $this->app->close();
         }
 
-        if ($file) {
-            $this->app->setUserState('com_joomlaupdate.file', $file);
-            $url = 'index.php?option=com_joomlaupdate&task=update.install&' . $this->app->getSession()->getFormToken() . '=1';
+        // Set up the update log
+        $options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+        $options['text_file'] = 'joomla_update.php';
+        Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
 
-            try {
-                Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), Log::INFO, 'Update');
-            } catch (\RuntimeException $exception) {
-                // Informational log only
+        // Try to download the next chunk
+        /** @var UpdateModel $model */
+        $model   = $this->getModel('Update', 'Administrator');
+        $frag    = $this->input->get->getInt('frag', -1);
+        $result  = $model->doDownload($frag);
+        $message = '';
+
+        // Are we done yet?
+        if (is_object($result) && $result->done) {
+            $this->app->setUserState('com_joomlaupdate.file', basename($result->localFile));
+
+            // If the checksum failed we will return with an error
+            if (!$result->valid) {
+                $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
             }
-        } else {
-            $this->app->setUserState('com_joomlaupdate.file', null);
-            $url = 'index.php?option=com_joomlaupdate';
+        }
+
+        // If the download failed we will return with an error
+        if (empty($result)) {
             $message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
-            $messageType = 'error';
         }
 
-        $this->setRedirect($url, $message, $messageType);
+        if (!is_object($result)) {
+            $result = new \stdClass();
+        }
+
+        $result->error = !empty($message);
+        $result->message = $message;
+
+        // Return JSON to the browser
+        @ob_end_clean();
+        echo json_encode($result);
+
+        $this->app->close();
     }
 
     /**

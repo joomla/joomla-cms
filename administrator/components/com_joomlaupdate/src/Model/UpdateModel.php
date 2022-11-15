@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 
+use Exception;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -23,6 +24,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
@@ -30,6 +32,7 @@ use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use RuntimeException;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -42,6 +45,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class UpdateModel extends BaseDatabaseModel
 {
+    /**
+     * How much of the update file to download on each page load, in bytes.
+     *
+     * @var   int
+     * @since __DEPLOY_VERSION__
+     */
+    private const CHUNK_LENGTH = 1048576;
+
     /**
      * @var   array  $updateInformation  null
      * Holds the update information evaluated in getUpdateInformation.
@@ -80,7 +91,8 @@ class UpdateModel extends BaseDatabaseModel
                 if (trim($params->get('customurl', '')) != '') {
                     $updateURL = trim($params->get('customurl', ''));
                 } else {
-                    Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
+                    Factory::getApplication()
+                        ->enqueueMessage(Text::_('COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM_ERROR'), 'error');
 
                     return;
                 }
@@ -162,9 +174,19 @@ class UpdateModel extends BaseDatabaseModel
 
         if (count($methodParameters) >= 4) {
             // Reinstall support is available in Updater
-            $updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability, true);
+            $updater
+                ->findUpdates(
+                    ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
+                    $cache_timeout,
+                    $minimumStability,
+                    true
+                );
         } else {
-            $updater->findUpdates(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id, $cache_timeout, $minimumStability);
+            $updater->findUpdates(
+                ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
+                $cache_timeout,
+                $minimumStability
+            );
         }
     }
 
@@ -188,7 +210,7 @@ class UpdateModel extends BaseDatabaseModel
         try {
             // Get the component extension ID
             $joomlaUpdateComponentId = $db->loadResult();
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             // Something is wrong here!
             $joomlaUpdateComponentId = 0;
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -212,7 +234,7 @@ class UpdateModel extends BaseDatabaseModel
 
             try {
                 $joomlaUpdateComponentObject = $db->loadObject();
-            } catch (\RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 // Something is wrong here!
                 $joomlaUpdateComponentObject = null;
                 Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -330,7 +352,7 @@ class UpdateModel extends BaseDatabaseModel
     }
 
     /**
-     * Downloads the update package to the site.
+     * Backwards compatibility shim. Not used in Joomla Update anymore.
      *
      * @return  array
      *
@@ -338,92 +360,165 @@ class UpdateModel extends BaseDatabaseModel
      */
     public function download()
     {
-        $updateInfo = $this->getUpdateInformation();
-        $packageURL = trim($updateInfo['object']->downloadurl->_data);
-        $sources    = $updateInfo['object']->get('downloadSources', array());
+        $result = $this->doDownload(-1, true);
 
-        // We have to manually follow the redirects here so we set the option to false.
+        if ($result === null) {
+            return array('basename' => false);
+        }
+
+        return array(
+            'basename' => basename($result->localFile),
+            'check'    => $result->valid,
+        );
+    }
+
+    /**
+     * Processes the download of the update package to the site.
+     *
+     * @return  object|null  Null on failure, basename of the file in any other case.
+     *
+     * @since   2.5.4
+     */
+    public function doDownload($frag = -1, $forceSinglePart = false)
+    {
+        // Try to set an absurd time limit
+        if (function_exists('set_time_limit')) {
+            @set_time_limit(3600);
+        }
+
+        $forceSinglePart = $forceSinglePart
+            || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 0) == 0;
+
+        // Get the application's session
+        $session = Factory::getApplication()->getSession();
+
+        // Is this the very beginning of the download?
+        if ($frag === -1) {
+            // Get the download information
+            $downloadInformation = $this->getDownloadInformation($forceSinglePart);
+
+            // Oh, we had a problem. Bail out.
+            if ($downloadInformation === null) {
+                return null;
+            }
+
+            // Does the file already exist, fully downloaded, in our temp directory?
+            if ($downloadInformation->exists) {
+                $downloadInformation->done = true;
+
+                return $downloadInformation;
+            }
+
+            // Save the download information to the session.
+            $session->set('com_joomlaupdate.download', $downloadInformation);
+        }
+
+        // Get the information from the session and immediately clear it (guard against fatal errors).
+        $downloadInformation = $session->get('com_joomlaupdate.download', null);
+        $session->set('com_joomlaupdate.download', null);
+
+        if ($downloadInformation === null) {
+            // I don't have any download information. I do not know what to do.
+            return null;
+        }
+
+        // Single part downloads get a very simple handling.
+        if ($forceSinglePart) {
+            // Go through the mirrors until we find one that works or all have failed.
+            foreach ($downloadInformation->mirrors as $url) {
+                $download = $this->downloadPackage($url, $downloadInformation->localFile);
+
+                if ($download !== false) {
+                    break;
+                }
+            }
+
+            $downloadInformation->done  = $download !== false;
+            $downloadInformation->valid =
+                $this->isChecksumValid($downloadInformation->localFile, $downloadInformation->updateInfo);
+
+            return $downloadInformation;
+        }
+
+        // Chunked download, first part. Delete the local file.
+        if ($frag === 0) {
+            if (File::exists($downloadInformation->localFile)) {
+                @unlink($downloadInformation->localFile) || File::delete($downloadInformation->localFile);
+            }
+
+            Log::add(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_LOG_URL',
+                    $downloadInformation->url
+                ),
+                Log::INFO,
+                'Update'
+            );
+        }
+
+        // Calculate the download range
+        $from    = max($frag, 0) * self::CHUNK_LENGTH;
+        $to      = $from + self::CHUNK_LENGTH - 1;
+        $headers = array('Range' => sprintf('bytes=%u-%u', $from, $to));
+
+        try {
+            $logFragment = max($frag + 1, 1);
+
+            Log::add(
+                Text::sprintf(
+                    'COM_JOOMLAUPDATE_UPDATE_LOG_CHUNK',
+                    $logFragment,
+                    $from,
+                    $to
+                ),
+                Log::INFO,
+                'Update'
+            );
+        } catch (Exception $e) {
+            // Informational log only
+        }
+
         $httpOptions = new Registry();
         $httpOptions->set('follow_location', false);
 
         try {
-            $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-        } catch (\RuntimeException $e) {
-            // Passing false here -> download failed message
-            $response['basename'] = false;
-
-            return $response;
+            $http = HttpFactory::getHttp($httpOptions);
+        } catch (Exception $e) {
+            return null;
         }
 
-        // Follow the Location headers until the actual download URL is known
-        while (isset($head->headers['location'])) {
-            $packageURL = (string) $head->headers['location'][0];
-
-            try {
-                $head = HttpFactory::getHttp($httpOptions)->head($packageURL);
-            } catch (\RuntimeException $e) {
-                // Passing false here -> download failed message
-                $response['basename'] = false;
-
-                return $response;
-            }
+        // Download the package
+        try {
+            $result = $http->get($downloadInformation->url, $headers);
+        } catch (RuntimeException $e) {
+            return null;
         }
 
-        // Remove protocol, path and query string from URL
-        $basename = basename($packageURL);
-
-        if (strpos($basename, '?') !== false) {
-            $basename = substr($basename, 0, strpos($basename, '?'));
+        if (!$result || ($result->code < 200 && $result->code > 299)) {
+            return null;
         }
 
-        // Find the path to the temp directory and the local package.
-        $tempdir  = (string) InputFilter::getInstance(
-            [],
-            [],
-            InputFilter::ONLY_BLOCK_DEFINED_TAGS,
-            InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
-        )
-            ->clean(Factory::getApplication()->get('tmp_path'), 'path');
-        $target   = $tempdir . '/' . $basename;
-        $response = [];
+        // Write the file chunk to disk
+        File::append($downloadInformation->localFile, $result->body);
 
-        // Do we have a cached file?
-        $exists = File::exists($target);
+        // Update the download information
+        $downloadInformation->frag++;
+        $downloadInformation->downloaded += mb_strlen($result->body, '8bit');
 
-        if (!$exists) {
-            // Not there, let's fetch it.
-            $mirror = 0;
+        // Am I done?
+        if ($downloadInformation->downloaded >= $downloadInformation->totalSize) {
+            $downloadInformation->done  = true;
+            $downloadInformation->valid =
+                $this->isChecksumValid($downloadInformation->localFile, $downloadInformation->updateInfo);
 
-            while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror])) {
-                $name       = $sources[$mirror];
-                $packageURL = trim($name->url);
-                $mirror++;
-            }
-
-            $response['basename'] = $download;
-        } else {
-            // Is it a 0-byte file? If so, re-download please.
-            $filesize = @filesize($target);
-
-            if (empty($filesize)) {
-                $mirror = 0;
-
-                while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror])) {
-                    $name       = $sources[$mirror];
-                    $packageURL = trim($name->url);
-                    $mirror++;
-                }
-
-                $response['basename'] = $download;
-            }
-
-            // Yes, it's there, skip downloading.
-            $response['basename'] = $basename;
+            return $downloadInformation;
         }
 
-        $response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
+        // Set to session
+        $session->set('com_joomlaupdate.download', $downloadInformation);
 
-        return $response;
+        // Notify the calling code that we're not done just yet
+        return $downloadInformation;
     }
 
     /**
@@ -473,7 +568,7 @@ class UpdateModel extends BaseDatabaseModel
     {
         try {
             Log::add(Text::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), Log::INFO, 'Update');
-        } catch (\RuntimeException $exception) {
+        } catch (RuntimeException $exception) {
             // Informational log only
         }
 
@@ -483,7 +578,7 @@ class UpdateModel extends BaseDatabaseModel
         // Download the package
         try {
             $result = HttpFactory::getHttp([], ['curl', 'stream'])->get($url);
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return false;
         }
 
@@ -637,7 +732,7 @@ ENDDATA;
         $installer->setOverwrite(true);
 
         $db = version_compare(JVERSION, '4.2.0', 'lt') ? $this->getDbo() : $this->getDatabase();
-        $installer->extension = new \Joomla\CMS\Table\Extension($db);
+        $installer->extension = new Extension($db);
         $installer->extension->load(ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id);
 
         $installer->setAdapter($installer->extension->type);
@@ -689,7 +784,7 @@ ENDDATA;
 
         try {
             $db->execute();
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             // Install failed, roll back changes.
             $installer->abort(
                 Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
@@ -699,7 +794,7 @@ ENDDATA;
         }
 
         $id = $db->loadResult();
-        $row = new \Joomla\CMS\Table\Extension($db);
+        $row = new Extension($db);
 
         if ($id) {
             // Load the entry and update the manifest_cache.
@@ -714,7 +809,11 @@ ENDDATA;
             if (!$row->store()) {
                 // Install failed, roll back changes.
                 $installer->abort(
-                    Text::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', Text::_('JLIB_INSTALLER_UPDATE'), $row->getError())
+                    Text::sprintf(
+                        'JLIB_INSTALLER_ABORT_FILE_ROLLBACK',
+                        Text::_('JLIB_INSTALLER_UPDATE'),
+                        $row->getError()
+                    )
                 );
 
                 return false;
@@ -885,27 +984,30 @@ ENDDATA;
         // Get the uploaded file information.
         $input = Factory::getApplication()->getInput();
 
-        // Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
+        /**
+         * Do not change the filter type 'raw'. We need this to let files containing PHP code to
+         * upload. See \Joomla\CMS\Input\Files::get.
+         */
         $userfile = $input->files->get('install_package', null, 'raw');
 
         // Make sure that file uploads are enabled in php.
         if (!(bool) ini_get('file_uploads')) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
+            throw new RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
         }
 
         // Make sure that zlib is loaded so that the package can be unpacked.
         if (!extension_loaded('zlib')) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+            throw new RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
         }
 
         // If there is no uploaded file, we have a problem...
         if (!is_array($userfile)) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
+            throw new RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
         }
 
         // Is the PHP tmp directory missing?
         if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' .
                 Text::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
                 500
@@ -914,15 +1016,16 @@ ENDDATA;
 
         // Is the max upload size too small in php.ini?
         if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE)) {
-            throw new \RuntimeException(
-                Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+            throw new RuntimeException(
+                Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR')
+                . '<br>' . Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
                 500
             );
         }
 
         // Check if there was a different problem uploading the file.
         if ($userfile['error'] || $userfile['size'] < 1) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+            throw new RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
         }
 
         // Build the appropriate paths.
@@ -933,7 +1036,7 @@ ENDDATA;
         $result = File::upload($tmp_src, $tmp_dest, false, true);
 
         if (!$result) {
-            throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+            throw new RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
         }
 
         Factory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
@@ -1263,7 +1366,10 @@ ENDDATA;
 
             $result = !in_array('parse_ini_string', $disabledFunctions);
         } else {
-            // Attempt to detect their existence; even pure PHP implementations of them will trigger a positive response, though.
+            /**
+             * Attempt to detect their existence; even pure PHP implementations of them will trigger
+             * a positive response, though.
+             */
             $result = function_exists('parse_ini_string');
         }
 
@@ -1360,8 +1466,9 @@ ENDDATA;
             unset($decode->creationDate);
 
             $this->translateExtensionName($extension);
-            $extension->version
-                = isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
+            $extension->version = $decode->version ?? Text::_(
+                'COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION'
+            );
             unset($extension->manifest_cache);
             $extension->manifest_cache = $decode;
         }
@@ -1421,7 +1528,8 @@ ENDDATA;
             unset($decode->creationDate);
 
             $this->translateExtensionName($plugin);
-            $plugin->version = $decode->version ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
+            $plugin->version = $decode->version
+                ?? Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
             unset($plugin->manifest_cache);
             $plugin->manifest_cache = $decode;
         }
@@ -1536,7 +1644,7 @@ ENDDATA;
 
         try {
             $response = $http->get($updateSiteInfo['location']);
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $response = null;
         }
 
@@ -1583,7 +1691,8 @@ ENDDATA;
      */
     private function checkCompatibility($updateFileUrl, $joomlaTargetVersion)
     {
-        $minimumStability = ComponentHelper::getParams('com_installer')->get('minimum_stability', Updater::STABILITY_STABLE);
+        $minimumStability = ComponentHelper::getParams('com_installer')
+            ->get('minimum_stability', Updater::STABILITY_STABLE);
 
         $update = new Update();
         $update->set('jversion.full', $joomlaTargetVersion);
@@ -1596,7 +1705,9 @@ ENDDATA;
             $downloadUrl = $update->get('downloadurl');
             $updateVersion = $update->get('version');
 
-            return empty($downloadUrl) || empty($downloadUrl->_data) || empty($updateVersion) ? array() : array($updateVersion->_data);
+            return empty($downloadUrl)
+                || empty($downloadUrl->_data)
+                || empty($updateVersion) ? array() : array($updateVersion->_data);
         }
 
         usort($compatibleVersions, 'version_compare');
@@ -1711,5 +1822,198 @@ ENDDATA;
         }
 
         return $home || $menu;
+    }
+
+    /**
+     * Get the information necessary to download the update file.
+     *
+     * @param   bool  $ignoreTotalSize
+     *
+     * @return  object|null  Null on error
+     *
+     * @throws Exception
+     * @since   __DEPLOY_VERSION__
+     */
+    private function getDownloadInformation(bool $ignoreTotalSize = false): ?object
+    {
+        // Initialisation
+        $response = (object)[
+            'url'        => null,
+            'localFile'  => null,
+            'exists'     => false,
+            'totalSize'  => 0,
+            'downloaded' => 0,
+            'frag'       => 0,
+            'done'       => false,
+            'valid'      => true,
+            'updateInfo' => null,
+            'mirrors'    => '',
+        ];
+
+        $packageURL  = null;
+        $disposition = null;
+
+        // Get the Joomla core update information
+        $updateInfo           = $this->getUpdateInformation();
+        $response->updateInfo = $updateInfo['object']->getProperties();
+        unset($response->updateInfo['xmlParser']);
+
+        // Get the source URLs (primary URL and all mirrors, if any are set up)
+        $sourceURLs = array_map(
+            function ($name) {
+                return isset($name->url) ? $name->url : null;
+            },
+            $updateInfo['object']->get('downloadSources', [])
+        );
+
+        array_unshift($sourceURLs, trim($updateInfo['object']->downloadurl->_data));
+
+        $sourceURLs = array_filter(
+            $sourceURLs,
+            function ($source) {
+                return !empty($source);
+            }
+        );
+
+        $sourceURLs        = array_unique($sourceURLs);
+        $response->mirrors = $sourceURLs;
+
+        // We have to manually follow the redirects here, so we set the option to false.
+        $httpOptions = new Registry();
+        $httpOptions->set('follow_location', false);
+
+        // Go through all mirrors to find the first URL which responds successfully
+        foreach ($sourceURLs as $sourceURL) {
+            $packageURL   = trim($sourceURL);
+            $redirections = 0;
+
+            /**
+             * Try to follow redirections and ultimately get the HEAD info for the valid package URL (if any).
+             *
+             * This is only applied if I am NOT ignoring the total size of the package. If I don't care about the total
+             * size I can just assume that the URL works and call it a day. There's fallback code in doDownload().
+             */
+            while (!$ignoreTotalSize) {
+                // Do a HEAD request; it must respond within 10 seconds
+                try {
+                    $head = HttpFactory::getHttp($httpOptions)->head($packageURL, [], 10);
+                } catch (RuntimeException $e) {
+                    // Probably an invalid URL. Stop following redirections, indicate we need to go to the next mirror.
+                    $packageURL = null;
+
+                    break;
+                }
+
+                // HTTP error. Next mirror.
+                if ($head->code < 200 || $head->code > 399) {
+                    $packageURL = null;
+
+                    break;
+                }
+
+                // If no redirection is found set the total size and stop processing
+                if (!isset($head->headers['location'])) {
+                    $disposition         = $head->headers['content-disposition'] ?? null;
+                    $response->totalSize = $head->headers['content-length'] ?? null;
+
+                    break;
+                }
+
+                // A redirection was found. Follow it.
+                $packageURL = $head->headers['location'];
+
+                // Do not follow more than 20 redirections and consider the download mirror broken.
+                if (++$redirections > 20) {
+                    $packageURL = null;
+
+                    break;
+                }
+            }
+
+            // If we have found a valid package stop going through the mirrors
+            if ($packageURL !== null) {
+                break;
+            }
+        }
+
+        // No valid package found. Return an error.
+        if ($packageURL === null) {
+            return null;
+        }
+
+        // Remove protocol, path and query string from URL
+        $basename = empty($disposition)
+            ? basename($packageURL)
+            : $this->contentDispositionToFilename($disposition);
+        $basename = $basename ?: basename($packageURL);
+
+        if (strpos($basename, '?') !== false) {
+            $basename = substr($basename, 0, strpos($basename, '?'));
+        }
+
+        // Find the path to the temp directory and the local package.
+        $tempdir = (string)InputFilter::getInstance([], [], 1, 1)
+            ->clean(Factory::getApplication()->get('tmp_path'), 'path');
+        $target  = $tempdir . '/' . $basename;
+
+        $response->url       = $packageURL;
+        $response->localFile = $target;
+
+        // Do we have a cached file?
+        $response->exists = File::exists($target);
+
+        if (!$response->exists) {
+            return $response;
+        }
+
+        // Is it a 0-byte file? If so, re-download please.
+        $filesize         = @filesize($target);
+        $response->exists = !empty($filesize) && ($filesize == $response->totalSize);
+
+        return $response;
+    }
+
+    /**
+     * Extracts the filename from a content-disposition HTTP header.
+     *
+     * @param   string|null  $disposition  The contents of the content-disposition header.
+     *
+     * @return  string|null  The extracted filename. NULL if it fails.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function contentDispositionToFilename(?string $disposition): ?string
+    {
+        if (empty($disposition)) {
+            return null;
+        }
+
+        if (strpos($disposition, ';') === false) {
+            return null;
+        }
+
+        [$type, $metadata] = explode(';', $disposition, 2);
+
+        if ($type !== 'attachment') {
+            return null;
+        }
+
+        $metaItems = explode(';', trim($metadata));
+
+        foreach ($metaItems as $line) {
+            if (strpos($line, '=') === false) {
+                continue;
+            }
+
+            [$metaName, $metaValue] = explode('=', $line, 2);
+
+            if (strtolower(trim($metaName)) !== 'filename') {
+                continue;
+            }
+
+            return trim($metaValue);
+        }
+
+        return null;
     }
 }
