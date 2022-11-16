@@ -22,7 +22,7 @@ use Psr\Log\LogLevel;
  *
  * @since  3.8.0
  */
-class DelegatingPsrLogger extends AbstractLogger
+final class DelegatingPsrLogger extends AbstractLogger
 {
     /**
      * The Log instance to delegate messages to.
