@@ -2,19 +2,19 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Content.Contact
+ * @subpackage  Content.contact
  *
  * @copyright   (C) 2014 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Factory;
+namespace Joomla\Plugin\Content\Contact\Extension;
+
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -27,14 +27,9 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class PlgContentContact extends CMSPlugin
+final class Contact extends CMSPlugin
 {
-    /**
-     * @var    \Joomla\Database\DatabaseDriver
-     *
-     * @since  3.3
-     */
-    protected $db;
+    use DatabaseAwareTrait;
 
     /**
      * Plugin that retrieves contact information for contact
@@ -98,7 +93,7 @@ class PlgContentContact extends CMSPlugin
      *
      * @return  stdClass|null  Object containing contact details or null if not found
      */
-    protected function getContactData($userId)
+    private function getContactData($userId)
     {
         static $contacts = array();
 
@@ -107,7 +102,7 @@ class PlgContentContact extends CMSPlugin
             return $contacts[$userId];
         }
 
-        $db     = $this->db;
+        $db     = $this->getDatabase();
         $query  = $db->getQuery(true);
         $userId = (int) $userId;
 
@@ -134,7 +129,7 @@ class PlgContentContact extends CMSPlugin
         if (Multilanguage::isEnabled() === true) {
             $query->where(
                 '(' . $db->quoteName('contact.language') . ' IN ('
-                . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING))
+                . implode(',', $query->bindArray([$this->getApplication()->getLanguage()->getTag(), '*'], ParameterType::STRING))
                 . ') OR ' . $db->quoteName('contact.language') . ' IS NULL)'
             );
         }
