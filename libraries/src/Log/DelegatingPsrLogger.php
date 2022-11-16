@@ -21,6 +21,7 @@ use Psr\Log\LogLevel;
  * Delegating logger which delegates log messages received from the PSR-3 interface to the Joomla! Log object.
  *
  * @since  3.8.0
+ * @internal
  */
 final class DelegatingPsrLogger extends AbstractLogger
 {
