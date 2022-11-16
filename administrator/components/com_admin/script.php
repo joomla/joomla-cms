@@ -6453,6 +6453,14 @@ class JoomlaInstallerScript
             // From 4.2.1 to 4.2.2
             '/administrator/cache/fido.jwt',
             // From 4.2 to 4.3
+            '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-phpunit.php',
+            '/libraries/vendor/paragonie/sodium_compat/dist/Makefile',
+            '/libraries/vendor/paragonie/sodium_compat/dist/box.json',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-above-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-below-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/src/Core/Base64/Common.php',
             '/media/com_menus/css/admin-item-edit_modules.css',
             '/media/com_menus/css/admin-item-edit_modules.min.css',
             '/media/com_menus/css/admin-item-edit_modules.min.css.gz',
@@ -6464,6 +6472,16 @@ class JoomlaInstallerScript
             '/media/com_templates/js/admin-template-compare.min.js.gz',
             '/media/templates/administrator/atum/scss/vendor/bootstrap/_bootstrap-rtl.scss',
             '/media/templates/site/cassiopeia/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/plugins/content/confirmconsent/confirmconsent.php',
+            '/plugins/content/contact/contact.php',
+            '/plugins/extension/finder/finder.php',
+            '/plugins/extension/joomla/joomla.php',
+            '/plugins/extension/namespacemap/namespacemap.php',
+            '/plugins/quickicon/downloadkey/downloadkey.php',
+            '/plugins/quickicon/extensionupdate/extensionupdate.php',
+            '/plugins/quickicon/overridecheck/overridecheck.php',
+            '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
+            '/plugins/quickicon/privacycheck/privacycheck.php',
         );
 
         $folders = array(
@@ -7838,6 +7856,8 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
+            // From 4.2 to 4.3
+            '/libraries/vendor/paragonie/sodium_compat/dist',
         );
 
         $status['files_checked'] = $files;
