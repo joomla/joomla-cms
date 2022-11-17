@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
+use Joomla\Event\Event;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -179,7 +180,7 @@ class HtmlView extends BaseHtmlView
 
                 $itemElement->core_params = new Registry($itemElement->core_params);
 
-                $this->dispatchEvent(new Event('onContentPrepare', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0)));
+                $this->dispatchEvent(new Event('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]));
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentAfterTitle',
