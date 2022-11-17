@@ -174,12 +174,12 @@ class HtmlView extends BaseHtmlView
             foreach ($items as $itemElement) {
                 $itemElement->event = new \stdClass();
 
-                // For some plugins.
-                !empty($itemElement->core_body) ? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+                // Init text property for content plugins.
+                $itemElement->text = empty($itemElement->core_body) ? '' : $itemElement->core_body;
 
                 $itemElement->core_params = new Registry($itemElement->core_params);
 
-                Factory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
+                $this->dispatchEvent(new Event('onContentPrepare', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0)));
 
                 $results = Factory::getApplication()->triggerEvent(
                     'onContentAfterTitle',
