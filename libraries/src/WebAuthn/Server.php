@@ -232,8 +232,8 @@ final class Server
 
         foreach ($coseAlgorithmManager->all() as $algorithm) {
             $publicKeyCredentialParametersList[] = new PublicKeyCredentialParameters(
-            	PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY,
-            	$algorithm::identifier()
+                PublicKeyCredentialDescriptor::CREDENTIAL_TYPE_PUBLIC_KEY,
+                $algorithm::identifier()
             );
         }
 
@@ -242,10 +242,10 @@ final class Server
         $challenge = random_bytes($this->challengeSize);
 
         return (new PublicKeyCredentialCreationOptions(
-        	$this->rpEntity,
-        	$userEntity,
-        	$challenge,
-        	$publicKeyCredentialParametersList
+            $this->rpEntity,
+            $userEntity,
+            $challenge,
+            $publicKeyCredentialParametersList
         ))
             ->setTimeout($this->timeout)
             ->excludeCredentials(...$excludedPublicKeyDescriptors)
@@ -303,10 +303,10 @@ final class Server
         }
 
         $authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
-        	$attestationStatementSupportManager,
-        	$this->publicKeyCredentialSourceRepository,
-        	$this->tokenBindingHandler,
-        	$this->extensionOutputCheckerHandler
+            $attestationStatementSupportManager,
+            $this->publicKeyCredentialSourceRepository,
+            $this->tokenBindingHandler,
+            $this->extensionOutputCheckerHandler
         );
 
         /**
@@ -381,18 +381,18 @@ final class Server
         }
 
         $authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
-        	$this->publicKeyCredentialSourceRepository,
-        	null,
-        	$this->extensionOutputCheckerHandler,
-        	$this->coseAlgorithmManagerFactory->generate(...$this->selectedAlgorithms)
+            $this->publicKeyCredentialSourceRepository,
+            null,
+            $this->extensionOutputCheckerHandler,
+            $this->coseAlgorithmManagerFactory->generate(...$this->selectedAlgorithms)
         );
 
         return $authenticatorAssertionResponseValidator->check(
-        	$publicKeyCredential->getRawId(),
-        	$authenticatorResponse,
-        	$publicKeyCredentialRequestOptions,
-        	$serverRequest,
-        	$userEntity?->getId()
+            $publicKeyCredential->getRawId(),
+            $authenticatorResponse,
+            $publicKeyCredentialRequestOptions,
+            $serverRequest,
+            $userEntity?->getId()
         );
     }
 
