@@ -22,6 +22,9 @@
             // Update the input type
             input.type = 'text';
 
+            // Disable the spellcheck attribute
+            input.setAttribute('spellcheck', 'false');
+
             // Focus the input field
             input.focus();
 
