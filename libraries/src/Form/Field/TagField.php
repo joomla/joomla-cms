@@ -130,6 +130,15 @@ class TagField extends ListField
 
         // This limit is only used with isRemoteSearch
         $prefillLimit   = 30;
+
+        if (is_array($this->value)) {
+            /**
+             * If there are more than 30 tags selected for certain item, we need to load all of these
+             * selected tags
+             */
+            $prefillLimit = max($prefillLimit, count($this->value));
+        }
+
         $isRemoteSearch = $this->isRemoteSearch();
 
         $db    = $this->getDatabase();
@@ -193,8 +202,7 @@ class TagField extends ListField
 
             // Merge the used values into the most used tags
             if (!empty($this->value) && is_array($this->value)) {
-                $topIds = array_merge($topIds, $this->value);
-                $topIds = array_keys(array_flip($topIds));
+                $topIds = array_unique(array_merge($topIds, $this->value));
             }
 
             // Set the default limit for the main query
