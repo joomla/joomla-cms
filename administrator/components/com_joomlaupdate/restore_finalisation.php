@@ -47,7 +47,7 @@ if (!function_exists('clearFileInOPCache')) {
      * @param   string  $file  The filepath to clear from OPcache
      *
      * @return  boolean
-     * @since   4.0.4
+     * @since   __DEPLOY_VERSION__
      */
     function clearFileInOPCache(string $file): bool
     {
