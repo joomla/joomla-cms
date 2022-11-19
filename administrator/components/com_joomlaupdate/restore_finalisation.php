@@ -35,7 +35,7 @@
 
 define('_JOOMLA_UPDATE', 1);
 
-require_once __DIR__ . '/finalisation.php';
+include_once __DIR__ . '/finalisation.php';
 
 if (!function_exists('clearFileInOPCache')) {
     /**
@@ -83,6 +83,8 @@ if (!function_exists('finalizeRestore')) {
      */
     function finalizeRestore(string $siteRoot, string $restorePath): void
     {
-        finalizeUpdate($siteRoot, $restorePath);
+        if (function_exists('finalizeUpdate')) {
+            finalizeUpdate($siteRoot, $restorePath);
+        }
     }
 }
