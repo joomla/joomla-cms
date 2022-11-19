@@ -31,7 +31,7 @@ $wa->useScript('keepalive')
     ->useScript('com_menus.admin-item-edit');
 
 $assoc = Associations::isEnabled();
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';

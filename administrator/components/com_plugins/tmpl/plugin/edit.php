@@ -24,7 +24,7 @@ $wa->useScript('keepalive')
 $this->fieldsets = $this->form->getFieldsets('params');
 $this->useCoreUI = true;
 
-$input = Factory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 // In case of modal
 $isModal  = $input->get('layout') === 'modal';
