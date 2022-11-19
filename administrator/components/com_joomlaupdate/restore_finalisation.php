@@ -79,7 +79,7 @@ if (!function_exists('finalizeRestore')) {
      *
      * @return  void
      *
-     * @since   3.5.1
+     * @since   __DEPLOY_VERSION__
      */
     function finalizeRestore(string $siteRoot, string $restorePath): void
     {
