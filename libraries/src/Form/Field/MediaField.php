@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Uri\Uri;
@@ -286,7 +287,7 @@ class MediaField extends FormField
              * the top level folder is one of the directory configured in filesystem local plugin to avoid error message
              * displayed in manage when users click on Select button to select a new image
              */
-            $paths = explode('/', $this->value);
+            $paths = explode('/', Path::clean($this->value, '/'));
 
             // Remove filename from $paths array
             array_pop($paths);
