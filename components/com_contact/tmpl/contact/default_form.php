@@ -31,11 +31,21 @@ HTMLHelper::_('behavior.formvalidator');
                         <legend><?php echo $legend; ?></legend>
                     <?php endif; ?>
                     <?php foreach ($fields as $field) : ?>
-                        <?php echo $field->renderField(); ?>
+                        <?php if ($field->name != 'jform[contact_email_copy]') : ?>
+                            <?php echo $field->renderField(); ?>
+                        <?php else : ?>
+                            <div class="form-check com-contact__copy">
+                                <input class="form-check-input" id="jform_contact_email_copy" type="checkbox" name="jform[contact_email_copy]" value="1">
+                                <label id="jform_contact_email_copy-lbl" class="form-check-label" for="jform_contact_email_copy">
+                                    <?php echo Text::_('COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL'); ?>
+                                </label>
+                            </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </fieldset>
             <?php endif; ?>
         <?php endforeach; ?>
+
         <?php if ($this->captchaEnabled) : ?>
             <?php echo $this->form->renderFieldset('captcha'); ?>
         <?php endif; ?>
