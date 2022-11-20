@@ -900,8 +900,10 @@ class FieldModel extends AdminModel
                     'assigned_cat_ids',
                     $input->get(
                         'assigned_cat_ids',
-                        (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]), 'array')
-                    );
+                        (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]),
+                        'array'
+                    )
+                );
                 $data->set(
                     'access',
                     $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
