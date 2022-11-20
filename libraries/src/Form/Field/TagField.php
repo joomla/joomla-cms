@@ -130,15 +130,6 @@ class TagField extends ListField
 
         // This limit is only used with isRemoteSearch
         $prefillLimit   = 30;
-
-        if (is_array($this->value)) {
-            /**
-             * If there are more than 30 tags selected for certain item, we need to load all of these
-             * selected tags
-             */
-            $prefillLimit = max($prefillLimit, count($this->value));
-        }
-
         $isRemoteSearch = $this->isRemoteSearch();
 
         $db    = $this->getDatabase();
@@ -211,7 +202,8 @@ class TagField extends ListField
             if (!empty($topIds)) {
                 // Filter the ids to the most used tags and the selected tags
                 $preQuery = clone $query;
-                $preQuery->whereIn($db->quoteName('a.id'), $topIds);
+                $preQuery->clear('limit')
+                    ->whereIn($db->quoteName('a.id'), $topIds);
 
                 $db->setQuery($preQuery);
 
