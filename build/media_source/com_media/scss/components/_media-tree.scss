@@ -19,6 +19,16 @@ ul.media-tree {
   left: 0;
   display: block;
   margin-bottom: 10px;
+  > details {
+    margin: initial;
+    h2 {
+      margin-block-end: 0;
+      display: inline-block;
+    }
+    summary ~ * {
+      margin-block-start: 0;
+    }
+  }
 }
 
 .media-drive {
