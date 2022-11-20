@@ -55,11 +55,13 @@
 
 		<field
 			name="contact_email_copy"
-			type="checkbox"
+			type="checkboxes"
 			label="COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL"
 			id="contact-email-copy"
 			default="0"
-		/>
+			>
+			<option value="0">JYES</option>
+		</field>
 	</fieldset>
 
 	<fieldset name="captcha">
