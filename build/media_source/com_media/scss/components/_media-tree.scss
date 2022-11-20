@@ -102,12 +102,12 @@ ul.media-tree {
 .media-tree-item a {
   display: block;
   padding: 0 7px;
+  overflow: hidden;
   line-height: $sidebar-tree-line-height;
   text-decoration: none;
+  text-overflow: ellipsis;
   white-space: nowrap;
   cursor: pointer;
-  overflow: hidden;
-  text-overflow: ellipsis;
   &:hover,
   &:focus-visible {
     background-color: $sidebar-tree-item-hover-bg;

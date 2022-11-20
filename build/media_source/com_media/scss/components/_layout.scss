@@ -40,17 +40,17 @@
 
 .media-main {
   position: relative;
-  min-height: 75vh;
   flex: 1 1 auto;
+  min-height: 75vh;
 }
 
 .media-sidebar {
-  padding: 1rem;
   flex: 1 1 300px;
+  padding: 1rem;
   @media (min-width: 768px) {
-    align-self: flex-start;
     position: sticky;
     top: 75px;
+    align-self: flex-start;
     max-width: 300px;
   }
 }

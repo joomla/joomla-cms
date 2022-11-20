@@ -6,9 +6,9 @@ $fa-css-prefix:    fa;
   top: ($toolbar-height + 1px);
   inset-inline-end: 0;
   bottom: 0;
-  background-color: $info-bg;
   float: none;
   width: 25%;
+  background-color: $info-bg;
   .media-infobar-inner {
     position: sticky;
     top: 120px;

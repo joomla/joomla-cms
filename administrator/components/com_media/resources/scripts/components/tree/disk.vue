@@ -18,8 +18,6 @@
         :total="disk.drives.length"
       />
     </details>
-
-
   </div>
 </template>
 
