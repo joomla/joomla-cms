@@ -898,7 +898,7 @@ class FieldModel extends AdminModel
                 $data->set('group_id', $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
                 $data->set(
                     'assigned_cat_ids',
-                    $app->input->get('assigned_cat_ids',
+                    $input->get('assigned_cat_ids',
                         (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]), 'array')
                 );
                 $data->set(
