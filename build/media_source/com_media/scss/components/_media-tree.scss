@@ -94,7 +94,8 @@ ul.media-tree {
   &::after {
     content: none;
   }
-  &:hover {
+  &:hover,
+  &:focus-visible {
     cursor: pointer;
   }
 }
@@ -106,10 +107,15 @@ ul.media-tree {
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
+  &:hover,
+  &:focus-visible {
+    background-color: $sidebar-tree-item-hover-bg;
+  }
 }
 
 .media-tree-item.active > a {
-  &:hover {
+  &:hover,
+  &:focus-visible {
     text-decoration: none;
     background-color: $sidebar-tree-item-hover-bg;
   }
