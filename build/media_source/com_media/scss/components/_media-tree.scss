@@ -107,6 +107,8 @@ ul.media-tree {
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &:hover,
   &:focus-visible {
     background-color: $sidebar-tree-item-hover-bg;
@@ -135,11 +137,7 @@ ul.media-tree {
 }
 
 .item-name {
-  display: inline-block;
-  overflow: hidden;
   font-size: .9em;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   vertical-align: middle;
 }
 
