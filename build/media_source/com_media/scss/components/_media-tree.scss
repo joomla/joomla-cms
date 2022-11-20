@@ -14,11 +14,9 @@ ul.media-tree {
 }
 
 .media-disk {
-  position: sticky;
-  top: 75px;
-  left: 0;
+  inset-inline-start: 0;
   display: block;
-  margin-bottom: 10px;
+  margin-block-end: 10px;
   > details {
     margin: initial;
     h2 {
@@ -32,7 +30,8 @@ ul.media-tree {
 }
 
 .media-drive {
-  overflow-x: auto;
+  max-height: 75vh;
+  overflow: auto;
   background-color: $sidebar-drive-bg;
   border: 1px solid $border-color;
   + .media-drive {
