@@ -465,9 +465,7 @@ class JoomlaInstallerScript
 
             try {
                 $db->transactionCommit();
-            }
-            catch (\PDOException $e)
-            {
+            } catch (\RuntimeException $e) {
                 // Ignore "no active transaction" exception
             }
         } catch (\Exception $e) {
