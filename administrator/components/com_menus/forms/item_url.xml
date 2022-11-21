@@ -30,8 +30,9 @@
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
 				default=""
 				validate="options"
+				layout="joomla.form.field.list-fancy-select"
+				multiple="true"
 				>
-				<option value="">JNONE</option>
 				<option value="alternate"/>
 				<option value="author"/>
 				<option value="bookmark"/>
