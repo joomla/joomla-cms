@@ -463,7 +463,13 @@ class JoomlaInstallerScript
             $installer->setDatabase($db);
             $installer->uninstall('plugin', $extensionId);
 
-            $db->transactionCommit();
+            try {
+                $db->transactionCommit();
+            }
+            catch (\PDOException $e)
+            {
+                // Ignore "no active transaction" exception
+            }
         } catch (\Exception $e) {
             $db->transactionRollback();
             throw $e;
