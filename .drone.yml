@@ -373,8 +373,8 @@ steps:
       - name: reference
         path: /reference
     when:
-      branch:
-        - 4.3-dev
+      repo:
+        - joomla/joomla-cms
 
 ---
 kind: pipeline
@@ -438,6 +438,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 2a769723f33fd72957407a2a37a28ec3d535be34ce6260765341ec4aed2ac8cf
+hmac: 3a3ef79114bb90dff0d69e22b7c91c03b2e87d9544d134285a1b292400dd31ba
 
 ...
