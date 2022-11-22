@@ -444,7 +444,7 @@ class JoomlaInstallerScript
                         ->update($db->quoteName('#__fields_values'))
                         ->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
                         ->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
-                        ->where($db->quoteName('item_id') . ' =' . $rowFieldValue->item_id);
+                        ->where($db->quoteName('item_id') . ' =' . $db->quote($rowFieldValue->item_id));
                     $db->setQuery($query)
                         ->execute();
                 }
