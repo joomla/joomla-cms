@@ -304,7 +304,7 @@ class MediaField extends FormField
              * configured in filesystem local plugin
              */
             $path  = ComponentHelper::getParams('com_media')->get('image_path', 'images') . '/' . $this->directory;
-            $paths = explode('/', $path);
+            $paths = explode('/', Path::clean($path, '/'));
 
             if (MediaHelper::isValidLocalDirectory($paths[0])) {
                 $adapterName  = array_shift($paths);
