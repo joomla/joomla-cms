@@ -94,14 +94,14 @@
 		</field>
 
 		<field
-				name="chunk_length"
-				type="list"
-				label="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_LABEL"
-				description="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_DESC"
-				default="10485760"
-				filter="integer"
-				showon="chunked_download:1"
-		>
+			name="chunk_length"
+			type="list"
+			label="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_DESC"
+			default="10485760"
+			filter="integer"
+			showon="chunked_download:1"
+			>
 			<option value="262144">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_256KB</option>
 			<option value="524288">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_512KB</option>
 			<option value="1048576">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_1MIB</option>
