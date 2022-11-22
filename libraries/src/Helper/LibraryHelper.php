@@ -110,7 +110,7 @@ class LibraryHelper
     {
         if (static::isEnabled($element)) {
             // Save params in DB
-            $db           = Factory::getDbo();
+            $db           = Factory::getContainer()->get('DatabaseDriver');
             $paramsString = $params->toString();
             $query        = $db->getQuery(true)
                 ->update($db->quoteName('#__extensions'))
@@ -146,7 +146,7 @@ class LibraryHelper
     protected static function loadLibrary($element)
     {
         $loader = function ($element) {
-            $db = Factory::getDbo();
+            $db = Factory::getContainer()->get('DatabaseDriver');
             $query = $db->getQuery(true)
                 ->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
                 ->from($db->quoteName('#__extensions'))
