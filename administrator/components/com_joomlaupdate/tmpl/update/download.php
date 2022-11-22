@@ -44,7 +44,7 @@ $this->document->addScriptOptions(
 
     <div id="dlprogress" class="container">
         <div id="progress" class="progress progress-striped progress-bar-animated row">
-            <div class="progress-bar" role="progressbar"
+            <div class="progress-bar" id="progress-bar" role="progressbar"
                  aria-label="<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT') ?>"
                  aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>

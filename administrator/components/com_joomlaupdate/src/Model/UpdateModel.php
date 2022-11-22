@@ -23,6 +23,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Updater\Update;
@@ -1854,9 +1855,11 @@ ENDDATA;
         $disposition = null;
 
         // Get the Joomla core update information
-        $updateInfo           = $this->getUpdateInformation();
-        $response->updateInfo = $updateInfo['object']->getProperties();
-        unset($response->updateInfo['xmlParser']);
+        $updateInfo = $this->getUpdateInformation();
+        $temp       = $updateInfo['object']->getProperties();
+        unset($temp['xmlParser']);
+        $response->updateInfo = new CMSObject($temp);
+        unset($temp);
 
         // Get the source URLs (primary URL and all mirrors, if any are set up)
         $sourceURLs = array_map(
@@ -1914,13 +1917,28 @@ ENDDATA;
                 // If no redirection is found set the total size and stop processing
                 if (!isset($head->headers['location'])) {
                     $disposition         = $head->headers['content-disposition'] ?? null;
-                    $response->totalSize = $head->headers['content-length'] ?? null;
+
+                    while (is_array($disposition)) {
+                        $disposition = array_shift($disposition);
+                    }
+
+                    $totalSize = $head->headers['content-length'] ?? null;
+
+                    while (is_array($totalSize)) {
+                        $totalSize = array_shift($totalSize);
+                    }
+
+                    $response->totalSize = $totalSize;
 
                     break;
                 }
 
                 // A redirection was found. Follow it.
                 $packageURL = $head->headers['location'];
+
+                while (is_array($packageURL)) {
+                    $packageURL = array_shift($packageURL);
+                }
 
                 // Do not follow more than 20 redirections and consider the download mirror broken.
                 if (++$redirections > 20) {

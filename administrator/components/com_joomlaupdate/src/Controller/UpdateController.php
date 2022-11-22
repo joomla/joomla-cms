@@ -388,7 +388,7 @@ class UpdateController extends BaseController
         $document = $this->app->getDocument();
 
         // Set the default view name and format from the Request.
-        $vName   = $this->input->get('view', 'update');
+        $vName   = 'update';
         $vFormat = $document->getType();
         $lName   = $this->input->get('layout', 'default', 'string');
 

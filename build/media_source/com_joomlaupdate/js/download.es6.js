@@ -51,7 +51,7 @@ Joomla = window.Joomla || {};
     Joomla.request({
       url: `${JoomlaUpdateDownload.ajaxUrl}&frag=${JoomlaUpdateDownload.nextFrag}`,
       method: 'GET',
-      onsuccess(msg) {
+      onSuccess(msg) {
         let message = '';
         const progressBar = document.getElementById('progress-bar');
         let data = null;
@@ -84,6 +84,8 @@ ${msg}
           progressBar.innerText = '100%';
 
           window.location = JoomlaUpdateDownload.returnUrl;
+
+          return;
         }
 
         JoomlaUpdateDownload.nextFrag = data.frag;
