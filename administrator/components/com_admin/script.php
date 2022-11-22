@@ -239,216 +239,216 @@ class JoomlaInstallerScript
         // Ensure the FieldsHelper class is loaded for the Repeatable fields plugin we're about to remove
         \JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-        try {
-            $db->transactionStart();
+        // Get the FieldsModelField, we need it in a sec
+        $fieldModel = $app->bootComponent('com_fields')->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
+        /** @var FieldModel $fieldModel */
 
-            // Get the FieldsModelField, we need it in a sec
-            $fieldModel = $app->bootComponent('com_fields')->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
-            /** @var FieldModel $fieldModel */
+        // Now get a list of all `repeatable` custom field instances
+        $db->setQuery(
+            $db->getQuery(true)
+                ->select('*')
+                ->from('#__fields')
+                ->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
+        );
 
-            // Now get a list of all `repeatable` custom field instances
+        // Execute the query and iterate over the `repeatable` instances
+        foreach ($db->loadObjectList() as $row) {
+            // Skip broken rows - just a security measure, should not happen
+            if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams)) {
+                continue;
+            }
+
+            /**
+             * We basically want to transform this `repeatable` type into a `subfields` type. While $oldFieldparams
+             * holds the `fieldparams` of the `repeatable` type, $newFieldparams shall hold the `fieldparams`
+             * of the `subfields` type.
+             */
+            $newFieldparams = [
+                'repeat'  => '1',
+                'options' => [],
+            ];
+
+            /**
+             * This array is used to store the mapping between the name of form fields from Repeatable field
+             * with ID of the child-fields. It will then be used to migrate data later
+             */
+            $mapping = [];
+
+            /**
+             * Store name of media fields which we need to convert data from old format (string) to new
+             * format (json) during the migration
+             */
+            $mediaFields = [];
+
+            // If this repeatable fields actually had child-fields (normally this is always the case)
+            if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields)) {
+                // Small counter for the child-fields (aka sub fields)
+                $newFieldCount = 0;
+
+                // Iterate over the sub fields
+                foreach (get_object_vars($oldFieldparams->fields) as $oldField) {
+                    // Used for field name collision prevention
+                    $fieldname_prefix = '';
+                    $fieldname_suffix = 0;
+
+                    // Try to save the new sub field in a loop because of field name collisions
+                    while (true) {
+                        /**
+                         * We basically want to create a completely new custom fields instance for every sub field
+                         * of the `repeatable` instance. This is what we use $data for, we create a new custom field
+                         * for each of the sub fields of the `repeatable` instance.
+                         */
+                        $data = [
+                            'context'             => $row->context,
+                            'group_id'            => $row->group_id,
+                            'title'               => $oldField->fieldname,
+                            'name'                => (
+                                $fieldname_prefix
+                                . $oldField->fieldname
+                                . ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
+                            ),
+                            'label'               => $oldField->fieldname,
+                            'default_value'       => $row->default_value,
+                            'type'                => $oldField->fieldtype,
+                            'description'         => $row->description,
+                            'state'               => '1',
+                            'params'              => $row->params,
+                            'language'            => '*',
+                            'assigned_cat_ids'    => [-1],
+                            'only_use_in_subform' => 1,
+                        ];
+
+                        // `number` is not a valid custom field type, so use `text` instead.
+                        if ($data['type'] == 'number') {
+                            $data['type'] = 'text';
+                        }
+
+                        if ($data['type'] == 'media') {
+                            $mediaFields[] = $oldField->fieldname;
+                        }
+
+                        // Reset the state because else \Joomla\CMS\MVC\Model\AdminModel will take an already
+                        // existing value (e.g. from previous save) and do an UPDATE instead of INSERT.
+                        $fieldModel->setState('field.id', 0);
+
+                        // If an error occurred when trying to save this.
+                        if (!$fieldModel->save($data)) {
+                            // If the error is, that the name collided, increase the collision prevention
+                            $error = $fieldModel->getError();
+
+                            if ($error == 'COM_FIELDS_ERROR_UNIQUE_NAME') {
+                                // If this is the first time this error occurs, set only the prefix
+                                if ($fieldname_prefix == '') {
+                                    $fieldname_prefix = ($row->name . '_');
+                                } else {
+                                    // Else increase the suffix
+                                    $fieldname_suffix++;
+                                }
+
+                                // And start again with the while loop.
+                                continue 1;
+                            }
+
+                            // Else bail out with the error. Something is totally wrong.
+                            throw new \Exception($error);
+                        }
+
+                        // Break out of the while loop, saving was successful.
+                        break 1;
+                    }
+
+                    // Get the newly created id
+                    $subfield_id = $fieldModel->getState('field.id');
+
+                    // Really check that it is valid
+                    if (!is_numeric($subfield_id) || $subfield_id < 1) {
+                        throw new \Exception('Something went wrong.');
+                    }
+
+                    // And tell our new `subfields` field about his child
+                    $newFieldparams['options'][('option' . $newFieldCount)] = [
+                        'customfield'   => $subfield_id,
+                        'render_values' => '1',
+                    ];
+
+                    $newFieldCount++;
+
+                    $mapping[$oldField->fieldname] = 'field' . $subfield_id;
+                }
+            }
+
+            // Write back the changed stuff to the database
             $db->setQuery(
                 $db->getQuery(true)
-                    ->select('*')
-                    ->from('#__fields')
-                    ->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
-            );
+                    ->update('#__fields')
+                    ->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
+                    ->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
+                    ->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
+            )->execute();
 
-            // Execute the query and iterate over the `repeatable` instances
-            foreach ($db->loadObjectList() as $row) {
-                // Skip broken rows - just a security measure, should not happen
-                if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams)) {
+            // Migrate data for this field
+            $query = $db->getQuery(true)
+                ->select('*')
+                ->from($db->quoteName('#__fields_values'))
+                ->where($db->quoteName('field_id') . ' = ' . $row->id);
+            $db->setQuery($query);
+
+            foreach ($db->loadObjectList() as $rowFieldValue) {
+                // Do not do the version if no data is entered for the custom field this item
+                if (!$rowFieldValue->value) {
                     continue;
                 }
 
                 /**
-                 * We basically want to transform this `repeatable` type into a `subfields` type. While $oldFieldparams
-                 * holds the `fieldparams` of the `repeatable` type, $newFieldparams shall hold the `fieldparams`
-                 * of the `subfields` type.
+                 * Here we will have to update the stored value of the field to new format
+                 * The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
+                 * The key for each sub-field change from name of field to field + ID of the new sub-field
+                 * Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
+                 * Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
                  */
-                $newFieldparams = [
-                    'repeat'  => '1',
-                    'options' => [],
-                ];
+                $newFieldValue = [];
 
-                /**
-                 * This array is used to store the mapping between the name of form fields from Repeatable field
-                 * with ID of the child-fields. It will then be used to migrate data later
-                 */
-                $mapping = [];
+                // Convert to array to change key
+                $fieldValue = json_decode($rowFieldValue->value, true);
 
-                /**
-                 * Store name of media fields which we need to convert data from old format (string) to new
-                 * format (json) during the migration
-                 */
-                $mediaFields = [];
+                // If data could not be decoded for some reason, ignore
+                if (!$fieldValue) {
+                    continue;
+                }
 
-                // If this repeatable fields actually had child-fields (normally this is always the case)
-                if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields)) {
-                    // Small counter for the child-fields (aka sub fields)
-                    $newFieldCount = 0;
+                $rowIndex = 0;
 
-                    // Iterate over the sub fields
-                    foreach (get_object_vars($oldFieldparams->fields) as $oldField) {
-                        // Used for field name collision prevention
-                        $fieldname_prefix = '';
-                        $fieldname_suffix = 0;
+                foreach ($fieldValue as $rowKey => $rowValue) {
+                    $rowKey                 = 'row' . ($rowIndex++);
+                    $newFieldValue[$rowKey] = [];
 
-                        // Try to save the new sub field in a loop because of field name collisions
-                        while (true) {
-                            /**
-                             * We basically want to create a completely new custom fields instance for every sub field
-                             * of the `repeatable` instance. This is what we use $data for, we create a new custom field
-                             * for each of the sub fields of the `repeatable` instance.
-                             */
-                            $data = [
-                                'context'             => $row->context,
-                                'group_id'            => $row->group_id,
-                                'title'               => $oldField->fieldname,
-                                'name'                => (
-                                    $fieldname_prefix
-                                    . $oldField->fieldname
-                                    . ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
-                                ),
-                                'label'               => $oldField->fieldname,
-                                'default_value'       => $row->default_value,
-                                'type'                => $oldField->fieldtype,
-                                'description'         => $row->description,
-                                'state'               => '1',
-                                'params'              => $row->params,
-                                'language'            => '*',
-                                'assigned_cat_ids'    => [-1],
-                                'only_use_in_subform' => 1,
-                            ];
-
-                            // `number` is not a valid custom field type, so use `text` instead.
-                            if ($data['type'] == 'number') {
-                                $data['type'] = 'text';
-                            }
-
-                            if ($data['type'] == 'media') {
-                                $mediaFields[] = $oldField->fieldname;
-                            }
-
-                            // Reset the state because else \Joomla\CMS\MVC\Model\AdminModel will take an already
-                            // existing value (e.g. from previous save) and do an UPDATE instead of INSERT.
-                            $fieldModel->setState('field.id', 0);
-
-                            // If an error occurred when trying to save this.
-                            if (!$fieldModel->save($data)) {
-                                // If the error is, that the name collided, increase the collision prevention
-                                $error = $fieldModel->getError();
-
-                                if ($error == 'COM_FIELDS_ERROR_UNIQUE_NAME') {
-                                    // If this is the first time this error occurs, set only the prefix
-                                    if ($fieldname_prefix == '') {
-                                        $fieldname_prefix = ($row->name . '_');
-                                    } else {
-                                        // Else increase the suffix
-                                        $fieldname_suffix++;
-                                    }
-
-                                    // And start again with the while loop.
-                                    continue 1;
-                                }
-
-                                // Else bail out with the error. Something is totally wrong.
-                                throw new \Exception($error);
-                            }
-
-                            // Break out of the while loop, saving was successful.
-                            break 1;
+                    foreach ($rowValue as $subFieldName => $subFieldValue) {
+                        // This is a media field, so we need to convert data to new format required in Joomla! 4
+                        if (in_array($subFieldName, $mediaFields)) {
+                            $subFieldValue = ['imagefile' => $subFieldValue, 'alt_text' => ''];
                         }
 
-                        // Get the newly created id
-                        $subfield_id = $fieldModel->getState('field.id');
-
-                        // Really check that it is valid
-                        if (!is_numeric($subfield_id) || $subfield_id < 1) {
-                            throw new \Exception('Something went wrong.');
+                        if (isset($mapping[$subFieldName])) {
+                            $newFieldValue[$rowKey][$mapping[$subFieldName]] = $subFieldValue;
+                        } else {
+                            // Not found, use the old key to avoid data lost
+                            $newFieldValue[$subFieldName] = $subFieldValue;
                         }
-
-                        // And tell our new `subfields` field about his child
-                        $newFieldparams['options'][('option' . $newFieldCount)] = [
-                            'customfield'   => $subfield_id,
-                            'render_values' => '1',
-                        ];
-
-                        $newFieldCount++;
-
-                        $mapping[$oldField->fieldname] = 'field' . $subfield_id;
                     }
                 }
 
-                // Write back the changed stuff to the database
-                $db->setQuery(
-                    $db->getQuery(true)
-                        ->update('#__fields')
-                        ->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
-                        ->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
-                        ->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
-                )->execute();
-
-                // Migrate data for this field
-                $query = $db->getQuery(true)
-                    ->select('*')
-                    ->from($db->quoteName('#__fields_values'))
-                    ->where($db->quoteName('field_id') . ' = ' . $row->id);
-                $db->setQuery($query);
-
-                foreach ($db->loadObjectList() as $rowFieldValue) {
-                    // Do not do the version if no data is entered for the custom field this item
-                    if (!$rowFieldValue->value) {
-                        continue;
-                    }
-
-                    /**
-                     * Here we will have to update the stored value of the field to new format
-                     * The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
-                     * The key for each sub-field change from name of field to field + ID of the new sub-field
-                     * Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
-                     * Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
-                     */
-                    $newFieldValue = [];
-
-                    // Convert to array to change key
-                    $fieldValue = json_decode($rowFieldValue->value, true);
-
-                    // If data could not be decoded for some reason, ignore
-                    if (!$fieldValue) {
-                        continue;
-                    }
-
-                    $rowIndex = 0;
-
-                    foreach ($fieldValue as $rowKey => $rowValue) {
-                        $rowKey                 = 'row' . ($rowIndex++);
-                        $newFieldValue[$rowKey] = [];
-
-                        foreach ($rowValue as $subFieldName => $subFieldValue) {
-                            // This is a media field, so we need to convert data to new format required in Joomla! 4
-                            if (in_array($subFieldName, $mediaFields)) {
-                                $subFieldValue = ['imagefile' => $subFieldValue, 'alt_text' => ''];
-                            }
-
-                            if (isset($mapping[$subFieldName])) {
-                                $newFieldValue[$rowKey][$mapping[$subFieldName]] = $subFieldValue;
-                            } else {
-                                // Not found, use the old key to avoid data lost
-                                $newFieldValue[$subFieldName] = $subFieldValue;
-                            }
-                        }
-                    }
-
-                    $query->clear()
-                        ->update($db->quoteName('#__fields_values'))
-                        ->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
-                        ->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
-                        ->where($db->quoteName('item_id') . ' = ' . $db->quote($rowFieldValue->item_id));
-                    $db->setQuery($query)
-                        ->execute();
-                }
+                $query->clear()
+                    ->update($db->quoteName('#__fields_values'))
+                    ->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
+                    ->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
+                    ->where($db->quoteName('item_id') . ' = ' . $db->quote($rowFieldValue->item_id));
+                $db->setQuery($query)
+                    ->execute();
             }
+        }
+
+        try {
+            $db->transactionStart();
 
             // Now, unprotect the plugin so we can uninstall it
             $db->setQuery(
