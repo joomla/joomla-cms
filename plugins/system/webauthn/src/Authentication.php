@@ -13,13 +13,12 @@ namespace Joomla\Plugin\System\Webauthn;
 use Exception;
 use Joomla\Application\ApplicationInterface;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\Plugin\System\Webauthn\Hotfix\Server;
+use Joomla\CMS\WebAuthn\Server;
 use Joomla\Session\SessionInterface;
 use Laminas\Diactoros\ServerRequestFactory;
 use RuntimeException;
@@ -525,7 +524,7 @@ final class Authentication
      * @throws  Exception
      * @since    4.2.0
      */
-    private function getWebauthnServer(): \Webauthn\Server
+    private function getWebauthnServer(): Server
     {
         $siteName = $this->app->get('sitename');
 
