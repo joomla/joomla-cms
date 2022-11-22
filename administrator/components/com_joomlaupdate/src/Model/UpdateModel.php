@@ -49,10 +49,10 @@ class UpdateModel extends BaseDatabaseModel
     /**
      * How much of the update file to download on each page load, in bytes.
      *
-     * @var   int
+     * @var   int|null
      * @since __DEPLOY_VERSION__
      */
-    private const CHUNK_LENGTH = 1048576;
+    private $chunkLength = null;
 
     /**
      * @var   array  $updateInformation  null
@@ -388,7 +388,7 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         $forceSinglePart = $forceSinglePart
-            || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 0) == 0;
+            || ComponentHelper::getParams('com_joomlaupdate')->get('chunked_download', 1) == 0;
 
         // Get the application's session
         $session = Factory::getApplication()->getSession();
@@ -458,8 +458,8 @@ class UpdateModel extends BaseDatabaseModel
         }
 
         // Calculate the download range
-        $from    = max($frag, 0) * self::CHUNK_LENGTH;
-        $to      = $from + self::CHUNK_LENGTH - 1;
+        $from    = max($frag, 0) * $this->chunkLength;
+        $to      = $from + $this->chunkLength - 1;
         $headers = array('Range' => sprintf('bytes=%u-%u', $from, $to));
 
         try {
@@ -2033,5 +2033,22 @@ ENDDATA;
         }
 
         return null;
+    }
+
+    /**
+     * Get the chunk size for downloading an update file.
+     *
+     * @return int
+     * @since  __DEPLOY_VERSION__
+     */
+    private function getChunkLength(): int
+    {
+        if ($this->chunkLength !== null) {
+            return $this->chunkLength;
+        }
+
+        return $this->chunkLength =
+            (int) ComponentHelper::getParams('com_joomlaupdate')
+                ->get('chunk_length', 10485760) ?: 10485760;
     }
 }

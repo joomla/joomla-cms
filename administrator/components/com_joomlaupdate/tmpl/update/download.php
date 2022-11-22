@@ -31,7 +31,7 @@ $this->document->addScriptOptions(
         'ajaxUrl' => Uri::base() . 'index.php?option=com_joomlaupdate&task=update.stepdownload&' . $token . '=1',
         'returnUrl' => Uri::base() . 'index.php?option=com_joomlaupdate&task=update.install&' . $token . '=1',
         'minTime' => ComponentHelper::getParams('com_joomlaupdate')
-                ->get('min_chunk_wait', 3) * 1000,
+                ->get('min_chunk_wait', 2) * 1000,
     ]
 );
 

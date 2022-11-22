@@ -86,7 +86,7 @@
 				label="COM_JOOMLAUPDATE_CONFIG_CHUNKED_DOWNLOAD_LABEL"
 				description="COM_JOOMLAUPDATE_CONFIG_CHUNKED_DOWNLOAD_DESC"
 				class="btn-group btn-group-yesno"
-				default="0"
+				default="1"
 				filter="integer"
 		>
 			<option value="0">JNO</option>
@@ -94,11 +94,29 @@
 		</field>
 
 		<field
+				name="chunk_length"
+				type="list"
+				label="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_LABEL"
+				description="COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_DESC"
+				default="10485760"
+				filter="integer"
+				showon="chunked_download:1"
+		>
+			<option value="262144">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_256KB</option>
+			<option value="524288">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_512KB</option>
+			<option value="1048576">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_1MIB</option>
+			<option value="2097152">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_2MIB</option>
+			<option value="5242880">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_5MIB</option>
+			<option value="10485760">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_10MIB</option>
+			<option value="20971520">COM_JOOMLAUPDATE_CONFIG_CHUNK_LENGTH_20MIB</option>
+		</field>
+
+		<field
 				name="min_chunk_wait"
 				type="integer"
 				label="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_LABEL"
 				description="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_DESC"
-				default="3"
+				default="2"
 				first="0"
 				last="10"
 				step="1"
