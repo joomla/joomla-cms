@@ -29,6 +29,9 @@ $customFields = array();
 foreach ($tmp as $customField) {
     $customFields[$customField->name] = $customField;
 }
+
+unset($tmp);
+
 ?>
 <?php foreach ($fieldsets as $group => $fieldset) : ?>
     <?php $fields = $this->form->getFieldset($group); ?>
@@ -42,13 +45,14 @@ foreach ($tmp as $customField) {
             <?php endif; ?>
             <dl class="dl-horizontal">
                 <?php foreach ($fields as $field) : ?>
-                    <?php if (!$field->hidden && $field->type !== 'Spacer') :
-                        if ($field->type === 'Subform' && $field->fieldname === 'row') :
-                            // Correct the fieldname so that subform custom fields show up.
-                            preg_match("/jform\[com_fields]\[(.*)]/", $field->name, $matches);
-                            $field->fieldname = $matches[1];
-                        endif;
-                        ?>
+                    <?php
+                    // Correct the field name so that subform custom fields show up.
+                    if ($field->type === 'Subform' && $field->fieldname === 'row') :
+                        preg_match("/jform\[com_fields]\[(.*)]/", $field->name, $matches);
+                        $field->fieldname = $matches[1];
+                    endif;
+                    ?>
+                    <?php if (!$field->hidden && $field->type !== 'Spacer') : ?>
                         <dt>
                             <?php echo $field->title; ?>
                         </dt>
