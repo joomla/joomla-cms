@@ -35,8 +35,10 @@
 				<option value="alternate"/>
 				<option value="author"/>
 				<option value="bookmark"/>
+				<option value="external"/>
 				<option value="help"/>
 				<option value="license"/>
+				<option value="me"/>
 				<option value="next"/>
 				<option value="nofollow"/>
 				<option value="noopener"/>
