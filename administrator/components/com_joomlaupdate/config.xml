@@ -112,16 +112,16 @@
 		</field>
 
 		<field
-				name="min_chunk_wait"
-				type="integer"
-				label="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_LABEL"
-				description="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_DESC"
-				default="2"
-				first="0"
-				last="10"
-				step="1"
-				filter="integer"
-				showon="chunked_download:1"
+			name="min_chunk_wait"
+			type="integer"
+			label="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_LABEL"
+			description="COM_JOOMLAUPDATE_CONFIG_MIN_CHUNK_WAIT_DESC"
+			default="2"
+			first="0"
+			last="10"
+			step="1"
+			filter="integer"
+			showon="chunked_download:1"
 		/>
 	</fieldset>
 </config>
