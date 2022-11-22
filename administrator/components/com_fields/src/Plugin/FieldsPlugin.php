@@ -214,7 +214,7 @@ abstract class FieldsPlugin extends CMSPlugin
         }
 
         // Check if it is allowed to edit the field
-        if (!FieldsHelper::canEditFieldValue($field) || $field->disabled === true) {
+        if (!FieldsHelper::canEditFieldValue($field) || (isset($field->disabled) && $field->disabled === true)) {
             $node->setAttribute('disabled', 'true');
         }
 
