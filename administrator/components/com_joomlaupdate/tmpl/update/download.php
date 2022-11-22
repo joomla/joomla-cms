@@ -15,9 +15,6 @@ use Joomla\CMS\Uri\Uri;
 
 defined('_JEXEC') or die;
 
-// Include jQuery.
-HTMLHelper::_('jquery.framework');
-
 // Load the scripts
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('core')
