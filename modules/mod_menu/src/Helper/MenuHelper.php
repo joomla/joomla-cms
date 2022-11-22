@@ -156,7 +156,7 @@ class MenuHelper
                         $item->flink = Route::_($item->flink);
                     }
 
-                    // rel can now have multiple values, combine the array into a space-separated string
+                    // rel can have multiple values, combine the array into a space-separated string
                     $rel = is_array($itemParams->get('menu-anchor_rel')) ? implode(' ', $itemParams->get('menu-anchor_rel')) : $itemParams->get('menu-anchor_rel', '');
 
                     // We prevent the double encoding because for some reason the $item is shared for menu modules and we get double encoding
