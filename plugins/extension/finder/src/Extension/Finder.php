@@ -6,14 +6,15 @@
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Extension\Finder\Extension;
+
+use Exception;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
-use Joomla\Database\DatabaseDriver;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
 
@@ -26,15 +27,9 @@ use Joomla\String\StringHelper;
  *
  * @since  4.0.0
  */
-class PlgExtensionFinder extends CMSPlugin
+final class Finder extends CMSPlugin
 {
-    /**
-     * Database object
-     *
-     * @var    DatabaseDriver
-     * @since  4.0.0
-     */
-    protected $db;
+    use DatabaseAwareTrait;
 
     /**
      * Add common words to finder after language got installed
@@ -55,7 +50,6 @@ class PlgExtensionFinder extends CMSPlugin
         $extension = $this->getLanguage($eid);
 
         if ($extension) {
-            $this->removeCommonWords($extension);
             $this->addCommonWords($extension);
         }
     }
@@ -105,7 +99,7 @@ class PlgExtensionFinder extends CMSPlugin
      */
     protected function getLanguage($eid)
     {
-        $db  = $this->db;
+        $db  = $this->getDatabase();
         $eid = (int) $eid;
 
         $query = $db->getQuery(true)
@@ -137,14 +131,16 @@ class PlgExtensionFinder extends CMSPlugin
     protected function addCommonWords($extension)
     {
         if ($extension->client_id == 0) {
-            $path = JPATH_SITE . '/language/' . $extension->element . '/' . $extension->element . '.com_finder.commonwords.txt';
+            $path = JPATH_SITE . '/language/' . $extension->element . '/com_finder.commonwords.txt';
         } else {
-            $path = JPATH_ADMINISTRATOR . '/language/' . $extension->element . '/' . $extension->element . '.com_finder.commonwords.txt';
+            $path = JPATH_ADMINISTRATOR . '/language/' . $extension->element . '/com_finder.commonwords.txt';
         }
 
         if (!file_exists($path)) {
             return;
         }
+
+        $this->removeCommonWords($extension);
 
         $file_content = file_get_contents($path);
         $words = explode("\n", $file_content);
@@ -161,10 +157,8 @@ class PlgExtensionFinder extends CMSPlugin
         );
 
         $words = array_filter(array_map('trim', $words));
-        $db    = $this->db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true);
-
-        require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
         $lang = Helper::getPrimaryLanguage($extension->element);
 
@@ -196,10 +190,7 @@ class PlgExtensionFinder extends CMSPlugin
      */
     protected function removeCommonWords($extension)
     {
-        $db = $this->db;
-
-        require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
-
+        $db   = $this->getDatabase();
         $lang = Helper::getPrimaryLanguage($extension->element);
 
         $query = $db->getQuery(true);
