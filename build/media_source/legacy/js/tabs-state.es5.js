@@ -4,7 +4,7 @@
  */
 
 /**
- * JavaScript behavior to allow selected tab to be remained after save or page reload
+ * JavaScript behavior to allow selected tab to be remembered after save or page reload
  * keeping state in sessionStorage with better handling of multiple tab widgets per page
  * and not saving the state if there is no id in the url (like on the CREATE page of content)
  */
