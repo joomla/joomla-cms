@@ -43,7 +43,7 @@ final class EmailCloak extends CMSPlugin
             return;
         }
 
-        // If the row is not an object or does not have a text property there is nothign to do
+        // If the row is not an object or does not have a text property there is nothing to do
         if (!is_object($row) || !property_exists($row, 'text')) {
             return;
         }
