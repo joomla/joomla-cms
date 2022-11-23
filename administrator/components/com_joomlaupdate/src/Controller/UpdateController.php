@@ -145,7 +145,7 @@ class UpdateController extends BaseController
         $model = $this->getModel('Update');
 
         $file = $this->app->getUserState('com_joomlaupdate.file', null);
-        $model->createRestorationFile($file);
+        $model->createUpdateFile($file);
 
         $this->display();
     }
@@ -388,7 +388,7 @@ class UpdateController extends BaseController
         $document = $this->app->getDocument();
 
         // Set the default view name and format from the Request.
-        $vName   = 'update';
+        $vName   = $this->input->get('view', 'update');
         $vFormat = $document->getType();
         $lName   = $this->input->get('layout', 'default', 'string');
 
