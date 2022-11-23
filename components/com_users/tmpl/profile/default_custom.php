@@ -47,11 +47,10 @@ unset($tmp);
                 <?php foreach ($fields as $field) : ?>
                     <?php
                     // Correct the field name so that subform custom fields show up.
-                    if ($field->type === 'Subform' && $field->fieldname === 'row') :
-                        preg_match("/jform\[com_fields]\[(.*)]/", $field->name, $matches);
-                        $field->fieldname = $matches[1];
-                    endif;
-                    ?>
+                    if ($field->type === 'Subform' && $field->fieldname === 'row') : ?>
+                        <?php preg_match("/jform\[com_fields]\[(.*)]/", $field->name, $matches); ?>
+                        <?php $field->fieldname = $matches[1]; ?>
+                    <?php endif; ?>
                     <?php if (!$field->hidden && $field->type !== 'Spacer') : ?>
                         <dt>
                             <?php echo $field->title; ?>
