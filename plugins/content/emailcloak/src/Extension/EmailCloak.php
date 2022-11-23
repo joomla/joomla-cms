@@ -43,13 +43,12 @@ final class EmailCloak extends CMSPlugin
             return;
         }
 
-        if (is_object($row)) {
-            $this->cloak($row->text, $params);
-
+        // If the row is not an object or does not have a text property there is nothign to do
+        if (!is_object($row) || !property_exists($row, 'text')) {
             return;
         }
 
-        $this->cloak($row, $params);
+        $this->_cloak($row->text, $params);
     }
 
     /**
