@@ -125,7 +125,7 @@ jQuery(function ($) {
 		var activeTabsHrefs = JSON.parse(sessionStorage.getItem(getStorageKey()));
 
 		// jQuery object with all tabs links
-		var alltabs = $("a[data-toggle='tab']");
+		var alltabs = $("a[data-bs-toggle='tab']");
 
 		// When a tab is clicked, save its state!
 		alltabs.on("click", function (e) {
@@ -150,7 +150,7 @@ jQuery(function ($) {
 
 				// Click the tab
 				var parts = tabFakexPath.split("|");
-				$.findXpath(parts[0]).find("a[data-toggle='tab'][href='" + parts[1] + "']").click();
+				$.findXpath(parts[0]).find("a[data-bs-toggle='tab'][href='" + parts[1] + "']").get(0).click();
 
 			});
 
