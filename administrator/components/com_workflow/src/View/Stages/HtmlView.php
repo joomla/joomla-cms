@@ -147,7 +147,7 @@ class HtmlView extends BaseHtmlView
         }
 
         if (!empty($this->stages)) {
-            $extension = Factory::getApplication()->input->getCmd('extension');
+            $extension = Factory::getApplication()->getInput()->getCmd('extension');
             $workflow  = new Workflow($extension);
         }
 

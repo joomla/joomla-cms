@@ -70,7 +70,7 @@ class HtmlView extends BaseHtmlView
             Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MEDIA_ERROR_NO_PROVIDERS', $link), CMSApplication::MSG_WARNING);
         }
 
-        $this->currentPath = Factory::getApplication()->input->getString('path');
+        $this->currentPath = Factory::getApplication()->getInput()->getString('path');
 
         parent::display($tpl);
     }
@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
      */
     protected function prepareToolbar()
     {
-        $tmpl = Factory::getApplication()->input->getCmd('tmpl');
+        $tmpl = Factory::getApplication()->getInput()->getCmd('tmpl');
 
         // Get the toolbar object instance
         $bar  = Toolbar::getInstance('toolbar');

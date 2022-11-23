@@ -72,7 +72,7 @@ class NewsfeedModel extends AdminModel
         }
 
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
         }
 
         return parent::canDelete($record);
@@ -90,7 +90,7 @@ class NewsfeedModel extends AdminModel
     protected function canEditState($record)
     {
         if (!empty($record->catid)) {
-            return Factory::getUser()->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
+            return $this->getCurrentUser()->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
         }
 
         return parent::canEditState($record);
@@ -132,7 +132,7 @@ class NewsfeedModel extends AdminModel
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -157,7 +157,7 @@ class NewsfeedModel extends AdminModel
             // Prime some default values.
             if ($this->getState('newsfeed.id') == 0) {
                 $app = Factory::getApplication();
-                $data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
+                $data->set('catid', $app->getInput()->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
             }
         }
 
@@ -177,7 +177,7 @@ class NewsfeedModel extends AdminModel
      */
     public function save($data)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // Create new category, if needed.
         $createCategory = true;
@@ -293,7 +293,7 @@ class NewsfeedModel extends AdminModel
     protected function prepareTable($table)
     {
         $date = Factory::getDate();
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         $table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
         $table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
@@ -424,6 +424,6 @@ class NewsfeedModel extends AdminModel
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_newsfeeds');
+        return $this->getCurrentUser()->authorise('core.create', 'com_newsfeeds');
     }
 }
