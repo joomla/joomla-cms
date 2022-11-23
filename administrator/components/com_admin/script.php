@@ -258,6 +258,14 @@ class JoomlaInstallerScript
                 continue;
             }
 
+            // First get this field's values for later data migration, so if this fails it happens before saving new subfields
+            $query = $db->getQuery(true)
+                ->select('*')
+                ->from($db->quoteName('#__fields_values'))
+                ->where($db->quoteName('field_id') . ' = ' . $row->id);
+            $db->setQuery($query);
+            $rowFieldValues = $db->loadObjectList();
+
             /**
              * We basically want to transform this `repeatable` type into a `subfields` type. While $oldFieldparams
              * holds the `fieldparams` of the `repeatable` type, $newFieldparams shall hold the `fieldparams`
@@ -377,73 +385,76 @@ class JoomlaInstallerScript
                 }
             }
 
-            // Write back the changed stuff to the database
-            $db->setQuery(
-                $db->getQuery(true)
-                    ->update('#__fields')
-                    ->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
-                    ->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
-                    ->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
-            )->execute();
+            try {
+                $db->transactionStart();
 
-            // Migrate data for this field
-            $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->quoteName('#__fields_values'))
-                ->where($db->quoteName('field_id') . ' = ' . $row->id);
-            $db->setQuery($query);
+                // Write back the changed stuff to the database
+                $db->setQuery(
+                    $db->getQuery(true)
+                        ->update('#__fields')
+                        ->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
+                        ->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
+                        ->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
+                )->execute();
 
-            foreach ($db->loadObjectList() as $rowFieldValue) {
-                // Do not do the version if no data is entered for the custom field this item
-                if (!$rowFieldValue->value) {
-                    continue;
-                }
+                // Migrate field values for this field
+                foreach ($rowFieldValues as $rowFieldValue) {
+                    // Do not do the version if no data is entered for the custom field this item
+                    if (!$rowFieldValue->value) {
+                        continue;
+                    }
 
-                /**
-                 * Here we will have to update the stored value of the field to new format
-                 * The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
-                 * The key for each sub-field change from name of field to field + ID of the new sub-field
-                 * Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
-                 * Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
-                 */
-                $newFieldValue = [];
+                    /**
+                     * Here we will have to update the stored value of the field to new format
+                     * The key for each row changes from repeatable to row, for example repeatable0 to row0, and so on
+                     * The key for each sub-field change from name of field to field + ID of the new sub-field
+                     * Example data format stored in J3: {"repeatable0":{"id":"1","username":"admin"}}
+                     * Example data format stored in J4: {"row0":{"field1":"1","field2":"admin"}}
+                     */
+                    $newFieldValue = [];
 
-                // Convert to array to change key
-                $fieldValue = json_decode($rowFieldValue->value, true);
+                    // Convert to array to change key
+                    $fieldValue = json_decode($rowFieldValue->value, true);
 
-                // If data could not be decoded for some reason, ignore
-                if (!$fieldValue) {
-                    continue;
-                }
+                    // If data could not be decoded for some reason, ignore
+                    if (!$fieldValue) {
+                        continue;
+                    }
 
-                $rowIndex = 0;
+                    $rowIndex = 0;
 
-                foreach ($fieldValue as $rowKey => $rowValue) {
-                    $rowKey                 = 'row' . ($rowIndex++);
-                    $newFieldValue[$rowKey] = [];
+                    foreach ($fieldValue as $rowKey => $rowValue) {
+                        $rowKey                 = 'row' . ($rowIndex++);
+                        $newFieldValue[$rowKey] = [];
 
-                    foreach ($rowValue as $subFieldName => $subFieldValue) {
-                        // This is a media field, so we need to convert data to new format required in Joomla! 4
-                        if (in_array($subFieldName, $mediaFields)) {
-                            $subFieldValue = ['imagefile' => $subFieldValue, 'alt_text' => ''];
-                        }
+                        foreach ($rowValue as $subFieldName => $subFieldValue) {
+                            // This is a media field, so we need to convert data to new format required in Joomla! 4
+                            if (in_array($subFieldName, $mediaFields)) {
+                                $subFieldValue = ['imagefile' => $subFieldValue, 'alt_text' => ''];
+                            }
 
-                        if (isset($mapping[$subFieldName])) {
-                            $newFieldValue[$rowKey][$mapping[$subFieldName]] = $subFieldValue;
-                        } else {
-                            // Not found, use the old key to avoid data lost
-                            $newFieldValue[$subFieldName] = $subFieldValue;
+                            if (isset($mapping[$subFieldName])) {
+                                $newFieldValue[$rowKey][$mapping[$subFieldName]] = $subFieldValue;
+                            } else {
+                                // Not found, use the old key to avoid data lost
+                                $newFieldValue[$subFieldName] = $subFieldValue;
+                            }
                         }
                     }
+
+                    $query->clear()
+                        ->update($db->quoteName('#__fields_values'))
+                        ->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
+                        ->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
+                        ->where($db->quoteName('item_id') . ' = ' . $db->quote($rowFieldValue->item_id));
+                    $db->setQuery($query)
+                        ->execute();
                 }
 
-                $query->clear()
-                    ->update($db->quoteName('#__fields_values'))
-                    ->set($db->quoteName('value') . ' = ' . $db->quote(json_encode($newFieldValue)))
-                    ->where($db->quoteName('field_id') . ' = ' . $rowFieldValue->field_id)
-                    ->where($db->quoteName('item_id') . ' = ' . $db->quote($rowFieldValue->item_id));
-                $db->setQuery($query)
-                    ->execute();
+                $db->transactionCommit();
+            } catch (\Exception $e) {
+                $db->transactionRollback();
+                throw $e;
             }
         }
 
