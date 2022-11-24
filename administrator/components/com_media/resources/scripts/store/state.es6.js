@@ -14,41 +14,53 @@ if (options.providers === undefined || options.providers.length === 0) {
  *
  * @return {Array}
  */
-const getDrives = (adapterNames, provider) => {
-  const drives = [];
-  adapterNames.map((name) => drives.push({ root: `${provider}-${name}:/`, displayName: name }));
-
-  return drives;
-};
+const getDrives = (adapterNames, provider) => adapterNames.map((name) => ({ root: `${provider}-${name}:/`, displayName: name }));
 
 // Load disks from options
-const loadedDiskDrives = [];
-const loadedDisks = options.providers.map((disk) => {
-  loadedDiskDrives.push(...disk.adapterNames.map((name) => `${disk.name}-${name}`));
-  return {
-    displayName: disk.displayName,
-    drives: getDrives(disk.adapterNames, disk.name),
-  };
-});
+const loadedDisks = options.providers.map((disk) => ({
+  displayName: disk.displayName,
+  drives: getDrives(disk.adapterNames, disk.name),
+}));
 
-const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0
-  && disk.drives[0] !== undefined);
+const defaultDisk = loadedDisks.find((disk) => disk.drives.length > 0 && disk.drives[0] !== undefined);
+
 if (!defaultDisk) {
   throw new TypeError('No default media drive was found');
 }
 
-// Override the storage if we have a path
+let currentPath;
+const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
+
+// Gracefully use the given path, the session storage state or fall back to sensible default
 if (options.currentPath) {
-  const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedStateOptions.key));
-  if (storedState && storedState.selectedDirectory
-    && (storedState.selectedDirectory !== options.currentPath)
-    && (storedState.selectedDirectory.includes(':/') && loadedDiskDrives.includes(storedState.selectedDirectory.split(':/')[0]))
-  ) {
-    storedState.selectedDirectory = options.currentPath;
-    persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
-  } else {
-    persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify({ selectedDirectory: `${loadedDiskDrives[0]}:/` }));
+  let useDrive = false;
+  for (const drive of loadedDisks) {
+    drive.drives.forEach((curDrive) => {
+      if (options.currentPath.indexOf(curDrive.root) === 0) {
+        useDrive = true;
+      }
+    })
   }
+
+  if (useDrive) {
+    if ((storedState && storedState.selectedDirectory && storedState.selectedDirectory !== options.currentPath)) {
+      storedState.selectedDirectory = options.currentPath;
+      persistedStateOptions.storage.setItem(persistedStateOptions.key, JSON.stringify(storedState));
+      currentPath = options.currentPath;
+    } else {
+      currentPath = options.currentPath;
+    }
+  } else {
+    currentPath = defaultDisk.drives[0].root;
+  }
+} else {
+  if (storedState && storedState.selectedDirectory) {
+    currentPath = storedState.selectedDirectory;
+  }
+}
+
+if (!currentPath) {
+  currentPath = defaultDisk.drives[0].root;
 }
 
 // The initial state
@@ -69,7 +81,7 @@ export default {
   files: [],
   // The selected disk. Providers are ordered by plugin ordering, so we set the first provider
   // in the list as the default provider and load first drive on it as default
-  selectedDirectory: options.currentPath || defaultDisk.drives[0].root,
+  selectedDirectory: currentPath,
   // The currently selected items
   selectedItems: [],
   // The state of the infobar
