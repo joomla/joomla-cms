@@ -34,13 +34,11 @@ const storedState = JSON.parse(persistedStateOptions.storage.getItem(persistedSt
 // Gracefully use the given path, the session storage state or fall back to sensible default
 if (options.currentPath) {
   let useDrive = false;
-  for (const drive of loadedDisks) {
-    drive.drives.forEach((curDrive) => {
-      if (options.currentPath.indexOf(curDrive.root) === 0) {
-        useDrive = true;
-      }
-    })
-  }
+  Object.values(loadedDisks).forEach((drive) => drive.drives.forEach((curDrive) => {
+    if (options.currentPath.indexOf(curDrive.root) === 0) {
+      useDrive = true;
+    }
+  }));
 
   if (useDrive) {
     if ((storedState && storedState.selectedDirectory && storedState.selectedDirectory !== options.currentPath)) {
@@ -53,10 +51,8 @@ if (options.currentPath) {
   } else {
     currentPath = defaultDisk.drives[0].root;
   }
-} else {
-  if (storedState && storedState.selectedDirectory) {
-    currentPath = storedState.selectedDirectory;
-  }
+} else if (storedState && storedState.selectedDirectory) {
+  currentPath = storedState.selectedDirectory;
 }
 
 if (!currentPath) {
