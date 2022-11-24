@@ -313,16 +313,20 @@ abstract class ModuleHelper
 
         if (strpos($layout, ':') !== false) {
             // Get the template and file name from the string
-            $temp = explode(':', $layout);
-            $template = $temp[0] === '_' ? $template : $temp[0];
-            $layout = $temp[1];
-            $defaultLayout = $temp[1] ?: 'default';
+            $temp           = explode(':', $layout);
+            $templateModule = $temp[0] === '_' ? $template : $temp[0];
+            $layout         = $temp[1];
+            $defaultLayout  = $temp[1] ?: 'default';
         }
 
         $dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
         try {
             // Build the template and base path for the layout
+            if (isset($templateModule)) {
+                $tmPath = Path::check(JPATH_THEMES . '/' . $templateModule . '/html/' . $module . '/' . $layout . '.php');
+            }
+
             $tPath = Path::check(JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php');
             $iPath = Path::check(JPATH_THEMES . '/' . $templateObj->parent . '/html/' . $module . '/' . $layout . '.php');
             $bPath = Path::check(JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php');
@@ -331,13 +335,21 @@ abstract class ModuleHelper
             return $dPath;
         }
 
-        // If the template has a layout override use it
-        if (is_file($tPath)) {
-            return $tPath;
+        if (isset($templateModule) && !empty($templateObj->parent) && $templateModule === $templateObj->parent) {
+            if (is_file($tPath)) {
+                return $tPath;
+            } elseif (is_file($iPath)) {
+                return $iPath;
+            }
         }
 
-        if (!empty($templateObj->parent) && is_file($iPath)) {
-            return $iPath;
+        // If the template has a layout override use it
+        if (isset($templateModule) && is_file($tmPath)) {
+            return $tmPath;
+        }
+
+        if (is_file($tPath)) {
+            return $tPath;
         }
 
         if (is_file($bPath)) {
