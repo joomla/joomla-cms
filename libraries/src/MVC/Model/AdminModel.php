@@ -989,6 +989,7 @@ abstract class AdminModel extends FormModel
         // Convert to the CMSObject before adding other data.
         $properties = $table->getProperties(1);
         $item = ArrayHelper::toObject($properties, CMSObject::class);
+        $item->primaryKey = $table->getKeyName();
 
         if (property_exists($item, 'params')) {
             $registry = new Registry($item->params);
