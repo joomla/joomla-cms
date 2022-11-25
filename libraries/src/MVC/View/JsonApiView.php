@@ -215,7 +215,8 @@ abstract class JsonApiView extends JsonView
             $item  = $this->prepareItem($model->getItem());
         }
 
-        $primaryKey = $item->primaryKey;
+        $primaryKey = $model->getTable()->getKeyName();
+
         if ($item->{$primaryKey} === null) {
             throw new RouteNotFoundException('Item does not exist');
         }
