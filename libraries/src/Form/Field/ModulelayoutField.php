@@ -175,8 +175,25 @@ class ModulelayoutField extends FormField
                             foreach ($files as $file) {
                                 // Add an option to the template group
                                 $value = basename($file, '.php');
-                                $text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value))
-                                    ? Text::_($key) : $value;
+                                $parentTplParts = explode('_', $template->element);
+                                $childLang = null;
+                                $text = $lang->hasKey($key = strtoupper('TPL_' . $template->element . '_' . $module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
+
+                                if (count($parentTplParts) > 1) {
+                                    $tmpArr = array_filter($templates, function ($tmpl) use ($parentTplParts) {
+                                        return $parentTplParts[0] === $tmpl->element;
+                                    });
+
+                                    if (count($tmpArr) > 0) {
+                                        $childLang = current($tmpArr)->element;
+                                    }
+                                }
+
+                                if ($childLang) {
+                                    $altText = $lang->hasKey($key = strtoupper('TPL_' . $childLang . '_' . $module . '_LAYOUT_' . $value)) ? Text::_($key) : $value;
+                                    $text = $altText !== $text ? $altText : $text;
+                                }
+
                                 $groups[$template->element]['items'][] = HTMLHelper::_('select.option', $template->element . ':' . $value, $text);
                             }
                         }
