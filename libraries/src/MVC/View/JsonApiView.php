@@ -225,7 +225,7 @@ abstract class JsonApiView extends JsonView
         if (\count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode("\n", $errors), 500);
         }
-       
+
         if ($this->type === null) {
             throw new \RuntimeException('Content type missing');
         }
