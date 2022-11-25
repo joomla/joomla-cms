@@ -224,7 +224,8 @@ abstract class JsonApiView extends JsonView
             throw new GenericDataException(implode("\n", $errors), 500);
         }
 
-        if ($this->type === null) {
+        $primaryKey = $item->primaryKey;
+        if ($item->{$primaryKey} === null) {
             throw new \RuntimeException('Content type missing');
         }
 
