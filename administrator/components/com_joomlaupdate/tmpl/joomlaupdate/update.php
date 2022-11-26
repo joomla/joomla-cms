@@ -27,7 +27,10 @@ $uploadLink = 'index.php?option=com_joomlaupdate&view=upload';
 
 $displayData = [
     'textPrefix' => 'COM_JOOMLAUPDATE_UPDATE',
-    'title'      => Text::sprintf('COM_JOOMLAUPDATE_UPDATE_EMPTYSTATE_TITLE', $this->escape($this->updateInfo['latest'])),
+    'title'      => Text::sprintf(
+        'COM_JOOMLAUPDATE_UPDATE_EMPTYSTATE_TITLE',
+        $this->escape($this->updateInfo['latest'])
+    ),
     'content'    => Text::sprintf($this->langKey, $this->updateSourceKey),
     'formURL'    => 'index.php?option=com_joomlaupdate&view=update',
     'helpURL'    => 'https://docs.joomla.org/Special:MyLanguage/Updating_from_an_existing_version',
@@ -43,7 +46,9 @@ if (isset($this->updateInfo['object']) && isset($this->updateInfo['object']->get
         [
             'target' => '_blank',
             'rel'    => 'noopener noreferrer',
-            'title'  => isset($this->updateInfo['object']->get('infourl')->title) ? Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title) : ''
+            'title'  => isset($this->updateInfo['object']->get('infourl')->title)
+                ? Text::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title)
+                : ''
         ]
     );
 endif;
@@ -59,7 +64,9 @@ $displayData['content'] .= '<div class="form-check d-flex justify-content-center
 	</div>';
 
 if (Factory::getApplication()->getIdentity()->authorise('core.admin', 'com_joomlaupdate')) :
-    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink . '" class="btn btn-sm btn-outline-secondary">' . Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
+    $displayData['formAppend'] = '<div class="text-center"><a href="' . $uploadLink .
+        '" class="btn btn-sm btn-outline-secondary">' .
+        Text::_('COM_JOOMLAUPDATE_EMPTYSTATE_APPEND') . '</a></div>';
 endif;
 
 echo '<div id="joomlaupdate-wrapper">';
