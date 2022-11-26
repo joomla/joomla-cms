@@ -28,7 +28,7 @@
     "versioning": "node build/build.js --versioning"
   },
   "browserslist": [
-    "last 1 version",
+    "last 1 major version",
     "not ie < 11"
   ],
   "dependencies": {
