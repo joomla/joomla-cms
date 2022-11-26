@@ -55,7 +55,7 @@ $this->document->addScriptOptions(
         </div>
         <div class="my-2 mx-0 border-bottom border-secondary extprogrow row">
             <div class="extlabel text-bold col-3">
-                <span class="fa fa-cloud-download-altd" aria-hidden="true"></span>
+                <span class="fa fa-cloud-download-alt" aria-hidden="true"></span>
                 <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DOWNLOAD_BYTESDL'); ?>
             </div>
             <div class="extvalue col-9" id="dlbytesin"></div>
