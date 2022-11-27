@@ -308,6 +308,7 @@ class ExtensionHelper
         // Core plugin extensions - task scheduler
         array('plugin', 'checkfiles', 'task', 0),
         array('plugin', 'demotasks', 'task', 0),
+        array('plugin', 'globalcheckin', 'task', 0),
         array('plugin', 'requests', 'task', 0),
         array('plugin', 'sitestatus', 'task', 0),
 
