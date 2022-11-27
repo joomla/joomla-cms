@@ -209,9 +209,10 @@ abstract class JsonApiView extends JsonView
      */
     public function displayItem($item = null)
     {
+         /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+        $model = $this->getModel();
+
         if ($item === null) {
-            /** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-            $model = $this->getModel();
             $item  = $this->prepareItem($model->getItem());
         }
 
