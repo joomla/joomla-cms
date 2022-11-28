@@ -57,13 +57,12 @@ class DisplayController extends BaseController
             'lang'             => 'CMD'
         );
 
-        if ($vName === 'tag') {
-            // Get/Create the model
-            if ($model = $this->getModel($vName)) {
-                if (ComponentHelper::getParams('com_tags')->get('record_hits', 1) == 1) {
-                    $model->hit();
-                }
-            }
+        if (
+            $vName === 'tag'
+            && ComponentHelper::getParams('com_tags')->get('record_hits', 1) == 1
+            && $model = $this->getModel($vName)
+        ) {
+            $model->hit();
         }
 
         return parent::display($cachable, $safeurlparams);
