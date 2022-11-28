@@ -76,8 +76,8 @@
       &:active {
         text-decoration: none;
         background: var(--bg-color-hvr);
-        --text-color: #ffffff;
-        --icon-color: #ffffff;
+        --text-color: #fff;
+        --icon-color: #fff;
 
 
         .quickicon-amount {
@@ -91,13 +91,13 @@
         --icon-color: #457d54;
         --bg-color-hvr: #e2ffe2;
         --border-color-hvr: #457d54;
-        --text-color: #000000;
-        --color-hvr: #000000;
+        --text-color: #000;
+        --color-hvr: #000;
 
         &:hover,
         &:focus,
         &:active {
-          --text-color: #000000;
+          --text-color: #000;
           border: 2px solid var(--border-color-hvr);
           --icon-color: #457d54;
         }
@@ -108,13 +108,13 @@
         --icon-color: #f1a505;
         --bg-color-hvr: #fff3d9;
         --border-color-hvr: #af7d0f;
-        --text-color: #000000;
-        --color-hvr: #000000;
+        --text-color: #000;
+        --color-hvr: #000;
 
         &:hover,
         &:focus,
         &:active {
-          --text-color: #000000;
+          --text-color: #000;
           border: 2px solid var(--border-color-hvr);
           --icon-color: #f1a505;
         }
@@ -125,13 +125,13 @@
         --icon-color: #c52927;
         --bg-color-hvr: #ffe9e9;
         --border-color-hvr: #c52927;
-        --text-color: #000000;
-        --color-hvr: #000000;
+        --text-color: #000;
+        --color-hvr: #000;
 
         &:hover,
         &:focus,
         &:active {
-          --text-color: #000000;
+          --text-color: #000;
           --icon-color: #c52927;
           border: 2px solid var(--border-color-hvr);
         }
