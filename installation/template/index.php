@@ -54,6 +54,7 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
 // Add strings for installation progress
+Text::script('INSTL');
 Text::script('INSTL_FINISHED');
 Text::script('INSTL_IN_PROGRESS');
 
