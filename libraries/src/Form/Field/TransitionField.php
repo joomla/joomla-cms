@@ -161,15 +161,17 @@ class TransitionField extends ListField
 
         $workflowName = $db->setQuery($query)->loadResult();
 
-        $default = [HTMLHelper::_('select.option', '', Text::_($workflowName))];
+        $default = [
+            HTMLHelper::_('select.option', '', Text::_($workflowName))];
 
         $options = array_merge(parent::getOptions(), $items);
 
         if (\count($options)) {
             $default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
+            $default[] = HTMLHelper::_('select.option', '<OPTGROUP>', Text::_('COM_CONTENT_RUN_TRANSITION'));
         }
 
         // Merge with defaults
-        return array_merge($default, $options);
+        return array_merge($default, $options, [HTMLHelper::_('select.option', '</OPTGROUP>')]);
     }
 }
