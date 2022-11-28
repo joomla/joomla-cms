@@ -19,6 +19,10 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Actionlogs component helper.
  *
@@ -283,11 +287,11 @@ class ActionlogsHelper
                     )
                 )
             )
-            ->from('#__extensions')
-            ->where('type = ' . $db->quote('plugin'))
-            ->where('folder = ' . $db->quote('actionlog'))
-            ->where('state IN (0,1)')
-            ->order('ordering');
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('actionlog'))
+            ->whereIn($db->quoteName('state'), [0, 1])
+            ->order($db->quoteName('ordering'));
         $db->setQuery($query);
 
         try {

@@ -12,6 +12,10 @@ namespace Joomla\CMS\Event\WebAsset;
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Event class for WebAsset events
  *

@@ -14,6 +14,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Email cloak plugin class.
  *
@@ -46,13 +50,12 @@ class PlgContentEmailcloak extends CMSPlugin
             return;
         }
 
-        if (is_object($row)) {
-            $this->_cloak($row->text, $params);
-
+        // If the row is not an object or does not have a text property there is nothign to do
+        if (!is_object($row) || !property_exists($row, 'text')) {
             return;
         }
 
-        $this->_cloak($row, $params);
+        $this->_cloak($row->text, $params);
     }
 
     /**
