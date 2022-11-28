@@ -99,6 +99,7 @@
         &:active {
           --text-color: #000000;
           border: 2px solid var(--border-color-hvr);
+          --icon-color: #457d54;
         }
       }
 
@@ -115,6 +116,7 @@
         &:active {
           --text-color: #000000;
           border: 2px solid var(--border-color-hvr);
+          --icon-color: #f1a505;
         }
       }
 
@@ -130,6 +132,7 @@
         &:focus,
         &:active {
           --text-color: #000000;
+          --icon-color: #c52927;
           border: 2px solid var(--border-color-hvr);
         }
       }
