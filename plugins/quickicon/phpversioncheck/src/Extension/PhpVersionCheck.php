@@ -65,7 +65,7 @@ final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
      *
      * @return  array
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public static function getSubscribedEvents(): array
     {
