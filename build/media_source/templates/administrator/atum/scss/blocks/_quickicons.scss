@@ -76,7 +76,9 @@
       &:active {
         text-decoration: none;
         background: var(--bg-color-hvr);
-        border: 2px solid var(--border-color-hvr);
+        --text-color: #ffffff;
+        --icon-color: #ffffff;
+
 
         .quickicon-amount {
           background: var(--icon-color);
@@ -92,6 +94,13 @@
         --text-color: #000000;
         --color-hvr: #000000;
 
+        &:hover,
+        &:focus,
+        &:active {
+          --text-color: #000000;
+          --icon-color: #000000;
+          border: 2px solid var(--border-color-hvr);
+        }
       }
 
       &.warning {
@@ -101,6 +110,14 @@
         --border-color-hvr: #af7d0f;
         --text-color: #000000;
         --color-hvr: #000000;
+
+        &:hover,
+        &:focus,
+        &:active {
+          --text-color: #000000;
+          --icon-color: #000000;
+          border: 2px solid var(--border-color-hvr);
+        }
       }
 
       &.danger {
@@ -110,6 +127,14 @@
         --border-color-hvr: #c52927;
         --text-color: #000000;
         --color-hvr: #000000;
+
+        &:hover,
+        &:focus,
+        &:active {
+          --text-color: #000000;
+          --icon-color: #000000;
+          border: 2px solid var(--border-color-hvr);
+        }
       }
 
     }
