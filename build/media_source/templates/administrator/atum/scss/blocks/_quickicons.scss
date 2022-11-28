@@ -89,6 +89,9 @@
         --icon-color: #457d54;
         --bg-color-hvr: #e2ffe2;
         --border-color-hvr: #457d54;
+        --text-color: #000000;
+        --color-hvr: #000000;
+
       }
 
       &.warning {
@@ -96,6 +99,8 @@
         --icon-color: #f1a505;
         --bg-color-hvr: #fff3d9;
         --border-color-hvr: #af7d0f;
+        --text-color: #000000;
+        --color-hvr: #000000;
       }
 
       &.danger {
@@ -103,6 +108,8 @@
         --icon-color: #c52927;
         --bg-color-hvr: #ffe9e9;
         --border-color-hvr: #c52927;
+        --text-color: #000000;
+        --color-hvr: #000000;
       }
 
     }
