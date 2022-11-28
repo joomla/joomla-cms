@@ -1061,7 +1061,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
 
     /**
      * Method to set the View Models
-     * 
+     *
      * This function is provided as a default implementation,
      * and only set one Model in the view (that with the same prefix/sufix than the view).
      * In case you want to set several Models for your view,
@@ -1070,11 +1070,11 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @param   Object  $view  The view Object
      *
      * @return  void
-     * 
-     * @since   4.2
+     *
+     * @since   __DEPLOY_VERSION__
      */
 
-    public function setViewModels(Object $view)
+    public function setViewModels(object $view)
     {
         $viewName = $view->getName();
 
