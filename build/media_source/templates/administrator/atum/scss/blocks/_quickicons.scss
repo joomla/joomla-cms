@@ -25,6 +25,8 @@
     --bg-color-hvr: var(--template-bg-dark);
     --color-hvr: hsl(var(--hue), 30%, 40%);
     --border-color-hvr: hsl(var(--hue), 30%, 40%);
+    border-radius: $border-radius;
+    border: 2px solid hsl(var(--hue), 30%, 40%);
 
     display: flex;
     flex-grow: 1;
@@ -93,6 +95,8 @@
         --border-color-hvr: #457d54;
         --text-color: #000;
         --color-hvr: #000;
+        border: 2px solid transparent;
+
 
         &:hover,
         &:focus,
@@ -110,6 +114,7 @@
         --border-color-hvr: #af7d0f;
         --text-color: #000;
         --color-hvr: #000;
+        border: 2px solid transparent;
 
         &:hover,
         &:focus,
@@ -127,6 +132,8 @@
         --border-color-hvr: #c52927;
         --text-color: #000;
         --color-hvr: #000;
+        border: 2px solid transparent;
+
 
         &:hover,
         &:focus,
