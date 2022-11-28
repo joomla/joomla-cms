@@ -6,13 +6,16 @@
  *
  * @copyright   (C) 2016 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Quickicon\PhpVersionCheck\Extension;
+
+use DateInterval;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -23,7 +26,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  3.7.0
  */
-class PlgQuickiconPhpVersionCheck extends CMSPlugin
+final class PhpVersionCheck extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Constant representing the active PHP version being fully supported
@@ -50,14 +53,6 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
     public const PHP_UNSUPPORTED = 2;
 
     /**
-     * Application object.
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  3.7.0
-     */
-    protected $app;
-
-    /**
      * Load plugin language files automatically
      *
      * @var    boolean
@@ -66,18 +61,32 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Check the PHP version after the admin component has been dispatched.
-     *
-     * @param   string  $context  The calling context
+     * Returns an array of events this subscriber will listen to.
      *
      * @return  array
      *
+     * @since   4.3.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onGetIcons' => 'onGetIcons',
+        ];
+    }
+
+    /**
+     * Check the PHP version after the admin component has been dispatched.
+     *
+     * @param   QuickIconsEvent  $event  The event object
+     *
+     * @return  void
+     *
      * @since   3.7.0
      */
-    public function onGetIcons($context)
+    public function onGetIcons(QuickIconsEvent $event): void
     {
         if (!$this->shouldDisplayMessage()) {
-            return [];
+            return;
         }
 
         $supportStatus = $this->getPhpSupport();
@@ -86,18 +95,16 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
             // Enqueue the notification message; set a warning if receiving security support or "error" if unsupported
             switch ($supportStatus['status']) {
                 case self::PHP_SECURITY_ONLY:
-                    $this->app->enqueueMessage($supportStatus['message'], 'warning');
+                    $this->getApplication()->enqueueMessage($supportStatus['message'], 'warning');
 
                     break;
 
                 case self::PHP_UNSUPPORTED:
-                    $this->app->enqueueMessage($supportStatus['message'], 'danger');
+                    $this->getApplication()->enqueueMessage($supportStatus['message'], 'danger');
 
                     break;
             }
         }
-
-        return [];
     }
 
     /**
@@ -211,27 +218,27 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
     private function shouldDisplayMessage()
     {
         // Only on admin app
-        if (!$this->app->isClient('administrator')) {
+        if (!$this->getApplication()->isClient('administrator')) {
             return false;
         }
 
         // Only if authenticated
-        if ($this->app->getIdentity()->guest) {
+        if ($this->getApplication()->getIdentity()->guest) {
             return false;
         }
 
         // Only on HTML documents
-        if ($this->app->getDocument()->getType() !== 'html') {
+        if ($this->getApplication()->getDocument()->getType() !== 'html') {
             return false;
         }
 
         // Only on full page requests
-        if ($this->app->getInput()->getCmd('tmpl', 'index') === 'component') {
+        if ($this->getApplication()->getInput()->getCmd('tmpl', 'index') === 'component') {
             return false;
         }
 
         // Only to com_cpanel
-        if ($this->app->getInput()->get('option') !== 'com_cpanel') {
+        if ($this->getApplication()->getInput()->get('option') !== 'com_cpanel') {
             return false;
         }
 
