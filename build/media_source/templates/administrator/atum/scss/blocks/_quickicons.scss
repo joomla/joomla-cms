@@ -25,8 +25,6 @@
     --bg-color-hvr: var(--template-bg-dark);
     --color-hvr: hsl(var(--hue), 30%, 40%);
     --border-color-hvr: hsl(var(--hue), 30%, 40%);
-    border-radius: $border-radius;
-    border: 2px solid hsl(var(--hue), 30%, 40%);
 
     display: flex;
     flex-grow: 1;
