@@ -1074,7 +1074,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * @since   __DEPLOY_VERSION__
      */
 
-    public function setViewModels(object $view)
+    protected function setViewModels(ViewInterface $view)
     {
         $viewName = $view->getName();
 
