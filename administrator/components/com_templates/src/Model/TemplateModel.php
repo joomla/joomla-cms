@@ -1802,7 +1802,7 @@ class TemplateModel extends FormModel
             $template->xmldata = TemplatesHelper::parseXMLTemplateFile($template->client_id === 0 ? JPATH_ROOT : JPATH_ROOT . '/administrator', $template->name);
         }
 
-        if (!isset($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === '')) {
+        if (empty($template->xmldata->inheritable) || (isset($template->xmldata->parent) && $template->xmldata->parent === '')) {
             return $result;
         }
 
