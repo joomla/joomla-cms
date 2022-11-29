@@ -44,7 +44,7 @@ class TableColumns {
    */
   createControls() {
     const $divouter = document.createElement('div');
-    $divouter.setAttribute('class', 'dropdown float-end pb-2');
+    $divouter.setAttribute('class', 'dropdown d-flex justify-content-end pb-2');
 
     const $divinner = document.createElement('div');
     $divinner.setAttribute('class', 'dropdown-menu dropdown-menu-end');
