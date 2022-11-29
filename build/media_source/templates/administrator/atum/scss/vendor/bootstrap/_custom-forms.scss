@@ -51,13 +51,13 @@
   }
 
   &:focus {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
+    border-color: var(--focuscolor);
+    box-shadow: var(--focusshadow);
   }
 
   &:disabled {
     cursor: default;
-    background: $gray-200;
+    background: var(--gray-200);
     border: 0;
     box-shadow: none;
   }
@@ -65,6 +65,6 @@
   optgroup,
   option {
     color: var(--template-text-dark);
-    background-color: $white;
+    background-color: var(--white);
   }
 }

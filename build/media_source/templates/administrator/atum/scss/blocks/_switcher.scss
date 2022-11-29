@@ -8,8 +8,8 @@
     }
   }
   input:focus ~ .toggle-outside {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
+    border-color: var(--focuscolor);
+    box-shadow: var(--focusshadow);
   }
 }
 .disabled {

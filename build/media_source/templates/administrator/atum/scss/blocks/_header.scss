@@ -1,7 +1,7 @@
 // Header
 .header {
   z-index: $zindex-header;
-  color: $white;
+  color: var(--white);
   background: var(--template-bg-dark);
 
   &-inside {
@@ -10,7 +10,7 @@
   }
 
   a {
-    color: $white;
+    color: var(--white);
 
     &:before {
       display: none;
@@ -69,7 +69,7 @@
     margin: 0;
     overflow: hidden;
     font-size: 1.2rem;
-    color: $white;
+    color: var(--white);
     text-overflow: ellipsis;
     white-space: nowrap;
 
@@ -85,7 +85,7 @@
   .dropdown-header,
   .dropdown-item {
     padding: .82rem .75rem;
-    color: $white;
+    color: var(--white);
     background-color: var(--template-bg-dark-70);
 
     > span {
@@ -130,14 +130,14 @@
   display: flex;
   align-items: center;
   line-height: 1rem;
-  color: $white;
+  color: var(--white);
   background-color: var(--template-bg-dark-60);
   border-radius: 22px;
   padding-inline-end: 4px;
 
   a,
   button {
-    color: $white;
+    color: var(--white);
     text-decoration: none;
   }
 
@@ -168,7 +168,7 @@
     min-width: 28px;
     height: 28px;
     margin: 4px;
-    color: $white;
+    color: var(--white);
     background-color: var(--template-bg-dark);
     border-radius: 16px;
   }

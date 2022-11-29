@@ -128,14 +128,14 @@
     max-width: 180px;
     padding: 10px 15px;
     text-align: end;
-    background: darken($gray-100, 2.5%);
+    background: var(--gray-097);
     border-right: 1px solid $table-border-color;
 
     .badge {
       border-radius: .2rem;
 
       &.badge-jlanguage {
-        background-color: $white;
+        background-color: var(--white);
       }
     }
 

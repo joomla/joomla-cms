@@ -1,7 +1,7 @@
 // Icons
 
 .#{$jicon-css-prefix}-white {
-  color: $white;
+  color: var(--white);
 }
 
 .tbody-icon {
@@ -18,7 +18,7 @@
     height: 26px;
     font-size: 1rem;
     line-height: 22px;
-    color: $gray-400;
+    color: var(--gray-400);
     border: 2px solid var(--border);
     border-radius: 50%;
   }
@@ -34,14 +34,14 @@
   .#{$jicon-css-prefix}-color-featured,
   .#{$jicon-css-prefix}-star.featured,
   .#{$fa-css-prefix}-star.featured {
-    color: $warning;
-    border-color: $warning;
+    color: var(--warning);
+    border-color: var(--warning);
   }
 
   .#{$jicon-css-prefix}-folder,
   .#{$fa-css-prefix}-folder {
     color: var(--template-text-dark);
-    border-color: $gray-700;
+    border-color: var(--gray-700);
   }
 
   .#{$jicon-css-prefix}-checkedout,

@@ -21,7 +21,7 @@
 
       &#sorted {
         font-weight: $medium-weight;
-        color: $gray-800;
+        color: var(--gray-800);
       }
     }
 
@@ -74,7 +74,7 @@
     .inactive [class*=" #{$jicon-css-prefix}-"],
     .inactive [class^="#{$fa-css-prefix}-"],
     .inactive [class*=" #{$fa-css-prefix}-"] {
-      color: $gray-400;
+      color: var(--gray-400);
     }
   }
 

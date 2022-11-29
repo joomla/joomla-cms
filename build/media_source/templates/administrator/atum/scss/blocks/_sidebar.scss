@@ -21,7 +21,7 @@
     a,
     .menu-dashboard,
     .menu-quicktask {
-      color: $white;
+      color: var(--white);
       text-decoration: none;
 
       &:hover {
@@ -72,7 +72,7 @@
     background: var(--template-bg-dark-60);
 
     a {
-      color: $white;
+      color: var(--white);
     }
 
     .sidebar-item-title {

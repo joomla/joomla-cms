@@ -1,7 +1,7 @@
 // Quick Icons
 
 .quick-icons {
-  background-color: $white;
+  background-color: var(--white);
 
   .nav {
     display: grid;
@@ -71,7 +71,7 @@
       &:hover,
       &:focus,
       &:active {
-        color: $white;
+        color: var(--white);
         text-decoration: none;
         background: var(--bg-color-hvr);
 
@@ -124,7 +124,7 @@
         background: var(--template-bg-dark);
 
         * {
-          color: $white;
+          color: var(--white);
         }
       }
     }

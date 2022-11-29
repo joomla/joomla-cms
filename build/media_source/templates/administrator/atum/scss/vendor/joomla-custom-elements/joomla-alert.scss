@@ -92,7 +92,7 @@
     }
 
     color: #{$state-warning-text};
-    --alert-accent-color: #{$warning};
+    --alert-accent-color: #{$state-warning-accent};
     --alert-bg-color: #{$state-warning-bg};
   }
 

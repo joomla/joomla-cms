@@ -66,16 +66,16 @@ select.form-control {
   }
 
   .button-select {
-    background-color: darken($success, 8%);
+    background-color: var(--success-dark);
   }
 
   .button-clear {
-    background-color: darken($danger, 8%);
+    background-color: var(--danger-dark);
   }
 
   .button-clear > .#{$fa-css-prefix}-check,
   .button-select > .#{$fa-css-prefix}-times {
-    color: $gray-100;
+    color: var(--gray-100);
   }
 
   @include media-breakpoint-down(lg) {

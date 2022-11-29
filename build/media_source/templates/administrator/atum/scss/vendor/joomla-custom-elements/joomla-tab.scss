@@ -108,7 +108,7 @@ joomla-tab {
     --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
-    background-color: $white;
+    background-color: var(--white);
     border: 0;
     border-radius: .25rem;
     box-shadow: none;
@@ -138,7 +138,7 @@ joomla-tab[orientation=vertical] {
     height: auto;
     padding: 0;
     overflow: hidden;
-    border: 1px solid $gray-300;
+    border: 1px solid var(--gray-300);
     border-radius: 0;
     box-shadow: none;
 
@@ -167,7 +167,7 @@ joomla-tab[orientation=vertical] {
       color: var(--template-special-color);
       text-decoration: none;
       border-top: 1px solid transparent;
-      border-bottom: 1px solid $gray-300;
+      border-bottom: 1px solid var(--gray-300);
       box-shadow: none;
 
       &[aria-expanded=true],
@@ -210,10 +210,10 @@ joomla-tab[view=accordion] {
   flex-direction: column;
   white-space: normal;
   border-radius: 0;
-  box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
+  box-shadow: 0 1px var(--white) inset, 0 0 3px rgba(0, 0, 0, .04);
 
   > div[role=tablist] {
-    background-color: $white;
+    background-color: var(--white);
 
     > button[role=tab] {
       position: relative;
@@ -223,7 +223,7 @@ joomla-tab[view=accordion] {
       text-align: start;
       text-decoration: none;
       border: 0;
-      border-bottom: 1px solid $gray-300;
+      border-bottom: 1px solid var(--gray-300);
       box-shadow: none;
 
       &[aria-expanded=true]::after,
@@ -251,13 +251,13 @@ joomla-tab[view=accordion] {
       display: block;
       width: 100%;
       max-width: 100%;
-      border-bottom: 1px solid $gray-300;
+      border-bottom: 1px solid var(--gray-300);
     }
   }
 
   [active],
   [aria-expanded=true] {
-    background-color: $white;
+    background-color: var(--white);
   }
 
   .col-md-6,

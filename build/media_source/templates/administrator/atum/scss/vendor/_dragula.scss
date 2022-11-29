@@ -6,11 +6,11 @@
   display: table;
   margin: 0 !important;
   cursor: move;
-  background-color: $teal;
+  background-color: var(--teal);
   opacity: .8;
 
   td, th {
-    background-color: $teal;
+    background-color: var(--teal);
   }
 }
 
