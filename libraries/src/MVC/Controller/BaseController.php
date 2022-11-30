@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -1067,14 +1068,14 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * In case you want to set several Models for your view,
      * you will need to override it in your DisplayController controller.
      *
-     * @param   Object  $view  The view Object
+     * @param   AbstractView  $view  The view Object
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
 
-    protected function setViewModels(ViewInterface $view)
+    protected function prepareViewModel($view)
     {
         $viewName = $view->getName();
 
