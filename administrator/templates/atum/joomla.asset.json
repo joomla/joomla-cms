@@ -18,8 +18,8 @@
       "name": "template.atum.rtl",
       "description": "The css file to be used when the site is right to left (RTL).",
       "type": "style",
-      "uri": "template-rtl.min.css",
       "dependencies": [
+        "template.atum.ltr",
         "fontawesome"
       ]
     },
