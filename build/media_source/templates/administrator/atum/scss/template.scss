@@ -80,11 +80,3 @@
   }
 }
 
-// Dark Mode
-@media (prefers-color-scheme: dark) {
-  // Atum Dark Variables
-  @import "dark/variables";
-  @import "dark/root";
-
-  @import "dark/blocks/quickicons";
-}

@@ -71,7 +71,7 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
     /**
      * Array of template parameters
      *
-     * @var    array
+     * @var    array|Registry
      * @since  1.7.0
      */
     public $params = null;

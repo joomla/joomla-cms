@@ -183,8 +183,6 @@
 //region Tables
 .table {
   --table-bg: var(--template-alt-bg-dark-85);
-  --table-accent-bg: #{$table-accent-bg};
-  --table-striped-color: #{$table-striped-color};
   --table-striped-bg: rgba(var(--black-rgb), 0.2);
   --table-hover-bg: rgba(var(--black-rgb), 0.1);
 }

@@ -24,6 +24,15 @@
       ]
     },
     {
+      "name": "template.atum.dark",
+      "description": "Dark Mode for Atum.",
+      "type": "style",
+      "uri": "template-dark.min.css",
+      "dependencies": [
+        "template.atum.ltr"
+      ]
+    },
+    {
       "name": "template.active.language",
       "description": "An asset to allow language specific css, eg 'language/[lang-CODE]/[lang-CODE].css', to use it as a dependency to the active template",
       "type": "style",
