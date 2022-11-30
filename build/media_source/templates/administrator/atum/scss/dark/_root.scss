@@ -67,6 +67,17 @@
   --state-error-border: var(--state-danger-border);
   // endregion
 
+  // region Toolbar
+  --toolbar-bg: var(--template-bg-dark-97);
+  --toolbar-button: var(--body-color);
+  --toolbar-button-bg: var(--gray-200);
+  --toolbar-button-primary-icon: #{lighten($base-color, 40%)};
+  --toolbar-button-secondary-icon: var(--gray-800);
+  --toolbar-button-info-icon: #{lighten($info, 40%)};
+  --toolbar-button-action: #{lighten($base-color, 20%)};
+  --toolbar-button-action-icon: var(--gray-900);
+  // endregion
+
   // region Forms
   --form-select-indicator: url("../images/select-bg-dark.svg");
   --form-select-indicator-rtl: url("../images/select-bg-dark-rtl.svg");
