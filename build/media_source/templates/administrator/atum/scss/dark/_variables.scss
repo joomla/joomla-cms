@@ -28,8 +28,8 @@ $atum-colors-dark: (
   template-text-light:             $gray-100,
   template-text-dark:              $gray-900,
   template-special-color:          $dark-blue,
-  template-link-color:             $light-blue,
-  template-link-hover-color:       darken($light-blue, 20%),
+  template-link-color:             lighten($light-blue, 20%),
+  template-link-hover-color:       $light-blue,
   template-contrast:               var(--primary),
 );
 

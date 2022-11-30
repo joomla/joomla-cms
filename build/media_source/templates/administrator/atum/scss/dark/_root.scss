@@ -130,6 +130,13 @@
   --modal-btn-secondary-border: var(--gray-100);
   // region
 
+  // region Icons
+  --icon-default: var(--gray-500);
+  --icon-default-border: var(--gray-500);
+  --icon-success: #{lighten($success, 10%)};
+  --icon-success-border: #{lighten($success, 10%)};
+  // endregion
+
   // region Login
   --login-site-name: var(--gray-900);
   --login-admin-login-text: var(--gray-500);
@@ -172,3 +179,13 @@
   --com_cpanel-add-module-icon: hsl(var(--hue),40%,60%);
   // endregion
 }
+
+//region Tables
+.table {
+  --table-bg: var(--template-alt-bg-dark-85);
+  --table-accent-bg: #{$table-accent-bg};
+  --table-striped-color: #{$table-striped-color};
+  --table-striped-bg: rgba(var(--black-rgb), 0.2);
+  --table-hover-bg: rgba(var(--black-rgb), 0.1);
+}
+//endregion
