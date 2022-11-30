@@ -1,0 +1,66 @@
+:root {
+
+  // Colors
+  //
+  // Generate palettes for full colors, grays, and theme colors.
+
+  @each $color, $value in $colors-dark {
+    --#{$variable-prefix}#{$color}: #{$value};
+  }
+
+  @each $color, $value in $grays-dark {
+    --#{$variable-prefix}gray-#{$color}: #{$value};
+    --#{$variable-prefix}gray-#{$color}-rgb: to-rgb(#{$value});
+  }
+
+  @each $color, $value in $theme-colors-dark {
+    --#{$variable-prefix}#{$color}: #{$value};
+  }
+
+  @each $color, $value in $theme-colors-rgb-dark {
+    --#{$variable-prefix}#{$color}-rgb: #{$value};
+  }
+
+  @each $color, $value in $atum-colors-dark {
+    --#{$variable-prefix}#{$color}: #{$value};
+  }
+
+  --#{$variable-prefix}white-rgb: #{to-rgb($white)};
+  --#{$variable-prefix}black-rgb: #{to-rgb($black)};
+  --#{$variable-prefix}body-color: #{to-rgb($body-color)};
+  --#{$variable-prefix}body-color-rgb: #{to-rgb($body-color)};
+  --#{$variable-prefix}body-bg-rgb: #{to-rgb($body-bg)};
+  --#{$variable-prefix}body-bg: #{$body-bg};
+
+  // region Alerts
+  --alert-default-text: var(--body-color);
+  --alert-default-bg: var(bg-color);
+
+  --state-success-text: #{lighten($success, 50%)};
+  --state-success-bg: #{darken($success, 15%)};
+  --state-success-border: #{lighten($success, 20%)};
+
+  --state-info-text: var(--state-success-text); // Only system message
+  --state-info-bg: var(--state-success-bg); // Only system message
+  --state-info-border: var(--state-success-border); // Only system message
+
+  --alert-info-text: var(--template-bg-dark-10); // Only Bootstrap alerts
+  --alert-info-bg: var(--template-bg-dark); // Only Bootstrap alerts
+  --alert-info-border: var(--template-bg-dark-70); // Only Bootstrap alerts
+
+  --state-warning-text: #{lighten($warning, 44%)};
+  --state-warning-bg: #{darken($warning, 24%)};
+  --state-warning-border: var(--warning);
+  --state-warning-accent: var(--warning);
+
+  --state-danger-text: #{lighten($danger, 52%)};
+  --state-danger-bg: #{$danger};
+  --state-danger-border: #{$danger};
+
+  --state-error-text: var(--state-danger-text);
+  --state-error-bg: var(--state-danger-bg);
+  --state-error-border: var(--state-danger-border);
+  // endregion
+
+
+}

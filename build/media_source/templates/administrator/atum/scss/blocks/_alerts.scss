@@ -6,10 +6,14 @@
   border-left: 0;
   border-radius: $border-radius-sm;
 
+  color: var(--alert-default-text, inherit);
+  background-color: var(--alert-default-bg, inherit);
+  border-color: var(--alert-default-border, transparent);
+
   &.alert-info {
-    color: var(--template-bg-dark);
-    background-color: var(--template-bg-dark-10);
-    border: 1px solid var(--template-bg-dark-20);
+    color: var(--alert-info-text, var(--template-bg-dark));
+    background-color: var(--alert-info-bg, var(--template-bg-dark-10));
+    border: 1px solid var(--alert-info-border, var(--template-bg-dark-20));
   }
 
   &.alert-warning {
@@ -24,7 +28,7 @@
     border: 1px solid $state-success-border;
   }
 
-  &.alert-error {
+  &.alert-error,&.alert-danger {
     color: $state-error-text;
     background-color: $state-error-bg;
     border: 1px solid $state-error-border;

@@ -1,0 +1,80 @@
+// region Theme colours, for use in CSS variables
+$theme-colors-dark: () !default;
+$theme-colors-dark: map-merge((
+  primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
+  secondary:                       $gray-700, //used for btn-secondary
+  success:                         $success,
+  success-dark:                    darken($success, 8%),
+  info:                            $light-blue,
+  warning:                         $yellow,
+  danger:                          $danger,
+  danger-dark:                     darken($danger, 8%),
+  light:                           $gray-800, //used in bootstrap
+  dark:                            $gray-200,  //used in bootstrap and for table-border
+  action:                          $base-color,
+  error:                           $red-dark,
+  alert-success:                   $green-dark
+), $theme-colors-dark);
+
+$theme-colors-rgb-dark: map-loop($theme-colors-dark, to-rgb, "$value") !default;
+// endregion
+
+// region Atum colors, for use in CSS variables
+$atum-colors-dark: (
+  template-sidebar-bg:             var(--template-bg-dark-90),
+  template-sidebar-font-color:     $white,
+  template-sidebar-link-color:     $white,
+  template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
+  template-text-light:             $white,
+  template-special-color:          $light-blue,
+  template-link-color:             $dark-blue,
+  template-link-hover-color:       darken($light-blue, 20%),
+  template-contrast:               var(--primary),
+);
+
+// endregion
+
+// region Colours, for use in CSS variables
+$colors-dark: (
+  card-bg:                         var(--gray-700),
+  bluegray:                        $bluegray,
+  lightbluegray:                   #f6f9fc,
+  toolbar-bg:                      $white,
+  success-border:                  var(--success),
+  info-border:                     var(--info),
+  warning-border:                  var(--warning),
+  danger-border:                   var(--danger),
+  login-main-bg:                   darken($base-color, 8%), //used on login
+  border:                          $gray-400,
+  "white":                         $white, // the key here must be in quotes to avoid scss compilation warnings.
+  "black":                         $black, // the key here must be in quotes to avoid scss compilation warnings.
+  "teal":                          $teal, // the key here must be in quotes to avoid scss compilation warnings.
+  "darkblue":                      $darkblue, // the key here must be in quotes to avoid scss compilation warnings.
+  white-offset:                    $whiteoffset,
+  focus:                           $focuscolor,
+  focus-shadow:                    $focusshadow,
+  toggle-color:                    $white, //used in sidebar
+  a11y-highlight-border:           #ff0000, // used to highlight headers and links with the .a11y_highlight class
+  joomla-version:                  var(--bluegray), // Joomla version in the top header
+);
+// endregion
+
+// region Greys, for use in CSS variables
+$grays-dark: (
+  "100": $gray-900,
+  "200": $gray-800,
+  "300": $gray-700,
+  "400": $gray-600,
+  "500": $gray-500,
+  "600": $gray-400,
+  "700": $gray-300,
+  "800": $gray-200,
+  "900": $gray-100,
+  "097": lighten($gray-900, 2.5%),
+);
+// endregion
+
+// region Body
+$body-bg:                   $gray-900;
+$body-color:                $gray-100;
+// endregion

@@ -78,3 +78,11 @@
     scroll-behavior: auto !important;
   }
 }
+
+// Dark Mode
+@media (prefers-color-scheme: dark) {
+  // Atum Dark Variables
+  @import "dark/variables";
+  @import "dark/root";
+
+}
