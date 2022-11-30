@@ -1,7 +1,7 @@
 // Icons
 
 .#{$jicon-css-prefix}-white {
-  color: var(--white);
+  color: var(--icon-white, var(--white));
 }
 
 .tbody-icon {
@@ -18,30 +18,30 @@
     height: 26px;
     font-size: 1rem;
     line-height: 22px;
-    color: var(--gray-400);
-    border: 2px solid var(--border);
+    color: var(--icon-default, var(--gray-400));
+    border: 2px solid var(--icon-default-border, var(--border));
     border-radius: 50%;
   }
 
   .#{$jicon-css-prefix}-publish,
   .#{$jicon-css-prefix}-check,
   .#{$fa-css-prefix}-check {
-    color: var(--success);
-    border-color: var(--success);
+    color: var(--icon-success, var(--success));
+    border-color: var(--icon-success-border, var(--success));
   }
 
   .#{$jicon-css-prefix}-home,
   .#{$jicon-css-prefix}-color-featured,
   .#{$jicon-css-prefix}-star.featured,
   .#{$fa-css-prefix}-star.featured {
-    color: var(--warning);
-    border-color: var(--warning);
+    color: var(--icon-warning, var(--warning));
+    border-color: var(--icon-warning-border, var(--warning));
   }
 
   .#{$jicon-css-prefix}-folder,
   .#{$fa-css-prefix}-folder {
-    color: var(--template-text-dark);
-    border-color: var(--gray-700);
+    color: var(--icon-folder, var(--template-text-dark));
+    border-color: var(--icon-folder-border, var(--gray-700));
   }
 
   .#{$jicon-css-prefix}-checkedout,
@@ -51,7 +51,7 @@
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: var(--template-text-dark);
+    color: var(--icon-checked-out, var(--template-text-dark));
     border: 0;
   }
 
@@ -66,8 +66,8 @@
 
   &.disabled .#{$jicon-css-prefix}-home,
   &.disabled .#{$fa-css-prefix}-home {
-    color: $state-warning-bg;
-    border-color: $state-warning-bg;
+    color: var(--icon-disabled, $state-warning-bg);
+    border-color: var(--icon-disabled-border, $state-warning-bg);
   }
 }
 
@@ -77,7 +77,7 @@
 }
 
 .plg_system_webauthn_login_button svg path {
-  fill: var(--white);
+  fill: var(--icon-webauthn-fill, var(--white));
 }
 
 .badge > span {
