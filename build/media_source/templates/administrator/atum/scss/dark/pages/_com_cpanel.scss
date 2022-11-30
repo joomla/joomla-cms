@@ -1,0 +1,77 @@
+// com_cpanel
+
+.com_cpanel {
+  .card-header {
+    color: var(--template-bg-dark);
+    background: var(--card-bg);
+  }
+
+  .module-actions {
+    > * {
+      color: var(--template-bg-dark-70);
+    }
+  }
+
+  .cpanel-add-module {
+    color: hsl(var(--hue),30%,40%);
+    background-color: hsl(var(--hue),35%,98%);
+    border: 1px solid hsl(var(--hue),35%,88%);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--white);
+      background: var(--template-bg-dark);
+    }
+
+    .cpanel-add-module-icon {
+      color: hsl(var(--hue),30%,40%);
+    }
+  }
+}
+
+.cpanel-modules {
+  .list-group {
+    border-top: 1px solid $list-group-border-color;
+  }
+
+  .list-group-item {
+    &:hover {
+      background: var(--toolbar-bg);
+    }
+
+    .list-group-item a > span {
+      &[class^="#{$jicon-css-prefix}-"],
+      &[class*=" #{$jicon-css-prefix}-"],
+      &[class^="#{$fa-css-prefix}-"],
+      &[class*=" #{$fa-css-prefix}-"] {
+        color: rgba(var(--white), .9);
+        background: var(--template-link-color);
+        box-shadow: $atum-box-shadow;
+
+        &:hover {
+          background: var(--template-link-hover-color);
+        }
+      }
+    }
+  }
+
+  .list-group-item span.home-image {
+    &[class^="#{$jicon-css-prefix}-"],
+    &[class*=" #{$jicon-css-prefix}-"],
+    &[class^="#{$fa-css-prefix}-"],
+    &[class*=" #{$fa-css-prefix}-"] {
+      color: rgba(var(--black), 1);
+      background: var(--white-offset);
+      box-shadow: none;
+    }
+  }
+}
+
+.sample-data__title {
+  color: var(--primary);
+}
+
+.sample-data__desc {
+  border-inline-start-color: hsl(var(--hue),50%,93%);
+}

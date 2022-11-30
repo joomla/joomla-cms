@@ -30,7 +30,12 @@
   --#{$variable-prefix}body-color: #{$body-color};
   --#{$variable-prefix}body-color-rgb: #{to-rgb($body-color)};
   --#{$variable-prefix}body-bg: #{$body-bg};
+  --#{$variable-prefix}bg-color: #{$body-bg};
   --#{$variable-prefix}body-bg-rgb: #{to-rgb($body-bg)};
+
+  // region Global
+  --details-color: var(--gray-600);
+  // endregion
 
   // region Alerts
   --alert-default-text: var(--body-color);
@@ -62,5 +67,30 @@
   --state-error-border: var(--state-danger-border);
   // endregion
 
+  // region Forms
+  --form-select-indicator: url("../images/select-bg-dark.svg");
+  --form-select-indicator-rtl: url("../images/select-bg-dark-rtl.svg");
 
+  --form-label-color: var(--gray-900);
+  --input-bg: var(--gray-300);
+  --input-color: var(--gray-800);
+  --input-border-color: var(--gray-100);
+  --input-placeholder-color: var(--gray-400);
+  // region
+
+  // region Joomla Tab
+  --joomla-tab-element-bg: var(--gray-200);
+  --joomla-tab-tablist-button-bg: var(--gray-600);
+  --joomla-tab-tablist-active-bg: var(--gray-400);
+  --joomla-tab-tablist-active: var(--gray-900);
+  // endregion
+
+  // region Choices.js
+  --choices-bg-color: var(--gray-300);
+  --choices-bg-color-dropdown: var(--choices-bg-color);
+  --choices-input-placeholder: var(--gray-600);
+  --choices-multiple-item-bg: var(--choices-bg-color);
+  --choices-selector-bg-image: url("../../../images/select-bg-dark.svg");
+  --choices-selector-bg-rtl-image: url("../../../images/select-bg-dark-rtl.svg");
+  // endregion
 }

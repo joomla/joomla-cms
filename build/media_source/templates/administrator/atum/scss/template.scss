@@ -47,6 +47,7 @@
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";
+@import "blocks/joomla-custom-elements";
 
 // These DO NOT BELONG HERE!!!
 @import "vendor/codemirror";
@@ -85,5 +86,36 @@
   @import "dark/variables";
   @import "dark/root";
 
+  // This must come first
   @import "dark/blocks/global";
+
+  //@import "dark/blocks/edit";
+  //@import "dark/blocks/icons";
+  //@import "dark/blocks/iframe";
+  @import "dark/blocks/layout";
+  //@import "dark/blocks/login";
+  //@import "dark/blocks/modals";
+  //@import "dark/blocks/quickicons";
+  //@import "dark/blocks/lists";
+  //@import "dark/blocks/sidebar";
+  //@import "dark/blocks/sidebar-nav";
+  //@import "dark/blocks/switcher";
+  //@import "dark/blocks/toolbar";
+  //@import "dark/blocks/treeselect";
+  //@import "dark/blocks/utilities";
+
+  //@import "dark/vendor/codemirror";
+  //@import "dark/vendor/dragula";
+  //@import "dark/vendor/tinymce";
+
+  // Page specifics
+  //@import "dark/pages/com_config";
+  //@import "dark/pages/com_content";
+  @import "dark/pages/com_cpanel";
+  //@import "dark/pages/com_joomlaupdate";
+  //@import "dark/pages/com_modules";
+  //@import "dark/pages/com_tags";
+  //@import "dark/pages/com_privacy";
+  //@import "dark/pages/com_templates";
+  //@import "dark/pages/com_users";
 }

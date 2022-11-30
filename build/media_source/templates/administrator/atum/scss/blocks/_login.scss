@@ -2,6 +2,9 @@
 
 .view-login,
 .task-logout {
+  label {
+    color: var(--primary);
+  }
 
   .container-main {
     order: 1;
@@ -211,10 +214,6 @@
       background: var(--template-bg-dark-70);
     }
   }
-}
-
-label {
-  color: var(--primary);
 }
 
 .com_login .sidebar-wrapper .main-brand {

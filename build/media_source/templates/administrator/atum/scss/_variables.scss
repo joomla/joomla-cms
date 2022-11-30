@@ -33,7 +33,26 @@ $cyan:                             #107d8e; //used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
 
+// Auxiliary colors
+$text-muted:                       var(--gray-600);
+
+// Borders
 $border-color:                     var(--gray-300) !default;
+
+// Cards
+$card-bg:                          var(--card-bg);
+
+// Forms
+$form-label-color:                 var(--form-label-color, var(--primary));
+
+$input-bg:                         var(--input-bg, var(--body-bg));
+$input-disabled-bg:                var(--input-disabled-bg, var(--gray-200));
+$input-disabled-border-color:      var(--input-disabled-border-colo, null);
+$input-color:                      var(--input-color, var(--body-color));
+$input-border-color:               var(--input-border-color, var(--gray-400));
+$input-placeholder-color:          var(--input-placeholder-color, var(--gray-600));
+$input-plaintext-color:            var(--input-plaintext-color, var(--body-color));
+
 //endregion
 
 // region Atum colours defined as scss variables for use in scss functions
@@ -297,8 +316,8 @@ $form-select-bg:                   var(--template-bg-light);
 $form-select-bg-size:              116rem;
 $form-select-indicator:            var(--form-select-indicator, url("../images/select-bg.svg"));
 $form-select-indicator-rtl:        var(--form-select-indicator-rtl, url("../images/select-bg-rtl.svg"));
-$form-select-indicator-active:     var(--form-select-indicator-active, url("../../../images/select-bg.svg"));
-$form-select-indicator-active-rtl: var(--form-select-indicator-active-rtl, url("../../../images/select-bg-rtl.svg"));
+$form-select-indicator-active:     var(--form-select-indicator-active, url("../../../images/select-bg-active.svg"));
+$form-select-indicator-active-rtl: var(--form-select-indicator-active-rtl, url("../../../images/select-bg-active-rtl.svg"));
 $form-select-background:           $form-select-indicator no-repeat right center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-background-rtl:       $form-select-indicator-rtl no-repeat left center / $form-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $form-select-box-shadow:           $atum-box-shadow;

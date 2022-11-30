@@ -33,15 +33,16 @@ joomla-tab {
     white-space: nowrap;
     list-style: outside none none;
     border-bottom: 1px solid var(--template-bg-dark-10);
+    background-color: var(--joomla-tab-tablist-bg, var(--gray-300));
 
     > button[role=tab] {
       position: relative;
       box-sizing: border-box;
       display: block;
       padding: .6rem 1rem;
-      color: var(--primary);
+      color: var(--joomla-tab-tablist-button, var(--primary));
       text-decoration: none;
-      background-color: var(--white);
+      background-color: var(--joomla-tab-tablist-button-bg, var(--white));
       border: 0;
       box-shadow: none;
 
@@ -63,7 +64,7 @@ joomla-tab {
           left: 0;
           height: 3px;
           content: "";
-          background-color: var(--template-link-color);
+          background-color: var(--joomla-tab-tablist-active-indicator, var(--template-link-color));
           opacity: .8;
         }
 
@@ -74,7 +75,8 @@ joomla-tab {
 
       &[aria-expanded=true] {
         font-weight: $font-weight-bold;
-        background: var(--template-bg-dark-3);
+        background: var(--joomla-tab-tablist-active-bg, var(--template-bg-dark-3));
+        color: var(--joomla-tab-tablist-active, inherit);
       }
 
       .text-muted {
@@ -108,7 +110,7 @@ joomla-tab {
     --gutter-x: 2rem;
     display: none;
     padding: 30px 2vw;
-    background-color: var(--white);
+    background-color: var(--joomla-tab-element-bg ,var(--white));
     border: 0;
     border-radius: .25rem;
     box-shadow: none;

@@ -47,6 +47,7 @@ body:not(.contentpane) .main-card {
 details {
   background: var(--template-bg-dark-97);
   border-color: var(--template-bg-dark-90);
+  color: var(--details-color, var(--template-bg-dark-90));
 
   summary {
     color: var(--template-bg-dark-15);

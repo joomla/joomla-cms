@@ -36,6 +36,10 @@
   .control-label {
     width: 240px;
     padding: .3rem 1rem .3rem 0;
+
+    label {
+      color: $form-label-color;
+    }
   }
 
   .controls {

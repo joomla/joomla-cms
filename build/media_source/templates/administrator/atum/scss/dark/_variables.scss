@@ -37,10 +37,10 @@ $atum-colors-dark: (
 
 // region Colours, for use in CSS variables
 $colors-dark: (
-  card-bg:                         var(--gray-700),
+  card-bg:                         var(--gray-500),
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
-  toolbar-bg:                      $white,
+  toolbar-bg:                      var(--gray-800),
   success-border:                  var(--success),
   info-border:                     var(--info),
   warning-border:                  var(--warning),
