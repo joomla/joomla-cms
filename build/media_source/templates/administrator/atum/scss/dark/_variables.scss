@@ -25,9 +25,10 @@ $atum-colors-dark: (
   template-sidebar-font-color:     $white,
   template-sidebar-link-color:     $white,
   template-bg-light:               #f0f4fb, //light background color, frontend dashboard background
-  template-text-light:             $white,
-  template-special-color:          $light-blue,
-  template-link-color:             $dark-blue,
+  template-text-light:             $gray-100,
+  template-text-dark:              $gray-900,
+  template-special-color:          $dark-blue,
+  template-link-color:             $light-blue,
   template-link-hover-color:       darken($light-blue, 20%),
   template-contrast:               var(--primary),
 );

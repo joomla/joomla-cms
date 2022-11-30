@@ -1,0 +1,65 @@
+// Global
+
+body {
+  &.admin {
+    background-color: var(--template-bg-dark-90);
+  }
+
+  &.monochrome {
+    &::after {
+      background: var(--template-bg-dark-90);
+    }
+  }
+}
+
+// Default focus highlighting
+a,
+button,
+input,
+textarea {
+  &.focus-visible {
+    outline-color: var(--focus);
+  }
+}
+
+.logo {
+  img path {
+    fill: var(--template-text-dark);
+  }
+}
+
+body:not(.contentpane) .main-card {
+  background: var(--gray-800);
+  box-shadow: 0 2px 10px -8px var(--template-bg-dark-50);
+}
+
+.row-selected {
+  background-color: var(--toolbar-bg);
+}
+
+.text-muted {
+  color: var(--template-text-dark) !important;
+  opacity: .7;
+}
+
+// details
+
+details {
+  background: var(--template-bg-dark-97);
+  border-color: var(--template-bg-dark-90);
+
+  summary {
+    color: var(--template-bg-dark-15);
+  }
+}
+
+// tab *+* border
+@include media-breakpoint-up(md) {
+  joomla-tab[orientation=horizontal]:not([view=accordion]) {
+    section > .row {
+      > * + * {
+        border-inline-start-color: var(--template-bg-dark-10);
+      }
+    }
+  }
+}
