@@ -7,9 +7,9 @@
     margin-inline-end: .5rem;
     font-size: 1rem;
     line-height: 2.3rem;
-    color: var(--template-text-dark);
-    background: var(--white);
-    border-color: var(--whiteoffset);
+    color: var(--modal-btn, var(--template-text-dark));
+    background: var(--modal-btn-bg, var(--white));
+    border-color: var(--modal-btn-border, var(--whiteoffset));
     box-shadow: 1px 1px 1px 0 rgba(var(--black-rgb), .25);
   }
 
@@ -17,44 +17,44 @@
   .btn-success:not([href]),
   .btn-danger:not([href]),
   .btn-secondary:not([href]) {
-    color: var(--template-text-dark);
-    background: var(--white);
-    border: 1px solid var(--template-text-dark);
+    color: var(--modal-btn-default, var(--template-text-dark));
+    background: var(--modal-btn-default-bg, var(--white));
+    border: 1px solid var(--modal-btn-default-border, var(--template-text-dark));
   }
 
   .btn-primary:not([href]) {
     &:hover,
     &:focus {
-      color: var(--white);
-      background: var(--primary);
-      border-color: var(--primary);
+      color: var(--modal-btn-primary, var(--white));
+      background: var(--modal-btn-primary-bg, var(--primary));
+      border-color: var(--modal-btn-primary-border, var(--primary));
     }
   }
 
   .btn-secondary:not([href]) {
     &:hover,
     &:focus {
-      color: var(--white);
-      background: var(--secondary);
-      border-color: var(--secondary);
+      color: var(--modal-btn-secondary, var(--white));
+      background: var(--modal-btn-secondary-bg, var(--secondary));
+      border-color: var(--modal-btn-secondary-border, var(--secondary));
     }
   }
 
   .btn-success:not([href]) {
     &:hover,
     &:focus {
-      color: var(--white);
-      background: var(--success);
-      border-color: var(--success);
+      color: var(--modal-btn-success, var(--white));
+      background: var(--modal-btn-success-bg, var(--success));
+      border-color: var(--modal-btn-success-border, var(--success));
     }
   }
 
   .btn-danger:not([href]) {
     &:hover,
     &:focus {
-      color: var(--white);
-      background: var(--danger);
-      border-color: var(--danger);
+      color: var(--modal-btn-danger, var(--white));
+      background: var(--modal-btn-danger-bg, var(--danger));
+      border-color: var(--modal-btn-danger-border, var(--danger));
     }
   }
 
@@ -94,16 +94,31 @@
 }
 
 .modal-header {
+  background-color: var(--modal-header-bg, transparent);
   padding: 0 15px;
+
+  h1,h2,h3,h4,h5,h6 {
+    color: var(--modal-header, var(--template-bg-dark));
+  }
+
+  button.btn-close {
+    background-color: var(--modal-header-btn-close-bg, transparent);
+  }
 }
 
 .modal-body {
+  background-color: var(--modal-body-bg, transparent);
   overflow-y: initial;
 }
 
 .modal-title {
   font-weight: $font-weight-normal;
   line-height: $modal-header-height;
+  background-color: var(--modal-title-bg, transparent);
+}
+
+.modal-footer {
+  background-color: var(--modal-footer-bg, transparent);
 }
 
 .contentpane {

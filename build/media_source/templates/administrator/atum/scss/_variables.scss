@@ -44,7 +44,6 @@ $card-bg:                          var(--card-bg);
 
 // Forms
 $form-label-color:                 var(--form-label-color, var(--primary));
-
 $input-bg:                         var(--input-bg, var(--body-bg));
 $input-disabled-bg:                var(--input-disabled-bg, var(--gray-200));
 $input-disabled-border-color:      var(--input-disabled-border-colo, null);
@@ -52,6 +51,16 @@ $input-color:                      var(--input-color, var(--body-color));
 $input-border-color:               var(--input-border-color, var(--gray-400));
 $input-placeholder-color:          var(--input-placeholder-color, var(--gray-600));
 $input-plaintext-color:            var(--input-plaintext-color, var(--body-color));
+
+// Modals
+$modal-content-color:               var(--model-content, inherit);
+$modal-content-bg:                  var(--modal-content-bg, $white);
+$modal-content-border-color:        var(--modal-content-border, rgba($black, .2));
+
+$modal-backdrop-bg:                 var(--modal-backgrop-bg, $black);
+$modal-backdrop-opacity:            var(--modal-backdrop-opacity, .5);
+$modal-header-border-color:         var(--modal-header-border, $border-color);
+$modal-footer-border-color:         var(--modal-footer-border, $modal-header-border-color);
 
 //endregion
 
