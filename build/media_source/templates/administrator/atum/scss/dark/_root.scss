@@ -141,6 +141,11 @@
   --login-invalid-text: #{lighten($danger, 20%)};
   // endregion
 
+  // region Quick Icons
+  // Note: all other variables are defined in blocks/_quickicons.scss
+  --quickicons-bg: transparent;
+  // endregion
+
   // region Joomla Tab
   --joomla-tab-element-bg: var(--gray-200);
   --joomla-tab-tablist-button-bg: var(--gray-600);

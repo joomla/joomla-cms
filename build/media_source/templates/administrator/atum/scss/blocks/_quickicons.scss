@@ -1,7 +1,7 @@
 // Quick Icons
 
 .quick-icons {
-  background-color: var(--white);
+  background-color: var(--quickicons-bg, var(--white));
 
   .nav {
     display: grid;
@@ -22,6 +22,8 @@
     --bg-color: hsl(var(--hue), 60%, 97%);
     --icon-color: hsl(var(--hue), 30%, 40%);
     --bg-color-hvr: var(--template-bg-dark);
+    --text-active-color: var(--white);
+    --border-color: hsl(var(--hue), 50%, 93%);
 
     display: flex;
     flex-grow: 1;
@@ -71,7 +73,7 @@
       &:hover,
       &:focus,
       &:active {
-        color: var(--white);
+        color: var(--text-active-color);
         text-decoration: none;
         background: var(--bg-color-hvr);
 
@@ -103,9 +105,13 @@
   }
 
   .quickicon-linkadd {
+    --linkadd-bg: hsl(var(--hue), 50%, 93%);
+    --linkadd-active-color: var(--white);
+    --linkadd-active-bg: var(--template-bg-dark);
+
     width: 2.5rem;
     font-size: 1.2rem;
-    background: hsl(var(--hue),50%,93%);
+    background: var(--linkadd-bg);
     transition: all .25s ease;
 
     a {
@@ -121,10 +127,10 @@
       &:hover,
       &:focus,
       &:active {
-        background: var(--template-bg-dark);
+        background: var(--linkadd-active-bg);
 
         * {
-          color: var(--white);
+          color: var(--linkadd-active-color);
         }
       }
     }
