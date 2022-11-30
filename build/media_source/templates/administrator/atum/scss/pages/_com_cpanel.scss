@@ -89,7 +89,7 @@
   .card-header {
     display: flex;
     align-items: center;
-    padding: 1rem 1rem .75rem;
+    padding: var(--com_cpanel-card-header-padding, 1rem 1rem .75rem);
     font-weight: $font-weight-bold;
     color: var(--com_cpanel-card-header-text, var(--template-bg-dark));
     background: var(--com_cpanel-card-header-bg, var(--card-bg));
@@ -106,7 +106,7 @@
   }
 
   .card-body {
-    padding: 0;
+    padding: var(--com_cpanel-card-body-padding, 0);
     overflow: hidden;
     border-bottom-right-radius: $border-radius;
     border-bottom-left-radius: $border-radius;

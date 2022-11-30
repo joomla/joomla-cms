@@ -34,9 +34,10 @@
   --#{$variable-prefix}body-bg-rgb: #{to-rgb($body-bg)};
 
   // region Global
-  --details-color: var(--gray-600);
   --admin-page-bg: var(--template-bg-dark-85);
+  --color-text-muted: var(--gray-500);
   --details-bg: var(--template-bg-dark-97);
+  --details-color: var(--gray-600);
   --details-border: var(--template-bg-dark-90);
   --details-text: var(--template-bg-dark-90);
   --details-summary-text: var(--template-bg-dark-15);
@@ -163,6 +164,9 @@
   // endregion
 
   // region com_cpanel
+  --com_cpanel-card-header-bg: var(--gray-500);
+  --com_cpanel-card-header-padding: .5rem 1rem .25rem;
+  --com_cpanel-card-body-padding: 1rem 0 0;
   --com_cpanel-add-module-text: hsl(var(--hue),30%, 70%);
   --com_cpanel-add-module-bg: hsl(var(--hue), 35%, 10%);
   --com_cpanel-add-module-icon: hsl(var(--hue),40%,60%);
