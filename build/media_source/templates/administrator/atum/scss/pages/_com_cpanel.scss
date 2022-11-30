@@ -91,8 +91,8 @@
     align-items: center;
     padding: 1rem 1rem .75rem;
     font-weight: $font-weight-bold;
-    color: var(--template-bg-dark);
-    background: var(--card-bg);
+    color: var(--com_cpanel-card-header-text, var(--template-bg-dark));
+    background: var(--com_cpanel-card-header-bg, var(--card-bg));
 
     > [class^="icon-"],
     > img {
@@ -118,7 +118,7 @@
 
     > * {
       padding: 0;
-      color: var(--template-bg-dark-70);
+      color: var(--com_cpanel-module-actions-text, var(--template-bg-dark-70));
     }
   }
 
@@ -133,18 +133,18 @@
     font-size: .875rem;
     font-weight: 700;
     line-height: 1;
-    color: hsl(var(--hue),30%,40%);
-    background-color: hsl(var(--hue),35%,98%);
-    border: 1px solid hsl(var(--hue),35%,88%);
+    color: var(--com_cpanel-add-module-text, hsl(var(--hue),30%,40%));
+    background-color: var(--com_cpanel-add-module-bg, hsl(var(--hue),35%,98%));
+    border: 1px solid var(--com_cpanel-add-module-border, hsl(var(--hue),35%,88%));
     border-radius: $border-radius;
     transition: all .15s ease-in;
 
     &:hover,
     &:focus,
     &:active {
-      color: var(--white);
+      color: var(--com_cpanel-add-module-active-text, var(--white));
       text-decoration: none;
-      background: var(--template-bg-dark);
+      background: var(--com_cpanel-add-module-active-bg, var(--template-bg-dark));
     }
 
     > span {
@@ -153,7 +153,7 @@
 
     .cpanel-add-module-icon {
       font-size: 2rem;
-      color: hsl(var(--hue),30%,40%);
+      color: var(--com_cpanel-add-module-icon, hsl(var(--hue),30%,40%));
       margin-inline-end: .5rem;
     }
   }
@@ -185,7 +185,7 @@
       &[class*=" #{$fa-css-prefix}-"] {
         display: block;
         padding: .5rem;
-        color: rgba(var(--white), .9);
+        color: var(--com_cpanel-modules-list-group-item-link-text, rgba(var(--white), .9));
         background: var(--template-link-color);
         box-shadow: $atum-box-shadow;
 

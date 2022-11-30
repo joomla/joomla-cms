@@ -86,12 +86,7 @@
   @import "dark/variables";
   @import "dark/root";
 
-  // This must come first
-  @import "dark/blocks/global";
-
-  //@import "dark/blocks/edit";
   //@import "dark/blocks/icons";
-  @import "dark/blocks/layout";
   //@import "dark/blocks/login";
   //@import "dark/blocks/modals";
   //@import "dark/blocks/quickicons";
@@ -109,7 +104,6 @@
   // Page specifics
   //@import "dark/pages/com_config";
   //@import "dark/pages/com_content";
-  @import "dark/pages/com_cpanel";
   //@import "dark/pages/com_joomlaupdate";
   //@import "dark/pages/com_modules";
   //@import "dark/pages/com_tags";

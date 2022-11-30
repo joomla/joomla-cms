@@ -40,7 +40,7 @@ $colors-dark: (
   card-bg:                         var(--gray-500),
   bluegray:                        $bluegray,
   lightbluegray:                   #f6f9fc,
-  toolbar-bg:                      var(--gray-800),
+  toolbar-bg:                      var(--gray-100),
   success-border:                  var(--success),
   info-border:                     var(--info),
   warning-border:                  var(--warning),
@@ -56,7 +56,7 @@ $colors-dark: (
   focus-shadow:                    $focusshadow,
   toggle-color:                    $white, //used in sidebar
   a11y-highlight-border:           #ff0000, // used to highlight headers and links with the .a11y_highlight class
-  joomla-version:                  var(--bluegray), // Joomla version in the top header
+  joomla-version:                  var(--gray-600), // Joomla version in the top header
 );
 // endregion
 

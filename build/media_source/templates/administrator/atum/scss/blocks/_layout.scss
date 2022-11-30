@@ -2,7 +2,7 @@
   width: 100%;
   padding: 1vw 2vw;
   margin-bottom: 1rem;
-  color: var(--template-text-dark);
+  color: var(--options-form-border, var(--template-text-dark));
   border: 1px solid var(--template-bg-dark-20);
 
   > legend {
@@ -10,7 +10,7 @@
     width: auto;
     padding: 0 1rem;
     font-weight: $font-weight-bold;
-    color: var(--template-text-dark);
-    background-color: var(--bg-color);
+    color: var(--options-form-legend-text, var(--template-text-dark));
+    background-color: var(--options-form-legend-bg, var(--bg-color));
   }
 }

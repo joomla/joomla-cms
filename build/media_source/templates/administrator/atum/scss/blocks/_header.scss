@@ -1,8 +1,8 @@
 // Header
 .header {
   z-index: $zindex-header;
-  color: var(--white);
-  background: var(--template-bg-dark);
+  color: var(--header-text, var(--white));
+  background: var(--header-bg, var(--template-bg-dark));
 
   &-inside {
     display: flex;
@@ -10,7 +10,7 @@
   }
 
   a {
-    color: var(--white);
+    color: var(--header-link, var(--white));
 
     &:before {
       display: none;
@@ -25,7 +25,7 @@
     height: 100%;
     padding: 12px 5px;
     overflow: hidden;
-    background-color: var(--template-bg-dark-70);
+    background-color: var(--header-logo-bg, var(--template-bg-dark-70));
     transition: all .3s ease-in-out;
 
     &.small {
@@ -69,7 +69,7 @@
     margin: 0;
     overflow: hidden;
     font-size: 1.2rem;
-    color: var(--white);
+    color: var(--header-page-title, var(--white));
     text-overflow: ellipsis;
     white-space: nowrap;
 
@@ -85,22 +85,22 @@
   .dropdown-header,
   .dropdown-item {
     padding: .82rem .75rem;
-    color: var(--white);
-    background-color: var(--template-bg-dark-70);
+    color: var(--header-dropdown-text, var(--white));
+    background-color: var(--header-dropdown-bg, var(--template-bg-dark-70));
 
     > span {
       margin-inline-end: .5rem;
     }
 
     &:hover {
-      background-color: var(--template-bg-dark);
+      background-color: var(--header-dropdown-hover-bg, var(--template-bg-dark));
     }
   }
 
   .dropdown-header {
     padding: .75rem;
     font-size: inherit;
-    background-color: var(--template-bg-dark);
+    background-color: var(--header-dropdown-head-bg, var(--template-bg-dark));
   }
 }
 
@@ -130,14 +130,14 @@
   display: flex;
   align-items: center;
   line-height: 1rem;
-  color: var(--white);
-  background-color: var(--template-bg-dark-60);
+  color: var(--header-module-text, var(--white));
+  background-color: var(--header-module-bg, var(--template-bg-dark-60));
   border-radius: 22px;
   padding-inline-end: 4px;
 
   a,
   button {
-    color: var(--white);
+    color: var(--header-module-text, var(--white));
     text-decoration: none;
   }
 
@@ -146,7 +146,7 @@
   }
 
   &:not(.no-link):not(.joomlaversion):hover {
-    background-color: var(--template-bg-dark-50);
+    background-color: var(--header-module-hover-bg, var(--template-bg-dark-50));
   }
 
   &.joomlaversion {
@@ -168,8 +168,8 @@
     min-width: 28px;
     height: 28px;
     margin: 4px;
-    color: var(--white);
-    background-color: var(--template-bg-dark);
+    color: var(--header-module-icon, var(--white));
+    background-color: var(--header-module-icon-bg, var(--template-bg-dark));
     border-radius: 16px;
   }
 
@@ -219,7 +219,7 @@
     width: 100%;
     padding: 10px 0;
     margin: 0;
-    background: var(--template-bg-dark);
+    background: var(--header-mobile-menu-bg, var(--template-bg-dark));
 
     .#{$jicon-css-prefix}-angle-down,
     .#{$fa-css-prefix}-angle-down {

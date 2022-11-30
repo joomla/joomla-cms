@@ -35,6 +35,40 @@
 
   // region Global
   --details-color: var(--gray-600);
+  --admin-page-bg: var(--template-bg-dark-85);
+  --details-bg: var(--template-bg-dark-97);
+  --details-border: var(--template-bg-dark-90);
+  --details-text: var(--template-bg-dark-90);
+  --details-summary-text: var(--template-bg-dark-15);
+  // endregion
+
+  // region Layout
+  --options-form-border: var(--template-bg-dark-40);
+  --options-form-legend-text: var(--template-text-light);
+  --options-form-legend-bg: var(--bg-color);
+  // endregion
+
+  //region Header
+  --header-text: var(--gray-900);
+  --header-bg: var(--template-bg-dark-97);
+  --header-logo-bg: var(--template-bg-dark-90);
+  --header-page-title: var(--gray-700);
+  --header-dropdown-head-bg: var(--template-bg-dark-70);
+  --header-dropdown-text: var(--gray-800);
+  --header-dropdown-bg: var(--template-bg-dark-80);
+  --header-module-bg: hsl(var(--hue), 30%, 40%);
+  --header-module-hover-bg: hsl(var(--hue), 60%, 25%);
+  --header-mobile-menu-bg: var(--template-bg-dark-70);
+  //endregion
+
+  // region Toolbar
+  --toolbar-button: var(--body-color);
+  --toolbar-button-bg: var(--gray-200);
+  --toolbar-button-primary-icon: #{lighten($base-color, 40%)};
+  --toolbar-button-secondary-icon: var(--gray-800);
+  --toolbar-button-info-icon: #{lighten($info, 40%)};
+  --toolbar-button-action: #{lighten($base-color, 20%)};
+  --toolbar-button-action-icon: var(--gray-900);
   // endregion
 
   // region Alerts
@@ -67,17 +101,6 @@
   --state-error-border: var(--state-danger-border);
   // endregion
 
-  // region Toolbar
-  --toolbar-bg: var(--template-bg-dark-97);
-  --toolbar-button: var(--body-color);
-  --toolbar-button-bg: var(--gray-200);
-  --toolbar-button-primary-icon: #{lighten($base-color, 40%)};
-  --toolbar-button-secondary-icon: var(--gray-800);
-  --toolbar-button-info-icon: #{lighten($info, 40%)};
-  --toolbar-button-action: #{lighten($base-color, 20%)};
-  --toolbar-button-action-icon: var(--gray-900);
-  // endregion
-
   // region Forms
   --form-select-indicator: url("../images/select-bg-dark.svg");
   --form-select-indicator-rtl: url("../images/select-bg-dark-rtl.svg");
@@ -103,5 +126,11 @@
   --choices-multiple-item-bg: var(--choices-bg-color);
   --choices-selector-bg-image: url("../../../images/select-bg-dark.svg");
   --choices-selector-bg-rtl-image: url("../../../images/select-bg-dark-rtl.svg");
+  // endregion
+
+  // region com_cpanel
+  --com_cpanel-add-module-text: hsl(var(--hue),30%, 70%);
+  --com_cpanel-add-module-bg: hsl(var(--hue), 35%, 10%);
+  --com_cpanel-add-module-icon: hsl(var(--hue),40%,60%);
   // endregion
 }
