@@ -10,7 +10,7 @@
     color: var(--template-text-dark);
     background: var(--white);
     border-color: var(--whiteoffset);
-    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
+    box-shadow: 1px 1px 1px 0 rgba(var(--black-rgb), .25);
   }
 
   .btn-primary:not([href]),
@@ -70,7 +70,7 @@
       margin: 0 16px;
       margin-inline-start: -22px;
       line-height: 2.375rem;
-      color: hsla(0, 0%, 100%, .9);
+      color: rgba(var(--white-rgb), .9);
       background-color: var(--danger);
     }
   }
@@ -87,7 +87,7 @@
       margin: 0 16px;
       margin-inline-start: -22px;
       line-height: 2.375rem;
-      color: hsla(0, 0%, 100%, .9);
+      color: rgba(var(--white-rgb), .9);
       background-color: var(--success);
     }
   }

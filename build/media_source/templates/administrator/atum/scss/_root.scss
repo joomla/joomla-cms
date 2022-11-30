@@ -11,6 +11,7 @@
 
   @each $color, $value in $grays {
     --#{$variable-prefix}gray-#{$color}: #{$value};
+    --#{$variable-prefix}gray-#{$color}-rgb: to-rgb(#{$value});
   }
 
   @each $color, $value in $theme-colors {

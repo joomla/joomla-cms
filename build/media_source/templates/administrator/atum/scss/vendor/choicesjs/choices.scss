@@ -1,3 +1,5 @@
+@use "sass:color";
+
 @import "../../../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
@@ -9,7 +11,106 @@
 // choices.js
 @import "../../../../../../../../media/vendor/choicesjs/scss/choices";
 
-.choices {
+// region Color overrides
+$choices-bg-color: var(--white-offset);
+$choices-bg-color-disabled: var(--gray-200);
+$choices-bg-color-dropdown: var(--white);
+$choices-keyline-color: var(--gray-300);
+$choices-primary-color: var(--focus);
+$choices-disabled-color: var(--gray-200);
+$choices-highlight-color: var(--focus);
+
+.#{$choices-selector} {
+  &.is-disabled {
+    .#{$choices-selector}__inner,
+    .#{$choices-selector}__input {
+      background-color: $choices-bg-color-disabled;
+    }
+  }
+}
+
+.#{$choices-selector}[data-type*='select-one'] {
+  .#{$choices-selector}__input {
+    background-color: var(--white);
+  }
+
+  .#{$choices-selector}__button {
+    &:focus {
+      box-shadow: 0 0 0 2px $choices-highlight-color;
+    }
+  }
+
+  &::after {
+    border-color: $choices-text-color transparent transparent transparent;
+  }
+
+  &.is-open::after {
+    border-color: transparent transparent $choices-text-color transparent;
+  }
+}
+
+.#{$choices-selector}[data-type*='select-multiple'],
+.#{$choices-selector}[data-type*='text'] {
+  .#{$choices-selector}__button {
+    border-left-color: var(--choices-primary-dark, color.adjust($focuscolor, $lightness: -10%));
+  }
+}
+
+.#{$choices-selector}__inner {
+  background-color: $choices-bg-color;
+  border-color: $choices-keyline-color;
+
+  .is-focused &,
+  .is-open & {
+    border-color: var(--choices-keyline-dark, color.adjust($gray-300, $lightness: -15%));
+  }
+}
+
+.#{$choices-selector}__list--multiple {
+  .#{$choices-selector}__item {
+    background-color: $choices-primary-color;
+    border-color: var(--choices-primary-medium, color.adjust($focuscolor, $lightness: -5%));
+    color: #fff;
+
+    &.is-highlighted {
+      background-color: var(--choices-primary-medium, color.adjust($focuscolor, $lightness: -5%));
+      border-color: var(--choices-primary-dark, color.adjust($focuscolor, $lightness: -10%));
+    }
+
+    .is-disabled & {
+      background-color: var(--choices-disabled-dark, color.adjust($gray-200, $lightness: -25%));
+      border-color: var(--choices-disabled-very-dark, color.adjust($gray-200, $lightness: -35%));
+    }
+  }
+}
+
+.#{$choices-selector}__list--dropdown {
+  background-color: $choices-bg-color-dropdown;
+  border-color: $choices-keyline-color;
+
+  .is-open & {
+    border-color: var(--choices-keyline-dark, color.adjust($gray-300, $lightness: -15%));
+  }
+
+  .#{$choices-selector}__item--selectable {
+    &.is-highlighted {
+      background-color: var(--gray-100);
+    }
+  }
+}
+
+.#{$choices-selector}__heading {
+  border-bottom-color: var(--choices-keyline-light, color.adjust($gray-300, $lightness: 10%));
+  color: var(--gray-600);
+}
+
+.#{$choices-selector}__input {
+  background-color: $choices-bg-color;
+}
+// endregion
+
+// region Joomla customisation
+.#{$choices-selector} {
   border: 0;
   border-radius: $border-radius;
 
@@ -22,7 +123,7 @@
   }
 }
 
-.choices__inner {
+.#{$choices-selector}__inner {
   min-height: 42px;
   padding: .1rem 1rem;
   margin-bottom: 0;
@@ -35,7 +136,7 @@
   }
 }
 
-.choices__input {
+.#{$choices-selector}__input {
   padding: 0;
   margin-bottom: 0;
   font-size: 1rem;
@@ -52,15 +153,15 @@
   }
 }
 
-.choices__list--dropdown {
+.#{$choices-selector}__list--dropdown {
   z-index: $zindex-popover;
 }
 
-.choices__list--single {
+.#{$choices-selector}__list--single {
   padding: 7px 16px 0 4px;
 }
 
-.choices__list--multiple .choices__item {
+.#{$choices-selector}__list--multiple .#{$choices-selector}__item {
   position: relative;
   margin: 2px;
   background-color: var(--template-bg-dark);
@@ -74,17 +175,17 @@
   }
 }
 
-.choices .choices__list--dropdown {
-  .choices__item {
+.#{$choices-selector} .#{$choices-selector}__list--dropdown {
+  .#{$choices-selector}__item {
     padding-inline-end: 10px;
   }
 
-  .choices__item--selectable::after {
+  .#{$choices-selector}__item--selectable::after {
     display: none;
   }
 }
 
-.choices__button_joomla {
+.#{$choices-selector}__button_joomla {
   position: relative;
   padding: 0 10px;
   color: inherit;
@@ -117,9 +218,9 @@
   }
 }
 
-.choices[data-type*="select-one"],
-.choices[data-type*="select-multiple"] {
-  .choices__inner {
+.#{$choices-selector}[data-type*="select-one"],
+.#{$choices-selector}[data-type*="select-multiple"] {
+  .#{$choices-selector}__inner {
     padding-inline-end: $form-select-indicator-padding;
     cursor: pointer;
     background: url("../../../images/select-bg.svg") no-repeat 100%/116rem;
@@ -132,13 +233,13 @@
   }
 }
 
-.choices[data-type*="select-one"] {
-  .choices__item {
+.#{$choices-selector}[data-type*="select-one"] {
+  .#{$choices-selector}__item {
     display: flex;
     justify-content: space-between;
   }
 
-  .choices__button_joomla {
+  .#{$choices-selector}__button_joomla {
     position: absolute;
     top: 50%;
     inset-inline-end: 0;
@@ -156,7 +257,7 @@
     }
 
     &:focus {
-      box-shadow: 0 0 0 2px #00bcd4;
+      box-shadow: 0 0 0 2px $choices-primary-color;
     }
   }
 
@@ -165,13 +266,14 @@
   }
 }
 
-.choices[data-type*="select-multiple"],
-.choices[data-type*="text"] {
-  .choices__input {
+.#{$choices-selector}[data-type*="select-multiple"],
+.#{$choices-selector}[data-type*="text"] {
+  .#{$choices-selector}__input {
     padding: .35rem 0;
   }
 }
 
-.choices__heading {
+.#{$choices-selector}__heading {
   font-size: 1.2rem;
 }
+// endregion

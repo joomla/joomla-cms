@@ -24,7 +24,7 @@
       height: 1px;
       margin: auto;
       content: "";
-      background-color: rgba(0, 0, 0, .2);
+      background-color: rgba(var(--black-rgb), .2);
     }
 
     &::after {
@@ -35,7 +35,7 @@
       width: 1px;
       height: 100%;
       content: "";
-      background-color: rgba(0, 0, 0, .2);
+      background-color: rgba(var(--black-rgb), .2);
     }
 
     &:last-child {

@@ -32,6 +32,8 @@ $teal:                             #20c997; //used in bootstrap
 $cyan:                             #107d8e; //used in bootstrap
 $darkblue:                         #132f53;
 $base-color:                       $darkblue;
+
+$border-color:                     var(--gray-300) !default;
 //endregion
 
 // region Atum colours defined as scss variables for use in scss functions
@@ -111,6 +113,8 @@ $colors: (
   focus:                           $focuscolor,
   focus-shadow:                    $focusshadow,
   toggle-color:                    $white, //used in sidebar
+  a11y-highlight-border:           #ff0000, // used to highlight headers and links with the .a11y_highlight class
+  joomla-version:                  var(--bluegray), // Joomla version in the top header
 );
 // endregion
 

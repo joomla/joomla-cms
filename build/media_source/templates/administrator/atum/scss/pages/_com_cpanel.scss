@@ -142,7 +142,7 @@
     &:hover,
     &:focus,
     &:active {
-      color: #fff;
+      color: var(--white);
       text-decoration: none;
       background: var(--template-bg-dark);
     }
@@ -185,7 +185,7 @@
       &[class*=" #{$fa-css-prefix}-"] {
         display: block;
         padding: .5rem;
-        color: rgba(255, 255, 255, .9);
+        color: rgba(var(--white), .9);
         background: var(--template-link-color);
         box-shadow: $atum-box-shadow;
 
@@ -205,7 +205,7 @@
       padding: 0;
       margin: 0 .85rem;
       font-size: .9rem;
-      color: rgba(1, 1, 1, 1);
+      color: rgba(var(--black), 1);
       background: var(--white-offset);
       box-shadow: none;
       transform: scale(1.2);

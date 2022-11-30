@@ -47,7 +47,7 @@ body {
     .header-item-content {
       padding: 3px;
       text-decoration: underline !important;
-      border: #f00 dotted 1px;
+      border: var(--a11y-highlight-border) dotted 1px;
     }
 
     .joomlaversion {

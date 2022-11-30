@@ -57,12 +57,12 @@
     &:not([disabled]):hover,
     &:not([disabled]):active,
     &:not([disabled]):focus {
-      color: rgba(255, 255, 255, .9);
+      color: rgba(var(--white-rgb), .9);
       background-color: var(--subhead-btn-accent);
       border-color: var(--subhead-btn-accent);
 
       > span {
-        color: rgba(255, 255, 255, .9);
+        color: rgba(var(--white-rgb), .9);
       }
     }
 
@@ -103,7 +103,7 @@
     &[disabled],
     &.dropdown-toggle[disabled] {
       --subhead-btn-accent: var(--template-bg-dark);
-      background: rgba(var(--gray-300), .8);
+      background: rgba(var(--gray-300-rgb), .8);
       opacity: .5;
 
       &:hover,

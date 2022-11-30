@@ -4,3 +4,42 @@
 .awesomplete {
   display: block;
 }
+
+.awesomplete > ul {
+  background: var(--white);
+}
+
+awesomplete > ul {
+  background: hsla(var(--white),.9);
+  background: linear-gradient(to bottom right, var(--white), rgba(var(--white),.8));
+  border-color: rgba(var(--black),.3);
+  box-shadow: .05em .2em .6em rgba(var(--black),.2);
+}
+
+/* Pointer */
+.awesomplete > ul:before {
+  background: var(--white);
+}
+
+.awesomplete > ul > li:hover {
+  background: hsl(200, 40%, 80%);
+  color: var(--black);
+}
+
+.awesomplete > ul > li[aria-selected="true"] {
+  background: var(--info);
+  color: var(--white);
+}
+
+.awesomplete mark {
+  background: var(--warning);
+}
+
+.awesomplete li:hover mark {
+  background: var(--warning);
+}
+
+.awesomplete li[aria-selected="true"] mark {
+  background: var(--success);
+  color: inherit;
+}
