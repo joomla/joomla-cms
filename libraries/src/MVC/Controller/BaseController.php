@@ -602,7 +602,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         $view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
         // Set models for the View
-        $this->setViewModels($view);
+        $this->prepareViewModel($view);
 
         $view->document = $document;
 
