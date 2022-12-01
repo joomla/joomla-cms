@@ -1,0 +1,36 @@
+/**
+ * Simple CSS to automatically support editing your content in Dark Mode.
+ *
+ * Ideally, your template supports Dark Mode and includes these styles in its content.css file,
+ * overriding this “just the basics” file.
+ */
+
+@use "sass:map";
+
+// Bootstrap functions
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "variables";
+
+@media (screen and prefers-color-scheme: dark) {
+  // Atum Dark Variables
+  @import "dark/variables";
+
+  html, body {
+    background-color: $body-bg;
+    color: $body-color;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $body-color;
+  }
+
+  a, a:link {
+    color: map.get($atum-colors-dark, "template-link-color");
+
+    &:hover {
+      color: map.get($atum-colors-dark, "template-link-hover-color");
+    }
+  }
+}

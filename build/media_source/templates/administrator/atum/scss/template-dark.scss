@@ -5,7 +5,7 @@
 @import "variables";
 
 // Dark Mode
-@media (prefers-color-scheme: dark) {
+@media (screen and prefers-color-scheme: dark) {
   // Atum Dark Variables
   @import "dark/variables";
   @import "dark/root";
