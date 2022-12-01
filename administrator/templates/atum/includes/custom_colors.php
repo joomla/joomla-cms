@@ -80,7 +80,7 @@ $atumApplyCustomColor($wa, $matches[1]);
 // Conditionally apply Dark Mode
 if ($this->params->get('darkmode', 1) == 1) {
     // Load the Dark Mode CSS
-    $wa->useStyle('template.atum.dark');
+    $wa->useStyle('template.darkmode');
 
     // Get the Dark Mode hue value
     preg_match(
