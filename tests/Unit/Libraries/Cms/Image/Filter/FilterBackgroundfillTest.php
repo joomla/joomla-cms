@@ -16,7 +16,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @since  4.0.0
  */
-class ImageFilterBackgroundfillTest extends UnitTestCase
+class FilterBackgroundfillTest extends UnitTestCase
 {
     /**
      * Setup for testing.

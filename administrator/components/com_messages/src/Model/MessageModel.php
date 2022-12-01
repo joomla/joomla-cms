@@ -27,6 +27,10 @@ use Joomla\CMS\User\User;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Private Message model.
  *
@@ -58,9 +62,9 @@ class MessageModel extends AdminModel
     {
         parent::populateState();
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $this->setState('user.id', $user->get('id'));
 
         $messageId = (int) $input->getInt('message_id');
@@ -83,7 +87,7 @@ class MessageModel extends AdminModel
     {
         $pks   = (array) $pks;
         $table = $this->getTable();
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
 
         // Iterate the items to delete each one.
         foreach ($pks as $i => $pk) {
@@ -150,7 +154,7 @@ class MessageModel extends AdminModel
                             return false;
                         }
 
-                        if (!$message || $message->user_id_to != Factory::getUser()->id) {
+                        if (!$message || $message->user_id_to != $this->getCurrentUser()->id) {
                             $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
                             return false;
@@ -163,7 +167,7 @@ class MessageModel extends AdminModel
                             $this->item->set('subject', $re . ' ' . $message->subject);
                         }
                     }
-                } elseif ($this->item->user_id_to != Factory::getUser()->id) {
+                } elseif ($this->item->user_id_to != $this->getCurrentUser()->id) {
                     $this->setError(Text::_('JERROR_ALERTNOAUTHOR'));
 
                     return false;
@@ -243,7 +247,7 @@ class MessageModel extends AdminModel
      */
     public function publish(&$pks, $value = 1)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getCurrentUser();
         $table = $this->getTable();
         $pks   = (array) $pks;
 
@@ -292,7 +296,7 @@ class MessageModel extends AdminModel
 
         // Assign empty values.
         if (empty($table->user_id_from)) {
-            $table->user_id_from = Factory::getUser()->get('id');
+            $table->user_id_from = $this->getCurrentUser()->get('id');
         }
 
         if ((int) $table->date_time == 0) {

@@ -20,6 +20,10 @@ use Joomla\Event\Event;
 use RuntimeException;
 use Webauthn\PublicKeyCredentialSource;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Ajax handler for akaction=create
  *
@@ -71,7 +75,7 @@ trait AjaxHandlerCreate
 
         // Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
         try {
-            $input = $this->getApplication()->input;
+            $input = $this->getApplication()->getInput();
 
             // Retrieve the data sent by the device
             $data = $input->get('data', '', 'raw');

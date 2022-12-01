@@ -30,6 +30,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * An example custom privacyconsent plugin.
  *
@@ -130,9 +134,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
         }
 
         // Check that the privacy is checked if required ie only in registration from frontend.
-        $option = $this->app->input->get('option');
-        $task   = $this->app->input->post->get('task');
-        $form   = $this->app->input->post->get('jform', [], 'array');
+        $input  = $this->app->getInput();
+        $option = $input->get('option');
+        $task   = $input->post->get('task');
+        $form   = $input->post->get('jform', [], 'array');
 
         if (
             $option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
@@ -171,9 +176,11 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             return;
         }
 
-        $option = $this->app->input->get('option');
-        $task   = $this->app->input->post->get('task');
-        $form   = $this->app->input->post->get('jform', [], 'array');
+        $input = $this->app->getInput();
+
+        $option = $input->get('option');
+        $task   = $input->post->get('task');
+        $form   = $input->post->get('jform', [], 'array');
 
         if (
             $option == 'com_users'
@@ -183,10 +190,10 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             $userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
             // Get the user's IP address
-            $ip = $this->app->input->server->get('REMOTE_ADDR', '', 'string');
+            $ip = $input->server->get('REMOTE_ADDR', '', 'string');
 
             // Get the user agent string
-            $userAgent = $this->app->input->server->get('HTTP_USER_AGENT', '', 'string');
+            $userAgent = $input->server->get('HTTP_USER_AGENT', '', 'string');
 
             // Create the user note
             $userNote = (object) [
@@ -280,11 +287,12 @@ class PlgSystemPrivacyconsent extends CMSPlugin
                 return;
             }
 
-            $option = $this->app->input->getCmd('option');
-            $task   = $this->app->input->get('task');
-            $view   = $this->app->input->getString('view', '');
-            $layout = $this->app->input->getString('layout', '');
-            $id     = $this->app->input->getInt('id');
+            $input  = $this->app->getInput();
+            $option = $input->getCmd('option');
+            $task   = $input->get('task');
+            $view   = $input->getString('view', '');
+            $layout = $input->getString('layout', '');
+            $id     = $input->getInt('id');
 
             $privacyArticleId = $this->getPrivacyArticleId();
 

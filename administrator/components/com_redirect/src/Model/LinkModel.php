@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Redirect link model.
  *
@@ -121,7 +125,7 @@ class LinkModel extends AdminModel
      */
     public function activate(&$pks, $url, $comment = null)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db = $this->getDatabase();
 
         // Sanitize the ids.
@@ -176,7 +180,7 @@ class LinkModel extends AdminModel
      */
     public function duplicateUrls(&$pks, $url, $comment = null)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $db = $this->getDatabase();
 
         // Sanitize the ids.

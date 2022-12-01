@@ -18,6 +18,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla Authentication plugin
  *
@@ -81,12 +85,12 @@ class PlgAuthenticationCookie extends CMSPlugin
 
         // Get cookie
         $cookieName  = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
-        $cookieValue = $this->app->input->cookie->get($cookieName);
+        $cookieValue = $this->app->getInput()->cookie->get($cookieName);
 
         // Try with old cookieName (pre 3.6.0) if not found
         if (!$cookieValue) {
             $cookieName  = UserHelper::getShortHashedUserAgent();
-            $cookieValue = $this->app->input->cookie->get($cookieName);
+            $cookieValue = $this->app->getInput()->cookie->get($cookieName);
         }
 
         if (!$cookieValue) {
@@ -98,7 +102,7 @@ class PlgAuthenticationCookie extends CMSPlugin
         // Check for valid cookie value
         if (count($cookieArray) !== 2) {
             // Destroy the cookie in the browser.
-            $this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+            $this->app->getInput()->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
             Log::add('Invalid cookie detected.', Log::WARNING, 'error');
 
             return false;
@@ -143,7 +147,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 
         if (count($results) !== 1) {
             // Destroy the cookie in the browser.
-            $this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+            $this->app->getInput()->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
             $response->status = Authentication::STATUS_FAILURE;
 
             return false;
@@ -173,7 +177,7 @@ class PlgAuthenticationCookie extends CMSPlugin
             }
 
             // Destroy the cookie in the browser.
-            $this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+            $this->app->getInput()->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
             // Issue warning by email to user and/or admin?
             Log::add(Text::sprintf('PLG_AUTHENTICATION_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), Log::WARNING, 'security');
@@ -241,15 +245,15 @@ class PlgAuthenticationCookie extends CMSPlugin
             $cookieName = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
 
             // We need the old data to get the existing series
-            $cookieValue = $this->app->input->cookie->get($cookieName);
+            $cookieValue = $this->app->getInput()->cookie->get($cookieName);
 
             // Try with old cookieName (pre 3.6.0) if not found
             if (!$cookieValue) {
                 $oldCookieName = UserHelper::getShortHashedUserAgent();
-                $cookieValue   = $this->app->input->cookie->get($oldCookieName);
+                $cookieValue   = $this->app->getInput()->cookie->get($oldCookieName);
 
                 // Destroy the old cookie in the browser
-                $this->app->input->cookie->set($oldCookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+                $this->app->getInput()->cookie->set($oldCookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
             }
 
             $cookieArray = explode('.', $cookieValue);
@@ -301,7 +305,7 @@ class PlgAuthenticationCookie extends CMSPlugin
         $cookieValue = $token . '.' . $series;
 
         // Overwrite existing cookie with new value
-        $this->app->input->cookie->set(
+        $this->app->getInput()->cookie->set(
             $cookieName,
             $cookieValue,
             time() + $lifetime,
@@ -370,7 +374,7 @@ class PlgAuthenticationCookie extends CMSPlugin
         }
 
         $cookieName  = 'joomla_remember_me_' . UserHelper::getShortHashedUserAgent();
-        $cookieValue = $this->app->input->cookie->get($cookieName);
+        $cookieValue = $this->app->getInput()->cookie->get($cookieName);
 
         // There are no cookies to delete.
         if (!$cookieValue) {
@@ -396,7 +400,7 @@ class PlgAuthenticationCookie extends CMSPlugin
         }
 
         // Destroy the cookie
-        $this->app->input->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+        $this->app->getInput()->cookie->set($cookieName, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
 
         return true;
     }

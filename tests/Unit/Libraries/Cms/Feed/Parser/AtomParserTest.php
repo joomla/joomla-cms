@@ -330,7 +330,8 @@ class AtomParserTest extends UnitTestCase
     {
         $dummyXml   = '<?xml version="1.0" encoding="utf-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom" />';
-        $reader     = \XMLReader::XML($dummyXml);
+        $reader = new XMLReader();
+        $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
         $atomParser->parse();
 
@@ -351,9 +352,27 @@ class AtomParserTest extends UnitTestCase
      */
     public function testInitialiseSetsDefaultVersion()
     {
-        $dummyXml   = '<feed xmlns="http://www.w3.org/2005/Atom" />';
-        $reader     = \XMLReader::XML($dummyXml);
+        $dummyXml   = '<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! Unit Test" -->
+<feed xmlns="http://www.w3.org/2005/Atom">
+<title type="text">Joomla! Unit test</title>
+</feed>';
+        $reader   = new XMLReader();
+        $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
+
+        // same logic as FeedFactory.php : skip head record
+        try {
+            // Skip ahead to the root node.
+            while ($reader->read()) {
+                if ($reader->nodeType == \XMLReader::ELEMENT) {
+                    break;
+                }
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
+        }
+
         $atomParser->parse();
 
         // Use reflection to check the value
@@ -373,9 +392,27 @@ class AtomParserTest extends UnitTestCase
      */
     public function testInitialiseSetsOldVersion()
     {
-        $dummyXml = '<feed version="0.3" xmlns="http://www.w3.org/2005/Atom" />';
-        $reader = \XMLReader::XML($dummyXml);
+        $dummyXml = '<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! Unit Test" -->
+<feed  version="0.3" xmlns="http://www.w3.org/2005/Atom">
+<title type="text">Joomla! Unit test</title>
+</feed>';
+        $reader   = new XMLReader();
+        $reader->xml($dummyXml);
         $atomParser = new AtomParser($reader);
+
+        // same logic as FeedFactory.php : skip head record
+        try {
+            // Skip ahead to the root node.
+            while ($reader->read()) {
+                if ($reader->nodeType == \XMLReader::ELEMENT) {
+                    break;
+                }
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Error reading feed.', $e->getCode(), $e);
+        }
+
         $atomParser->parse();
 
         // Use reflection to check the value

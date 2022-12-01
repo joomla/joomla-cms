@@ -20,6 +20,10 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Privacy\Administrator\Table\ConsentTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Remind confirmation model class.
  *
@@ -141,7 +145,7 @@ class RemindModel extends AdminModel
             return false;
         }
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->getMethod() === 'GET') {
             $form->setValue('remind_token', '', $input->get->getAlnum('remind_token'));

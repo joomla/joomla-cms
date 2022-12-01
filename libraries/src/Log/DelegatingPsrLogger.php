@@ -13,10 +13,16 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LogLevel;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Delegating logger which delegates log messages received from the PSR-3 interface to the Joomla! Log object.
  *
  * @since  3.8.0
+ * @deprecated 5.0 The class will become final.
+ * @internal
  */
 class DelegatingPsrLogger extends AbstractLogger
 {

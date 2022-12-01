@@ -14,6 +14,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
@@ -42,6 +46,11 @@ class PlgContentLoadmodule extends CMSPlugin
     {
         // Don't run this plugin when the content is being indexed
         if ($context === 'com_finder.indexer') {
+            return;
+        }
+
+        // Only execute if $article is an object and has a text property
+        if (!is_object($article) || !property_exists($article, 'text')) {
             return;
         }
 

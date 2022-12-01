@@ -38,6 +38,10 @@ use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Item Model for an Article.
  *
@@ -195,7 +199,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     {
         if (empty($this->batchSet)) {
             // Set some needed variables.
-            $this->user = Factory::getUser();
+            $this->user = $this->getCurrentUser();
             $this->table = $this->getTable();
             $this->tableClassName = get_class($this->table);
             $this->contentType = new UCMType();
@@ -291,7 +295,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
     }
 
     /**
@@ -305,7 +309,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check for existing article.
         if (!empty($record->id)) {
@@ -470,8 +474,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
         // Get ID of the article from input, for frontend, we use a_id while backend uses id
         $articleIdFromInput = $app->isClient('site')
-            ? $app->input->getInt('a_id', 0)
-            : $app->input->getInt('id', 0);
+            ? $app->getInput()->getInt('a_id', 0)
+            : $app->getInput()->getInt('id', 0);
 
         // On edit article, we get ID of article from article.id state, but on save, we use data from input
         $id = (int) $this->getState('article.id', $articleIdFromInput);
@@ -549,7 +553,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
         }
 
         // Don't allow to change the created_by user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_by', 'filter', 'unset');
         }
 
@@ -577,20 +581,20 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
                 $filters = (array) $app->getUserState('com_content.articles.filter');
                 $data->set(
                     'state',
-                    $app->input->getInt(
+                    $app->getInput()->getInt(
                         'state',
                         ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                     )
                 );
-                $data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
+                $data->set('catid', $app->getInput()->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 
                 if ($app->isClient('administrator')) {
-                    $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                    $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
                 }
 
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }
@@ -620,7 +624,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', 'com_content')) {
+        if (!$this->getCurrentUser()->authorise('core.admin', 'com_content')) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -641,7 +645,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
     public function save($data)
     {
         $app    = Factory::getApplication();
-        $input  = $app->input;
+        $input  = $app->getInput();
         $filter = InputFilter::getInstance();
 
         if (isset($data['metadata']) && isset($data['metadata']['author'])) {
@@ -1071,7 +1075,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
      */
     private function canCreateCategory()
     {
-        return Factory::getUser()->authorise('core.create', 'com_content');
+        return $this->getCurrentUser()->authorise('core.create', 'com_content');
     }
 
     /**

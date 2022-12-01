@@ -21,6 +21,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\ParameterType;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Script file of Joomla CMS
  *
@@ -6428,6 +6432,56 @@ class JoomlaInstallerScript
             '/plugins/task/requests/requests.php',
             '/plugins/task/sitestatus/sitestatus.php',
             '/plugins/user/profile/src/Field/DobField.php',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Exception/AjaxNonCmsAppException.php',
+            '/plugins/system/webauthn/src/Helper/CredentialsCreation.php',
+            '/plugins/system/webauthn/src/Helper/Joomla.php',
+            '/plugins/system/webauthn/webauthn.php',
+            '/plugins/task/checkfiles/checkfiles.php',
+            '/plugins/task/demotasks/demotasks.php',
+            // From 4.2.0-rc1 to 4.2.0
+            '/administrator/language/en-GB/plg_fields_menuitem.ini',
+            '/administrator/language/en-GB/plg_fields_menuitem.sys.ini',
+            '/plugins/fields/menuitem/menuitem.php',
+            '/plugins/fields/menuitem/menuitem.xml',
+            '/plugins/fields/menuitem/tmpl/menuitem.php',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js/hotkeys.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js',
+            '/media/vendor/hotkeys.js/js/hotkeys.min.js.gz',
+            '/media/vendor/hotkeys.js/LICENSE',
+            // From 4.2.1 to 4.2.2
+            '/administrator/cache/fido.jwt',
+            // From 4.2 to 4.3
+            '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
+            '/libraries/vendor/paragonie/sodium_compat/autoload-phpunit.php',
+            '/libraries/vendor/paragonie/sodium_compat/dist/Makefile',
+            '/libraries/vendor/paragonie/sodium_compat/dist/box.json',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-above-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/psalm-below-3.xml',
+            '/libraries/vendor/paragonie/sodium_compat/src/Core/Base64/Common.php',
+            '/media/com_menus/css/admin-item-edit_modules.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css',
+            '/media/com_menus/css/admin-item-edit_modules.min.css.gz',
+            '/media/com_templates/js/admin-template-compare-es5.js',
+            '/media/com_templates/js/admin-template-compare-es5.min.js',
+            '/media/com_templates/js/admin-template-compare-es5.min.js.gz',
+            '/media/com_templates/js/admin-template-compare.js',
+            '/media/com_templates/js/admin-template-compare.min.js',
+            '/media/com_templates/js/admin-template-compare.min.js.gz',
+            '/media/templates/administrator/atum/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/media/templates/site/cassiopeia/scss/vendor/bootstrap/_bootstrap-rtl.scss',
+            '/plugins/content/confirmconsent/confirmconsent.php',
+            '/plugins/content/contact/contact.php',
+            '/plugins/extension/finder/finder.php',
+            '/plugins/extension/joomla/joomla.php',
+            '/plugins/extension/namespacemap/namespacemap.php',
+            '/plugins/quickicon/downloadkey/downloadkey.php',
+            '/plugins/quickicon/extensionupdate/extensionupdate.php',
+            '/plugins/quickicon/overridecheck/overridecheck.php',
+            '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
+            '/plugins/quickicon/privacycheck/privacycheck.php',
         );
 
         $folders = array(
@@ -7792,6 +7846,18 @@ class JoomlaInstallerScript
             // From 4.2.0-beta1 to 4.2.0-beta2
             '/layouts/plugins/user/profile/fields',
             '/layouts/plugins/user/profile',
+            // From 4.2.0-beta2 to 4.2.0-beta3
+            '/plugins/system/webauthn/src/Helper',
+            '/plugins/system/webauthn/src/Exception',
+            // From 4.2.0-rc1 to 4.2.0
+            '/plugins/fields/menuitem/tmpl',
+            '/plugins/fields/menuitem',
+            // From 4.2.0 to 4.2.1
+            '/media/vendor/hotkeys.js/js',
+            '/media/vendor/hotkeys.js',
+            '/libraries/vendor/symfony/string/Resources/bin',
+            // From 4.2 to 4.3
+            '/libraries/vendor/paragonie/sodium_compat/dist',
         );
 
         $status['files_checked'] = $files;

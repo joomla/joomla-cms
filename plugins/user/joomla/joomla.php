@@ -24,6 +24,10 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla User plugin
  *
@@ -64,7 +68,7 @@ class PlgUserJoomla extends CMSPlugin
             // In case there is a validation error (like duplicated user), $data is an empty array on save.
             // After returning from error, $data is an array but populated
             if (!$data) {
-                $data = Factory::getApplication()->input->get('jform', array(), 'array');
+                $data = Factory::getApplication()->getInput()->get('jform', array(), 'array');
             }
 
             if (is_array($data)) {
@@ -135,7 +139,7 @@ class PlgUserJoomla extends CMSPlugin
 
         // Delete Multi-factor Authentication records
         $query = $this->db->getQuery(true)
-            ->delete($this->db->qn('#__user_mfa'))
+            ->delete($this->db->quoteName('#__user_mfa'))
             ->where($this->db->quoteName('user_id') . ' = :userId')
             ->bind(':userId', $userId, ParameterType::INTEGER);
 
@@ -319,7 +323,7 @@ class PlgUserJoomla extends CMSPlugin
 
         // Add "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
         if ($this->app->isClient('site')) {
-            $this->app->input->cookie->set(
+            $this->app->getInput()->cookie->set(
                 'joomla_user_state',
                 'logged_in',
                 0,
@@ -376,7 +380,7 @@ class PlgUserJoomla extends CMSPlugin
 
         // Delete "user state" cookie used for reverse caching proxies like Varnish, Nginx etc.
         if ($this->app->isClient('site')) {
-            $this->app->input->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+            $this->app->getInput()->cookie->set('joomla_user_state', '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
         }
 
         return true;

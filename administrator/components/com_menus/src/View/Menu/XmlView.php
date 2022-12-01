@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * The HTML Menus Menu Item View.
  *
@@ -50,7 +54,7 @@ class XmlView extends BaseHtmlView
     public function display($tpl = null)
     {
         $app      = Factory::getApplication();
-        $menutype = $app->input->getCmd('menutype');
+        $menutype = $app->getInput()->getCmd('menutype');
 
         if ($menutype) {
             $root = MenusHelper::getMenuItems($menutype, true);

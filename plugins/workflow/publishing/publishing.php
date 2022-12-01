@@ -15,7 +15,6 @@ use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
 use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
@@ -28,6 +27,10 @@ use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Workflow Publishing Plugin
@@ -206,9 +209,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
      */
     public function onAfterDisplay(DisplayEvent $event)
     {
-        $app = Factory::getApplication();
-
-        if (!$app->isClient('administrator')) {
+        if (!$this->app->isClient('administrator')) {
             return;
         }
 
@@ -253,7 +254,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			});
 		";
 
-        $app->getDocument()->addScriptDeclaration($js);
+        $this->app->getDocument()->addScriptDeclaration($js);
 
         return true;
     }

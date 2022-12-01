@@ -16,6 +16,10 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Finder\Administrator\Indexer\Result;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * System plugin to highlight terms.
  *
@@ -50,7 +54,7 @@ class PlgSystemHighlight extends CMSPlugin
         }
 
         // Set the variables.
-        $input     = $this->app->input;
+        $input     = $this->app->getInput();
         $extension = $input->get('option', '', 'cmd');
 
         // Check if the highlighter is enabled.

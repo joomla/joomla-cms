@@ -35,6 +35,10 @@ use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
 use Joomla\Session\StorageInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Service provider for the application's session dependency
  *
@@ -83,7 +87,7 @@ class Session implements ServiceProviderInterface
                 }
 
                 return $this->buildSession(
-                    new JoomlaStorage($app->input, $handler, $options),
+                    new JoomlaStorage($app->getInput(), $handler, $options),
                     $app,
                     $container->get(DispatcherInterface::class),
                     $options
@@ -128,7 +132,7 @@ class Session implements ServiceProviderInterface
                 }
 
                 return $this->buildSession(
-                    new JoomlaStorage($app->input, $handler),
+                    new JoomlaStorage($app->getInput(), $handler),
                     $app,
                     $container->get(DispatcherInterface::class),
                     $options
@@ -167,7 +171,7 @@ class Session implements ServiceProviderInterface
                 }
 
                 return $this->buildSession(
-                    new JoomlaStorage($app->input, $handler, $options),
+                    new JoomlaStorage($app->getInput(), $handler, $options),
                     $app,
                     $container->get(DispatcherInterface::class),
                     $options
@@ -300,7 +304,7 @@ class Session implements ServiceProviderInterface
         DispatcherInterface $dispatcher,
         array $options
     ): SessionInterface {
-        $input = $app->input;
+        $input = $app->getInput();
 
         if (method_exists($app, 'afterSessionStart')) {
             $dispatcher->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);

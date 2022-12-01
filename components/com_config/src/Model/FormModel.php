@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\FormModel as BaseForm;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Prototype form model.
  *
@@ -49,7 +53,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkin.
             $table = $this->getTable();
@@ -85,7 +89,7 @@ abstract class FormModel extends BaseForm
     {
         // Only attempt to check the row in if it exists.
         if ($pk) {
-            $user = Factory::getUser();
+            $user = $this->getCurrentUser();
 
             // Get an instance of the row to checkout.
             $table = $this->getTable();

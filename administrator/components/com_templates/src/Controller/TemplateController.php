@@ -22,6 +22,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Template style controller class.
  *
@@ -475,7 +479,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $name)) {
+        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.]+$/', $name)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $this->input->getInt('isMedia', 0);
             $this->setRedirect(Route::_($url, false));
@@ -668,7 +672,7 @@ class TemplateController extends BaseController
             $this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_ASSET_FILE'), 'warning');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));
-        } elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName)) {
+        } elseif (!preg_match('/^(?!\.)(?!.*\.$)(?!.*\.\.)[a-zA-Z0-9_.]+$/', $newName)) {
             $this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file . '&isMedia=' . $isMedia;
             $this->setRedirect(Route::_($url, false));

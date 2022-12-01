@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Exception\ExecutionFailureException;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Login Model
  *
@@ -35,7 +39,7 @@ class LoginModel extends BaseDatabaseModel
      */
     protected function populateState()
     {
-        $input = Factory::getApplication()->input->getInputForRequestMethod();
+        $input = Factory::getApplication()->getInput()->getInputForRequestMethod();
 
         $credentials = array(
             'username'  => $input->get('username', '', 'USERNAME'),

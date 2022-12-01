@@ -11,6 +11,10 @@ namespace Joomla\CMS\Client;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Client helper class
  *
@@ -192,7 +196,7 @@ class ClientHelper
     public static function setCredentialsFromRequest($client)
     {
         // Determine whether FTP credentials have been passed along with the current request
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $user = $input->post->getString('username', null);
         $pass = $input->post->getString('password', null);
 

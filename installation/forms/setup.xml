@@ -16,14 +16,6 @@
 			required="true"
 		/>
 		<field
-			name="admin_email"
-			type="email"
-			label="INSTL_ADMIN_EMAIL_DESC"
-			class="form-control"
-			validate="email"
-			required="true"
-		/>
-		<field
 			name="admin_user"
 			type="text"
 			label="INSTL_ADMIN_USER_DESC"
@@ -54,11 +46,19 @@
 			filter="raw"
 		/>
 		<field
+			name="admin_email"
+			type="email"
+			label="INSTL_ADMIN_EMAIL_DESC"
+			class="form-control"
+			validate="email"
+			required="true"
+		/>
+		<field
 			name="db_type"
 			type="databaseconnection"
 			label="INSTL_DATABASE_TYPE_DESC"
 			class="form-select"
-			supported="mysql,mysqli,pgsql,postgresql"
+			supported="mysql,mysqli,pgsql"
 			required="true"
 			default="mysqli"
 			filter="string"
@@ -102,6 +102,7 @@
 			name="db_prefix"
 			type="installation.prefix"
 			label="INSTL_DATABASE_PREFIX_DESC"
+			description="INSTL_DATABASE_PREFIX_DUPLICATE_DESC"
 			class="form-control"
 			required="true"
 			validate="prefix"

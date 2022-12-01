@@ -15,6 +15,10 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 use Joomla\CMS\Menu\AbstractMenu;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Tags Component Route Helper.
  *
@@ -26,6 +30,7 @@ class RouteHelper extends CMSRouteHelper
      * Lookup-table for menu items
      *
      * @var    array
+     * @since  4.3.0
      */
     protected static $lookup;
 
@@ -103,28 +108,25 @@ class RouteHelper extends CMSRouteHelper
      */
     public static function getComponentTagRoute(string $id, string $language = '*'): string
     {
-        $needles = [
-            'tag'      => [(int) $id],
-            'language' => $language,
-        ];
-
-        if ($id < 1) {
-            $link = '';
-        } else {
-            $link = 'index.php?option=com_tags&view=tag&id=' . $id;
-
-            if ($item = self::_findItem($needles)) {
-                $link .= '&Itemid=' . $item;
-            } else {
-                $needles = [
-                    'tags'     => [1, 0],
-                    'language' => $language,
-                ];
-
-                if ($item = self::_findItem($needles)) {
-                    $link .= '&Itemid=' . $item;
-                }
+        // We actually would want to allow arrays of tags here, but can't due to B/C
+        if (!is_array($id)) {
+            if ($id < 1) {
+                return '';
             }
+
+            $id = [$id];
+        }
+
+        $id = array_values(array_filter($id));
+
+        if (!count($id)) {
+            return '';
+        }
+
+        $link = 'index.php?option=com_tags&view=tag';
+
+        foreach ($id as $i => $value) {
+            $link .= '&id[' . $i . ']=' . $value;
         }
 
         return $link;
@@ -158,16 +160,7 @@ class RouteHelper extends CMSRouteHelper
      */
     public static function getComponentTagsRoute(string $language = '*'): string
     {
-        $needles = [
-            'tags'     => [0],
-            'language' => $language,
-        ];
-
         $link = 'index.php?option=com_tags&view=tags';
-
-        if ($item = self::_findItem($needles)) {
-            $link .= '&Itemid=' . $item;
-        }
 
         return $link;
     }

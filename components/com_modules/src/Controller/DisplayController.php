@@ -16,6 +16,10 @@ use Joomla\CMS\Input\Input;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Modules manager master display controller.
  *
@@ -35,7 +39,7 @@ class DisplayController extends BaseController
      */
     public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
-        $this->input = Factory::getApplication()->input;
+        $this->input = Factory::getApplication()->getInput();
 
         // Modules frontpage Editor Module proxying.
         if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal') {

@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View for the component configuration
  *
@@ -88,8 +92,8 @@ class HtmlView extends BaseHtmlView
         $this->components = ConfigHelper::getComponentsWithConfig();
 
         $this->userIsSuperAdmin = $user->authorise('core.admin');
-        $this->currentComponent = Factory::getApplication()->input->get('component');
-        $this->return = Factory::getApplication()->input->get('return', '', 'base64');
+        $this->currentComponent = Factory::getApplication()->getInput()->get('component');
+        $this->return = Factory::getApplication()->getInput()->get('return', '', 'base64');
 
         $this->addToolbar();
 

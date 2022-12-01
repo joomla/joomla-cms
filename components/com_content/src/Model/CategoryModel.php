@@ -20,6 +20,10 @@ use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * This models supports retrieving a category, the articles associated with the category,
  * sibling, child and parent categories.
@@ -133,25 +137,15 @@ class CategoryModel extends ListModel
     protected function populateState($ordering = null, $direction = null)
     {
         $app = Factory::getApplication();
-        $pk  = $app->input->getInt('id');
 
+        $pk  = $app->getInput()->getInt('id');
         $this->setState('category.id', $pk);
 
         // Load the parameters. Merge Global and Menu Item params into new object
         $params = $app->getParams();
+        $this->setState('params', $params);
 
-        if ($menu = $app->getMenu()->getActive()) {
-            $menuParams = $menu->getParams();
-        } else {
-            $menuParams = new Registry();
-        }
-
-        $mergedParams = clone $menuParams;
-        $mergedParams->merge($params);
-
-        $this->setState('params', $mergedParams);
-        $user  = Factory::getUser();
-
+        $user  = $this->getCurrentUser();
         $asset = 'com_content';
 
         if ($pk) {
@@ -172,7 +166,7 @@ class CategoryModel extends ListModel
             $this->setState('filter.access', false);
         }
 
-        $itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+        $itemid = $app->getInput()->get('id', 0, 'int') . ':' . $app->getInput()->get('Itemid', 0, 'int');
 
         $value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
         $this->setState('filter.tag', $value);
@@ -198,10 +192,10 @@ class CategoryModel extends ListModel
 
         $this->setState('list.direction', $listOrder);
 
-        $this->setState('list.start', $app->input->get('limitstart', 0, 'uint'));
+        $this->setState('list.start', $app->getInput()->get('limitstart', 0, 'uint'));
 
         // Set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-        if (($app->input->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
+        if (($app->getInput()->get('layout') === 'blog') || $params->get('layout_type') === 'blog') {
             $limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
             $this->setState('list.links', $params->get('num_links'));
         } else {
@@ -220,7 +214,7 @@ class CategoryModel extends ListModel
 
         $this->setState('filter.language', Multilanguage::isEnabled());
 
-        $this->setState('layout', $app->input->getString('layout'));
+        $this->setState('layout', $app->getInput()->getString('layout'));
 
         // Set the featured articles state
         $this->setState('filter.featured', $params->get('show_featured'));
@@ -286,7 +280,7 @@ class CategoryModel extends ListModel
         $app       = Factory::getApplication();
         $db        = $this->getDatabase();
         $params    = $this->state->params;
-        $itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+        $itemid    = $app->getInput()->get('id', 0, 'int') . ':' . $app->getInput()->get('Itemid', 0, 'int');
         $orderCol  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
         $orderDirn = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
         $orderby   = ' ';
@@ -354,7 +348,7 @@ class CategoryModel extends ListModel
 
             // Compute selected asset permissions.
             if (is_object($this->_item)) {
-                $user  = Factory::getUser();
+                $user  = $this->getCurrentUser();
                 $asset = 'com_content.category.' . $this->_item->id;
 
                 // Check general create permission.
@@ -465,7 +459,7 @@ class CategoryModel extends ListModel
      */
     public function hit($pk = 0)
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
         $hitcount = $input->getInt('hitcount', 1);
 
         if ($hitcount) {

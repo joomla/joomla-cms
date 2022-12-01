@@ -14,12 +14,12 @@
 			<field
 				name="q"
 				type="text"
-				label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
+				label="COM_FINDER_PREFILL_SEARCH_LABEL"
 			/>
 			<field
 				name="f"
 				type="searchfilter"
-				label="COM_FINDER_SEARCH_FILTER_SEARCH_LABEL"
+				label="COM_FINDER_SELECT_FILTER_LABEL"
 				default=""
 			/>
 		</fieldset>

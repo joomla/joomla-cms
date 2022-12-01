@@ -19,6 +19,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\Database\DatabaseQuery;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Model class for handling lists of items.
  *
@@ -276,7 +280,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
      */
     protected function getListQuery()
     {
-        return $this->getDatabase()->getQuery(true);
+        return $this->getDbo()->getQuery(true);
     }
 
     /**
@@ -536,7 +540,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'direction':
-                                if (!\in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
+                                if ($value && (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))) {
                                     $value = $direction;
                                 }
                                 break;
@@ -588,14 +592,14 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
             }
 
             // Support old ordering field
-            $oldOrdering = $app->input->get('filter_order');
+            $oldOrdering = $app->getInput()->get('filter_order');
 
             if (!empty($oldOrdering) && \in_array($oldOrdering, $this->filter_fields)) {
                 $this->setState('list.ordering', $oldOrdering);
             }
 
             // Support old direction field
-            $oldDirection = $app->input->get('filter_order_Dir');
+            $oldDirection = $app->getInput()->get('filter_order_Dir');
 
             if (!empty($oldDirection) && \in_array(strtoupper($oldDirection), array('ASC', 'DESC', ''))) {
                 $this->setState('list.direction', $oldDirection);
@@ -629,7 +633,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
     public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
     {
         $app       = Factory::getApplication();
-        $input     = $app->input;
+        $input     = $app->getInput();
         $old_state = $app->getUserState($key);
         $cur_state = $old_state ?? $default;
         $new_state = $input->get($request, null, $type);
@@ -637,7 +641,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
         // BC for Search Tools which uses different naming
         if ($new_state === null && strpos($request, 'filter_') === 0) {
             $name    = substr($request, 7);
-            $filters = $app->input->get('filter', array(), 'array');
+            $filters = $app->getInput()->get('filter', array(), 'array');
 
             if (isset($filters[$name])) {
                 $new_state = $filters[$name];

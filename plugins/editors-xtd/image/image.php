@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Editor Image button
  *
@@ -47,11 +51,11 @@ class PlgButtonImage extends CMSPlugin
         $app       = Factory::getApplication();
         $doc       = $app->getDocument();
         $user      = Factory::getUser();
-        $extension = $app->input->get('option');
+        $extension = $app->getInput()->get('option');
 
         // For categories we check the extension (ex: component.section)
         if ($extension === 'com_categories') {
-            $parts     = explode('.', $app->input->get('extension', 'com_content'));
+            $parts     = explode('.', $app->getInput()->get('extension', 'com_content'));
             $extension = $parts[0];
         }
 

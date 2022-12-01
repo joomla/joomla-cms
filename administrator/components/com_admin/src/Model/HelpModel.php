@@ -17,6 +17,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Admin Component Help Model
  *
@@ -74,7 +78,7 @@ class HelpModel extends BaseDatabaseModel
     public function &getHelpSearch()
     {
         if (\is_null($this->help_search)) {
-            $this->help_search = Factory::getApplication()->input->getString('helpsearch');
+            $this->help_search = Factory::getApplication()->getInput()->getString('helpsearch');
         }
 
         return $this->help_search;
@@ -90,7 +94,7 @@ class HelpModel extends BaseDatabaseModel
     public function &getPage()
     {
         if (\is_null($this->page)) {
-            $this->page = Help::createUrl(Factory::getApplication()->input->get('page', 'Start_Here'));
+            $this->page = Help::createUrl(Factory::getApplication()->getInput()->get('page', 'Start_Here'));
         }
 
         return $this->page;

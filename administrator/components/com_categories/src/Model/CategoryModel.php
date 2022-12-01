@@ -33,6 +33,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Categories Component Category Model
  *
@@ -85,7 +89,7 @@ class CategoryModel extends AdminModel
      */
     public function __construct($config = array(), MVCFactoryInterface $factory = null)
     {
-        $extension = Factory::getApplication()->input->get('extension', 'com_content');
+        $extension = Factory::getApplication()->getInput()->get('extension', 'com_content');
         $this->typeAlias = $extension . '.category';
 
         // Add a new batch command
@@ -109,7 +113,7 @@ class CategoryModel extends AdminModel
             return false;
         }
 
-        return Factory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
+        return $this->getCurrentUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
     }
 
     /**
@@ -123,7 +127,7 @@ class CategoryModel extends AdminModel
      */
     protected function canEditState($record)
     {
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Check for existing category.
         if (!empty($record->id)) {
@@ -168,14 +172,14 @@ class CategoryModel extends AdminModel
     {
         $app = Factory::getApplication();
 
-        $parentId = $app->input->getInt('parent_id');
+        $parentId = $app->getInput()->getInt('parent_id');
         $this->setState('category.parent_id', $parentId);
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState($this->getName() . '.id', $pk);
 
-        $extension = $app->input->get('extension', 'com_content');
+        $extension = $app->getInput()->get('extension', 'com_content');
         $this->setState('category.extension', $extension);
         $parts = explode('.', $extension);
 
@@ -244,7 +248,7 @@ class CategoryModel extends AdminModel
     public function getForm($data = array(), $loadData = true)
     {
         $extension = $this->getState('category.extension');
-        $jinput = Factory::getApplication()->input;
+        $jinput = Factory::getApplication()->getInput();
 
         // A workaround to get the extension into the model for save requests.
         if (empty($extension) && isset($data['extension'])) {
@@ -272,7 +276,7 @@ class CategoryModel extends AdminModel
         $parts      = explode('.', $extension);
         $assetKey   = $categoryId ? $extension . '.category.' . $categoryId : $parts[0];
 
-        if (!Factory::getUser()->authorise('core.edit.state', $assetKey)) {
+        if (!$this->getCurrentUser()->authorise('core.edit.state', $assetKey)) {
             // Disable fields for display.
             $form->setFieldAttribute('ordering', 'disabled', 'true');
             $form->setFieldAttribute('published', 'disabled', 'true');
@@ -284,7 +288,7 @@ class CategoryModel extends AdminModel
         }
 
         // Don't allow to change the created_user_id user if not allowed to access com_users.
-        if (!Factory::getUser()->authorise('core.manage', 'com_users')) {
+        if (!$this->getCurrentUser()->authorise('core.manage', 'com_users')) {
             $form->setFieldAttribute('created_user_id', 'filter', 'unset');
         }
 
@@ -334,15 +338,15 @@ class CategoryModel extends AdminModel
 
                 $data->set(
                     'published',
-                    $app->input->getInt(
+                    $app->getInput()->getInt(
                         'published',
                         ((isset($filters['published']) && $filters['published'] !== '') ? $filters['published'] : null)
                     )
                 );
-                $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                $data->set('language', $app->getInput()->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $app->getInput()->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
             }
         }
@@ -367,7 +371,7 @@ class CategoryModel extends AdminModel
      */
     public function validate($form, $data, $group = null)
     {
-        if (!Factory::getUser()->authorise('core.admin', $data['extension'])) {
+        if (!$this->getCurrentUser()->authorise('core.admin', $data['extension'])) {
             if (isset($data['rules'])) {
                 unset($data['rules']);
             }
@@ -396,7 +400,7 @@ class CategoryModel extends AdminModel
         $lang = Factory::getLanguage();
         $component = $this->getState('category.component');
         $section = $this->getState('category.section');
-        $extension = Factory::getApplication()->input->get('extension', null);
+        $extension = Factory::getApplication()->getInput()->get('extension', null);
 
         // Get the component form if it exists
         $name = 'category' . ($section ? ('.' . $section) : '');
@@ -504,7 +508,7 @@ class CategoryModel extends AdminModel
     public function save($data)
     {
         $table      = $this->getTable();
-        $input      = Factory::getApplication()->input;
+        $input      = Factory::getApplication()->getInput();
         $pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
         $isNew      = true;
         $context    = $this->option . '.' . $this->name;
@@ -710,7 +714,7 @@ class CategoryModel extends AdminModel
 
         $this->setState($this->getName() . '.id', $table->id);
 
-        if (Factory::getApplication()->input->get('task') == 'editAssociations') {
+        if (Factory::getApplication()->getInput()->get('task') == 'editAssociations') {
             return $this->redirectToAssociations($data);
         }
 
@@ -733,7 +737,7 @@ class CategoryModel extends AdminModel
     public function publish(&$pks, $value = 1)
     {
         if (parent::publish($pks, $value)) {
-            $extension = Factory::getApplication()->input->get('extension');
+            $extension = Factory::getApplication()->getInput()->get('extension');
 
             // Include the content plugins for the change of category state event.
             PluginHelper::importPlugin('content');
@@ -870,7 +874,7 @@ class CategoryModel extends AdminModel
         $parentId = (int) ArrayHelper::getValue($parts, 0, 1);
 
         $db = $this->getDatabase();
-        $extension = Factory::getApplication()->input->get('extension', '', 'word');
+        $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
         $newIds = array();
 
         // Check that the parent exists
@@ -1073,7 +1077,7 @@ class CategoryModel extends AdminModel
 
         $db = $this->getDatabase();
         $query = $db->getQuery(true);
-        $extension = Factory::getApplication()->input->get('extension', '', 'word');
+        $extension = Factory::getApplication()->getInput()->get('extension', '', 'word');
 
         // Check that the parent exists.
         if ($parentId) {
@@ -1159,6 +1163,19 @@ class CategoryModel extends AdminModel
 
                     return false;
                 }
+
+                // Verify that the alias is unique before move
+                $conditions = [
+                    'alias'     => $this->table->alias,
+                    'parent_id' => $parentId,
+                    'extension' => $extension,
+                ];
+
+                if ($this->table->load($conditions)) {
+                    $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+
+                    return false;
+                }
             }
 
             // Store the row.
@@ -1198,7 +1215,7 @@ class CategoryModel extends AdminModel
      */
     protected function cleanCache($group = null, $clientId = 0)
     {
-        $extension = Factory::getApplication()->input->get('extension');
+        $extension = Factory::getApplication()->getInput()->get('extension');
 
         switch ($extension) {
             case 'com_content':

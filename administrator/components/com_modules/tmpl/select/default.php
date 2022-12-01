@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 
 $app = Factory::getApplication();
 
-$function  = $app->input->getCmd('function');
+$function  = $app->getInput()->getCmd('function');
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $this->document->getWebAssetManager();
@@ -31,7 +31,7 @@ endif;
 
 <div class="d-none" id="comModulesSelectSearchContainer">
     <div class="d-flex mt-2">
-        <div class="ms-auto me-auto">
+        <div class="m-auto">
             <label class="visually-hidden" for="comModulesSelectSearch">
                 <?php echo Text::_('COM_MODULES_TYPE_CHOOSE'); ?>
             </label>

@@ -14,6 +14,10 @@ use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Language\Text;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * FeedDocument class, provides an easy interface to parse and display any feed document
  *
@@ -199,7 +203,7 @@ class FeedDocument extends Document
     public function render($cache = false, $params = array())
     {
         // Get the feed type
-        $type = CmsFactory::getApplication()->input->get('type', 'rss');
+        $type = CmsFactory::getApplication()->getInput()->get('type', 'rss');
 
         // Instantiate feed renderer and set the mime encoding
         $renderer = $this->loadRenderer($type ?: 'rss');

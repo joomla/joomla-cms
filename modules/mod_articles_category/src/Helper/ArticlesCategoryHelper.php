@@ -21,6 +21,10 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Helper for mod_articles_category
  *
@@ -46,7 +50,7 @@ abstract class ArticlesCategoryHelper
         $articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
         // Set application parameters in model
-        $input     = $app->input;
+        $input     = $app->getInput();
         $appParams = $app->getParams();
         $articles->setState('params', $appParams);
 

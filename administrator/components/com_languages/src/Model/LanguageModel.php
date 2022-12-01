@@ -21,6 +21,10 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages Component Language Model
  *
@@ -84,7 +88,7 @@ class LanguageModel extends AdminModel
         $params = ComponentHelper::getParams('com_languages');
 
         // Load the User state.
-        $langId = $app->input->getInt('lang_id');
+        $langId = $app->getInput()->getInt('lang_id');
         $this->setState('language.id', $langId);
 
         // Load the parameters.

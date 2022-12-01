@@ -13,6 +13,10 @@ use Joomla\Crypt\CipherInterface;
 use Joomla\Crypt\Key;
 use ParagonIE\Sodium\Compat;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * JCrypt cipher for sodium algorithm encryption, decryption and key generation.
  *

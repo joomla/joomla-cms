@@ -11,6 +11,10 @@ namespace Joomla\CMS\Document;
 
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * ImageDocument class, provides an easy interface to output image data
  *
@@ -49,7 +53,7 @@ class ImageDocument extends Document
     public function render($cache = false, $params = array())
     {
         // Get the image type
-        $type = Factory::getApplication()->input->get('type', 'png');
+        $type = Factory::getApplication()->getInput()->get('type', 'png');
 
         switch ($type) {
             case 'jpg':

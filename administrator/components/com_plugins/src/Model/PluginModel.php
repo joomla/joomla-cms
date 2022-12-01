@@ -22,6 +22,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin model.
  *
@@ -225,7 +229,7 @@ class PluginModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('extension_id');
+        $pk = $app->getInput()->getInt('extension_id');
         $this->setState('plugin.id', $pk);
     }
 

@@ -38,6 +38,15 @@ use Joomla\Uri\UriInterface;
 class RequestsPluginTest extends UnitTestCase
 {
     /**
+     * The temporary folder.
+     *
+     * @var string
+     *
+     * @since 4.3.0
+     */
+    private $tmpFolder;
+
+    /**
      * Setup
      *
      * @return  void
@@ -46,8 +55,11 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function setUp(): void
     {
-        if (is_dir(__DIR__ . '/tmp')) {
-            Folder::delete(__DIR__ . '/tmp');
+        // Dir must be random for parallel automated tests
+        $this->tmpFolder = JPATH_ROOT . '/tmp/' . rand();
+
+        if (is_dir($this->tmpFolder)) {
+            Folder::delete($this->tmpFolder);
         }
     }
 
@@ -60,8 +72,8 @@ class RequestsPluginTest extends UnitTestCase
      */
     public function tearDown(): void
     {
-        if (is_dir(__DIR__ . '/tmp')) {
-            Folder::delete(__DIR__ . '/tmp');
+        if (is_dir($this->tmpFolder)) {
+            Folder::delete($this->tmpFolder);
         }
     }
 
@@ -95,10 +107,13 @@ class RequestsPluginTest extends UnitTestCase
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -116,7 +131,7 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertEquals(Status::OK, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
         $this->assertEquals('http://example.com', $transport->url);
-        $this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
+        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
     }
 
     /**
@@ -149,10 +164,13 @@ class RequestsPluginTest extends UnitTestCase
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -170,7 +188,7 @@ class RequestsPluginTest extends UnitTestCase
         $this->assertEquals(Status::KNOCKOUT, $event->getResultSnapshot()['status']);
         $this->assertStringContainsString('SAVED', $event->getResultSnapshot()['output']);
         $this->assertEquals('http://example.com', $transport->url);
-        $this->assertStringEqualsFile(__DIR__ . '/tmp/task_1_response.html', 'test');
+        $this->assertStringEqualsFile($this->tmpFolder . '/task_1_response.html', 'test');
     }
 
     /**
@@ -203,10 +221,13 @@ class RequestsPluginTest extends UnitTestCase
         $factory = $this->createStub(HttpFactory::class);
         $factory->method('getHttp')->willReturn($http);
 
-        $app = $this->createStub(CMSApplicationInterface::class);
-        $app->method('getLanguage')->willReturn($this->createStub(Language::class));
+        $language = $this->createStub(Language::class);
+        $language->method('_')->willReturn('test');
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
+        $app = $this->createStub(CMSApplicationInterface::class);
+        $app->method('getLanguage')->willReturn($language);
+
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -256,7 +277,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, __DIR__ . '/tmp');
+        $plugin = new Requests(new Dispatcher(), [], $factory, $this->tmpFolder);
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
@@ -305,7 +326,7 @@ class RequestsPluginTest extends UnitTestCase
         $app = $this->createStub(CMSApplicationInterface::class);
         $app->method('getLanguage')->willReturn($language);
 
-        $plugin = new Requests(new Dispatcher(), [], $factory, '/invalid');
+        $plugin = new Requests(new Dispatcher(), [], $factory, '/proc/invalid');
         $plugin->setApplication($app);
 
         $task = $this->createStub(Task::class);
