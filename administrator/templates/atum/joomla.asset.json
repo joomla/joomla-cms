@@ -18,6 +18,7 @@
       "name": "template.atum.rtl",
       "description": "The css file to be used when the site is right to left (RTL).",
       "type": "style",
+      "uri": "",
       "dependencies": [
         "template.atum.ltr",
         "fontawesome"
