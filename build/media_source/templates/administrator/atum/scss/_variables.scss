@@ -187,6 +187,14 @@ $grays: (
 );
 // endregion
 
+// region Bootstrap defaults
+// Do not remove; we reference them in context where Bootstrap is not imported (e.g. Choices.js)
+$body-bg:                   $white !default;
+$body-color:                $gray-900 !default;
+$component-active-color:    $white !default;
+$component-active-bg:       $base-color !default;
+// endregion
+
 // region Alerts
 $alert-border-level:               0;
 $alert-color-level:                0;
@@ -304,19 +312,6 @@ $state-error-border:               var(--state-error-border, $danger);
 $badge-padding-x:                  .2rem;
 $badge-padding-y:                  .3rem;
 $badge-border-radius:              .2rem;
-
-// The following variables are no longer used.
-// $success-bg:                       var(--success);
-// $success-txt:                      var(--white);
-//
-// $warning-bg:                       #f9d71c;
-// $warning-txt:                      #000;
-//
-// $danger-bg:                        #900;
-// $danger-txt:                       #fff;
-//
-// $info-bg:                          $gray-300;
-// $info-txt:                         $white;
 // endregion
 
 // region Input Group
@@ -341,6 +336,18 @@ $list-group-item-padding-y:        .75rem;
 $input-btn-padding-y-sm-submenu:    0;
 $input-btn-padding-x-sm-submenu:    1.625rem;
 $input-btn-submenu-icon-distance:   1rem;
+// endregion
+
+// region Accordions
+$accordion-color:                         var(--accordion-color, var(--body-color));
+$accordion-bg:                            var(--accordion-bg, var(--body-bg));
+$accordion-border-color:                  var(--accordion-border-color, rgba($black, .125));
+$accordion-button-color:                  var(--accordion-button-color, var(--accordion-color));
+$accordion-button-bg:                     var(--accordion-button-bg, var(--accordion-bg));
+$accordion-button-active-bg:              var(--accordion-button-active-bg, var(--gray-300));
+$accordion-button-active-color:           var(--accordion-button-active-color, var(--primary));
+$accordion-icon-color:                    var(--accordion-icon-color, var(--accordion-button-color));
+$accordion-icon-active-color:             var(--accordion-icon-active-color, var(--accordion-button-active-color));
 // endregion
 
 // region Custom form

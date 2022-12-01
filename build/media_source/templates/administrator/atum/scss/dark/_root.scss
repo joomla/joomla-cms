@@ -152,6 +152,17 @@
   --list-group-bg: var(--template-alt-bg-dark-80);
   // endregion
 
+  // region Accordions
+  --accordion-bg: var(--template-alt-bg-dark-85);
+  --accordion-button-color: var(--template-alt-bg-dark-20);
+  --accordion-border-color: var(--template-alt-bg-dark-70);
+  --accordion-button-bg: var(--template-alt-bg-dark-85);
+  --accordion-button-active-color: var(--template-alt-bg-dark-10);
+  --accordion-button-active-bg: var(--template-alt-bg-dark-70);
+  --accordion-icon-color: var(--template-alt-bg-dark-85);
+  --accordion-icon-active-color: var(--template-alt-bg-dark-10);
+  // endregion
+
   // region Icons
   --icon-default: var(--gray-500);
   --icon-default-border: var(--gray-500);
