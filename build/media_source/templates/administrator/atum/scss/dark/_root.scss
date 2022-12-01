@@ -217,4 +217,15 @@
   --com_cpanel-add-module-bg: hsl(var(--hue), 35%, 10%);
   --com_cpanel-add-module-icon: hsl(var(--hue),40%,60%);
   // endregion
+
+  // region com_modules
+  --com_modules-new-module-bg: hsl(var(--hue),30%,20%);
+  --com_modules-new-module-text: hsl(var(--hue),60%,90%);
+  --com_modules-new-module-hover-text: hsl(var(--hue),70%,85%);
+  --com_modules-new-module-border: hsl(var(--hue), 30%, 40%);
+  --com_modules-new-module-link-bg: hsl(var(--hue),30%,40%);
+  --com_modules-new-module-link-icon: var(--gray-700);
+  --com_modules-new-module-link-hover-bg: hsl(var(--hue),40%,60%);
+  --com_modules-new-module-link-hover-icon: var(--gray-900);
+  // endregion
 }

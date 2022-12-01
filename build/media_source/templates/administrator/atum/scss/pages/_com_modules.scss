@@ -7,13 +7,17 @@
 .new-module {
   display: flex;
   overflow: hidden;
-  color: hsl(var(--hue),30%,40%);
-  background-color: hsl(var(--hue), 60%, 97%);
-  border: 1px solid hsl(var(--hue), 50%, 93%);
+  color: var(--com_modules-new-module-text, hsl(var(--hue),30%,40%));
+  background-color: var(--com_modules-new-module-bg, hsl(var(--hue), 60%, 97%));
+  border: 1px solid var(--com_modules-new-module-border, hsl(var(--hue), 50%, 93%));
   border-radius: $border-radius;
 
   * {
     transition: all .25s ease;
+  }
+
+  &:hover {
+    color: var(--com_modules-new-module-hover-text, var(--template-link-hover-color));
   }
 
   &-details {
@@ -39,18 +43,18 @@
     justify-content: center;
     width: 2.5rem;
     font-size: 1.2rem;
-    background: hsl(var(--hue), 50%, 93%);
+    background: var(--com_modules-new-module-link-bg, hsl(var(--hue), 50%, 93%));
 
     span {
       margin-bottom: 10px;
-      color: hsl(var(--hue), 30%, 40%);
+      color: var(--com_modules-new-module-link-icon, hsl(var(--hue), 30%, 40%));
     }
 
     .new-module:hover & {
-      background: var(--template-bg-dark);
+      background: var(--com_modules-new-module-link-hover-bg, var(--template-bg-dark));
 
       span {
-        color: var(--white);
+        color: var(--com_modules-new-module-link-hover-icon, var(--white));
       }
     }
   }
