@@ -24,7 +24,7 @@
       height: 1px;
       margin: auto;
       content: "";
-      background-color: rgba(var(--black-rgb), .2);
+      background-color: var(--treeselect-tree-color, rgba(var(--black-rgb), .2));
     }
 
     &::after {
@@ -35,7 +35,7 @@
       width: 1px;
       height: 100%;
       content: "";
-      background-color: rgba(var(--black-rgb), .2);
+      background-color: var(--treeselect-tree-color, rgba(var(--black-rgb), .2));
     }
 
     &:last-child {
@@ -93,7 +93,7 @@
     &::after {
       margin-left: 0;
       font-size: 1rem;
-      color: var(--template-text-dark);
+      color: var(--treeselect-arrow, var(--template-text-dark));
     }
   }
 }
