@@ -12,5 +12,8 @@
 
   @import "dark/blocks/quickicons";
   @import "dark/blocks/tables";
+  @import "dark/blocks/buttons";
+
+  // This must be placed last.
   @import "dark/blocks/contrast-fixes";
 }

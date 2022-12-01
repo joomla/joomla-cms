@@ -1,0 +1,31 @@
+// Buttons
+
+.btn-primary {
+  color: var(--gray-900);
+  background-color: var(--template-bg-dark-60);
+  border-color: var(--template-bg-dark-60);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--template-bg-dark-50);
+    border-color: var(--template-bg-dark-70);
+  }
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: var(--template-bg-dark-50);
+    border-color: var(--template-bg-dark-70);
+  }
+}
+
+.btn-secondary {
+  background-color: var(--template-alt-bg-dark-60);
+  border-color: var(--template-alt-bg-dark-60);
+}
+
+.input-group-text {
+  background-color: var(--template-alt-bg-dark-60);
+  border-color: var(--template-alt-bg-dark-60);
+}
