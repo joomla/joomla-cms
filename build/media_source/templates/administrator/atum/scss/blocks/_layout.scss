@@ -2,8 +2,8 @@
   width: 100%;
   padding: 1vw 2vw;
   margin-bottom: 1rem;
-  color: var(--options-form-border, var(--template-text-dark));
-  border: 1px solid var(--template-bg-dark-20);
+  color: var(--options-form, var(--template-text-dark));
+  border: 1px solid var(--options-form-border, var(--template-bg-dark-20));
 
   > legend {
     float: none;

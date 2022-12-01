@@ -4,6 +4,7 @@
 
 .list-group-item {
   background-color: $list-group-bg;
+  color: var(--list-group-text, inherit);
 }
 
 .list-unstyled .list-unstyled {

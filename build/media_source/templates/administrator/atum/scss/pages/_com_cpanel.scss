@@ -230,7 +230,7 @@
 
 .sample-data__title {
   font-weight: bold;
-  color: var(--primary);
+  color: var(--com_cpanel-sample-data-header, var(--primary));
 }
 
 .sample-data__icon {

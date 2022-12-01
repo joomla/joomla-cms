@@ -123,7 +123,7 @@ $atum-colors: (
   template-bg-dark-93:             hsl(var(--hue), var(--template-bg-saturation), 7%),
   template-bg-dark-95:             hsl(var(--hue), var(--template-bg-saturation), 5%),
   template-bg-dark-97:             hsl(var(--hue), var(--template-bg-saturation), 3%),
-  template-alt-bg-saturation:      30%,
+  template-alt-bg-saturation:      25%,
   template-alt-bg-dark:            hsl(var(--hue), var(--template-alt-bg-saturation), 20%),
   template-alt-bg-dark-3:          hsl(var(--hue), var(--template-alt-bg-saturation), 97%),
   template-alt-bg-dark-5:          hsl(var(--hue), var(--template-alt-bg-saturation), 95%),
@@ -226,7 +226,7 @@ $h3-font-size:                     1.25rem;
 $h4-font-size:                     1rem;
 $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
-$headings-color:                   var(--template-bg-dark);
+$headings-color:                   var(--headings-color, var(--template-bg-dark));
 $font-size-sm:                     .8rem;
 $font-size-vsm:                    .6rem;
 $display1-size:                    1rem;
@@ -332,7 +332,7 @@ $treeselect-indent:                40px;
 // endregion
 
 // region List
-$list-group-bg:                    var(--white-offset);
+$list-group-bg:                    var(--list-group-bg, var(--white-offset));
 $list-group-border-color:          hsl(var(--hue),40%,85%);
 $list-group-item-padding-y:        .75rem;
 // endregion

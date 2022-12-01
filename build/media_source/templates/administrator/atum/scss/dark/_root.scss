@@ -41,10 +41,11 @@
   --details-border: var(--template-bg-dark-90);
   --details-text: var(--template-bg-dark-90);
   --details-summary-text: var(--template-bg-dark-15);
+  --headings-color: var(--template-alt-bg-dark-30);
   // endregion
 
   // region Layout
-  --options-form-border: var(--template-bg-dark-40);
+  --options-form: var(--gray-900);
   --options-form-legend-text: var(--template-text-light);
   --options-form-legend-bg: var(--bg-color);
   // endregion
@@ -105,8 +106,10 @@
   // region Forms
   --form-select-indicator: url("../images/select-bg-dark.svg");
   --form-select-indicator-rtl: url("../images/select-bg-dark-rtl.svg");
-
   --form-label-color: var(--gray-900);
+  --form-invalid-color: #{lighten($danger, 20%)};
+  --form-invalid-border: #{lighten($danger, 20%)};
+  --form-valid-border: #{lighten($success, 20%)};
   --input-bg: var(--gray-300);
   --input-color: var(--gray-800);
   --input-border-color: var(--gray-100);
@@ -129,6 +132,10 @@
   --modal-btn-default-border: var(--gray-100);
   --modal-btn-secondary-border: var(--gray-100);
   // region
+
+  // region Lists
+  --list-group-bg: var(--template-alt-bg-dark-80);
+  // endregion
 
   // region Icons
   --icon-default: var(--gray-500);
@@ -171,6 +178,7 @@
   // endregion
 
   // region com_cpanel
+  --com_cpanel-sample-data-header: var(--template-alt-bg-dark-20);
   --com_cpanel-card-header-bg: var(--template-alt-bg-dark-40);
   --com_cpanel-card-header-padding: .5rem 1rem .25rem;
   --com_cpanel-card-body-padding: 1rem 0 0;

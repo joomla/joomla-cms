@@ -35,12 +35,13 @@ legend {
 
 // Validation
 .invalid {
-  color: var(--danger);
-  border-color: var(--danger);
+  color: var(--form-invalid-color, var(--danger));
+  border-color: var(--form-invalid-border, var(--danger));
 }
 
 .valid {
-  border-color: var(--success);
+  color: var(--form-valid-color, inherit);
+  border-color: var(--form-valid-border, var(--success));
 }
 
 .form-control-feedback {
