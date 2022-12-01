@@ -48,7 +48,7 @@ if ($currentPage >= $step) {
 
 <?php if (!empty($pages)) : ?>
     <nav class="pagination__wrapper" aria-label="<?php echo Text::_('JLIB_HTML_PAGINATION'); ?>">
-        <div class="pagination pagination-toolbar text-center">
+        <div class="pagination pagination-toolbar text-center position-absolute end-0 px-4">
 
             <?php if ($showLimitBox) : ?>
                 <div class="limit float-end">
