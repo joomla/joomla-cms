@@ -15,7 +15,8 @@
       display: block;
       padding: .25rem;
       font-weight: $font-weight-normal;
-      color: var(--template-text-dark);
+      color: var(--sidebar-nav-link, var(--template-text-dark));
+      background-color: var(--sidebar-nav-link-bg, transparent);
       text-decoration: none;
 
       &::before {
@@ -27,10 +28,10 @@
     }
 
     &.item:hover, &.active {
-      background-color: var(--template-bg-dark-60);
+      background-color: var(--sidebar-nav-link-active-bg, var(--template-bg-dark-60));
 
       a {
-        color: var(--template-text-light);
+        color: var(--sidebar-nav-link-active, var(--template-text-light));
       }
     }
   }

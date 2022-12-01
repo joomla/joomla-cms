@@ -42,6 +42,7 @@
   --details-text: var(--template-bg-dark-90);
   --details-summary-text: var(--template-bg-dark-15);
   --headings-color: var(--template-alt-bg-dark-30);
+  --main-card-bg: var(--template-alt-bg-dark-80);
   // endregion
 
   // region Dropdown
@@ -77,6 +78,10 @@
   --toolbar-button-info-icon: #{lighten($info, 40%)};
   --toolbar-button-action: #{lighten($base-color, 20%)};
   --toolbar-button-action-icon: var(--gray-900);
+  // endregion
+
+  // region Sidebar Nav
+  --sidebar-nav-link: var(--gray-600);
   // endregion
 
   // region Alerts
