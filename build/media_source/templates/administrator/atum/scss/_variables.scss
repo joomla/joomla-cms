@@ -37,7 +37,7 @@ $base-color:                       $darkblue;
 $text-muted:                       var(--gray-600);
 
 // Borders
-$border-color:                     var(--gray-300) !default;
+$border-color:                     var(--border-color, var(--gray-300));
 
 // Cards
 $card-bg:                          var(--card-bg);

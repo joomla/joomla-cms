@@ -2,7 +2,8 @@
 
 .btn-group .dropdown-menu {
   min-width: 100%;
-  background: var(--white);
+  background: var(--dropdown-menu-bg, var(--white));
+  color: var(--dropdown-menu-text, inherit);
   box-shadow: $dropdown-box-shadow;
 
   joomla-toolbar-button {
@@ -13,9 +14,12 @@
 
 .dropdown-menu {
   box-shadow: $atum-box-shadow;
+  background: var(--dropdown-menu-bg, var(--white));
+  color: var(--dropdown-menu-text, inherit);
 }
 
 .dropdown-item {
+  color: var(--dropdown-menu-text, inherit);
   text-align: start;
   border-bottom: 1px solid rgba(var(--black), .1);
 

@@ -44,6 +44,11 @@
   --headings-color: var(--template-alt-bg-dark-30);
   // endregion
 
+  // region Dropdown
+  --dropdown-menu-bg: var(--template-alt-bg-dark-75);
+  --dropdown-menu-text: var(--gray-900);
+  // endregion
+
   // region Layout
   --options-form: var(--gray-900);
   --options-form-legend-text: var(--template-text-light);
@@ -56,6 +61,7 @@
   --header-logo-bg: var(--template-bg-dark-90);
   --header-page-title: var(--gray-700);
   --header-dropdown-head-bg: var(--template-bg-dark-70);
+  --header-dropdown-hover-bg: var(--template-bg-dark-60);
   --header-dropdown-text: var(--gray-800);
   --header-dropdown-bg: var(--template-bg-dark-80);
   --header-module-bg: hsl(var(--hue), 30%, 40%);
@@ -179,9 +185,6 @@
 
   // region com_cpanel
   --com_cpanel-sample-data-header: var(--template-alt-bg-dark-20);
-  --com_cpanel-card-header-bg: var(--template-alt-bg-dark-40);
-  --com_cpanel-card-header-padding: .5rem 1rem .25rem;
-  --com_cpanel-card-body-padding: 1rem 0 0;
   --com_cpanel-add-module-text: hsl(var(--hue),30%, 70%);
   --com_cpanel-add-module-bg: hsl(var(--hue), 35%, 10%);
   --com_cpanel-add-module-icon: hsl(var(--hue),40%,60%);
