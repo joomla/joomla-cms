@@ -44,7 +44,7 @@ class TableColumns {
    */
   createControls() {
     const $divouter = document.createElement('div');
-    $divouter.setAttribute('class', 'dropdown float-end pb-2');
+    $divouter.setAttribute('class', 'dropdown position-absolute end-0 px-4 py-2');
 
     const $divinner = document.createElement('div');
     $divinner.setAttribute('class', 'dropdown-menu dropdown-menu-end');
