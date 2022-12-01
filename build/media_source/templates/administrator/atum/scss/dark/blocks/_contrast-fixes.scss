@@ -1,0 +1,6 @@
+.bg-warning {
+  // Fix white on yellow when using class="bg-warning text-dark"
+  &.text-dark {
+    --dark-rgb: #{to-rgb($gray-800)};
+  }
+}
