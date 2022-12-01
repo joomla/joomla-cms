@@ -110,6 +110,10 @@
   // endregion
 
   // region Forms
+  --form-select: var(--input-color);
+  --form-select-bg: var(--input-bg);
+  --form-select-checked: var(--gray-900);
+  --form-select-checked-bg: var(--template-bg-dark-80);
   --form-select-indicator: url("../images/select-bg-dark.svg");
   --form-select-indicator-rtl: url("../images/select-bg-dark-rtl.svg");
   --form-label-color: var(--gray-900);
@@ -146,6 +150,7 @@
   // region Icons
   --icon-default: var(--gray-500);
   --icon-default-border: var(--gray-500);
+  --icon-checked-out: var(--gray-500);
   --icon-success: #{lighten($success, 10%)};
   --icon-success-border: #{lighten($success, 10%)};
   // endregion

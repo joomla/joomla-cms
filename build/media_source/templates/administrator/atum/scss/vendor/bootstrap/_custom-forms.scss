@@ -13,15 +13,15 @@
 
   &[multiple] {
     padding: 0;
-    background-color: var(--white-offset);
+    background-color: $form-select-bg;
 
     option {
       padding: $form-select-multiple-padding-y $form-select-padding-x;
-      background-color: var(--white-offset);
+      background-color: $form-select-bg;
 
       &:checked {
-        color: var(--template-text-light);
-        background-color: var(--template-bg-dark) !important;
+        color: var(--form-select-checked, var(--template-text-light));
+        background-color: var(--form-select-checked-bg, var(--template-bg-dark)) !important;
       }
     }
   }
@@ -33,8 +33,8 @@
     border-color: var(--success);
 
     option {
-      color: $form-select-color;
-      background-color: var(--white-offset);
+      color: var(--form-select, $form-select-color);
+      background-color: var(--form-select-bg, var(--white-offset));
     }
   }
 
@@ -45,8 +45,8 @@
     border-color: var(--danger);
 
     option {
-      color: $form-select-color;
-      background-color: var(--white-offset);
+      color: var(--form-select, $form-select-color);
+      background-color: var(--form-select-bg, var(--white-offset));
     }
   }
 
@@ -64,7 +64,7 @@
 
   optgroup,
   option {
-    color: var(--template-text-dark);
-    background-color: var(--white);
+    color: var(--form-select, var(--template-text-dark));
+    background-color: var(--form-select-bg, var(--white));
   }
 }

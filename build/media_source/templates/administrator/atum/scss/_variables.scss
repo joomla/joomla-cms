@@ -345,7 +345,7 @@ $input-btn-submenu-icon-distance:   1rem;
 
 // region Custom form
 $form-select-indicator-padding:    3rem;
-$form-select-bg:                   var(--template-bg-light);
+$form-select-bg:                   var(--form-select-bg, var(--template-bg-light));
 $form-select-bg-size:              116rem;
 $form-select-indicator:            var(--form-select-indicator, url("../images/select-bg.svg"));
 $form-select-indicator-rtl:        var(--form-select-indicator-rtl, url("../images/select-bg-rtl.svg"));
