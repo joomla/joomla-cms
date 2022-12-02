@@ -609,7 +609,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       data: null,
       perform: true,
       promise: false,
-      sendCsrfToken: true
+      sendCsrfToken: true,
     }, options);
 
     // Setup XMLHttpRequest instance
