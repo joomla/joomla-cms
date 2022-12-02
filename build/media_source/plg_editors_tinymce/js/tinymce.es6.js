@@ -8,7 +8,7 @@
 
   function openJoomlaModal(button) {
     const modalContainer = document.createElement('joomla-modal');
-    modalContainer.setAttribute('id', `tinymce-j-modal`);
+    modalContainer.setAttribute('id', 'tinymce-j-modal');
     // modalContainer.setAttribute('class', `maximum header-two-btn`);
     modalContainer.setAttribute('title', `Select ${button.text}`);
     modalContainer.setAttribute('url', button.href);

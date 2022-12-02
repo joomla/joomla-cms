@@ -148,8 +148,8 @@ class JoomlaFieldMedia extends HTMLElement {
 
   show() {
     this.modalContainer = document.createElement('joomla-modal');
-    this.modalContainer.setAttribute('id', `media-select-modal`);
-    this.modalContainer.setAttribute('class', `maximum header-two-btn`);
+    this.modalContainer.setAttribute('id', 'media-select-modal');
+    this.modalContainer.setAttribute('class', 'maximum header-two-btn');
     this.modalContainer.setAttribute('title', 'Select Media');
     this.modalContainer.setAttribute('url', this.url);
     this.modalContainer.setAttribute('close-text', 'Clooooooose');
@@ -158,7 +158,7 @@ class JoomlaFieldMedia extends HTMLElement {
     this.append(this.modalContainer);
     this.modalContainer.open();
 
-    this.modalContainer.querySelector('header button').insertAdjacentElement('beforebegin', this.buttonSaveSelectedElement)
+    this.modalContainer.querySelector('header button').insertAdjacentElement('beforebegin', this.buttonSaveSelectedElement);
 
     Joomla.Modal.setCurrent(this.modalContainer.querySelector('dialog'));
     Joomla.selectedMediaFile = {};

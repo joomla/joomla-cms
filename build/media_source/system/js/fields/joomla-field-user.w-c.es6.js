@@ -1,4 +1,3 @@
-
 class JoomlaFieldUser extends HTMLElement {
   constructor() {
     super();
@@ -48,7 +47,6 @@ class JoomlaFieldUser extends HTMLElement {
     this.inputName = this.querySelector(this.inputNameClass);
     this.buttonSelect = this.querySelector(this.buttonSelectClass);
 
-
     if (this.buttonSelect) {
       this.buttonSelect.addEventListener('click', this.modalOpen.bind(this));
     }
@@ -76,7 +74,7 @@ class JoomlaFieldUser extends HTMLElement {
   // Opens the modal
   modalOpen() {
     this.modalContainer = document.createElement('joomla-modal');
-    this.modalContainer.setAttribute('id', `user-select-modal`);
+    this.modalContainer.setAttribute('id', 'user-select-modal');
     this.modalContainer.setAttribute('title', 'Select User');
     // this.modalContainer.setAttribute('url', this.url);
     this.modalContainer.setAttribute('url', this.url.replace('{field-user-id}', this.input.getAttribute('id')));
