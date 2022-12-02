@@ -141,22 +141,6 @@ Text::script('JFIELD_MEDIA_DOWNLOAD_FILE');
 Text::script('JLIB_APPLICATION_ERROR_SERVER');
 Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 
-// $modalHTML = HTMLHelper::_(
-//     'bootstrap.renderModal',
-//     'imageModal_' . $id,
-//     [
-//         'url'         => $url,
-//         'title'       => Text::_('JLIB_FORM_CHANGE_IMAGE'),
-//         'closeButton' => true,
-//         'height'      => '100%',
-//         'width'       => '100%',
-//         'modalWidth'  => '80',
-//         'bodyHeight'  => '60',
-//         'footer'      => '<button type="button" class="btn btn-success button-save-selected">' . Text::_('JSELECT') . '</button>'
-//             . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-//     ]
-// );
-
 $wam->useStyle('webcomponent.field-media')
     ->useScript('webcomponent.field-media');
 

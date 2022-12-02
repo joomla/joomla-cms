@@ -33,7 +33,6 @@ extract($displayData, EXTR_OVERWRITE);
 $wa = Factory::getDocument()->getWebAssetManager();
 
 $wa->useScript('core');
-// ->useScript('webcomponent.toolbar-button')
 $wa->registerAndUseScript('joomla-modal', 'system/joomla-modal.min.js', [], ['type' => 'module'], []);
 $wa->registerAndUseStyle('joomla-modal', 'system/joomla-modal.min.css', [], [], []);
 

@@ -89,21 +89,6 @@ if (!$readonly) {
 }
 
 if (!$readonly) {
-    //     $modalHTML = HTMLHelper::_(
-    //         'bootstrap.renderModal',
-    //         'userModal_' . $id,
-    //         array(
-    //             'url'         => $uri,
-    //             'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
-    //             'closeButton' => true,
-    //             'height'      => '100%',
-    //             'width'       => '100%',
-    //             'modalWidth'  => 80,
-    //             'bodyHeight'  => 60,
-    //             'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-    //         )
-    //     );
-
     $wa = Factory::getDocument()->getWebAssetManager();
     $wa->registerAndUseScript('joomla-modal', 'system/joomla-modal.min.js', [], ['type' => 'module'], []);
     $wa->registerAndUseStyle('joomla-modal', 'system/joomla-modal.min.css', [], [], []);
