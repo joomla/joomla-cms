@@ -570,15 +570,16 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @param {Object} options   Request options:
    * {
-   *    url:     'index.php', Request URL
-   *    method:  'GET',       Request method GET (default), POST
-   *    data:    null,        Data to be sent, see
-   *                https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
-   *    perform: true,        Perform the request immediately
-   *              or return XMLHttpRequest instance and perform it later
-   *    headers: null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
-   *    promise: false        Whether return a Promise instance.
-   *              When true then next options is ignored: perform, onSuccess, onError, onComplete
+   *    url:          'index.php', Request URL
+   *    method:       'GET',       Request method GET (default), POST
+   *    data:          null,        Data to be sent, see
+   *                    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
+   *    perform:       true,        Perform the request immediately
+   *                    or return XMLHttpRequest instance and perform it later
+   *    headers:       null,        Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+   *    promise:       false,       Whether return a Promise instance.
+   *                    When true then next options is ignored: perform, onSuccess, onError, onComplete
+   *    sendCsrfToken: true         Whether to send the CSRF token. Disable when making requests to external URLs.
    *
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
@@ -607,6 +608,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       data: null,
       perform: true,
       promise: false,
+      sendCsrfToken: true
     }, options);
 
     // Setup XMLHttpRequest instance
@@ -620,10 +622,12 @@ window.Joomla.Modal = window.Joomla.Modal || {
       xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
       if (newOptions.method !== 'GET') {
-        const token = Joomla.getOptions('csrf.token', '');
+        if (newOptions.sendCsrfToken === true) {
+          const token = Joomla.getOptions('csrf.token', '');
 
-        if (token) {
-          xhr.setRequestHeader('X-CSRF-Token', token);
+          if (token) {
+            xhr.setRequestHeader('X-CSRF-Token', token);
+          }
         }
 
         if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
