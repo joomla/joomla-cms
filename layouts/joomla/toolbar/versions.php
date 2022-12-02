@@ -31,10 +31,22 @@ extract($displayData, EXTR_OVERWRITE);
 $wa = Factory::getDocument()->getWebAssetManager();
 $wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
 
-$wa->useScript('core')
-    ->useScript('webcomponent.toolbar-button')
-    ->useScript('com_contenthistory.admin-history-versions');
+$wa->useScript('core');
+// ->useScript('webcomponent.toolbar-button')
+$wa->registerAndUseScript('joomla-modal', 'system/joomla-modal.min.js', [], ['type' => 'module'], []);
+$wa->registerAndUseStyle('joomla-modal', 'system/joomla-modal.min.css', [], [], []);
+$wa->useScript('com_contenthistory.admin-history-versions');
 
+$url = 'index.php?' . http_build_query([
+    'option' => 'com_contenthistory',
+    'view' => 'history',
+    'layout' => 'modal',
+    'tmpl' => 'component',
+    'item_id' => $itemId,
+    Session::getFormToken() => 1
+]);
+
+/*
 echo HTMLHelper::_(
     'bootstrap.renderModal',
     'versionsModal',
@@ -58,14 +70,19 @@ echo HTMLHelper::_(
             . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
     )
 );
-?>
+
 <joomla-toolbar-button id="toolbar-versions">
-    <button
-        class="btn btn-primary"
-        type="button"
-        data-bs-target="#versionsModal"
-        data-bs-toggle="modal">
+    <button class="btn btn-primary" type="button" data-bs-target="#versionsModal" data-bs-toggle="modal">
         <span class="icon-code-branch" aria-hidden="true"></span>
         <?php echo $title; ?>
     </button>
 </joomla-toolbar-button>
+
+*/
+?>
+<joomla-modal-button id="jooml-modal-button-preview" title="<?= $title; ?>" url="<?= $url; ?>" close-text="<?= Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>" click-outside="true">
+    <button class="btn btn-primary" type="button">
+        <span class="icon-code-branch" aria-hidden="true"></span>
+        <?php echo $title; ?>
+    </button>
+</joomla-modal-button>

@@ -89,34 +89,30 @@ if (!$readonly) {
 }
 
 if (!$readonly) {
-    $modalHTML = HTMLHelper::_(
-        'bootstrap.renderModal',
-        'userModal_' . $id,
-        array(
-            'url'         => $uri,
-            'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
-            'closeButton' => true,
-            'height'      => '100%',
-            'width'       => '100%',
-            'modalWidth'  => 80,
-            'bodyHeight'  => 60,
-            'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
-        )
-    );
+    //     $modalHTML = HTMLHelper::_(
+    //         'bootstrap.renderModal',
+    //         'userModal_' . $id,
+    //         array(
+    //             'url'         => $uri,
+    //             'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
+    //             'closeButton' => true,
+    //             'height'      => '100%',
+    //             'width'       => '100%',
+    //             'modalWidth'  => 80,
+    //             'bodyHeight'  => 60,
+    //             'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
+    //         )
+    //     );
 
-    Factory::getDocument()->getWebAssetManager()
-        ->useScript('webcomponent.field-user');
+    $wa = Factory::getDocument()->getWebAssetManager();
+    $wa->registerAndUseScript('joomla-modal', 'system/joomla-modal.min.js', [], ['type' => 'module'], []);
+    $wa->registerAndUseStyle('joomla-modal', 'system/joomla-modal.min.css', [], [], []);
+    $wa->useScript('webcomponent.field-user');
 }
 ?>
-<?php // Create a dummy text field with the user name. ?>
-<joomla-field-user class="field-user-wrapper"
-        url="<?php echo (string) $uri; ?>"
-        modal=".modal"
-        modal-width="100%"
-        modal-height="400px"
-        input=".field-user-input"
-        input-name=".field-user-input-name"
-        button-select=".button-select">
+<?php // Create a dummy text field with the user name.
+?>
+<joomla-field-user class="field-user-wrapper" url="<?php echo (string) $uri; ?>" modal=".modal" modal-width="100%" modal-height="400px" input=".field-user-input" input-name=".field-user-input-name" button-select=".button-select">
     <div class="input-group">
         <input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?> readonly>
         <?php if (!$readonly) : ?>
@@ -126,11 +122,9 @@ if (!$readonly) {
             </button>
         <?php endif; ?>
     </div>
-    <?php // Create the real field, hidden, that stored the user id. ?>
+    <?php // Create the real field, hidden, that stored the user id.
+    ?>
     <?php if (!$readonly) : ?>
-        <input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
-            class="field-user-input <?php echo $class ? (string) $class : ''?>"
-            data-onchange="<?php echo $this->escape($onchange); ?>">
-        <?php echo $modalHTML; ?>
+        <input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>" class="field-user-input <?php echo $class ? (string) $class : '' ?>" onchange="<?php echo $this->escape($onchange); ?>">
     <?php endif; ?>
 </joomla-field-user>

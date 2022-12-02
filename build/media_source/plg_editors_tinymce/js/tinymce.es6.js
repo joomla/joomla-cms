@@ -6,6 +6,19 @@
 ((tinyMCE, Joomla, window, document) => {
   'use strict';
 
+  function openJoomlaModal(button) {
+    const modalContainer = document.createElement('joomla-modal');
+    modalContainer.setAttribute('id', `tinymce-j-modal`);
+    // modalContainer.setAttribute('class', `maximum header-two-btn`);
+    modalContainer.setAttribute('title', `Select ${button.text}`);
+    modalContainer.setAttribute('url', button.href);
+    modalContainer.setAttribute('close-text', 'Clooooooose');
+    modalContainer.setAttribute('click-outside', false);
+
+    document.body.append(modalContainer);
+    modalContainer.open();
+  }
+
   Joomla.JoomlaTinyMCE = {
     /**
      * Find all TinyMCE elements and initialize TinyMCE instance for each
@@ -98,9 +111,8 @@
         }
 
         if (xtdButton.href) {
-          tmp.onAction = () => {
-            document.getElementById(`${xtdButton.id}_modal`).open();
-          };
+          tmp.href = xtdButton.href;
+          tmp.onAction = () => openJoomlaModal(tmp);
         } else {
           tmp.onAction = () => {
             // eslint-disable-next-line no-new-func

@@ -56,10 +56,6 @@ class JoomlaFieldMedia extends HTMLElement {
 
   set url(value) { this.setAttribute('url', value); }
 
-  get modalContainer() { return this.getAttribute('modal-container'); }
-
-  set modalContainer(value) { this.setAttribute('modal-container', value); }
-
   get input() { return this.getAttribute('input'); }
 
   set input(value) { this.setAttribute('input', value); }
@@ -104,24 +100,16 @@ class JoomlaFieldMedia extends HTMLElement {
     this.button = this.querySelector(this.buttonSelect);
     this.inputElement = this.querySelector(this.input);
     this.buttonClearEl = this.querySelector(this.buttonClear);
-    this.modalElement = this.querySelector('.joomla-modal');
-    this.buttonSaveSelectedElement = this.querySelector(this.buttonSaveSelected);
+    this.buttonSaveSelectedElement = document.createElement('button');
+    this.buttonSaveSelectedElement.setAttribute('type', 'button');
+    this.buttonSaveSelectedElement.textContent = 'Select';
     this.previewElement = this.querySelector('.field-media-preview');
 
-    if (!this.button || !this.inputElement || !this.buttonClearEl || !this.modalElement
-      || !this.buttonSaveSelectedElement) {
+    if (!this.button || !this.inputElement || !this.buttonClearEl || !this.buttonSaveSelectedElement) {
       throw new Error('Misconfiguaration...');
     }
 
     this.button.addEventListener('click', this.show);
-
-    // Bootstrap modal init
-    if (this.modalElement
-      && window.bootstrap
-      && window.bootstrap.Modal
-      && !window.bootstrap.Modal.getInstance(this.modalElement)) {
-      Joomla.initialiseModal(this.modalElement, { isJoomla: true });
-    }
 
     if (this.buttonClearEl) {
       this.buttonClearEl.addEventListener('click', this.clearValue);
@@ -159,8 +147,20 @@ class JoomlaFieldMedia extends HTMLElement {
   }
 
   show() {
-    this.modalElement.open();
+    this.modalContainer = document.createElement('joomla-modal');
+    this.modalContainer.setAttribute('id', `media-select-modal`);
+    this.modalContainer.setAttribute('class', `maximum header-two-btn`);
+    this.modalContainer.setAttribute('title', 'Select Media');
+    this.modalContainer.setAttribute('url', this.url);
+    this.modalContainer.setAttribute('close-text', 'Clooooooose');
+    this.modalContainer.setAttribute('click-outside', false);
 
+    this.append(this.modalContainer);
+    this.modalContainer.open();
+
+    this.modalContainer.querySelector('header button').insertAdjacentElement('beforebegin', this.buttonSaveSelectedElement)
+
+    Joomla.Modal.setCurrent(this.modalContainer.querySelector('dialog'));
     Joomla.selectedMediaFile = {};
 
     this.buttonSaveSelectedElement.addEventListener('click', this.onSelected);
@@ -176,7 +176,9 @@ class JoomlaFieldMedia extends HTMLElement {
     }
 
     Joomla.selectedMediaFile = {};
-    Joomla.Modal.getCurrent().close();
+    this.modalContainer.querySelector('dialog').close();
+    Joomla.Modal.setCurrent(null);
+    // Joomla.Modal.getCurrent().close();
   }
 
   setValue(value) {
@@ -363,4 +365,5 @@ class JoomlaFieldMedia extends HTMLElement {
     }
   }
 }
-customElements.define('joomla-field-media', JoomlaFieldMedia);
+
+customElements.whenDefined('joomla-modal').then(() => customElements.define('joomla-field-media', JoomlaFieldMedia));

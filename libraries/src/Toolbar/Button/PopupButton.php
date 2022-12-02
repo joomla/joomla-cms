@@ -135,62 +135,60 @@ class PopupButton extends ToolbarButton
      */
     protected function renderButton(array &$options): string
     {
-        $html = [];
+        return parent::renderButton($options);
 
-        $html[] = parent::renderButton($options);
+//         if ((string) $this->getUrl() !== '') {
+//             // Build the options array for the modal
+//             $params = array();
+//             $params['title']      = $options['title'] ?? $options['text'];
+//             $params['url']        = $this->getUrl();
+//             $params['height']     = $options['iframeHeight'] ?? 480;
+//             $params['width']      = $options['iframeWidth'] ?? 640;
+//             $params['bodyHeight'] = $options['bodyHeight'] ?? null;
+//             $params['modalWidth'] = $options['modalWidth'] ?? null;
 
-        if ((string) $this->getUrl() !== '') {
-            // Build the options array for the modal
-            $params = array();
-            $params['title']      = $options['title'] ?? $options['text'];
-            $params['url']        = $this->getUrl();
-            $params['height']     = $options['iframeHeight'] ?? 480;
-            $params['width']      = $options['iframeWidth'] ?? 640;
-            $params['bodyHeight'] = $options['bodyHeight'] ?? null;
-            $params['modalWidth'] = $options['modalWidth'] ?? null;
+//             // Place modal div and scripts in a new div
+//             $html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
 
-            // Place modal div and scripts in a new div
-            $html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
+//             $selector = $options['selector'];
 
-            $selector = $options['selector'];
+//             $footer = $this->getFooter();
 
-            $footer = $this->getFooter();
+//             if ($footer !== null) {
+//                 $params['footer'] = $footer;
+//             }
 
-            if ($footer !== null) {
-                $params['footer'] = $footer;
-            }
+//             $html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
 
-            $html[] = HTMLHelper::_('bootstrap.renderModal', $selector, $params);
+//             $html[] = '</div>';
 
-            $html[] = '</div>';
+//             // We have to move the modal, otherwise we get problems with the backdrop
+//             // @todo: There should be a better workaround than this
+//             Factory::getDocument()->addScriptDeclaration(
+//                 <<<JS
+// document.addEventListener('DOMContentLoaded', function() {
+//   var modal =document.getElementById('{$options['selector']}');
+//   document.body.appendChild(modal);
+//   if (Joomla && Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal) {
+//     Joomla.Bootstrap.Methods.Initialise.Modal(modal);
+//   }
+// });
+// JS
+//             );
+//         }
 
-            // We have to move the modal, otherwise we get problems with the backdrop
-            // @todo: There should be a better workaround than this
-            Factory::getDocument()->addScriptDeclaration(
-                <<<JS
-document.addEventListener('DOMContentLoaded', function() {
-  var modal =document.getElementById('{$options['selector']}');
-  document.body.appendChild(modal);
-  if (Joomla && Joomla.Bootstrap && Joomla.Bootstrap.Methods && Joomla.Bootstrap.Methods.Modal) {
-    Joomla.Bootstrap.Methods.Initialise.Modal(modal);
-  }
-});
-JS
-            );
-        }
-
-        // If an $onClose event is passed, add it to the modal JS object
-        if ((string) $this->getOnclose() !== '') {
-            Factory::getDocument()->addScriptDeclaration(
-                <<<JS
-document.addEventListener('DOMContentLoaded', function() {
-	document.querySelector('#{$options['selector']}').addEventListener('hide.bs.modal', function() {
-	    {$options['onclose']}
-	});
-});
-JS
-            );
-        }
+//         // If an $onClose event is passed, add it to the modal JS object
+//         if ((string) $this->getOnclose() !== '') {
+//             Factory::getDocument()->addScriptDeclaration(
+//                 <<<JS
+// document.addEventListener('DOMContentLoaded', function() {
+// 	document.querySelector('#{$options['selector']}').addEventListener('hide.bs.modal', function() {
+// 	    {$options['onclose']}
+// 	});
+// });
+// JS
+//             );
+//         }
 
         return implode("\n", $html);
     }

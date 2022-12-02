@@ -19,7 +19,6 @@ $buttons = $displayData;
     <?php if ($buttons) : ?>
         <?php foreach ($buttons as $button) : ?>
             <?php echo $this->sublayout('button', $button); ?>
-            <?php echo $this->sublayout('modal', $button); ?>
         <?php endforeach; ?>
     <?php endif; ?>
 </div>

@@ -57,8 +57,8 @@ class PlgButtonModule extends CMSPlugin
             || $user->authorise('core.edit', 'com_modules')
             || $user->authorise('core.edit.own', 'com_modules')
         ) {
-            $link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
-                    . $name . '&amp;' . Session::getFormToken() . '=1';
+            $link = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&editor='
+                    . $name . '&' . Session::getFormToken() . '=1';
             $button = new CMSObject();
             $button->modal   = true;
             $button->link    = $link;

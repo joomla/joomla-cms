@@ -61,8 +61,8 @@ class PlgButtonFields extends CMSPlugin
             $context = $jinput->get('extension', 'com_content') . '.categories';
         }
 
-        $link = 'index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;tmpl=component&amp;context='
-            . $context . '&amp;editor=' . $name . '&amp;' . Session::getFormToken() . '=1';
+        $link = 'index.php?option=com_fields&view=fields&layout=modal&tmpl=component&context='
+            . $context . '&editor=' . $name . '&' . Session::getFormToken() . '=1';
 
         $button = new CMSObject();
         $button->modal   = true;

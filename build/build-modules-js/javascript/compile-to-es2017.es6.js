@@ -53,6 +53,7 @@ module.exports.handleESMFile = async (file) => {
   const minifiedCss = await getWcMinifiedCss(file);
   const bundle = await rollup.rollup({
     input: resolve(file),
+    inlineDynamicImports: true,
     plugins: [
       nodeResolve({
         preferBuiltins: false,

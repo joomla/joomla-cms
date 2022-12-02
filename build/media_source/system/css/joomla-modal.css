@@ -1,0 +1,82 @@
+
+dialog:modal {
+  /*
+  From BS 5.2
+  */
+  border-color: grey;
+  border-width: 1px;
+  border-radius: 0.5rem;
+  width: calc(100dvw - 2em);
+  height: calc(100dvw - 4em);
+
+  /* clamp(min(10em, calc(100dvw - 2em)), calc(100dvw - 2em), 40em); */
+}
+
+dialog::backdrop {
+  background-color: black;
+  opacity: .8
+}
+
+dialog:modal iframe {
+  width: 100%;
+  height: 100vh;
+  border: none;
+}
+
+dialog:modal header {
+  margin: -1em;
+  display: flex;
+  align-items: center;
+  justify-items: start;
+  border-bottom: 1px inset grey;
+}
+
+dialog:modal header > *:nth-child(1) {
+  padding-inline-start: 1em;
+}
+
+dialog:modal header > *:nth-child(2) {
+  border: none;
+  background-color: transparent;
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: .25em .25em;
+  color: #000;
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  border: 0;
+  border-radius: .375rem;
+  opacity: .5;
+  margin-inline-start: auto;
+  margin-inline-end: 2em;
+}
+
+dialog:modal article {
+  margin-top: 2em;
+}
+
+joomla-modal.maximum.header-two-btn header > *:nth-child(1) {
+  padding-inline-start: 1em;
+}
+
+joomla-modal.maximum.header-two-btn header > *:nth-child(2) {
+  margin-inline-start: auto;
+  margin-inline-end: 1em;
+  background: unset;
+}
+
+
+joomla-modal.maximum.header-two-btn header > *:nth-child(3) {
+  border: none;
+  background-color: transparent;
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: .25em .25em;
+  color: #000;
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  border: 0;
+  border-radius: .375rem;
+  opacity: .5;
+  margin-inline-end: 2em;
+}
