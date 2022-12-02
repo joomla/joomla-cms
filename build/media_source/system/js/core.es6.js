@@ -580,6 +580,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *    promise:       false,       Whether return a Promise instance.
    *                    When true then next options is ignored: perform, onSuccess, onError, onComplete
    *    sendCsrfToken: true         Whether to send the CSRF token. Disable when making requests to external URLs.
+   *                    Does not apply to GET requests.
    *
    *    onBefore:  (xhr) => {}            // Callback on before the request
    *    onSuccess: (response, xhr) => {}, // Callback on the request success
