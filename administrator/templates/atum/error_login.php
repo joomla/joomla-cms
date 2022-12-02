@@ -77,6 +77,7 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
     <jdoc:include type="metas" />
+    <?php require_once __DIR__ . '/includes/theme-color.php'; ?>
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>

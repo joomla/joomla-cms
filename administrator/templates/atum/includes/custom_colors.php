@@ -29,8 +29,11 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-$atumApplyCustomColor = function (\Joomla\CMS\WebAsset\WebAssetManager $wa, string $hue, bool $dark = false)
-{
+$atumApplyCustomColor = function (\Joomla\CMS\WebAsset\WebAssetManager $wa, string $hue, bool $dark = false) {
+    if (empty($hue)) {
+        return;
+    }
+
     $paramPrefix = $dark ? 'dark-' : '';
 
     $bgLight      = $this->params->get($paramPrefix . 'bg-light') ?? '';
@@ -39,6 +42,7 @@ $atumApplyCustomColor = function (\Joomla\CMS\WebAsset\WebAssetManager $wa, stri
     $linkColor    = $this->params->get($paramPrefix . 'link-color') ?? '';
     $specialColor = $this->params->get($paramPrefix . 'special-color') ?? '';
 
+    // Add CSS variables for the custom colors
     $css = ":root{\n";
     $css .= "\t--hue: $hue;\n";
 
@@ -184,5 +188,22 @@ if ($this->params->get('darkmode', 1) == 1) {
     });
 }
 
+// Add a 'color-scheme' meta header
+if (empty($this->getMetaData('color-scheme', 'value'))) {
+    /**
+     * Using 'only light' prevents native, unstyled browser controls (input boxes, check boxes,
+     * dialogs, etc) from adopting a dark theme when Dark Mode is enabled system-wide.
+     *
+     * See https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
+     */
+    $this->setMetaData(
+        'color-scheme',
+        $this->params->get('darkmode', 1) == 1
+            ? 'light dark'
+            : 'only light',
+        'value'
+    );
+}
+
 // Clean up
-unset($atumApplyCustomColor);
+unset($atumApplyCustomColor, $matches);
