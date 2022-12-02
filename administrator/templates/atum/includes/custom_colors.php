@@ -159,7 +159,7 @@ if ($this->params->get('darkmode', 1) == 1) {
                     $input->getCmd('option') === 'com_plugins'
                     && $input->getCmd('view') === 'plugin'
                     && $input->getCmd('layout') === 'edit'
-                    && $input->getCmd('extension_id') == is_object($extension) ? $extension->id : -1
+                    && $input->getCmd('extension_id') == (is_object($extension) ? $extension->id : -1)
                 ) {
                     return;
                 }
