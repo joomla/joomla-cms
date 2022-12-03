@@ -265,7 +265,7 @@ class JNamespacePsr4Map
                     $manifests[JPATH_LIBRARIES . '/' . File::stripExt(substr($file, strlen(JPATH_MANIFESTS . '/libraries') + 1))] = $file;
                 }
             }
-            catch (\UnexpectedValueException $e)
+            catch (UnexpectedValueException $e)
             {
                 return [];
             }
@@ -282,7 +282,7 @@ class JNamespacePsr4Map
         } else {
             try {
                 $directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
-            } catch (\UnexpectedValueException $e) {
+            } catch (UnexpectedValueException $e) {
                 $directories = [];
             }
         }
@@ -292,7 +292,7 @@ class JNamespacePsr4Map
             try
             {
                 $extensionDirectories = Folder::folders($directory, '.', false, false);
-            } catch (\UnexpectedValueException $e)
+            } catch (UnexpectedValueException $e)
             {
                 continue;
             }
