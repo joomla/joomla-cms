@@ -252,7 +252,7 @@ class JFormValidator {
     const invalid = [];
 
     // Validate form fields
-    const fields = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+    const fields = [].slice.call(form.elements);
     fields.forEach((field) => {
       if (this.validate(field) === false) {
         valid = false;
@@ -284,7 +284,7 @@ class JFormValidator {
 
   attachToForm(form) {
     const inputFields = [];
-    const elements = [].slice.call(form.querySelectorAll('input, textarea, select, button, fieldset'));
+    const elements = [].slice.call(form.elements);
 
     // Iterate through the form object and attach the validate method to all input fields.
     elements.forEach((element) => {
