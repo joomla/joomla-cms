@@ -150,25 +150,31 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
             $value->tags = new TagsHelper();
             $value->tags->getTagIds($value->id, 'com_content.article');
             $value->metadata['tags'] = $value->tags;
-        }
 
-        // Get featured up & down info
-        $db    = $this->getDatabase();
-        $query = $db->getQuery(true)
-            ->select($db->quoteName(['featured_up', 'featured_down']))
-            ->from($db->quoteName('#__content_frontpage'))
-            ->where($db->quoteName('content_id') . ' = :articleId')
-            ->bind(':articleId', $value->id, ParameterType::INTEGER);
-        $db->setQuery($query);
-
-        $result = $db->loadObject();
-
-        if (\is_null($result)) {
-            $value->featured_up = null;
+            $value->featured_up   = null;
             $value->featured_down = null;
-        } else {
-            $value->featured_up   = $result->featured_up;
-            $value->featured_down = $result->featured_down;
+
+            if ($value->featured) {
+                // Get featured dates.
+                $db = $this->getDatabase();
+                $query = $db->getQuery(true)
+                    ->select(
+                        [
+                            $db->quoteName('featured_up'),
+                            $db->quoteName('featured_down'),
+                        ]
+                    )
+                    ->from($db->quoteName('#__content_frontpage'))
+                    ->where($db->quoteName('content_id') . ' = :id')
+                    ->bind(':id', $value->id, ParameterType::INTEGER);
+
+                $featured = $db->setQuery($query)->loadObject();
+
+                if ($featured) {
+                    $value->featured_up   = $featured->featured_up;
+                    $value->featured_down = $featured->featured_down;
+                }
+            }
         }
 
         return $value;
