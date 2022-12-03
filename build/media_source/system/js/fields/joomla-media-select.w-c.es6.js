@@ -153,7 +153,7 @@ const insertAsImage = async (media, editor, fieldClass) => {
     let imageElement = '';
 
     if (!isElement(editor)) {
-      const currentModal = fieldClass.closest('.modal-content');
+      const currentModal = fieldClass.querySelector('dialog');
       attribs = currentModal.querySelector('joomla-field-mediamore');
       if (attribs) {
         if (attribs.getAttribute('alt-check') === 'true') {
@@ -387,11 +387,9 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       this.innerHTML = `<details open>
 <summary>${this.summarytext}</summary>
 <div class="">
-  <div class="form-group">
-    <div class="input-group">
-      <label class="input-group-text" for="${this.parentId}-alt">${this.alttext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-alt" data-is="alt-value" />
-    </div>
+  <div class="mb-3">
+    <label class="form-label" for="${this.parentId}-alt">${this.alttext}</label>
+    <input class="form-control" type="text" id="${this.parentId}-alt" data-is="alt-value" />
   </div>
   <div class="form-group">
     <div class="form-check">
@@ -406,23 +404,17 @@ class JoomlaFieldMediaOptions extends HTMLElement {
       <label class="form-check-label" for="${this.parentId}-lazy">${this.lazytext}</label>
     </div>
   </div>
-  <div class="form-group">
-    <div class="input-group">
-      <label class="input-group-text" for="${this.parentId}-classes">${this.classestext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-classes" data-is="img-classes"/>
-    </div>
+  <div class="mb-3">
+    <label class="form-label" for="${this.parentId}-classes">${this.classestext}</label>
+    <input class="form-control" type="text" id="${this.parentId}-classes" data-is="img-classes"/>
   </div>
-  <div class="form-group">
-    <div class="input-group">
-      <label class="input-group-text" for="${this.parentId}-figclasses">${this.figclassestext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-figclasses" data-is="fig-classes"/>
-    </div>
+  <div class="mb-3">
+    <label class="form-label" for="${this.parentId}-figclasses">${this.figclassestext}</label>
+    <input class="form-control" type="text" id="${this.parentId}-figclasses" data-is="fig-classes"/>
   </div>
-  <div class="form-group">
-    <div class="input-group">
-      <label class="input-group-text" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
-      <input class="form-control" type="text" id="${this.parentId}-figcaption" data-is="fig-caption"/>
-    </div>
+  <div class="mb-3">
+    <label class="form-label" for="${this.parentId}-figcaption">${this.figcaptiontext}</label>
+    <input class="form-control" type="text" id="${this.parentId}-figcaption" data-is="fig-caption"/>
   </div>
 </div>
 </details>`;
@@ -471,25 +463,19 @@ class JoomlaFieldMediaOptions extends HTMLElement {
   </div>
   <div class="toggable-parts" style="display: none">
     <div style="display: ${this.type === 'audios' ? 'none' : 'block'}">
-      <div class="form-group">
-        <div class="input-group">
-          <label class="input-group-text" for="${this.parentId}-width">${this.widthtext}</label>
+        <div class="mb-3">
+          <label class="form-label" for="${this.parentId}-width">${this.widthtext}</label>
           <input class="form-control" type="text" id="${this.parentId}-width" value="800" data-is="width"/>
         </div>
-      </div>
-      <div class="form-group">
-        <div class="input-group">
-          <label class="input-group-text" for="${this.parentId}-height">${this.heighttext}</label>
+        <div class="mb3">
+          <label class="form-label" for="${this.parentId}-height">${this.heighttext}</label>
           <input class="form-control" type="text" id="${this.parentId}-height" value="600" data-is="height"/>
         </div>
-      </div>
       <div style="display: ${this.type === 'document' ? 'block' : 'none'}">
-        <div class="form-group">
-          <div class="input-group">
-            <label class="input-group-text" for="${this.parentId}-title">${this.titletext}</label>
+          <div class="mb-3">
+            <label class="form-label" for="${this.parentId}-title">${this.titletext}</label>
             <input class="form-control" type="text" id="${this.parentId}-title" value="" data-is="title"/>
           </div>
-        </div>
     </div>
   </div>
 </div>

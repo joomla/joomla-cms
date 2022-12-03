@@ -151,7 +151,7 @@ class JoomlaFieldMedia extends HTMLElement {
     this.modalContainer.setAttribute('id', 'media-select-modal');
     this.modalContainer.setAttribute('class', 'maximum header-two-btn');
     this.modalContainer.setAttribute('title', 'Select Media');
-    this.modalContainer.setAttribute('url', this.url);
+    this.modalContainer.setAttribute('url', this.url.replace('{field-media-id}', this.inputElement.getAttribute('id')));
     this.modalContainer.setAttribute('close-text', 'Clooooooose');
     this.modalContainer.setAttribute('click-outside', false);
 

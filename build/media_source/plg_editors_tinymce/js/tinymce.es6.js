@@ -17,6 +17,23 @@
 
     document.body.append(modalContainer);
     modalContainer.open();
+    Joomla.Modal.setCurrent(modalContainer)
+
+    const matches = /e_name=(.*?)\&/.exec(button.href)
+    if (matches.length === 2) {
+      const buttonSaveSelectedElement = document.createElement('button');
+      buttonSaveSelectedElement.setAttribute('type', 'button');
+      buttonSaveSelectedElement.textContent = 'Select';
+
+      function onSelected() {
+        Joomla.getImage(parent.window.Joomla.selectedMediaFile, button.id, modalContainer);
+        modalContainer.querySelector('dialog').close();
+        Joomla.Modal.setCurrent(null)
+      }
+
+      buttonSaveSelectedElement.addEventListener('click', onSelected);
+      modalContainer.querySelector('header button').insertAdjacentElement('afterend', buttonSaveSelectedElement);
+    }
   }
 
   Joomla.JoomlaTinyMCE = {
@@ -112,6 +129,8 @@
 
         if (xtdButton.href) {
           tmp.href = xtdButton.href;
+          tmp.editor = element;
+          tmp.id = element.id;
           tmp.onAction = () => openJoomlaModal(tmp);
         } else {
           tmp.onAction = () => {
