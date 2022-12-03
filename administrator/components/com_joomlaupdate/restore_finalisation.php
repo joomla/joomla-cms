@@ -47,7 +47,7 @@ if (!function_exists('clearFileInOPCache')) {
      * @param   string  $file  The filepath to clear from OPcache
      *
      * @return  boolean
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.6
      */
     function clearFileInOPCache(string $file): bool
     {
@@ -79,7 +79,7 @@ if (!function_exists('finalizeRestore')) {
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.2.6
      */
     function finalizeRestore(string $siteRoot, string $restorePath): void
     {
