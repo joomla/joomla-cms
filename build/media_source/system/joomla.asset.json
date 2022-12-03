@@ -593,6 +593,31 @@
       "dependencies": [
         "webcomponent.toolbar-button-legacy"
       ]
+    },
+    {
+      "name": "webcomponent.field-modal-legacy",
+      "type": "script",
+      "uri": "system/fields/joomla-field-modal-es5.min.js",
+      "attributes": {
+        "nomodule": true,
+        "defer": true
+      },
+      "dependencies": [
+        "wcpolyfill",
+        "bootstrap.modal"
+      ]
+    },
+    {
+      "name": "webcomponent.field-modal",
+      "type": "script",
+      "uri": "system/fields/joomla-field-modal.min.js",
+      "attributes": {
+        "type": "module"
+      },
+      "dependencies": [
+        "webcomponent.field-modal-legacy",
+        "bootstrap.modal"
+      ]
     }
   ]
 }
