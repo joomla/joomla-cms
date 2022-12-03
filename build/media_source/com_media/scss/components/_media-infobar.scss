@@ -31,6 +31,7 @@ $fa-css-prefix:    fa;
     margin-left: -($col-gutter-width * .5);
   }
   dt, dd {
+    color: var(--com_media-info-dd-color, inherit);
     position: relative;
     direction: ltr;
     width: 100%;
@@ -43,7 +44,7 @@ $fa-css-prefix:    fa;
   }
   dt {
     font-weight: normal;
-    color: rgba(0, 0, 0, .54);
+    color: var(--com_media-info-dt-color, rgba(0, 0, 0, .54));
   }
 }
 

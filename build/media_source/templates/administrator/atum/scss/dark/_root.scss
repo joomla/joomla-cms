@@ -228,4 +228,38 @@
   --com_modules-new-module-link-hover-bg: hsl(var(--hue),40%,60%);
   --com_modules-new-module-link-hover-icon: var(--gray-900);
   // endregion
+
+  // region com_media
+  --com_media-bg: var(--template-alt-bg-dark-90);
+  --com_media-highlight: var(--template-alt-bg-dark-40);
+  --com_media-border-color: var(--template-alt-bg-dark-75);
+  --com_media-col-box-shadow: var(--template-alt-bg-dark-70);
+  --com_media-disk-name-color: var(--template-alt-bg-dark-20);
+  --com_media-drive-bg: var(--template-alt-bg-dark-80);
+  --com_media-sidebar-tree-item-hover-bg: var(--template-alt-bg-dark-70);
+  --com_media-sidebar-active-icon-color: var(--template-bg-dark-30);
+  --com_media-toolbar-bg: var(--template-alt-bg-dark-80);
+  --com_media-toolbar-icon-color: var(--gray-800);
+  --com_media-toolbar-icon-bg-hover: var(--template-alt-bg-dark-40);
+  --com_media-toolbar-loader-color: linear-gradient(to right, var(--template-alt-bg-dark-40) 0, var(--template-alt-bg-dark-20) 100%);
+  --com_media-breadcrumbs-bg: var(--template-alt-bg-dark-85);
+  --com_media-breadcrumbs-current-bg: var(--template-alt-bg-dark-90);
+  --com_media-actions-active-bg: var(--template-alt-bg-dark-60);
+  --com_media-actions-active-border: var(--template-alt-bg-dark-70);
+  --com_media-actions-active-box-shadow: var(--template-alt-bg-dark-85);
+  --com_media-grid-item-bg-color: hsl(var(--hue), 20%, 20%);
+  --com_media-grid-item-border-color: hsl(var(--hue), 35%, 20%);
+  --com_media-image-background-bg: hsl(var(--hue), 20%, 20%);
+  --com_media-image-background-checkers: linear-gradient(45deg, hsl(var(--hue), 20%, 10%) 25%, transparent 25%, transparent 75%, var(--template-alt-bg-dark-90) 75%, hsl(var(--hue), 20%, 10%) 100%), linear-gradient(45deg, var(--template-alt-bg-dark-90) 25%, transparent 25%, transparent 75%, hsl(var(--hue), 20%, 10%) 75%, hsl(var(--hue), 20%, 10%) 100%);
+  --com_media-grid-item-icon-color: var(--template-alt-bg-dark-97);
+  --com-media-grid-item-icon-bg-color: var(--template-alt-bg-dark-20);
+  --com-media-grid-item-icon-color-hover: var(--template-alt-bg-dark-20);
+  --com_media-grid-item-icon-bg-color-hover: var(--template-alt-bg-dark-97);
+  --com-media-info-bg: var(--template-alt-bg-dark-80);
+  --com-media-info-title-bg: var(--template-alt-bg-dark-90);
+  --com-media-info-close-color: var(--template-alt-bg-dark-40);
+  --com-media-info-close-color-hover: var(--template-alt-bg-dark-60);
+  --com_media-info-dd-color: var(--gray-900);
+  --com_media-info-dt-color: var(--template-alt-bg-dark-10);
+  // endregion
 }
