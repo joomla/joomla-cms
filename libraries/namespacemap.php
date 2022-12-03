@@ -254,19 +254,14 @@ class JNamespacePsr4Map
     {
         $manifests = [];
 
-        if ($type === 'library')
-        {
-            try
-            {
+        if ($type === 'library') {
+            try {
                 // Scan library manifest directories for XML files
-                foreach (Folder::files(JPATH_MANIFESTS . '/libraries', '\.xml$', true, true) as $file)
-                {
+                foreach (Folder::files(JPATH_MANIFESTS . '/libraries', '\.xml$', true, true) as $file) {
                     // Match manifest to extension directory
                     $manifests[JPATH_LIBRARIES . '/' . File::stripExt(substr($file, strlen(JPATH_MANIFESTS . '/libraries') + 1))] = $file;
                 }
-            }
-            catch (UnexpectedValueException $e)
-            {
+            } catch (UnexpectedValueException $e) {
                 return [];
             }
 
@@ -287,38 +282,29 @@ class JNamespacePsr4Map
             }
         }
 
-        foreach ($directories as $directory)
-        {
-            try
-            {
+        foreach ($directories as $directory) {
+            try {
                 $extensionDirectories = Folder::folders($directory, '.', false, false);
-            } catch (UnexpectedValueException $e)
-            {
+            } catch (UnexpectedValueException $e) {
                 continue;
             }
 
-            foreach ($extensionDirectories as $extension)
-            {
+            foreach ($extensionDirectories as $extension) {
                 // Compile the extension path
                 $extensionPath = $directory . '/' . $extension;
 
-                if ($type === 'component')
-                {
+                if ($type === 'component') {
                     // Strip the com_ from the extension name for components
                     $file = $extensionPath . '/' . substr($extension, 4) . '.xml';
 
-                    if (!is_file($file))
-                    {
+                    if (!is_file($file)) {
                         $file = $extensionPath . '/' . $extension . '.xml';
                     }
-                }
-                else
-                {
+                } else {
                     $file = $extensionPath . '/' . $extension . '.xml';
                 }
 
-                if (is_file($file))
-                {
+                if (is_file($file)) {
                     $manifests[$extensionPath] = $file;
                 }
             }
