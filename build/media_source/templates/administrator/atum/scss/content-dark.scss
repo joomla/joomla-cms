@@ -15,22 +15,42 @@
 
 @media (screen and prefers-color-scheme: dark) {
   // Atum Dark Variables
-  @import "dark/variables";
+  :root {
+    @import "dark/variables";
+    --body-bg: #{$body-bg};
+    --body-color: #{$body-color};
+  }
+}
 
-  html, body {
-    background-color: $body-bg;
-    color: $body-color;
+html {
+  background-color: var(--body-bg);
+  color: var(--body-color);
+}
+
+body {
+  &.joomla-forced-dark {
+    @import "dark/variables";
+    --body-bg: #{$body-bg};
+    --body-color: #{$body-color};
   }
 
+  background-color: var(--body-bg);
+  color: var(--body-color);
+
   h1, h2, h3, h4, h5, h6 {
-    color: $body-color;
+    color: var(--body-color);
   }
 
   a, a:link {
-    color: map.get($atum-colors-dark, "template-link-color");
+    color: var(--template-link-color);
 
     &:hover {
-      color: map.get($atum-colors-dark, "template-link-hover-color");
+      color: var(--template-link-hover-color);
     }
+  }
+
+  p {
+    background-color: var(--body-bg);
+    color: var(--body-color);
   }
 }

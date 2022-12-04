@@ -145,6 +145,39 @@ class Editor implements DispatcherAwareInterface
     }
 
     /**
+     * Notify the editor that Dark Mode has been requested.
+     *
+     * If $forcedDark is false the editor must respect the browser color scheme preference, i.e.
+     * with a media query.
+     *
+     * If $forcedDark is true the editor must always apply a dark color scheme, regardless of the
+     * browser preference.
+     *
+     * If this method is not called, the editor should assume that only a light color scheme is to
+     * be loaded.
+     *
+     * Editors are allowed to let the user select a fixed color scheme, ignoring this method. In
+     * this case the user should be notified in the configuration page that their preference will
+     * prevent automatic dark scheme application.
+     *
+     * @param   bool  $forcedDark  Is always-on Dark Mode requested?
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    public function notifyDarkMode(bool $forcedDark = false)
+    {
+        // Check if editor is already loaded
+        if ($this->_editor === null) {
+            return;
+        }
+
+        if (method_exists($this->_editor, 'onTemplateDarkModeSupported')) {
+            \call_user_func([$this->_editor, 'onTemplateDarkModeSupported'], $forcedDark);
+        }
+    }
+
+    /**
      * Display the editor area.
      *
      * @param   string   $name     The control name.

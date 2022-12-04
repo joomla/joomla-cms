@@ -61,3 +61,9 @@
     border-top: var(--template-bg-light) 1px solid;
   }
 }
+
+div.js-editor-tinymce > textarea {
+  font-family: 'Menlo', 'Terminal', 'Consolas', 'Courier New', Courier, monospace;
+  background-color: var(--body-bg);
+  color: var(--body-color);
+}

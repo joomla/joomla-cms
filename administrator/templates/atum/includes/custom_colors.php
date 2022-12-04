@@ -8,11 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Editor\Editor;
+use Joomla\CMS\Event\Template\DarkModeSupported;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
-use Joomla\Event\Event;
 
 defined('_JEXEC') or die;
 
@@ -112,43 +113,6 @@ if ($darkMode >= 1) {
             return;
         }
 
-        // Hard-coded Dark Mode support for the TinyMCE editor
-        call_user_func(function () {
-            $opts = $this->getScriptOptions('plg_editor_tinymce');
-
-            if (
-                empty($opts) || !is_array($opts) || !isset($opts['tinyMCE'])
-                || !isset($opts['tinyMCE']['default'])
-                || !isset($opts['tinyMCE']['default']['skin'])
-                || $opts['tinyMCE']['default']['skin'] != 'oxide'
-            ) {
-                return;
-            }
-
-            // Use a custom skin which supports Dark and Light Mode at the same time!
-            $opts['tinyMCE']['default']['skin'] = 'oxide';
-            $opts['tinyMCE']['default']['skin_url'] = '/media/templates/administrator/atum/css/vendor/tinymce';
-
-            // Optional: force Dark Mode compatibility in all TinyMCE content
-            if ($this->params->get('darkmode_tinymce_content', 1) == 1) {
-                $autoDark = HTMLHelper::_(
-                    'stylesheet',
-                    'content-dark.css',
-                    [
-                        'pathOnly' => true,
-                        'relative' => true,
-                        'detectDebug' => true,
-                    ]
-                );
-                $opts['tinyMCE']['default']['content_css'] =
-                    $opts['tinyMCE']['default']['content_css'] .
-                    ',' . $autoDark;
-            }
-
-            // Apply the new TinyMCE options
-            $this->addScriptOptions('plg_editor_tinymce', $opts);
-        });
-
         // Hard-coded support for CodeMirror
         if ($this->params->get('darkmode_codemirror', 1) == 1) {
             call_user_func(function () {
@@ -184,12 +148,23 @@ if ($darkMode >= 1) {
          * Call a plugin method against editor plugins (onTemplateDarkModeSupported).
          *
          * This allows third party editors to load additional CSS for Dark Mode support.
+         *
+         * We need to call this here instead of letting the editor figure it out because the editor
+         * is instantiated and displayed before the template has the chance to load. We cannot go
+         * back in time, so calling a plugin event is the next best thing.
+         *
+         * Note that editor plugins are NOT real plugins. As a result, we cannot actually call their
+         * events through the Dispatcher. Hence, the convoluted code below.
          */
-        PluginHelper::getPlugin('editors');
+        foreach (PluginHelper::getPlugin('editors') as $editor) {
+            $className = 'PlgEditor' . ucfirst($editor->name);
 
-        $dispatcher = Factory::getApplication()->getDispatcher();
-        $event      = new Event('onTemplateDarkModeSupported', []);
-        $dispatcher->dispatch($event->getName(), $event);
+            if (!class_exists($className)) {
+                continue;
+            }
+
+            Editor::getInstance($editor->name)->notifyDarkMode($darkMode == 2);
+        }
     });
 }
 
