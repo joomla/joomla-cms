@@ -21,21 +21,21 @@ Joomla = window.Joomla || {};
     }
 
     // Make sure this is a .zip package based on its file extension and on its content type
-    if (!file.name.match(/.zip$/i) || (file.type !== 'application/zip' && file.type !== 'application/x-zip-compressed')) {
+    if (!file.name.match(/\.zip$/i) || (file.type !== 'application/zip' && file.type !== 'application/x-zip-compressed')) {
       Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP')] });
 
       return;
     }
 
     // Make sure this is not a Full Package based on its name
-    if (!form.install_package.value.match(/^Joomla_-(.*)-Full_Package.zip$/i)) {
+    if (form.install_package.value.match(/Joomla_(.*)-Full_Package\.zip$/i)) {
       Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION_PREUPLOAD')] });
 
       return;
     }
 
     // Make sure this is an Upgrade Package based on its name
-    if (!form.install_package.value.match(/^Joomla_-(.*)-(Upgrade|Update|Patch)_Package.zip$/i)) {
+    if (!form.install_package.value.match(/Joomla_(.*)-(Upgrade|Update|Patch)_Package\.zip$/i)) {
       Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE')] });
 
       return;
