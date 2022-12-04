@@ -25,7 +25,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @testdox     The ConfirmConsent plugin
  *
- * @since       __DEPLOY_VERSION__
+ * @since       4.3.0
  */
 class ConfirmConsentTest extends UnitTestCase
 {
@@ -34,7 +34,7 @@ class ConfirmConsentTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testLoadConsentFieldInForm()
     {
@@ -56,7 +56,7 @@ class ConfirmConsentTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testLoadConsentFieldInFormWrongContext()
     {
@@ -76,7 +76,7 @@ class ConfirmConsentTest extends UnitTestCase
      *
      * @return  void
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function testLoadConsentFieldInFormWrongApplication()
     {
