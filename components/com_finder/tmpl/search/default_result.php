@@ -122,7 +122,7 @@ if ($this->params->get('show_url', 1)) {
                             ?>
                             <?php if ($type = 'Type') : ?>
                                 <?php
-                                $key  = LanguageHelper::branchSingular($text);
+                                $key = LanguageHelper::branchSingular($text);
                                 echo $lang->hasKey($key) ? Text::_($key) : $text;
                                 ?>
                             <?php else : ?>
