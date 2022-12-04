@@ -105,7 +105,7 @@ class FeaturedController extends ArticlesController
      *
      * @return  string  The JSON-encoded amount of published featured articles
      *
-     * @since   __DEPLOY_VERSION__
+     * @since   4.3.0
      */
     public function getQuickiconContent()
     {

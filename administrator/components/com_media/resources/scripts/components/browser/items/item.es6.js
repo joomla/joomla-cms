@@ -13,6 +13,7 @@ export default {
   data() {
     return {
       hoverActive: false,
+      actionsActive: false,
     };
   },
   methods: {
@@ -85,6 +86,14 @@ export default {
      */
     isHoverActive() {
       return this.hoverActive;
+    },
+
+    /**
+     * Whether or not the item is currently active (on hover or via tab)
+     * @returns {boolean}
+     */
+    hasActions() {
+      return this.actionsActive;
     },
 
     /**
@@ -177,6 +186,7 @@ export default {
           'media-browser-item': true,
           selected: this.isSelected(),
           active: this.isHoverActive(),
+          actions: this.hasActions(),
         },
         onClick: this.handleClick,
         onMouseover: this.mouseover,
