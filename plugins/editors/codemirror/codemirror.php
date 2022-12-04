@@ -10,6 +10,7 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -272,6 +273,103 @@ class PlgEditorCodemirror extends CMSPlugin
         }
 
         return implode("\n", $results);
+    }
+
+    /**
+     * Apply dark color scheme options when the template communicates it supports Dark Mode.
+     *
+     * If the user has disabled the ‘Auto-apply Dark Mode’ option we do nothing.
+     *
+     * If $forcedDark is false the editor must respect the browser color scheme preference with a
+     * media query.
+     *
+     * If $forcedDark is true the editor must always apply a dark color scheme, regardless of the
+     * browser preference.
+     *
+     * If this method is not called, the editor will use the color scheme selected by the user.
+     *
+     * @param   bool  $forcedDark
+     *
+     * @return  void
+     * @since   __DEPLOY_VERSION__
+     */
+    public function onTemplateDarkModeSupported(bool $forcedDark)
+    {
+        /**
+         * If we are editing the CodeMirror plugin we have to NOT apply the custom
+         * dark mode CSS file since it will override the theme preview.
+         */
+
+        $input = $this->app->getInput();
+        $extension = PluginHelper::getPlugin('editors', 'codemirror');
+
+        if (
+            $input->getCmd('option') === 'com_plugins'
+            && $input->getCmd('view') === 'plugin'
+            && $input->getCmd('layout') === 'edit'
+            && $input->getCmd('extension_id') == (is_object($extension) ? $extension->id : -1)
+        ) {
+            return;
+        }
+
+        $theme = $this->params->get('dark_theme', 'dracula') ?: 'dracula';
+        $media = $forcedDark ? 'screen' : 'screen and prefers-color-scheme: dark';
+        $darkCSS = $this->themeToDarkModeOverride($theme) ?? $this->themeToDarkModeOverride('dracula');
+
+        if (empty($darkCSS)) {
+            return;
+        }
+
+        $this->app->getDocument()->getWebAssetManager()
+            ->addInlineStyle(
+                $darkCSS,
+                [],
+                ['media' => $media]
+            );
+    }
+
+    /**
+     * Convert the raw CSS of a CodeMirror theme to something suitable for a Dark Mode override.
+     *
+     * @param   string  $theme  The name of the theme to convert
+     *
+     * @return  string|null  The converted CSS; NULL if the theme could not be loaded.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function themeToDarkModeOverride(string $theme): ?string
+    {
+        $rawTheme = @file_get_contents(
+            JPATH_ROOT . '/' . $this->basePath . '/theme/' . $theme . '.css'
+        );
+
+        if ($rawTheme === false) {
+            return null;
+        }
+
+        // Remove the theme prefix.
+        $rawTheme = str_replace('.cm-s-' . $theme, '', $rawTheme);
+
+        /**
+         * Make all rules !important so they can override whichever theme is already loaded.
+         *
+         * DO NOT CHANGE THE FOLLOWING LINES! THERE IS A REASON FOR EVERY ONE OF THEM!
+         *
+         * They may look redundant but they are not. If you do not understand why they are not
+         * redundant, start with the dracula.css CodeMirror theme file to understand the concept.
+         *
+         * The first line normalises existing !important annotations, removing a possible space
+         * between the annotation and the following semicolon. It allows the next line to work.
+         * The second line removes all !important annotations adjacent to a semicolon. This will let
+         * the next line to work without duplicating existing !important annotations.
+         * The third line replaces semicolons with !important; which makes all CSS rules have the
+         * !important annotation, ensuring they will override an already loaded theme.
+         */
+        $rawTheme = str_replace('!important ', '!important', $rawTheme);
+        $rawTheme = str_replace('!important;', ';', $rawTheme);
+        $rawTheme = str_replace(';', '!important;', $rawTheme);
+
+        return $rawTheme;
     }
 
     /**

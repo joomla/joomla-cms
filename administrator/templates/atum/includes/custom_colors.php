@@ -108,62 +108,29 @@ if ($darkMode >= 1) {
         // Apply Dark Mode colors for the template
         $atumApplyCustomColor($wa, $matches[1], true);
 
-        // If Dark Mode support for editors is disabled, exit early.
-        if ($this->params->get('darkmode_editors', 1) != 1) {
-            return;
-        }
+        // Tell the editors Dark Mode is enabled?
+        if ($this->params->get('darkmode_editors', 1) == 1) {
+            /**
+             * Call a plugin method against editor plugins (onTemplateDarkModeSupported).
+             *
+             * This allows third party editors to load additional CSS for Dark Mode support.
+             *
+             * We need to call this here instead of letting the editor figure it out because the editor
+             * is instantiated and displayed before the template has the chance to load. We cannot go
+             * back in time, so calling a plugin event is the next best thing.
+             *
+             * Note that editor plugins are NOT real plugins. As a result, we cannot actually call their
+             * events through the Dispatcher. Hence, the convoluted code below.
+             */
+            foreach (PluginHelper::getPlugin('editors') as $editor) {
+                $className = 'PlgEditor' . ucfirst($editor->name);
 
-        // Hard-coded support for CodeMirror
-        if ($this->params->get('darkmode_codemirror', 1) == 1) {
-            call_user_func(function () {
-                /**
-                 * If we are editing the CodeMirror plugin we have to NOT apply the custom
-                 * dark mode CSS file since it will override the theme preview.
-                 */
-
-                $input = Factory::getApplication()->getInput();
-                $extension = PluginHelper::getPlugin('editors', 'codemirror');
-
-                if (
-                    $input->getCmd('option') === 'com_plugins'
-                    && $input->getCmd('view') === 'plugin'
-                    && $input->getCmd('layout') === 'edit'
-                    && $input->getCmd('extension_id') == (is_object($extension) ? $extension->id : -1)
-                ) {
-                    return;
+                if (!class_exists($className)) {
+                    continue;
                 }
 
-                HTMLHelper::_(
-                    'stylesheet',
-                    'codemirror-dark.css',
-                    [
-                        'relative' => true,
-                        'detectDebug' => true,
-                    ]
-                );
-            });
-        }
-
-        /**
-         * Call a plugin method against editor plugins (onTemplateDarkModeSupported).
-         *
-         * This allows third party editors to load additional CSS for Dark Mode support.
-         *
-         * We need to call this here instead of letting the editor figure it out because the editor
-         * is instantiated and displayed before the template has the chance to load. We cannot go
-         * back in time, so calling a plugin event is the next best thing.
-         *
-         * Note that editor plugins are NOT real plugins. As a result, we cannot actually call their
-         * events through the Dispatcher. Hence, the convoluted code below.
-         */
-        foreach (PluginHelper::getPlugin('editors') as $editor) {
-            $className = 'PlgEditor' . ucfirst($editor->name);
-
-            if (!class_exists($className)) {
-                continue;
+                Editor::getInstance($editor->name)->notifyDarkMode($darkMode == 2);
             }
-
-            Editor::getInstance($editor->name)->notifyDarkMode($darkMode == 2);
         }
     });
 }
