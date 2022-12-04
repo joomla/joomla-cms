@@ -262,4 +262,12 @@
   --com_media-info-dd-color: var(--gray-900);
   --com_media-info-dt-color: var(--template-alt-bg-dark-10);
   // endregion
+
+  // region com_users
+  --com_users-mfa-method-list-head-bg: var(--template-bg-dark-75);
+  --com_users-mfa-method-list-head-image-bg: var(--dark);
+  --com_users-mfa-method-list-body-bg: var(--template-alt-bg-dark-70);
+  --com_users-mfa-method-list-body-color: var(--gray-900);
+  --com_users-mfa-method-add-color: var(--template-bg-dark-20);
+  // endregion
 }

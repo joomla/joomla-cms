@@ -26,4 +26,42 @@
       margin-inline-start: 2rem;
     }
   }
+
+  #com-users-methods-list-container {
+    div.com-users-methods-list-method-header {
+      background-color: var(--com_users-mfa-method-list-head-bg, rgba(var(--light-rgb), var(--bg-opacity))) !important;
+
+      h3 {
+        color: var(--com_users-mfa-method-list-head-color, var(--headings-color)) !important;
+      }
+
+      .com-users-methods-list-method-image {
+        background-color: var(--com_users-mfa-method-list-head-image-bg, var(--light)) !important;
+      }
+    }
+
+    div.com-users-methods-list-method-records-container {
+      background-color: var(--com_users-mfa-method-list-body-bg, inherit) !important;
+
+      .com-users-methods-list-method-info {
+        color: var(--com_users-mfa-method-list-body-color, inherit) !important;
+      }
+
+      .com-users-methods-list-method-addnew {
+        color: var(--com_users-mfa-method-add-color, var(--primary));
+      }
+    }
+  }
+
+  div.com-users-select-methods {
+    .com-users-method {
+      background-color: var(--com_users-mfa-method-list-head-bg, rgba(var(--light-rgb), var(--bg-opacity))) !important;
+
+      img.com-users-method-image {
+        background-color: var(--com_users-mfa-method-list-head-image-bg, transparent) !important;
+        padding: .25rem;
+        border-radius: .25rem;
+      }
+    }
+  }
 }
