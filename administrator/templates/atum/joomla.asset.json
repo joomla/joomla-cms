@@ -25,8 +25,17 @@
       ]
     },
     {
+      "name": "template.atum.autodark",
+      "description": "Dark Mode (browser controlled) for Atum.",
+      "type": "style",
+      "uri": "template-autodark.min.css",
+      "dependencies": [
+        "template.atum.ltr"
+      ]
+    },
+    {
       "name": "template.atum.dark",
-      "description": "Dark Mode for Atum.",
+      "description": "Dark Mode (always on) for Atum.",
       "type": "style",
       "uri": "template-dark.min.css",
       "dependencies": [
@@ -53,15 +62,6 @@
       "dependencies": [
         "template.active",
         "template.active.language"
-      ]
-    },
-    {
-      "name": "template.darkmode",
-      "description": "A dummy asset to allow extensions to load a template's Dark Mode support",
-      "type": "style",
-      "uri": "",
-      "dependencies": [
-        "template.atum.dark"
       ]
     },
     {

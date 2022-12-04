@@ -9,9 +9,7 @@
  */
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Event\Event;
+use Joomla\CMS\User\User;
 
 defined('_JEXEC') or die;
 
@@ -19,15 +17,23 @@ defined('_JEXEC') or die;
  * @var \Joomla\CMS\Document\HtmlDocument    $this
  */
 
-$atumApplyColorTheme = function (string $hue, bool $dark = false)
+$darkMode = (Factory::getApplication()->getIdentity() ?? new User())
+    ->getParam('admin_dark', -1);
+$darkMode = ($darkMode >= 0) ? $darkMode : $this->params->get('darkmode', 1);
+
+$atumApplyColorTheme = function (string $hue, bool $dark = false) use ($darkMode)
 {
     if (empty($hue)) {
         return;
     }
 
-    $hasDarkMode = $this->params->get('darkmode', 1) == 1;
+    $hasDarkMode = $darkMode >= 1;
 
     if ($dark && !$hasDarkMode) {
+        return;
+    }
+
+    if (!$dark && $darkMode == 2) {
         return;
     }
 
@@ -50,7 +56,7 @@ $atumApplyColorTheme = function (string $hue, bool $dark = false)
 
     $mediaQuery = '';
 
-    if ($hasDarkMode) {
+    if ($hasDarkMode && $darkMode == 1) {
         $mediaQuery = sprintf(
             ' media="(prefers-color-scheme: %s)"',
             $dark ? 'dark' : 'light'
@@ -73,7 +79,7 @@ preg_match(
 
 $atumApplyColorTheme($matches[1], false);
 
-if ($this->params->get('darkmode', 1) == 1) {
+if ($darkMode >= 1) {
     // Get the Dark Mode hue value
     preg_match(
         '#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i',
@@ -84,4 +90,4 @@ if ($this->params->get('darkmode', 1) == 1) {
     $atumApplyColorTheme($matches[1], true);
 }
 
-unset($atumApplyColorTheme, $matches);
+unset($atumApplyColorTheme, $matches, $darkMode);

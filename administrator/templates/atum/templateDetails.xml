@@ -111,11 +111,14 @@
 						name="darkmode"
 						type="radio"
 						label="TPL_ATUM_COLORS_SETTINGS_DARKMODE_LABEL"
-						layout="joomla.form.field.radio.switcher"
+						description="TPL_ATUM_COLORS_SETTINGS_DARKMODE_LABEL_DESC"
+						layout="joomla.form.field.radio.buttons"
+						class="btn-group"
 						default="1"
 				>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option class="btn btn-outline-info" value="0">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_LIGHT</option>
+					<option class="btn btn-outline-primary" value="1">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_BROWSER</option>
+					<option class="btn btn-outline-dark" value="2">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_DARK</option>
 				</field>
 				<field
 						name="dark-hue"
@@ -126,7 +129,7 @@
 						preview="true"
 						saveFormat="hsl"
 						default="hsl(214,63%,20%)"
-						showon="darkmode:1"
+						showon="darkmode:1,2"
 				/>
 				<field
 						name="dark-bg-light"
@@ -134,7 +137,7 @@
 						label="TPL_ATUM_COLORS_SETTINGS_BG_LIGHT_LABEL"
 						default="#f0f4fb"
 						filter="color"
-						showon="darkmode:1"
+						showon="darkmode:1,2"
 				/>
 				<field
 						name="dark-text-dark"
@@ -142,7 +145,7 @@
 						label="TPL_ATUM_COLORS_SETTINGS_TEXT_DARK_LABEL"
 						default="#212529"
 						filter="color"
-						showon="darkmode:1"
+						showon="darkmode:1,2"
 				/>
 				<field
 						name="dark-text-light"
@@ -150,7 +153,7 @@
 						label="TPL_ATUM_COLORS_SETTINGS_TEXT_LIGHT_LABEL"
 						default="#f8f9fa"
 						filter="color"
-						showon="darkmode:1"
+						showon="darkmode:1,2"
 				/>
 				<field
 						name="dark-link-color"
@@ -158,7 +161,7 @@
 						label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
 						default="#6b9edd"
 						filter="color"
-						showon="darkmode:1"
+						showon="darkmode:1,2"
 				/>
 				<field
 						name="dark-special-color"
@@ -166,7 +169,7 @@
 						label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"
 						default="#001b4c"
 						filter="color"
-						showon="darkmode:1"
+						showon="darkmode:1,2"
 				/>
 				<field
 						name="darkmode_editors"
@@ -174,7 +177,7 @@
 						label="TPL_ATUM_DARKMODE_EDITORS_LABEL"
 						layout="joomla.form.field.radio.switcher"
 						default="1"
-						showon="darkmode:1"
+						showon="darkmode:1,2"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -185,7 +188,7 @@
 						label="TPL_ATUM_DARKMODE_TINYMCE_CONTENT_LABEL"
 						layout="joomla.form.field.radio.switcher"
 						default="1"
-						showon="darkmode:1[AND]darkmode_editors:1"
+						showon="darkmode:1,2[AND]darkmode_editors:1"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -196,7 +199,7 @@
 						label="TPL_ATUM_DARKMODE_CODEMIRROR_LABEL"
 						layout="joomla.form.field.radio.switcher"
 						default="1"
-						showon="darkmode:1[AND]darkmode_editors:1"
+						showon="darkmode:1,2[AND]darkmode_editors:1"
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

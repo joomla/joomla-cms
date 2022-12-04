@@ -152,6 +152,21 @@
 			</field>
 
 			<field
+				name="admin_dark"
+				type="radio"
+				label="COM_USERS_USER_FIELD_ADMIN_DARK_LABEL"
+				description="COM_USERS_USER_FIELD_ADMIN_DARK_DESC"
+				layout="joomla.form.field.radio.buttons"
+				class="btn-group"
+				default="-1"
+				>
+				<option class="btn btn-outline-secondary" value="-1">JGLOBAL_USE_GLOBAL</option>
+				<option class="btn btn-outline-info" value="0">COM_USERS_USER_FIELD_ADMIN_DARK_LIGHT</option>
+				<option class="btn btn-outline-primary" value="1">COM_USERS_USER_FIELD_ADMIN_DARK_BROWSER</option>
+				<option class="btn btn-outline-dark" value="2">COM_USERS_USER_FIELD_ADMIN_DARK_DARK</option>
+			</field>
+
+			<field
 				name="admin_language"
 				type="language"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"

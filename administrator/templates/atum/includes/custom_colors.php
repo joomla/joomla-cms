@@ -11,6 +11,7 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\User;
 use Joomla\Event\Event;
 
 defined('_JEXEC') or die;
@@ -19,6 +20,10 @@ defined('_JEXEC') or die;
  * @var \Joomla\CMS\WebAsset\WebAssetManager $wa
  * @var \Joomla\CMS\Document\HtmlDocument    $this
  */
+
+$darkMode = (Factory::getApplication()->getIdentity() ?? new User())
+    ->getParam('admin_dark', -1);
+$darkMode = ($darkMode >= 0) ? $darkMode : $this->params->get('darkmode', 1);
 
 /**
  * Applies the Atum custom colors and the optional Dark Mode.
@@ -29,8 +34,8 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-$atumApplyCustomColor = function (\Joomla\CMS\WebAsset\WebAssetManager $wa, string $hue, bool $dark = false) {
-    if (empty($hue)) {
+$atumApplyCustomColor = function (\Joomla\CMS\WebAsset\WebAssetManager $wa, string $hue, bool $dark = false) use ($darkMode) {
+    if (empty($hue) || ($dark && $darkMode < 1)) {
         return;
     }
 
@@ -70,7 +75,7 @@ $atumApplyCustomColor = function (\Joomla\CMS\WebAsset\WebAssetManager $wa, stri
 
     $css .= "}";
 
-    if ($dark) {
+    if ($dark && $darkMode == 1) {
         $css = "@media (prefers-color-scheme: dark) {\n$css\n}";
     }
 
@@ -87,10 +92,10 @@ preg_match(
 $atumApplyCustomColor($wa, $matches[1]);
 
 // Conditionally apply Dark Mode
-if ($this->params->get('darkmode', 1) == 1) {
-    call_user_func(function () use ($atumApplyCustomColor, $wa) {
+if ($darkMode >= 1) {
+    call_user_func(function () use ($atumApplyCustomColor, $wa, $darkMode) {
         // Load the Dark Mode CSS
-        $wa->useStyle('template.darkmode');
+        $wa->useStyle($darkMode == 1 ? 'template.atum.autodark' : 'template.atum.dark');
 
         // Get the Dark Mode hue value
         preg_match(
@@ -206,4 +211,4 @@ if (empty($this->getMetaData('color-scheme', 'value'))) {
 }
 
 // Clean up
-unset($atumApplyCustomColor, $matches);
+unset($atumApplyCustomColor, $matches, $darkMode);
