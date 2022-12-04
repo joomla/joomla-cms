@@ -1,7 +1,32 @@
+// const templateHtml = `
+// <div role="dialog" class="joomla-modal modal fade" aria-modal="true">
+//   <div class="modal-dialog modal-lg jviewport-width80" role="document">
+//     <div class="modal-content">
+//       <div class="modal-header">
+//         <h3 class="modal-title">${title}</h3>
+//         <button type="button" class="close novalidate" data-bs-dismiss="modal" aria-label="${closeString}">×</button>
+//       </div>
+//       <div class="modal-body jviewport-height70">
+//         <iframe class="iframe" src="${iframeUrl}"></iframe>
+//       </div>
+//       ${footer}
+//     </div>
+//   </div>
+// </div>
+// `;
+// const footer = `
+// <div class="modal-footer">
+//   <button role="button" class="btn btn-secondary" data-bs-dismiss="modal"></button>
+// </div>
+// `
+// const template = document.createElement('template');
+// template.innerHTML = templateHtml;
+
 const ALLOW_NEW = 1;
 const ALLOW_EDIT = 2;
 const ALLOW_CLEAR = 4;
 const ALLOW_SELECT = 8;
+
 
 /**
  * Create an element with optional attributes and wrapped elements
@@ -13,7 +38,6 @@ const ALLOW_SELECT = 8;
  * @return  {HTMLElement}
  */
 function getElement(type, attributes, ...wrapped) {
-  /* eslint-disable no-prototype-builtins */
   const el = document.createElement(type);
 
   if (attributes) {
@@ -31,31 +55,28 @@ function getElement(type, attributes, ...wrapped) {
   return el;
 }
 
+// Tag function for a template literal
+var template = function(strings, ...keys) {
+  // Template function, takes any number of values as replacements for template tokens
+  return (...values) => {
+    const result = keys.map((key, i) => strings[i] + values[parseInt(key, 10)]);
+    result.push(strings[strings.length - 1]);
+
+    return result.join('');
+  };
+}
+
 /**
  * Get a function that can be used to generate a string based on a template
  *
  * @param   {string}  tmpl  A template string containing tokens such as ${0}, ${1}, ${2}, etc
  *
- * @return  {function}
  */
 function templateFactory(tmpl) {
-  /* eslint-disable no-eval, no-unused-vars */
   // Escape all dangerous things
   const safe = tmpl.replace(/\\|`/g, '\\$&');
-
-  // Tag function for a template literal
-  function template(strings, ...keys) {
-    // Template function, takes any number of values as replacements for template tokens
-    return (...values) => {
-      const result = keys.map((key, i) => strings[i] + values[parseInt(key, 10)]);
-      result.push(strings[strings.length - 1]);
-
-      return result.join('');
-    };
-  }
-
   // I know, right?
-  return new Function(`template\`${safe}\``);
+  return eval(`template\`${safe}\``);
 }
 
 class JoomlaFieldModal extends HTMLElement {
@@ -66,6 +87,7 @@ class JoomlaFieldModal extends HTMLElement {
     super();
 
     if (!Joomla) {
+      console.log(typeof template === 'function');
       throw new Error('Joomla API is not properly initiated');
     }
 
@@ -136,7 +158,7 @@ class JoomlaFieldModal extends HTMLElement {
     };
 
     this.elements.modalButtonClose = getElement(
-      'a',
+      'button',
       modalButtonAttr,
       this.getAttribute('text-modal-button-close'),
     );
@@ -144,7 +166,7 @@ class JoomlaFieldModal extends HTMLElement {
     this.elements.modalButtonClose.setAttribute('data-task', 'cancel');
 
     this.elements.modalButtonSave = getElement(
-      'a',
+      'button',
       modalButtonAttr,
       this.getAttribute('text-modal-button-save'),
     );
@@ -152,7 +174,7 @@ class JoomlaFieldModal extends HTMLElement {
     this.elements.modalButtonSave.setAttribute('data-task', 'save');
 
     this.elements.modalButtonApply = getElement(
-      'a',
+      'button',
       modalButtonAttr,
       this.getAttribute('text-modal-button-apply'),
     );
@@ -273,11 +295,11 @@ class JoomlaFieldModal extends HTMLElement {
       name: '',
     });
     const footer = getElement(
-      'a',
+      'button',
       {
         role: 'button',
         class: 'btn btn-secondary',
-        'data-dismiss': 'modal',
+        'data-bs-dismiss': 'modal',
         'aria-hidden': 'true',
       },
       'Close',
@@ -399,7 +421,8 @@ class JoomlaFieldModal extends HTMLElement {
               {
                 type: 'button',
                 class: 'close novalidate',
-                'data-dismiss': 'modal',
+                'data-bs-dismiss': 'modal',
+                'aria-label': 'Close',
               },
               '×',
             ) : '',
@@ -467,8 +490,7 @@ class JoomlaFieldModal extends HTMLElement {
         if (idField && idField.value !== '0') {
           selected = [idField.value, titleField && titleField.value];
 
-          // If Save & Close (save task), submit the edit close action
-          // (so we don't have checked out items).
+          // If Save & Close (save task), submit the edit close action (so we don't have checked out items).
           if (task === 'save') {
             iframeWin.Joomla.submitbutton(`${itemType}.cancel`);
             bootstrap.Modal.getInstance(modalWrapper).hide();
