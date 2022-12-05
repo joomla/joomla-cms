@@ -21,7 +21,6 @@ use Joomla\String\StringHelper;
 
 $user             = Factory::getApplication()->getIdentity();
 $show_description = $this->params->get('show_description', 1);
-$lang             = Factory::getLanguage();
 
 if ($show_description) {
     // Calculate number of characters to display around the result
@@ -117,14 +116,9 @@ if ($this->params->get('show_url', 1)) {
                     <?php if (count($taxonomy_text)) : ?>
                         <li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
                             <span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span>
-                            <?php
-                            $text = implode(',', $taxonomy_text);
-                            ?>
-                            <?php if ($type = 'Type') : ?>
-                                <?php
-                                $key = LanguageHelper::branchSingular($text);
-                                echo $lang->hasKey($key) ? Text::_($key) : $text;
-                                ?>
+                            <?php $text = implode(',', $taxonomy_text); ?>
+                            <?php if ($type == 'Type') : ?>
+                                <?php echo Text::_($text); ?>
                             <?php else : ?>
                                 <?php echo $text; ?>
                             <?php endif; ?>
