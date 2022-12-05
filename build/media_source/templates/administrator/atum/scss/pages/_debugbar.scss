@@ -1,0 +1,345 @@
+body.admin {
+  --joomla-logo-svg: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 149.7 149.6' width='30px' height='30px'><path fill='black' d='M141.4 42v.5H140V46h-.5v-3.5h-1.3V42h3.2z'/><path fill='black' d='M141.8 42h.8l1.1 3.3 1.1-3.3h.8v3.9h-.5v-2.3-.4-.6l-1.1 3.3h-.5l-1.1-3.3V45.8h-.5V42z'/><g><path d='M27 75.5l-2.9-2.9c-8.9-8.9-11.7-21.7-8.3-33C6.9 37.6.2 29.6.2 20.1c0-11.1 9-20 20-20 10 0 18.2 7.3 19.8 16.8 10.8-2.5 22.6.4 31.1 8.8l1.2 1.2-14.9 14.7-1.1-1.2c-4.8-4.8-12.6-4.8-17.4 0-4.8 4.8-4.8 12.6 0 17.4l2.9 2.9 14.8 14.8 15.6 15.6-14.8 14.8-15.6-15.7L27 75.5z' fill='black'/><path d='M43.5 58.9l15.6-15.6 14.8-14.8 2.9-2.9c8.9-8.9 21.6-11.7 32.8-8.4C111 7.5 119.4 0 129.5 0c11.1 0 20 9 20 20 0 10.2-7.6 18.6-17.4 19.9 3.2 11.2.4 23.8-8.4 32.7l-1.2 1.2L107.7 59l1.1-1.1c4.8-4.8 4.8-12.6 0-17.4-4.8-4.8-12.5-4.8-17.4 0l-2.9 2.9-14.6 14.7-15.6 15.6-14.8-14.8z' fill='black'/><path d='M110.1 133.5c-11.4 3.5-24.2.7-33.2-8.3l-1.1-1.1 14.8-14.8 1.1 1.1c4.8 4.8 12.6 4.8 17.4 0 4.8-4.8 4.8-12.5 0-17.4l-2.9-2.9-14.9-14.6-15.6-15.7L90.5 45l15.6 15.6 14.8 14.8 2.9 2.9c8.5 8.5 11.4 20.5 8.8 31.3 9.7 1.4 17.2 9.7 17.2 19.8 0 11.1-9 20-20 20-9.8.2-17.9-6.7-19.7-15.9z' fill='black'/><path d='M104.3 92l-15.6 15.6-14.8 14.8-2.9 2.9c-8.5 8.5-20.6 11.4-31.5 8.7-2 8.9-10 15.5-19.5 15.5-11.1 0-20-9-20-20 0-9.5 6.6-17.4 15.4-19.5-2.8-11 .1-23.1 8.7-31.7l1.1-1.1L40 92l-1.1 1.1c-4.8 4.8-4.8 12.6 0 17.4 4.8 4.8 12.6 4.8 17.4 0l2.9-2.9L74 92.8l15.6-15.6L104.3 92z' fill='black'/></g></svg>");
+
+  div.phpdebugbar {
+    background: var(--body-bg);
+    color: var(--body-color);
+
+    input[type='text'], input[type='password'] {
+      background: var(--template-bg-dark-75);
+      color: var(--white);
+    }
+
+    code, pre {
+      color: var(--bs-pink);
+
+      &.sf-dump {
+        color: var(--warning);
+      }
+    }
+  }
+
+  div.phpdebugbar-resize-handle {
+    border-bottom-color: var(--border-color);
+  }
+
+  div.phpdebugbar-closed, div.phpdebugbar-minimized {
+    background-color: var(--debugbar-header-bg, #efefef) !important;
+    border-top-color: var(--border-color);
+  }
+
+  div.phpdebugbar-closed {
+    padding: .25rem;
+    border-top-right-radius: .25rem;
+    background-color: var(--template-alt-bg-dark-50) !important;
+  }
+
+  /* -------------------------------------- */
+
+  div.phpdebugbar-header {
+    background-color: var(--debugbar-header-bg, #efefef) !important;
+    background-image: none !important;
+    padding-left: 0;
+
+    & > div > * {
+      color: var(--debugbar-header-color, #555);
+    }
+  }
+
+  div.phpdebugbar-header-left::before {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    float: left;
+    margin: .25rem;
+    content: ".";
+    color: transparent;
+    background-color: var(--body-color);
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-image: var(--joomla-logo-svg);
+  }
+
+  /* -------------------------------------- */
+  a[class^="phpdebugbar-"][class$="-btn"] {
+    width: .4rem;
+    margin: 0 .25rem;
+    background-image: none !important;
+    background-color: var(--body-color);
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+  }
+
+  a.phpdebugbar-minimize-btn {
+    mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22chevron-down%22%3E%3Cpath%20d%3D%22M1683%20808l-742%20741q-19%2019-45%2019t-45-19l-742-741q-19-19-19-45.5t19-45.5l166-165q19-19%2045-19t45%2019l531%20531%20531-531q19-19%2045-19t45%2019l166%20165q19%2019%2019%2045.5t-19%2045.5z%22%2F%3E%3C%2Fsvg%3E);
+  }
+
+  a.phpdebugbar-maximize-btn {
+    mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22chevron-up%22%3E%3Cpath%20d%3D%22M1683%201331l-166%20165q-19%2019-45%2019t-45-19l-531-531-531%20531q-19%2019-45%2019t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19%2045-19t45%2019l742%20741q19%2019%2019%2045.5t-19%2045.5z%22%2F%3E%3C%2Fsvg%3E);
+  }
+
+  a.phpdebugbar-close-btn {
+    mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22close%22%3E%3Cpath%20d%3D%22M1490%201322q0%2040-28%2068l-136%20136q-28%2028-68%2028t-68-28l-294-294-294%20294q-28%2028-68%2028t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28%2068-28t68%2028l294%20294%20294-294q28-28%2068-28t68%2028l136%20136q28%2028%2028%2068t-28%2068l-294%20294%20294%20294q28%2028%2028%2068z%22%2F%3E%3C%2Fsvg%3E);
+  }
+
+  a.phpdebugbar-open-btn {
+    mask-image: url(data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201792%201792%22%20id%3D%22folder-open%22%3E%3Cpath%20d%3D%22M1815%20952q0%2031-31%2066l-336%20396q-43%2051-120.5%2086.5t-143.5%2035.5h-1088q-34%200-60.5-13t-26.5-43q0-31%2031-66l336-396q43-51%20120.5-86.5t143.5-35.5h1088q34%200%2060.5%2013t26.5%2043zm-343-344v160h-832q-94%200-197%2047.5t-164%20119.5l-337%20396-5%206q0-4-.5-12.5t-.5-12.5v-960q0-92%2066-158t158-66h320q92%200%20158%2066t66%20158v32h544q92%200%20158%2066t66%20158z%22%2F%3E%3C%2Fsvg%3E);
+  }
+
+  a.phpdebugbar-restore-btn {
+    mask-image: var(--joomla-logo-svg);
+    border-right-color: var(--border-color);
+  }
+
+
+  span.phpdebugbar-indicator,
+  a.phpdebugbar-indicator,
+  a.phpdebugbar-close-btn {
+    border-right-color: var(--border-color, #555);
+  }
+
+  a.phpdebugbar-tab.phpdebugbar-active {
+    background: var(--template-bg-dark-20);
+    color: var(--black);
+    background-image: none;
+  }
+
+  a.phpdebugbar-tab span.phpdebugbar-badge {
+    background: var(--template-alt-bg-dark-30) !important;
+    color: var(--black) !important;
+    font-weight: bold;
+  }
+
+  a.phpdebugbar-tab span.phpdebugbar-badge.phpdebugbar-important {
+    background: var(--danger) !important;
+    color: var(--white) !important;
+  }
+
+  .phpdebugbar-indicator span.phpdebugbar-tooltip {
+    background: var(--template-bg-dark);
+    border-color: var(--border-color);
+    color: var(--white);
+  }
+
+  /* -------------------------------------- */
+
+  div.phpdebugbar-body {
+    border-top: var(--border-color);
+  }
+
+  /* -------------------------------------- */
+  select.phpdebugbar-datasets-switcher {
+    width: 100%;
+    padding: .25rem 2.75rem .25rem 0.25rem;
+    appearance: none;
+    cursor: pointer;
+    color: var(--input-color, var(--body-color));
+    background: var(--form-select-indicator, url("../images/select-bg.svg")) no-repeat right 0 center;
+    background-color: var(--form-select-bg, var(--template-bg-light));
+    border: solid 1px var(--template-bg-dark-20);
+    margin: 0 .5rem;
+  }
+
+  /* -------------------------------------- */
+
+  div.phpdebugbar-mini-design a.phpdebugbar-tab {
+    border-right-color: #ddd;
+  }
+
+  div.phpdebugbar-mini-design a.phpdebugbar-tab:hover span.phpdebugbar-text {
+    background: #efefef;
+    border: 1px solid #ccc;
+    color: #555;
+  }
+
+  /* -------------------------------------- */
+
+  ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  ul.phpdebugbar-widgets-list li.phpdebugbar-widgets-list-item:hover {
+    background: var(--template-alt-bg-dark-70);
+    color: var(--white);
+  }
+
+  div.phpdebugbar-widgets-sqlqueries {
+    span {
+      &[class$="-copy-clipboard"],
+      &[class$="-database"],
+      &[class$="-duration"],
+      &[class$="-eye"],
+      &[class$="-eye-dash"],
+      &[class$="-memory"],
+      &[class$="-row-count"],
+      &[class$="-stmt-id"] {
+        color: var(--gray-500);
+      }
+    }
+
+    li.phpdebugbar-widgets-list-item.phpdebugbar-widgets-sql-duplicate {
+      background-color: var(--debugbar-sql-duplicate-bg, #edeff0);
+      color: var(--debugbar-sql-duplicate-text, var(--body-color));
+
+      &:hover {
+        background-color: var(--debugbar-sql-duplicate-hover-bg, #ffc);
+        color: var(--debugbar-sql-duplicate-hover-text, var(--body-color));
+      }
+    }
+
+    div.phpdebugbar-widgets-status {
+      background-color: var(--gray-400);
+      color: var(--gray-800);
+
+      span[class^="phpdebugbar-widgets"] {
+        color: var(--gray-800);
+      }
+    }
+  }
+
+  div[class^="phpdebugbar-widgets-"] div.phpdebugbar-widgets-toolbar {
+    background: var(--template-bg-dark);
+
+    a.phpdebugbar-widgets-filter {
+      background: var(--template-bg-dark-40);
+      color: var(--white);
+
+      &.phpdebugbar-widgets-excluded {
+        background: var(--gray-700);
+        color: var(--gray-100);
+      }
+    }
+  }
+
+  /* -------------------------------------- */
+  ul.phpdebugbar-widgets-timeline li {
+    &:hover {
+      background-color: var(--debugbar-timeline-hover-bg, var(--gray-300));
+    }
+
+    span.phpdebugbar-widgets-collector {
+      color: var(--body-color);
+    }
+
+    span.phpdebugbar-widgets-label {
+      color: var(--debugbar-timeline-label-color, var(--gray-700));
+    }
+
+    span.phpdebugbar-widgets-value {
+      background: var(--debugbar-timeline-value-bg, var(--template-bg-dark-20));
+    }
+  }
+
+  /* -------------------------------------- */
+
+
+  div.phpdebugbar-openhandler-overlay {
+    background: var(--black);
+    opacity: .75;
+  }
+
+  div.phpdebugbar-openhandler {
+    background: var(--body-bg);
+    color: var(--body-color);
+    border-color: var(--border-color);
+
+    .phpdebugbar-openhandler-header {
+      background-image: none;
+      background-color: var(--template-bg-dark);
+      color: var(--white);
+      padding: 0 0 1px 0;
+
+      &:first-child::before {
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        float: left;
+        margin: .25rem;
+        content: ".";
+        color: transparent;
+        background-color: var(--body-color);
+        mask-size: contain;
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-image: var(--joomla-logo-svg);
+      }
+
+      a {
+        color: var(--template-link-color);
+
+        &:hover {
+          color: var(--template-link-hover-color);
+        }
+      }
+    }
+
+    a {
+      color: var(--template-link-color);
+
+      &:hover {
+        color: var(--template-link-hover-color);
+      }
+    }
+
+    table td {
+      border-bottom-color: var(--border-color);
+    }
+
+    .phpdebugbar-openhandler-actions a {
+      color: var(--template-link-color);
+
+      &:hover {
+        color: var(--template-link-hover-color);
+      }
+    }
+
+    .phpdebugbar-openhandler-actions {
+      select {
+        display: inline-block;
+        width: 7rem;
+        padding: .25rem 2.75rem .25rem .25rem;
+        appearance: none;
+        cursor: pointer;
+        color: var(--input-color, var(--body-color));
+        background: var(--form-select-indicator, url("../images/select-bg.svg")) no-repeat right 0 center;
+        background-color: var(--form-select-bg, var(--template-bg-light));
+        border: solid 1px var(--template-bg-dark-20);
+        margin: 0 .5rem .5rem;
+      }
+
+      input {
+        min-width: 25vw;
+        padding: .25rem;
+        background-color: var(--form-select-bg, var(--template-bg-light));
+        border: solid 1px var(--template-bg-dark-20);
+        border-radius: .25rem;
+        color: var(--input-color, var(--body-color));
+        margin-bottom: .5rem;
+      }
+
+      button {
+        cursor: pointer;
+        color: var(--gray-900);
+        background-color: var(--template-bg-dark-60);
+        border: thin solid var(--template-bg-dark-60);
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: center;
+        vertical-align: middle;
+        user-select: none;
+        padding: .5rem 1rem;
+        font-size: 1rem;
+        border-radius: .25rem;
+
+        &:hover {
+          background-color: var(--template-bg-dark-50);
+          border-color: var(--template-bg-dark-70);
+        }
+      }
+    }
+  }
+
+}

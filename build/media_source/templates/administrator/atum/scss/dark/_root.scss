@@ -43,6 +43,7 @@
   --details-summary-text: var(--template-bg-dark-15);
   --headings-color: var(--template-alt-bg-dark-30);
   --main-card-bg: var(--template-alt-bg-dark-80);
+  --border-color: var(--gray-300);
   // endregion
 
   // region Dropdown
@@ -269,5 +270,15 @@
   --com_users-mfa-method-list-body-bg: var(--template-alt-bg-dark-70);
   --com_users-mfa-method-list-body-color: var(--gray-900);
   --com_users-mfa-method-add-color: var(--template-bg-dark-20);
+  // endregion
+
+  // region Debug Bar
+  --debugbar-header-bg: var(--template-bg-dark);
+  --debugbar-header-color: var(--gray-900);
+  --debugbar-sql-duplicate-bg: rgba(var(--warning-rgb), .5);
+  --debugbar-sql-duplicate-hover-bg: rgba(var(--warning-rgb), .3);
+  --debugbar-timeline-label-color: var(--gray-900);
+  --debugbar-timeline-value-bg: var(--template-alt-bg-dark-40);
+  --debugbar-timeline-hover-bg: rgba(var(--info-rgb), .75);
   // endregion
 }

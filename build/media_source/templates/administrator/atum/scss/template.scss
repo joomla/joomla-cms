@@ -49,12 +49,10 @@
 @import "blocks/utilities";
 @import "blocks/joomla-custom-elements";
 
-// These DO NOT BELONG HERE!!!
 @import "vendor/codemirror";
 @import "vendor/dragula";
 @import "vendor/tinymce";
 
-// Also these DO NOT BELONG HERE!!!
 // Page specifics
 @import "pages/com_config";
 @import "pages/com_content";
@@ -65,6 +63,7 @@
 @import "pages/com_privacy";
 @import "pages/com_templates";
 @import "pages/com_users";
+@import "pages/debugbar";
 
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {

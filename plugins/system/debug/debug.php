@@ -342,11 +342,16 @@ class PlgSystemDebug extends CMSPlugin implements SubscriberInterface
         $debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 
         /**
-         * @todo disable highlightjs from the DebugBar, import it through NPM
-         *       and deliver it through Joomla's API
-         *       Also every DebugBar script and stylesheet needs to use Joomla's API
-         *       $debugBarRenderer->disableVendor('highlightjs');
+         * Disable Highlight.JS from the DebugBar.
+         *
+         * It does not add any substantial information and substantially slows down page rendering.
+         *
+         * If you want to re-introduce it,  don't remove the following line. Instead, import
+         * Highlight.JS through NPM and it through Joomla's API.
+         *
+         * @todo Also every DebugBar script and stylesheet needs to use Joomla's API
          */
+        $debugBarRenderer->disableVendor('highlightjs');
 
         // Capture output.
         $contents = ob_get_contents();
