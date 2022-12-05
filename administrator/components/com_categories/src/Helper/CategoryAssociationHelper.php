@@ -62,7 +62,7 @@ abstract class CategoryAssociationHelper
                     if ($layout) {
                         $link .= '&layout=' . $layout;
                     }
-                    
+
                     $return[$tag] = $link;
                 }
             }
