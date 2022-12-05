@@ -44,7 +44,7 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], t
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
-<body class="contentpane component">
+<body class="<?php echo $joomlaColorClass ?> contentpane component">
     <jdoc:include type="message" />
     <jdoc:include type="component" />
 </body>

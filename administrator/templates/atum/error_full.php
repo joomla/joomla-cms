@@ -77,7 +77,7 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     <jdoc:include type="scripts" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
+<body class="admin <?php echo $joomlaColorClass ?> <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
 
     <noscript>
         <div class="alert alert-danger" role="alert">

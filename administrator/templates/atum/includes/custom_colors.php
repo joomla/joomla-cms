@@ -77,7 +77,7 @@ $atumApplyCustomColor = function (\Joomla\CMS\WebAsset\WebAssetManager $wa, stri
     $css .= "}";
 
     if ($dark && $darkMode == 1) {
-        $css = "@media (prefers-color-scheme: dark) {\n$css\n}";
+        $css = "@media (screen and prefers-color-scheme: dark) {\n$css\n}";
     }
 
     $wa->addInlineStyle($css);
@@ -135,21 +135,32 @@ if ($darkMode >= 1) {
     });
 }
 
+
+/**
+ * Using 'only light' prevents native, unstyled browser controls (input boxes, check boxes,
+ * dialogs, etc) from adopting a dark theme when Dark Mode is enabled system-wide.
+ *
+ * See https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
+ */
+switch ($this->params->get('darkmode', 1)) {
+    default:
+    case 0:
+        $colorScheme = 'only light';
+        $joomlaColorClass = 'joomla-dark-never';
+        break;
+    case 1:
+        $colorScheme = 'light dark';
+        $joomlaColorClass = 'joomla-dark-auto';
+        break;
+    case 2:
+        $colorScheme = 'dark';
+        $joomlaColorClass = 'joomla-dark-always';
+        break;
+}
+
 // Add a 'color-scheme' meta header
 if (empty($this->getMetaData('color-scheme', 'value'))) {
-    /**
-     * Using 'only light' prevents native, unstyled browser controls (input boxes, check boxes,
-     * dialogs, etc) from adopting a dark theme when Dark Mode is enabled system-wide.
-     *
-     * See https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme
-     */
-    $this->setMetaData(
-        'color-scheme',
-        $this->params->get('darkmode', 1) == 1
-            ? 'light dark'
-            : 'only light',
-        'value'
-    );
+    $this->setMetaData('color-scheme', $colorScheme, 'value');
 }
 
 // Clean up
