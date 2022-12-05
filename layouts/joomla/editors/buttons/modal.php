@@ -22,7 +22,7 @@ if (!$button->get('modal')) {
 
 $class    = ($button->get('class')) ? $button->get('class') : null;
 $class   .= ($button->get('modal')) ? ' modal-button' : null;
-$href     = '#' . strtolower($button->get('name')) . '_modal';
+$href     = '#' . $button->get('editor') . '_' . strtolower($button->get('name')) . '_modal';
 $link     = ($button->get('link')) ? Uri::base() . $button->get('link') : null;
 $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
@@ -38,7 +38,7 @@ if (is_array($button->get('options')) && isset($options['confirmText']) && isset
 if (null !== $button->get('id')) {
     $id = str_replace(' ', '', $button->get('id'));
 } else {
-    $id = strtolower($button->get('name')) . '_modal';
+    $id = $button->get('editor') . '_' . strtolower($button->get('name')) . '_modal';
 }
 
 // @todo: J4: Move Make buttons fullscreen on smaller devices per https://github.com/joomla/joomla-cms/pull/23091
