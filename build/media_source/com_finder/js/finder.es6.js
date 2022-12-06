@@ -68,6 +68,7 @@
       // Handle the auto suggestion
       if (Joomla.getOptions('finder-search')) {
         searchword.awesomplete = new Awesomplete(searchword);
+        searchword.awesomplete.ul.setAttribute('title', 'Results list'); // Temporary accessibility fix
 
         // If the current value is empty, set the previous value.
         searchword.addEventListener('input', onInputChange);
