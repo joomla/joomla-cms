@@ -159,8 +159,8 @@ switch ($this->params->get('darkmode', 1)) {
 }
 
 // Add a 'color-scheme' meta header
-if (empty($this->getMetaData('color-scheme', 'value'))) {
-    $this->setMetaData('color-scheme', $colorScheme, 'value');
+if (empty($this->getMetaData('color-scheme'))) {
+    $this->setMetaData('color-scheme', $colorScheme);
 }
 
 // Clean up

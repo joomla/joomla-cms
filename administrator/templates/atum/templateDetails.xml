@@ -109,16 +109,14 @@
 			<fieldset name="darkmode" label="TPL_ATUM_DARKMODE_SETTINGS_LABEL">
 				<field
 						name="darkmode"
-						type="radio"
+						type="list"
 						label="TPL_ATUM_COLORS_SETTINGS_DARKMODE_LABEL"
 						description="TPL_ATUM_COLORS_SETTINGS_DARKMODE_LABEL_DESC"
-						layout="joomla.form.field.radio.buttons"
-						class="btn-group"
 						default="1"
 				>
-					<option class="btn btn-outline-info" value="0">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_LIGHT</option>
-					<option class="btn btn-outline-primary" value="1">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_BROWSER</option>
-					<option class="btn btn-outline-dark" value="2">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_DARK</option>
+					<option value="0">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_LIGHT</option>
+					<option value="1">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_BROWSER</option>
+					<option value="2">TPL_ATUM_COLORS_SETTINGS_DARKMODE_OPT_DARK</option>
 				</field>
 				<field
 						name="dark-hue"
