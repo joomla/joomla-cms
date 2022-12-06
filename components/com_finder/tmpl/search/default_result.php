@@ -118,7 +118,7 @@ if ($this->params->get('show_url', 1)) {
                             <span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span>
                             <?php $text = implode(',', $taxonomy_text); ?>
                             <?php if ($type === 'Type') : ?>
-                                <?php echo Text::_($text); ?>
+                                <?php echo Text::_(LanguageHelper::branchSingular($text)); ?>
                             <?php else : ?>
                                 <?php echo $text; ?>
                             <?php endif; ?>
