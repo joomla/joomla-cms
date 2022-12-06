@@ -30,7 +30,7 @@
   --#{$variable-prefix}body-color: #{$body-color};
   --#{$variable-prefix}body-color-rgb: #{to-rgb($body-color)};
   --#{$variable-prefix}body-bg: #{$body-bg};
-  --#{$variable-prefix}bg-color: #{$body-bg};
+  --#{$variable-prefix}bg-color: var(--body-bg);
   --#{$variable-prefix}body-bg-rgb: #{to-rgb($body-bg)};
 
   // region Global
