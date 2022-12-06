@@ -33,7 +33,7 @@ joomla-tab {
     white-space: nowrap;
     list-style: outside none none;
     border-bottom: 1px solid var(--template-bg-dark-10);
-    background-color: var(--joomla-tab-tablist-bg, var(--gray-300));
+    background-color: var(--joomla-tab-tablist-bg, transparent);
 
     > button[role=tab] {
       position: relative;
