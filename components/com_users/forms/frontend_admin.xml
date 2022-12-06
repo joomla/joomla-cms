@@ -24,12 +24,12 @@
 			</field>
 
 			<field
-					name="admin_dark"
-					type="list"
-					label="COM_USERS_USER_FIELD_ADMIN_DARK_LABEL"
-					description="COM_USERS_USER_FIELD_ADMIN_DARK_DESC"
-					default="-1"
-			>
+				name="admin_dark"
+				type="list"
+				label="COM_USERS_USER_FIELD_ADMIN_DARK_LABEL"
+				description="COM_USERS_USER_FIELD_ADMIN_DARK_DESC"
+				default="-1"
+				>
 				<option value="-1">JOPTION_USE_DEFAULT</option>
 				<option value="0">COM_USERS_USER_FIELD_ADMIN_DARK_LIGHT</option>
 				<option value="1">COM_USERS_USER_FIELD_ADMIN_DARK_BROWSER</option>
