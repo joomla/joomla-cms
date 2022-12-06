@@ -339,17 +339,17 @@
 				</field>
 
 				<field
-						name="dark_theme"
-						type="filelist"
-						label="PLG_CODEMIRROR_FIELD_DARKTHEME_LABEL"
-						default=""
-						fileFilter="\.css$"
-						stripext="true"
-						hide_none="true"
-						hide_default="false"
-						directory="media/vendor/codemirror/theme"
-						validate="options"
-						showon="darkmode:1"
+					name="dark_theme"
+					type="filelist"
+					label="PLG_CODEMIRROR_FIELD_DARKTHEME_LABEL"
+					default=""
+					fileFilter="\.css$"
+					stripext="true"
+					hide_none="true"
+					hide_default="false"
+					directory="media/vendor/codemirror/theme"
+					validate="options"
+					showon="darkmode:1"
 				/>
 			</fieldset>
 		</fields>
