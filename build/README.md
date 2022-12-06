@@ -34,6 +34,12 @@ There are three options here:
 ## SCSS
 - SCSS files starting with `_` will not become entry points for SCSS.
   SCSS files will be transformed to CSS, both normal and minified versions.
+- SCSS files whose name ends with `-rtl` will go through a PostCSS plugin which adds Right-to-Left
+  language support. These files are normally just including the regular Left-to-Right file; even
+  though they look redundant, they are not.
+- Do not use an external SCSS compiler to compile SCSS. Always run `npm ci` or
+  `npm run build:css -- path/to/the/scss/source/folder`. This is necessary for Joomla to build the
+  SCSS files correctly, including RTL support.
 
 ## CSS
 - CSS files will only get minified.
