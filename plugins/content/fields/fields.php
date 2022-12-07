@@ -63,7 +63,7 @@ class PlgContentFields extends CMSPlugin
         }
 
         // Prepare the intro text
-        if (property_exists($item, 'introtext') && strpos($item->introtext, 'field') !== false) {
+        if (property_exists($item, 'introtext') && is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
         }
     }
