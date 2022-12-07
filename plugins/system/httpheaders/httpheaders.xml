@@ -81,6 +81,7 @@
 							<option value="report-to">Report-To</option>
 							<option value="strict-transport-security">Strict-Transport-Security</option>
 							<option value="x-frame-options">X-Frame-Options</option>
+							<option value="nel">NEL</option>
 						</field>
 						<field
 							name="value"
