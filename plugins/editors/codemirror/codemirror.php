@@ -313,7 +313,7 @@ class PlgEditorCodemirror extends CMSPlugin
         }
 
         $theme = $this->params->get('dark_theme', 'dracula') ?: 'dracula';
-        $media = $forcedDark ? 'screen' : 'screen and prefers-color-scheme: dark';
+        $media = $forcedDark ? 'screen' : 'screen and (prefers-color-scheme: dark)';
         $darkCSS = $this->themeToDarkModeOverride($theme) ?? $this->themeToDarkModeOverride('dracula');
 
         if (empty($darkCSS)) {
