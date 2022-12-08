@@ -1,0 +1,84 @@
+:root {
+  --js-calendar-bg: var(--body-bg, white);
+  --js-calendar-text: var(--body-color, black);
+}
+
+.js-calendar {
+  background-color: var(--js-calendar-bg) !important;
+  color: var(--js-calendar-text);
+  box-shadow: 0 0 15px 4px rgba(0,0,0,.15) !important;
+}
+
+.calendar-container {
+  background-color: var(--js-calendar-bg) !important;
+  color: var(--js-calendar-text);
+}
+
+.calendar-container table {
+  background-color: var(--js-calendar-bg) !important;
+}
+
+.calendar-container table thead td.headrow { /* Row <TR> containing navigation buttons */
+  background: var(--js-calendar-bg);
+  color: var(--js-calendar-text);
+}
+
+.calendar-container table thead td.name { /* Cells <TD> containing the day names */
+  border-bottom: 1px solid var(--border-color);
+  color: var(--js-calendar-text);
+}
+
+/* The body part -- contains all the days in month. */
+
+.calendar-container table tbody td.wn {
+  background: var(--template-bg-dark) !important;
+  color: var(--white);
+}
+
+.calendar-container table tbody td.weekend { /* Cells showing weekend days */
+  color: var(--color-text-muted);
+}
+
+
+.calendar-container table tbody td.day.selected { /* Cell showing today date */
+  background: var(--template-bg-dark-60);
+  color: var(--white);
+}
+
+.calendar-container table tbody td.day:hover {
+  background: var(--focus);
+  color: var(--white);
+}
+
+.calendar-container table tbody .disabled {
+  opacity: 1;
+  color: var(--gray-500) !important;
+  background-color: var(--template-alt-bg-dark-75);
+}
+
+.buttons-wrapper .btn {
+  color: var(--gray-500);
+  border: 1px solid var(--gray-400);
+  box-shadow: 1px 1px 1px 0 rgba(0,0,0,.25);
+}
+.buttons-wrapper .btn:hover {
+  color: #fff;
+  border: 1px solid var(--template-alt-bg-dark-20);
+  background: var(--template-alt-bg-dark-50);
+}
+
+.time .time-title {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: auto;
+  margin-top: .5rem;
+  content: ".";
+  color: transparent;
+  background-image: none;
+  background-color: var(--body-color);
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-image: url("data:image/svg+xml;utf8,<?xml version='1.0' encoding='utf-8'?><svg width='22' height='22' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'><path d='M1024 544v448q0 14-9 23t-23 9h-320q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224v-352q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z'/></svg>");
+}
