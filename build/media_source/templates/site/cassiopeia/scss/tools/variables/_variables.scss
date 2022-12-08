@@ -7,9 +7,6 @@ $cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-c
 $cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%) !default;
 $cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover) !default;
 
-// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$prefix:                     "" !default;
-
 // Color system
 
 // Standard
