@@ -88,6 +88,7 @@
   // region Alerts
   --alert-default-text: var(--body-color);
   --alert-default-bg: var(bg-color);
+  --joomla-alert-accent-opacity: 0.6;
 
   --state-success-text: #{lighten($success, 50%)};
   --state-success-bg: #{darken($success, 15%)};
