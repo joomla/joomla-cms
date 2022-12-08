@@ -68,8 +68,7 @@ $colors: (
   "white":                            $white
 ) !default;
 
-$primary:                             var(--cassiopeia-color-primary) !default;
-$primaryBS:                           $blue !default;
+$primary:                             $blue !default;
 $secondary:                           $gray-600 !default;
 $success:                             $green !default;
 $info:                                $cyan !default;
@@ -80,7 +79,7 @@ $dark:                                $gray-800 !default;
 
 
 $theme-colors: (
-  primary:                            $primaryBS,
+  primary:                            $blue,
   secondary:                          $secondary,
   success:                            $success,
   info:                               $info,
@@ -105,6 +104,9 @@ $colors: (
   focus:                           #39f,
   focus-shadow:                    0 0 0 .2rem #eaeaea,
   toggle-color:                    $white, //used in sidebar
+) !default;
+
+$cassiopeia-colors: (
   template-sidebar-bg:                 var(--template-bg-dark-80),
   template-sidebar-font-color:         $white,
   template-sidebar-link-color:         $white,
@@ -224,7 +226,7 @@ $nav-link-padding-y:                  .5rem !default;
 // Navs
 $cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg !default;
 $cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3) !default;
-$cassiopeia-tabs-active-highlight:    $primaryBS !default;
+$cassiopeia-tabs-active-highlight:    $primary !default;
 
 // Navbar
 $nav-link-height:                     1.5rem + $nav-link-padding-y * 2 !default;
