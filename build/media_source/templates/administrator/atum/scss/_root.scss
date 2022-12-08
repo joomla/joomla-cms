@@ -22,7 +22,7 @@
   }
 
   @each $color, $value in $atum-colors {
-    --#{$variable-prefix}#{$color}: #{$value};
+    --#{$prefix}#{$color}: #{$value};
   }
 
   --#{$prefix}white-rgb: #{to-rgb($white)};
