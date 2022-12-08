@@ -29,25 +29,25 @@ $comUserParams = ComponentHelper::getParams('com_users');
     <div class="main-card">
         <div class="row">
             <div class="col-lg-9">
-                <div>
-                    <fieldset class="adminform">
-                        <?php echo $this->form->getLabel('subject'); ?>
-                        <span class="input-group">
-                            <?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
-                                <span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
-                            <?php endif; ?>
-                            <?php echo $this->form->getInput('subject'); ?>
-                        </span>
-                        <?php echo $this->form->getLabel('message'); ?>
-                        <?php echo $this->form->getInput('message'); ?>
-                        <?php if (!empty($comUserParams->get('mailBodySuffix'))) : ?>
-                            <div class="mt-1 card">
-                                <div class="card-body">
-                                    <?php echo $comUserParams->get('mailBodySuffix'); ?>
-                                </div>
-                            </div>
+                <div class="control-group">
+                    <?php echo $this->form->getLabel('subject'); ?>
+                    <span class="input-group">
+                        <?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
+                            <span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
                         <?php endif; ?>
-                    </fieldset>
+                        <?php echo $this->form->getInput('subject'); ?>
+                    </span>
+                </div>
+                <div class="control-group">
+                    <?php echo $this->form->getLabel('message'); ?>
+                    <?php echo $this->form->getInput('message'); ?>
+                    <?php if (!empty($comUserParams->get('mailBodySuffix'))) : ?>
+                        <div class="mt-1 card">
+                            <div class="card-body">
+                                <?php echo $comUserParams->get('mailBodySuffix'); ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="col-lg-3">
