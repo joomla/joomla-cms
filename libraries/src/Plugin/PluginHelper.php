@@ -161,19 +161,15 @@ abstract class PluginHelper
         }
 
         // Ensure we have a dispatcher now so we can correctly track the loaded plugins
-        if ($dispatcher === null)
-        {
+        if ($dispatcher === null) {
             @trigger_error(
                 sprintf('Passing an instance of %1$s to %2$s will be required in 6.0', DispatcherInterface::class, __METHOD__),
                 \E_USER_DEPRECATED
             );
 
-            try
-            {
+            try {
                 $dispatcher = Factory::getApplication()->getDispatcher();
-            }
-            catch (\UnexpectedValueException)
-            {
+            } catch (\UnexpectedValueException) {
                 $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
             }
         }

@@ -98,8 +98,7 @@ abstract class CMSPlugin implements PluginInterface
      */
     public function __construct($config = array())
     {
-        if ($config instanceof DispatcherInterface)
-        {
+        if ($config instanceof DispatcherInterface) {
             @trigger_error(
                 sprintf(
                     'Passing an instance of %1$s to %2$s will not be supported in 6.0',
@@ -210,14 +209,10 @@ abstract class CMSPlugin implements PluginInterface
     public function registerListeners(?DispatcherInterface $dispatcher = null)
     {
         // Make sure we have a dispatcher.
-        if ($dispatcher === null)
-        {
-            try
-            {
+        if ($dispatcher === null) {
+            try {
                 $dispatcher = $this->getDispatcher();
-            }
-            catch (\UnexpectedValueException)
-            {
+            } catch (\UnexpectedValueException) {
                 $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
             }
         }
@@ -291,14 +286,10 @@ abstract class CMSPlugin implements PluginInterface
     final protected function registerLegacyListener(string $methodName, ?DispatcherInterface $dispatcher = null)
     {
         // Make sure we have a dispatcher.
-        if ($dispatcher === null)
-        {
-            try
-            {
+        if ($dispatcher === null) {
+            try {
                 $dispatcher = $this->getDispatcher();
-            }
-            catch (\UnexpectedValueException)
-            {
+            } catch (\UnexpectedValueException) {
                 $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
             }
         }
@@ -351,14 +342,10 @@ abstract class CMSPlugin implements PluginInterface
     final protected function registerListener(string $methodName, ?DispatcherInterface $dispatcher = null)
     {
         // Make sure we have a dispatcher.
-        if ($dispatcher === null)
-        {
-            try
-            {
+        if ($dispatcher === null) {
+            try {
                 $dispatcher = $this->getDispatcher();
-            }
-            catch (\UnexpectedValueException)
-            {
+            } catch (\UnexpectedValueException) {
                 $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
             }
         }
