@@ -58,7 +58,7 @@ $prefix: "";
 
 // Finally add the cassiopeia colours
 :root {
-    @each $color, $value in $cassiopeia-colors {
+  @each $color, $value in $cassiopeia-colors {
     --#{$color}: #{$value};
   }
 
