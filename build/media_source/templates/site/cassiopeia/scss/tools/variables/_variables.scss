@@ -226,7 +226,7 @@ $nav-link-padding-y:                  .5rem !default;
 // Navs
 $cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg !default;
 $cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3) !default;
-$cassiopeia-tabs-active-highlight:    $primary !default;
+$cassiopeia-tabs-active-highlight:    var(--cassiopeia-color-primary) !default;
 
 // Navbar
 $nav-link-height:                     1.5rem + $nav-link-padding-y * 2 !default;
