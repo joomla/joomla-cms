@@ -951,8 +951,8 @@ class UserModel extends AdminModel
      *
      * @since   3.2
      *
-     * #deprecated   4.2 will be removed in 5.0.
-     *               Will be removed without replacement
+     * #deprecated   4.2 will be removed in 6.0.
+     *               Use \Joomla\CMS\Factory::getApplication()->get(\'secret\') instead'
      */
     public function getOtpConfigEncryptionKey()
     {
