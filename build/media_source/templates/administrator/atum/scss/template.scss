@@ -72,6 +72,16 @@ $prefix: "";
 @import "pages/com_templates";
 @import "pages/com_users";
 
+// Custom Atum colors
+:root {
+  @each $color, $value in $atum-colors {
+    --#{$prefix}#{$color}: #{$value};
+  }
+
+  // @TODO Find out why this color is different
+  --info-rgb: 42, 105, 184
+}
+
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
