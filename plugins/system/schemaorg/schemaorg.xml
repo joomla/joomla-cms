@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="system" method="upgrade">
+	<name>plg_system_schemaorg</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2022</creationDate>
+	<copyright>(C) 2022 Open Source Matters, Inc.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_SYSTEM_SCHEMAORG_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\Schemaorg</namespace>
+	<files>
+		<folder plugin="schemaorg">services</folder>
+		<folder>src</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_schemaorg.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_schemaorg.sys.ini</language>
+	</languages>
+</extension>

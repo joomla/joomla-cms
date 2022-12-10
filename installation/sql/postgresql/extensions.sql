@@ -893,6 +893,23 @@ CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("chec
 -- --------------------------------------------------------
 
 --
+-- Table structure for table "#__schemaorg"
+--
+
+CREATE TABLE IF NOT EXISTS "#__schemaorg"
+(
+  "id" serial NOT NULL,
+  "itemId" integer,
+  "context" varchar(100),
+  "schemaType" varchar(100),
+  "schemaForm" text,
+  "schema" text,
+  PRIMARY KEY ("id")
+);
+
+-- --------------------------------------------------------
+
+--
 -- Here is SOUNDEX replacement for those who can't enable fuzzystrmatch module
 --   from contrib folder.
 -- This function comes from https://wiki.postgresql.org/wiki/Soundex
