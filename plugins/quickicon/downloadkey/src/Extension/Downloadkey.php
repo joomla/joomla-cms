@@ -2,18 +2,19 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Quickicon.Downloadkey
+ * @subpackage  Quickicon.downloadkey
  *
  * @copyright   (C) 2019 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Application\CMSApplication;
+namespace Joomla\Plugin\Quickicon\Downloadkey\Extension;
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as ComInstallerHelper;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,7 +25,7 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as ComInstal
  *
  * @since  4.0.0
  */
-class PlgQuickiconDownloadkey extends CMSPlugin
+final class Downloadkey extends CMSPlugin implements SubscriberInterface
 {
     /**
      * Load the language file on instantiation.
@@ -35,38 +36,45 @@ class PlgQuickiconDownloadkey extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Application object.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    CMSApplication
-     * @since  4.0.0
+     * @return  array
+     *
+     * @since   4.3.0
      */
-    protected $app;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onGetIcons' => 'onGetIcons',
+        ];
+    }
 
     /**
      * Returns an icon definition for an icon which looks for extensions updates
      * via AJAX and displays a notification when such updates are found.
      *
-     * @param   string  $context  The calling context
+     * @param   QuickIconsEvent  $event  The event object
      *
-     * @return  array  A list of icon definition associative arrays, consisting of the
-     *                 keys link, image, text and access.
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onGetIcons($context)
+    public function onGetIcons(QuickIconsEvent $event): void
     {
+        $context = $event->getContext();
+
         if (
             $context !== $this->params->get('context', 'update_quickicon')
-            || !$this->app->getIdentity()->authorise('core.manage', 'com_installer')
+            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')
         ) {
-            return [];
+            return;
         }
 
         $info = $this->getMissingDownloadKeyInfo();
 
         // No extensions need a download key. The icon is not rendered.
         if (!$info['supported']) {
-            return [];
+            return;
         }
 
         $iconDefinition = [
@@ -80,16 +88,24 @@ class PlgQuickiconDownloadkey extends CMSPlugin
         ];
 
         if ($info['missing'] !== 0) {
-            $iconDefinition = array_merge($iconDefinition, [
-                'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=-1',
-                'text'  => Text::plural('PLG_QUICKICON_DOWNLOADKEY_N_MISSING', $info['missing']),
-                'class' => 'danger',
-                ]);
+            $iconDefinition = array_merge(
+                $iconDefinition,
+                [
+                    'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=-1',
+                    'text'  => Text::plural('PLG_QUICKICON_DOWNLOADKEY_N_MISSING', $info['missing']),
+                    'class' => 'danger',
+                ]
+            );
         }
 
-        return [
+        // Add the icon to the result array
+        $result = $event->getArgument('result', []);
+
+        $result[] = [
             $iconDefinition,
         ];
+
+        $event->setArgument('result', $result);
     }
 
     /**
@@ -108,7 +124,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
      * @return  array
      * @since   4.0.0
      */
-    public function getMissingDownloadKeyInfo(): array
+    private function getMissingDownloadKeyInfo(): array
     {
         $ret = [
             'supported' => 0,

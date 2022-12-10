@@ -481,7 +481,6 @@ abstract class DaemonApplication extends CliApplication
         }
 
         // Reset Process Information
-        $this->safeMode = !!@ ini_get('safe_mode');
         $this->processId = 0;
         $this->running = false;
 

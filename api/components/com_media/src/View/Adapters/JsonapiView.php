@@ -21,29 +21,29 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
  */
 class JsonapiView extends BaseApiView
 {
-	use ProviderManagerHelperTrait;
+    use ProviderManagerHelperTrait;
 
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var    array
-	 * @since  4.1.0
-	 */
-	protected $fieldsToRenderItem = [
-		'provider_id',
-		'name',
-		'path',
-	];
+    /**
+     * The fields to render item in the documents
+     *
+     * @var    array
+     * @since  4.1.0
+     */
+    protected $fieldsToRenderItem = [
+        'provider_id',
+        'name',
+        'path',
+    ];
 
-	/**
-	 * The fields to render items in the documents
-	 *
-	 * @var    array
-	 * @since  4.1.0
-	 */
-	protected $fieldsToRenderList = [
-		'provider_id',
-		'name',
-		'path',
-	];
+    /**
+     * The fields to render items in the documents
+     *
+     * @var    array
+     * @since  4.1.0
+     */
+    protected $fieldsToRenderList = [
+        'provider_id',
+        'name',
+        'path',
+    ];
 }
