@@ -170,7 +170,6 @@
       // tinyMCE themes docs: https://www.tiny.cloud/docs/general-configuration-guide/customize-ui/
       function reRender(ed, options, darkModeMatches) {
         ed.remove();
-        console.log(options)
         if (darkModeMatches) {
           // Set the theme to dark
           options.skin = 'oxide-dark';
@@ -186,9 +185,9 @@
       }
 
       // Check if window.matchMedia is supported
-      const isMatchMediaSupported = typeof window.matchMedia === "function";
+      const isMatchMediaSupported = typeof window.matchMedia === 'function';
       if (isMatchMediaSupported) {
-        const darkModeMatches = window.matchMedia("(prefers-color-scheme: dark)");
+        const darkModeMatches = window.matchMedia('(prefers-color-scheme: dark)');
         if (darkModeMatches.matches) {
           // Set the theme to dark
           options.skin = 'oxide-dark';
@@ -198,7 +197,7 @@
         // Check for color-scheme changes in OS
         darkModeMatches.addEventListener('change', (mediaQuery) => reRender(ed, options, mediaQuery.matches));
       }
-console.log(options)
+
       // Create a new instance
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
