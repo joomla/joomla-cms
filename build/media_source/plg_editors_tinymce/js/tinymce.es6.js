@@ -147,24 +147,63 @@
         }, true);
       };
 
+      function registerJoomlaInstance(element, ed) {
+        if (Joomla.editors.instances[element.id]) {
+          Joomla.editors.instances[element.id] = null;
+        }
+
+        /** Register the editor's instance to Joomla Object */
+        Joomla.editors.instances[element.id] = {
+          // Required by Joomla's API for the XTD-Buttons
+          getValue: () => Joomla.editors.instances[element.id].instance.getContent(),
+          setValue: (text) => Joomla.editors.instances[element.id].instance.setContent(text),
+          getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
+          replaceSelection: (text) => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
+          // Required by Joomla's API for Mail Component Integration
+          disable: (disabled) => Joomla.editors.instances[element.id].instance.setMode(disabled ? 'readonly' : 'design'),
+          // Some extra instance dependent
+          id: element.id,
+          instance: ed,
+        };
+      }
+      const originalContentCss = options.content_css;
+      // tinyMCE themes docs: https://www.tiny.cloud/docs/general-configuration-guide/customize-ui/
+      function reRender(ed, options, darkModeMatches) {
+        ed.remove();
+        console.log(options)
+        if (darkModeMatches) {
+          // Set the theme to dark
+          options.skin = 'oxide-dark';
+          options.content_css = 'dark';
+        } else {
+          // Set the theme to light
+          options.skin = 'oxide';
+          options.content_css = originalContentCss;
+        }
+        ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+        ed.render();
+        registerJoomlaInstance(element, ed);
+      }
+
+      // Check if window.matchMedia is supported
+      const isMatchMediaSupported = typeof window.matchMedia === "function";
+      if (isMatchMediaSupported) {
+        const darkModeMatches = window.matchMedia("(prefers-color-scheme: dark)");
+        if (darkModeMatches.matches) {
+          // Set the theme to dark
+          options.skin = 'oxide-dark';
+          options.content_css = 'dark';
+        }
+
+        // Check for color-scheme changes in OS
+        darkModeMatches.addEventListener('change', (mediaQuery) => reRender(ed, options, mediaQuery.matches));
+      }
+console.log(options)
       // Create a new instance
       // eslint-disable-next-line no-undef
       const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
       ed.render();
-
-      /** Register the editor's instance to Joomla Object */
-      Joomla.editors.instances[element.id] = {
-        // Required by Joomla's API for the XTD-Buttons
-        getValue: () => Joomla.editors.instances[element.id].instance.getContent(),
-        setValue: (text) => Joomla.editors.instances[element.id].instance.setContent(text),
-        getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
-        replaceSelection: (text) => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
-        // Required by Joomla's API for Mail Component Integration
-        disable: (disabled) => Joomla.editors.instances[element.id].instance.setMode(disabled ? 'readonly' : 'design'),
-        // Some extra instance dependent
-        id: element.id,
-        instance: ed,
-      };
+      registerJoomlaInstance(element, ed);
     },
   };
 
