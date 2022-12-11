@@ -268,8 +268,6 @@ class JNamespacePsr4Map
             return $manifests;
         }
 
-        $manifests = [];
-
         if ($type === 'component') {
             $directories = [JPATH_ADMINISTRATOR . '/components'];
         } elseif ($type === 'module') {
