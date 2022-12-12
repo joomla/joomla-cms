@@ -23,7 +23,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  4.0.0
  */
-class TransitionField extends ListField
+class TransitionField extends GroupedlistField
 {
     /**
      * The form field type.
@@ -91,7 +91,7 @@ class TransitionField extends ListField
      *
      * @since  4.0.0
      */
-    protected function getOptions()
+    protected function getGroups()
     {
         // Let's get the id for the current item, either category or content item.
         $jinput = Factory::getApplication()->getInput();
@@ -161,17 +161,20 @@ class TransitionField extends ListField
 
         $workflowName = $db->setQuery($query)->loadResult();
 
-        $default = [
-            HTMLHelper::_('select.option', '', Text::_($workflowName))];
+        $default = [[
+            HTMLHelper::_('select.option', '', Text::_($workflowName))]];
 
-        $options = array_merge(parent::getOptions(), $items);
+        $groups = parent::getGroups();
 
-        if (\count($options)) {
-            $default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
-            $default[] = HTMLHelper::_('select.option', '<OPTGROUP>', Text::_('COM_CONTENT_RUN_TRANSITION'));
+        if (\count($items)) {
+            $groups[Text::_('COM_CONTENT_RUN_TRANSITION')] = $items;
+        }
+
+        if (\count($groups)) {
+            $default[][] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
         }
 
         // Merge with defaults
-        return array_merge($default, $options, [HTMLHelper::_('select.option', '</OPTGROUP>')]);
+        return array_merge($default, $groups);
     }
 }
