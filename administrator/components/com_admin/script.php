@@ -589,7 +589,7 @@ class JoomlaInstallerScript
         ];
 
         $files = array(
-            // From 3.10 to 4.1
+            // From 3.10 to 4.3
             '/administrator/components/com_actionlogs/actionlogs.php',
             '/administrator/components/com_actionlogs/controller.php',
             '/administrator/components/com_actionlogs/controllers/actionlogs.php',
@@ -6452,7 +6452,7 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/LICENSE',
             // From 4.2.1 to 4.2.2
             '/administrator/cache/fido.jwt',
-            // From 4.2 to 4.3
+            // From 4.2.5 to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/autoload-fast.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-pedantic.php',
             '/libraries/vendor/paragonie/sodium_compat/autoload-phpunit.php',
@@ -6482,10 +6482,11 @@ class JoomlaInstallerScript
             '/plugins/quickicon/overridecheck/overridecheck.php',
             '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
             '/plugins/quickicon/privacycheck/privacycheck.php',
+            // From 4.3.0-alpha1 to 4.3.0-alpha2
         );
 
         $folders = array(
-            // From 3.10 to 4.1
+            // From 3.10 to 4.3
             '/templates/system/images',
             '/templates/system/html',
             '/templates/protostar/less',
@@ -7856,7 +7857,7 @@ class JoomlaInstallerScript
             '/media/vendor/hotkeys.js/js',
             '/media/vendor/hotkeys.js',
             '/libraries/vendor/symfony/string/Resources/bin',
-            // From 4.2 to 4.3
+            // From 4.2.5 to 4.3.0-alpha1
             '/libraries/vendor/paragonie/sodium_compat/dist',
         );
 
