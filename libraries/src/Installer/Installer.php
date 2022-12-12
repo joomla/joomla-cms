@@ -1278,7 +1278,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
                 try {
                     $db->setQuery($query)->execute();
-                } catch (ExecutionFailureException | PrepareStatementFailureException | \RuntimeException $e) {
+                } catch (\RuntimeException $e) {
                     if (!$canFail) {
                         $errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
 
