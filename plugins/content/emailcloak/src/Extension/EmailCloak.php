@@ -86,7 +86,7 @@ final class EmailCloak extends CMSPlugin
 
             return;
         }
-        
+
         // Simple performance check to determine whether bot should process further.
         if (StringHelper::strpos($text, '@') === false) {
             return;
