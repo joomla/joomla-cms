@@ -6483,8 +6483,8 @@ class JoomlaInstallerScript
             '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
             '/plugins/quickicon/privacycheck/privacycheck.php',
             // From 4.3.0-alpha1 to 4.3.0-alpha2
-            'plugins/content/emailcloak/emailcloak.php',
-            'plugins/content/fields/fields.php',
+            '/plugins/content/emailcloak/emailcloak.php',
+            '/plugins/content/fields/fields.php',
         );
 
         $folders = array(
