@@ -101,7 +101,7 @@ abstract class CMSPlugin implements PluginInterface
         if ($config instanceof DispatcherInterface) {
             @trigger_error(
                 sprintf(
-                    'Passing an instance of %1$s to %2$s will not be supported in 6.0.',
+                    'Passing an instance of %1$s to %2$s() will not be supported in 6.0.',
                     DispatcherInterface::class,
                     __METHOD__
                 ),
@@ -212,7 +212,7 @@ abstract class CMSPlugin implements PluginInterface
         if ($dispatcher === null) {
             @trigger_error(
                 sprintf(
-                    'Passing an instance of %1$s to %2$s will be required in 6.0.',
+                    'Passing an instance of %1$s to %2$s() will be required in 6.0.',
                     DispatcherInterface::class,
                     __METHOD__
                 ),

@@ -163,7 +163,7 @@ abstract class PluginHelper
         // Ensure we have a dispatcher now so we can correctly track the loaded plugins
         if ($dispatcher === null) {
             @trigger_error(
-                sprintf('Passing an instance of %1$s to %2$s will be required in 6.0', DispatcherInterface::class, __METHOD__),
+                sprintf('Passing an instance of %1$s to %2$s() will be required in 6.0', DispatcherInterface::class, __METHOD__),
                 \E_USER_DEPRECATED
             );
 
