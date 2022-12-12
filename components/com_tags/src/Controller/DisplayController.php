@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Tags\Site\Controller;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -55,6 +56,14 @@ class DisplayController extends BaseController
             'filter_order_Dir' => 'CMD',
             'lang'             => 'CMD'
         );
+
+        if (
+            $vName === 'tag'
+            && ComponentHelper::getParams('com_tags')->get('record_hits', 1) == 1
+            && $model = $this->getModel($vName)
+        ) {
+            $model->hit();
+        }
 
         return parent::display($cachable, $safeurlparams);
     }

@@ -48,7 +48,7 @@ final class EmailCloak extends CMSPlugin
             return;
         }
 
-        $this->_cloak($row->text, $params);
+        $this->cloak($row->text, $params);
     }
 
     /**
