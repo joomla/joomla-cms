@@ -317,14 +317,14 @@ class HtmlDocument extends Document implements CacheControllerFactoryAwareInterf
      *
      * @param   array  $data  The document head data in array form
      *
-     * @return  HtmlDocument|void instance of $this to allow chaining or void for empty input data
+     * @return  HtmlDocument  instance of $this to allow chaining
      *
      * @since   1.7.0
      */
     public function mergeHeadData($data)
     {
         if (empty($data) || !\is_array($data)) {
-            return;
+            return $this;
         }
 
         $this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
