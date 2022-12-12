@@ -19,7 +19,7 @@ use Joomla\Database\ParameterType;
 // phpcs:enable PSR1.Files.SideEffects
 
 /**
- * Components Category field.
+ * Workflow Transitions field.
  *
  * @since  4.0.0
  */
