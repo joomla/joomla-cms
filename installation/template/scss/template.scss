@@ -1,256 +1,264 @@
-// Variables
-@import "../../../build/media_source/templates/administrator/atum/scss/variables";
-$jicon-css-prefix: icon;
-$fa-css-prefix: fa;
-$fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
+// // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+// $prefix: "";
 
-// Font Awesome
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
+// // Variables
+// @import "../../../build/media_source/templates/administrator/atum/scss/variables";
+// $jicon-css-prefix: icon;
+// $fa-css-prefix: fa;
+// $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
-// "Font Awesome 5 Free"
-@import "../../../media/vendor/fontawesome-free/scss/fontawesome";
-@import "../../../media/vendor/fontawesome-free/scss/regular";
-@import "../../../media/vendor/fontawesome-free/scss/solid";
-@import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
+// // Font Awesome
+// @import "../../../build/media_source/templates/administrator/atum/scss/vendor/fontawesome-free/fontawesome";
 
-// B/C for Icomoon
-@import "../../../build/media_source/system/scss/icomoon";
+// // "Font Awesome 5 Free"
+// @import "../../../media/vendor/fontawesome-free/scss/fontawesome";
+// @import "../../../media/vendor/fontawesome-free/scss/regular";
+// @import "../../../media/vendor/fontawesome-free/scss/solid";
+// @import "../../../media/vendor/fontawesome-free/scss/brands"; // order of loading is important.
 
-// Bootstrap
-@import "../../../media/vendor/bootstrap/scss/functions";
+// // B/C for Icomoon
+// @import "../../../build/media_source/system/scss/icomoon";
 
-// Variables from the Atum template
-@import "../../../build/media_source/templates/administrator/atum/scss/variables";
+// // Bootstrap
+// @import "../../../media/vendor/bootstrap/scss/functions";
+// // Variables from the Atum template
+// @import "../../../build/media_source/templates/administrator/atum/scss/variables";
 
-// Bootstrap with the root.scss overridden
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap";
+// @import "../../../media/vendor/bootstrap/scss/variables";
+// @import "../../../media/vendor/bootstrap/scss/variables-dark.scss";
+// @import "../../../media/vendor/bootstrap/scss/maps";
+// @import "../../../media/vendor/bootstrap/scss/mixins";
+// @import "../../../media/vendor/bootstrap/scss/utilities";
 
-// Backend Template stuff
-@import "../../../build/media_source/templates/administrator/atum/scss/blocks/global";
-@import "../../../build/media_source/templates/administrator/atum/scss/blocks/header";
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
+// // Bootstrap with the root.scss overridden
+// @import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap";
 
-// Safari fix
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/reboot";
+// // Backend Template stuff
+// @import "../../../build/media_source/templates/administrator/atum/scss/blocks/global";
+// @import "../../../build/media_source/templates/administrator/atum/scss/blocks/header";
+// @import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/custom-forms";
+// @import "../../../build/media_source/templates/administrator/atum/scss/vendor/joomla-custom-elements/joomla-alert";
 
-body {
-  background: var(--template-bg-light);
-}
+// // Safari fix
+// @import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap/reboot";
 
-.form-select {
-  @extend .form-select;
-}
+// body {
+//   background: var(--template-bg-light);
+// }
 
-*,
-*::after,
-*::before {
-  box-sizing: border-box;
-}
+// .form-select {
+//   @extend .form-select;
+// }
 
-.j-install {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+// *,
+// *::after,
+// *::before {
+//   box-sizing: border-box;
+// }
 
-  .logo {
-    max-width: 270px;
-  }
+// .j-install {
+//   display: flex;
+//   flex-direction: column;
+//   min-height: 100vh;
 
-  img.logo-small,
-  svg.logo-small {
-    width: 2rem;
-    height: 2rem;
-  }
+//   .logo {
+//     max-width: 270px;
+//   }
 
-  .icon-question {
-    color: $white;
+//   img.logo-small,
+//   svg.logo-small {
+//     width: 2rem;
+//     height: 2rem;
+//   }
 
-    &:hover {
-      color: var(--template-link-color);
-    }
-  }
-}
+//   .icon-question {
+//     color: $white;
 
-.j-container {
-  width: 100%;
-  max-width: 40rem;
-  margin: 0 auto;
+//     &:hover {
+//       color: var(--template-link-color);
+//     }
+//   }
+// }
 
-  h1 {
-    color: $dark-blue;
-    text-align: center;
-  }
-}
+// .j-container {
+//   width: 100%;
+//   max-width: 40rem;
+//   margin: 0 auto;
 
-.j-install-step {
-  display: none;
-  margin-bottom: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 2px rgba(52, 58, 67, .1), 0 2px 5px rgba(52, 58, 67, .08), 0 5px 15px rgba(52, 58, 67, .08);
+//   h1 {
+//     color: $dark-blue;
+//     text-align: center;
+//   }
+// }
 
-  &.active {
-    display: block;
-  }
+// .j-install-step {
+//   display: none;
+//   margin-bottom: 20px;
+//   background-color: #fff;
+//   box-shadow: 0 0 2px rgba(52, 58, 67, .1), 0 2px 5px rgba(52, 58, 67, .08), 0 5px 15px rgba(52, 58, 67, .08);
 
-  select {
-    width: 100%;
-    margin-left: 0 !important;
-  }
-}
+//   &.active {
+//     display: block;
+//   }
 
-.j-install-step-header {
-  position: relative;
-  padding: 10px 25px;
-  font-size: 1.1rem;
-  line-height: 2.4rem;
-  color: $dark-blue;
-  background-color: #fff;
-  border-bottom: 1px solid #efefef;
+//   select {
+//     width: 100%;
+//     margin-left: 0 !important;
+//   }
+// }
 
-  span {
-    position: relative;
-    margin-right: 5px;
-    font-size: 1.2rem;
-  }
-}
+// .j-install-step-header {
+//   position: relative;
+//   padding: 10px 25px;
+//   font-size: 1.1rem;
+//   line-height: 2.4rem;
+//   color: $dark-blue;
+//   background-color: #fff;
+//   border-bottom: 1px solid #efefef;
 
-.j-install-step-form {
-  padding: .65rem 1.2rem;
+//   span {
+//     position: relative;
+//     margin-right: 5px;
+//     font-size: 1.2rem;
+//   }
+// }
 
-  // Remove default bootstrap margins in the installer forms.
-  .control-group {
-    margin-bottom: 0;
+// .j-install-step-form {
+//   padding: .65rem 1.2rem;
 
-    .control-label {
-      padding: 0;
-    }
-  }
-}
+//   // Remove default bootstrap margins in the installer forms.
+//   .control-group {
+//     margin-bottom: 0;
 
-.languageForm {
-  padding: 0 0 30px;
+//     .control-label {
+//       padding: 0;
+//     }
+//   }
+// }
 
-  .form-select {
-    width: 100%;
-  }
-}
+// .languageForm {
+//   padding: 0 0 30px;
 
-// Alerts
-#system-message-container joomla-alert {
-  margin-top: 25px;
-}
+//   .form-select {
+//     width: 100%;
+//   }
+// }
 
-.alert-heading {
-  font-size: $h4-font-size;
-}
+// // Alerts
+// #system-message-container joomla-alert {
+//   margin-top: 25px;
+// }
 
-.hidden,
-[hidden="hidden"] {
-  display: none;
-}
+// .alert-heading {
+//   font-size: $h4-font-size;
+// }
 
-.btn-success {
-  color: #fff;
-  background-color: #75b544;
-  border-color: #75b544;
-}
+// .hidden,
+// [hidden="hidden"] {
+//   display: none;
+// }
+
+// .btn-success {
+//   color: #fff;
+//   background-color: #75b544;
+//   border-color: #75b544;
+// }
 
 
-// Form
+// // Form
 
-.form-control {
-  background-color: var(--white-offset);
+// .form-control {
+//   background-color: var(--white-offset);
 
-  &.input-full {
-    max-width: 100%;
-  }
+//   &.input-full {
+//     max-width: 100%;
+//   }
 
-}
+// }
 
-label {
-  margin-bottom: .5rem;
-}
+// label {
+//   margin-bottom: .5rem;
+// }
 
-.control-group {
-  margin-bottom: 18px;
+// .control-group {
+//   margin-bottom: 18px;
 
-  &::after {
-    display: table;
-    clear: both;
-    content: "";
-  }
+//   &::after {
+//     display: table;
+//     clear: both;
+//     content: "";
+//   }
 
-  .control-label {
-    padding-top: 5px;
-    padding-right: 5px;
-    text-align: left;
-  }
-}
+//   .control-label {
+//     padding-top: 5px;
+//     padding-right: 5px;
+//     text-align: left;
+//   }
+// }
 
-.spacer hr {
-  width: 380px;
-}
+// .spacer hr {
+//   width: 380px;
+// }
 
-.card .form-select {
-  width: 100%;
-}
+// .card .form-select {
+//   width: 100%;
+// }
 
-td .form-control {
-  display: inline-block;
-  width: auto;
-}
+// td .form-control {
+//   display: inline-block;
+//   width: auto;
+// }
 
-legend {
-  margin-bottom: 1.1rem;
-}
+// legend {
+//   margin-bottom: 1.1rem;
+// }
 
-.checkboxes {
-  padding-top: 5px;
+// .checkboxes {
+//   padding-top: 5px;
 
-  .checkbox input {
-    position: static;
-    margin-left: 0;
-  }
+//   .checkbox input {
+//     position: static;
+//     margin-left: 0;
+//   }
 
-}
+// }
 
-.form-check {
-  padding-top: 5px;
-  margin-bottom: 0;
-}
+// .form-check {
+//   padding-top: 5px;
+//   margin-bottom: 0;
+// }
 
-// Possibly temporary until Bootstrap support it themselves
-.form-select[multiple] {
-  height: auto;
-  background: none;
-}
+// // Possibly temporary until Bootstrap support it themselves
+// .form-select[multiple] {
+//   height: auto;
+//   background: none;
+// }
 
-// Block display for the validation message
-.form-control-feedback {
-  display: block;
-  color: $red;
-}
+// // Block display for the validation message
+// .form-control-feedback {
+//   display: block;
+//   color: $red;
+// }
 
-// Language Table
-caption {
-  caption-side: top;
-}
+// // Language Table
+// caption {
+//   caption-side: top;
+// }
 
-.bg-warning {
-  color: #292b2c;
-}
+// .bg-warning {
+//   color: #292b2c;
+// }
 
-// footer
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: $zindex-header;
-  background-color: $white;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
-}
+// // footer
+// .footer {
+//   position: fixed;
+//   bottom: 0;
+//   left: 0;
+//   z-index: $zindex-header;
+//   background-color: $white;
+//   box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
+// }
 
-.table > :not(:last-child) > :last-child > * {
-  border-bottom-color: $table-border-color;
-}
+// .table > :not(:last-child) > :last-child > * {
+//   border-bottom-color: $table-border-color;
+// }

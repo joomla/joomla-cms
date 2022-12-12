@@ -1,3 +1,4 @@
+
 // Global
 $cassiopeia-container-main-bg:        hsl(0, 0%, 95%) !default;
 $cassiopeia-border-color:             hsl(210, 14%, 89%) !default;
@@ -6,9 +7,6 @@ $cassiopeia-block-header-bg:          hsl(0, 0%, 96%) !default;
 $cassiopeia-header-grad:              linear-gradient(135deg, var(--cassiopeia-color-primary) 0%, var(--cassiopeia-color-hover) 100%) !default;
 $cassiopeia-header-grad-rtl:          linear-gradient(135deg, var(--cassiopeia-color-hover) 0%, var(--cassiopeia-color-primary) 100%) !default;
 $cassiopeia-inverted-text-color:      var(--cassiopeia-color-hover) !default;
-
-// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
-$variable-prefix:                     "" !default;
 
 // Color system
 
@@ -46,16 +44,26 @@ $grays: (
   900:                                $gray-900
 ) !default;
 
-$blue:                                hsl(240, 98%, 17%) !default;
-$indigo:                              hsl(263, 90%, 51%) !default;
-$purple:                              hsl(261, 51%, 51%) !default;
-$pink:                                hsl(332, 79%, 58%) !default;
-$red:                                 hsl(3, 75%, 37%) !default;
-$orange:                              hsl(27, 98%, 54%) !default;
-$yellow:                              hsl(34, 100%, 34%) !default;
-$green:                               hsl(120, 32%, 39%) !default;
-$teal:                                hsl(194, 66%, 61%) !default;
-$cyan:                                hsl(207, 49%, 37%) !default;
+$blue:    #0d6efd !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #d63384 !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #198754 !default;
+$teal:    #20c997 !default;
+$cyan:    #0dcaf0 !default;
+// $blue:                                hsl(240, 98%, 17%) !default;
+// $indigo:                              hsl(263, 90%, 51%) !default;
+// $purple:                              hsl(261, 51%, 51%) !default;
+// $pink:                                hsl(332, 79%, 58%) !default;
+// $red:                                 hsl(3, 75%, 37%) !default;
+// $orange:                              hsl(27, 98%, 54%) !default;
+// $yellow:                              hsl(34, 100%, 34%) !default;
+// $green:                               hsl(120, 32%, 39%) !default;
+// $teal:                                hsl(194, 66%, 61%) !default;
+// $cyan:                                hsl(207, 49%, 37%) !default;
 
 $colors: (
   "blue":                             $blue,
@@ -71,8 +79,7 @@ $colors: (
   "white":                            $white
 ) !default;
 
-$primary:                             var(--cassiopeia-color-primary) !default;
-$primaryBS:                           $blue !default;
+$primary:                             $blue !default;
 $secondary:                           $gray-600 !default;
 $success:                             $green !default;
 $info:                                $cyan !default;
@@ -83,7 +90,7 @@ $dark:                                $gray-800 !default;
 
 
 $theme-colors: (
-  primary:                            $primaryBS,
+  primary:                            $blue,
   secondary:                          $secondary,
   success:                            $success,
   info:                               $info,
@@ -108,6 +115,9 @@ $colors: (
   focus:                           #39f,
   focus-shadow:                    0 0 0 .2rem #eaeaea,
   toggle-color:                    $white, //used in sidebar
+) !default;
+
+$cassiopeia-colors: (
   template-sidebar-bg:                 var(--template-bg-dark-80),
   template-sidebar-font-color:         $white,
   template-sidebar-link-color:         $white,
@@ -136,8 +146,8 @@ $colors: (
 ) !default;
 
 // Links
-$link-color:                          var(--cassiopeia-color-link) !default;
-$link-hover-color:                    var(--cassiopeia-color-hover) !default;
+$link-color:                          $primary; // var(--cassiopeia-color-link) !default;
+$link-hover-color:                    darken($primary, 24%); // var(--cassiopeia-color-hover) !default;
 
 // Breadcrumbs
 $breadcrumb-active-color:             $gray-700 !default;
@@ -227,7 +237,7 @@ $nav-link-padding-y:                  .5rem !default;
 // Navs
 $cassiopeia-tabs-header-bg:           $cassiopeia-block-header-bg !default;
 $cassiopeia-tabs-active-bg:           hsla(0, 0%, 0%, .3) !default;
-$cassiopeia-tabs-active-highlight:    $primaryBS !default;
+$cassiopeia-tabs-active-highlight:    var(--cassiopeia-color-primary) !default;
 
 // Navbar
 $nav-link-height:                     1.5rem + $nav-link-padding-y * 2 !default;

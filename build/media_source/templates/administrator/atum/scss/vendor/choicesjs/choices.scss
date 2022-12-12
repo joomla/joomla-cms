@@ -17,9 +17,9 @@
     cursor: pointer;
   }
 
-  &.is-focused {
-    box-shadow: $focusshadow;
-  }
+  // &.is-focused {
+  //   box-shadow: $focusshadow;
+  // }
 }
 
 .choices__inner {
@@ -30,9 +30,9 @@
   border: $input-border;
   border-radius: $border-radius;
 
-  .is-focused & {
-    border-color: $focuscolor;
-  }
+  // .is-focused & {
+  //   border-color: $focuscolor;
+  // }
 }
 
 .choices__input {

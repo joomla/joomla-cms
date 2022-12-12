@@ -6,10 +6,10 @@
   border: $input-border;
   border-radius: $border-radius;
 
-  &:focus {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
-  }
+  // &:focus {
+  //   border-color: $focuscolor;
+  //   box-shadow: $focusshadow;
+  // }
 
   &::placeholder {
     font-size: .8rem;

@@ -9,7 +9,9 @@ const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const commonjs = require('@rollup/plugin-commonjs');
-const bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
+let bsVersion = require('../../../package.json').dependencies.bootstrap.replace(/^\^|~/, '');
+
+if (bsVersion.startsWith('http')) bsVersion = `test-${(new Date()).getMilliseconds()}`;
 
 const tasks = [];
 const inputFolder = 'build/media_source/vendor/bootstrap/js';
@@ -34,8 +36,8 @@ const build = async () => {
     plugins: [
       nodeResolve(),
       replace({
+        'process.env.NODE_ENV': '"production"',
         preventAssignment: true,
-        'process.env.NODE_ENV': '\'production\'',
       }),
       babel({
         exclude: 'node_modules/core-js/**',
@@ -56,12 +58,6 @@ const build = async () => {
           ],
         ],
       }),
-    ],
-    external: [
-      './base-component.js',
-      ...domImports.map((file) => `./dom/${file}`),
-      ...domImports.map((file) => `./${file}`),
-      ...utilImports.map((file) => `./util/${file}`),
     ],
     manualChunks: {
       alert: ['build/media_source/vendor/bootstrap/js/alert.es6.js'],

@@ -1,8 +1,19 @@
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
+
+
 // Bootstrap functions
 @import "../../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
 @import "variables";
+
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables-dark.scss";
+@import "../../../../../../media/vendor/bootstrap/scss/maps";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../../../media/vendor/bootstrap/scss/utilities";
+
 
 // Bootstrap other
 @import "vendor/bootstrap";
@@ -64,6 +75,16 @@
 @import "pages/com_privacy";
 @import "pages/com_templates";
 @import "pages/com_users";
+
+// Custom Atum colors
+ :root {
+   @each $color, $value in $atum-colors {
+     --#{$prefix}#{$color}: #{$value};
+   }
+
+   // @TODO Find out why this color is different
+   --info-rgb: 42, 105, 184;
+ }
 
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {
