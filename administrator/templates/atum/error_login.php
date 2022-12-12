@@ -54,7 +54,7 @@ $loginLogoAlt = empty($this->params->get('loginLogoAlt')) && empty($this->params
     ? 'alt=""'
     : 'alt="' . htmlspecialchars($this->params->get('loginLogoAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
 
-    // Get the hue value
+// Get the hue value
 preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
 // Enable assets
@@ -82,7 +82,8 @@ $monochrome = (bool) $this->params->get('monochrome');
 $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="dark">
+
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -128,11 +129,14 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                             <?php if ($this->debug) : ?>
                                 <div>
                                     <?php echo $this->renderBacktrace(); ?>
-                                    <?php // Check if there are more Exceptions and render their data as well ?>
+                                    <?php // Check if there are more Exceptions and render their data as well
+                                    ?>
                                     <?php if ($this->error->getPrevious()) : ?>
                                         <?php $loop = true; ?>
-                                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-                                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+                                        <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly
+                                        ?>
+                                        <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions
+                                        ?>
                                         <?php $this->setError($this->_error->getPrevious()); ?>
                                         <?php while ($loop === true) : ?>
                                             <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
@@ -140,7 +144,8 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
                                             <?php echo $this->renderBacktrace(); ?>
                                             <?php $loop = $this->setError($this->_error->getPrevious()); ?>
                                         <?php endwhile; ?>
-                                        <?php // Reset the main error object to the base error ?>
+                                        <?php // Reset the main error object to the base error
+                                        ?>
                                         <?php $this->setError($this->error); ?>
                                     <?php endif; ?>
                                 </div>
@@ -163,4 +168,5 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
+
 </html>

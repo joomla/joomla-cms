@@ -86,6 +86,10 @@ $prefix: "";
    --info-rgb: 42, 105, 184;
  }
 
+:root[data-bs-theme="dark"] {
+  background-color: var(--black);
+  color: var(--white);
+}
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

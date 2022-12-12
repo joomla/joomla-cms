@@ -78,7 +78,7 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
     ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="dark">
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />

@@ -88,7 +88,8 @@ HTMLHelper::_('bootstrap.dropdown');
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="dark">
+
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -145,4 +146,5 @@ HTMLHelper::_('bootstrap.dropdown');
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
+
 </html>
