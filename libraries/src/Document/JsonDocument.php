@@ -66,11 +66,6 @@ class JsonDocument extends Document
 
         $app->allowCache($cache);
 
-        if ($this->_mime === 'application/json') {
-            // Browser other than Internet Explorer < 10
-            $app->setHeader('Content-Disposition', 'attachment; filename="' . $this->getName() . '.json"', true);
-        }
-
         parent::render($cache, $params);
 
         return $this->getBuffer();
