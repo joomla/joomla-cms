@@ -281,7 +281,7 @@ abstract class CMSPlugin implements PluginInterface
      *
      * @since   4.0.0
      *
-     * @todo   In 6.0 $dispatcher argument will no longer be nullable.
+     * @deprecated  6.0  Without replacement
      */
     final protected function registerLegacyListener(string $methodName, ?DispatcherInterface $dispatcher = null)
     {
@@ -337,7 +337,7 @@ abstract class CMSPlugin implements PluginInterface
      *
      * @since   4.0.0
      *
-     * @todo   In 6.0 $dispatcher argument will no longer be nullable.
+     * @deprecated  6.0  Use \Joomla\Dispatcher\DispatcherInterface::addListener() directly
      */
     final protected function registerListener(string $methodName, ?DispatcherInterface $dispatcher = null)
     {
