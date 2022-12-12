@@ -337,7 +337,7 @@ abstract class CMSPlugin implements PluginInterface
      *
      * @since   4.0.0
      *
-     * @deprecated  6.0  Use \Joomla\Dispatcher\DispatcherInterface::addListener() directly
+     * @deprecated  6.0  Use \Joomla\Event\DispatcherInterface::addListener() directly
      */
     final protected function registerListener(string $methodName, ?DispatcherInterface $dispatcher = null)
     {
