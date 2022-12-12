@@ -25,7 +25,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
 
