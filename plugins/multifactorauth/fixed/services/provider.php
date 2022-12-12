@@ -32,7 +32,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $config  = (array) PluginHelper::getPlugin('multifactorauth', 'fixed');
                 $subject = $container->get(DispatcherInterface::class);
 

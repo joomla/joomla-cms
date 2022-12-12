@@ -32,7 +32,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 // @Todo This needs to be changed to a proper factory
                 $plugin = \Joomla\CMS\Plugin\PluginHelper::getPlugin('quickicon', 'joomlaupdate');
 

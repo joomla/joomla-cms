@@ -53,7 +53,7 @@ return new class implements ServiceProviderInterface
 
         $container->set(
             ComponentInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $component = new ContactComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
                 $component->setRegistry($container->get(Registry::class));

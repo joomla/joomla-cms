@@ -42,7 +42,7 @@ class Menu implements ServiceProviderInterface
             ->alias(MenuFactory::class, MenuFactoryInterface::class)
             ->share(
                 MenuFactoryInterface::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $factory = new MenuFactory();
                     $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
                     $factory->setDatabase($container->get(DatabaseInterface::class));

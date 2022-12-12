@@ -41,7 +41,7 @@ class Form implements ServiceProviderInterface
             ->alias(FormFactory::class, FormFactoryInterface::class)
             ->share(
                 FormFactoryInterface::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $factory = new FormFactory();
                     $factory->setDatabase($container->get(DatabaseInterface::class));
 

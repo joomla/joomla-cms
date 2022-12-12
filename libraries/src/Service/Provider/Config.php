@@ -38,7 +38,7 @@ class Config implements ServiceProviderInterface
         $container->alias('config', 'JConfig')
             ->share(
                 'JConfig',
-                function (Container $container) {
+                static function (Container $container) {
                     if (!is_file(JPATH_CONFIGURATION . '/configuration.php')) {
                         return new Registry();
                     }

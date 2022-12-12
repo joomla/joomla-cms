@@ -38,7 +38,7 @@ class WebAssetRegistry implements ServiceProviderInterface
         $container->alias('webassetregistry', Registry::class)
             ->share(
                 Registry::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $registry = new Registry();
 
                     // Add Core registry files

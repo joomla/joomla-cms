@@ -34,7 +34,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container)
+            static function (Container $container)
             {
                 $plugin                 = PluginHelper::getPlugin('system', 'cache');
                 $dispatcher             = $container->get(DispatcherInterface::class);

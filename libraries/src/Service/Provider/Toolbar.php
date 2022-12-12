@@ -40,7 +40,7 @@ class Toolbar implements ServiceProviderInterface
             ->alias(ContainerAwareToolbarFactory::class, ToolbarFactoryInterface::class)
             ->share(
                 ToolbarFactoryInterface::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $factory = new ContainerAwareToolbarFactory();
                     $factory->setContainer($container);
 

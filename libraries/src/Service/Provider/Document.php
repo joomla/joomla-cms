@@ -41,7 +41,7 @@ class Document implements ServiceProviderInterface
             ->alias(Factory::class, FactoryInterface::class)
             ->share(
                 FactoryInterface::class,
-                function (Container $container) {
+                static function (Container $container) {
                     $factory = new Factory();
                     $factory->setCacheControllerFactory($container->get(CacheControllerFactoryInterface::class));
 

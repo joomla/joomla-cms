@@ -40,7 +40,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $config  = (array) PluginHelper::getPlugin('system', 'webauthn');
                 $subject = $container->get(DispatcherInterface::class);
 

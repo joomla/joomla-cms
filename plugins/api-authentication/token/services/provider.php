@@ -36,7 +36,7 @@ return new class implements ServiceProviderInterface
     {
         $container->set(
             PluginInterface::class,
-            function (Container $container) {
+            static function (Container $container) {
                 $plugin = new Token(
                     $container->get(DispatcherInterface::class),
                     (array) PluginHelper::getPlugin('api-authentication', 'token'),
