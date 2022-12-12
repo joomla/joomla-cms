@@ -43,16 +43,7 @@ class JsonDocument extends Document
         parent::__construct($options);
 
         // Set mime type
-        if (
-            isset($_SERVER['HTTP_ACCEPT'])
-            && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') === false
-            && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false
-        ) {
-            // Internet Explorer < 10
-            $this->_mime = 'text/plain';
-        } else {
-            $this->_mime = 'application/json';
-        }
+        $this->_mime = 'application/json';
 
         // Set document type
         $this->_type = 'json';
