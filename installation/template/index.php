@@ -61,7 +61,7 @@ Text::script('INSTL_REMOVE_INST_FOLDER');
 Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="dark">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <jdoc:include type="metas" />
