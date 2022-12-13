@@ -52,7 +52,13 @@ const updateAsset = async (asset, directory) => {
     }
   }
 
-  const jAssetFile = await lstat(path);
+  let jAssetFile;
+  try {
+    jAssetFile = await lstat(path);
+  } catch(err) {
+    final[directory].push(asset);
+    return;
+  }
 
   if (!jAssetFile.isFile()) {
     final[directory].push(asset);
