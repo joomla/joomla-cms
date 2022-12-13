@@ -273,7 +273,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
         );
 
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
 
         // Get the environment configuration.
         $basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;

@@ -42,7 +42,7 @@ class CompareModel extends ListModel
      */
     public function getItems()
     {
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         /** @var ContentHistory $table1 */
         $table1 = $this->getTable('ContentHistory');
