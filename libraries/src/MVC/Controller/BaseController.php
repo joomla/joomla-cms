@@ -1046,7 +1046,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface, L
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getLogger()
+    protected function getLogger()
     {
         // If a logger hasn't been set, use NullLogger
         if (!($this->logger instanceof LoggerInterface)) {
