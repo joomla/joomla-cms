@@ -209,17 +209,30 @@ abstract class PluginHelper
     /**
      * Loads the plugin file.
      *
-     * @param   object               $plugin      The plugin.
-     * @param   boolean              $autocreate  Whether to register listeners with the event dispatcher.
-     * @param   DispatcherInterface  $dispatcher  The event dispatcher.
+     * @param   object                $plugin      The plugin.
+     * @param   boolean               $autocreate  Whether to register listeners with the event dispatcher.
+     * @param   ?DispatcherInterface  $dispatcher  The event dispatcher. In 6.0 this will be required.
      *
      * @return  void
      *
      * @since   3.2
      */
-    protected static function import($plugin, $autocreate, DispatcherInterface $dispatcher)
+    protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
         static $plugins = [];
+
+        if ($dispatcher === null) {
+            @trigger_error(
+                sprintf('Passing an instance of %1$s to %2$s() will be required in 6.0', DispatcherInterface::class, __METHOD__),
+                \E_USER_DEPRECATED
+            );
+
+            try {
+                $dispatcher = Factory::getApplication()->getDispatcher();
+            } catch (\UnexpectedValueException) {
+                $dispatcher = Factory::getContainer()->get(DispatcherInterface::class);
+            }
+        }
 
         // Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
         $hash = spl_object_id($dispatcher) . $plugin->type . $plugin->name;
