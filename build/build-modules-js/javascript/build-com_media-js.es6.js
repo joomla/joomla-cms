@@ -74,15 +74,15 @@ module.exports.mediaManager = async () => {
         css: false,
         compileTemplate: true,
         template: {
-          isProduction: isProduction,
+          isProduction,
         },
       }),
       nodeResolve(),
       commonjs(),
       replace({
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV && process.env.NODE_ENV.toLocaleLowerCase() || 'production'),
-        '__VUE_OPTIONS_API__': true,
-        '__VUE_PROD_DEVTOOLS__': isProduction,
+        'process.env.NODE_ENV': JSON.stringify((process.env.NODE_ENV && process.env.NODE_ENV.toLocaleLowerCase()) || 'production'),
+        __VUE_OPTIONS_API__: true,
+        __VUE_PROD_DEVTOOLS__: isProduction,
         preventAssignment: true,
       }),
       babel({
@@ -124,11 +124,11 @@ module.exports.mediaManager = async () => {
     console.log('✅ ES2017 Media Manager ready');
     minifyJs('media/com_media/js/media-manager.js');
     return buildLegacy(resolve('media/com_media/js/media-manager.js'));
-  } else {
-    // eslint-disable-next-line no-console
-    console.log('✅ ES2017 Media Manager ready');
-    copyFile('media/com_media/js/media-manager.js', 'media/com_media/js/media-manager.js');
   }
+  // eslint-disable-next-line no-console
+  console.log('✅ ES2017 Media Manager ready');
+  copyFile('media/com_media/js/media-manager.js', 'media/com_media/js/media-manager.js');
+  return '';
 };
 
 module.exports.watchMediaManager = async () => {

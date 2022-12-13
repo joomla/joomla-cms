@@ -9,5 +9,5 @@ export const persistedStateOptions = {
     listView: state.listView,
     gridSize: state.gridSize,
     search: state.search,
-  })
+  }),
 };
