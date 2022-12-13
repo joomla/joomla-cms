@@ -28,7 +28,7 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 @import "../../../build/media_source/templates/administrator/atum/scss/variables";
 
 // Bootstrap with the root.scss overridden
-@import "../../../build/media_source/templates/administrator/atum/scss/vendor/bootstrap";
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
 
 // Backend Template stuff
 @import "../../../build/media_source/templates/administrator/atum/scss/blocks/global";
