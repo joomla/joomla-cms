@@ -6483,6 +6483,12 @@ class JoomlaInstallerScript
             '/plugins/quickicon/phpversioncheck/phpversioncheck.php',
             '/plugins/quickicon/privacycheck/privacycheck.php',
             // From 4.3.0-alpha1 to 4.3.0-alpha2
+            '/media/com_users/js/admin-users-mail-es5.js',
+            '/media/com_users/js/admin-users-mail-es5.min.js',
+            '/media/com_users/js/admin-users-mail-es5.min.js.gz',
+            '/media/com_users/js/admin-users-mail.js',
+            '/media/com_users/js/admin-users-mail.min.js',
+            '/media/com_users/js/admin-users-mail.min.js.gz',
             '/plugins/content/emailcloak/emailcloak.php',
             '/plugins/content/fields/fields.php',
         );
