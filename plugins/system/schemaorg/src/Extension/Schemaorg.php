@@ -129,38 +129,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         }
 
         //Load the form fields
-        $xml = '<?xml version="1.0" encoding="utf-8"?>
-        <form>
-            <fields name="schema">
-                <fieldset
-                    name="schema"
-                    label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_LABEL"
-                    description="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_DESCRIPTION"
-                >
-                    <field
-                        name="itemId"
-                        type="hidden"
-                        filter="string"
-                        size="30"
-                        required="0"
-                    />
-        
-                    <field
-                        name="schemaType"
-                        type="list"
-                        label="PLG_SYSTEM_SCHEMAORG_FIELD_SCHEMA_TYPE_LABEL"
-                        default="None"
-                        >
-                        <option value="None">PLG_SYSTEM_SCHEMAORG_FIELD_NONE_LABEL</option>
-                    </field>
-        
-                </fieldset>
-            </fields>
-        </form>
-        ';
-
-        $form->setField(simplexml_load_string($xml));
-        //$form->loadFile(__DIR__ . 'forms/schemaorg.xml');
+        $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/src/forms/schemaorg.xml');
 
         $dispatcher = Factory::getApplication()->getDispatcher();
 
