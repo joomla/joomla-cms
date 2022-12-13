@@ -216,6 +216,7 @@ abstract class PluginHelper
      * @return  void
      *
      * @since   3.2
+     * @todo    Arguments will not be optional in 6.0.
      */
     protected static function import($plugin, $autocreate = true, ?DispatcherInterface $dispatcher = null)
     {
