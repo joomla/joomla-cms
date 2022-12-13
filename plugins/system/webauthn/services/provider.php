@@ -45,7 +45,7 @@ return new class implements ServiceProviderInterface
                 $subject = $container->get(DispatcherInterface::class);
 
                 $app     = Factory::getApplication();
-                $session = $container->has('session') ? $container->get('session') : $this->getSession($app);
+                $session = $container->has('session') ? $container->get('session') : self::getSession($app);
 
                 $db                    = $container->get('DatabaseDriver');
                 $credentialsRepository = $container->has(PublicKeyCredentialSourceRepository::class)
@@ -82,7 +82,7 @@ return new class implements ServiceProviderInterface
      *
      * @since  4.2.0
      */
-    private function getSession(ApplicationInterface $app)
+    private static function getSession(ApplicationInterface $app)
     {
         return $app instanceof SessionAwareWebApplicationInterface ? $app->getSession() : null;
     }
