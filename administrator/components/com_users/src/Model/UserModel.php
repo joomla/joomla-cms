@@ -1081,7 +1081,7 @@ class UserModel extends AdminModel
 
         try {
             $params = json_decode($user->params);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
