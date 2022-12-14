@@ -89,6 +89,14 @@ $prefix: "";
 :root[data-bs-theme="dark"] {
   background-color: var(--black);
   color: var(--white);
+
+  .table {
+    --table-bg: unset;
+  }
+
+  joomla-tab > joomla-tab-element {
+    background-color: var(--black);
+  }
 }
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {

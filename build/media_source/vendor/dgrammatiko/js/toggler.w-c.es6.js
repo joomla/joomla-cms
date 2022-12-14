@@ -115,7 +115,7 @@ export class Switcher extends HTMLElement {
     const inverted = this.value === 'false' ? 'true' : 'false';
     this.value = inverted;
     this.html.setAttribute('data-bs-theme', inverted === 'true' ? 'dark' : 'light')
-    this.dispatchEvent(new Event('joomla:toggle-theme'));
+    window.dispatchEvent(new CustomEvent('joomla:toggle-theme'));
   }
 
   render() {
