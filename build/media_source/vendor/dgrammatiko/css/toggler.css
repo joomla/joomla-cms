@@ -1,0 +1,70 @@
+/* https://github.com/dgrammatiko/dark-switch/blob/master/src/index.css */
+joomla-theme-switch {
+  --switch-width: 50px;
+  --switch-height: 25px;
+  --switch-dark: #000;
+  --switch-light: lightblue;
+
+  position: relative;
+  display: inline-block;
+  width: var(--switch-width);
+  height: var(--switch-height);
+}
+
+joomla-theme-switch button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  height: var(--switch-height);
+  width: var(--switch-width);
+  color: transparent;
+  background-color: var(--switch-dark);
+  border-radius: var(--switch-height);
+  transition: 0.3s;
+}
+
+joomla-theme-switch button::before {
+  position: absolute;
+  content: "";
+  height: var(--switch-height);
+  width: var(--switch-height);
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: var(--switch-height);
+  background-color: var(--switch-dark);
+  background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='white' d='M283.211 512c78.962 0 151.079-35.925 198.857-94.792 7.068-8.708-.639-21.43-11.562-19.35-124.203 23.654-238.262-71.576-238.262-196.954 0-72.222 38.662-138.635 101.498-174.394 9.686-5.512 7.25-20.197-3.756-22.23A258.156 258.156 0 0 0 283.211 0c-141.309 0-256 114.511-256 256 0 141.309 114.511 256 256 256z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: all ease 0.3s;
+}
+
+joomla-theme-switch button[aria-pressed="false"] {
+  background-color: var(--switch-light);
+}
+
+joomla-theme-switch button[aria-pressed="false"]::before {
+  transform: translateX(var(--switch-height));
+  background-color: var(--switch-light);
+  background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='yellow' d='M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+joomla-theme-switch button span {
+  color: transparent;
+  background-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  joomla-theme-switch button,
+  joomla-theme-switch button::before {
+    transition: 0;
+  }
+}

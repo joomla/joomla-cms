@@ -16,12 +16,18 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 
+$doc            = Factory::getDocument();
 $modulePosition = $displayData['modules'];
 
-$renderer   = Factory::getDocument()->loadRenderer('module');
+$doc->getWebAssetManager()
+    ->registerAndUseScript('joomla-theme-switch', 'vendor/dgrammatiko/toggler.js', [], ['type' => 'module'])
+    ->registerAndUseStyle('joomla-theme-switch', 'vendor/dgrammatiko/toggler.css');
+
+$themeToggler = '<joomla-theme-switch default=true text-on=on text-off=off text-legend="dark theme:"></joomla-theme-switch>';
+$renderer   = $doc->loadRenderer('module');
 $modules    = ModuleHelper::getModules($modulePosition);
-$moduleHtml = [];
-$moduleCollapsedHtml = [];
+$moduleHtml = [$themeToggler];
+$moduleCollapsedHtml = [$themeToggler];
 
 foreach ($modules as $key => $mod) {
     $out = $renderer->render($mod);

@@ -271,4 +271,29 @@ class UserController extends BaseController
         // Check for request forgeries
         // $this->checkToken('post');
     }
+
+    /**
+     * Method to set the a11y settings of a user.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setA11ySettings()
+    {
+        // index.php?option=com_users&task=user.setA11ySettings
+        // Check for request forgeries
+        $this->checkToken('post');
+
+        /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
+        $model  = $this->getModel('Profile', 'Site');
+        $data   = $this->input->json->get('data', [], 'array');
+        $return = $model->setA11ySettings($data);
+
+        if ($return instanceof \Exception || $return === false) {
+            return false;
+        }
+
+        return true;
+    }
 }
