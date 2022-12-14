@@ -421,7 +421,7 @@ trait DisplayTrait
                 'skin'     => $skin,
                 'theme'    => $theme,
                 'schema'   => 'html5',
-                
+
                 // Prevent cursor from getting stuck in blocks when nested or at end of document.
                 'end_container_on_empty_block' => true,
 
