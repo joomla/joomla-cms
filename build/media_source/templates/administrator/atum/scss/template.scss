@@ -89,7 +89,12 @@ $prefix: "";
 :root[data-bs-theme="dark"] {
   background-color: var(--black);
   color: var(--white);
-
+  .quick-icons .quickicon {
+    --bg-color: hsl(var(--hue), 30%, 7%);
+  }
+  .com_cpanel .module-actions>* {
+    color: var(--template-bg-dark-70);
+  }
   .table {
     --table-bg: unset;
   }
@@ -98,6 +103,7 @@ $prefix: "";
     background-color: var(--black);
   }
 }
+
 // Forcing reduced motion when set in the user OS
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

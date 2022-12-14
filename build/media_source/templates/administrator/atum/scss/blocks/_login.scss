@@ -101,7 +101,7 @@
 
   input:focus,
   select:focus {
-    background: $white;
+    background: unset;
     box-shadow: inset 0 0 1px 1px var(--template-contrast);
   }
 
