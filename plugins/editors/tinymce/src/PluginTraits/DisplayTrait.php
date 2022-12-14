@@ -421,6 +421,9 @@ trait DisplayTrait
                 'skin'     => $skin,
                 'theme'    => $theme,
                 'schema'   => 'html5',
+                
+                // Prevent cursor from getting stuck in blocks at end of document.
+                'end_container_on_empty_block' => true,
 
                 // Toolbars
                 'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
