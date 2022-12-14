@@ -29,7 +29,7 @@ export class Switcher extends HTMLElement {
           break;
         }
         if (newValue === 'true') {
-          localStorage.setItem('darkthemeswitcher', 'true');
+          // localStorage.setItem('darkthemeswitcher', 'true');
           this.state = 'true'
           if (this.button) {
             this.button.setAttribute('aria-pressed', 'true');
@@ -39,7 +39,7 @@ export class Switcher extends HTMLElement {
           break;
         }
         if (newValue === 'false') {
-          localStorage.setItem('darkthemeswitcher', 'false');
+          // localStorage.setItem('darkthemeswitcher', 'false');
           this.state = 'false'
           if (this.button) {
             this.button.setAttribute('aria-pressed', 'false');
@@ -91,7 +91,7 @@ export class Switcher extends HTMLElement {
   }
 
   calcInitialState() {
-    this.state = localStorage.getItem('darkthemeswitcher');
+    // this.state = localStorage.getItem('darkthemeswitcher');
     if (!this.default && !this.state) {
       if (this.supportsMediaColorScheme) {
         this.state = matchMedia("('prefers-color-scheme': 'light'),('prefers-color-scheme':'no-preference')").matches ? 'false' : 'true';
