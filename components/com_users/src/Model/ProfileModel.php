@@ -288,30 +288,6 @@ class ProfileModel extends FormModel
     }
 
     /**
-     * Method to save the form data.
-     *
-     * @return  bool
-     *
-     * @since   __DEPLOY_VERSION__
-     * @throws  \Exception
-     */
-    public function setA11ySettings()
-    {
-        $userId = (int) $this->getCurrentUser()->get('id');
-
-        if ($userId === 0) {
-            return false;
-        }
-
-        // $user->id
-        // Get the current User params
-        // Update the given setting
-        //params: {"admin_style":"","admin_language":"","language":"","editor":"","timezone":"","prefered_theme":"0","a11y_mono":"0","a11y_contrast":"0","a11y_highlight":"0","a11y_font":"0"}
-
-        return true;
-    }
-
-    /**
      * Gets the configuration forms for all two-factor authentication methods
      * in an array.
      *

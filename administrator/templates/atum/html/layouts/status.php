@@ -16,14 +16,15 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 
-$doc            = Factory::getDocument();
-$modulePosition = $displayData['modules'];
+$doc                = Factory::getDocument();
+$modulePosition     = $displayData['modules'];
+$prefersColorScheme = $displayData['prefersColorScheme'];
 
 $doc->getWebAssetManager()
     ->registerAndUseScript('joomla-theme-switch', 'vendor/dgrammatiko/toggler.js', [], ['type' => 'module'])
     ->registerAndUseStyle('joomla-theme-switch', 'vendor/dgrammatiko/toggler.css');
 
-$themeToggler = '<joomla-theme-switch default=true text-on=on text-off=off text-legend="dark theme:"></joomla-theme-switch>';
+$themeToggler = '<joomla-theme-switch default="' . $prefersColorScheme . '" text-on=on text-off=off text-legend="dark theme:"></joomla-theme-switch>';
 $renderer   = $doc->loadRenderer('module');
 $modules    = ModuleHelper::getModules($modulePosition);
 $moduleHtml = [$themeToggler];

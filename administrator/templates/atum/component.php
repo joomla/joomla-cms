@@ -43,10 +43,18 @@ $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1)
 $this->addHeadLink(HTMLHelper::_('image', 'favicon.ico', '', [], true, 1), 'alternate icon', 'rel', ['type' => 'image/vnd.microsoft.icon']);
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon-pinned.svg', '', [], true, 1), 'mask-icon', 'rel', ['color' => '#000']);
 
+// Getting user accessibility settings
+$user           = $app->getIdentity();
+// $a11y_mono      = (bool) $user->getParam('a11y_mono', '');
+// $a11y_contrast  = (bool) $user->getParam('a11y_contrast', '');
+// $a11y_highlight = (bool) $user->getParam('a11y_highlight', '');
+// $a11y_font      = (bool) $user->getParam('a11y_font', '');
+$a11yColorScheme = $user->getParam('prefers_color_scheme', '');
+$prefersColorScheme = !empty($a11yColorScheme) ? $a11yColorScheme : 'light';
 ?>
 
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="dark">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="<?= $prefersColorScheme; ?>">
 
 <head>
     <jdoc:include type="metas" />

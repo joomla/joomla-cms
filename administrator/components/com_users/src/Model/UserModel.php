@@ -22,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -1058,6 +1059,56 @@ class UserModel extends AdminModel
             ),
             E_USER_DEPRECATED
         );
+
+        return true;
+    }
+
+    /**
+     * Method to update a given setting in params.
+     *
+     * @return  bool
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setA11ySettings($data)
+    {
+        $user   = $this->getCurrentUser();
+        $userId = $user->get('id');
+
+        if ($userId === 0) {
+            return false;
+        }
+
+        try {
+            $params = json_decode($user->params);
+        } catch(\Exception $e) {
+            return false;
+        }
+
+        if (!$params || !in_array($data->prefersColorScheme, ['light', 'dark'])) {
+            return false;
+        }
+
+        // Update the given setting
+        $params->prefers_color_scheme = $data->prefersColorScheme;
+
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true);
+
+        $query->update($db->quoteName('#__users'))
+        ->set($db->quoteName('params') . ' = :params')
+        ->where($db->quoteName('id'), $userId)
+            ->bind(':params', json_encode($params), ParameterType::STRING);
+
+        $db->setQuery($query);
+
+        try {
+            $db->execute();
+        } catch (\RuntimeException $e) {
+            $this->setError($e->getMessage());
+
+            return false;
+        }
 
         return true;
     }

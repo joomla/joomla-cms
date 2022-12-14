@@ -13,6 +13,7 @@ namespace Joomla\Component\Users\Administrator\Controller;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -154,5 +155,35 @@ class UserController extends FormController
      */
     protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
     {
+    }
+
+    /**
+     * Method to set the a11y settings of a user.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function setA11ySettings()
+    {
+        // index.php?option=com_users&task=user.setA11ySettings
+        // Check for request forgeries
+        $this->checkToken('request');
+
+        try {
+            /** @var \Joomla\Component\Users\Administrator\Model\UserModel $model */
+            $model  = $this->getModel('User', 'Administrator');
+            $data   = (object) $this->input->json->get('data', [], 'array');
+            $result = $model->setA11ySettings($data);
+
+            if ($result instanceof \Exception || $result === false) {
+                return false;
+            }
+            echo new JsonResponse($result);
+        } catch (\Exception $e) {
+            echo new JsonResponse($e);
+        }
+
+        return true;
     }
 }

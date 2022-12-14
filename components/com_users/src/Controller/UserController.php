@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -283,15 +284,20 @@ class UserController extends BaseController
     {
         // index.php?option=com_users&task=user.setA11ySettings
         // Check for request forgeries
-        $this->checkToken('post');
+        $this->checkToken('request');
 
-        /** @var \Joomla\Component\Users\Site\Model\ProfileModel $model */
-        $model  = $this->getModel('Profile', 'Site');
-        $data   = $this->input->json->get('data', [], 'array');
-        $return = $model->setA11ySettings($data);
+        try {
+            /** @var \Joomla\Component\Users\Administrator\Model\UserModel $model */
+            $model  = $this->getModel('User', 'Administrator');
+            $data   = (object) $this->input->json->get('data', [], 'array');
+            $result = $model->setA11ySettings($data);
 
-        if ($return instanceof \Exception || $return === false) {
-            return false;
+            if ($result instanceof \Exception || $result === false) {
+                return false;
+            }
+            echo new JsonResponse($result);
+        } catch (\Exception $e) {
+            echo new JsonResponse($e);
         }
 
         return true;

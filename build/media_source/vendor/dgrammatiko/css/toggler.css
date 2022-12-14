@@ -3,7 +3,7 @@ joomla-theme-switch {
   --switch-width: 50px;
   --switch-height: 25px;
   --switch-dark: #000;
-  --switch-light: lightblue;
+  --switch-light: hsl(214,40%,40%);
 
   position: relative;
   display: inline-block;

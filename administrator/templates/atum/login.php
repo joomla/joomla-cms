@@ -77,18 +77,26 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $monochrome = (bool) $this->params->get('monochrome');
+// Getting user accessibility settings
+$user           = $app->getIdentity();
+$a11y_mono      = (bool) $user->getParam('a11y_mono', '');
+$a11y_contrast  = (bool) $user->getParam('a11y_contrast', '');
+$a11y_highlight = (bool) $user->getParam('a11y_highlight', '');
+$a11y_font      = (bool) $user->getParam('a11y_font', '');
+$a11yColorScheme = $user->getParam('prefers_color_scheme', '');
+$prefersColorScheme = !empty($a11yColorScheme) ? $a11yColorScheme : 'light';
 
 // Add cookie alert message
 Text::script('JGLOBAL_WARNCOOKIES');
 
 // @see administrator/templates/atum/html/layouts/status.php
-$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
+$statusModules = LayoutHelper::render('status', ['modules' => 'status', 'prefersColorScheme' => $prefersColorScheme]);
 
 HTMLHelper::_('bootstrap.dropdown');
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="dark">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="<?= $prefersColorScheme; ?>">
 
 <head>
     <jdoc:include type="metas" />

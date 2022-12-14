@@ -50,14 +50,14 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     ? 'alt=""'
     : 'alt="' . htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8') . '"';
 
-    // Get the hue value
-    preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
+// Get the hue value
+preg_match('#^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$#i', $this->params->get('hue', 'hsl(214, 63%, 20%)'), $matches);
 
-    // Enable assets
-    $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
-        ->useStyle('template.active.language')
-        ->useStyle('template.user')
-        ->addInlineStyle(':root {
+// Enable assets
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+    ->useStyle('template.active.language')
+    ->useStyle('template.user')
+    ->addInlineStyle(':root {
 			--hue: ' . $matches[1] . ';
 			--template-bg-light: ' . $this->params->get('bg-light', '#f0f4fb') . ';
 			--template-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
@@ -67,18 +67,28 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
 		}');
 
 // Override 'template.active' asset to set correct ltr/rtl dependency
-    $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
+$wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Set some meta data
-    $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+$this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-    $monochrome = (bool) $this->params->get('monochrome');
+// Getting user accessibility settings
+$user           = $app->getIdentity();
+$a11y_mono      = (bool) $user->getParam('a11y_mono', '');
+$a11y_contrast  = (bool) $user->getParam('a11y_contrast', '');
+$a11y_highlight = (bool) $user->getParam('a11y_highlight', '');
+$a11y_font      = (bool) $user->getParam('a11y_font', '');
+$a11yColorScheme = $user->getParam('prefers_color_scheme', '');
+$prefersColorScheme = !empty($a11yColorScheme) ? $a11yColorScheme : 'light';
+
+$monochrome = (bool) $this->params->get('monochrome');
 
 // @see administrator/templates/atum/html/layouts/status.php
-    $statusModules = LayoutHelper::render('status', ['modules' => 'status']);
-    ?>
+$statusModules = LayoutHelper::render('status', ['modules' => 'status', 'prefersColorScheme' => $prefersColorScheme]);
+?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="dark">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="<?= $prefersColorScheme; ?>">
+
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
@@ -109,8 +119,7 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
         <div class="container-fluid container-main">
             <?php if (!$cpanel) : ?>
-                <a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-bs-toggle="collapse"
-                   data-bs-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
+                <a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-bs-toggle="collapse" data-bs-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
                     <span class="icon-wrench"></span></a>
                 <div id="subhead" class="subhead mb-3">
                     <div id="container-collapse" class="container-collapse"></div>
@@ -134,11 +143,14 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                         <?php if ($this->debug) : ?>
                             <div>
                                 <?php echo $this->renderBacktrace(); ?>
-                                <?php // Check if there are more Exceptions and render their data as well ?>
+                                <?php // Check if there are more Exceptions and render their data as well
+                                ?>
                                 <?php if ($this->error->getPrevious()) : ?>
                                     <?php $loop = true; ?>
-                                    <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
-                                    <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+                                    <?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly
+                                    ?>
+                                    <?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions
+                                    ?>
                                     <?php $this->setError($this->_error->getPrevious()); ?>
                                     <?php while ($loop === true) : ?>
                                         <p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
@@ -146,7 +158,8 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
                                         <?php echo $this->renderBacktrace(); ?>
                                         <?php $loop = $this->setError($this->_error->getPrevious()); ?>
                                     <?php endwhile; ?>
-                                    <?php // Reset the main error object to the base error ?>
+                                    <?php // Reset the main error object to the base error
+                                    ?>
                                     <?php $this->setError($this->error); ?>
                                 <?php endif; ?>
                             </div>
@@ -185,4 +198,5 @@ $logoBrandSmallAlt = empty($this->params->get('logoBrandSmallAlt')) && empty($th
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
+
 </html>

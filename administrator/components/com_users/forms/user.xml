@@ -194,16 +194,15 @@
 			description="COM_USERS_A11Y_SETTINGS_FIELDSET_DESC"
 		>
 			<field
- 				name="prefered_theme"
+ 				name="prefers_color_scheme"
  				type="list"
- 				label="COM_USERS_A11Y_SETTINGS_FIELD_PREFERED_THEME_LABEL"
- 				description="COM_USERS_A11Y_SETTINGS_FIELD_PREFERED_THEME_DESC"
+ 				label="COM_USERS_A11Y_SETTINGS_FIELD_PREFERS_COLOR_SCHEME_LABEL"
+ 				description="COM_USERS_A11Y_SETTINGS_FIELD_PREFERS_COLOR_SCHEME_DESC"
  				default=""
  				>
- 				<option value="0">COM_USERS_A11Y_SETTINGS_FIELD_PREFERED_THEME_LIGHT</option>
- 				<option value="1">COM_USERS_A11Y_SETTINGS_FIELD_PREFERED_THEME_DARK</option>
- 				<option value="2">COM_USERS_A11Y_SETTINGS_FIELD_PREFERED_THEME_OS</option>
- 				<option value="">COM_USERS_A11Y_SETTINGS_FIELD_PREFERED_THEME_SITE</option>
+ 				<option value="light">COM_USERS_A11Y_SETTINGS_FIELD_PREFERS_COLOR_SCHEME_LIGHT</option>
+ 				<option value="dark">COM_USERS_A11Y_SETTINGS_FIELD_PREFERS_COLOR_SCHEME_DARK</option>
+ 				<option value="">COM_USERS_A11Y_SETTINGS_FIELD_PREFERS_COLOR_SCHEME_SITE</option>
  			</field>
 			<field
 				name="a11y_mono"

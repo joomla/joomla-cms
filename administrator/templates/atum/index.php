@@ -33,10 +33,13 @@ $hiddenMenu   = $app->getInput()->get('hidemainmenu');
 $sidebarState = $input->cookie->get('atumSidebarState', '');
 
 // Getting user accessibility settings
-$a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
-$a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
-$a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
-$a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
+$user           = $app->getIdentity();
+$a11y_mono      = (bool) $user->getParam('a11y_mono', '');
+$a11y_contrast  = (bool) $user->getParam('a11y_contrast', '');
+$a11y_highlight = (bool) $user->getParam('a11y_highlight', '');
+$a11y_font      = (bool) $user->getParam('a11y_font', '');
+$a11yColorScheme = $user->getParam('prefers_color_scheme', '');
+$prefersColorScheme = !empty($a11yColorScheme) ? $a11yColorScheme : 'light';
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);
@@ -85,10 +88,10 @@ $monochrome = (bool) $this->params->get('monochrome');
 Text::script('TPL_ATUM_MORE_ELEMENTS');
 
 // @see administrator/templates/atum/html/layouts/status.php
-$statusModules = LayoutHelper::render('status', ['modules' => 'status']);
+$statusModules = LayoutHelper::render('status', ['modules' => 'status', 'prefersColorScheme' => $prefersColorScheme]);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?> data-bs-theme="dark">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?> data-bs-theme="<?= $prefersColorScheme; ?>">
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
