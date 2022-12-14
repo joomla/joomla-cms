@@ -398,10 +398,10 @@ class TemplateModel extends AdminModel
     {
         parent::populateState();
 
-        $template_id = Factory::getApplication()->input->getCmd('template_id');
+        $template_id = Factory::getApplication()->getInput()->getCmd('template_id');
         $this->setState($this->getName() . '.template_id', $template_id);
 
-        $language = Factory::getApplication()->input->getCmd('language');
+        $language = Factory::getApplication()->getInput()->getCmd('language');
         $this->setState($this->getName() . '.language', $language);
     }
 }

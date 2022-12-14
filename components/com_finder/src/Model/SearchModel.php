@@ -143,7 +143,7 @@ class SearchModel extends ListModel
 
         $query->from('#__finder_links AS l');
 
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
         $groups = $this->getState('user.groups', $user->getAuthorisedViewLevels());
         $query->whereIn($db->quoteName('l.access'), $groups)
             ->where('l.state = 1')
@@ -350,9 +350,9 @@ class SearchModel extends ListModel
     {
         // Get the configuration options.
         $app      = Factory::getApplication();
-        $input    = $app->input;
+        $input    = $app->getInput();
         $params   = $app->getParams();
-        $user     = Factory::getUser();
+        $user     = $this->getCurrentUser();
         $language = Factory::getLanguage();
 
         $this->setState('filter.language', Multilanguage::isEnabled());

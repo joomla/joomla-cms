@@ -58,7 +58,7 @@ class AssociationField extends FormField
         $html = array();
 
         $linkAssociations = 'index.php?option=com_associations&amp;view=associations&amp;layout=modal&amp;tmpl=component'
-            . '&amp;forcedItemType=' . Factory::getApplication()->input->get('itemtype', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
+            . '&amp;forcedItemType=' . Factory::getApplication()->getInput()->get('itemtype', '', 'string') . '&amp;function=jSelectAssociation_' . $this->id;
 
         $linkAssociations .= "&amp;forcedLanguage=' + document.getElementById('target-association').getAttribute('data-language') + '";
 

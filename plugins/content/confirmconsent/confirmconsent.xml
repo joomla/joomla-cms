@@ -11,7 +11,7 @@
 	<description>PLG_CONTENT_CONFIRMCONSENT_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Content\ConfirmConsent</namespace>
 	<files>
-		<filename plugin="confirmconsent">confirmconsent.php</filename>
+		<folder plugin="confirmconsent">services</folder>
 		<folder>src</folder>
 	</files>
 	<languages>

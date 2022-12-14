@@ -18,7 +18,6 @@ use Joomla\CMS\Toolbar\Button\LinkButton;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Model\MethodModel;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -112,8 +111,7 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
 
         if (empty($this->user)) {
-            $this->user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $this->user = $this->getCurrentUser();
         }
 
         /** @var MethodModel $model */
