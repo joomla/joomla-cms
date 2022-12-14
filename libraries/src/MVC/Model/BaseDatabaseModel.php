@@ -231,7 +231,13 @@ abstract class BaseDatabaseModel extends BaseModel implements
             $config['dbo'] = $this->getDbo();
         }
 
-        return $this->getMVCFactory()->createTable($name, $prefix, $config);
+        $table = $this->getMVCFactory()->createTable($name, $prefix, $config);
+
+        if ($table instanceof CurrentUserInterface) {
+            $table->setCurrentUser($this->getCurrentUser());
+        }
+
+        return $table;
     }
 
     /**
@@ -297,7 +303,7 @@ abstract class BaseDatabaseModel extends BaseModel implements
         $app = Factory::getApplication();
 
         $options = [
-            'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+            'defaultgroup' => $group ?: ($this->option ?? $app->getInput()->get('option')),
             'cachebase'    => $app->get('cache_path', JPATH_CACHE),
             'result'       => true,
         ];

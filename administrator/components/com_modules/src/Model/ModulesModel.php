@@ -82,7 +82,7 @@ class ModulesModel extends ListModel
     {
         $app = Factory::getApplication();
 
-        $layout = $app->input->get('layout', '', 'cmd');
+        $layout = $app->getInput()->get('layout', '', 'cmd');
 
         // Adjust the context to support modal layouts.
         if ($layout) {
@@ -90,7 +90,7 @@ class ModulesModel extends ListModel
         }
 
         // Make context client aware
-        $this->context .= '.' . $app->input->get->getInt('client_id', 0);
+        $this->context .= '.' . $app->getInput()->get->getInt('client_id', 0);
 
         // Load the filter state.
         $this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -308,7 +308,7 @@ class ModulesModel extends ListModel
             ->bind(':eclientid', $clientId, ParameterType::INTEGER);
 
         // Filter by current user access level.
-        $user = Factory::getUser();
+        $user = $this->getCurrentUser();
 
         // Get the current user for authorisation checks
         if ($user->authorise('core.admin') !== true) {
@@ -376,10 +376,10 @@ class ModulesModel extends ListModel
 
                 // Filter by modules assigned to the selected menu item.
                 $query->where('(
-					(' . $subQuery1 . ') = 0
-					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
-					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
-					)');
+                    (' . $subQuery1 . ') = 0
+                    OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
+                    OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
+                    )');
                 $query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
                 $query->bind(':menuitemid3', $minusMenuItemId, ParameterType::INTEGER);
             }

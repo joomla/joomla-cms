@@ -37,6 +37,11 @@ $mediaVersion    = Factory::getDocument()->getMediaVersion();
 $editor          = 'editor="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '?' . $mediaVersion . '"';
 
+// Remove the fullscreen message and option if readonly not null.
+if (isset($options->readOnly)) {
+    $fsCombo = '';
+}
+
 Factory::getDocument()->getWebAssetManager()
     ->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
     ->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
@@ -57,8 +62,10 @@ Factory::getDocument()->getWebAssetManager()
 ?>
 <joomla-editor-codemirror <?php echo $editor . ' ' . $addons . ' ' . $modPath . ' ' . $fsCombo . ' ' . $option; ?>>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
-<p class="small float-end">
-    <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
-</p>
+<?php if ($fsCombo !== '') { ?>
+    <p class="small float-end">
+        <?php echo Text::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $fullScreenCombo); ?>
+    </p>
+<?php }; ?>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>
