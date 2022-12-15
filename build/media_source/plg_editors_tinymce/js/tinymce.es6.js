@@ -167,12 +167,13 @@ JoomlaTinyMCE = {
     const originalContentCss = options.content_css;
 
     // tinyMCE themes docs: https://www.tiny.cloud/docs/general-configuration-guide/customize-ui/
-    function reRender(ed, options) {
-      const darkModeMatches = !window.matchMedia('(prefers-color-scheme: dark)');
-      ed.remove();
+    function reRender(ed, options, ev) {
+      const prefersColorScheme = ev.detail.prefersColorScheme;
+      const theme = ['dark', 'light'].includes(prefersColorScheme) ? prefersColorScheme : 'light';
+      tinyMCE.remove(`#${element.id}`);
 
-      options.skin = `oxide${darkModeMatches ? '-dark' : ''}`;
-      options.content_css = `${originalContentCss}${darkModeMatches ? ',dark' : ''}`;
+      options.skin = `oxide${theme === 'dark' ? '-dark' : ''}`;
+      options.content_css = `${originalContentCss}${theme === 'dark' ? ',dark' : ''}`;
 
       ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
       ed.render();
