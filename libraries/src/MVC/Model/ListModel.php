@@ -540,7 +540,7 @@ class ListModel extends BaseDatabaseModel implements FormFactoryAwareInterface, 
                                 break;
 
                             case 'direction':
-                                if (!\in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
+                                if ($value && (!\in_array(strtoupper($value), array('ASC', 'DESC', '')))) {
                                     $value = $direction;
                                 }
                                 break;

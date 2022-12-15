@@ -2,14 +2,15 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Extension.Joomla
+ * @subpackage  Extension.namespacemap
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Extension\NamespaceMap\Extension;
+
+use JNamespacePsr4Map;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
@@ -23,7 +24,7 @@ use Joomla\Event\DispatcherInterface;
  *
  * @since  4.0.0
  */
-class PlgExtensionNamespacemap extends CMSPlugin
+final class NamespaceMap extends CMSPlugin
 {
     /**
      * The namespace map file creator
@@ -35,16 +36,17 @@ class PlgExtensionNamespacemap extends CMSPlugin
     /**
      * Constructor
      *
-     * @param   DispatcherInterface  &$subject  The object to observe
-     * @param   array                $config    An optional associative array of configuration settings.
-     *                                          Recognized key values include 'name', 'group', 'params', 'language'
-     *                                          (this list is not meant to be comprehensive).
+     * @param   DispatcherInterface  $subject  The object to observe
+     * @param   JNamespacePsr4Map    $map      The namespace map creator
+     * @param   array                $config   An optional associative array of configuration settings.
+     *                                         Recognized key values include 'name', 'group', 'params', 'language'
+     *                                         (this list is not meant to be comprehensive).
      *
      * @since   4.0.0
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(DispatcherInterface $subject, JNamespacePsr4Map $map, $config = array())
     {
-        $this->fileCreator = new JNamespacePsr4Map();
+        $this->fileCreator = $map;
 
         parent::__construct($subject, $config);
     }
