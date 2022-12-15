@@ -2,18 +2,21 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Quickicon.Overridecheck
+ * @subpackage  Quickicon.overridecheck
  *
  * @copyright   (C) 2018 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Quickicon\OverrideCheck\Extension;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\SubscriberInterface;
+use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -24,8 +27,10 @@ use Joomla\CMS\Uri\Uri;
  *
  * @since  4.0.0
  */
-class PlgQuickiconOverrideCheck extends CMSPlugin
+final class OverrideCheck extends CMSPlugin implements SubscriberInterface
 {
+    use DatabaseAwareTrait;
+
     /**
      * Load the language file on instantiation.
      *
@@ -36,37 +41,38 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Application object.
+     * Returns an array of events this subscriber will listen to.
      *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  3.7.0
+     * @return  array
+     *
+     * @since   4.3.0
      */
-    protected $app;
-
-    /**
-     * Database object
-     *
-     * @var    \Joomla\Database\DatabaseInterface
-     *
-     * @since  3.8.0
-     */
-    protected $db;
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onGetIcons' => 'onGetIcons',
+        ];
+    }
 
     /**
      * Returns an icon definition for an icon which looks for overrides update
      * via AJAX and displays a notification when such overrides are updated.
      *
-     * @param   string  $context  The calling context
+     * @param   QuickIconsEvent  $event  The event object
      *
-     * @return  array  A list of icon definition associative arrays, consisting of the
-     *                 keys link, image, text and access.
+     * @return  void
      *
      * @since   4.0.0
      */
-    public function onGetIcons($context)
+    public function onGetIcons(QuickIconsEvent $event): void
     {
-        if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer')) {
-            return array();
+        $context = $event->getContext();
+
+        if (
+            $context !== $this->params->get('context', 'update_quickicon')
+            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')
+        ) {
+            return;
         }
 
         $token    = Session::getFormToken() . '=1';
@@ -76,26 +82,31 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
             'pluginId' => $this->getOverridePluginId(),
         );
 
-        $this->app->getDocument()->addScriptOptions('js-override-check', $options);
+        $this->getApplication()->getDocument()->addScriptOptions('js-override-check', $options);
 
         Text::script('PLG_QUICKICON_OVERRIDECHECK_ERROR', true);
         Text::script('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE', true);
         Text::script('PLG_QUICKICON_OVERRIDECHECK_UPTODATE', true);
         Text::script('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND', true);
 
-        $this->app->getDocument()->getWebAssetManager()
+        $this->getApplication()->getDocument()->getWebAssetManager()
             ->registerAndUseScript('plg_quickicon_overridecheck', 'plg_quickicon_overridecheck/overridecheck.js', [], ['defer' => true], ['core']);
 
-        return array(
-            array(
+        // Add the icon to the result array
+        $result = $event->getArgument('result', []);
+
+        $result[] = [
+            [
                 'link'  => 'index.php?option=com_templates&view=templates',
                 'image' => 'icon-file',
                 'icon'  => '',
-                'text'  => Text::_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
+                'text'  => $this->getApplication()->getLanguage()->_('PLG_QUICKICON_OVERRIDECHECK_CHECKING'),
                 'id'    => 'plg_quickicon_overridecheck',
                 'group' => 'MOD_QUICKICON_MAINTENANCE',
-            ),
-        );
+            ],
+        ];
+
+        $event->setArgument('result', $result);
     }
 
     /**
@@ -107,17 +118,18 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
      */
     private function getOverridePluginId()
     {
-        $query = $this->db->getQuery(true)
-            ->select($this->db->quoteName('extension_id'))
-            ->from($this->db->quoteName('#__extensions'))
-            ->where($this->db->quoteName('folder') . ' = ' . $this->db->quote('installer'))
-            ->where($this->db->quoteName('element') . ' = ' . $this->db->quote('override'));
-        $this->db->setQuery($query);
+        $db    = $this->getDatabase();
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('extension_id'))
+            ->from($db->quoteName('#__extensions'))
+            ->where($db->quoteName('folder') . ' = ' . $db->quote('installer'))
+            ->where($db->quoteName('element') . ' = ' . $db->quote('override'));
+        $db->setQuery($query);
 
         try {
-            $result = (int) $this->db->loadResult();
+            $result = (int) $db->loadResult();
         } catch (\RuntimeException $e) {
-            $this->app->enqueueMessage($e->getMessage(), 'error');
+            $this->getApplication()->enqueueMessage($e->getMessage(), 'error');
         }
 
         return $result;
