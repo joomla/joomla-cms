@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
 
         $app   = Factory::getApplication();
 
-        $app->input->set('id', $app->getTemplate(true)->id);
+        $app->getInput()->set('id', $app->getTemplate(true)->id);
 
         /** @var MVCFactory $factory */
         $factory = $app->bootComponent('com_templates')->getMVCFactory();

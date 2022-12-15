@@ -61,6 +61,7 @@ function clean_checkout(string $dir)
     system('find . -name .github | xargs rm -rf -');
     system('find . -name .gitignore | xargs rm -rf -');
     system('find . -name .gitmodules | xargs rm -rf -');
+    system('find . -name .phan | xargs rm -rf -');
     system('find . -name .php-cs-fixer.dist.php | xargs rm -rf -');
     system('find . -name .scrutinizer.yml | xargs rm -rf -');
     system('find . -name .travis.yml | xargs rm -rf -');
@@ -386,6 +387,7 @@ $doNotPackage = array(
     '.editorconfig',
     '.github',
     '.gitignore',
+    '.phan',
     '.php-cs-fixer.dist.php',
     'acceptance.suite.yml',
     // Media Manager Node Assets
