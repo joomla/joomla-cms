@@ -1160,7 +1160,7 @@ final class Joomla extends ActionLogPlugin
     /**
      * On after Completed reset request
      *
-     * Method is called after user request to reset their password.
+     * Method is called after user complete the reset of their password.
      *
      * @param   array  $user  Holds the user data.
      *
