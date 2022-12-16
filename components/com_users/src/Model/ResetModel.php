@@ -11,6 +11,7 @@
 namespace Joomla\Component\Users\Site\Model;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -235,6 +236,14 @@ class ResetModel extends FormModel
         // Flush the user data from the session.
         $app->setUserState('com_users.reset.token', null);
         $app->setUserState('com_users.reset.user', null);
+
+        $event = AbstractEvent::create(
+            'onUserAfterResetComplete',
+            [
+                'subject' => $user,
+            ]
+        );
+        $app->getDispatcher()->dispatch($event->getName(), $event);
 
         return true;
     }
@@ -468,9 +477,17 @@ class ResetModel extends FormModel
         // Check for an error.
         if ($return !== true) {
             return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
-        } else {
-            return true;
         }
+        
+        $event = AbstractEvent::create(
+            'onUserAfterReset',
+            [
+                'subject' => $user,
+            ]
+        );
+        Factory::getApplication()->getDispatcher()->dispatch($event->getName(), $event);
+
+        return true;
     }
 
     /**
