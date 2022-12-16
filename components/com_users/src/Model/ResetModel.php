@@ -478,7 +478,7 @@ class ResetModel extends FormModel
         if ($return !== true) {
             return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
         }
-        
+
         $event = AbstractEvent::create(
             'onUserAfterReset',
             [
