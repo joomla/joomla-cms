@@ -222,15 +222,14 @@ abstract class RouterView extends RouterBase
      */
     public function build(&$query)
     {
-		$view = $query['view'] ?? false;
+        $view = $query['view'] ?? false;
 
         // Use the processing of a custom view added by the user.
-		if($view && empty($this->getViews()[$view]))
+        if($view && empty($this->getViews()[$view]))
         {
-			$this->registerView(new RouterViewConfiguration($view));
-		}
-        
-        
+            $this->registerView(new RouterViewConfiguration($view));
+        }
+
         $segments = array();
 
         // Process the parsed variables based on custom defined rules
