@@ -225,7 +225,7 @@ abstract class RouterView extends RouterBase
         $view = $query['view'] ?? false;
 
         // Use the processing of a custom view added by the user.
-        if($view && empty($this->getViews()[$view])) { 
+        if ($view && empty($this->getViews()[$view])) {
             $this->registerView(new RouterViewConfiguration($view));
         }
 
