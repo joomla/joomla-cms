@@ -69,6 +69,9 @@ export class Switcher extends HTMLElement {
       this.button.setAttribute('aria-pressed', this.state == 'dark' ? 'true' : 'false');
       this.html.setAttribute('data-bs-theme', inverted === 'dark' ? 'dark' : 'light');
       window.dispatchEvent(new CustomEvent('joomla:toggle-theme', { detail: { prefersColorScheme: inverted } }));
+      if (navigator.cookieEnabled) {
+        document.cookie = `atumPrefersColorScheme=${inverted};`;
+      }
     }).catch(() => { return; });
   }
 

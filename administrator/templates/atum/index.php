@@ -40,6 +40,7 @@ $a11y_highlight = (bool) $user->getParam('a11y_highlight', '');
 $a11y_font      = (bool) $user->getParam('a11y_font', '');
 $a11yColorScheme = $user->getParam('prefers_color_scheme', '');
 $prefersColorScheme = !empty($a11yColorScheme) ? $a11yColorScheme : 'light';
+$prefersColorScheme = $input->cookie->get('atumPrefersColorScheme', $prefersColorScheme);
 
 // Browsers support SVG favicons
 $this->addHeadLink(HTMLHelper::_('image', 'joomla-favicon.svg', '', [], true, 1), 'icon', 'rel', ['type' => 'image/svg+xml']);

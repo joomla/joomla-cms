@@ -84,6 +84,8 @@ $a11y_highlight = (bool) $user->getParam('a11y_highlight', '');
 $a11y_font      = (bool) $user->getParam('a11y_font', '');
 $a11yColorScheme = $user->getParam('prefers_color_scheme', '');
 $prefersColorScheme = !empty($a11yColorScheme) ? $a11yColorScheme : 'light';
+$prefersColorScheme = $input->cookie->get('atumPrefersColorScheme', $prefersColorScheme);
+
 $monochrome = (bool) $this->params->get('monochrome');
 
 // @see administrator/templates/atum/html/layouts/status.php
@@ -92,21 +94,17 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status', 'prefers
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="<?= $prefersColorScheme; ?>">
-
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
-
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : ''); ?>">
-
     <noscript>
         <div class="alert alert-danger" role="alert">
             <?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
         </div>
     </noscript>
-
     <header id="header" class="header d-flex">
         <div class="header-title d-flex">
             <div class="d-flex align-items-center">
@@ -177,5 +175,4 @@ $statusModules = LayoutHelper::render('status', ['modules' => 'status', 'prefers
     </div>
     <jdoc:include type="modules" name="debug" style="none" />
 </body>
-
 </html>

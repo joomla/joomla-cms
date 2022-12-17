@@ -51,17 +51,21 @@ $user           = $app->getIdentity();
 // $a11y_font      = (bool) $user->getParam('a11y_font', '');
 $a11yColorScheme = $user->getParam('prefers_color_scheme', '');
 $prefersColorScheme = !empty($a11yColorScheme) ? $a11yColorScheme : 'light';
+$prefersColorScheme = $input->cookie->get('atumPrefersColorScheme', $prefersColorScheme);
 ?>
 
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" data-bs-theme="<?= $prefersColorScheme; ?>">
+
 <head>
     <jdoc:include type="metas" />
     <jdoc:include type="styles" />
     <jdoc:include type="scripts" />
 </head>
+
 <body class="contentpane component">
     <jdoc:include type="message" />
     <jdoc:include type="component" />
 </body>
+
 </html>
