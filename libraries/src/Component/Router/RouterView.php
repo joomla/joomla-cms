@@ -48,6 +48,26 @@ abstract class RouterView extends RouterBase
     protected $views = array();
 
     /**
+     * Class constructor.
+     *
+     * @param   \Joomla\CMS\Application\CMSApplication  $app   Application-object that the router should use
+     * @param   \Joomla\CMS\Menu\AbstractMenu           $menu  Menu-object that the router should use
+     *
+     * @since   3.4
+     */
+    public function __construct($app = null, $menu = null)
+    {   
+		$view = $query['view'] ?? false;
+
+		if($view && empty($this->getViews()[$view])){
+			$this->registerView(new RouterViewConfiguration($view));
+		}
+
+        parent::__construct($app, $menu);
+    }
+    
+    
+    /**
      * Register the views of a component
      *
      * @param   RouterViewConfiguration  $view  View configuration object
