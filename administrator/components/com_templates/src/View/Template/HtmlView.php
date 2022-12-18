@@ -295,7 +295,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState) {
+        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
             $dropdown = $bar->dropdownButton('override-group')
                 ->text('COM_TEMPLATES_BUTTON_CHECK')
                 ->toggleSplit(false)
