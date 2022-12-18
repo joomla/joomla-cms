@@ -23,10 +23,6 @@
 		name="parent_id"
 		type="tag"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
-		mode="nested"
-		validate="notequals"
-		field="id"
-		parent="parent"
 		>
 		<option value="1">JNONE</option>
 	</field>
