@@ -12,3 +12,7 @@ CREATE TABLE IF NOT EXISTS "#__schemaorg"
   "schema" text,
   PRIMARY KEY ("id")
 );
+
+-- Add plugins to "#__extensions"
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "custom_data", "ordering", "state") VALUES
+(0, 'plg_schemaorg_book', 'plugin', 'book', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0);
