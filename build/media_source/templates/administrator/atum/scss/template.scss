@@ -3,13 +3,14 @@ $prefix: "";
 
 // Bootstrap functions
 @import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "variables";
+
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/maps";
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 @import "../../../../../../media/vendor/bootstrap/scss/utilities";
-
-// Atum Variables
-@import "variables";
 
 // Bootstrap other
 @import "../../../../../../media/vendor/bootstrap/scss/bootstrap";
