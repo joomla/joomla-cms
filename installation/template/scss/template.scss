@@ -19,8 +19,10 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Bootstrap
 @import "../../../media/vendor/bootstrap/scss/functions";
+
 // Variables from the Atum template
 @import "../../../build/media_source/templates/administrator/atum/scss/variables";
+
 @import "../../../media/vendor/bootstrap/scss/variables";
 @import "../../../media/vendor/bootstrap/scss/maps";
 @import "../../../media/vendor/bootstrap/scss/mixins";
