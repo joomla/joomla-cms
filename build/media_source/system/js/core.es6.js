@@ -127,9 +127,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    */
   current: '',
   setCurrent: (element) => {
-    window.Joomla.current = element;
+    window.Joomla.Modal.current = element;
   },
-  getCurrent: () => window.Joomla.current,
+  getCurrent: () => window.Joomla.Modal.current,
 };
 
 ((Joomla) => {
