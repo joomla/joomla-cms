@@ -582,7 +582,7 @@ class FileLayout extends BaseLayout
     /**
      * Set suffixes to search layouts
      *
-     * @param   mixed  $suffixes  String with a single suffix or 'auto' | 'none' or array of suffixes
+     * @param   array  $suffixes  Array of suffixes to utilise
      *
      * @return  self
      *
