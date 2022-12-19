@@ -42,8 +42,7 @@ $fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 // Custom Atum colors
 :root {
 
-  @each $color,
-  $value in $atum-colors {
+  @each $color, $value in $atum-colors {
     --#{$prefix}#{$color}: #{$value};
   }
 
