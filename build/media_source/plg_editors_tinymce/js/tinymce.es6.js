@@ -60,11 +60,10 @@
         return;
       }
 
-      const name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default'; // Get Editor name
       const tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {};
       const defaultOptions = tinyMCEOptions.default || {};
       // Check specific options by the name
-      let options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions;
+      let options = tinyMCEOptions[element.id] ? tinyMCEOptions[element.id] : defaultOptions;
 
       // Avoid an unexpected changes, and copy the options object
       if (options.joomlaMergeDefaults) {

@@ -98,30 +98,30 @@ trait DisplayTrait
         $editor .= '</div>';
 
         // Prepare the instance specific options
-        if (empty($options['tinyMCE'][$fieldName])) {
-            $options['tinyMCE'][$fieldName] = [];
+        if (empty($options['tinyMCE'][$id])) {
+            $options['tinyMCE'][$id] = [];
         }
 
         // Width and height
-        if ($width && empty($options['tinyMCE'][$fieldName]['width'])) {
-            $options['tinyMCE'][$fieldName]['width'] = $width;
+        if ($width && empty($options['tinyMCE'][$id]['width'])) {
+            $options['tinyMCE'][$id]['width'] = $width;
         }
 
-        if ($height && empty($options['tinyMCE'][$fieldName]['height'])) {
-            $options['tinyMCE'][$fieldName]['height'] = $height;
+        if ($height && empty($options['tinyMCE'][$id]['height'])) {
+            $options['tinyMCE'][$id]['height'] = $height;
         }
 
         // Set editor to readonly mode
         if (!empty($params['readonly'])) {
-            $options['tinyMCE'][$fieldName]['readonly'] = 1;
+            $options['tinyMCE'][$id]['readonly'] = 1;
         }
 
         // The ext-buttons
-        if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons'])) {
+        if (empty($options['tinyMCE'][$id]['joomlaExtButtons'])) {
             $btns = $this->tinyButtons($id, $buttons);
 
-            $options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
-            $options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+            $options['tinyMCE'][$id]['joomlaMergeDefaults'] = true;
+            $options['tinyMCE'][$id]['joomlaExtButtons']    = $btns;
         }
 
         $doc->addScriptOptions('plg_editor_tinymce', $options, false);
