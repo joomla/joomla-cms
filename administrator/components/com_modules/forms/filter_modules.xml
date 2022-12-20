@@ -27,7 +27,7 @@
 			label="JSTATUS"
 			optionsFilter="*,-2,0,1"
 			onchange="this.form.submit();"
-      		layout="joomla.form.field.list-fancy-select"
+            layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -37,7 +37,7 @@
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			client="site"
 			onchange="this.form.submit();"
-      		layout="joomla.form.field.list-fancy-select"
+            layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
 		</field>
@@ -47,7 +47,7 @@
 			label="COM_MODULES_HEADING_MODULE"
 			client="site"
 			onchange="this.form.submit();"
-      		layout="joomla.form.field.list-fancy-select"
+            layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
 		</field>
@@ -57,7 +57,7 @@
 			label="JGLOBAL_MENU_SELECTION"
 			disable="separator,alias,heading,url"
 			onchange="this.form.submit();"
-      		layout="joomla.form.field.groupedlist-fancy-select"
+            layout="joomla.form.field.groupedlist-fancy-select"
 			>
 			<option	value="">COM_MODULES_OPTION_SELECT_MENU_ITEM</option>
 			<option	value="-1">COM_MODULES_NONE</option>
@@ -67,7 +67,7 @@
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
-      		layout="joomla.form.field.list-fancy-select"
+            layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -76,7 +76,7 @@
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
-      		layout="joomla.form.field.list-fancy-select"
+            layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
