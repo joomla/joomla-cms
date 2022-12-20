@@ -27,7 +27,6 @@
 			label="JSTATUS"
 			optionsFilter="*,-2,0,1"
 			onchange="this.form.submit();"
-      			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
@@ -67,7 +66,6 @@
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
-   			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
@@ -76,7 +74,6 @@
 			type="contentlanguage"
 			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
-      			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
