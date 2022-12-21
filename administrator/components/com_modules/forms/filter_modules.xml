@@ -46,7 +46,7 @@
 			label="COM_MODULES_HEADING_MODULE"
 			client="site"
 			onchange="this.form.submit();"
-      			layout="joomla.form.field.list-fancy-select"
+			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
 		</field>
