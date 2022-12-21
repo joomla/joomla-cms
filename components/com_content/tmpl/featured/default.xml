@@ -196,6 +196,17 @@
 			addfieldprefix="Joomla\Component\Content\Administrator\Field"
 		>
 			<field
+				name="article_layout"
+				type="componentlayout"
+				label="JGLOBAL_FIELD_LAYOUT_LABEL"
+				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				class="form-select"
+				menuitems="true"
+				extension="com_content"
+				view="article"
+			/>
+
+			<field
 				name="show_title"
 				type="list"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
