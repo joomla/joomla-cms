@@ -106,6 +106,8 @@ class JsonapiView extends BaseApiView
         foreach (FieldsHelper::getFields('com_content.categories') as $field) {
             $this->fieldsToRenderList[] = $field->name;
         }
+
+        parent::displayList();
     }
 
     /**
