@@ -36,7 +36,7 @@
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			client="site"
 			onchange="this.form.submit();"
-      			layout="joomla.form.field.list-fancy-select"
+			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
 		</field>
