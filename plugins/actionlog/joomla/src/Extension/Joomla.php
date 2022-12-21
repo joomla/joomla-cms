@@ -1135,7 +1135,7 @@ final class Joomla extends ActionLogPlugin
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function onUserAfterReset($user)
+    public function onUserAfterResetRequest($user)
     {
         $context = $this->getApplication()->input->get('option');
 
