@@ -480,7 +480,7 @@ class ResetModel extends FormModel
         }
 
         $event = AbstractEvent::create(
-            'onUserAfterReset',
+            'onUserAfterResetRequest',
             [
                 'subject' => $user,
             ]
