@@ -44,7 +44,7 @@ class JsonapiView extends BaseApiView
      *
      * @param   array|null  $items  Array of items
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -78,8 +78,6 @@ class JsonapiView extends BaseApiView
 
         // Set the data into the document and render it
         $this->document->setData($collection);
-
-        return $this->document->render();
     }
 
     /**

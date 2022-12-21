@@ -97,7 +97,7 @@ class JsonapiView extends BaseApiView
      *
      * @param   array|null  $items  Array of items
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -106,8 +106,6 @@ class JsonapiView extends BaseApiView
         foreach (FieldsHelper::getFields('com_content.categories') as $field) {
             $this->fieldsToRenderList[] = $field->name;
         }
-
-        return parent::displayList();
     }
 
     /**
@@ -115,7 +113,7 @@ class JsonapiView extends BaseApiView
      *
      * @param   object  $item  Item
      *
-     * @return  string
+     * @return  void
      *
      * @since   4.0.0
      */
@@ -139,7 +137,7 @@ class JsonapiView extends BaseApiView
             throw new RouteNotFoundException('Item does not exist');
         }
 
-        return parent::displayItem($item);
+        parent::displayItem($item);
     }
 
     /**
