@@ -56,7 +56,7 @@
 			label="JGLOBAL_MENU_SELECTION"
 			disable="separator,alias,heading,url"
 			onchange="this.form.submit();"
-      			layout="joomla.form.field.groupedlist-fancy-select"
+			layout="joomla.form.field.groupedlist-fancy-select"
 			>
 			<option	value="">COM_MODULES_OPTION_SELECT_MENU_ITEM</option>
 			<option	value="-1">COM_MODULES_NONE</option>
