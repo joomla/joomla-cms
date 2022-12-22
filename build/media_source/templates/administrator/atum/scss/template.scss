@@ -77,18 +77,18 @@ $prefix: "";
 @import "pages/com_users";
 
 // Custom Atum colors
- :root {
-   @each $color, $value in $atum-colors {
-     --#{$prefix}#{$color}: #{$value};
-   }
+:root {
+  @each $color, $value in $atum-colors {
+    --#{$prefix}#{$color}: #{$value};
+  }
 
-   // @TODO Find out why this color is different
-   --info-rgb: 42, 105, 184;
- }
+  // @TODO Find out why this color is different
+  --info-rgb: 42, 105, 184;
+}
 
 :root[data-bs-theme="dark"] {
-  background-color: var(--black);
   color: var(--white);
+  background-color: var(--black);
   .quick-icons .quickicon {
     --bg-color: hsl(var(--hue), 30%, 7%);
   }

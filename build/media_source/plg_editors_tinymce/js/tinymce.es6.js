@@ -3,7 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-JoomlaTinyMCE = {
+const JoomlaTinyMCE = {
   /**
    * Find all TinyMCE elements and initialize TinyMCE instance for each
    *
@@ -144,22 +144,22 @@ JoomlaTinyMCE = {
       }, true);
     };
 
-    function registerJoomlaInstance(element, ed) {
-      if (Joomla.editors.instances[element.id]) {
-        Joomla.editors.instances[element.id] = null;
+    function registerJoomlaInstance(elmnt, ed) {
+      if (Joomla.editors.instances[elmnt.id]) {
+        Joomla.editors.instances[elmnt.id] = null;
       }
 
       /** Register the editor's instance to Joomla Object */
-      Joomla.editors.instances[element.id] = {
+      Joomla.editors.instances[elmnt.id] = {
         // Required by Joomla's API for the XTD-Buttons
-        getValue: () => Joomla.editors.instances[element.id].instance.getContent(),
-        setValue: (text) => Joomla.editors.instances[element.id].instance.setContent(text),
-        getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
-        replaceSelection: (text) => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
+        getValue: () => Joomla.editors.instances[elmnt.id].instance.getContent(),
+        setValue: (text) => Joomla.editors.instances[elmnt.id].instance.setContent(text),
+        getSelection: () => Joomla.editors.instances[elmnt.id].instance.selection.getContent({ format: 'text' }),
+        replaceSelection: (text) => Joomla.editors.instances[elmnt.id].instance.execCommand('mceInsertContent', false, text),
         // Required by Joomla's API for Mail Component Integration
-        disable: (disabled) => Joomla.editors.instances[element.id].instance.setMode(disabled ? 'readonly' : 'design'),
+        disable: (disabled) => Joomla.editors.instances[elmnt.id].instance.setMode(disabled ? 'readonly' : 'design'),
         // Some extra instance dependent
-        id: element.id,
+        id: elmnt.id,
         instance: ed,
       };
     }
@@ -167,17 +167,19 @@ JoomlaTinyMCE = {
     const originalContentCss = options.content_css;
 
     // tinyMCE themes docs: https://www.tiny.cloud/docs/general-configuration-guide/customize-ui/
-    function reRender(ed, options, ev) {
-      const prefersColorScheme = ev.detail.prefersColorScheme;
+    function reRender(editor, opts, ev) {
+      const { prefersColorScheme } = ev.detail;
       const theme = ['dark', 'light'].includes(prefersColorScheme) ? prefersColorScheme : 'light';
+      // eslint-disable-next-line no-undef
       tinyMCE.remove(`#${element.id}`);
 
-      options.skin = `oxide${theme === 'dark' ? '-dark' : ''}`;
-      options.content_css = `${originalContentCss}${theme === 'dark' ? ',dark' : ''}`;
+      opts.skin = `oxide${theme === 'dark' ? '-dark' : ''}`;
+      opts.content_css = `${originalContentCss}${theme === 'dark' ? ',dark' : ''}`;
 
-      ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
-      ed.render();
-      registerJoomlaInstance(element, ed);
+      // eslint-disable-next-line no-undef
+      const edt = new tinyMCE.Editor(element.id, opts, tinymce.EditorManager);
+      edt.render();
+      registerJoomlaInstance(element, edt);
     }
 
     // Check if window.matchMedia is supported
@@ -187,12 +189,12 @@ JoomlaTinyMCE = {
     options.skin = `oxide${theme === 'dark' ? '-dark' : ''}`;
     options.content_css = `${originalContentCss}${theme === 'dark' ? ',dark' : ''}`;
 
-    // Check for color-scheme changes in OS
-    window.addEventListener('joomla:toggle-theme', (ev) => reRender(ed, options, ev));
-
     // Create a new instance
     // eslint-disable-next-line no-undef
     const ed = new tinyMCE.Editor(element.id, options, tinymce.EditorManager);
+
+    // Check for color-scheme changes in OS
+    window.addEventListener('joomla:toggle-theme', (ev) => reRender(ed, options, ev));
     ed.render();
     registerJoomlaInstance(element, ed);
   },

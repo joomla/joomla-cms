@@ -1,14 +1,14 @@
- // Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
- $prefix: "";
+// Remove prefix added in BS5 for compat with Joomla beta's shipped with Betas
+$prefix: "";
 
- // Bootstrap functions
- @import "../../../../../../media/vendor/bootstrap/scss/functions";
- @import "tools/variables/variables";
- @import "../../../../../../media/vendor/bootstrap/scss/variables";
- @import "../../../../../../media/vendor/bootstrap/scss/variables-dark.scss";
- @import "../../../../../../media/vendor/bootstrap/scss/maps";
- @import "../../../../../../media/vendor/bootstrap/scss/mixins";
- @import "../../../../../../media/vendor/bootstrap/scss/utilities";
+// Bootstrap functions
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+@import "tools/variables/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/variables-dark.scss";
+@import "../../../../../../media/vendor/bootstrap/scss/maps";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../../../media/vendor/bootstrap/scss/utilities";
 
 // Variables, Functions and Mixins
 @import "tools/tools";
@@ -59,10 +59,10 @@
 @import "vendor/tinymce";
 
 // Finally add the cassiopeia colours
- :root {
-   @each $color, $value in $cassiopeia-colors {
-     --#{$color}: #{$value};
-   }
+:root {
+  @each $color, $value in $cassiopeia-colors {
+    --#{$color}: #{$value};
+  }
 
-   --#{$prefix}primary: var(--cassiopeia-color-primary);
- }
+  --#{$prefix}primary: var(--cassiopeia-color-primary);
+}
