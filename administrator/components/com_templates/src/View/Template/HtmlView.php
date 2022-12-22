@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -22,8 +23,12 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
- * View to edit a template style.
+ * View to edit a template.
  *
  * @since  1.6
  */
@@ -290,8 +295,29 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState) {
-            ToolbarHelper::custom('template.deleteOverrideHistory', 'times', '', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
+        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
+            $dropdown = $bar->dropdownButton('override-group')
+                ->text('COM_TEMPLATES_BUTTON_CHECK')
+                ->toggleSplit(false)
+                ->icon('icon-ellipsis-h')
+                ->buttonClass('btn btn-action')
+                ->form('updateForm')
+                ->listCheck(true);
+
+            $childBar = $dropdown->getChildToolbar();
+
+            $childBar->publish('template.publish')
+                ->text('COM_TEMPLATES_BUTTON_CHECK_LIST_ENTRY')
+                ->form('updateForm')
+                ->listCheck(true);
+            $childBar->unpublish('template.unpublish')
+                ->text('COM_TEMPLATES_BUTTON_UNCHECK_LIST_ENTRY')
+                ->form('updateForm')
+                ->listCheck(true);
+            $childBar->unpublish('template.deleteOverrideHistory')
+                ->text('COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY')
+                ->form('updateForm')
+                ->listCheck(true);
         }
 
         if ($this->type === 'home') {

@@ -14,6 +14,10 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Plugin to check the PHP version and display a warning about its support status
  *
@@ -128,6 +132,10 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
             '8.1' => array(
                 'security' => '2023-11-25',
                 'eos'      => '2024-11-25',
+            ),
+            '8.2' => array(
+                'security' => '2024-12-08',
+                'eos'      => '2025-12-08',
             ),
         );
 

@@ -14,6 +14,10 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Date\Date;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Version information class for the Joomla CMS.
  *
@@ -51,7 +55,7 @@ final class Version
      * @var    integer
      * @since  3.8.0
      */
-    public const PATCH_VERSION = 1;
+    public const PATCH_VERSION = 7;
 
     /**
      * Extra release version info.
@@ -62,7 +66,7 @@ final class Version
      * @var    string
      * @since  3.8.0
      */
-    public const EXTRA_VERSION = 'rc3-dev';
+    public const EXTRA_VERSION = 'dev';
 
     /**
      * Development status.
@@ -86,7 +90,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELDATE = '21-August-2022';
+    public const RELDATE = '13-December-2022';
 
     /**
      * Release time.
@@ -94,7 +98,7 @@ final class Version
      * @var    string
      * @since  3.5
      */
-    public const RELTIME = '12:39';
+    public const RELTIME = '12:36';
 
     /**
      * Release timezone.

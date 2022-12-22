@@ -21,7 +21,7 @@ HTMLHelper::_('behavior.formvalidator');
 <div class="com-contact__form contact-form">
     <form id="contact-form" action="<?php echo Route::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
         <?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
-            <?php if ($fieldset->name === 'captcha' && !$this->captchaEnabled) : ?>
+            <?php if ($fieldset->name === 'captcha' && $this->captchaEnabled) : ?>
                 <?php continue; ?>
             <?php endif; ?>
             <?php $fields = $this->form->getFieldset($fieldset->name); ?>
@@ -36,6 +36,9 @@ HTMLHelper::_('behavior.formvalidator');
                 </fieldset>
             <?php endif; ?>
         <?php endforeach; ?>
+        <?php if ($this->captchaEnabled) : ?>
+            <?php echo $this->form->renderFieldset('captcha'); ?>
+        <?php endif; ?>
         <div class="control-group">
             <div class="controls">
                 <button class="btn btn-primary validate" type="submit"><?php echo Text::_('COM_CONTACT_CONTACT_SEND'); ?></button>

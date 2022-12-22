@@ -16,6 +16,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Html helper class.
  *
@@ -143,7 +147,7 @@ class Templates
 
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
-                $template->name . '-Modal',
+                $template->element . '-Modal',
                 array(
                     'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template->name)),
                     'height' => '500px',

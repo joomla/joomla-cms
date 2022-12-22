@@ -33,6 +33,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Categories Component Category Model
  *
@@ -1156,6 +1160,19 @@ class CategoryModel extends AdminModel
                     $children = array_merge($children, (array) $db->loadColumn());
                 } catch (\RuntimeException $e) {
                     $this->setError($e->getMessage());
+
+                    return false;
+                }
+
+                // Verify that the alias is unique before move
+                $conditions = [
+                    'alias'     => $this->table->alias,
+                    'parent_id' => $parentId,
+                    'extension' => $extension,
+                ];
+
+                if ($this->table->load($conditions)) {
+                    $this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 
                     return false;
                 }
