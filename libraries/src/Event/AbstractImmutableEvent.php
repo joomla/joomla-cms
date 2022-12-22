@@ -48,9 +48,9 @@ class AbstractImmutableEvent extends AbstractEvent
             );
         }
 
-        $this->constructed = true;
-
         parent::__construct($name, $arguments);
+
+        $this->constructed = true;
     }
 
     /**
@@ -91,6 +91,89 @@ class AbstractImmutableEvent extends AbstractEvent
             sprintf(
                 'Cannot remove the argument %s of the immutable event %s.',
                 $name,
+                $this->name
+            )
+        );
+    }
+
+    /**
+     * Add an event argument.
+     *
+     * @param   string  $name  The argument name.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY__VERSION__
+     * @throws  BadMethodCallException
+     */
+    public function addArgument($name, $value)
+    {
+        throw new BadMethodCallException(
+            sprintf(
+                'Cannot add the argument %s of the immutable event %s.',
+                $name,
+                $this->name
+            )
+        );
+    }
+
+    /**
+     * Set an event argument.
+     *
+     * @param   string  $name  The argument name.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY__VERSION__
+     * @throws  BadMethodCallException
+     */
+    public function setArgument($name, $value)
+    {
+        if (!$this->constructed) {
+            return parent::setArgument($name, $value);
+        }
+
+        throw new BadMethodCallException(
+            sprintf(
+                'Cannot set the argument %s of the immutable event %s.',
+                $name,
+                $this->name
+            )
+        );
+    }
+
+    /**
+     * Clear event arguments.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY__VERSION__
+     * @throws  BadMethodCallException
+     */
+    public function removeArgument($name)
+    {
+        throw new BadMethodCallException(
+            sprintf(
+                'Cannot remove the argument %s of the immutable event %s.',
+                $name,
+                $this->name
+            )
+        );
+    }
+
+    /**
+     * Clear event arguments.
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY__VERSION__
+     * @throws  BadMethodCallException
+     */
+    public function clearArguments()
+    {
+        throw new BadMethodCallException(
+            sprintf(
+                'Cannot clear the arguments of the immutable event %s.',
                 $this->name
             )
         );
