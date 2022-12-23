@@ -20,38 +20,71 @@ Joomla = window.Joomla || {};
       return;
     }
 
-    // Make sure this is a .zip package based on its file extension and on its content type
-    if (!file.name.match(/\.zip$/i) || (file.type !== 'application/zip' && file.type !== 'application/x-zip-compressed')) {
-      Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP')] });
+    // Make sure this is a .zip package based on its file extension
+    Joomla.isZIPFile(form.install_package.files[0]).then((isZIPFile) => {
+      if (!file.name.match(/\.zip$/i) || !isZIPFile) {
+        Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTZIP')] });
 
-      return;
+        return;
+      }
+
+      // Make sure this is not a Full Package based on its name
+      if (form.install_package.value.match(/Joomla_(.*)-Full_Package\.zip$/i)) {
+        Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION_PREUPLOAD')] });
+
+        return;
+      }
+
+      // Make sure this is an Upgrade Package based on its name
+      if (!form.install_package.value.match(/Joomla_(.*)-(Upgrade|Update|Patch)_Package\.zip$/i)) {
+        Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE')] });
+
+        return;
+      }
+
+      // Make sure it's not too big of a file to upload
+      if (file.size > form.max_upload_size.value) {
+        Joomla.renderMessages({ error: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
+
+        return;
+      }
+
+      // Finally, let's make sure that the user has confirmed they are aware of the need for backups.
+      if (confirmBackup && confirmBackup.checked) {
+        form.submit();
+      }
+    });
+  };
+
+  /**
+   * Signature-based ZIP file detection.
+   *
+   * This is necessary because browsers determine the MIME type of uploaded files solely based on
+   * the file extension. If someone renames a .tar.gz to .zip the browser would blithely report it
+   * as a valid ZIP file. This method, however, looks for the file signature, therefore catching
+   * such underhanded issues.   *
+   * @param file
+   * @returns {Promise<boolean>}
+   */
+  Joomla.isZIPFile = async (file) => {
+    if (file.size < 4) {
+      return false;
     }
 
-    // Make sure this is not a Full Package based on its name
-    if (form.install_package.value.match(/Joomla_(.*)-Full_Package\.zip$/i)) {
-      Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_FULLINSTALLATION_PREUPLOAD')] });
+    const readSize = Math.min(file.size, 4);
+    const smallBlob = file.slice(0, readSize);
+    const header = await smallBlob.text();
 
-      return;
+    function hex2a(hex) {
+      let str = '';
+      for (let i = 0; i < hex.length; i += 2) {
+        const v = parseInt(hex.substr(i, 2), 16);
+        if (v) str += String.fromCharCode(v);
+      }
+      return str;
     }
 
-    // Make sure this is an Upgrade Package based on its name
-    if (!form.install_package.value.match(/Joomla_(.*)-(Upgrade|Update|Patch)_Package\.zip$/i)) {
-      Joomla.renderMessages({ error: [Joomla.Text._('COM_JOOMLAUPDATE_VIEW_UPLOAD_ERROR_NOTUPGRADE')] });
-
-      return;
-    }
-
-    // Make sure it's not too big of a file to upload
-    if (file.size > form.max_upload_size.value) {
-      Joomla.renderMessages({ error: [Joomla.Text._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG')] });
-
-      return;
-    }
-
-    // Finally, let's make sure that the user has confirmed they are aware of the need for backups.
-    if (confirmBackup && confirmBackup.checked) {
-      form.submit();
-    }
+    return header === hex2a('504b0304');
   };
 
   Joomla.installpackageChange = () => {
