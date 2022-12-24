@@ -731,7 +731,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
         // Initialise the query.
         $query = $this->_db->getQuery(true)
             ->select('*')
-            ->from($this->_tbl);
+            ->from($this->_db->quoteName($this->_tbl));
         $fields = array_keys($this->getProperties());
 
         foreach ($keys as $field => $value) {
