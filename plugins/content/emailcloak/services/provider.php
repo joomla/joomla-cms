@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Quickicon.extensionupdate
+ * @subpackage  Content.emailcloak
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Quickicon\Extensionupdate\Extension\Extensionupdate;
+use Joomla\Plugin\Content\EmailCloak\Extension\EmailCloak;
 
 return new class implements ServiceProviderInterface
 {
@@ -27,7 +27,7 @@ return new class implements ServiceProviderInterface
      *
      * @return  void
      *
-     * @since   4.3.0
+     * @since   __DEPLOY_VERSION__
      */
     public function register(Container $container)
     {
@@ -35,9 +35,9 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Extensionupdate(
+                $plugin     = new EmailCloak(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('quickicon', 'extensionupdate')
+                    (array) PluginHelper::getPlugin('content', 'emailcloak')
                 );
                 $plugin->setApplication(Factory::getApplication());
 

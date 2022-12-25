@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Content.Fields
+ * @subpackage  Content.fields
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Content\Fields\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -23,7 +23,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  *
  * @since  3.7.0
  */
-class PlgContentFields extends CMSPlugin
+final class Fields extends CMSPlugin
 {
     /**
      * Plugin that shows a custom field
@@ -63,7 +63,7 @@ class PlgContentFields extends CMSPlugin
         }
 
         // Prepare the intro text
-        if (property_exists($item, 'introtext') && strpos($item->introtext, 'field') !== false) {
+        if (property_exists($item, 'introtext') && is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
         }
     }

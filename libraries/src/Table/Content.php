@@ -349,7 +349,7 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
             // Is the existing article trashed?
             $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS'));
 
-            if ($table->published === -2) {
+            if ($table->state === -2) {
                 $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS_TRASHED'));
             }
 
