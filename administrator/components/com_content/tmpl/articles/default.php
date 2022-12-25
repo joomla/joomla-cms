@@ -171,7 +171,7 @@ $assoc = Associations::isEnabled();
                                 'disabled' => !$canExecuteTransition,
                             ];
 
-                            if($canExecuteTransition) {
+                            if ($canExecuteTransition) {
                                 $transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
                                 $transition_ids = ArrayHelper::getColumn($transitions, 'value');
