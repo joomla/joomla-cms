@@ -1119,7 +1119,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Check the row out by primary key.
         $query = $this->_db->getQuery(true)
-            ->update($this->_tbl)
+            ->update($this->_db->quoteName($this->_tbl))
             ->set($this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId)
             ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($time));
         $this->appendPrimaryKeys($query, $pk);
@@ -1200,7 +1200,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 
         // Check the row in by primary key.
         $query = $this->_db->getQuery(true)
-            ->update($this->_tbl)
+            ->update($this->_db->quoteName($this->_tbl))
             ->set($this->_db->quoteName($checkedOutField) . ' = ' . $nullID)
             ->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
         $this->appendPrimaryKeys($query, $pk);
