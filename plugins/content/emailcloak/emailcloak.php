@@ -444,11 +444,11 @@ class PlgContentEmailcloak extends CMSPlugin
         $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~i';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
-            $mail = $regs[1][0];
+            $mail = $regs[0][0];
             $replacement = HTMLHelper::_('email.cloak', $mail, 0, $mail);
 
             // Replace the found address with the js cloaked email
-            $text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
+            $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
         }
 
         /*
