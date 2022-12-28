@@ -110,6 +110,24 @@ export default {
     },
     allItemsSelected() {
       // eslint-disable-next-line max-len
+      
+      var temp = document.getElementsByClassName("media-browser-grid");
+      var msg="No Media Files";
+      if (this.$store.getters.getSelectedDirectoryContents.length === 0) {
+        if(temp[0].innerText.length===0){
+          const hed=document.createElement("h3");
+          hed.innerHTML=msg;
+          temp[0].appendChild(hed);
+        }
+          this.$refs.mediaToolbarSelectAll.checked = false;
+      }
+      else {
+        if(document.getElementsByTagName("h3")[0].innerText===msg){
+          document.getElementsByTagName("h3")[0].remove();
+        }
+      }
+
+      
       return (this.$store.getters.getSelectedDirectoryContents.length === this.$store.state.selectedItems.length);
     },
     search() {
