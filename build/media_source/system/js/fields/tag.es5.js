@@ -21,7 +21,7 @@ jQuery(document).ready(function ($) {
 			// Tag is greater than the minimum required chars and enter pressed
 			if (this.value && this.value.length >= options.minTermLength && (event.which === 13 || event.which === 188)) {
 
-				// Search an highlighted result
+				// Search a highlighted result
 				var highlighted = $(options.selector + '_chosen').find('li.active-result.highlighted').first();
 
 				// Add the highlighted option
