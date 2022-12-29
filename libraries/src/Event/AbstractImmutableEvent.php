@@ -122,7 +122,7 @@ class AbstractImmutableEvent extends AbstractEvent
      *
      * @param   string  $name  The argument name.
      *
-     * @return  void
+     * @return  $this
      *
      * @since   __DEPLOY__VERSION__
      * @throws  BadMethodCallException
