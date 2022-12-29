@@ -158,8 +158,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
      *
      * @since  4.0.0
      */
-    #[\ReturnTypeWillChange]
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
