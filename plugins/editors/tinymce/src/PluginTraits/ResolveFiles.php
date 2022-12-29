@@ -95,6 +95,10 @@ trait ResolveFiles
                 return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
             }
 
+            if (is_file($nonMinifiedPath)) {
+                return Uri::root(true) . str_replace(JPATH_ROOT, '', $nonMinifiedPath);
+            }
+
             return '';
         }
 

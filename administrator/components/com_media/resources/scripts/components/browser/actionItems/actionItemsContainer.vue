@@ -30,13 +30,13 @@
       class="media-browser-actions-list"
       role="toolbar"
       aria-orientation="vertical"
-      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',(this.$parent.$props.item.name))"
+      :aria-label="sprintf('COM_MEDIA_ACTIONS_TOOLBAR_LABEL',($parent.$props.item.name))"
     >
       <span
         aria-hidden="true"
         class="media-browser-actions-item-name"
       >
-        <strong>{{ this.$parent.$props.item.name }}</strong>
+        <strong>{{ $parent.$props.item.name }}</strong>
       </span>
       <media-browser-action-item-preview
         v-if="previewable"
