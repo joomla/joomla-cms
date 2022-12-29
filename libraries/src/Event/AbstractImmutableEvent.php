@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Event;
 
 use BadMethodCallException;
+use Joomla\Event\AbstractEvent;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -17,6 +18,8 @@ use BadMethodCallException;
 
 /**
  * This class implements the immutable base Event object used system-wide to offer orthogonality.
+ * Note that it's implementation is very similar to \Joomla\Event\EventImmutable but it also contains the same custom
+ * setter logic for constructors as in \Joomla\CMS\Event\AbstractEvent
  *
  * @see    \Joomla\CMS\Event\AbstractEvent
  * @since  4.0.0
@@ -48,9 +51,20 @@ class AbstractImmutableEvent extends AbstractEvent
             );
         }
 
-        parent::__construct($name, $arguments);
-
         $this->constructed = true;
+
+        parent::__construct($name);
+
+        // Same setter logic as in \Joomla\CMS\Event\AbstractEvent::setArgument
+        foreach ($arguments as $argumentName => $value) {
+            $methodName = 'set' . ucfirst($name);
+
+            if (method_exists($this, $methodName)) {
+                $value = $this->{$methodName}($value);
+            }
+
+            $this->arguments[$argumentName] = $value;
+        }
     }
 
     /**
@@ -97,27 +111,6 @@ class AbstractImmutableEvent extends AbstractEvent
     }
 
     /**
-     * Add an event argument.
-     *
-     * @param   string  $name  The argument name.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY__VERSION__
-     * @throws  BadMethodCallException
-     */
-    public function addArgument($name, $value)
-    {
-        throw new BadMethodCallException(
-            sprintf(
-                'Cannot add the argument %s of the immutable event %s.',
-                $name,
-                $this->name
-            )
-        );
-    }
-
-    /**
      * Set an event argument.
      *
      * @param   string  $name  The argument name.
@@ -137,43 +130,6 @@ class AbstractImmutableEvent extends AbstractEvent
             sprintf(
                 'Cannot set the argument %s of the immutable event %s.',
                 $name,
-                $this->name
-            )
-        );
-    }
-
-    /**
-     * Clear event arguments.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY__VERSION__
-     * @throws  BadMethodCallException
-     */
-    public function removeArgument($name)
-    {
-        throw new BadMethodCallException(
-            sprintf(
-                'Cannot remove the argument %s of the immutable event %s.',
-                $name,
-                $this->name
-            )
-        );
-    }
-
-    /**
-     * Clear event arguments.
-     *
-     * @return  void
-     *
-     * @since   __DEPLOY__VERSION__
-     * @throws  BadMethodCallException
-     */
-    public function clearArguments()
-    {
-        throw new BadMethodCallException(
-            sprintf(
-                'Cannot clear the arguments of the immutable event %s.',
                 $this->name
             )
         );

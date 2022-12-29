@@ -10,7 +10,7 @@
 namespace Joomla\CMS\Extension;
 
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Helper\HelperFactory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -119,7 +119,7 @@ trait ExtensionManagerTrait
 
         $container->get(DispatcherInterface::class)->dispatch(
             'onBeforeExtensionBoot',
-            AbstractEvent::create(
+            EventFactory::create(
                 'onBeforeExtensionBoot',
                 [
                     'subject'       => $this,
@@ -160,7 +160,7 @@ trait ExtensionManagerTrait
 
         $container->get(DispatcherInterface::class)->dispatch(
             'onAfterExtensionBoot',
-            AbstractEvent::create(
+            EventFactory::create(
                 'onAfterExtensionBoot',
                 [
                     'subject'       => $this,

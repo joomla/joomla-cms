@@ -55,6 +55,7 @@ abstract class AbstractEvent extends BaseEvent
      *
      * @since   4.0.0
      * @throws  BadMethodCallException  If you do not provide a subject argument
+     * @deprecated  6.0  Use \Joomla\CMS\Event\EventFactory::create instead
      */
     public static function create(string $eventName, array $arguments = [])
     {
@@ -113,9 +114,7 @@ abstract class AbstractEvent extends BaseEvent
      */
     public function __construct(string $name, array $arguments = [])
     {
-        parent::__construct($name, $arguments);
-
-        $this->arguments = [];
+        parent::__construct($name);
 
         foreach ($arguments as $argumentName => $value) {
             $this->setArgument($argumentName, $value);

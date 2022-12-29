@@ -13,7 +13,7 @@ use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
@@ -308,7 +308,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
         } catch (\Throwable $throwable) {
             /** @var ErrorEvent $event */
-            $event = AbstractEvent::create(
+            $event = EventFactory::create(
                 'onError',
                 [
                     'subject'     => $throwable,

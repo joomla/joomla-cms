@@ -11,7 +11,7 @@
  */
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\Event\EventFactory;
 use Joomla\CMS\Event\Table\BeforeStoreEvent;
 use Joomla\CMS\Event\View\DisplayEvent;
 use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
@@ -277,7 +277,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
         // Trigger the change state event.
         $eventResult = $this->app->getDispatcher()->dispatch(
             'onContentBeforeChangeFeatured',
-            AbstractEvent::create(
+            EventFactory::create(
                 'onContentBeforeChangeFeatured',
                 [
                     'eventClass' => 'Joomla\Component\Content\Administrator\Event\Model\FeatureEvent',
