@@ -174,8 +174,8 @@ if (!$format) {
         $fileExists = false;
         $xmlData    = simplexml_load_file($basePath . '/templates/' . $template . '/templateDetails.xml');
 
-        if ($xmlData && isset($xmlData->namespace) && class_exists((string) $xmlData->namespace . '\\' . $baseClient . '\Helper\\' . ucfirst($template) . 'Helper')) {
-            $class = (string) $xmlData->namespace . '\\' . $baseClient . '\Helper\\' . ucfirst($template) . 'Helper';
+        if ($xmlData && isset($xmlData->namespace) && class_exists((string) $xmlData->namespace . '\\' . $baseClient . '\Helper\AjaxHelper')) {
+            $class = (string) $xmlData->namespace . '\\' . $baseClient . '\Helper\AjaxHelper';
             $fileExists = true;
         } elseif (is_file($helperFile)) {
             JLoader::register($class, $helperFile);
