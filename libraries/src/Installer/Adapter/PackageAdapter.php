@@ -525,7 +525,8 @@ class PackageAdapter extends InstallerAdapter
             }
 
             $this->extension->load($this->currentExtensionId);
-            $this->extension->name = $this->name;
+            $this->extension->name         = $this->name;
+            $this->extension->changelogurl = $this->changelogurl;
         } else {
             $this->extension->name         = $this->name;
             $this->extension->type         = 'package';

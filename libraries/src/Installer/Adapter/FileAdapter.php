@@ -369,6 +369,9 @@ class FileAdapter extends InstallerAdapter
             // Update name
             $this->extension->name = $this->name;
 
+            // Update Changelogurl
+            $this->extension->changelogurl = $this->changelogurl;
+
             // Update manifest
             $this->extension->manifest_cache = $this->parent->generateManifestCache();
 
