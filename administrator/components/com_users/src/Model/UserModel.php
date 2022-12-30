@@ -771,7 +771,7 @@ class UserModel extends AdminModel
             } elseif ($doDelete === 'all') {
                 $query = $db->getQuery(true);
                 $query->delete($db->quoteName('#__user_usergroup_map'))
-                    ->whereIn($db->quoteName('user_id'), $users);
+                    ->whereIn($db->quoteName('user_id'), $userIds);
             }
             $db->setQuery($query);
 
