@@ -11,10 +11,8 @@
 namespace Joomla\Plugin\System\Debug;
 
 use DebugBar\HttpDriverInterface;
-use Joomla\Application\SessionAwareWebApplicationInterface;
 use Joomla\Application\WebApplicationInterface;
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Session\Session;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
