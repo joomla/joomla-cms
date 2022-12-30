@@ -10,15 +10,24 @@
 
 namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\Component\Content\Site\Model\CategoriesModel;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Input\Input;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -28,10 +37,356 @@ use Joomla\String\StringHelper;
 /**
  * Helper for mod_articles_category
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
-abstract class ArticlesCategoryHelper
+class ArticlesCategoryHelper implements DatabaseAwareInterface
 {
+    use DatabaseAwareTrait;
+
+    /**
+     * The module instance
+     *
+     * @var    \stdClass
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $module;
+
+    /**
+     * The input instance
+     *
+     * @var    Input
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $input;
+
+    /**
+     * Constructor.
+     *
+     * @param  array  $config   An optional associative array of configuration settings.
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function __construct($config = [])
+    {
+        $this->module = $config['module'];
+        $this->input  = $config['input'];
+    }
+
+    /**
+     * Retrieve a list of article
+     *
+     * @param   Registry         $params  The module parameters.
+     * @param   SiteApplication  $app     The current application.
+     *
+     * @return  object[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getArticles(Registry $moduleParams, SiteApplication $app)
+    {
+        $cacheKey = md5(serialize(array ($moduleParams->toString(), $this->module->module, $this->module->id)));
+
+        /** @var OutputController $cache */
+        $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+            ->createCacheController('output', ['defaultgroup' => 'mod_articles_category']);
+
+        if (!$cache->contains($cacheKey)) {
+            $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
+
+            /** @var ArticlesModel $articlesModel */
+            $articlesModel = $mvcContentFactory->createModel('Articles', 'Site', ['ignore_request' => true]);
+
+            // Set application parameters in model
+            $appParams = $app->getParams();
+            $articlesModel->setState('params', $appParams);
+
+            $articlesModel->setState('list.start', 0);
+            $articlesModel->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
+
+            // Set the filters based on the module params
+            $articlesModel->setState('list.limit', (int) $moduleParams->get('count', 0));
+            $articlesModel->setState('load_tags', $moduleParams->get('show_tags', 0) || $moduleParams->get('article_grouping', 'none') === 'tags');
+
+            // Access filter
+            $access = !ComponentHelper::getParams('com_content')->get('show_noauth');
+            $articlesModel->setState('filter.access', $access);
+
+            // Get the the component and view name
+            $option = $this->input->get('option');
+            $view   = $this->input->get('view');
+
+            // Preparation for Normal or Dynamic Modes
+            $mode = $moduleParams->get('mode', 'normal');
+
+            // If we inside a article view, get the article id
+            $active_article_id = $view === 'article' ? $this->input->getInt('id') : '';
+
+            switch ($mode) {
+                case 'dynamic':
+                    if ($option === 'com_content') {
+                        switch ($view) {
+                            case 'category':
+                            case 'categories':
+                                $catids = array($this->input->getInt('id'));
+                                break;
+                            case 'article':
+                                if ($moduleParams->get('show_on_article_page', 1)) {
+                                    $catid = $this->input->getInt('catid');
+
+                                    if (!$catid) {
+                                        // Get an instance of the generic article model
+                                        $articleModel = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
+
+                                        $articleModel->setState('params', $appParams);
+                                        $articleModel->setState('filter.published', 1);
+                                        $articleModel->setState('article.id', (int) $active_article_id);
+                                        $item   = $articleModel->getItem();
+                                        $catids = array($item->catid);
+                                    } else {
+                                        $catids = array($catid);
+                                    }
+                                } else {
+                                    // Return right away if show_on_article_page option is off
+                                    return;
+                                }
+                                break;
+
+                            default:
+                                // Return right away if not on the category or article views
+                                return;
+                        }
+                    } else {
+                        // Return right away if not on a com_content page
+                        return;
+                    }
+
+                    break;
+
+                default:
+                    $catids = $moduleParams->get('catid');
+                    $articlesModel->setState('filter.category_id.include', (bool) $moduleParams->get('category_filtering_type', 1));
+                    break;
+            }
+
+            // Category filter
+            if (isset($catids)) {
+                if ($moduleParams->get('show_child_category_articles', 0) && (int) $moduleParams->get('levels', 0) > 0) {
+
+                    /** @var CategoriesModel $categoriesModel */
+                    $categoriesModel = $mvcContentFactory->createModel('Categories', 'Site', ['ignore_request' => true]);
+
+                    $categoriesModel->setState('params', $appParams);
+                    $levels = $moduleParams->get('levels', 1) ?: 9999;
+                    $categoriesModel->setState('filter.get_children', $levels);
+                    $categoriesModel->setState('filter.published', 1);
+                    $categoriesModel->setState('filter.access', $access);
+
+                    $additional_catids = array();
+
+                    foreach ($catids as $catid) {
+                        $categoriesModel->setState('filter.parentId', $catid);
+                        $categories = $categoriesModel->getItems(true);
+
+                        if ($categories) {
+                            foreach ($categories as $category) {
+                                $condition = (($category->level - $categories->getParent()->level) <= $levels);
+
+                                if ($condition) {
+                                    $additional_catids[] = $category->id;
+                                }
+                            }
+                        }
+                    }
+
+                    $catids = array_unique(array_merge($catids, $additional_catids));
+                }
+
+                $articlesModel->setState('filter.category_id', $catids);
+            }
+
+            // Get the db object
+            $db = $this->getDatabase();
+
+            // Set ordering
+            $ordering = $moduleParams->get('article_ordering', 'a.ordering');
+
+            switch ($ordering) {
+                case 'random':
+                    $articlesModel->setState('list.ordering', $db->getQuery(true)->rand());
+                    break;
+
+                case 'rating_count':
+                case 'rating':
+                    $articlesModel->setState('list.ordering', $ordering);
+                    $articlesModel->setState('list.direction', $moduleParams->get('article_ordering_direction', 'ASC'));
+
+                    if (!PluginHelper::isEnabled('content', 'vote')) {
+                        $articlesModel->setState('list.ordering', 'a.ordering');
+                    }
+
+                    break;
+
+                default:
+                    $articlesModel->setState('list.ordering', $ordering);
+                    $articlesModel->setState('list.direction', $moduleParams->get('article_ordering_direction', 'ASC'));
+                    break;
+            }
+
+            // Filter by multiple tags
+            $articlesModel->setState('filter.tag', $moduleParams->get('filter_tag', array()));
+
+            // Filter by featured articles
+            $articlesModel->setState('filter.featured', $moduleParams->get('show_front', 'show'));
+
+            // Author filter
+            $articlesModel->setState('filter.author_id', $moduleParams->get('created_by', array()));
+            $articlesModel->setState('filter.author_id.include', $moduleParams->get('author_filtering_type', 1));
+            $articlesModel->setState('filter.author_alias', $moduleParams->get('created_by_alias', array()));
+            $articlesModel->setState('filter.author_alias.include', $moduleParams->get('author_alias_filtering_type', 1));
+
+            $excluded_articles = $moduleParams->get('excluded_articles', '');
+
+            if ($excluded_articles) {
+                $excluded_articles = explode("\r\n", $excluded_articles);
+                $articlesModel->setState('filter.article_id', $excluded_articles);
+
+                // Exclude
+                $articlesModel->setState('filter.article_id.include', false);
+            }
+
+            $date_filtering = $moduleParams->get('date_filtering', 'off');
+
+            if ($date_filtering !== 'off') {
+                $articlesModel->setState('filter.date_filtering', $date_filtering);
+                $articlesModel->setState('filter.date_field', $moduleParams->get('date_field', 'a.created'));
+                $articlesModel->setState('filter.start_date_range', $moduleParams->get('start_date_range', '1000-01-01 00:00:00'));
+                $articlesModel->setState('filter.end_date_range', $moduleParams->get('end_date_range', '9999-12-31 23:59:59'));
+                $articlesModel->setState('filter.relative_date', $moduleParams->get('relative_date', 30));
+            }
+
+            // Filter by language
+            $articlesModel->setState('filter.language', $app->getLanguageFilter());
+
+            // Prepare the module output
+            $items      = [];
+            $itemParams = new \stdClass();
+
+            $itemParams->show_date         = $moduleParams->get('show_date', 0);
+            $itemParams->show_date_field   = $moduleParams->get('show_date_field', 'created');
+            $itemParams->show_date_format  = $moduleParams->get('show_date_format', 'Y-m-d H:i:s');
+            $itemParams->show_category     = $moduleParams->get('show_category', 0);
+            $itemParams->show_hits         = $moduleParams->get('show_hits', 0);
+            $itemParams->show_author       = $moduleParams->get('show_author', 0);
+            $itemParams->show_introtext    = $moduleParams->get('show_introtext', 0);
+            $itemParams->introtext_limit   = $moduleParams->get('introtext_limit', 100);
+
+            $itemParams->active_article_id = $active_article_id;
+            $itemParams->authorised        = Access::getAuthorisedViewLevels($app->getIdentity()->get('id'));
+            $itemParams->access            = $access;
+            $itemParams->url_param_itemid  = $this->input->getInt('Itemid');
+            $itemParams->menu              = $app->getMenu();
+
+            foreach ($articlesModel->getItems() as $item) {
+                $items[]    = static::prepareItem($item, $itemParams, $app);
+            }
+
+            // Check if items need be grouped
+            $groupBy        = $moduleParams->get('article_grouping', 'none');
+            $groupDirection = $moduleParams->get('article_grouping_direction', 'ksort');
+
+            if ($groupBy !== 'none') {
+                switch ($groupBy) {
+                    case 'year':
+                    case 'month_year':
+                        $items = static::groupByDate(
+                            $items,
+                            $groupDirection,
+                            $groupBy,
+                            $moduleParams->get('month_year_format', 'F Y'),
+                            $moduleParams->get('date_grouping_field', 'created')
+                        );
+                        break;
+                    case 'author':
+                    case 'category_title':
+                        $items = static::groupBy($items, $groupBy, $groupDirection);
+                        break;
+                    case 'tags':
+                        $items = static::groupByTags($items, $groupDirection);
+                        break;
+                }
+            }
+
+            // Cache the output and return
+            $cache->store($items, $cacheKey);
+
+            return $items;
+        }
+
+        // Return the cached output
+        return $cache->get($cacheKey);
+    }
+
+    /**
+     * Prepare the article before render.
+     *
+     * @param   object      $item    The article to prepare
+     * @param   \stdClass  $params  The model item
+     *
+     * @return  object
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected static function prepareItem($item, $params): object
+    {
+        $item->slug = $item->id . ':' . $item->alias;
+
+        if ($params->access || \in_array($item->access, $params->authorised)) {
+            // We know that user has the privilege to view the article
+            $item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
+        } else {
+            $menuitems = $params->menu->getItems('link', 'index.php?option=com_users&view=login');
+
+            if (isset($menuitems[0])) {
+                $Itemid = $menuitems[0]->id;
+            } elseif ($params->url_param_itemid > 0) {
+                // Use Itemid from requesting page only if there is no existing menu
+                $Itemid = $params->url_param_itemid;
+            }
+
+            $item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
+        }
+
+        // Used for styling the active article
+        $item->active      = $item->id == $params->active_article_id ? 'active' : '';
+
+        $item->displayDate = '';
+        $dateField         = $params->show_date_field;
+
+        if ($params->show_date) {
+            $item->displayDate = HTMLHelper::_('date', $item->$dateField, $params->show_date_format);
+        }
+
+        if ($item->catid) {
+            $item->displayCategoryLink  = Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language));
+            $item->displayCategoryTitle = $params->show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
+        } else {
+            $item->displayCategoryTitle = $params->show_category ? $item->category_title : '';
+        }
+
+        $item->displayHits       = $params->show_hits ? $item->hits : '';
+        $item->displayAuthorName = $params->show_author ? $item->author : '';
+
+        if ($params->show_introtext) {
+            $item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
+            $item->introtext = static::_cleanIntrotext($item->introtext);
+        }
+
+        $item->displayIntrotext = $params->show_introtext ? self::truncate($item->introtext, $params->introtext_limit) : '';
+        $item->displayReadmore  = $item->alternative_readmore;
+
+        return $item;
+    }
+
     /**
      * Get a list of articles from a specific category
      *
@@ -39,248 +394,13 @@ abstract class ArticlesCategoryHelper
      *
      * @return  mixed
      *
-     * @since  1.6
+     * @since  __DEPLOY_VERSION__
+     *
+     * @deprecated 5.0 Use the none static function getArticles
      */
     public static function getList(&$params)
     {
-        $app     = Factory::getApplication();
-        $factory = $app->bootComponent('com_content')->getMVCFactory();
-
-        // Get an instance of the generic articles model
-        $articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
-
-        // Set application parameters in model
-        $input     = $app->getInput();
-        $appParams = $app->getParams();
-        $articles->setState('params', $appParams);
-
-        $articles->setState('list.start', 0);
-        $articles->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
-
-        // Set the filters based on the module params
-        $articles->setState('list.limit', (int) $params->get('count', 0));
-        $articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
-
-        // Access filter
-        $access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
-        $authorised = Access::getAuthorisedViewLevels(Factory::getUser()->get('id'));
-        $articles->setState('filter.access', $access);
-
-        // Prep for Normal or Dynamic Modes
-        $mode = $params->get('mode', 'normal');
-
-        switch ($mode) {
-            case 'dynamic':
-                $option = $input->get('option');
-                $view   = $input->get('view');
-
-                if ($option === 'com_content') {
-                    switch ($view) {
-                        case 'category':
-                        case 'categories':
-                            $catids = array($input->getInt('id'));
-                            break;
-                        case 'article':
-                            if ($params->get('show_on_article_page', 1)) {
-                                $article_id = $input->getInt('id');
-                                $catid      = $input->getInt('catid');
-
-                                if (!$catid) {
-                                    // Get an instance of the generic article model
-                                    $article = $factory->createModel('Article', 'Site', ['ignore_request' => true]);
-
-                                    $article->setState('params', $appParams);
-                                    $article->setState('filter.published', 1);
-                                    $article->setState('article.id', (int) $article_id);
-                                    $item   = $article->getItem();
-                                    $catids = array($item->catid);
-                                } else {
-                                    $catids = array($catid);
-                                }
-                            } else {
-                                // Return right away if show_on_article_page option is off
-                                return;
-                            }
-                            break;
-
-                        default:
-                            // Return right away if not on the category or article views
-                            return;
-                    }
-                } else {
-                    // Return right away if not on a com_content page
-                    return;
-                }
-
-                break;
-
-            default:
-                $catids = $params->get('catid');
-                $articles->setState('filter.category_id.include', (bool) $params->get('category_filtering_type', 1));
-                break;
-        }
-
-        // Category filter
-        if ($catids) {
-            if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
-                // Get an instance of the generic categories model
-                $categories = $factory->createModel('Categories', 'Site', ['ignore_request' => true]);
-                $categories->setState('params', $appParams);
-                $levels = $params->get('levels', 1) ?: 9999;
-                $categories->setState('filter.get_children', $levels);
-                $categories->setState('filter.published', 1);
-                $categories->setState('filter.access', $access);
-                $additional_catids = array();
-
-                foreach ($catids as $catid) {
-                    $categories->setState('filter.parentId', $catid);
-                    $recursive = true;
-                    $items     = $categories->getItems($recursive);
-
-                    if ($items) {
-                        foreach ($items as $category) {
-                            $condition = (($category->level - $categories->getParent()->level) <= $levels);
-
-                            if ($condition) {
-                                $additional_catids[] = $category->id;
-                            }
-                        }
-                    }
-                }
-
-                $catids = array_unique(array_merge($catids, $additional_catids));
-            }
-
-            $articles->setState('filter.category_id', $catids);
-        }
-
-        // Ordering
-        $ordering = $params->get('article_ordering', 'a.ordering');
-
-        switch ($ordering) {
-            case 'random':
-                $articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
-                break;
-
-            case 'rating_count':
-            case 'rating':
-                $articles->setState('list.ordering', $ordering);
-                $articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
-
-                if (!PluginHelper::isEnabled('content', 'vote')) {
-                    $articles->setState('list.ordering', 'a.ordering');
-                }
-
-                break;
-
-            default:
-                $articles->setState('list.ordering', $ordering);
-                $articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
-                break;
-        }
-
-        // Filter by multiple tags
-        $articles->setState('filter.tag', $params->get('filter_tag', array()));
-
-        $articles->setState('filter.featured', $params->get('show_front', 'show'));
-        $articles->setState('filter.author_id', $params->get('created_by', array()));
-        $articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-        $articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
-        $articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
-        $excluded_articles = $params->get('excluded_articles', '');
-
-        if ($excluded_articles) {
-            $excluded_articles = explode("\r\n", $excluded_articles);
-            $articles->setState('filter.article_id', $excluded_articles);
-
-            // Exclude
-            $articles->setState('filter.article_id.include', false);
-        }
-
-        $date_filtering = $params->get('date_filtering', 'off');
-
-        if ($date_filtering !== 'off') {
-            $articles->setState('filter.date_filtering', $date_filtering);
-            $articles->setState('filter.date_field', $params->get('date_field', 'a.created'));
-            $articles->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
-            $articles->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
-            $articles->setState('filter.relative_date', $params->get('relative_date', 30));
-        }
-
-        // Filter by language
-        $articles->setState('filter.language', $app->getLanguageFilter());
-
-        $items = $articles->getItems();
-
-        // Display options
-        $show_date        = $params->get('show_date', 0);
-        $show_date_field  = $params->get('show_date_field', 'created');
-        $show_date_format = $params->get('show_date_format', 'Y-m-d H:i:s');
-        $show_category    = $params->get('show_category', 0);
-        $show_hits        = $params->get('show_hits', 0);
-        $show_author      = $params->get('show_author', 0);
-        $show_introtext   = $params->get('show_introtext', 0);
-        $introtext_limit  = $params->get('introtext_limit', 100);
-
-        // Find current Article ID if on an article page
-        $option = $input->get('option');
-        $view   = $input->get('view');
-
-        if ($option === 'com_content' && $view === 'article') {
-            $active_article_id = $input->getInt('id');
-        } else {
-            $active_article_id = 0;
-        }
-
-        // Prepare data for display using display options
-        foreach ($items as &$item) {
-            $item->slug = $item->id . ':' . $item->alias;
-
-            if ($access || \in_array($item->access, $authorised)) {
-                // We know that user has the privilege to view the article
-                $item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
-            } else {
-                $menu      = $app->getMenu();
-                $menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
-
-                if (isset($menuitems[0])) {
-                    $Itemid = $menuitems[0]->id;
-                } elseif ($input->getInt('Itemid') > 0) {
-                    // Use Itemid from requesting page only if there is no existing menu
-                    $Itemid = $input->getInt('Itemid');
-                }
-
-                $item->link = Route::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);
-            }
-
-            // Used for styling the active article
-            $item->active      = $item->id == $active_article_id ? 'active' : '';
-            $item->displayDate = '';
-
-            if ($show_date) {
-                $item->displayDate = HTMLHelper::_('date', $item->$show_date_field, $show_date_format);
-            }
-
-            if ($item->catid) {
-                $item->displayCategoryLink  = Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language));
-                $item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
-            } else {
-                $item->displayCategoryTitle = $show_category ? $item->category_title : '';
-            }
-
-            $item->displayHits       = $show_hits ? $item->hits : '';
-            $item->displayAuthorName = $show_author ? $item->author : '';
-
-            if ($show_introtext) {
-                $item->introtext = HTMLHelper::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
-                $item->introtext = self::_cleanIntrotext($item->introtext);
-            }
-
-            $item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
-            $item->displayReadmore  = $item->alternative_readmore;
-        }
-
-        return $items;
+        return (new self())->getArticles($params, Factory::getApplication());
     }
 
     /**
@@ -344,7 +464,7 @@ abstract class ArticlesCategoryHelper
             }
         }
 
-        return $html;
+        return $ptString;
     }
 
     /**
