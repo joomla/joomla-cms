@@ -144,23 +144,17 @@ class JNamespacePsr4Map
         $error_reporting = error_reporting(0);
 
         try {
-            File::write($this->file, implode("\n", $content));
-        } catch (Exception $e) {
-            Log::add('Could not save ' . $this->file, Log::WARNING);
+            $result = File::write($this->file, implode("\n", $content));
 
-            $map = [];
-            $constants = ['JPATH_ADMINISTRATOR', 'JPATH_API', 'JPATH_SITE', 'JPATH_PLUGINS'];
+            if ($result === false) {
+                Log::add(sprintf('Could not save %s, please check the directory is writeable', $this->file), Log::WARNING);
 
-            foreach ($elements as $namespace => $path) {
-                foreach ($constants as $constant) {
-                    $path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [constant($constant), ''], $path);
-                }
-
-                $namespace = str_replace('\\\\', '\\', $namespace);
-                $map[$namespace] = [ $path ];
+                $this->generateDynamicMap($elements);
             }
+        } catch (Exception $e) {
+            Log::add(sprintf('Could not save %1s received error %2s', $this->file, $e->getMessage()), Log::WARNING);
 
-            $this->cachedMap = $map;
+            $this->generateDynamicMap($elements);
         }
 
         // Restore previous value of error_reporting
@@ -286,5 +280,31 @@ class JNamespacePsr4Map
 
         // Return the namespaces
         return $extensions;
+    }
+
+    /**
+     * Fallback when the cache file cannot be written to is to store the array in memory on each request.
+     *
+     * @param   array<string, string>  $elements  The list of extensions to include in the map
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    private function generateDynamicMap($elements)
+    {
+        $map = [];
+        $constants = ['JPATH_ADMINISTRATOR', 'JPATH_API', 'JPATH_SITE', 'JPATH_PLUGINS'];
+
+        foreach ($elements as $namespace => $path) {
+            foreach ($constants as $constant) {
+                $path = preg_replace(['/^(' . $constant . ")\s\.\s\'/", '/\'$/'], [constant($constant), ''], $path);
+            }
+
+            $namespace = str_replace('\\\\', '\\', $namespace);
+            $map[$namespace] = [ $path ];
+        }
+
+        $this->cachedMap = $map;
     }
 }
