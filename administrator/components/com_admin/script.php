@@ -6490,6 +6490,8 @@ class JoomlaInstallerScript
             // From 4.3.0-alpha1 to 4.3.0-alpha2
             '/plugins/content/emailcloak/emailcloak.php',
             '/plugins/content/fields/fields.php',
+            // From 4.3.0-alpha2 to 4.3.0-alpha3
+            '/cypress.config.js',
         ];
 
         $folders = [
