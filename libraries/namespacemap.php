@@ -76,6 +76,7 @@ class JNamespacePsr4Map
         $extensions = array_merge(
             $this->getNamespaces('component'),
             $this->getNamespaces('module'),
+            $this->getNamespaces('template'),
             $this->getNamespaces('plugin'),
             $this->getNamespaces('library')
         );
@@ -178,7 +179,7 @@ class JNamespacePsr4Map
      */
     private function getNamespaces(string $type): array
     {
-        if (!in_array($type, ['component', 'module', 'plugin', 'library'], true)) {
+        if (!in_array($type, ['component', 'module', 'template', 'plugin', 'library'], true)) {
             return [];
         }
 
@@ -187,6 +188,8 @@ class JNamespacePsr4Map
             $directories = [JPATH_ADMINISTRATOR . '/components'];
         } elseif ($type === 'module') {
             $directories = [JPATH_SITE . '/modules', JPATH_ADMINISTRATOR . '/modules'];
+        } elseif ($type === 'template') {
+            $directories = [JPATH_SITE . '/templates', JPATH_ADMINISTRATOR . '/templates'];
         } elseif ($type === 'plugin') {
             try {
                 $directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
@@ -212,6 +215,12 @@ class JNamespacePsr4Map
 
                 // Strip the com_ from the extension name for components
                 $name = str_replace('com_', '', $extension, $count);
+
+                // Template manifestfiles have a fix filename
+                if ($type === 'template') {
+                    $name = 'templateDetails';
+                }
+
                 $file = $extensionPath . $name . '.xml';
 
                 // If there is no manifest file, ignore. If it was a component check if the xml was named with the com_ prefix.
@@ -277,7 +286,13 @@ class JNamespacePsr4Map
 
                 // Add the application specific segment when a component or module
                 $baseDir    = $isAdministrator ? 'JPATH_ADMINISTRATOR . \'' : 'JPATH_SITE . \'';
+                $realPath   = ($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE) . $path;
                 $namespace .= $isAdministrator ? 'Administrator\\\\' : 'Site\\\\';
+
+                // Validate if the directory exists
+                if (!is_dir($realPath)) {
+                    continue;
+                }
 
                 // Set the namespace
                 $extensions[$namespace] = $baseDir . $path . '\'';
