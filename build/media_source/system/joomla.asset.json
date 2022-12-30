@@ -146,6 +146,30 @@
       }
     },
     {
+      "name": "requireon.es5",
+      "type": "script",
+      "dependencies": [
+        "core"
+      ],
+      "uri": "system/requireon-es5.min.js",
+      "attributes": {
+        "defer": true,
+        "nomodule": true
+      }
+    },
+    {
+      "name": "requireon",
+      "type": "script",
+      "dependencies": [
+        "core",
+        "requireon.es5"
+      ],
+      "uri": "system/requireon.min.js",
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
       "name": "switcher",
       "type": "style",
       "uri": "system/fields/switcher.min.css"

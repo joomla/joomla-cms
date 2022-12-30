@@ -342,6 +342,14 @@ abstract class FormField implements DatabaseAwareInterface
     protected $showon;
 
     /**
+     * The conditions to make field required or optional.
+     *
+     * @var    string
+     * @since  4.2.0
+     */
+    protected $requireon;
+
+    /**
      * The parent class of the field
      *
      * @var  string
@@ -462,6 +470,7 @@ abstract class FormField implements DatabaseAwareInterface
             case 'spellcheck':
             case 'validationtext':
             case 'showon':
+            case 'requireon':
             case 'parentclass':
                 return $this->$name;
 
@@ -509,8 +518,6 @@ abstract class FormField implements DatabaseAwareInterface
                 // Removes spaces from left & right and extra spaces from middle
                 $value = preg_replace('/\s+/', ' ', trim((string) $value));
 
-                // No break
-
             case 'description':
             case 'hint':
             case 'value':
@@ -523,6 +530,7 @@ abstract class FormField implements DatabaseAwareInterface
             case 'validationtext':
             case 'group':
             case 'showon':
+            case 'requireon':
             case 'parentclass':
             case 'default':
             case 'autocomplete':
@@ -546,8 +554,6 @@ abstract class FormField implements DatabaseAwareInterface
                 // Allow for field classes to force the multiple values option.
                 $value = (string) $value;
                 $value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
-
-                // No break
 
             case 'required':
             case 'disabled':
@@ -644,7 +650,7 @@ abstract class FormField implements DatabaseAwareInterface
         $attributes = array(
             'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'validationtext',
             'default', 'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
-            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon');
+            'translate_label', 'translateDescription', 'translate_description', 'size', 'showon', 'requireon');
 
         $this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -1020,9 +1026,15 @@ abstract class FormField implements DatabaseAwareInterface
             : false;
 
         if ($this->showon) {
-            $options['rel']           = ' data-showon=\'' .
-                json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+            $options['rel']          .= ' data-showon=\'' .
+                json_encode(FormHelper::parseFieldConditions($this->showon, $this->formControl, $this->group)) . '\'';
             $options['showonEnabled'] = true;
+        }
+
+        if ($this->requireon) {
+            $options['rel']          .= ' data-requireon=\'' .
+                json_encode(FormHelper::parseFieldConditions($this->requireon, $this->formControl, $this->group)) . '\'';
+            $options['requireonEnabled'] = true;
         }
 
         $data = array(
@@ -1283,7 +1295,7 @@ abstract class FormField implements DatabaseAwareInterface
             'validationtext' => $this->validationtext,
             'readonly'       => $this->readonly,
             'repeat'         => $this->repeat,
-            'required'       => (bool) $this->required,
+            'required'       => (bool) $this->required || (bool) $this->requireon,
             'size'           => $this->size,
             'spellcheck'     => $this->spellcheck,
             'validate'       => $this->validate,
