@@ -35,19 +35,19 @@ $actions = [];
             </div>
         <?php else : ?>
             <?php
-                // Split the actions table
-                foreach ($this->actions as $action) :
-                    $name = $action[0];
-                    if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.offline', 'core.login.api', 'core.admin'])) :
-                        $loginActions[] = $action;
-                    else :
-                        $actions[] = $action;
-                    endif;
-                endforeach;
+            // Split the actions table
+            foreach ($this->actions as $action) :
+                $name = $action[0];
+                if (in_array($name, ['core.login.site', 'core.login.admin', 'core.login.offline', 'core.login.api', 'core.admin'])) :
+                    $loginActions[] = $action;
+                else :
+                    $actions[] = $action;
+                endif;
+            endforeach;
             ?>
             <div class="d-flex flex-wrap">
                 <?php
-                    foreach ($loginActions as $action) :
+                foreach ($loginActions as $action) :
                     $name  = $action[0];
                     $check = $this->items[0]->checks[$name];
                     if ($check === true) :
@@ -64,11 +64,11 @@ $actions = [];
                         $text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
                     endif;
                     ?>
-                <div class="d-inline p-2">
-                    <?php echo Text::_($action[1]); ?>
-                    <span class="<?php echo $class; ?>" aria-hidden="true"></span>
-                    <span class="visually-hidden"><?php echo Text::_($text); ?></span>
-                </div>
+                    <div class="d-inline p-2">
+                        <?php echo Text::_($action[1]); ?>
+                        <span class="<?php echo $class; ?>" aria-hidden="true"></span>
+                        <span class="visually-hidden"><?php echo Text::_($text); ?></span>
+                    </div>
                 <?php endforeach; ?>
             </div>
                 <table class="table">
@@ -87,7 +87,7 @@ $actions = [];
                             </th>
                             <?php foreach ($actions as $key => $action) : ?>
                             <th scope="col" class="w-6 text-center">
-                            <?php echo Text::_($action[1]); ?>
+                                <?php echo Text::_($key); ?>
                             </th>
                             <?php endforeach; ?>
                             <th scope="col" class="w-6">
