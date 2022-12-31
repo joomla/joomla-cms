@@ -35,10 +35,12 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Book(
+                
+                $plugin = new Book(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('schemaorg', 'book')
                 );
+                
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
