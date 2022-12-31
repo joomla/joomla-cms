@@ -10,6 +10,7 @@
 namespace Joomla\CMS\Schemaorg;
 
 use Joomla\CMS\Event\GenericEvent;
+use Joomla\CMS\Event\Table\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Database\ParameterType;
@@ -241,6 +242,27 @@ trait SchemaorgPluginTrait
         }
 
         $this->updateSchemaForm($event);
+
+        return true;
+    }
+
+    /**
+     *  Saves the schema to the database
+     *
+     *  @param   GenericEvent $event
+     *
+     *  @return  boolean
+     */
+    public function onSchemaAfterSave(GenericEvent $event)
+    {
+        $data = $event->getArgument('data')->toArray();
+        $form = $data['schema']['schemaType'];
+
+        if ($form != $this->pluginName) {
+            return false;
+        }
+
+        $this->storeSchemaToStandardLocation($event);
 
         return true;
     }

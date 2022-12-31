@@ -63,25 +63,6 @@ final class Blogposting extends CMSPlugin implements SubscriberInterface
     protected $pluginName = 'BlogPosting';
 
     /**
-     *  Saves the schema to the database
-     *
-     *  @param   AbstractEvent $event
-     *
-     *  @return  boolean
-     */
-    public function onSchemaAfterSave(AbstractEvent $event)
-    {
-        $data = $event->getArgument('data')->toArray();
-        $form = $data['schema']['schemaType'];
-
-        if ($form != $this->pluginName) {
-            return false;
-        }
-        $this->storeSchemaToStandardLocation($event);
-        return true;
-    }
-
-    /**
      *  To add plugin specific functions
      *
      *  @param   Registry $schema Schema form

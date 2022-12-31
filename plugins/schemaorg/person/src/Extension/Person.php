@@ -60,26 +60,5 @@ final class Person extends CMSPlugin implements SubscriberInterface
      * @since 4.0.0
      */
     protected $pluginName = 'Person';
-
-    /**
-     *  Saves the schema to the database
-     *
-     *  @param   AbstractEvent $event
-     *
-     *  @return  boolean
-     */
-    public function onSchemaAfterSave(AbstractEvent $event)
-    {
-        $data = $event->getArgument('data')->toArray();
-        $form = $data['schema']['schemaType'];
-
-        if ($form != $this->pluginName) {
-            return false;
-        }
-
-        $this->storeSchemaToStandardLocation($event);
-
-        return true;
-    }
 }
 

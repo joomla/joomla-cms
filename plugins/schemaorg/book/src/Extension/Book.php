@@ -63,29 +63,6 @@ final class Book extends CMSPlugin implements SubscriberInterface
     protected $pluginName = 'Book';
 
     /**
-     *  Saves the schema to the database
-     *
-     *  @param   AbstractEvent $event
-     *
-     *  @return  boolean
-     */
-    public function onSchemaAfterSave(AbstractEvent $event)
-    {
-        $data = $event->getArgument('data')->toArray();
-        $form = $data['schema']['schemaType'];
-
-        if ($form != $this->pluginName) {
-            return false;
-        }
-        
-        $this->storeSchemaToStandardLocation($event);
-        
-        return true;
-    }
-
-
-
-    /**
      *  To add plugin specific functions
      *
      *  @param   Registry $schema Schema form
