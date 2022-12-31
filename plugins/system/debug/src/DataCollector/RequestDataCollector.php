@@ -39,9 +39,9 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 
                 $data = $GLOBALS[$var];
 
-                // Remove Joomla session data from session data, it will be collected by SessionCollector
+                // Replace Joomla session data from session data, it will be collected by SessionCollector
                 if ($var === '_SESSION') {
-                    unset($data['joomla']);
+                    $data['joomla'] = '***redacted***';
                 }
 
                 array_walk_recursive($data, static function (&$value, $key) {
