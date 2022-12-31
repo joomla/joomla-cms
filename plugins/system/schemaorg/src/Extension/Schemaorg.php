@@ -56,14 +56,6 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
     protected $app;
 
     /**
-     * The name of the supported name to check against
-     *
-     * @var   string
-     * @since 4.0.0
-     */
-    protected $supportFunctionality = 'core.state';
-
-    /**
      * Returns an array of events this subscriber will listen to.
      *
      * @return  array
@@ -109,6 +101,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
 
         PluginHelper::importPlugin('schemaorg');
         $eventResult = $dispatcher->dispatch('onSchemaPrepareData', $event);
+
         return true;
     }
 
@@ -129,7 +122,7 @@ final class Schemaorg extends CMSPlugin implements SubscriberInterface
         }
 
         //Load the form fields
-        $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/src/forms/schemaorg.xml');
+        $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
 
         $dispatcher = Factory::getApplication()->getDispatcher();
 
