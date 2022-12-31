@@ -80,10 +80,10 @@ final class Event extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onSchemaPrepareData'                  => 'onSchemaPrepareData',
-            'onSchemaPrepareForm'                  => 'onSchemaPrepareForm',
-            'onSchemaAfterSave'                    => 'onSchemaAfterSave',
-            'onSchemaBeforeCompileHead'            => 'pushSchema',
+            'onSchemaPrepareData' => 'onSchemaPrepareData',
+            'onSchemaPrepareForm' => 'onSchemaPrepareForm',
+            'onSchemaAfterSave' => 'onSchemaAfterSave',
+            'onSchemaBeforeCompileHead' => 'pushSchema',
         ];
     }
 
@@ -97,10 +97,13 @@ final class Event extends CMSPlugin implements SubscriberInterface
     public function onSchemaPrepareData(AbstractEvent $event)
     {
         $context = $event->getArgument('context');
+        
         if (!$this->isSupported($context) || !$this->isSchemaSupported($event)) {
             return false;
         }
+        
         $this->updateSchemaForm($event);
+        
         return true;
     }
 
@@ -115,12 +118,16 @@ final class Event extends CMSPlugin implements SubscriberInterface
     {
         $form = $event->getArgument('subject');
         $context = $form->getName();
+        
         if (!$this->isSupported($context)) {
             return false;
         }
+        
         $this->addSchemaType($event);
+        
         //Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/src/forms/schemaorg.xml');
+        
         return true;
     }
 
@@ -139,7 +146,9 @@ final class Event extends CMSPlugin implements SubscriberInterface
         if ($form != $this->pluginName) {
             return false;
         }
+        
         $this->storeSchemaToStandardLocation($event);
+        
         return true;
     }
 
@@ -155,6 +164,7 @@ final class Event extends CMSPlugin implements SubscriberInterface
         if (is_object($schema)) {
             $schema = $this->cleanupDate($schema, ['startDate']);
         }
+        
         return $schema;
     }
 }
