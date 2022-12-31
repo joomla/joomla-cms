@@ -14,18 +14,6 @@ namespace Joomla\CMS\Schemaorg;
 interface SchemaorgServiceInterface
 {
     /**
-     * Check if the functionality is supported by the context
-     *
-     * @param   string  $functionality  The functionality
-     * @param   string  $context        The context of the functionality
-     *
-     * @return boolean
-     *
-     * @since  4.0.0
-     */
-    public function supportSchemaFunctionality($functionality, $context): bool;
-
-    /**
      * Returns valid contexts.
      *
      * @return  array
