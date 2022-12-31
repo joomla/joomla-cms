@@ -54,14 +54,6 @@ final class Organization extends CMSPlugin implements SubscriberInterface
     protected $app;
 
     /**
-     * The name of the supported name to check against
-     *
-     * @var   string
-     * @since 4.0.0
-     */
-    protected $supportFunctionality = 'core.state';
-
-    /**
      * The name of the schema form
      *
      * @var   string

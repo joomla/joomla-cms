@@ -458,7 +458,7 @@ trait SchemaorgPluginTrait
         foreach ($schema as $k => $v) {
             if (is_array($v) && !empty($v['@type'])) {
                 $tmp = $this->cleanupJSON($v);
-                
+
                 if (!empty($tmp)) {
                     $arr[$k] = $tmp;
                 }
@@ -505,7 +505,7 @@ trait SchemaorgPluginTrait
      */
     protected function isSupported($context)
     {
-        if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality)) {
+        if (!$this->checkAllowedAndForbiddenlist($context)) {
             return false;
         }
 
@@ -518,13 +518,7 @@ trait SchemaorgPluginTrait
 
         $component = $this->app->bootComponent($parts[0]);
 
-        if (
-            !$component instanceof SchemaorgServiceInterface
-            || !$component->supportSchemaFunctionality($this->supportFunctionality, $context)
-        ) {
-            return false;
-        }
-        return true;
+        return $component instanceof SchemaorgServiceInterface;
     }
 
     /**
@@ -555,29 +549,6 @@ trait SchemaorgPluginTrait
             }
         }
 
-        return true;
-    }
-
-    /**
-     * Check if the context supports a specific functionality.
-     *
-     * @param   string  $context       Context to check
-     * @param   string  $functionality The functionality
-     *
-     * @return  boolean
-     */
-    protected function checkExtensionSupport($context, $functionality)
-    {
-        $parts = explode('.', $context);
-
-        $component = $this->app->bootComponent($parts[0]);
-
-        if (
-            !$component instanceof SchemaorgServiceInterface
-            || !$component->supportSchemaFunctionality($functionality, $context)
-        ) {
-            return false;
-        }
         return true;
     }
 }
