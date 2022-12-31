@@ -10,19 +10,11 @@ CREATE TABLE IF NOT EXISTS `#__schemaorg` (
 	`schemaForm` text,
 	`schema` text,
 	PRIMARY KEY (`id`)
-<<<<<<< HEAD
 ) ENGINE=INNODB DEFAULT CHARSET=utf8;
-=======
-) ENGINE=INNODB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
->>>>>>> 2791f86752b5f411415680cf499f102cb0aca5e8
 
 -- Add plugins to `#__extensions`
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `locked`, `manifest_cache`, `params`, `custom_data`, `ordering`, `state`) VALUES
 (0, 'plg_schemaorg_book', 'plugin', 'book', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0),
 (0, 'plg_schemaorg_blogposting', 'plugin', 'blogposting', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0),
-<<<<<<< HEAD
 (0, 'plg_schemaorg_organization', 'plugin', 'organization', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0),
 (0, 'plg_schemaorg_event', 'plugin', 'event', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0);
-=======
-(0, 'plg_schemaorg_organization', 'plugin', 'organization', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0);
->>>>>>> 2791f86752b5f411415680cf499f102cb0aca5e8
