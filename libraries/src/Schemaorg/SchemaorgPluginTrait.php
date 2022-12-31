@@ -75,11 +75,11 @@ trait SchemaorgPluginTrait
             //Delete the existing row to add updated data
             if (!$isNew) {
                 $res = $db->getQuery(true)
-                ->delete($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $table->id, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
+                    ->delete($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . '= :itemId')
+                    ->bind(':itemId', $table->id, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . '= :context')
+                    ->bind(':context', $context, ParameterType::STRING);
 
                 $db->setQuery($res)->execute();
             }
@@ -136,12 +136,12 @@ trait SchemaorgPluginTrait
                 $db = $this->db;
 
                 $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
+                    ->select('*')
+                    ->from($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . '= :itemId')
+                    ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . '= :context')
+                    ->bind(':context', $context, ParameterType::STRING);
 
                 $results = $db->setQuery($query)->loadAssoc();
 
@@ -169,11 +169,11 @@ trait SchemaorgPluginTrait
                                 }
                             }
                         } else {
-                                $data->schema[$schemaType][$key] = $val;
+                            $data->schema[$schemaType][$key] = $val;
                         }
                     }
                 } else {
-               //Insert article id as it is a hidden field
+                    //Insert article id as it is a hidden field
                     $data->schema['itemId'] = $itemId;
                 }
             } else {
@@ -186,28 +186,48 @@ trait SchemaorgPluginTrait
     }
 
     /**
-    *  Add a new option to the schema type in the item editing page
-    *
-    *  @param   Form  $form  The form to be altered.
-    *
-    *  @return  boolean
-    */
-   public function onSchemaPrepareForm(AbstractEvent $event)
-   {
-       $form = $event->getArgument('subject');
-       $context = $form->getName();
+     *  Add a new option to the schema type in the item editing page
+     *
+     *  @param   Form  $form  The form to be altered.
+     *
+     *  @return  boolean
+     */
+    public function onSchemaPrepareForm(AbstractEvent $event)
+    {
+        $form = $event->getArgument('subject');
+        $context = $form->getName();
 
-       if (!$this->isSupported($context)) {
-           return false;
-       }
+        if (!$this->isSupported($context)) {
+            return false;
+        }
 
-       $this->addSchemaType($event);
+        $this->addSchemaType($event);
 
-       //Load the form fields
-       $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
+        //Load the form fields
+        $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
 
-       return true;
-   }
+        return true;
+    }
+
+    /**
+     *  Update existing schema form with data from database
+     *
+     *  @param   $data  The form to be altered.
+     *
+     *  @return  boolean
+     */
+    public function onSchemaPrepareData(AbstractEvent $event)
+    {
+        $context = $event->getArgument('context');
+
+        if (!$this->isSupported($context) || !$this->isSchemaSupported($event)) {
+            return false;
+        }
+
+        $this->updateSchemaForm($event);
+
+        return true;
+    }
 
     /**
      * Call update schema function only if the plugin is not listed in allowed or forbidden
@@ -232,12 +252,12 @@ trait SchemaorgPluginTrait
                 $db = $this->db;
 
                 $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
+                    ->select('*')
+                    ->from($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . '= :itemId')
+                    ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . '= :context')
+                    ->bind(':context', $context, ParameterType::STRING);
 
                 $results = $db->setQuery($query)->loadAssoc();
 
@@ -321,12 +341,12 @@ trait SchemaorgPluginTrait
             // Load the table data from the database
             $db = $this->db;
             $query = $db->getQuery(true)
-            ->select('*')
-            ->from($db->quoteName('#__schemaorg'))
-            ->where($db->quoteName('itemId') . '= :itemId')
-            ->bind(':itemId', $itemId, ParameterType::INTEGER)
-            ->where($db->quoteName('context') . '= :context')
-            ->bind(':context', $context, ParameterType::STRING);
+                ->select('*')
+                ->from($db->quoteName('#__schemaorg'))
+                ->where($db->quoteName('itemId') . '= :itemId')
+                ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                ->where($db->quoteName('context') . '= :context')
+                ->bind(':context', $context, ParameterType::STRING);
 
             $db->setQuery($query);
             $results = $db->loadAssoc();
@@ -370,7 +390,7 @@ trait SchemaorgPluginTrait
                 } elseif ($min && $min < 60) {
                     $newDuration = "PT" . $min . "M";
                 } else {
-                    $newDuration = false ;
+                    $newDuration = false;
                 }
 
                 if ($newDuration) {

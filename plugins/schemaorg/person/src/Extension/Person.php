@@ -79,26 +79,6 @@ final class Person extends CMSPlugin implements SubscriberInterface
     }
 
     /**
-     *  Update existing schema form with data from database
-     *
-     *  @param   $data  The form to be altered.
-     *
-     *  @return  boolean
-     */
-    public function onSchemaPrepareData(AbstractEvent $event)
-    {
-        $context = $event->getArgument('context');
-
-        if (!$this->isSupported($context) || !$this->isSchemaSupported($event)) {
-            return false;
-        }
-
-        $this->updateSchemaForm($event);
-
-        return true;
-    }
-
-    /**
      *  Saves the schema to the database
      *
      *  @param   AbstractEvent $event
