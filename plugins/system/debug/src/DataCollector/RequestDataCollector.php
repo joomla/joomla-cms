@@ -40,7 +40,7 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
                 $data = $GLOBALS[$var];
 
                 // Replace Joomla session data from session data, it will be collected by SessionCollector
-                if ($var === '_SESSION') {
+                if ($var === '_SESSION' && !empty($data['joomla'])) {
                     $data['joomla'] = '***redacted***';
                 }
 
