@@ -41,8 +41,10 @@ trait SchemaorgPluginTrait
         if (!$form || !$name) {
             return false;
         }
+
         $schemaType = $form->getField('schemaType', 'schema');
         $schemaType->addOption($name, ['value' => $name]);
+
         return true;
     }
 
@@ -103,8 +105,10 @@ trait SchemaorgPluginTrait
                 $query->schemaForm = false;
                 $query->schema = false;
             }
+
             $result = $db->insertObject('#__schemaorg', $query);
         }
+
         return true;
     }
 
@@ -177,8 +181,33 @@ trait SchemaorgPluginTrait
                 $data->schema['itemId'] = $itemId;
             }
         }
+
         return true;
     }
+
+    /**
+    *  Add a new option to the schema type in the item editing page
+    *
+    *  @param   Form  $form  The form to be altered.
+    *
+    *  @return  boolean
+    */
+   public function onSchemaPrepareForm(AbstractEvent $event)
+   {
+       $form = $event->getArgument('subject');
+       $context = $form->getName();
+
+       if (!$this->isSupported($context)) {
+           return false;
+       }
+
+       $this->addSchemaType($event);
+
+       //Load the form fields
+       $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
+
+       return true;
+   }
 
     /**
      * Call update schema function only if the plugin is not listed in allowed or forbidden
@@ -198,6 +227,7 @@ trait SchemaorgPluginTrait
             return false;
         } else {
             $itemId = $data->id ?? 0;
+
             if (!isset($data->schema) && $itemId > 0) {
                 $db = $this->db;
 
@@ -222,6 +252,7 @@ trait SchemaorgPluginTrait
                 }
             }
         }
+
         return true;
     }
 
@@ -258,7 +289,9 @@ trait SchemaorgPluginTrait
                     }
                 }
             }
+
             $image = $schema->get('image');
+
             if (!empty($image)) {
                 $img = HTMLHelper::_('cleanImageURL', $image);
                 $newSchema->set('image', $img->url);
@@ -309,6 +342,7 @@ trait SchemaorgPluginTrait
                 $wa->addInlineScript($schema, ['position' => 'after'], ['type' => 'application/ld+json']);
             }
         }
+
         return true;
     }
 
@@ -375,6 +409,7 @@ trait SchemaorgPluginTrait
                         array_push($arr, $j);
                     }
                 }
+
                 if (!empty($arr)) {
                     $schema->set($repeatableField, $arr);
                 } else {
@@ -398,11 +433,13 @@ trait SchemaorgPluginTrait
     {
         foreach ($dateKeys as $dateKey) {
             $date = $schema->get($dateKey);
+
             if (!empty($date)) {
                 $date = Factory::getDate($date)->format('Y-m-d');
                 $schema->set($dateKey, $date);
             }
         }
+
         return $schema;
     }
 
@@ -417,23 +454,28 @@ trait SchemaorgPluginTrait
     {
         $arr = array();
         $emty = true;
+
         foreach ($schema as $k => $v) {
             if (is_array($v) && !empty($v['@type'])) {
                 $tmp = $this->cleanupJSON($v);
+                
                 if (!empty($tmp)) {
                     $arr[$k] = $tmp;
                 }
             } elseif ($v != '') {
                 $arr[$k] = $v;
+
                 if ($k != '@type') {
                     $emty = false;
                 }
             }
         }
+
         if ($arr['@type'] == 'ImageObject' && !empty($arr['url'])) {
             $img = HTMLHelper::_('cleanImageURL', $arr['url']);
             $arr['url'] = $img->url;
         }
+
         if (!$emty) {
             return $arr;
         }

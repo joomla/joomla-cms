@@ -103,26 +103,6 @@ final class Organization extends CMSPlugin implements SubscriberInterface
         return true;
     }
 
-     /**
-     *  Add a new option to the schema type in the article editing page
-     *
-     *  @param   Form  $form  The form to be altered.
-     *
-     *  @return  boolean
-     */
-    public function onSchemaPrepareForm(AbstractEvent $event)
-    {
-        $form = $event->getArgument('subject');
-        $context = $form->getName();
-        if (!$this->isSupported($context)) {
-            return false;
-        }
-        $this->addSchemaType($event);
-        //Load the form fields
-        $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/src/forms/schemaorg.xml');
-        return true;
-    }
-
     /**
      *  Saves the schema to the database
      *
