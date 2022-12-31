@@ -39,6 +39,7 @@ return new class implements ServiceProviderInterface
                     $dispatcher,
                     (array) PluginHelper::getPlugin('schemaorg', 'person')
                 );
+                
                 $plugin->setApplication(Factory::getApplication());
 
                 return $plugin;
