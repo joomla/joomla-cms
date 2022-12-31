@@ -43,7 +43,7 @@
 					<field
 						name="cookTime"
 						type="subform"
-						formsource="plugins\schemaorg\recipe\src\forms\duration.xml"
+						formsource="plugins\schemaorg\recipe\forms\duration.xml"
 						label="PLG_SCHEMAORG_RECIPE_FIELD_COOK_TIME_LABEL"
 					/>
 
@@ -76,7 +76,7 @@
 					<field
 						name="prepTime"
 						type="subform"
-						formsource="plugins\schemaorg\recipe\src\forms\duration.xml"
+						formsource="plugins\schemaorg\recipe\forms\duration.xml"
 						label="PLG_SCHEMAORG_RECIPE_FIELD_PREPARATION_TIME_LABEL"
 					/>
 
