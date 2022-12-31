@@ -9,14 +9,13 @@
  * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-namespace Joomla\Plugin\Schemaorg\Event\Extension;
+namespace Joomla\Plugin\Schemaorg\Person\Extension;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Schemaorg\SchemaorgPluginTrait;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\Registry\Registry;
 use Joomla\Event\SubscriberInterface;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -28,7 +27,7 @@ use Joomla\Event\SubscriberInterface;
  *
  * @since  4.0.0
  */
-final class Event extends CMSPlugin implements SubscriberInterface
+final class Person extends CMSPlugin implements SubscriberInterface
 {
     use SchemaorgPluginTrait;
 
@@ -68,7 +67,7 @@ final class Event extends CMSPlugin implements SubscriberInterface
      * @var   string
      * @since 4.0.0
      */
-    protected $pluginName = 'Event';
+    protected $pluginName = 'Person';
 
     /**
      * Returns an array of events this subscriber will listen to.
@@ -97,13 +96,13 @@ final class Event extends CMSPlugin implements SubscriberInterface
     public function onSchemaPrepareData(AbstractEvent $event)
     {
         $context = $event->getArgument('context');
-        
+
         if (!$this->isSupported($context) || !$this->isSchemaSupported($event)) {
             return false;
         }
-        
+
         $this->updateSchemaForm($event);
-        
+
         return true;
     }
 
@@ -118,16 +117,16 @@ final class Event extends CMSPlugin implements SubscriberInterface
     {
         $form = $event->getArgument('subject');
         $context = $form->getName();
-        
+
         if (!$this->isSupported($context)) {
             return false;
         }
-        
+
         $this->addSchemaType($event);
-        
+
         //Load the form fields
         $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/src/forms/schemaorg.xml');
-        
+
         return true;
     }
 
@@ -146,25 +145,10 @@ final class Event extends CMSPlugin implements SubscriberInterface
         if ($form != $this->pluginName) {
             return false;
         }
-        
+
         $this->storeSchemaToStandardLocation($event);
-        
+
         return true;
     }
-
-    /**
-     *  To add plugin specific functions
-     *
-     *  @param   Registry $schema Schema form
-     *
-     *  @return  Registry $schema Updated schema form
-     */
-    public function cleanupIndividualSchema(Registry $schema)
-    {
-        if (is_object($schema)) {
-            $schema = $this->cleanupDate($schema, ['startDate']);
-        }
-        
-        return $schema;
-    }
 }
+

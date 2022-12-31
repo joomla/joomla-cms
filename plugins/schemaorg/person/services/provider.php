@@ -2,7 +2,7 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Schemaorg.event
+ * @subpackage  Schemaorg.person
  *
  * @copyright   (C) 2022 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Plugin\Schemaorg\Event\Extension\Event;
+use Joomla\Plugin\Schemaorg\Person\Extension\Person;
 
 return new class implements ServiceProviderInterface
 {
@@ -35,9 +35,9 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
-                $plugin     = new Event(
+                $plugin     = new Person(
                     $dispatcher,
-                    (array) PluginHelper::getPlugin('schemaorg', 'event')
+                    (array) PluginHelper::getPlugin('schemaorg', 'person')
                 );
                 
                 $plugin->setApplication(Factory::getApplication());
