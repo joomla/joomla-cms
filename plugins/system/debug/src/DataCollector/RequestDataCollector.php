@@ -39,6 +39,11 @@ class RequestDataCollector extends \DebugBar\DataCollector\RequestDataCollector
 
                 $data = $GLOBALS[$var];
 
+                // Remove Joomla session data from session data, it will be collected by SessionCollector
+                if ($var === '_SESSION') {
+                    unset($data['joomla']);
+                }
+
                 array_walk_recursive($data, static function (&$value, $key) {
                     if (!preg_match(\PlgSystemDebug::PROTECTED_COLLECTOR_KEYS, $key)) {
                         return;
