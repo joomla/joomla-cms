@@ -63,23 +63,6 @@ final class Event extends CMSPlugin implements SubscriberInterface
     protected $pluginName = 'Event';
 
     /**
-     * Returns an array of events this subscriber will listen to.
-     *
-     * @return  array
-     *
-     * @since   4.0.0
-     */
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            'onSchemaPrepareData' => 'onSchemaPrepareData',
-            'onSchemaPrepareForm' => 'onSchemaPrepareForm',
-            'onSchemaAfterSave' => 'onSchemaAfterSave',
-            'onSchemaBeforeCompileHead' => 'pushSchema',
-        ];
-    }
-
-    /**
      *  Saves the schema to the database
      *
      *  @param   AbstractEvent $event

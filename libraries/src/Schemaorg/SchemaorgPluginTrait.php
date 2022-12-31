@@ -10,7 +10,6 @@
 namespace Joomla\CMS\Schemaorg;
 
 use Joomla\CMS\Event\GenericEvent;
-use Joomla\CMS\Event\Table\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Database\ParameterType;
@@ -24,6 +23,23 @@ use Joomla\Registry\Registry;
  */
 trait SchemaorgPluginTrait
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onSchemaPrepareData'                  => 'onSchemaPrepareData',
+            'onSchemaPrepareForm'                  => 'onSchemaPrepareForm',
+            'onSchemaAfterSave'                    => 'onSchemaAfterSave',
+            'onSchemaBeforeCompileHead'            => 'pushSchema',
+        ];
+    }
+
     /**
      * Add a new option to schemaType list field in schema form
      *
@@ -51,7 +67,7 @@ trait SchemaorgPluginTrait
     /**
      * Saves unfiltered and filtered JSON data of the form fields in database
      *
-     * @param   AbstractEvent $event Must have 'extension, 'table', 'isNew' and 'data'
+     * @param   GenericEvent $event Must have 'extension, 'table', 'isNew' and 'data'
      *
      * @return  boolean
      *
@@ -192,7 +208,7 @@ trait SchemaorgPluginTrait
      *
      *  @return  boolean
      */
-    public function onSchemaPrepareForm(AbstractEvent $event)
+    public function onSchemaPrepareForm(GenericEvent $event)
     {
         $form = $event->getArgument('subject');
         $context = $form->getName();
@@ -216,7 +232,7 @@ trait SchemaorgPluginTrait
      *
      *  @return  boolean
      */
-    public function onSchemaPrepareData(AbstractEvent $event)
+    public function onSchemaPrepareData(GenericEvent $event)
     {
         $context = $event->getArgument('context');
 
