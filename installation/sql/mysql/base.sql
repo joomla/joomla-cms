@@ -326,6 +326,12 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_quickicon_phpversioncheck', 'plugin', 'phpversioncheck', 'quickicon', 0, 1, 1, 0, 1, '', '', '', 6, 0),
 (0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, 1, '', '', '', 1, 0),
 (0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, 1, '', '', '', 2, 0),
+<<<<<<< Updated upstream
+=======
+(0, 'plg_schemaorg_book', 'plugin', 'book', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0),
+(0, 'plg_schemaorg_blogposting', 'plugin', 'blogposting', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0),
+(0, 'plg_schemaorg_organization', 'plugin', 'organization', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0),
+>>>>>>> Stashed changes
 (0, 'plg_schemaorg_event', 'plugin', 'event', 'schemaorg', 0, 1, 1, 0, 0, '', '{}', '', 0, 0),
 (0, 'plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, 1, '', '{}', '', 1, 0),
 (0, 'plg_system_actionlogs', 'plugin', 'actionlogs', 'system', 0, 1, 1, 0, 1, '', '{}', '', 2, 0),
