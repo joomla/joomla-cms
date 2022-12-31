@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Schemaorg;
 
-use Joomla\CMS\Event\GenericEvent;
-use Joomla\CMS\Event\Table\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Database\ParameterType;
@@ -24,6 +22,23 @@ use Joomla\Registry\Registry;
  */
 trait SchemaorgPluginTrait
 {
+    /**
+     * Returns an array of events this subscriber will listen to.
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            'onSchemaPrepareData'                  => 'onSchemaPrepareData',
+            'onSchemaPrepareForm'                  => 'onSchemaPrepareForm',
+            'onSchemaAfterSave'                    => 'onSchemaAfterSave',
+            'onSchemaBeforeCompileHead'            => 'pushSchema',
+        ];
+    }
+
     /**
      * Add a new option to schemaType list field in schema form
      *
@@ -41,21 +56,23 @@ trait SchemaorgPluginTrait
         if (!$form || !$name) {
             return false;
         }
+
         $schemaType = $form->getField('schemaType', 'schema');
         $schemaType->addOption($name, ['value' => $name]);
+
         return true;
     }
 
     /**
      * Saves unfiltered and filtered JSON data of the form fields in database
      *
-     * @param   AbstractEvent $event Must have 'extension, 'table', 'isNew' and 'data'
+     * @param   EventInterface $event Must have 'extension, 'table', 'isNew' and 'data'
      *
      * @return  boolean
      *
      * @since   4.0.0
      */
-    protected function storeSchemaToStandardLocation(GenericEvent $event)
+    protected function storeSchemaToStandardLocation(EventInterface $event)
     {
         $context    = $event->getArgument('extension');
         $table    = $event->getArgument('table');
@@ -73,11 +90,11 @@ trait SchemaorgPluginTrait
             //Delete the existing row to add updated data
             if (!$isNew) {
                 $res = $db->getQuery(true)
-                ->delete($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $table->id, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
+                    ->delete($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . '= :itemId')
+                    ->bind(':itemId', $table->id, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . '= :context')
+                    ->bind(':context', $context, ParameterType::STRING);
 
                 $db->setQuery($res)->execute();
             }
@@ -103,8 +120,10 @@ trait SchemaorgPluginTrait
                 $query->schemaForm = false;
                 $query->schema = false;
             }
+
             $result = $db->insertObject('#__schemaorg', $query);
         }
+
         return true;
     }
 
@@ -132,12 +151,12 @@ trait SchemaorgPluginTrait
                 $db = $this->db;
 
                 $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
+                    ->select('*')
+                    ->from($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . '= :itemId')
+                    ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . '= :context')
+                    ->bind(':context', $context, ParameterType::STRING);
 
                 $results = $db->setQuery($query)->loadAssoc();
 
@@ -165,11 +184,11 @@ trait SchemaorgPluginTrait
                                 }
                             }
                         } else {
-                                $data->schema[$schemaType][$key] = $val;
+                            $data->schema[$schemaType][$key] = $val;
                         }
                     }
                 } else {
-               //Insert article id as it is a hidden field
+                    //Insert article id as it is a hidden field
                     $data->schema['itemId'] = $itemId;
                 }
             } else {
@@ -177,6 +196,72 @@ trait SchemaorgPluginTrait
                 $data->schema['itemId'] = $itemId;
             }
         }
+
+        return true;
+    }
+
+    /**
+     *  Add a new option to the schema type in the item editing page
+     *
+     *  @param   Form  $form  The form to be altered.
+     *
+     *  @return  boolean
+     */
+    public function onSchemaPrepareForm(EventInterface $event)
+    {
+        $form = $event->getArgument('subject');
+        $context = $form->getName();
+
+        if (!$this->isSupported($context)) {
+            return false;
+        }
+
+        $this->addSchemaType($event);
+
+        //Load the form fields
+        $form->loadFile(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms/schemaorg.xml');
+
+        return true;
+    }
+
+    /**
+     *  Update existing schema form with data from database
+     *
+     *  @param   $data  The form to be altered.
+     *
+     *  @return  boolean
+     */
+    public function onSchemaPrepareData(EventInterface $event)
+    {
+        $context = $event->getArgument('context');
+
+        if (!$this->isSupported($context) || !$this->isSchemaSupported($event)) {
+            return false;
+        }
+
+        $this->updateSchemaForm($event);
+
+        return true;
+    }
+
+    /**
+     *  Saves the schema to the database
+     *
+     *  @param   EventInterface $event
+     *
+     *  @return  boolean
+     */
+    public function onSchemaAfterSave(EventInterface $event)
+    {
+        $data = $event->getArgument('data')->toArray();
+        $form = $data['schema']['schemaType'];
+
+        if ($form != $this->pluginName) {
+            return false;
+        }
+
+        $this->storeSchemaToStandardLocation($event);
+
         return true;
     }
 
@@ -198,16 +283,17 @@ trait SchemaorgPluginTrait
             return false;
         } else {
             $itemId = $data->id ?? 0;
+
             if (!isset($data->schema) && $itemId > 0) {
                 $db = $this->db;
 
                 $query = $db->getQuery(true)
-                ->select('*')
-                ->from($db->quoteName('#__schemaorg'))
-                ->where($db->quoteName('itemId') . '= :itemId')
-                ->bind(':itemId', $itemId, ParameterType::INTEGER)
-                ->where($db->quoteName('context') . '= :context')
-                ->bind(':context', $context, ParameterType::STRING);
+                    ->select('*')
+                    ->from($db->quoteName('#__schemaorg'))
+                    ->where($db->quoteName('itemId') . '= :itemId')
+                    ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                    ->where($db->quoteName('context') . '= :context')
+                    ->bind(':context', $context, ParameterType::STRING);
 
                 $results = $db->setQuery($query)->loadAssoc();
 
@@ -222,6 +308,7 @@ trait SchemaorgPluginTrait
                 }
             }
         }
+
         return true;
     }
 
@@ -258,7 +345,9 @@ trait SchemaorgPluginTrait
                     }
                 }
             }
+
             $image = $schema->get('image');
+
             if (!empty($image)) {
                 $img = HTMLHelper::_('cleanImageURL', $image);
                 $newSchema->set('image', $img->url);
@@ -288,12 +377,12 @@ trait SchemaorgPluginTrait
             // Load the table data from the database
             $db = $this->db;
             $query = $db->getQuery(true)
-            ->select('*')
-            ->from($db->quoteName('#__schemaorg'))
-            ->where($db->quoteName('itemId') . '= :itemId')
-            ->bind(':itemId', $itemId, ParameterType::INTEGER)
-            ->where($db->quoteName('context') . '= :context')
-            ->bind(':context', $context, ParameterType::STRING);
+                ->select('*')
+                ->from($db->quoteName('#__schemaorg'))
+                ->where($db->quoteName('itemId') . '= :itemId')
+                ->bind(':itemId', $itemId, ParameterType::INTEGER)
+                ->where($db->quoteName('context') . '= :context')
+                ->bind(':context', $context, ParameterType::STRING);
 
             $db->setQuery($query);
             $results = $db->loadAssoc();
@@ -309,6 +398,7 @@ trait SchemaorgPluginTrait
                 $wa->addInlineScript($schema, ['position' => 'after'], ['type' => 'application/ld+json']);
             }
         }
+
         return true;
     }
 
@@ -336,7 +426,7 @@ trait SchemaorgPluginTrait
                 } elseif ($min && $min < 60) {
                     $newDuration = "PT" . $min . "M";
                 } else {
-                    $newDuration = false ;
+                    $newDuration = false;
                 }
 
                 if ($newDuration) {
@@ -375,6 +465,7 @@ trait SchemaorgPluginTrait
                         array_push($arr, $j);
                     }
                 }
+
                 if (!empty($arr)) {
                     $schema->set($repeatableField, $arr);
                 } else {
@@ -398,11 +489,13 @@ trait SchemaorgPluginTrait
     {
         foreach ($dateKeys as $dateKey) {
             $date = $schema->get($dateKey);
+
             if (!empty($date)) {
                 $date = Factory::getDate($date)->format('Y-m-d');
                 $schema->set($dateKey, $date);
             }
         }
+
         return $schema;
     }
 
@@ -417,23 +510,28 @@ trait SchemaorgPluginTrait
     {
         $arr = array();
         $emty = true;
+
         foreach ($schema as $k => $v) {
             if (is_array($v) && !empty($v['@type'])) {
                 $tmp = $this->cleanupJSON($v);
+
                 if (!empty($tmp)) {
                     $arr[$k] = $tmp;
                 }
             } elseif ($v != '') {
                 $arr[$k] = $v;
+
                 if ($k != '@type') {
                     $emty = false;
                 }
             }
         }
+
         if ($arr['@type'] == 'ImageObject' && !empty($arr['url'])) {
             $img = HTMLHelper::_('cleanImageURL', $arr['url']);
             $arr['url'] = $img->url;
         }
+
         if (!$emty) {
             return $arr;
         }
@@ -463,7 +561,7 @@ trait SchemaorgPluginTrait
      */
     protected function isSupported($context)
     {
-        if (!$this->checkAllowedAndForbiddenlist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality)) {
+        if (!$this->checkAllowedAndForbiddenlist($context)) {
             return false;
         }
 
@@ -476,13 +574,7 @@ trait SchemaorgPluginTrait
 
         $component = $this->app->bootComponent($parts[0]);
 
-        if (
-            !$component instanceof SchemaorgServiceInterface
-            || !$component->supportSchemaFunctionality($this->supportFunctionality, $context)
-        ) {
-            return false;
-        }
-        return true;
+        return $component instanceof SchemaorgServiceInterface;
     }
 
     /**
@@ -513,29 +605,6 @@ trait SchemaorgPluginTrait
             }
         }
 
-        return true;
-    }
-
-    /**
-     * Check if the context supports a specific functionality.
-     *
-     * @param   string  $context       Context to check
-     * @param   string  $functionality The functionality
-     *
-     * @return  boolean
-     */
-    protected function checkExtensionSupport($context, $functionality)
-    {
-        $parts = explode('.', $context);
-
-        $component = $this->app->bootComponent($parts[0]);
-
-        if (
-            !$component instanceof SchemaorgServiceInterface
-            || !$component->supportSchemaFunctionality($functionality, $context)
-        ) {
-            return false;
-        }
         return true;
     }
 }
