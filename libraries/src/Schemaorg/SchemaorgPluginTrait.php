@@ -9,8 +9,6 @@
 
 namespace Joomla\CMS\Schemaorg;
 
-use Joomla\CMS\Event\GenericEvent;
-use Joomla\CMS\Event\Table\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Database\ParameterType;
@@ -68,13 +66,13 @@ trait SchemaorgPluginTrait
     /**
      * Saves unfiltered and filtered JSON data of the form fields in database
      *
-     * @param   GenericEvent $event Must have 'extension, 'table', 'isNew' and 'data'
+     * @param   EventInterface $event Must have 'extension, 'table', 'isNew' and 'data'
      *
      * @return  boolean
      *
      * @since   4.0.0
      */
-    protected function storeSchemaToStandardLocation(GenericEvent $event)
+    protected function storeSchemaToStandardLocation(EventInterface $event)
     {
         $context    = $event->getArgument('extension');
         $table    = $event->getArgument('table');
@@ -209,7 +207,7 @@ trait SchemaorgPluginTrait
      *
      *  @return  boolean
      */
-    public function onSchemaPrepareForm(GenericEvent $event)
+    public function onSchemaPrepareForm(EventInterface $event)
     {
         $form = $event->getArgument('subject');
         $context = $form->getName();
@@ -233,7 +231,7 @@ trait SchemaorgPluginTrait
      *
      *  @return  boolean
      */
-    public function onSchemaPrepareData(GenericEvent $event)
+    public function onSchemaPrepareData(EventInterface $event)
     {
         $context = $event->getArgument('context');
 
@@ -249,11 +247,11 @@ trait SchemaorgPluginTrait
     /**
      *  Saves the schema to the database
      *
-     *  @param   GenericEvent $event
+     *  @param   EventInterface $event
      *
      *  @return  boolean
      */
-    public function onSchemaAfterSave(GenericEvent $event)
+    public function onSchemaAfterSave(EventInterface $event)
     {
         $data = $event->getArgument('data')->toArray();
         $form = $data['schema']['schemaType'];
