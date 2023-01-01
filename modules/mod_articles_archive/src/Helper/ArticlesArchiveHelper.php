@@ -18,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Model\ArchiveModel;
+use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\ParameterType;
@@ -87,20 +87,26 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
         if (!$cache->contains($cacheKey)) {
             $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
-            /** @var ArchiveModel $archiveModel */
-            $archiveModel = $mvcContentFactory->createModel('Archive', 'Site', ['ignore_request' => true]);
+            /** @var ArticlesModel $articlesModel */
+            $articlesModel = $mvcContentFactory->createModel('Archive', 'Site', ['ignore_request' => true]);
 
             // Set application parameters in model
             $appParams = $app->getParams();
-            $archiveModel->setState('params', $appParams);
+            $articlesModel->setState('params', $appParams);
 
-            $archiveModel->setState('list.start', 0);
+            // Filter on archived articles
+            $articlesModel->setState('filter.published', ContentComponent::CONDITION_ARCHIVED);
+
+            $articlesModel->setState('list.start', 0);
 
             // Set the filters based on the module params
-            $archiveModel->setState('list.limit', (int) $moduleParams->get('count', 1));
+            $articlesModel->setState('list.limit', (int) $moduleParams->get('count', 1));
+
+            // This module does not use tags data
+            $articlesModel->setState('load_tags', false);
 
             // Filter by language
-            $archiveModel->setState('filter.language', $app->getLanguageFilter());
+            $articlesModel->setState('filter.language', $app->getLanguageFilter());
 
             // Prepare the module output
             $items  = [];
@@ -109,8 +115,8 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
             $menuItem       = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
             $urlParamItemid = (isset($menuItem) && !empty($menuItem->id)) ? '&Itemid=' . $menuItem->id : '';
 
-            foreach ($archiveModel->getData() as $item) {
-                $items[] = static::prepareItem($item, $urlParamItemid);
+            foreach ($articlesModel->countItemsByMonth() as $month) {
+                $items[] = static::prepareItem($month, $urlParamItemid);
             }
 
             // Cache the output and return
@@ -124,31 +130,32 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     }
 
     /**
-     * Prepare the article before render.
+     * Prepare the month before render.
      *
-     * @param   object     $item            The article to prepare
+     * @param   object     $month           The month to prepare
      * @param   \stdClass  $urlParamItemid  The Itemid param of the URL
      *
      * @return  \stdClass
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected static function prepareItem($item, $urlParamItemid): \stdClass
+    protected static function prepareItem($month, $urlParamItemid): \stdClass
     {
-        $date = Factory::getDate($item->created);
+        $date = Factory::getDate($month->d);
 
         $createdMonth = $date->format('n');
         $createdYear  = $date->format('Y');
 
-        $createdYearCal = HTMLHelper::_('date', $item->created, 'Y');
-        $monthNameCal   = HTMLHelper::_('date', $item->created, 'F');
+        $createdYearCal = HTMLHelper::_('date', $month->d, 'Y');
+        $monthNameCal   = HTMLHelper::_('date', $month->d, 'F');
 
-        $archivedArticle = new \stdClass();
+        $archivedArticlesMonth = new \stdClass();
 
-        $archivedArticle->link = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $urlParamItemid);
-        $archivedArticle->text = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
+        $archivedArticlesMonth->link   = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $urlParamItemid);
+        $archivedArticlesMonth->text   = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
+        $archivedArticlesMonth->amount = $month->c;
 
-        return $archivedArticle;
+        return $archivedArticlesMonth;
     }
 
     /**
