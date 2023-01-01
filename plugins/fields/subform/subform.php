@@ -253,9 +253,6 @@ class PlgFieldsSubform extends FieldsPlugin
             return $parent_field;
         }
 
-        // Override the fieldname attribute of the subform - this is being used to index the rows
-        $parent_field->setAttribute('fieldname', 'row');
-
         // If the user configured this subform instance as required
         if ($field->required) {
             // Then we need to have at least one row
