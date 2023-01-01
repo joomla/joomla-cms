@@ -204,15 +204,12 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
                 $articlesModel->setState('filter.category_id', $catids);
             }
 
-            // Get the db object
-            $db = $this->getDatabase();
-
             // Set ordering
             $ordering = $moduleParams->get('article_ordering', 'a.ordering');
 
             switch ($ordering) {
                 case 'random':
-                    $articlesModel->setState('list.ordering', $db->getQuery(true)->rand());
+                    $articlesModel->setState('list.ordering', $this->getDatabase()->getQuery(true)->rand());
                     break;
 
                 case 'rating_count':
