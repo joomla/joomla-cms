@@ -88,7 +88,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
             $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
             /** @var ArticlesModel $articlesModel */
-            $articlesModel = $mvcContentFactory->createModel('Archive', 'Site', ['ignore_request' => true]);
+            $articlesModel = $mvcContentFactory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
             // Set application parameters in model
             $appParams = $app->getParams();
