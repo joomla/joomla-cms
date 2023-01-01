@@ -46,14 +46,6 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     protected $module;
 
     /**
-     * The input instance
-     *
-     * @var    Input
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $input;
-
-    /**
      * Constructor.
      *
      * @param  array  $config   An optional associative array of configuration settings.
@@ -63,7 +55,6 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     public function __construct($config = [])
     {
         $this->module = $config['module'];
-        $this->input  = $config['input'];
     }
 
     /**
