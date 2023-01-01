@@ -21,7 +21,6 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
-use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -58,7 +57,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     }
 
     /**
-     * Retrieve a list of archive article
+     * Retrieve a list of months with archived articles
      *
      * @param   Registry         $params  The module parameters.
      * @param   SiteApplication  $app     The current application.
