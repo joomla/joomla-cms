@@ -10,9 +10,11 @@
 
 namespace Joomla\Module\ArticlesPopular\Site\Dispatcher;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Dispatcher\AbstractModuleDispatcher;
 use Joomla\CMS\Helper\HelperFactoryAwareInterface;
 use Joomla\CMS\Helper\HelperFactoryAwareTrait;
+use Joomla\CMS\Language\Text;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('JPATH_PLATFORM') or die;
@@ -36,6 +38,13 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      */
     protected function getLayoutData()
     {
+        // Exit early if hits are disabled.
+        if (!ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
+            echo Text::_('JGLOBAL_RECORD_HITS_DISABLED');
+
+            return;
+        }
+
         $data = parent::getLayoutData();
 
         $data['list'] = $this->getHelperFactory()->getHelper('ArticlesPopularHelper', $data)->getArticles($data['params'], $data['app']);
