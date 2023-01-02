@@ -38,16 +38,13 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
      */
     protected function getLayoutData()
     {
-        // Exit early if hits are disabled.
-        if (!ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
-            echo Text::_('JGLOBAL_RECORD_HITS_DISABLED');
-
-            return;
-        }
-
         $data = parent::getLayoutData();
 
-        $data['list'] = $this->getHelperFactory()->getHelper('ArticlesPopularHelper', $data)->getArticles($data['params'], $data['app']);
+        if (!ComponentHelper::getParams('com_content')->get('record_hits', 1)) {
+            $data['hitsDisabledMessage'] = Text::_('JGLOBAL_RECORD_HITS_DISABLED');
+        } else {
+            $data['list'] = $this->getHelperFactory()->getHelper('ArticlesPopularHelper', $data)->getArticles($data['params'], $data['app']);
+        }
 
         return $data;
     }
