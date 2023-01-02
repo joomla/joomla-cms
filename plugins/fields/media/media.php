@@ -83,13 +83,15 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
      */
     private function checkValue($value)
     {
-        json_decode($value);
+        if ($value) {
+            json_decode($value);
 
-        if (json_last_error() === JSON_ERROR_NONE)
-        {
-            return (array) json_decode($value, true);
+            if (json_last_error() === JSON_ERROR_NONE)
+            {
+                return (array) json_decode($value, true);
+            }
+
+            return array('imagefile' => $value, 'alt_text' => '');
         }
-
-        return array('imagefile' => $value, 'alt_text' => '');
     }
 }
