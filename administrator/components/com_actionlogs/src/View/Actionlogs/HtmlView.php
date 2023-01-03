@@ -133,13 +133,24 @@ class HtmlView extends BaseHtmlView
     protected function addToolbar()
     {
         ToolbarHelper::title(Text::_('COM_ACTIONLOGS_MANAGER_USERLOGS'), 'icon-list-2');
+        $toolbar = Toolbar::getInstance();
 
-        ToolbarHelper::custom('actionlogs.exportSelectedLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_CSV', true);
-        ToolbarHelper::custom('actionlogs.exportLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', false);
-        ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'actionlogs.delete');
-        $bar = Toolbar::getInstance('toolbar');
-        $bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
-        ToolbarHelper::preferences('com_actionlogs');
-        ToolbarHelper::help('User_Actions_Log');
+        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_CSV', 'actionlogs.exportSelectedLogs')
+            ->icon('icon-download')
+            ->listCheck(true);
+
+        $toolbar->standardButton('download', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', 'actionlogs.exportLogs')
+            ->icon('icon-download')
+            ->listCheck(false);
+
+        $toolbar->delete('actionlogs.delete')
+            ->message('JGLOBAL_CONFIRM_DELETE');
+
+        $toolbar->confirmButton('delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge')
+            ->message('COM_ACTIONLOGS_PURGE_CONFIRM')
+            ->listCheck(false);
+
+        $toolbar->preferences('com_actionlogs');
+        $toolbar->help('User_Actions_Log');
     }
 }

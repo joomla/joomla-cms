@@ -142,16 +142,15 @@ class HtmlView extends BaseHtmlView
                 ->name('delete')
                 ->message('COM_CACHE_RESOURCE_INTENSIVE_WARNING');
 
-            $toolbar->separatorButton();
+            $toolbar->divider();
         }
 
         if ($this->getCurrentUser()->authorise('core.admin', 'com_cache'))
         {
             $toolbar->preferences('com_cache');
-            $toolbar->separatorButton();
+            $toolbar->divider();
         }
 
-        $toolbar->helpButton()
-            ->ref('Maintenance:_Clear_Cache');
+        $toolbar->help('Maintenance:_Clear_Cache');
     }
 }

@@ -191,11 +191,7 @@ abstract class ToolbarHelper
     public static function inlinehelp(string $class = "hide-aware-inline-help")
     {
         $bar = Toolbar::getInstance('toolbar');
-
-        // Add a help button.
-        $bar->inlinehelpButton('inlinehelp')
-            ->targetclass($class)
-            ->icon('fa fa-question-circle');
+        $bar->inlinehelp($class);
     }
 
     /**

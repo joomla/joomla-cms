@@ -10,6 +10,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Warnings;
 
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -53,8 +54,10 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
+        $toolbar = Toolbar::getInstance();
+
         parent::addToolbar();
 
-        ToolbarHelper::help('Information:_Warnings');
+        $toolbar->help('Information:_Warnings');
     }
 }

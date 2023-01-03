@@ -11,6 +11,7 @@
 namespace Joomla\Component\Installer\Administrator\View\Discover;
 
 use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -76,18 +77,20 @@ class HtmlView extends InstallerViewDefault
      */
     protected function addToolbar()
     {
-        /*
-         * Set toolbar items for the page.
-         */
+        $toolbar = Toolbar::getInstance();
+
         if (!$this->isEmptyState) {
-            ToolbarHelper::custom('discover.install', 'upload', '', 'JTOOLBAR_INSTALL', true);
+            $toolbar->standardButton('upload', 'JTOOLBAR_INSTALL', 'discover.install')
+                ->listCheck(true)
+                ->icon('icon-upload');
         }
 
-        ToolbarHelper::custom('discover.refresh', 'refresh', '', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
-        ToolbarHelper::divider();
+        $toolbar->standardButton('discover', 'COM_INSTALLER_TOOLBAR_DISCOVER', 'discover.refresh')
+            ->icon('icon-refresh');
+        $toolbar->divider();
 
         parent::addToolbar();
 
-        ToolbarHelper::help('Extensions:_Discover');
+        $toolbar->help('Extensions:_Discover');
     }
 }

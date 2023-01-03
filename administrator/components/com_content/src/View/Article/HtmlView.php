@@ -132,11 +132,10 @@ class HtmlView extends BaseHtmlView
         $userId     = $user->id;
         $isNew      = ($this->item->id == 0);
         $checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $userId);
+        $toolbar    = Toolbar::getInstance();
 
         // Built the actions for new and existing records.
         $canDo = $this->canDo;
-
-        $toolbar = Toolbar::getInstance();
 
         ToolbarHelper::title(
             Text::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))),
@@ -224,9 +223,7 @@ class HtmlView extends BaseHtmlView
         }
 
         $toolbar->divider();
-
-        ToolbarHelper::inlinehelp();
-
+        $toolbar->inlinehelp();
         $toolbar->help('Articles:_Edit');
     }
 }

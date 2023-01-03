@@ -162,10 +162,10 @@ class HtmlView extends BaseHtmlView
                 $childBar->unpublish('tasks.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 
                 if ($canDo->get('core.admin')) {
-                    $childBar->checkin('tasks.checkin')->listCheck(true);
+                    $childBar->checkin('tasks.checkin');
                 }
 
-                $childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->listCheck(true)->icon('icon-unlock');
+                $childBar->checkin('tasks.unlock', 'COM_SCHEDULER_TOOLBAR_UNLOCK')->icon('icon-unlock');
 
                 // We don't want the batch Trash button if displayed entries are all trashed
                 if ($this->state->get('filter.state') != -2) {
