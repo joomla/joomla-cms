@@ -13,6 +13,18 @@ use Joomla\Event\Event;
 use Joomla\Event\EventInterface;
 use Joomla\String\Normalise;
 
+/**
+ * This class is a factory system that allows the creation of most core events in the Joomla Ecosystem, falling back to
+ * the creation of a \Joomla\CMS\Event\GenericEvent object for the class if no specific event class is matched. You can
+ * create a new Event with something like this:
+ *
+ * $event = EventFactory::create('onModelBeforeSomething', $myModel, $arguments);
+ *
+ * You can access the subject object from your event Listener using $event['subject']. It is up to your listener to
+ * determine whether it should apply its functionality against the subject.
+ *
+ * @since  __DEPLOY_VERSION__
+ */
 abstract class EventFactory {
     use CoreEventAware;
 
