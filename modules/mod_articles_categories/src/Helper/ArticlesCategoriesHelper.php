@@ -11,12 +11,7 @@
 namespace Joomla\Module\ArticlesCategories\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Cache\CacheControllerFactoryInterface;
-use Joomla\CMS\Cache\Controller\OutputController;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Model\CategoriesModel;
 use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -31,75 +26,46 @@ use Joomla\Registry\Registry;
 class ArticlesCategoriesHelper
 {
     /**
-     * The module instance
-     *
-     * @var    \stdClass
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    protected $module;
-
-    /**
-     * Constructor.
-     *
-     * @param  array  $config   An optional associative array of configuration settings.
-     *
-     * @since  __DEPLOY_VERSION__
-     */
-    public function __construct($config = [])
-    {
-        $this->module = $config['module'];
-    }
-
-    /**
      * Retrieve a list of months with archived articles
      *
      * @param   Registry         $params  The module parameters.
      * @param   SiteApplication  $app     The current application.
      *
-     * @return  object[]
+     * @return  \Joomla\CMS\Categories\CategoryNode[]
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getArticles(Registry $moduleParams, SiteApplication $app)
+    public function getArticles(Registry $moduleParams, SiteApplication $app): array
     {
-        $cacheKey = md5(serialize(array ($moduleParams->toString(), $this->module->module, $this->module->id)));
+        /** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
+        $contentComponent = $app->bootComponent('com_content');
 
-        /** @var OutputController $cache */
-        $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
-            ->createCacheController('output', ['defaultgroup' => 'mod_articles_categories']);
+        // Category options to set
+        $options = [];
 
-        if (!$cache->contains($cacheKey)) {
+        // Get the number of items in this category or descendants of this category
+        $options['countItems'] = $moduleParams->get('numitems', 0);
 
-            $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
+        $parentCategory = null;
 
-            /** @var CategoriesModel $categoriesModel */
-            $categoriesModel = $mvcContentFactory->createModel('Categories', 'Site', ['ignore_request' => true]);
-
-            // Set application parameters in model
-            $appParams = $app->getParams();
-            $categoriesModel->setState('params', $appParams);
-
-            $categoriesModel->setState('list.start', 0);
-
-            $categoriesModel->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
-
-            // Set the filters based on the module params
-            $categoriesModel->setState('filter.parentId', $moduleParams->get('parent', 'root'));
-            $categoriesModel->setState('list.limit', (int) $moduleParams->get('count', 0));
-
-            // Access filter
-            $access = !ComponentHelper::getParams('com_content')->get('show_noauth');
-            $categoriesModel->setState('filter.access', $access);
-
-            $items = $categoriesModel->getItems();
-
-            // Cache the output and return
-            $cache->store($items, $cacheKey);
+        if ($contentComponent instanceof \Joomla\CMS\Categories\CategoryServiceInterface) {
+            $parentCategory = $contentComponent->getCategory($options)->get($moduleParams->get('parent', 'root'));
         }
 
-        // Return the cached output
-        return $cache->get($cacheKey);
+        $childrenCategories = [];
+
+        if ($parentCategory !== null) {
+            // Get all the childrens categories of this node
+            $childrenCategories = $parentCategory->getChildren(true);
+
+            $count = $moduleParams->get('count', 0);
+
+            if ($count > 0 && \count($childrenCategories) > $count) {
+                $childrenCategories = \array_slice($childrenCategories, 0, $count);
+            }
+        }
+
+        return $childrenCategories;
     }
 
     /**

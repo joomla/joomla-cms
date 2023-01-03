@@ -12,11 +12,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (!$list) {
+if (!$list || empty($list)) {
     return;
 }
 
 $startLevel = reset($list)->getParent()->level;
+$input      = $app->getInput();
+$option     = $input->getCmd('option');
+$view       = $input->getCmd('view');
+$id         = $input->getInt('id');
 
 ?>
 <ul class="mod-articlescategories categories-module mod-list">

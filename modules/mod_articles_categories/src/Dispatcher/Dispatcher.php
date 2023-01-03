@@ -38,7 +38,7 @@ class Dispatcher extends AbstractModuleDispatcher implements HelperFactoryAwareI
     {
         $data = parent::getLayoutData();
 
-        $data['list'] = $this->getHelperFactory()->getHelper('ArticlesCategoriesHelper', $data)->getArticles($data['params'], $data['app']);
+        $data['list'] = $this->getHelperFactory()->getHelper('ArticlesCategoriesHelper')->getArticles($data['params'], $data['app']);
 
         return $data;
     }

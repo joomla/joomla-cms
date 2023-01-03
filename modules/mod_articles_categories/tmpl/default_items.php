@@ -15,11 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-$input  = $app->getInput();
-$option = $input->getCmd('option');
-$view   = $input->getCmd('view');
-$id     = $input->getInt('id');
-
 foreach ($list as $item) : ?>
     <li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') {
         echo ' class="active"';
