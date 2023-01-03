@@ -27,7 +27,7 @@ use Joomla\String\Normalise;
  *
  * You can create a new Event with something like this:
  *
- * $event = AbstractEvent::create('onModelBeforeSomething', $myModel, $arguments);
+ * $event = \Joomla\CMS\Event\EventFactory::create('onModelBeforeSomething', $myModel, $arguments);
  *
  * You can access the subject object from your event Listener using $event['subject']. It is up to your listener to
  * determine whether it should apply its functionality against the subject.
