@@ -32,14 +32,13 @@ joomla-tab {
     padding: 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-bottom: 1px solid var(--template-bg-dark-10);
+    border-bottom: 3px solid var(--template-bg-dark-10);
 
     > button[role=tab] {
       position: relative;
       box-sizing: border-box;
       display: block;
       padding: .6rem 1rem;
-      color: var(--primary);
       text-decoration: none;
       background-color: var(--white);
       border: 0;
@@ -52,6 +51,7 @@ joomla-tab {
       &[aria-expanded=true],
       &:focus,
       &:hover {
+        color: var(--primary);
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -74,6 +74,7 @@ joomla-tab {
 
       &[aria-expanded=true] {
         font-weight: $font-weight-bold;
+        color: var(--primary);
         background: var(--template-bg-dark-3);
       }
 
