@@ -290,3 +290,11 @@ $zindex-tooltip:                   1070;
 $zindex-mobile-bottom:             8000;
 $zindex-mobile-toggle:             9999;
 $zindex-mobile-menu:               9000;
+
+// scss-docs-start border-radius-variables
+$border-radius: .25rem !default;
+$border-radius-sm: .2rem !default;
+$border-radius-lg: .3rem !default;
+$border-radius-xl: .3rem !default;
+$border-radius-2xl: .3rem !default;
+// scss-docs-end border-radius-variables
