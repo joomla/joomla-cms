@@ -78,8 +78,6 @@ $prefix: "";
   @each $color, $value in $atum-colors {
     --#{$prefix}#{$color}: #{$value};
   }
-
-  --primary: hsl(213, 63%, 44%);
 }
 
 

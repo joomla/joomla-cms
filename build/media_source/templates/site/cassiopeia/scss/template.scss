@@ -61,8 +61,6 @@ $prefix: "";
   @each $color, $value in $cassiopeia-colors {
     --#{$color}: #{$value};
   }
-
-  --#{$prefix}primary: var(--cassiopeia-color-primary);
 }
 
 .border-primary {

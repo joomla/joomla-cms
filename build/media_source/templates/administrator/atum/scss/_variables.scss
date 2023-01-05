@@ -40,20 +40,18 @@ $danger:                           $red;
 $info:                             $light-blue;
 $warning:                          $yellow;
 
-$theme-colors: ();
-$theme-colors: map-merge((
-  primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
-  secondary:                       $gray-700, //used for btn-secondary
-  success:                         $success,
-  info:                            $light-blue,
-  warning:                         $yellow,
-  danger:                          $danger,
-  light:                           $gray-100, //used in bootstrap
-  dark:                            $gray-900,  //used in bootstrap and for table-border
-  action:                          $base-color,
-  error:                           $red-dark,
-  alert-success:                   $green-dark
-), $theme-colors);
+$theme-colors: (
+  "primary":                         $darkblue,
+  "secondary":                       $gray-700,
+  "success":                         $success,
+  "info":                            $light-blue,
+  "warning":                         $yellow,
+  "danger":                          $danger,
+  "light":                           $gray-100,
+  "dark":                            $gray-900,
+  "action":                          $base-color,
+  "error":                           $red-dark,
+  "alert-success":                   $green-dark)   !default    ;
 
 $atum-colors: (
   template-sidebar-bg:             var(--template-bg-dark-80),
