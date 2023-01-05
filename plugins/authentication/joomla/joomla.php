@@ -87,14 +87,24 @@ class PlgAuthenticationJoomla extends CMSPlugin
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
 
+                // Set default status response to success
+                $_status       = Authentication::STATUS_SUCCESS;
+                $_errorMessage = '';
+
                 if ($this->app->isClient('administrator')) {
                     $response->language = $user->getParam('admin_language');
                 } else {
                     $response->language = $user->getParam('language');
+
+                    if ($this->app->get('offline') == 1 && !$user->authorise('core.login.offline')) {
+                        // User do not have access in offline mode
+                        $_status       = Authentication::STATUS_FAILURE;
+                        $_errorMessage = Text::_('JLIB_LOGIN_DENIED');
+                    }
                 }
 
-                $response->status        = Authentication::STATUS_SUCCESS;
-                $response->error_message = '';
+                $response->status        = $_status;
+                $response->error_message = $_errorMessage;
             } else {
                 // Invalid password
                 $response->status        = Authentication::STATUS_FAILURE;
