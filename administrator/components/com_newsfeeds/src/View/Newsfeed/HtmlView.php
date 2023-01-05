@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
         $saveGroup = $toolbar->dropdownButton('save-group');
 
         $saveGroup->configure(
-            function (Toolbar $childBar) use($checkedOut, $canDo, $user, $isNew) {
+            function (Toolbar $childBar) use ($checkedOut, $canDo, $user, $isNew) {
                 // If not checked out, can save the item.
                 if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)) {
                     $childBar->save('newsfeed.save');
