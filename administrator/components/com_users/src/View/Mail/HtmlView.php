@@ -76,10 +76,10 @@ class HtmlView extends BaseHtmlView
             ->icon('icon-envelope')
             ->formValidation(true);
 
-        ToolbarHelper::cancel('mail.cancel');
-        ToolbarHelper::divider();
-        ToolbarHelper::preferences('com_users');
-        ToolbarHelper::divider();
-        ToolbarHelper::help('Mass_Mail_Users');
+        $toolbar->cancel('mail.cancel', 'JTOOLBAR_CANCEL');
+        $toolbar->divider();
+        $toolbar->preferences('com_users');
+        $toolbar->divider();
+        $toolbar->help('Mass_Mail_Users');
     }
 }

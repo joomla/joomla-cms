@@ -215,9 +215,9 @@ class HtmlView extends BaseHtmlView
                 }
 
                 if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations')) {
-                    $toolbar->standardButton('contract')
-                        ->text('JTOOLBAR_ASSOCIATIONS')
-                        ->task('article.editAssociations');
+                    $toolbar->standardButton('associations', 'JTOOLBAR_ASSOCIATIONS', 'article.editAssociations')
+                        ->icon('icon-contract')
+                        ->listCheck(false);
                 }
             }
         }
