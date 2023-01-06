@@ -37,7 +37,7 @@ class CheckfilesPluginTest extends UnitTestCase
      *
      * @var string
      *
-     * @since __DEPLOY_VERSION__
+     * @since 4.3.0
      */
     private $tmpFolder;
 
