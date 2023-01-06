@@ -30,17 +30,20 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 
 $latestJoomlaVersion = $this->updateInfo['latest'];
 $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
+
+if ($latestJoomlaVersion === JVERSION) : // no update available so link to current version page
+    $link = 'https://downloads.joomla.org/cms/joomla4/'. str_replace('.','-',(new \Joomla\CMS\Version())->getShortVersion());
+else : // update is available so link directly so update package
+    if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) :
+        $link = $this->updateInfo['object']->downloadurl->_data;
+    endif;
+endif;
 ?>
 
 <div id="joomlaupdate-wrapper" class="main-card mt-3 p-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
 <div class="alert alert-info">
     <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-    <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/cms/joomla4/'. str_replace('.','-',(new \Joomla\CMS\Version())->getShortVersion())); ?>
-    <?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
-        <br><br>
-        <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
-        <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_INFO', $this->updateInfo['object']->downloadurl->_data); ?>
-    <?php endif; ?>
+    <?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', $link); ?>
 </div>
 
 <?php if (count($this->warnings)) : ?>
