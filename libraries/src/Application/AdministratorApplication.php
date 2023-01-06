@@ -210,7 +210,7 @@ class AdministratorApplication extends CMSApplication
      *
      * @param   boolean  $params  True to return the template parameters
      *
-     * @return  string  The name of the template.
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
      * @since   3.2
      * @throws  \InvalidArgumentException
