@@ -12,7 +12,7 @@
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -93,7 +93,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
     /**
      * Application object.
      *
-     * @var    CMSApplicationInterface
+     * @var    CMSWebApplicationInterface
      * @since  3.3
      */
     protected $app;

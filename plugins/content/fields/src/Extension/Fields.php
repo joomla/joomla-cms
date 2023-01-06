@@ -2,13 +2,13 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  Content.Fields
+ * @subpackage  Content.fields
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\Content\Fields\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
@@ -23,7 +23,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  *
  * @since  3.7.0
  */
-class PlgContentFields extends CMSPlugin
+final class Fields extends CMSPlugin
 {
     /**
      * Plugin that shows a custom field
@@ -47,23 +47,23 @@ class PlgContentFields extends CMSPlugin
             return;
         }
 
-        // Don't run if there is no text property (in case of bad calls) or it is empty
-        if (empty($item->text)) {
+        // This plugin only works if $item is an object
+        if (!is_object($item)) {
             return;
         }
 
-        // Simple performance check to determine whether bot should process further
-        if (strpos($item->text, 'field') === false) {
+        // Don't run if there is no text property (in case of bad calls) or it is empty
+        if (!property_exists($item, 'text') || empty($item->text)) {
             return;
         }
 
         // Prepare the text
-        if (isset($item->text)) {
+        if (property_exists($item, 'text') && strpos($item->text, 'field') !== false) {
             $item->text = $this->prepare($item->text, $context, $item);
         }
 
         // Prepare the intro text
-        if (isset($item->introtext)) {
+        if (property_exists($item, 'introtext') && is_string($item->introtext) && strpos($item->introtext, 'field') !== false) {
             $item->introtext = $this->prepare($item->introtext, $context, $item);
         }
     }
