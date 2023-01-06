@@ -133,7 +133,12 @@ abstract class Menu
                 continue;
             }
 
-            if ($item->element === 'com_fields') {
+            // Exclude item if the component is not authorised
+            $assetName = $item->element;
+
+            if ($item->element === 'com_categories') {
+                $assetName = $query['extension'] ?? 'com_content';
+            } elseif ($item->element === 'com_fields') {
                 parse_str($item->link, $query);
 
                 // Only display Fields menus when enabled in the component
@@ -156,7 +161,7 @@ abstract class Menu
                 if (isset($query['extension'])) {
                     $parts = explode('.', $query['extension']);
 
-                    $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled');
+                    $workflow = ComponentHelper::getParams($parts[0])->get('workflow_enabled') && $user->authorise('core.manage.workflow', $parts[0]);
                 }
 
                 if (!$workflow) {
@@ -184,9 +189,6 @@ abstract class Menu
                     $parent->removeChild($item);
                     continue;
                 }
-            } elseif ($item->element && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $item->element)) {
-                $parent->removeChild($item);
-                continue;
             } elseif ($item->element === 'com_menus') {
                 // Get badges for Menus containing a Home page.
                 $iconImage = $item->icon;
@@ -201,6 +203,11 @@ abstract class Menu
 
                     $item->iconImage = $iconImage;
                 }
+            }
+
+            if ($assetName && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $assetName)) {
+                $parent->removeChild($item);
+                continue;
             }
 
             if ($item->hasChildren()) {
