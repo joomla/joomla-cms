@@ -33,7 +33,7 @@ $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInf
 
 if ($latestJoomlaVersion === JVERSION) : // no update available so link to current version page
     $link = 'https://downloads.joomla.org/cms/joomla4/' . str_replace('.', '-', (new \Joomla\CMS\Version())->getShortVersion());
-else : // update is available so link directly so update package
+else : // update is available so link directly to update package
     if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) :
         $link = $this->updateInfo['object']->downloadurl->_data;
     endif;
