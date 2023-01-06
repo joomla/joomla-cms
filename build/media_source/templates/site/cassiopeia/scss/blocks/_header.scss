@@ -12,7 +12,7 @@
   }
 
   .grid-child {
-    padding: $cassiopeia-grid-gutter * .8;
+    padding: $cassiopeia-grid-gutter * .5;
   }
 
   nav {
@@ -32,6 +32,8 @@
     margin-inline-end: auto;
     font-size: 2rem;
     color: $white;
+    padding-bottom: 0.3125rem;
+    padding-top: 0.3125rem;
 
     a {
       color: $white;
