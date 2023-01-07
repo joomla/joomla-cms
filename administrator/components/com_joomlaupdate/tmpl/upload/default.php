@@ -31,12 +31,12 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 $latestJoomlaVersion = $this->updateInfo['latest'];
 $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 
-if ($latestJoomlaVersion === JVERSION) : // no update available so link to current version page
+if (true === (new \Joomla\CMS\Version())->isInDevelopmentState()) : //you are probably using a devlopment release so link to nightly builds
+    $link = 'https://developer.joomla.org/nightly-builds.html';
+elseif ($latestJoomlaVersion === JVERSION) : // no update available so link to current version page
     $link = 'https://downloads.joomla.org/cms/joomla4/' . str_replace('.', '-', (new \Joomla\CMS\Version())->getShortVersion());
-else : // update is available so link directly to update package
-    if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) :
-        $link = $this->updateInfo['object']->downloadurl->_data;
-    endif;
+elseif (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : // update available so link directly to the download
+    $link = $this->updateInfo['object']->downloadurl->_data;
 endif;
 ?>
 
