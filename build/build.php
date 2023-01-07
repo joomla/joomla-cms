@@ -39,7 +39,7 @@ function usage(string $command)
     echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of full, update and patch zip packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Exclude the generation of full .tar.gz packages. (Update and patch .tar.gz packages are never created.)' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . PHP_TAB . 'Exclude the generation of full .tar.bz2 packages. (Update and patch .tar.bz2 packages are never created.)' . PHP_EOL;
-    echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include  the generation of full .tar.zstd packages. (Update and patch .tar.zstd packages are never created.)' . PHP_EOL;
+    echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Include the generation of full .tar.zstd packages. (Update and patch .tar.zstd packages are never created.)' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--disable-patch-packages:' . PHP_TAB . 'Disable the generation of patch packages' . PHP_EOL;
     echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
     echo PHP_EOL;
