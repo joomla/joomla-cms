@@ -21,14 +21,14 @@ use Joomla\CMS\Router\Route;
 
 $lang = Factory::getLanguage();
 ?>
-<ul class="pagination">
+<ul class="pagination p-1">
     <li class="previous page-item">
         <?php if ($links['previous']) :
             $direction = $lang->isRtl() ? 'right' : 'left';
             $title = htmlspecialchars($this->list[$page]->title, ENT_QUOTES, 'UTF-8');
             $ariaLabel = Text::_('JPREVIOUS') . ': ' . $title . ' (' . Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $page, $n) . ')';
             ?>
-        <a class="page-link" href="<?php echo Route::_($links['previous']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="prev">
+        <a class="p-2 btn btn-sm btn-secondary" href="<?php echo Route::_($links['previous']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="prev">
             <?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> ' . Text::_('JPREV'); ?>
         </a>
         <?php endif; ?>
@@ -39,7 +39,7 @@ $lang = Factory::getLanguage();
             $title = htmlspecialchars($this->list[$page + 2]->title, ENT_QUOTES, 'UTF-8');
             $ariaLabel = Text::_('JNEXT') . ': ' . $title . ' (' . Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', ($page + 2), $n) . ')';
             ?>
-        <a class="page-link" href="<?php echo Route::_($links['next']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="next">
+        <a class="p-2 btn btn-sm btn-secondary" href="<?php echo Route::_($links['next']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="next">
             <?php echo Text::_('JNEXT') . ' <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
         </a>
         <?php endif; ?>
