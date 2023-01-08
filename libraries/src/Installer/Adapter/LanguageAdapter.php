@@ -25,6 +25,10 @@ use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Language installer
  *
@@ -456,7 +460,7 @@ class LanguageAdapter extends InstallerAdapter
      *
      * This function checks other existing language with the same code, if they exist provides a unique SEF name.
      * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
-     * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+     * To avoid this conflict, this function creates a specific SEF in case of existing conflict:
      * For example: www.mywebsite.com/en-au/
      *
      * @param   string  $itemLanguageTag  Language Tag.

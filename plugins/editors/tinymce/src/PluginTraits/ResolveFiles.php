@@ -13,6 +13,10 @@ namespace Joomla\Plugin\Editors\TinyMCE\PluginTraits;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handles the editor.css files.
  *
@@ -89,6 +93,10 @@ trait ResolveFiles
 
             if (is_file($minifiedPath)) {
                 return Uri::root(true) . str_replace(JPATH_ROOT, '', $minifiedPath);
+            }
+
+            if (is_file($nonMinifiedPath)) {
+                return Uri::root(true) . str_replace(JPATH_ROOT, '', $nonMinifiedPath);
             }
 
             return '';

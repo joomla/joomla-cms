@@ -24,6 +24,10 @@ use Negotiation\Accept;
 use Negotiation\Exception\InvalidArgument;
 use Negotiation\Negotiator;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! API Application class
  *
@@ -80,7 +84,6 @@ final class ApiApplication extends CMSApplication
         // Set the root in the URI based on the application name
         Uri::root(null, str_ireplace('/' . $this->getName(), '', Uri::base(true)));
     }
-
 
     /**
      * Method to run the application routines.
@@ -273,17 +276,26 @@ final class ApiApplication extends CMSApplication
             throw $e;
         }
 
-        $this->input->set('option', $route['vars']['component']);
         $this->input->set('controller', $route['controller']);
         $this->input->set('task', $route['task']);
 
         foreach ($route['vars'] as $key => $value) {
-            if ($key !== 'component') {
-                if ($this->input->getMethod() === 'POST') {
-                    $this->input->post->set($key, $value);
-                } else {
-                    $this->input->set($key, $value);
-                }
+            // We inject the format directly above based on the negotiated format. We do not want the array of possible
+            // formats provided by the plugin!
+            if ($key === 'format') {
+                continue;
+            }
+
+            // We inject the component key into the option parameter in global input for b/c with the other applications
+            if ($key === 'component') {
+                $this->input->set('option', $route['vars'][$key]);
+                continue;
+            }
+
+            if ($this->input->getMethod() === 'POST') {
+                $this->input->post->set($key, $value);
+            } else {
+                $this->input->set($key, $value);
             }
         }
 

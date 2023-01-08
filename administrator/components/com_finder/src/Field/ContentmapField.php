@@ -16,6 +16,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Supports a select grouped list of finder content map.
  *
@@ -76,7 +80,8 @@ class ContentmapField extends GroupedlistField
             }
 
             foreach ($parents[1] as $branch) {
-                $groups[$branch->text] = $this->prepareLevel($branch->value, $parents);
+                $text = Text::_(LanguageHelper::branchSingular($branch->text));
+                $groups[$text] = $this->prepareLevel($branch->value, $parents);
             }
         }
 

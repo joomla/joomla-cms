@@ -20,6 +20,10 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarFactoryInterface;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * View class for a list of contenthistory.
  *
@@ -89,15 +93,21 @@ class HtmlView extends BaseHtmlView
         $token = Session::getFormToken();
 
         // Clean up input to ensure a clean url.
-        $aliasArray = explode('.', $this->state->item_id);
-        $option     = $aliasArray[1] == 'category'
-            ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2))
-            : $aliasArray[0];
         $filter     = InputFilter::getInstance();
+        $aliasArray = explode('.', $this->state->item_id);
+
+        if ($aliasArray[1] === 'category') {
+            $option = 'com_categories';
+            $append = '&amp;extension=' . $filter->clean($aliasArray[0], 'cmd');
+        } else {
+            $option = $aliasArray[0];
+            $append = '';
+        }
+
         $task       = $filter->clean($aliasArray[1], 'cmd') . '.loadhistory';
 
         // Build the final urls.
-        $loadUrl    = Route::_('index.php?option=' . $filter->clean($option, 'cmd') . '&amp;task=' . $task . '&amp;' . $token . '=1');
+        $loadUrl    = Route::_('index.php?option=' . $filter->clean($option, 'cmd') . $append . '&amp;task=' . $task . '&amp;' . $token . '=1');
         $previewUrl = Route::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . $token . '=1');
         $compareUrl = Route::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . $token . '=1');
 

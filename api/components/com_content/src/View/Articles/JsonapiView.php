@@ -11,6 +11,7 @@
 namespace Joomla\Component\Content\Api\View\Articles;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -18,6 +19,10 @@ use Joomla\Component\Content\Api\Helper\ContentHelper;
 use Joomla\Component\Content\Api\Serializer\ContentSerializer;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * The article view
@@ -216,6 +221,14 @@ class JsonapiView extends BaseApiView
             $item->tags = array_combine($tagsIds, $tagsNames);
         } else {
             $item->tags = [];
+            $tags = new TagsHelper();
+            $tagsIds = $tags->getTagIds($item->id, 'com_content.article');
+
+            if (!empty($tagsIds)) {
+                $tagsIds    = explode(',', $tagsIds);
+                $tagsNames  = $tags->getTagNames($tagsIds);
+                $item->tags = array_combine($tagsIds, $tagsNames);
+            }
         }
 
         if (isset($item->images)) {

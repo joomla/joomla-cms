@@ -17,6 +17,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Fields Plugin
  *
@@ -196,6 +200,11 @@ class PlgSystemFields extends CMSPlugin
      */
     public function onContentAfterDelete($context, $item): void
     {
+        // Set correct context for category
+        if ($context === 'com_categories.category') {
+            $context = $item->extension . '.categories';
+        }
+
         $parts = FieldsHelper::extract($context, $item);
 
         if (!$parts || empty($item->id)) {

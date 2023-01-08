@@ -15,6 +15,10 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Joomla! template override notification plugin
  *
@@ -61,7 +65,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
      */
     public function onGetIcons($context)
     {
-        if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer')) {
+        if ($context !== $this->params->get('context', 'update_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_templates')) {
             return array();
         }
 

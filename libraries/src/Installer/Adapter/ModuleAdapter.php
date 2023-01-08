@@ -19,6 +19,10 @@ use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Module installer
  *
@@ -242,12 +246,11 @@ class ModuleAdapter extends InstallerAdapter
         if (\count($modules)) {
             // Ensure the list is sane
             $modules = ArrayHelper::toInteger($modules);
-            $modID = implode(',', $modules);
 
             // Wipe out any items assigned to menus
             $query = $db->getQuery(true)
                 ->delete($db->quoteName('#__modules_menu'))
-                ->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
+                ->whereIn($db->quoteName('moduleid'), $modules);
             $db->setQuery($query);
 
             try {
@@ -540,6 +543,7 @@ class ModuleAdapter extends InstallerAdapter
             $this->extension->name = $manifest_details['name'];
             $this->extension->enabled = 1;
             $this->extension->params = $this->parent->getParams();
+            $this->extension->changelogurl = (string) $this->manifest->changelogurl;
 
             if (!$this->extension->store()) {
                 // Install failed, roll back changes
@@ -555,7 +559,7 @@ class ModuleAdapter extends InstallerAdapter
                 // Install failed, roll back changes
                 throw new \RuntimeException(
                     Text::sprintf(
-                        'JLIB_INSTALLER_ABORT_MOD_INSTALL_ALLREADY_EXISTS',
+                        'JLIB_INSTALLER_ABORT_ALREADY_EXISTS',
                         Text::_('JLIB_INSTALLER_' . $this->route),
                         $this->name
                     )

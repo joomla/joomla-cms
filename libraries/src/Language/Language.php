@@ -12,6 +12,10 @@ namespace Joomla\CMS\Language;
 use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Languages/translation handler class
  *
@@ -295,7 +299,8 @@ class Language
      * The function checks if $jsSafe is true, then if $interpretBackslashes is true.
      *
      * @param   string   $string                The string to translate
-     * @param   boolean  $jsSafe                Make the result javascript safe
+     * @param   boolean  $jsSafe                Parameter to add slashes to the string that will be rendered as JavaScript.
+     *                                          However, set as "false" if the string is going to be encoded by json_encode().
      * @param   boolean  $interpretBackSlashes  Interpret \t and \n
      *
      * @return  string  The translation of the string

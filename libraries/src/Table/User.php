@@ -20,6 +20,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Users table
  *
@@ -302,6 +306,10 @@ class User extends Table
                 return false;
             }
         }
+
+        // Set an empty string value to the legacy otpKey and otep columns if empty
+        $this->otpKey = $this->otpKey ?: '';
+        $this->otep   = $this->otep ?: '';
 
         return true;
     }

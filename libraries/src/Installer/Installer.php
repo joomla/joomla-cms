@@ -25,9 +25,12 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
+
+// phpcs:disable PSR1.Files.SideEffects
+\defined('JPATH_PLATFORM') or die;
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * Joomla base installer class
@@ -1274,7 +1277,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
                 try {
                     $db->setQuery($query)->execute();
-                } catch (ExecutionFailureException | PrepareStatementFailureException $e) {
+                } catch (\RuntimeException $e) {
                     if (!$canFail) {
                         $errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
 

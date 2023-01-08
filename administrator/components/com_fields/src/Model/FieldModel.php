@@ -31,6 +31,10 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field Model
  *
@@ -192,12 +196,12 @@ class FieldModel extends AdminModel
         $db->execute();
 
         // Inset new assigned categories
-        $tupel = new \stdClass();
-        $tupel->field_id = $id;
+        $tuple = new \stdClass();
+        $tuple->field_id = $id;
 
         foreach ($assignedCatIds as $catId) {
-            $tupel->category_id = $catId;
-            $db->insertObject('#__fields_categories', $tupel);
+            $tuple->category_id = $catId;
+            $db->insertObject('#__fields_categories', $tuple);
         }
 
         /**
@@ -313,8 +317,17 @@ class FieldModel extends AdminModel
         }
 
         try {
+            $element = simplexml_import_dom($node->firstChild);
+            $value   = $data['default_value'];
+
+            if ($data['type'] === 'checkboxes') {
+                $value = explode(',', $value);
+            } elseif ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true))) {
+                $value = (array)json_decode($value);
+            }
+
             // Perform the check
-            $result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+            $result = $rule->test($element, $value);
 
             // Check if the test succeeded
             return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
@@ -1105,6 +1118,12 @@ class FieldModel extends AdminModel
 
                 // Reset the ID because we are making a copy
                 $table->id = 0;
+
+                // Alter the title if necessary
+                $data           = $this->generateNewTitle(0, $table->name, $table->title);
+                $table->title   = $data['0'];
+                $table->name    = $data['1'];
+                $table->label   = $data['0'];
 
                 // Unpublish the new field
                 $table->state = 0;

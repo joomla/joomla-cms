@@ -12,6 +12,10 @@ namespace Joomla\Component\Scheduler\Administrator\Field;
 
 use Joomla\CMS\Form\Field\TextField;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Field to override the text field layout to add a copy-text button, used in the com_scheduler
  * configuration form.
@@ -43,7 +47,7 @@ class WebcronLinkField extends TextField
         $s = DIRECTORY_SEPARATOR;
 
         return array_merge(
-            [JPATH_ADMINISTRATOR . "${s}/components${s}com_scheduler${s}layouts${s}"],
+            [JPATH_ADMINISTRATOR . "{$s}/components{$s}com_scheduler{$s}layouts{$s}"],
             parent::getLayoutPaths()
         );
     }

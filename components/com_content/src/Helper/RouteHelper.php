@@ -13,6 +13,10 @@ namespace Joomla\Component\Content\Site\Helper;
 use Joomla\CMS\Categories\CategoryNode;
 use Joomla\CMS\Language\Multilanguage;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Content Component Route Helper.
  *
@@ -25,14 +29,14 @@ abstract class RouteHelper
      *
      * @param   integer  $id        The route of the content item.
      * @param   integer  $catid     The category ID.
-     * @param   integer  $language  The language code.
+     * @param   string   $language  The language code.
      * @param   string   $layout    The layout value.
      *
      * @return  string  The article route.
      *
      * @since   1.5
      */
-    public static function getArticleRoute($id, $catid = 0, $language = 0, $layout = null)
+    public static function getArticleRoute($id, $catid = 0, $language = null, $layout = null)
     {
         // Create the link
         $link = 'index.php?option=com_content&view=article&id=' . $id;
@@ -41,7 +45,7 @@ abstract class RouteHelper
             $link .= '&catid=' . $catid;
         }
 
-        if ($language && $language !== '*' && Multilanguage::isEnabled()) {
+        if (!empty($language) && $language !== '*' && Multilanguage::isEnabled()) {
             $link .= '&lang=' . $language;
         }
 

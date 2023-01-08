@@ -20,6 +20,10 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use stdClass;
 
+// phpcs:disable PSR1.Files.SideEffects
+\defined('_JEXEC') or die;
+// phpcs:enable PSR1.Files.SideEffects
+
 /**
  * Handles the onDisplay event for the TinyMCE editor.
  *
@@ -417,6 +421,9 @@ trait DisplayTrait
                 'skin'     => $skin,
                 'theme'    => $theme,
                 'schema'   => 'html5',
+
+                // Prevent cursor from getting stuck in blocks when nested or at end of document.
+                'end_container_on_empty_block' => true,
 
                 // Toolbars
                 'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
