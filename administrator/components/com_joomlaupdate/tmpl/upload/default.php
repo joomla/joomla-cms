@@ -31,13 +31,16 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 $latestJoomlaVersion = $this->updateInfo['latest'];
 $currentJoomlaVersion = isset($this->updateInfo['installed']) ? $this->updateInfo['installed'] : JVERSION;
 
-if (true === (new \Joomla\CMS\Version())->isInDevelopmentState()) : //you are probably using a devlopment release so link to nightly builds
+if (true === (new \Joomla\CMS\Version())->isInDevelopmentState()) {
+    // You are probably using a devlopment release so link to nightly builds
     $link = 'https://developer.joomla.org/nightly-builds.html';
-elseif ($latestJoomlaVersion === JVERSION) : // no update available so link to current version page
-    $link = 'https://downloads.joomla.org/cms/joomla4/' . str_replace('.', '-', (new \Joomla\CMS\Version())->getShortVersion());
-elseif (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : // update available so link directly to the download
+} elseif (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) {
+    // Update available so link directly to the download
     $link = $this->updateInfo['object']->downloadurl->_data;
-endif;
+} else {
+    // No update available so link to current version page
+    $link = 'https://downloads.joomla.org/cms/joomla4/' . str_replace('.', '-', (new \Joomla\CMS\Version())->getShortVersion());
+}
 ?>
 
 <div id="joomlaupdate-wrapper" class="main-card mt-3 p-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>" data-joomla-current-version="<?php echo $currentJoomlaVersion; ?>">
