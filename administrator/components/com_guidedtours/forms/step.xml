@@ -84,13 +84,11 @@
 		label="COM_GUIDEDTOURS_TYPE_LABEL"
 		default="0"
 		description="COM_GUIDEDTOURS_TYPE_DESC"		
-		filter="word"
 		validate="options"
 		>
 		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
 		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
 		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_TOUR</option>
-		<option value="3">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTION_WITH_FORM_FIELDS</option>
 	</field>
 
 	<field
@@ -103,33 +101,18 @@
 	/>
 
 	<field
-		name="interactionwithformfields"
+		name="interactivetour"
 		type="list"
-		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_LABEL"
-		showon="type:3"
+		label="COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_LABEL"
+		description="COM_GUIDEDTOURS_INTERACTIVE_TOUR_DESC"
+		showon="type:2"
 		filter="string"
 		validate="options"
 		>
-		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_NO_VALIDATION_LABEL</option>
-		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_VALUE_LABEL</option>
-	    <option value="3">COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_SPECIFIC_VALUE_LABEL</option>
+		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_BUTTON_LABEL</option>
+		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_TEXT_FIELD_LABEL</option>
+		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_OTHERS_LABEL</option>
 	</field>
-
-	<field
-		name="validationbyvalue"
-		type="text"
-		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_VALUE_LABEL"
-		showon="type:3[AND]interactionwithformfields:2"
-		filter="string"
-	/>
-
-	<field
-		name="validationbyspecificvalue"
-		type="text"
-		label="COM_GUIDEDTOURS_TYPE_INTERACTION_WITH_FORM_FIELDS_VALIDATION_BY_SPECIFIC_VALUE_LABEL"
-		showon="type:3[AND]interactionwithformfields:3"
-		filter="string"
-	/>
 
 	<field
 		name="checked_out"
