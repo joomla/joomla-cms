@@ -109,7 +109,6 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 
 // Defer fontawesome for increased performance. Once the page is loaded javascript changes it to a stylesheet.
 $wa->getAsset('style', 'fontawesome')->setAttribute('rel', 'lazy-stylesheet');
-// throw new \Exception();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
