@@ -132,7 +132,6 @@ module.exports.mediaManager = async () => {
         console.log('✅ ES2017 Media Manager ready');
         writeFile(resolve('media/com_media/js/media-manager.js'), content.code, { encoding: 'utf8', mode: 0o644 });
         return;
-      }
     })
     .then(() => buildLegacy(resolve('media/com_media/js/media-manager.js')))
     .catch((error) => {
