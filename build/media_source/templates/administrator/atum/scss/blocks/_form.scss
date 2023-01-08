@@ -176,8 +176,12 @@ div.subform-repeatable-group {
         top: 50%;
         right: 100%;
         margin-top: -27px;
-        line-height: 52px;
         border-radius: $border-radius 0 0 $border-radius;
+        padding: 0;
+
+        span {
+          padding: 1.5rem 0.5rem;
+        }
       }
     }
   }
