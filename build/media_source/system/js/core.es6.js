@@ -619,18 +619,16 @@ window.Joomla.Modal = window.Joomla.Modal || {
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
 
-      if (newOptions.method !== 'GET') {
-        const token = Joomla.getOptions('csrf.token', '');
-        const root = Joomla.getOptions('system.paths', '');
+      const root = Joomla.getOptions('system.paths', '');
+      const token = Joomla.getOptions('csrf.token', '');
 
-        // Use the CSRF only on the site's domain
-        if (token && root && root.rootFull && (newOptions.url.startsWith('/') || newOptions.url.startsWith(root.rootFull))) {
-          xhr.setRequestHeader('X-CSRF-Token', token);
-        }
+      // Use the CSRF only on the site's domain
+      if (!/^(GET|HEAD|OPTIONS)$/.test(newOptions.method) && token && root && root.rootFull && (newOptions.url.startsWith('/') || newOptions.url.startsWith(root.rootFull))) {
+        xhr.setRequestHeader('X-CSRF-Token', token);
+      }
 
-        if (typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        }
+      if (newOptions.method !== 'GET' && typeof newOptions.data === 'string' && (!newOptions.headers || !newOptions.headers['Content-Type'])) {
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       }
 
       // Custom headers
