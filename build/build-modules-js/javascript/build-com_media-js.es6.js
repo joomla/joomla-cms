@@ -129,7 +129,7 @@ module.exports.mediaManager = async () => {
         return buildLegacy(resolve('media/com_media/js/media-manager.js'));
       }
       // eslint-disable-next-line no-console
-        console.log('✅ ES2017 Media Manager ready');
+      console.log('✅ ES2017 Media Manager ready');
         writeFile(resolve('media/com_media/js/media-manager.js'), content.code, { encoding: 'utf8', mode: 0o644 });
         return;
     })
