@@ -426,7 +426,7 @@ steps:
       - mkdir -p transfer
       - date +%s > transfer/$MINORVERSION-time.txt
       - git rev-parse origin/$MINORVERSION-dev > transfer/$MINORVERSION.txt
-      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2
+      - php build/build.php --remote=origin/$MINORVERSION-dev --exclude-gzip --exclude-bzip2 --disable-patch-packages
       - mv build/tmp/packages/* transfer/
 
   - name: upload
@@ -475,6 +475,6 @@ trigger:
 
 ---
 kind: signature
-hmac: 783273e5140ae315f2403b13eb12f4773b77995a3d44a38551b55c89b9d40350
+hmac: 08dad82f3639a5e1d9f6f7071a39d956992f7f68d4a5fcdacc232729af44716f
 
 ...

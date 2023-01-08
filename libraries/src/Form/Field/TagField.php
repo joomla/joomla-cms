@@ -193,8 +193,7 @@ class TagField extends ListField
 
             // Merge the used values into the most used tags
             if (!empty($this->value) && is_array($this->value)) {
-                $topIds = array_merge($topIds, $this->value);
-                $topIds = array_keys(array_flip($topIds));
+                $topIds = array_unique(array_merge($topIds, $this->value));
             }
 
             // Set the default limit for the main query
@@ -203,7 +202,8 @@ class TagField extends ListField
             if (!empty($topIds)) {
                 // Filter the ids to the most used tags and the selected tags
                 $preQuery = clone $query;
-                $preQuery->whereIn($db->quoteName('a.id'), $topIds);
+                $preQuery->clear('limit')
+                    ->whereIn($db->quoteName('a.id'), $topIds);
 
                 $db->setQuery($preQuery);
 
