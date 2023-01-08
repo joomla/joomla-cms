@@ -21,7 +21,7 @@
       Joomla.editors.instances[editor].replaceSelection('<hr id="system-readmore">');
     } else {
       Joomla.renderMessages({
-        error: [options.exists]
+        error: [options.exists],
       });
       return false;
     }
