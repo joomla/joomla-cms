@@ -99,22 +99,12 @@
     "rollup": "^2.61.1",
     "rollup-plugin-vue": "^6.0.0",
     "rtlcss": "^3.5.0",
-    "sass-embedded": "~1.54.4",
+    "sass": "^1.57.1",
     "selenium-standalone": "^8.0.8",
     "stylelint": "^14.1.0",
     "stylelint-config-standard": "^24.0.0",
     "stylelint-order": "^5.0.0",
     "stylelint-scss": "^4.0.1",
     "terser": "^5.7.0"
-  },
-  "optionalDependencies": {
-    "sass-embedded-darwin-arm64": "~1.54.4",
-    "sass-embedded-darwin-x64": "~1.54.4",
-    "sass-embedded-linux-arm": "~1.54.4",
-    "sass-embedded-linux-arm64": "~1.54.4",
-    "sass-embedded-linux-ia32": "~1.54.4",
-    "sass-embedded-linux-x64": "~1.54.4",
-    "sass-embedded-win32-ia32": "~1.54.4",
-    "sass-embedded-win32-x64": "~1.54.4"
   }
 }
