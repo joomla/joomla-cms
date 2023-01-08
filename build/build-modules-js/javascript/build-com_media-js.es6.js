@@ -8,6 +8,8 @@ const VuePlugin = require('rollup-plugin-vue');
 const commonjs = require('@rollup/plugin-commonjs');
 const { minifyJsCode } = require('./minify.es6.js');
 
+require('dotenv').config();
+
 const inputJS = 'administrator/components/com_media/resources/scripts/mediamanager.es6.js';
 const isProduction = process.env.NODE_ENV !== 'DEVELOPMENT';
 

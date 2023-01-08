@@ -5,7 +5,7 @@ const { writeFile } = require('fs').promises;
 const { ensureDir } = require('fs-extra');
 const { dirname, sep } = require('path');
 const Postcss = require('postcss');
-const Sass = require('sass-embedded');
+const { renderSync } = require('sass-embedded');
 
 module.exports.handleScssFile = async (file) => {
   const cssFile = file.replace(`${sep}scss${sep}`, `${sep}css${sep}`)
@@ -14,7 +14,7 @@ module.exports.handleScssFile = async (file) => {
 
   let compiled;
   try {
-    compiled = Sass.renderSync({ file });
+    compiled = renderSync({ file });
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error(error.formatted);

@@ -108,6 +108,6 @@
     "terser": "^5.7.0"
   },
   "optionalDependencies": {
-     "sass-embedded-linux-x64": "^1.57.1"
-   }
+    "sass-embedded-linux-x64": "^1.57.1"
+  }
 }
