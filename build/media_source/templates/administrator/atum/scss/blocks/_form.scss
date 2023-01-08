@@ -176,11 +176,11 @@ div.subform-repeatable-group {
         top: 50%;
         right: 100%;
         margin-top: -27px;
-        border-radius: $border-radius 0 0 $border-radius;
         padding: 0;
+        border-radius: $border-radius 0 0 $border-radius;
 
         span {
-          padding: 1.5rem 0.5rem;
+          padding: 1.5rem .5rem;
         }
       }
     }
