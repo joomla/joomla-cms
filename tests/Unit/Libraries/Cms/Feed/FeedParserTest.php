@@ -162,7 +162,7 @@ class FeedParserTest extends UnitTestCase
     }
 
     /**
-     * Tests FeedParser::parse() with processing an namespaced entry element.
+     * Tests FeedParser::parse() with processing a namespaced entry element.
      *
      * @return  void
      *

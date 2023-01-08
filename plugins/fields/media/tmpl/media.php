@@ -12,18 +12,18 @@ use Joomla\CMS\Layout\LayoutHelper;
 
 if (empty($field->value) || empty($field->value['imagefile']))
 {
-	return;
+    return;
 }
 
 $class   = $fieldParams->get('image_class');
 $options = [
-	'src' => $field->value['imagefile'],
-	'alt' => empty($field->value['alt_text']) && empty($field->value['alt_empty']) ? false : $field->value['alt_text'],
+    'src' => $field->value['imagefile'],
+    'alt' => empty($field->value['alt_text']) && empty($field->value['alt_empty']) ? false : $field->value['alt_text'],
 ];
 
 if ($class)
 {
-	$options['class'] = $class;
+    $options['class'] = $class;
 }
 
 echo LayoutHelper::render('joomla.html.image', $options);
