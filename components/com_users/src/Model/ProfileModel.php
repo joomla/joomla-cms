@@ -130,7 +130,8 @@ class ProfileModel extends FormModel
         $username = $loadData ? $form->getValue('username') : $this->loadFormData()->username;
 
         if ($username) {
-            $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
+            $isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username)
+                || strlen(mb_convert_encoding($username, 'ISO-8859-1', 'UTF-8')) < 2
                 || trim($username) !== $username);
         }
 
