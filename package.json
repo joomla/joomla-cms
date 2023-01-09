@@ -21,17 +21,17 @@
     "watch:com_media": "node build/build.js --watch-com-media",
     "lint:js": "eslint --config build/.eslintrc --ignore-pattern '/media/' --ext .es6.js,.es6,.vue .",
     "lint:css": "stylelint --config build/.stylelintrc.json \"administrator/components/com_media/resources/**/*.scss\" \"administrator/templates/**/*.scss\" \"build/media_source/**/*.scss\" \"templates/**/*.scss\" \"installation/template/**/*.scss\"",
-    "test": "karma start tests/javascript/karma.conf.js --single-run",
     "install": "node build/build.js --prepare",
     "update": "node build/build.js --copy-assets && node build/build.js --build-pages && node build/build.js --compile-js && node build/build.js --compile-css && node build/build.js --compile-bs && node build/build.js --com-media",
     "gzip": "node build/build.js --gzip",
     "versioning": "node build/build.js --versioning",
+    "browserlist:update": "npx browserslist@latest --update-db",
     "cypress:install": "cypress install",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },
   "browserslist": [
-    "last 1 version",
+    "last 2 major version",
     "not ie < 11"
   ],
   "dependencies": {
@@ -60,7 +60,6 @@
     "punycode": "^2.1.1",
     "qrcode-generator": "^1.4.4",
     "roboto-fontface": "^0.10.0",
-    "rtlcss": "^3.5.0",
     "short-and-sweet": "^1.0.4",
     "skipto": "^4.1.6",
     "tinymce": "^5.10.2",
@@ -97,6 +96,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.61.1",
     "rollup-plugin-vue": "^6.0.0",
+    "rtlcss": "^3.5.0",
     "sass-embedded": "^1.54.4",
     "selenium-standalone": "^8.0.8",
     "stylelint": "^14.1.0",

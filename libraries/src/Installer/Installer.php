@@ -2301,6 +2301,11 @@ class Installer extends Adapter implements DatabaseAwareInterface
             $data['inheritable'] = (string) $xml->inheritable === '0' ? false : true;
         }
 
+        // Child template specific fields.
+        if (isset($xml->namespace) && (string) $xml->namespace !== '') {
+            $data['namespace'] = (string) $xml->namespace;
+        }
+
         if (isset($xml->parent) && (string) $xml->parent !== '') {
             $data['parent'] = (string) $xml->parent;
         }
