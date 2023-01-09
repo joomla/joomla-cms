@@ -623,7 +623,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
         const token = Joomla.getOptions('csrf.token', '');
 
         // Use the CSRF only on the site's domain
-        if (token && (newOptions.url.startsWith('/') || newOptions.url.startsWith(window.location.origin))) {
+        if (token && (newOptions.url.startsWith('/') || newOptions.url.startsWith(location.origin))) {
           xhr.setRequestHeader('X-CSRF-Token', token);
         }
 

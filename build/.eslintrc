@@ -20,7 +20,8 @@
   "globals": {
     "Joomla": true,
     "MediaManager" : true,
-    "bootstrap": true
+    "bootstrap": true,
+		"location": true
   },
   // Rule overrides
   "rules": {
