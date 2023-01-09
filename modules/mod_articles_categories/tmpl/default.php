@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (!$list || empty($list)) {
+if (empty($list)) {
     return;
 }
 
