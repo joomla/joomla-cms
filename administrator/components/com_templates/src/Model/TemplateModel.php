@@ -1944,6 +1944,11 @@ class TemplateModel extends FormModel
         $media->addChild('folder', 'scss');
 
         $xml->name = $template->element . '_' . $newName;
+
+        if (isset($xml->namespace)) {
+            $xml->namespace = $xml->namespace . '_' . ucfirst($newName);
+        }
+
         $xml->inheritable = 0;
         $files = $xml->addChild('parent', $template->element);
 
