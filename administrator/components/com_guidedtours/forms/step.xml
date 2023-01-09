@@ -11,7 +11,6 @@
 	<field
 		name="step-no"
 		type="hidden"
-		label="COM_GUIDEDTOURS_STEPID_LABEL"
 		default="1"
 	/>
 
@@ -39,7 +38,6 @@
 	<field
 		name="tour_id"
 		type="hidden"
-		label="COM_GUIDEDTOURS_TOURID_LABEL"
 		class="readonly"
 		readonly="true"
 	/>
@@ -53,7 +51,7 @@
 	<field
 		name="title"
 		type="text"
-		label="Step Title"
+		label="COM_GUIDEDTOURS_STEP_TITLE"
 		required="true"
 	/>
 
@@ -81,11 +79,40 @@
 	</field>
 
 	<field
+		name="type"
+		type="list"
+		label="COM_GUIDEDTOURS_TYPE_LABEL"
+		default="0"
+		description="COM_GUIDEDTOURS_TYPE_DESC"		
+		validate="options"
+		>
+		<option value="0">COM_GUIDEDTOURS_FIELD_VALUE_NEXT_STEP</option>
+		<option value="1">COM_GUIDEDTOURS_FIELD_VALUE_REDIRECT</option>
+		<option value="2">COM_GUIDEDTOURS_FIELD_VALUE_INTERACTIVE_TOUR</option>
+	</field>
+
+	<field
 		name="url"
 		type="url"
-		label="COM_GUIDEDTOURS_URL_LABEL"
-		description="COM_GUIDEDTOURS_URL_DESC"
+		label="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_LABEL"
+		description="COM_GUIDEDTOURS_TYPE_REDIRECT_URL_DESC"
+		showon="type:1"
+		filter="string"
 	/>
+
+	<field
+		name="interactivetour"
+		type="list"
+		label="COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_LABEL"
+		description="COM_GUIDEDTOURS_INTERACTIVE_TOUR_DESC"
+		showon="type:2"
+		filter="string"
+		validate="options"
+		>
+		<option value="1">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_BUTTON_LABEL</option>
+		<option value="2">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_TEXT_FIELD_LABEL</option>
+		<option value="3">COM_GUIDEDTOURS_TYPE_INTERACTIVE_TOUR_OTHERS_LABEL</option>
+	</field>
 
 	<field
 		name="checked_out"

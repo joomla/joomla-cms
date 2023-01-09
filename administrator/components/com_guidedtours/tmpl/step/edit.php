@@ -48,7 +48,9 @@ $this->useCoreUI = true;
                 <?php echo $this->form->renderField('step-no'); ?>
                 <?php echo $this->form->renderField('position'); ?>
                 <?php echo $this->form->renderField('target'); ?>
+                <?php echo $this->form->renderField('type'); ?>
                 <?php echo $this->form->renderField('url'); ?>
+                <?php echo $this->form->renderField('interactivetour'); ?>
                 <?php $this->form->setValue('tour_id', null, $tour_id); ?>
                 <?php echo $this->form->renderField('tour_id'); ?>
 
