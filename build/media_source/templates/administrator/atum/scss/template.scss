@@ -95,6 +95,7 @@ $prefix: "";
   }
 }
 
+// Bootstrap 5.2 overrides
 .border-primary {
   border-color: var(--primary) !important;
 }
@@ -217,4 +218,8 @@ $prefix: "";
 
 .bg-body {
   background-color: var(--body-bg) !important;
+}
+
+kbd {
+  padding: .2rem .4rem;
 }
