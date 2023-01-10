@@ -68,7 +68,7 @@ class ArticlesPopularHelper
      */
     public function getArticles(Registry $moduleParams, SiteApplication $app)
     {
-        $cacheKey = md5(serialize(array ($moduleParams->toString(), $this->module->module, $this->module->id)));
+        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id]));
 
         /** @var OutputController $cache */
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
