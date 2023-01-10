@@ -113,6 +113,10 @@ class MediaHelper
             $mime = static::getMimeType($file, false);
         }
 
+        if ($mime === 'application/octet-stream' && !$isImage && strtolower(pathinfo($file)['extension']) === 'svg') {
+            return 'image/svg+xml';
+        }
+
         // We have a mime here
         return $mime;
     }

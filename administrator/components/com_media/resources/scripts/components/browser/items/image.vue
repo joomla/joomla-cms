@@ -19,6 +19,7 @@
           :loading="loading"
           :width="width"
           :height="height"
+          @load.capture="setSize"
         >
         <span
           v-if="!getURL"
@@ -111,6 +112,10 @@ export default {
     toggleSettings(bool) {
       this.$emit('toggle-settings', bool);
     },
+    setSize(event) {
+      this.item.width = event.target.naturalWidth;
+      this.item.height = event.target.naturalHeight;
+    }
   },
 };
 </script>

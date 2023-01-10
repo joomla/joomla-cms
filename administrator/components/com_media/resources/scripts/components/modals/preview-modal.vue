@@ -42,6 +42,7 @@
           v-if="isImage()"
           :src="getHashedURL"
           :type="item.mime_type"
+          style="width:100%;max-width:100%;height:auto;"
         >
       </div>
     </template>
