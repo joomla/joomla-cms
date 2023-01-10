@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-if (empty($list)) {
+/** @var \Joomla\CMS\Categories\CategoryNode[] $categories List of children categories */
+if (empty($categories)) {
     return;
 }
 
-$startLevel = reset($list)->getParent()->level;
+$startLevel = reset($categories)->getParent()->level;
 $input      = $app->getInput();
 $option     = $input->getCmd('option');
 $view       = $input->getCmd('view');

@@ -26,7 +26,7 @@ use Joomla\Registry\Registry;
 class ArticlesCategoriesHelper
 {
     /**
-     * Retrieve a list of months with archived articles
+     * Given a parent category, return a list of children cateories
      *
      * @param   Registry         $params  The module parameters.
      * @param   SiteApplication  $app     The current application.
@@ -35,7 +35,7 @@ class ArticlesCategoriesHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getArticles(Registry $moduleParams, SiteApplication $app): array
+    public function getChildrenCategories(Registry $moduleParams, SiteApplication $app): array
     {
         // Joomla\CMS\Categories\Categories options to set
         $options = [];
@@ -75,10 +75,10 @@ class ArticlesCategoriesHelper
      *
      * @since   __DEPLOY_VERSION__
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated 5.0 Use the none static function getChildrenCategories
      */
     public static function getList(&$params)
     {
-        return (new self())->getArticles($params, Factory::getApplication());
+        return (new self())->getChildrenCategories($params, Factory::getApplication());
     }
 }

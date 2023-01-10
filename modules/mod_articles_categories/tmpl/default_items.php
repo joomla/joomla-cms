@@ -15,31 +15,31 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
-foreach ($list as $item) : ?>
-    <li<?php if ($id == $item->id && in_array($view, array('category', 'categories')) && $option == 'com_content') {
+foreach ($categories as $category) : ?>
+    <li<?php if ($id == $category->id && in_array($view, array('category', 'categories')) && $option == 'com_content') {
         echo ' class="active"';
-       } ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
-        <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
-        <?php echo $item->title; ?>
+       } ?>> <?php $levelup = $category->level - $startLevel - 1; ?>
+        <a href="<?php echo Route::_(RouteHelper::getCategoryRoute($category->id, $category->language)); ?>">
+        <?php echo $category->title; ?>
             <?php if ($params->get('numitems')) : ?>
-                (<?php echo $item->numitems; ?>)
+                (<?php echo $category->numitems; ?>)
             <?php endif; ?>
         </a>
 
         <?php if ($params->get('show_description', 0)) : ?>
-            <?php echo HTMLHelper::_('content.prepare', $item->description, $item->getParams(), 'mod_articles_categories.content'); ?>
+            <?php echo HTMLHelper::_('content.prepare', $category->description, $category->getParams(), 'mod_articles_categories.content'); ?>
         <?php endif; ?>
         <?php
         if (
             $params->get('show_children', 0) && (($params->get('maxlevel', 0) == 0)
-            || ($params->get('maxlevel') >= ($item->level - $startLevel)))
-            && count($item->getChildren())
+            || ($params->get('maxlevel') >= ($category->level - $startLevel)))
+            && count($category->getChildren())
         ) : ?>
             <?php echo '<ul>'; ?>
-            <?php $temp = $list; ?>
-            <?php $list = $item->getChildren(); ?>
+            <?php $temp       = $categories; ?>
+            <?php $categories = $category->getChildren(); ?>
             <?php require ModuleHelper::getLayoutPath('mod_articles_categories', $params->get('layout', 'default') . '_items'); ?>
-            <?php $list = $temp; ?>
+            <?php $categories = $temp; ?>
             <?php echo '</ul>'; ?>
         <?php endif; ?>
     </li>
