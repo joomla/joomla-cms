@@ -150,7 +150,7 @@ class ArticlesPopularHelper
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected static function prepareItem($item, $params): object
+    private function prepareItem($item, $params): object
     {
         $item->slug = $item->id . ':' . $item->alias;
 
