@@ -304,12 +304,18 @@ class HtmlView extends BaseHtmlView
 
         $this->setDocumentTitle($title);
 
+        /**
+         * If the menu item is linked directly to the article, the meta description from menu item
+         * parameters will take higher priority than the meta description set in the article
+         */
         if ($this->menuItemMatchArticle) {
-            $this->document->setDescription($this->params->get('menu-meta_description', $this->item->metadesc));
-        } elseif ($this->item->metadesc) {
-            $this->document->setDescription($this->item->metadesc);
-        } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $metaDesc = $this->params->get('menu-meta_description', $this->item->metadesc);
+        } else {
+            $metaDesc = $this->item->metadesc ?: $this->params->get('menu-meta_description');
+        }
+
+        if ($metaDesc) {
+            $this->document->setDescription($metaDesc);
         }
 
         if ($this->params->get('robots')) {

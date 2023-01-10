@@ -153,12 +153,18 @@ class HtmlView extends CategoryView
 
         $this->setDocumentTitle($title);
 
+        /**
+         * If the menu item is linked directly to category, the meta description from menu item parameters
+         * will take higher priority than the meta description set in the category
+         */
         if ($this->menuItemMatchCategory) {
-            $this->document->setDescription($this->params->get('menu-meta_description', $this->category->metadesc));
-        } elseif ($this->category->metadesc) {
-            $this->document->setDescription($this->category->metadesc);
-        } elseif ($this->params->get('menu-meta_description')) {
-            $this->document->setDescription($this->params->get('menu-meta_description'));
+            $metaDesc = $this->params->get('menu-meta_description', $this->category->metadesc);
+        } else {
+            $metaDesc = $this->category->metadesc ?: $this->params->get('menu-meta_description');
+        }
+
+        if ($metaDesc) {
+            $this->document->setDescription($metaDesc);
         }
 
         if ($this->params->get('robots')) {
