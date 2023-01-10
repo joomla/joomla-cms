@@ -118,6 +118,7 @@ export default {
         // Update the item properties
         this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
         // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
+        // Also https://github.com/whatwg/html/issues/3510
       }
     },
   },
