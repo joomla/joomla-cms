@@ -285,7 +285,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             }
 
             $option = $this->app->input->getCmd('option');
-            $task   = $this->app->input->get('task');
+            $task   = $this->app->input->get('task', '');
             $view   = $this->app->input->getString('view', '');
             $layout = $this->app->input->getString('layout', '');
             $id     = $this->app->input->getInt('id');
