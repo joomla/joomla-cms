@@ -114,10 +114,8 @@ export default {
     },
     setSize(event) {
       if (this.item.mime_type === 'image/svg+xml') {
-        // eslint-disable-next-line vue/no-mutating-props
-        this.item.width = event.target.naturalWidth;
-        // eslint-disable-next-line vue/no-mutating-props
-        this.item.height = event.target.naturalHeight;
+        // Update the item properties
+        this.$store.dispatch('updateItemProperties', { item: this.item, width: event.target.naturalWidth, height: event.target.naturalHeight });
       }
     },
   },
