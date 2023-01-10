@@ -127,7 +127,7 @@ class ArticlesPopularHelper
             $itemParams->access     = $access;
 
             foreach ($articlesModel->getItems() as $item) {
-                $items[] = static::prepareItem($item, $itemParams);
+                $items[] = $this->prepareItem($item, $itemParams);
             }
 
             // Cache the output and return
