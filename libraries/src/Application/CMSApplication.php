@@ -621,7 +621,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @param   boolean  $params  An optional associative array of configuration settings
      *
-     * @return  mixed  System is the fallback.
+     * @return  string|\stdClass  The name of the template if the params argument is false. The template object if the params argument is true.
      *
      * @since   3.2
      */
