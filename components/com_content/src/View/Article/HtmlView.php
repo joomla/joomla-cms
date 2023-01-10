@@ -304,7 +304,9 @@ class HtmlView extends BaseHtmlView
 
         $this->setDocumentTitle($title);
 
-        if ($this->item->metadesc) {
+        if ($this->menuItemMatchArticle) {
+            $this->document->setDescription($this->params->get('menu-meta_description', $this->item->metadesc));
+        } elseif ($this->item->metadesc) {
             $this->document->setDescription($this->item->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
             $this->document->setDescription($this->params->get('menu-meta_description'));
