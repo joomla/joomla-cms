@@ -19,7 +19,7 @@
           :loading="loading"
           :width="width"
           :height="height"
-          @load.capture="setSize"
+          @load="setSize"
         >
         <span
           v-if="!getURL"
