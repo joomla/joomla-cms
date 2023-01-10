@@ -10,16 +10,17 @@
 
 defined('_JEXEC') or die;
 
-if (!$list) {
+/** @var  \stdClass[]  $months  Archived articles by months */
+if (!$months) {
     return;
 }
 
 ?>
 <ul class="mod-articlesarchive archive-module mod-list">
-    <?php foreach ($list as $item) : ?>
+    <?php foreach ($months as $month) : ?>
     <li>
-        <a href="<?php echo $item->link; ?>">
-            <?php echo $item->text; ?> (<?php echo $item->amount; ?>)
+        <a href="<?php echo $month->link; ?>">
+            <?php echo $month->name; ?> (<?php echo $month->numarticles; ?>)
         </a>
     </li>
     <?php endforeach; ?>

@@ -12,13 +12,11 @@ namespace Joomla\Module\ArticlesArchive\Site\Helper;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
-use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Database\DatabaseAwareInterface;
 use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Registry\Registry;
@@ -66,18 +64,18 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    public function getArticles(Registry $moduleParams, SiteApplication $app)
+    public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app)
     {
         $cacheKey = md5(serialize(array ($moduleParams->toString(), $this->module->module, $this->module->id)));
 
-        /** @var OutputController $cache */
+        /** @var \Joomla\CMS\Cache\Controller\OutputController $cache */
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
             ->createCacheController('output', ['defaultgroup' => 'mod_articles_archive']);
 
         if (!$cache->contains($cacheKey)) {
             $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
-            /** @var ArticlesModel $articlesModel */
+            /** @var \Joomla\Component\Content\Site\Model\ArticlesModel $articlesModel */
             $articlesModel = $mvcContentFactory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
             // Set application parameters in model
@@ -123,7 +121,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      * Prepare the month before render.
      *
      * @param   object     $month           The month to prepare
-     * @param   \stdClass  $urlParamItemid  The Itemid param of the URL
+     * @param   string  $urlParamItemid  The Itemid param of the URL
      *
      * @return  \stdClass
      *
@@ -141,9 +139,9 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
 
         $archivedArticlesMonth = new \stdClass();
 
-        $archivedArticlesMonth->link   = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $urlParamItemid);
-        $archivedArticlesMonth->text   = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
-        $archivedArticlesMonth->amount = $month->c;
+        $archivedArticlesMonth->link        = Route::_('index.php?option=com_content&view=archive&year=' . $createdYear . '&month=' . $createdMonth . $urlParamItemid);
+        $archivedArticlesMonth->name        = Text::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $monthNameCal, $createdYearCal);
+        $archivedArticlesMonth->numarticles = $month->c;
 
         return $archivedArticlesMonth;
     }
@@ -161,6 +159,9 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
      */
     public static function getList(&$params)
     {
-        return (new self())->getArticles($params, Factory::getApplication());
+        /** @var \Joomla\CMS\Application\SiteApplication $app */
+        $app = Factory::getApplication();
+
+        return (new self())->getArticlesByMonths($params, $app);
     }
 }
