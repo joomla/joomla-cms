@@ -120,7 +120,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     /**
      * Prepare the month before render.
      *
-     * @param   object     $month           The month to prepare
+     * @param   object  $month           The month to prepare
      * @param   string  $urlParamItemid  The Itemid param of the URL
      *
      * @return  \stdClass
