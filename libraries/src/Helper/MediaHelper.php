@@ -113,7 +113,7 @@ class MediaHelper
             $mime = static::getMimeType($file, false);
         }
 
-        if ($mime === 'application/octet-stream' && !$isImage && strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'svg' && self::isValidSvg($file)) {
+        if ($mime === 'application/octet-stream' && !$isImage && strtolower(pathinfo($file, PATHINFO_EXTENSION)) === 'svg' && self::isValidSvg($file, false)) {
             return 'image/svg+xml';
         }
 
@@ -324,7 +324,7 @@ class MediaHelper
         }
 
         if ($filetype === 'svg') {
-            return self::isValidSvg($file['tmp_name']);
+            return self::isValidSvg($file['tmp_name'], true);
         }
 
         return true;
@@ -479,12 +479,13 @@ class MediaHelper
      * Check if a file is a valid SVG
      *
      * @param  string  $file
+     * @param  bool    $shouldLogErrors
      *
      * @return  boolean
      *
      * @since   __DEPLOY_VERSION__
      */
-    private static function isValidSvg($file): bool
+    private static function isValidSvg($file, $shouldLogErrors = true): bool
     {
         $sanitizer = new Sanitizer();
 
@@ -511,7 +512,9 @@ class MediaHelper
         }
 
         if ($isValid === false || count($svgErrors)) {
-            Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+            if ($shouldLogErrors) {
+                Factory::getApplication()->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+            }
 
             return false;
         }
