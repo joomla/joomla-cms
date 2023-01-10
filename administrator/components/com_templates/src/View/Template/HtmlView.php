@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -298,7 +297,7 @@ class HtmlView extends BaseHtmlView
             }
         }
 
-        if (count($this->updatedList) !== 0 && $this->pluginState) {
+        if (count($this->updatedList) !== 0 && $this->pluginState && $this->type === 'home') {
             /** @var DropdownButton $dropdown */
             $dropdown = $toolbar->dropdownButton('override-group', 'COM_TEMPLATES_BUTTON_CHECK')
                 ->toggleSplit(false)
