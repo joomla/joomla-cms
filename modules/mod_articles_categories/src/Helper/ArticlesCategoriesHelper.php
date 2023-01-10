@@ -37,20 +37,18 @@ class ArticlesCategoriesHelper
      */
     public function getArticles(Registry $moduleParams, SiteApplication $app): array
     {
-        /** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
-        $contentComponent = $app->bootComponent('com_content');
-
-        // Category options to set
+        // Joomla\CMS\Categories\Categories options to set
         $options = [];
 
-        // Get the number of items in this category or descendants of this category
+        // Get the number of items in this category or
+        // descendants of this category at the expense of performance.
         $options['countItems'] = $moduleParams->get('numitems', 0);
 
-        $parentCategory = null;
+        /** @var \Joomla\CMS\Categories\CategoryInterface $contentCategoryService */
+        $contentCategoryService = new \Joomla\Component\Content\Site\Service\Category($options);
 
-        if ($contentComponent instanceof \Joomla\CMS\Categories\CategoryServiceInterface) {
-            $parentCategory = $contentComponent->getCategory($options)->get($moduleParams->get('parent', 'root'));
-        }
+        /** @var \Joomla\CMS\Categories\CategoryNode $parentCategory */
+        $parentCategory = $contentCategoryService->get($moduleParams->get('parent', 'root'));
 
         $childrenCategories = [];
 
@@ -76,6 +74,8 @@ class ArticlesCategoriesHelper
      * @return  array
      *
      * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated 5.0 Use the none static function getArticles
      */
     public static function getList(&$params)
     {
