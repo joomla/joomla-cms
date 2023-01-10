@@ -45,7 +45,7 @@ export const SHOW_RENAME_MODAL = 'SHOW_RENAME_MODAL';
 export const HIDE_RENAME_MODAL = 'HIDE_RENAME_MODAL';
 export const RENAME_SUCCESS = 'RENAME_SUCCESS';
 
-// Share model
+// Share modal
 export const SHOW_SHARE_MODAL = 'SHOW_SHARE_MODAL';
 export const HIDE_SHARE_MODAL = 'HIDE_SHARE_MODAL';
 
