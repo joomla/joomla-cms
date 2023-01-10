@@ -59,6 +59,16 @@
 			<option	value="-1">COM_MODULES_NONE</option>
 		</field>
 		<field
+			name="stage"
+			type="workflowstage"
+			label="JOPTION_SELECT_STAGE"
+			onchange="this.form.submit();"
+			activeonly="true"
+			extension="com_modules.module"
+			>
+			<option value="">JOPTION_SELECT_STAGE</option>
+		</field>
+		<field
 			name="access"
 			type="accesslevel"
 			label="JGRID_HEADING_ACCESS"

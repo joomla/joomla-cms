@@ -19,11 +19,14 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
+use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -38,8 +41,10 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class ModuleModel extends AdminModel
+class ModuleModel extends AdminModel implements WorkflowModelInterface
 {
+    use WorkflowBehaviorTrait;
+
     /**
      * The type alias for this content type.
      *
@@ -106,6 +111,8 @@ class ModuleModel extends AdminModel
         );
 
         parent::__construct($config);
+
+        $this->setUpWorkflow('com_modules.module');
     }
 
     /**
@@ -364,6 +371,8 @@ class ModuleModel extends AdminModel
 
                 // Clear module cache
                 parent::cleanCache($table->module);
+
+                $this->workflow->deleteAssociation($pks);
             } else {
                 throw new \Exception($table->getError());
             }
@@ -432,6 +441,16 @@ class ModuleModel extends AdminModel
                 foreach ($rows as $menuid) {
                     $tuples[] = (int) $table->id . ',' . (int) $menuid;
                 }
+
+                $query = $db->getQuery(true)
+                    ->select($db->quoteName('stage_id'))
+                    ->from($db->quoteName('#__workflow_associations'))
+                    ->where($db->quoteName('extension') . ' = ' . $db->quote('com_modules.module'))
+                    ->where($db->quoteName('item_id') . ' = :moduleid')
+                    ->bind(':moduleid', $pk, ParameterType::INTEGER);
+
+                $db->setQuery($query);
+                $stageIdTuples[] = (int) $table->id . ',' . (int) $db->loadResult() . ',' . $db->quote('com_modules.module');
             } else {
                 throw new \Exception($table->getError());
             }
@@ -443,6 +462,23 @@ class ModuleModel extends AdminModel
                 ->insert($db->quoteName('#__modules_menu'))
                 ->columns($db->quoteName(array('moduleid', 'menuid')))
                 ->values($tuples);
+
+            $db->setQuery($query);
+
+            try {
+                $db->execute();
+            } catch (\RuntimeException $e) {
+                Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+                return false;
+            }
+        }
+
+        if (!empty($stageIdTuples)) {
+            $query = $db->getQuery(true)
+                ->insert($db->quoteName('#__workflow_associations'))
+                ->columns($db->quoteName(array('item_id', 'stage_id', 'extension')))
+                ->values($stageIdTuples);
 
             $db->setQuery($query);
 
@@ -766,6 +802,15 @@ class ModuleModel extends AdminModel
      */
     protected function prepareTable($table)
     {
+        // Set the publish date to now
+        if ($table->published == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0) {
+            $table->publish_up = Factory::getDate()->toSql();
+        }
+
+        if ($table->published == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0) {
+            $table->publish_down = null;
+        }
+
         $table->title    = htmlspecialchars_decode($table->title, ENT_QUOTES);
         $table->position = trim($table->position);
     }
@@ -853,6 +898,23 @@ class ModuleModel extends AdminModel
                 foreach ($chromeFormFiles as $formFile) {
                     $form->loadFile(basename($formFile, '.xml'), false);
                 }
+            }
+        }
+
+        if (ComponentHelper::getParams('com_modules')->get('workflow_enabled')) {
+            Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
+            /**
+             * The workflowPreprocessForm function enables the workflow plugins and adds the
+             * transition field to the form. We do not need to add the transition field to the
+             * form in the case of items so we separately call the importWorkflowPlugins function.
+             */
+            if (!empty(Factory::getApplication()->input->get('id'))) {
+                $this->workflowPreprocessForm($form, $data);
+            } else {
+                // Import the workflow plugin group to allow form manipulation.
+                $this->importWorkflowPlugins();
+                $this->prepareWorkflowField($form, $data);
             }
         }
 
@@ -951,6 +1013,8 @@ class ModuleModel extends AdminModel
 
             return false;
         }
+
+        $this->workflowBeforeSave();
 
         // Process the menu link mappings.
         $assignment = $data['assignment'] ?? 0;
@@ -1051,6 +1115,9 @@ class ModuleModel extends AdminModel
 
         $this->setState('module.extension_id', $extensionId);
         $this->setState('module.id', $table->id);
+        $this->setState('module.new', $isNew);
+
+        $this->workflowAfterSave($data);
 
         // Clear modules cache
         $this->cleanCache();
@@ -1093,5 +1160,105 @@ class ModuleModel extends AdminModel
     protected function cleanCache($group = null, $clientId = 0)
     {
         parent::cleanCache('com_modules');
+    }
+
+    /**
+     * Method to change the published state of one or more records.
+     *
+     * @param   array    &$pks   A list of the primary keys to change.
+     * @param   integer  $value  The value of the published state.
+     *
+     * @return  boolean  True on success.
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function publish(&$pks, $value = 1)
+    {
+        $this->workflowBeforeStageChange();
+
+        return parent::publish($pks, $value);
+    }
+
+    /**
+     * Overrides the function in WorkflowBehaviorTrait to get the default
+     * stage ID while creating a new module.
+     *
+     * @param   Form   $form  A Form object.
+     * @param   mixed  $data  The data expected for the form.
+     *
+     * @return  boolean|integer  An integer, holding the stage ID or false
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function getStageForNewItem(Form $form, $data)
+    {
+        $db = $this->getDbo();
+
+        $query = $db->getQuery(true)
+            ->select($db->quoteName('id'))
+            ->from($db->quoteName('#__workflow_stages'))
+            ->where($db->quoteName('default') . '= 1');
+
+        if (isset($data['workflow_id'])) {
+            // If workflow_id is set by the query then we find the stage corresponding to that workflow_id
+            $query->where($db->quoteName('workflow_id') . ' = :workflowid')
+                ->bind(':workflowid', $data['workflow_id'], ParameterType::INTEGER);
+        } else {
+            // Query to find the default workflow id of the extension type com_modules.module
+            $defaultWorkflowQuery = $db->getQuery(true)
+                ->select($db->quoteName('id'))
+                ->from($db->quoteName('#__workflows'))
+                ->where($db->quoteName('default') . ' = 1')
+                ->where($db->quoteName('extension') . ' = ' . $db->quote('com_modules.module'));
+
+            $query->where($db->quoteName('workflow_id') . ' IN (' . $defaultWorkflowQuery . ')');
+        }
+
+        $db->setQuery($query);
+        $defaultStage = $db->loadResult();
+
+        if (empty($defaultStage)) {
+            return false;
+        }
+
+        return $defaultStage;
+    }
+
+    /**
+     * Adds default stage to workflow field in the form.
+     *
+     * @param   Form          $form  The form to change
+     * @param   array|object  $data  The form data
+     *
+     * @return void
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public static function prepareWorkflowField(Form $form, $data)
+    {
+        $db = Factory::getDbo();
+
+        $data = (array) $data;
+
+        $form->setFieldAttribute('workflow_id', 'default', 'inherit');
+
+        $query = $db->getQuery(true);
+
+        $query->select([$db->quoteName('title'), $db->quoteName('id')])
+            ->from($db->quoteName('#__workflows'))
+            ->where(
+                [
+                    $db->quoteName('default') . ' = 1',
+                    $db->quoteName('published') . ' = 1',
+                    $db->quoteName('extension') . ' = ' . $db->quote('com_modules.module'),
+                ]
+            );
+
+        $defaultWorkflow = $db->setQuery($query)->loadObject();
+        $field = $form->getField('workflow_id');
+
+        $field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaultWorkflow->title)), ['value' => $defaultWorkflow->id]);
+
+        $field->addOption('- ' . Text::_('COM_MODULES_WORKFLOWS') . ' -', ['disabled' => 'true']);
     }
 }

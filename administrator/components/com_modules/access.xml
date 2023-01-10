@@ -7,6 +7,8 @@
 		<action name="core.delete" title="JACTION_DELETE" />
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.manage.workflow" title="JACTION_MANAGEWORKFLOW" />
+		<action name="core.execute.transition" title="JACTION_EXECUTETRANSITION" />
 		<action name="module.edit.frontend" title="COM_MODULES_ACTION_EDITFRONTEND" />
 	</section>
 	<section name="module">
@@ -14,5 +16,24 @@
 		<action name="core.edit" title="JACTION_EDIT" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 		<action name="module.edit.frontend" title="COM_MODULES_ACTION_EDITFRONTEND" />
+	</section>
+	<section name="workflow">
+		<action name="core.create" title="JACTION_CREATE" />
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.edit.own" title="JACTION_EDITOWN" />
+		<action name="core.execute.transition" title="JACTION_EXECUTETRANSITION" />
+	</section>
+	<section name="transition">
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
+		<action name="core.execute.transition" title="JACTION_EXECUTETRANSITION" />
+	</section>
+	<section name="stage">
+		<action name="core.delete" title="JACTION_DELETE" />
+		<action name="core.edit" title="JACTION_EDIT" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" />
 	</section>
 </access>
