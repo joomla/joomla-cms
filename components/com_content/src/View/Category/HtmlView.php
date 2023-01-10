@@ -153,7 +153,9 @@ class HtmlView extends CategoryView
 
         $this->setDocumentTitle($title);
 
-        if ($this->category->metadesc) {
+        if ($this->menuItemMatchCategory) {
+            $this->document->setDescription($this->params->get('menu-meta_description', $this->category->metadesc));
+        } elseif ($this->category->metadesc) {
             $this->document->setDescription($this->category->metadesc);
         } elseif ($this->params->get('menu-meta_description')) {
             $this->document->setDescription($this->params->get('menu-meta_description'));
