@@ -114,8 +114,10 @@ export default {
     },
     setSize(event) {
       if (this.item.mime_type === 'image/svg+xml') {
+        const image = event.target;
         // Update the item properties
-        this.$store.dispatch('updateItemProperties', { item: this.item, width: event.target.naturalWidth, height: event.target.naturalHeight });
+        this.$store.dispatch('updateItemProperties', { item: this.item, width: image.naturalWidth ? image.naturalWidth : 300, height: image.naturalHeight ? image.naturalHeight : 150 });
+        // @TODO Remove the fallback size (300x150) when https://bugzilla.mozilla.org/show_bug.cgi?id=1328124 is fixed
       }
     },
   },
