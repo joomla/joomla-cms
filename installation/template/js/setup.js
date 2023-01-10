@@ -79,7 +79,10 @@ Joomla.checkDbCredentials = function() {
   var form = document.getElementById('adminForm'),
     data = Joomla.serialiseForm(form);
 
-  // Reveal everything
+  // Remove potential messages
+  Joomla.removeMessages();
+
+  // Hide form and show progress bar
   document.getElementById('installStep1').classList.remove('active');
   document.getElementById('installStep2').classList.remove('active');
   document.getElementById('installStep3').classList.remove('active');
@@ -118,7 +121,6 @@ Joomla.checkDbCredentials = function() {
         document.getElementById('installStep3').classList.add('active');
         document.getElementById('installStep4').classList.remove('active');
         progress_text.innerText = Joomla.Text._('INSTL');
-        Joomla.renderMessages({'error': [response.message]});
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // @todo: Convert to promises
