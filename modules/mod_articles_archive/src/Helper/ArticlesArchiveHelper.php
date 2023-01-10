@@ -57,16 +57,16 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     /**
      * Retrieve a list of months with archived articles
      *
-     * @param   Registry         $params  The module parameters.
-     * @param   SiteApplication  $app     The current application.
+     * @param   Registry         $moduleParams  The module parameters.
+     * @param   SiteApplication  $app           The current application.
      *
-     * @return  object[]
+     * @return  \stdClass[]
      *
      * @since   __DEPLOY_VERSION__
      */
     public function getArticlesByMonths(Registry $moduleParams, SiteApplication $app)
     {
-        $cacheKey = md5(serialize(array ($moduleParams->toString(), $this->module->module, $this->module->id)));
+        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id]));
 
         /** @var \Joomla\CMS\Cache\Controller\OutputController $cache */
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
@@ -104,7 +104,7 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
             $urlParamItemid = (isset($menuItem) && !empty($menuItem->id)) ? '&Itemid=' . $menuItem->id : '';
 
             foreach ($articlesModel->countItemsByMonth() as $month) {
-                $items[] = static::prepareItem($month, $urlParamItemid);
+                $items[] = $this->prepareItem($month, $urlParamItemid);
             }
 
             // Cache the output and return
@@ -120,14 +120,14 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     /**
      * Prepare the month before render.
      *
-     * @param   object  $month           The month to prepare
-     * @param   string  $urlParamItemid  The Itemid param of the URL
+     * @param  object  $month           The month to prepare
+     * @param  string  $urlParamItemid  The Itemid param of the URL
      *
      * @return  \stdClass
      *
-     * @since   __DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
-    protected static function prepareItem($month, $urlParamItemid): \stdClass
+    private function prepareItem($month, $urlParamItemid): \stdClass
     {
         $date = Factory::getDate($month->d);
 
@@ -149,13 +149,13 @@ class ArticlesArchiveHelper implements DatabaseAwareInterface
     /**
      * Retrieve list of archived articles
      *
-     * @param   \Joomla\Registry\Registry  &$params  module parameters
+     * @param  \Joomla\Registry\Registry  &$params  module parameters
      *
      * @return  mixed
      *
      * @since  __DEPLOY_VERSION__
      *
-     * @deprecated 5.0 Use the none static function getArticles
+     * @deprecated  5.0 Use the none static function getArticles
      */
     public static function getList(&$params)
     {
