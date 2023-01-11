@@ -125,3 +125,27 @@
   pointer-events: none;
   border-radius: 3px;
 }
+
+/**
+ * Styling the sorting drop-down
+ */
+#sorting_label {
+  margin-inline-end: .3rem;
+}
+
+#sorting_btn {
+  min-width: 8rem;
+}
+
+.sorting .sorting__select {
+  margin-bottom: 0;
+}
+
+.sorting__list-li {
+  display: block;
+  text-align: start;
+}
+
+.sorting__list-li-active {
+  background-color: #f0f0f0;
+}
