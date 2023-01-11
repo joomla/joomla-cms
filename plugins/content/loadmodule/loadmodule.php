@@ -50,7 +50,7 @@ class PlgContentLoadmodule extends CMSPlugin
         }
 
         // Only execute if $article is an object and has a text property
-        if (!is_object($article) || !property_exists($article, 'text')) {
+        if (!is_object($article) || !property_exists($article, 'text') || is_null($article->text)) {
             return;
         }
 
