@@ -84,7 +84,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      */
     public function getArticles(Registry $moduleParams, SiteApplication $app)
     {
-        $cacheKey = md5(serialize(array ($moduleParams->toString(), $this->module->module, $this->module->id)));
+        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id]));
 
         /** @var OutputController $cache */
         $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
@@ -284,7 +284,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
             $itemParams->menu              = $app->getMenu();
 
             foreach ($articlesModel->getItems() as $item) {
-                $items[]    = static::prepareItem($item, $itemParams, $app);
+                $items[] = $this->prepareItem($item, $itemParams);
             }
 
             // Check if items need be grouped
@@ -333,7 +333,7 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected static function prepareItem($item, $params): object
+    private function prepareItem($item, $params): object
     {
         $item->slug = $item->id . ':' . $item->alias;
 
@@ -397,7 +397,10 @@ class ArticlesCategoryHelper implements DatabaseAwareInterface
      */
     public static function getList(&$params)
     {
-        return (new self())->getArticles($params, Factory::getApplication());
+        /** @var SiteApplication $app */
+        $app = Factory::getApplication();
+
+        return (new self())->getArticles($params, $app);
     }
 
     /**
