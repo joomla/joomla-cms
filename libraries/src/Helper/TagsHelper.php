@@ -65,6 +65,14 @@ class TagsHelper extends CMSHelper
     public $itemTags;
 
     /**
+     * The tags  as comma separated string.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $tags;
+
+    /**
      * Method to add tag rows to mapping table.
      *
      * @param   integer         $ucmId  ID of the #__ucm_content item being tagged
