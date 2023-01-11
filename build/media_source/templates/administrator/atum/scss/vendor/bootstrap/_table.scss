@@ -1,8 +1,11 @@
 // Table
 
 .table {
-  thead {
+  > :not(:first-child) {
+    border-top: 2px solid #dee2e6;
+  }
 
+  thead {
     th {
       font-size: $label-font-size;
     }

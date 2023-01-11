@@ -11,9 +11,25 @@
     box-shadow: $focusshadow;
   }
 
+  &:disabled,
+  &[readonly] {
+    background-color: #e8e8e8;
+    opacity: 1;
+  }
+
+  &:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
+  &:hover:not(:disabled):not([readonly])::file-selector-button {
+    background-color: var(--template-bg-dark-50);
+  }
+
   &::placeholder {
     font-size: .8rem;
     font-style: italic;
+  }
+
+  &::-webkit-file-upload-button,
+  &::file-selector-button {
+    background-color: var(--template-bg-dark-70);
   }
 }
 
