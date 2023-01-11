@@ -240,7 +240,7 @@ $input-btn-submenu-icon-distance:   1rem;
 // Custom form
 $form-select-indicator-padding:    3rem;
 $form-select-bg:                   var(--template-bg-light);
-$form-select-bg-size:              116rem;
+$form-select-bg-size:              calc(max(100%, 116rem));
 $form-select-indicator:            url("../images/select-bg.svg");
 $form-select-indicator-rtl:        url("../images/select-bg-rtl.svg");
 $form-select-indicator-active:     url("../../../images/select-bg.svg");
