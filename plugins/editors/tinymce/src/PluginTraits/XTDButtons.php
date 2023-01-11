@@ -60,19 +60,32 @@ trait XTDButtons
             foreach ($buttons as $i => $button) {
                 $button->id = $name . '_' . $button->name . '_modal';
 
-                echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
-
+                // echo LayoutHelper::render('joomla.editors.buttons.modal', $button);
                 if ($button->get('name')) {
-                    $coreButton            = [];
-                    $coreButton['name']    = $button->get('text');
-                    $coreButton['href']    = $button->get('link') !== '#' ? Uri::base() . $button->get('link') : null;
-                    $coreButton['id']      = $name . '_' . $button->name;
-                    $coreButton['icon']    = $button->get('icon');
-                    $coreButton['click']   = $button->get('onclick') ?: null;
-                    $coreButton['iconSVG'] = $button->get('iconSVG');
+                    $options = is_array($button->get('options')) ? $button->get('options') : array();
+                    $id = null !== $button->get('id') ? str_replace(' ', '', $button->get('id')) : $button->get('editor') . '_' . strtolower($button->get('name')) . '_modal';
+                    $confirmCallback = isset($options['confirmCallback']) ? str_replace($name, '{{editor}}', $options['confirmCallback']) : null;
+                    $confirm = isset($options['confirmText']) && $confirmCallback
+                        ? '<button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="' . $confirmCallback . '">' . $options['confirmText'] . ' </button>'
+                        : '';
 
                     // The array with the toolbar buttons
-                    $btnsNames[] = $coreButton;
+                    $btnsNames[] = [
+                        'name'         => $button->get('text'),
+                        'href'         => $button->get('link') !== '#' ? Uri::base() . str_replace('&amp;', '&', $button->get('link')) : null,
+                        'id'           => $name . '_' . $button->name,
+                        'icon'         => $button->get('icon'),
+                        'click'        => $button->get('onclick') ? str_replace($name, '{{editor}}', $button->get('onclick')) : null,
+                        'iconSVG'      => $button->get('iconSVG'),
+                        'header'       => '<h3 class="modal-title">' . ($button->get('title') ? $button->get('title') : $button->get('text')) . '</h3><button type="button" class="btn-close novalidate" data-bs-dismiss="modal" aria-label="' . Text::_('JCLOSE') . '"></button>',
+                        'footer'       => $confirm . '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">' . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
+                        'modalOptions' => [
+                            'height'     => array_key_exists('height', $options) ? $options['height'] : '400px',
+                            'width'      => array_key_exists('width', $options) ? $options['width'] : '800px',
+                            'bodyHeight' => array_key_exists('bodyHeight', $options) ? $options['bodyHeight'] : '70',
+                            'modalWidth' => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
+                        ],
+                    ];
                 }
             }
 
