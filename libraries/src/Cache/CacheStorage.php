@@ -84,7 +84,7 @@ class CacheStorage
      * @var    integer
      * @since  __DEPLOY_VERSION__
      */
-    protected $_threshold;
+    public $_threshold;
 
     /**
      * Constructor
