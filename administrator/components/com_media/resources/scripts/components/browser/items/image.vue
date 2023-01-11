@@ -43,7 +43,7 @@
       ref="container"
       :item="item"
       :edit="editItem"
-      :previewable="true"
+      :previewable="isPreviewable"
       :downloadable="true"
       :shareable="true"
       @toggle-settings="toggleSettings"
@@ -88,6 +88,9 @@ export default {
     altTag() {
       return this.item.name;
     },
+    isPreviewable() {
+      return this.item.mime_type === 'image/svg+xml' && navigator.userAgent.match(/firefox|fxios/i) ? false : true;
+    }
   },
   methods: {
     /* Check if the item is an image to edit */
@@ -100,7 +103,7 @@ export default {
     },
     /* Preview an item */
     openPreview() {
-      this.$refs.container.openPreview();
+      return this.item.mime_type === 'image/svg+xml' && navigator.userAgent.match(/firefox|fxios/i) ? false : this.$refs.container.openPreview();
     },
     /* Edit an item */
     editItem() {

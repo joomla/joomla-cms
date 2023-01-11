@@ -220,7 +220,7 @@ class JoomlaFieldMedia extends HTMLElement {
       const hashedUrl = value.split('#');
       const urlParts = hashedUrl[0].split('/');
       const rest = urlParts.slice(1);
-      fetch(`${Joomla.getOptions('system.paths').rootFull}${value}`)
+      fetch(`${Joomla.getOptions('system.paths').rootFull}/${value}`)
         .then((response) => response.blob())
         .then((blob) => {
           if (blob.type.includes('image')) {
