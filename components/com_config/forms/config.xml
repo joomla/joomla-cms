@@ -10,8 +10,6 @@
 			filter="string"
 			cols="60"
 			rows="3"
-			maxlength="160"
-			charcounter="true"
 		/>
 
 		<field

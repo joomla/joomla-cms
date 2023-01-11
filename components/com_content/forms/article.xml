@@ -192,8 +192,6 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="5"
 			cols="50"
-			maxlength="160"
-			charcounter="true"
 		/>
 
 		<field

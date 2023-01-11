@@ -628,7 +628,6 @@
 			filter="string"
 			cols="60"
 			rows="3"
-			charcounter="true"
 		/>
 
 		<field

@@ -106,7 +106,6 @@
 				label="JFIELD_META_DESCRIPTION_LABEL"
 				rows="3"
 				cols="40"
-				charcounter="true"
 			/>
 
 			<field
