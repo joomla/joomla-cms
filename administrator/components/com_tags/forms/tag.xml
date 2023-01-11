@@ -23,6 +23,7 @@
 		name="parent_id"
 		type="tag"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
+		custom="false"
 		mode="nested"
 		validate="notequals"
 		field="id"

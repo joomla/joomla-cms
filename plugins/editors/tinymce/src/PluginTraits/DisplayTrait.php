@@ -422,6 +422,9 @@ trait DisplayTrait
                 'theme'    => $theme,
                 'schema'   => 'html5',
 
+                // Prevent cursor from getting stuck in blocks when nested or at end of document.
+                'end_container_on_empty_block' => true,
+
                 // Toolbars
                 'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
                 'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
