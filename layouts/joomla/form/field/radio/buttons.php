@@ -64,6 +64,10 @@ if (!empty($autofocus)) {
     $attribs[] = 'autofocus';
 }
 
+if ($required) {
+    $attribs[] = 'class="required radio"';
+}
+
 if ($readonly || $disabled) {
     $attribs[] = 'style="pointer-events: none"';
 }
