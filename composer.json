@@ -80,6 +80,7 @@
         "symfony/ldap": "~5.0",
         "symfony/options-resolver": "~5.0",
         "symfony/polyfill-php73": "^1.10",
+        "symfony/polyfill-mbstring": "^1.27",
         "symfony/web-link": "~5.0",
         "symfony/yaml": "~5.0",
         "typo3/phar-stream-wrapper": "~3.1",
