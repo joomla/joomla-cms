@@ -44,12 +44,52 @@ class PasswordField extends FormField
     protected $threshold = 66;
 
     /**
+     * The allowable minimum length of password.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $minLength;
+
+    /**
      * The allowable maxlength of password.
      *
      * @var    integer
      * @since  3.2
      */
     protected $maxLength;
+
+    /**
+     * The allowable minimum length of integers.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $minIntegers;
+
+    /**
+     * The allowable minimum length of symbols.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $minSymbols;
+
+    /**
+     * The allowable minimum length of upper case characters.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $minUppercase;
+
+    /**
+     * The allowable minimum length of lower case characters.
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $minLowercase;
 
     /**
      * Whether to attach a password strength meter or not.
