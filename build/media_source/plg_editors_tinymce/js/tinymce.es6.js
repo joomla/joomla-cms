@@ -13,7 +13,7 @@ if (!bootstrap) {
 const template = document.createElement('template');
 template.innerHTML = `
 <div role="dialog" tabindex="-1" class="joomla-modal modal fade">
-  <div class="modal-dialog modal-lg jviewport-width80">
+  <div class="modal-dialog jviewport-width80">
     <div class="modal-content">
       <div class="modal-header"></div>
       <div class="modal-body jviewport-height70"></div>
@@ -120,7 +120,8 @@ function createAndOpenModal(options) {
   modal.querySelector('.modal-header').innerHTML = button.header;
   modal.querySelector('.modal-footer').innerHTML = button.footer.replace('{{editor}}', editor.id);
   modal.querySelector('.modal-body').innerHTML = button.body ? button.body : Joomla.sanitizeHtml(`<iframe class="iframe" src="${url.toString()}" name="${button.title}"; title="${button.title}" height="${button.height}" width="${button.width}"></iframe>`, { iframe: ['src', 'name', 'width', 'height'] });
-
+  modal.querySelector('.modal-body').classList.add(`jviewport-height${button.modalOptions.bodyHeight}`);
+  modal.querySelector('.modal-dialog').classList.add(`jviewport-width${button.modalOptions.modalWidth}`);
   document.body.appendChild(inst);
   initialiseModal(modal, button.modalOptions);
   modal.open();
