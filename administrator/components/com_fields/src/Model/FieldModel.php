@@ -95,7 +95,7 @@ class FieldModel extends AdminModel
     {
         parent::__construct($config, $factory);
 
-        $this->typeAlias = Factory::getApplication()->input->getCmd('context', 'com_content.article') . '.field';
+        $this->typeAlias = Factory::getApplication()->getInput()->getCmd('context', 'com_content.article') . '.field';
     }
 
     /**
@@ -122,7 +122,7 @@ class FieldModel extends AdminModel
         }
 
         // Alter the title for save as copy
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         if ($input->get('task') == 'save2copy') {
             $origTable = clone $this->getTable();
@@ -317,8 +317,17 @@ class FieldModel extends AdminModel
         }
 
         try {
+            $element = simplexml_import_dom($node->firstChild);
+            $value   = $data['default_value'];
+
+            if ($data['type'] === 'checkboxes') {
+                $value = explode(',', $value);
+            } elseif ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true))) {
+                $value = (array)json_decode($value);
+            }
+
             // Perform the check
-            $result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
+            $result = $rule->test($element, $value);
 
             // Check if the test succeeded
             return $result === true ? : Text::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
@@ -365,7 +374,7 @@ class FieldModel extends AdminModel
         if ($result) {
             // Prime required properties.
             if (empty($result->id)) {
-                $result->context = Factory::getApplication()->input->getCmd('context', $this->getState('field.context'));
+                $result->context = Factory::getApplication()->getInput()->getCmd('context', $this->getState('field.context'));
             }
 
             if (property_exists($result, 'fieldparams') && $result->fieldparams !== null) {
@@ -496,7 +505,7 @@ class FieldModel extends AdminModel
     public function getForm($data = array(), $loadData = true)
     {
         $context = $this->getState('field.context');
-        $jinput  = Factory::getApplication()->input;
+        $jinput  = Factory::getApplication()->getInput();
 
         // A workaround to get the context into the model for save requests.
         if (empty($context) && isset($data['context'])) {
@@ -833,10 +842,10 @@ class FieldModel extends AdminModel
         $app = Factory::getApplication();
 
         // Load the User state.
-        $pk = $app->input->getInt('id');
+        $pk = $app->getInput()->getInt('id');
         $this->setState($this->getName() . '.id', $pk);
 
-        $context = $app->input->get('context', 'com_content.article');
+        $context = $app->getInput()->get('context', 'com_content.article');
         $this->setState('field.context', $context);
         $parts = FieldsHelper::extract($context);
 
@@ -879,8 +888,9 @@ class FieldModel extends AdminModel
     protected function loadFormData()
     {
         // Check the session for previously entered form data.
-        $app  = Factory::getApplication();
-        $data = $app->getUserState('com_fields.edit.field.data', array());
+        $app   = Factory::getApplication();
+        $input = $app->getInput();
+        $data  = $app->getUserState('com_fields.edit.field.data', array());
 
         if (empty($data)) {
             $data = $this->getItem();
@@ -892,16 +902,24 @@ class FieldModel extends AdminModel
                 // get selected fields
                 $filters = (array) $app->getUserState('com_fields.fields.filter');
 
-                $data->set('state', $app->input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
-                $data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-                $data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
+                $data->set('state', $input->getInt('state', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
+                $data->set('language', $input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
+                $data->set('group_id', $input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
+                $data->set(
+                    'assigned_cat_ids',
+                    $input->get(
+                        'assigned_cat_ids',
+                        (!empty($filters['assigned_cat_ids']) ? (array)$filters['assigned_cat_ids'] : [0]),
+                        'array'
+                    )
+                );
                 $data->set(
                     'access',
-                    $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
+                    $input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
                 );
 
                 // Set the type if available from the request
-                $data->set('type', $app->input->getWord('type', $this->state->get('field.type', $data->get('type'))));
+                $data->set('type', $input->getWord('type', $this->state->get('field.type', $data->get('type'))));
             }
 
             if ($data->label && !isset($data->params['label'])) {
@@ -1067,7 +1085,7 @@ class FieldModel extends AdminModel
      */
     protected function cleanCache($group = null, $clientId = 0)
     {
-        $context = Factory::getApplication()->input->get('context');
+        $context = Factory::getApplication()->getInput()->get('context');
 
         switch ($context) {
             case 'com_content':

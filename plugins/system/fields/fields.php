@@ -177,7 +177,7 @@ class PlgSystemFields extends CMSPlugin
 
         $user = Factory::getUser($userData['id']);
 
-        $task = Factory::getApplication()->input->getCmd('task');
+        $task = Factory::getApplication()->getInput()->getCmd('task');
 
         // Skip fields save when we activate a user, because we will lose the saved data
         if (in_array($task, array('activate', 'block', 'unblock'))) {
@@ -200,6 +200,11 @@ class PlgSystemFields extends CMSPlugin
      */
     public function onContentAfterDelete($context, $item): void
     {
+        // Set correct context for category
+        if ($context === 'com_categories.category') {
+            $context = $item->extension . '.categories';
+        }
+
         $parts = FieldsHelper::extract($context, $item);
 
         if (!$parts || empty($item->id)) {
@@ -250,7 +255,7 @@ class PlgSystemFields extends CMSPlugin
         // When a category is edited, the context is com_categories.categorycom_content
         if (strpos($context, 'com_categories.category') === 0) {
             $context = str_replace('com_categories.category', '', $context) . '.categories';
-            $data    = $data ?: Factory::getApplication()->input->get('jform', [], 'array');
+            $data    = $data ?: Factory::getApplication()->getInput()->get('jform', [], 'array');
 
             // Set the catid on the category to get only the fields which belong to this category
             if (is_array($data) && array_key_exists('id', $data)) {
@@ -268,7 +273,7 @@ class PlgSystemFields extends CMSPlugin
             return true;
         }
 
-        $input = Factory::getApplication()->input;
+        $input = Factory::getApplication()->getInput();
 
         // If we are on the save command we need the actual data
         $jformData = $input->get('jform', array(), 'array');

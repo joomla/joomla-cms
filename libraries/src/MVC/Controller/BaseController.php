@@ -266,7 +266,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         );
 
         $app   = Factory::getApplication();
-        $input = $app->input;
+        $input = $app->getInput();
 
         // Get the environment configuration.
         $basePath = \array_key_exists('base_path', $config) ? $config['base_path'] : JPATH_COMPONENT;
@@ -358,7 +358,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         $this->taskMap = array();
 
         $this->app   = $app ?: Factory::getApplication();
-        $this->input = $input ?: $this->app->input;
+        $this->input = $input ?: $this->app->getInput();
 
         if (\defined('JDEBUG') && JDEBUG) {
             Log::addLogger(array('text_file' => 'jcontroller.log.php'), Log::ALL, array('controller'));

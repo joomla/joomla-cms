@@ -58,6 +58,8 @@ class CoreContent extends Table
         $this->setColumnAlias('published', 'core_state');
         $this->setColumnAlias('checked_out', 'core_checked_out_user_id');
         $this->setColumnAlias('checked_out_time', 'core_checked_out_time');
+
+        $this->_trackAssets = false;
     }
 
     /**
