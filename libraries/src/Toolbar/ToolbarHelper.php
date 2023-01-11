@@ -45,7 +45,11 @@ abstract class ToolbarHelper
         $html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
         $app = Factory::getApplication();
-        $app->JComponentTitle = $html;
+
+        if (isset($app->JComponentTitle)) {
+            $app->JComponentTitle = $html;
+        }
+
         $title = strip_tags($title) . ' - ' . $app->get('sitename');
 
         if ($app->isClient('administrator')) {
