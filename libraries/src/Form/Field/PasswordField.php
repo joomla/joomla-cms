@@ -68,6 +68,14 @@ class PasswordField extends FormField
     protected $force = false;
 
     /**
+     * The rules flag.
+     *
+     * @var    bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $rules = false;
+
+    /**
      * Name of the layout being used to render the field
      *
      * @var    string
