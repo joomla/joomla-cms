@@ -788,9 +788,10 @@ INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (16, 'com_templates'),
 (17, 'com_users'),
 (18, 'com_checkin'),
-(19, 'com_scheduler');
+(19, 'com_scheduler'),
+(20, 'com_cookiemanager');
 
-SELECT setval('#__action_logs_extensions_id_seq', 20, false);
+SELECT setval('#__action_logs_extensions_id_seq', 21, false);
 -- --------------------------------------------------------
 
 --
@@ -830,10 +831,11 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (17, 'access_level', 'com_users.level', 'id' , 'title', '#__viewlevels', 'PLG_ACTIONLOG_JOOMLA'),
 (18, 'banner_client', 'com_banners.client', 'id', 'name', '#__banner_clients', 'PLG_ACTIONLOG_JOOMLA'),
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA'),
-(20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA');
+(20, 'task', 'com_scheduler.task', 'id', 'title', '#__scheduler_tasks', 'PLG_ACTIONLOG_JOOMLA'),
+(21, 'cookiemanager_cookie', 'com_cookiemanager.cookie', 'id', 'name', '#__cookiemanager_cookies', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 21, false);
+SELECT setval('#__action_log_config_id_seq', 22, false);
 
 --
 -- Table structure for table `#__action_logs_users`
@@ -891,6 +893,66 @@ CREATE INDEX "#__scheduler_tasks_idx_cli_exclusive" ON "#__scheduler_tasks" ("cl
 CREATE INDEX "#__scheduler_tasks_idx_checked_out" ON "#__scheduler_tasks" ("checked_out");
 
 -- --------------------------------------------------------
+
+--
+-- Table structure for table "#__cookiemanager_cookies"
+--
+
+CREATE TABLE IF NOT EXISTS "#__cookiemanager_cookies" (
+  "id" serial NOT NULL,
+  "title" varchar(255) NOT NULL,
+  "alias" varchar(400) NOT NULL,
+  "cookie_name" varchar(255) NOT NULL,
+  "cookie_desc" varchar(255) NOT NULL,
+  "exp_period" varchar(20) NOT NULL,
+  "exp_value" integer DEFAULT 0 NOT NULL,
+  "catid" integer DEFAULT 0 NOT NULL,
+  "published" smallint DEFAULT 1 NOT NULL,
+  "ordering" integer DEFAULT 0 NOT NULL,
+  "created" timestamp without time zone NOT NULL,
+  "created_by" integer DEFAULT 0 NOT NULL,
+  "modified" timestamp without time zone NOT NULL,
+  "modified_by" integer DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__cookiemanager_cookies_idx_state" on "#__cookiemanager_cookies" ("published");
+CREATE INDEX "#__cookiemanager_cookies_idx_catid" on "#__cookiemanager_cookies" ("catid");
+CREATE INDEX "#__cookiemanager_cookies_idx_createdby" on "#__cookiemanager_cookies" ("created_by");
+
+--
+-- Table structure for table "#__cookiemanager_scripts"
+--
+
+CREATE TABLE IF NOT EXISTS "#__cookiemanager_scripts" (
+  "id" serial NOT NULL,
+  "title" varchar(255) NOT NULL,
+  "alias" varchar(400) NOT NULL,
+  "position" integer DEFAULT 4 NOT NULL,
+  "type" integer DEFAULT 1 NOT NULL,
+  "code" text NOT NULL,
+  "catid" integer DEFAULT 0 NOT NULL,
+  "published" smallint DEFAULT 1 NOT NULL,
+  "ordering" integer DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__cookiemanager_scripts_idx_state" on "#__cookiemanager_scripts" ("published");
+CREATE INDEX "#__cookiemanager_scripts_idx_catid" on "#__cookiemanager_scripts" ("catid");
+
+--
+-- Table structure for table "#__cookiemanager_consents"
+--
+
+CREATE TABLE IF NOT EXISTS "#__cookiemanager_consents" (
+  "id" serial NOT NULL,
+  "uuid" varchar(32) NOT NULL,
+  "ccuuid" varchar(64) NOT NULL,
+  "consent_opt_in" varchar(255) NOT NULL,
+  "consent_opt_out" varchar(255) NOT NULL,
+  "consent_date" varchar(100) NOT NULL,
+  "user_agent" varchar(150) NOT NULL,
+  "url" varchar(100) NOT NULL,
+  PRIMARY KEY ("id")
+);
 
 --
 -- Here is SOUNDEX replacement for those who can't enable fuzzystrmatch module

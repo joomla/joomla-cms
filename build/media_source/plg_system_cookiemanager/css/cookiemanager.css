@@ -1,0 +1,63 @@
+button.preview {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 6px;
+  margin: 1rem;
+  z-index: 99999;
+  border-radius: 2.75rem;
+  min-width: 150px;
+}
+
+li.cookie-cat {
+    font-size: 1.2rem;
+}
+
+.modal-dialog-left {
+    margin: 10px;
+    position: absolute;
+    top: 30%;
+}
+
+.modal-dialog-right {
+    margin: 10px;
+    position: absolute;
+    top: 30%;
+    right: 0;
+}
+
+.modal-dialog-bottom {
+    display: flex;
+    align-items: flex-end;
+}
+
+.modal-dialog-top-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 10px;
+}
+.modal-dialog-top-right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 10px;
+}
+.modal-dialog-bottom-left {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 10px;
+}
+.modal-dialog-bottom-right {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog-bottom {
+        min-height: calc(100% - 3.5rem);
+    }
+}
