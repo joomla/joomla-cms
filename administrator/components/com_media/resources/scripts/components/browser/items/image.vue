@@ -90,7 +90,7 @@ export default {
     },
     isPreviewable() {
       return this.item.mime_type === 'image/svg+xml' && navigator.userAgent.match(/firefox|fxios/i) ? false : true;
-    }
+    },
   },
   methods: {
     /* Check if the item is an image to edit */
