@@ -244,6 +244,24 @@ function setupEditor(element, pluginOptions) {
     id: element.id,
     instance: ed,
   };
+
+  // Setup the toggle button
+  if (!('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0) && window.innerWidth > 768) {
+    const parent = element.closest('.js-editor-tinymce');
+    parent.insertAdjacentHTML('beforeend', Joomla.sanitizeHtml(options.toggleButtonHTML));
+    const toggleIcon = parent.querySelector('.icon-eye');
+    parent.querySelector('.js-tiny-toggler-button').addEventListener('click', () => {
+      if (Joomla.editors.instances[element.id].instance.isHidden()) {
+        Joomla.editors.instances[element.id].instance.show();
+      } else {
+        Joomla.editors.instances[element.id].instance.hide();
+      }
+
+      if (toggleIcon) {
+        toggleIcon.setAttribute('class', Joomla.editors.instances[element.id].instance.isHidden() ? 'icon-eye' : 'icon-eye-slash');
+      }
+    });
+  }
 }
 
 /**
@@ -255,34 +273,10 @@ function setupEditor(element, pluginOptions) {
  */
 function setupEditors(target) {
   const container = target || document;
-  const pluginOptions = Joomla.getOptions ? Joomla.getOptions('plg_editor_tinymce', {})
-    : (Joomla.optionsStorage.plg_editor_tinymce || {});
-  const editors = [].slice.call(container.querySelectorAll('.js-editor-tinymce'));
+  const pluginOptions = Joomla.getOptions('plg_editor_tinymce', {});
 
-  editors.forEach((editor) => {
-    const currentEditor = editor.querySelector('textarea');
-    const toggleButton = editor.querySelector('.js-tiny-toggler-button');
-    const toggleIcon = editor.querySelector('.icon-eye');
-
-    // Setup the editor
-    setupEditor(currentEditor, pluginOptions);
-
-    // Setup the toggle button
-    if (toggleButton) {
-      toggleButton.removeAttribute('disabled');
-      toggleButton.addEventListener('click', () => {
-        if (Joomla.editors.instances[currentEditor.id].instance.isHidden()) {
-          Joomla.editors.instances[currentEditor.id].instance.show();
-        } else {
-          Joomla.editors.instances[currentEditor.id].instance.hide();
-        }
-
-        if (toggleIcon) {
-          toggleIcon.setAttribute('class', Joomla.editors.instances[currentEditor.id].instance.isHidden() ? 'icon-eye' : 'icon-eye-slash');
-        }
-      });
-    }
-  });
+  // Setup the editor
+  [].slice.call(container.querySelectorAll('.js-editor-tinymce')).forEach((editor) => setupEditor(editor.querySelector('textarea'), pluginOptions));
 }
 
 /**

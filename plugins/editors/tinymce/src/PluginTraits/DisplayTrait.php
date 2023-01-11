@@ -94,7 +94,6 @@ trait DisplayTrait
         // Render Editor markup
         $editor = '<div class="js-editor-tinymce">';
         $editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-        $editor .= !$this->app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
         $editor .= '</div>';
 
         // Prepare the instance specific options
@@ -478,6 +477,9 @@ trait DisplayTrait
 
                 // Disable TinyMCE Branding
                 'branding'   => false,
+
+                // The toggle button bellow the editor
+                'toggleButtonHTML' => LayoutHelper::render('joomla.tinymce.togglebutton')
             ]
         );
 
