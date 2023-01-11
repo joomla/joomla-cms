@@ -65,9 +65,9 @@ class TagsHelper extends CMSHelper
     public $itemTags;
 
     /**
-     * The tags  as comma separated string.
+     * The tags as comma separated string or array.
      *
-     * @var    string
+     * @var    mixed
      * @since  __DEPLOY_VERSION__
      */
     public $tags;
