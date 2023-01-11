@@ -45,6 +45,7 @@ abstract class ToolbarHelper
         $html   = $layout->render(array('title' => $title, 'icon' => $icon));
 
         $app = Factory::getApplication();
+        $app->set('JComponentTitle', $html);
 
         if (isset($app->JComponentTitle)) {
             $app->JComponentTitle = $html;

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
+$title = $app->get('JComponentTitle', '');
+
 // Get the component title div
 if (isset($app->JComponentTitle)) {
     $title = $app->JComponentTitle;
