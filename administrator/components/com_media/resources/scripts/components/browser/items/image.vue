@@ -89,7 +89,7 @@ export default {
       return this.item.name;
     },
     isPreviewable() {
-      return !(this.item.mime_type === 'image/svg+xml' && navigator.userAgent.match(/firefox|fxios/i));
+      return !(this.item.mime_type === 'image/svg+xml');
     },
   },
   methods: {
