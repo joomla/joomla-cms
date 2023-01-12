@@ -100,7 +100,7 @@ class PlgSystemAccessibility extends CMSPlugin
                     ],
                     'useEmojis' => $this->params->get('useEmojis') != 'false' ? true : false,
                     'img' => $this->params->get('image'),
-                    'circular' => $this->params->get('image_circular') != 'false' ? true : false,
+                    'circular' => $this->params->get('image_circular') != 'false',
                 ],
                 'hotkeys' => [
                     'enabled' => true,
