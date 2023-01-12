@@ -279,7 +279,7 @@ const getUrl = (isModal) => {
 
 // Customize the Toolbar buttons behavior
 Joomla.submitbutton = (task) => {
-  const url = new URL(`${Joomla.MediaManager.Edit.options.apiBaseUrl}&task=api.files&path=${encodeURIComponent(Joomla.MediaManager.Edit.options.uploadPath)}`);
+  const url = new URL(`${Joomla.MediaManager.Edit.options.apiBaseUrl}&task=api.files&path=${Joomla.MediaManager.Edit.options.uploadPath}`);
   switch (task) {
     case 'apply':
       Joomla.MediaManager.Edit.upload(url, null);
