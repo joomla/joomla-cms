@@ -82,7 +82,7 @@ export default {
       return this.item.mime_type === 'image/svg+xml' ? window.innerWidth - 30 : null;
     },
     getHeight() {
-      return this.item.mime_type === 'image/svg+xml' ? window.innerHeight - 80 :null;
+      return this.item.mime_type === 'image/svg+xml' ? window.innerHeight - 80 : null;
     },
   },
   methods: {
