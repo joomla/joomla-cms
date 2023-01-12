@@ -33,6 +33,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 abstract class Table extends CMSObject implements TableInterface, DispatcherAwareInterface
 {
     use DispatcherAwareTrait;
