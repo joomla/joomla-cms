@@ -62,6 +62,7 @@ class ItemsModel extends ListModel
                 'parent_id', 'a.parent_id',
                 'publish_up', 'a.publish_up',
                 'publish_down', 'a.publish_down',
+                'e.element', 'componentName',
                 'a.ordering'
             );
 
@@ -477,6 +478,12 @@ class ItemsModel extends ListModel
         if ($language = $this->getState('filter.language')) {
             $query->where($db->quoteName('a.language') . ' = :language')
                 ->bind(':language', $language);
+        }
+
+        // Filter on componentName
+        if ($componentName = $this->getState('filter.componentName')) {
+            $query->where($db->quoteName('e.element') . ' = :component')
+                ->bind(':component', $componentName);
         }
 
         // Add the list ordering clause.
