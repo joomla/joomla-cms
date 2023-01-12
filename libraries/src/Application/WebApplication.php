@@ -38,6 +38,14 @@ abstract class WebApplication extends AbstractWebApplication
     use IdentityAware;
 
     /**
+     * The application component title.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $JComponentTitle;
+
+    /**
      * The application document object.
      *
      * @var    Document
@@ -52,14 +60,6 @@ abstract class WebApplication extends AbstractWebApplication
      * @since  1.7.3
      */
     protected $language;
-
-    /**
-     * The application component title.
-     *
-     * @var    string
-     * @since  __DEPLOY_VERSION__
-     */
-    public $JComponentTitle;
 
     /**
      * The application instance.
