@@ -40,6 +40,29 @@
 					<option value="true">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_TRUE</option>
 					<option value="false">PLG_SYSTEM_ACCESSIBILITY_EMOJIS_FALSE</option>
 				</field>
+				<field
+					name="image"
+					type="list"
+					label="PLG_SYSTEM_ACCESSIBILITY_IMAGE"
+					default="accessible"
+					validate="options"
+					showon="useEmojis:false"
+					>
+					<option value="accessible">PLG_SYSTEM_ACCESSIBILITY_IMAGE_ACCESSIBLE</option>
+					<option value="accessibility">PLG_SYSTEM_ACCESSIBILITY_IMAGE_ACCESSIBILITY</option>
+				</field>
+				<field
+					name="image_circular"
+					type="radio"
+					label="PLG_SYSTEM_ACCESSIBILITY_IMAGE_CIRCULAR"
+					layout="joomla.form.field.radio.switcher"
+					default="false"
+					validate="options"
+					showon="useEmojis:false"
+					>
+					<option value="false">JNO</option>
+					<option value="true">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>
