@@ -187,6 +187,7 @@ class CalendarField extends FormField
         if ($return) {
             $this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
             $this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+            $this->filterFormat = (string) $this->element['filterformat'] ? (string) $this->element['filterformat'] : '';
             $this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
             $this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : 'true';
             $this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : 'true';
