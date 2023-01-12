@@ -186,6 +186,11 @@ abstract class FieldsPlugin extends CMSPlugin
         $node->setAttribute('hint', $field->params->get('hint', ''));
         $node->setAttribute('required', $field->required ? 'true' : 'false');
 
+        $showon_attribute = $field->params->get('showon', '');
+        if ($showon_attribute) {
+            $node->setAttribute('showon', $showon_attribute);
+        }
+
         if ($layout = $field->params->get('form_layout')) {
             $node->setAttribute('layout', $layout);
         }
