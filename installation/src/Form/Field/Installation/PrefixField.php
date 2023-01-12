@@ -53,7 +53,7 @@ class PrefixField extends FormField
         }
 
         // If a prefix is already set, use it instead.
-        $session = Factory::getSession()->get('setup.options', array());
+        $session = Factory::getSession()->get('setup.options', []);
 
         if (empty($session['db_prefix'])) {
             // Create the random prefix.

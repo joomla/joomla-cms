@@ -70,7 +70,7 @@ class ComponentRecord
      *
      * @since   3.7.0
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         foreach ((array) $data as $key => $value) {
             $this->$key = $value;

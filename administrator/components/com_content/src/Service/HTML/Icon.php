@@ -44,7 +44,7 @@ class Icon
      *
      * @since  4.0.0
      */
-    public function create($category, $params, $attribs = array(), $legacy = false)
+    public function create($category, $params, $attribs = [], $legacy = false)
     {
         $uri = Uri::getInstance();
 
@@ -85,7 +85,7 @@ class Icon
      *
      * @since  4.0.0
      */
-    public function edit($article, $params, $attribs = array(), $legacy = false)
+    public function edit($article, $params, $attribs = [], $legacy = false)
     {
         $user = Factory::getUser();
         $uri  = Uri::getInstance();
@@ -112,7 +112,7 @@ class Icon
             $tooltip      = Text::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
                 . ' <br> ' . $date;
 
-            $text = LayoutHelper::render('joomla.content.icons.edit_lock', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
+            $text = LayoutHelper::render('joomla.content.icons.edit_lock', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
             $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
             $output = HTMLHelper::_('link', '#', $text, $attribs);
@@ -129,7 +129,7 @@ class Icon
             $tooltip = Text::_('COM_CONTENT_EDIT_PUBLISHED_ARTICLE');
         }
 
-        $text = LayoutHelper::render('joomla.content.icons.edit', array('article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy));
+        $text = LayoutHelper::render('joomla.content.icons.edit', ['article' => $article, 'tooltip' => $tooltip, 'legacy' => $legacy]);
 
         $attribs['aria-describedby'] = 'editarticle-' . (int) $article->id;
         $output = HTMLHelper::_('link', Route::_($url), $text, $attribs);
@@ -149,7 +149,7 @@ class Icon
      */
     public function print_screen($params, $legacy = false)
     {
-        $text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
+        $text = LayoutHelper::render('joomla.content.icons.print_screen', ['params' => $params, 'legacy' => $legacy]);
 
         return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
     }

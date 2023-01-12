@@ -71,7 +71,7 @@ class CacheController
      */
     public function __call($name, $arguments)
     {
-        return \call_user_func_array(array($this->cache, $name), $arguments);
+        return \call_user_func_array([$this->cache, $name], $arguments);
     }
 
     /**
@@ -86,7 +86,7 @@ class CacheController
      * @throws      \RuntimeException
      * @deprecated  5.0 Use the cache controller factory instead
      */
-    public static function getInstance($type = 'output', $options = array())
+    public static function getInstance($type = 'output', $options = [])
     {
         @trigger_error(
             sprintf(
@@ -149,7 +149,7 @@ class CacheController
 
         if (!isset($paths))
         {
-            $paths = array();
+            $paths = [];
         }
 
         if (!empty($path) && !\in_array($path, $paths))

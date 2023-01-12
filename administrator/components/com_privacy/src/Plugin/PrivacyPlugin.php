@@ -127,7 +127,7 @@ abstract class PrivacyPlugin extends CMSPlugin
      *
      * @since   3.9.0
      */
-    protected function createCustomFieldsDomain($context, $items = array())
+    protected function createCustomFieldsDomain($context, $items = [])
     {
         if (!is_array($items)) {
             $items = [$items];

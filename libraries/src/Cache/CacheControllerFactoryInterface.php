@@ -28,5 +28,5 @@ interface CacheControllerFactoryInterface
      * @since   4.0.0
      * @throws  \RuntimeException
      */
-    public function createCacheController($type = 'output', $options = array()): CacheController;
+    public function createCacheController($type = 'output', $options = []): CacheController;
 }

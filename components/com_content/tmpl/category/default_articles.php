@@ -76,7 +76,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                 </span>
                 <select name="filter_tag" id="filter-search" class="form-select" onchange="document.adminForm.submit();" >
                     <option value=""><?php echo Text::_('JOPTION_SELECT_TAG'); ?></option>
-                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
+                    <?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', ['filter.published' => [1], 'filter.language' => $langFilter], true), 'value', 'text', $this->state->get('filter.tag')); ?>
                 </select>
             <?php elseif ($this->params->get('filter_field') === 'month') : ?>
                 <span class="visually-hidden">
@@ -183,7 +183,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
                             <?php foreach ($associations as $association) : ?>
                                 <?php if ($this->params->get('flags', 1) && $association['language']->image) : ?>
-                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
                                     <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>
@@ -209,7 +209,7 @@ $currentDate = Factory::getDate()->format('Y-m-d H:i:s');
                             <?php $associations = AssociationHelper::displayAssociations($article->id); ?>
                             <?php foreach ($associations as $association) : ?>
                                 <?php if ($this->params->get('flags', 1)) : ?>
-                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+                                    <?php $flag = HTMLHelper::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, ['title' => $association['language']->title_native], true); ?>
                                     <a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>
                                 <?php else : ?>
                                     <?php $class = 'btn btn-secondary btn-sm btn-' . strtolower($association['language']->lang_code); ?>

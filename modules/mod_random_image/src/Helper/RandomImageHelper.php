@@ -138,6 +138,6 @@ class RandomImageHelper
             $folder = str_replace(JPATH_BASE, '', $folder);
         }
 
-        return str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
+        return str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $folder);
     }
 }

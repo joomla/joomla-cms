@@ -51,7 +51,7 @@ class GroupedlistField extends FormField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
         $label = 0;
 
         foreach ($this->element->children() as $element) {
@@ -60,7 +60,7 @@ class GroupedlistField extends FormField
                 case 'option':
                     // Initialize the group if necessary.
                     if (!isset($groups[$label])) {
-                        $groups[$label] = array();
+                        $groups[$label] = [];
                     }
 
                     $disabled = (string) $element['disabled'];
@@ -95,7 +95,7 @@ class GroupedlistField extends FormField
 
                     // Initialize the group if necessary.
                     if (!isset($groups[$label])) {
-                        $groups[$label] = array();
+                        $groups[$label] = [];
                     }
 
                     // Iterate through the children and build an array of options.

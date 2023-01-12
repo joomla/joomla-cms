@@ -406,7 +406,7 @@ class MediaField extends FormField
 
         sort($types);
 
-        $extraData = array(
+        $extraData = [
             'asset'               => $asset,
             'authorField'         => $this->authorField,
             'authorId'            => $this->form->getValue($this->authorField),
@@ -424,7 +424,7 @@ class MediaField extends FormField
             'audiosAllowedExt'    => $audiosAllowedExt,
             'videosAllowedExt'    => $videosAllowedExt,
             'documentsAllowedExt' => $documentsAllowedExt,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

@@ -45,7 +45,7 @@ class ComponentsCategoryField extends ListField
     {
         // Initialise variable.
         $db      = $this->getDatabase();
-        $options = array();
+        $options = [];
 
         $query = $db->getQuery(true);
         $query->select('DISTINCT ' . $db->quoteName('extension'))

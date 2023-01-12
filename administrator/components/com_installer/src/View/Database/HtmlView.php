@@ -35,7 +35,7 @@ class HtmlView extends InstallerViewDefault
      * @var    array
      * @since  4.0.0
      */
-    protected $changeSet = array();
+    protected $changeSet = [];
 
     /**
      * The number of errors found
@@ -67,7 +67,7 @@ class HtmlView extends InstallerViewDefault
      * @var    array
      * @since  4.0.0
      */
-    public $activeFilters = array();
+    public $activeFilters = [];
 
     /**
      * Display the view.

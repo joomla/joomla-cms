@@ -90,13 +90,13 @@ class HtmlView extends BaseHtmlView
             // Adds 'http://' or 'https://' if none is set
             if (strpos($url, '//') === 0) {
                 // URL without scheme in component. Prepend current scheme.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme')) . substr($url, 2);
+                $wrapper->url = Uri::getInstance()->toString(['scheme']) . substr($url, 2);
             } elseif (strpos($url, '/') === 0) {
                 // Relative URL in component. Use scheme + host + port.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
+                $wrapper->url = Uri::getInstance()->toString(['scheme', 'host', 'port']) . $url;
             } elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
                 // URL doesn't start with either 'http://' or 'https://'. Add current scheme.
-                $wrapper->url = Uri::getInstance()->toString(array('scheme')) . $url;
+                $wrapper->url = Uri::getInstance()->toString(['scheme']) . $url;
             } else {
                 // URL starts with either 'http://' or 'https://'. Do not change it.
                 $wrapper->url = $url;

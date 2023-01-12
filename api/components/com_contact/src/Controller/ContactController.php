@@ -211,11 +211,11 @@ class ContactController extends ApiController
             $output = FieldsHelper::render(
                 'com_contact.mail',
                 'fields.render',
-                array(
+                [
                     'context' => 'com_contact.mail',
                     'item'    => $contact,
                     'fields'  => $fields,
-                )
+                ]
             );
 
             if ($output) {

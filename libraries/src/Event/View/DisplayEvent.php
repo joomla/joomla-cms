@@ -34,7 +34,7 @@ class DisplayEvent extends AbstractImmutableEvent
      *
      * @since   4.0.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!isset($arguments['subject'])) {
             throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");

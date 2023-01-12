@@ -52,7 +52,7 @@ class BufferStreamHandler
      * @var    array
      * @since  3.0.0
      */
-    public $buffers = array();
+    public $buffers = [];
 
     /**
      * Status of registering the wrapper

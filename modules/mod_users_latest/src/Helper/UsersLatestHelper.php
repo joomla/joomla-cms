@@ -46,7 +46,7 @@ class UsersLatestHelper
             $groups = $user->getAuthorisedGroups();
 
             if (empty($groups)) {
-                return array();
+                return [];
             }
 
             $query->leftJoin($db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('a.id'))
@@ -63,7 +63,7 @@ class UsersLatestHelper
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-            return array();
+            return [];
         }
     }
 }

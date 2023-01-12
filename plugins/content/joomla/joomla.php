@@ -147,11 +147,11 @@ class PlgContentJoomla extends CMSPlugin
                 $receiver = User::getInstance($user_id);
                 $lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
                 $lang->load('com_content');
-                $message = array(
+                $message = [
                     'user_id_to' => $user_id,
                     'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
                     'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
-                );
+                ];
                 $model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
                     ->createModel('Message', 'Administrator');
                 $model_message->save($message);
@@ -239,14 +239,14 @@ class PlgContentJoomla extends CMSPlugin
         // Default to true if not a core extension
         $result = true;
 
-        $tableInfo = array(
-            'com_banners' => array('table_name' => '#__banners'),
-            'com_contact' => array('table_name' => '#__contact_details'),
-            'com_content' => array('table_name' => '#__content'),
-            'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
-            'com_users' => array('table_name' => '#__user_notes'),
-            'com_weblinks' => array('table_name' => '#__weblinks'),
-        );
+        $tableInfo = [
+            'com_banners' => ['table_name' => '#__banners'],
+            'com_contact' => ['table_name' => '#__contact_details'],
+            'com_content' => ['table_name' => '#__content'],
+            'com_newsfeeds' => ['table_name' => '#__newsfeeds'],
+            'com_users' => ['table_name' => '#__user_notes'],
+            'com_weblinks' => ['table_name' => '#__weblinks'],
+        ];
 
         // Now check to see if this is a known core extension
         if (isset($tableInfo[$extension])) {
@@ -505,7 +505,7 @@ class PlgContentJoomla extends CMSPlugin
 
         // First element in tree is the current category, so we can skip that one
         unset($childCategoryTree[0]);
-        $childCategoryIds = array();
+        $childCategoryIds = [];
 
         foreach ($childCategoryTree as $node) {
             $childCategoryIds[] = (int) $node->id;

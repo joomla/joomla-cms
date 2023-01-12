@@ -52,7 +52,7 @@ class ArticleField extends FormField
         $allowSelect    = ((string) $this->element['select'] != 'false');
         $allowPropagate = ((string) $this->element['propagate'] == 'true');
 
-        $languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
         Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
@@ -74,7 +74,7 @@ class ArticleField extends FormField
             static $scriptSelect = null;
 
             if (is_null($scriptSelect)) {
-                $scriptSelect = array();
+                $scriptSelect = [];
             }
 
             if (!isset($scriptSelect[$this->id])) {
@@ -211,7 +211,7 @@ class ArticleField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
-                array(
+                [
                     'title'       => $modalTitle,
                     'url'         => $urlSelect,
                     'height'      => '400px',
@@ -220,7 +220,7 @@ class ArticleField extends FormField
                     'modalWidth'  => 80,
                     'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                )
+                ]
             );
         }
 
@@ -229,7 +229,7 @@ class ArticleField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalNew' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_CONTENT_NEW_ARTICLE'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -248,7 +248,7 @@ class ArticleField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 
@@ -257,7 +257,7 @@ class ArticleField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalEdit' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_CONTENT_EDIT_ARTICLE'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -276,7 +276,7 @@ class ArticleField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 

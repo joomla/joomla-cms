@@ -30,7 +30,7 @@ abstract class Parser
      * @var    Parser[]
      * @since  4.0.0
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Method to get a parser, creating it if necessary.

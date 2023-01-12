@@ -106,7 +106,7 @@ class JoomlaDb extends Db
      *
      * @since   3.7.3
      */
-    public function grabFromDatabase($table, $column, $criteria = array())
+    public function grabFromDatabase($table, $column, $criteria = [])
     {
         $table = $this->addPrefix($table);
 

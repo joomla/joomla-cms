@@ -37,7 +37,7 @@ class IndexController extends AdminController
      *
      * @since   2.5
      */
-    public function getModel($name = 'Index', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Index', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

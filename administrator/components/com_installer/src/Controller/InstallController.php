@@ -108,7 +108,7 @@ class InstallController extends BaseController
 
         header('Content-Type: application/json');
 
-        echo new JsonResponse(array('redirect' => $redirect), $message, !$result);
+        echo new JsonResponse(['redirect' => $redirect], $message, !$result);
 
         $this->app->close();
     }

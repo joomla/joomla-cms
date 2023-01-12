@@ -77,10 +77,10 @@ class FieldTable extends Table
             // Make sure $registry->options contains no duplicates when the field type is subform
             if (isset($src['type']) && $src['type'] == 'subform' && isset($src['fieldparams']['options'])) {
                 // Fast lookup map to check which custom field ids we have already seen
-                $seen_customfields = array();
+                $seen_customfields = [];
 
                 // Container for the new $src['fieldparams']['options']
-                $options = array();
+                $options = [];
 
                 // Iterate through the old options
                 $i = 0;
@@ -148,7 +148,7 @@ class FieldTable extends Table
         // Verify that the name is unique
         $table = new static($this->_db);
 
-        if ($table->load(array('name' => $this->name)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['name' => $this->name]) && ($table->id != $this->id || $this->id == 0)) {
             $this->setError(Text::_('COM_FIELDS_ERROR_UNIQUE_NAME'));
 
             return false;

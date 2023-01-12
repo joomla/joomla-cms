@@ -33,7 +33,7 @@ final class FetchMediaItemUrlEvent extends AbstractImmutableEvent
      *
      * @since  4.1.0
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         // Check for required arguments
         if (!\array_key_exists('adapter', $arguments) || !is_string($arguments['adapter'])) {

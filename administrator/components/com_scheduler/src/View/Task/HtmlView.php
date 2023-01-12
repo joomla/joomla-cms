@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
      * @since  4.1.0
      * @throws \Exception
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         $this->app = Factory::getApplication();
         parent::__construct($config);

@@ -44,7 +44,7 @@ class ContentmapField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $groups = array();
+        $groups = [];
 
         // Get the database object and a new query object.
         $db = $this->getDatabase();

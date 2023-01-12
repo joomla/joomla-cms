@@ -155,11 +155,11 @@ class CheckboxesField extends ListField
         // If a value has been stored, use it. Otherwise, use the defaults.
         $checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
-        $extraData = array(
+        $extraData = [
             'checkedOptions' => \is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
             'hasValue'       => $hasValue,
             'options'        => $this->getOptions(),
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

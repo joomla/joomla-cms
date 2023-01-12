@@ -122,12 +122,12 @@ class RulesTest extends UnitTestCase
 
         // Merge a new set, flipping some bits.
         // Ident 3 should remain false, 4 should be added.
-        $newRuleIdentities = array(
+        $newRuleIdentities = [
             -42 => 0,
             2 => 1,
             3 => 1,
             4 => 1
-        );
+        ];
         $rules->mergeAction('edit', $newRuleIdentities);
 
         $editRule = $rules->getData()['edit'];
@@ -207,14 +207,14 @@ class RulesTest extends UnitTestCase
      */
     public function testMergeRulesNull()
     {
-        $ruleData = array(
-            'edit' => array(
+        $ruleData = [
+            'edit' => [
                 -42 => 1
-            ),
-            'delete' => array(
+            ],
+            'delete' => [
                 -42 => 0
-            )
-        );
+            ]
+        ];
 
         $rules1 = new Rules($ruleData);
         $rules2 = new Rules('');

@@ -50,8 +50,8 @@ extract($displayData);
  * @var   string   $customPrefix    Optional prefix for new categories.
  */
 
-$html    = array();
-$classes = array();
+$html    = [];
+$classes = [];
 $attr    = '';
 $attr2   = '';
 

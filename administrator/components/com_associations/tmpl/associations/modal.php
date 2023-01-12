@@ -34,12 +34,12 @@ $listOrder        = $this->escape($this->state->get('list.ordering'));
 $listDirn         = $this->escape($this->state->get('list.direction'));
 $canManageCheckin = Factory::getUser()->authorise('core.manage', 'com_checkin');
 
-$iconStates = array(
+$iconStates = [
     -2 => 'icon-trash',
     0  => 'icon-times',
     1  => 'icon-check',
     2  => 'icon-folder',
-);
+];
 
 $this->document->addScriptOptions('associations-modal', ['func' => $function]);
 
@@ -47,7 +47,7 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
 <div class="container-popup">
     <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
     . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-        <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+        <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
         <?php if (empty($this->items)) : ?>
             <div class="alert alert-info">
                 <span class="icon-info-circle" aria-hidden="true"></span><span class="visually-hidden"><?php echo Text::_('INFO'); ?></span>
@@ -107,7 +107,7 @@ $this->document->addScriptOptions('associations-modal', ['func' => $function]);
                     <?php endif; ?>
                     <th scope="row" class="has-context">
                         <?php if (isset($item->level)) : ?>
-                            <?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+                            <?php echo LayoutHelper::render('joomla.html.treeprefix', ['level' => $item->level]); ?>
                         <?php endif; ?>
                         <?php if (($canEdit && !$isCheckout) || ($canEdit && $canCheckin && $isCheckout)) : ?>
                             <a class="select-link" href="javascript:void(0);" data-id="<?php echo $item->id; ?>">

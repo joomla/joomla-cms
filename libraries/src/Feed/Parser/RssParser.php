@@ -230,7 +230,7 @@ class RssParser extends FeedParser
     protected function handleSkipDays(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $days = array();
+        $days = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->day as $day) {
@@ -253,7 +253,7 @@ class RssParser extends FeedParser
     protected function handleSkipHours(Feed $feed, \SimpleXMLElement $el)
     {
         // Initialise the array.
-        $hours = array();
+        $hours = [];
 
         // Add all of the day values from the feed to the array.
         foreach ($el->hour as $hour) {

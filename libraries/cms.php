@@ -42,7 +42,7 @@ class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register(array(new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'), true, true);
+spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
@@ -64,11 +64,11 @@ if (!defined('JVERSION')) {
 }
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
-set_exception_handler(array('Joomla\CMS\Exception\ExceptionHandler', 'handleException'));
+set_exception_handler(['Joomla\CMS\Exception\ExceptionHandler', 'handleException']);
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER)) {
-    \Joomla\CMS\Log\Log::addLogger(array('logger' => 'messagequeue'), \Joomla\CMS\Log\Log::ALL, ['jerror']);
+    \Joomla\CMS\Log\Log::addLogger(['logger' => 'messagequeue'], \Joomla\CMS\Log\Log::ALL, ['jerror']);
 }
 
 // Register the Crypto lib

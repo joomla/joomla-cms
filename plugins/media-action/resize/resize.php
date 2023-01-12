@@ -35,7 +35,7 @@ class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\
      *
      * @since   4.0.0
      */
-    public function onContentBeforeSave($context, $item, $isNew, $data = array())
+    public function onContentBeforeSave($context, $item, $isNew, $data = [])
     {
         if ($context != 'com_media.file') {
             return;

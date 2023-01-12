@@ -33,7 +33,7 @@ class Mail extends PHPMailer
      * @var    Mail[]
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Charset of the message.
@@ -659,7 +659,7 @@ class Mail extends PHPMailer
         // Add sender to replyTo only if no replyTo received
         $autoReplyTo = empty($this->ReplyTo);
 
-        if ($this->setSender(array($from, $fromName, $autoReplyTo)) === false) {
+        if ($this->setSender([$from, $fromName, $autoReplyTo]) === false) {
             return false;
         }
 

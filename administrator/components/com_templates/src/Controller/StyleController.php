@@ -50,7 +50,7 @@ class StyleController extends FormController
         if ($this->app->getDocument()->getType() === 'json') {
             $model = $this->getModel('Style', 'Administrator');
             $table = $model->getTable();
-            $data  = $this->input->post->get('params', array(), 'array');
+            $data  = $this->input->post->get('params', [], 'array');
             $checkin = $table->hasField('checked_out');
             $context = $this->option . '.edit.' . $this->context;
 

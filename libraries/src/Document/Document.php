@@ -146,7 +146,7 @@ class Document
      *
      * @deprecated 5.0  Use WebAssetManager
      */
-    public $_scripts = array();
+    public $_scripts = [];
 
     /**
      * Array of scripts placed in the header
@@ -156,14 +156,14 @@ class Document
      *
      * @deprecated 5.0  Use WebAssetManager
      */
-    public $_script = array();
+    public $_script = [];
 
     /**
      * Array of scripts options
      *
      * @var    array
      */
-    protected $scriptOptions = array();
+    protected $scriptOptions = [];
 
     /**
      * Array of linked style sheets
@@ -173,7 +173,7 @@ class Document
      *
      * @deprecated 5.0  Use WebAssetManager
      */
-    public $_styleSheets = array();
+    public $_styleSheets = [];
 
     /**
      * Array of included style declarations
@@ -183,7 +183,7 @@ class Document
      *
      * @deprecated 5.0  Use WebAssetManager
      */
-    public $_style = array();
+    public $_style = [];
 
     /**
      * Array of meta tags
@@ -191,7 +191,7 @@ class Document
      * @var    array
      * @since  1.7.0
      */
-    public $_metaTags = array();
+    public $_metaTags = [];
 
     /**
      * The rendering engine
@@ -223,7 +223,7 @@ class Document
      * @var    array
      * @since  1.7.3
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Media version added to assets
@@ -272,7 +272,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         if (\array_key_exists('lineend', $options)) {
             $this->setLineEnd($options['lineend']);
@@ -339,9 +339,9 @@ class Document
      * @since       1.7.0
      * @deprecated  5.0 Use the \Joomla\CMS\Document\FactoryInterface instead
      */
-    public static function getInstance($type = 'html', $attributes = array())
+    public static function getInstance($type = 'html', $attributes = [])
     {
-        $signature = serialize(array($type, $attributes));
+        $signature = serialize([$type, $attributes]);
 
         if (empty(self::$instances[$signature])) {
             self::$instances[$signature] = CmsFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
@@ -416,7 +416,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function setBuffer($content, $options = array())
+    public function setBuffer($content, $options = [])
     {
         self::$_buffer = $content;
 
@@ -465,7 +465,7 @@ class Document
     public function setMetaData($name, $content, $attribute = 'name')
     {
         // Pop the element off the end of array if target function expects a string or this http_equiv parameter.
-        if (\is_array($content) && (\in_array($name, array('generator', 'description')) || !\is_string($attribute))) {
+        if (\is_array($content) && (\in_array($name, ['generator', 'description']) || !\is_string($attribute))) {
             $content = array_pop($content);
         }
 
@@ -498,7 +498,7 @@ class Document
      *
      * @deprecated 5.0  Use WebAssetManager
      */
-    public function addScript($url, $options = array(), $attribs = array())
+    public function addScript($url, $options = [], $attribs = [])
     {
         // Default value for type.
         if (!isset($attribs['type']) && !isset($attribs['mime'])) {
@@ -528,7 +528,7 @@ class Document
         $type = strtolower($type);
 
         if (empty($this->_script[$type])) {
-            $this->_script[$type] = array();
+            $this->_script[$type] = [];
         }
 
         $this->_script[$type][md5($content)] = $content;
@@ -550,7 +550,7 @@ class Document
     public function addScriptOptions($key, $options, $merge = true)
     {
         if (empty($this->scriptOptions[$key])) {
-            $this->scriptOptions[$key] = array();
+            $this->scriptOptions[$key] = [];
         }
 
         if ($merge && \is_array($options)) {
@@ -574,7 +574,7 @@ class Document
     public function getScriptOptions($key = null)
     {
         if ($key) {
-            return (empty($this->scriptOptions[$key])) ? array() : $this->scriptOptions[$key];
+            return (empty($this->scriptOptions[$key])) ? [] : $this->scriptOptions[$key];
         } else {
             return $this->scriptOptions;
         }
@@ -593,7 +593,7 @@ class Document
      *
      * @deprecated 5.0  Use WebAssetManager
      */
-    public function addStyleSheet($url, $options = array(), $attribs = array())
+    public function addStyleSheet($url, $options = [], $attribs = [])
     {
         // Default value for type.
         if (!isset($attribs['type']) && !isset($attribs['mime'])) {
@@ -628,7 +628,7 @@ class Document
         $type = strtolower($type);
 
         if (empty($this->_style[$type])) {
-            $this->_style[$type] = array();
+            $this->_style[$type] = [];
         }
 
         $this->_style[$type][md5($content)] = $content;
@@ -1118,7 +1118,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function parse($params = array())
+    public function parse($params = [])
     {
         return $this;
     }
@@ -1133,7 +1133,7 @@ class Document
      *
      * @since   1.7.0
      */
-    public function render($cache = false, $params = array())
+    public function render($cache = false, $params = [])
     {
         $app = CmsFactory::getApplication();
 

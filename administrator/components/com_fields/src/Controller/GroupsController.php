@@ -43,7 +43,7 @@ class GroupsController extends AdminController
      *
      * @since   3.7.0
      */
-    public function getModel($name = 'Group', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Group', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

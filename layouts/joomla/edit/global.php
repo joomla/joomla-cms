@@ -28,11 +28,11 @@ if ($component === 'com_categories') {
 
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
-$fields = $displayData->get('fields') ?: array(
+$fields = $displayData->get('fields') ?: [
     'transition',
-    array('parent', 'parent_id'),
-    array('published', 'state', 'enabled'),
-    array('category', 'catid'),
+    ['parent', 'parent_id'],
+    ['published', 'state', 'enabled'],
+    ['category', 'catid'],
     'featured',
     'sticky',
     'access',
@@ -40,9 +40,9 @@ $fields = $displayData->get('fields') ?: array(
     'tags',
     'note',
     'version_note',
-);
+];
 
-$hiddenFields   = $displayData->get('hidden_fields') ?: array();
+$hiddenFields   = $displayData->get('hidden_fields') ?: [];
 
 if (!$saveHistory) {
     $hiddenFields[] = 'version_note';
@@ -53,7 +53,7 @@ if (!Multilanguage::isEnabled()) {
     $form->setFieldAttribute('language', 'default', '*');
 }
 
-$html   = array();
+$html   = [];
 $html[] = '<fieldset class="form-vertical">';
 $html[] = '<legend class="visually-hidden">' . Text::_('JGLOBAL_FIELDSET_GLOBAL') . '</legend>';
 

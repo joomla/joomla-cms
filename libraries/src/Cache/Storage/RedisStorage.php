@@ -45,7 +45,7 @@ class RedisStorage extends CacheStorage
      *
      * @since   3.4
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -74,12 +74,12 @@ class RedisStorage extends CacheStorage
 
         $this->_persistent = $app->get('redis_persist', true);
 
-        $server = array(
+        $server = [
             'host' => $app->get('redis_server_host', 'localhost'),
             'port' => $app->get('redis_server_port', 6379),
             'auth' => $app->get('redis_server_auth', null),
             'db'   => (int) $app->get('redis_server_db', null),
-        );
+        ];
 
         // If you are trying to connect to a socket file, ignore the supplied port
         if ($server['host'][0] === '/')
@@ -210,7 +210,7 @@ class RedisStorage extends CacheStorage
         }
 
         $allKeys = static::$_redis->keys('*');
-        $data    = array();
+        $data    = [];
         $secret  = $this->_hash;
 
         if (!empty($allKeys))
@@ -308,7 +308,7 @@ class RedisStorage extends CacheStorage
 
         if ($allKeys === false)
         {
-            $allKeys = array();
+            $allKeys = [];
         }
 
         $secret = $this->_hash;

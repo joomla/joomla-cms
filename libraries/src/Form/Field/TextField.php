@@ -247,7 +247,7 @@ class TextField extends FormField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->element->children() as $option) {
             // Only add <option /> elements.
@@ -287,7 +287,7 @@ class TextField extends FormField
         // Get the field options for the datalist.
         $options  = (array) $this->getOptions();
 
-        $extraData = array(
+        $extraData = [
             'maxLength'   => $maxLength,
             'pattern'     => $this->pattern,
             'inputmode'   => $inputmode,
@@ -295,7 +295,7 @@ class TextField extends FormField
             'addonBefore' => $this->addonBefore,
             'addonAfter'  => $this->addonAfter,
             'options'     => $options,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

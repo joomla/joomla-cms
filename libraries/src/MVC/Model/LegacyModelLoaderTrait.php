@@ -40,7 +40,7 @@ trait LegacyModelLoaderTrait
      * @since       3.0
      * @deprecated  5.0 See getInstance
      */
-    protected static function _createFileName($type, $parts = array())
+    protected static function _createFileName($type, $parts = [])
     {
         return $type === 'model' ? strtolower($parts['name']) . '.php' : '';
     }
@@ -57,7 +57,7 @@ trait LegacyModelLoaderTrait
      * @since       3.0
      * @deprecated  5.0 Get the model through the MVCFactory instead
      */
-    public static function getInstance($type, $prefix = '', $config = array())
+    public static function getInstance($type, $prefix = '', $config = [])
     {
         @trigger_error(
             sprintf(
@@ -76,10 +76,10 @@ trait LegacyModelLoaderTrait
         $modelClass = $prefix . ucfirst($type);
 
         if (!class_exists($modelClass)) {
-            $path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+            $path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', ['name' => $type]));
 
             if (!$path) {
-                $path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+                $path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', ['name' => $type]));
             }
 
             if (!$path) {

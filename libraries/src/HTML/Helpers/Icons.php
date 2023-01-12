@@ -39,7 +39,7 @@ abstract class Icons
             return '';
         }
 
-        $html = array();
+        $html = [];
 
         foreach ($buttons as $button) {
             $html[] = HTMLHelper::_('icons.button', $button);

@@ -66,7 +66,7 @@ class PreviewModel extends ItemModel
         // Let's use custom calendars when present
         $result->save_date = HTMLHelper::_('date', $table->save_date, Text::_('DATE_FORMAT_LC6'));
 
-        $dateProperties = array (
+        $dateProperties = [
             'modified_time',
             'created_time',
             'modified',
@@ -74,7 +74,7 @@ class PreviewModel extends ItemModel
             'checked_out_time',
             'publish_up',
             'publish_down',
-        );
+        ];
 
         $nullDate = $this->getDatabase()->getNullDate();
 
@@ -106,7 +106,7 @@ class PreviewModel extends ItemModel
      *
      * @since   3.2
      */
-    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = array())
+    public function getTable($type = 'ContentHistory', $prefix = 'Joomla\\CMS\\Table\\', $config = [])
     {
         return Table::getInstance($type, $prefix, $config);
     }

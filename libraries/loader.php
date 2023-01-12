@@ -24,7 +24,7 @@ abstract class JLoader
      * @var    array
      * @since  1.7.0
      */
-    protected static $classes = array();
+    protected static $classes = [];
 
     /**
      * Container for already imported library paths.
@@ -32,7 +32,7 @@ abstract class JLoader
      * @var    array
      * @since  1.7.0
      */
-    protected static $imported = array();
+    protected static $imported = [];
 
     /**
      * Container for registered library class prefixes and path lookups.
@@ -40,7 +40,7 @@ abstract class JLoader
      * @var    array
      * @since  3.0.0
      */
-    protected static $prefixes = array();
+    protected static $prefixes = [];
 
     /**
      * Holds proxy classes and the class names the proxy.
@@ -48,7 +48,7 @@ abstract class JLoader
      * @var    array
      * @since  3.2
      */
-    protected static $classAliases = array();
+    protected static $classAliases = [];
 
     /**
      * Holds the inverse lookup for proxy classes and the class names the proxy.
@@ -56,7 +56,7 @@ abstract class JLoader
      * @var    array
      * @since  3.4
      */
-    protected static $classAliasesInverse = array();
+    protected static $classAliasesInverse = [];
 
     /**
      * Container for namespace => path map.
@@ -64,7 +64,7 @@ abstract class JLoader
      * @var    array
      * @since  3.1.4
      */
-    protected static $namespaces = array();
+    protected static $namespaces = [];
 
     /**
      * Holds a reference for all deprecated aliases (mainly for use by a logging platform).
@@ -72,7 +72,7 @@ abstract class JLoader
      * @var    array
      * @since  3.6.3
      */
-    protected static $deprecatedAliases = array();
+    protected static $deprecatedAliases = [];
 
     /**
      * The root folders where extensions can be found.
@@ -80,7 +80,7 @@ abstract class JLoader
      * @var    array
      * @since  4.0.0
      */
-    protected static $extensionRootFolders = array();
+    protected static $extensionRootFolders = [];
 
     /**
      * Method to discover classes of a given type in a given path.
@@ -328,7 +328,7 @@ abstract class JLoader
 
         // If the prefix is not yet registered or we have an explicit reset flag then set set the path.
         if ($reset || !isset(self::$prefixes[$prefix])) {
-            self::$prefixes[$prefix] = array($path);
+            self::$prefixes[$prefix] = [$path];
         } else {
             // Otherwise we want to simply add the path to the prefix.
             if ($prepend) {
@@ -362,14 +362,14 @@ abstract class JLoader
             $original = self::stripFirstBackslash($original);
 
             if (!isset(self::$classAliasesInverse[$original])) {
-                self::$classAliasesInverse[$original] = array($lowercasedAlias);
+                self::$classAliasesInverse[$original] = [$lowercasedAlias];
             } else {
                 self::$classAliasesInverse[$original][] = $lowercasedAlias;
             }
 
             // If given a version, log this alias as deprecated
             if ($version) {
-                self::$deprecatedAliases[] = array('old' => $alias, 'new' => $original, 'version' => $version);
+                self::$deprecatedAliases[] = ['old' => $alias, 'new' => $original, 'version' => $version];
             }
 
             return true;
@@ -406,7 +406,7 @@ abstract class JLoader
 
         // If the namespace is not yet registered or we have an explicit reset flag then set the path.
         if ($reset || !isset(self::$namespaces[$namespace])) {
-            self::$namespaces[$namespace] = array($path);
+            self::$namespaces[$namespace] = [$path];
         } else {
             // Otherwise we want to simply add the path to the namespace.
             if ($prepend) {
@@ -436,18 +436,18 @@ abstract class JLoader
     {
         if ($enableClasses) {
             // Register the class map based autoloader.
-            spl_autoload_register(array('JLoader', 'load'));
+            spl_autoload_register(['JLoader', 'load']);
         }
 
         if ($enablePrefixes) {
             // Register the prefix autoloader.
-            spl_autoload_register(array('JLoader', '_autoload'));
+            spl_autoload_register(['JLoader', '_autoload']);
         }
 
         if ($enablePsr) {
             // Register the PSR based autoloader.
-            spl_autoload_register(array('JLoader', 'loadByPsr'));
-            spl_autoload_register(array('JLoader', 'loadByAlias'));
+            spl_autoload_register(['JLoader', 'loadByPsr']);
+            spl_autoload_register(['JLoader', 'loadByAlias']);
         }
     }
 
@@ -628,7 +628,7 @@ abstract class JLoader
             // If there is only one part we want to duplicate that part for generating the path.
             if ($partsCount === 1) {
                 // Generate the path based on the class name parts.
-                $path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
+                $path = realpath($base . '/' . implode('/', array_map('strtolower', [$parts[0], $parts[0]])) . '.php');
 
                 // Load the file if it exists and is in the lookup path.
                 if (strpos($path, realpath($base)) === 0 && is_file($path)) {

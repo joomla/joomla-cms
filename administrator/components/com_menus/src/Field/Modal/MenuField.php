@@ -169,7 +169,7 @@ class MenuField extends FormField
     protected function getInput()
     {
         $clientId    = (int) $this->element['clientid'];
-        $languages   = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $languages   = LanguageHelper::getContentLanguages([0, 1], false);
 
         // Load language
         Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
@@ -191,7 +191,7 @@ class MenuField extends FormField
             static $scriptSelect = null;
 
             if (is_null($scriptSelect)) {
-                $scriptSelect = array();
+                $scriptSelect = [];
             }
 
             if (!isset($scriptSelect[$this->id])) {
@@ -335,7 +335,7 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalSelect' . $modalId,
-                array(
+                [
                     'title'       => $modalTitle,
                     'url'         => $urlSelect,
                     'height'      => '400px',
@@ -344,7 +344,7 @@ class MenuField extends FormField
                     'modalWidth'  => 80,
                     'footer'      => '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'
                                         . Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>',
-                )
+                ]
             );
         }
 
@@ -353,7 +353,7 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalNew' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_MENUS_NEW_MENUITEM'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -372,7 +372,7 @@ class MenuField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 
@@ -381,7 +381,7 @@ class MenuField extends FormField
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 'ModalEdit' . $modalId,
-                array(
+                [
                     'title'       => Text::_('COM_MENUS_EDIT_MENUITEM'),
                     'backdrop'    => 'static',
                     'keyboard'    => false,
@@ -400,7 +400,7 @@ class MenuField extends FormField
                             . '<button type="button" class="btn btn-success"'
                             . ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'item\', \'apply\', \'item-form\'); return false;">'
                             . Text::_('JAPPLY') . '</button>',
-                )
+                ]
             );
         }
 

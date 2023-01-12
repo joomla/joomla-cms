@@ -67,13 +67,13 @@ class FieldsListPlugin extends FieldsPlugin
      */
     public function getOptionsFromField($field)
     {
-        $data = array();
+        $data = [];
 
         // Fetch the options from the plugin
         $params = clone $this->params;
         $params->merge($field->fieldparams);
 
-        foreach ($params->get('options', array()) as $option) {
+        foreach ($params->get('options', []) as $option) {
             $op = (object) $option;
             $data[$op->value] = $op->name;
         }

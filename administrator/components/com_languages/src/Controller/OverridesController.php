@@ -46,7 +46,7 @@ class OverridesController extends AdminController
         $this->checkToken();
 
         // Get items to delete from the request.
-        $cid = (array) $this->input->get('cid', array(), 'string');
+        $cid = (array) $this->input->get('cid', [], 'string');
 
         // Remove zero values resulting from input filter
         $cid = array_filter($cid);

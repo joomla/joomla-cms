@@ -42,7 +42,7 @@ class PlgExtensionNamespacemap extends CMSPlugin
      *
      * @since   4.0.0
      */
-    public function __construct(&$subject, $config = array())
+    public function __construct(&$subject, $config = [])
     {
         $this->fileCreator = new JNamespacePsr4Map();
 

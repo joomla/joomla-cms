@@ -35,7 +35,7 @@ abstract class Links
      */
     public static function linksgroups($groupsOfLinks)
     {
-        $html = array();
+        $html = [];
 
         if (count($groupsOfLinks) > 0) {
             $layout = new FileLayout('joomla.links.groupsopen');
@@ -79,7 +79,7 @@ abstract class Links
      */
     public static function links($links)
     {
-        $html = array();
+        $html = [];
 
         foreach ($links as $link) {
             $html[] = HTMLHelper::_('links.link', $link);

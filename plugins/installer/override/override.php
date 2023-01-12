@@ -135,7 +135,7 @@ class PlgInstallerOverride extends CMSPlugin
 
         $after  = $session->get('override.afterEventFiles');
         $before = $session->get('override.beforeEventFiles');
-        $result = array();
+        $result = [];
 
         if (!is_array($after) || !is_array($before)) {
             return $result;

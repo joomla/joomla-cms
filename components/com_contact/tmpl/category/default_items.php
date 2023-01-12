@@ -167,7 +167,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
                                 <?php echo $item->email_to; ?><br>
                             <?php endif; ?>
 
-                            <?php $location = array(); ?>
+                            <?php $location = []; ?>
                             <?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
                                 <?php $location[] = $item->suburb; ?>
                             <?php endif; ?>

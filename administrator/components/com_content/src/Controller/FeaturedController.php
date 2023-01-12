@@ -36,7 +36,7 @@ class FeaturedController extends ArticlesController
         $this->checkToken();
 
         $user = $this->app->getIdentity();
-        $ids  = (array) $this->input->get('cid', array(), 'int');
+        $ids  = (array) $this->input->get('cid', [], 'int');
 
         // Access checks.
         foreach ($ids as $i => $id) {
@@ -94,7 +94,7 @@ class FeaturedController extends ArticlesController
      *
      * @since   1.6
      */
-    public function getModel($name = 'Feature', $prefix = 'Administrator', $config = array('ignore_request' => true))
+    public function getModel($name = 'Feature', $prefix = 'Administrator', $config = ['ignore_request' => true])
     {
         return parent::getModel($name, $prefix, $config);
     }

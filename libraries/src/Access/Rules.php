@@ -28,7 +28,7 @@ class Rules
      * @var    array
      * @since  1.7.0
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * Constructor.
@@ -190,7 +190,7 @@ class Rules
      */
     public function __toString()
     {
-        $temp = array();
+        $temp = [];
 
         foreach ($this->data as $name => $rule) {
             if ($data = $rule->getData()) {

@@ -122,7 +122,7 @@ class CategoriesModel extends ListModel
                 $params = new Registry();
             }
 
-            $options = array();
+            $options = [];
             $options['countItems'] = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
             $categories = Categories::getInstance('Content', $options);
             $this->_parent = $categories->get($this->getState('filter.parentId', 'root'));

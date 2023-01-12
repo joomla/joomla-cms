@@ -72,7 +72,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
         $model->setState('filter.access', $access);
 
         // Category filter
-        $model->setState('filter.category_id', $params->get('catid', array()));
+        $model->setState('filter.category_id', $params->get('catid', []));
 
         // State filter
         $model->setState('filter.condition', 1);
@@ -90,7 +90,7 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
                 break;
 
             case 'created_by':
-                $model->setState('filter.author_id', $params->get('author', array()));
+                $model->setState('filter.author_id', $params->get('author', []));
                 break;
 
             case '0':
@@ -116,13 +116,13 @@ class ArticlesLatestHelper implements DatabaseAwareInterface
         }
 
         // Set ordering
-        $order_map = array(
+        $order_map = [
             'm_dsc'  => 'a.modified DESC, a.created',
             'mc_dsc' => 'a.modified',
             'c_dsc'  => 'a.created',
             'p_dsc'  => 'a.publish_up',
             'random' => $db->getQuery(true)->rand(),
-        );
+        ];
 
         $ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
         $dir      = 'DESC';

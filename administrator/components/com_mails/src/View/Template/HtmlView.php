@@ -86,8 +86,8 @@ class HtmlView extends BaseHtmlView
         }
 
         list($component, $template_id) = explode('.', $this->item->template_id, 2);
-        $fields = array('subject', 'body', 'htmlbody');
-        $this->templateData = array();
+        $fields = ['subject', 'body', 'htmlbody'];
+        $this->templateData = [];
         $language = Factory::getLanguage();
         $language->load($component, JPATH_SITE, $this->item->language, true);
         $language->load($component, JPATH_SITE . '/components/' . $component, $this->item->language, true);

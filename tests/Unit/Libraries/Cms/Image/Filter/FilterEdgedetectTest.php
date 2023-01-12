@@ -70,7 +70,7 @@ class FilterEdgedetectTest extends UnitTestCase
 
         $filter = new FilterEdgedetect($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
 
         $this->assertEquals(
             187,

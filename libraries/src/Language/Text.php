@@ -29,7 +29,7 @@ class Text
      * @var    array
      * @since  1.7.0
      */
-    protected static $strings = array();
+    protected static $strings = [];
 
     /**
      * Translates a string into the current language.

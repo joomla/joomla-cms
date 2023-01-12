@@ -44,7 +44,7 @@ class FontsField extends ListField
     protected function getOptions()
     {
         $fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'));
-        $options = array();
+        $options = [];
 
         foreach ($fonts as $key => $info) {
             $options[] = HTMLHelper::_('select.option', $key, $info->name);

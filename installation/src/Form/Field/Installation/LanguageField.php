@@ -75,10 +75,10 @@ class LanguageField extends ListField
         }
 
         if (!$options || $options instanceof \Exception) {
-            $options = array();
+            $options = [];
         } else {
             // Sort languages by name
-            usort($options, array($this, '_sortLanguages'));
+            usort($options, [$this, '_sortLanguages']);
         }
 
         // Merge any additional options in the XML definition.

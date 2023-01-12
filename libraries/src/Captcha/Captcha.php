@@ -55,7 +55,7 @@ class Captcha implements DispatcherAwareInterface
      * @var    Captcha[]
      * @since  2.5
      */
-    private static $instances = array();
+    private static $instances = [];
 
     /**
      * Class constructor.
@@ -91,9 +91,9 @@ class Captcha implements DispatcherAwareInterface
      * @since   2.5
      * @throws  \RuntimeException
      */
-    public static function getInstance($captcha, array $options = array())
+    public static function getInstance($captcha, array $options = [])
     {
-        $signature = md5(serialize(array($captcha, $options)));
+        $signature = md5(serialize([$captcha, $options]));
 
         if (empty(self::$instances[$signature])) {
             self::$instances[$signature] = new Captcha($captcha, $options);
@@ -218,7 +218,7 @@ class Captcha implements DispatcherAwareInterface
     private function update($name, &$args)
     {
         if (method_exists($this->captcha, $name)) {
-            return call_user_func_array(array($this->captcha, $name), array_values($args));
+            return call_user_func_array([$this->captcha, $name], array_values($args));
         }
 
         return null;
@@ -234,7 +234,7 @@ class Captcha implements DispatcherAwareInterface
      * @since   2.5
      * @throws  \RuntimeException
      */
-    private function _load(array $options = array())
+    private function _load(array $options = [])
     {
         // Build the path to the needed captcha plugin
         $name = InputFilter::getInstance()->clean($this->name, 'cmd');

@@ -15,7 +15,7 @@ define('JOOMLA_MINIMUM_PHP', '7.2.5');
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<')) {
     header('HTTP/1.1 500 Internal Server Error');
     echo json_encode(
-        array('error' => sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP))
+        ['error' => sprintf('Joomla requires PHP version %s to run', JOOMLA_MINIMUM_PHP)]
     );
 
     return;

@@ -61,7 +61,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    array
      * @since  3.2
      */
-    protected $docOptions = array();
+    protected $docOptions = [];
 
     /**
      * Application instances container.
@@ -69,7 +69,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    CmsApplication[]
      * @since  3.2
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * The scope of the application.
@@ -93,7 +93,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      * @var    array
      * @since  4.0.0
      */
-    protected $messageQueue = array();
+    protected $messageQueue = [];
 
     /**
      * The name of the application.
@@ -232,10 +232,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         );
 
         // Build the message array and apply the HTML InputFilter with the default blacklist to the message
-        $message = array(
+        $message = [
             'message' => $inputFilter->clean($msg, 'html'),
             'type'    => $inputFilter->clean(strtolower($type), 'cmd'),
-        );
+        ];
 
         // For empty queue, if messages exists in the session, enqueue them first.
         $messages = $this->getMessageQueue();
@@ -259,7 +259,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // Get invalid input variables
         $invalidInputVariables = array_filter(
-            array('option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'),
+            ['option', 'view', 'format', 'lang', 'Itemid', 'template', 'templateStyle', 'task'],
             function ($systemVariable) use ($input) {
                 return $input->exists($systemVariable) && is_array($input->getRaw($systemVariable));
             }
@@ -496,7 +496,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function getMenu($name = null, $options = array())
+    public function getMenu($name = null, $options = [])
     {
         if (!isset($name)) {
             $name = $this->getName();
@@ -548,7 +548,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         $messageQueue = $this->messageQueue;
 
         if ($clear) {
-            $this->messageQueue = array();
+            $this->messageQueue = [];
         }
 
         return $messageQueue;
@@ -603,7 +603,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = null, array $options = array())
+    public static function getRouter($name = null, array $options = [])
     {
         $app = Factory::getApplication();
 
@@ -698,7 +698,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    protected function initialiseApp($options = array())
+    protected function initialiseApp($options = [])
     {
         // Check that we were given a language in the array (since by default may be blank).
         if (isset($options['language'])) {
@@ -809,7 +809,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function login($credentials, $options = array())
+    public function login($credentials, $options = [])
     {
         // Get the global Authentication object.
         $authenticate = Authentication::getInstance($this->authenticationPluginType);
@@ -829,7 +829,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             foreach ($authorisations as $authorisation) {
                 if ((int) $authorisation->status & $denied_states) {
                     // Trigger onUserAuthorisationFailure Event.
-                    $this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
+                    $this->triggerEvent('onUserAuthorisationFailure', [(array) $authorisation]);
 
                     // If silent is set, just return false.
                     if (isset($options['silent']) && $options['silent']) {
@@ -857,7 +857,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             }
 
             // OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
-            $results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
+            $results = $this->triggerEvent('onUserLogin', [(array) $response, $options]);
 
             /*
              * If any of the user plugins did not successfully complete the login routine
@@ -877,14 +877,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
                 $options['responseType'] = $response->type;
 
                 // The user is successfully logged in. Run the after login events
-                $this->triggerEvent('onUserAfterLogin', array($options));
+                $this->triggerEvent('onUserAfterLogin', [$options]);
 
                 return true;
             }
         }
 
         // Trigger onUserLoginFailure Event.
-        $this->triggerEvent('onUserLoginFailure', array((array) $response));
+        $this->triggerEvent('onUserLoginFailure', [(array) $response]);
 
         // If silent is set, just return false.
         if (isset($options['silent']) && $options['silent']) {
@@ -893,7 +893,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
         // If status is success, any error will have been raised by the user plugin
         if ($response->status !== Authentication::STATUS_SUCCESS) {
-            $this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
+            $this->getLogger()->warning($response->error_message, ['category' => 'jerror']);
         }
 
         return false;
@@ -916,7 +916,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
      *
      * @since   3.2
      */
-    public function logout($userid = null, $options = array())
+    public function logout($userid = null, $options = [])
     {
         // Get a user object from the Application.
         $user = Factory::getUser($userid);
@@ -934,18 +934,18 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
         PluginHelper::importPlugin('user');
 
         // OK, the credentials are built. Lets fire the onLogout event.
-        $results = $this->triggerEvent('onUserLogout', array($parameters, $options));
+        $results = $this->triggerEvent('onUserLogout', [$parameters, $options]);
 
         // Check if any of the plugins failed. If none did, success.
         if (!\in_array(false, $results, true)) {
             $options['username'] = $user->get('username');
-            $this->triggerEvent('onUserAfterLogout', array($options));
+            $this->triggerEvent('onUserAfterLogout', [$options]);
 
             return true;
         }
 
         // Trigger onUserLogoutFailure Event.
-        $this->triggerEvent('onUserLogoutFailure', array($parameters));
+        $this->triggerEvent('onUserLogoutFailure', [$parameters]);
 
         return false;
     }
@@ -1054,7 +1054,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
             $active !== null
             && $active->type === 'alias'
             && $active->getParams()->get('alias_redirect')
-            && \in_array($this->input->getMethod(), array('GET', 'HEAD'), true)
+            && \in_array($this->input->getMethod(), ['GET', 'HEAD'], true)
         ) {
             $item = $this->getMenu()->getItem($active->getParams()->get('aliasoptions'));
 

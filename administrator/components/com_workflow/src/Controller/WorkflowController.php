@@ -56,7 +56,7 @@ class WorkflowController extends FormController
      * @since   4.0.0
      * @throws  \InvalidArgumentException when no extension is set
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -87,7 +87,7 @@ class WorkflowController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowAdd($data = array())
+    protected function allowAdd($data = [])
     {
         return $this->app->getIdentity()->authorise('core.create', $this->extension);
     }
@@ -102,7 +102,7 @@ class WorkflowController extends FormController
      *
      * @since   4.0.0
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         $recordId = isset($data[$key]) ? (int) $data[$key] : 0;
         $user = $this->app->getIdentity();
@@ -170,7 +170,7 @@ class WorkflowController extends FormController
      *
      * @since  4.0.0
      */
-    public function postSaveHook(BaseDatabaseModel $model, $validData = array())
+    public function postSaveHook(BaseDatabaseModel $model, $validData = [])
     {
         $task = $this->getTask();
 

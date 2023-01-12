@@ -39,7 +39,7 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
             <div id="j-main-container" class="j-main-container">
                 <?php
                 // Search tools bar
-                echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+                echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
                 ?>
                 <?php if (empty($this->items)) : ?>
                     <div class="alert alert-info">
@@ -218,10 +218,10 @@ $mfa        = PluginHelper::isEnabled('multifactorauth');
                         <?php echo HTMLHelper::_(
                             'bootstrap.renderModal',
                             'collapseModal',
-                            array(
+                            [
                                 'title'  => Text::_('COM_USERS_BATCH_OPTIONS'),
                                 'footer' => $this->loadTemplate('batch_footer'),
-                            ),
+                            ],
                             $this->loadTemplate('batch_body')
                         ); ?>
                     <?php endif; ?>

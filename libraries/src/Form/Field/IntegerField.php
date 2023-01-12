@@ -40,7 +40,7 @@ class IntegerField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Initialize some field attributes.
         $first = (int) $this->element['first'];

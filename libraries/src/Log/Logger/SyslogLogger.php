@@ -35,7 +35,7 @@ class SyslogLogger extends Logger
      * @var    array
      * @since  1.7.0
      */
-    protected $priorities = array(
+    protected $priorities = [
         Log::EMERGENCY => 'EMERG',
         Log::ALERT => 'ALERT',
         Log::CRITICAL => 'CRIT',
@@ -44,7 +44,7 @@ class SyslogLogger extends Logger
         Log::NOTICE => 'NOTICE',
         Log::INFO => 'INFO',
         Log::DEBUG => 'DEBUG',
-    );
+    ];
 
     /**
      * Constructor.

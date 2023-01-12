@@ -48,7 +48,7 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$attributes = array(
+$attributes = [
     $class ? 'class="form-range ' . $class . '"' : 'class="form-range"',
     !empty($description) ? 'aria-describedby="' . ($id ?: $name) . '-desc"' : '',
     $disabled ? 'disabled' : '',
@@ -59,7 +59,7 @@ $attributes = array(
     !empty($min) ? 'min="' . $min . '"' : '',
     $autofocus ? 'autofocus' : '',
     $dataAttribute,
-);
+];
 
 $value = is_numeric($value) ? (float) $value : $min;
 

@@ -32,7 +32,7 @@ if ($this->finderPluginId) : ?>
     <?php echo HTMLHelper::_(
         'bootstrap.renderModal',
         'plugin' . $this->finderPluginId . 'Modal',
-        array(
+        [
             'url'         => $link,
             'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
             'height'      => '400px',
@@ -49,6 +49,6 @@ if ($this->finderPluginId) : ?>
                 . Text::_("JSAVE") . '</button>'
                 . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
                 . Text::_("JAPPLY") . '</button>'
-        )
+        ]
     ); ?>
 <?php endif;

@@ -53,7 +53,7 @@ class UrlFilter implements FormFilterInterface
         $value = trim($value);
 
         // <>" are never valid in a uri see https://www.ietf.org/rfc/rfc1738.txt
-        $value = str_replace(array('<', '>', '"'), '', $value);
+        $value = str_replace(['<', '>', '"'], '', $value);
 
         // Check for a protocol
         $protocol = parse_url($value, PHP_URL_SCHEME);

@@ -24,23 +24,23 @@ if (empty($fieldSets)) {
     return;
 }
 
-$ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
-$outputFieldsets = $displayData->get('output_fieldsets') ?: array();
-$ignoreFieldsetFields = $displayData->get('ignore_fieldset_fields') ?: array();
-$ignoreFields    = $displayData->get('ignore_fields') ?: array();
-$extraFields     = $displayData->get('extra_fields') ?: array();
+$ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: [];
+$outputFieldsets = $displayData->get('output_fieldsets') ?: [];
+$ignoreFieldsetFields = $displayData->get('ignore_fieldset_fields') ?: [];
+$ignoreFields    = $displayData->get('ignore_fields') ?: [];
+$extraFields     = $displayData->get('extra_fields') ?: [];
 $tabName         = $displayData->get('tab_name') ?: 'myTab';
 
 // These are required to preserve data on save when fields are not displayed.
-$hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: array();
+$hiddenFieldsets = $displayData->get('hiddenFieldsets') ?: [];
 
 // These are required to configure showing and hiding fields in the editor.
-$configFieldsets = $displayData->get('configFieldsets') ?: array();
+$configFieldsets = $displayData->get('configFieldsets') ?: [];
 
 // Handle the hidden fieldsets when show_options is set false
 if (!$displayData->get('show_options', 1)) {
     // The HTML buffer
-    $html   = array();
+    $html   = [];
 
     // Loop over the fieldsets
     foreach ($fieldSets as $name => $fieldSet) {

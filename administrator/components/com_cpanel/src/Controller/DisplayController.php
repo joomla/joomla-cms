@@ -45,7 +45,7 @@ class DisplayController extends BaseController
      *
      * @since   3.0
      */
-    public function display($cachable = false, $urlparams = array())
+    public function display($cachable = false, $urlparams = [])
     {
         /*
          * Set the template - this will display cpanel.php

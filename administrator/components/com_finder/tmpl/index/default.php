@@ -32,13 +32,13 @@ $wa->useScript('multiselect')
     <div class="row">
         <div class="col-md-12">
             <div id="j-main-container" class="j-main-container">
-                <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+                <?php echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]); ?>
                 <?php if ($this->finderPluginId) : ?>
                     <?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal'); ?>
                     <?php echo HTMLHelper::_(
                         'bootstrap.renderModal',
                         'plugin' . $this->finderPluginId . 'Modal',
-                        array(
+                        [
                             'url'         => $link,
                             'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
                             'height'      => '400px',
@@ -55,7 +55,7 @@ $wa->useScript('multiselect')
                                 . Text::_("JSAVE") . '</button>'
                                 . '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
                                 . Text::_("JAPPLY") . '</button>'
-                        )
+                        ]
                     ); ?>
                 <?php endif; ?>
                 <?php if (empty($this->items)) : ?>

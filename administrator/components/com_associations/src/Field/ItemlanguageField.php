@@ -63,9 +63,9 @@ class ItemlanguageField extends ListField
         $canCreate = AssociationsHelper::allowAdd($extensionName, $typeName);
 
         // Gets existing languages.
-        $existingLanguages = LanguageHelper::getContentLanguages(array(0, 1), false);
+        $existingLanguages = LanguageHelper::getContentLanguages([0, 1], false);
 
-        $options = array();
+        $options = [];
 
         // Each option has the format "<lang>|<id>", example: "en-GB|1"
         foreach ($existingLanguages as $langCode => $language) {

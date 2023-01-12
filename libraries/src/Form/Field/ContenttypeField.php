@@ -81,7 +81,7 @@ class ContenttypeField extends ListField
         try {
             $options = $db->loadObjectList();
         } catch (\RuntimeException $e) {
-            return array();
+            return [];
         }
 
         foreach ($options as $option) {

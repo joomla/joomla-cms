@@ -35,7 +35,7 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $elements = array();
+    protected $elements = [];
 
     /**
      * This array tells the indexer which properties should be indexed and what
@@ -44,13 +44,13 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $instructions = array(
-        Indexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-        Indexer::TEXT_CONTEXT  => array('summary', 'body'),
-        Indexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
-        Indexer::PATH_CONTEXT  => array('path', 'alias'),
-        Indexer::MISC_CONTEXT  => array('comments'),
-    );
+    protected $instructions = [
+        Indexer::TITLE_CONTEXT => ['title', 'subtitle', 'id'],
+        Indexer::TEXT_CONTEXT  => ['summary', 'body'],
+        Indexer::META_CONTEXT  => ['meta', 'list_price', 'sale_price'],
+        Indexer::PATH_CONTEXT  => ['path', 'alias'],
+        Indexer::MISC_CONTEXT  => ['comments'],
+    ];
 
     /**
      * The indexer will use this data to create taxonomy mapping entries for
@@ -60,7 +60,7 @@ class Result implements \Serializable
      * @var    array
      * @since  2.5
      */
-    protected $taxonomy = array();
+    protected $taxonomy = [];
 
     /**
      * The content URL.

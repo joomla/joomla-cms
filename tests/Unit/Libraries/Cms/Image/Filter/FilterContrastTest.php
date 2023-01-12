@@ -70,7 +70,7 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array(IMG_FILTER_CONTRAST => -10));
+        $filter->execute([IMG_FILTER_CONTRAST => -10]);
 
         $this->assertEquals(
             82,
@@ -102,6 +102,6 @@ class FilterContrastTest extends UnitTestCase
 
         $filter = new FilterContrast($imageHandle);
 
-        $filter->execute(array());
+        $filter->execute([]);
     }
 }

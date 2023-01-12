@@ -68,7 +68,7 @@ class StringsModel extends BaseDatabaseModel
         $base = constant('JPATH_' . strtoupper($client));
         $path = $base . '/language/' . $language;
 
-        $files = array();
+        $files = [];
 
         // Parse common language directory.
         if (is_dir($path)) {
@@ -130,7 +130,7 @@ class StringsModel extends BaseDatabaseModel
      */
     public function search()
     {
-        $results = array();
+        $results = [];
         $input   = Factory::getApplication()->input;
         $filter  = InputFilter::getInstance();
         $db      = $this->getDatabase();

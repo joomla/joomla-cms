@@ -78,7 +78,7 @@ class Toolbar
      * @var    Toolbar[]
      * @since  2.5
      */
-    protected static $instances = array();
+    protected static $instances = [];
 
     /**
      * Factory for creating Toolbar API objects

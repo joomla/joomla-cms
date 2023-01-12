@@ -37,7 +37,7 @@ abstract class FeedParser
      * @var    array
      * @since  3.1.4
      */
-    protected $namespaces = array();
+    protected $namespaces = [];
 
     /**
      * The XMLReader stream object for the feed.
@@ -92,7 +92,7 @@ abstract class FeedParser
             $ns = $el->getNamespaces(true);
 
             // Get an array of available namespace objects for the element.
-            $namespaces = array();
+            $namespaces = [];
 
             foreach ($ns as $prefix => $uri) {
                 // Ignore the empty namespace prefix.
@@ -184,7 +184,7 @@ abstract class FeedParser
         // Otherwise we treat it like any other element.
 
         // First call the internal method.
-        if (\is_callable(array($this, $method))) {
+        if (\is_callable([$this, $method])) {
             $this->$method($feed, $el);
         }
 

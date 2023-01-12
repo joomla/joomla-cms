@@ -34,7 +34,7 @@ class AfterDeleteEvent extends AbstractEvent
      *
      * @throws  BadMethodCallException
      */
-    public function __construct($name, array $arguments = array())
+    public function __construct($name, array $arguments = [])
     {
         if (!\array_key_exists('pk', $arguments)) {
             throw new BadMethodCallException("Argument 'pk' is required for event $name");

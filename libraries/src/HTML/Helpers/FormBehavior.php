@@ -31,7 +31,7 @@ abstract class FormBehavior
      * @var    array  Array containing information for loaded files
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * Method to load the Chosen JavaScript framework and supporting CSS into the document head
@@ -46,7 +46,7 @@ abstract class FormBehavior
      *
      * @since   3.0
      */
-    public static function chosen($selector = '.advancedSelect', $debug = null, $options = array())
+    public static function chosen($selector = '.advancedSelect', $debug = null, $options = [])
     {
         if (isset(static::$loaded[__METHOD__][$selector])) {
             return;
@@ -145,7 +145,7 @@ abstract class FormBehavior
 
             Factory::getDocument()->addScriptOptions(
                 'ajax-chosen',
-                array(
+                [
                     'url'            => $url,
                     'debug'          => $debug,
                     'options'        => $options,
@@ -155,7 +155,7 @@ abstract class FormBehavior
                     'jsonTermKey'    => $jsonTermKey,
                     'afterTypeDelay' => $afterTypeDelay,
                     'minTermLength'  => $minTermLength,
-                )
+                ]
             );
 
             static::$loaded[__METHOD__][$selector] = true;

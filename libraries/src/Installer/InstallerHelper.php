@@ -77,9 +77,9 @@ abstract class InstallerHelper
         ini_set('user_agent', $version->getUserAgent('Installer'));
 
         // Load installer plugins, and allow URL and headers modification
-        $headers = array();
+        $headers = [];
         PluginHelper::importPlugin('installer');
-        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', array(&$url, &$headers));
+        Factory::getApplication()->triggerEvent('onInstallerBeforePackageDownload', [&$url, &$headers]);
 
         try {
             $response = HttpFactory::getHttp()->get($url, $headers);
@@ -156,15 +156,15 @@ abstract class InstallerHelper
 
         // Do the unpacking of the archive
         try {
-            $archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
+            $archive = new Archive(['tmp_path' => Factory::getApplication()->get('tmp_path')]);
             $extract = $archive->extract($archivename, $extractdir);
         } catch (\Exception $e) {
             if ($alwaysReturnArray) {
-                return array(
+                return [
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
-                );
+                ];
             }
 
             return false;
@@ -172,11 +172,11 @@ abstract class InstallerHelper
 
         if (!$extract) {
             if ($alwaysReturnArray) {
-                return array(
+                return [
                     'extractdir'  => null,
                     'packagefile' => $archivename,
                     'type'        => false,
-                );
+                ];
             }
 
             return false;
@@ -337,7 +337,7 @@ abstract class InstallerHelper
      */
     public static function isChecksumValid($packagefile, $updateObject)
     {
-        $hashes     = array('sha256', 'sha384', 'sha512');
+        $hashes     = ['sha256', 'sha384', 'sha512'];
         $hashOnFile = false;
 
         foreach ($hashes as $hash) {

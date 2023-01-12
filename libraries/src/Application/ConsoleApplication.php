@@ -472,7 +472,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
      *
      * @deprecated 5.0 Inject the router or load it from the dependency injection container
      */
-    public static function getRouter($name = null, array $options = array())
+    public static function getRouter($name = null, array $options = [])
     {
         if (empty($name)) {
             throw new InvalidArgumentException('A router name must be set in console application.');

@@ -38,10 +38,10 @@ class TagsModel extends ListModel
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null)
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id',
                 'a.id',
                 'title',
@@ -72,7 +72,7 @@ class TagsModel extends ListModel
                 'path',
                 'a.path',
                 'countTaggedItems',
-            );
+            ];
         }
 
         parent::__construct($config, $factory);

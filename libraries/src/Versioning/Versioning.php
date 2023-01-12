@@ -93,7 +93,7 @@ class Versioning
     public static function store($typeAlias, $id, $data, $note = '')
     {
         $typeTable = Table::getInstance('Contenttype', 'JTable');
-        $typeTable->load(array('type_alias' => $typeAlias));
+        $typeTable->load(['type_alias' => $typeAlias]);
 
         $historyTable = Table::getInstance('Contenthistory', 'JTable');
         $historyTable->item_id = $typeAlias . '.' . $id;

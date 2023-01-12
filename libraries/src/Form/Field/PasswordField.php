@@ -212,7 +212,7 @@ class PasswordField extends FormField
         $data = parent::getLayoutData();
 
         // Initialize some field attributes.
-        $extraData = array(
+        $extraData = [
             'lock'           => $this->lock,
             'maxLength'      => $this->maxLength,
             'meter'          => $this->meter,
@@ -224,7 +224,7 @@ class PasswordField extends FormField
             'minLowercase'   => $this->minLowercase,
             'forcePassword'  => $this->force,
             'rules'          => $this->rules,
-        );
+        ];
 
         return array_merge($data, $extraData);
     }

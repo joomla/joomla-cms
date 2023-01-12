@@ -33,7 +33,7 @@ class Adapter extends CMSObject
      * @var    static[]
      * @since  1.6
      */
-    protected $_adapters = array();
+    protected $_adapters = [];
 
     /**
      * Adapter Folder
@@ -112,7 +112,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function getAdapter($name, $options = array())
+    public function getAdapter($name, $options = [])
     {
         if (array_key_exists($name, $this->_adapters)) {
             return $this->_adapters[$name];
@@ -136,7 +136,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function setAdapter($name, &$adapter = null, $options = array())
+    public function setAdapter($name, &$adapter = null, $options = [])
     {
         if (is_object($adapter)) {
             $this->_adapters[$name] = &$adapter;
@@ -189,7 +189,7 @@ class Adapter extends CMSObject
      *
      * @since   1.6
      */
-    public function loadAllAdapters($options = array())
+    public function loadAllAdapters($options = [])
     {
         $files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 

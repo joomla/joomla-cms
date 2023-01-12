@@ -29,7 +29,7 @@ abstract class Dropdown
      * @var    array  Array containing information for loaded files
      * @since  3.0
      */
-    protected static $loaded = array();
+    protected static $loaded = [];
 
     /**
      * @var    string  HTML markup for the dropdown list

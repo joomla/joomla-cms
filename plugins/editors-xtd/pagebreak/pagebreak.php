@@ -61,7 +61,7 @@ class PlgButtonPagebreak extends CMSPlugin
             return;
         }
 
-        Factory::getDocument()->addScriptOptions('xtd-pagebreak', array('editor' => $name));
+        Factory::getDocument()->addScriptOptions('xtd-pagebreak', ['editor' => $name]);
         $link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
         $button = new CMSObject();

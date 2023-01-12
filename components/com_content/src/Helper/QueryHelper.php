@@ -224,6 +224,6 @@ class QueryHelper
             $join = '';
         }
 
-        return array('select' => $select, 'join' => $join);
+        return ['select' => $select, 'join' => $join];
     }
 }

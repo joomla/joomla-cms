@@ -154,14 +154,14 @@ class DatabaseLogger extends Logger
     protected function connect()
     {
         // Build the configuration object to use for DatabaseDriver.
-        $options = array(
+        $options = [
             'driver' => $this->driver,
             'host' => $this->host,
             'user' => $this->user,
             'password' => $this->password,
             'database' => $this->database,
             'prefix' => $this->prefix,
-        );
+        ];
 
         $this->db = DatabaseDriver::getInstance($options);
     }

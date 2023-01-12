@@ -78,7 +78,7 @@ class FeedView extends AbstractView
             $item->title    = $title;
             $item->link     = Route::_($link);
             $item->date     = $row->publish_up;
-            $item->category = array();
+            $item->category = [];
 
             // All featured articles are categorized as "Featured"
             $item->category[] = Text::_('JFEATURED');

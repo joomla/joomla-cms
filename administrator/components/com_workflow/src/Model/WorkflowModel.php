@@ -65,11 +65,11 @@ class WorkflowModel extends AdminModel
         // Alter the title & alias
         $table = $this->getTable();
 
-        while ($table->load(array('title' => $title))) {
+        while ($table->load(['title' => $title])) {
             $title = StringHelper::increment($title);
         }
 
-        return array($title, $alias);
+        return [$title, $alias];
     }
 
     /**
@@ -150,16 +150,16 @@ class WorkflowModel extends AdminModel
      *
      * @since   4.0.0
      */
-    public function getForm($data = array(), $loadData = true)
+    public function getForm($data = [], $loadData = true)
     {
         // Get the form.
         $form = $this->loadForm(
             'com_workflow.workflow',
             'workflow',
-            array(
+            [
                 'control'   => 'jform',
                 'load_data' => $loadData
-            )
+            ]
         );
 
         if (empty($form)) {
@@ -203,7 +203,7 @@ class WorkflowModel extends AdminModel
         // Check the session for previously entered form data.
         $data = Factory::getApplication()->getUserState(
             'com_workflow.edit.workflow.data',
-            array()
+            []
         );
 
         if (empty($data)) {

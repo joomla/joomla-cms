@@ -65,7 +65,7 @@ class Router extends RouterBase
      */
     public function build(&$query)
     {
-        $segments = array();
+        $segments = [];
 
         // Get a menu item based on Itemid or currently active
 
@@ -151,7 +151,7 @@ class Router extends RouterBase
     public function parse(&$segments)
     {
         $total = count($segments);
-        $vars = array();
+        $vars = [];
 
         for ($i = 0; $i < $total; $i++) {
             $segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

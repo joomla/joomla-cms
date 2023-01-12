@@ -45,7 +45,7 @@ class ItemtypeField extends GroupedlistField
      */
     protected function getGroups()
     {
-        $options    = array();
+        $options    = [];
         $extensions = AssociationsHelper::getSupportedExtensions();
 
         foreach ($extensions as $extension) {

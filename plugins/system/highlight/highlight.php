@@ -79,7 +79,7 @@ class PlgSystemHighlight extends CMSPlugin
         // Clean the terms array.
         $filter     = InputFilter::getInstance();
 
-        $cleanTerms = array();
+        $cleanTerms = [];
 
         foreach ($terms as $term) {
             $cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));

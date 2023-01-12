@@ -18,7 +18,7 @@ $cacheparams->cachemode    = 'safeuri';
 $cacheparams->class        = RelatedItemsHelper::class;
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams   = array('id' => 'int', 'Itemid' => 'int');
+$cacheparams->modeparams   = ['id' => 'int', 'Itemid' => 'int'];
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 

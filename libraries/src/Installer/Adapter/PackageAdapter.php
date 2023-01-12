@@ -43,7 +43,7 @@ class PackageAdapter extends InstallerAdapter
      * @var    array
      * @since  3.7.0
      */
-    protected $installedIds = array();
+    protected $installedIds = [];
 
     /**
      * The results of each installed extensions
@@ -51,7 +51,7 @@ class PackageAdapter extends InstallerAdapter
      * @var    array
      * @since  3.1
      */
-    protected $results = array();
+    protected $results = [];
 
     /**
      * Flag if the adapter supports discover installs
@@ -144,7 +144,7 @@ class PackageAdapter extends InstallerAdapter
 
             if (is_dir($file)) {
                 // If it's actually a directory then fill it up
-                $package = array();
+                $package = [];
                 $package['dir'] = $file;
                 $package['type'] = InstallerHelper::detectType($file);
             } else {
@@ -166,10 +166,10 @@ class PackageAdapter extends InstallerAdapter
                 );
             }
 
-            $this->results[] = array(
+            $this->results[] = [
                 'name'   => (string) $tmpInstaller->manifest->name,
                 'result' => $installResult,
-            );
+            ];
         }
     }
 
@@ -203,10 +203,10 @@ class PackageAdapter extends InstallerAdapter
         /** @var Update $update */
         $update = Table::getInstance('update');
         $uid = $update->find(
-            array(
+            [
                 'element' => $this->element,
                 'type' => $this->type,
-            )
+            ]
         );
 
         if ($uid) {
@@ -230,11 +230,11 @@ class PackageAdapter extends InstallerAdapter
         }
 
         // Lastly, we will copy the manifest file to its appropriate place.
-        $manifest = array();
+        $manifest = [];
         $manifest['src'] = $this->parent->getPath('manifest');
         $manifest['dest'] = JPATH_MANIFESTS . '/packages/' . basename($this->parent->getPath('manifest'));
 
-        if (!$this->parent->copyFiles(array($manifest), true)) {
+        if (!$this->parent->copyFiles([$manifest], true)) {
             // Install failed, rollback changes
             throw new \RuntimeException(
                 Text::sprintf(
@@ -265,10 +265,10 @@ class PackageAdapter extends InstallerAdapter
                  */
 
                 $this->parent->pushStep(
-                    array(
+                    [
                         'type' => 'folder',
                         'path' => $this->parent->getPath('extension_root'),
-                    )
+                    ]
                 );
             }
 
@@ -276,7 +276,7 @@ class PackageAdapter extends InstallerAdapter
             $path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
             if ($this->parent->isOverwrite() || !file_exists($path['dest'])) {
-                if (!$this->parent->copyFiles(array($path))) {
+                if (!$this->parent->copyFiles([$path])) {
                     // Install failed, rollback changes
                     throw new \RuntimeException(
                         Text::sprintf(
@@ -556,7 +556,7 @@ class PackageAdapter extends InstallerAdapter
 
         // Since we have created a package item, we add it to the installation step stack
         // so that if we have to rollback the changes we can undo it.
-        $this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
+        $this->parent->pushStep(['type' => 'extension', 'id' => $this->extension->extension_id]);
     }
 
     /**

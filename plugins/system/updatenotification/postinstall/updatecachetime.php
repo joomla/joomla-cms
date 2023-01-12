@@ -53,7 +53,7 @@ function updatecachetime_postinstall_action()
     // Save the new parameters back to com_installer
     $table = Table::getInstance('extension');
     $table->load($installer->id);
-    $table->bind(array('params' => $installer->params->toString()));
+    $table->bind(['params' => $installer->params->toString()]);
 
     // Store the changes
     if (!$table->store()) {

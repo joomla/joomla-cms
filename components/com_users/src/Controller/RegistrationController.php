@@ -155,7 +155,7 @@ class RegistrationController extends BaseController
         $model = $this->getModel('Registration', 'Site');
 
         // Get the user data.
-        $requestData = $this->input->post->get('jform', array(), 'array');
+        $requestData = $this->input->post->get('jform', [], 'array');
 
         // Validate the posted data.
         $form = $model->getForm();

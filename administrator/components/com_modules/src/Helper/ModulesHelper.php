@@ -35,7 +35,7 @@ abstract class ModulesHelper
     public static function getStateOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
         $options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
@@ -52,7 +52,7 @@ abstract class ModulesHelper
     public static function getClientOptions()
     {
         // Build the filter options.
-        $options   = array();
+        $options   = [];
         $options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
         $options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -82,7 +82,7 @@ abstract class ModulesHelper
 
         try {
             $positions = $db->loadColumn();
-            $positions = is_array($positions) ? $positions : array();
+            $positions = is_array($positions) ? $positions : [];
         } catch (\RuntimeException $e) {
             Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
@@ -90,7 +90,7 @@ abstract class ModulesHelper
         }
 
         // Build the list
-        $options = array();
+        $options = [];
 
         foreach ($positions as $position) {
             if (!$position && !$editPositions) {
@@ -193,7 +193,7 @@ abstract class ModulesHelper
      */
     public static function getAssignmentOptions($clientId)
     {
-        $options = array();
+        $options = [];
         $options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
         $options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
@@ -245,7 +245,7 @@ abstract class ModulesHelper
             if (!self::isTranslatedText($langKey, $text)) {
                 // Try to humanize the position name
                 $text = ucfirst(preg_replace('/^' . $template . '\-/', '', $position));
-                $text = ucwords(str_replace(array('-', '_'), ' ', $text));
+                $text = ucwords(str_replace(['-', '_'], ' ', $text));
             }
         }
 
@@ -300,9 +300,9 @@ abstract class ModulesHelper
      *
      * @since   3.0
      */
-    public static function createOptionGroup($label = '', $options = array())
+    public static function createOptionGroup($label = '', $options = [])
     {
-        $group = array();
+        $group = [];
         $group['value'] = $label;
         $group['text']  = $label;
         $group['items'] = $options;

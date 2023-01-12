@@ -34,15 +34,15 @@ class StagesModel extends ListModel
      * @see     JController
      * @since  4.0.0
      */
-    public function __construct($config = array())
+    public function __construct($config = [])
     {
         if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
+            $config['filter_fields'] = [
                 'id', 's.id',
                 'title', 's.title',
                 'ordering','s.ordering',
                 'published', 's.published'
-            );
+            ];
         }
 
         parent::__construct($config);
@@ -112,7 +112,7 @@ class StagesModel extends ListModel
      *
      * @since  4.0.0
      */
-    public function getTable($type = 'Stage', $prefix = 'Administrator', $config = array())
+    public function getTable($type = 'Stage', $prefix = 'Administrator', $config = [])
     {
         return parent::getTable($type, $prefix, $config);
     }

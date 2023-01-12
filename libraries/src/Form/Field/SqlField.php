@@ -137,8 +137,8 @@ class SqlField extends ListField
 
             if (empty($this->query)) {
                 // Get the query from the form
-                $query    = array();
-                $defaults = array();
+                $query    = [];
+                $defaults = [];
 
                 $sql_select = (string) $this->element['sql_select'];
                 $sql_from   = (string) $this->element['sql_from'];
@@ -222,7 +222,7 @@ class SqlField extends ListField
 
         // Process the filters
         if (\is_array($filters)) {
-            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+            $html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', [], 'array');
 
             foreach ($filters as $k => $value) {
                 if (!empty($html_filters[$value])) {
@@ -255,7 +255,7 @@ class SqlField extends ListField
      */
     protected function getOptions()
     {
-        $options = array();
+        $options = [];
 
         // Initialize some field attributes.
         $key   = $this->keyField;

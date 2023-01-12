@@ -43,7 +43,7 @@ class ModulesController extends BaseController
      *
      * @since   1.6
      */
-    public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+    public function __construct($config = [], MVCFactoryInterface $factory = null, $app = null, $input = null)
     {
         parent::__construct($config, $factory, $app, $input);
 
@@ -130,7 +130,7 @@ class ModulesController extends BaseController
         // Check the return value.
         if ($return === false) {
             // Save the data in the session.
-            $data = $this->input->post->get('jform', array(), 'array');
+            $data = $this->input->post->get('jform', [], 'array');
 
             $this->app->setUserState('com_config.modules.global.data', $data);
 

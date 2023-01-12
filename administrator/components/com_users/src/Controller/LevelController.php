@@ -62,7 +62,7 @@ class LevelController extends FormController
      *
      * @since   3.8.8
      */
-    protected function allowEdit($data = array(), $key = 'id')
+    protected function allowEdit($data = [], $key = 'id')
     {
         // Check for if Super Admin can edit
         $viewLevel = $this->getModel('Level', 'Administrator')->getItem((int) $data['id']);
@@ -99,7 +99,7 @@ class LevelController extends FormController
         // Check for request forgeries.
         $this->checkToken();
 
-        $ids = (array) $this->input->get('cid', array(), 'int');
+        $ids = (array) $this->input->get('cid', [], 'int');
 
         // Remove zero values resulting from input filter
         $ids = array_filter($ids);

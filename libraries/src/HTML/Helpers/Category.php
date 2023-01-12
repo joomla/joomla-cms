@@ -32,7 +32,7 @@ abstract class Category
      * @var    array
      * @since  1.5
      */
-    protected static $items = array();
+    protected static $items = [];
 
     /**
      * Returns an array of categories for the given extension.
@@ -45,7 +45,7 @@ abstract class Category
      *
      * @since   1.5
      */
-    public static function options($extension, $config = array('filter.published' => array(0, 1)))
+    public static function options($extension, $config = ['filter.published' => [0, 1]])
     {
         $hash = md5($extension . '.' . serialize($config));
 
@@ -112,7 +112,7 @@ abstract class Category
             $items = $db->loadObjectList();
 
             // Assemble the list options.
-            static::$items[$hash] = array();
+            static::$items[$hash] = [];
 
             foreach ($items as &$item) {
                 $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
@@ -139,7 +139,7 @@ abstract class Category
      *
      * @since   1.6
      */
-    public static function categories($extension, $config = array('filter.published' => array(0, 1)))
+    public static function categories($extension, $config = ['filter.published' => [0, 1]])
     {
         $hash = md5($extension . '.' . serialize($config));
 
@@ -185,7 +185,7 @@ abstract class Category
             $items = $db->loadObjectList();
 
             // Assemble the list options.
-            static::$items[$hash] = array();
+            static::$items[$hash] = [];
 
             foreach ($items as &$item) {
                 $repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
