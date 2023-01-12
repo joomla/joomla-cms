@@ -24,6 +24,7 @@ use Joomla\CMS\Filesystem\Path;
  *
  * @since  1.7.0
  */
+#[\AllowDynamicProperties]
 class LogEntry
 {
     /**
