@@ -79,6 +79,14 @@
 			>
 			<option value="">COM_MENUS_FILTER_SELECT_PARENT_MENU_ITEM</option>
 		</field>
+		<field
+			name="componentName"
+			type="MenuItemByComponent"
+			label="COM_MENUS_FILTER_COMPONENT_LABEL"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
