@@ -200,6 +200,11 @@ class PlgSystemFields extends CMSPlugin
      */
     public function onContentAfterDelete($context, $item): void
     {
+        // Set correct context for category
+        if ($context === 'com_categories.category') {
+            $context = $item->extension . '.categories';
+        }
+
         $parts = FieldsHelper::extract($context, $item);
 
         if (!$parts || empty($item->id)) {

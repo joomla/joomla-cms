@@ -1875,6 +1875,9 @@ class TemplateModel extends FormModel
             }
         }
 
+        // Create the html folder
+        Folder::create($toPath . '/html');
+
         // Copy the template definition from the parent template
         if (!File::copy($fromPath, $toPath . '/templateDetails.xml')) {
             return false;
@@ -1932,6 +1935,7 @@ class TemplateModel extends FormModel
 
         $files = $xml->addChild('files');
         $files->addChild('filename', 'templateDetails.xml');
+        $files->addChild('folder', 'html');
 
         // Media folder
         $media = $xml->addChild('media');
@@ -1940,10 +1944,14 @@ class TemplateModel extends FormModel
         $media->addChild('folder', 'css');
         $media->addChild('folder', 'js');
         $media->addChild('folder', 'images');
-        $media->addChild('folder', 'html');
         $media->addChild('folder', 'scss');
 
         $xml->name = $template->element . '_' . $newName;
+
+        if (isset($xml->namespace)) {
+            $xml->namespace = $xml->namespace . '_' . ucfirst($newName);
+        }
+
         $xml->inheritable = 0;
         $files = $xml->addChild('parent', $template->element);
 
@@ -1966,7 +1974,6 @@ class TemplateModel extends FormModel
             || !Folder::create($toPath . '/media/css')
             || !Folder::create($toPath . '/media/js')
             || !Folder::create($toPath . '/media/images')
-            || !Folder::create($toPath . '/media/html/tinymce')
             || !Folder::create($toPath . '/media/scss')
         ) {
             return false;

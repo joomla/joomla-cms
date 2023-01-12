@@ -17,7 +17,6 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\DataShape\MethodDescriptor;
 use Joomla\Component\Users\Administrator\Model\BackupcodesModel;
 use Joomla\Component\Users\Administrator\Model\MethodsModel;
@@ -110,8 +109,7 @@ class HtmlView extends BaseHtmlView
         $app = Factory::getApplication();
 
         if (empty($this->user)) {
-            $this->user = Factory::getApplication()->getIdentity()
-                ?: Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById(0);
+            $this->user = $this->getCurrentUser();
         }
 
         /** @var MethodsModel $model */
