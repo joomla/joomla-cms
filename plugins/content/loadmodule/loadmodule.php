@@ -110,6 +110,7 @@ class PlgContentLoadmodule extends CMSPlugin
                 $module = trim($matchesmodlist[0]);
                 // Second parameter is the title
                 $title = '';
+
                 if (array_key_exists(1, $matchesmodlist)) {
                     $title = htmlspecialchars_decode(trim($matchesmodlist[1]));
                 }
