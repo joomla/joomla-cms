@@ -22,6 +22,7 @@ namespace Joomla\CMS\Object;
  * @since       1.7.0
  * @deprecated  4.0.0  Use \stdClass or \Joomla\Registry\Registry instead.
  */
+#[\AllowDynamicProperties]
 class CMSObject
 {
     /**

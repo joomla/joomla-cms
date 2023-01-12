@@ -52,7 +52,7 @@ class Api {
       }
 
       // eslint-disable-next-line no-underscore-dangle
-      let url = `${this._baseUrl}&task=api.files&path=${dir}`;
+      let url = `${this._baseUrl}&task=api.files&path=${encodeURIComponent(dir)}`;
 
       if (full) {
         url += `&url=${full}`;
@@ -88,7 +88,7 @@ class Api {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line no-underscore-dangle
-      const url = `${this._baseUrl}&task=api.files&path=${parent}`;
+      const url = `${this._baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
       // eslint-disable-next-line no-underscore-dangle
       const data = { [this._csrfToken]: '1', name };
 
@@ -123,7 +123,7 @@ class Api {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line no-underscore-dangle
-      const url = `${this._baseUrl}&task=api.files&path=${parent}`;
+      const url = `${this._baseUrl}&task=api.files&path=${encodeURIComponent(parent)}`;
       const data = {
         // eslint-disable-next-line no-underscore-dangle
         [this._csrfToken]: '1',
@@ -165,7 +165,7 @@ class Api {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line no-underscore-dangle
-      const url = `${this._baseUrl}&task=api.files&path=${path}`;
+      const url = `${this._baseUrl}&task=api.files&path=${encodeURIComponent(path)}`;
       const data = {
         // eslint-disable-next-line no-underscore-dangle
         [this._csrfToken]: '1',
@@ -201,7 +201,7 @@ class Api {
     // Wrap the ajax call into a real promise
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line no-underscore-dangle
-      const url = `${this._baseUrl}&task=api.files&path=${path}`;
+      const url = `${this._baseUrl}&task=api.files&path=${encodeURIComponent(path)}`;
       // eslint-disable-next-line no-underscore-dangle
       const data = { [this._csrfToken]: '1' };
 

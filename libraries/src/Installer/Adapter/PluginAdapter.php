@@ -32,6 +32,14 @@ use Joomla\Database\ParameterType;
 class PluginAdapter extends InstallerAdapter
 {
     /**
+     * Group of the plugin
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $group;
+
+    /**
      * `<scriptfile>` element of the extension manifest
      *
      * @var    object

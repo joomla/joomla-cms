@@ -22,6 +22,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.7.0
  */
+#[\AllowDynamicProperties]
 class MenuItem implements NodeInterface
 {
     use NodeTrait;
