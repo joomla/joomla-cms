@@ -1067,14 +1067,17 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
      * In case you want to set several Models for your view,
      * you will need to override it in your DisplayController controller.
      *
-     * @param   AbstractView  $view  The view Object
+     * @param   ViewInterface  $view  The view Object
      *
      * @return  void
      *
      * @since   __DEPLOY_VERSION__
      */
-    protected function prepareViewModel($view)
+    protected function prepareViewModel(ViewInterface $view)
     {
+        if (!method_exists($view, 'setModel')) {
+            return;
+        }
         $viewName = $view->getName();
 
         // Get/Create the model
