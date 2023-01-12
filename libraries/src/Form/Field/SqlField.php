@@ -59,6 +59,14 @@ class SqlField extends ListField
     protected $translate = false;
 
     /**
+     * The header.
+     *
+     * @var    mixed
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $header;
+
+    /**
      * The query.
      *
      * @var    string
@@ -81,6 +89,7 @@ class SqlField extends ListField
             case 'keyField':
             case 'valueField':
             case 'translate':
+            case 'header':
             case 'query':
                 return $this->$name;
         }
@@ -104,6 +113,7 @@ class SqlField extends ListField
             case 'keyField':
             case 'valueField':
             case 'translate':
+            case 'header':
             case 'query':
                 $this->$name = (string) $value;
                 break;
@@ -258,8 +268,8 @@ class SqlField extends ListField
         $options = array();
 
         // Initialize some field attributes.
-        $key   = $this->keyField;
-        $value = $this->valueField;
+        $key    = $this->keyField;
+        $value  = $this->valueField;
         $header = $this->header;
 
         if ($this->query) {
