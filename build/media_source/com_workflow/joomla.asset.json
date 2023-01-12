@@ -6,23 +6,11 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "com_workflow.admin-items-workflow-buttons.es5",
-      "type": "script",
-      "uri": "com_workflow/admin-items-workflow-buttons-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
-      "attributes": {
-        "nomodule": true,
-        "defer": true
-      }
-    },
-    {
       "name": "com_workflow.admin-items-workflow-buttons",
       "type": "script",
       "uri": "com_workflow/admin-items-workflow-buttons.min.js",
       "dependencies": [
-        "com_workflow.admin-items-workflow-buttons.es5"
+        "core"
       ],
       "attributes": {
         "type": "module"
