@@ -108,6 +108,7 @@ class PlgContentLoadmodule extends CMSPlugin
 
                 // First parameter is the module, will be prefixed with mod_ later
                 $module = trim($matchesmodlist[0]);
+
                 // Second parameter is the title
                 $title = '';
 
