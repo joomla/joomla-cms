@@ -36,7 +36,7 @@ class CaptchaField extends FormField
      * The plugin of the captcha field.
      *
      * @var    string
-     * @since  _DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
     protected $plugin;
 
