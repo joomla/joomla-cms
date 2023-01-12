@@ -21,8 +21,9 @@
             window.parent.location = url;
           }
         } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
+          Joomla.renderMessages({
+            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION')],
+          });
         }
       }
       return false;
@@ -40,8 +41,9 @@
             window.open(url, '', windowSizeArray.toString());
           }
         } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION'));
+          Joomla.renderMessages({
+            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_ONE_VERSION')],
+          });
         }
       }
       return false;
@@ -62,8 +64,9 @@
             window.open(url, '', windowSizeArray.toString());
           }
         } else {
-          // @todo use the CE Modal here
-          alert(Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS'));
+          Joomla.renderMessages({
+            error: [Joomla.Text._('COM_CONTENTHISTORY_BUTTON_SELECT_TWO_VERSIONS')],
+          });
         }
       }
       return false;
