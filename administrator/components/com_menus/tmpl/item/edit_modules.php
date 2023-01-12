@@ -48,7 +48,7 @@ echo HTMLHelper::_(
 ?>
 <?php
 // Set main fields.
-$this->fields = ['toggle_modules_assigned','toggle_modules_published'];
+$this->fields = ['toggle_modules_assigned', 'toggle_modules_published'];
 
 echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 
