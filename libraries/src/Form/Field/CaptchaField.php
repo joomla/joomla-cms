@@ -44,7 +44,7 @@ class CaptchaField extends FormField
      * The namespace of the captcha field.
      *
      * @var    string
-     * @since  _DEPLOY_VERSION__
+     * @since  __DEPLOY_VERSION__
      */
     protected $namespace;
 
