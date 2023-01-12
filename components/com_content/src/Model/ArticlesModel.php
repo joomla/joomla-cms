@@ -347,7 +347,17 @@ class ArticlesModel extends ListModel
 
         switch ($featured) {
             case 'hide':
-                $query->where($db->quoteName('a.featured') . ' = 0');
+                $query->extendWhere(
+                    'AND',
+                    [
+                        $db->quoteName('a.featured') . ' = 0',
+                        '(' . $db->quoteName('fp.featured_up') . ' IS NOT NULL AND ' . $db->quoteName('fp.featured_up') . ' >= :featuredUp)',
+                        '(' . $db->quoteName('fp.featured_down') . ' IS NOT NULL AND ' . $db->quoteName('fp.featured_down') . ' <= :featuredDown)',
+                    ],
+                    'OR'
+                )
+                    ->bind(':featuredUp', $nowDate)
+                    ->bind(':featuredDown', $nowDate);
                 break;
 
             case 'only':
