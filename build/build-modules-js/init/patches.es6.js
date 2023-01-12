@@ -14,7 +14,7 @@ module.exports.patchPackages = async (options) => {
   const mediaVendorPath = join(RootPath, 'media/vendor');
 
   // Append initialising code to the end of the Short-and-Sweet javascript
-  dest = join(mediaVendorPath, 'short-and-sweet');
+  const dest = join(mediaVendorPath, 'short-and-sweet');
   const shortandsweetPath = `${dest}/${options.settings.vendors['short-and-sweet'].js['dist/short-and-sweet.min.js']}`;
   let ShortandsweetJs = await readFile(shortandsweetPath, { encoding: 'utf8' });
   ShortandsweetJs = ShortandsweetJs.concat(`

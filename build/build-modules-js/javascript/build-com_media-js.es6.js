@@ -39,11 +39,11 @@ module.exports.mediaManager = async () => {
             {
               targets: {
                 browsers: [
-                  //https://caniuse.com/es6-module
+                  /** https://caniuse.com/es6-module */
                   'chrome 61',
                   'safari 11',
                   'edge 16',
-                  'Firefox 60'
+                  'Firefox 60',
                 ],
               },
               loose: true,
@@ -109,11 +109,11 @@ module.exports.watchMediaManager = async () => {
             {
               targets: {
                 browsers: [
-                  //https://caniuse.com/es6-module
+                  /** https://caniuse.com/es6-module */
                   'chrome 61',
                   'safari 11',
                   'edge 16',
-                  'Firefox 60'
+                  'Firefox 60',
                 ],
               },
               loose: true,
