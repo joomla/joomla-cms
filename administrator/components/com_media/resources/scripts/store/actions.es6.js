@@ -246,6 +246,6 @@ export const deleteSelectedItems = (context) => {
 /**
  * Update item properties
  * @param context
- * @param payload object: the item and the new path
+ * @param payload object: the item, the width and the height
  */
 export const updateItemProperties = (context, payload) => context.commit(types.UPDATE_ITEM_PROPERTIES, payload);
