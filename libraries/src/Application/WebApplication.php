@@ -54,6 +54,14 @@ abstract class WebApplication extends AbstractWebApplication
     protected $language;
 
     /**
+     * The application component title.
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    public $JComponentTitle;
+
+    /**
      * The application instance.
      *
      * @var    static
