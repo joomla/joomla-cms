@@ -68,6 +68,62 @@ class RulesField extends FormField
     protected $assetField;
 
     /**
+     * The flag which indicates if it is the global config
+     *
+     * @var    bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $isGlobalConfig;
+
+    /**
+     * The asset rules
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $assetRules;
+
+    /**
+     * The actions
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $actions;
+
+    /**
+     * The groups
+     *
+     * @var    array
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $groups;
+
+    /**
+     * The asset Id
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $assetId;
+
+    /**
+     * The parent asset Id
+     *
+     * @var    int
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $parentAssetId;
+
+    /**
+     * The flag to indicate that it is a new item
+     *
+     * @var    bool
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $newItem;
+
+    /**
      * The parent class of the field
      *
      * @var  string
