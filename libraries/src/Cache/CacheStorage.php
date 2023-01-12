@@ -79,6 +79,14 @@ class CacheStorage
     public $_hash;
 
     /**
+     * The threshold
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $_threshold;
+
+    /**
      * Constructor
      *
      * @param   array  $options  Optional parameters
