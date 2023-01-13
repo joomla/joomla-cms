@@ -43,4 +43,13 @@ interface ViewInterface
      * @since   3.0
      */
     public function getModel($name = null);
+
+    /**
+     * Method to get the view name
+     *
+     * @return  string  The name of the view
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getName();
 }
