@@ -2393,24 +2393,27 @@
         },
         {
             "name": "joomla/uri",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "7748f9a91db97040f352bc9484bf2c8722c6d904"
+                "reference": "5cc9b0e6d846669da132dc83a658da8e77549fba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/7748f9a91db97040f352bc9484bf2c8722c6d904",
-                "reference": "7748f9a91db97040f352bc9484bf2c8722c6d904",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/5cc9b0e6d846669da132dc83a658da8e77549fba",
+                "reference": "5cc9b0e6d846669da132dc83a658da8e77549fba",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5|~8.0.0|~8.1.0"
+                "php": "^7.2.5|~8.0.0|~8.1.0|~8.2.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "^3.0@dev",
                 "phpunit/phpunit": "^8.5|^9.0"
+            },
+            "suggest": {
+                "ext-mbstring": "Used to speed up url parsing"
             },
             "type": "joomla-package",
             "extra": {
@@ -2436,7 +2439,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/2.0.3"
+                "source": "https://github.com/joomla-framework/uri/tree/2.0.4"
             },
             "funding": [
                 {
@@ -2448,7 +2451,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-20T23:49:42+00:00"
+            "time": "2023-01-11T09:13:41+00:00"
         },
         {
             "name": "joomla/utilities",
