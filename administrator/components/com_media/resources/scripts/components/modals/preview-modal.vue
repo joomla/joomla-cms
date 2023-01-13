@@ -42,8 +42,7 @@
           v-if="isImage()"
           :src="getHashedURL"
           :type="item.mime_type"
-          :width="getWidth"
-          :height="getHeight"
+          :style="style"
         >
       </div>
     </template>
@@ -78,13 +77,8 @@ export default {
       }
       return this.item.url;
     },
-    getWidth() {
-      if (this.item.mime_type !== 'image/svg+xml') return null;
-      return window.innerWidth < 768 ? window.innerWidth - 30 : window.innerWidth * 0.6;
-    },
-    getHeight() {
-      if (this.item.mime_type !== 'image/svg+xml') return null;
-      return window.innerHeight < 768 ? window.innerHeight - 80 : window.innerHeight * 0.7;
+    style() {
+      return (this.item.mime_type !== 'image/svg+xml') ? null : 'width: clamp(300px, 1000px, 75vw)';
     },
   },
   methods: {
