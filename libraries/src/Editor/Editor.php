@@ -280,45 +280,19 @@ class Editor implements DispatcherAwareInterface
 
         // Boot the editor plugin
         $this->_editor = Factory::getApplication()->bootPlugin($name, 'editors');
-        if ($this->_editor) {
-            $this->initialise();
-            PluginHelper::importPlugin('editors-xtd');
 
-            return true;
-        }
-
-        $path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
-
-        if (!is_file($path)) {
+        // Check if the editor can be loaded
+        if (!$this->_editor) {
             Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
             return false;
         }
 
-        // Require plugin file
-        require_once $path;
+        $this->_editor->params->loadArray($config);
 
-        // Get the plugin
-        $plugin = PluginHelper::getPlugin('editors', $this->_name);
+        $this->initialise();
+        PluginHelper::importPlugin('editors-xtd');
 
-        // If no plugin is published we get an empty array and there not so much to do with it
-        if (empty($plugin)) {
-            return false;
-        }
-
-        $params = new Registry($plugin->params);
-        $params->loadArray($config);
-        $plugin->params = $params;
-
-        // Build editor plugin classname
-        $name = 'PlgEditor' . $this->_name;
-
-        $dispatcher = $this->getDispatcher();
-
-        if ($this->_editor = new $name($dispatcher, (array) $plugin)) {
-            // Load plugin parameters
-            $this->initialise();
-            PluginHelper::importPlugin('editors-xtd');
-        }
+        return true;
     }
 }
