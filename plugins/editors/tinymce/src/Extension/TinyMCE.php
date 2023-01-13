@@ -29,15 +29,6 @@ final class TinyMCE extends CMSPlugin
     use DatabaseAwareTrait;
 
     /**
-     * Base path for editor files
-     *
-     * @since  3.5
-     *
-     * @deprecated 5.0
-     */
-    protected $_basePath = 'media/vendor/tinymce';
-
-    /**
      * Load the language file on instantiation.
      *
      * @var    boolean
