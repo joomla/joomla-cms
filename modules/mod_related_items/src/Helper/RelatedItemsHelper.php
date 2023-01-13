@@ -10,6 +10,7 @@
 
 namespace Joomla\Module\RelatedItems\Site\Helper;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -17,6 +18,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -25,10 +27,46 @@ use Joomla\Database\ParameterType;
 /**
  * Helper for mod_related_items
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
-abstract class RelatedItemsHelper
+class RelatedItemsHelper
 {
+    /**
+     * The module instance
+     *
+     * @var    \stdClass
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $module;
+
+    /**
+     * Constructor.
+     *
+     * @param  array  $config   An optional associative array of configuration settings.
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function __construct($config = [])
+    {
+        $this->module = $config['module'];
+    }
+
+    /**
+     * Retrieve a list of related articles based on the metakey field
+     *
+     * @param   Registry         $params  The module parameters.
+     * @param   SiteApplication  $app     The current application.
+     *
+     * @return  object[]
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    public function getRelatedArticles(Registry $moduleParams, SiteApplication $app)
+    {
+
+    }
+
     /**
      * Get a list of related articles
      *
