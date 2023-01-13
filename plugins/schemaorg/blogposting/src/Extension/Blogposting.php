@@ -74,6 +74,7 @@ final class Blogposting extends CMSPlugin implements SubscriberInterface
         if (is_object($schema)) {
             $schema = $this->cleanupDate($schema, ['datePublished','dateModified']);
         }
+
         return $schema;
     }
 }
