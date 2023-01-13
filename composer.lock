@@ -2147,24 +2147,27 @@
         },
         {
             "name": "joomla/uri",
-            "version": "2.0.2",
+            "version": "2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/uri.git",
-                "reference": "755f1cf80e2463d9a162563e607154c64083184b"
+                "reference": "5cc9b0e6d846669da132dc83a658da8e77549fba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/755f1cf80e2463d9a162563e607154c64083184b",
-                "reference": "755f1cf80e2463d9a162563e607154c64083184b",
+                "url": "https://api.github.com/repos/joomla-framework/uri/zipball/5cc9b0e6d846669da132dc83a658da8e77549fba",
+                "reference": "5cc9b0e6d846669da132dc83a658da8e77549fba",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5|^8.0"
+                "php": "^7.2.5|~8.0.0|~8.1.0|~8.2.0"
             },
             "require-dev": {
-                "joomla/coding-standards": "^2.0@alpha",
+                "joomla/coding-standards": "^3.0@dev",
                 "phpunit/phpunit": "^8.5|^9.0"
+            },
+            "suggest": {
+                "ext-mbstring": "Used to speed up url parsing"
             },
             "type": "joomla-package",
             "extra": {
@@ -2190,7 +2193,7 @@
             ],
             "support": {
                 "issues": "https://github.com/joomla-framework/uri/issues",
-                "source": "https://github.com/joomla-framework/uri/tree/2.0.2"
+                "source": "https://github.com/joomla-framework/uri/tree/2.0.4"
             },
             "funding": [
                 {
@@ -2202,7 +2205,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-04-21T09:39:04+00:00"
+            "time": "2023-01-11T09:13:41+00:00"
         },
         {
             "name": "joomla/utilities",

@@ -86,6 +86,54 @@ class CalendarField extends FormField
     protected $maxyear;
 
     /**
+     * The today button flag
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $todaybutton;
+
+    /**
+     * The week numbers flag
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $weeknumbers;
+
+    /**
+     * The show time flag
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $showtime;
+
+    /**
+     * The fill table flag
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $filltable;
+
+    /**
+     * The time format
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $timeformat;
+
+    /**
+     * The single header flag
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $singleheader;
+
+    /**
      * Name of the layout being used to render the field
      *
      * @var    string
