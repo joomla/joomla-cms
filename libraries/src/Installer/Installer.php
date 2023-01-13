@@ -25,7 +25,6 @@ use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\Exception\PrepareStatementFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\DI\ContainerAwareInterface;
 
@@ -1278,7 +1277,7 @@ class Installer extends Adapter implements DatabaseAwareInterface
 
                 try {
                     $db->setQuery($query)->execute();
-                } catch (ExecutionFailureException | PrepareStatementFailureException $e) {
+                } catch (\RuntimeException $e) {
                     if (!$canFail) {
                         $errorMessage = Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage());
 
