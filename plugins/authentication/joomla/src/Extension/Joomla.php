@@ -6,17 +6,15 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Authentication\Joomla\Extension;
+
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Helper\AuthenticationHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\DatabaseAwareTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -27,23 +25,9 @@ use Joomla\CMS\User\UserHelper;
  *
  * @since  1.5
  */
-class PlgAuthenticationJoomla extends CMSPlugin
+final class Joomla extends CMSPlugin
 {
-    /**
-     * Application object
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
-     * Database object
-     *
-     * @var    \Joomla\Database\DatabaseDriver
-     * @since  4.0.0
-     */
-    protected $db;
+    use DatabaseAwareTrait;
 
     /**
      * This method should handle any authentication and report back to the subject
@@ -63,12 +47,12 @@ class PlgAuthenticationJoomla extends CMSPlugin
         // Joomla does not like blank passwords
         if (empty($credentials['password'])) {
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
             return;
         }
 
-        $db    = $this->db;
+        $db    = $this->getDatabase();
         $query = $db->getQuery(true)
             ->select($db->quoteName(['id', 'password']))
             ->from($db->quoteName('#__users'))
@@ -87,7 +71,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
                 $response->email    = $user->email;
                 $response->fullname = $user->name;
 
-                if ($this->app->isClient('administrator')) {
+                if ($this->getApplication()->isClient('administrator')) {
                     $response->language = $user->getParam('admin_language');
                 } else {
                     $response->language = $user->getParam('language');
@@ -98,7 +82,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
             } else {
                 // Invalid password
                 $response->status        = Authentication::STATUS_FAILURE;
-                $response->error_message = Text::_('JGLOBAL_AUTH_INVALID_PASS');
+                $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_INVALID_PASS');
             }
         } else {
             // Let's hash the entered password even if we don't have a matching user for some extra response time
@@ -107,7 +91,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 
             // Invalid user
             $response->status        = Authentication::STATUS_FAILURE;
-            $response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
+            $response->error_message = $this->getApplication()->getLanguage()->_('JGLOBAL_AUTH_NO_USER');
         }
     }
 }

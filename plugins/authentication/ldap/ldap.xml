@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_LDAP_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Authentication\Ldap</namespace>
 	<files>
-		<filename plugin="ldap">ldap.php</filename>
+		<folder plugin="ldap">services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_authentication_ldap.ini</language>
