@@ -68,9 +68,9 @@ trait DisplayTrait
         $params = []
     ) {
         $id              = empty($id) ? $name : $id;
-        $user            = $this->app->getIdentity();
-        $language        = $this->app->getLanguage();
-        $doc             = $this->app->getDocument();
+        $user            = $this->getApplication()->getIdentity();
+        $language        = $this->getApplication()->getLanguage();
+        $doc             = $this->getApplication()->getDocument();
         $id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
         $nameGroup       = explode('[', preg_replace('/\[\]|\]/', '', $name));
         $fieldName       = end($nameGroup);
@@ -94,7 +94,7 @@ trait DisplayTrait
         // Render Editor markup
         $editor = '<div class="js-editor-tinymce">';
         $editor .= LayoutHelper::render('joomla.tinymce.textarea', $textarea);
-        $editor .= !$this->app->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
+        $editor .= !$this->getApplication()->client->mobile ? LayoutHelper::render('joomla.tinymce.togglebutton') : '';
         $editor .= '</div>';
 
         // Prepare the instance specific options
@@ -176,7 +176,7 @@ trait DisplayTrait
         $levelParams->loadObject($extraOptions);
 
         // Set the selected skin
-        $skin = $levelParams->get($this->app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+        $skin = $levelParams->get($this->getApplication()->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
         // Check that selected skin exists.
         $skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
@@ -362,7 +362,7 @@ trait DisplayTrait
         if ($dragdrop && $user->authorise('core.create', 'com_media')) {
             $externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
             $uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&url=1&task=api.files';
-            $uploadUrl                     = $this->app->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
+            $uploadUrl                     = $this->getApplication()->isClient('site') ? htmlentities($uploadUrl, ENT_NOQUOTES, 'UTF-8', false) : $uploadUrl;
 
             Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
             Text::script('ERROR');

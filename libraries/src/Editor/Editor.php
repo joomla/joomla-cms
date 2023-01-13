@@ -277,6 +277,16 @@ class Editor implements DispatcherAwareInterface
 
         // Build the path to the needed editor plugin
         $name = InputFilter::getInstance()->clean($this->_name, 'cmd');
+
+        // Boot the editor plugin
+        $this->_editor = Factory::getApplication()->bootPlugin($name, 'editors');
+        if ($this->_editor) {
+            $this->initialise();
+            PluginHelper::importPlugin('editors-xtd');
+
+            return true;
+        }
+
         $path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
         if (!is_file($path)) {

@@ -11,8 +11,8 @@
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Editors\TinyMCE</namespace>
 	<files>
-		<filename plugin="tinymce">tinymce.php</filename>
 		<folder>forms</folder>
+		<folder plugin="tinymce">services</folder>
 		<folder>src</folder>
 	</files>
 	<media destination="editors" folder="media">
