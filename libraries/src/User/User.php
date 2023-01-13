@@ -220,7 +220,7 @@ class User extends CMSObject
      */
     protected static $instances = array();
 
-     /**
+    /**
      * The asset id
      *
      * @var    integer
