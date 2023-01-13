@@ -220,6 +220,14 @@ class User extends CMSObject
      */
     protected static $instances = array();
 
+     /**
+     * aid
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $aid = null;
+
     /**
      * Constructor activating the default information of the language
      *
