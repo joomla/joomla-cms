@@ -221,7 +221,7 @@ class User extends CMSObject
     protected static $instances = array();
 
      /**
-     * asset id
+     * The asset id
      *
      * @var    integer
      * @since  __DEPLOY_VERSION__
