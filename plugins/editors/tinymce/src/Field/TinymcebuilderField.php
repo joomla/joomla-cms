@@ -15,7 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Plugin\Content\Contact\Extension\TinyMCE;
+use Joomla\Plugin\Editors\TinyMCE\Extension\TinyMCE;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
