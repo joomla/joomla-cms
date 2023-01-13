@@ -1078,6 +1078,7 @@ class BaseController implements ControllerInterface, DispatcherAwareInterface
         if (!method_exists($view, 'setModel')) {
             return;
         }
+
         $viewName = $view->getName();
 
         // Get/Create the model
