@@ -16,6 +16,8 @@ use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Component\Router\RouterServiceTrait;
+use Joomla\CMS\Schemaorg\SchemaorgServiceInterface;
+use Joomla\CMS\Schemaorg\SchemaorgServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
@@ -43,6 +45,7 @@ class ContactComponent extends MVCComponent implements
     BootableExtensionInterface,
     CategoryServiceInterface,
     FieldsServiceInterface,
+    SchemaorgServiceInterface,
     AssociationServiceInterface,
     RouterServiceInterface,
     TagServiceInterface
@@ -50,10 +53,17 @@ class ContactComponent extends MVCComponent implements
     use AssociationServiceTrait;
     use HTMLRegistryAwareTrait;
     use RouterServiceTrait;
+    use SchemaorgServiceTrait;
     use CategoryServiceTrait, TagServiceTrait {
         CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
         CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
     }
+
+    /** @var array Supported functionality */
+    protected $supportedFunctionality = [
+        'core.featured' => true,
+        'core.state' => true,
+    ];
 
     /**
      * Booting the extension. This is the function to set up the environment of the extension like
@@ -151,5 +161,23 @@ class ContactComponent extends MVCComponent implements
     protected function getStateColumnForSection(string $section = null)
     {
         return 'published';
+    }
+
+    /**
+     * Returns valid contexts for schemaorg
+     *
+     * @return  array
+     *
+     * @since   4.0.0
+     */
+    public function getSchemaorgContexts(): array
+    {
+        Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+        $contexts = array(
+            'com_contact.contact'    => Text::_('COM_CONTACT')
+        );
+
+        return $contexts;
     }
 }
