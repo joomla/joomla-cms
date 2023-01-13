@@ -27,7 +27,7 @@ trait HelperFactoryAwareTrait
      *
      * @since  4.2.0
      */
-    private $helperFactory;
+    private $helper;
 
     /**
      * Get the HelperFactory.

@@ -32,6 +32,14 @@ use Joomla\Database\ParameterType;
 class PluginAdapter extends InstallerAdapter
 {
     /**
+     * Group of the plugin
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected $group;
+
+    /**
      * `<scriptfile>` element of the extension manifest
      *
      * @var    object
@@ -295,7 +303,7 @@ class PluginAdapter extends InstallerAdapter
             }
 
             if ($name) {
-                $extension = "plg_${group}_${name}";
+                $extension = "plg_{$group}_{$name}";
                 $source = $path ?: JPATH_PLUGINS . "/$group/$name";
                 $folder = (string) $element->attributes()->folder;
 

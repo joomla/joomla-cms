@@ -21,74 +21,74 @@ use Joomla\Component\Media\Administrator\Provider\ProviderManagerHelperTrait;
  */
 class JsonapiView extends BaseApiView
 {
-	use ProviderManagerHelperTrait;
+    use ProviderManagerHelperTrait;
 
-	/**
-	 * The fields to render item in the documents
-	 *
-	 * @var    array
-	 * @since  4.1.0
-	 */
-	protected $fieldsToRenderItem = [
-		'type',
-		'name',
-		'path',
-		'extension',
-		'size',
-		'mime_type',
-		'width',
-		'height',
-		'create_date',
-		'create_date_formatted',
-		'modified_date',
-		'modified_date_formatted',
-		'thumb_path',
-		'adapter',
-		'content',
-		'url',
-		'tempUrl',
-	];
+    /**
+     * The fields to render item in the documents
+     *
+     * @var    array
+     * @since  4.1.0
+     */
+    protected $fieldsToRenderItem = [
+        'type',
+        'name',
+        'path',
+        'extension',
+        'size',
+        'mime_type',
+        'width',
+        'height',
+        'create_date',
+        'create_date_formatted',
+        'modified_date',
+        'modified_date_formatted',
+        'thumb_path',
+        'adapter',
+        'content',
+        'url',
+        'tempUrl',
+    ];
 
-	/**
-	 * The fields to render items in the documents
-	 *
-	 * @var    array
-	 * @since  4.1.0
-	 */
-	protected $fieldsToRenderList = [
-		'type',
-		'name',
-		'path',
-		'extension',
-		'size',
-		'mime_type',
-		'width',
-		'height',
-		'create_date',
-		'create_date_formatted',
-		'modified_date',
-		'modified_date_formatted',
-		'thumb_path',
-		'adapter',
-		'content',
-		'url',
-		'tempUrl',
-	];
+    /**
+     * The fields to render items in the documents
+     *
+     * @var    array
+     * @since  4.1.0
+     */
+    protected $fieldsToRenderList = [
+        'type',
+        'name',
+        'path',
+        'extension',
+        'size',
+        'mime_type',
+        'width',
+        'height',
+        'create_date',
+        'create_date_formatted',
+        'modified_date',
+        'modified_date_formatted',
+        'thumb_path',
+        'adapter',
+        'content',
+        'url',
+        'tempUrl',
+    ];
 
-	/**
-	 * Prepare item before render.
-	 *
-	 * @param   object  $item  The model item
-	 *
-	 * @return  object
-	 *
-	 * @since   4.1.0
-	 */
-	protected function prepareItem($item)
-	{
-		// Media resources have no id.
-		$item->id = '0';
+    /**
+     * Prepare item before render.
+     *
+     * @param   object  $item  The model item
+     *
+     * @return  object
+     *
+     * @since   4.1.0
+     */
+    protected function prepareItem($item)
+    {
+        // Media resources have no id.
+        $item->id = '0';
 
-		return $item;
-	}
+        return $item;
+    }
 }
