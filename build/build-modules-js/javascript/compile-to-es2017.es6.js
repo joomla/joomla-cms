@@ -100,7 +100,6 @@ module.exports.handleESMFile = async (file) => {
 
       return writeFile(resolve(`${newPath}.min.js`), content.code, { encoding: 'utf8', mode: 0o644 });
     })
-    // .then(() => handleESMToLegacy(resolve(`${newPath}.js`)))
     .catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error);
