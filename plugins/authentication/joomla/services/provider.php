@@ -35,8 +35,10 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
+                $dispatcher = $container->get(DispatcherInterface::class);
+
                 $plugin = new Joomla(
-                    $container->get(DispatcherInterface::class),
+                    $dispatcher,
                     (array) PluginHelper::getPlugin('authentication', 'joomla')
                 );
                 $plugin->setApplication(Factory::getApplication());

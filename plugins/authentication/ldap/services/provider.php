@@ -35,8 +35,10 @@ return new class implements ServiceProviderInterface
         $container->set(
             PluginInterface::class,
             function (Container $container) {
+                $dispatcher = $container->get(DispatcherInterface::class);
+
                 $plugin = new Ldap(
-                    $container->get(DispatcherInterface::class),
+                    $dispatcher,
                     (array) PluginHelper::getPlugin('authentication', 'ldap')
                 );
                 $plugin->setApplication(Factory::getApplication());
