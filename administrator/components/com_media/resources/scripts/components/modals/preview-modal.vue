@@ -79,10 +79,12 @@ export default {
       return this.item.url;
     },
     getWidth() {
-      return this.item.mime_type === 'image/svg+xml' ? window.innerWidth - 30 : null;
+      if (this.item.mime_type !== 'image/svg+xml') return null;
+      return window.innerWidth < 768 ? window.innerWidth - 30 : window.innerWidth * 0.6;
     },
     getHeight() {
-      return this.item.mime_type === 'image/svg+xml' ? window.innerHeight - 80 : null;
+      if (this.item.mime_type !== 'image/svg+xml') return null;
+      return window.innerHeight < 768 ? window.innerHeight - 80 : window.innerHeight * 0.7;
     },
   },
   methods: {
