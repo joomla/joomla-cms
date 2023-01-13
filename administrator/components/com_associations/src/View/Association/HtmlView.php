@@ -372,7 +372,7 @@ class HtmlView extends BaseHtmlView
 
         if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true) {
             $toolbar->standardButton('', 'COM_ASSOCIATIONS_COPY_REFERENCE', 'copy')
-                ->icon('copy.png')
+                ->icon('icon-copy')
                 ->listCheck(false);
         }
 
