@@ -36,6 +36,7 @@ return new class implements ServiceProviderInterface
             PluginInterface::class,
             function (Container $container) {
                 $dispatcher = $container->get(DispatcherInterface::class);
+
                 $plugin     = new TinyMCE(
                     $dispatcher,
                     (array) PluginHelper::getPlugin('editors', 'tinymce')
