@@ -50,7 +50,7 @@ class PlgContentEmailcloak extends CMSPlugin
             return;
         }
 
-        // If the row is not an object or does not have a text property there is nothign to do
+        // If the row is not an object or does not have a text property there is nothing to do
         if (!is_object($row) || !property_exists($row, 'text')) {
             return;
         }
@@ -437,15 +437,45 @@ class PlgContentEmailcloak extends CMSPlugin
         }
 
         /*
-         * Search for plain text email addresses, such as email@example.org but not within HTML tags:
+         * Search for plain text email addresses, such as email@example.org but within HTML tags:
          * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
          * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
          */
-        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|(<\w.*\"' . $searchEmail . '\".*\/\>)~i';
+        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|<[^>]+?(\w*=\"' . $searchEmail . '\")[^>]*\/>~i';
+
+        while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+            $mail = $regs[0][0];
+            $replacement = HTMLHelper::_('email.cloak', $mail, 0, $mail);
+
+            // Replace the found address with the js cloaked email
+            $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
+        }
+
+        /*
+         * Search for plain text email addresses, such as email@example.org but within HTML attributes:
+         * <a title="email@example.org" href="#">email</a> or <li title="email@example.org">email</li>
+         */
+        $pattern = '(<[^>]+?(\w*=\"' . $searchEmail . '")[^>]*>[^<]+<[^<]+>)';
+
+        while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+            $mail = $regs[0][0];
+            $replacement =  HTMLHelper::_('email.cloak', $mail, 0, $mail);
+
+            // Replace the found address with the js cloaked email
+            $text = substr_replace($text, $replacement, $regs[0][1], strlen($mail));
+        }
+
+        /*
+        * Search for plain text email addresses, such as email@example.org but not within HTML tags:
+        * <p>email@example.org</p>
+        * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
+        */
+
+        $pattern = '~<[^<]*(?<!\/)>(*SKIP)(*F)|' . $searchEmail . '~i';
 
         while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
             $mail = $regs[1][0];
-            $replacement = HTMLHelper::_('email.cloak', $mail, 0, $mail);
+            $replacement = HTMLHelper::_('email.cloak', $mail, $mode, $mail);
 
             // Replace the found address with the js cloaked email
             $text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));

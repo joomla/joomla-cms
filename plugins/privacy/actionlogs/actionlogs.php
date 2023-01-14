@@ -36,7 +36,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
     {
         if (!$user)
         {
-            return array();
+            return [];
         }
 
         $domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
@@ -56,7 +56,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 
         if (!count($data))
         {
-            return array();
+            return [];
         }
 
         $data    = ActionlogsHelper::getCsvData($data);
@@ -74,6 +74,6 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
             $domain->addItem($this->createItemFromArray($item));
         }
 
-        return array($domain);
+        return [$domain];
     }
 }
