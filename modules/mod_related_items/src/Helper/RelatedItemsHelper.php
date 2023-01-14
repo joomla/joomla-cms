@@ -12,6 +12,7 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -83,35 +84,51 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
             return [];
         }
 
-        // Get the main article object
-        $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
+        $cacheKey = md5(serialize([$moduleParams->toString(), $this->module->module, $this->module->id]));
 
-        /** @var \Joomla\Component\Content\Site\Model\ArticleModel $articleModel */
-        $articleModel = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
+        /** @var \Joomla\CMS\Cache\Controller\OutputController $cache */
+        $cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+            ->createCacheController('output', ['defaultgroup' => 'mod_related_items']);
 
-        $urlParamId     = $this->input->getString('id');
-        $currentArticle = explode(':', $urlParamId)[0];
-        $appParams      = $app->getParams();
+        if (!$cache->contains($cacheKey)) {
+            // Get the main article object
+            $mvcContentFactory = $app->bootComponent('com_content')->getMVCFactory();
 
-        $articleModel->setState('params', $appParams);
-        $articleModel->setState('filter.published', 1);
-        $articleModel->setState('article.id', (int) $currentArticle);
+            /** @var \Joomla\Component\Content\Site\Model\ArticleModel $articleModel */
+            $articleModel = $mvcContentFactory->createModel('Article', 'Site', ['ignore_request' => true]);
 
-        $mainArticle = $articleModel->getItem();
+            $urlId = $this->input->getString('id');
+            $currentArticle = explode(':', $urlId)[0];
+            $appParams = $app->getParams();
 
-        if (!$mainArticle || empty($mainArticle->metakey)) {
-            return [];
+            $articleModel->setState('params', $appParams);
+            $articleModel->setState('filter.published', 1);
+            $articleModel->setState('article.id', (int) $currentArticle);
+
+            $mainArticle = $articleModel->getItem();
+
+            if (!$mainArticle || empty($mainArticle->metakey)) {
+                return [];
+            }
+
+            $props = new \stdClass;
+
+            $props->mainArticle = $mainArticle;
+            $props->params      = $appParams->merge($moduleParams, true);
+            $props->app         = $app;
+            $props->factory     = $mvcContentFactory;
+
+            // We can now relate the articles by other modes
+            $items = $this->getRelatedArticlesByMetakeys($props);
+
+            // Cache the output and return
+            $cache->store($items, $cacheKey);
+
+            return $items;
         }
 
-        $props = new \stdClass;
-
-        $props->mainArticle = $mainArticle;
-        $props->params      = $appParams->merge($moduleParams, true); ;
-        $props->app         = $app;
-        $props->factory     = $mvcContentFactory;
-
-        // Now we can improve the module and add more related modes
-        return $this->getRelatedArticlesByMetakeys($props);
+        // Return the cached output
+        return $cache->get($cacheKey);
     }
     /**
      * Get the related articles matching by metakeys
