@@ -38,7 +38,7 @@ class DelegatingPsrLogger extends AbstractLogger
      * @var    array
      * @since  3.8.0
      */
-    protected $priorityMap = array(
+    protected $priorityMap = [
         LogLevel::EMERGENCY => Log::EMERGENCY,
         LogLevel::ALERT     => Log::ALERT,
         LogLevel::CRITICAL  => Log::CRITICAL,
@@ -47,7 +47,7 @@ class DelegatingPsrLogger extends AbstractLogger
         LogLevel::NOTICE    => Log::NOTICE,
         LogLevel::INFO      => Log::INFO,
         LogLevel::DEBUG     => Log::DEBUG
-    );
+    ];
 
     /**
      * Constructor.
@@ -73,7 +73,7 @@ class DelegatingPsrLogger extends AbstractLogger
      * @since   3.8.0
      * @throws  InvalidArgumentException
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = [])
     {
         // Make sure the log level is valid
         if (!\array_key_exists($level, $this->priorityMap)) {
