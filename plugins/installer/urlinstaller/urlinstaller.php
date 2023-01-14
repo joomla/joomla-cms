@@ -45,7 +45,7 @@ class PlgInstallerUrlInstaller extends CMSPlugin
         // Load language files
         $this->loadLanguage();
 
-        $tab            = array();
+        $tab            = [];
         $tab['name']    = 'url';
         $tab['label']   = Text::_('PLG_INSTALLER_URLINSTALLER_TEXT');
 

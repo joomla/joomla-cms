@@ -122,7 +122,7 @@ class JNamespacePsr4Map
      */
     protected function writeNamespaceFile($elements)
     {
-        $content   = array();
+        $content   = [];
         $content[] = "<?php";
         $content[] = 'defined(\'_JEXEC\') or die;';
         $content[] = 'return [';

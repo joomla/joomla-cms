@@ -343,9 +343,9 @@ class Content extends Table implements VersionableTableInterface, TaggableTableI
         }
 
         // Verify that the alias is unique
-        $table = Table::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
+        $table = Table::getInstance('Content', 'JTable', ['dbo' => $this->getDbo()]);
 
-        if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0)) {
+        if ($table->load(['alias' => $this->alias, 'catid' => $this->catid]) && ($table->id != $this->id || $this->id == 0)) {
             // Is the existing article trashed?
             $this->setError(Text::_('COM_CONTENT_ERROR_UNIQUE_ALIAS'));
 
