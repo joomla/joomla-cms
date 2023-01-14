@@ -111,7 +111,7 @@ class RelatedItemsHelper implements \Joomla\Database\DatabaseAwareInterface
                 return [];
             }
 
-            $props = new \stdClass;
+            $props = new \stdClass();
 
             $props->mainArticle = $mainArticle;
             $props->params      = $appParams->merge($moduleParams, true);
