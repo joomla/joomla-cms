@@ -23,8 +23,10 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-class ArticlesCategoriesHelper
+class ArticlesCategoriesHelper implements \Joomla\Database\DatabaseAwareInterface
 {
+    use \Joomla\Database\DatabaseAwareTrait;
+
     /**
      * Given a parent category, return a list of children cateories
      *
