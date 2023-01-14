@@ -221,6 +221,14 @@ class User extends CMSObject
     protected static $instances = [];
 
     /**
+     * The access level id
+     *
+     * @var    integer
+     * @since  __DEPLOY_VERSION__
+     */
+    public $aid = null;
+
+    /**
      * Constructor activating the default information of the language
      *
      * @param   integer  $identifier  The primary key of the user to load (optional).
