@@ -243,7 +243,7 @@ class CMSObjectTest extends UnitTestCase
         $object = new CMSObject();
         $object->setError('A Test Error');
         $this->assertEquals(
-            array('A Test Error'),
+            ['A Test Error'],
             $object->getErrors()
         );
     }

@@ -148,12 +148,12 @@ class Templates
             $html .= HTMLHelper::_(
                 'bootstrap.renderModal',
                 $template->element . '-Modal',
-                array(
+                [
                     'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template->name)),
                     'height' => '500px',
                     'width'  => '800px',
                     'footer' => $footer,
-                ),
+                ],
                 '<div><img src="' . $preview . '" class="mw-100" alt="' . $template->name . '"></div>'
             );
         }

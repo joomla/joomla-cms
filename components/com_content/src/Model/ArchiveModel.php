@@ -91,8 +91,8 @@ class ArchiveModel extends ArticlesModel
     {
         $params           = $this->state->params;
         $app              = Factory::getApplication();
-        $catids           = $app->input->get('catid', array(), 'array');
-        $catids           = array_values(array_diff($catids, array('')));
+        $catids           = $app->input->get('catid', [], 'array');
+        $catids           = array_values(array_diff($catids, ['']));
 
         $articleOrderDate = $params->get('order_date');
 

@@ -39,14 +39,14 @@ class LogsdaterangeField extends PredefinedlistField
      * @var    array
      * @since  3.9.0
      */
-    protected $predefinedOptions = array(
+    protected $predefinedOptions = [
         'today'       => 'COM_ACTIONLOGS_OPTION_RANGE_TODAY',
         'past_week'   => 'COM_ACTIONLOGS_OPTION_RANGE_PAST_WEEK',
         'past_1month' => 'COM_ACTIONLOGS_OPTION_RANGE_PAST_1MONTH',
         'past_3month' => 'COM_ACTIONLOGS_OPTION_RANGE_PAST_3MONTH',
         'past_6month' => 'COM_ACTIONLOGS_OPTION_RANGE_PAST_6MONTH',
         'past_year'   => 'COM_ACTIONLOGS_OPTION_RANGE_PAST_YEAR',
-    );
+    ];
 
     /**
      * Method to instantiate the form field object.
