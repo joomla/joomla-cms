@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_CONTACTS_VIEW_DEFAULT_TITLE">
+	<layout title="COM_CONTACTS_CONTACTS_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[COM_CONTACTS_VIEW_DEFAULT_DESC]]>
+			<![CDATA[COM_CONTACTS_CONTACTS_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 </metadata>
