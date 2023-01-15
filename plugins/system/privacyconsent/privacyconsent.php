@@ -176,8 +176,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
             return;
         }
 
-        $input = $this->app->getInput();
-
+        $input  = $this->app->getInput();
         $option = $input->get('option');
         $task   = $input->post->get('task');
         $form   = $input->post->get('jform', [], 'array');
