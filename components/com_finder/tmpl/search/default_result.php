@@ -116,7 +116,7 @@ if ($this->params->get('show_url', 1)) {
                     <?php if (count($taxonomy_text)) : ?>
                         <li class="result__taxonomy-item result__taxonomy--<?php echo $type; ?>">
                             <span><?php echo Text::_(LanguageHelper::branchSingular($type)); ?>:</span>
-                            <?php echo Text::_(LanguageHelper::branchSingular(implode(',', $taxonomy_text)); ?>
+                            <?php echo Text::_(LanguageHelper::branchSingular(implode(',', $taxonomy_text))); ?>
                         </li>
                     <?php endif; ?>
                 <?php endif; ?>
