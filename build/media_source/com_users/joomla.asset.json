@@ -9,9 +9,7 @@
       "name": "com_users.admin-users-groups.es5",
       "type": "script",
       "uri": "com_users/admin-users-groups-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -21,9 +19,7 @@
       "name": "com_users.admin-users-groups",
       "type": "script",
       "uri": "com_users/admin-users-groups.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "type": "module"
       }
@@ -32,9 +28,7 @@
       "name": "com_users.admin-users-mail.es5",
       "type": "script",
       "uri": "com_users/admin-users-mail-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -44,9 +38,7 @@
       "name": "com_users.admin-users-mail",
       "type": "script",
       "uri": "com_users/admin-users-mail.min.js",
-      "dependencies": [
-        "com_users.admin-users-mail.es5"
-      ],
+      "dependencies": ["com_users.admin-users-mail.es5"],
       "attributes": {
         "type": "module"
       }
@@ -55,9 +47,7 @@
       "name": "com_users.two-factor-focus.es5",
       "type": "script",
       "uri": "com_users/two-factor-focus-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -67,9 +57,7 @@
       "name": "com_users.two-factor-focus",
       "type": "script",
       "uri": "com_users/two-factor-focus.min.js",
-      "dependencies": [
-        "com_users.two-factor-focus.es5"
-      ],
+      "dependencies": ["com_users.two-factor-focus.es5"],
       "attributes": {
         "type": "module"
       }
@@ -78,9 +66,7 @@
       "name": "com_users.two-factor-list.es5",
       "type": "script",
       "uri": "com_users/two-factor-list-es5.min.js",
-      "dependencies": [
-        "core"
-      ],
+      "dependencies": ["core"],
       "attributes": {
         "nomodule": true,
         "defer": true
@@ -90,9 +76,16 @@
       "name": "com_users.two-factor-list",
       "type": "script",
       "uri": "com_users/two-factor-list.min.js",
-      "dependencies": [
-        "com_users.two-factor-list.es5"
-      ],
+      "dependencies": ["com_users.two-factor-list.es5"],
+      "attributes": {
+        "type": "module"
+      }
+    },
+    {
+      "name": "com_users.active-user-send-mail",
+      "type": "script",
+      "uri": "com_users/active-user-send-mail",
+      "dependencies": ["core"],
       "attributes": {
         "type": "module"
       }
