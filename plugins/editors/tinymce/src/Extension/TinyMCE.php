@@ -6,11 +6,12 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
+namespace Joomla\Plugin\Editors\TinyMCE\Extension;
+
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseAwareTrait;
 use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
 
 // phpcs:disable PSR1.Files.SideEffects
@@ -22,18 +23,10 @@ use Joomla\Plugin\Editors\TinyMCE\PluginTraits\DisplayTrait;
  *
  * @since  1.5
  */
-class PlgEditorTinymce extends CMSPlugin
+final class TinyMCE extends CMSPlugin
 {
     use DisplayTrait;
-
-    /**
-     * Base path for editor files
-     *
-     * @since  3.5
-     *
-     * @deprecated 5.0
-     */
-    protected $_basePath = 'media/vendor/tinymce';
+    use DatabaseAwareTrait;
 
     /**
      * Load the language file on instantiation.
@@ -44,15 +37,7 @@ class PlgEditorTinymce extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Loads the application object
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  3.2
-     */
-    protected $app = null;
-
-    /**
-     * Initialises the Editor.
+     * Initializes the Editor.
      *
      * @return  void
      *
