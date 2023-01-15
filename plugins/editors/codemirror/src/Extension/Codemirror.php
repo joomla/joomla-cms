@@ -61,7 +61,7 @@ final class Codemirror extends CMSPlugin
     protected $modePath = 'media/vendor/codemirror/mode/%N/%N';
 
     /**
-     * Initializes the Editor.
+     * Initialises the Editor.
      *
      * @return  void
      */
