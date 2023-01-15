@@ -80,8 +80,7 @@ class InstallationController extends JSONController
         if (!$model->validateDbConnection()) {
             $r->validated = false;
             $r->error = true;
-        }
-        else {
+        } else {
             $r->validated = true;
         }
 
