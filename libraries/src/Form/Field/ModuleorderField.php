@@ -21,6 +21,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  1.6
  */
+#[\AllowDynamicProperties]
 class ModuleorderField extends FormField
 {
     /**
