@@ -23,7 +23,7 @@ use Joomla\Event\Event;
  *
  * @since  1.5
  */
-class None extends CMSPlugin
+final class None extends CMSPlugin
 {
     /**
      * Display the editor area.
@@ -82,7 +82,7 @@ class None extends CMSPlugin
             . '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
             . '" style="width: ' . $width . '; height: ' . $height . ';"' . $readonly . '>' . $content . '</textarea>'
             . '</joomla-editor-none>'
-            . $this->_displayButtons($id, $buttons, $asset, $author);
+            . $this->displayButtons($id, $buttons, $asset, $author);
     }
 
     /**
@@ -95,7 +95,7 @@ class None extends CMSPlugin
      *
      * @return  void|string HTML
      */
-    public function _displayButtons($name, $buttons, $asset, $author)
+    private function displayButtons($name, $buttons, $asset, $author)
     {
         if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
             $buttonsEvent = new Event(
