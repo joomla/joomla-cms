@@ -25,7 +25,7 @@ use stdClass;
  *
  * @since  1.6
  */
-class Codemirror extends CMSPlugin
+final class Codemirror extends CMSPlugin
 {
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
