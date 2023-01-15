@@ -10,16 +10,6 @@
 	<version>4.0.0</version>
 	<description>COM_NEWSFEEDS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Newsfeeds</namespace>
-	<install> <!-- Runs on install -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-		</sql>
-	</install>
-	<uninstall> <!-- Runs on uninstall -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
-		</sql>
-	</uninstall>
 	<files folder="site">
 		<folder>helpers</folder>
 		<folder>src</folder>

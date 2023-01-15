@@ -11,18 +11,6 @@
 	<description>COM_FINDER_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Finder</namespace>
 	<menu link="option=com_finder">COM_FINDER</menu>
-	<install>
-		<sql>
-			<file charset="utf8" driver="mysql">sql/install.mysql.sql</file>
-			<file charset="utf8" driver="postgresql">sql/install.postgresql.sql</file>
-		</sql>
-	</install>
-	<uninstall>
-		<sql>
-			<file charset="utf8" driver="mysql">sql/uninstall.mysql.sql</file>
-			<file charset="utf8" driver="postgresql">sql/uninstall.postgresql.sql</file>
-		</sql>
-	</uninstall>
 	<files folder="site">
 		<folder>helpers</folder>
 		<folder>src</folder>
