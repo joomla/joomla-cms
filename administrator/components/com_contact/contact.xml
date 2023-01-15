@@ -24,17 +24,6 @@
 		<folder>js</folder>
 	</media>
 	<administration>
-		<menu img="class:address-book">COM_CONTACT</menu>
-		<submenu>
-			<!--
-				Note that all & must be escaped to &amp; for the file to be valid
-				XML and be parsed by the installer
-			-->
-			<menu link="option=com_contact" img="class:contact"
-				alt="Contact/Contacts">COM_CONTACT_CONTACTS</menu>
-			<menu link="option=com_categories&amp;extension=com_contact"
-				view="categories" img="class:contact-cat" alt="Contacts/Categories">COM_CONTACT_CATEGORIES</menu>
-		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
