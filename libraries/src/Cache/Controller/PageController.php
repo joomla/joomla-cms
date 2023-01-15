@@ -81,7 +81,7 @@ class PageController extends CacheController
         // We got a cache hit... set the etag header and echo the page data
         $data = $this->cache->get($id, $group);
 
-        $this->_locktest = (object) array('locked' => null, 'locklooped' => null);
+        $this->_locktest = (object) ['locked' => null, 'locklooped' => null];
 
         if ($data === false) {
             $this->_locktest = $this->cache->lock($id, $group);
@@ -153,12 +153,12 @@ class PageController extends CacheController
         if ($wrkarounds) {
             $data = Cache::setWorkarounds(
                 $data,
-                array(
+                [
                     'nopathway' => 1,
                     'nohead'    => 1,
                     'nomodules' => 1,
                     'headers'   => true,
-                )
+                ]
             );
         }
 

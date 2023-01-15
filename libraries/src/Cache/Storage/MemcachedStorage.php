@@ -49,7 +49,7 @@ class MemcachedStorage extends CacheStorage
      *
      * @since   3.0.0
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
 
@@ -87,7 +87,7 @@ class MemcachedStorage extends CacheStorage
 
             if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port)) {
                 static::$_db->resetServerList();
-                $servers = array();
+                $servers = [];
             }
 
             if (!$servers) {
@@ -180,7 +180,7 @@ class MemcachedStorage extends CacheStorage
         $keys   = static::$_db->get($this->_hash . '-index');
         $secret = $this->_hash;
 
-        $data = array();
+        $data = [];
 
         if (\is_array($keys)) {
             foreach ($keys as $key) {
@@ -231,7 +231,7 @@ class MemcachedStorage extends CacheStorage
         $index = static::$_db->get($this->_hash . '-index');
 
         if (!\is_array($index)) {
-            $index = array();
+            $index = [];
         }
 
         $tmparr       = new \stdClass();

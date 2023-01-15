@@ -66,7 +66,7 @@ class RouterViewConfiguration
      * @var    array
      * @since  3.5
      */
-    public $layouts = array('default');
+    public $layouts = ['default'];
 
     /**
      * Child-views of this view
@@ -74,7 +74,7 @@ class RouterViewConfiguration
      * @var    RouterViewConfiguration[]
      * @since  3.5
      */
-    public $children = array();
+    public $children = [];
 
     /**
      * Keys used for this parent view by the child views
@@ -82,7 +82,7 @@ class RouterViewConfiguration
      * @var    array
      * @since  3.5
      */
-    public $child_keys = array();
+    public $child_keys = [];
 
     /**
      * Path of views from this one to the root view
@@ -90,7 +90,7 @@ class RouterViewConfiguration
      * @var    array
      * @since  3.5
      */
-    public $path = array();
+    public $path = [];
 
     /**
      * Constructor for the View-configuration class

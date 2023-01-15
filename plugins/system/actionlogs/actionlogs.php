@@ -192,11 +192,11 @@ class PlgSystemActionLogs extends CMSPlugin
         $data->actionlogs->actionlogsExtensions = $values->extensions;
 
         if (!HTMLHelper::isRegistered('users.actionlogsNotify')) {
-            HTMLHelper::register('users.actionlogsNotify', array(__CLASS__, 'renderActionlogsNotify'));
+            HTMLHelper::register('users.actionlogsNotify', [__CLASS__, 'renderActionlogsNotify']);
         }
 
         if (!HTMLHelper::isRegistered('users.actionlogsExtensions')) {
-            HTMLHelper::register('users.actionlogsExtensions', array(__CLASS__, 'renderActionlogsExtensions'));
+            HTMLHelper::register('users.actionlogsExtensions', [__CLASS__, 'renderActionlogsExtensions']);
         }
 
         return true;

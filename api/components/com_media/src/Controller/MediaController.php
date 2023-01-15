@@ -239,7 +239,7 @@ class MediaController extends ApiController
      *
      * @since   4.1.0
      */
-    protected function allowAdd($data = array()): bool
+    protected function allowAdd($data = []): bool
     {
         $user = $this->app->getIdentity();
 
@@ -294,7 +294,7 @@ class MediaController extends ApiController
      *
      * @since   4.1.0
      */
-    protected function allowEdit($data = array(), $key = 'id'): bool
+    protected function allowEdit($data = [], $key = 'id'): bool
     {
         $user = $this->app->getIdentity();
 

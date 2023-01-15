@@ -38,10 +38,10 @@ class CallbackController extends CacheController
      *
      * @since   1.7.0
      */
-    public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
+    public function get($callback, $args = [], $id = false, $wrkarounds = false, $woptions = [])
     {
         if (!\is_array($args)) {
-            $referenceArgs = !empty($args) ? array(&$args) : array();
+            $referenceArgs = !empty($args) ? [&$args] : [];
         } else {
             $referenceArgs = &$args;
         }
@@ -58,7 +58,7 @@ class CallbackController extends CacheController
 
         $data = $this->cache->get($id);
 
-        $locktest = (object) array('locked' => null, 'locklooped' => null);
+        $locktest = (object) ['locked' => null, 'locklooped' => null];
 
         if ($data === false) {
             $locktest = $this->cache->lock($id);
@@ -79,7 +79,7 @@ class CallbackController extends CacheController
             if ($wrkarounds) {
                 echo Cache::getWorkarounds(
                     $data['output'],
-                    array('mergehead' => $woptions['mergehead'] ?? 0)
+                    ['mergehead' => $woptions['mergehead'] ?? 0]
                 );
             } else {
                 echo $data['output'];
@@ -93,7 +93,7 @@ class CallbackController extends CacheController
             return \call_user_func_array($callback, $referenceArgs);
         }
 
-        $coptions = array('modulemode' => 0);
+        $coptions = ['modulemode' => 0];
 
         if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1) {
             /** @var HtmlDocument $document */
@@ -120,7 +120,7 @@ class CallbackController extends CacheController
         $result = \call_user_func_array($callback, $referenceArgs);
         $output = ob_get_clean();
 
-        $data = array('result' => $result);
+        $data = ['result' => $result];
 
         if ($wrkarounds) {
             $data['output'] = Cache::setWorkarounds($output, $coptions);
@@ -200,9 +200,9 @@ class CallbackController extends CacheController
         if ($callback instanceof \closure) {
             $hash = spl_object_hash($callback);
 
-            return md5($hash . serialize(array($args)));
+            return md5($hash . serialize([$args]));
         }
 
-        return md5(serialize(array($callback, $args)));
+        return md5(serialize([$callback, $args]));
     }
 }

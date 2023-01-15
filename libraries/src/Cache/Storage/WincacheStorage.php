@@ -70,7 +70,7 @@ class WincacheStorage extends CacheStorage
         $allinfo = wincache_ucache_info();
         $keys    = $allinfo['ucache_entries'];
         $secret  = $this->_hash;
-        $data    = array();
+        $data    = [];
 
         foreach ($keys as $key) {
             $name    = $key['key_name'];
