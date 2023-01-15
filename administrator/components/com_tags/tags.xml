@@ -22,17 +22,16 @@
 		<folder>js</folder>
 	</media>
 	<administration>
-			<filename>access.xml</filename>
-			<filename>config.xml</filename>
-			<filename>tags.xml</filename>
-			<folder>forms</folder>
-			<folder>services</folder>
-			<folder>src</folder>
-			<folder>tmpl</folder>
+		<filename>access.xml</filename>
+		<filename>config.xml</filename>
+		<filename>tags.xml</filename>
+		<folder>forms</folder>
+		<folder>services</folder>
+		<folder>src</folder>
+		<folder>tmpl</folder>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_tags.ini</language>
 			<language tag="en-GB">language/en-GB/com_tags.sys.ini</language>
 		</languages>
-		<menu link="option=com_tags">com_tags</menu>
 	</administration>
 </extension>
