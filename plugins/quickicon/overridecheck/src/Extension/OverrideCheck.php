@@ -70,7 +70,7 @@ final class OverrideCheck extends CMSPlugin implements SubscriberInterface
 
         if (
             $context !== $this->params->get('context', 'update_quickicon')
-            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_installer')
+            || !$this->getApplication()->getIdentity()->authorise('core.manage', 'com_templates')
         ) {
             return;
         }

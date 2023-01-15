@@ -825,7 +825,8 @@ class CategoryModel extends AdminModel
          * Re-order with max - ordering
          */
         foreach ($pks as $id) {
-            $query->select('MAX(' . $db->quoteName('ordering') . ')')
+            $query->clear()
+                ->select('MAX(' . $db->quoteName('ordering') . ')')
                 ->from($db->quoteName('#__content'))
                 ->where($db->quoteName('catid') . ' = :catid')
                 ->bind(':catid', $id, ParameterType::INTEGER);
@@ -835,9 +836,8 @@ class CategoryModel extends AdminModel
             $max = (int) $db->loadResult();
             $max++;
 
-            $query->clear();
-
-            $query->update($db->quoteName('#__content'))
+            $query->clear()
+                ->update($db->quoteName('#__content'))
                 ->set($db->quoteName('ordering') . ' = :max - ' . $db->quoteName('ordering'))
                 ->where($db->quoteName('catid') . ' = :catid')
                 ->bind(':max', $max, ParameterType::INTEGER)
