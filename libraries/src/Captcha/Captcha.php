@@ -259,6 +259,8 @@ class Captcha implements DispatcherAwareInterface
      * @return  mixed
      *
      * @since   4.0.0
+     *
+     * @deprecated  Without replacement
      */
     private function update($name, &$args)
     {
@@ -278,6 +280,8 @@ class Captcha implements DispatcherAwareInterface
      *
      * @since   2.5
      * @throws  \RuntimeException
+     *
+     * @deprecated  Should use CaptchaRegistry
      */
     private function _load(array $options = array())
     {
