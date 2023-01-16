@@ -183,7 +183,7 @@ class UserController extends FormController
         // Set the model
         $model           = $this->getModel('User', 'Administrator', []);
 
-        // Active the user and send the email
+        // Activate the user and send the email
         $responseError   = $model->activate($userId);
 
         if (!$responseError) {
