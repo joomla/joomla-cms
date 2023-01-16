@@ -24,7 +24,7 @@ class State
      * The data array.
      *
      * @var    array
-	 *
+     *
      * @since  __DEPLOY_VERSION__
      */
     private $data = [];
@@ -85,7 +85,7 @@ class State
      * @since   __DEPLOY_VERSION__
      *
      * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
-	 *
+     *
      */
     public function __get($key)
     {
@@ -104,7 +104,7 @@ class State
      * @since   __DEPLOY_VERSION__
      *
      * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
-	 *
+     *
      */
     public function __isset($key)
     {
