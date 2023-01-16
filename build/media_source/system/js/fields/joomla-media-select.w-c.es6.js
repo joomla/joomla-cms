@@ -318,7 +318,7 @@ Joomla.getMedia = (data, editor, fieldClass) => new Promise((resolve, reject) =>
   }
 
   // Compile the url
-  const url = new URL(Joomla.getOptions('media-picker-api').apiBaseUrl ? Joomla.getOptions('media-picker-api').apiBaseUrl : Joomla.getOptions('system.paths').baseFull +'index.php?option=com_media&format=json');
+  const url = new URL(Joomla.getOptions('media-picker-api').apiBaseUrl ? Joomla.getOptions('media-picker-api').apiBaseUrl : Joomla.getOptions('system.paths').baseFull + 'index.php?option=com_media&format=json');
   url.searchParams.append('task', 'api.files');
   url.searchParams.append('url', true);
   url.searchParams.append('path', data.path);
