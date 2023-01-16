@@ -172,7 +172,7 @@ class UserController extends FormController
      */
     public function active(): void
     {
-        // Get the ID of the user sended trought media/com_users/js/active-user-send-mail
+        // Get the ID of the user to send through media/com_users/js/active-user-send-mail
         $userId          = $this->input->getString('userid', '');
 
         // Prepare the default response
