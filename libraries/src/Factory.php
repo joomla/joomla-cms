@@ -552,6 +552,7 @@ abstract class Factory
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController())
+            ->registerServiceProvider(new \Joomla\CMS\Service\Provider\CaptchaRegistry())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console())
             ->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database())
