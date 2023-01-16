@@ -9,6 +9,8 @@
 
 namespace Joomla\CMS\Captcha;
 
+use Joomla\CMS\Captcha\Exception\CaptchaNotFoundException;
+use Joomla\CMS\Event\Captcha\CaptchaSetupEvent;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -43,7 +45,7 @@ class CaptchaRegistry implements DispatcherAwareInterface
      * @return CaptchaProviderInterface[]
      * @since    __DEPLOY_VERSION__
      */
-    public function getElements(): array
+    public function getAll(): array
     {
         $this->initRegistry();
 
@@ -51,18 +53,36 @@ class CaptchaRegistry implements DispatcherAwareInterface
     }
 
     /**
+     * Check whether the element exists in the registry.
+     *
+     * @param   string  $name  Element name
+     *
+     * @return  bool
+     * @since    __DEPLOY_VERSION__
+     */
+    public function has(string $name): bool
+    {
+        $this->initRegistry();
+
+        return !empty($this->registry[$name]);
+    }
+
+    /**
      * Return element by name.
      *
      * @param   string  $name  Element name
      *
-     * @return  false|CaptchaProviderInterface
+     * @return  CaptchaProviderInterface
+     * @throws  CaptchaNotFoundException
      * @since    __DEPLOY_VERSION__
      */
-    public function getElement(string $name)
+    public function get(string $name): CaptchaProviderInterface
     {
-        $this->initRegistry();
+        if (empty($this->registry[$name])) {
+            throw new CaptchaNotFoundException(sprintf('Captcha element "%s" not found in the registry.', $name));
+        }
 
-        return $this->registry[$name] ?? false;
+        return $this->registry[$name];
     }
 
     /**
@@ -74,7 +94,7 @@ class CaptchaRegistry implements DispatcherAwareInterface
      * @return  static
      * @since    __DEPLOY_VERSION__
      */
-    public function registerElement(string $name, CaptchaProviderInterface $instance)
+    public function set(string $name, CaptchaProviderInterface $instance)
     {
         $this->registry[$name] = $instance;
 
