@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\EditorsXtd\Menu\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -49,7 +48,7 @@ final class Menu extends CMSPlugin
          * Use the built-in element view to select the menu item.
          * Currently uses blank class.
          */
-        $user  = Factory::getUser();
+        $user  = $this->getApplication()->getIdentity();
 
         if (
             $user->authorise('core.create', 'com_menus')

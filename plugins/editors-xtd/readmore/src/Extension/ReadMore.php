@@ -34,14 +34,6 @@ final class ReadMore extends CMSPlugin
     protected $autoloadLanguage = true;
 
     /**
-     * Application object.
-     *
-     * @var    \Joomla\CMS\Application\CMSApplication
-     * @since  4.0.0
-     */
-    protected $app;
-
-    /**
      * Readmore button
      *
      * @param   string  $name  The name of the button to add
@@ -52,7 +44,7 @@ final class ReadMore extends CMSPlugin
      */
     public function onDisplay($name)
     {
-        $doc = $this->app->getDocument();
+        $doc = $this->getApplication()->getDocument();
         $doc->getWebAssetManager()
             ->registerAndUseScript('com_content.admin-article-readmore', 'com_content/admin-article-readmore.min.js', [], ['defer' => true], ['core']);
 

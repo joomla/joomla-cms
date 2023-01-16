@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\EditorsXtd\Contact\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -46,7 +45,7 @@ final class Contact extends CMSPlugin
      */
     public function onDisplay($name)
     {
-        $user  = Factory::getUser();
+        $user  = $this->getApplication()->getIdentity();
 
         if (
             $user->authorise('core.create', 'com_contact')

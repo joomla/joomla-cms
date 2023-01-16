@@ -10,7 +10,6 @@
 
 namespace Joomla\Plugin\EditorsXtd\Module\Extension;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -50,7 +49,7 @@ final class Module extends CMSPlugin
          * Use the built-in element view to select the module.
          * Currently uses blank class.
          */
-        $user  = Factory::getUser();
+        $user  = $this->getApplication()->getIdentity();
 
         if (
             $user->authorise('core.create', 'com_modules')

@@ -11,7 +11,6 @@
 namespace Joomla\Plugin\EditorsXtd\Image\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -48,14 +47,13 @@ final class Image extends CMSPlugin
      */
     public function onDisplay($name, $asset, $author)
     {
-        $app       = Factory::getApplication();
-        $doc       = $app->getDocument();
-        $user      = Factory::getUser();
-        $extension = $app->getInput()->get('option');
+        $doc       = $this->getApplication()->getDocument();
+        $user      = $this->getApplication()->getIdentity();
+        $extension = $this->getApplication()->getInput()->get('option');
 
         // For categories we check the extension (ex: component.section)
         if ($extension === 'com_categories') {
-            $parts     = explode('.', $app->getInput()->get('extension', 'com_content'));
+            $parts     = explode('.', $this->getApplication()->getInput()->get('extension', 'com_content'));
             $extension = $parts[0];
         }
 
