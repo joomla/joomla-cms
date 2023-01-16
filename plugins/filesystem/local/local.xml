@@ -11,7 +11,7 @@
 	<description>PLG_FILESYSTEM_LOCAL_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Filesystem\Local</namespace>
 	<files>
-		<filename plugin="local">local.php</filename>
+		<folder plugin="local">services</folder>
 		<folder>src</folder>
 	</files>
 

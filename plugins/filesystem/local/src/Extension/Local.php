@@ -2,18 +2,18 @@
 
 /**
  * @package     Joomla.Plugin
- * @subpackage  FileSystem.Local
+ * @subpackage  FileSystem.local
  *
  * @copyright   (C) 2017 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
 
-use Joomla\CMS\Language\Text;
+namespace Joomla\Plugin\Filesystem\Local\Extension;
+
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
+use Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter;
 
 // phpcs:disable PSR1.Files.SideEffects
 \defined('_JEXEC') or die;
@@ -26,7 +26,7 @@ use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
  *
  * @since  4.0.0
  */
-class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
+final class Local extends CMSPlugin implements ProviderInterface
 {
     /**
      * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -71,7 +71,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
      */
     public function getDisplayName()
     {
-        return Text::_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
+        return $this->getApplication()->getLanguage()->_('PLG_FILESYSTEM_LOCAL_DEFAULT_NAME');
     }
 
     /**
@@ -97,10 +97,7 @@ class PlgFileSystemLocal extends CMSPlugin implements ProviderInterface
                 $directoryPath = JPATH_ROOT . '/' . $directoryEntity->directory;
                 $directoryPath = rtrim($directoryPath) . '/';
 
-                $adapter = new \Joomla\Plugin\Filesystem\Local\Adapter\LocalAdapter(
-                    $directoryPath,
-                    $directoryEntity->directory
-                );
+                $adapter = new LocalAdapter($directoryPath, $directoryEntity->directory);
 
                 $adapters[$adapter->getAdapterName()] = $adapter;
             }
