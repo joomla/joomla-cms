@@ -169,7 +169,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            $toolbar->cancel('filter.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('filter.cancel');
         }
 
         $toolbar->divider();
