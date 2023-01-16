@@ -19,9 +19,11 @@ use Joomla\CMS\Router\Route;
 /** @var Joomla\Component\Users\Administrator\View\User\HtmlView $this */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
-    ->useScript('form.validate');
+    ->useScript('form.validate')
+    ->useScript('com_users.active-user-send-mail');
 
 $input = Factory::getApplication()->getInput();
 

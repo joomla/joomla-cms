@@ -84,7 +84,7 @@
     {
       "name": "com_users.active-user-send-mail",
       "type": "script",
-      "uri": "com_users/active-user-send-mail",
+      "uri": "com_users/active-user-send-mail.min.js",
       "dependencies": ["core"],
       "attributes": {
         "type": "module"

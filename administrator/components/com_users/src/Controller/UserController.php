@@ -11,8 +11,10 @@
 namespace Joomla\Component\Users\Administrator\Controller;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
@@ -159,5 +161,35 @@ class UserController extends FormController
      */
     protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
     {
+    }
+
+    /**
+     * Get the XHR request for active a user
+     *
+     * @return void
+     *
+     * @since  __DEPLOY_VERSION__
+     */
+    public function active(): void
+    {
+        // Get the ID of the user sended trought media/com_users/js/active-user-send-mail
+        $userId          = $this->input->getString('userid', '');
+
+        // Prepare the default response
+        $responseError   = false;
+        $responseData    = [$userId];
+        $responseMessage = null;
+
+        // Set the model
+        $model           = $this->getModel('User', 'Administrator', []);
+
+        // Active the user and send the email
+        $responseError   = $model->activate($userId);
+
+        if (!$responseError) {
+            $responseMessage = $model->getError();
+        }
+
+        echo new JsonResponse($responseData, $responseMessage, $responseError);
     }
 }

@@ -221,10 +221,10 @@ class UserModel extends AdminModel
      */
     public function save($data)
     {
-        $pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-        $user = User::getInstance($pk);
+        $pk            = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
+        $user          = User::getInstance($pk);
 
-        $my = $this->getCurrentUser();
+        $my            = $this->getCurrentUser();
         $iAmSuperAdmin = $my->authorise('core.admin');
 
         // User cannot modify own user groups
@@ -252,7 +252,7 @@ class UserModel extends AdminModel
         if ($iAmSuperAdmin && $my->get('id') == $pk) {
             // Check that at least one of our new groups is Super Admin
             $stillSuperAdmin = false;
-            $myNewGroups = $data['groups'];
+            $myNewGroups     = $data['groups'];
 
             foreach ($myNewGroups as $group) {
                 $stillSuperAdmin = $stillSuperAdmin ?: Access::checkGroup($group, 'core.admin');
@@ -301,9 +301,9 @@ class UserModel extends AdminModel
      */
     public function delete(&$pks)
     {
-        $user  = $this->getCurrentUser();
-        $table = $this->getTable();
-        $pks   = (array) $pks;
+        $user          = $this->getCurrentUser();
+        $table         = $this->getTable();
+        $pks           = (array) $pks;
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -368,8 +368,8 @@ class UserModel extends AdminModel
      */
     public function block(&$pks, $value = 1)
     {
-        $app        = Factory::getApplication();
-        $user       = $this->getCurrentUser();
+        $app           = Factory::getApplication();
+        $user          = $this->getCurrentUser();
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $user->authorise('core.admin');
@@ -467,31 +467,74 @@ class UserModel extends AdminModel
      *
      * @return  boolean  True on success.
      *
-     * @since   1.6
+     * @since   __DEPLOY_VERSION__
      * @throws  \Exception
      */
     public function activate(&$pks)
     {
-        $user = $this->getCurrentUser();
+        $app           = Factory::getApplication();
+        $user          = $app->getIdentity();
 
-        // Check if I am a Super Admin
+        // Check if I am a super admin
         $iAmSuperAdmin = $user->authorise('core.admin');
+
+        // Load user table
         $table         = $this->getTable();
         $pks           = (array) $pks;
 
+        // Compile the user activated notification mail values.
+        $sendMailTo    = function ($userMail) use ($app)
+        {
+            $mailData             = [];
+            $mailData['fromname'] = $app->get('fromname');
+            $mailData['mailfrom'] = $app->get('mailfrom');
+            $mailData['sitename'] = $app->get('sitename');
+            $mailData['siteurl'] = \Joomla\CMS\Uri\Uri::base();
+
+            $mailer = new \Joomla\CMS\Mail\MailTemplate('com_users.registration.user.admin_activated', $app->getLanguage()->getTag());
+            $mailer->addTemplateData($mailData);
+            $mailer->addRecipient($userMail);
+
+            try {
+                $return = $mailer->send();
+            } catch (\Exception $exception) {
+                try {
+                    \Joomla\CMS\Log\Log::add(Text::_($exception->getMessage()), \Joomla\CMS\Log\Log::WARNING, 'jerror');
+
+                    $return = false;
+                } catch (\RuntimeException $exception) {
+                    $app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+                    $return = false;
+                }
+            }
+
+            // Check for an error.
+            if ($return !== true) {
+                $this->setError(Text::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
+
+                return false;
+            }
+        };
+
         PluginHelper::importPlugin($this->events_map['save']);
 
-        // Access checks.
+        // Activate and send the notification email
         foreach ($pks as $i => $pk) {
             if ($table->load($pk)) {
-                $old   = $table->getProperties();
-                $allow = $user->authorise('core.edit.state', 'com_users');
+                $prevUserData = $table->getProperties();
+                $allow        = $user->authorise('core.edit.state', 'com_users');
 
-                // Don't allow non-super-admin to delete a super admin
-                $allow = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
+                // Don't allow non-super-admin to edit the active status of a super admin
+                $allow        = (!$iAmSuperAdmin && Access::check($pk, 'core.admin')) ? false : $allow;
 
+                // Ignore activated accounts but check if we can still
+                // resend the notification email
                 if (empty($table->activation)) {
-                    // Ignore activated accounts.
+                    if (\is_null($table->lastvisitDate)) {
+                        $sendMailTo($prevUserData['email']);
+                    }
+
                     unset($pks[$i]);
                 } elseif ($allow) {
                     $table->block      = 0;
@@ -506,7 +549,7 @@ class UserModel extends AdminModel
                         }
 
                         // Trigger the before save event.
-                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($old, false, $table->getProperties()));
+                        $result = Factory::getApplication()->triggerEvent($this->event_before_save, array($prevUserData, false, $table->getProperties()));
 
                         if (in_array(false, $result, true)) {
                             // Plugin will have to raise it's own error or throw an exception.
@@ -522,6 +565,9 @@ class UserModel extends AdminModel
 
                         // Fire the after save event
                         Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
+
+                        // Send the email
+                        $sendMailTo($prevUserData['email']);
                     } catch (\Exception $e) {
                         $this->setError($e->getMessage());
 
@@ -530,7 +576,7 @@ class UserModel extends AdminModel
                 } else {
                     // Prune items that you can't change.
                     unset($pks[$i]);
-                    Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+                    $app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
                 }
             }
         }
@@ -610,7 +656,7 @@ class UserModel extends AdminModel
      */
     public function batchReset($userIds, $action)
     {
-        $userIds = ArrayHelper::toInteger($userIds);
+        $userIds       = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
@@ -639,11 +685,11 @@ class UserModel extends AdminModel
         }
 
         // Get the DB object
-        $db = $this->getDatabase();
+        $db      = $this->getDatabase();
 
         $userIds = ArrayHelper::toInteger($userIds);
 
-        $query = $db->getQuery(true);
+        $query   = $db->getQuery(true);
 
         // Update the reset flag
         $query->update($db->quoteName('#__users'))
@@ -677,7 +723,7 @@ class UserModel extends AdminModel
      */
     public function batchUser($groupId, $userIds, $action)
     {
-        $userIds = ArrayHelper::toInteger($userIds);
+        $userIds       = ArrayHelper::toInteger($userIds);
 
         // Check if I am a Super Admin
         $iAmSuperAdmin = $this->getCurrentUser()->authorise('core.admin');
@@ -721,10 +767,10 @@ class UserModel extends AdminModel
         // Remove the users from the group if requested.
         if (isset($doDelete)) {
             /*
-            * First we need to check that the user is part of more than one group
-            * otherwise we will end up with a user that is not part of any group
-            * unless we are moving the user to a new group.
-            */
+             * First we need to check that the user is part of more than one group
+             * otherwise we will end up with a user that is not part of any group
+             * unless we are moving the user to a new group.
+             */
             if ($doDelete === 'group') {
                 $query = $db->getQuery(true);
                 $query->select($db->quoteName('user_id'))
@@ -865,8 +911,8 @@ class UserModel extends AdminModel
         $userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
         if (empty($userId)) {
-            $result   = array();
-            $form     = $this->getForm();
+            $result = array();
+            $form   = $this->getForm();
 
             if ($form) {
                 $groupsIDs = $form->getValue('groups');

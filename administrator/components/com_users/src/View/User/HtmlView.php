@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
@@ -150,6 +151,7 @@ class HtmlView extends BaseHtmlView
         $canDo     = ContentHelper::getActions('com_users');
         $isNew     = ($this->item->id == 0);
         $isProfile = $this->item->id == $user->id;
+        $toolbar   = Toolbar::getInstance();
 
         ToolbarHelper::title(
             Text::_(
@@ -178,6 +180,25 @@ class HtmlView extends BaseHtmlView
             ToolbarHelper::cancel('user.cancel');
         } else {
             ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+        }
+
+        $userIsActived = empty($this->item->activation);
+
+        if (!$userIsActived || \is_null($this->item->lastvisitDate)) {
+            $buttonText = !$userIsActived
+                ? Text::_('COM_USERS_USER_ACTIVATE_AND_MAIL')
+                : Text::_('COM_USERS_USER_ACTIVATION_REMINDER');
+
+            $toolbar->standardButton('activate', $buttonText)
+                ->buttonClass('btn activate-send-mail')
+                ->attributes([
+                    'data-option' => 'com_users',
+                    'data-task'   => 'user.active',
+                    'data-format' => 'json',
+                    'data-userid' => $this->item->id,
+                ])
+                ->icon('icon-mail')
+                ->onclick('');
         }
 
         ToolbarHelper::divider();
