@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2015 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\EditorsXtd\Module\Extension;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -25,7 +25,7 @@ use Joomla\CMS\Session\Session;
  *
  * @since  3.5
  */
-class PlgButtonModule extends CMSPlugin
+final class Module extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.

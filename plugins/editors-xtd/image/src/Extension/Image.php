@@ -6,9 +6,9 @@
  *
  * @copyright   (C) 2006 Open Source Matters, Inc. <https://www.joomla.org>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
-
- * @phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
  */
+
+namespace Joomla\Plugin\EditorsXtd\Image\Extension;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -25,7 +25,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  1.5
  */
-class PlgButtonImage extends CMSPlugin
+final class Image extends CMSPlugin
 {
     /**
      * Load the language file on instantiation.
