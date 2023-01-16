@@ -76,7 +76,7 @@ class State
     }
 
     /**
-     * Proxy for internal data access for the given key.
+     * Proxy for internal data access for the given name.
      *
      * @param   string  $name  The name of the element
      *
@@ -87,11 +87,31 @@ class State
      * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *
      */
-    public function __get($key)
+    public function __get($name)
     {
         @trigger_error(sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
 
-        return $this->get($key);
+        return $this->get($name);
+    }
+
+    /**
+     * Proxy for internal data storage for the given name and value.
+     *
+     * @param   string  $name   The name of the element
+     * @param   string  $value  The value
+     *
+     * @return  void
+     *
+     * @since   __DEPLOY_VERSION__
+     *
+     * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
+     *
+     */
+    public function __set($name, $value)
+    {
+        @trigger_error(sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
+
+        return $this->set($name, $value);
     }
 
     /**
@@ -106,10 +126,10 @@ class State
      * @deprecated  __DEPLOY_VERSION__ will be removed in 7.0
      *
      */
-    public function __isset($key)
+    public function __isset($name)
     {
         @trigger_error(sprintf('Direct property access will not be supported in 7.0 in %s::%s.', __METHOD__, __CLASS__), E_USER_DEPRECATED);
 
-        return array_key_exists($key, $this->data);
+        return array_key_exists($name, $this->data);
     }
 }
