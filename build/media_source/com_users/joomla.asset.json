@@ -82,9 +82,9 @@
       }
     },
     {
-      "name": "com_users.active-user-send-mail",
+      "name": "com_users.activate-user-send-email",
       "type": "script",
-      "uri": "com_users/active-user-send-mail.min.js",
+      "uri": "com_users/activate-user-send-email.min.js",
       "dependencies": ["core"],
       "attributes": {
         "type": "module"

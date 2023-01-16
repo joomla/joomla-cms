@@ -23,7 +23,7 @@ use Joomla\CMS\Router\Route;
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('keepalive')
     ->useScript('form.validate')
-    ->useScript('com_users.active-user-send-mail');
+    ->useScript('com_users.activate-user-send-email');
 
 $input = Factory::getApplication()->getInput();
 
