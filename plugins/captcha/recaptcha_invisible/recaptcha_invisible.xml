@@ -9,6 +9,7 @@
 	<copyright>(C) 2017 Open Source Matters, Inc.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_RECAPTCHA_INVISIBLE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Captcha\CaptchaInvisible</namespace>
 	<files>
 		<filename plugin="recaptcha_invisible">recaptcha_invisible.php</filename>
 	</files>
