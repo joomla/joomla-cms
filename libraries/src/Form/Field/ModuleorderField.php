@@ -21,7 +21,6 @@ use Joomla\CMS\Session\Session;
  *
  * @since  1.6
  */
-#[\AllowDynamicProperties]
 class ModuleorderField extends FormField
 {
     /**
@@ -39,6 +38,14 @@ class ModuleorderField extends FormField
      * @since  3.6.3
      */
     protected $layout = 'joomla.form.field.moduleorder';
+
+    /**
+     * The linked property
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION_
+     */
+    protected $linked;
 
     /**
      * Method to get certain otherwise inaccessible properties from the form field object.
