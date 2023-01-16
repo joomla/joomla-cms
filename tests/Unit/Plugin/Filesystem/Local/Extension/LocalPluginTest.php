@@ -82,7 +82,7 @@ class LocalPluginTest extends UnitTestCase
 
         $manager = new ProviderManager();
 
-        $event = new MediaProviderEvent('test',);
+        $event = new MediaProviderEvent('test');
         $event->setProviderManager($manager);
 
         $plugin = new Local($dispatcher, ['name' => 'test']);
