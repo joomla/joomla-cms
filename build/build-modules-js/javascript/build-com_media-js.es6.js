@@ -1,11 +1,12 @@
 const { resolve } = require('path');
-const { writeFile } = require('fs').promises;
+const { writeFile, copyFile, rm } = require('fs').promises;
 const rollup = require('rollup');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const replace = require('@rollup/plugin-replace');
 const { babel } = require('@rollup/plugin-babel');
 const VuePlugin = require('rollup-plugin-vue');
 const commonjs = require('@rollup/plugin-commonjs');
+const { existsSync } = require('fs');
 const { minifyJsCode } = require('./minify.es6.js');
 require('dotenv').config();
 
@@ -87,7 +88,7 @@ module.exports.mediaManager = async () => {
       replace({
         'process.env.NODE_ENV': JSON.stringify((process.env.NODE_ENV && process.env.NODE_ENV.toLocaleLowerCase()) || 'production'),
         __VUE_OPTIONS_API__: true,
-        __VUE_PROD_DEVTOOLS__: isProduction,
+        __VUE_PROD_DEVTOOLS__: !isProduction,
         preventAssignment: true,
       }),
       babel({
@@ -117,10 +118,10 @@ module.exports.mediaManager = async () => {
 
   bundle.write({
     format: 'es',
-    sourcemap: !isProduction,
+    sourcemap: !isProduction ? 'inline' : false,
     file: 'media/com_media/js/media-manager.js',
   })
-    .then((value) => minifyJsCode(value.output[0].code))
+    .then((value) => (isProduction ? minifyJsCode(value.output[0].code) : value.output[0]))
     .then((content) => {
       if (isProduction) {
         // eslint-disable-next-line no-console
@@ -130,9 +131,14 @@ module.exports.mediaManager = async () => {
       }
       // eslint-disable-next-line no-console
       console.log('✅ ES2017 Media Manager ready');
-      return writeFile(resolve('media/com_media/js/media-manager.js'), content.code, { encoding: 'utf8', mode: 0o644 });
+      if (existsSync(resolve('media/com_media/js/media-manager-es5.js'))) {
+        rm(resolve('media/com_media/js/media-manager-es5.js'));
+      }
+      if (existsSync(resolve('media/com_media/js/media-manager-es5.min.js'))) {
+        rm(resolve('media/com_media/js/media-manager-es5.min.js'));
+      }
+      return copyFile(resolve('media/com_media/js/media-manager.js'), resolve('media/com_media/js/media-manager.min.js'));
     })
-    .then(() => buildLegacy(resolve('media/com_media/js/media-manager.js')))
     .catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error);
@@ -161,8 +167,10 @@ module.exports.watchMediaManager = async () => {
       }),
       nodeResolve(),
       replace({
+        'process.env.NODE_ENV': JSON.stringify('development'),
+        __VUE_OPTIONS_API__: true,
+        __VUE_PROD_DEVTOOLS__: true,
         preventAssignment: true,
-        'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       babel({
         exclude: 'node_modules/core-js/**',
@@ -190,12 +198,12 @@ module.exports.watchMediaManager = async () => {
     output: [
       {
         format: 'es',
-        sourcemap: false,
+        sourcemap: 'inline',
         file: 'media/com_media/js/media-manager.js',
       },
       {
         format: 'es',
-        sourcemap: false,
+        sourcemap: 'inline',
         file: 'media/com_media/js/media-manager.min.js',
       },
     ],
