@@ -242,3 +242,10 @@ export const deleteSelectedItems = (context) => {
     // @todo notify the user that he has to select at least one item
   }
 };
+
+/**
+ * Update item properties
+ * @param context
+ * @param payload object: the item, the width and the height
+ */
+export const updateItemProperties = (context, payload) => context.commit(types.UPDATE_ITEM_PROPERTIES, payload);
