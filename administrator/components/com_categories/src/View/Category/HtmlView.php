@@ -232,7 +232,7 @@ class HtmlView extends BaseHtmlView
                 }
             );
 
-            $toolbar->cancel('category.cancel', 'JTOOLBAR_CLOSE');
+            $toolbar->cancel('category.cancel');
 
             if (ComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable) {
                 $typeAlias = $extension . '.category';
